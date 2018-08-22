@@ -19,4 +19,6 @@ Route::get('/', function () {
 Route::resource('/faq', 'FaqController');
 Route::get('/faq/change_status/{id}', 'FaqController@change_status');
 Route::resource('/board', 'BoardController');
+Route::get('/board/change_status/{id}', 'BoardController@change_status');
 Route::resource('/department', 'DepartmentController');
+Route::get('/department/change_status/{id}', 'DepartmentController@change_status');

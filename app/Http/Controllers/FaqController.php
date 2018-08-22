@@ -10,7 +10,7 @@ use Config;
 
 class FaqController extends Controller
 {
-  public $header_data = array(
+    public $header_data = array(
         'menu' => 'FAQ',
         'menu_url' => 'faq',
         'page' => '',
