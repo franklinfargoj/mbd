@@ -10,6 +10,13 @@ use Config;
 
 class BoardController extends Controller
 {
+    public $header_data = array(
+        'menu' => 'Board',
+        'menu_url' => 'board',
+        'page' => '',
+        'side_menu' => 'board'
+    );
+
     protected $list_num_of_records_per_page;
 
     public function __construct()
@@ -25,7 +32,8 @@ class BoardController extends Controller
     public function index()
     {
         $boards = Board::all();
-        return view('admin.board.index', compact('boards'));
+        $header_data = $this->header_data;
+        return view('admin.board.index', compact('boards','header_data'));
     }
 
     /**
@@ -35,7 +43,8 @@ class BoardController extends Controller
      */
     public function create()
     {
-        return view('admin.board.add');
+        $header_data = $this->header_data;
+        return view('admin.board.add', compact('header_data'));
     }
 
     /**
@@ -59,7 +68,8 @@ class BoardController extends Controller
      */
     public function edit(Board $board)
     {
-        return view('admin.board.edit',compact('board'));
+        $header_data = $this->header_data;
+        return view('admin.board.edit',compact('board','header_data'));
     }
 
     /**
@@ -86,5 +96,13 @@ class BoardController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function change_status($id)
+    {
+      $board = Board::find($id);
+      $status =($board->status==0)? 1 : 0;
+      $board->update(['status'=>$status]);
+      return redirect('board')->with(['success'=> 'Status Changed succesfully.']);
     }
 }

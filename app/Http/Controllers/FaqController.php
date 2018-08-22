@@ -6,10 +6,11 @@ use Illuminate\Http\Request;
 use App\Faq;
 use App\Http\Requests\faq\CreateFaqRequest;
 use App\Http\Requests\faq\UpdateFaqRequest;
+use Config;
 
 class FaqController extends Controller
 {
-  public $header_data = array(
+    public $header_data = array(
         'menu' => 'FAQ',
         'menu_url' => 'faq',
         'page' => '',

@@ -59,6 +59,24 @@
 
                 </a>
             </li>
+
+            <li class="nav-item {{(str_contains(Request::path(), 'board') === true)?' active':''}} ">
+                <a href="{{url('/board')}}" class="nav-link nav-toggle">
+                    <i class="icon-diamond"></i>
+                    <span class="title">Boards</span>
+                    {!! (str_contains(Request::path(), 'board') === true)?'<span class="selected"></span>':'' !!}
+
+                </a>
+            </li>
+
+            <li class="nav-item {{(str_contains(Request::path(), 'department') === true)?' active':''}} ">
+                <a href="{{url('/department')}}" class="nav-link nav-toggle">
+                    <i class="icon-diamond"></i>
+                    <span class="title">Departments</span>
+                    {!! (str_contains(Request::path(), 'department') === true)?'<span class="selected"></span>':'' !!}
+
+                </a>
+            </li>
         </ul>
         <!-- END SIDEBAR MENU -->
         <!-- END SIDEBAR MENU -->

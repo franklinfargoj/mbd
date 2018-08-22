@@ -8,9 +8,17 @@ use App\Department;
 use App\BoardDepartment;
 use App\Http\Requests\department\CreateDepartmentRequest;
 use App\Http\Requests\department\UpdateDepartmentRequest;
+use Config;
 
 class DepartmentController extends Controller
 {
+    public $header_data = array(
+        'menu' => 'Department',
+        'menu_url' => 'department',
+        'page' => '',
+        'side_menu' => 'department'
+    );
+
     protected $list_num_of_records_per_page;
 
     public function __construct()
@@ -26,7 +34,8 @@ class DepartmentController extends Controller
     public function index()
     {
         $departments = Department::all();
-        return view('admin.department.index', compact('departments'));
+        $header_data = $this->header_data;
+        return view('admin.department.index', compact('departments','header_data'));
     }
 
     /**
@@ -37,7 +46,8 @@ class DepartmentController extends Controller
     public function create()
     {
         $boards = Board::where('status', 1)->get();
-        return view('admin.department.add', compact('boards'));
+        $header_data = $this->header_data;
+        return view('admin.department.add', compact('boards','header_data'));
     }
 
     /**
@@ -73,8 +83,8 @@ class DepartmentController extends Controller
     {
         $boards = Board::where('status', 1)->get();
         $assignedBoardIds = BoardDepartment::where('department_id', $department->id)->pluck('board_id')->toArray();
-        
-        return view('admin.department.edit',compact('department', 'boards', 'assignedBoardIds'));
+        $header_data = $this->header_data;
+        return view('admin.department.edit',compact('department', 'boards', 'assignedBoardIds', 'header_data'));
     }
 
     /**
@@ -111,5 +121,13 @@ class DepartmentController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function change_status($id)
+    {
+      $department = Department::find($id);
+      $status =($department->status==0)? 1 : 0;
+      $department->update(['status'=>$status]);
+      return redirect('department')->with(['success'=> 'Status Changed succesfully.']);
     }
 }
