@@ -9,6 +9,12 @@ use App\Http\Requests\faq\UpdateFaqRequest;
 
 class FaqController extends Controller
 {
+  public $header_data = array(
+        'menu' => 'FAQ',
+        'menu_url' => 'faq',
+        'page' => '',
+        'side_menu' => 'faq'
+    );
     /**
      * Display a listing of the resource.
      *
@@ -17,7 +23,8 @@ class FaqController extends Controller
     public function index()
     {
       $faqs = Faq::all();
-      return view('admin.faq.index',compact('faqs'));
+      $header_data = $this->header_data;
+      return view('admin.faq.index',compact('faqs','header_data'));
     }
 
     /**
@@ -27,7 +34,8 @@ class FaqController extends Controller
      */
     public function create()
     {
-          return view('admin.faq.add');
+        $header_data = $this->header_data;
+        return view('admin.faq.add',compact('header_data'));
     }
 
     /**
@@ -62,7 +70,8 @@ class FaqController extends Controller
      */
     public function edit(Faq $faq)
     {
-        return view('admin.faq.edit',compact('faq'));
+        $header_data = $this->header_data;
+        return view('admin.faq.edit',compact('faq','header_data'));
     }
 
     /**
@@ -76,9 +85,7 @@ class FaqController extends Controller
     {
       $faq = Faq::find($id);
       $faq->update($request->except(['_token','method']));
-
-
-      return redirect('faq')->with(['success'=> 'Record Added succesfully']);
+      return redirect('faq')->with(['success'=> 'Record updated succesfully.']);
     }
 
     /**
@@ -90,5 +97,13 @@ class FaqController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function change_status($id)
+    {
+      $faq = Faq::find($id);
+      $staus =($faq->status==0)? 1 : 0;
+      $faq->update(['status'=>$staus]);
+      return redirect('faq')->with(['success'=> 'Status Changed succesfully.']);
     }
 }
