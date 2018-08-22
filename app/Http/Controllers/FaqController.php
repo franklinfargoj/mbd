@@ -15,6 +15,13 @@ class FaqController extends Controller
         'page' => '',
         'side_menu' => 'faq'
     );
+    protected $list_num_of_records_per_page;
+
+    public function __construct()
+    {
+        $this->list_num_of_records_per_page = Config::get('commanConfig.list_num_of_records_per_page');
+    }
+    
     /**
      * Display a listing of the resource.
      *
