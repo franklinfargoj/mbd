@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Faq;
 use App\Http\Requests\faq\CreateFaqRequest;
 use App\Http\Requests\faq\UpdateFaqRequest;
+use Config;
 
 class FaqController extends Controller
 {
@@ -21,7 +22,7 @@ class FaqController extends Controller
     {
         $this->list_num_of_records_per_page = Config::get('commanConfig.list_num_of_records_per_page');
     }
-    
+
     /**
      * Display a listing of the resource.
      *
