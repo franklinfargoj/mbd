@@ -35,7 +35,7 @@
                                           </div>
                                       </div>
                                       <div class="portlet-body form">
-                                          <form role="form" method="post" class="form-horizontal" action="{{url('department/'.$department->id)}}">
+                                          <form id="departmentForm" role="form" method="post" class="form-horizontal" action="{{url('department/'.$department->id)}}">
                                               @csrf
                                               @method('put')
                                               <div class="form-body">

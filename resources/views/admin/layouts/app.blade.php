@@ -486,6 +486,7 @@
     <script src="{{asset('/plugins/jqvmap/jqvmap/maps/jquery.vmap.germany.js')}}" type="text/javascript"></script>
     <script src="{{asset('/plugins/jqvmap/jqvmap/maps/jquery.vmap.usa.js')}}" type="text/javascript"></script>
     <script src="{{asset('/plugins/jqvmap/jqvmap/data/jquery.vmap.sampledata.js')}}" type="text/javascript"></script>
+    <script src="{{asset('/plugins/jquery-validation/js/jquery.validate.min.js')}}" type="text/javascript"></script>
     <!-- END PAGE LEVEL PLUGINS -->
     <!-- BEGIN THEME GLOBAL SCRIPTS -->
     <script src="{{asset('/scripts/app.min.js')}}" type="text/javascript"></script>
@@ -508,6 +509,6 @@
             });
         })
     </script>
-        <script type="text/javascript" src="{{ asset('assets/scripts/custom.js')}}') }}"></script>
+    <script type="text/javascript" src="{{ asset('/js/custom.js') }}"></script>
 </body>
 </html>

@@ -11,4 +11,20 @@ $(document).ready(function() {
         }]
     });
   }
+
+  $("#boardForm").validate({
+    // errorElement: "span",
+    //errorClass : "text-red",
+    rules:{
+      board_name:"required"
+    }
+  });
+
+  $("#departmentForm").validate({
+    // errorElement: "span",
+    //errorClass : "text-red",
+    rules:{
+      department_name:"required",
+    }
+  });
 });
