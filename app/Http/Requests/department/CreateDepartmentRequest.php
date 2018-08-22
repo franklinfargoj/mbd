@@ -25,7 +25,20 @@ class CreateDepartmentRequest extends FormRequest
     {
         return [
             'department_name'=>'required|max:255',
+            'board_id'=>'required',
             'status'=>'required',
+        ];
+    }
+
+    /**
+     * Get the validation messages that apply to the request.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'board_id.required'=>'Atleast one board must be selected.',
         ];
     }
 }

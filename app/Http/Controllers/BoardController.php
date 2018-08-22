@@ -6,9 +6,17 @@ use Illuminate\Http\Request;
 use App\Board;
 use App\Http\Requests\board\CreateBoardRequest;
 use App\Http\Requests\board\UpdateBoardRequest;
+use Config;
 
 class BoardController extends Controller
 {
+    protected $list_num_of_records_per_page;
+
+    public function __construct()
+    {
+        $this->list_num_of_records_per_page = Config::get('commanConfig.list_num_of_records_per_page');
+    }
+    
     /**
      * Display a listing of the resource.
      *
@@ -38,8 +46,8 @@ class BoardController extends Controller
      */
     public function store(CreateBoardRequest $request)
     {
-        $input = $request->except('_token');
-        Board::create($input);
+        $inputs = $request->except('_token');
+        Board::create($inputs);
         return redirect('board')->with(['success'=> 'Record added succesfully']);
     }
 

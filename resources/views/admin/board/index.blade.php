@@ -1,5 +1,8 @@
 {{--@extends('admin.layouts.app')
 @section('content')--}}
+@if(Session::has('success'))
+  {{ Session::get('success') }}
+@endif
 <a href="{{route('board.create')}}">Add</a>
 <table class="datatable mdl-data-table dataTable" cellspacing="0" width="100%" role="grid" style="width: 100%;">
 <thead>
