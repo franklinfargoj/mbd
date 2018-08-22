@@ -21,11 +21,6 @@
 <!-- END PAGE HEADER-->
 <div class="row">
   <div class="col-md-12">
-    @if(Session::has('success'))
-    <div class="note note-success">
-      <p> {{ Session::get('success') }} </p>
-    </div>
-    @endif
 
     <div class="portlet box purple">
                                       <div class="portlet-title">
