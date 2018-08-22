@@ -17,3 +17,5 @@ Route::get('/', function () {
 
 
 Route::resource('/faq', 'FaqController');
+Route::resource('/board', 'BoardController');
+Route::resource('/department', 'DepartmentController');
