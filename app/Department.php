@@ -10,4 +10,9 @@ class Department extends Model
     	'department_name',
     	'status'
     ];
+
+    public function boardDepartments()
+    {
+        return $this->hasMany('App\BoardDepartment');
+    }
 }

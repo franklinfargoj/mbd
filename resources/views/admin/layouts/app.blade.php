@@ -497,19 +497,31 @@
     </script>
     <script type="text/javascript" src="{{ asset('/js/custom.js') }}"></script>
     <script>
-      //loadDepartmentsOfBoard();
+      loadDepartmentsOfBoard();
+
+      $('#board_id').change(function(){
+        loadDepartmentsOfBoard();
+      });
+      
       function loadDepartmentsOfBoard()
       {
-        $.ajax({
-          headers: {
-              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-          },
-          type:"POST",
-          url:"{{ route('loadDepartmentsOfBoardUsingAjax') }}",
-          success:function(res){
-            alert(res);
-          }
-        });
+        var board_id = $('#board_id').val();
+        if(board_id != "")
+        {
+          $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type:"POST",
+            data:{
+              board_id:board_id
+            },
+            url:"{{ route('loadDepartmentsOfBoardUsingAjax') }}",
+            success:function(res){
+              $('#department_id').html(res);
+            }
+          });
+        }
       }
     </script>
 </body>

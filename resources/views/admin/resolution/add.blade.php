@@ -45,7 +45,7 @@
                                                               <select name="board_id" id="board_id" class="form-control">
                                                                 <option value="">Select Board</option>
                                                                 @foreach($boards as $boardVal)
-                                                                  <option value="{{ $boardVal['id'] }}">{{ $boardVal['board_name'] }}</option>
+                                                                  <option value="{{ $boardVal['id'] }}" {{ count($boards)==1?'selected':'' }}>{{ $boardVal['board_name'] }}</option>
                                                                 @endforeach
                                                               </select>
                                                               <span class="help-block">{{$errors->first('board_id')}}</span>
