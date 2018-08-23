@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Resolution;
+use App\DeletedResolution;
 use App\Board;
 use App\ResolutionType;
 use Config;
@@ -92,5 +93,24 @@ class ResolutionController extends Controller
         ]);
 
         return redirect('resolution')->with(['success'=> 'Record updated succesfully']);
+    }
+
+    public function destroy($id)
+    {
+        $resolution = Resolution::findOrFail($id);
+
+        DeletedResolution::create([
+            'resolution_id' => $resolution->id,
+            'resolution_type_id' => $resolution->resolution_type_id,
+            'title' => $resolution->title,
+            'description' => $resolution->description,
+            'filepath' => $resolution->filepath,
+            'filename' => $resolution->filename,
+            'reason_for_delete' => 'Not Required'
+        ]);
+
+        $resolution->delete();
+
+        return redirect()->back()->with(['success'=> 'Record deleted succesfully']);
     }
 }

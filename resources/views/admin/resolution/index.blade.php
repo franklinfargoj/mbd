@@ -66,7 +66,10 @@
                   <td>{{$row->resolution_code}}</td>
                   <td>{{date('d-m-Y',strtotime($row->published_date))}}</td>
                   <td>Yet to implement</td>
-                  <td><a title="Edit" href="{{ route('resolution.edit', $row->id) }}"><i class="icon-pencil"></i>Edit</a></td>
+                  <td>
+                    <a title="Edit" href="{{ route('resolution.edit', $row->id) }}"><i class="icon-pencil"></i>Edit</a>
+                    <a title="Delete" href="{{ route('resolution.delete', $row->id) }}">Delete</a>
+                  </td>
                 </tr>
                 @empty
                 <tr>
