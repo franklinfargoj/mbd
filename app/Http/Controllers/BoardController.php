@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Board;
+use App\Department;
 use App\Http\Requests\board\CreateBoardRequest;
 use App\Http\Requests\board\UpdateBoardRequest;
 use Config;
@@ -104,5 +105,21 @@ class BoardController extends Controller
       $status =($board->status==0)? 1 : 0;
       $board->update(['status'=>$status]);
       return redirect('board')->with(['success'=> 'Status Changed succesfully.']);
+    }
+
+    public function loadDepartmentsOfBoardUsingAjax(Request $request)
+    {
+        $departments = Department::whereHas('boardDepartments', function($q) use ($request){
+            $q->where('board_id', $request->board_id);
+        })->get()->toArray();
+
+        $options = '<option value="">Select Department</option>';
+
+        foreach($departments as $departmentVal)
+        {
+            $options .= '<option value="'.$departmentVal['id'].'">'.$departmentVal['department_name'].'</option>';
+        }
+
+        return $options;
     }
 }
