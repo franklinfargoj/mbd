@@ -22,3 +22,7 @@ Route::resource('/board', 'BoardController');
 Route::get('/board/change_status/{id}', 'BoardController@change_status');
 Route::resource('/department', 'DepartmentController');
 Route::get('/department/change_status/{id}', 'DepartmentController@change_status');
+Route::get('frontend_register','FrontendRegisterController@showRegisterForm');
+Route::post('frontend_register','FrontendRegisterController@frontendRegister');
+Route::get('rti_form','RtiFormController@showFrontendForm');
+Route::post('rti_form','RtiFormController@saveFrontendForm');

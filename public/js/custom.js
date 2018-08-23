@@ -27,4 +27,24 @@ $(document).ready(function() {
       department_name:"required",
     }
   });
+
+  if($("#frontEndRegisterForm").length > 0)
+  {
+    $("#frontEndRegisterForm").validate({
+      rules:{
+        name:"required",
+        address:"required",
+        mobile_no:{
+                required: true,
+                minlength: 10,
+                maxlength: 10,
+                number: true
+            },
+        email:{
+                required: true,
+                email: true,
+              }
+      }
+    });
+  }
 });
