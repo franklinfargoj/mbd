@@ -496,5 +496,21 @@
         })
     </script>
     <script type="text/javascript" src="{{ asset('/js/custom.js') }}"></script>
+    <script>
+      //loadDepartmentsOfBoard();
+      function loadDepartmentsOfBoard()
+      {
+        $.ajax({
+          headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+          type:"POST",
+          url:"{{ route('loadDepartmentsOfBoardUsingAjax') }}",
+          success:function(res){
+            alert(res);
+          }
+        });
+      }
+    </script>
 </body>
 </html>

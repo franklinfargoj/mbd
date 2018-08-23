@@ -22,3 +22,5 @@ Route::resource('/board', 'BoardController');
 Route::get('/board/change_status/{id}', 'BoardController@change_status');
 Route::resource('/department', 'DepartmentController');
 Route::get('/department/change_status/{id}', 'DepartmentController@change_status');
+Route::resource('/resolution', 'ResolutionController');
+Route::post('loadDepartmentsOfBoardUsingAjax', 'BoardController@loadDepartmentsOfBoardUsingAjax')->name('loadDepartmentsOfBoardUsingAjax');

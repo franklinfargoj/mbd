@@ -105,4 +105,9 @@ class BoardController extends Controller
       $board->update(['status'=>$status]);
       return redirect('board')->with(['success'=> 'Status Changed succesfully.']);
     }
+
+    public function loadDepartmentsOfBoardUsingAjax(Request $request)
+    {
+        return "Hi";
+    }
 }

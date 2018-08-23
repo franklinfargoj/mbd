@@ -77,6 +77,15 @@
 
                 </a>
             </li>
+
+            <li class="nav-item {{(str_contains(Request::path(), 'resolution') === true)?' active':''}} ">
+                <a href="{{url('/resolution')}}" class="nav-link nav-toggle">
+                    <i class="icon-diamond"></i>
+                    <span class="title">Resolutions</span>
+                    {!! (str_contains(Request::path(), 'resolution') === true)?'<span class="selected"></span>':'' !!}
+
+                </a>
+            </li>
         </ul>
         <!-- END SIDEBAR MENU -->
         <!-- END SIDEBAR MENU -->
