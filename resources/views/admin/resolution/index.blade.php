@@ -128,9 +128,39 @@
       <!-- END SAMPLE TABLE PORTLET-->
     </div>
   </div>
+
+  <input type="hidden" id="myModalBtn" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" />
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  
+</div>
   @endsection
 
   @section('js')
   {!! $html->scripts() !!}
+  <script>
+    function deleteResolution(id)
+    {
+      if(confirm("Are you sure to delete?"))
+      {
+        $.ajax({
+          headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type:"POST",
+            data:{
+              id:id
+            },
+            url:"{{ route('loadDeleteReasonOfResolutionUsingAjax') }}",
+            success:function(res)
+            {
+              $("#myModal").html(res);
+              $("#myModalBtn").click();
+            }
+        });
+      }
+    }
+  </script>
   @endsection
 

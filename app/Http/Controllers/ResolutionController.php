@@ -217,4 +217,9 @@ class ResolutionController extends Controller
 
         return redirect()->back()->with(['success'=> 'Record deleted succesfully']);
     }
+
+    public function loadDeleteReasonOfResolutionUsingAjax(Request $request)
+    {
+        return view('admin.resolution.resolutionDeleteReason')->render();
+    }
 }

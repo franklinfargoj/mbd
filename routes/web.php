@@ -28,8 +28,9 @@ Route::get('rti_form','RtiFormController@showFrontendForm');
 Route::post('rti_form','RtiFormController@saveFrontendForm');
 
 //resolutions backend
-Route::get('/resolution/delete/{id}', 'ResolutionController@destroy')->name('resolution.delete');
+//Route::get('/resolution/delete/{id}', 'ResolutionController@destroy')->name('resolution.delete');
 Route::resource('/resolution', 'ResolutionController');
+Route::post('loadDeleteReasonOfResolutionUsingAjax', 'ResolutionController@loadDeleteReasonOfResolutionUsingAjax')->name('loadDeleteReasonOfResolutionUsingAjax');
 Route::post('loadDepartmentsOfBoardUsingAjax', 'BoardController@loadDepartmentsOfBoardUsingAjax')->name('loadDepartmentsOfBoardUsingAjax');
 
 //resolutions frontend
