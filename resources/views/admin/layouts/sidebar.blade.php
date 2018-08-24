@@ -74,7 +74,13 @@
                     <i class="icon-diamond"></i>
                     <span class="title">Departments</span>
                     {!! (str_contains(Request::path(), 'department') === true)?'<span class="selected"></span>':'' !!}
-
+                </a>
+            </li>
+            <li class="nav-item {{(str_contains(Request::path(), '_form') === true)?' active':''}} ">
+                <a href="{{url('/rti_form')}}" class="nav-link nav-toggle">
+                    <i class="icon-diamond"></i>
+                    <span class="title">RTI Forms</span>
+                    {!! (str_contains(Request::path(), '_form') === true)?'<span class="selected"></span>':'' !!}
                 </a>
             </li>
 
