@@ -1,17 +1,4 @@
 $(document).ready(function() {
-  function generateDataTable(url)
-  {
-    $('.datatable').DataTable({
-        processing: true,
-        serverSide: true,
-        ajax: url,
-        columnDefs: [{
-            targets: [0, 1, 2],
-            className: 'mdl-data-table__cell--non-numeric'
-        }]
-    });
-  }
-
   $("#boardForm").validate({
     // errorElement: "span",
     //errorClass : "text-red",
@@ -28,3 +15,16 @@ $(document).ready(function() {
     }
   });
 });
+
+// function generateDataTable(url)
+// {
+//     $('.datatable').DataTable({
+//         processing: true,
+//         serverSide: true,
+//         ajax: url,
+//         columnDefs: [{
+//             targets: ['sr_no', 'sr_no1', 'sr_no2', 'sr_no3', 'sr_no4', 'sr_no5', 'sr_no6'],
+//             className: 'mdl-data-table__cell--non-numeric'
+//         }]
+//     });
+// }

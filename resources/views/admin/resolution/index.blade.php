@@ -38,51 +38,46 @@
     <div class="portlet box purple">
       <div class="portlet-title">
         <div class="caption">
-          <i class="fa fa-cogs"></i>Resolution Listing </div>
-          <div class="tools">
-            <a href="{{route('resolution.create')}}" class="yellow">Add Resolution </a>
-          </div>
+          <i class="fa fa-cogs"></i>Resolution Listing 
+        </div>
+        <div class="tools">
+          <a href="{{route('resolution.create')}}" class="yellow">Add Resolution </a>
+        </div>
         </div>
         <div class="portlet-body">
           <div class="table-responsive">
-            <table class="table table-striped table-bordered table-hover datatable mdl-data-table dataTable">
-              <thead>
-                <tr>
-                  <th>Sr No</th>
-                  <th>Department Name</th>
-                  <th>Title/Subject</th>
-                  <th>Resolution Code</th>
-                  <th>Published Date</th>
-                  <th>File</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                @forelse($resolutions as $row)
-                <tr>
-                  <td>Yet to implement</td>
-                  <td>{{$row->department?$row->department->department_name:'-'}}</td>
-                  <td>{{$row->title}}</td>
-                  <td>{{$row->resolution_code}}</td>
-                  <td>{{date('d-m-Y',strtotime($row->published_date))}}</td>
-                  <td>Yet to implement</td>
-                  <td>
-                    <a title="Edit" href="{{ route('resolution.edit', $row->id) }}"><i class="icon-pencil"></i>Edit</a>
-                    <a title="Delete" href="{{ route('resolution.delete', $row->id) }}">Delete</a>
-                  </td>
-                </tr>
-                @empty
-                <tr>
-                  <td colspan="7">No record found</td>
-                </tr>
-                @endforelse
-              </tbody>
-            </table>
+            <form method="get" action="{{ route('resolution.index') }}">
+              Title<input type="text" name="title" value="{{ isset($getData['title'])?$getData['title']:'' }}"><br><br>
+              Resolution Type
+              <select name="resolution_type_id">
+                <option value="">Select Resolution Type</option>
+                @foreach($resolutionTypes as $resolutionType)
+                  <option value="{{ $resolutionType['id'] }}" {{ (isset($getData['resolution_type_id']) && $getData['resolution_type_id']==$resolutionType['id'])?'selected':'' }}>{{ $resolutionType['name'] }}</option>
+                @endforeach
+              </select>
+              <br><br>
+              Board
+              <select name="board_id">
+                <option value="">Select Board</option>
+                @foreach($boards as $board)
+                  <option value="{{ $board['id'] }}" {{ (isset($getData['board_id']) && $getData['board_id']==$board['id'])?'selected':'' }}>{{ $board['board_name'] }}</option>
+                @endforeach
+              </select>
+              <br><br>
+              From Date<input type="text" name="published_from_date"><br><br>
+              To Date<input type="text" name="published_to_date">
+              <input type="submit" value="search">
+            </form>
+            {!! $html->table() !!}
           </div>
         </div>
       </div>
       <!-- END SAMPLE TABLE PORTLET-->
     </div>
   </div>
+  @endsection
+
+  @section('js')
+  {!! $html->scripts() !!}
   @endsection
 

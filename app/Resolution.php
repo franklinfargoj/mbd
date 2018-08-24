@@ -36,8 +36,18 @@ class Resolution extends Model
         'revision_log_message',
     ];
 
+    public function board()
+    {
+        return $this->belongsTo('App\Board');
+    }
+
     public function department()
     {
         return $this->belongsTo('App\Department');
+    }
+
+    public function resolutionType()
+    {
+        return $this->belongsTo('App\ResolutionType');
     }
 }

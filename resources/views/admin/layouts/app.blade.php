@@ -23,6 +23,7 @@
     <link href="{{asset('/plugins/morris/morris.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('/plugins/fullcalendar/fullcalendar.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('/plugins/jqvmap/jqvmap/jqvmap.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('/plugins/datatables/datatables.min.css')}}" rel="stylesheet" type="text/css" />
     <!-- END PAGE LEVEL PLUGINS -->
     <!-- BEGIN THEME GLOBAL STYLES -->
     <link href="{{asset('/css/components.min.css')}}" rel="stylesheet" id="style_components" type="text/css" />
@@ -473,6 +474,7 @@
     <script src="{{asset('/plugins/jqvmap/jqvmap/maps/jquery.vmap.usa.js')}}" type="text/javascript"></script>
     <script src="{{asset('/plugins/jqvmap/jqvmap/data/jquery.vmap.sampledata.js')}}" type="text/javascript"></script>
     <script src="{{asset('/plugins/jquery-validation/js/jquery.validate.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('/plugins/datatables/datatables.all.min.js')}}" type="text/javascript"></script>
     <!-- END PAGE LEVEL PLUGINS -->
     <!-- BEGIN THEME GLOBAL SCRIPTS -->
     <script src="{{asset('/scripts/app.min.js')}}" type="text/javascript"></script>
@@ -496,6 +498,7 @@
         })
     </script>
     <script type="text/javascript" src="{{ asset('/js/custom.js') }}"></script>
+    @yield('js')
     <script>
       loadDepartmentsOfBoard();
 
