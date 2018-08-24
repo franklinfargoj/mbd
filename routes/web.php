@@ -26,7 +26,11 @@ Route::get('frontend_register','FrontendRegisterController@showRegisterForm');
 Route::post('frontend_register','FrontendRegisterController@frontendRegister');
 Route::get('rti_form','RtiFormController@showFrontendForm');
 Route::post('rti_form','RtiFormController@saveFrontendForm');
+
+//resolutions backend
 Route::get('/resolution/delete/{id}', 'ResolutionController@destroy')->name('resolution.delete');
-Route::get('/resolution/fetchDataFromAjax', 'ResolutionController@fetchDataFromAjax')->name('resolution.fetchDataFromAjax');
 Route::resource('/resolution', 'ResolutionController');
 Route::post('loadDepartmentsOfBoardUsingAjax', 'BoardController@loadDepartmentsOfBoardUsingAjax')->name('loadDepartmentsOfBoardUsingAjax');
+
+//resolutions frontend
+Route::get('/frontend_resolution_list', 'FrontendResolutionController@index')->name('frontend_resolution_list');
