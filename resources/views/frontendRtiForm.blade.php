@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 @section('content')
-<form class="register-form" action="{{url('rti_form')}}" method="post" id="frontendRtiForm" style="display: block;">
+<form class="register-form" action="{{url('rti_form')}}" method="post" id="frontendRtiForm" style="display: block;" enctype="multipart/form-data">
 @csrf
                 <p>Application for obtaining information under the Right to Information Act, 2005 </p>
                 <div class="form-group">
