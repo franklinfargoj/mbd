@@ -30,6 +30,7 @@ class CreateResolutionRequest extends FormRequest
             'resolution_code' => 'required|max:255',
             'title' => 'required|max:255',
             'description' => 'required',
+            'file' => 'required|mimes:pdf',
             'language' => 'required|max:255',
             'published_date' => 'required',
             'revision_log_message' => 'required',

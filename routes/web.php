@@ -30,5 +30,12 @@ Route::get('rti_form_success','RtiFormController@rtiFormSuccess');
 Route::get('rti_form_success_close','RtiFormController@rtiFormSuccessClose');
 
 Route::get('/resolution/delete/{id}', 'ResolutionController@destroy')->name('resolution.delete');
+
+//resolutions backend
+//Route::get('/resolution/delete/{id}', 'ResolutionController@destroy')->name('resolution.delete');
 Route::resource('/resolution', 'ResolutionController');
+Route::post('loadDeleteReasonOfResolutionUsingAjax', 'ResolutionController@loadDeleteReasonOfResolutionUsingAjax')->name('loadDeleteReasonOfResolutionUsingAjax');
 Route::post('loadDepartmentsOfBoardUsingAjax', 'BoardController@loadDepartmentsOfBoardUsingAjax')->name('loadDepartmentsOfBoardUsingAjax');
+
+//resolutions frontend
+Route::get('/frontend_resolution_list', 'FrontendResolutionController@index')->name('frontend_resolution_list');

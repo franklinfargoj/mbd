@@ -35,7 +35,7 @@
                                           </div>
                                       </div>
                                       <div class="portlet-body form">
-                                          <form id="boardForm" role="form" method="post" class="form-horizontal" action="{{route('resolution.store')}}">
+                                          <form id="boardForm" role="form" method="post" class="form-horizontal" action="{{route('resolution.store')}}" enctype="multipart/form-data">
                                             @csrf
                                               <div class="form-body">
                                                   <div class="form-group">
@@ -104,21 +104,21 @@
                                                       <label class="col-md-4 control-label">Description</label>
                                                       <div class="col-md-8 @if($errors->has('description')) has-error @endif">
                                                           <div class="input-icon right">
-                                                              <textarea name="description" id="description" class="form-control"></textarea>
+                                                              <textarea name="description" id="description" class="form-control">{{old('description')}}</textarea>
                                                               <span class="help-block">{{$errors->first('description')}}</span>
                                                           </div>
                                                       </div>
                                                   </div>
 
-                                                  {{--<div class="form-group">
-                                                      <label class="col-md-4 control-label">File</label>
-                                                      <div class="col-md-8 @if($errors->has('board_name')) has-error @endif">
+                                                  <div class="form-group">
+                                                      <label class="col-md-4 control-label">Attach File</label>
+                                                      <div class="col-md-8 @if($errors->has('file')) has-error @endif">
                                                           <div class="input-icon right">
-                                                              <input type="text" name="board_name" id="board_name" class="form-control" value="{{old('board_name')}}">
-                                                              <span class="help-block">{{$errors->first('board_name')}}</span>
+                                                              <input type="file" name="file" id="file" class="form-control">
+                                                              <span class="help-block">{{$errors->first('file')}}</span>
                                                           </div>
                                                       </div>
-                                                  </div>--}}
+                                                  </div>
 
                                                   <div class="form-group">
                                                       <label class="col-md-4 control-label">Language</label>
@@ -131,7 +131,7 @@
                                                   </div>
 
                                                   <div class="form-group">
-                                                      <label class="col-md-4 control-label">Reference Link</label>
+                                                      <label class="col-md-4 control-label">Reference Link (if any)</label>
                                                       <div class="col-md-8 @if($errors->has('reference_link')) has-error @endif">
                                                           <div class="input-icon right">
                                                               <input type="text" name="reference_link" id="reference_link" class="form-control" value="{{old('reference_link')}}">
@@ -163,7 +163,7 @@
                                               <div class="form-actions">
                                                   <div class="row">
                                                       <div class="col-md-offset-4 col-md-8">
-                                                          <a href="{{url('/board')}}" role="button" class="btn default">Cancel</a>
+                                                          <a href="{{url('/resolution')}}" role="button" class="btn default">Cancel</a>
                                                           <button type="submit" class="btn blue">Submit</button>
                                                       </div>
                                                   </div>

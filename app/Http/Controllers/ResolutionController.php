@@ -138,20 +138,33 @@ class ResolutionController extends Controller
 
     public function store(CreateResolutionRequest $request)
     {
-        Resolution::create([
+        $dataToInsert = [
             'board_id' => $request->board_id,
             'department_id' => $request->department_id,
             'resolution_type_id' => $request->resolution_type_id,
             'resolution_code' => $request->resolution_code,
             'title' => $request->title,
             'description' => $request->description,
-            //'filepath' => $request->,
-            //'filename' => $request->,
             'language' => $request->language,
             'reference_link' => $request->reference_link,
             'published_date' => $request->published_date,
             'revision_log_message' => $request->revision_log_message
-        ]);
+        ];
+        
+        $uploadPath = '/uploads/resolutions';
+        $destinationPath = public_path($uploadPath);
+                
+        if($request->file('file'))
+        {
+            $file = $request->file('file');
+            $file_name = time().$file->getFileName().'.'.$file->getClientOriginalExtension();
+            if($file->move($destinationPath, $file_name))
+            {
+                $dataToInsert['filepath'] = $uploadPath.'/';
+                $dataToInsert['filename'] = $file_name;
+            }
+        }
+        Resolution::create($dataToInsert);
 
         return redirect('resolution')->with(['success'=> 'Record added succesfully']);
     }
@@ -203,5 +216,10 @@ class ResolutionController extends Controller
         $resolution->delete();
 
         return redirect()->back()->with(['success'=> 'Record deleted succesfully']);
+    }
+
+    public function loadDeleteReasonOfResolutionUsingAjax(Request $request)
+    {
+        return view('admin.resolution.resolutionDeleteReason')->render();
     }
 }
