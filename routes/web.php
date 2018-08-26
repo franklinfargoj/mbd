@@ -30,3 +30,4 @@ Route::get('/resolution/delete/{id}', 'ResolutionController@destroy')->name('res
 Route::get('/resolution/fetchDataFromAjax', 'ResolutionController@fetchDataFromAjax')->name('resolution.fetchDataFromAjax');
 Route::resource('/resolution', 'ResolutionController');
 Route::post('loadDepartmentsOfBoardUsingAjax', 'BoardController@loadDepartmentsOfBoardUsingAjax')->name('loadDepartmentsOfBoardUsingAjax');
+Route::get('rti_form_success','RtiFormController@rtiFormSuccess');

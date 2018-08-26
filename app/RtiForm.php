@@ -12,4 +12,6 @@ class RtiForm extends Model
     {
         return $this->belongsTo('frontend_users');
     }
+
+    
 }

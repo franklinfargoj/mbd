@@ -443,11 +443,6 @@
       <!-- END FOOTER -->
   </div>
   <!-- BEGIN QUICK NAV -->
-
-
-
-
-
   </div>
     <script src="{{asset('/plugins/jquery.min.js')}}" type="text/javascript"></script>
     <script src="{{asset('/plugins/bootstrap/js/bootstrap.min.js')}}" type="text/javascript"></script>
@@ -480,7 +475,7 @@
     <script src="{{asset('/scripts/app.min.js')}}" type="text/javascript"></script>
     <!-- END THEME GLOBAL SCRIPTS -->
     <!-- BEGIN PAGE LEVEL SCRIPTS -->
-    
+
     <!-- END PAGE LEVEL SCRIPTS -->
     <!-- BEGIN THEME LAYOUT SCRIPTS -->
     <script src="{{asset('/layouts/layout/scripts/layout.min.js')}}" type="text/javascript"></script>

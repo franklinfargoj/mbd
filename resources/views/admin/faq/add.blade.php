@@ -30,7 +30,7 @@
                                           </div>
                                       </div>
                                       <div class="portlet-body form">
-                                          <form role="form" method="post" class="form-horizontal" action="{{route('faq.store')}}">
+                                          <form role="form" method="post" id="faqMasterForm" class="form-horizontal" action="{{route('faq.store')}}">
                                             @csrf
                                               <div class="form-body">
                                                   <div class="form-group">
