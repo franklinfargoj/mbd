@@ -9,6 +9,8 @@ use App\Department;
 use App\RtiForm;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\rti\RtiFormSubmitRequest;
+use App\Http\Requests\rti\SearchRtiFrontendRequest;
+
 
 class RtiFormController extends Controller
 {
@@ -54,5 +56,11 @@ class RtiFormController extends Controller
     {
         Session::flush();
         return redirect('/');
+    }
+
+
+    public function searchRtiForm()
+    {
+
     }
 }

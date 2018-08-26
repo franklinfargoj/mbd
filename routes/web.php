@@ -28,6 +28,8 @@ Route::get('rti_form','RtiFormController@showFrontendForm');
 Route::post('rti_form','RtiFormController@saveFrontendForm');
 Route::get('rti_form_success','RtiFormController@rtiFormSuccess');
 Route::get('rti_form_success_close','RtiFormController@rtiFormSuccessClose');
+Route::get('rti_form_search','RtiFormController@searchRtiForm');
+
 
 Route::get('/resolution/delete/{id}', 'ResolutionController@destroy')->name('resolution.delete');
 
