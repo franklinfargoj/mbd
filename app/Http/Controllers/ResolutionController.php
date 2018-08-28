@@ -35,7 +35,7 @@ class ResolutionController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request, Datatables $datatables)
-    {
+    {   
         $header_data = $this->header_data;
         $boards = Board::where('status', 1)->get()->toArray();
         $resolutionTypes = ResolutionType::all()->toArray();
@@ -49,7 +49,7 @@ class ResolutionController extends Controller
             ['data' => 'title', 'name' => 'title', 'title' => 'Title/Subject'],
             ['data' => 'resolution_code','name' => 'resolution_code','title' => 'Resolution Code'],
             ['data' => 'published_date','name' => 'published_date','title' => 'Published Date','searchable' => false],
-            ['data' => 'file','name' => 'file','title' => 'File','searchable' => false],
+            ['data' => 'file','name' => 'file','title' => 'File','searchable' => false, 'orderable'=>false],
             ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
         ];
 
@@ -73,7 +73,7 @@ class ResolutionController extends Controller
             {
                 $resolutions = $resolutions->where('board_id', $request->board_id);
             }
-
+        
             if($request->published_from_date)
             {
                 $resolutions = $resolutions->whereDate('published_date', '>=', date('Y-m-d', strtotime($request->published_from_date)));
@@ -84,7 +84,7 @@ class ResolutionController extends Controller
                 $resolutions = $resolutions->whereDate('published_date', '<=', date('Y-m-d', strtotime($request->published_to_date)));
             }
 
-            $resolutions = $resolutions->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').', id, board_id, department_id, resolution_type_id, title, resolution_code, published_date, filepath, filename');
+            $resolutions = $resolutions->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').', resolutions.id as id, board_id, department_id, resolution_type_id, title, resolution_code, published_date, filepath, filename');
             
             return $datatables->of($resolutions)
                 ->editColumn('board', function ($resolutions) {
@@ -120,6 +120,7 @@ class ResolutionController extends Controller
             'processing' => true,
             'ordering'   =>'isSorted',
             "order"=> [8, "desc" ],
+            "pageLength" => $this->list_num_of_records_per_page,
             // 'fixedHeader' => [
             //     'header' => true,
             //     'footer' => true
@@ -140,8 +141,8 @@ class ResolutionController extends Controller
     {
         $dataToInsert = [
             'board_id' => $request->board_id,
-            'department_id' => $request->department_id,
-            'resolution_type_id' => $request->resolution_type_id,
+            'department_id' => $request->department,
+            'resolution_type_id' => $request->resolution_type,
             'resolution_code' => $request->resolution_code,
             'title' => $request->title,
             'description' => $request->description,
@@ -183,8 +184,8 @@ class ResolutionController extends Controller
         $resolution = Resolution::findOrFail($id);
         $resolution->update([
             'board_id' => $request->board_id,
-            'department_id' => $request->department_id,
-            'resolution_type_id' => $request->resolution_type_id,
+            'department_id' => $request->department,
+            'resolution_type_id' => $request->resolution_type,
             'resolution_code' => $request->resolution_code,
             'title' => $request->title,
             'description' => $request->description,
