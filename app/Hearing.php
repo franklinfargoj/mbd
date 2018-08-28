@@ -3,9 +3,19 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Hearing extends Model
 {
+    use SoftDeletes;
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = ['deleted_at'];
+
     protected $table = "hearing";
     protected $primaryKey = 'id';
     protected $fillable = [
@@ -28,4 +38,9 @@ class Hearing extends Model
         'department_id',
         'hearing_status_id',
     ];
+
+    public function hearingDepartment()
+    {
+        return $this->hasOne('App\Department', 'id','department_id');
+    }
 }

@@ -94,7 +94,7 @@
             </li>
 
             @php
-                if (Request::is('hearing/*'))
+                if (Request::is('hearing') || Request::is('hearing/*'))
                 {
                     $class = "open";
                     $style = "display:block";
@@ -120,12 +120,12 @@
                             <span class="title">Add Hearing</span>
                         </a>
                     </li>
-                    {{--<li class="nav-item start ">
-                        <a href="dashboard_2.html" class="nav-link ">
+                    <li class="nav-item start {{ Request::is('hearing') ? 'active' : '' }}">
+                        <a href="{{ url('hearing') }}" class="nav-link ">
                             <i class="icon-diamond"></i>
                             <span class="title">List Hearing</span>
                         </a>
-                    </li>--}}
+                    </li>
                 </ul>
             </li>
         </ul>
