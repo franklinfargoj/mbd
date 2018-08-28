@@ -161,7 +161,7 @@
                                     </div>
                                     <label class="col-md-3 control-label" for="office_date">Date</label>
                                     <div class="col-md-3">
-                                        <input type="text" id="office_date" name="office_date" class="form-control"  value="{{ old('office_date') }}"  />
+                                        <input type="text" id="office_date" name="office_date" class="form-control"  value="{{ old('office_date') }}" readonly />
                                         <span class="help-block">{{$errors->first('office_date')}}</span>
                                     </div>
                                 </div>
@@ -213,7 +213,7 @@
                         <div class="form-actions">
                             <div class="row">
                                 <div class="col-md-offset-4 col-md-8">
-                                    <a href="{{url('/resolution')}}" role="button" class="btn default">Cancel</a>
+                                    <a href="{{url('/hearing')}}" role="button" class="btn default">Cancel</a>
                                     <input type="submit" class="btn blue" value="Save"></input>
                                 </div>
                             </div>
@@ -223,4 +223,14 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('js')
+    <script>
+        $( function() {
+            $( "#office_date" ).datepicker({
+                dateFormat: "yy-mm-dd"
+            });
+        } );
+    </script>
 @endsection

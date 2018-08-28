@@ -53,30 +53,15 @@ class HearingController extends Controller
 
             $hearing_data = Hearing::with('hearingDepartment');
 
-            /*if($request->title)
+            if($request->office_date_from)
             {
-                $hearing_data = $hearing_data->where('title', 'like', '%'.$request->title.'%');
+                $hearing_data = $hearing_data->whereDate('office_date', '>=', date('Y-m-d', strtotime($request->office_date_from)));
             }
 
-            if($request->resolution_type_id)
+            if($request->office_date_to)
             {
-                $hearing_data = $hearing_data->where('resolution_type_id', $request->resolution_type_id);
+                $hearing_data = $hearing_data->whereDate('office_date', '<=', date('Y-m-d', strtotime($request->office_date_to)));
             }
-
-            if($request->board_id)
-            {
-                $hearing_data = $hearing_data->where('board_id', $request->board_id);
-            }
-
-            if($request->published_from_date)
-            {
-                $hearing_data = $hearing_data->whereDate('published_date', '>=', date('Y-m-d', strtotime($request->published_from_date)));
-            }
-
-            if($request->published_to_date)
-            {
-                $hearing_data = $hearing_data->whereDate('published_date', '<=', date('Y-m-d', strtotime($request->published_to_date)));
-            }*/
 
             $hearing_data = $hearing_data->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').', case_year, hearing.id as id, department_id,  office_date, applicant_name');
 
@@ -163,7 +148,12 @@ class HearingController extends Controller
      */
     public function show($id)
     {
-        //
+        $header_data = $this->header_data;
+        $arrData['hearing'] = Hearing::with(['hearingStatus', 'hearingApplicationType'])
+                        ->where('id', $id)
+                        ->first()->toArray();
+
+        return view('admin.hearing.show', compact('header_data', 'arrData'));
     }
 
     /**

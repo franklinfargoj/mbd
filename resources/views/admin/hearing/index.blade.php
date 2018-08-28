@@ -47,79 +47,36 @@
                 <div class="portlet-body">
                     <div class="table-responsive">
 
-                        {{--<div class="portlet-body form">--}}
-                            {{--<form role="form" method="get" action="{{ route('resolution.index') }}">--}}
-                                {{--<div class="col-md-6">--}}
-                                    {{--<div class="form-group">--}}
-                                        {{--<label class="col-md-4 control-label">--}}
-                                            {{--Resolution Type--}}
-                                        {{--</label>--}}
-                                        {{--<div class="col-md-8">--}}
-                                            {{--<select name="resolution_type_id" class="form-control">--}}
-                                                {{--<option value="">Select Resolution Type</option>--}}
-                                                {{--@foreach($resolutionTypes as $resolutionType)--}}
-                                                    {{--<option value="{{ $resolutionType['id'] }}" {{ (isset($getData['resolution_type_id']) && $getData['resolution_type_id']==$resolutionType['id'])?'selected':'' }}>{{ $resolutionType['name'] }}</option>--}}
-                                                {{--@endforeach--}}
-                                            {{--</select>--}}
-                                        {{--</div>--}}
-                                    {{--</div>--}}
-                                {{--</div>--}}
+                        <div class="portlet-body form">
+                            <form role="form" method="get" action="{{ route('hearing.index') }}">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="published_from_date" class="col-md-4 control-label">
+                                            From Date
+                                        </label>
+                                        <div class="col-md-8">
+                                            <input type="text" name="office_date_from" id="office_date_from" class="form-control" value="{{ isset($getData['office_date_from'])? $getData['office_date_from'] : '' }}">
+                                        </div>
+                                    </div>
+                                </div>
 
-                                {{--<div class="col-md-6">--}}
-                                    {{--<div class="form-group">--}}
-                                        {{--<label class="col-md-4 control-label">--}}
-                                            {{--Board--}}
-                                        {{--</label>--}}
-                                        {{--<div class="col-md-8">--}}
-                                            {{--<select name="board_id" class="form-control">--}}
-                                                {{--<option value="">Select Board</option>--}}
-                                                {{--@foreach($boards as $board)--}}
-                                                    {{--<option value="{{ $board['id'] }}" {{ (isset($getData['board_id']) && $getData['board_id']==$board['id'])?'selected':'' }}>{{ $board['board_name'] }}</option>--}}
-                                                {{--@endforeach--}}
-                                            {{--</select>--}}
-                                        {{--</div>--}}
-                                    {{--</div>--}}
-                                {{--</div>--}}
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">
+                                            To Date
+                                        </label>
+                                        <div class="col-md-8">
+                                            <input type="text" name="office_date_to" id="office_date_to" class="form-control" value="{{ isset($getData['office_date_to'])? $getData['office_date_to'] : '' }}">
+                                        </div>
+                                    </div>
+                                </div>
 
-                                {{--<div class="col-md-6">--}}
-                                    {{--<div class="form-group">--}}
-                                        {{--<label for="published_from_date" class="col-md-4 control-label">--}}
-                                            {{--From Date--}}
-                                        {{--</label>--}}
-                                        {{--<div class="col-md-8">--}}
-                                            {{--<input type="date" name="published_from_date" id="published_from_date" class="form-control" value="{{ isset($getData['published_from_date'])? $getData['published_from_date'] : '' }}">--}}
-                                        {{--</div>--}}
-                                    {{--</div>--}}
-                                {{--</div>--}}
+                                <div class="col-md-6" style="margin-bottom: 15px;">
+                                    <input type="submit" value="search" class="btn blue">
+                                </div>
 
-                                {{--<div class="col-md-6">--}}
-                                    {{--<div class="form-group">--}}
-                                        {{--<label class="col-md-4 control-label">--}}
-                                            {{--To Date--}}
-                                        {{--</label>--}}
-                                        {{--<div class="col-md-8">--}}
-                                            {{--<input type="date" name="published_to_date" id="published_to_date" class="form-control" value="{{ isset($getData['published_to_date'])? $getData['published_to_date'] : '' }}">--}}
-                                        {{--</div>--}}
-                                    {{--</div>--}}
-                                {{--</div>--}}
-
-                                {{--<div class="col-md-6">--}}
-                                    {{--<div class="form-group">--}}
-                                        {{--<label class="col-md-4 control-label">--}}
-                                            {{--Title--}}
-                                        {{--</label>--}}
-                                        {{--<div class="col-md-8">--}}
-                                            {{--<input type="text" name="title" value="{{ isset($getData['title'])?$getData['title']:'' }}" class="form-control">--}}
-                                        {{--</div>--}}
-                                    {{--</div>--}}
-                                {{--</div>--}}
-
-                                {{--<div class="col-md-6">--}}
-                                    {{--<input type="submit" value="search" class="btn blue">--}}
-                                {{--</div>--}}
-
-                            {{--</form>--}}
-                        {{--</div>--}}
+                            </form>
+                        </div>
 
                         {!! $html->table() !!}
                     </div>
@@ -132,6 +89,13 @@
 
 @section('js')
     {!! $html->scripts() !!}
+    <script>
+        $( function() {
+            $( "#office_date_from, #office_date_to" ).datepicker({
+                dateFormat: "yy-mm-dd"
+            });
+        } );
+    </script>
     {{--<script>
         function deleteResolution(id)
         {

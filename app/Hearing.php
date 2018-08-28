@@ -43,4 +43,14 @@ class Hearing extends Model
     {
         return $this->hasOne('App\Department', 'id','department_id');
     }
+
+    public function hearingStatus()
+    {
+        return $this->hasOne('App\HearingStatus', 'id','hearing_status_id');
+    }
+
+    public function hearingApplicationType()
+    {
+        return $this->hasOne('App\ApplicationType', 'id','application_type_id');
+    }
 }
