@@ -24,9 +24,9 @@ class CreateResolutionRequest extends FormRequest
     public function rules()
     {
         return [
-            'board_id' => 'required',
-            'department_id' => 'required',
-            'resolution_type_id' => 'required',
+            'board' => 'required',
+            'department' => 'required',
+            'resolution_type' => 'required',
             'resolution_code' => 'required|max:255',
             'title' => 'required|max:255',
             'description' => 'required',

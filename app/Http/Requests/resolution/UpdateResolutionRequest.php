@@ -25,8 +25,8 @@ class UpdateResolutionRequest extends FormRequest
     {
         return [
             'board_id' => 'required',
-            'department_id' => 'required',
-            'resolution_type_id' => 'required',
+            'department' => 'required',
+            'resolution_type' => 'required',
             'resolution_code' => 'required|max:255',
             'title' => 'required|max:255',
             'description' => 'required',

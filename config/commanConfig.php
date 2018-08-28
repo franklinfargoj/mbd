@@ -8,5 +8,5 @@ return [
     |
     */
 
-    'list_num_of_records_per_page' => 10,
+    'list_num_of_records_per_page' => 1,
 ];

@@ -15,6 +15,40 @@ $(document).ready(function() {
     }
   });
 
+  $("#add_resolutionForm").validate({
+    // errorElement: "span",
+    //errorClass : "text-red",
+    rules:{
+      board: "required",
+      department: "required",
+      resolution_type: "required",
+      resolution_code: "required",
+      title: "required",
+      description: "required",
+      file: "required",
+      language: "required",
+      published_date: "required",
+      revision_log_message: "required",
+    }
+  });
+
+  $("#edit_resolutionForm").validate({
+    // errorElement: "span",
+    //errorClass : "text-red",
+    rules:{
+      board: "required",
+      department: "required",
+      resolution_type: "required",
+      resolution_code: "required",
+      title: "required",
+      description: "required",
+      file: "required",
+      language: "required",
+      published_date: "required",
+      revision_log_message: "required",
+    }
+  });
+
   if($("#frontEndRegisterForm").length > 0)
   {
     $("#frontEndRegisterForm").validate({

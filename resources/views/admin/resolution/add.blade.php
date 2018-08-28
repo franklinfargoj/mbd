@@ -35,47 +35,47 @@
                                           </div>
                                       </div>
                                       <div class="portlet-body form">
-                                          <form id="boardForm" role="form" method="post" class="form-horizontal" action="{{route('resolution.store')}}" enctype="multipart/form-data">
+                                          <form id="add_resolutionForm" role="form" method="post" class="form-horizontal" action="{{route('resolution.store')}}" enctype="multipart/form-data">
                                             @csrf
                                               <div class="form-body">
                                                   <div class="form-group">
                                                       <label class="col-md-4 control-label">Board</label>
-                                                      <div class="col-md-8 @if($errors->has('board_id')) has-error @endif">
+                                                      <div class="col-md-8 @if($errors->has('board')) has-error @endif">
                                                           <div class="input-icon right">
-                                                              <select name="board_id" id="board_id" class="form-control">
+                                                              <select name="board" id="board_id" class="form-control">
                                                                 <option value="">Select Board</option>
                                                                 @foreach($boards as $boardVal)
                                                                   <option value="{{ $boardVal['id'] }}" {{ count($boards)==1?'selected':'' }}>{{ $boardVal['board_name'] }}</option>
                                                                 @endforeach
                                                               </select>
-                                                              <span class="help-block">{{$errors->first('board_id')}}</span>
+                                                              <span class="help-block">{{$errors->first('board')}}</span>
                                                           </div>
                                                       </div>
                                                   </div>
 
                                                   <div class="form-group">
                                                       <label class="col-md-4 control-label">Department</label>
-                                                      <div class="col-md-8 @if($errors->has('department_id')) has-error @endif">
+                                                      <div class="col-md-8 @if($errors->has('department')) has-error @endif">
                                                           <div class="input-icon right">
-                                                              <select name="department_id" id="department_id" class="form-control">
+                                                              <select name="department" id="department_id" class="form-control">
                                                                 <option value="">Select Department</option>
                                                               </select>
-                                                              <span class="help-block">{{$errors->first('department_id')}}</span>
+                                                              <span class="help-block">{{$errors->first('department')}}</span>
                                                           </div>
                                                       </div>
                                                   </div>
 
                                                   <div class="form-group">
                                                       <label class="col-md-4 control-label">Resolution Type</label>
-                                                      <div class="col-md-8 @if($errors->has('resolution_type_id')) has-error @endif">
+                                                      <div class="col-md-8 @if($errors->has('resolution_type')) has-error @endif">
                                                           <div class="input-icon right">
-                                                              <select name="resolution_type_id" id="resolution_type_id" class="form-control">
+                                                              <select name="resolution_type" id="resolution_type_id" class="form-control">
                                                                 <option value="">Select Resolution Type</option>
                                                                 @foreach($resolutionTypes as $resolutionTypeVal)
                                                                   <option value="{{ $resolutionTypeVal['id'] }}">{{ $resolutionTypeVal['name'] }}</option>
                                                                 @endforeach
                                                               </select>
-                                                              <span class="help-block">{{$errors->first('resolution_type_id')}}</span>
+                                                              <span class="help-block">{{$errors->first('resolution_type')}}</span>
                                                           </div>
                                                       </div>
                                                   </div>

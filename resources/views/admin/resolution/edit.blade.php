@@ -35,7 +35,7 @@
                                           </div>
                                       </div>
                                       <div class="portlet-body form">
-                                          <form id="resolutionForm" role="form" method="post" class="form-horizontal" action="{{route('resolution.update', $resolution->id)}}">
+                                          <form id="edit_resolutionForm" role="form" method="post" class="form-horizontal" action="{{route('resolution.update', $resolution->id)}}">
                                             @csrf
                                             @method('put')
                                               <div class="form-body">
@@ -56,27 +56,27 @@
 
                                                   <div class="form-group">
                                                       <label class="col-md-4 control-label">Department</label>
-                                                      <div class="col-md-8 @if($errors->has('department_id')) has-error @endif">
+                                                      <div class="col-md-8 @if($errors->has('department')) has-error @endif">
                                                           <div class="input-icon right">
-                                                              <select name="department_id" id="department_id" class="form-control">
+                                                              <select name="department" id="department_id" class="form-control">
                                                                 <option value="">Select Department</option>
                                                               </select>
-                                                              <span class="help-block">{{$errors->first('department_id')}}</span>
+                                                              <span class="help-block">{{$errors->first('department')}}</span>
                                                           </div>
                                                       </div>
                                                   </div>
 
                                                   <div class="form-group">
                                                       <label class="col-md-4 control-label">Resolution Type</label>
-                                                      <div class="col-md-8 @if($errors->has('resolution_type_id')) has-error @endif">
+                                                      <div class="col-md-8 @if($errors->has('resolution_type')) has-error @endif">
                                                           <div class="input-icon right">
-                                                              <select name="resolution_type_id" id="resolution_type_id" class="form-control">
+                                                              <select name="resolution_type" id="resolution_type_id" class="form-control">
                                                                 <option value="">Select Resolution Type</option>
                                                                 @foreach($resolutionTypes as $resolutionTypeVal)
                                                                   <option value="{{ $resolutionTypeVal['id'] }}" {{ old('resolution_type_id',$resolution->resolution_type_id)==$resolutionTypeVal['id']?'selected':'' }}>{{ $resolutionTypeVal['name'] }}</option>
                                                                 @endforeach
                                                               </select>
-                                                              <span class="help-block">{{$errors->first('resolution_type_id')}}</span>
+                                                              <span class="help-block">{{$errors->first('resolution_type')}}</span>
                                                           </div>
                                                       </div>
                                                   </div>
