@@ -16,7 +16,7 @@ class CreateHearingTable extends Migration
         Schema::create('hearing', function (Blueprint $table) {
             $table->increments('id');
             $table->string('preceding_officer_name')->nullable();
-            $table->date('case_year')->nullable();
+            $table->string('case_year')->nullable();
 
             $table->unsignedInteger('application_type_id');
             $table->foreign('application_type_id')->references('id')->on('hearing_application_type')->onDelete('cascade');
@@ -30,9 +30,9 @@ class CreateHearingTable extends Migration
             $table->longText('respondent_address')->nullable();
 
             $table->string('case_type')->nullable();
-            $table->date('office_year')->nullable();
+            $table->string('office_year')->nullable();
             $table->string('office_number')->nullable();
-            $table->date('office_date')->nullable();
+            $table->string('office_date')->nullable();
             $table->string('office_tehsil')->nullable();
             $table->string('office_village')->nullable();
             $table->longText('office_remark')->nullable();
