@@ -14,5 +14,7 @@ class DatabaseSeeder extends Seeder
         // $this->call(UsersTableSeeder::class);
         $this->call(ResolutionTypesTableSeeder::class);
         $this->call(BoardsAndDepartmentsTableSeeder::class);
+        $this->call(ApplicationTypeSeeder::class);
+        $this->call(HearingStatusSeeder::class);
     }
 }
