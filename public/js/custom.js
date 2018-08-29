@@ -49,6 +49,82 @@ $(document).ready(function() {
     }
   });
 
+  $("#addHearingForm").validate({
+      rules:{
+          preceding_officer_name: "required",
+          case_year: "required",
+          application_type_id: "required",
+          applicant_name: "required",
+          applicant_mobile_no: {
+              required: true,
+              minlength: 10,
+              maxlength: 10,
+              number: true
+          },
+          applicant_address: "required",
+          respondent_name: "required",
+          respondent_mobile_no: {
+              required: true,
+              minlength: 10,
+              maxlength: 10,
+              number: true
+          },
+          respondent_address: "required",
+          case_type: "required",
+          office_year: "required",
+          office_number: {
+              required: true,
+              minlength: 10,
+              maxlength: 10,
+              number: true
+          },
+          office_date: "required",
+          office_tehsil: "required",
+          office_village: "required",
+          office_remark: "required",
+          department_id: "required",
+          hearing_status_id: "required"
+      }
+  })
+
+    $("#editHearingForm").validate({
+        rules:{
+            preceding_officer_name: "required",
+            case_year: "required",
+            application_type_id: "required",
+            applicant_name: "required",
+            applicant_mobile_no: {
+                required: true,
+                minlength: 10,
+                maxlength: 10,
+                number: true
+            },
+            applicant_address: "required",
+            respondent_name: "required",
+            respondent_mobile_no: {
+                required: true,
+                minlength: 10,
+                maxlength: 10,
+                number: true
+            },
+            respondent_address: "required",
+            case_type: "required",
+            office_year: "required",
+            office_number: {
+                required: true,
+                minlength: 10,
+                maxlength: 10,
+                number: true
+            },
+            office_date: "required",
+            office_tehsil: "required",
+            office_village: "required",
+            office_remark: "required",
+            department_id: "required",
+            hearing_status_id: "required"
+        }
+    })
+
   if($("#frontEndRegisterForm").length > 0)
   {
     $("#frontEndRegisterForm").validate({

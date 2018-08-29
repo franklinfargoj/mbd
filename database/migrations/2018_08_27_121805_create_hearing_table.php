@@ -44,6 +44,7 @@ class CreateHearingTable extends Migration
             $table->foreign('hearing_status_id')->references('id')->on('hearing_status')->onDelete('cascade');
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

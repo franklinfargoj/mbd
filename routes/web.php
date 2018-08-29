@@ -41,3 +41,5 @@ Route::post('loadDepartmentsOfBoardUsingAjax', 'BoardController@loadDepartmentsO
 
 //resolutions frontend
 Route::get('/frontend_resolution_list', 'FrontendResolutionController@index')->name('frontend_resolution_list');
+
+Route::resource('/hearing', 'HearingController');

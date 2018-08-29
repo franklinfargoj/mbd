@@ -33,6 +33,7 @@
     <link href="{{asset('/layouts/layout/css/layout.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('/layouts/layout/css/themes/darkblue.min.css')}}" rel="stylesheet" type="text/css" id="style_color" />
     <link href="{{asset('/layouts/layout/css/custom.min.css')}}" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
     <!-- Scripts -->
     <script>
@@ -482,6 +483,7 @@
     <script src="{{asset('/layouts/layout/scripts/demo.min.js')}}" type="text/javascript"></script>
     <script src="{{asset('/layouts/global/scripts/quick-sidebar.min.js')}}" type="text/javascript"></script>
     <script src="{{asset('/layouts/global/scripts/quick-nav.min.js')}}" type="text/javascript"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <!-- END THEME LAYOUT SCRIPTS -->
     <script>
         $(document).ready(function()

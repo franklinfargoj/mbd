@@ -92,6 +92,42 @@
 
                 </a>
             </li>
+
+            @php
+                if (Request::is('hearing') || Request::is('hearing/*'))
+                {
+                    $class = "open";
+                    $style = "display:block";
+                }
+                else
+                {
+                    $class = "";
+                    $style = "display:none";
+                }
+
+            @endphp
+
+            <li class="nav-item {{ $class }}">
+                <a href="javascript:;" class="nav-link nav-toggle">
+                    <i class="icon-diamond"></i>
+                    <span class="title">Hearing</span>
+                    <span class="arrow {{ $class }}"></span>
+                </a>
+                <ul class="sub-menu" style ="{{ $style }}">
+                    <li class="nav-item {{ Request::is('hearing/create') ? 'active' : '' }}">
+                        <a href="{{ url('/hearing/create') }}" class="nav-link ">
+                            <i class="icon-diamond"></i>
+                            <span class="title">Add Hearing</span>
+                        </a>
+                    </li>
+                    <li class="nav-item start {{ Request::is('hearing') ? 'active' : '' }}">
+                        <a href="{{ url('hearing') }}" class="nav-link ">
+                            <i class="icon-diamond"></i>
+                            <span class="title">List Hearing</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
         </ul>
         <!-- END SIDEBAR MENU -->
         <!-- END SIDEBAR MENU -->
