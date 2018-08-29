@@ -8,6 +8,7 @@ use App\Department;
 use App\BoardDepartment;
 use App\Http\Requests\department\CreateDepartmentRequest;
 use App\Http\Requests\department\UpdateDepartmentRequest;
+use Yajra\DataTables\DataTables;
 use Config;
 
 class DepartmentController extends Controller
@@ -31,11 +32,49 @@ class DepartmentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request, Datatables $datatables)
     {
-        $departments = Department::all();
         $header_data = $this->header_data;
-        return view('admin.department.index', compact('departments','header_data'));
+        $columns = [
+            ['data' => 'department_name','name' => 'department_name','title' => 'Department Name'],
+            ['data' => 'status','name' => 'status','title' => 'Status'],
+            ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
+        ];
+
+        if ($datatables->getRequest()->ajax()) {
+            
+            $departments = Department::all();
+            
+            return $datatables->of($departments)
+                ->editColumn('department_name', function ($departments) {
+                    return $departments->department_name;
+                })
+                ->editColumn('status', function ($departments) {
+                    return $departments->status;
+                })
+                ->editColumn('actions', function ($departments) {
+                   return view('admin.department.actions', compact('departments'))->render();
+                })
+                ->rawColumns(['department_name','status','actions'])
+                ->make(true);
+        }
+        
+        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+        return view('admin.department.index', compact('departments','header_data', 'html'));
+    }
+
+    protected function getParameters() {
+        return [
+            'serverSide' => true,
+            'processing' => true,
+            'ordering'   =>'isSorted',
+            "order"=> [2, "desc" ],
+            "pageLength" => $this->list_num_of_records_per_page,
+            // 'fixedHeader' => [
+            //     'header' => true,
+            //     'footer' => true
+            // ]
+        ];
     }
 
     /**

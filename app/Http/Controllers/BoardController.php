@@ -7,6 +7,7 @@ use App\Board;
 use App\Department;
 use App\Http\Requests\board\CreateBoardRequest;
 use App\Http\Requests\board\UpdateBoardRequest;
+use Yajra\DataTables\DataTables;
 use Config;
 
 class BoardController extends Controller
@@ -30,11 +31,51 @@ class BoardController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request, Datatables $datatables)
     {
-        $boards = Board::all();
+        
         $header_data = $this->header_data;
-        return view('admin.board.index', compact('boards','header_data'));
+        $columns = [
+            ['data' => 'board_name','name' => 'board_name','title' => 'Board Name'],
+            ['data' => 'status','name' => 'status','title' => 'Status'],
+            ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
+        ];
+
+        if ($datatables->getRequest()->ajax()) {
+            
+            $boards = Board::all();
+            
+            return $datatables->of($boards)
+                ->editColumn('board_name', function ($boards) {
+                    return $boards->board_name;
+                })
+                ->editColumn('status', function ($boards) {
+                    return $boards->status;
+                })
+                ->editColumn('actions', function ($boards) {
+                   return view('admin.board.actions', compact('boards'))->render();
+                })
+                ->rawColumns(['board_name','status','actions'])
+                ->make(true);
+        }
+        
+        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+
+        return view('admin.board.index', compact('boards', 'html','header_data'));
+    }
+
+    protected function getParameters() {
+        return [
+            'serverSide' => true,
+            'processing' => true,
+            'ordering'   =>'isSorted',
+            "order"=> [2, "desc" ],
+            "pageLength" => $this->list_num_of_records_per_page,
+            // 'fixedHeader' => [
+            //     'header' => true,
+            //     'footer' => true
+            // ]
+        ];
     }
 
     /**

@@ -144,6 +144,7 @@
     {
       if(confirm("Are you sure to delete?"))
       {
+        console.log(id);
         $.ajax({
           headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

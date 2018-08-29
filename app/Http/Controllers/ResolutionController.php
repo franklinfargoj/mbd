@@ -58,7 +58,7 @@ class ResolutionController extends Controller
             DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
             
             $resolutions = Resolution::with(['board','department','resolutionType']);
-
+            
             if($request->title)
             {
                 $resolutions = $resolutions->where('title', 'like', '%'.$request->title.'%');
@@ -200,10 +200,11 @@ class ResolutionController extends Controller
         return redirect('resolution')->with(['success'=> 'Record updated succesfully']);
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         $resolution = Resolution::findOrFail($id);
-
+        
+        $resolution->delete();
         DeletedResolution::create([
             'resolution_id' => $resolution->id,
             'resolution_type_id' => $resolution->resolution_type_id,
@@ -211,16 +212,16 @@ class ResolutionController extends Controller
             'description' => $resolution->description,
             'filepath' => $resolution->filepath,
             'filename' => $resolution->filename,
-            'reason_for_delete' => 'Not Required'
+            'reason_for_delete' => $request->input('delete_message'),
+            'created_at' => $date
         ]);
-
-        $resolution->delete();
 
         return redirect()->back()->with(['success'=> 'Record deleted succesfully']);
     }
 
     public function loadDeleteReasonOfResolutionUsingAjax(Request $request)
     {
-        return view('admin.resolution.resolutionDeleteReason')->render();
+        $id = $request->id;
+        return view('admin.resolution.resolutionDeleteReason', compact('id'))->render();
     }
 }

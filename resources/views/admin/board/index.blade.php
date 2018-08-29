@@ -45,28 +45,7 @@
         </div>
         <div class="portlet-body">
           <div class="table-responsive">
-            <table class="table table-striped table-bordered table-hover datatable mdl-data-table dataTable">
-              <thead>
-                <tr>
-                  <th>Board Name</th>
-                  <th>Status</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                @forelse($boards as $row)
-                <tr>
-                  <td>{{$row->board_name}}</td>
-                  <td><a title="Edit" href="{{ url('board/change_status/'. $row->id) }}">{{($row->status==0)? 'Inactive' : 'Active'}}</a></td>
-                  <td><a title="Edit" href="{{ route('board.edit', $row->id) }}"><i class="icon-pencil"></i>Edit</a></td>
-                </tr>
-                @empty
-                <tr>
-                  <td colspan="3">No record found</td>
-                </tr>
-                @endforelse
-              </tbody>
-            </table>
+            {!! $html->table() !!}
           </div>
         </div>
       </div>
@@ -74,4 +53,6 @@
     </div>
   </div>
   @endsection
-
+@section('js')
+  {!! $html->scripts() !!}
+@endsection
