@@ -55,7 +55,8 @@
                     <form role="form" id="prePostSchedule" method="post" files="true" class="form-horizontal" action="{{route('fix_schedule.store')}}">
                         @csrf
                         <div class="form-body">
-                            <input type="hidden" name="hearing_schedule_id" value="{{ $arrData['schedule_hearing_data']->id }}">
+                            <input type="hidden" name="hearing_schedule_id" value="{{ $arrData['schedule_hearing_data']->hearingSchedule->id }}">
+                            <input type="hidden" name="hearing_id" value="{{ $arrData['schedule_hearing_data']->id }}">
                             <div class="row">
 
                                 <div class="col-md-12">
@@ -94,7 +95,7 @@
                                     <div class="form-group">
                                         <label class="control-label col-md-3">Apellent Name</label>
                                         <div class="col-md-3">
-                                            <input type="text" id="appellant_name" name="appellant_name" class="form-control disabled_input"  value="{{ $arrData['schedule_hearing_data']->appellant_name }}" readonly  />
+                                            <input type="text" id="appellant_name" name="appellant_name" class="form-control disabled_input"  value="{{ $arrData['schedule_hearing_data']->applicant_name }}" readonly  />
                                             <span class="help-block"></span>
                                         </div>
                                     </div>
@@ -114,7 +115,7 @@
                                     <div class="form-group">
                                         <label class="control-label col-md-3">First Hearing Date</label>
                                         <div class="col-md-3">
-                                            <input type="text" id="first_hearing_date" name="first_hearing_date" class="form-control disabled_input" value="{{ $arrData['schedule_hearing_data']->preceding_date }}"/>
+                                            <input type="text" id="first_hearing_date" name="first_hearing_date" class="form-control disabled_input" value="{{ $arrData['schedule_hearing_data']->hearingSchedule->preceding_date }}"/>
                                             <span class="help-block">{{$errors->first('first_hearing_date')}}</span>
                                         </div>
                                     </div>

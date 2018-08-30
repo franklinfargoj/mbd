@@ -55,12 +55,13 @@
                     <form id="createHearingSchedule"  role="form" method="post" files="true" class="form-horizontal" action="{{route('schedule_hearing.store')}}" enctype="multipart/form-data">
                         @csrf
                         <div class="form-body">
+                            <input type="hidden" name="hearing_id" value="{{ $arrData['hearing']->id }}">
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label class="col-md-3 control-label" for="preceding_officer_name">Name of Preceding Officer</label>
                                         <div class="col-md-3">
-                                            <input type="text" id="preceding_officer_name" name="preceding_officer_name" class="form-control"  value="{{ $arrData['hearing']->preceding_officer_name }}"  />
+                                            <input type="text" id="preceding_officer_name" name="preceding_officer_name" class="form-control disabled_input"  value="{{ $arrData['hearing']->preceding_officer_name }}"  readonly/>
                                             <span class="help-block">{{$errors->first('preceding_officer_name')}}</span>
                                         </div>
                                     </div>
@@ -80,7 +81,7 @@
                                     <div class="form-group">
                                         <label class="control-label col-md-3">Case Number</label>
                                         <div class="col-md-3">
-                                            <input type="text" id="case_number" name="case_number" class="form-control disabled_input"  value="{{ $arrData['hearing']->id }}" readonly  />
+                                            <input type="text" id="case_number" name="case_number" class="form-control disabled_input"  value="{{ $arrData['hearing']->case_number }}" readonly  />
                                             <span class="help-block"></span>
                                         </div>
                                     </div>
@@ -90,7 +91,7 @@
                                     <div class="form-group">
                                         <label class="control-label col-md-3">Preceding Number</label>
                                         <div class="col-md-3">
-                                            <input type="text" id="hearing_id" name="hearing_id" class="form-control disabled_input"  value="{{ $arrData['hearing']->id }}" readonly  />
+                                            <input type="text" id="preceding_number" name="preceding_number" class="form-control"  value=""   />
                                             <span class="help-block"></span>
                                         </div>
                                     </div>
@@ -211,7 +212,6 @@
             $(".file-upload").each(function(){
                 $(this).rules("add", {
                     required:true,
-                    accept: "pdf",
                 });
             });
         })

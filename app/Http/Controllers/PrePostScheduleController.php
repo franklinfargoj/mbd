@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Hearing;
 use App\HearingSchedule;
+use App\Http\Requests\pre_post_schedule\PrePostScheduleRequest;
 use App\PrePostSchedule;
 use Illuminate\Http\Request;
 
@@ -31,7 +33,7 @@ class PrePostScheduleController extends Controller
     public function create($id)
     {
         $header_data = $this->header_data;
-        $arrData['schedule_hearing_data'] = HearingSchedule::where('case_number', $id)->first();
+        $arrData['schedule_hearing_data'] = Hearing::with('hearingSchedule')->where('id', $id)->first();
 
         return view('admin.prepost_schedule.add', compact('header_data', 'arrData'));
     }
@@ -42,19 +44,14 @@ class PrePostScheduleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PrePostScheduleRequest $request)
     {
         $data = [
-            'case_year' => $request->case_year,
-            'case_number' => $request->case_number,
-            'appellant_name' => $request->appellant_name,
-            'respondent_name' => $request->respondent_name,
-            'first_hearing_date' => $request->first_hearing_date,
-            'preceding_officer_name' => $request->preceding_officer_name,
             'date' => $request->date,
             'description' => $request->description,
             'pre_post_status' => $request->pre_post_status,
             'hearing_schedule_id' => $request->hearing_schedule_id,
+            'hearing_id' => $request->hearing_id,
         ];
 
         PrePostSchedule::create($data);
@@ -82,8 +79,8 @@ class PrePostScheduleController extends Controller
     public function edit($id)
     {
         $header_data = $this->header_data;
-        $arrData['schedule_prepost_data'] = PrePostSchedule::FindOrFail($id);
-
+//        $arrData['schedule_prepost_data'] = PrePostSchedule::FindOrFail($id);
+        $arrData['schedule_prepost_data'] = Hearing::with(['hearingSchedule', 'prePostSchedule'])->where('id', $id)->first();
 
         return view('admin.prepost_schedule.edit', compact('header_data', 'arrData'));
     }
@@ -95,17 +92,11 @@ class PrePostScheduleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(PrePostScheduleRequest $request, $id)
     {
         $pre_post_schedule = PrePostSchedule::FindOrFail($id);
 
         $data = [
-            'case_year' => $request->case_year,
-            'case_number' => $request->case_number,
-            'appellant_name' => $request->appellant_name,
-            'respondent_name' => $request->respondent_name,
-            'first_hearing_date' => $request->first_hearing_date,
-            'preceding_officer_name' => $request->preceding_officer_name,
             'date' => $request->date,
             'description' => $request->description,
             'pre_post_status' => $request->pre_post_status,

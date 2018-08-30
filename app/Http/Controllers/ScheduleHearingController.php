@@ -51,13 +51,9 @@ class ScheduleHearingController extends Controller
     {
         $time = time();
 
-        $input['preceding_officer_name'] = $request->preceding_officer_name;
-        $input['case_year'] = $request->case_year;
-        $input['case_number'] = $request->case_number;
-        $input['preceding_number'] = $request->hearing_id;
-        $input['appellant_name'] = $request->applicant_name;
-        $input['respondent_name'] = $request->respondent_name;
+        $input['hearing_id'] = $request->hearing_id;
         $input['preceding_date'] = $request->preceding_date;
+        $input['preceding_number'] = $request->preceding_number;
         $input['preceding_time'] = $request->preceding_time;
         $input['description'] = $request->description;
         $input['update_status'] = $request->update_status;

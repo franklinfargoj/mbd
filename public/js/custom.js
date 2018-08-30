@@ -53,6 +53,7 @@ $(document).ready(function() {
       rules:{
           preceding_officer_name: "required",
           case_year: "required",
+          case_number: "required",
           application_type_id: "required",
           applicant_name: "required",
           applicant_mobile_no: {
@@ -126,9 +127,8 @@ $(document).ready(function() {
     });
 
     $("#createHearingSchedule").validate({
-
         rules: {
-            preceding_officer_name: "required",
+            preceding_number: "required",
             preceding_date: "required",
             preceding_time: "required",
             description: "required",

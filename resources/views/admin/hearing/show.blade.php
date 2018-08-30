@@ -59,7 +59,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-3">Case Number</label>
                                     <div class="col-md-9">
-                                        <p> {{ $arrData['hearing']['id'] }} </p>
+                                        <p> {{ $arrData['hearing']['case_number'] }} </p>
                                     </div>
                                 </div>
                             </div>
@@ -77,7 +77,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-3">Name of Applicant</label>
                                     <div class="col-md-9">
-                                        <p> {{ $arrData['hearing']['case_year'] }} </p>
+                                        <p> {{ $arrData['hearing']['applicant_name'] }} </p>
                                     </div>
                                 </div>
                             </div>

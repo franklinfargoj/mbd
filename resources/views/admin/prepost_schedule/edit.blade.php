@@ -52,7 +52,7 @@
                     </div>
                 </div>
                 <div class="portlet-body form">
-                    <form role="form" id="prePostSchedule" method="post" files="true" class="form-horizontal" action="{{route('fix_schedule.update', $arrData['schedule_prepost_data']->id)}}">
+                    <form role="form" id="prePostSchedule" method="post" files="true" class="form-horizontal" action="{{route('fix_schedule.update', $arrData['schedule_prepost_data']->prePostSchedule->id)}}">
                         @csrf
                         @method("PUT")
                         <div class="form-body">
@@ -62,9 +62,9 @@
                                         <div class="col-md-9 col-md-offset-2">
                                             <div class="radio-list">
                                                 <label class="radio-inline">
-                                                    <input type="radio" name="pre_post_status" value="1" {{ ($arrData['schedule_prepost_data']->pre_post_status == 1) ? "checked" : "" }}>Prepone</label>
+                                                    <input type="radio" name="pre_post_status" value="1" {{ ($arrData['schedule_prepost_data']->prePostSchedule->pre_post_status == 1) ? "checked" : "" }}>Prepone</label>
                                                 <label class="radio-inline">
-                                                    <input type="radio" name="pre_post_status" value="0" {{ ($arrData['schedule_prepost_data']->pre_post_status == 0) ? "checked" : "" }}>Postpone</label>
+                                                    <input type="radio" name="pre_post_status" value="0" {{ ($arrData['schedule_prepost_data']->prePostSchedule->pre_post_status == 0) ? "checked" : "" }}>Postpone</label>
                                             </div>
                                         </div>
                                     </div>
@@ -93,7 +93,7 @@
                                     <div class="form-group">
                                         <label class="control-label col-md-3">Apellent Name</label>
                                         <div class="col-md-3">
-                                            <input type="text" id="appellant_name" name="appellant_name" class="form-control disabled_input"  value="{{ $arrData['schedule_prepost_data']->appellant_name }}" readonly  />
+                                            <input type="text" id="appellant_name" name="appellant_name" class="form-control disabled_input"  value="{{ $arrData['schedule_prepost_data']->applicant_name }}" readonly  />
                                             <span class="help-block"></span>
                                         </div>
                                     </div>
@@ -113,7 +113,7 @@
                                     <div class="form-group">
                                         <label class="control-label col-md-3">First Hearing Date</label>
                                         <div class="col-md-3">
-                                            <input type="text" id="first_hearing_date" name="first_hearing_date" class="form-control disabled_input" value="{{ $arrData['schedule_prepost_data']->first_hearing_date }}"/>
+                                            <input type="text" id="first_hearing_date" name="first_hearing_date" class="form-control disabled_input" value="{{ $arrData['schedule_prepost_data']->hearingSchedule->preceding_date }}"/>
                                             <span class="help-block">{{$errors->first('first_hearing_date')}}</span>
                                         </div>
                                     </div>
@@ -133,7 +133,7 @@
                                     <div class="form-group">
                                         <label class="control-label col-md-3">Select Date</label>
                                         <div class="col-md-3">
-                                            <input type="text" id="date" name="date" class="form-control" value="{{ $arrData['schedule_prepost_data']->date }}"/>
+                                            <input type="text" id="date" name="date" class="form-control" value="{{ $arrData['schedule_prepost_data']->prePostSchedule->date }}"/>
                                             <span class="help-block">{{$errors->first('date')}}</span>
                                         </div>
                                     </div>
@@ -143,7 +143,7 @@
                                     <div class="form-group">
                                         <label class="col-md-3 control-label" for="description">Description</label>
                                         <div class="col-md-3">
-                                            <textarea id="description" name="description" class="form-control">{{ $arrData['schedule_prepost_data']->description }}</textarea>
+                                            <textarea id="description" name="description" class="form-control">{{ $arrData['schedule_prepost_data']->prePostSchedule->description }}</textarea>
                                             <span class="help-block">{{$errors->first('description')}}</span>
                                         </div>
                                     </div>

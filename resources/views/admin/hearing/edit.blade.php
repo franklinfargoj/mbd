@@ -45,9 +45,9 @@
                                     <input type="text" id="preceding_officer_name" name="preceding_officer_name" class="form-control"  value="{{ $arrData['hearing']->preceding_officer_name }}"  />
                                     <span class="help-block">{{$errors->first('preceding_officer_name')}}</span>
                                 </div>
-                                <label class="col-md-3  control-label" for="">Case Number</label>
+                                <label class="col-md-3  control-label" for="case_number">Case Number</label>
                                 <div class="col-md-3">
-                                    <input type="text" id="" name="" class="form-control validate"  value=""  />
+                                    <input type="text" id="case_number" name="case_number" class="form-control validate"  value="{{ $arrData['hearing']->case_number }}"  readonly/>
                                 </div>
                             </div>
 

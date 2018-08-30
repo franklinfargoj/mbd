@@ -17,6 +17,7 @@ class CreateHearingTable extends Migration
             $table->increments('id');
             $table->string('preceding_officer_name')->nullable();
             $table->string('case_year')->nullable();
+            $table->string('case_number')->nullable();
 
             $table->unsignedInteger('application_type_id');
             $table->foreign('application_type_id')->references('id')->on('hearing_application_type')->onDelete('cascade');

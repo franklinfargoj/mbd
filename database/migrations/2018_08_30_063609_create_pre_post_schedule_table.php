@@ -15,16 +15,11 @@ class CreatePrePostScheduleTable extends Migration
     {
         Schema::create('pre_post_schedule', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('case_year')->nullable();
-            $table->string('case_number')->nullable();
-            $table->string('appellant_name')->nullable();
-            $table->string('respondent_name')->nullable();
-            $table->string('first_hearing_date')->nullable();
-            $table->string('preceding_officer_name')->nullable();
+            $table->unsignedInteger('hearing_id');
+            $table->foreign('hearing_id')->references('id')->on('hearing')->onDelete('cascade');
             $table->string('date')->nullable();
             $table->longText('description')->nullable();
             $table->boolean('pre_post_status')->default(0)->comment("1=Prepone and 0=Postpone");
-
             $table->unsignedInteger('hearing_schedule_id');
             $table->foreign('hearing_schedule_id')->references('id')->on('hearing_schedule')->onDelete('cascade');
 

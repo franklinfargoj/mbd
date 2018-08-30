@@ -39,7 +39,7 @@ class HearingController extends Controller
 
         $columns = [
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
-            ['data' => 'id','name' => 'id','title' => 'Case Number'],
+            ['data' => 'case_number','name' => 'case_number','title' => 'Case Number'],
             ['data' => 'case_year','name' => 'case_year','title' => 'Case Year'],
             ['data' => 'office_date','name' => 'office_date','title' => 'Case Reg Date'],
             ['data' => 'applicant_name', 'name' => 'applicant_name', 'title' => 'Applicant Name'],
@@ -63,7 +63,7 @@ class HearingController extends Controller
                 $hearing_data = $hearing_data->whereDate('office_date', '<=', date('Y-m-d', strtotime($request->office_date_to)));
             }
 
-            $hearing_data = $hearing_data->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').', case_year, hearing.id as id, department_id,  office_date, applicant_name');
+            $hearing_data = $hearing_data->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').', case_year, hearing.id as id, case_number, department_id,  office_date, applicant_name');
 
             return $datatables->of($hearing_data)
                 ->editColumn('hearingDepartment', function ($hearing_data) {
@@ -117,6 +117,7 @@ class HearingController extends Controller
         $data = [
             'preceding_officer_name' => $request->preceding_officer_name,
             'case_year' => $request->case_year,
+            'case_number' => $request->case_number,
             'application_type_id' => $request->application_type_id,
             'applicant_name' => $request->applicant_name,
             'applicant_mobile_no' => $request->applicant_mobile_no,
@@ -187,6 +188,7 @@ class HearingController extends Controller
         $data = [
             'preceding_officer_name' => $request->preceding_officer_name,
             'case_year' => $request->case_year,
+            'case_number' => $request->case_number,
             'application_type_id' => $request->application_type_id,
             'applicant_name' => $request->applicant_name,
             'applicant_mobile_no' => $request->applicant_mobile_no,

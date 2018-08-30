@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\hearing_schedule;
+namespace App\Http\Requests\pre_post_schedule;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class HearingScheduleRequest extends FormRequest
+class PrePostScheduleRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,12 +24,8 @@ class HearingScheduleRequest extends FormRequest
     public function rules()
     {
         return [
-            'preceding_number' => 'required',
-            'preceding_date' => 'required',
-            'preceding_time' => 'required',
-            'description' => 'required',
-            'update_status' => 'required',
-            'file.*' => 'required|mimes:pdf',
+            'date' => 'required',
+            'description' => 'required'
         ];
     }
 }
