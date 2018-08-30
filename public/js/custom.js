@@ -85,7 +85,7 @@ $(document).ready(function() {
           department_id: "required",
           hearing_status_id: "required"
       }
-  })
+  });
 
     $("#editHearingForm").validate({
         rules:{
@@ -123,7 +123,28 @@ $(document).ready(function() {
             department_id: "required",
             hearing_status_id: "required"
         }
+    });
+
+    $("#createHearingSchedule").validate({
+
+        rules: {
+            preceding_officer_name: "required",
+            preceding_date: "required",
+            preceding_time: "required",
+            description: "required",
+            update_status: "required",
+        }
+    });
+
+    $("#prePostSchedule").validate({
+
+        rules: {
+            date: "required",
+            description: "required",
+        }
     })
+
+
 
   if($("#frontEndRegisterForm").length > 0)
   {

@@ -42,7 +42,10 @@ Route::post('loadDepartmentsOfBoardUsingAjax', 'BoardController@loadDepartmentsO
 //resolutions frontend
 Route::get('/frontend_resolution_list', 'FrontendResolutionController@index')->name('frontend_resolution_list');
 
+//Hearing Admin
 Route::resource('/hearing', 'HearingController');
 Route::resource('/schedule_hearing', 'ScheduleHearingController');
-
 Route::get('/schedule_hearing/create/{id}', 'ScheduleHearingController@create')->name('schedule_hearing.add');
+
+Route::resource('/fix_schedule', 'PrePostScheduleController');
+Route::get('/fix_schedule/create/{id}', 'PrePostScheduleController@create')->name('fix_schedule.add');

@@ -6,10 +6,14 @@
 @else
     <a href="{{ route('schedule_hearing.add', $hearing_data->id) }}"></i>Schedule Hearing</a> |
 @endif
-<a href=""></i>Prepone/ Postpone Hearing</a> |
+
+@if($hearing_data->prePostSchedule)
+    <a href="{{ route('fix_schedule.edit', $hearing_data->prePostSchedule->id) }}"></i>Prepone/ Postpone Hearing</a> |
+@else
+    <a href="#" style="pointer-events: none;cursor: default;"></i>Prepone/ Postpone Hearing</a> |
+@endif
+
 <a href=""></i>Update Status</a> |
 <a href=""></i>Case Judgement</a> |
 <a href=""></i>Forward Case</a> |
-<a href=""></i>Send Notice To Applicant</a> |
-{{--<a title="Delete" href="{{ route('resolution.delete', $resolutions->id) }}">Delete</a>--}}
-{{--<a title="Delete" href="javascript::void(0)" onclick="deleteResolution({{$resolutions->id}});">Delete</a>--}}
+<a href=""></i>Send Notice To Applicant</a>

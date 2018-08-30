@@ -66,29 +66,25 @@ class ScheduleHearingController extends Controller
         {
             if(isset($request->file['case_template'])){
                 $extension = $request->file['case_template']->getClientOriginalExtension();
-                if($extension == "pdf") {
-                    $name = File::name($request->file['case_template']->getClientOriginalName()) . '_' . $time . '.' . $extension;
-                    $path = Storage::putFileAs('/schedule_case_template', $request->file['case_template'], $name, 'public');
-                    $input['case_template'] = $path;
-                }
-                else
-                {
+                if($extension != "pdf") {
                     return redirect()->back()->with('error','Invalid type of file uploaded (only pdf allowed)');
                 }
             }
 
             if(isset($request->file['update_supporting_documents'])){
                 $extension = $request->file['update_supporting_documents']->getClientOriginalExtension();
-                if($extension == "pdf") {
-                    $name = File::name($request->file['update_supporting_documents']->getClientOriginalName()) . '_' . $time . '.' . $extension;
-                    $path = Storage::putFileAs('/schedule_supporting_document', $request->file['update_supporting_documents'], $name, 'public');
-                    $input['update_supporting_documents'] = $path;
-                }
-                else
-                {
+                if($extension != "pdf") {
                     return redirect()->back()->with('error','Invalid type of file uploaded (only pdf allowed)');
                 }
             }
+
+            $case_template_name = File::name($request->file['case_template']->getClientOriginalName()) . '_' . $time . '.' . $extension;
+            $case_template_path = Storage::putFileAs('/schedule_case_template', $request->file['case_template'], $case_template_name, 'public');
+            $input['case_template'] = $case_template_path;
+
+            $name = File::name($request->file['update_supporting_documents']->getClientOriginalName()) . '_' . $time . '.' . $extension;
+            $path = Storage::putFileAs('/schedule_supporting_document', $request->file['update_supporting_documents'], $name, 'public');
+            $input['update_supporting_documents'] = $path;
 
         }
         else
@@ -98,7 +94,7 @@ class ScheduleHearingController extends Controller
 
         HearingSchedule::create($input);
 
-        return redirect('/hearing');
+        return redirect('/hearing')->with(['success'=> 'Schedule created successfully']);
     }
 
     /**

@@ -94,7 +94,7 @@
             </li>
 
             @php
-                if (Request::is('hearing') || Request::is('hearing/*'))
+                if (Request::is('hearing') || Request::is('hearing/*') || Request::is('schedule_hearing/*'))
                 {
                     $class = "open";
                     $style = "display:block";

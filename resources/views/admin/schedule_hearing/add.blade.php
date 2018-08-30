@@ -140,7 +140,7 @@
                                     <div class="form-group">
                                         <label class="col-md-3 control-label" for="description">Description</label>
                                         <div class="col-md-3">
-                                            <textarea id="office_remark" name="description" class="form-control">{{ old('description') }}</textarea>
+                                            <textarea id="description" name="description" class="form-control">{{ old('description') }}</textarea>
                                             <span class="help-block">{{$errors->first('description')}}</span>
                                         </div>
                                     </div>
@@ -150,7 +150,7 @@
                                     <div class="form-group">
                                         <label class="col-md-3 control-label" for="case_template">Case Template</label>
                                         <div class="col-md-3">
-                                            <input type="file" id="case_template" name="file[case_template]" class="form-control">
+                                            <input type="file" id="case_template" name="file[case_template]" class="form-control file-upload">
                                             <span class="help-block">{{$errors->first('file.case_template')}}</span>
                                         </div>
                                     </div>
@@ -174,7 +174,7 @@
                                     <div class="form-group">
                                         <label class="col-md-3 control-label" for="update_supporting_documents">Update Supporting Documents</label>
                                         <div class="col-md-3">
-                                            <input type="file" id="update_supporting_documents" name="file[update_supporting_documents]" class="form-control">
+                                            <input type="file" id="update_supporting_documents" name="file[update_supporting_documents]" class="form-control file-upload">
                                             <span class="help-block">{{$errors->first('file.update_supporting_documents')}}</span>
                                         </div>
                                     </div>
@@ -206,5 +206,14 @@
 
             $('#preceding_time').mdtimepicker();
         } );
+
+        $("#createHearingSchedule").on("submit", function(){
+            $(".file-upload").each(function(){
+                $(this).rules("add", {
+                    required:true,
+                    accept: "pdf",
+                });
+            });
+        })
     </script>
 @endsection
