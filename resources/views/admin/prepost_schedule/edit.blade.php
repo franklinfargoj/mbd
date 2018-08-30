@@ -52,9 +52,11 @@
                     </div>
                 </div>
                 <div class="portlet-body form">
-                    <form role="form" id="prePostSchedule" method="post" files="true" class="form-horizontal" action="{{route('fix_schedule.update', $arrData['schedule_prepost_data']->prePostSchedule->id)}}">
+                    <form role="form" id="prePostSchedule" method="post" files="true" class="form-horizontal" action="{{route('fix_schedule.update', $arrData['schedule_prepost_data']->hearingSchedule->prePostSchedule[0]->id)}}">
                         @csrf
                         @method("PUT")
+                        <input type="hidden" name="hearing_schedule_id" value="{{ $arrData['schedule_prepost_data']->hearingSchedule->id }}">
+                        <input type="hidden" name="hearing_id" value="{{ $arrData['schedule_prepost_data']->id }}">
                         <div class="form-body">
                             <div class="row">
                                 <div class="col-md-12">
@@ -62,9 +64,9 @@
                                         <div class="col-md-9 col-md-offset-2">
                                             <div class="radio-list">
                                                 <label class="radio-inline">
-                                                    <input type="radio" name="pre_post_status" value="1" {{ ($arrData['schedule_prepost_data']->prePostSchedule->pre_post_status == 1) ? "checked" : "" }}>Prepone</label>
+                                                    <input type="radio" name="pre_post_status" value="1" {{ ($arrData['schedule_prepost_data']->hearingSchedule->prePostSchedule[0]->pre_post_status == 1) ? "checked" : "" }}>Prepone</label>
                                                 <label class="radio-inline">
-                                                    <input type="radio" name="pre_post_status" value="0" {{ ($arrData['schedule_prepost_data']->prePostSchedule->pre_post_status == 0) ? "checked" : "" }}>Postpone</label>
+                                                    <input type="radio" name="pre_post_status" value="0" {{ ($arrData['schedule_prepost_data']->hearingSchedule->prePostSchedule[0]->pre_post_status == 0) ? "checked" : "" }}>Postpone</label>
                                             </div>
                                         </div>
                                     </div>
@@ -133,7 +135,7 @@
                                     <div class="form-group">
                                         <label class="control-label col-md-3">Select Date</label>
                                         <div class="col-md-3">
-                                            <input type="text" id="date" name="date" class="form-control" value="{{ $arrData['schedule_prepost_data']->prePostSchedule->date }}"/>
+                                            <input type="text" id="date" name="date" class="form-control" value="{{ $arrData['schedule_prepost_data']->hearingSchedule->prePostSchedule[0]->date }}"/>
                                             <span class="help-block">{{$errors->first('date')}}</span>
                                         </div>
                                     </div>
@@ -143,7 +145,7 @@
                                     <div class="form-group">
                                         <label class="col-md-3 control-label" for="description">Description</label>
                                         <div class="col-md-3">
-                                            <textarea id="description" name="description" class="form-control">{{ $arrData['schedule_prepost_data']->prePostSchedule->description }}</textarea>
+                                            <textarea id="description" name="description" class="form-control">{{ $arrData['schedule_prepost_data']->hearingSchedule->prePostSchedule[0]->description }}</textarea>
                                             <span class="help-block">{{$errors->first('description')}}</span>
                                         </div>
                                     </div>

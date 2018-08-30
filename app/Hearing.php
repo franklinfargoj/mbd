@@ -60,8 +60,5 @@ class Hearing extends Model
         return $this->hasOne('App\HearingSchedule', 'hearing_id', 'id');
     }
 
-    public function prePostSchedule()
-    {
-        return $this->hasOne('App\PrePostSchedule', 'hearing_id', 'id');
-    }
+
 }

@@ -18,4 +18,10 @@ class HearingSchedule extends Model
         'update_supporting_documents',
         'hearing_id'
     ];
+
+    public function prePostSchedule()
+    {
+        return $this->hasMany('App\PrePostSchedule', 'hearing_schedule_id', 'id')
+                    ->orderBy('id', 'desc');
+    }
 }

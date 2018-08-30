@@ -80,7 +80,7 @@ class PrePostScheduleController extends Controller
     {
         $header_data = $this->header_data;
 //        $arrData['schedule_prepost_data'] = PrePostSchedule::FindOrFail($id);
-        $arrData['schedule_prepost_data'] = Hearing::with(['hearingSchedule', 'prePostSchedule'])->where('id', $id)->first();
+        $arrData['schedule_prepost_data'] = Hearing::with(['hearingSchedule.prePostSchedule'])->where('id', $id)->first();
 
         return view('admin.prepost_schedule.edit', compact('header_data', 'arrData'));
     }
@@ -94,15 +94,20 @@ class PrePostScheduleController extends Controller
      */
     public function update(PrePostScheduleRequest $request, $id)
     {
-        $pre_post_schedule = PrePostSchedule::FindOrFail($id);
+//        dd($request->all());
+//        $pre_post_schedule = PrePostSchedule::FindOrFail($id);
 
         $data = [
             'date' => $request->date,
             'description' => $request->description,
             'pre_post_status' => $request->pre_post_status,
+            'hearing_schedule_id' => $request->hearing_schedule_id,
+            'hearing_id' => $request->hearing_id,
         ];
 
-        $pre_post_schedule->update($data);
+//        $pre_post_schedule->update($data);
+
+        PrePostSchedule::create($data);
 
         return redirect('/hearing')->with('success','Hearing Rescheduled successfully');
     }
