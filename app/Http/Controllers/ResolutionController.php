@@ -97,7 +97,8 @@ class ResolutionController extends Controller
                     return $resolutions->resolutionType->name;
                 })
                 ->editColumn('file', function ($resolutions) {
-                    return 'Yet to implement';
+                    return view('admin.resolution.downloads', compact('resolutions'))->render();
+                    // return $resolutions->filename;
                 })
                 ->editColumn('published_date', function ($resolutions) {
                     return date('d-m-Y',strtotime($resolutions->published_date));

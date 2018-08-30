@@ -1,0 +1,1 @@
+<a title="Download" href="{{ asset($resolutions->filepath.$resolutions->filename) }}" download>Download</a>

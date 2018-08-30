@@ -29,6 +29,9 @@ Route::post('rti_form','RtiFormController@saveFrontendForm');
 Route::get('rti_form_success','RtiFormController@rtiFormSuccess');
 Route::get('rti_form_success_close','RtiFormController@rtiFormSuccessClose');
 Route::get('rti_form_search','RtiFormController@searchRtiForm');
+Route::get('rti_applicants','RtiFormController@rtiApplicants');
+Route::get('schedule_meeting/{id}','RtiFormController@show_schedule_meeting_form');
+Route::post('schedule_meeting_booking','RtiFormController@schedule_meeting');
 
 
 Route::get('/resolution/delete/{id}', 'ResolutionController@destroy')->name('resolution.delete');

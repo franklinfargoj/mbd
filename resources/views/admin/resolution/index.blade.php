@@ -87,7 +87,7 @@
                 From Date
               </label>
               <div class="col-md-8">
-              <input type="date" name="published_from_date" id="published_from_date" class="form-control" value="{{ isset($getData['published_from_date'])? $getData['published_from_date'] : '' }}">
+              <input type="text" name="published_from_date" id="published_from_date" class="form-control" value="{{ isset($getData['published_from_date'])? $getData['published_from_date'] : '' }}">
             </div>
               </div>
                 </div>
@@ -98,7 +98,7 @@
                 To Date
               </label>
               <div class="col-md-8">
-                <input type="date" name="published_to_date" id="published_to_date" class="form-control" value="{{ isset($getData['published_to_date'])? $getData['published_to_date'] : '' }}">
+                <input type="text" name="published_to_date" id="published_to_date" class="form-control" value="{{ isset($getData['published_to_date'])? $getData['published_to_date'] : '' }}">
               </div>
               </div>
                 </div>
@@ -139,6 +139,13 @@
 
   @section('js')
   {!! $html->scripts() !!}
+  <script>
+    $( function() {
+        $( "#published_from_date, #published_to_date" ).datepicker({
+            dateFormat: "yy-mm-dd"
+        });
+    } );
+  </script>
   <script>
     function deleteResolution(id)
     {
