@@ -34,7 +34,7 @@
     <link href="{{asset('/layouts/layout/css/themes/darkblue.min.css')}}" rel="stylesheet" type="text/css" id="style_color" />
     <link href="{{asset('/layouts/layout/css/custom.min.css')}}" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-
+    @yield('css')
     <!-- Scripts -->
     <script>
         window.Laravel = {!! json_encode([

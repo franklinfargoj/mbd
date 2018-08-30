@@ -53,4 +53,9 @@ class Hearing extends Model
     {
         return $this->hasOne('App\ApplicationType', 'id','application_type_id');
     }
+
+    public function hearingSchedule()
+    {
+        return $this->hasOne('App\HearingSchedule', 'preceding_number', 'id');
+    }
 }
