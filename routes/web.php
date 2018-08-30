@@ -52,3 +52,6 @@ Route::get('/schedule_hearing/create/{id}', 'ScheduleHearingController@create')-
 
 Route::resource('/fix_schedule', 'PrePostScheduleController');
 Route::get('/fix_schedule/create/{id}', 'PrePostScheduleController@create')->name('fix_schedule.add');
+
+Route::resource('/upload_case_judgement', 'UploadCaseJudgementController');
+Route::get('/upload_case_judgement/create/{id}', 'UploadCaseJudgementController@create')->name('upload_case_judgement.add');

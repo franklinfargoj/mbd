@@ -214,6 +214,8 @@
                     required:true,
                 });
             });
+
+            $("#update_status").attr("disabled", false);
         })
     </script>
 @endsection
