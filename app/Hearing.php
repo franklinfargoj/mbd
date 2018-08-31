@@ -21,6 +21,7 @@ class Hearing extends Model
     protected $fillable = [
         'preceding_officer_name',
         'case_year',
+        'case_number',
         'application_type_id',
         'applicant_name',
         'applicant_mobile_no',
@@ -56,6 +57,8 @@ class Hearing extends Model
 
     public function hearingSchedule()
     {
-        return $this->hasOne('App\HearingSchedule', 'preceding_number', 'id');
+        return $this->hasOne('App\HearingSchedule', 'hearing_id', 'id');
     }
+
+
 }

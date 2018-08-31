@@ -53,6 +53,7 @@ $(document).ready(function() {
       rules:{
           preceding_officer_name: "required",
           case_year: "required",
+          case_number: "required",
           application_type_id: "required",
           applicant_name: "required",
           applicant_mobile_no: {
@@ -85,7 +86,7 @@ $(document).ready(function() {
           department_id: "required",
           hearing_status_id: "required"
       }
-  })
+  });
 
     $("#editHearingForm").validate({
         rules:{
@@ -123,7 +124,27 @@ $(document).ready(function() {
             department_id: "required",
             hearing_status_id: "required"
         }
+    });
+
+    $("#createHearingSchedule").validate({
+        rules: {
+            preceding_number: "required",
+            preceding_date: "required",
+            preceding_time: "required",
+            description: "required",
+            update_status: "required",
+        }
+    });
+
+    $("#prePostSchedule").validate({
+
+        rules: {
+            date: "required",
+            description: "required",
+        }
     })
+
+
 
   if($("#frontEndRegisterForm").length > 0)
   {

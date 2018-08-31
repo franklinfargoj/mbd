@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateScheduleHearingTable extends Migration
+class CreatePrePostScheduleTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,15 @@ class CreateScheduleHearingTable extends Migration
      */
     public function up()
     {
-        Schema::create('hearing_schedule', function (Blueprint $table) {
+        Schema::create('pre_post_schedule', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('preceding_number');
             $table->unsignedInteger('hearing_id');
             $table->foreign('hearing_id')->references('id')->on('hearing')->onDelete('cascade');
-            $table->string('preceding_date')->nullable();
-            $table->string('preceding_time')->nullable();
+            $table->string('date')->nullable();
             $table->longText('description')->nullable();
-            $table->string('case_template')->nullable();
-            $table->unsignedInteger('update_status');
-            $table->foreign('update_status')->references('id')->on('hearing_status')->onDelete('cascade');
-            $table->string('update_supporting_documents')->nullable();
+            $table->boolean('pre_post_status')->default(0)->comment("1=Prepone and 0=Postpone");
+            $table->unsignedInteger('hearing_schedule_id');
+            $table->foreign('hearing_schedule_id')->references('id')->on('hearing_schedule')->onDelete('cascade');
 
             $table->timestamps();
         });
@@ -37,6 +34,6 @@ class CreateScheduleHearingTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('hearing_schedule');
+        Schema::dropIfExists('pre_post_schedule');
     }
 }
