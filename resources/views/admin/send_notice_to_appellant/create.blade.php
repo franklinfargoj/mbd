@@ -46,13 +46,13 @@
                     </div>
                 </div>
                 <div class="portlet-body form" style="display: block;">
-                    <form id="forwardCase" role="form" method="post" class="form-horizontal" action="{{route('forward_case.store')}}">
+                    <form id="sendNoticeToAppellant" role="form" method="post" class="form-horizontal" action="{{route('send_notice_to_appellant.store')}}" enctype="multipart/form-data">
                         @csrf
 
                         <div class="form-body">
                             <input type="hidden" name="hearing_id" value="{{ $arrData['hearing']->id }}">
                             <div>
-                                <h4 class="">Forward Case</h4>
+                                <h4 class="">{{$header_data['menu']}}</h4>
                                 <div class="form-group">
                                     <label class="col-md-3 control-label" for="case_year">Case Year</label>
                                     <div class="col-md-3">
@@ -97,34 +97,36 @@
 
                             <div>
                                 <h4 class="">Forward To</h4>
+
                                 <div class="form-group">
-                                    <label class="col-md-3 control-label">Board</label>
-                                    <div class="col-md-3 @if($errors->has('board')) has-error @endif">
-                                        <select name="board" id="board_id" class="form-control">
-                                            <option value="">Select Board</option>
-                                            @foreach($arrData['board'] as $boardVal)
-                                                <option value="{{ $boardVal->id }}" {{ count($arrData['board'])==1?'selected':'' }}>{{ $boardVal->board_name }}</option>
-                                            @endforeach
-                                        </select>
-                                        <span class="help-block">{{$errors->first('board')}}</span>
+                                    <label class="col-md-3 control-label" for="preceding_date">Preceding Date</label>
+                                    <div class="col-md-3">
+                                        <input type="text" id="preceding_date" name="preceding_date" class="form-control disabled_input"  value="{{ $arrData['hearing']->hearingSchedule->preceding_date }}"  readonly/>
+                                        <span class="help-block">{{$errors->first('preceding_date')}}</span>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="col-md-3 control-label">Department</label>
-                                    <div class="col-md-3 @if($errors->has('department')) has-error @endif">
-                                        <select name="department" id="department_id" class="form-control">
-                                            <option value="">Select Department</option>
-                                        </select>
-                                        <span class="help-block">{{$errors->first('department')}}</span>
+                                    <label class="col-md-3 control-label" for="preceding_time">Preceding Time</label>
+                                    <div class="col-md-3">
+                                        <input type="text" id="preceding_date" name="preceding_date" class="form-control disabled_input"  value="{{ $arrData['hearing']->hearingSchedule->preceding_time }}" readonly/>
+                                        <span class="help-block">{{$errors->first('preceding_date')}}</span>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="col-md-3 control-label">Description</label>
-                                    <div class="col-md-3 @if($errors->has('description')) has-error @endif">
-                                        <textarea name="description" id="description" class="form-control">{{old('description')}}</textarea>
-                                        <span class="help-block">{{$errors->first('description')}}</span>
+                                    <label class="col-md-3 control-label" for="upload_notice">Upload Notice</label>
+                                    <div class="col-md-3">
+                                        <input type="file" id="upload_notice" name="upload_notice" class="form-control file-upload">
+                                        <span class="help-block">{{$errors->first('upload_notice')}}</span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">Comment</label>
+                                    <div class="col-md-3 @if($errors->has('comment')) has-error @endif">
+                                        <textarea name="comment" id="comment" class="form-control">{{old('comment')}}</textarea>
+                                        <span class="help-block">{{$errors->first('comment')}}</span>
                                     </div>
                                 </div>
 

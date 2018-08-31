@@ -160,7 +160,20 @@ $(document).ready(function() {
             department: "required",
             description: "required",
         }
-    })
+    });
+
+    $("#sendNoticeToAppellant").validate({
+        rules: {
+            upload_notice: "required",
+            comment: "required",
+        }
+    });
+
+    $("#editSendNoticeToAppellant").validate({
+        rules: {
+            comment: "required",
+        }
+    });
 
 
 

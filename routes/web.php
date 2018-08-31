@@ -63,3 +63,8 @@ Route::get('/forward_case/create/{id}', 'ForwardCaseController@create')->name('f
 Route::post('/forward_case/store', 'ForwardCaseController@store')->name('forward_case.store');
 Route::get('/forward_case/edit/{id}', 'ForwardCaseController@edit')->name('forward_case.edit');
 Route::post('/forward_case/update/{id}', 'ForwardCaseController@update')->name('forward_case.update');
+
+Route::get('/send_notice_to_appellant/create/{id}', 'SendNoticeToAppellantController@create')->name('send_notice_to_appellant.create');
+Route::post('/send_notice_to_appellant/store', 'SendNoticeToAppellantController@store')->name('send_notice_to_appellant.store');
+Route::get('/send_notice_to_appellant/edit/{id}', 'SendNoticeToAppellantController@edit')->name('send_notice_to_appellant.edit');
+Route::post('/send_notice_to_appellant/update/{id}', 'SendNoticeToAppellantController@update')->name('send_notice_to_appellant.update');

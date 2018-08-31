@@ -72,5 +72,9 @@ class Hearing extends Model
                     ->orderBy('id', 'desc');
     }
 
-
+    public function hearingSendNoticeToAppellant()
+    {
+        return $this->hasMany('App\SendNoticeToAppellant', 'hearing_id', 'id')
+                    ->orderBy('id', 'desc');
+    }
 }

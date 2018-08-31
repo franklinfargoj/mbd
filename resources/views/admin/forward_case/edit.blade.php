@@ -121,7 +121,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="col-md-3 control-label">Department</label>
+                                    <label class="col-md-3 control-label">Description</label>
                                     <div class="col-md-3 @if($errors->has('description')) has-error @endif">
                                         <textarea name="description" id="description" class="form-control">{{ $arrData['hearing']->hearingForwardCase[0]->description }}</textarea>
                                         <span class="help-block">{{$errors->first('description')}}</span>
