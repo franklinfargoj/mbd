@@ -19,4 +19,5 @@
 <a href=""></i>Update Status</a> |
 <a href="{{ route('upload_case_judgement.add', $hearing_data->id) }}"></i>Case Judgement</a> |
 <a href=""></i>Forward Case</a> |
-<a href=""></i>Send Notice To Applicant</a>
+<a href=""></i>Send Notice To Applicant</a> |
+<a href="JavaScript:void(0)" onclick="deleteHearing({{$hearing_data->id}});"></i>Delete</a>

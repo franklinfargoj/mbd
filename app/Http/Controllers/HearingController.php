@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\ApplicationType;
+use App\Board;
+use App\DeletedHearing;
 use App\Department;
 use App\Hearing;
 use App\HearingStatus;
@@ -100,7 +102,8 @@ class HearingController extends Controller
     {
         $header_data = $this->header_data;
         $arrData['application_type'] = ApplicationType::all();
-        $arrData['department'] = Department::all();
+        $arrData['department'] = Department::where('status', 1)->get();
+        $arrData['board'] = Board::where('status', 1)->get();
         $arrData['status'] = HearingStatus::all();
 
         return view('admin.hearing.add', compact('header_data', 'arrData'));
@@ -133,6 +136,7 @@ class HearingController extends Controller
             'office_village' => $request->office_village,
             'office_remark' => $request->office_remark,
             'department_id' => $request->department,
+            'board_id' => $request->board_id,
             'hearing_status_id' => $request->hearing_status_id,
         ];
 
@@ -169,6 +173,7 @@ class HearingController extends Controller
         $arrData['hearing'] = Hearing::FindOrFail($id);
         $arrData['application_type'] = ApplicationType::all();
         $arrData['department'] = Department::all();
+        $arrData['board'] = Board::where('status', 1)->get();
         $arrData['status'] = HearingStatus::all();
 
         return view('admin.hearing.edit', compact('header_data', 'arrData'));
@@ -204,6 +209,7 @@ class HearingController extends Controller
             'office_village' => $request->office_village,
             'office_remark' => $request->office_remark,
             'department_id' => $request->department,
+            'board_id' => $request->board_id,
             'hearing_status_id' => $request->hearing_status_id,
         ];
 
@@ -218,8 +224,27 @@ class HearingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        $hearing = Hearing::findOrFail($id);
+
+        $hearing->delete();
+        DeletedHearing::create([
+            'hearing_id' => $id,
+            'case_number' => $hearing->case_number,
+            'case_year' => $hearing->case_year,
+            'appellant_name' => $hearing->applicant_name,
+            'description' => $hearing->office_remark,
+            'final_judgement' => $hearing->hearing_status_id,
+            'delete_reason' => $request->delete_reason,
+        ]);
+
+        return redirect()->back()->with(['success'=> 'Record deleted succesfully']);
+    }
+
+    public function loadDeleteReasonOfHearingUsingAjax(Request $request)
+    {
+        $id = $request->id;
+        return view('admin.hearing.hearingDeleteReason', compact('id'))->render();
     }
 }

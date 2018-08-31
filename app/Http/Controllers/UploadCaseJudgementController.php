@@ -46,6 +46,11 @@ class UploadCaseJudgementController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request,[
+            'description' => "required",
+            'upload_judgement_case' => "required|mimes:pdf",
+        ]);
+
         $data = [
             'hearing_id' => $request->hearing_id,
             'description' => $request->description,

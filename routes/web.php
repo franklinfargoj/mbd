@@ -47,6 +47,9 @@ Route::get('/frontend_resolution_list', 'FrontendResolutionController@index')->n
 
 //Hearing Admin
 Route::resource('/hearing', 'HearingController');
+Route::post('loadDeleteReasonOfHearingUsingAjax', 'HearingController@loadDeleteReasonOfHearingUsingAjax')->name('loadDeleteReasonOfHearingUsingAjax');
+//Route::get('/hearing/delete/{id}', 'HearingController@destroy')->name('hearing.delete');
+
 Route::resource('/schedule_hearing', 'ScheduleHearingController');
 Route::get('/schedule_hearing/create/{id}', 'ScheduleHearingController@create')->name('schedule_hearing.add');
 

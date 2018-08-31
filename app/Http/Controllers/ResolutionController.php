@@ -40,7 +40,7 @@ class ResolutionController extends Controller
         $boards = Board::where('status', 1)->get()->toArray();
         $resolutionTypes = ResolutionType::all()->toArray();
         $getData = $request->all();
-        
+
         $columns = [
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'board','name' => 'board.board_name','title' => 'Board Name'],
@@ -141,7 +141,7 @@ class ResolutionController extends Controller
     public function store(CreateResolutionRequest $request)
     {
         $dataToInsert = [
-            'board_id' => $request->board_id,
+            'board_id' => $request->board,
             'department_id' => $request->department,
             'resolution_type_id' => $request->resolution_type,
             'resolution_code' => $request->resolution_code,

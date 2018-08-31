@@ -37,6 +37,7 @@ class Hearing extends Model
         'office_village',
         'office_remark',
         'department_id',
+        'board_id',
         'hearing_status_id',
     ];
 
