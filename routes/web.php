@@ -58,3 +58,6 @@ Route::get('/fix_schedule/create/{id}', 'PrePostScheduleController@create')->nam
 
 Route::resource('/upload_case_judgement', 'UploadCaseJudgementController');
 Route::get('/upload_case_judgement/create/{id}', 'UploadCaseJudgementController@create')->name('upload_case_judgement.add');
+
+Route::get('/forward_case/create/{id}', 'ForwardCaseController@create')->name('forward_case.create');
+Route::post('/forward_case/store', 'ForwardCaseController@store')->name('forward_case.store');

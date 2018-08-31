@@ -115,7 +115,7 @@
                                     <div class="form-group">
                                         <label class="control-label col-md-3">First Hearing Date</label>
                                         <div class="col-md-3">
-                                            <input type="text" id="first_hearing_date" name="first_hearing_date" class="form-control disabled_input" value="{{ $arrData['schedule_prepost_data']->hearingSchedule->preceding_date }}"/>
+                                            <input type="text" id="first_hearing_date" name="first_hearing_date" class="form-control disabled_input" value="{{ $arrData['schedule_prepost_data']->hearingSchedule->preceding_date }}" readonly/>
                                             <span class="help-block">{{$errors->first('first_hearing_date')}}</span>
                                         </div>
                                     </div>
@@ -125,7 +125,7 @@
                                     <div class="form-group">
                                         <label class="col-md-3 control-label" for="preceding_officer_name">Preceding Officer Name</label>
                                         <div class="col-md-3">
-                                            <input type="text" id="preceding_officer_name" name="preceding_officer_name" class="form-control disabled_input"  value="{{ $arrData['schedule_prepost_data']->preceding_officer_name }}"  />
+                                            <input type="text" id="preceding_officer_name" name="preceding_officer_name" class="form-control disabled_input"  value="{{ $arrData['schedule_prepost_data']->preceding_officer_name }}" readonly />
                                             <span class="help-block">{{$errors->first('preceding_officer_name')}}</span>
                                         </div>
                                     </div>

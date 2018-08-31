@@ -143,7 +143,7 @@ $(document).ready(function() {
             date: "required",
             description: "required",
         }
-    })
+    });
 
     $("#uploadCaseJudgement").validate({
         rules: {
@@ -151,6 +151,14 @@ $(document).ready(function() {
             upload_judgement_case: {
                 required: true,
             },
+        }
+    });
+
+    $("#forwardCase").validate({
+        rules: {
+            board: "required",
+            department: "required",
+            description: "required",
         }
     })
 

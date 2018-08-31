@@ -46,6 +46,11 @@ class Hearing extends Model
         return $this->hasOne('App\Department', 'id','department_id');
     }
 
+    public function hearingBoard()
+    {
+        return $this->hasOne('App\Board', 'id','department_id');
+    }
+
     public function hearingStatus()
     {
         return $this->hasOne('App\HearingStatus', 'id','hearing_status_id');
