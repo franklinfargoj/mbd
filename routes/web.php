@@ -61,3 +61,5 @@ Route::get('/upload_case_judgement/create/{id}', 'UploadCaseJudgementController@
 
 Route::get('/forward_case/create/{id}', 'ForwardCaseController@create')->name('forward_case.create');
 Route::post('/forward_case/store', 'ForwardCaseController@store')->name('forward_case.store');
+Route::get('/forward_case/edit/{id}', 'ForwardCaseController@edit')->name('forward_case.edit');
+Route::post('/forward_case/update/{id}', 'ForwardCaseController@update')->name('forward_case.update');

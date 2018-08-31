@@ -43,4 +43,34 @@ class ForwardCaseController extends Controller
 
         return redirect('hearing')->with(['success'=> 'Record added succesfully']);
     }
+
+    public function edit($id)
+    {
+        $header_data = $this->header_data;
+        $arrData['hearing'] = Hearing::with(['hearingBoard', 'hearingDepartment', 'hearingForwardCase'])
+                                        ->where('id', $id)->first();
+        $arrData['board'] = Board::where('status', 1)->get();
+
+        return view('admin.forward_case.edit', compact('header_data', 'arrData'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $this->validate($request, [
+            'board' => "required",
+            'department' => "required",
+            'description' => "required",
+        ]);
+
+        $data = [
+            'board_id' => $request->board,
+            'department_id' => $request->department,
+            'hearing_id' => $request->hearing_id,
+            'description' => $request->description,
+        ];
+
+        ForwardCase::create($data);
+
+        return redirect('hearing')->with(['success'=> 'Record added succesfully']);
+    }
 }
