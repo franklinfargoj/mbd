@@ -52,6 +52,7 @@
                         <div class="form-body">
                             <input type="hidden" name="hearing_id" value="{{ $arrData['hearing']->id }}">
                             <input type="hidden" name="notice" id="notice" value="{{ $arrData['hearing']->hearingSendNoticeToAppellant[0]->upload_notice }}">
+                            <input type="hidden" name="upload_notice_filename" id="upload_notice_filename" value="{{ $arrData['hearing']->hearingSendNoticeToAppellant[0]->upload_notice_filename }}">
                             <div>
                                 <h4 class="">{{$header_data['menu']}}</h4>
                                 <div class="form-group">
@@ -115,14 +116,10 @@
                                     </div>
                                 </div>
 
-                                @php
-                                    $upload_notice = substr($arrData['hearing']->hearingSendNoticeToAppellant[0]->upload_notice, strpos($arrData['hearing']->hearingSendNoticeToAppellant[0]->upload_notice , "/") + 1);
-                                @endphp
-
                                 <div class="form-group">
                                     <label class="col-md-3 control-label" for="upload_notice">Upload Notice</label>
                                     <div class="col-md-3">
-                                        <input type="file" id="upload_notice" name="upload_notice" class="form-control file-upload"> {{ $upload_notice }}
+                                        <input type="file" id="upload_notice" name="upload_notice" class="form-control file-upload"> {{ $arrData['hearing']->hearingSendNoticeToAppellant[0]->upload_notice_filename }}
                                         <span class="help-block">{{$errors->first('upload_notice')}}</span>
                                     </div>
                                 </div>

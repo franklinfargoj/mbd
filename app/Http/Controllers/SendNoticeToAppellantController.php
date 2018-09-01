@@ -40,9 +40,10 @@ class SendNoticeToAppellantController extends Controller
         if($request->hasFile('upload_notice')) {
             $extension = $request->file('upload_notice')->getClientOriginalExtension();
             if ($extension == "pdf") {
-                $case_template_name = File::name($request->file('upload_notice')->getClientOriginalName()) . '_' . $time . '.' . $extension;
-                $case_template_path = Storage::putFileAs('/upload_notice', $request->file('upload_notice'), $case_template_name, 'public');
-                $data['upload_notice'] = $case_template_path;
+                $name = File::name($request->file('upload_notice')->getClientOriginalName()) . '_' . $time . '.' . $extension;
+                $path = Storage::putFileAs('/upload_notice', $request->file('upload_notice'), $name, 'public');
+                $data['upload_notice'] = $path;
+                $data['upload_notice_filename'] = File::name($request->file('upload_notice')->getClientOriginalName()). '.' . $extension;
             } else {
                 return redirect()->back()->with('error','Invalid type of file uploaded (only pdf allowed)');
             }
@@ -78,9 +79,10 @@ class SendNoticeToAppellantController extends Controller
         if($request->hasFile('upload_notice')) {
             $extension = $request->file('upload_notice')->getClientOriginalExtension();
             if ($extension == "pdf") {
-                $case_template_name = File::name($request->file('upload_notice')->getClientOriginalName()) . '_' . $time . '.' . $extension;
-                $case_template_path = Storage::putFileAs('/upload_notice', $request->file('upload_notice'), $case_template_name, 'public');
-                $data['upload_notice'] = $case_template_path;
+                $name = File::name($request->file('upload_notice')->getClientOriginalName()) . '_' . $time . '.' . $extension;
+                $path = Storage::putFileAs('/upload_notice', $request->file('upload_notice'), $name, 'public');
+                $data['upload_notice'] = $path;
+                $data['upload_notice_filename'] = File::name($request->file('upload_notice')->getClientOriginalName()). '.' . $extension;
             } else {
                 return redirect()->back()->with('error','Invalid type of file uploaded (only pdf allowed)');
             }
@@ -89,6 +91,7 @@ class SendNoticeToAppellantController extends Controller
         else
         {
             $data['upload_notice'] = $request->notice;
+            $data['upload_notice_filename'] = $request->upload_notice_filename;
         }
 
         SendNoticeToAppellant::create($data);

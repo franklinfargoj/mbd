@@ -154,6 +154,12 @@ $(document).ready(function() {
         }
     });
 
+    $("#editUploadCaseJudgement").validate({
+        rules: {
+            description: "required",
+        }
+    });
+
     $("#forwardCase").validate({
         rules: {
             board: "required",

@@ -62,9 +62,10 @@ class UploadCaseJudgementController extends Controller
         if($request->hasFile('upload_judgement_case')) {
             $extension = $request->file('upload_judgement_case')->getClientOriginalExtension();
             if ($extension == "pdf") {
-                $case_template_name = File::name($request->file('upload_judgement_case')->getClientOriginalName()) . '_' . $time . '.' . $extension;
-                $case_template_path = Storage::putFileAs('/upload_judgement_case', $request->file('upload_judgement_case'), $case_template_name, 'public');
-                $data['upload_judgement_case'] = $case_template_path;
+                $name = File::name($request->file('upload_judgement_case')->getClientOriginalName()) . '_' . $time . '.' . $extension;
+                $path = Storage::putFileAs('/upload_judgement_case', $request->file('upload_judgement_case'), $name, 'public');
+                $data['upload_judgement_case'] = $path;
+                $data['judgement_case_filename'] = File::name($request->file('upload_judgement_case')->getClientOriginalName()). '.' . $extension;
             } else {
                 return redirect()->back()->with('error','Invalid type of file uploaded (only pdf allowed)');
             }
@@ -94,7 +95,10 @@ class UploadCaseJudgementController extends Controller
      */
     public function edit($id)
     {
-        //
+        $header_data = $this->header_data;
+        $arrData['hearing_data'] = Hearing::with('hearingUploadCaseJudgement')->first();
+
+        return view('admin.upload_case_judgement.edit', compact('header_data', 'arrData'));
     }
 
     /**
@@ -106,7 +110,39 @@ class UploadCaseJudgementController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request,[
+            'description' => "required",
+        ]);
+
+        $data = [
+            'hearing_id' => $request->hearing_id,
+            'description' => $request->description,
+            'case_year' => $request->case_year,
+            'case_number' => $request->case_number,
+        ];
+
+        $time = time();
+        if($request->hasFile('upload_judgement_case')) {
+            $extension = $request->file('upload_judgement_case')->getClientOriginalExtension();
+            if ($extension == "pdf") {
+                $name = File::name($request->file('upload_judgement_case')->getClientOriginalName()) . '_' . $time . '.' . $extension;
+                $path = Storage::putFileAs('/upload_judgement_case', $request->file('upload_judgement_case'), $name, 'public');
+                $data['upload_judgement_case'] = $path;
+                $data['judgement_case_filename'] = File::name($request->file('upload_judgement_case')->getClientOriginalName()). '.' . $extension;
+            } else {
+                return redirect()->back()->with('error','Invalid type of file uploaded (only pdf allowed)');
+            }
+
+        }
+        else
+        {
+            $data['upload_judgement_case'] = $request->upload_case;
+            $data['judgement_case_filename'] = $request->judgement_case_filename;
+        }
+
+        UploadCaseJudgement::create($data);
+//
+        return redirect('/hearing')->with('success','Case Judgement document uploaded successfully');
     }
 
     /**

@@ -11,6 +11,7 @@ class UploadCaseJudgement extends Model
     protected $fillable = [
         'hearing_id',
         'upload_judgement_case',
-        'description'
+        'description',
+        'judgement_case_filename'
     ];
 }

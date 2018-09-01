@@ -53,7 +53,7 @@ class HearingController extends Controller
 
             DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
 
-            $hearing_data = Hearing::with(['hearingDepartment', 'hearingSchedule.prePostSchedule', 'hearingForwardCase', 'hearingSendNoticeToAppellant']);
+            $hearing_data = Hearing::with(['hearingDepartment', 'hearingSchedule.prePostSchedule', 'hearingForwardCase', 'hearingSendNoticeToAppellant', 'hearingUploadCaseJudgement']);
 
             if($request->office_date_from)
             {

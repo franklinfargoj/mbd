@@ -11,6 +11,7 @@ class SendNoticeToAppellant extends Model
     protected $fillable = [
         'hearing_id',
         'upload_notice',
-        'comment'
+        'comment',
+        'upload_notice_filename'
     ];
 }
