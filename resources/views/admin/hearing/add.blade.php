@@ -186,6 +186,27 @@
                                         <textarea id="office_remark" name="office_remark" class="form-control">{{ old('office_remark') }}</textarea>
                                         <span class="help-block">{{$errors->first('office_remark')}}</span>
                                     </div>
+
+                                    <label class="col-md-3 control-label" for="hearing_status_id">Status</label>
+                                    <div class="col-md-3">
+                                        <select class="form-control" id="hearing_status_id" name="hearing_status_id">
+                                            @foreach($arrData['status'] as $hearing_status)
+                                                <option value="{{ $hearing_status->id  }}">{{ $hearing_status->status_title}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label" for="board_id">Board</label>
+                                    <div class="col-md-3">
+                                        <select class="form-control" id="board_id" name="board_id">
+                                            @foreach($arrData['board'] as $board_details)
+                                                <option value="{{ $board_details->id  }}">{{ $board_details->board_name }}</option>
+                                            @endforeach
+                                        </select>
+                                        <span class="help-block">{{$errors->first('board_id')}}</span>
+                                    </div>
                                     <label class="col-md-3 control-label" for="department">Department</label>
                                     <div class="col-md-3">
                                         <select class="form-control" id="department" name="department">
@@ -194,17 +215,6 @@
                                             @endforeach
                                         </select>
                                         <span class="help-block">{{$errors->first('department')}}</span>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="col-md-3 control-label" for="hearing_status_id">Status</label>
-                                    <div class="col-md-3">
-                                        <select class="form-control" id="hearing_status_id" name="hearing_status_id">
-                                            @foreach($arrData['status'] as $hearing_status)
-                                                <option value="{{ $hearing_status->id  }}">{{ $hearing_status->status_title}}</option>
-                                            @endforeach
-                                        </select>
                                     </div>
                                 </div>
 

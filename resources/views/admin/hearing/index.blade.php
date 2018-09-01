@@ -85,6 +85,12 @@
             <!-- END SAMPLE TABLE PORTLET-->
         </div>
     </div>
+    <input type="hidden" id="myModalBtn" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" />
+
+    <!-- Modal -->
+    <div id="myModal" class="modal fade" role="dialog">
+
+    </div>
 @endsection
 
 @section('js')
@@ -96,8 +102,8 @@
             });
         } );
     </script>
-    {{--<script>
-        function deleteResolution(id)
+    <script>
+        function deleteHearing(id)
         {
             if(confirm("Are you sure to delete?"))
             {
@@ -109,7 +115,7 @@
                     data:{
                         id:id
                     },
-                    url:"{{ route('loadDeleteReasonOfResolutionUsingAjax') }}",
+                    url:"{{ route('loadDeleteReasonOfHearingUsingAjax') }}",
                     success:function(res)
                     {
                         $("#myModal").html(res);
@@ -118,6 +124,6 @@
                 });
             }
         }
-    </script>--}}
+    </script>
 @endsection
 

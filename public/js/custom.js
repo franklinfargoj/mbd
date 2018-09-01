@@ -126,6 +126,8 @@ $(document).ready(function() {
         }
     });
 
+
+
     $("#createHearingSchedule").validate({
         rules: {
             preceding_number: "required",
@@ -137,12 +139,47 @@ $(document).ready(function() {
     });
 
     $("#prePostSchedule").validate({
-
         rules: {
             date: "required",
             description: "required",
         }
-    })
+    });
+
+    $("#uploadCaseJudgement").validate({
+        rules: {
+            description: "required",
+            upload_judgement_case: {
+                required: true,
+            },
+        }
+    });
+
+    $("#editUploadCaseJudgement").validate({
+        rules: {
+            description: "required",
+        }
+    });
+
+    $("#forwardCase").validate({
+        rules: {
+            board: "required",
+            department: "required",
+            description: "required",
+        }
+    });
+
+    $("#sendNoticeToAppellant").validate({
+        rules: {
+            upload_notice: "required",
+            comment: "required",
+        }
+    });
+
+    $("#editSendNoticeToAppellant").validate({
+        rules: {
+            comment: "required",
+        }
+    });
 
 
 

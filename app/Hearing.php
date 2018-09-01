@@ -37,12 +37,18 @@ class Hearing extends Model
         'office_village',
         'office_remark',
         'department_id',
+        'board_id',
         'hearing_status_id',
     ];
 
     public function hearingDepartment()
     {
         return $this->hasOne('App\Department', 'id','department_id');
+    }
+
+    public function hearingBoard()
+    {
+        return $this->hasOne('App\Board', 'id','department_id');
     }
 
     public function hearingStatus()
@@ -60,5 +66,21 @@ class Hearing extends Model
         return $this->hasOne('App\HearingSchedule', 'hearing_id', 'id');
     }
 
+    public function hearingForwardCase()
+    {
+        return $this->hasMany('App\ForwardCase', 'hearing_id', 'id')
+                    ->orderBy('id', 'desc');
+    }
 
+    public function hearingSendNoticeToAppellant()
+    {
+        return $this->hasMany('App\SendNoticeToAppellant', 'hearing_id', 'id')
+                    ->orderBy('id', 'desc');
+    }
+
+    public function hearingUploadCaseJudgement()
+    {
+        return $this->hasMany('App\UploadCaseJudgement', 'hearing_id', 'id')
+                    ->orderBy('id', 'desc');
+    }
 }
