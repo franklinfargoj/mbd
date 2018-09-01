@@ -33,7 +33,7 @@ class RtiFormTableSeeder extends Seeder
 	        	'department_id' => '1',
 	        	'unique_id' => '201808291535538158',
 	        	'status' => '1',
-	        	'user_id' => '2'
+	        	//'user_id' => '2'
 	        ]);
     	}
     }
