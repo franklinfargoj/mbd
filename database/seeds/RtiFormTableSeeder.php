@@ -31,7 +31,9 @@ class RtiFormTableSeeder extends Seeder
 	        	'created_at' => \Carbon\Carbon::now(),
 	        	'updated_at' => \Carbon\Carbon::now(),
 	        	'department_id' => '1',
-	        	'unique_id' => '201808291535538158'
+	        	'unique_id' => '201808291535538158',
+	        	'status' => '1',
+	        	'user_id' => '2'
 	        ]);
     	}
     }

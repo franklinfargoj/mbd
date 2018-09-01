@@ -7,7 +7,7 @@
                 <i class="fa fa-circle"></i>
             </li>
             <li>
-                <span>Hearing</span>
+                <span>RTI Applicants</span>
             </li>
         </ul>
         <div class="page-toolbar">
@@ -16,7 +16,7 @@
     </div>
     <!-- END PAGE BAR -->
     <!-- BEGIN PAGE TITLE-->
-    <h1 class="page-title"> Hearing
+    <h1 class="page-title"> RTI Applicants
         <small>&nbsp;</small>
     </h1>
     <!-- END PAGE TITLE-->
@@ -38,44 +38,48 @@
             <div class="portlet box purple">
                 <div class="portlet-title">
                     <div class="caption">
-                        <i class="fa fa-cogs"></i>Hearing Listing
+                        <i class="fa fa-cogs"></i>RTI Applicants Listing
                     </div>
                     <div class="tools">
-                        <a href="{{route('hearing.create')}}" class="yellow">Add Hearing</a>
+                        <!-- <a href="{{route('hearing.create')}}" class="yellow">Add Hearing</a> -->
                     </div>
                 </div>
                 <div class="portlet-body">
                     <div class="table-responsive">
-
                         <div class="portlet-body form">
-                            <form role="form" method="get" action="{{ route('hearing.index') }}">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="published_from_date" class="col-md-4 control-label">
-                                            From Date
-                                        </label>
-                                        <div class="col-md-8">
-                                            <input type="text" name="office_date_from" id="office_date_from" class="form-control" value="{{ isset($getData['office_date_from'])? $getData['office_date_from'] : '' }}">
-                                        </div>
-                                    </div>
+                            <div class="col-md-12">
+                    <div class="col-md-6">
+                        <form role="form" method="get" action="{{ url('rti_applicants') }}">
+                            <div class="form-group">
+                                <label for="date_of_submission" class="col-md-4 control-label">
+                                    Date of Submission
+                                </label>
+                                <div class="col-md-8">
+                                    <input type="text" name="date_of_submission" id="date_of_submission" class="form-control" value="{{ isset($getData['date_of_submission'])? $getData['date_of_submission'] : '' }}">
                                 </div>
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="col-md-4 control-label">
-                                            To Date
-                                        </label>
-                                        <div class="col-md-8">
-                                            <input type="text" name="office_date_to" id="office_date_to" class="form-control" value="{{ isset($getData['office_date_to'])? $getData['office_date_to'] : '' }}">
-                                        </div>
-                                    </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">
+                                    Status
+                                </label>
+                                <div class="col-md-9">
+                                    <select name="status" class="form-control">
+                                        <option value="0">  Select Status  </option>
+                                      @foreach($rti_statuses as $rti_status)
+                                        <option value="{{ $rti_status['id'] }}" 
+                                        @if(count($getData) > 0)
+                                            {{ ($rti_status['id'] == $getData['status'] ?'selected':'' )}}
+                                        @endif>{{ $rti_status['status_title'] }}</option>
+                                      @endforeach
+                                    </select>
                                 </div>
-
-                                <div class="col-md-6" style="margin-bottom: 15px;">
-                                    <input type="submit" value="search" class="btn blue">
-                                </div>
-
-                            </form>
+                            </div>
+                            <div class="col-md-6" style="margin-bottom: 15px;">
+                                <input type="submit" value="search" class="btn blue">
+                            </div>
+                        </form>
+                    </div>
+                </div>
                         </div>
 
                         {!! $html->table() !!}
@@ -91,7 +95,7 @@
     {!! $html->scripts() !!}
     <script>
         $( function() {
-            $( "#office_date_from, #office_date_to" ).datepicker({
+            $( "#date_of_submission" ).datepicker({
                 dateFormat: "yy-mm-dd"
             });
         } );

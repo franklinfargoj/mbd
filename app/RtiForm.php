@@ -15,5 +15,20 @@ class RtiForm extends Model
         return $this->belongsTo('frontend_users');
     }
 
+    public function users(){
+    	return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function rti_schedule_meetings(){
+    	return $this->belongsTo(RtiScheduleMeeting::class, 'rti_schedule_meeting_id');
+    }
+
+    public function rti_send_info(){
+    	return $this->belongsTo(RtiSendInfo::class, 'rti_send_info_id');
+    }
+
+    public function rti_forward_application(){
+    	return $this->belongsTo(RtiForwardApplication::class, 'rti_forward_application_id');
+    }
 
 }

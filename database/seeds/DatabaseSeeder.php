@@ -16,5 +16,7 @@ class DatabaseSeeder extends Seeder
         $this->call(BoardsAndDepartmentsTableSeeder::class);
         $this->call(ApplicationTypeSeeder::class);
         $this->call(HearingStatusSeeder::class);
+        $this->call(MasterRtiStatusTableSeeder::class);
+        $this->call(RtiFormTableSeeder::class);
     }
 }
