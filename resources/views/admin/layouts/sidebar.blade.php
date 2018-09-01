@@ -93,6 +93,16 @@
                 </a>
             </li>
 
+            <li class="nav-item {{(str_contains(Request::path(), 'architect_application') === true)?' active':''}} ">
+                <a href="{{url('/architect_application')}}" class="nav-link nav-toggle">
+                    <i class="icon-diamond"></i>
+                    <span class="title">Architect Application</span>
+                    {!! (str_contains(Request::path(), 'architect_application') === true)?'<span class="selected"></span>':'' !!}
+
+                </a>
+            </li>
+
+
             @php
                 if (Request::is('hearing') || Request::is('hearing/*') || Request::is('schedule_hearing/*')  || Request::is('fix_schedule/*'))
                 {

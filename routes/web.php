@@ -85,3 +85,6 @@ Route::post('/society_detail/store', 'SocietyController@store')->name("society_d
 Route::get('/lease_detail/{id}', 'LeaseDetailController@index')->name("lease_detail.index");
 Route::get('/lease_detail/create/{id}', 'LeaseDetailController@create')->name("lease_detail.create");
 Route::post('/lease_detail/store', 'LeaseDetailController@store')->name("lease_detail.store");
+
+
+Route::get('architect_application','ArchitectApplicationController@index');
