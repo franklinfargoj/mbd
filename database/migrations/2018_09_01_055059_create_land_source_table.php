@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class DropRtiStatusIdRtiFormTable extends Migration
+class CreateLandSourceTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,11 @@ class DropRtiStatusIdRtiFormTable extends Migration
      */
     public function up()
     {
-        Schema::table('rti_form', function (Blueprint $table) {
-            $table->dropColumn('rti_status_id');
+        Schema::create('land_source', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('source_name')->nullable();
+            $table->boolean('status');
+            $table->timestamps();
         });
     }
 
@@ -25,8 +28,6 @@ class DropRtiStatusIdRtiFormTable extends Migration
      */
     public function down()
     {
-        Schema::table('rti_form', function (Blueprint $table) {
-            $table->integer('rti_status_id');
-        });
+        Schema::dropIfExists('land_source');
     }
 }

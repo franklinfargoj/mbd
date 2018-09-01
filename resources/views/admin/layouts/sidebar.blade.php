@@ -128,6 +128,16 @@
                     </li>
                 </ul>
             </li>
+
+            <li class="nav-item {{(str_contains(Request::path(), 'village_detail') === true)?' active':''}} ">
+                <a href="{{url('/village_detail')}}" class="nav-link nav-toggle">
+                    <i class="icon-diamond"></i>
+                    <span class="title">Land</span>
+                    {!! (str_contains(Request::path(), 'village_detail') === true)?'<span class="selected"></span>':'' !!}
+
+                </a>
+            </li>
+
         </ul>
         <!-- END SIDEBAR MENU -->
         <!-- END SIDEBAR MENU -->
