@@ -14,6 +14,7 @@ class FinalDropRtiStatusIdRtiFormTable extends Migration
     public function up()
     {
         Schema::table('rti_form', function (Blueprint $table) {
+            $table->dropForeign(['rti_status_id']);
             $table->dropColumn('rti_status_id');
         });
     }
