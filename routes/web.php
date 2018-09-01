@@ -68,3 +68,12 @@ Route::get('/send_notice_to_appellant/create/{id}', 'SendNoticeToAppellantContro
 Route::post('/send_notice_to_appellant/store', 'SendNoticeToAppellantController@store')->name('send_notice_to_appellant.store');
 Route::get('/send_notice_to_appellant/edit/{id}', 'SendNoticeToAppellantController@edit')->name('send_notice_to_appellant.edit');
 Route::post('/send_notice_to_appellant/update/{id}', 'SendNoticeToAppellantController@update')->name('send_notice_to_appellant.update');
+
+Route::resource('/village_detail', 'VillageDetailController');
+Route::get('/society_detail/{id}', 'SocietyController@index')->name("society_detail.index");
+Route::get('/society_detail/create/{id}', 'SocietyController@create')->name("society_detail.create");
+Route::post('/society_detail/store', 'SocietyController@store')->name("society_detail.store");
+
+Route::get('/lease_detail/{id}', 'LeaseDetailController@index')->name("lease_detail.index");
+Route::get('/lease_detail/create/{id}', 'LeaseDetailController@create')->name("lease_detail.create");
+Route::post('/lease_detail/store', 'LeaseDetailController@store')->name("lease_detail.store");
