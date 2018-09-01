@@ -31,7 +31,14 @@ Route::get('rti_form_success_close','RtiFormController@rtiFormSuccessClose');
 Route::get('rti_form_search','RtiFormController@searchRtiForm');
 Route::get('rti_applicants','RtiFormController@rtiApplicants');
 Route::get('schedule_meeting/{id}','RtiFormController@show_schedule_meeting_form');
-Route::post('schedule_meeting_booking','RtiFormController@schedule_meeting');
+Route::post('rti_schedule_meeting/{id}','RtiFormController@schedule_meeting');
+Route::get('view_applicant/{id}','RtiFormController@view_applicant');
+Route::get('update_status/{id}','RtiFormController@show_update_status_form');
+Route::post('rti_update_status/{id}','RtiFormController@update_status');
+Route::get('rti_send_info/{id}','RtiFormController@show_send_info_form');
+Route::post('rti_sent_info/{id}','RtiFormController@send_info');
+Route::get('rti_forward_application/{id}','RtiFormController@show_forward_application_form');
+Route::post('rti_forwarded_application/{id}','RtiFormController@forward_application');
 
 
 Route::get('/resolution/delete/{id}', 'ResolutionController@destroy')->name('resolution.delete');
