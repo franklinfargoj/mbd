@@ -9,10 +9,10 @@ use Config;
 class ArchitectApplicationController extends Controller
 {
   public $header_data = array(
-    'menu' => 'Architect Apllication',
-    'menu_url' => 'faq',
+    'menu' => 'Architect Application',
+    'menu_url' => 'architect_application',
     'page' => '',
-    'side_menu' => 'faq'
+    'side_menu' => 'architect_application'
   );
   protected $list_num_of_records_per_page;
 
@@ -28,10 +28,20 @@ class ArchitectApplicationController extends Controller
   */
   public function index()
   {
-    $applications = ArchitectApplication::all();
+    $applications = ArchitectApplication::select('*',\DB::raw("(SELECT SUM(marks) FROM architect_application_marks WHERE architect_application_marks.architect_application_id = architect_application.id) as marks"))->get();
+    $shortlisted = $applications->where('application_status', 3);
+    $finalSelected = $applications->where('application_status', 4);
     $header_data = $this->header_data;
-    return view('admin.architect.index',compact('applications','header_data'));
+    return view('admin.architect.index',compact('applications','header_data','shortlisted','finalSelected'));
   }
 
+  public function viewApplication()
+  {
 
+  }
+
+  public function evaluateApplication()
+  {
+
+  }
 }
