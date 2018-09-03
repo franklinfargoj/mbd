@@ -41,7 +41,11 @@
                         <i class="fa fa-cogs"></i>Lease Details
                     </div>
                     <div class="tools">
-                        <a href="{{route('lease_detail.create', $id)}}" class="yellow">Add Lease</a>
+                        @if($count > 0)
+                            <a href="{{route('renew-lease.renew', $id)}}" class="yellow">Renew Lease</a>
+                        @else
+                            <a href="{{route('lease_detail.create', $id)}}" class="yellow">Add Lease</a>
+                        @endif
                     </div>
                 </div>
                 <div class="portlet-body">

@@ -31,11 +31,11 @@ class LeaseDetailRequest extends FormRequest
             'lease_start_date' => "required",
             'lease_rent' => "required",
             'lease_rent_start_month' => "required",
-            'interest_per_lease_agreement' => "required",
+            'interest_per_lease_agreement' => "required|numeric|max:100",
             'lease_renewal_date' => "required",
             'lease_renewed_period' => "required",
             'rent_per_renewed_lease' => "required",
-            'interest_per_renewed_lease_agreement' => "required",
+            'interest_per_renewed_lease_agreement' => "required|numeric|max:100",
             'month_rent_per_renewed_lease' => "required",
         ];
     }

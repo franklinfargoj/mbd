@@ -32,6 +32,7 @@ class LeaseDetail extends Model
         'interest_per_renewed_lease_agreement',
         'month_rent_per_renewed_lease',
         'payment_detail',
+        'lease_status',
         'society_id',
     ];
 

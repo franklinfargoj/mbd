@@ -11,7 +11,7 @@
                 <i class="fa fa-circle"></i>
             </li>
             <li>
-                Add {{$header_data['menu']}}
+                Renew {{$header_data['menu']}}
             </li>
         </ul>
         <div class="page-toolbar">
@@ -30,12 +30,12 @@
             <div class="portlet box purple">
                 <div class="portlet-title">
                     <div class="caption">
-                        <i class="fa fa-gift"></i> Add {{$header_data['menu']}} </div>
+                        <i class="fa fa-gift"></i> Renew {{$header_data['menu']}} </div>
                     <div class="tools">
                     </div>
                 </div>
                 <div class="portlet-body form" style="display: block;">
-                    <form id="addLeaseDetail" role="form" method="post" class="form-horizontal" action="{{route('lease_detail.store')}}">
+                    <form id="renewLeaseDetail" role="form" method="post" class="form-horizontal" action="{{route('renew-lease.update-lease', $id)}}">
                         @csrf
 
                         <input type="hidden" name="society_id" value="{{ $id }}">
@@ -43,7 +43,7 @@
                             <div class="form-group">
                                 <label class="col-md-3  control-label" for="lease_rule_other">Lease rule 16 & other</label>
                                 <div class="col-md-3">
-                                    <input type="text" id="lease_rule_other" name="lease_rule_other" class="form-control validate"  value="{{ old('lease_rule_other') }}"  />
+                                    <input type="text" id="lease_rule_other" name="lease_rule_other" class="form-control validate"  value="{{ old('lease_rule_16_other') }}"  />
                                     <span class="help-block">{{$errors->first('lease_rule_other')}}</span>
                                 </div>
 
@@ -57,7 +57,7 @@
                             <div class="form-group">
                                 <label class="col-md-3 control-label" for="taluka">Area</label>
                                 <div class="col-md-3">
-                                    <input type="text" id="area" name="area" class="form-control"  value="{{ old('area') }}"  />
+                                    <input type="text" id="area" name="area" class="form-control"  value="{{ $arrData['lease_data']->area }}"  />
                                     <span class="help-block">{{$errors->first('area')}}</span>
                                 </div>
 
@@ -132,7 +132,7 @@
                             <div class="form-group">
                                 {{--<label class="col-md-3 control-label" for="rent_per_renewed_lease">Lease rent as per renewed lease</label>
                                 <div class="col-md-3">
-                                    <input type="text" id="rent_per_renewed_lease" name="rent_per_renewed_lease" class="form-control"  value="{{ old('rent_per_renewed_lease') }}"  />
+                                    <input type="text" id="rent_per_renewed_lease" name="rent_per_renewed_lease" class="form-control"  value="{{ $arrData['lease_data']->rent_per_renewed_lease }}"  />
                                     <span class="help-block">{{$errors->first('rent_per_renewed_lease')}}</span>
                                 </div>--}}
 

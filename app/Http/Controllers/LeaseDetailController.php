@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\lease_detail\LeaseDetailRequest;
 use App\LeaseDetail;
+use App\MasterMonth;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Config;
@@ -34,6 +35,7 @@ class LeaseDetailController extends Controller
         $header_data = $this->header_data;
         $getData = $request->all();
 
+        $count = LeaseDetail::with('leaseSociety')->where(['society_id' => $id, 'lease_status' => 1])->get()->count();
         $columns = [
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'lease_rule_16_other','name' => 'lease_rule_16_other','title' => 'Lease rule 16 & other'],
@@ -48,19 +50,9 @@ class LeaseDetailController extends Controller
 
             DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
 
-            $lease_data = LeaseDetail::with('leaseSociety')->where('society_id', $id);
+            $lease_data = LeaseDetail::with('leaseSociety')->where(['society_id' => $id, 'lease_status' => 1]);
 
-//            if($request->office_date_from)
-//            {
-//                $hearing_data = $hearing_data->whereDate('office_date', '>=', date('Y-m-d', strtotime($request->office_date_from)));
-//            }
-//
-//            if($request->office_date_to)
-//            {
-//                $hearing_data = $hearing_data->whereDate('office_date', '<=', date('Y-m-d', strtotime($request->office_date_to)));
-//            }
-
-            $lease_data = $lease_data->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').',lease_rule_16_other, lease_detail.id as id, area, society_id, lease_period, lease_start_date');
+            $lease_data = $lease_data->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').',lease_rule_16_other, lease_detail.id as id, lease_detail.area as area, society_id, lease_period, lease_start_date');
 
             return $datatables->of($lease_data)
                 ->editColumn('leaseSociety', function ($lease_data) {
@@ -72,7 +64,7 @@ class LeaseDetailController extends Controller
 
         $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
 
-        return view('admin.lease_detail.index', compact('html','header_data','getData', 'id'));
+        return view('admin.lease_detail.index', compact('html','header_data','getData', 'count', 'id'));
     }
 
     protected function getParameters() {
@@ -93,8 +85,9 @@ class LeaseDetailController extends Controller
     public function create($id)
     {
         $header_data = $this->header_data;
+        $arrData['month_data'] = MasterMonth::all();
 
-        return view('admin.lease_detail.create', compact('header_data', 'id'));
+        return view('admin.lease_detail.create', compact('header_data', 'arrData', 'id'));
     }
 
     /**
@@ -125,6 +118,42 @@ class LeaseDetailController extends Controller
         LeaseDetail::create($lease_detail);
 
         return redirect('/lease_detail/'.$request->society_id)->with(['success'=> 'Lease added succesfully']);
+    }
+
+    public function renewLease($id)
+    {
+        $header_data = $this->header_data;
+        $arrData['month_data'] = MasterMonth::all();
+        $arrData['lease_data'] = LeaseDetail::where(['society_id' => $id, 'lease_status' => 1])->first();
+
+        return view('admin.lease_detail.renew-lease', compact('header_data', 'arrData', 'id'));
+    }
+
+    public function updateLease(LeaseDetailRequest $request, $id)
+    {
+        $lease_data = LeaseDetail::where('society_id', $id)->update(['lease_status' => 0]);
+
+        $lease_detail = [
+            'lease_rule_16_other' => $request->lease_rule_other,
+            'lease_basis' => $request->lease_basis,
+            'area' => $request->area,
+            'lease_period' => $request->lease_period,
+            'lease_start_date' => $request->lease_start_date,
+            'lease_rent' => $request->lease_rent,
+            'lease_rent_start_month' => $request->lease_rent_start_month,
+            'interest_per_lease_agreement' => $request->interest_per_lease_agreement,
+            'lease_renewal_date' => $request->lease_renewal_date,
+            'lease_renewed_period' => $request->lease_renewed_period,
+            'rent_per_renewed_lease' => $request->rent_per_renewed_lease,
+            'interest_per_renewed_lease_agreement' => $request->interest_per_renewed_lease_agreement,
+            'month_rent_per_renewed_lease' => $request->month_rent_per_renewed_lease,
+            'society_id' => $request->society_id,
+            'lease_status' => 1
+        ];
+
+        LeaseDetail::create($lease_detail);
+
+        return redirect('/lease_detail/'.$request->society_id)->with(['success'=> 'Lease renewed succesfully']);
     }
 
     /**
