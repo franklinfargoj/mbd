@@ -4,7 +4,7 @@ namespace App\Http\Requests\village_detail;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class VillageDetailRequest extends FormRequest
+class EditVillageDetailRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -34,7 +34,6 @@ class VillageDetailRequest extends FormRequest
             'total_area' => "required",
             'possession_date' => "required",
             'remark' => "required",
-            'extract' => "required_if:file_upload,==,1|mimes:pdf",
             'mhada_name' => "required",
             'property_card' => "required",
             'property_card_mhada_name' => "required",

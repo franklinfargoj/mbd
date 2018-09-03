@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Board;
+use App\Http\Requests\village_detail\EditVillageDetailRequest;
 use App\Http\Requests\village_detail\VillageDetailRequest;
 use App\LandSource;
 use App\VillageDetail;
@@ -46,14 +47,14 @@ class VillageDetailController extends Controller
             ['data' => 'villageLandSource','name' => 'villageLandSource.source_name','title' => 'Type of Land'],
             ['data' => 'land_address', 'name' => 'land_address', 'title' => 'Land Address'],
             ['data' => 'possession_date','name' => 'possession_date','title' => 'Possession Date'],
-//            ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
+            ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
         ];
 
         if ($datatables->getRequest()->ajax()) {
 
             DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
 
-            $village_data = VillageDetail::with(['villageLandSource', 'VillageBoard']);
+            $village_data = VillageDetail::with(['villageLandSource', 'villageBoard']);
 
 //            if($request->office_date_from)
 //            {
@@ -77,10 +78,10 @@ class VillageDetailController extends Controller
                 ->editColumn('villageLandSource', function ($village_data) {
                     return $village_data->villageLandSource->source_name;
                 })
-                /*->editColumn('actions', function ($hearing_data) {
-                    return view('admin.hearing.actions', compact('hearing_data'))->render();
-                })*/
-                ->rawColumns(['villageBoard', 'villageLandSource', 'village_name'])
+                ->editColumn('actions', function ($village_data) {
+                    return view('admin.village_detail.actions', compact('village_data'))->render();
+                })
+                ->rawColumns(['villageBoard', 'villageLandSource', 'village_name', 'actions'])
                 ->make(true);
         }
 
@@ -94,7 +95,7 @@ class VillageDetailController extends Controller
             'serverSide' => true,
             'processing' => true,
             'ordering'   =>'isSorted',
-            "order"=> [5, "desc" ],
+            "order"=> [6, "desc" ],
             "pageLength" => $this->list_num_of_records_per_page
         ];
     }
@@ -139,18 +140,23 @@ class VillageDetailController extends Controller
         ];
 
         $time = time();
-        if($request->hasFile('extract')) {
-            $extension = $request->file('extract')->getClientOriginalExtension();
-            if ($extension == "pdf") {
-                $name = File::name($request->file('extract')->getClientOriginalName()) . '_' . $time . '.' . $extension;
-                $path = Storage::putFileAs('/7_12_extract_document', $request->file('extract'), $name, 'public');
-                $village_data['7_12_extract'] = 1;
-                $village_data['extract_file_path'] = $path;
-                $village_data['extract_file_name'] = File::name($request->file('extract')->getClientOriginalName()). '.' . $extension;
-            } else {
-                return redirect()->back()->with('error','Invalid type of file uploaded (only pdf allowed)');
-            }
 
+        if($request->file_upload == 1) {
+            if ($request->hasFile('extract')) {
+                $extension = $request->file('extract')->getClientOriginalExtension();
+                if ($extension == "pdf") {
+                    $name = File::name($request->file('extract')->getClientOriginalName()) . '_' . $time . '.' . $extension;
+                    $path = Storage::putFileAs('/7_12_extract_document', $request->file('extract'), $name, 'public');
+                    $village_data['7_12_extract'] = 1;
+                    $village_data['extract_file_path'] = $path;
+                    $village_data['extract_file_name'] = File::name($request->file('extract')->getClientOriginalName()) . '.' . $extension;
+                } else {
+                    return redirect()->back()->with('error', 'Invalid type of file uploaded (only pdf allowed)');
+                }
+
+            } else {
+                return redirect()->back()->with('error', 'Please select file to upload');
+            }
         }
         else
         {
@@ -181,7 +187,12 @@ class VillageDetailController extends Controller
      */
     public function edit($id)
     {
-        //
+        $header_data = $this->header_data;
+        $arrData['board'] = Board::where('status', 1)->get();
+        $arrData['land_source'] = LandSource::where('status', 1)->get();
+        $arrData['village_data'] = VillageDetail::FindOrFail($id)->toArray();
+
+        return view('admin.village_detail.edit', compact('header_data', 'arrData'));
     }
 
     /**
@@ -191,9 +202,55 @@ class VillageDetailController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(EditVillageDetailRequest $request, $id)
     {
-        //
+        $village = VillageDetail::find($id);
+        $village_data = [
+            'board_id' => $request->board_id,
+            'sr_no' => $request->sr_no,
+            'village_name' => $request->village_name,
+            'land_source_id' => $request->land_source_id,
+            'land_address' => $request->land_address,
+            'district' => $request->district,
+            'taluka' => $request->taluka,
+            'total_area' => $request->total_area,
+            'possession_date' => $request->possession_date,
+            'remark' => $request->remark,
+            '7_12_mhada_name' => $request->mhada_name,
+            'property_card' => $request->property_card,
+            'property_card_mhada_name' => $request->property_card_mhada_name,
+            'land_cost' => $request->land_cost,
+        ];
+
+        $time = time();
+
+        if($request->file_upload == 1) {
+            if ($request->hasFile('extract')) {
+                $extension = $request->file('extract')->getClientOriginalExtension();
+                if ($extension == "pdf") {
+                    $name = File::name($request->file('extract')->getClientOriginalName()) . '_' . $time . '.' . $extension;
+                    $path = Storage::putFileAs('/7_12_extract_document', $request->file('extract'), $name, 'public');
+                    $village_data['7_12_extract'] = 1;
+                    $village_data['extract_file_path'] = $path;
+                    $village_data['extract_file_name'] = File::name($request->file('extract')->getClientOriginalName()) . '.' . $extension;
+                } else {
+                    return redirect()->back()->with('error', 'Invalid type of file uploaded (only pdf allowed)');
+                }
+
+            } else {
+                $village_data['extract_file_path'] = $request->extract_file_path;
+                $village_data['extract_file_name'] = $request->extract_file_name;
+            }
+        }
+        else {
+            $village_data['extract_file_path'] = '';
+            $village_data['extract_file_name'] = '';
+            $village_data['7_12_extract'] = 0;
+        }
+
+        $village->update($village_data);
+
+        return redirect('/village_detail')->with(['success'=> 'Village added succesfully']);
     }
 
     /**

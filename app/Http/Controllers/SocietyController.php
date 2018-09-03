@@ -37,7 +37,7 @@ class SocietyController extends Controller
 
         $columns = [
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
-            ['data' => 'society_name','name' => 'society','title' => 'Society Name'],
+            ['data' => 'society_name','name' => 'society_name','title' => 'Society Name'],
             ['data' => 'societyVillage','name' => 'societyVillage.village_name','title' => 'Village Name'],
             ['data' => 'survey_number','name' => 'survey_number','title' => 'Survey Number'],
             ['data' => 'society_address','name' => 'society_address','title' => 'Society Address'],
