@@ -91,5 +91,5 @@ Route::post('/lease_detail/update-lease/{id}', 'LeaseDetailController@updateLeas
 
 
 Route::get('architect_application','ArchitectApplicationController@index');
-Route::get('view_architect_application','ArchitectApplicationController@viewApplication');
-Route::get('evaluate_architect_application','ArchitectApplicationController@evaluateApplication');
+Route::get('view_architect_application/{id}','ArchitectApplicationController@viewApplication');
+Route::get('evaluate_architect_application/{id}','ArchitectApplicationController@evaluateApplication');

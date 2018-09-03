@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\ArchitectApplication;
+use App\ArchitectApplicationMark;
 use Config;
 
 class ArchitectApplicationController extends Controller
@@ -40,8 +41,11 @@ class ArchitectApplicationController extends Controller
 
   }
 
-  public function evaluateApplication()
+  public function evaluateApplication($encryptedId)
   {
-
+    $id = decrypt($encryptedId);
+    $application = ArchitectApplicationMark::where('architect_application_id',$id)->get();
+    $header_data = $this->header_data;
+    return view('admin.architect.evaluate',compact('application','header_data'));
   }
 }

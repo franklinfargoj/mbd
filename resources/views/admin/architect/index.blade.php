@@ -141,7 +141,7 @@
                         <td>
                           <a title="Edit" href="{{ route('faq.edit', $row->id) }}">Edit</a>
                           &nbsp;
-                          <a title="Edit" href="{{ url('faq/change_status/'. $row->id) }}">{{($row->status==0)? 'Inactive' : 'Active'}}</a>
+                          <a title="Evaluate Apllication" href="{{ url('evaluate_architect_application/'. encrypt($row->id)) }}">Evaluate Application</a>
                         </td>
                       </tr>
                       @empty
@@ -182,7 +182,7 @@
                         <td>
                           <a title="Edit" href="{{ route('faq.edit', $row->id) }}">Edit</a>
                           &nbsp;
-                          <a title="Edit" href="{{ url('faq/change_status/'. $row->id) }}">{{($row->status==0)? 'Inactive' : 'Active'}}</a>
+                          <a title="Evaluate Apllication" href="{{ url('evaluate_architect_application/'. encrypt($row->id)) }}">Evaluate Application</a>
                         </td>
                       </tr>
                       @empty
@@ -223,7 +223,7 @@
                             <td>
                               <a title="Edit" href="{{ route('faq.edit', $row->id) }}">Edit</a>
                               &nbsp;
-                              <a title="Edit" href="{{ url('faq/change_status/'. $row->id) }}">{{($row->status==0)? 'Inactive' : 'Active'}}</a>
+                              <a title="Evaluate Apllication" href="{{ url('evaluate_architect_application/'. encrypt($row->id)) }}">Evaluate Application</a>
                             </td>
                           </tr>
                           @empty
