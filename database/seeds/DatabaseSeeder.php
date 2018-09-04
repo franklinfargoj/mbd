@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
         $this->call(OtherLandSeeder::class);
 
         $this->call(MasterRtiStatusTableSeeder::class);
+        $this->call(MasterMonthTableSeeder::class);
        // $this->call(RtiFormTableSeeder::class);
     }
 }

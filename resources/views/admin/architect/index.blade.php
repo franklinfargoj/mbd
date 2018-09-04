@@ -7,7 +7,7 @@
       <i class="fa fa-circle"></i>
     </li>
     <li>
-      <span>FAQ</span>
+      <span>Architect Application</span>
     </li>
   </ul>
   <div class="page-toolbar">
@@ -16,7 +16,7 @@
 </div>
 <!-- END PAGE BAR -->
 <!-- BEGIN PAGE TITLE-->
-<h1 class="page-title"> FAQs
+<h1 class="page-title"> Architect Application
   <small>&nbsp;</small>
 </h1>
 <!-- END PAGE TITLE-->
@@ -68,7 +68,7 @@
                         <label class="span3 control-label" for="form_control_1">Sort by Status</label>
                         <div class="span8 select-wrapper">
                             <select name="status" class="span12 m-wrap">
-                              
+
                             </select>
                         </div>
                     </div>
@@ -88,6 +88,7 @@
                 </div>
             </div>
           <div>
+            <input type="hidden" name="listingType" id="listingType" value="">
         </form>
       </div>
     </div>
@@ -99,13 +100,13 @@
             </div>
             <ul class="nav nav-tabs">
               <li class="active">
-                <a href="#portlet_tab1" data-toggle="tab" aria-expanded="true"> Tab 1 </a>
+                <a href="#portlet_tab1" data-toggle="tab" class="aplListing" data-val="all" aria-expanded="true"> All </a>
               </li>
               <li class="">
-                <a href="#portlet_tab2" data-toggle="tab" aria-expanded="false"> Tab 2 </a>
+                <a href="#portlet_tab2" data-toggle="tab" class="aplListing" data-val="shortlisted" aria-expanded="false"> Shortlisted </a>
               </li>
               <li class="">
-                <a href="#portlet_tab3" data-toggle="tab" aria-expanded="false"> Tab 3 </a>
+                <a href="#portlet_tab3" data-toggle="tab" class="aplListing" data-val="finalSelected" aria-expanded="false"> Final list of selected cadidates </a>
               </li>
             </ul>
           </div>
@@ -136,11 +137,11 @@
                         <td>{{$row->candidate_name}}</td>
                         <td>{{$row->candidate_email}}<br>{{$row->candidate_mobile_no}}</td>
                         <td>{{$row->status}}</td>
-                        <td>{{$row->status}}</td>
+                        <td>{{$row->marks}}</td>
                         <td>
                           <a title="Edit" href="{{ route('faq.edit', $row->id) }}">Edit</a>
                           &nbsp;
-                          <a title="Edit" href="{{ url('faq/change_status/'. $row->id) }}">{{($row->status==0)? 'Inactive' : 'Active'}}</a>
+                          <a title="Evaluate Apllication" href="{{ url('evaluate_architect_application/'. encrypt($row->id)) }}">Evaluate Application</a>
                         </td>
                       </tr>
                       @empty
@@ -154,41 +155,47 @@
               </div>
               <div class="tab-pane" id="portlet_tab2">
                 <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 200px;"><div class="scroller" style="height: 200px; overflow: hidden; width: auto;" data-initialized="1">
-                  <h4>Tab 2 Content</h4>
-                  <p> Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
-                    et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
-                    labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo. </p>
-                    <p> Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent
-                      luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam
-                      erat volutpat.ut laoreet dolore magna ut laoreet dolore magna. ut laoreet dolore magna. ut laoreet dolore magna. </p>
+                  <table class="table table-striped table-bordered table-hover datatable mdl-data-table dataTable">
+                    <thead>
+                      <tr>
+                        <th>Sr No.</th>
+                        <th>Application No.</th>
+                        <th>Date</th>
+                        <th>Condidate Name</th>
+                        <th>Email ID & <br/>Mobile No</th>
+                        <th>Status</th>
+                        <th>Marks</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @php $i=0 @endphp
+                      @forelse($shortlisted as $row)
+                      <tr>
+                        <td>{{$i++}}</td>
+                        <td>{{$row->application_number}}</td>
+                        <td>{{$row->application_date}}</td>
+                        <td>{{$row->candidate_name}}</td>
+                        <td>{{$row->candidate_email}}<br>{{$row->candidate_mobile_no}}</td>
+                        <td>{{$row->status}}</td>
+                        <td>{{$row->status}}</td>
+                        <td>
+                          <a title="Edit" href="{{ route('faq.edit', $row->id) }}">Edit</a>
+                          &nbsp;
+                          <a title="Evaluate Apllication" href="{{ url('evaluate_architect_application/'. encrypt($row->id)) }}">Evaluate Application</a>
+                        </td>
+                      </tr>
+                      @empty
+                      <tr>
+                        <td colspan="8">No record found</td>
+                      </tr>
+                      @endforelse
+                    </tbody>
+                  </table>
                     </div><div class="slimScrollBar" style="background: rgb(187, 187, 187); width: 7px; position: absolute; top: 0px; opacity: 0.4; display: block; border-radius: 7px; z-index: 99; right: 1px;"></div><div class="slimScrollRail" style="width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(234, 234, 234); opacity: 0.2; z-index: 90; right: 1px;"></div></div>
                   </div>
                   <div class="tab-pane " id="portlet_tab3">
                     <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 200px;"><div class="scroller" style="height: 200px; overflow: hidden; width: auto;" data-initialized="1">
-                      <h4>Tab 3 Content</h4>
-                      <p> Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent
-                        luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam
-                        erat volutpat.ut laoreet dolore magna ut laoreet dolore magna. ut laoreet dolore magna. ut laoreet dolore magna. </p>
-                        <p> Ut wisi enim ad btn-smm veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse
-                          molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.
-                        </p>
-                      </div><div class="slimScrollBar" style="background: rgb(187, 187, 187); width: 7px; position: absolute; top: 0px; opacity: 0.4; display: none; border-radius: 7px; z-index: 99; right: 1px; height: 109.89px;"></div><div class="slimScrollRail" style="width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(234, 234, 234); opacity: 0.2; z-index: 90; right: 1px;"></div></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- BEGIN SAMPLE TABLE PORTLET-->
-              <div class="portlet box purple">
-                <div class="portlet-title">
-                  <div class="caption">
-                    <i class="fa fa-cogs"></i>Applications for Architect panel Listing </div>
-                    <div class="tools1 pull-right">
-
-                    </div>
-                  </div>
-                  <div class="portlet-body">
-                    <div class="table-responsive">
                       <table class="table table-striped table-bordered table-hover datatable mdl-data-table dataTable">
                         <thead>
                           <tr>
@@ -204,7 +211,7 @@
                         </thead>
                         <tbody>
                           @php $i=0 @endphp
-                          @forelse($applications as $row)
+                          @forelse($finalSelected as $row)
                           <tr>
                             <td>{{$i++}}</td>
                             <td>{{$row->application_number}}</td>
@@ -216,7 +223,7 @@
                             <td>
                               <a title="Edit" href="{{ route('faq.edit', $row->id) }}">Edit</a>
                               &nbsp;
-                              <a title="Edit" href="{{ url('faq/change_status/'. $row->id) }}">{{($row->status==0)? 'Inactive' : 'Active'}}</a>
+                              <a title="Evaluate Apllication" href="{{ url('evaluate_architect_application/'. encrypt($row->id)) }}">Evaluate Application</a>
                             </td>
                           </tr>
                           @empty
@@ -226,10 +233,11 @@
                           @endforelse
                         </tbody>
                       </table>
+                      </div><div class="slimScrollBar" style="background: rgb(187, 187, 187); width: 7px; position: absolute; top: 0px; opacity: 0.4; display: none; border-radius: 7px; z-index: 99; right: 1px; height: 109.89px;"></div><div class="slimScrollRail" style="width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(234, 234, 234); opacity: 0.2; z-index: 90; right: 1px;"></div></div>
                     </div>
                   </div>
                 </div>
-                <!-- END SAMPLE TABLE PORTLET-->
               </div>
+
             </div>
             @endsection

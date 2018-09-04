@@ -86,5 +86,10 @@ Route::get('/lease_detail/{id}', 'LeaseDetailController@index')->name("lease_det
 Route::get('/lease_detail/create/{id}', 'LeaseDetailController@create')->name("lease_detail.create");
 Route::post('/lease_detail/store', 'LeaseDetailController@store')->name("lease_detail.store");
 
+Route::get('/lease_detail/renew-lease/{id}', 'LeaseDetailController@renewLease')->name('renew-lease.renew');
+Route::post('/lease_detail/update-lease/{id}', 'LeaseDetailController@updateLease')->name('renew-lease.update-lease');
+
 
 Route::get('architect_application','ArchitectApplicationController@index');
+Route::get('view_architect_application/{id}','ArchitectApplicationController@viewApplication');
+Route::get('evaluate_architect_application/{id}','ArchitectApplicationController@evaluateApplication');
