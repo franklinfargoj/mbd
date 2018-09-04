@@ -99,4 +99,5 @@ Route::post('save_evaluate_marks','ArchitectApplicationController@saveEvaluateMa
 Route::get('generate_certificate/{id}','ArchitectApplicationController@getGenerateCertificate');
 Route::get('forward_application/{id}','ArchitectApplicationController@getForwardApplication');
 Route::get('finalCertificateGenerate/{id}','ArchitectApplicationController@getFinalCertificateGenerate');
-Route::get('finalCertificateGenerate','ArchitectApplicationController@postFinalCertificateGenerate');
+Route::get('tempCertificateGenerate/{id}','ArchitectApplicationController@getTempCertificateGenerate');
+Route::post('finalCertificateGenerate','ArchitectApplicationController@postFinalCertificateGenerate');

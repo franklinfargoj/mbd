@@ -7,6 +7,7 @@ use App\ArchitectApplication;
 use App\ArchitectApplicationMark;
 use Config;
 use App\Http\Requests\architect\EvaluationMarkRequest;
+use App\Http\Requests\architect\CertificateUploadRequest;
 
 class ArchitectApplicationController extends Controller
 {
@@ -94,10 +95,54 @@ class ArchitectApplicationController extends Controller
     return view('admin.architect.final_generate_certificate',compact('header_data','encryptedId'));
   }
 
+  public function getTempCertificateGenerate($encryptedId)
+  {
+        $application = ArchitectApplication::select('*',\DB::raw("(SELECT SUM(marks) FROM architect_application_marks WHERE architect_application_marks.architect_application_id = architect_application.id) as marks"))
+                                              ->where('id',decrypt($encryptedId))
+                                              ->first();
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $text = $section->addText("Applicant Number: ".$application->application_number);
+        $text = $section->addText("Applicant Name: ".$application->candidate_name);
+        $text = $section->addText("Applicant Email: ".$application->candidate_email);
+        $text = $section->addText("Applicant Mobile NO: ".$application->candidate_mobile_no);
+
+        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
+        try {
+            $objWriter->save(storage_path('temp_certificate/'.$application->application_number.'.docx'));
+        } catch (Exception $e) {
+        }
+        return response()->download(storage_path('temp_certificate/'.$application->application_number.'.docx'));
+  }
+
+  public function postFinalCertificateGenerate(CertificateUploadRequest $request)
+  {
+
+    if($request->hasFile('certificate'))
+    {
+      $applicationId = decrypt($request->get('ap_no'));
+      $application = ArchitectApplication::where('id',$applicationId)->first();
+      $extension = $request->file('certificate')->getClientOriginalExtension();
+      $path = \Storage::putFileAs( '/architect_certificates', $request->file('certificate'), $applicationId.$application->application_number.'.'.$extension, 'public');
+      $input['architect_application_id'] = $applicationId;
+      $input['document_name'] = $applicationId.$application->application_number;
+      $input['document_path'] = $path;
+      $input['final_certificate'] = '1';
+
+        ArchitectApplicationMark::create($input);
+        return redirect()->back()->with('success',"Certificate Uploaded succesfully.");
+    }
+    else {
+      return redirect()->back()->with('error',"Look like something went wrong.");
+    }
+  }
+
   public function getForwardApplication($encryptedId)
   {
 
   }
+
+
 
 
 }
