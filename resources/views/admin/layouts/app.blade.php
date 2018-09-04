@@ -6,6 +6,7 @@
       <title>{{ config('app.name') }}</title>
       <meta name="description" content="Basic datatables examples">
       <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
+      <meta name="csrf-token" content="{{ csrf_token() }}">
       <!--begin::Web font -->
       <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
       <script>
@@ -15,6 +16,12 @@
                sessionStorage.fonts = true;
            }
          });
+      </script>
+      <script>
+          window.Laravel = {!! json_encode([
+            'csrfToken' => csrf_token(),
+        ]) !!};
+          var baseUrl = "{{url('/')}}";
       </script>
       <!--end::Web font -->
       <!--begin::Page Vendors Styles -->
@@ -63,35 +70,7 @@
          <!-- END: Header -->    
          <!-- begin::Body -->
          <div class="m-grid__item m-grid__item--fluid m-grid m-grid--ver-desktop m-grid--desktop m-body">
-            <!-- BEGIN: Left Aside -->
-            <button class="m-aside-left-close  m-aside-left-close--skin-dark " id="m_aside_left_close_btn"><i class="la la-close"></i></button>
-            <div id="m_aside_left" class="m-grid__item  m-aside-left  m-aside-left--skin-dark ">
-               <!-- BEGIN: Aside Menu -->
-               <div 
-                  id="m_ver_menu" 
-                  class="m-aside-menu  m-aside-menu--skin-dark m-aside-menu--submenu-skin-dark " 
-                  m-menu-vertical="1"
-                  m-menu-scrollable="1" m-menu-dropdown-timeout="500"  
-                  style="position: relative;">
-                  <ul class="m-menu__nav  m-menu__nav--dropdown-submenu-arrow ">
-                     <li class="m-menu__item m-menu__item--active" aria-haspopup="true" >
-                        <a href="#" class="m-menu__link ">
-                        <i class="m-menu__link-icon flaticon-line-graph"></i>
-                        <span class="m-menu__link-title">
-                        <span class="m-menu__link-wrap">
-                        <span class="m-menu__link-text">
-                        Resolution Listing 
-                        </span>
-                        </span>
-                        </span>
-                        <i class="m-menu__ver-arrow la la-angle-right"></i>
-                        </a>
-                     </li>
-                  </ul>
-               </div>
-               <!-- END: Aside Menu -->
-            </div>
-            <!-- END: Left Aside -->       
+            @include('admin.layouts.sidebar')
             <div class="col-md-12">     
             <div class="m-grid__item m-grid__item--fluid m-wrapper">
                @section('content')         
@@ -166,5 +145,6 @@
       <!--begin::Page Resources -->
    </body>
    @yield('datatablejs');
+   @yield('js');
    <!-- end::Body -->
 </html>

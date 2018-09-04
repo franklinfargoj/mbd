@@ -1,88 +1,74 @@
 @extends('admin.layouts.app')
 @section('content')
-    <div class="page-bar">
-        <ul class="page-breadcrumb">
-            <li>
-                <a href="{{ url('/') }}">Home</a>
-                <i class="fa fa-circle"></i>
-            </li>
-            <li>
-                <span>Society Detail</span>
-            </li>
-        </ul>
-        <div class="page-toolbar">
-
+    <!-- BEGIN: Subheader -->
+    <div class="m-subheader ">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto">
+                <h3 class="m-subheader__title m-subheader__title--separator">Society Details</h3>
+            </div>
+            <div>
+            </div>
         </div>
     </div>
-    <!-- END PAGE BAR -->
-    <!-- BEGIN PAGE TITLE-->
-    <h1 class="page-title"> Society Details
-        <small>&nbsp;</small>
-    </h1>
-    <!-- END PAGE TITLE-->
-    <!-- END PAGE HEADER-->
-    <div class="row">
-        <div class="col-md-12">
-            @if(Session::has('success'))
-                <div class="note note-success">
-                    <div class="caption">
-                        <i class="fa fa-gift"></i> {{Session::get('success')}}
-                    </div>
-                    <div class="tools pull-right">
-                        <a href="" class="remove" data-original-title="" title=""> </a>
-                    </div>
+    <!-- END: Subheader -->
+    <div class="m-content"></div>
+    <div class="m-portlet m-portlet--mobile">
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title">
+                    <h3 class="m-portlet__head-text">
+
+                    </h3>
                 </div>
-        @endif
-
-        <!-- BEGIN SAMPLE TABLE PORTLET-->
-            <div class="portlet box purple">
-                <div class="portlet-title">
-                    <div class="caption">
-                        <i class="fa fa-cogs"></i>Society Details
-                    </div>
-                    <div class="tools">
-                        <a href="{{route('society_detail.create', $id)}}" class="yellow">Add Society</a>
-                    </div>
-                </div>
-                <div class="portlet-body">
-                    <div class="table-responsive">
-
-                        {{--<div class="portlet-body form">
-                            <form role="form" method="get" action="{{ route('hearing.index') }}">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="published_from_date" class="col-md-4 control-label">
-                                            From Date
-                                        </label>
-                                        <div class="col-md-8">
-                                            <input type="text" name="office_date_from" id="office_date_from" class="form-control" value="{{ isset($getData['office_date_from'])? $getData['office_date_from'] : '' }}">
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="col-md-4 control-label">
-                                            To Date
-                                        </label>
-                                        <div class="col-md-8">
-                                            <input type="text" name="office_date_to" id="office_date_to" class="form-control" value="{{ isset($getData['office_date_to'])? $getData['office_date_to'] : '' }}">
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6" style="margin-bottom: 15px;">
-                                    <input type="submit" value="search" class="btn blue">
-                                </div>
-
-                            </form>
-                        </div>--}}
-
-                        {!! $html->table() !!}
+            </div>
+            <a class="btn btn-danger" href="{{route('society_detail.create', $id)}}" style="float: right;margin-top: 3%">Add Society</a>
+        </div>
+        <div class="m-portlet__body">
+            <!--begin: Search Form -->
+        {{--<div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
+            <div class="row align-items-center">
+                <div class="col-xl-8 order-2 order-xl-1">
+                    <div class="form-group m-form__group row align-items-center">
+                        <div class="col-md-4">
+                            <label for="exampleSelect1">Search</label>
+                            <div class="m-input-icon m-input-icon--left">
+                                <input type="text" class="form-control m-input m-input--solid" placeholder="Search..." id="m_form_search">
+                                <span class="m-input-icon__icon m-input-icon__icon--left">
+                     <span>
+                     <i class="la la-search"></i>
+                     </span>
+                     </span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group m-form__group">
+                                <label>Resolution Type</label>
+                                <select class="form-control m-input m-input--square" id="exampleSelect1">
+                                    <option>Mhada resolutions</option>
+                                    <option>MBR Resolutions</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group m-form__group">
+                                <label>From Date</label>
+                                <input type="date" class="form-control m-input m-input--solid" placeholder="From Date">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group m-form__group">
+                                <label>To Date</label>
+                                <input type="date" class="form-control m-input m-input--solid" placeholder="From Date">
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <!-- END SAMPLE TABLE PORTLET-->
+        </div>--}}
+        <!--end: Search Form -->
+            <!--begin: Datatable -->
+        {!! $html->table() !!}
+        <!--end: Datatable -->
         </div>
     </div>
     <input type="hidden" id="myModalBtn" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" />
@@ -91,9 +77,21 @@
     <div id="myModal" class="modal fade" role="dialog">
 
     </div>
+    <!-- END EXAMPLE TABLE PORTLET-->
+@endsection
+<?php //dd($html->scripts()); ?>
+@section('datatablejs')
+{!! $html->scripts() !!}
+<script>
+    /*$( function() {
+        $( "#published_from_date, #published_to_date" ).datepicker({
+            dateFormat: "yy-mm-dd"
+        });
+    } );*/
+</script>
 @endsection
 
-@section('js')
-    {!! $html->scripts() !!}
-@endsection
+
+
+
 
