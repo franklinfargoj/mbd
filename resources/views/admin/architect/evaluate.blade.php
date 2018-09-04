@@ -39,11 +39,12 @@
         <div class="caption">
           <i class="fa fa-cogs"></i>Evaluate supporting documents </div>
           <div class="tools1 pull-right">
-            
           </div>
         </div>
         <div class="portlet-body">
           <div class="table-responsive">
+            <form method="post" action="{{route('save_evaluate_marks')}}">
+              @csrf
             <table class="table table-striped table-bordered table-hover datatable mdl-data-table dataTable">
               <thead>
                 <tr>
@@ -60,8 +61,19 @@
                 <tr>
                   <td>{{$row->document_name}}</td>
                   <td>{{$row->document_path}}</td>
-                  <td><input type="text" name="marks[]" value="{{$row->marks}}"><input type="hidden" name="id[]" value="{{$row->id}}"></td>
-                  <td><textarea name="remark[]">{{$row->remark}}</textarea></td>
+                  <td>
+                    <div class="@if($errors->has('marks')) has-error @endif">
+                      <input type="text" name="marks[]" class="form-control" value="{{$row->marks}}">
+                      <input type="hidden" name="id[]" value="{{$row->id}}">
+                      <span class="help-block">{{$errors->first('marks')}}</span>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="@if($errors->has('remark')) has-error @endif">
+                      <textarea name="remark[]"  class="form-control">{{$row->remark}}</textarea>
+                      <span class="help-block">{{$errors->first('remark')}}</span>
+                    </div>
+                  </td>
                 </tr>
                 @empty
                 <tr>
@@ -72,10 +84,11 @@
                   <th>Grand total</th>
                   <th>&nbsp;</th>
                   <th>{{$i}}</th>
-                  <th>&nbsp;</th>
+                  <th><input type="submit" value="Save"></th>
                 </tr>
               </tbody>
             </table>
+            </form>
           </div>
         </div>
       </div>
