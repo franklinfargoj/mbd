@@ -156,7 +156,7 @@
                     <div class="m-form__actions m-form__actions--solid">
                         <div class="row">
                             <div class="col-lg-6">
-                                <button type="submit" class="btn btn-primary">Save</button>
+                                <button type="submit" id="add_lease" class="btn btn-primary">Save</button>
                                 <a href="{{url('/lease_detail/'.$id)}}" class="btn btn-secondary">Cancel</a>
                             </div>
                         </div>

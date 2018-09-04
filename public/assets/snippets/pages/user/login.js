@@ -103,6 +103,234 @@ var SnippetLogin = function() {
                 }, 500))
             })
         },
+
+        add_village = function() {
+            $("#add_village").click(function(e) {
+                e.preventDefault();
+                var a = $(this),
+                    t = $(this).closest("form");
+                t.validate({
+                    rules: {
+                        board_id: {
+                            required: !0,
+                        },
+                        sr_no: {
+                            required: !0
+                        },
+                        village_name: {
+                            required: !0
+                        },
+                        land_source_id: {
+                            required: !0
+                        },
+                        land_address: {
+                            required: !0
+                        },
+                        district: {
+                            required: !0
+                        },
+                        taluka: {
+                            required: !0
+                        },
+                        total_area: {
+                            required: !0
+                        },
+                        possession_date: {
+                            required: !0
+                        },
+                        remark: {
+                            required: !0
+                        },
+                        land_cost: {
+                            required: !0
+                        },
+                        land_cost: {
+                            required: !0
+                        },
+                        mhada_name: {
+                            required: !0
+                        },
+                        property_card: {
+                            required: !0
+                        },
+                        property_card_mhada_name: {
+                            required: !0
+                        },
+                        mhada_name: {
+                            required: !0
+                        }
+                    }
+                }), t.valid() && (a.addClass("m-loader m-loader--right m-loader--light").attr("disabled", !0), setTimeout(function() {
+                    $('#addVillageDetail').submit();
+                }, 500))
+            })
+        },
+
+        edit_village = function() {
+            $("#edit_village").click(function(e) {
+                e.preventDefault();
+                var a = $(this),
+                    t = $(this).closest("form");
+                t.validate({
+                    rules: {
+                        board_id: {
+                            required: !0,
+                        },
+                        sr_no: {
+                            required: !0
+                        },
+                        village_name: {
+                            required: !0
+                        },
+                        land_source_id: {
+                            required: !0
+                        },
+                        land_address: {
+                            required: !0
+                        },
+                        district: {
+                            required: !0
+                        },
+                        taluka: {
+                            required: !0
+                        },
+                        total_area: {
+                            required: !0
+                        },
+                        possession_date: {
+                            required: !0
+                        },
+                        remark: {
+                            required: !0
+                        },
+                        land_cost: {
+                            required: !0
+                        },
+                        land_cost: {
+                            required: !0
+                        },
+                        mhada_name: {
+                            required: !0
+                        },
+                        property_card: {
+                            required: !0
+                        },
+                        property_card_mhada_name: {
+                            required: !0
+                        },
+                        mhada_name: {
+                            required: !0
+                        }
+                    }
+                }), t.valid() && (a.addClass("m-loader m-loader--right m-loader--light").attr("disabled", !0), setTimeout(function() {
+                    $('#editVillageDetail').submit();
+                }, 500))
+            })
+        },
+
+        add_society = function() {
+            $("#add_society").click(function(e) {
+                e.preventDefault();
+                var a = $(this),
+                    t = $(this).closest("form");
+                t.validate({
+                    rules: {
+                        society_name: {
+                            required: !0,
+                        },
+                        district: {
+                            required: !0
+                        },
+                        taluka: {
+                            required: !0
+                        },
+                        survey_number: {
+                            required: !0
+                        },
+                        cts_number: {
+                            required: !0
+                        },
+                        chairman: {
+                            required: !0
+                        },
+                        society_address: {
+                            required: !0
+                        },
+                        area: {
+                            required: !0
+                        },
+                        date_on_service_tax: {
+                            required: !0
+                        },
+                        surplus_charges: {
+                            required: !0
+                        },
+                        surplus_charges_last_date: {
+                            required: !0
+                        },
+                        other_land_id: {
+                            required: !0
+                        },
+                    }
+                }), t.valid() && (a.addClass("m-loader m-loader--right m-loader--light").attr("disabled", !0), setTimeout(function() {
+                    $('#addSocietyDetail').submit();
+                }, 500))
+            })
+        },
+
+        add_lease = function() {
+            $("#add_lease, #renew_lease").click(function(e) {
+                e.preventDefault();
+                var a = $(this),
+                    t = $(this).closest("form");
+                t.validate({
+                    rules: {
+                        lease_rule_other: {
+                            required: !0,
+                        },
+                        lease_basis: {
+                            required: !0
+                        },
+                        area: {
+                            required: !0
+                        },
+                        lease_period: {
+                            required: !0
+                        },
+                        lease_start_date: {
+                            required: !0
+                        },
+                        lease_rent: {
+                            required: !0
+                        },
+                        lease_rent_start_month: {
+                            required: !0
+                        },
+                        interest_per_lease_agreement: {
+                            required: !0
+                        },
+                        lease_renewal_date: {
+                            required: !0
+                        },
+                        lease_renewed_period: {
+                            required: !0
+                        },
+                        rent_per_renewed_lease: {
+                            required: !0
+                        },
+                        interest_per_renewed_lease_agreement: {
+                            required: !0
+                        },
+                        month_rent_per_renewed_lease: {
+                            required: !0
+                        }
+                    }
+                }), t.valid() && (a.addClass("m-loader m-loader--right m-loader--light").attr("disabled", !0), setTimeout(function() {
+                    $('#addLeaseDetail, #renewLeaseDetail').submit();
+                }, 500))
+            })
+        },
+
         o = function() {
             $("#m_login_forget_password_submit").click(function(a) {
                 a.preventDefault();
@@ -123,7 +351,7 @@ var SnippetLogin = function() {
         };
     return {
         init: function() {
-            n(), l(), s(), o()
+            n(), l(), s(), o(), add_village(), edit_village(), add_society(), add_lease()
         }
     }
 }();

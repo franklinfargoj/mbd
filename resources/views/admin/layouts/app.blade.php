@@ -116,6 +116,7 @@
       <!--end::Base Scripts -->   
       <!--begin::Page Vendors Scripts --> 
        <script src="{{asset('/plugins/datatables/datatables.all.min.js')}}" type="text/javascript"></script>
+      <script src="{{asset('/assets/snippets/pages/user/login.js')}}" type="text/javascript"></script>
       <!--DatatableHtmlTableDemo.init()-->
       <script>
          // var DatatableHtmlTableDemo =function()

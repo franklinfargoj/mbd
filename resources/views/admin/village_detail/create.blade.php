@@ -128,7 +128,7 @@
                     </div>
 
                     <div class="col-lg-6 form-group">
-                        <label class="col-form-label" for="remark">Is 7/12 on MHADA's Name:</label>
+                        <label class="col-form-label" for="mhada_name">Is 7/12 on MHADA's Name:</label>
                         <div class="m-input-icon m-input-icon--right">
                             <label class="mt-radio">
                                 <input type="radio" name="mhada_name"  value="1"> Yes
@@ -198,7 +198,7 @@
                 <div class="m-form__actions m-form__actions--solid">
                     <div class="row">
                         <div class="col-lg-6">
-                            <button type="submit" class="btn btn-primary">Save</button>
+                            <button type="submit" id="add_village" class="btn btn-primary">Save</button>
                             <a href="{{url('/village_detail')}}" class="btn btn-secondary">Cancel</a>
                         </div>
                     </div>

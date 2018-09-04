@@ -72,7 +72,7 @@
                     </div>
 
                     <div class="col-lg-6 form-group">
-                        <label class="col-form-label" for="Chairman">Chairman:</label>
+                        <label class="col-form-label" for="chairman">Chairman:</label>
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="chairman" name="chairman" class="form-control m-input"  value="{{ old('chairman') }}">
                             <span class="help-block">{{$errors->first('chairman')}}</span>
@@ -141,7 +141,7 @@
                 <div class="m-form__actions m-form__actions--solid">
                     <div class="row">
                         <div class="col-lg-6">
-                            <button type="submit" class="btn btn-primary">Save</button>
+                            <button type="submit" id="add_society" class="btn btn-primary">Save</button>
                             <a href="{{url('/society_detail/'.$id)}}" class="btn btn-secondary">Cancel</a>
                         </div>
                     </div>
