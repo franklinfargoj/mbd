@@ -31,7 +31,7 @@ class RtiFormController extends Controller
     }
 
     public function showFrontendForm()
-    {   
+    {
         $boards = Board::where('status',1)->get();
             $departments = Department::where('status',1)->get();
             return view('frontendRtiForm',compact('departments','boards'));
@@ -62,7 +62,6 @@ class RtiFormController extends Controller
             $path = Storage::putFileAs( '/poverty_files', $request->file('poverty_line_proof_file'), $time.'.'.$extension, 'public');
             $input['poverty_line_proof'] = $request->get($time.'.'.$extension);
         }
-        dd($input);
         RtiForm::create($input);
         return redirect('rti_form_success');
     }
@@ -93,14 +92,14 @@ class RtiFormController extends Controller
         if ($datatables->getRequest()->ajax()) {
             DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
             $rti_applicants = RtiForm::with('rti_schedule_meetings');
-            
+
             if($request->status)
             {
                 $rti_applicants = $rti_applicants->where('status', $request->status);
             }
 
             if($request->date_of_submission)
-            {   
+            {
                 $rti_applicants = $rti_applicants->whereDate('created_at', '=' , date('Y-m-d' , strtotime($request->date_of_submission)));
             }
             // $rti_applicants = $rti_applicants->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').', unique_id, created_at, applicant_name, meeting_scheduled_date, id, status');
@@ -127,7 +126,7 @@ class RtiFormController extends Controller
                 ->rawColumns(['board_name','status','actions'])
                 ->make(true);
         }
-        
+
         $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
         return view('admin.rti_form.index', compact('html', 'rti_statuses', 'getData'));
     }
@@ -214,7 +213,7 @@ class RtiFormController extends Controller
         );
         $uploadPath = '/uploads/rti_send_info_files';
         $destinationPath = public_path($uploadPath);
-                
+
         if($request->file('rti_info_file'))
         {
             $file = $request->file('rti_info_file');
@@ -243,7 +242,7 @@ class RtiFormController extends Controller
 
     public function forward_application(Request $request, $id){
         $input = array(
-            'application_id' => $id,            
+            'application_id' => $id,
             'board_id' => $request->input('board'),
             'department_id' => $request->input('department'),
             'remarks' => $request->input('rti_remarks')
