@@ -138,7 +138,7 @@ class VillageDetailController extends Controller
             'property_card_mhada_name' => $request->property_card_mhada_name,
             'land_cost' => $request->land_cost,
         ];
-
+        
         $time = time();
 
         if($request->file_upload == 1) {
@@ -162,7 +162,7 @@ class VillageDetailController extends Controller
         {
             $village_data['7_12_extract'] = 0;
         }
-
+        
         VillageDetail::create($village_data);
 
         return redirect('/village_detail')->with(['success'=> 'Village added succesfully']);

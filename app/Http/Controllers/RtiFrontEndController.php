@@ -15,7 +15,7 @@ class RtiFrontEndController extends Controller
      */
     public function index()
     {
-        return view('frontend.rti.index');
+        return view('frontend.rti.login');
     }
 
     /**
@@ -36,7 +36,7 @@ class RtiFrontEndController extends Controller
      */
     public function store(Request $request)
     {
-        // dd(var_dump($request->input('address')));
+        dd($request->input());
         $input = array(
             'name' => $request->input('username'),
             'email' => $request->input('email'),

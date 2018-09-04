@@ -36,10 +36,11 @@ class ResolutionController extends Controller
      */
     public function index(Request $request, Datatables $datatables)
     {   
+
         $header_data = $this->header_data;
         $boards = Board::where('status', 1)->get()->toArray();
         $resolutionTypes = ResolutionType::all()->toArray();
-        $getData = $request->all();
+        $getData = '';
 
         $columns = [
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
@@ -54,6 +55,7 @@ class ResolutionController extends Controller
         ];
 
         if ($datatables->getRequest()->ajax()) {
+            
             
             DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
             
