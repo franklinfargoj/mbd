@@ -23,63 +23,63 @@
   <div class="col-md-12">
 
     <div class="portlet box purple">
-                                      <div class="portlet-title">
-                                          <div class="caption">
-                                              <i class="fa fa-gift"></i> Add {{$header_data['menu']}} </div>
-                                          <div class="tools">
-                                          </div>
-                                      </div>
-                                      <div class="portlet-body form">
-                                          <form role="form" method="post" id="faqMasterForm" class="form-horizontal" action="{{route('faq.store')}}">
-                                            @csrf
-                                              <div class="form-body">
-                                                  <div class="form-group">
-                                                      <label class="col-md-4 control-label">Question</label>
-                                                      <div class="col-md-8 @if($errors->has('question')) has-error @endif">
-                                                          <div class="input-icon right">
-                                                              <input type="text" name="question" class="form-control" value="{{old('question')}}">
-                                                              <span class="help-block">{{$errors->first('question')}}</span>
-                                                            </div>
-                                                      </div>
-                                                  </div>
+      <div class="portlet-title">
+        <div class="caption">
+          <i class="fa fa-gift"></i> Add {{$header_data['menu']}} </div>
+          <div class="tools">
+          </div>
+        </div>
+        <div class="portlet-body form">
+          <form role="form" method="post" id="faqMasterForm" class="form-horizontal" action="{{route('faq.store')}}">
+            @csrf
+            <div class="form-body">
+              <div class="form-group">
+                <label class="col-md-4 control-label">Question</label>
+                <div class="col-md-8 @if($errors->has('question')) has-error @endif">
+                  <div class="input-icon right">
+                    <input type="text" name="question" class="form-control" value="{{old('question')}}">
+                    <span class="help-block">{{$errors->first('question')}}</span>
+                  </div>
+                </div>
+              </div>
 
-                                                  <div class="form-group">
-                                                      <label class="col-md-4 control-label">Answer</label>
-                                                      <div class="col-md-8 @if($errors->has('answer')) has-error @endif">
-                                                          <div class="input-icon right">
-                                                              <textarea name="answer" class="form-control">{{old('answer')}}</textarea>
-                                                              <span class="help-block">{{$errors->first('answer')}}</span>
-                                                            </div>
-                                                      </div>
-                                                  </div>
+              <div class="form-group">
+                <label class="col-md-4 control-label">Answer</label>
+                <div class="col-md-8 @if($errors->has('answer')) has-error @endif">
+                  <div class="input-icon right">
+                    <textarea name="answer" class="form-control">{{old('answer')}}</textarea>
+                    <span class="help-block">{{$errors->first('answer')}}</span>
+                  </div>
+                </div>
+              </div>
 
-                                                  <div class="form-group">
-                                                    <label class="col-md-4 control-label">Status</label>
-                                                    <div class="mt-radio-inline col-md-8">
-                                                        <label class="mt-radio">
-                                                            <input type="radio" name="status" id="faqradios" value="1" @if(old('status')==1) checked @endif> Active
-                                                            <span></span>
-                                                        </label>
-                                                        <label class="mt-radio">
-                                                            <input type="radio" name="status" id="faqradios" value="0" @if(old('status')==0) checked @endif> Inactive
-                                                            <span></span>
-                                                        </label>
-                                                        <span class="help-block">{{$errors->first('status')}}</span>
-                                                    </div>
-                                                </div>
+              <div class="form-group">
+                <label class="col-md-4 control-label">Status</label>
+                <div class="mt-radio-inline col-md-8">
+                  <label class="mt-radio">
+                    <input type="radio" name="status" id="faqradios" value="1" @if(old('status')==1) checked @endif> Active
+                    <span></span>
+                  </label>
+                  <label class="mt-radio">
+                    <input type="radio" name="status" id="faqradios" value="0" @if(old('status')==0) checked @endif> Inactive
+                    <span></span>
+                  </label>
+                  <span class="help-block">{{$errors->first('status')}}</span>
+                </div>
+              </div>
 
-                                              </div>
-                                              <div class="form-actions">
-                                                  <div class="row">
-                                                      <div class="col-md-offset-4 col-md-8">
-                                                          <a href="{{url('/faq')}}" role="button" class="btn default">Cancel</a>
-                                                          <button type="submit" class="btn blue">Submit</button>
-                                                      </div>
-                                                  </div>
-                                              </div>
-                                          </form>
-                                      </div>
-                                  </div>
+            </div>
+            <div class="form-actions">
+              <div class="row">
+                <div class="col-md-offset-4 col-md-8">
+                  <a href="{{url('/faq')}}" role="button" class="btn default">Cancel</a>
+                  <button type="submit" class="btn blue">Submit</button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
   @endsection

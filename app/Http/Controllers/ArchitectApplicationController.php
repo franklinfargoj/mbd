@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\ArchitectApplication;
 use App\ArchitectApplicationMark;
 use Config;
+use App\Http\Requests\architect\EvaluationMarkRequest;
 
 class ArchitectApplicationController extends Controller
 {
@@ -47,5 +48,18 @@ class ArchitectApplicationController extends Controller
     $application = ArchitectApplicationMark::where('architect_application_id',$id)->get();
     $header_data = $this->header_data;
     return view('admin.architect.evaluate',compact('application','header_data'));
+  }
+
+  public function saveEvaluateMarks(EvaluationMarkRequest $request)
+  {
+    $marks = $request->get('marks');
+    $ids = $request->get('id');
+    $remark = $request->get('remark');
+
+    foreach ($ids as $key=> $id) {
+      ArchitectApplicationMark::where('id',$id)->update(['marks'=>$marks[$key],'remark'=>$remark[$key]]);
+    }
+
+    return redirect()->back()->with('success',"Marks updated succesfully!!!");
   }
 }
