@@ -37,6 +37,27 @@ class ArchitectApplicationController extends Controller
     return view('admin.architect.index',compact('applications','header_data','shortlisted','finalSelected'));
   }
 
+  public function shortlistedIndex()
+  {
+    $shortlisted = ArchitectApplication::select('*',\DB::raw("(SELECT SUM(marks) FROM architect_application_marks WHERE architect_application_marks.architect_application_id = architect_application.id) as marks"))
+                                        ->where('application_status', 3)
+                                        ->get();
+    $applications = $finalSelected = array();
+    $header_data = $this->header_data;
+    return view('admin.architect.shortlisted',compact('applications','header_data','shortlisted','finalSelected'));
+  }
+
+
+  public function finalIndex()
+  {
+    $finalSelected = ArchitectApplication::select('*',\DB::raw("(SELECT SUM(marks) FROM architect_application_marks WHERE architect_application_marks.architect_application_id = architect_application.id) as marks"))
+                                        ->where('application_status', 4)
+                                        ->get();
+    $applications = $shortlisted = array();
+    $header_data = $this->header_data;
+    return view('admin.architect.final',compact('applications','header_data','shortlisted','finalSelected'));
+  }
+
   public function viewApplication()
   {
 
@@ -62,4 +83,21 @@ class ArchitectApplicationController extends Controller
 
     return redirect()->back()->with('success',"Marks updated succesfully!!!");
   }
+
+  public function getGenerateCertificate($encryptedId)
+  {
+    return view('admin.architect.generate_certificate',compact('header_data','encryptedId'));
+  }
+
+  public function getFinalCertificateGenerate($encryptedId)
+  {
+    return view('admin.architect.final_generate_certificate',compact('header_data','encryptedId'));
+  }
+
+  public function getForwardApplication($encryptedId)
+  {
+
+  }
+
+
 }

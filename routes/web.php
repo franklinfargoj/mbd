@@ -91,6 +91,12 @@ Route::post('/lease_detail/update-lease/{id}', 'LeaseDetailController@updateLeas
 
 
 Route::get('architect_application','ArchitectApplicationController@index');
+Route::get('shortlisted_architect_application','ArchitectApplicationController@shortlistedIndex');
+Route::get('final_architect_application','ArchitectApplicationController@finalIndex');
 Route::get('view_architect_application/{id}','ArchitectApplicationController@viewApplication');
 Route::get('evaluate_architect_application/{id}','ArchitectApplicationController@evaluateApplication');
 Route::post('save_evaluate_marks','ArchitectApplicationController@saveEvaluateMarks')->name('save_evaluate_marks');
+Route::get('generate_certificate/{id}','ArchitectApplicationController@getGenerateCertificate');
+Route::get('forward_application/{id}','ArchitectApplicationController@getForwardApplication');
+Route::get('finalCertificateGenerate/{id}','ArchitectApplicationController@getFinalCertificateGenerate');
+Route::get('finalCertificateGenerate','ArchitectApplicationController@postFinalCertificateGenerate');

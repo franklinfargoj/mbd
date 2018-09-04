@@ -21,7 +21,7 @@ class ArchitectApplication extends Model
         return $this->hasMany(ArchitectApplicationStatusLog::class);
     }
 
-    public function getStatusAttribute($value)
+    public function getApplicationStatusAttribute($value)
     {
         switch ($value) {
             case '1':
