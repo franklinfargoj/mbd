@@ -12,6 +12,7 @@ use App\Http\Requests\resolution\CreateResolutionRequest;
 use App\Http\Requests\resolution\UpdateResolutionRequest;
 use Yajra\DataTables\DataTables;
 use DB;
+use App\Department;
 
 class ResolutionController extends Controller
 {
@@ -179,27 +180,59 @@ class ResolutionController extends Controller
         $resolution = Resolution::findOrFail($id);
         $boards = Board::where('status', 1)->get()->toArray();
         $resolutionTypes = ResolutionType::all()->toArray();
+
+        //display department name as per id
+        $resolution->department_name = Department::where('id',$resolution->department_id)
+                                                  ->value('department_name');
         $header_data = $this->header_data;
         return view('admin.resolution.edit', compact('header_data', 'boards', 'resolutionTypes', 'resolution'));
     }
 
     public function update(UpdateResolutionRequest $request, $id)
     {
+        $uploadPath      = '/uploads/resolutions';
+        $destinationPath = public_path($uploadPath);
+
+        if ($request->has('file')){ 
+            $file      = $request->file('file');
+            $file_name = time().$file->getFileName().'.'.$file->getClientOriginalExtension();
+            $file->move($destinationPath, $file_name);
+        }
+
         $resolution = Resolution::findOrFail($id);
-        $resolution->update([
-            'board_id' => $request->board_id,
-            'department_id' => $request->department,
-            'resolution_type_id' => $request->resolution_type,
-            'resolution_code' => $request->resolution_code,
-            'title' => $request->title,
-            'description' => $request->description,
-            //'filepath' => $request->,
-            //'filename' => $request->,
-            'language' => $request->language,
-            'reference_link' => $request->reference_link,
-            'published_date' => $request->published_date,
-            'revision_log_message' => $request->revision_log_message
-        ]);
+        $resolution->board_id             = $request->board_id;
+        $resolution->department_id        = $request->department;
+        $resolution->resolution_type_id   = $request->resolution_type;
+        $resolution->resolution_code      = $request->resolution_code;
+        $resolution->title                = $request->title;
+        $resolution->description          = $request->description;
+        $resolution->language             = $request->language;
+        $resolution->reference_link       = $request->reference_link;
+        $resolution->published_date       = $request->published_date;
+        $resolution->revision_log_message = $request->revision_log_message;
+
+        if ($request->has('file')) {
+            $resolution->filepath = $uploadPath.'/';
+            $resolution->filename = $file_name;
+        }
+        $resolution->save();
+        // ]);        
+        // $resolution->update([
+        //     'board_id' => $request->board_id,
+        //     'department_id' => $request->department,
+        //     'resolution_type_id' => $request->resolution_type,
+        //     'resolution_code' => $request->resolution_code,
+        //     'title' => $request->title,
+        //     'description' => $request->description,
+        //     if ($request->has('file')) {
+        //     'filepath' => $request->$file_name,
+        //     'filename' => $request->$file_name,
+        //     }
+        //     'language' => $request->language,
+        //     'reference_link' => $request->reference_link,
+        //     'published_date' => $request->published_date,
+        //     'revision_log_message' => $request->revision_log_message
+        // ]);
 
         return redirect('resolution')->with(['success'=> 'Record updated succesfully']);
     }
