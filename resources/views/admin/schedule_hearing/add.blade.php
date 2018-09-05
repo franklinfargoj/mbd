@@ -154,7 +154,7 @@
 
     <script>
         $( function() {
-            $('#preceding_time').mdtimepicker();
+            $('#preceding_time').timepicker();
         } );
 
         $("#createHearingSchedule").on("submit", function(){
