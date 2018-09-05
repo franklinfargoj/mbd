@@ -127,18 +127,18 @@
                         </div>
                     </div>
 
+
                     <div class="col-lg-6 form-group">
                         <label class="col-form-label" for="mhada_name">Is 7/12 on MHADA's Name:</label>
-                        <div class="m-input-icon m-input-icon--right">
-                            <label class="mt-radio">
-                                <input type="radio" name="mhada_name"  value="1"> Yes
+                        <div class="m-radio-inline">
+                            <label class="m-radio m-radio--solid">
+                                <input type="radio" name="mhada_name" checked="" value="1"> Yes
                                 <span></span>
                             </label>
-                            <label class="mt-radio">
-                                <input type="radio" name="mhada_name" value="0" checked=""> No
-                                <span></span>
+                            <label class="m-radio m-radio--solid">
+                                <input type="radio" name="mhada_name" value="0"> No
+                                <span class="help-block"></span>
                             </label>
-                            <span class="help-block"></span>
                         </div>
                     </div>
                 </div>
@@ -154,16 +154,15 @@
 
                     <div class="col-lg-6 form-group">
                         <label class="col-form-label" for="property_card_mhada_name">Is Property card (PR card) is on MHADA’s name:</label>
-                        <div class="m-input-icon m-input-icon--right">
-                            <label class="mt-radio">
-                                <input type="radio" name="property_card_mhada_name"  value="1"> Yes
+                        <div class="m-radio-inline">
+                            <label class="m-radio m-radio--solid">
+                                <input type="radio" name="property_card_mhada_name" value="1"> Yes
                                 <span></span>
                             </label>
-                            <label class="mt-radio">
+                            <label class="m-radio m-radio--solid">
                                 <input type="radio" name="property_card_mhada_name" value="0" checked=""> No
-                                <span></span>
+                                <span class="help-block"></span>
                             </label>
-                            <span class="help-block"></span>
                         </div>
                     </div>
                 </div>
@@ -171,17 +170,17 @@
                 <div class="form-group m-form__group row">
                     <div class="col-lg-6 form-group">
                         <label class="col-form-label" for="file_upload">Is 7/12 extract available:</label>
-                        <div class="m-input-icon m-input-icon--right">
-                            <label class="mt-radio">
-                                <input type="radio" class="file_upload" name="file_upload"  value="1" checked> Yes
+                        <div class="m-radio-inline">
+                            <label class="m-radio m-radio--solid">
+                                <input type="radio" class="file_upload" name="file_upload" value="1" checked> Yes
                                 <span></span>
                             </label>
-                            <label class="mt-radio">
+                            <label class="m-radio m-radio--solid">
                                 <input type="radio" class="file_upload" name="file_upload" value="0"> No
-                                <span></span>
+                                <span class="help-block"></span>
                             </label>
-                            <span class="help-block"></span>
                         </div>
+
                     </div>
 
                     <div class="col-lg-6 form-group extract_upload" style="display: none">
@@ -210,12 +209,6 @@
 
 @section('js')
     <script>
-        $( function() {
-            $( "#possession_date" ).datepicker({
-                dateFormat: "yy-mm-dd"
-            });
-        } );
-
         if($(".file_upload").val() == 1)
         {
             $(".extract_upload").show();
