@@ -150,7 +150,13 @@ $(document).ready(function() {
             description: "required",
             upload_judgement_case: {
                 required: true,
+                extension: "pdf"
             },
+        },
+        messages:{
+            upload_judgement_case: {
+                extension: "Only pdf format allowed"
+            }
         }
     });
 
@@ -170,8 +176,16 @@ $(document).ready(function() {
 
     $("#sendNoticeToAppellant").validate({
         rules: {
-            upload_notice: "required",
+            upload_notice: {
+                required: true,
+                extension: "pdf"
+            },
             comment: "required",
+        },
+        messages: {
+            upload_notice: {
+                extension: "Only pdf allowed"
+            }
         }
     });
 
