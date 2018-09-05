@@ -152,35 +152,8 @@
         })
     </script>
     <script type="text/javascript" src="{{ asset('/js/custom.js') }}"></script>
-    @yield('js')
-    <script>
-      loadDepartmentsOfBoard();
+    @yield('add_resolution_js');
 
-      $('#board_id').change(function(){
-        loadDepartmentsOfBoard();
-      });
-
-      function loadDepartmentsOfBoard()
-      {
-        var board_id = $('#board_id').val();
-        if(board_id != "")
-        {
-          $.ajax({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            type:"POST",
-            data:{
-              board_id:board_id
-            },
-            url:"{{ route('loadDepartmentsOfBoardUsingAjax') }}",
-            success:function(res){
-              $('#department_id').html(res);
-            }
-          });
-        }
-      }
-    </script>
       <!--end::Page Vendors Scripts -->
       <!--begin::Page Resources -->
    </body>
