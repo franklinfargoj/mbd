@@ -27,41 +27,60 @@
        <!--begin: Search Form -->
        <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
           <div class="row align-items-center">
-             <div class="col-xl-8 order-2 order-xl-1">
-                <div class="form-group m-form__group row align-items-center">
-                   <div class="col-md-4">
-                      <label for="exampleSelect1">Search</label>
+             <div class="col-md-12 order-2 order-xl-1">
+                <!-- <div class="form-group m-form__group row align-items-center"> -->
+                  <form class="form-group m-form__group row align-items-center" method="get" action="{{ url('/resolution') }}">
+                    <div class="col-md-3">
+                      <label for="exampleSelect1">Title</label>
                       <div class="m-input-icon m-input-icon--left">
-                         <input type="text" class="form-control m-input m-input--solid" placeholder="Search..." id="m_form_search">
-                         <span class="m-input-icon__icon m-input-icon__icon--left">
-                         <span>
-                         <i class="la la-search"></i>
-                         </span>
-                         </span>
+                         <input type="text" class="form-control m-input m-input--solid" placeholder="Search..." id="m_form_search" name="title" value="{{ (!empty($getData) ? $getData['title'] : '') }}">
                       </div>
                    </div>
-                   <div class="col-md-4">
+                   <div class="col-md-3">
+                      <div class="form-group m-form__group">
+                         <label>From Date</label>
+                         <input type="date" class="form-control m-input m-input--solid" placeholder="From Date" name="published_from_date" value="{{ (!empty($getData) ? $getData['title'] : '') }}">
+                      </div>
+                   </div>
+                   <div class="col-md-3">
+                      <div class="form-group m-form__group">
+                         <label>To Date</label>
+                         <input type="date" class="form-control m-input m-input--solid" placeholder="From Date" name="published_to_date" value="{{ (!empty($getData) ? $getData['title'] : '') }}">
+                      </div>
+                   </div>
+                   <div class="col-md-3">
                       <div class="form-group m-form__group">
                          <label>Resolution Type</label>
-                         <select class="form-control m-input m-input--square" id="exampleSelect1">
-                            <option>Mhada resolutions</option>
-                            <option>MBR Resolutions</option>
+                         <select class="form-control m-input m-input--square" id="exampleSelect1" name="resolution_type_id">
+                            <option value="0">Select Resolution Type</option>
+                            @foreach($resolutionTypes as $resolutionType)
+                              <option value="{{ $resolutionType['id'] }}">{{ $resolutionType['name'] }}</option>
+                            @endforeach
                          </select>
                       </div>
                    </div>
-                   <div class="col-md-4">
+                   <div class="col-md-3">
                       <div class="form-group m-form__group">
-                         <label>From Date</label>
-                         <input type="date" class="form-control m-input m-input--solid" placeholder="From Date">
+                         <label>Boards</label>
+                         <select class="form-control m-input m-input--square" id="exampleSelect1" name="board_id">
+                            <option value="0">Select Board</option>
+                            @foreach($boards as $board)
+                              <option value="{{ $board['id'] }}">{{ $board['board_name'] }}</option>
+                            @endforeach
+                         </select>
                       </div>
                    </div>
-                   <div class="col-md-4">
-                      <div class="form-group m-form__group">
-                         <label>To Date</label>
-                         <input type="date" class="form-control m-input m-input--solid" placeholder="From Date">
-                      </div>
-                   </div>
-                </div>
+                   <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+                     <div class="m-form__actions m-form__actions">
+                        <div class="row">
+                           <div class="col-lg-6">
+                              <button type="submit" class="btn btn-primary">Search</button>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                </form>                   
+                <!-- </div> -->
              </div>
           </div>
        </div>

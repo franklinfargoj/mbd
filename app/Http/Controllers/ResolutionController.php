@@ -40,7 +40,8 @@ class ResolutionController extends Controller
         $header_data = $this->header_data;
         $boards = Board::where('status', 1)->get()->toArray();
         $resolutionTypes = ResolutionType::all()->toArray();
-        $getData = '';
+        $getData = $request->all();
+        // dd($getData);
 
         $columns = [
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],

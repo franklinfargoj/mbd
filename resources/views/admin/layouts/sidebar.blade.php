@@ -23,7 +23,18 @@
             </a>
          </li>
 
-
+         <li class="m-menu__item m-menu__item--active" aria-haspopup="true" >
+            <a href="{{url('/rti_applicants')}}" class="m-menu__link ">
+               <i class="m-menu__link-icon flaticon-line-graph"></i>
+               <span class="m-menu__link-title">
+            <span class="m-menu__link-wrap">
+            <span class="m-menu__link-text">
+            RTI Applicants
+            </span>
+            </span>
+            </span>
+            </a>
+         </li>
 
          <li class="m-menu__item m-menu__item--active" aria-haspopup="true" >
             <a href="{{url('/village_detail')}}" class="m-menu__link ">
