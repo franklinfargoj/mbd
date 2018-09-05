@@ -21,7 +21,7 @@
              </h3>
           </div>
        </div>
-       <a class="btn btn-danger" href="{{asset('new_theme/add')}}" style="float: right;margin-top: 3%">Add Form</a>
+       <a class="btn btn-danger" href="{{asset('resolution/create')}}" style="float: right;margin-top: 3%">Add Form</a>
     </div>
     <div class="m-portlet__body">
        <!--begin: Search Form -->
