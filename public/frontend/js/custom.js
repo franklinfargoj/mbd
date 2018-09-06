@@ -1,36 +1,23 @@
 $(document).ready(function(){
-	$('#rti_frontend_register').validate({
-		rules:{
-			username:{
-				required:true
-			},
-			address:{
-				required:true
-			},
-			mobile_no:{
-				required:true
-			},
-			email:{
-				required:true,
-				email:true
-			},
-		},
-		messages:{
-			username:{
-				required:"Please enter your name"
-			},
-			address:{
-				required:"Please enter your address"
-			},
-			mobile_no:{
-				required:"Please enter your mobile number"
-			},
-			email:{
-				required:"Please enter your email address",
-				email:"Please enter valid email address"
-			},
-		}
-	});
+	$(document).on('change','#rtiInfoRespondRadios',function(){
+		console.log($("input[name='info_post_or_person']:checked"). val());
+    if($("input[name='info_post_or_person']:checked"). val()==1)
+    {
+        $("#infoPostTypeFormgroup").show();
+    }
+    else{
+        $("#infoPostTypeFormgroup").hide();
+    }
+  });
 
+  $(document).on('change',"input[name='applicant_below_poverty_line']",function(){
+    if($("input[name='applicant_below_poverty_line']:checked"). val()==1)
+    {
+        $("#povertyLineProofFile").show();
+    }
+    else{
+        $("#povertyLineProofFile").hide();
+    }
+  });
 
 });

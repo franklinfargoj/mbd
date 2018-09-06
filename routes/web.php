@@ -25,7 +25,7 @@ Route::get('/department/change_status/{id}', 'DepartmentController@change_status
 Route::get('frontend_register','FrontendRegisterController@showRegisterForm');
 Route::post('frontend_register','FrontendRegisterController@frontendRegister');
 Route::get('rti_form','RtiFormController@showFrontendForm');
-Route::post('rti_form','RtiFormController@saveFrontendForm');
+// Route::post('rti_form','RtiFormController@saveFrontendForm');
 Route::get('rti_form_success','RtiFormController@rtiFormSuccess');
 Route::get('rti_form_success_close','RtiFormController@rtiFormSuccessClose');
 Route::get('rti_form_search','RtiFormController@searchRtiForm');
@@ -39,6 +39,7 @@ Route::get('rti_send_info/{id}','RtiFormController@show_send_info_form');
 Route::post('rti_sent_info/{id}','RtiFormController@send_info');
 Route::get('rti_forward_application/{id}','RtiFormController@show_forward_application_form');
 Route::post('rti_forwarded_application/{id}','RtiFormController@forward_application');
+Route::post('rti_frontend/create_application','RtiFrontEndController@saveRtiFrontendForm')->name('rti_frontend_application');
 Route::resource('/rti_frontend', 'RtiFrontEndController');
 
 
