@@ -103,7 +103,98 @@ var SnippetLogin = function() {
                 }, 500))
             })
         },
-
+        rti_registration = function() {
+            $("#m_login_signin_submit_rti_registration").click(function(e) {
+                e.preventDefault();
+                var a = $(this),
+                    t = $(this).closest("form");
+                    // console.log(t)
+                t.validate({
+                    rules:{
+                        name:{
+                            required:true
+                        },
+                        address:{
+                            required:true
+                        },
+                        mobile_no:{
+                            required:true,
+                            number:true,
+                            minlength:10,
+                            maxlength:10
+                        },
+                        email:{
+                            required:true,
+                            email:true
+                        },
+                    },
+                    messages:{
+                        name:{
+                            required:"Please enter your name"
+                        },
+                        address:{
+                            required:"Please enter your address"
+                        },
+                        mobile_no:{
+                            required:"Please enter your mobile number",
+                            number:"Please enter your valid mobile number",
+                            minlength:"Enter a 10 digit mobile number",
+                            maxlength:"Enter a 10 digit mobile number"
+                        },
+                        email:{
+                            required:"Please enter your email address",
+                            email:"Please enter valid email address"
+                        },
+                    }
+                }), t.valid() && (a.addClass("m-loader m-loader--right m-loader--light").attr("disabled", !0), setTimeout(function() {
+                    $('#rti_frontend_register').submit();
+                }, 500))
+            })
+        },
+        rti_application_form = function() {
+            $("#m_login_signin_submit_rti_application").click(function(e) {
+                e.preventDefault();
+                var a = $(this),
+                    t = $(this).closest("form");
+                    // console.log(t)
+                t.validate({
+                    rules:{
+                        board_name:{
+                            required:true
+                        },
+                        department_name:{
+                            required:true
+                        },
+                        name:{
+                            required:true
+                        },
+                        address:{
+                            required:true
+                        },
+                        info_subject:{
+                            required:true
+                        },
+                        info_period_from:{
+                            required:true
+                        },
+                        info_period_to:{
+                            required:true
+                        },
+                        info_descr:{
+                            required:true
+                        },
+                        info_post_or_person:{
+                            required:true
+                        },
+                        info_post_type:{
+                            required:true
+                        },
+                    }
+                }), t.valid() && (a.addClass("m-loader m-loader--right m-loader--light").attr("disabled", !0), setTimeout(function() {
+                    $('#rti_application_form').submit();
+                }, 500))
+            })
+        },
         add_village = function() {
             $("#add_village").click(function(e) {
                 e.preventDefault();
@@ -351,7 +442,7 @@ var SnippetLogin = function() {
         };
     return {
         init: function() {
-            n(), l(), s(), o(), add_village(), edit_village(), add_society(), add_lease()
+            n(), l(), s(), o(), rti_registration(), rti_application_form(), add_village(), edit_village(), add_society(), add_lease()
         }
     }
 }();

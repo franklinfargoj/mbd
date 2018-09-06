@@ -48,6 +48,7 @@ class RtiFormController extends Controller
 
     public function saveFrontendForm(RtiFormSubmitRequest $request)
     {
+        dd($request->input());
         $input = $request->except(['_token']);
         $time = date("Ymd").time();
         $input['unique_id'] = $time;

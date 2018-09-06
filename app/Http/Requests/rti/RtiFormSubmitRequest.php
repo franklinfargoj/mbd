@@ -26,16 +26,16 @@ class RtiFormSubmitRequest extends FormRequest
         return [
             'board_id'=>"required",
             'department_id'=>"required",
-            'fullname'=>"required",
+            'name'=>"required",
             'address'=>"required",
             'info_subject'=>"required",
             'info_period_from'=>"required",
             'info_period_to'=>"required",
             'info_descr'=>"required",
             'info_post_or_person'=>"required",
-            'info_post_type'=>"required_if:info_post_or_person,1",
+            // 'info_post_type'=>"required_if:info_post_or_person,1",
             'applicant_below_poverty_line'=>"required",
-            'poverty_line_proof_file'=>"required_if:applicant_below_poverty_line,1",
+            // 'poverty_line_proof_file'=>"required_if:applicant_below_poverty_line,1",
         ];
     }
 }
