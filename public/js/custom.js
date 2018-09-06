@@ -307,10 +307,13 @@ $(document).ready(function() {
     }
   });
 
-
-
-
+  $("#DeleteVillageReason").validate({
+    rules : {
+      delete_message : "required",
+    }
+  });
 });
+
 
 // function generateDataTable(url)
 // {

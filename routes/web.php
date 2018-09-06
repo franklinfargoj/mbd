@@ -102,3 +102,5 @@ Route::get('forward_application/{id}','ArchitectApplicationController@getForward
 Route::get('finalCertificateGenerate/{id}','ArchitectApplicationController@getFinalCertificateGenerate');
 Route::get('tempCertificateGenerate/{id}','ArchitectApplicationController@getTempCertificateGenerate');
 Route::post('finalCertificateGenerate','ArchitectApplicationController@postFinalCertificateGenerate');
+
+Route::post('loadDeleteVillageUsingAjax', 'VillageDetailController@loadDeleteVillageUsingAjax')->name('loadDeleteVillageUsingAjax');

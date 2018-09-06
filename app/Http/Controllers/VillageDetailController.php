@@ -7,6 +7,7 @@ use App\Http\Requests\village_detail\EditVillageDetailRequest;
 use App\Http\Requests\village_detail\VillageDetailRequest;
 use App\LandSource;
 use App\VillageDetail;
+use App\DeletedVillages;
 use Illuminate\Http\Request;
 use DB;
 use File;
@@ -259,8 +260,25 @@ class VillageDetailController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        $villageDetails = VillageDetail::findOrfail($id);
+        $villageDetails->delete();
+
+        DeletedVillages::create([
+            'village_details_id' => $id,
+            'land_name'          => $villageDetails->village_name,
+            'day'                => date('l'),
+            'date'               => date('Y-m-d'),
+            'time'               => date("h:i:s"),
+            'reason'             => $request->input('delete_message'),
+            ]);
+
+        return redirect()->back()->with(['success'=> 'Record deleted succesfully']);
+    }
+
+    public function loadDeleteVillageUsingAjax(Request $request){
+        $id = $request->id;
+        return view('admin.village_detail.villageDeteleReason', compact('id'))->render();
     }
 }
