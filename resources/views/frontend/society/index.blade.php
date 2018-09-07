@@ -16,7 +16,13 @@
                            </h1>
                            <!-- <p class="sub-title"></p> -->
                         </div>
-                        <form class="m-login__form m-form" id="sign_in_form">
+                        @if($errors->any() && !$errors->has('capture_text'))
+                           <div class="alert alert-danger alert-block" style="margin-top: 14px;">
+                              <strong>{{$errors->first()}}</strong>
+                           </div>
+                        @endif
+                        <form class="m-login__form m-form" id="sign_in_form" name="sign_in_form" method="post" action="{{route('society_detail.UserAuthentication')}}">
+                        @csrf
                         <div class="form-group m-form__group">
                            <!-- <label for="" class="col-form-label">Email Address</label> -->
                            <input class="form-control m-input" type="text" placeholder="Email" name="email" autocomplete="off">
@@ -24,6 +30,15 @@
                         <div class="form-group m-form__group">
                            <!-- <label for="" class="col-form-label">Password</label> -->
                            <input class="form-control m-input" type="password" placeholder="Password" name="password" autocomplete="off">
+                        </div>
+                        <div class="form-group m-form__group" style="margin-top: 16px;">
+                           <span class="captcha_img" style="padding: 19px;"> {!! captcha_img() !!}</span>
+                           <i class="fa fa-refresh btn_refresh" title="Recapture" aria-hidden="true" style="font-size: 24px;cursor: pointer;"></i>
+
+                           <input type="text" id="capture_text" class="form-control" name="capture_text" placeholder="Enter Capture">
+                           @if($errors->has('capture_text'))
+                              <span class="help-block" style="padding: 16px;color: red;">Invalid capture </span>
+                           @endif   
                         </div>
                         <div class="row m-login__form-sub">
                            <div class="col m--align-right m-login__form-right">
@@ -147,3 +162,4 @@
             </div>
          </div>
 @endsection
+

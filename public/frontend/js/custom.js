@@ -20,4 +20,14 @@ $(document).ready(function(){
     }
   });
 
+  //function used to refresh capture image
+    $(".btn_refresh").click(function(){
+        $.ajax({
+            type : 'GET',
+            url  : 'refresh_captcha',
+            success : function(data){
+                        $(".captcha_img").html(data.captcha);
+                    }
+        });
+    })
 });

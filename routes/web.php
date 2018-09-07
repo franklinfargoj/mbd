@@ -106,3 +106,5 @@ Route::get('tempCertificateGenerate/{id}','ArchitectApplicationController@getTem
 Route::post('finalCertificateGenerate','ArchitectApplicationController@postFinalCertificateGenerate');
 
 Route::post('loadDeleteVillageUsingAjax', 'VillageDetailController@loadDeleteVillageUsingAjax')->name('loadDeleteVillageUsingAjax');
+Route::get('refresh_captcha','SocietyOfferLetterController@RefreshCaptcha')->name('refresh_captcha');
+Route::post('UserAuthentication','SocietyOfferLetterController@UserAuthentication')->name('society_detail.UserAuthentication');

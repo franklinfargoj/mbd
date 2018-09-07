@@ -37,7 +37,8 @@ var SnippetLogin = function() {
                         },
                         password: {
                             required: !0
-                        }
+                        },
+                        capture_text : "required"
                     }
                 }), t.valid() && (a.addClass("m-loader m-loader--right m-loader--light").attr("disabled", !0), setTimeout(function() {
                     $('#sign_in_form').submit();

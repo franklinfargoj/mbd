@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\SocietyOfferLetter;
 use Validator;
 use Illuminate\Http\Request;
+use Redirect;
 
 class SocietyOfferLetterController extends Controller
 {
@@ -89,5 +90,33 @@ class SocietyOfferLetterController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    //function is used to refresh capture img 
+    public function RefreshCaptcha(){
+        return response()->json(['captcha' => captcha_img()]);
+    }
+
+    // function used to Aunthonticate society user
+    public function UserAuthentication(Request $request){
+
+       $validateData = $request->validate([
+        'capture_text' => 'required|captcha',
+        ]);        
+        $email    = $request->input('email');
+        $password = $request->input('password');
+
+        if (isset($email) && isset($password)){
+            $SocietyUser = SocietyOfferLetter::where('society_email',$email)
+                                               ->where('society_password',$password)->first();
+            if ($SocietyUser){
+                $response['sucess'] = "Authonticate User";  
+                // return Redirect::back()->withSuccess(['Authonticate User']);
+            }else{
+                return Redirect::back()->withErrors(['Authontication Failed']);
+            }
+        }else{
+            return Redirect::back()->withErrors(['Enter Email and Password']);
+        }
     }
 }
