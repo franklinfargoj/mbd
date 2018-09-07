@@ -250,7 +250,7 @@ class ResolutionController extends Controller
             'filepath' => $resolution->filepath,
             'filename' => $resolution->filename,
             'reason_for_delete' => $request->input('delete_message'),
-            'created_at' => $date
+            // 'created_at' => $date
         ]);
 
         return redirect()->back()->with(['success'=> 'Record deleted succesfully']);

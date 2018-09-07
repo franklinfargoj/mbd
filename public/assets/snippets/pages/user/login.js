@@ -215,6 +215,23 @@ var SnippetLogin = function() {
                 }, 500))
             })
         },
+        scoiety_offer_letter_forgot_password = function() {
+            $("#m_login_forget_password_submit_society_offer_letter").click(function(e) {
+                e.preventDefault();
+                var a = $(this),
+                    t = $(this).closest("form");
+                    // console.log(t)
+                t.validate({
+                    rules:{
+                        society_email:{
+                            required:true,
+                        }
+                    }
+                }), t.valid() && (a.addClass("m-loader m-loader--right m-loader--light").attr("disabled", !0), setTimeout(function() {
+                    $('#society_forgot_password_form').submit();
+                }, 500))
+            })
+        },
         scoiety_offer_letter = function() {
             $("#m_login_signup_submit_society_offer_letter").click(function(e) {
                 e.preventDefault();
@@ -520,7 +537,7 @@ var SnippetLogin = function() {
         };
     return {
         init: function() {
-            n(), l(), s(), o(), rti_registration(), rti_application_form(), rti_application_status_check(), scoiety_offer_letter(), add_village(), edit_village(), add_society(), add_lease()
+            n(), l(), s(), o(), rti_registration(), rti_application_form(), rti_application_status_check(), scoiety_offer_letter_forgot_password(), scoiety_offer_letter(), add_village(), edit_village(), add_society(), add_lease()
         }
     }
 }();

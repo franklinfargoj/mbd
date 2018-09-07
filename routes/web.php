@@ -42,7 +42,9 @@ Route::post('rti_forwarded_application/{id}','RtiFormController@forward_applicat
 Route::post('rti_frontend/create_application','RtiFrontEndController@saveRtiFrontendForm')->name('rti_frontend_application');
 Route::post('rti_frontend/view_application','RtiFrontEndController@show_rti_application_status')->name('rti_frontend_application_status');
 Route::resource('/rti_frontend', 'RtiFrontEndController');
+Route::post('society_offer_letter/forgot_password','SocietyOfferLetterController@forgot_password')->name('society_offer_letter_forgot_password');
 Route::resource('/society_offer_letter', 'SocietyOfferLetterController');
+Route::resource('/email_templates', 'EmailTemplateController');
 
 
 Route::get('/resolution/delete/{id}', 'ResolutionController@destroy')->name('resolution.delete');

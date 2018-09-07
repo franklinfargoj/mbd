@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\SocietyOfferLetter;
 use Validator;
+use Mail;
 use Illuminate\Http\Request;
 
 class SocietyOfferLetterController extends Controller
@@ -38,11 +39,12 @@ class SocietyOfferLetterController extends Controller
     {
         $validated_fields = SocietyOfferLetter::validate($request);
         if($validated_fields->fails()){
-            dd('Validation Failed!');
+            $errors = $validated_fields->errors();
+            return redirect()->route('society_offer_letter.index');
         }else{
             $scoiety_offer_letter_details = $request->input();
             SocietyOfferLetter::create($scoiety_offer_letter_details);
-            return redirect()->route('society_offer_letter.index');
+            return redirect()->route('society_offer_letter.index')->with('registered', 'Society registered successfully!');
         }
     }
 
@@ -90,4 +92,16 @@ class SocietyOfferLetterController extends Controller
     {
         //
     }
+
+    /**
+     * Receives the post request and sends mail for forgot password link.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function forgot_password(Request $request)
+    {
+        dd($request->input());
+    }
+
 }
