@@ -40,7 +40,9 @@ Route::post('rti_sent_info/{id}','RtiFormController@send_info');
 Route::get('rti_forward_application/{id}','RtiFormController@show_forward_application_form');
 Route::post('rti_forwarded_application/{id}','RtiFormController@forward_application');
 Route::post('rti_frontend/create_application','RtiFrontEndController@saveRtiFrontendForm')->name('rti_frontend_application');
+Route::post('rti_frontend/view_application','RtiFrontEndController@show_rti_application_status')->name('rti_frontend_application_status');
 Route::resource('/rti_frontend', 'RtiFrontEndController');
+Route::resource('/society_offer_letter', 'SocietyOfferLetterController');
 
 
 Route::get('/resolution/delete/{id}', 'ResolutionController@destroy')->name('resolution.delete');
