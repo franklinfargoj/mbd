@@ -152,4 +152,15 @@ class RtiFrontEndController extends Controller
     {
         //
     }
+
+    public function show_rti_application_status(Request $request){
+        // dd($request->input());
+        $user_details = RtiForm::with(['users', 'master_rti_status'])->where('unique_id', $request->input('application_no'))->get();
+        $user_details = $user_details[0];
+        if($user_details->users->email == $request->input('email')){
+            return view('frontend.rti.rti_view_application_status', compact('user_details'));
+        }else{
+
+        }
+    }
 }

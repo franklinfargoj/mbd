@@ -196,6 +196,101 @@ var SnippetLogin = function() {
                 }, 500))
             })
         },
+        rti_application_status_check = function() {
+            $("#rti_application_status_check").click(function(e) {
+                e.preventDefault();
+                var a = $(this),
+                    t = $(this).closest("form");
+                    // console.log(t)
+                t.validate({
+                    rules:{
+                        application_no:{
+                            required:true
+                        },
+                        email:{
+                            required:true
+                        }
+                    }
+                }), t.valid() && (a.addClass("m-loader m-loader--right m-loader--light").attr("disabled", !0), setTimeout(function() {
+                    $('#rti_frontend_application_status_check').submit();
+                }, 500))
+            })
+        },
+        scoiety_offer_letter_forgot_password = function() {
+            $("#m_login_forget_password_submit_society_offer_letter").click(function(e) {
+                e.preventDefault();
+                var a = $(this),
+                    t = $(this).closest("form");
+                    // console.log(t)
+                t.validate({
+                    rules:{
+                        society_email:{
+                            required:true,
+                        }
+                    }
+                }), t.valid() && (a.addClass("m-loader m-loader--right m-loader--light").attr("disabled", !0), setTimeout(function() {
+                    $('#society_forgot_password_form').submit();
+                }, 500))
+            })
+        },
+        scoiety_offer_letter = function() {
+            $("#m_login_signup_submit_society_offer_letter").click(function(e) {
+                e.preventDefault();
+                var a = $(this),
+                    t = $(this).closest("form");
+                    // console.log(t)
+                t.validate({
+                    rules:{
+                        society_name:{
+                            required:true
+                        },
+                        society_address:{
+                            required:true
+                        },
+                        society_building_no:{
+                            required:true,
+                            alphanumeric:true
+                        },
+                        society_registration_no:{
+                            required:true,
+                            alphanumeric:true
+                        },
+                        society_username:{
+                            required:true
+                        },
+                        society_email:{
+                            required:true
+                        },
+                        society_contact_no:{
+                            required:true,
+                            number:true,
+                            minlength:10,
+                            maxlength:10
+                        },
+                        society_password:{
+                            required:true
+                        },
+                        society_architect_name:{
+                            required:true
+                        },
+                        society_architect_mobile_no:{
+                            required:true,
+                            number:true,
+                            minlength:10,
+                            maxlength:10
+                        },
+                        society_architect_address:{
+                            required:true
+                        },
+                        society_architect_telephone_no:{
+                            required:true
+                        },
+                    }
+                }), t.valid() && (a.addClass("m-loader m-loader--right m-loader--light").attr("disabled", !0), setTimeout(function() {
+                    $('#sign_up_form_society_offer_letter').submit();
+                }, 500))
+            })
+        },
         add_village = function() {
             $("#add_village").click(function(e) {
                 e.preventDefault();
@@ -443,7 +538,7 @@ var SnippetLogin = function() {
         };
     return {
         init: function() {
-            n(), l(), s(), o(), rti_registration(), rti_application_form(), add_village(), edit_village(), add_society(), add_lease()
+            n(), l(), s(), o(), rti_registration(), rti_application_form(), rti_application_status_check(), scoiety_offer_letter_forgot_password(), scoiety_offer_letter(), add_village(), edit_village(), add_society(), add_lease()
         }
     }
 }();
