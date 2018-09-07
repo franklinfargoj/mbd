@@ -41,11 +41,25 @@ $(document).ready(function() {
       resolution_type: "required",
       resolution_code: "required",
       title: "required",
-      description: "required",
-      file: "required",
+      description: "required",          
       language: "required",
       published_date: "required",
       revision_log_message: "required",
+      file: {
+        extension : "pdf",
+        required  : function(element) {
+                      if ($("#File_name").text() == ""){
+                          return true;
+                      } else {
+                          return false;
+                      }
+                    }
+      },      
+    },
+    messages : {
+      file : {
+        extension : "The file must be a file of type: pdf."
+      }
     }
   });
 
@@ -293,10 +307,13 @@ $(document).ready(function() {
     }
   });
 
-
-
-
+  $("#DeleteVillageReason").validate({
+    rules : {
+      delete_message : "required",
+    }
+  });
 });
+
 
 // function generateDataTable(url)
 // {

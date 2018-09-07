@@ -88,7 +88,28 @@
             dateFormat: "yy-mm-dd"
         });
     } );*/
-</script>
+
+    //function to detele village details
+    function deleteVillage(id)
+    {
+      if(confirm("Are you sure to delete?"))
+      {
+        $.ajax({
+          headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type : "POST",
+            data : { id : id },
+            url  : 'loadDeleteVillageUsingAjax',
+            success:function(res)
+            {
+              $("#myModal").html(res);
+              $("#myModalBtn").click();
+            }
+        });
+      }
+    }
+  </script>
 @endsection
 
 
