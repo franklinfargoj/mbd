@@ -201,8 +201,13 @@ class SocietyOfferLetterController extends Controller
         return view('frontend.society.offer_letter_application');
     }
 
-
+    // function used to view society Application page
     public function ViewApplications(Request $request){
         return view('frontend.society.application');
+    }
+
+    // function used to display documents upload form for society
+    public function displaySocietyDocuments(){
+        return view('frontend.society.society_upload_documents');
     }
 }
