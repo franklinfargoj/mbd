@@ -126,7 +126,7 @@ class EmailTemplateController extends Controller
      */
     public function update(Request $request, $id)
     {
-        dd($request->input());
+        // dd($request->input());
         $input = array(
             'type' => $request->input('type'),
             'body' => $request->input('body')
