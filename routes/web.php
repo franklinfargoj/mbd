@@ -43,8 +43,6 @@ Route::post('rti_frontend/create_application','RtiFrontEndController@saveRtiFron
 Route::post('rti_frontend/view_application','RtiFrontEndController@show_rti_application_status')->name('rti_frontend_application_status');
 Route::resource('/rti_frontend', 'RtiFrontEndController');
 Route::post('society_offer_letter/forgot_password','SocietyOfferLetterController@forgot_password')->name('society_offer_letter_forgot_password');
-Route::get('/society_offer_letter_dashboard', 'SocietyOfferLetterController@dashboard')->name('society_offer_letter_dashboard');
-Route::get('/offer_letter_application_form', 'SocietyOfferLetterController@show_offer_letter_application')->name('offer_letter_application');
 Route::resource('/society_offer_letter', 'SocietyOfferLetterController');
 Route::resource('/email_templates', 'EmailTemplateController');
 
@@ -97,26 +95,18 @@ Route::get('/lease_detail/renew-lease/{id}', 'LeaseDetailController@renewLease')
 Route::post('/lease_detail/update-lease/{id}', 'LeaseDetailController@updateLease')->name('renew-lease.update-lease');
 
 
-Route::get('architect_application','ArchitectApplicationController@index');
-Route::get('shortlisted_architect_application','ArchitectApplicationController@shortlistedIndex');
-Route::get('final_architect_application','ArchitectApplicationController@finalIndex');
-Route::get('view_architect_application/{id}','ArchitectApplicationController@viewApplication');
-Route::get('evaluate_architect_application/{id}','ArchitectApplicationController@evaluateApplication');
+Route::get('architect_application','ArchitectApplicationController@index')->name('architect_application');
+Route::get('shortlisted_architect_application','ArchitectApplicationController@shortlistedIndex')->name('shortlisted_architect_application');
+Route::get('final_architect_application','ArchitectApplicationController@finalIndex')->name('final_architect_application');
+Route::get('view_architect_application/{id}','ArchitectApplicationController@viewApplication')->name('view_architect_application');
+Route::get('evaluate_architect_application/{id}','ArchitectApplicationController@evaluateApplication')->name('evaluate_architect_application');
 Route::post('save_evaluate_marks','ArchitectApplicationController@saveEvaluateMarks')->name('save_evaluate_marks');
-Route::get('generate_certificate/{id}','ArchitectApplicationController@getGenerateCertificate');
-Route::get('forward_application/{id}','ArchitectApplicationController@getForwardApplication');
-Route::get('finalCertificateGenerate/{id}','ArchitectApplicationController@getFinalCertificateGenerate');
-Route::get('tempCertificateGenerate/{id}','ArchitectApplicationController@getTempCertificateGenerate');
-Route::post('finalCertificateGenerate','ArchitectApplicationController@postFinalCertificateGenerate');
+Route::get('generate_certificate/{id}','ArchitectApplicationController@getGenerateCertificate')->name('generate_certificate');
+Route::get('forward_application/{id}','ArchitectApplicationController@getForwardApplication')->name('forward_application');
+Route::get('finalCertificateGenerate/{id}','ArchitectApplicationController@getFinalCertificateGenerate')->name('finalCertificateGenerate');
+Route::get('tempCertificateGenerate/{id}','ArchitectApplicationController@getTempCertificateGenerate')->name('tempCertificateGenerate');
+Route::post('finalCertificateGenerate','ArchitectApplicationController@postFinalCertificateGenerate')->name('finalCertificateGenerate');
 
 Route::post('loadDeleteVillageUsingAjax', 'VillageDetailController@loadDeleteVillageUsingAjax')->name('loadDeleteVillageUsingAjax');
 Route::get('refresh_captcha','SocietyOfferLetterController@RefreshCaptcha')->name('refresh_captcha');
 Route::post('UserAuthentication','SocietyOfferLetterController@UserAuthentication')->name('society_detail.UserAuthentication');
-
-
-// EE Department Routes
-
-Route::resource('ee', 'EEDepartment\EEController');
-//route for society Application Page
-Route::get('/application','SocietyOfferLetterController@ViewApplications')->name('society_detail.application');
-Route::resource('received_application','DYCEDepartment\DYCEController');
