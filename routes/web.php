@@ -117,3 +117,4 @@ Route::post('UserAuthentication','SocietyOfferLetterController@UserAuthenticatio
 Route::resource('ee', 'EEDepartment\EEController');
 //route for society Application Page
 Route::get('/application','SocietyOfferLetterController@ViewApplications')->name('society_detail.application');
+Route::resource('received_application','DYCEDepartment\DYCEController');
