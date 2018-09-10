@@ -22,6 +22,13 @@ class DatabaseSeeder extends Seeder
 
         $this->call(MasterRtiStatusTableSeeder::class);
         $this->call(MasterMonthTableSeeder::class);
+
+        $this->call(LanguageMasterTableSeeder::class);
+        $this->call(OlApplicationMasterTableSeeder::class);
+
+        $this->call(OlDcrRateMasterTableSeeder::class);
+        $this->call(OlSocietyDocumentsMasterTableSeeder::class);
+
        // $this->call(RtiFormTableSeeder::class);
     }
 }
