@@ -1,0 +1,118 @@
+Technical Specifications for Website and App
+
+Our Website is created using PHP 5.6.36 and MySQL 5.6.39. We have used laravel framework version 5.4 to built Website. For UI designing we have used Bootstrp 3.3.7. The website is hosted on private dedicated VPS. We have used 256 bit AES-256-CBC Encryption and covered security of website using following preventions
+-CSRF protection
+-XSS Filtering
+-SET X-Frame-Options
+-Integrated SSL Certificate
+-Validate input data
+-Used laravel purifiers for enhance security
+
+
+
+thursday full website
+friday app and backend
+
+jodi 36
+how much question to ask first and then how much question to be on GO(after reg process)
+
+****Aryasamaj Contact form change kamini with Deepak***
+**** Occupation will be in ascending order****
+
+New login nand registration process
+Imp:- Free service shouldn't have human interface
+1. first step valid with otp (who is responsible and where otp should sent)
+2. Forget Password process will be system generated using LINK and/or reset by admin
+3. What field we are using at what level
+4. for free user we can show image without name. else we can show image
+5. User registration journey to be tracked. check his registration page number (profile completion state/number)
+6. use deeplinking mail to complete registreation process as number above
+7. Dashboard- shows you matches select from this or search
+	- featured profile shows gold first then premium and then free
+8. Show only number profiles to access for free users. And same as premium. And for gold shows all profile
+9. when shows image, if user can take screenshot we have to avoid it. check for Screenshot disable
+10. Payment made by cash then admin can change plan from backend
+11. matrimony meet page 
+12. Cost for paytm businnes account priority.
+13. https://www.bharatmatrimony.com/ Use registration form , 
+14. Everytime store IP? or location
+15. Send mail for stage completion 
+16. Take permission from user to show pic Its for free website.
+17. Address show 
+18. Uniform Image size
+19. Auto Generate Age, Height, Religion, country, state, Marital status in partner preferences 
+20. Change/check search algo for marital status
+21. Education and occupation tab, if Occupation is not working then occupation field, comapny name, role and salary range will be disabled.
+22. Mobile number is checked at time of OTP, and it should be unique.
+23. Show all photos and about us of user as listing. And send update photo request. And request is sent then user have to upload image when next login. Client cannot proceed further.
+24. Add onhold option backend.
+25. Approval process is by-out.
+26. Add liked profile flag. Send notification to parent if client likes a profile.
+27. Account is operated by option will be added. and they are self, parent only, and both option.
+28. webwhatsapp add for numbers
+
+Registration process
+1. https://www.bharatmatrimony.com/ Use registration form 
+2. Forms
+   - Basic details
+   - Professional Information, Location
+   - Religion details, Family details & life style, 
+   - Partner preference
+   - about me and game
+   - Photo, horoscope
+
+
+
+
+bureau will have extra address (locality) filter in admin side
+
+
+
+// Use PAYTM_ENVIRONMENT as 'PROD' if you wanted to do transaction in production environment else 'TEST' for doing transaction in testing environment.
+define('PAYTM_ENVIRONMENT', 'TEST');
+// portal Change this constant's value with Merchant key downloaded 
+define('PAYTM_MERCHANT_KEY', 'qmPG9KOshlo2VlKD');
+// Paytm Change this constant's value with MID (Merchant ID) received 
+define('PAYTM_MERCHANT_MID', 'kaustu80792983311325');
+// Paytm Change this constant's value with Website name received 
+define('PAYTM_MERCHANT_WEBSITE', 'TCMtestingweb');
+
+Mobile Number – 7777777777
+Password – Paytm12345
+OTP – 489871
+
+Merchant Details to test Paytm integration
+Sandbox Merchant ID
+kaustu80792983311325
+Website Url
+http://tcmmatrimony.com
+App Url
+http://tcmmatrimony.com
+Sandbox Merchant Key
+qmPG9KOshlo2VlKD
+Channel Id
+WAP
+Industry Type
+Retail
+
+
+
+Uploading / listen audio is too slow
+ - sol we can give in basic details
+
+preference matching will have 2-3 algorithms
+1. Education compaitibility
+2. Income compa.
+3. Occupation
+4. Location
+
+Make reports of search category
+
+Add does'nt matter in search for married status,Education
+
+Daily reports for registration step
+
+Add your word in registration form
+
+Exception reports if user checking multiple no (high) of profiles in particular day
+- sol/action - logut him and need bureau authorization to proceed
