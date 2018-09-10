@@ -31,4 +31,16 @@ class RtiForm extends Model
     	return $this->belongsTo(RtiForwardApplication::class, 'rti_forward_application_id');
     }
 
+    public function board(){
+        return $this->belongsTo(Board::class, 'board_id');
+    }
+
+    public function department(){
+        return $this->belongsTo(Department::class, 'department_id');
+    }
+
+    // public function status(){
+    //     return $this->belongsTo(RtiStatus::class, 'rti_status_id');
+    // }
+
 }
