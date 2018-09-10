@@ -15,3 +15,5 @@ yarn-error.log
 /public/.htaccess
 /storage/poverty_files/
 /storage/*
+config/database.php
+.gitignore
