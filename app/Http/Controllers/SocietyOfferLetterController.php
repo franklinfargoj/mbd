@@ -202,4 +202,7 @@ class SocietyOfferLetterController extends Controller
     }
 
 
+    public function ViewApplications(Request $request){
+        return view('frontend.society.application');
+    }
 }

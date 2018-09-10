@@ -112,3 +112,10 @@ Route::post('finalCertificateGenerate','ArchitectApplicationController@postFinal
 Route::post('loadDeleteVillageUsingAjax', 'VillageDetailController@loadDeleteVillageUsingAjax')->name('loadDeleteVillageUsingAjax');
 Route::get('refresh_captcha','SocietyOfferLetterController@RefreshCaptcha')->name('refresh_captcha');
 Route::post('UserAuthentication','SocietyOfferLetterController@UserAuthentication')->name('society_detail.UserAuthentication');
+
+
+// EE Department Routes
+
+Route::resource('ee', 'EEDepartment\EEController');
+//route for society Application Page
+Route::get('/application','SocietyOfferLetterController@ViewApplications')->name('society_detail.application');
