@@ -60,7 +60,47 @@
             </span>
             </span>
             </a>
+         </li>         
+
+         <li class="m-menu__item m-menu__item--active" aria-haspopup="true" >
+            <a href="" class="m-menu__link ">
+               <i class="m-menu__link-icon flaticon-line-graph"></i>
+               <span class="m-menu__link-title">
+            <span class="m-menu__link-wrap">
+            <span class="m-menu__link-text">
+            Dashboard
+            </span>
+            </span>
+            </span>
+            </a>
+         </li>         
+
+         <li class="m-menu__item m-menu__item--active" aria-haspopup="true" >
+            <a href="{{url('/application')}}" class="m-menu__link ">
+               <i class="m-menu__link-icon flaticon-line-graph"></i>
+               <span class="m-menu__link-title">
+            <span class="m-menu__link-wrap">
+            <span class="m-menu__link-text">
+            Application 
+            </span>
+            </span>
+            </span>
+            </a>
+         </li>         
+
+         <li class="m-menu__item m-menu__item--active" aria-haspopup="true" >
+            <a href="" class="m-menu__link ">
+               <i class="m-menu__link-icon flaticon-line-graph"></i>
+               <span class="m-menu__link-title">
+            <span class="m-menu__link-wrap">
+            <span class="m-menu__link-text">
+            Profile 
+            </span>
+            </span>
+            </span>
+            </a>
          </li>
+
       </ul>
    </div>
    <!-- END: Aside Menu -->

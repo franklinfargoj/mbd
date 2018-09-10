@@ -115,3 +115,5 @@ Route::post('UserAuthentication','SocietyOfferLetterController@UserAuthenticatio
 // EE Department Routes
 
 Route::resource('ee', 'EEDepartment\EEController');
+//route for society Application Page
+Route::get('/application','SocietyOfferLetterController@ViewApplications')->name('society_detail.application');

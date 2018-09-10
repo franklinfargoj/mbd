@@ -154,6 +154,7 @@
     <script type="text/javascript" src="{{ asset('/js/custom.js') }}"></script>
     @yield('add_resolution_js');
     @yield('add_email_templates_js');
+    @yield('Application_redevelopment');
 
       <!--end::Page Vendors Scripts -->
       <!--begin::Page Resources -->

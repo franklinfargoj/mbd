@@ -131,4 +131,8 @@ class SocietyOfferLetterController extends Controller
     {
         dd($request->input());
     }
+
+    public function ViewApplications(Request $request){
+        return view('frontend.society.application');
+    }
 }
