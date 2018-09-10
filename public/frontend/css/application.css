@@ -1,0 +1,98 @@
+.div_panel{
+  height: 224px;
+  border: 1px solid #cecbcb;
+}
+.t_head{
+  margin-left: 28px;
+  font-size: 20px;
+  font-weight: 500;
+}
+.t_main{
+  margin-top: 25px;
+}
+.row{
+  padding: 26px;
+  margin: 0px;
+}
+.d_left{
+  border-right: 1px solid #cecbcb;
+  height:70px;
+  float:left;
+}
+.d_right{
+  border-left: 1px solid #cecbcb;
+  height:70px;
+  float: right
+}
+.border555 {
+  border-radius: 3px;
+  background-color: #555555;
+  color: white;
+}
+.border5 {
+  border-radius: 10px;
+  background-color: white;
+  color: black;
+  border: 2px solid #555555;
+
+}
+.btn {
+  background-color: #6e716e;
+  border: 1px solid #8a8585;
+  color: #FFFFFF;
+  padding: 9px;
+  text-align: center;
+  -webkit-transition-duration: 0.4s;
+  transition-duration: 0.4s;
+  margin: 16px 0 !important;
+  text-decoration: none;
+  font-size: 16px;
+  cursor: pointer;
+  width: 283px;
+}
+.border555:hover {
+  background-color: white;
+  color: black;
+  border: 1px solid #555555;
+}
+.btn2{
+  width: 355px;
+  margin-left: 20px !important;
+}
+.premium_btn{
+  border-radius: 16px;
+  width: 155px;
+  font-size: 14px;  
+  background-color: #822e58 !important;
+}
+.m_btn{
+  margin-left: 27px !important;
+}
+.self_premium{
+  border: 1px solid #cecbcb;
+  margin-top: 46px;  
+  padding-top: 20px; 
+  height: 375px;     
+}
+.App_head{
+  padding-left: 41px;
+  font-size: 18px;
+  font-weight: 500;  
+}
+.options{
+  padding: 40px;
+  font-size: 16px;
+  font-weight: 700;  
+}
+.self, .re_dev{
+  display: none;
+}
+a{
+  color: #696565 !important;
+}
+#self_premium, #self_sharing, #dev_premium, #dev_sharing{
+  display: none;
+}
+.title{
+  text-decoration: underline;
+}

@@ -1,0 +1,38 @@
+.letter-form {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.letter-form p {
+    line-height: 1.8;
+}
+
+.letter-form p + p {
+    margin-top: 20px;
+}
+
+.letter-form .letter-form-content {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.letter-form-header-content {
+    padding-top: 30px;
+}
+
+.letter-form input {
+    border: none;
+    border-bottom: 1px solid #212529;
+    background-color: transparent;
+    padding: 2px 0;
+    height: 16px;
+    margin: 0 5px;
+}
+
+.letter-form input:focus {
+    outline: none;    
+}
+
+.font-weight-semi-bold {
+    font-weight: 500;
+}
