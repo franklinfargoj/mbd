@@ -43,6 +43,9 @@ Route::post('rti_frontend/create_application','RtiFrontEndController@saveRtiFron
 Route::post('rti_frontend/view_application','RtiFrontEndController@show_rti_application_status')->name('rti_frontend_application_status');
 Route::resource('/rti_frontend', 'RtiFrontEndController');
 Route::post('society_offer_letter/forgot_password','SocietyOfferLetterController@forgot_password')->name('society_offer_letter_forgot_password');
+Route::get('/society_offer_letter_dashboard', 'SocietyOfferLetterController@dashboard')->name('society_offer_letter_dashboard');
+Route::get('/offer_letter_application_form', 'SocietyOfferLetterController@show_offer_letter_application')->name('offer_letter_application');
+Route::get('documents_upload','SocietyOfferLetterController@displaySocietyDocuments');
 Route::resource('/society_offer_letter', 'SocietyOfferLetterController');
 Route::resource('/email_templates', 'EmailTemplateController');
 
@@ -118,4 +121,3 @@ Route::resource('ee', 'EEDepartment\EEController');
 //route for society Application Page
 Route::get('/application','SocietyOfferLetterController@ViewApplications')->name('society_detail.application');
 Route::resource('received_application','DYCEDepartment\DYCEController');
-Route::get('documents_Upload','SocietyOfferLetterController@displaySocietyDocuments');
