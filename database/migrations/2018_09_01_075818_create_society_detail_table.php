@@ -13,7 +13,7 @@ class CreateSocietyDetailTable extends Migration
      */
     public function up()
     {
-        Schema::create('society_detail', function (Blueprint $table) {
+        Schema::create('lm_society_detail', function (Blueprint $table) {
             $table->increments('id');
             $table->string('society_name')->nullable();
             $table->string('district')->nullable();
@@ -29,7 +29,7 @@ class CreateSocietyDetailTable extends Migration
             $table->string('surplus_charges_last_date')->nullable();
 
             $table->unsignedInteger('village_id');
-            $table->foreign('village_id')->references('id')->on('village_detail')->onDelete('cascade');
+            $table->foreign('village_id')->references('id')->on('lm_village_detail')->onDelete('cascade');
 
             $table->unsignedInteger('other_land_id');
             $table->foreign('other_land_id')->references('id')->on('other_land')->onDelete('cascade');

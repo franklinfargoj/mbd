@@ -11,6 +11,7 @@ use App\DeletedVillages;
 use Illuminate\Http\Request;
 use DB;
 use File;
+use Illuminate\Support\Facades\Auth;
 use Storage;
 use Yajra\DataTables\DataTables;
 use Config;
@@ -55,7 +56,9 @@ class VillageDetailController extends Controller
 
             DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
 
-            $village_data = VillageDetail::with(['villageLandSource', 'villageBoard']);
+            $village_data = VillageDetail::with(['villageLandSource', 'villageBoard'])
+                                            ->where('user_id', Auth::user()->id)
+                                            ->where('role_id', session()->get('role_id'));
 
 //            if($request->office_date_from)
 //            {
@@ -67,7 +70,7 @@ class VillageDetailController extends Controller
 //                $hearing_data = $hearing_data->whereDate('office_date', '<=', date('Y-m-d', strtotime($request->office_date_to)));
 //            }
 
-            $village_data = $village_data->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').',village_name, village_detail.id as id, board_id, land_source_id, land_address, possession_date');
+            $village_data = $village_data->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').',village_name, lm_village_detail.id as id, board_id, land_source_id, land_address, possession_date');
 
             return $datatables->of($village_data)
                 ->editColumn('village_name', function ($village_data) {
@@ -138,6 +141,8 @@ class VillageDetailController extends Controller
             'property_card' => $request->property_card,
             'property_card_mhada_name' => $request->property_card_mhada_name,
             'land_cost' => $request->land_cost,
+            'user_id' => Auth::user()->id,
+            'role_id' => session()->get('role_id')
         ];
         
         $time = time();
@@ -221,6 +226,8 @@ class VillageDetailController extends Controller
             'property_card' => $request->property_card,
             'property_card_mhada_name' => $request->property_card_mhada_name,
             'land_cost' => $request->land_cost,
+            'user_id' => Auth::user()->id,
+            'role_id' => session()->get('role_id')
         ];
 
         $time = time();

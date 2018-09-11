@@ -9,8 +9,10 @@ use App\Department;
 use App\Hearing;
 use App\HearingStatus;
 use App\Http\Requests\hearing\EditHearingRequest;
+use App\User;
 use DB;
 use App\Http\Requests\hearing\AddHearingRequest;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
 use Illuminate\Http\Request;
 use Config;
@@ -48,6 +50,12 @@ class HearingController extends Controller
             ['data' => 'hearingDepartment','name' => 'hearingDepartment.department_name','title' => 'Department'],
             ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
         ];
+
+        /*$user = User::with(['roles.permission'])->where('id', Auth::user()->id)->first();
+        $roles = array_get($user, 'roles');
+        $only_permissions =  array_flatten(array_pluck($roles, 'permission'));
+        $permissions =  array_pluck($only_permissions, 'name');
+        dd($permissions);*/
 
         if ($datatables->getRequest()->ajax()) {
 

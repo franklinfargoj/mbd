@@ -16,7 +16,7 @@ class CreateDeletedVillageDetails extends Migration
         Schema::create('deleted_village_details', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('village_details_id');
-            $table->foreign('village_details_id')->references('id')->on('village_detail')
+            $table->foreign('village_details_id')->references('id')->on('lm_village_detail')
                   ->onDelete('cascade');
             $table->string('user_name')->nullable();
             $table->string('land_name')->nullable();

@@ -52,7 +52,7 @@ class LeaseDetailController extends Controller
 
             $lease_data = LeaseDetail::with('leaseSociety')->where(['society_id' => $id, 'lease_status' => 1]);
 
-            $lease_data = $lease_data->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').',lease_rule_16_other, lease_detail.id as id, lease_detail.area as area, society_id, lease_period, lease_start_date');
+            $lease_data = $lease_data->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').',lease_rule_16_other, lm_lease_detail.id as id, lm_lease_detail.area as area, society_id, lease_period, lease_start_date');
 
             return $datatables->of($lease_data)
                 ->editColumn('leaseSociety', function ($lease_data) {
@@ -113,6 +113,7 @@ class LeaseDetailController extends Controller
             'interest_per_renewed_lease_agreement' => $request->interest_per_renewed_lease_agreement,
             'month_rent_per_renewed_lease' => $request->month_rent_per_renewed_lease,
             'society_id' => $request->society_id,
+            'lease_status' => 1
         ];
 
         LeaseDetail::create($lease_detail);

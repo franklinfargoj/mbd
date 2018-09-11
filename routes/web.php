@@ -12,9 +12,16 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/login-user');
 });
 
+Route::group(['middleware' => 'disablepreventback'], function() {
+    Auth::routes();
+    Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('/login-user', 'Auth\LoginController@getLoginForm')->name('login');
+    Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
+    Route::post('/loginUser', 'Auth\LoginController@loginUser')->name('loginUser');
+});
 
 Route::resource('/faq', 'FaqController');
 Route::get('/faq/change_status/{id}', 'FaqController@change_status');
@@ -85,17 +92,21 @@ Route::post('/send_notice_to_appellant/store', 'SendNoticeToAppellantController@
 Route::get('/send_notice_to_appellant/edit/{id}', 'SendNoticeToAppellantController@edit')->name('send_notice_to_appellant.edit');
 Route::post('/send_notice_to_appellant/update/{id}', 'SendNoticeToAppellantController@update')->name('send_notice_to_appellant.update');
 
-Route::resource('/village_detail', 'VillageDetailController');
-Route::get('/society_detail/{id}', 'SocietyController@index')->name("society_detail.index");
-Route::get('/society_detail/create/{id}', 'SocietyController@create')->name("society_detail.create");
-Route::post('/society_detail/store', 'SocietyController@store')->name("society_detail.store");
+Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']], function() {
+    Route::resource('/village_detail', 'VillageDetailController');
+    Route::get('/society_detail/{id}', 'SocietyController@index')->name("society_detail.index");
+    Route::get('/society_detail/create/{id}', 'SocietyController@create')->name("society_detail.create");
+    Route::post('/society_detail/store', 'SocietyController@store')->name("society_detail.store");
 
-Route::get('/lease_detail/{id}', 'LeaseDetailController@index')->name("lease_detail.index");
-Route::get('/lease_detail/create/{id}', 'LeaseDetailController@create')->name("lease_detail.create");
-Route::post('/lease_detail/store', 'LeaseDetailController@store')->name("lease_detail.store");
+    Route::get('/lease_detail/{id}', 'LeaseDetailController@index')->name("lease_detail.index");
+    Route::get('/lease_detail/create/{id}', 'LeaseDetailController@create')->name("lease_detail.create");
+    Route::post('/lease_detail/store', 'LeaseDetailController@store')->name("lease_detail.store");
 
-Route::get('/lease_detail/renew-lease/{id}', 'LeaseDetailController@renewLease')->name('renew-lease.renew');
-Route::post('/lease_detail/update-lease/{id}', 'LeaseDetailController@updateLease')->name('renew-lease.update-lease');
+    Route::get('/lease_detail/renew-lease/{id}', 'LeaseDetailController@renewLease')->name('renew-lease.renew');
+    Route::post('/lease_detail/update-lease/{id}', 'LeaseDetailController@updateLease')->name('renew-lease.update-lease');
+    Route::post('loadDeleteVillageUsingAjax', 'VillageDetailController@loadDeleteVillageUsingAjax')->name('loadDeleteVillageUsingAjax');
+
+});
 
 
 Route::get('architect_application','ArchitectApplicationController@index')->name('architect_application');
@@ -110,7 +121,7 @@ Route::get('finalCertificateGenerate/{id}','ArchitectApplicationController@getFi
 Route::get('tempCertificateGenerate/{id}','ArchitectApplicationController@getTempCertificateGenerate')->name('tempCertificateGenerate');
 Route::post('finalCertificateGenerate','ArchitectApplicationController@postFinalCertificateGenerate')->name('finalCertificateGenerate');
 
-Route::post('loadDeleteVillageUsingAjax', 'VillageDetailController@loadDeleteVillageUsingAjax')->name('loadDeleteVillageUsingAjax');
+
 Route::get('refresh_captcha','SocietyOfferLetterController@RefreshCaptcha')->name('refresh_captcha');
 Route::post('UserAuthentication','SocietyOfferLetterController@UserAuthentication')->name('society_detail.UserAuthentication');
 

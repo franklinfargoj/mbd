@@ -36,31 +36,51 @@
             </a>
          </li>
 
-         <li class="m-menu__item m-menu__item--active" aria-haspopup="true" >
-            <a href="{{ url('hearing') }}" class="m-menu__link ">
-               <i class="m-menu__link-icon flaticon-line-graph"></i>
-               <span class="m-menu__link-title">
-            <span class="m-menu__link-wrap">
-            <span class="m-menu__link-text">
-            Hearing
-            </span>
-            </span>
-            </span>
-            </a>
-         </li>
+         @php
+            $hearing_permission = ['hearing.show', 'hearing.index', 'hearing.store', 'hearing.create', 'hearing.destroy', 'hearing.update', 'hearing.edit', 'loadDeleteReasonOfHearingUsingAjax', 'schedule_hearing.add', 'schedule_hearing.store',
+               'fix_schedule.add', 'fix_schedule.store', 'fix_schedule.edit', 'fix_schedule.update',
+               'upload_case_judgement.add', 'upload_case_judgement.store', 'upload_case_judgement.edit', 'upload_case_judgement.update',
+               'forward_case.create', 'forward_case.store', 'forward_case.edit', 'forward_case.update',
+               'send_notice_to_appellant.create', 'send_notice_to_appellant.store', 'send_notice_to_appellant.edit', 'send_notice_to_appellant.update',
+            ];
+         @endphp
+{{--         @if(!empty(array_intersect($hearing_permission, session()->get('permission'))))--}}
+            <li class="m-menu__item m-menu__item--active" aria-haspopup="true">
+               <a href="{{ url('hearing') }}" class="m-menu__link ">
+                  <i class="m-menu__link-icon flaticon-line-graph"></i>
+                  <span class="m-menu__link-title">
+               <span class="m-menu__link-wrap">
+               <span class="m-menu__link-text">
+               Hearing
+               </span>
+               </span>
+               </span>
+               </a>
+            </li>
+         {{--@endif--}}
 
-         <li class="m-menu__item m-menu__item--active" aria-haspopup="true" >
-            <a href="{{url('/village_detail')}}" class="m-menu__link ">
-               <i class="m-menu__link-icon flaticon-line-graph"></i>
-               <span class="m-menu__link-title">
-            <span class="m-menu__link-wrap">
-            <span class="m-menu__link-text">
-            Land
-            </span>
-            </span>
-            </span>
-            </a>
-         </li>         
+         @php
+            $land_permission = ['village_detail.index', 'village_detail.create', 'village_detail.edit', 'village_detail.update', 'village_detail.destroy',
+               'loadDeleteVillageUsingAjax', 'village_detail.store', 'society_detail.index', 'society_detail.create', 'society_detail.store',
+               'lease_detail.index', 'lease_detail.create', 'lease_detail.store', 'renew-lease.renew', 'renew-lease.update-lease'
+            ];
+         @endphp
+
+{{--         @if(!empty(array_intersect($land_permission, session()->get('permission'))))--}}
+            <li class="m-menu__item m-menu__item--active" aria-haspopup="true" >
+               <a href="{{url('/village_detail')}}" class="m-menu__link ">
+                  <i class="m-menu__link-icon flaticon-line-graph"></i>
+                  <span class="m-menu__link-title">
+               <span class="m-menu__link-wrap">
+               <span class="m-menu__link-text">
+               Land
+               </span>
+               </span>
+               </span>
+               </a>
+            </li>
+         {{--@endif--}}
+
 
          <li class="m-menu__item m-menu__item--active" aria-haspopup="true" >
             <a href="" class="m-menu__link ">
@@ -112,6 +132,20 @@
             </span>
             </span>
             </a>
+         </li>
+
+         <li class="m-menu__item m-menu__item--active" aria-haspopup="true" style=" padding-left: 65px;">
+            <a href="{{ route('logout') }}"
+               onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+               Logout
+            </a>
+
+
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+               {{ csrf_field() }}
+            </form>
+
          </li>
       </ul>
    </div>
