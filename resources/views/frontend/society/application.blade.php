@@ -1,6 +1,5 @@
 @extends('admin.layouts.app')
 @section('content')
-<link href="{{asset('/frontend/css/application.css')}}" rel="stylesheet" type="text/css"/>
 <!-- BEGIN: Subheader -->
 <div class="m-subheader ">
   <div class="d-flex align-items-center">
@@ -40,9 +39,9 @@
           <span class="App_head"> List of Applications for Redevelopment - Self Redevelopment </span>
           <div class="options">
             <p> <a href=""> New - Offer Letter </a></p>
-            <p> <a href=""> Revalidation of offer Letter </a></p>
-            <p> <a href=""> Application for NOC </a></p>
-            <p> <a href=""> Consent for OC </a></p>
+            <p> Revalidation of offer Letter </p>
+            <p> Application for NOC </p>
+            <p> Consent for OC </p>
           </div>
         </div>        
 
@@ -50,11 +49,11 @@
           <span class="App_head"> List of Applications for Redevelopment - Self Redevelopment</span>
           <div class="options">
             <p> <a href=""> New - Offer Letter </a></p>
-            <p> <a href=""> Revalidation of offer Letter </a></p>
-            <p> <a href=""> Application for NOC - IOD </a></p>
-            <p> <a href=""> Tripartite Agreement </a></p>
-            <p> <a href=""> Application for CC </a></p>
-            <p> <a href=""> Consent for OC </a></p>
+            <p> Revalidation of offer Letter </p>
+            <p> Application for NOC - IOD </p>
+            <p> Tripartite Agreement </p>
+            <p> Application for CC </p>
+            <p> Consent for OC </p>
           </div>
         </div>
 
@@ -62,9 +61,9 @@
           <span class="App_head"> List of Applications for Redevelopment - Redevelopment Thorugh Developer</span>
           <div class="options">
             <p> <a href=""> New - Offer Letter </a></p>
-            <p> <a href=""> Revalidation of offer Letter </a></p>
-            <p> <a href=""> Application for NOC </a></p>
-            <p> <a href=""> Consent for OC </a></p>
+            <p> Revalidation of offer Letter </p>
+            <p> Application for NOC </p>
+            <p> Consent for OC </p>
           </div>
         </div>  
 
@@ -72,11 +71,11 @@
           <span class="App_head"> List of Applications for Redevelopment - Redevelopment Thorugh Developer</span>
           <div class="options">
             <p> <a href=""> New - Offer Letter </a></p>
-            <p> <a href=""> Revalidation of offer Letter </a></p>
-            <p> <a href=""> Application for NOC - IOD </a></p>
-            <p> <a href=""> Tripartite Agreement </a></p>
-            <p> <a href=""> Application for CC </a></p>
-            <p> <a href=""> Consent for OC </a></p>
+            <p> Revalidation of offer Letter </p>
+            <p> Application for NOC - IOD </p>
+            <p> Tripartite Agreement </p>
+            <p> Application for CC </p>
+            <p> Consent for OC </p>
           </div>
         </div>                
     </div>
