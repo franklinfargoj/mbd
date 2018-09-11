@@ -13,7 +13,7 @@ class AddStatusToLeaseDetail extends Migration
      */
     public function up()
     {
-        Schema::table('lease_detail', function (Blueprint $table) {
+        Schema::table('lm_lease_detail', function (Blueprint $table) {
             $table->boolean('lease_status')->after('payment_detail');
         });
     }
@@ -25,7 +25,7 @@ class AddStatusToLeaseDetail extends Migration
      */
     public function down()
     {
-        Schema::table('lease_detail', function (Blueprint $table) {
+        Schema::table('lm_lease_detail', function (Blueprint $table) {
             $table->dropColumn('lease_status');
         });
     }

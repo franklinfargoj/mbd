@@ -15,7 +15,7 @@ class LeaseDetail extends Model
      * @var array
      */
     protected $dates = ['deleted_at'];
-    protected $table = "lease_detail";
+    protected $table = "lm_lease_detail";
     protected $primaryKey = 'id';
     protected $fillable = [
         'lease_rule_16_other',

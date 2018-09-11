@@ -13,7 +13,7 @@ class CreateLeaseDetailTable extends Migration
      */
     public function up()
     {
-        Schema::create('lease_detail', function (Blueprint $table) {
+        Schema::create('lm_lease_detail', function (Blueprint $table) {
             $table->increments('id');
             $table->string('lease_rule_16_other')->nullable();
             $table->string('lease_basis')->nullable();
@@ -31,7 +31,7 @@ class CreateLeaseDetailTable extends Migration
             $table->string('payment_detail')->nullable();
 
             $table->unsignedInteger('society_id');
-            $table->foreign('society_id')->references('id')->on('society_detail')->onDelete('cascade');
+            $table->foreign('society_id')->references('id')->on('lm_society_detail')->onDelete('cascade');
 
             $table->timestamps();
             $table->softDeletes();

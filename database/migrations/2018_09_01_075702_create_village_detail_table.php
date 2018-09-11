@@ -13,7 +13,7 @@ class CreateVillageDetailTable extends Migration
      */
     public function up()
     {
-        Schema::create('village_detail', function (Blueprint $table) {
+        Schema::create('lm_village_detail', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('board_id');
             $table->foreign('board_id')->references('id')->on('boards')->onDelete('cascade');

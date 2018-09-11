@@ -211,12 +211,6 @@
 
 @section('js')
     <script>
-        $( function() {
-            $( "#possession_date" ).datepicker({
-                dateFormat: "yy-mm-dd"
-            });
-        } );
-
         var file = "{{ $arrData['village_data']['7_12_extract'] }}";
 
         if(file == 1)

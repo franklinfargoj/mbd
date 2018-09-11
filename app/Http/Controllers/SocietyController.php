@@ -61,7 +61,7 @@ class SocietyController extends Controller
 //                $hearing_data = $hearing_data->whereDate('office_date', '<=', date('Y-m-d', strtotime($request->office_date_to)));
 //            }
 
-            $society_data = $society_data->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').',society_name, society_detail.id as id, village_id, survey_number, society_address, surplus_charges');
+            $society_data = $society_data->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').',society_name, lm_society_detail.id as id, village_id, survey_number, society_address, surplus_charges');
 
             return $datatables->of($society_data)
                 ->editColumn('societyVillage', function ($society_data) {

@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8" />
         
-        <title>Metronic | Login Page - 6</title>
+        <title>{{ config('app.name') }}</title>
         <meta name="description" content="Latest updates and statistic charts"> 
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
         <!-- CSRF Token -->
@@ -24,6 +24,7 @@
 		<!--begin::Base Styles -->
 				<link href="{{asset('/frontend/css/vendors.bundle.css')}}" rel="stylesheet" type="text/css" />
 				<link href="{{asset('/frontend/css/style.bundle.css')}}" rel="stylesheet" type="text/css" />
+				<link href="{{asset('assets/vendors/base/vendors.bundle.css')}}" rel="stylesheet" type="text/css" />
 		        <!--end::Base Styles -->
 
         <link rel="shortcut icon" href="assets/demo/default/media/img/logo/favicon.ico" />
@@ -49,6 +50,7 @@
         <script src="{{asset('/assets/demo/default/base/scripts.bundle.js')}}" type="text/javascript"></script>
         <!-- <script src="{{asset('/frontend/js/login6.js')}}" type="text/javascript"></script> -->
         <script src="{{asset('/assets/snippets/pages/user/login.js')}}" type="text/javascript"></script>
+      <script src="{{asset('/frontend/js/custom.js')}}" type="text/javascript"></script>
     </body>
     <!-- end::Body -->
 </html>

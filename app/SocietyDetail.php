@@ -16,7 +16,7 @@ class SocietyDetail extends Model
      */
     protected $dates = ['deleted_at'];
 
-    protected $table = "society_detail";
+    protected $table = "lm_society_detail";
     protected $primaryKey = 'id';
     protected $fillable = [
         'society_name',

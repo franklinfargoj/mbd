@@ -16,7 +16,7 @@ class VillageDetail extends Model
      */
     protected $dates = ['deleted_at'];
 
-    protected $table = "village_detail";
+    protected $table = "lm_village_detail";
     protected $primaryKey = 'id';
     protected $fillable = [
         'board_id',
@@ -35,7 +35,9 @@ class VillageDetail extends Model
         'property_card_mhada_name',
         'land_cost',
         'extract_file_path',
-        'extract_file_name'
+        'extract_file_name',
+        'user_id',
+        'role_id'
     ];
 
     public function villageLandSource(){

@@ -518,6 +518,28 @@ var SnippetLogin = function() {
             })
         },
 
+        mhada_user_login = function() {
+            $("#mhada-user").click(function(e) {
+                e.preventDefault();
+                var a = $(this),
+                    t = $(this).closest("form");
+                t.validate({
+                    rules: {
+                        email: {
+                            required: !0,
+                            email: !0
+                        },
+                        password: {
+                            required: !0
+                        },
+                        captcha : "required"
+                    }
+                }), t.valid() && (a.addClass("m-loader m-loader--right m-loader--light").attr("disabled", !0), setTimeout(function() {
+                    $('#mhadaUser').submit();
+                }, 500))
+            })
+        },
+
         o = function() {
             $("#m_login_forget_password_submit").click(function(a) {
                 a.preventDefault();
@@ -538,7 +560,7 @@ var SnippetLogin = function() {
         };
     return {
         init: function() {
-            n(), l(), s(), o(), rti_registration(), rti_application_form(), rti_application_status_check(), scoiety_offer_letter_forgot_password(), scoiety_offer_letter(), add_village(), edit_village(), add_society(), add_lease()
+            n(), l(), s(), o(), rti_registration(), rti_application_form(), rti_application_status_check(), scoiety_offer_letter_forgot_password(), scoiety_offer_letter(), add_village(), edit_village(), add_society(), add_lease(), mhada_user_login()
         }
     }
 }();
