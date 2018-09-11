@@ -39,5 +39,9 @@ class DYCEController extends Controller
             "order"=> [8, "desc" ],
             "pageLength" => $this->list_num_of_records_per_page
         ];
-    }    
+    } 
+    // function used to DyCE Scrutiny & Remark page
+    public function dyceScrutinyRemark(Request $request){
+        return view('admin.DYCE_department.scrutiny_remark');
+    }   
 }

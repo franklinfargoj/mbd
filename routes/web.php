@@ -133,4 +133,6 @@ Route::get('/document-submitted', 'EEDepartment\EEController@documentSubmittedBy
 
 //route for society Application Page
 Route::get('/application','SocietyOfferLetterController@ViewApplications')->name('society_detail.application');
+//DYCE dept routes
 Route::resource('received_application','DYCEDepartment\DYCEController');
+Route::get('dyce_scrutiny_remark','DYCEDepartment\DYCEController@dyceScrutinyRemark');
