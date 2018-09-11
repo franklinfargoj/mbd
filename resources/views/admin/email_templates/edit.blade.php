@@ -12,6 +12,7 @@
         </div>
      </div>
      <form id="edit_email_template" role="form" method="post" class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" action="{{route('email_templates.update', $email_template->id)}}" enctype="multipart/form-data">
+     @method('PUT')
       @csrf
         <div class="m-portlet__body">
           <div class="form-group m-form__group">

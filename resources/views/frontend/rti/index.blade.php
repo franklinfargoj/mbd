@@ -24,24 +24,33 @@
             </div>
 
             <!--begin::Form-->
-            <form class="m-login__form m-form" action="">
+            <form class="m-login__form m-form" action="{{ route('rti_frontend_application_status') }}" id="rti_frontend_application_status_check" method="post">
+            @csrf
               <div class="form-group m-form__group">
-                <input class="form-control m-input" type="text" placeholder="Application Number" name="username" autocomplete="off">
+                <input class="form-control m-input" type="text" placeholder="Application Number" name="application_no">
               </div>
               <div class="form-group m-form__group">
                 <input class="form-control m-input m-login__form-input--last" type="email" placeholder="Email Address" name="email">
+              </div>
+              <div class="m-login__action">
+                <a href="{{ route('rti_frontend.create') }}" class="m-link">
+                  <button id="m_login_signin_submit" class="btn btn-primary m-btn m-btn--pill m-btn--custom m-btn--air m-login__btn m-login__btn--primary">Register</button>
+                </a>
+                <a href="#">
+                  <button id="rti_application_status_check" class="btn btn-primary m-btn m-btn--pill m-btn--custom m-btn--air m-login__btn m-login__btn--primary">Check Status</button>
+                </a>
               </div>
             </form>
             <!--end::Form-->
 
             <!--begin::Action-->
             <div class="m-login__action">
-              <a href="{{ route('rti_frontend.create') }}" class="m-link">
+              <!-- <a href="{{ route('rti_frontend.create') }}" class="m-link">
                 <button id="m_login_signin_submit" class="btn btn-primary m-btn m-btn--pill m-btn--custom m-btn--air m-login__btn m-login__btn--primary">Register</button>
-              </a>
-              <a href="#">
+              </a> -->
+              <!-- <a href="#">
                 <button id="m_login_signin_submit" class="btn btn-primary m-btn m-btn--pill m-btn--custom m-btn--air m-login__btn m-login__btn--primary">Check Status</button>
-              </a>
+              </a> -->
             </div>
             <!--end::Action-->
           </div>
@@ -58,8 +67,7 @@
             <div class="form-group m-form__group">
               <input class="form-control m-input m-login__form-input--last" type="password" placeholder="Password" name="password">
             </div>
-          </form>
-          <div class="m-login__action">
+            <div class="m-login__action">
             <a href="#" class="m-link">
               <span>Forgot Password ?</span>
             </a>
@@ -67,6 +75,7 @@
               <button id="m_login_signin_submit" class="btn btn-primary m-btn m-btn--pill m-btn--custom m-btn--air m-login__btn m-login__btn--primary">Sign In</button>
             </a>
           </div>
+          </form>
         </div>
       </div>
     </div>

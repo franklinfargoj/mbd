@@ -2,13 +2,25 @@
 
 namespace App\Http\Controllers;
 use App\SocietyOfferLetter;
+use App\MasterEmailTemplates;
 use Validator;
 use Mail;
 use Illuminate\Http\Request;
 use Redirect;
+use Yajra\DataTables\DataTables;
+use Config;
+use App\Mail\SocietyOfferLetterForgotPassword;
 
 class SocietyOfferLetterController extends Controller
 {
+
+    protected $list_num_of_records_per_page;
+
+    public function __construct()
+    {
+        $this->list_num_of_records_per_page = Config::get('commanConfig.list_num_of_records_per_page');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -121,6 +133,8 @@ class SocietyOfferLetterController extends Controller
             return Redirect::back()->withErrors(['Enter Email and Password']);
         }
     }
+
+
     /**
      * Receives the post request and sends mail for forgot password link.
      *
@@ -129,6 +143,66 @@ class SocietyOfferLetterController extends Controller
      */
     public function forgot_password(Request $request)
     {
-        dd($request->input());
+        // dd($request->input('society_email'));
+        $email_template = MasterEmailTemplates::where('type', 'society offer letter forgot password')->get();
+        $email_template = $email_template[0];
+        // dd($email_template);
+        $link = rand().time();
+        Mail::to($request->input('society_email'))->send(new SocietyOfferLetterForgotPassword($email_template));
+        return redirect()->route('society_offer_letter.index')->with('email_sent', 'Click on the link sent in the email!');
+    }
+
+
+    /**
+     * Listing of filled application forms.
+     *
+     * @param  void
+     * @return \Illuminate\Http\Response
+     */
+    public function dashboard()
+    {
+        $columns = [
+            ['data' => 'application_no','name' => 'application_no','title' => 'Application No.'],
+            ['data' => 'application_type','name' => 'application_type','title' => 'Application'],
+            ['data' => 'created_at','name' => 'created_date','title' => 'Date & Time of submission'],
+            ['data' => 'status','name' => 'status','title' => 'Status'],
+            ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
+        ];
+
+        if ($datatables->getRequest()->ajax()) {
+            
+            $boards = Board::all();
+            
+            return $datatables->of($boards)
+                ->editColumn('application_no', function ($boards) {
+                    return $boards->board_name;
+                })
+                ->editColumn('application_type', function ($boards) {
+                    return $boards->status;
+                })
+                ->editColumn('created_at', function ($boards) {
+                    return $boards->board_name;
+                })
+                ->editColumn('status', function ($boards) {
+                    return $boards->status;
+                })
+                ->editColumn('actions', function ($boards) {
+                   return view('admin.board.actions', compact('boards'))->render();
+                })
+                ->rawColumns(['application_no', 'application_type', 'created_at','status','actions'])
+                ->make(true);
+        }
+        
+        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+        return view('frontend.society.dashboard');
+    }
+
+    public function show_offer_letter_application(){
+        return view('frontend.society.offer_letter_application');
+    }
+
+
+    public function ViewApplications(Request $request){
+        return view('frontend.society.application');
     }
 }

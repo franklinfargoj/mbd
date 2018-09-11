@@ -106,17 +106,17 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 });
 
 
-Route::get('architect_application','ArchitectApplicationController@index');
-Route::get('shortlisted_architect_application','ArchitectApplicationController@shortlistedIndex');
-Route::get('final_architect_application','ArchitectApplicationController@finalIndex');
-Route::get('view_architect_application/{id}','ArchitectApplicationController@viewApplication');
-Route::get('evaluate_architect_application/{id}','ArchitectApplicationController@evaluateApplication');
+Route::get('architect_application','ArchitectApplicationController@index')->name('architect_application');
+Route::get('shortlisted_architect_application','ArchitectApplicationController@shortlistedIndex')->name('shortlisted_architect_application');
+Route::get('final_architect_application','ArchitectApplicationController@finalIndex')->name('final_architect_application');
+Route::get('view_architect_application/{id}','ArchitectApplicationController@viewApplication')->name('view_architect_application');
+Route::get('evaluate_architect_application/{id}','ArchitectApplicationController@evaluateApplication')->name('evaluate_architect_application');
 Route::post('save_evaluate_marks','ArchitectApplicationController@saveEvaluateMarks')->name('save_evaluate_marks');
-Route::get('generate_certificate/{id}','ArchitectApplicationController@getGenerateCertificate');
-Route::get('forward_application/{id}','ArchitectApplicationController@getForwardApplication');
-Route::get('finalCertificateGenerate/{id}','ArchitectApplicationController@getFinalCertificateGenerate');
-Route::get('tempCertificateGenerate/{id}','ArchitectApplicationController@getTempCertificateGenerate');
-Route::post('finalCertificateGenerate','ArchitectApplicationController@postFinalCertificateGenerate');
+Route::get('generate_certificate/{id}','ArchitectApplicationController@getGenerateCertificate')->name('generate_certificate');
+Route::get('forward_application/{id}','ArchitectApplicationController@getForwardApplication')->name('forward_application');
+Route::get('finalCertificateGenerate/{id}','ArchitectApplicationController@getFinalCertificateGenerate')->name('finalCertificateGenerate');
+Route::get('tempCertificateGenerate/{id}','ArchitectApplicationController@getTempCertificateGenerate')->name('tempCertificateGenerate');
+Route::post('finalCertificateGenerate','ArchitectApplicationController@postFinalCertificateGenerate')->name('finalCertificateGenerate');
 
 
 Route::get('refresh_captcha','SocietyOfferLetterController@RefreshCaptcha')->name('refresh_captcha');
@@ -126,3 +126,7 @@ Route::post('UserAuthentication','SocietyOfferLetterController@UserAuthenticatio
 // EE Department Routes
 
 Route::resource('ee', 'EEDepartment\EEController');
+//route for society Application Page
+Route::get('/application','SocietyOfferLetterController@ViewApplications')->name('society_detail.application');
+Route::resource('received_application','DYCEDepartment\DYCEController');
+Route::get('documents_Upload','SocietyOfferLetterController@displaySocietyDocuments');
