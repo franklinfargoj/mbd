@@ -136,3 +136,12 @@ Route::get('/application','SocietyOfferLetterController@ViewApplications')->name
 //DYCE dept routes
 Route::resource('received_application','DYCEDepartment\DYCEController');
 Route::get('dyce_scrutiny_remark','DYCEDepartment\DYCEController@dyceScrutinyRemark');
+
+
+// REE Department Routes
+
+Route::group(['middleware' => ['disablepreventback']], function() {
+    Route::resource('ree_applications', 'REEDepartment\REEController');
+    Route::resource('/ol_calculation_sheet', 'REEDepartment\OlApplicationCalculationSheetDetailsController');
+
+});
