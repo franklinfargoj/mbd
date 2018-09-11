@@ -50,6 +50,10 @@ class EEController extends Controller
         ];
     }
 
+    public function documentSubmittedBySociety()
+    {
+        return view('admin.ee_department.documentSubmitted');
+    }
     /**
      * Show the form for creating a new resource.
      *

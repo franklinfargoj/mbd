@@ -129,6 +129,8 @@ Route::post('UserAuthentication','SocietyOfferLetterController@UserAuthenticatio
 // EE Department Routes
 
 Route::resource('ee', 'EEDepartment\EEController');
+Route::get('/document-submitted', 'EEDepartment\EEController@documentSubmittedBySociety')->name('document-submitted');
+
 //route for society Application Page
 Route::get('/application','SocietyOfferLetterController@ViewApplications')->name('society_detail.application');
 //DYCE dept routes
