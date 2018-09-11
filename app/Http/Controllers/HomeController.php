@@ -27,11 +27,12 @@ class HomeController extends Controller
     {
         $user = User::with(['roles'])->where('id', Auth::user()->id)->first();
         $roles = array_get($user, 'roles')->first();
+
         $role_name = $roles->name;
 
-        if($role_name == "LM")
+        if(isset($roles->redirect_to))
         {
-            return redirect('/village_detail');
+            return redirect($roles->redirect_to);
         }
 
         abort(404);
