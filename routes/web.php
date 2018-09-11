@@ -134,3 +134,11 @@ Route::get('/document-submitted', 'EEDepartment\EEController@documentSubmittedBy
 //route for society Application Page
 Route::get('/application','SocietyOfferLetterController@ViewApplications')->name('society_detail.application');
 Route::resource('received_application','DYCEDepartment\DYCEController');
+
+// REE Department Routes
+
+Route::group(['middleware' => ['disablepreventback']], function() {
+    Route::resource('ree_applications', 'REEDepartment\REEController');
+    Route::resource('/ol_calculation_sheet', 'REEDepartment\OlApplicationCalculationSheetDetailsController');
+
+});
