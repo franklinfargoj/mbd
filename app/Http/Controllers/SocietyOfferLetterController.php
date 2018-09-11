@@ -50,13 +50,30 @@ class SocietyOfferLetterController extends Controller
      */
     public function store(Request $request)
     {
+
         $validated_fields = SocietyOfferLetter::validate($request);
         if($validated_fields->fails()){
             $errors = $validated_fields->errors();
             return redirect()->route('society_offer_letter.index');
         }else{
-            $scoiety_offer_letter_details = $request->input();
-            SocietyOfferLetter::create($scoiety_offer_letter_details);
+            $society_offer_letter_details = array(
+                'language_id' => '0',
+                'email' => $request->input('society_email'),
+                'password' => $request->input('society_password'),
+                'name' => $request->input('society_name'),
+                'username' => $request->input('society_username'),
+                'building_no' => $request->input('society_building_no'),
+                'registration_no' => $request->input('society_registration_no'),
+                'contact_no' => $request->input('society_contact_no'),
+                'address' => $request->input('society_address'),
+                'name_of_architect' => $request->input('society_architect_name'),
+                'architect_mobile_no' => $request->input('society_architect_mobile_no'),
+                'architect_telephone_no' => $request->input('society_architect_telephone_no'),
+                'architect_address' => $request->input('society_architect_address'),
+                'remember_token' => rand().time(),
+                'last_login_at' => date('Y-m-d')
+            );
+            SocietyOfferLetter::create($society_offer_letter_details);
             return redirect()->route('society_offer_letter.index')->with('registered', 'Society registered successfully!');
         }
     }
@@ -197,8 +214,12 @@ class SocietyOfferLetterController extends Controller
         return view('frontend.society.dashboard');
     }
 
-    public function show_offer_letter_application(){
-        return view('frontend.society.offer_letter_application');
+    public function show_offer_letter_application_self(){
+        return view('frontend.society.offer_letter_application_self');
+    }
+
+    public function show_offer_letter_application_dev(){
+        return view('frontend.society.offer_letter_application_dev');
     }
 
     public function displaySocietyDocuments(){
