@@ -139,6 +139,7 @@ Route::post('UserAuthentication','SocietyOfferLetterController@UserAuthenticatio
 
 Route::resource('ee', 'EEDepartment\EEController');
 Route::get('/document-submitted', 'EEDepartment\EEController@documentSubmittedBySociety')->name('document-submitted');
+Route::post('/forward-application', 'EEDepartment\EEController@forwardApplication')->name('forward-application');
 
 //route for society Application Page
 Route::get('/application','SocietyOfferLetterController@ViewApplications')->name('society_detail.application');
