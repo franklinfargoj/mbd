@@ -23,6 +23,13 @@
             </div>
             <a class="btn btn-danger" href="{{route('hearing.create')}}" style="float: right;margin-top: 3%">Add Hearing</a>
         </div>
+        @if(Session::has('success'))
+            <div class="alert alert-success fade in alert-dismissible show" style="margin-top:18px;">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true" style="font-size:20px">×</span>
+                </button> {{ Session::get('success') }}
+            </div>
+        @endif
         <div class="m-portlet__body">
             <!--begin: Search Form -->
             <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">

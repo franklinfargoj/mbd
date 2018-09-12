@@ -41,7 +41,7 @@
                                 <span class="captcha_img" style="padding: 19px;"> {!! captcha_img() !!}</span>
                                 <i class="fa fa-refresh btn_refresh" title="Recapture" aria-hidden="true" style="font-size: 24px;cursor: pointer;"></i>
 
-                                <input type="text" id="captcha" class="form-control" name="captcha" placeholder="Enter Capture">
+                                <input type="text" id="captcha" class="form-control" name="captcha" placeholder="Enter Captcha">
                                 @if($errors->has('captcha'))
                                     <span class="help-block" style="padding: 16px;color: red;">Invalid Captcha </span>
                                 @endif

@@ -1,4 +1,8 @@
 var SnippetLogin = function() {
+    jQuery.validator.addMethod("lettersonly", function(value, element) {
+        return this.optional(element) || /^[a-z\s]+$/i.test(value);
+    }, "Only alphabetical characters");
+
     var e = $("#m_login"),
         i = function(e, i, a) {
             var t = $('<div class="m-alert m-alert--outline alert alert-' + i + ' alert-dismissible" role="alert">\t\t\t<button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>\t\t\t<span></span>\t\t</div>');
@@ -317,10 +321,12 @@ var SnippetLogin = function() {
                             required: !0
                         },
                         taluka: {
-                            required: !0
+                            required: !0,
+                            lettersonly: true
                         },
                         total_area: {
-                            required: !0
+                            required: !0,
+                            number: true
                         },
                         possession_date: {
                             required: !0
@@ -329,10 +335,8 @@ var SnippetLogin = function() {
                             required: !0
                         },
                         land_cost: {
-                            required: !0
-                        },
-                        land_cost: {
-                            required: !0
+                            required: !0,
+                            number: true
                         },
                         mhada_name: {
                             required: !0
@@ -379,10 +383,12 @@ var SnippetLogin = function() {
                             required: !0
                         },
                         taluka: {
-                            required: !0
+                            required: !0,
+                            lettersonly: true
                         },
                         total_area: {
-                            required: !0
+                            required: !0,
+                            number: true
                         },
                         possession_date: {
                             required: !0
@@ -391,10 +397,8 @@ var SnippetLogin = function() {
                             required: !0
                         },
                         land_cost: {
-                            required: !0
-                        },
-                        land_cost: {
-                            required: !0
+                            required: !0,
+                            number: true
                         },
                         mhada_name: {
                             required: !0
@@ -432,10 +436,12 @@ var SnippetLogin = function() {
                             required: !0
                         },
                         survey_number: {
-                            required: !0
+                            required: !0,
+                            number: true
                         },
                         cts_number: {
-                            required: !0
+                            required: !0,
+                            number: true
                         },
                         chairman: {
                             required: !0
@@ -444,13 +450,15 @@ var SnippetLogin = function() {
                             required: !0
                         },
                         area: {
-                            required: !0
+                            required: !0,
+                            number: true
                         },
                         date_on_service_tax: {
                             required: !0
                         },
                         surplus_charges: {
-                            required: !0
+                            required: !0,
+                            number: true
                         },
                         surplus_charges_last_date: {
                             required: !0
@@ -461,6 +469,60 @@ var SnippetLogin = function() {
                     }
                 }), t.valid() && (a.addClass("m-loader m-loader--right m-loader--light").attr("disabled", !0), setTimeout(function() {
                     $('#addSocietyDetail').submit();
+                }, 500))
+            })
+        },
+
+        edit_society = function() {
+            $("#edit_society").click(function(e) {
+                e.preventDefault();
+                var a = $(this),
+                    t = $(this).closest("form");
+                t.validate({
+                    rules: {
+                        society_name: {
+                            required: !0,
+                        },
+                        district: {
+                            required: !0
+                        },
+                        taluka: {
+                            required: !0
+                        },
+                        survey_number: {
+                            required: !0,
+                            number: true
+                        },
+                        cts_number: {
+                            required: !0,
+                            number: true
+                        },
+                        chairman: {
+                            required: !0
+                        },
+                        society_address: {
+                            required: !0
+                        },
+                        area: {
+                            required: !0,
+                            number: true
+                        },
+                        date_on_service_tax: {
+                            required: !0
+                        },
+                        surplus_charges: {
+                            required: !0,
+                            number: true
+                        },
+                        surplus_charges_last_date: {
+                            required: !0
+                        },
+                        other_land_id: {
+                            required: !0
+                        },
+                    }
+                }), t.valid() && (a.addClass("m-loader m-loader--right m-loader--light").attr("disabled", !0), setTimeout(function() {
+                    $('#editSocietyDetail').submit();
                 }, 500))
             })
         },
@@ -479,7 +541,8 @@ var SnippetLogin = function() {
                             required: !0
                         },
                         area: {
-                            required: !0
+                            required: !0,
+                            number: true
                         },
                         lease_period: {
                             required: !0
@@ -488,7 +551,8 @@ var SnippetLogin = function() {
                             required: !0
                         },
                         lease_rent: {
-                            required: !0
+                            required: !0,
+                            number: true
                         },
                         lease_rent_start_month: {
                             required: !0
@@ -560,7 +624,7 @@ var SnippetLogin = function() {
         };
     return {
         init: function() {
-            n(), l(), s(), o(), rti_registration(), rti_application_form(), rti_application_status_check(), scoiety_offer_letter_forgot_password(), scoiety_offer_letter(), add_village(), edit_village(), add_society(), add_lease(), mhada_user_login()
+            n(), l(), s(), o(), rti_registration(), rti_application_form(), rti_application_status_check(), scoiety_offer_letter_forgot_password(), scoiety_offer_letter(), add_village(), edit_village(), add_society(), edit_society(), add_lease(), mhada_user_login()
         }
     }
 }();

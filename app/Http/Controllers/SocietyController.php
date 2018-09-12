@@ -42,7 +42,7 @@ class SocietyController extends Controller
             ['data' => 'survey_number','name' => 'survey_number','title' => 'Survey Number'],
             ['data' => 'society_address','name' => 'society_address','title' => 'Society Address'],
             ['data' => 'surplus_charges', 'name' => 'surplus_charges', 'title' => 'Surplus Charges'],
-//            ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
+            ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
         ];
 
         if ($datatables->getRequest()->ajax()) {
@@ -70,7 +70,10 @@ class SocietyController extends Controller
                 ->editColumn('society_name', function ($society_data) {
                     return "<a href='".route('lease_detail.index', $society_data->id)."'>$society_data->society_name</a>";
                 })
-                ->rawColumns(['societyVillage', 'society_name'])
+                ->editColumn('actions', function ($society_data) {
+                    return view('admin.society_detail.actions', compact('society_data'))->render();
+                })
+                ->rawColumns(['societyVillage', 'society_name', 'actions'])
                 ->make(true);
         }
 
@@ -84,7 +87,7 @@ class SocietyController extends Controller
             'serverSide' => true,
             'processing' => true,
             'ordering'   =>'isSorted',
-            "order"=> [5, "desc" ],
+            "order"=> [6, "desc" ],
             "pageLength" => $this->list_num_of_records_per_page
         ];
     }
@@ -150,7 +153,11 @@ class SocietyController extends Controller
      */
     public function edit($id)
     {
-        //
+        $header_data = $this->header_data;
+        $arrData['other_land'] = OtherLand::where('status', 1)->get();
+        $arrData['society_data'] = SocietyDetail::FindOrFail($id);
+
+        return view('admin.society_detail.edit', compact('header_data', 'arrData', 'id'));
     }
 
     /**
@@ -162,7 +169,27 @@ class SocietyController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $society = SocietyDetail::find($id);
+
+        $society_data = [
+            'society_name' => $request->society_name,
+            'district' => $request->district,
+            'taluka' => $request->taluka,
+            'survey_number' => $request->survey_number,
+            'cts_number' => $request->cts_number,
+            'chairman' => $request->chairman,
+            'society_address' => $request->society_address,
+            'area' => $request->area,
+            'date_on_service_tax' => $request->date_on_service_tax,
+            'surplus_charges' => $request->surplus_charges,
+            'surplus_charges_last_date' => $request->surplus_charges_last_date,
+            'village_id' => $request->village_id,
+            'other_land_id' => $request->other_land_id
+        ];
+
+        $society->update($society_data);
+
+        return redirect('/society_detail/'.$request->village_id)->with(['success'=> 'Society updated succesfully']);
     }
 
     /**

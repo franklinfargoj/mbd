@@ -1,0 +1,2 @@
+<a href="{{ route('society_detail.edit', $society_data->id) }}"><i class="icon-pencil"></i>Edit</a>
+{{--<a title="Delete" href="Javascript:void(0);" onclick="deleteVillage({{$society_data->id}});">Delete</a>--}}
