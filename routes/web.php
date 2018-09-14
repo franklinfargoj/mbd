@@ -136,7 +136,10 @@ Route::post('finalCertificateGenerate','ArchitectApplicationController@postFinal
 Route::get('refresh_captcha','SocietyOfferLetterController@RefreshCaptcha')->name('refresh_captcha');
 Route::post('UserAuthentication','SocietyOfferLetterController@UserAuthentication')->name('society_detail.UserAuthentication');
 
-
+Route::get('captcha', function() {
+    Captcha::create(\Illuminate\Support\Facades\Input::has('id')?\Illuminate\Support\Facades\Input::get('id'):null);
+});
+//Route::get('captcha', 'LoginController@captcha');
 // EE Department Routes
 
 Route::resource('ee', 'EEDepartment\EEController');

@@ -38,8 +38,8 @@
                                 <input class="form-control m-input" type="password" placeholder="Password" name="password" autocomplete="off">
                             </div>
                             <div class="form-group m-form__group" style="margin-top: 16px;">
-                                <span class="captcha_img" style="padding: 19px;"> {!! captcha_img() !!}</span>
-                                <i class="fa fa-refresh btn_refresh" title="Recapture" aria-hidden="true" style="font-size: 24px;cursor: pointer;"></i>
+                                <span  style="padding: 19px;"> <img id="captcha_img" src="{{URL::to('captcha')}}"></span>
+                                <i class="fa fa-refresh" onclick="document.getElementById('captcha_img').src='{{ URL::to('captcha') }}'; return false" title="Recapture" aria-hidden="true" style="font-size: 24px;cursor: pointer;"></i>
 
                                 <input type="text" id="captcha" class="form-control" name="captcha" placeholder="Enter Captcha">
                                 @if($errors->has('captcha'))

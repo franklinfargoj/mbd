@@ -10,11 +10,11 @@
         "fideloper/proxy": "^4.0",
         "laravel/framework": "5.6.*",
         "laravel/tinker": "^1.0",
-        "mews/captcha": "^2.2",
         "phpoffice/phpword": "^0.15.0",
         "unisharp/laravel-ckeditor": "^4.7",
         "yajra/laravel-datatables-html": "^3.2",
-        "yajra/laravel-datatables-oracle": "^8.3"
+        "yajra/laravel-datatables-oracle": "^8.3",
+        "thytanium/captcha": "2.*"
     },
     "require-dev": {
         "filp/whoops": "^2.0",
