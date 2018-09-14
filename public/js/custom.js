@@ -327,3 +327,73 @@ $(document).ready(function() {
 //         }]
 //     });
 // }
+
+
+// var verificationTab = document.querySelector("#verification");
+// var demarcationTab = document.querySelector("#demarcation");
+// var titbitTab = document.querySelector("#titbit");
+// var relocationTab = document.querySelector("#relocation");
+
+// var scrunityCheckDate = document.querySelector("#scrunity-check-date");
+// var scrunityPlaceDate = document.querySelector("#scrunity-place-date");
+
+// var scrunityTabs = document.querySelector("#scrunity-tabs li");
+
+// console.log("run");
+
+// scrunityTabs.addEventListener("click", function() {
+//     debugger;
+//     if(verificationTab.classList.contains("active")) {
+//         scrunityPlaceDate.style.display = "none";
+//     } else {
+//         scrunityPlaceDate.style.display = "block";
+//     }
+    
+//     if(demarcationTab.classList.contains("active") || titbitTab.classList.contains("active") || relocationTab.classList.contains("active")) {
+//         scrunityCheckDate.style.display = "block";
+//     } else {
+//         scrunityCheckDate.style.display = "none";
+//     }
+// });
+
+// tabbed content
+
+const tabs = document.querySelector('.tabs');
+const tabsList = document.querySelectorAll('.tabs li');
+const panels = document.querySelectorAll('.panel');
+tabs.addEventListener('click', function(e) {
+  if(e.target.tagName == 'A'){
+    const targetPanel = document.querySelector(e.target.parentElement.dataset.target);
+    Array.from(tabsList).forEach(function(item){
+        if(item.classList.contains("active")) {
+            item.classList.remove("active");
+        }
+    });
+    e.target.parentElement.classList.add("active");
+    Array.from(panels).forEach(function(panel) {
+      if(panel == targetPanel){
+        panel.classList.add('active');
+      }else{
+        panel.classList.remove('active');
+      }
+    });
+  }
+});
+
+// tabbed content inner
+
+// const tabsInner = document.querySelector('.tabs-inner');
+// const panelsInner = document.querySelectorAll('.panel-inner');
+// tabsInner.addEventListener('click', (e) => {
+//   if(e.target.tagName == 'LI'){
+//     const targetPanel = document.querySelector(e.target.dataset.target);
+//     Array.from(panelsInner).forEach((panels) => {
+//       console.log(panels);
+//       if(panels == targetPanel){
+//         panels.classList.add('active');
+//       }else{
+//         panels.classList.remove('active');
+//       }
+//     });
+//   }
+// });
