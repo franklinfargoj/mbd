@@ -145,10 +145,11 @@ Route::post('/forward-application', 'EEDepartment\EEController@forwardApplicatio
 
 //route for society Application Page
 Route::get('/application','SocietyOfferLetterController@ViewApplications')->name('society_detail.application');
-//DYCE dept routes
-Route::resource('received_application','DYCEDepartment\DYCEController');
-Route::get('dyce_scrutiny_remark','DYCEDepartment\DYCEController@dyceScrutinyRemark');
 
+//DYCE Department routes
+Route::resource('dyce','DYCEDepartment\DYCEController');
+Route::get('dyce_scrutiny_remark','DYCEDepartment\DYCEController@dyceScrutinyRemark')->name('dyce.scrutiny_remark');
+Route::get('societyEEDocuments','DYCEDepartment\DYCEController@societyEEDocuments')->name('dyce.society_EE_documents');
 
 // REE Department Routes
 
