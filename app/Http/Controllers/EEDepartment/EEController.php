@@ -34,7 +34,7 @@ class EEController extends Controller
             ['data' => 'society_building_no', 'name' => 'eeApplicationSociety.building_no', 'title' => 'Building No'],
             ['data' => 'society_address','name' => 'eeApplicationSociety.address','title' => 'Address'],
 //            ['data' => 'model','name' => 'model','title' => 'Model'],
-            ['data' => 'current_status_id','name' => 'current_status_id','title' => 'Status'],
+//            ['data' => 'current_status_id','name' => 'current_status_id','title' => 'Status'],
 //            ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
         ];
 
@@ -42,7 +42,14 @@ class EEController extends Controller
 
             DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
 
-            $ee_application_data = OlApplication::with('eeApplicationSociety');
+            $ee_application_data = OlApplication::with(['olApplicationStatus' => function($q){
+                $q->where('user_id', Auth::user()->id)
+                    ->where('role_id', session()->get('role_id'));
+            }, 'eeApplicationSociety'])
+            ->whereHas('olApplicationStatus', function($q){
+                $q->where('user_id', Auth::user()->id)
+                    ->where('role_id', session()->get('role_id'));
+            });
 
             /*if($request->office_date_from)
             {
@@ -83,7 +90,7 @@ class EEController extends Controller
             'serverSide' => true,
             'processing' => true,
             'ordering'   =>'isSorted',
-            "order"=> [6, "desc" ],
+            "order"=> [5, "desc" ],
             "pageLength" => $this->list_num_of_records_per_page
         ];
     }

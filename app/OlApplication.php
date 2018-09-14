@@ -22,6 +22,11 @@ class OlApplication extends Model
 
     public function eeApplicationSociety()
     {
-        return $this->belongsTo('App\SocietyOfferLetter', 'id', 'society_id');
+        return $this->belongsTo('App\SocietyOfferLetter', 'id');
+    }
+
+    public function olApplicationStatus()
+    {
+        return $this->hasMany('App\OlApplicationStatus', 'application_id', 'id');
     }
 }
