@@ -1,5 +1,15 @@
 /* theme classes over ride starts here */
 
+.m-radio.m-radio--primary>input:checked~span,
+.m-radio.m-radio--primary>span:after {
+    border-color: #f0791b;
+}
+
+.bootstrap-select.btn-group.show>.dropdown-toggle.btn-default,
+.bootstrap-select.btn-group.show>.dropdown-toggle.btn-secondary {
+    border-color: #f0791b !important;
+}
+
 .m-footer {
     display: none;
 }
@@ -137,9 +147,17 @@
     color: #fff;
 }
 
+.m--font-danger .fa-check {
+    color: #08bb08;
+}
+
 /* theme classes over ride ends here */
 
 /* global classes starts here */
+
+.border-bottom {
+    border-bottom: 1px solid #ccc;
+}
 
 .btn-list-inline-wrap {
     margin-left: -5px;
@@ -177,6 +195,10 @@
 
 .section-title--small {
     font-size: 1.25rem;
+}
+
+.btn-list .btn + .btn {
+    margin-left: 10px;
 }
 
 .btn-primary {
@@ -540,3 +562,35 @@
 } */
 
 /* EE scrunity remarks ends here */
+
+/* Forward Application starts here */
+
+.remarks-section__data {
+    padding: 15px;
+}
+
+.remarks-section-container {
+    /* border: 1px solid #ccc; */
+}
+
+.remarks-section__data__row {
+    margin-bottom: 0;
+}
+
+.remarks-section__data__row span + span {
+    margin-left: 10px;
+}
+
+.remarks-section__data__row span:first-child {
+    font-weight: 500;
+}
+
+.remarks-section__data__row + .remarks-section__data__row {
+    margin-top: 5px;
+}
+
+.remarks-section__data + .remarks-section__data {
+    border-top: 1px solid #ccc;
+}
+
+/* Forward Application ends here */
