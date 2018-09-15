@@ -22,11 +22,14 @@ class OlApplication extends Model
 
     public function eeApplicationSociety()
     {
-        return $this->belongsTo('App\SocietyOfferLetter', 'id');
+        return $this->hasOne('App\SocietyOfferLetter', 'id','society_id');
     }
 
     public function olApplicationStatus()
     {
         return $this->hasMany('App\OlApplicationStatus', 'application_id', 'id');
     }
+    public function visitDocuments(){
+       return $this->hasMany('App\olSiteVisitDocuments', 'id','application_id'); 
+    }     
 }

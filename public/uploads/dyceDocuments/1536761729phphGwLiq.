@@ -1,0 +1,93 @@
+
+***LARAVEL FRAMEWORK***
+
+1. Need php version greater than 7.0.0
+	# php -v ---checking php version
+
+2. Need Composer (dependencies manager)		
+
+// Install PHP Composer
+
+	1.Update your packages:
+		#sudo apt-get update
+
+	2.Install the curl utility:
+		#sudo apt-get install curl
+
+	3.Download the installer:
+		#sudo curl -s https://getcomposer.org/installer | php
+
+	4.Move the composer.phar file to required directory:
+		#sudo mv composer.phar (required directory)
+
+Use the composer command to test the installation. If Composer is installed correctly, the server will respond with a long list of help information and commands:
+
+user@localhost:~# composer
+   ______
+  / ____/___  ____ ___  ____  ____  ________  _____
+ / /   / __ \/ __ `__ \/ __ \/ __ \/ ___/ _ \/ ___/
+/ /___/ /_/ / / / / / / /_/ / /_/ (__  )  __/ /
+\____/\____/_/ /_/ /_/ .___/\____/____/\___/_/
+                /_/
+......
+......
+
+Reference: https://www.1and1.com/cloud-community/learn/application/php/install-and-use-php-composer-on-ubuntu-1604/
+
+3. Instalation of laravel
+	using composer
+		#composer create-project --prefer-dist laravel/laravel (Project Name)
+4.configuration setting
+	Make bootstrap and storage file writable
+		Then first rename .env.example to .env
+			and set application key
+				 #php artisan key:generate
+
+			
+
+Advantages of laravel: 
+Reference: https://belitsoft.com/laravel-development-services/10-benefits-using-laravel-php-framework
+
+
+
+## when we are using ckeditor package
+
+asset(vendor/../../..)
+was not working 
+so changed the permission of the file using sudo chmod -R 777 vendor/
+and run php artisan vendor:publish --provider="Unisharp\Ckeditor\ServiceProvider" this command 
+after this it will add all the js css to the public file . 
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

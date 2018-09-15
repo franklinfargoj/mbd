@@ -46,4 +46,8 @@ class SocietyOfferLetter extends Model
 
         return $validatedata;
     }
+
+    public function societyDocuments(){
+        return $this->hasMany('App\olSocietyDocumentStatus', 'society_id','id');
+    } 
 }
