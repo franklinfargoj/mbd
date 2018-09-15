@@ -7,12 +7,14 @@ use App\OlRequestForm;
 use App\OlApplication;
 use App\OlSocietyDocumentsMaster;
 use App\OlSocietyDocumentsStatus;
+use App\OlSocietyDocumentsComment;
 use Validator;
 use Mail;
 use Illuminate\Http\Request;
 use Redirect;
 use Yajra\DataTables\DataTables;
 use Config;
+use PDF;
 use App\Mail\SocietyOfferLetterForgotPassword;
 
 class SocietyOfferLetterController extends Controller
@@ -272,51 +274,23 @@ class SocietyOfferLetterController extends Controller
         $destinationPath = public_path($uploadPath);
         
         $documents = OlSocietyDocumentsMaster::where('application_id', '2')->where('id', $request->input('document_id'))->with('documents_uploaded')->get();
-        // dd($documents[0]->documents_uploaded);    
-        foreach ($documents as $key => $value) {
-            if(count($value->documents_uploaded) > 0){
-                foreach ($value->documents_uploaded as $document_uploaded) {
-                    if($document_uploaded['society_id'] == '1'){
-                        // unlink(public_path($document_uploaded['society_document_path']));
-                        // OlSocietyDocumentsStatus::where('society_id', '1')->where('document_id', $request->input('document_id'))->delete();
-                    }else{
-                        if($request->file('document_name'))
-                        {
-                            $file = $request->file('document_name');
-                            $file_name = time().$file->getFileName().'.'.$file->getClientOriginalExtension();
-                            if($file->move($destinationPath, $file_name))
-                            {
-                                $dataToInsert['filepath'] = $uploadPath.'/';
-                                $dataToInsert['filename'] = $file_name;
-                            }
-                        }
-                        $input = array(
-                            'society_id' => '1',
-                            'document_id' => $request->input('document_id'),
-                            'society_document_path' => $uploadPath.'/'.$file_name,
-                        );
-                        OlSocietyDocumentsStatus::create($input);
-                    }
-                }
-            }else{
-                if($request->file('document_name'))
-                {
-                    $file = $request->file('document_name');
-                    $file_name = time().$file->getFileName().'.'.$file->getClientOriginalExtension();
-                    if($file->move($destinationPath, $file_name))
-                    {
-                        $dataToInsert['filepath'] = $uploadPath.'/';
-                        $dataToInsert['filename'] = $file_name;
-                    }
-                }
-                $input = array(
-                    'society_id' => '1',
-                    'document_id' => $request->input('document_id'),
-                    'society_document_path' => $uploadPath.'/'.$file_name,
-                );
-                OlSocietyDocumentsStatus::create($input);
+        // dd($documents[0]->documents_uploaded);
+        if($request->file('document_name'))
+        {
+            $file = $request->file('document_name');
+            $file_name = time().$file->getFileName().'.'.$file->getClientOriginalExtension();
+            if($file->move($destinationPath, $file_name))
+            {
+                $dataToInsert['filepath'] = $uploadPath.'/';
+                $dataToInsert['filename'] = $file_name;
             }
         }
+        $input = array(
+            'society_id' => '1',
+            'document_id' => $request->input('document_id'),
+            'society_document_path' => $uploadPath.'/'.$file_name,
+        );
+        OlSocietyDocumentsStatus::create($input);
         return redirect()->route('documents_upload');
     }
 
@@ -325,6 +299,24 @@ class SocietyOfferLetterController extends Controller
         unlink(public_path($delete_document_details[0]->society_document_path));
         OlSocietyDocumentsStatus::where('society_id', '1')->where('document_id', $id)->delete();
         return redirect()->route('documents_upload');
+    }
+
+    public function addSocietyDocumentsComment(Request $request){
+        // dd($request->input('society_documents_comment'));
+        $input = array(
+            'society_id' => '1',
+            'society_documents_comment' => $request->input('society_documents_comment'),
+        );
+        OlSocietyDocumentsComment::create($input);
+        return redirect()->route('society_offer_letter_download');
+    }
+
+    public function displayOfferLetterApplication(){
+        return view('frontend.society.upload_society_offer_letter_after_sign');
+    }
+
+    public function uploadOfferLetterAfterSign(Request $request){
+        return view('frontend.society.upload_society_offer_letter_after_sign');
     }
 
     public function ViewApplications(Request $request){

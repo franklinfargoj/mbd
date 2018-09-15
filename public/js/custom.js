@@ -1,4 +1,35 @@
 $(document).ready(function() {
+
+  $('.custom-file-input').change(function (e) {
+      $(this).parents('.custom-file').find('.custom-file-label').text(e.target.files[0].name);
+      console.log(document.querySelector(".custom-file-label"));
+      console.log("file", e.target.files[0].name)
+  });
+
+  //Tabbed Content
+
+  var tabs = document.querySelector('.tabs');
+  var tabsList = document.querySelectorAll('.tabs li');
+  var panels = document.querySelectorAll('.panel');
+  tabs.addEventListener('click', function(e) {
+    if(e.target.tagName == 'A'){
+      var targetPanel = document.querySelector(e.target.parentElement.dataset.target);
+      Array.from(tabsList).forEach(function(item){
+          if(item.classList.contains("active")) {
+              item.classList.remove("active");
+          }
+      });
+      e.target.parentElement.classList.add("active");
+      Array.from(panels).forEach(function(panel) {
+        if(panel == targetPanel){
+          panel.classList.add('active');
+        }else{
+          panel.classList.remove('active');
+        }
+      });
+    }
+  });
+
   $("#boardForm").validate({
     // errorElement: "span",
     //errorClass : "text-red",
@@ -356,29 +387,6 @@ $(document).ready(function() {
 //     }
 // });
 
-// tabbed content
-
-const tabs = document.querySelector('.tabs');
-const tabsList = document.querySelectorAll('.tabs li');
-const panels = document.querySelectorAll('.panel');
-tabs.addEventListener('click', function(e) {
-  if(e.target.tagName == 'A'){
-    const targetPanel = document.querySelector(e.target.parentElement.dataset.target);
-    Array.from(tabsList).forEach(function(item){
-        if(item.classList.contains("active")) {
-            item.classList.remove("active");
-        }
-    });
-    e.target.parentElement.classList.add("active");
-    Array.from(panels).forEach(function(panel) {
-      if(panel == targetPanel){
-        panel.classList.add('active');
-      }else{
-        panel.classList.remove('active');
-      }
-    });
-  }
-});
 
 // tabbed content inner
 
@@ -397,9 +405,3 @@ tabs.addEventListener('click', function(e) {
 //     });
 //   }
 // });
-
-// Show upload file name on label;
-
-$('.custom-file-input').change(function (e) {
-    $(this).parents('.custom-file').find('.custom-file-label').text(e.target.files[0].name);
-});
