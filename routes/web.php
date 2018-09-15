@@ -60,6 +60,7 @@ Route::post('/save_offer_letter_application_form_dev', 'SocietyOfferLetterContro
 Route::get('documents_upload','SocietyOfferLetterController@displaySocietyDocuments')->name('documents_upload');
 Route::post('uploaded_documents','SocietyOfferLetterController@uploadSocietyDocuments')->name('uploaded_documents');
 Route::get('delete_uploaded_documents/{id}','SocietyOfferLetterController@deleteSocietyDocuments');
+Route::post('add_uploaded_documents_comment','SocietyOfferLetterController@addSocietyDocumentsComment')->name('add_documents_comment');
 
 Route::resource('/society_offer_letter', 'SocietyOfferLetterController');
 Route::resource('/email_templates', 'EmailTemplateController');
