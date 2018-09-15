@@ -10,11 +10,16 @@ class OlSocietyDocumentsStatus extends Model
     protected $fillable = [
         'society_id',
         'document_id',
-        'society_document_path'
+        'society_document_path',
+        'EE_document_path',
+        'comment_by_EE'
     ];
 
     public function documents_uploaded(){
     	return $this->belongsTo(OlSocietyDocumentsStatus::class, 'document_id');
-    }
-    
+    } 
+
+    public function documents_Name(){
+    	return $this->hasmany('App\OlSocietyDocumentsMaster','id','document_id');
+    }         
 }

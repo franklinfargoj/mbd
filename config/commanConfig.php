@@ -9,4 +9,5 @@ return [
     */
 
     'list_num_of_records_per_page' => 10,
+    'dateFormat' => 'd-m-Y'
 ];
