@@ -15,6 +15,9 @@ class OlSocietyDocumentsStatus extends Model
 
     public function documents_uploaded(){
     	return $this->belongsTo(OlSocietyDocumentsStatus::class, 'document_id');
-    }
-    
+    } 
+
+    public function documents_Name(){
+    	return $this->hasmany('App\OlSocietyDocumentsMaster','id','document_id');
+    }         
 }
