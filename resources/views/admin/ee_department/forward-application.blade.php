@@ -129,14 +129,9 @@
                                                     </div>
                                                     <div class="remarks-section__data">
                                                         <p class="remarks-section__data__row"><span>Date:</span><span>12-09-2018</span></p>
-                                                        <p class="remarks-section__data__row"><span>Time:</span><span>11:09
-                                                                am</span></p>
-                                                        <p class="remarks-section__data__row"><span>Action:</span><span>Sent
-                                                                to Society</span></p>
-                                                        <p class="remarks-section__data__row"><span>Description:</span><span>Lorem
-                                                                ipsum dolor sit amet consectetur adipisicing elit.
-                                                                Error, tempore facere! Ipsa nisi repudiandae
-                                                                architecto!</span></p>
+                                                        <p class="remarks-section__data__row"><span>Time:</span><span>11:09 am</span></p>
+                                                        <p class="remarks-section__data__row"><span>Action:</span><span>Sent to Society</span></p>
+                                                        <p class="remarks-section__data__row"><span>Description:</span><span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Error, tempore facere! Ipsa nisi repudiandae architecto!</span></p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -173,9 +168,7 @@
                                                             </label>
                                                             <div class="col-lg-4 col-md-9 col-sm-12">
                                                                 <select class="form-control m-bootstrap-select m_selectpicker">
-                                                                    <option>
-                                                                        REE
-                                                                    </option>
+                                                                    <option>REE</option>
                                                                 </select>
                                                             </div>
                                                         </div>

@@ -6,9 +6,7 @@
         <div class="row">
             <div class="col-sm-6 test overlay overlay--login h-100vh">
                 <div class="d-flex h-100 flex-column align-items-center justify-content-center">
-                    <a href="#">
-                        <img src="{{asset('assets/app/media/img/logos/mhada-logo.png')}}" width="550">
-                    </a>
+                    <img class="login-logo" src="{{asset('assets/app/media/img/logos/mhada-logo.png')}}">
                 </div>
             </div>
             <div class="col-sm-6">
@@ -19,7 +17,7 @@
                                 <div class="m-login__signin">
                                     <div class="m-login__head">
                                         <h1 class="m-login__title mb-0 display-4">
-                                            Log In
+                                            Sign In
                                         </h1>
                                         <p class="sub-title">
                                             @if (session('registered'))
@@ -68,7 +66,7 @@
                                         </div>--}}
                                         <div class="m-login__form-action">
                                             <button id="mhada-user" class="btn btn-primary m-btn m-btn--pill m-btn--custom m-login__btn m-login__btn--primary">
-                                                Log In
+                                                Sign In
                                             </button>
                                         </div>
                                     </form>

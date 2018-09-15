@@ -1,5 +1,31 @@
 /* theme classes over ride starts here */
 
+.m-dropdown .m-dropdown__wrapper {
+    width: 150px;
+}
+
+.m-dropdown .m-nav__link-text,
+.m-dropdown .m-nav__link-text:hover,
+.m-dropdown .m-nav__link-text:focus,
+.m-dropdown .m-dropdown__toggle,
+.m-nav>.m-nav__item:hover>.m-nav__link .m-nav__link-text {
+    color: #f0791b;
+}
+
+.m-dropdown .m-dropdown__wrapper .m-nav>.m-nav__item>.m-nav__link {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.m-dropdown .m-dropdown__wrapper .m-dropdown__body {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.m-dropdown.m-dropdown--align-right .m-dropdown__wrapper {
+    right: 15px;
+}
+
 .m-radio.m-radio--primary>input:checked~span,
 .m-radio.m-radio--primary>span:after {
     border-color: #f0791b;
@@ -640,6 +666,10 @@
     width:100%;
 }*/
 
+.login-logo {
+    max-width: 550px;
+}
+
 .sign-in-button {
     position: absolute;
     top: 140px;
@@ -678,6 +708,29 @@
 
 .m-login.m-login--2 .m-login__wrapper .m-login__container .m-login__form {
     margin: 0;
+}
+
+.m-login.m-login--2 .m-login__wrapper .m-login__container .m-login__form .m-form__group .form-control {
+    height: 45px;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.m-login.m-login--2 .m-login__wrapper .m-login__container .m-login__form .m-form__group textarea.form-control {
+    padding-top: 15px;
+    resize: none;
+}
+
+.m-login.m-login--2 .m-login__wrapper .m-login__container .m-login__form .m-login__form-action .m-login__btn {
+    padding: 12px 40px;
+}
+
+.m-login.m-login--2 .m-login__wrapper .m-login__container .m-login__form .m-login__form-action {
+    margin-top: 30px;
+}
+
+.m-login.m-login--2 .m-login__wrapper .m-login__container .m-login__form .m-login__form-action .m-login__btn {
+    margin-top: 0;
 }
 
 #m_login_signup_cancel,
@@ -723,6 +776,20 @@
 }
 
 /* Login Page ends here */
+
+/* Sign Up Page starts here */
+
+.m-login__signup {
+    padding-top: 30px;
+}
+
+.m-login.m-login--2 .m-login__wrapper .m-login__container--sign-in {
+    width: 100%;
+    max-width: 900px;
+    padding: 0 15px;
+}
+
+/* Sign Up Page ends here */
 
 /* Header starts here */
 
