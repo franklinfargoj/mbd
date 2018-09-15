@@ -149,6 +149,11 @@ Route::get('captcha', function() {
 // EE Department Routes
 
 Route::resource('ee', 'EEDepartment\EEController');
+Route::get('/scrutiny-remark', 'EEDepartment\EEController@scrutinyRemarkByEE')->name('scrutiny-remark');
+Route::post('/ee-scrutiny-document', 'EEDepartment\EEController@addDocumentScrutiny')->name('ee-scrutiny-document');
+Route::post('/get-ee-scrutiny-data', 'EEDepartment\EEController@getDocumentScrutinyData')->name('get-ee-scrutiny-data');
+Route::post('/edit-ee-scrutiny-document/{id}', 'EEDepartment\EEController@editDocumentScrutiny')->name('edit-ee-scrutiny-document');
+Route::post('/ee-document-scrutiny-delete/{id}', 'EEDepartment\EEController@deleteDocumentScrutiny')->name('ee-document-scrutiny-delete');
 Route::get('/document-submitted', 'EEDepartment\EEController@documentSubmittedBySociety')->name('document-submitted');
 Route::post('/forward-application', 'EEDepartment\EEController@forwardApplication')->name('forward-application');
 
