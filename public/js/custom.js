@@ -397,3 +397,9 @@ tabs.addEventListener('click', function(e) {
 //     });
 //   }
 // });
+
+// Show upload file name on label;
+
+$('.custom-file-input').change(function (e) {
+    $(this).parents('.custom-file').find('.custom-file-label').text(e.target.files[0].name);
+});
