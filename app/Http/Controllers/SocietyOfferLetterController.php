@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 use App\SocietyOfferLetter;
 use App\MasterEmailTemplates;
+use App\OlRequestForm;
+use App\OlApplication;
+use App\OlSocietyDocumentsMaster;
+use App\OlSocietyDocumentsStatus;
 use Validator;
 use Mail;
 use Illuminate\Http\Request;
@@ -59,7 +63,7 @@ class SocietyOfferLetterController extends Controller
             $society_offer_letter_details = array(
                 'language_id' => '0',
                 'email' => $request->input('society_email'),
-                'password' => $request->input('society_password'),
+                'password' => bcrypt($request->input('society_password')),
                 'name' => $request->input('society_name'),
                 'username' => $request->input('society_username'),
                 'building_no' => $request->input('society_building_no'),
@@ -215,17 +219,77 @@ class SocietyOfferLetterController extends Controller
     }
 
     public function show_offer_letter_application_self(){
-        return view('frontend.society.offer_letter_application_self');
+        $society_details = SocietyOfferLetter::find('1');
+        // dd($society_details->building_no);
+        return view('frontend.society.offer_letter_application_self', compact('society_details'));
+    }
+
+    public function save_offer_letter_application_self(Request $request){
+        // dd($request->input());
+        $input = array(
+            'society_id' => 1,
+            'date_of_meeting' => date('Y-m-d', strtotime($request->input('date_of_meeting'))),
+            'resolution_no' => $request->input('resolution_no'),
+            'architect_name' => $request->input('architect_name'),
+            'developer_name' => $request->input('developer_name')
+        );
+        $last_inserted_id = OlRequestForm::create($input);
+        $insert_application = array(
+            'language_id' => '1',
+            'society_id' => '1',
+            'request_form_id' => $last_inserted_id->id,
+            'application_master_id' => '2',
+            'application_no' => rand().time(),
+            'application_path' => 'test',
+            'submitted_at' => date('Y-m-d'),
+            'current_status_id' => '1',
+            'is_encrochment' => '0',
+            'is_approve_offer_letter' => '0',
+        );
+        OlApplication::create($insert_application);
+        return redirect()->route('documents_upload');
     }
 
     public function show_offer_letter_application_dev(){
         return view('frontend.society.offer_letter_application_dev');
     }
 
-    public function displaySocietyDocuments(){
-        return view('frontend.society.society_upload_documents');
+    public function save_offer_letter_application_dev(Request $request){
+        dd($request);
+        return view('frontend.society.offer_letter_application_dev');
     }
 
+    public function displaySocietyDocuments(){
+        // dd(OlSocietyDocumentsMaster::where('application_id', '2')->get());
+        $documents = OlSocietyDocumentsMaster::where('application_id', '2')->get();
+        $documents_uploaded = OlSocietyDocumentsStatus::where('society_id', '1')->get();
+        // dd($documents_uploaded);
+        return view('frontend.society.society_upload_documents', compact('documents', 'documents_uploaded'));
+    }
+
+    public function uploadSocietyDocuments(Request $request){
+        $uploadPath = '/uploads/society_offer_letter_documents';
+        $destinationPath = public_path($uploadPath);
+        // dd($request->file('document_name'));
+                
+        if($request->file('document_name'))
+        {
+            $file = $request->file('document_name');
+            $file_name = time().$file->getFileName().'.'.$file->getClientOriginalExtension();
+            if($file->move($destinationPath, $file_name))
+            {
+                $dataToInsert['filepath'] = $uploadPath.'/';
+                $dataToInsert['filename'] = $file_name;
+            }
+        }
+        $input = array(
+            'society_id' => '1',
+            'document_id' => $request->input('document_id'),
+            'society_document_path' => $uploadPath,
+        );
+        OlSocietyDocumentsStatus::create($input);
+        return redirect()->route('documents_upload');
+    }
 
     public function ViewApplications(Request $request){
         return view('frontend.society.application');
