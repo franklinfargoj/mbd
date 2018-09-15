@@ -122,6 +122,19 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::post('/lease_detail/update-lease/{id}', 'LeaseDetailController@updateLease')->name('renew-lease.update-lease');
     Route::post('loadDeleteVillageUsingAjax', 'VillageDetailController@loadDeleteVillageUsingAjax')->name('loadDeleteVillageUsingAjax');
 
+    // EE Department Routes
+
+    Route::resource('ee', 'EEDepartment\EEController');
+    Route::get('/scrutiny-remark', 'EEDepartment\EEController@scrutinyRemarkByEE')->name('scrutiny-remark');
+    Route::post('/ee-scrutiny-document', 'EEDepartment\EEController@addDocumentScrutiny')->name('ee-scrutiny-document');
+    Route::post('/get-ee-scrutiny-data', 'EEDepartment\EEController@getDocumentScrutinyData')->name('get-ee-scrutiny-data');
+    Route::post('/edit-ee-scrutiny-document/{id}', 'EEDepartment\EEController@editDocumentScrutiny')->name('edit-ee-scrutiny-document');
+    Route::post('/ee-document-scrutiny-delete/{id}', 'EEDepartment\EEController@deleteDocumentScrutiny')->name('ee-document-scrutiny-delete');
+    Route::get('/document-submitted', 'EEDepartment\EEController@documentSubmittedBySociety')->name('document-submitted');
+
+    Route::get('get-forward-application', 'EEDepartment\EEController@getForwardApplicationForm')->name('get-forward-application');
+    Route::post('/forward-application', 'EEDepartment\EEController@forwardApplication')->name('forward-application');
+
 });
 
 
@@ -145,16 +158,7 @@ Route::get('captcha', function() {
     Captcha::create(\Illuminate\Support\Facades\Input::has('id')?\Illuminate\Support\Facades\Input::get('id'):null);
 });
 //Route::get('captcha', 'LoginController@captcha');
-// EE Department Routes
 
-Route::resource('ee', 'EEDepartment\EEController');
-Route::get('/scrutiny-remark', 'EEDepartment\EEController@scrutinyRemarkByEE')->name('scrutiny-remark');
-Route::post('/ee-scrutiny-document', 'EEDepartment\EEController@addDocumentScrutiny')->name('ee-scrutiny-document');
-Route::post('/get-ee-scrutiny-data', 'EEDepartment\EEController@getDocumentScrutinyData')->name('get-ee-scrutiny-data');
-Route::post('/edit-ee-scrutiny-document/{id}', 'EEDepartment\EEController@editDocumentScrutiny')->name('edit-ee-scrutiny-document');
-Route::post('/ee-document-scrutiny-delete/{id}', 'EEDepartment\EEController@deleteDocumentScrutiny')->name('ee-document-scrutiny-delete');
-Route::get('/document-submitted', 'EEDepartment\EEController@documentSubmittedBySociety')->name('document-submitted');
-Route::post('/forward-application', 'EEDepartment\EEController@forwardApplication')->name('forward-application');
 
 //route for society Application Page
 Route::get('/application','SocietyOfferLetterController@ViewApplications')->name('society_detail.application');
