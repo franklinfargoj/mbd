@@ -47,9 +47,9 @@
                                 </td>
                                 <td class="text-center">
                                     <h2 class="m--font-danger">
-                                        @if(count($documents_uploaded) > 0 )
-                                            @foreach($documents_uploaded as $document_uploaded)
-                                                @if($document_uploaded['document_id'] == $document->id)
+                                        @if(count($document->documents_uploaded) > 0 )
+                                            @foreach($document->documents_uploaded as $document_uploaded)
+                                                @if($document_uploaded['society_id'] == '1')
                                                     <i class="fa fa-check"></i>
                                                 @else
                                                     <i class="fa fa-remove"></i>
@@ -61,16 +61,38 @@
                                     </h2>
                                 </td>
                                 <td>
-                                   <form action="{{ route('uploaded_documents') }}" method="post" enctype='multipart/form-data'>
-                                   @csrf
-                                        <div class="custom-file">
-                                            <input class="custom-file-input" name="document_name"  type="file" class="" id="test-upload" required>
-                                            <input class="custom-file-input" type="hidden" name="document_id" class="" id="test-upload" value="{{ $document->id }}">
-                                            <label class="custom-file-label" for="test-upload">Choose file...</label>
-                                        </div>
-                                        <br>
-                                        <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
-                                   </form>
+                                    @if(count($document->documents_uploaded) > 0 )
+                                        @foreach($document->documents_uploaded as $document_uploaded)
+                                            @if($document_uploaded['society_id'] == '1')
+                                               <span>
+                                                    <a href="{{ asset($document_uploaded['society_document_path']) }}" data-value='{{ $document->id }}' class="upload_documents" download><button type="submit" class="btn btn-primary btn-custom"> Download</button></a>
+                                                    <a href="{{ url('/delete_uploaded_documents/'.$document->id) }}" data-value='{{ $document->id }}' class="upload_documents"><button type="submit" class="btn btn-primary btn-custom"> Delete</button></a>
+                                               </span>
+                                            @else
+                                                <form action="{{ route('uploaded_documents') }}" method="post" enctype='multipart/form-data' id="upload_documents_form_{{ $document->id }}">
+                                                @csrf
+                                                    <div class="custom-file">
+                                                        <input class="custom-file-input" name="document_name"  type="file" class="" id="test-upload" required>
+                                                        <input class="custom-file-input" type="hidden" name="document_id" class="" id="test-upload" value="{{ $document->id }}">
+                                                        <label class="custom-file-label" for="test-upload">Choose file...</label>
+                                                    </div>
+                                                    <br>
+                                                    <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
+                                               </form>
+                                            @endif
+                                        @endforeach
+                                    @else
+                                        <form action="{{ route('uploaded_documents') }}" method="post" enctype='multipart/form-data' id="upload_documents_form_{{ $document->id }}">
+                                        @csrf
+                                            <div class="custom-file">
+                                                <input class="custom-file-input" name="document_name"  type="file" class="" id="test-upload" required>
+                                                <input class="custom-file-input" type="hidden" name="document_id" class="" id="test-upload" value="{{ $document->id }}">
+                                                <label class="custom-file-label" for="test-upload">Choose file...</label>
+                                            </div>
+                                            <br>
+                                            <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
+                                       </form>
+                                    @endif
                                 </td>
                             </tr>
                         @php $i++; @endphp
@@ -84,3 +106,8 @@
      </div>
 </div>
 @endsection
+<!-- @section('upload_documents_js')
+<script type="text/javascript">
+    
+</script>
+@endsection -->
