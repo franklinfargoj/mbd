@@ -136,7 +136,11 @@
                                                             <tr>
                                                                 <td>{{ $i }}.</td>
                                                                 <td>{{ $document->name }}</td>
-                                                                <td class="text-center"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></td>
+                                                                @php
+                                                                    $path = $arrData['society_document_data'][$document->id]['society_document_path'];
+
+                                                                @endphp
+                                                                <td class="text-center"><a download href="{{ asset($path) }}"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a></td>
                                                                 <td>
                                                                     @php
                                                                         if(array_key_exists($document->id, $arrData['society_document_data']))
@@ -297,7 +301,7 @@
                                                                     </div>
                                                                 </td>
                                                                 @if(!empty($ee_document))
-                                                                    <td class="text-center"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></td>
+                                                                    <td class="text-center"><a download href="{{ asset($ee_document) }}"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a></td>
                                                                 @else
                                                                     <td></td>
                                                                 @endif

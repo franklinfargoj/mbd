@@ -6,6 +6,7 @@ use App\OlApplication;
 use App\OlSocietyDocumentsMaster;
 use App\OlSocietyDocumentsStatus;
 use App\SocietyOfferLetter;
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -102,13 +103,30 @@ class EEController extends Controller
 
     public function documentSubmittedBySociety()
     {
-        return view('admin.ee_department.documentSubmitted');
+        $arrData['society_document'] = OlSocietyDocumentsMaster::get();
+        $document_status_data = SocietyOfferLetter::with('societyDocuments')->first();
+
+        $arrData['society_document_data'] = array_get($document_status_data,'societyDocuments')->keyBy('document_id')->toArray();
+
+        return view('admin.ee_department.documentSubmitted', compact('arrData'));
     }
 
-    public function forwardApplication(Request $request ,$id)
+    public function getForwardApplicationForm(){
+        $arrData['society_detail'] = OlApplication::with('eeApplicationSociety')->first();
+        $user = User::with(['roles.parent.parentUser'])->where('id', Auth::user()->id)->first();
+        $roles = array_get($user, 'roles');
+        $parent = array_get($roles[0], 'parent');
+        $arrData['parentData'] = array_get($parent, 'parentUser');
+        $arrData['role_name'] = strtoupper(str_replace('_', ' ', $parent['name']));
+
+        return view('admin.ee_department.forward-application', compact('arrData'));
+    }
+
+    public function forwardApplication(Request $request)
     {
+        dd($request->all());
         $forward_application = [
-            'application_id' => $id,
+            'application_id' => '',
             'user_id' => Auth::user()->id,
             'role_id' => session()->get('role_id'),
             'status_id' => '',
@@ -214,11 +232,13 @@ class EEController extends Controller
         //insert into ol_society_document_status table
     }
 
+
     public function deleteDocumentScrutiny(Request $request, $id)
     {
         $data = [
-            'comment_by_EE' => $request->remark,
-            'EE_document_path' => ''
+            'comment_by_EE' => '',
+            'EE_document_path' => '',
+            'deleted_comment_by_EE' => $request->remark
         ];
         unlink(public_path($request->fileName));
         $document_delete = OlSocietyDocumentsStatus::find($id);

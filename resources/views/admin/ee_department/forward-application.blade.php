@@ -7,13 +7,13 @@
             <div class="m-portlet__head">
                 <div class="m-portlet__head-tools">
                     <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom">
-                        <li class="nav-item m-tabs__item" data-target="#document-scrunity">
+                        {{--<li class="nav-item m-tabs__item" data-target="#document-scrunity">
                             <a class="nav-link m-tabs__link active show" data-toggle="tab" href="#scrutiny-history-tab">
                                 <i class="la la-cog"></i> Scrutiny History
                             </a>
-                        </li>
+                        </li>--}}
                         <li class="nav-item m-tabs__item">
-                            <a class="nav-link m-tabs__link" data-toggle="tab" href="#forward-application-tab">
+                            <a class="nav-link m-tabs__link active show" data-toggle="tab" href="#forward-application-tab">
                                 <i class="la la-cog"></i> Forward Application
                             </a>
                         </li>
@@ -36,31 +36,31 @@
                                             <div class="col-sm-6 field-col">
                                                 <div class="d-flex">
                                                     <span class="field-name">Application Number:</span>
-                                                    <span class="field-value">A065543</span>
+                                                    <span class="field-value">{{ $arrData['society_detail']->application_no }}</span>
                                                 </div>
                                             </div>
                                             <div class="col-sm-6 field-col">
                                                 <div class="d-flex">
                                                     <span class="field-name">Application Date:</span>
-                                                    <span class="field-value">A065543</span>
+                                                    <span class="field-value">{{ date(config('commanConfig.dateFormat'), strtotime($arrData['society_detail']->submitted_at)) }}</span>
                                                 </div>
                                             </div>
                                             <div class="col-sm-6 field-col">
                                                 <div class="d-flex">
                                                     <span class="field-name">Society Name:</span>
-                                                    <span class="field-value">A065543</span>
+                                                    <span class="field-value">{{ $arrData['society_detail']->eeApplicationSociety->name }}</span>
                                                 </div>
                                             </div>
                                             <div class="col-sm-6 field-col">
                                                 <div class="d-flex">
                                                     <span class="field-name">Society Address:</span>
-                                                    <span class="field-value">A065543</span>
+                                                    <span class="field-value">{{ $arrData['society_detail']->eeApplicationSociety->address }}</span>
                                                 </div>
                                             </div>
                                             <div class="col-sm-6 field-col">
                                                 <div class="d-flex">
                                                     <span class="field-name">Building Number:</span>
-                                                    <span class="field-value">A065543</span>
+                                                    <span class="field-value">{{ $arrData['society_detail']->eeApplicationSociety->building_no }}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -75,25 +75,25 @@
                                             <div class="col-sm-6 field-col">
                                                 <div class="d-flex">
                                                     <span class="field-name">Name of Architect:</span>
-                                                    <span class="field-value">A065543</span>
+                                                    <span class="field-value">{{ $arrData['society_detail']->eeApplicationSociety->name_of_architect }}</span>
                                                 </div>
                                             </div>
                                             <div class="col-sm-6 field-col">
                                                 <div class="d-flex">
                                                     <span class="field-name">Architect Mobile Number:</span>
-                                                    <span class="field-value">A065543</span>
+                                                    <span class="field-value">{{ $arrData['society_detail']->eeApplicationSociety->architect_mobile_no }}</span>
                                                 </div>
                                             </div>
                                             <div class="col-sm-6 field-col">
                                                 <div class="d-flex">
                                                     <span class="field-name">Architect Address:</span>
-                                                    <span class="field-value">A065543</span>
+                                                    <span class="field-value">{{ $arrData['society_detail']->eeApplicationSociety->architect_address }}</span>
                                                 </div>
                                             </div>
                                             <div class="col-sm-6 field-col">
                                                 <div class="d-flex">
                                                     <span class="field-name">Architect Telephone Number:</span>
-                                                    <span class="field-value">A065543</span>
+                                                    <span class="field-value">{{ $arrData['society_detail']->eeApplicationSociety->architect_telephone_no }}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -103,7 +103,7 @@
                         </div>
                         <div class="tab-content">
 
-                            <div class="tab-pane active show" id="scrutiny-history-tab">
+                            {{--<div class="tab-pane active show" id="scrutiny-history-tab">
                                 <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
                                     <div class="portlet-body">
                                         <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
@@ -138,9 +138,9 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div>--}}
 
-                            <div class="tab-pane" id="forward-application-tab">
+                            <div class="tab-pane active show" id="forward-application-tab">
                                 <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
                                     <div class="portlet-body">
                                         <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
@@ -150,25 +150,31 @@
                                                 </h3>
                                             </div>
                                             <div class="remarks-suggestions">
-                                                <form action="" method="post">
+                                                <form action="{{ route('forward-application') }}" id="forwardApplication" method="post">
+                                                    @csrf
+                                                    <input type="hidden" name="application_id" value="{{ $arrData['society_detail']->id }}">
+                                                    <input type="hidden" name="to_role_id" id="to_role_id">
+
                                                     <div class="m-form__group form-group">
                                                         <div class="m-radio-inline">
                                                             <label class="m-radio m-radio--primary">
-                                                                <input type="radio" name="remarks-suggestion" checked> Forward Application
+                                                                <input type="radio" name="remarks-suggestion" class="forward-application" value="1" checked> Forward Application
                                                                 <span></span>
                                                             </label>
                                                             <label class="m-radio m-radio--primary">
-                                                                <input type="radio" name="remarks-suggestion"> Send Application
+                                                                <input type="radio" name="remarks-suggestion" class="forward-application" value="0"> Send Application
                                                                 <span></span>
                                                             </label>
                                                         </div>
-                                                        <div class="form-group m-form__group row mt-3">
+                                                        <div class="form-group m-form__group row mt-3 parent-data">
                                                             <label class="col-form-label col-lg-2 col-sm-12">
                                                                 Forward To:
                                                             </label>
                                                             <div class="col-lg-4 col-md-9 col-sm-12">
-                                                                <select class="form-control m-bootstrap-select m_selectpicker">
-                                                                    <option>REE</option>
+                                                                <select class="form-control m-bootstrap-select m_selectpicker" name="to_user_id" id="to_user_id">
+                                                                    @foreach($arrData['parentData'] as $parent)
+                                                                        <option value="{{ $parent->id }}" data-role="{{ $parent->role_id }}">{{ $parent->name }} ({{ $arrData['role_name'] }})</option>
+                                                                    @endforeach
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -178,8 +184,8 @@
                                                         </div>
                                                         <div class="mt-3 btn-list">
                                                             <button type="submit" class="btn btn-primary">Save</button>
-                                                            <button type="submit" class="btn btn-primary">Sign & Forward</button>
-                                                            <button type="submit" class="btn btn-primary">Forward</button>
+                                                            {{--<button type="submit" class="btn btn-primary">Sign & Forward</button>
+                                                            <button type="submit" class="btn btn-primary">Forward</button>--}}
                                                             <button type="button" class="btn btn-secondary">Cancel</button>
                                                         </div>
                                                     </div>
@@ -197,5 +203,27 @@
         </div>
     </div>
 </div>
+@endsection
 
+@section('js')
+    <script>
+        $(".forward-application").change(function () {
+            var data = $(this).val();
+
+            if(data == 1)
+            {
+                $(".parent-data").show();
+            }
+            else
+            {
+                $(".parent-data").hide();
+            }
+        });
+
+        $("#forwardApplication").on("submit", function () {
+            var id = $("#to_user_id").find('option:selected').attr("data-role");
+
+            $("#to_role_id").val(id);
+        });
+    </script>
 @endsection
