@@ -270,11 +270,11 @@ class SocietyOfferLetterController extends Controller
     public function uploadSocietyDocuments(Request $request){
         $uploadPath = '/uploads/society_offer_letter_documents';
         $destinationPath = public_path($uploadPath);
-        dd($request->file('document_name'));
+        // dd($request->file('document_name'));
                 
         if($request->file('document_name'))
         {
-            $file = $request->file('file');
+            $file = $request->file('document_name');
             $file_name = time().$file->getFileName().'.'.$file->getClientOriginalExtension();
             if($file->move($destinationPath, $file_name))
             {
