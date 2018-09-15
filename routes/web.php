@@ -59,6 +59,8 @@ Route::get('/offer_letter_application_form_dev', 'SocietyOfferLetterController@s
 Route::post('/save_offer_letter_application_form_dev', 'SocietyOfferLetterController@save_offer_letter_application_dev')->name('save_offer_letter_application_dev');
 Route::get('documents_upload','SocietyOfferLetterController@displaySocietyDocuments')->name('documents_upload');
 Route::post('uploaded_documents','SocietyOfferLetterController@uploadSocietyDocuments')->name('uploaded_documents');
+Route::get('delete_uploaded_documents/{id}','SocietyOfferLetterController@deleteSocietyDocuments');
+
 Route::resource('/society_offer_letter', 'SocietyOfferLetterController');
 Route::resource('/email_templates', 'EmailTemplateController');
 // EE Department Routes
