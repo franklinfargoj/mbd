@@ -45,9 +45,9 @@ class SocietyOfferLetter extends Model
         ]);
 
         return $validatedata;
-    }
-
+    }   
+    
     public function societyDocuments(){
         return $this->hasMany('App\OlSocietyDocumentsStatus', 'society_id','id');
-    }
+    }        
 }
