@@ -3,12 +3,17 @@
 namespace App\Http\Controllers\EEDepartment;
 
 use App\OlApplication;
+use App\OlSocietyDocumentsMaster;
+use App\OlSocietyDocumentsStatus;
+use App\SocietyOfferLetter;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
 use Config;
 use DB;
+use File;
+use Storage;
 
 class EEController extends Controller
 {
@@ -115,30 +120,112 @@ class EEController extends Controller
         // insert into ol_application_status_log table
     }
 
+    public function scrutinyRemarkByEE()
+    {
+        $arrData['society_detail'] = OlApplication::with('eeApplicationSociety')->first();
+        $arrData['society_document'] = OlSocietyDocumentsMaster::get();
+        $document_status_data = SocietyOfferLetter::with('societyDocuments')->first();
+
+        $arrData['society_document_data'] = array_get($document_status_data,'societyDocuments')->keyBy('document_id')->toArray();
+//        dd($arrData['society_document_data']);
+        return view('admin.ee_department.scrutiny-remark', compact('arrData'));
+    }
+
     public function addDocumentScrutiny(Request $request)
     {
+        $uploadPath = '/uploads/EE_document_path';
+        $destinationPath = public_path($uploadPath);
+
+        $document_status = OlSocietyDocumentsStatus::find($request->document_status_id);
         $ee_document_scrutiny = [
-            'society_id' => '',
-            'document_id' => '',
-            'society_document_path' => '',
-            'EE_document_path' => '',
             'comment_by_EE' => $request->remark,
         ];
+
+        $time = time();
+        if($request->hasFile('EE_document_path')) {
+            $extension = $request->file('EE_document_path')->getClientOriginalExtension();
+            $file = $request->file('EE_document_path');
+
+            if ($extension == "pdf") {
+                $name = File::name($request->file('EE_document_path')->getClientOriginalName()) . '_' . $time . '.' . $extension;
+//                $path = Storage::putFileAs('/EE_document_path', $request->file('EE_document'), $name, 'public');
+                if($file->move($destinationPath, $name))
+                {
+                    $ee_document_scrutiny['EE_document_path'] = $uploadPath.'/'.$name;
+                }
+            } else {
+                return redirect()->back()->with('error','Invalid type of file uploaded (only pdf allowed)');
+            }
+
+        }
+
+        $document_status->update($ee_document_scrutiny);
+
+        return redirect()->back();
+        //insert into ol_society_document_status table
+    }
+
+    public function getDocumentScrutinyData(Request $request)
+    {
+        $documentStatusData = OlSocietyDocumentsStatus::find($request->documentStatusId);
+
+        return $documentStatusData;
+    }
+
+    public function editDocumentScrutiny(Request $request, $id)
+    {
+        $document_status = OlSocietyDocumentsStatus::find($id);
+
+        $ee_document_scrutiny = [
+            'comment_by_EE' => $request->comment_by_EE,
+        ];
+
+        $uploadPath = '/uploads/EE_document_path';
+        $destinationPath = public_path($uploadPath);
+        // dd($request->file('document_name'));
+
+        $time = time();
+        if($request->hasFile('EE_document')) {
+            $extension = $request->file('EE_document')->getClientOriginalExtension();
+            $file = $request->file('EE_document');
+
+            if ($extension == "pdf") {
+                unlink(public_path($request->oldFileName));
+                $name = File::name($request->file('EE_document')->getClientOriginalName()) . '_' . $time . '.' . $extension;
+//                $path = Storage::putFileAs('/EE_document_path', $request->file('EE_document'), $name, 'public');
+                if($file->move($destinationPath, $name))
+                {
+                    $ee_document_scrutiny['EE_document_path'] = $uploadPath.'/'.$name;
+                }
+            } else {
+                return redirect()->back()->with('error','Invalid type of file uploaded (only pdf allowed)');
+            }
+
+        }
+        else
+        {
+            $ee_document_scrutiny['EE_document_path'] = $request->oldFileName;
+        }
+
+        $document_status->update($ee_document_scrutiny);
+
+        return redirect()->back();
 
         //insert into ol_society_document_status table
     }
 
-    public function editDocumentScrutiny(Request $request)
+    public function deleteDocumentScrutiny(Request $request, $id)
     {
-        $ee_document_scrutiny = [
-            'society_id' => '',
-            'document_id' => '',
-            'society_document_path' => '',
-            'EE_document_path' => '',
+        $data = [
             'comment_by_EE' => $request->remark,
+            'EE_document_path' => ''
         ];
+        unlink(public_path($request->fileName));
+        $document_delete = OlSocietyDocumentsStatus::find($id);
 
-        //insert into ol_society_document_status table
+        $document_delete->update($data);
+
+        return redirect()->back();
     }
 
     public function consentVerification(Request $request)
