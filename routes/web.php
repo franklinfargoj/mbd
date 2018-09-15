@@ -164,6 +164,7 @@ Route::get('/application','SocietyOfferLetterController@ViewApplications')->name
 Route::resource('dyce','DYCEDepartment\DYCEController');
 Route::get('dyce_scrutiny_remark','DYCEDepartment\DYCEController@dyceScrutinyRemark')->name('dyce.scrutiny_remark');
 Route::get('societyEEDocuments','DYCEDepartment\DYCEController@societyEEDocuments')->name('dyce.society_EE_documents');
+Route::get('eeScrutinyRemark','DYCEDepartment\DYCEController@eeScrutinyRemark')->name('dyce.EE_Scrutiny_Remark');
 
 // REE Department Routes
 

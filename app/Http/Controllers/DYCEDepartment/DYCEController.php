@@ -8,6 +8,7 @@ use Yajra\DataTables\DataTables;
 use App\olSiteVisitDocuments;
 use App\OlApplication;
 use App\SocietyOfferLetter;
+use App\OlSocietyDocumentsStatus;
 use Config;
 
 class DYCEController extends Controller
@@ -50,24 +51,20 @@ class DYCEController extends Controller
     public function dyceScrutinyRemark(Request $request){
 
         $applicationDocuments = OlApplication::join('ol_site_visit_documents','ol_site_visit_documents.application_id','ol_applications.id')->where('ol_applications.id','1')->get(); 
-
-        // dd($applicationDocuments);  
                    
         $applicationId = '1';
         $applicationData = OlApplication::with(['eeApplicationSociety'])
                             ->where('id',$applicationId)->first();        
 
         if(isset($applicationData))                   
-        $applicationData->SiteVisitorOfficers = explode(",",$applicationData->site_visit_officers);                    
-
-        // dd($applicationData->SiteVisitorOfficers);                    
+        $applicationData->SiteVisitorOfficers = explode(",",$applicationData->site_visit_officers);                                      
        
         return view('admin.DYCE_department.scrutiny_remark',compact('applicationData','applicationDocuments'));
     } 
 
     // function used to update details and upload documents by DYCE 
     public function store(Request $request){
-        // dd($request->file('document'));
+
         $applicationId = '1';
         if(isset($request->documentId))
             $removeDocument = olSiteVisitDocuments::where('application_id',$applicationId)->whereNotIn('id',$request->documentId)->delete();
@@ -100,12 +97,21 @@ class DYCEController extends Controller
         }
     } 
 
+    // society and EE documents
     public function societyEEDocuments(Request $request){
-        $applicationId = 1;
-        $societyDocuments = SocietyOfferLetter::with('societyDocuments')->get()->toArray();
-        dd($societyDocuments);
-        $documents = OlSocietyDocumentsMaster::where('application_id',$applicationId)->get();
-       return view('admin.DYCE_department.society_EE_documents'); 
+
+        $societyId = 1;        
+        $societyDocuments = SocietyOfferLetter::with(['societyDocuments.documents_Name','societyDocuments'])->where('id',$societyId)->get();
+       return view('admin.DYCE_department.society_EE_documents',compact('societyDocuments')); 
+    }
+
+    public function eeScrutinyRemark(){
+
+        $applicationId = '1';
+        $eeScrutinyData = OlApplication::with(['eeApplicationSociety','eeApplicationSociety.societyDocuments','eeApplicationSociety.societyDocuments.documents_Name'])
+                            ->where('id',$applicationId)->first();
+
+        return view('admin.DYCE_department.EE_Scrutiny_Remark',compact('eeScrutinyData'));
     }
 }
 
