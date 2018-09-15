@@ -13,4 +13,14 @@ class Role extends Model
     {
         return $this->belongsToMany('App\Permission', 'permission_role', 'role_id', 'permission_id');
     }
+
+    public function parent()
+    {
+        return $this->belongsTo('App\Role', 'parent_id', 'id');
+    }
+
+    public function parentUser()
+    {
+        return $this->hasMany('App\User', 'role_id', 'id');
+    }
 }

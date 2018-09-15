@@ -66,19 +66,43 @@
                     </div>
                     <!-- END: Brand -->
                     <div class="m-stack__item m-stack__item--fluid m-header-head header--custom" id="m_header_nav">
-                        <div class="d-flex justify-content-end">
-                            <div class="header-links-wrapper">
-                                <a href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                            document.getElementById('logout-form').submit();">
-                                    Logout
-                                </a>
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                    {{ csrf_field() }}
-                                </form>
-                            </div>
-                        </div>
                         <!-- BEGIN: Horizontal Menu -->
                         <!-- END: Topbar -->
+                        <div class="d-flex align-items-center justify-content-end">
+                            <div class="m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push"
+                                data-dropdown-toggle="hover" aria-expanded="true">
+                                <a href="#" class="m-portlet__nav-link m-dropdown__toggle">
+                                    <!-- <i class="la la-plus m--hide"></i>
+                                <i class="la la-ellipsis-h"></i> -->
+                                    <i class="m-nav__link-icon fa fa-user" style="padding-right: 5px;"></i>
+                                    My Account
+                                </a>
+                                <div class="m-dropdown__wrapper">
+                                    <span class="m-dropdown__arrow m-dropdown__arrow--right m-dropdown__arrow--adjust"></span>
+                                    <div class="m-dropdown__inner">
+                                        <div class="m-dropdown__body">
+                                            <div class="m-dropdown__content">
+                                                <ul class="m-nav">
+                                                    <li class="m-nav__item">
+                                                        <a href="{{ route('logout') }}" class="m-nav__link" onclick="event.preventDefault();
+                                                                document.getElementById('logout-form').submit();">
+                                                            <!-- <i class="m-nav__link-icon flaticon-share"></i> -->
+                                                            <span class="m-nav__link-text">
+                                                                Sign Out
+                                                            </span>
+                                                        </a>
+                                                        <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                                            style="display: none;">
+                                                            {{ csrf_field() }}
+                                                        </form>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
