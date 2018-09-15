@@ -38,26 +38,44 @@
                          </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>
-                                संस्थेचा अर्ज<span class="compulsory-text"><small>(Compulsory Document)</small></span>
-                            </td>
-                            <td class="text-center">
-                               <h2 class="m--font-danger"><i class="fa fa-remove"></i></h2>
-                            </td>
-                            <td>
-                               <form action="" method="post">
-                                    <div class="custom-file">
-                                        <input class="custom-file-input" name="" type="file" class="" id="test-upload" required>
-                                        <label class="custom-file-label" for="test-upload">Choose file...</label>
-                                    </div>
-                                    <br>
-                                    <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
-                               </form>
-                            </td>
-                         </tr>
-                         <tr>
+                      @php $i=1; @endphp
+                        @foreach($documents as $document)                            
+                            <tr>
+                                <td>{{ $i }}</td>
+                                <td>
+                                    {{ $document->name }}<span class="compulsory-text"><small>(Compulsory Document)</small></span>
+                                </td>
+                                <td class="text-center">
+                                    <h2 class="m--font-danger">
+                                        @if(count($documents_uploaded) > 0 )
+                                            @foreach($documents_uploaded as $document_uploaded)
+                                                @if($document_uploaded['document_id'] == $document->id)
+                                                    <i class="fa fa-check"></i>
+                                                @else
+                                                    <i class="fa fa-remove"></i>
+                                                @endif
+                                            @endforeach
+                                        @else
+                                            <i class="fa fa-remove"></i>
+                                        @endif
+                                    </h2>
+                                </td>
+                                <td>
+                                   <form action="{{ route('uploaded_documents') }}" method="post">
+                                   @csrf
+                                        <div class="custom-file">
+                                            <input class="custom-file-input" name="document_name"  type="file" class="" id="test-upload" required>
+                                            <input class="custom-file-input" type="hidden" name="document_id" class="" id="test-upload" value="{{ $document->id }}">
+                                            <label class="custom-file-label" for="test-upload">Choose file...</label>
+                                        </div>
+                                        <br>
+                                        <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
+                                   </form>
+                                </td>
+                            </tr>
+                        @php $i++; @endphp
+                        @endforeach
+                         <!-- <tr>
                             <td>2</td>
                             <td>
                                 सर्वसाधारण सभेच्या पुर्नविकास करणेबाबतचा ठराव<span class="compulsory-text"><small>(Compulsory Document)</small></span>
@@ -436,7 +454,7 @@
                                     <button type="submit" class="btn btn-primary btn-custom">Upload</button>
                                 </form>
                             </td>
-                        </tr>
+                        </tr> -->
                       </tbody>
                    </table>
                 </div>
