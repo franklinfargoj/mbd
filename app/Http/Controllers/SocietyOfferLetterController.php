@@ -261,33 +261,69 @@ class SocietyOfferLetterController extends Controller
 
     public function displaySocietyDocuments(){
         // dd(OlSocietyDocumentsMaster::where('application_id', '2')->get());
-        $documents = OlSocietyDocumentsMaster::where('application_id', '2')->get();
+        $documents = OlSocietyDocumentsMaster::where('application_id', '2')->with('documents_uploaded')->get();
         $documents_uploaded = OlSocietyDocumentsStatus::where('society_id', '1')->get();
-        // dd($documents_uploaded);
+        // dd($documents);
         return view('frontend.society.society_upload_documents', compact('documents', 'documents_uploaded'));
     }
 
     public function uploadSocietyDocuments(Request $request){
         $uploadPath = '/uploads/society_offer_letter_documents';
         $destinationPath = public_path($uploadPath);
-        // dd($request->file('document_name'));
-                
-        if($request->file('document_name'))
-        {
-            $file = $request->file('document_name');
-            $file_name = time().$file->getFileName().'.'.$file->getClientOriginalExtension();
-            if($file->move($destinationPath, $file_name))
-            {
-                $dataToInsert['filepath'] = $uploadPath.'/';
-                $dataToInsert['filename'] = $file_name;
+        
+        $documents = OlSocietyDocumentsMaster::where('application_id', '2')->where('id', $request->input('document_id'))->with('documents_uploaded')->get();
+        // dd($documents[0]->documents_uploaded);    
+        foreach ($documents as $key => $value) {
+            if(count($value->documents_uploaded) > 0){
+                foreach ($value->documents_uploaded as $document_uploaded) {
+                    if($document_uploaded['society_id'] == '1'){
+                        // unlink(public_path($document_uploaded['society_document_path']));
+                        // OlSocietyDocumentsStatus::where('society_id', '1')->where('document_id', $request->input('document_id'))->delete();
+                    }else{
+                        if($request->file('document_name'))
+                        {
+                            $file = $request->file('document_name');
+                            $file_name = time().$file->getFileName().'.'.$file->getClientOriginalExtension();
+                            if($file->move($destinationPath, $file_name))
+                            {
+                                $dataToInsert['filepath'] = $uploadPath.'/';
+                                $dataToInsert['filename'] = $file_name;
+                            }
+                        }
+                        $input = array(
+                            'society_id' => '1',
+                            'document_id' => $request->input('document_id'),
+                            'society_document_path' => $uploadPath.'/'.$file_name,
+                        );
+                        OlSocietyDocumentsStatus::create($input);
+                    }
+                }
+            }else{
+                if($request->file('document_name'))
+                {
+                    $file = $request->file('document_name');
+                    $file_name = time().$file->getFileName().'.'.$file->getClientOriginalExtension();
+                    if($file->move($destinationPath, $file_name))
+                    {
+                        $dataToInsert['filepath'] = $uploadPath.'/';
+                        $dataToInsert['filename'] = $file_name;
+                    }
+                }
+                $input = array(
+                    'society_id' => '1',
+                    'document_id' => $request->input('document_id'),
+                    'society_document_path' => $uploadPath.'/'.$file_name,
+                );
+                OlSocietyDocumentsStatus::create($input);
             }
         }
-        $input = array(
-            'society_id' => '1',
-            'document_id' => $request->input('document_id'),
-            'society_document_path' => $uploadPath,
-        );
-        OlSocietyDocumentsStatus::create($input);
+        return redirect()->route('documents_upload');
+    }
+
+    public function deleteSocietyDocuments($id){
+        $delete_document_details = OlSocietyDocumentsStatus::where('society_id', '1')->where('document_id', $id)->get();
+        unlink(public_path($delete_document_details[0]->society_document_path));
+        OlSocietyDocumentsStatus::where('society_id', '1')->where('document_id', $id)->delete();
         return redirect()->route('documents_upload');
     }
 
