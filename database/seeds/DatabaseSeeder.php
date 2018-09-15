@@ -29,6 +29,11 @@ class DatabaseSeeder extends Seeder
         $this->call(OlDcrRateMasterTableSeeder::class);
         $this->call(OlSocietyDocumentsMasterTableSeeder::class);
 
+        $this->call(OlConsentVerificationQuestion::class);
+        $this->call(OlDemarcationVerificationQuestion::class);
+        $this->call(OlRgRelocationVerificationQuestion::class);
+        $this->call(OlTitBitVerificationQuestion::class);
+
         // $this->call(RtiFormTableSeeder::class);
     }
 }
