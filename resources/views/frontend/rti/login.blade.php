@@ -25,83 +25,9 @@
       <!--begin::Base Styles -->
       <link href="{{asset('/assets/vendors/base/vendors.bundle.css')}}" rel="stylesheet" type="text/css" />
       <link href="{{asset('/assets/demo/default/base/style.bundle.css')}}" rel="stylesheet" type="text/css" />
+      <link href="{{asset('/assets/demo/default/base/custom.css')}}" rel="stylesheet" type="text/css" />
       <!--end::Base Styles -->
-      <link rel="shortcut icon" href="{{asset('/assets/demo/default/media/img/logo/favicon.ico')}}" />
-      <style>
-         .error{
-         color:#f4a1a1;
-         }
-         .login-form{
-         /*width:30%;*/
-         padding:0;
-         /*height: 100vh;
-         background: #ffffff;*/
-         display: flex;
-         position:relative;
-         }
-         /*.m-login__logo{
-         position: absolute;
-         right: 50px;
-         top: 5%;
-         }*/
-         .m-login-slogan{
-         position: absolute;
-         left:35%;
-         bottom: 5%;
-         }
-         .login-form .m-form .m-form__group{
-         padding-top:0px;
-         }
-         /*.btn-focus{
-         background-color:#028541;
-         border-color:#028541;
-         border-radius:.25rem !important;
-         width:100%;
-         }*/
-         .sign-in-button{position: absolute; top: 140px;right: 30px;}
-         .btn-focus:hover{
-         background-color: #027439;
-         border-color: #027439;
-         }
-         .login-form .m-login__account a{
-         color:#f0791b !important;
-         text-transform:uppercase;
-         font-weight:bold;
-         }
-         .login-form .m-login__container{
-         width:97%;
-         padding: 4em;
-         }
-         .login-form .sub-title{
-         font-size:1.8em;
-         }
-         .login-form .m-login__title{
-         color:#333333 !important;
-         }
-         #m_login_signup_cancel, 
-         #m_login_forget_password_cancel{
-         color:#333333;
-         background:transparent;
-         border:none;
-         padding:0;
-         position:absolute;
-         right:5%;
-         top: 2%;
-         }
-         #m_login_signup_cancel i,
-         #m_login_forget_password_cancel i{
-         font-size:30px;
-         }
-         .m-login__logo{
-            background-color: #eaeaea;
-            padding: 20px;
-            box-shadow: 0px 3px 18px -3px rgba(163,163,163,0.9);
-         }
-         .m-login.m-login--2 .m-login__wrapper .m-login__container {
-             width: 430px;
-             margin: -65px auto 0;
-          }
-      </style>
+      <link rel="shortcut icon" href="{{asset('/assets/demo/default/media/img/logo/favicon.ico')}}" />      
    </head>
    <!-- end::Head -->
    <!-- end::Body -->

@@ -50,4 +50,5 @@ class SocietyOfferLetter extends Model
     public function societyDocuments(){
         return $this->hasMany('App\OlSocietyDocumentsStatus', 'society_id','id');
     } 
+    
 }

@@ -59,6 +59,9 @@ Route::get('/offer_letter_application_form_dev', 'SocietyOfferLetterController@s
 Route::post('/save_offer_letter_application_form_dev', 'SocietyOfferLetterController@save_offer_letter_application_dev')->name('save_offer_letter_application_dev');
 Route::get('documents_upload','SocietyOfferLetterController@displaySocietyDocuments')->name('documents_upload');
 Route::post('uploaded_documents','SocietyOfferLetterController@uploadSocietyDocuments')->name('uploaded_documents');
+Route::get('delete_uploaded_documents/{id}','SocietyOfferLetterController@deleteSocietyDocuments');
+Route::post('add_uploaded_documents_comment','SocietyOfferLetterController@addSocietyDocumentsComment')->name('add_documents_comment');
+
 Route::resource('/society_offer_letter', 'SocietyOfferLetterController');
 Route::resource('/email_templates', 'EmailTemplateController');
 // EE Department Routes
@@ -146,6 +149,11 @@ Route::get('captcha', function() {
 // EE Department Routes
 
 Route::resource('ee', 'EEDepartment\EEController');
+Route::get('/scrutiny-remark', 'EEDepartment\EEController@scrutinyRemarkByEE')->name('scrutiny-remark');
+Route::post('/ee-scrutiny-document', 'EEDepartment\EEController@addDocumentScrutiny')->name('ee-scrutiny-document');
+Route::post('/get-ee-scrutiny-data', 'EEDepartment\EEController@getDocumentScrutinyData')->name('get-ee-scrutiny-data');
+Route::post('/edit-ee-scrutiny-document/{id}', 'EEDepartment\EEController@editDocumentScrutiny')->name('edit-ee-scrutiny-document');
+Route::post('/ee-document-scrutiny-delete/{id}', 'EEDepartment\EEController@deleteDocumentScrutiny')->name('ee-document-scrutiny-delete');
 Route::get('/document-submitted', 'EEDepartment\EEController@documentSubmittedBySociety')->name('document-submitted');
 Route::post('/forward-application', 'EEDepartment\EEController@forwardApplication')->name('forward-application');
 
@@ -169,4 +177,5 @@ Route::group(['middleware' => ['disablepreventback']], function() {
 
 Route::get('calculation-sheet', 'ReeCalculationSheet@CalculationSheet');
 Route::get('scrunity-remarks', 'EeScrunityRemarks@ScrunityRemarks');
+Route::get('forward-application', 'EeForwardApplication@ForwardApplication');
 
