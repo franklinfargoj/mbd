@@ -157,12 +157,13 @@
                                                                         @if($comment_by_EE && $ee_document)
                                                                             <button class="btn btn-link btn-list-inline editDocumentStatus" style="cursor: pointer"
                                                                                     data-toggle="modal" data-id="{{ $i }}" data-documentStatusId={{ $document_status_id }} data-target="#edit-remark-{{$i}}">Edit</button>
+
+                                                                            <button class="btn btn-link btn-list-inline deleteDocumentStatus" style="cursor: pointer"
+                                                                                    data-toggle="modal" data-id="{{ $i }}" data-documentStatusId={{ $document_status_id }} data-target="#delete-remark-{{$i}}">Delete</button>
                                                                         @else
                                                                             <button class="btn btn-link btn-list-inline" style="cursor: pointer"
                                                                                     data-toggle="modal" data-target="#add-remark-{{$i}}">Add</button>
                                                                         @endif
-                                                                        <button class="btn btn-link btn-list-inline deleteDocumentStatus" style="cursor: pointer"
-                                                                                data-toggle="modal" data-id="{{ $i }}" data-documentStatusId={{ $document_status_id }} data-target="#delete-remark-{{$i}}">Delete</button>
 
                                                                         <div class="modal fade show" id="add-remark-{{$i}}" tabindex="-1" role="dialog"
                                                                              aria-labelledby="exampleModalLabel">
