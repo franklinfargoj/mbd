@@ -16,7 +16,7 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
     {
         $application = OlApplicationMaster::select('id')->where(['title'=>'New - Offer Letter','model'=>'Premium'])->get();
         $language = LanguageMaster::select('id')->where(['language'=>'marathi'])->get();
-        $data = OlSocietyDocumentsMaster::where(['application_id'=>'2']);
+        $data = OlSocietyDocumentsMaster::where(['application_id'=>'2'])->get();
         if(count($data) == 0){
             $dcrRateArr= [
                 [
