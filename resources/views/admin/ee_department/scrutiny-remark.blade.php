@@ -376,8 +376,7 @@
                                                                     <label for="name">अभिन्यास (Layout):</label>
                                                                 </div>
                                                                 <div class="col-sm-8">
-                                                                    <input type="text" class="form-control form-control--custom"
-                                                                           name="layout" id="name" required>
+                                                                    <input type="text" class="form-control form-control--custom" name="layout" id="name" value="{{ isset($arrData['consent_verification_checkist_data']) ? $arrData['consent_verification_checkist_data']->layout : ''}}" required>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -387,7 +386,7 @@
                                                                     <label for="notice_detail">नोटीस चा तपशील:</label>
                                                                 </div>
                                                                 <div class="col-sm-8">
-                                                                    <input type="text" class="form-control form-control--custom"
+                                                                    <input type="text" class="form-control form-control--custom" value="{{ isset($arrData['consent_verification_checkist_data']) ? $arrData['consent_verification_checkist_data']->details_of_notice : '' }}"
                                                                            name="details_of_notice" id="notice_detail" placeholder="" required>
                                                                 </div>
                                                             </div>
@@ -398,7 +397,7 @@
                                                                     <label for="investigation_officer">तपासणी अधिकाऱ्यांचे नाव:</label>
                                                                 </div>
                                                                 <div class="col-sm-8">
-                                                                    <input type="text" class="form-control form-control--custom"
+                                                                    <input type="text" class="form-control form-control--custom" value="{{ isset($arrData['consent_verification_checkist_data']) ? $arrData['consent_verification_checkist_data']->investigation_officer_name : ''}}"
                                                                            name="investigation_officer_name" id="investigation_officer" required>
                                                                 </div>
                                                             </div>
@@ -409,7 +408,7 @@
                                                                     <label for="m_datepicker">तपासणी दिनांक:</label>
                                                                 </div>
                                                                 <div class="col-sm-8">
-                                                                    <input type="text" class="form-control form-control--custom"
+                                                                    <input type="text" class="form-control form-control--custom" value="{{isset($arrData['consent_verification_checkist_data']) ? $arrData['consent_verification_checkist_data']->date_of_investigation : '' }}"
                                                                            name="date_of_investigation" id="m_datepicker" required placeholder="">
                                                                 </div>
                                                             </div>
@@ -438,18 +437,18 @@
                                                                         <td>{{ $consent_question->question }}</td>
                                                                         <td>
                                                                             <label class="m-radio m-radio--primary">
-                                                                                <input type="radio" name="answer[{{$i}}]" value="1" checked>
+                                                                                <input type="radio" name="answer[{{$i}}]" value="1" {{ (isset($arrData['consent_verification_details_data'][$consent_question->id]) && $arrData['consent_verification_details_data'][$consent_question->id]['answer'] == 1) ? 'checked' : 'checked' }}>
                                                                                 <span></span>
                                                                             </label>
                                                                         </td>
                                                                         <td>
                                                                             <label class="m-radio m-radio--primary">
-                                                                                <input type="radio" name="answer[{{$i}}]" value="0">
+                                                                                <input type="radio" name="answer[{{$i}}]" value="0" {{ (isset($arrData['consent_verification_details_data'][$consent_question->id]) && $arrData['consent_verification_details_data'][$consent_question->id]['answer'] == 0) ? 'checked' : '' }}>
                                                                                 <span></span>
                                                                             </label></td>
                                                                         <td>
                                                                             <textarea class="form-control form-control--custom form-control--textarea"
-                                                                                      name="remark[{{$i}}]" id="remark-one"></textarea>
+                                                                                      name="remark[{{$i}}]" id="remark-one">{{ isset($arrData['consent_verification_details_data'][$consent_question->id]) ? $arrData['consent_verification_details_data'][$consent_question->id]['remark'] : '' }}</textarea>
                                                                         </td>
                                                                     </tr>
                                                                     @php
@@ -464,7 +463,8 @@
                                                 </form>
                                             </div>
                                             <div class="tab-pane" id="demarcation">
-                                                <form class="form--custom" action="" method="post">
+                                                <form class="form--custom" action="{{ route('ee-demarcation') }}" method="post">
+                                                    @csrf
                                                     <div class="row">
                                                         <div class="col-sm-6">
                                                             <div class="form-group row">
@@ -472,7 +472,7 @@
                                                                     <label for="name">संस्थेचे नाव:</label>
                                                                 </div>
                                                                 <div class="col-sm-8">
-                                                                    <input type="text" class="form-control form-control--custom"
+                                                                    <input type="text" class="form-control form-control--custom" disabled value="{{ $arrData['society_detail']->eeApplicationSociety->name }}"
                                                                            id="name">
                                                                 </div>
                                                             </div>
@@ -483,7 +483,7 @@
                                                                     <label for="building-no">इमारत क्र:</label>
                                                                 </div>
                                                                 <div class="col-sm-8">
-                                                                    <input type="text" class="form-control form-control--custom"
+                                                                    <input type="text" class="form-control form-control--custom" disabled value="{{ $arrData['society_detail']->eeApplicationSociety->building_no }}"
                                                                            id="building-no" placeholder="">
                                                                 </div>
                                                             </div>
@@ -494,8 +494,8 @@
                                                                     <label for="name">अभिन्यास (Layout):</label>
                                                                 </div>
                                                                 <div class="col-sm-8">
-                                                                    <input type="text" class="form-control form-control--custom"
-                                                                           id="name">
+                                                                    <input type="text" class="form-control form-control--custom" required value="{{ isset($arrData['demarcation_checkist_data']) ? $arrData['demarcation_checkist_data']->layout : ''}}"
+                                                                           name="layout" id="name">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -505,8 +505,8 @@
                                                                     <label for="building-no">नोटीस चा तपशील:</label>
                                                                 </div>
                                                                 <div class="col-sm-8">
-                                                                    <input type="text" class="form-control form-control--custom"
-                                                                           id="building-no" placeholder="">
+                                                                    <input type="text" class="form-control form-control--custom" required value="{{ isset($arrData['demarcation_checkist_data']) ? $arrData['demarcation_checkist_data']->details_of_notice : '' }}"
+                                                                           name="details_of_notice" id="building-no" placeholder="">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -516,73 +516,76 @@
                                                                     <label for="name">तपासणी अधिकाऱ्यांचे नाव:</label>
                                                                 </div>
                                                                 <div class="col-sm-8">
-                                                                    <input type="text" class="form-control form-control--custom"
-                                                                           id="name">
+                                                                    <input type="text" class="form-control form-control--custom" required value="{{ isset($arrData['demarcation_checkist_data']) ? $arrData['demarcation_checkist_data']->investigation_officer_name : ''}}"
+                                                                           name="investigation_officer_name" id="name">
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div id="scrunity-check-date" class="col-sm-6">
                                                             <div class="form-group row">
                                                                 <div class="col-sm-4 d-flex align-items-center">
-                                                                    <label for="building-no">तपासणी दिनांक:</label>
-                                                                </div>
-                                                                <div class="col-sm-8">
-                                                                    <input type="text" class="form-control form-control--custom"
-                                                                           id="building-no" placeholder="">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div id="scrunity-place-date" class="col-sm-6">
-                                                            <div class="form-group row">
-                                                                <div class="col-sm-4 d-flex align-items-center">
                                                                     <label for="building-no">स्थळ पाहणी दिनांक:</label>
                                                                 </div>
                                                                 <div class="col-sm-8">
-                                                                    <input type="text" class="form-control form-control--custom"
-                                                                           id="building-no" placeholder="">
+                                                                    <input type="text" class="form-control form-control--custom" required value="{{isset($arrData['demarcation_checkist_data']) ? $arrData['demarcation_checkist_data']->date_of_investigation : '' }}"
+                                                                          name="date_of_investigation" id="demarcation_date" placeholder="">
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </form>
-                                                <div class="table-checklist m-portlet__body m-portlet__body--table">
-                                                    <div class="table-responsive">
-                                                        <table class="table">
-                                                            <thead class="thead-default">
-                                                            <th>#</th>
-                                                            <th class="table-data--xl">मुद्दा / तपशील</th>
-                                                            <th>होय</th>
-                                                            <th>नाही</th>
-                                                            <th>शेरा</th>
-                                                            </thead>
-                                                            <tbody>
-                                                            <tr>
-                                                                <td>1.</td>
-                                                                <td>७०% सभासदांनी पुनर्विकासास सहमती दर्शविली आहे
-                                                                    काय ?</td>
-                                                                <td>
-                                                                    <label class="m-radio m-radio--primary">
-                                                                        <input type="radio" name="one">
-                                                                        <span></span>
-                                                                    </label>
-                                                                </td>
-                                                                <td>
-                                                                    <label class="m-radio m-radio--primary">
-                                                                        <input type="radio" name="one">
-                                                                        <span></span>
-                                                                    </label></td>
-                                                                <td>
-                                                                    <textarea class="form-control form-control--custom form-control--textarea"
-                                                                              name="remark-one" id="remark-one"></textarea>
-                                                                </td>
-                                                            </tr>
-                                                            </tbody>
-                                                        </table>
+
+                                                    <div class="table-checklist m-portlet__body m-portlet__body--table">
+                                                        <div class="table-responsive">
+                                                            <table class="table">
+                                                                <thead class="thead-default">
+                                                                <th>#</th>
+                                                                <th class="table-data--xl">मुद्दा / तपशील</th>
+                                                                <th>होय</th>
+                                                                <th>नाही</th>
+                                                                <th>शेरा</th>
+                                                                </thead>
+                                                                <tbody>
+                                                                @php
+                                                                    $i = 1;
+                                                                @endphp
+
+                                                                <input type="hidden" name="application_id" value="{{ $arrData['society_detail']->id }}">
+                                                                @foreach($arrData['demarcation_question'] as $demarcation_question)
+                                                                    <input type="hidden" name="question_id[{{$i}}]" value="{{ $demarcation_question->id }}">
+                                                                    <tr>
+                                                                        <td>{{ $i }}.</td>
+                                                                        <td>{{ $demarcation_question->question }}</td>
+                                                                        <td>
+                                                                            <label class="m-radio m-radio--primary">
+                                                                                <input type="radio" name="answer[{{ $i }}]" value="1" {{ (isset($arrData['demarcation_details_data'][$demarcation_question->id]) && $arrData['demarcation_details_data'][$demarcation_question->id]['answer'] == 1) ? 'checked' : 'checked' }}>
+                                                                                <span></span>
+                                                                            </label>
+                                                                        </td>
+                                                                        <td>
+                                                                            <label class="m-radio m-radio--primary">
+                                                                                <input type="radio" name="answer[{{ $i }}]" value="0" {{ (isset($arrData['demarcation_details_data'][$demarcation_question->id]) && $arrData['demarcation_details_data'][$demarcation_question->id]['answer'] == 1) ? 'checked' : '' }}>
+                                                                                <span></span>
+                                                                            </label></td>
+                                                                        <td>
+                                                                            <textarea class="form-control form-control--custom form-control--textarea"
+                                                                                      name="remark[{{ $i }}]" id="remark-one">{{ isset($arrData['demarcation_details_data'][$demarcation_question->id]) ? $arrData['demarcation_details_data'][$demarcation_question->id]['remark'] : '' }}</textarea>
+                                                                        </td>
+                                                                    </tr>
+
+                                                                    @php
+                                                                        $i++;
+                                                                    @endphp
+                                                                @endforeach
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                    <button type="submit" class="btn btn-primary">Save</button>
+                                                </form>
                                             </div>
                                             <div class="tab-pane" id="tit-bit">
-                                                <form class="form--custom" action="" method="post">
+                                                <form class="form--custom" action="{{ route('ee-tit-bit') }}" method="post">
+                                                    @csrf
                                                     <div class="row">
                                                         <div class="col-sm-6">
                                                             <div class="form-group row">
@@ -590,7 +593,7 @@
                                                                     <label for="name">संस्थेचे नाव:</label>
                                                                 </div>
                                                                 <div class="col-sm-8">
-                                                                    <input type="text" class="form-control form-control--custom"
+                                                                    <input type="text" class="form-control form-control--custom" disabled value="{{ $arrData['society_detail']->eeApplicationSociety->name }}"
                                                                            id="name">
                                                                 </div>
                                                             </div>
@@ -601,7 +604,7 @@
                                                                     <label for="building-no">इमारत क्र:</label>
                                                                 </div>
                                                                 <div class="col-sm-8">
-                                                                    <input type="text" class="form-control form-control--custom"
+                                                                    <input type="text" class="form-control form-control--custom" disabled value="{{ $arrData['society_detail']->eeApplicationSociety->building_no }}"
                                                                            id="building-no" placeholder="">
                                                                 </div>
                                                             </div>
@@ -612,8 +615,8 @@
                                                                     <label for="name">अभिन्यास (Layout):</label>
                                                                 </div>
                                                                 <div class="col-sm-8">
-                                                                    <input type="text" class="form-control form-control--custom"
-                                                                           id="name">
+                                                                    <input type="text" class="form-control form-control--custom" required value="{{ isset($arrData['tit_bit_checkist_data']) ? $arrData['tit_bit_checkist_data']->layout : ''}}"
+                                                                           name="layout" id="name">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -623,8 +626,8 @@
                                                                     <label for="building-no">नोटीस चा तपशील:</label>
                                                                 </div>
                                                                 <div class="col-sm-8">
-                                                                    <input type="text" class="form-control form-control--custom"
-                                                                           id="building-no" placeholder="">
+                                                                    <input type="text" class="form-control form-control--custom" required value="{{ isset($arrData['tit_bit_checkist_data']) ? $arrData['tit_bit_checkist_data']->details_of_notice : '' }}"
+                                                                           name="details_of_notice" id="building-no" placeholder="">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -634,73 +637,75 @@
                                                                     <label for="name">तपासणी अधिकाऱ्यांचे नाव:</label>
                                                                 </div>
                                                                 <div class="col-sm-8">
-                                                                    <input type="text" class="form-control form-control--custom"
-                                                                           id="name">
+                                                                    <input type="text" class="form-control form-control--custom" required value="{{ isset($arrData['tit_bit_checkist_data']) ? $arrData['tit_bit_checkist_data']->investigation_officer_name : ''}}"
+                                                                           name="investigation_officer_name" id="name">
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div id="scrunity-check-date" class="col-sm-6">
                                                             <div class="form-group row">
                                                                 <div class="col-sm-4 d-flex align-items-center">
-                                                                    <label for="building-no">तपासणी दिनांक:</label>
-                                                                </div>
-                                                                <div class="col-sm-8">
-                                                                    <input type="text" class="form-control form-control--custom"
-                                                                           id="building-no" placeholder="">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div id="scrunity-place-date" class="col-sm-6">
-                                                            <div class="form-group row">
-                                                                <div class="col-sm-4 d-flex align-items-center">
                                                                     <label for="building-no">स्थळ पाहणी दिनांक:</label>
                                                                 </div>
                                                                 <div class="col-sm-8">
-                                                                    <input type="text" class="form-control form-control--custom"
-                                                                           id="building-no" placeholder="">
+                                                                    <input type="text" class="form-control form-control--custom" required value="{{isset($arrData['tit_bit_checkist_data']) ? $arrData['tit_bit_checkist_data']->date_of_investigation : '' }}"
+                                                                           name="date_of_investigation" id="tit_bit_date" placeholder="">
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </form>
-                                                <div class="table-checklist m-portlet__body m-portlet__body--table">
-                                                    <div class="table-responsive">
-                                                        <table class="table">
-                                                            <thead class="thead-default">
-                                                            <th>#</th>
-                                                            <th class="table-data--xl">मुद्दा / तपशील</th>
-                                                            <th>होय</th>
-                                                            <th>नाही</th>
-                                                            <th>शेरा</th>
-                                                            </thead>
-                                                            <tbody>
-                                                            <tr>
-                                                                <td>1.</td>
-                                                                <td>७०% सभासदांनी पुनर्विकासास सहमती दर्शविली आहे
-                                                                    काय ?</td>
-                                                                <td>
-                                                                    <label class="m-radio m-radio--primary">
-                                                                        <input type="radio" name="one">
-                                                                        <span></span>
-                                                                    </label>
-                                                                </td>
-                                                                <td>
-                                                                    <label class="m-radio m-radio--primary">
-                                                                        <input type="radio" name="one">
-                                                                        <span></span>
-                                                                    </label></td>
-                                                                <td>
-                                                                    <textarea class="form-control form-control--custom form-control--textarea"
-                                                                              name="remark-one" id="remark-one"></textarea>
-                                                                </td>
-                                                            </tr>
-                                                            </tbody>
-                                                        </table>
+
+                                                    <div class="table-checklist m-portlet__body m-portlet__body--table">
+                                                        <div class="table-responsive">
+                                                            <table class="table">
+                                                                <thead class="thead-default">
+                                                                <th>#</th>
+                                                                <th class="table-data--xl">मुद्दा / तपशील</th>
+                                                                <th>होय</th>
+                                                                <th>नाही</th>
+                                                                <th>शेरा</th>
+                                                                </thead>
+                                                                <tbody>
+                                                                @php
+                                                                    $i = 1;
+                                                                @endphp
+
+                                                                <input type="hidden" name="application_id" value="{{ $arrData['society_detail']->id }}">
+                                                                @foreach($arrData['tit_bit_question'] as $tit_bit)
+                                                                    <input type="hidden" name="question_id[{{$i}}]" value="{{ $tit_bit->id }}">
+                                                                    <tr>
+                                                                        <td>{{ $i }}.</td>
+                                                                        <td>{{ $tit_bit->question }}</td>
+                                                                        <td>
+                                                                            <label class="m-radio m-radio--primary">
+                                                                                <input type="radio" name="answer[{{ $i }}]" value="1" {{ (isset($arrData['tit_bit_details_data'][$tit_bit->id]) && $arrData['tit_bit_details_data'][$tit_bit->id]['answer'] == 1) ? 'checked' : 'checked' }}>
+                                                                                <span></span>
+                                                                            </label>
+                                                                        </td>
+                                                                        <td>
+                                                                            <label class="m-radio m-radio--primary">
+                                                                                <input type="radio" name="answer[{{ $i }}]" value="0" {{ (isset($arrData['tit_bit_details_data'][$tit_bit->id]) && $arrData['tit_bit_details_data'][$tit_bit->id]['answer'] == 0) ? 'checked' : '' }}>
+                                                                                <span></span>
+                                                                            </label></td>
+                                                                        <td>
+                                                                            <textarea class="form-control form-control--custom form-control--textarea"
+                                                                                      name="remark[{{ $i }}]" id="remark-one">{{ isset($arrData['tit_bit_details_data'][$tit_bit->id]) ? $arrData['tit_bit_details_data'][$tit_bit->id]['remark'] : '' }}</textarea>
+                                                                        </td>
+                                                                    </tr>
+                                                                    @php
+                                                                        $i++;
+                                                                    @endphp
+                                                                @endforeach
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                    <button type="submit" class="btn btn-primary">Save</button>
+                                                </form>
                                             </div>
                                             <div class="tab-pane" id="relocation">
-                                                <form class="form--custom" action="" method="post">
+                                                <form class="form--custom" action="{{ route('ee-rg-relocation') }}" method="post">
+                                                    @csrf
                                                     <div class="row">
                                                         <div class="col-sm-6">
                                                             <div class="form-group row">
@@ -708,7 +713,7 @@
                                                                     <label for="name">संस्थेचे नाव:</label>
                                                                 </div>
                                                                 <div class="col-sm-8">
-                                                                    <input type="text" class="form-control form-control--custom"
+                                                                    <input type="text" class="form-control form-control--custom" disabled value="{{ $arrData['society_detail']->eeApplicationSociety->name }}"
                                                                            id="name">
                                                                 </div>
                                                             </div>
@@ -719,7 +724,7 @@
                                                                     <label for="building-no">इमारत क्र:</label>
                                                                 </div>
                                                                 <div class="col-sm-8">
-                                                                    <input type="text" class="form-control form-control--custom"
+                                                                    <input type="text" class="form-control form-control--custom" disabled value="{{ $arrData['society_detail']->eeApplicationSociety->building_no }}"
                                                                            id="building-no" placeholder="">
                                                                 </div>
                                                             </div>
@@ -730,8 +735,8 @@
                                                                     <label for="name">अभिन्यास (Layout):</label>
                                                                 </div>
                                                                 <div class="col-sm-8">
-                                                                    <input type="text" class="form-control form-control--custom"
-                                                                           id="name">
+                                                                    <input type="text" class="form-control form-control--custom" required value="{{ isset($arrData['rg_checkist_data']) ? $arrData['rg_checkist_data']->layout : ''}}"
+                                                                           name="layout" id="name">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -742,84 +747,58 @@
                                                                 </div>
                                                                 <div class="col-sm-8">
                                                                     <input type="text" class="form-control form-control--custom"
-                                                                           id="building-no" placeholder="">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-sm-6">
-                                                            <div class="form-group row">
-                                                                <div class="col-sm-4 d-flex align-items-center">
-                                                                    <label for="name">तपासणी अधिकाऱ्यांचे नाव:</label>
-                                                                </div>
-                                                                <div class="col-sm-8">
-                                                                    <input type="text" class="form-control form-control--custom"
-                                                                           id="name">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div id="scrunity-check-date" class="col-sm-6">
-                                                            <div class="form-group row">
-                                                                <div class="col-sm-4 d-flex align-items-center">
-                                                                    <label for="building-no">तपासणी दिनांक:</label>
-                                                                </div>
-                                                                <div class="col-sm-8">
-                                                                    <input type="text" class="form-control form-control--custom"
-                                                                           id="building-no" placeholder="">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div id="scrunity-place-date" class="col-sm-6">
-                                                            <div class="form-group row">
-                                                                <div class="col-sm-4 d-flex align-items-center">
-                                                                    <label for="building-no">स्थळ पाहणी दिनांक:</label>
-                                                                </div>
-                                                                <div class="col-sm-8">
-                                                                    <input type="text" class="form-control form-control--custom"
-                                                                           id="building-no" placeholder="">
+                                                                          name="details_of_notice" id="building-no" placeholder="" required value="{{ isset($arrData['rg_checkist_data']) ? $arrData['rg_checkist_data']->details_of_notice : '' }}">
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </form>
-                                                <div class="table-checklist m-portlet__body m-portlet__body--table">
-                                                    <div class="table-responsive">
-                                                        <table class="table">
-                                                            <thead class="thead-default">
-                                                            <th>#</th>
-                                                            <th class="table-data--xl">मुद्दा / तपशील</th>
-                                                            <th>होय</th>
-                                                            <th>नाही</th>
-                                                            <th>शेरा</th>
-                                                            </thead>
-                                                            <tbody>
-                                                            <tr>
-                                                                <td>1.</td>
-                                                                <td>७०% सभासदांनी पुनर्विकासास सहमती दर्शविली आहे
-                                                                    काय ?</td>
-                                                                <td>
-                                                                    <label class="m-radio m-radio--primary">
-                                                                        <input type="radio" name="one">
-                                                                        <span></span>
-                                                                    </label>
-                                                                </td>
-                                                                <td>
-                                                                    <label class="m-radio m-radio--primary">
-                                                                        <input type="radio" name="one">
-                                                                        <span></span>
-                                                                    </label></td>
-                                                                <td>
-                                                                    <textarea class="form-control form-control--custom form-control--textarea"
-                                                                              name="remark-one" id="remark-one"></textarea>
-                                                                </td>
-                                                            </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        </form>
+                                                    <div class="table-checklist m-portlet__body m-portlet__body--table">
+                                                        <div class="table-responsive">
+                                                            <table class="table">
+                                                                <thead class="thead-default">
+                                                                <th>#</th>
+                                                                <th class="table-data--xl">मुद्दा / तपशील</th>
+                                                                <th>होय</th>
+                                                                <th>नाही</th>
+                                                                <th>शेरा</th>
+                                                                </thead>
+                                                                <tbody>
+                                                                @php
+                                                                    $i = 1;
+                                                                @endphp
 
+                                                                <input type="hidden" name="application_id" value="{{ $arrData['society_detail']->id }}">
+                                                                @foreach($arrData['rg_question'] as $rg_question)
+                                                                    <input type="hidden" name="question_id[{{$i}}]" value="{{ $rg_question->id }}">
+                                                                    <tr>
+                                                                        <td>{{ $i }}.</td>
+                                                                        <td>{{ $rg_question->question }}</td>
+                                                                        <td>
+                                                                            <label class="m-radio m-radio--primary">
+                                                                                <input type="radio" name="answer[{{ $i }}]" value="1" {{ (isset($arrData['rg_details_data'][$rg_question->id]) && $arrData['rg_details_data'][$rg_question->id]['answer'] == 1) ? 'checked' : 'checked' }}>
+                                                                                <span></span>
+                                                                            </label>
+                                                                        </td>
+                                                                        <td>
+                                                                            <label class="m-radio m-radio--primary">
+                                                                                <input type="radio" name="answer[{{ $i }}]" value="0" {{ (isset($arrData['rg_details_data'][$rg_question->id]) && $arrData['rg_details_data'][$rg_question->id]['answer'] == 0) ? 'checked' : '' }}>
+                                                                                <span></span>
+                                                                            </label></td>
+                                                                        <td>
+                                                                            <textarea class="form-control form-control--custom form-control--textarea"
+                                                                                      name="remark[{{ $i }}]" id="remark-one">{{ isset($arrData['rg_details_data'][$rg_question->id]) ? $arrData['rg_details_data'][$rg_question->id]['remark'] : '' }}</textarea>
+                                                                        </td>
+                                                                    </tr>
+                                                                    @php
+                                                                        $i++;
+                                                                    @endphp
+                                                                @endforeach
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                        <button type="submit" class="btn btn-primary">Save</button>
+                                        </form>
                                     </div>
                                 </div>
 
@@ -910,6 +889,8 @@
                     $("#fileName_" + id).val(res.EE_document_path);
                 }
             });
-        })
+        });
+
+        $("#demarcation_date, #tit_bit_date").datepicker();
     </script>
 @endsection
