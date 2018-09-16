@@ -2,8 +2,8 @@
 
 return [
     'case_sensitive' => false,
-    'width' => 200,
-    'height' => 50,
+    'width' => 130,
+    'height' => 35,
     'length' => 4,
     'quality' => 100,
     'case' => 'mixed',
@@ -30,6 +30,6 @@ return [
 
     //Font
     'font' => 'Prototype',
-    'size' => 30,
+    'size' => 20,
     'fonts_path' => 'fonts',
 ];
