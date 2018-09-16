@@ -163,6 +163,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Unisharp\Ckeditor\ServiceProvider::class,
         niklasravnsborg\LaravelPdf\PdfServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
 
     ],
 
@@ -214,7 +215,8 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 //        'Captcha' => Mews\Captcha\Facades\Captcha::class,
         'Captcha' => 'Thytanium\Captcha\Facades\Captcha',
-        'PDF' => niklasravnsborg\LaravelPdf\Facades\Pdf::class,
+        'nPDF' => niklasravnsborg\LaravelPdf\Facades\Pdf::class,
+        'PDF' => Barryvdh\DomPDF\Facade::class,
     ],
 
 ];

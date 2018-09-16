@@ -8,6 +8,7 @@ use App\OlApplication;
 use App\OlSocietyDocumentsMaster;
 use App\OlSocietyDocumentsStatus;
 use App\OlSocietyDocumentsComment;
+use App\OlApplicationMaster;
 use Validator;
 use Mail;
 use Illuminate\Http\Request;
@@ -220,10 +221,10 @@ class SocietyOfferLetterController extends Controller
         return view('frontend.society.dashboard');
     }
 
-    public function show_offer_letter_application_self(){
+    public function show_offer_letter_application_self($id){
         $society_details = SocietyOfferLetter::find('1');
         // dd($society_details->building_no);
-        return view('frontend.society.offer_letter_application_self', compact('society_details'));
+        return view('frontend.society.offer_letter_application_self', compact('society_details', 'id'));
     }
 
     public function save_offer_letter_application_self(Request $request){
@@ -240,7 +241,7 @@ class SocietyOfferLetterController extends Controller
             'language_id' => '1',
             'society_id' => '1',
             'request_form_id' => $last_inserted_id->id,
-            'application_master_id' => '2',
+            'application_master_id' => $request->input('application_master_id'),
             'application_no' => rand().time(),
             'application_path' => 'test',
             'submitted_at' => date('Y-m-d'),
@@ -252,13 +253,35 @@ class SocietyOfferLetterController extends Controller
         return redirect()->route('documents_upload');
     }
 
-    public function show_offer_letter_application_dev(){
-        return view('frontend.society.offer_letter_application_dev');
+    public function show_offer_letter_application_dev($id){
+        $society_details = SocietyOfferLetter::find('1');
+        return view('frontend.society.offer_letter_application_dev', compact('society_details', 'id'));
     }
 
     public function save_offer_letter_application_dev(Request $request){
-        dd($request);
-        return view('frontend.society.offer_letter_application_dev');
+        // dd($request);
+        $input = array(
+            'society_id' => 1,
+            'date_of_meeting' => date('Y-m-d', strtotime($request->input('date_of_meeting'))),
+            'resolution_no' => $request->input('resolution_no'),
+            'architect_name' => $request->input('architect_name'),
+            'developer_name' => $request->input('developer_name')
+        );
+        $last_inserted_id = OlRequestForm::create($input);
+        $insert_application = array(
+            'language_id' => '1',
+            'society_id' => '1',
+            'request_form_id' => $last_inserted_id->id,
+            'application_master_id' => $request->input('application_master_id'),
+            'application_no' => rand().time(),
+            'application_path' => 'test',
+            'submitted_at' => date('Y-m-d'),
+            'current_status_id' => '1',
+            'is_encrochment' => '0',
+            'is_approve_offer_letter' => '0',
+        );
+        OlApplication::create($insert_application);
+        return redirect()->route('documents_upload');
     }
 
     public function displaySocietyDocuments(){
@@ -312,14 +335,41 @@ class SocietyOfferLetterController extends Controller
     }
 
     public function displayOfferLetterApplication(){
-        return view('frontend.society.upload_society_offer_letter_after_sign');
+        $data['society_details'] = SocietyOfferLetter::find('1');
+        $data['ol_application'] = OlApplication::where('society_id', '1')->with('request_form')->get();
+        $society_offer_letter_application = $this->generate_pdf($data);
+        dd($society_offer_letter_application);
+        // dd($society_offer_letter_application);       
+        
+        return view('frontend.society.upload_society_offer_letter_after_sign', compact('society_offer_letter_application'));
+    }
+
+    public function generate_pdf(){
+        $data['society_details'] = SocietyOfferLetter::find('1');
+        $data['ol_application'] = OlApplication::where('society_id', '1')->with('request_form')->get();
+        $path = public_path('/uploads/resolutions/society_offer_letter_document.pdf');
+        $pdf = PDF::loadView('frontend.society.display_society_offer_letter_application', $data)->save($path);
+        // dd($pdf->output());
+        // $pdf->download('society_offer_letter_document.pdf');
+        return $pdf;
+
     }
 
     public function uploadOfferLetterAfterSign(Request $request){
-        return view('frontend.society.upload_society_offer_letter_after_sign');
+        $application_name = OlApplication::where('society_id', '1')->with('ol_application_master')->get();
+        dd($application_name[0]->ol_application_master);
+        return view('frontend.society.upload_society_offer_letter_after_sign', compact('application_name'));
     }
 
     public function ViewApplications(Request $request){
-        return view('frontend.society.application');
+        $self_premium = OlApplicationMaster::where('title', 'New - Offer Letter')->where('model', 'Premium')->where('parent_id', '1')->select('id')->get();
+        $self_premium = $self_premium[0]->id;
+        $self_sharing = OlApplicationMaster::where('title', 'New - Offer Letter')->where('model', 'Sharing')->where('parent_id', '1')->select('id')->get();
+        $self_sharing = $self_sharing[0]->id;
+        $dev_premium = OlApplicationMaster::where('title', 'New - Offer Letter')->where('model', 'Premium')->where('parent_id', '12')->select('id')->get();
+        $dev_premium = $dev_premium[0]->id;
+        $dev_sharing = OlApplicationMaster::where('title', 'New - Offer Letter')->where('model', 'Premium')->where('parent_id', '12')->select('id')->get();
+        $dev_sharing = $dev_sharing[0]->id;
+        return view('frontend.society.application', compact('self_premium', 'self_sharing', 'dev_premium', 'dev_sharing'));
     }
 }
