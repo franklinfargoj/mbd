@@ -183,6 +183,6 @@ Route::group(['middleware' => ['disablepreventback']], function() {
 // Frontend -- desgin views - abhiraj
 
 Route::get('calculation-sheet', 'ReeCalculationSheet@CalculationSheet');
-Route::get('scrunity-remarks', 'EeScrunityRemarks@ScrunityRemarks');
+Route::get('scrutiny-remarks', 'EeScrunityRemarks@ScrunityRemarks');
 Route::get('forward-application', 'EeForwardApplication@ForwardApplication');
 
