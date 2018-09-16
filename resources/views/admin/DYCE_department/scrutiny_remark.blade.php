@@ -64,7 +64,7 @@
 <!-- end -->
 
 <!-- Site Visit -->
-<form role="form" id="scrunityForm" class="form-horizontal" method="post" action="{{ route('dyce.store')}}" enctype="multipart/form-data">
+<form role="form" id="dyce_scrunity_Form" name="scrunityForm" class="form-horizontal" method="post" action="{{ route('dyce.store')}}" enctype="multipart/form-data">
 
  @csrf
 	 <div class="m-portlet m-portlet--mobile m_panel">
@@ -164,11 +164,11 @@
 	    			<p class="e_comments">If Yes, Comments</p>
 	    			<textarea rows="4" cols="63" name="encrochment_comments">{{(isset($applicationData->encrochment_verification_comment) ? $applicationData->encrochment_verification_comment : '')}}</textarea>
 	    			<input type="submit" class="s_btn" name="" value="save">
-	    			<!-- <input type="button" class="s_btn" name="" value="save"> -->
 	    		</div>
 	    	</div>
 	    </div>
 	</div>
+	<input type="hidden" name="applicationId" value="{{$applicationData->id}}">
 </form>  
 
 <input type="hidden" name="OfficiersCount" id="OfficiersCount" value="{{(isset($applicationData->SiteVisitorOfficers) ? count($applicationData->SiteVisitorOfficers)+2 : '')}}"> 
@@ -177,6 +177,17 @@
 @endsection
 @section('js')
 <script>
+  $("#dyce_scrunity_Form").validate({
+    rules:{
+      demarkation_comments	: "required",
+      officer_name 			: "required",
+      visit_date		    : "required",
+      document 				: "required",
+      encrochment 			: "required",
+      encrochment_comments  : "required",
+    }
+  });
+
 	function removeOfficerName(data){
 		var id = data.substr(5,2);
 		$(".officer_name_"+id).css("display","none");

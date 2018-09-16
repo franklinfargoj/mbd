@@ -277,6 +277,13 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                            </div>
+                                    </div>
+                                    <div class="tab-content">
+
+                                    <!-- Consent Verification -->
+                                        <div class="tab-pane active" id="verification">
+                                            <div class="row">
                                                 <div class="col-sm-6">
                                                     <div class="form-group row">
                                                         <div class="col-sm-4 d-flex align-items-center">
@@ -284,7 +291,7 @@
                                                         </div>
                                                         <div class="col-sm-8">
                                                             <input type="text" class="form-control form-control--custom"
-                                                                id="name">
+                                                                id="name" value="{{(isset($eeScrutinyData->Consent_checklist->layout) ? $eeScrutinyData->Consent_checklist->layout : '')}}" readonly>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -295,7 +302,7 @@
                                                         </div>
                                                         <div class="col-sm-8">
                                                             <input type="text" class="form-control form-control--custom"
-                                                                id="building-no" placeholder="">
+                                                                id="building-no" placeholder="" value="{{(isset($eeScrutinyData->Consent_checklist->details_of_notice) ? $eeScrutinyData->Consent_checklist->details_of_notice : '')}}" readonly>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -306,7 +313,7 @@
                                                         </div>
                                                         <div class="col-sm-8">
                                                             <input type="text" class="form-control form-control--custom"
-                                                                id="name">
+                                                                id="name" value="{{(isset($eeScrutinyData->Consent_checklist->investigation_officer_name) ? $eeScrutinyData->Consent_checklist->investigation_officer_name : '')}}" readonly>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -317,25 +324,11 @@
                                                         </div>
                                                         <div class="col-sm-8">
                                                             <input type="text" class="form-control form-control--custom"
-                                                                id="building-no" placeholder="">
+                                                                id="building-no" placeholder="" value="{{(isset($eeScrutinyData->Consent_checklist->date_of_investigation) ? $eeScrutinyData->Consent_checklist->date_of_investigation : '')}}" readonly>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div id="scrunity-place-date" class="col-sm-6">
-                                                    <div class="form-group row">
-                                                        <div class="col-sm-4 d-flex align-items-center">
-                                                            <label for="building-no">स्थळ पाहणी दिनांक:</label>
-                                                        </div>
-                                                        <div class="col-sm-8">
-                                                            <input type="text" class="form-control form-control--custom"
-                                                                id="building-no" placeholder="">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                    </div>
-                                    <div class="tab-content">
-                                        <div class="tab-pane active" id="verification">
+                                            </div>                                        
                                             <div class="table-checklist m-portlet__body m-portlet__body--table">
                                                 <div class="table-responsive">
                                                     <table class="table">
@@ -355,14 +348,14 @@
                                                                     <td>
                                                                         <label class="m-radio m-radio--primary">
 
-                                                                            <input type="radio" class="radioBtn" name="radio_{{$i}}" disabled {{($data->answer == '1' ? 'checked' : '')}}>
+                                                                            <input type="radio" class="radioBtn" name="con_radio_{{$i}}" disabled {{($data->answer == '1' ? 'checked' : '')}}>
                                                                             <span></span>
                                                                         </label>
                                                                     </td>
                                                                     <td>
                                                                         <label class="m-radio m-radio--primary">
 
-                                                                            <input type="radio" class="radioBtn" name="radio_{{$i}}" disabled {{($data->answer == '0' ? 'checked' : '')}}>
+                                                                            <input type="radio" class="radioBtn" name="con_radio_{{$i}}" disabled {{($data->answer == '0' ? 'checked' : '')}}>
                                                                             <span></span>
                                                                         </label></td>
                                                                     <td>
@@ -377,7 +370,55 @@
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <!-- Demarkation Verification -->
                                         <div class="tab-pane" id="demarcation">
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-4 d-flex align-items-center">
+                                                            <label for="name">अभिन्यास (Layout):</label>
+                                                        </div>
+                                                        <div class="col-sm-8">
+                                                            <input type="text" class="form-control form-control--custom"
+                                                                id="name" value="{{(isset($eeScrutinyData->Demark_checklist->layout) ? $eeScrutinyData->Demark_checklist->layout : '')}}" readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-4 d-flex align-items-center">
+                                                            <label for="building-no">नोटीस चा तपशील:</label>
+                                                        </div>
+                                                        <div class="col-sm-8">
+                                                            <input type="text" class="form-control form-control--custom"
+                                                                id="building-no" placeholder="" value="{{(isset($eeScrutinyData->Demark_checklist->details_of_notice) ? $eeScrutinyData->Demark_checklist->details_of_notice : '')}}" readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-4 d-flex align-items-center">
+                                                            <label for="name">तपासणी अधिकाऱ्यांचे नाव:</label>
+                                                        </div>
+                                                        <div class="col-sm-8">
+                                                            <input type="text" class="form-control form-control--custom"
+                                                                id="name" value="{{(isset($eeScrutinyData->Demark_checklist->investigation_officer_name) ? $eeScrutinyData->Demark_checklist->investigation_officer_name : '')}}" readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div id="scrunity-check-date" class="col-sm-6">
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-4 d-flex align-items-center">
+                                                            <label for="building-no">स्थळ पाहणी दिनांक:</label>
+                                                        </div>
+                                                        <div class="col-sm-8">
+                                                            <input type="text" class="form-control form-control--custom"
+                                                                id="building-no" placeholder="" value="{{(isset($eeScrutinyData->Demark_checklist->date_of_investigation) ? $eeScrutinyData->Demark_checklist->date_of_investigation : '')}}" readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <div class="table-checklist m-portlet__body m-portlet__body--table">
                                                 <div class="table-responsive">
                                                     <table class="table">
@@ -389,35 +430,83 @@
                                                             <th>शेरा</th>
                                                         </thead>
                                                         <tbody>
-                                                        <?php $i = 1; ?>
-                                                        @foreach($eeScrutinyData->DemarkQuetions as $data)
-                                                            <tr>
-                                                                <td>{{$i}}</td>
-                                                                <td>{{$data->DemarkQuetions->question}}</td>
-                                                                <td>
-                                                                    <label class="m-radio m-radio--primary">
-                                                                        <input type="radio" class="radioBtn" name="radio_{{$i}}" disabled {{($data->answer == '1' ? 'checked' : '')}}>
-                                                                        <span></span>
-                                                                    </label>
-                                                                </td>
-                                                                <td>
-                                                                    <label class="m-radio m-radio--primary">
-                                                                        <input type="radio" class="radioBtn" name="radio_{{$i}}" disabled {{($data->answer == '1' ? 'checked' : '')}}>
-                                                                        <span></span>
-                                                                    </label></td>
-                                                                <td>
-                                                                    <textarea class="form-control form-control--custom form-control--textarea"
-                                                                        name="remark-one" id="remark-one">{{$data->DemarkQuetions->remark}}</textarea>
-                                                                </td>
-                                                            </tr>
-                                                            <?php $i++; ?>
+                                                            <?php $i = 1; ?>
+                                                            @foreach($eeScrutinyData->DemarkQuetions as $data)                                        
+                                                                <tr>
+                                                                    <td>{{$i}}</td>
+                                                                    <td>{{$data->DemarkQuestions->question}}</td>
+                                                                    <td>
+                                                                        <label class="m-radio m-radio--primary">
+                                                                            <input type="radio" class="radioBtn" name="dem_radio_{{$i}}"  disabled {{($data->answer == '1' ? 'checked' : '')}}>
+                                                                            <span></span>
+                                                                        </label>
+                                                                    </td>
+                                                                    <td>
+                                                                        <label class="m-radio m-radio--primary">
+                                                                            <input type="radio" class="radioBtn" name="dem_radio_{{$i}}" disabled {{($data->answer == '0' ? 'checked' : '')}}>
+                                                                            <span></span>
+                                                                        </label></td>
+                                                                    <td>
+                                                                        <textarea class="form-control form-control--custom form-control--textarea"
+                                                                            name="remark-one" id="remark-one">{{$data-> remark}}</textarea>
+                                                                    </td>
+                                                                </tr>
+                                                                <?php $i++; ?>
                                                             @endforeach
                                                         </tbody>
                                                     </table>
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <!-- TitBit Verification -->
                                         <div class="tab-pane" id="tit-bit">
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-4 d-flex align-items-center">
+                                                            <label for="name">अभिन्यास (Layout):</label>
+                                                        </div>
+                                                        <div class="col-sm-8">
+                                                            <input type="text" class="form-control form-control--custom"
+                                                                id="name" value="{{(isset($eeScrutinyData->TitBit_checklist->layout) ? $eeScrutinyData->TitBit_checklist->layout : '')}}" readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-4 d-flex align-items-center">
+                                                            <label for="building-no">नोटीस चा तपशील:</label>
+                                                        </div>
+                                                        <div class="col-sm-8">
+                                                            <input type="text" class="form-control form-control--custom"
+                                                                id="building-no" placeholder="" value="{{(isset($eeScrutinyData->TitBit_checklist->details_of_notice) ? $eeScrutinyData->TitBit_checklist->details_of_notice : '')}}" readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-4 d-flex align-items-center">
+                                                            <label for="name">तपासणी अधिकाऱ्यांचे नाव:</label>
+                                                        </div>
+                                                        <div class="col-sm-8">
+                                                            <input type="text" class="form-control form-control--custom"
+                                                                id="name" value="{{(isset($eeScrutinyData->TitBit_checklist->investigation_officer_name) ? $eeScrutinyData->TitBit_checklist->investigation_officer_name : '')}}" readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div id="scrunity-check-date" class="col-sm-6">
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-4 d-flex align-items-center">
+                                                            <label for="building-no">स्थळ पाहणी दिनांक:</label>
+                                                        </div>
+                                                        <div class="col-sm-8">
+                                                            <input type="text" class="form-control form-control--custom"
+                                                                id="building-no" placeholder="" value="{{(isset($eeScrutinyData->TitBit_checklist->date_of_investigation) ? $eeScrutinyData->TitBit_checklist->date_of_investigation : '')}}" readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>                                        
                                             <div class="table-checklist m-portlet__body m-portlet__body--table">
                                                 <div class="table-responsive">
                                                     <table class="table">
@@ -429,32 +518,61 @@
                                                             <th>शेरा</th>
                                                         </thead>
                                                         <tbody>
-                                                            <tr>
-                                                                <td>1.</td>
-                                                                <td>७०% सभासदांनी पुनर्विकासास सहमती दर्शविली आहे
-                                                                    काय ?</td>
-                                                                <td>
-                                                                    <label class="m-radio m-radio--primary">
-                                                                        <input type="radio" name="one">
-                                                                        <span></span>
-                                                                    </label>
-                                                                </td>
-                                                                <td>
-                                                                    <label class="m-radio m-radio--primary">
-                                                                        <input type="radio" name="one">
-                                                                        <span></span>
-                                                                    </label></td>
-                                                                <td>
-                                                                    <textarea class="form-control form-control--custom form-control--textarea"
-                                                                        name="remark-one" id="remark-one"></textarea>
-                                                                </td>
-                                                            </tr>
+                                                            <?php $i = 1; ?>
+                                                            @foreach($eeScrutinyData->TitBitQuetions as $data)
+                                                                <tr>
+                                                                    <td>{{$i}}</td>
+                                                                    <td>{{$data->TitBitQuestions->question}}</td>
+                                                                    <td>
+                                                                        <label class="m-radio m-radio--primary">
+                                                                            <input type="radio" name="tit_radio_{{$i}}" disabled {{($data->answer == '1' ? 'checked' : '')}}>
+                                                                            <span></span>
+                                                                        </label>
+                                                                    </td>
+                                                                    <td>
+                                                                        <label class="m-radio m-radio--primary">
+                                                                            <input type="radio" name="tit_radio_{{$i}}" disabled {{($data->answer == '0' ? 'checked' : '')}}>
+                                                                            <span></span>
+                                                                        </label></td>
+                                                                    <td>
+                                                                        <textarea class="form-control form-control--custom form-control--textarea"
+                                                                            name="remark-one" id="remark-one">{{$data-> remark}}</textarea>
+                                                                    </td>
+                                                                </tr>
+                                                                <?php $i++; ?>
+                                                            @endforeach
                                                         </tbody>
                                                     </table>
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <!-- Relocation Verification -->
                                         <div class="tab-pane" id="relocation">
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-4 d-flex align-items-center">
+                                                            <label for="name">अभिन्यास (Layout):</label>
+                                                        </div>
+                                                        <div class="col-sm-8">
+                                                            <input type="text" class="form-control form-control--custom"
+                                                                id="name" value="{{(isset($eeScrutinyData->Relocation_checklist->layout) ? $eeScrutinyData->Relocation_checklist->layout : '')}}" readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-4 d-flex align-items-center">
+                                                            <label for="building-no">नोटीस चा तपशील:</label>
+                                                        </div>
+                                                        <div class="col-sm-8">
+                                                            <input type="text" class="form-control form-control--custom"
+                                                                id="building-no" placeholder="" value="{{(isset($eeScrutinyData->Relocation_checklist->details_of_notice) ? $eeScrutinyData->Relocation_checklist->details_of_notice : '')}}" readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>                                        
                                             <div class="table-checklist m-portlet__body m-portlet__body--table">
                                                 <div class="table-responsive">
                                                     <table class="table">
@@ -466,26 +584,30 @@
                                                             <th>शेरा</th>
                                                         </thead>
                                                         <tbody>
-                                                            <tr>
-                                                                <td>1.</td>
-                                                                <td>७०% सभासदांनी पुनर्विकासास सहमती दर्शविली आहे
-                                                                    काय ?</td>
-                                                                <td>
-                                                                    <label class="m-radio m-radio--primary">
-                                                                        <input type="radio" name="one">
-                                                                        <span></span>
-                                                                    </label>
-                                                                </td>
-                                                                <td>
-                                                                    <label class="m-radio m-radio--primary">
-                                                                        <input type="radio" name="one">
-                                                                        <span></span>
-                                                                    </label></td>
-                                                                <td>
-                                                                    <textarea class="form-control form-control--custom form-control--textarea"
-                                                                        name="remark-one" id="remark-one"></textarea>
-                                                                </td>
-                                                            </tr>
+                                                             <?php $i = 1; ?> 
+                                                             @foreach($eeScrutinyData->relocationQuetions as $data) 
+                                                             
+                                                                <tr>
+                                                                    <td>{{$i}}</td>
+                                                                    <td>{{($data->relocationQuestions->question)}}</td>
+                                                                    <td>
+                                                                        <label class="m-radio m-radio--primary">
+                                                                            <input type="radio" name="rg_radio_{{$i}}" disabled {{($data->answer == '1' ? 'checked' : '')}}>
+                                                                            <span></span>
+                                                                        </label>
+                                                                    </td>
+                                                                    <td>
+                                                                        <label class="m-radio m-radio--primary">
+                                                                            <input type="radio" name="rg_radio_{{$i}}" disabled {{($data->answer == '0' ? 'checked' : '')}}>
+                                                                            <span></span>
+                                                                        </label></td>
+                                                                    <td>
+                                                                        <textarea class="form-control form-control--custom form-control--textarea"
+                                                                            name="remark-one" id="remark-one">{{$data-> remark}}</textarea>
+                                                                    </td>
+                                                                </tr>
+                                                                <?php $i++; ?>
+                                                            @endforeach
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -518,34 +640,13 @@
                                                         <div class="col-sm-6">
                                                             <div class="d-flex flex-column h-100 two-cols">
                                                                 <h5>Download Note</h5>
-                                                                <span class="hint-text">Download REE Note uploaded by
-                                                                    REE</span>
+                                                                <span class="hint-text">Download EE Note uploaded by EE</span>
                                                                 <div class="mt-auto">
                                                                     <button class="btn btn-primary">Download Note
                                                                         Format</button>
                                                                 </div>
                                                             </div>
                                                         </div>
-<!--                                                         <div class="col-sm-6 border-left">
-                                                            <div class="d-flex flex-column h-100 two-cols">
-                                                                <h5>Upload Note</h5>
-                                                                <span class="hint-text">Click on 'Upload' to upload REE
-                                                                    -
-                                                                    Note</span>
-                                                                <form action="" method="post">
-                                                                    <div class="custom-file">
-                                                                        <input class="custom-file-input" name="" type="file"
-                                                                            id="test-upload" required="">
-                                                                        <label class="custom-file-label" for="test-upload">Choose
-                                                                            file...</label>
-                                                                    </div>
-                                                                    <div class="mt-auto">
-                                                                        <button type="submit" class="btn btn-primary btn-custom"
-                                                                            id="uploadBtn">Upload</button>
-                                                                    </div>
-                                                                </form>
-                                                            </div>
-                                                        </div> -->
                                                     </div>
                                                 </div>
                                             </div>

@@ -174,9 +174,11 @@ Route::get('/application','SocietyOfferLetterController@ViewApplications')->name
 
 //DYCE Department routes
 Route::resource('dyce','DYCEDepartment\DYCEController');
-Route::get('dyce_scrutiny_remark','DYCEDepartment\DYCEController@dyceScrutinyRemark')->name('dyce.scrutiny_remark');
-Route::get('societyEEDocuments','DYCEDepartment\DYCEController@societyEEDocuments')->name('dyce.society_EE_documents');
-Route::get('eeScrutinyRemark','DYCEDepartment\DYCEController@eeScrutinyRemark')->name('dyce.EE_Scrutiny_Remark');
+Route::get('dyce_scrutiny_remark/{id}','DYCEDepartment\DYCEController@dyceScrutinyRemark')->name('dyce.scrutiny_remark');
+Route::get('societyEEDocuments/{id}','DYCEDepartment\DYCEController@societyEEDocuments')->name('dyce.society_EE_documents');
+Route::get('eeScrutinyRemark/{id}','DYCEDepartment\DYCEController@eeScrutinyRemark')->name('dyce.EE_Scrutiny_Remark');
+Route::get('forward_application/{id}','DYCEDepartment\DYCEController@forwardApplication')->name('dyce.forward_application');
+Route::post('forward_Application_data','DYCEDepartment\DYCEController@sendForwardApplication')->name('dyce.forward_application_data');
 
 // REE Department Routes
 

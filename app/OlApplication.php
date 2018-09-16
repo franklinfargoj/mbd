@@ -18,6 +18,10 @@ class OlApplication extends Model
         'current_status_id',
         'is_encrochment',
         'is_approve_offer_letter',
+        'demarkation_verification_comment',
+        'encrochment_verification_comment',
+        'date_of_site_visit',
+        'site_visit_officers',
     ];
 
     public function eeApplicationSociety()
