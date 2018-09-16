@@ -1,60 +1,129 @@
-@extends('frontend.layouts.app')
+@extends('frontend.rti.login')
 @section('body')
-   <div class="m-grid__item m-grid__item--fluid  m-grid__item--order-tablet-and-mobile-1  m-login__wrapper">
-      <!--begin::Head-->
-      <div class="m-login__head">
-        <!-- <span>Don't have an account?</span>
-        <a href="#" class="m-link m--font-danger">Sign Up</a> -->
-      </div>
-      <!--end::Head-->
-
-      <div class="m-login__logo text-center">
-        <a href="{{ url('/') }}">
-        <img src="{{asset('assets/app/media/img/logos/mhada-logo.png')}}" width="550">
-        </a>
-      </div>
-
-      <!--begin::Body-->
-      <div class="m-login__body">
-        <div class="m-login__signin">
-          <!--begin::Signin-->
-          <div class="m-login__signin">
-            <div class="m-login__title">
-              <h3>Register</h3>
-            </div>
-
-            <form class = 'm-login__form m-form' id = 'rti_frontend_register' method="post" action="{{ route('rti_frontend.store') }}">
-            @csrf
-               <div class="form-group m-form__group">
-                  <!-- <label for="" class="col-form-label">First Name</label> -->
-                  <input class="form-control m-input" type="text" placeholder="Name of User" name="name" >
-               </div>
-               <div class="form-group m-form__group">
-                  <!-- <label for="" class="col-form-label">Mobile No</label> -->
-                  <input class="form-control m-input" type="text" placeholder="Mobile No" name="mobile_no" autocomplete="off" data-container="body" data-toggle="m-tooltip" data-placement="right" title="" data-original-title="Mobile number must contain exactly 10 numbers.(+91) is by default considered.." data-skin="dark">
-               </div>
-               <div class="form-group m-form__group">
-                  <!-- <label for="" class="col-form-label">Email Address</label> -->
-                  <input class="form-control m-input" id="email_val" type="text" placeholder="Email" name="email" autocomplete="off" data-container="body" data-toggle="m-tooltip" data-placement="right" title="" data-original-title="This field must contain a valid email address.." data-skin="dark">
-                  <div class="error" id="email_error" style="display: none;">This Email-id is already used.</div>
-               </div>
-               <div class="form-group m-form__group">
-                  <!-- <label for="" class="col-form-label">Pan Number</label> -->
-                  <textarea class="form-control m-input" name="address" placeholder="Enter Address"></textarea>
-               </div>
-               <!--begin::Action-->
-                  <div class="m-login__action">
-                    <a href="#" class="m-link">
-                      
-                    </a>
-                    <a href="#">
-                      <button type="submit" id="m_login_signin_submit_rti_registration" class="btn btn-primary m-btn m-btn--pill m-btn--custom m-btn--air m-login__btn m-login__btn--primary">Register</button>
-                    </a>
-                  </div>
-            </form>
-            <!--end::Form-->
+<div class="m-grid__item m-grid__item--fluid m-grid m-grid--hor m-login m-login--singin m-login--2 m-login-2--skin-2" id="m_login" style="position: relative;">
+    <!-- <div class="m-login__logo text-center">
+                  <a href="{{ url('/') }}"></a>
+                  <img src="{{asset('assets/app/media/img/logos/mhada-logo.png')}}" width="550">
+                  </a>
+            </div> -->
+  <div class="m-grid__item m-grid__item--fluid m-login__wrapper">
+    <div class="m-grid__item m-grid__item--fluid">
+      <div class="m-login__signup">
+          <div class="m-login__head">
+              <h1 class="m-login__title mb-0 display-4">
+                  MHADA Digitization
+              </h1>
           </div>
-        </div>
+          <form class='m-login__form m-form' id='sign_up_form_society_offer_letter' action="{{ route('society_offer_letter.store') }}"
+              method="post">
+              @csrf
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group m-form__group">
+                      <!-- <label for="" class="col-form-label">First Name</label> -->
+                      <input class="form-control m-input" type="text" placeholder="Society Name" name="society_name">
+                      <span class="help-block">{{$errors->first('society_name')}}</span>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group m-form__group">
+                      <!-- <label for="" class="col-form-label">Last Name</label> -->
+                      <textarea class="form-control m-input" placeholder="Society Address" name="society_address"></textarea>
+                      <span class="help-block">{{$errors->first('society_address')}}</span>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group m-form__group">
+                      <!-- <label for="" class="col-form-label">Email Address</label> -->
+                      <input class="form-control m-input" type="text" placeholder="Society Building No" name="society_building_no">
+                      <span class="help-block">{{$errors->first('society_building_no')}}</span>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group m-form__group">
+                      <!-- <label for="" class="col-form-label">Mobile No</label> -->
+                      <input class="form-control m-input" type="text" placeholder="Society Registration No" name="society_registration_no">
+                      <span class="help-block">{{$errors->first('society_registration_no')}}</span>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group m-form__group">
+                      <!-- <label for="" class="col-form-label">Pan Number</label> -->
+                      <input class="form-control m-input" type="text" placeholder="User Name" name="society_username">
+                      <span class="help-block">{{$errors->first('society_username')}}</span>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group m-form__group">
+                      <!-- <label for="" class="col-form-label">Confirm Password</label> -->
+                      <input class="form-control m-input" type="email" placeholder="Email Address" name="society_email">
+                      <span class="help-block">{{$errors->first('society_email')}}</span>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group m-form__group">
+                      <!-- <label for="" class="col-form-label">Confirm Password</label> -->
+                      <input class="form-control m-input" type="text" placeholder="Contact No" name="society_contact_no">
+                      <span class="help-block">{{$errors->first('society_contact_no')}}</span>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group m-form__group">
+                      <!-- <label for="" class="col-form-label">Password</label> -->
+                      <input class="form-control m-input" type="password" placeholder="Password" name="society_password">
+                      <span class="help-block">{{$errors->first('society_password')}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="m-login__form-divider">
+                  <div>
+                    <div class="m-divider">
+                        <h3 class="section-title section-title--small text-center mb-0 mt-4">Architect Details:</h3>
+                    </div>
+                  </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group m-form__group">
+                      <!-- <label for="" class="col-form-label">Confirm Password</label> -->
+                      <input class="form-control m-input" type="text" placeholder="Architect Name" name="society_architect_name">
+                      <span class="help-block">{{$errors->first('society_architect_name')}}</span>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group m-form__group">
+                      <!-- <label for="" class="col-form-label">Confirm Password</label> -->
+                      <input class="form-control m-input" type="text" placeholder="Architect Mobile Number" name="society_architect_mobile_no">
+                      <span class="help-block">{{$errors->first('society_architect_mobile_no')}}</span>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group m-form__group">
+                      <!-- <label for="" class="col-form-label">Password</label> -->
+                      <textarea class="form-control m-input" placeholder="Architect Address" name="society_architect_address"></textarea>
+                      <span class="help-block">{{$errors->first('society_architect_address')}}</span>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group m-form__group">
+                      <!-- <label for="" class="col-form-label">Password</label> -->
+                      <input class="form-control m-input" type="text" placeholder="Architect Telephone Number"
+                          name="society_architect_telephone_no">
+                      <span class="help-block">{{$errors->first('society_architect_telephone_no')}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="m-login__form-action">
+                  <button id="m_login_signup_submit_society_offer_letter" class="btn btn-primary m-btn m-btn--pill m-btn--custom m-login__btn">
+                      Sign Up
+                  </button>
+                  &nbsp;&nbsp;
+                  <button id="m_login_signup_cancel" class="btn btn-outline-focus m-btn m-btn--pill m-btn--custom m-login__btn">
+                      <i class="la la-close"></i>
+                  </button>
+              </div>
+          </form>
       </div>
     </div>
-@endsection
+  </div>
+</div>
