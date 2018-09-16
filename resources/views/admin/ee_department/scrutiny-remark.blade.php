@@ -376,8 +376,7 @@
                                                                     <label for="name">अभिन्यास (Layout):</label>
                                                                 </div>
                                                                 <div class="col-sm-8">
-                                                                    <input type="text" class="form-control form-control--custom"
-                                                                           name="layout" id="name" required>
+                                                                    <input type="text" class="form-control form-control--custom" name="layout" id="name" value="{{ isset($arrData['consent_verification_checkist_data']) ? $arrData['consent_verification_checkist_data']->layout : ''}}" required>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -387,7 +386,7 @@
                                                                     <label for="notice_detail">नोटीस चा तपशील:</label>
                                                                 </div>
                                                                 <div class="col-sm-8">
-                                                                    <input type="text" class="form-control form-control--custom"
+                                                                    <input type="text" class="form-control form-control--custom" value="{{ isset($arrData['consent_verification_checkist_data']) ? $arrData['consent_verification_checkist_data']->details_of_notice : '' }}"
                                                                            name="details_of_notice" id="notice_detail" placeholder="" required>
                                                                 </div>
                                                             </div>
@@ -398,7 +397,7 @@
                                                                     <label for="investigation_officer">तपासणी अधिकाऱ्यांचे नाव:</label>
                                                                 </div>
                                                                 <div class="col-sm-8">
-                                                                    <input type="text" class="form-control form-control--custom"
+                                                                    <input type="text" class="form-control form-control--custom" value="{{ isset($arrData['consent_verification_checkist_data']) ? $arrData['consent_verification_checkist_data']->investigation_officer_name : ''}}"
                                                                            name="investigation_officer_name" id="investigation_officer" required>
                                                                 </div>
                                                             </div>
@@ -409,7 +408,7 @@
                                                                     <label for="m_datepicker">तपासणी दिनांक:</label>
                                                                 </div>
                                                                 <div class="col-sm-8">
-                                                                    <input type="text" class="form-control form-control--custom"
+                                                                    <input type="text" class="form-control form-control--custom" value="{{isset($arrData['consent_verification_checkist_data']) ? $arrData['consent_verification_checkist_data']->date_of_investigation : '' }}"
                                                                            name="date_of_investigation" id="m_datepicker" required placeholder="">
                                                                 </div>
                                                             </div>
@@ -438,18 +437,18 @@
                                                                         <td>{{ $consent_question->question }}</td>
                                                                         <td>
                                                                             <label class="m-radio m-radio--primary">
-                                                                                <input type="radio" name="answer[{{$i}}]" value="1" checked>
+                                                                                <input type="radio" name="answer[{{$i}}]" value="1" {{ (isset($arrData['consent_verification_details_data'][$consent_question->id]) && $arrData['consent_verification_details_data'][$consent_question->id]['answer'] == 1) ? 'checked' : 'checked' }}>
                                                                                 <span></span>
                                                                             </label>
                                                                         </td>
                                                                         <td>
                                                                             <label class="m-radio m-radio--primary">
-                                                                                <input type="radio" name="answer[{{$i}}]" value="0">
+                                                                                <input type="radio" name="answer[{{$i}}]" value="0" {{ (isset($arrData['consent_verification_details_data'][$consent_question->id]) && $arrData['consent_verification_details_data'][$consent_question->id]['answer'] == 0) ? 'checked' : '' }}>
                                                                                 <span></span>
                                                                             </label></td>
                                                                         <td>
                                                                             <textarea class="form-control form-control--custom form-control--textarea"
-                                                                                      name="remark[{{$i}}]" id="remark-one"></textarea>
+                                                                                      name="remark[{{$i}}]" id="remark-one">{{ isset($arrData['consent_verification_details_data'][$consent_question->id]) ? $arrData['consent_verification_details_data'][$consent_question->id]['remark'] : '' }}</textarea>
                                                                         </td>
                                                                     </tr>
                                                                     @php

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\EEDepartment;
 
 use App\OlApplication;
 use App\OlChecklistScrutiny;
-use App\OlConsentVerificationDetail;
+use App\OlConsentVerificationDetails;
 use App\OlConsentVerificationQuestionMaster;
 use App\OlSocietyDocumentsMaster;
 use App\OlSocietyDocumentsStatus;
@@ -153,7 +153,10 @@ class EEController extends Controller
         // Checklist Scrutiny
 
         $arrData['consent_verification_question'] = OlConsentVerificationQuestionMaster::all();
+        $arrData['consent_verification_checkist_data'] = OlChecklistScrutiny::where('application_id', 1)->first();
+        $arrData['consent_verification_details_data'] = OlConsentVerificationDetails::where('application_id', 1)->get()->keyBy('question_id')->toArray();
 
+//        dd($arrData);
         return view('admin.ee_department.scrutiny-remark', compact('arrData'));
     }
 
@@ -258,7 +261,8 @@ class EEController extends Controller
 
     public function consentVerification(Request $request)
     {
-//        dd($request->all());
+        OlChecklistScrutiny::where('application_id', $request->application_id)->delete();
+        OlConsentVerificationDetails::where('application_id', $request->application_id)->delete();
         $ee_checklist_scrutiny = [
             'application_id' => $request->application_id,
             'user_id' => Auth::user()->id,
@@ -284,7 +288,7 @@ class EEController extends Controller
         }
         // insert into ol_consent_verification_details table
 
-        OlConsentVerificationDetail::insert($ee_consent_verification);
+        OlConsentVerificationDetails::insert($ee_consent_verification);
 
         return redirect()->back();
         /*$ee_demarcation = [
