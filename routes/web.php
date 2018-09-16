@@ -138,8 +138,11 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('get-forward-application', 'EEDepartment\EEController@getForwardApplicationForm')->name('get-forward-application');
     Route::post('/forward-application', 'EEDepartment\EEController@forwardApplication')->name('forward-application');
 
+
+
 });
 
+Route::post('/consent-verfication', 'EEDepartment\EEController@consentVerification')->name('consent-verfication');
 
 Route::get('architect_application','ArchitectApplicationController@index')->name('architect_application');
 Route::get('shortlisted_architect_application','ArchitectApplicationController@shortlistedIndex')->name('shortlisted_architect_application');
