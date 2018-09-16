@@ -6,8 +6,14 @@ use App\OlApplication;
 use App\OlChecklistScrutiny;
 use App\OlConsentVerificationDetails;
 use App\OlConsentVerificationQuestionMaster;
+use App\OlDemarcationVerificationDetails;
+use App\OlDemarcationVerificationQuestionMaster;
+use App\OlRelocationVerificationDetails;
+use App\OlRgRelocationVerificationQuestionMaster;
 use App\OlSocietyDocumentsMaster;
 use App\OlSocietyDocumentsStatus;
+use App\OlTitBitVerificationDetails;
+use App\OlTitBitVerificationQuestionMaster;
 use App\SocietyOfferLetter;
 use App\User;
 use Illuminate\Http\Request;
@@ -150,11 +156,38 @@ class EEController extends Controller
         $arrData['society_document_data'] = array_get($document_status_data,'societyDocuments')->keyBy('document_id')->toArray();
 //        dd($arrData['society_document_data']);
 
-        // Checklist Scrutiny
+        // Consent Scrutiny
 
         $arrData['consent_verification_question'] = OlConsentVerificationQuestionMaster::all();
-        $arrData['consent_verification_checkist_data'] = OlChecklistScrutiny::where('application_id', 1)->first();
+        $arrData['consent_verification_checkist_data'] = OlChecklistScrutiny::where('application_id', 1)
+                                                                                ->where('verification_type', 'CONSENT VERIFICATION')
+                                                                                ->first();
         $arrData['consent_verification_details_data'] = OlConsentVerificationDetails::where('application_id', 1)->get()->keyBy('question_id')->toArray();
+
+        // Demarcation Scrutiny
+
+        $arrData['demarcation_question'] = OlDemarcationVerificationQuestionMaster::all();
+        $arrData['demarcation_checkist_data'] = OlChecklistScrutiny::where('application_id', 1)
+                                                                        ->where('verification_type', 'DEMARCATION')
+                                                                        ->first();
+        $arrData['demarcation_details_data'] = OlDemarcationVerificationDetails::where('application_id', 1)->get()->keyBy('question_id')->toArray();
+
+        // Tit-Bit Scrutiny
+
+        $arrData['tit_bit_question'] = OlTitBitVerificationQuestionMaster::all();
+        $arrData['tit_bit_checkist_data'] = OlChecklistScrutiny::where('application_id', 1)
+                                                                        ->where('verification_type', 'TIT BIT')
+                                                                        ->first();
+        $arrData['tit_bit_details_data'] = OlTitBitVerificationDetails::where('application_id', 1)->get()->keyBy('question_id')->toArray();
+
+
+        // R.G Relocation
+
+        $arrData['rg_question'] = OlRgRelocationVerificationQuestionMaster::all();
+        $arrData['rg_checkist_data'] = OlChecklistScrutiny::where('application_id', 1)
+            ->where('verification_type', 'RG RELOCATION')
+            ->first();
+        $arrData['rg_details_data'] = OlRelocationVerificationDetails::where('application_id', 1)->get()->keyBy('question_id')->toArray();
 
 //        dd($arrData);
         return view('admin.ee_department.scrutiny-remark', compact('arrData'));
@@ -259,9 +292,14 @@ class EEController extends Controller
         return redirect()->back();
     }
 
+
+    // Consent Verification
+
     public function consentVerification(Request $request)
     {
-        OlChecklistScrutiny::where('application_id', $request->application_id)->delete();
+        OlChecklistScrutiny::where('application_id', $request->application_id)
+                                ->where('verification_type', 'CONSENT VERIFICATION')
+                                ->delete();
         OlConsentVerificationDetails::where('application_id', $request->application_id)->delete();
         $ee_checklist_scrutiny = [
             'application_id' => $request->application_id,
@@ -291,35 +329,108 @@ class EEController extends Controller
         OlConsentVerificationDetails::insert($ee_consent_verification);
 
         return redirect()->back();
-        /*$ee_demarcation = [
-            'application_id' => '',
+    }
+
+    public function eeDemarcation(Request $request)
+    {
+        OlChecklistScrutiny::where('application_id', $request->application_id)
+                                ->where('verification_type', 'DEMARCATION')
+                                ->delete();
+        OlDemarcationVerificationDetails::where('application_id', $request->application_id)->delete();
+
+        $ee_checklist_scrutiny = [
+            'application_id' => $request->application_id,
             'user_id' => Auth::user()->id,
-            'question_id' => $request->question_id,
-            'answer' => $request->answer,
-            'remark' => $request->remark
-        ];*/
+            'verification_type' => 'DEMARCATION',
+            'layout' => $request->layout,
+            'details_of_notice' => $request->details_of_notice,
+            'investigation_officer_name' => $request->investigation_officer_name,
+            'date_of_investigation' => date('Y-m-d H:i:s', strtotime($request->date_of_investigation))
+        ];
 
-        // insert into ol_demarcation_details table
+        OlChecklistScrutiny::insert($ee_checklist_scrutiny);
 
-        /*$ee_tit_bit = [
-            'application_id' => '',
+        foreach($request->question_id as $key => $consent_data) {
+            $ee_demarcation[] = [
+                'application_id' => $request->application_id,
+                'user_id' => Auth::user()->id,
+                'question_id' => $request->question_id[$key],
+                'answer' => $request->answer[$key],
+                'remark' => $request->remark[$key]
+            ];
+        }
+
+        OlDemarcationVerificationDetails::insert($ee_demarcation);
+
+        return redirect()->back();
+    }
+
+    public function titBit(Request $request)
+    {
+        OlChecklistScrutiny::where('application_id', $request->application_id)
+            ->where('verification_type', 'TIT BIT')
+            ->delete();
+        OlTitBitVerificationDetails::where('application_id', $request->application_id)->delete();
+
+        $ee_checklist_scrutiny = [
+            'application_id' => $request->application_id,
             'user_id' => Auth::user()->id,
-            'question_id' => $request->question_id,
-            'answer' => $request->answer,
-            'remark' => $request->remark
-        ];*/
+            'verification_type' => 'TIT BIT',
+            'layout' => $request->layout,
+            'details_of_notice' => $request->details_of_notice,
+            'investigation_officer_name' => $request->investigation_officer_name,
+            'date_of_investigation' => date('Y-m-d H:i:s', strtotime($request->date_of_investigation))
+        ];
 
-        // insert into ol_tit_bit_details table
+        OlChecklistScrutiny::insert($ee_checklist_scrutiny);
 
-        /*$ee_rg_location = [
-            'application_id' => '',
+        foreach($request->question_id as $key => $consent_data) {
+            $ee_tit_bit[] = [
+                'application_id' => $request->application_id,
+                'user_id' => Auth::user()->id,
+                'question_id' => $request->question_id[$key],
+                'answer' => $request->answer[$key],
+                'remark' => $request->remark[$key]
+            ];
+        }
+
+        OlTitBitVerificationDetails::insert($ee_tit_bit);
+
+        return redirect()->back();
+    }
+
+    public function rgRelocation(Request $request)
+    {
+        OlChecklistScrutiny::where('application_id', $request->application_id)
+            ->where('verification_type', 'RG RELOCATION')
+            ->delete();
+        OlRelocationVerificationDetails::where('application_id', $request->application_id)->delete();
+
+        $ee_checklist_scrutiny = [
+            'application_id' => $request->application_id,
             'user_id' => Auth::user()->id,
-            'question_id' => $request->question_id,
-            'answer' => $request->answer,
-            'remark' => $request->remark
-        ];*/
+            'verification_type' => 'RG RELOCATION',
+            'layout' => $request->layout,
+            'details_of_notice' => $request->details_of_notice,
+            'investigation_officer_name' => 'TEST',
+            'date_of_investigation' => date('Y-m-d H:i:s')
+        ];
 
-        // insert into ol_rg_relocation_details table
+        OlChecklistScrutiny::insert($ee_checklist_scrutiny);
+
+        foreach($request->question_id as $key => $consent_data) {
+            $rg_relocation[] = [
+                'application_id' => $request->application_id,
+                'user_id' => Auth::user()->id,
+                'question_id' => $request->question_id[$key],
+                'answer' => $request->answer[$key],
+                'remark' => $request->remark[$key]
+            ];
+        }
+
+        OlRelocationVerificationDetails::insert($rg_relocation);
+
+        return redirect()->back();
     }
     /**
      * Show the form for creating a new resource.

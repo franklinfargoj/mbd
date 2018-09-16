@@ -146,6 +146,9 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 });
 
 Route::post('/consent-verfication', 'EEDepartment\EEController@consentVerification')->name('consent-verfication');
+Route::post('/ee-demarcation', 'EEDepartment\EEController@eeDemarcation')->name('ee-demarcation');
+Route::post('/ee-tit-bit', 'EEDepartment\EEController@titBit')->name('ee-tit-bit');
+Route::post('/ee-rg-relocation', 'EEDepartment\EEController@rgRelocation')->name('ee-rg-relocation');
 
 Route::get('architect_application','ArchitectApplicationController@index')->name('architect_application');
 Route::get('shortlisted_architect_application','ArchitectApplicationController@shortlistedIndex')->name('shortlisted_architect_application');
