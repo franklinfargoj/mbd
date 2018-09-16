@@ -262,7 +262,7 @@
                                                         </div>
                                                         <div class="col-sm-8">
                                                             <input type="text" class="form-control form-control--custom"
-                                                                id="name">
+                                                                id="name" value="{{(isset($eeScrutinyData->eeApplicationSociety->name) ? $eeScrutinyData->eeApplicationSociety->name : '')}}" readonly>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -273,7 +273,7 @@
                                                         </div>
                                                         <div class="col-sm-8">
                                                             <input type="text" class="form-control form-control--custom"
-                                                                id="building-no" placeholder="">
+                                                                id="building-no" placeholder="" value="{{(isset($eeScrutinyData->eeApplicationSociety->building_no) ? $eeScrutinyData->eeApplicationSociety->building_no : '')}}" readonly>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -347,26 +347,31 @@
                                                             <th>शेरा</th>
                                                         </thead>
                                                         <tbody>
-                                                            <tr>
-                                                                <td>1.</td>
-                                                                <td>७०% सभासदांनी पुनर्विकासास सहमती दर्शविली आहे
-                                                                    काय ?</td>
-                                                                <td>
-                                                                    <label class="m-radio m-radio--primary">
-                                                                        <input type="radio" name="one">
-                                                                        <span></span>
-                                                                    </label>
-                                                                </td>
-                                                                <td>
-                                                                    <label class="m-radio m-radio--primary">
-                                                                        <input type="radio" name="one">
-                                                                        <span></span>
-                                                                    </label></td>
-                                                                <td>
-                                                                    <textarea class="form-control form-control--custom form-control--textarea"
-                                                                        name="remark-one" id="remark-one"></textarea>
-                                                                </td>
-                                                            </tr>
+                                                        <?php $i = 1; ?>
+                                                            @foreach($eeScrutinyData->consentQuetions as $data)
+                                                                <tr>
+                                                                    <td>{{$i}}</td>
+                                                                    <td>{{$data->consentQuestions->question}}</td>
+                                                                    <td>
+                                                                        <label class="m-radio m-radio--primary">
+
+                                                                            <input type="radio" class="radioBtn" name="radio_{{$i}}" disabled {{($data->answer == '1' ? 'checked' : '')}}>
+                                                                            <span></span>
+                                                                        </label>
+                                                                    </td>
+                                                                    <td>
+                                                                        <label class="m-radio m-radio--primary">
+
+                                                                            <input type="radio" class="radioBtn" name="radio_{{$i}}" disabled {{($data->answer == '0' ? 'checked' : '')}}>
+                                                                            <span></span>
+                                                                        </label></td>
+                                                                    <td>
+                                                                        <textarea class="form-control form-control--custom form-control--textarea"
+                                                                            name="remark-one" id="remark-one">{{$data->remark}}</textarea>
+                                                                    </td>
+                                                                </tr>
+                                                                <?php $i++; ?>
+                                                            @endforeach
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -384,26 +389,29 @@
                                                             <th>शेरा</th>
                                                         </thead>
                                                         <tbody>
+                                                        <?php $i = 1; ?>
+                                                        @foreach($eeScrutinyData->DemarkQuetions as $data)
                                                             <tr>
-                                                                <td>1.</td>
-                                                                <td>७०% सभासदांनी पुनर्विकासास सहमती दर्शविली आहे
-                                                                    काय ?</td>
+                                                                <td>{{$i}}</td>
+                                                                <td>{{$data->DemarkQuetions->question}}</td>
                                                                 <td>
                                                                     <label class="m-radio m-radio--primary">
-                                                                        <input type="radio" name="one">
+                                                                        <input type="radio" class="radioBtn" name="radio_{{$i}}" disabled {{($data->answer == '1' ? 'checked' : '')}}>
                                                                         <span></span>
                                                                     </label>
                                                                 </td>
                                                                 <td>
                                                                     <label class="m-radio m-radio--primary">
-                                                                        <input type="radio" name="one">
+                                                                        <input type="radio" class="radioBtn" name="radio_{{$i}}" disabled {{($data->answer == '1' ? 'checked' : '')}}>
                                                                         <span></span>
                                                                     </label></td>
                                                                 <td>
                                                                     <textarea class="form-control form-control--custom form-control--textarea"
-                                                                        name="remark-one" id="remark-one"></textarea>
+                                                                        name="remark-one" id="remark-one">{{$data->DemarkQuetions->remark}}</textarea>
                                                                 </td>
                                                             </tr>
+                                                            <?php $i++; ?>
+                                                            @endforeach
                                                         </tbody>
                                                     </table>
                                                 </div>

@@ -9,6 +9,10 @@ use App\olSiteVisitDocuments;
 use App\OlApplication;
 use App\SocietyOfferLetter;
 use App\OlSocietyDocumentsStatus;
+use App\OlConsentVerificationDetails;
+use App\OlDemarcationVerificationDetails;
+use App\OlTitBitVerificationDetails;
+use App\OlRelocationVerificationDetails;
 use Config;
 
 class DYCEController extends Controller
@@ -21,7 +25,7 @@ class DYCEController extends Controller
 
         $getData = $request->all();
         $applicationData = OlApplication::with(['eeApplicationSociety'])->get();
-        // dd($applicationData);
+
         $columns = [
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'application_no','name' => 'application_no','title' => 'Application Number'],
@@ -47,6 +51,7 @@ class DYCEController extends Controller
             "pageLength" => $this->list_num_of_records_per_page
         ];
     } 
+
     // function used to DyCE Scrutiny & Remark page
     public function dyceScrutinyRemark(Request $request){
 
@@ -101,17 +106,42 @@ class DYCEController extends Controller
     public function societyEEDocuments(Request $request){
 
         $societyId = 1;        
-        $societyDocuments = SocietyOfferLetter::with(['societyDocuments.documents_Name','societyDocuments'])->where('id',$societyId)->get();
+        $societyDocuments = SocietyOfferLetter::with(['societyDocuments.documents_Name'])->where('id',$societyId)->get();
+
        return view('admin.DYCE_department.society_EE_documents',compact('societyDocuments')); 
     }
 
+    // EE - Scrutiny & Remark page
     public function eeScrutinyRemark(){
 
         $applicationId = '1';
-        $eeScrutinyData = OlApplication::with(['eeApplicationSociety','eeApplicationSociety.societyDocuments','eeApplicationSociety.societyDocuments.documents_Name'])
-                            ->where('id',$applicationId)->first();
+        $eeScrutinyData = OlApplication::with(['eeApplicationSociety.societyDocuments.documents_Name'])
+                ->where('id',$applicationId)->first();
 
+        // get all verification details submitted by EE        
+        $this->getVerificationDetails($eeScrutinyData,$applicationId); 
+        
+        $this->getChecklistDetails($eeScrutinyData,$applicationId);                  
+
+        // dd($eeScrutinyData);
         return view('admin.DYCE_department.EE_Scrutiny_Remark',compact('eeScrutinyData'));
+    }
+
+    protected function getVerificationDetails($eeScrutinyData,$applicationId){
+        
+        $eeScrutinyData ->consentQuetions = OlConsentVerificationDetails::with('consentQuestions')->where('application_id',$applicationId)->get();
+
+        $eeScrutinyData->DemarkQuetions = OlDemarcationVerificationDetails::with('consentQuestions')->where('application_id',$applicationId)->get(); 
+
+        $eeScrutinyData->TitBitQuetions = OlTitBitVerificationDetails::with('consentQuestions')->where('application_id',$applicationId)->get(); 
+
+        $eeScrutinyData->relocationQuetions = OlRelocationVerificationDetails::with('consentQuestions')->where('application_id',$applicationId)->get();  
+    }
+
+    protected function getChecklistDetails($eeScrutinyData,$applicationId){
+
+        $eeScrutinyData->conset  = OlConsentVerificationDetails::get(); 
+        return $eeScrutinyData;
     }
 }
 
