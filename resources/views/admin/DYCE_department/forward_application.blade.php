@@ -36,31 +36,31 @@
                                             <div class="col-sm-6 field-col">
                                                 <div class="d-flex">
                                                     <span class="field-name">Application Number:</span>
-                                                    <span class="field-value">{{ $arrData['society_detail']->application_no }}</span>
+                                                    <span class="field-value">{{(isset($applicationData->application_no) ? $applicationData->application_no : '')}}</span>
                                                 </div>
                                             </div>
                                             <div class="col-sm-6 field-col">
                                                 <div class="d-flex">
                                                     <span class="field-name">Application Date:</span>
-                                                    <span class="field-value">{{ date(config('commanConfig.dateFormat'), strtotime($arrData['society_detail']->submitted_at)) }}</span>
+                                                    <span class="field-value">{{(isset($applicationData->submitted_at) ? $applicationData->submitted_at : '')}}</span>
                                                 </div>
                                             </div>
                                             <div class="col-sm-6 field-col">
                                                 <div class="d-flex">
                                                     <span class="field-name">Society Name:</span>
-                                                    <span class="field-value">{{ $arrData['society_detail']->eeApplicationSociety->name }}</span>
+                                                    <span class="field-value">{{(isset($applicationData->eeApplicationSociety->name) ? $applicationData->eeApplicationSociety->name : '')}}</span>
                                                 </div>
                                             </div>
                                             <div class="col-sm-6 field-col">
                                                 <div class="d-flex">
                                                     <span class="field-name">Society Address:</span>
-                                                    <span class="field-value">{{ $arrData['society_detail']->eeApplicationSociety->address }}</span>
+                                                    <span class="field-value">{{(isset($applicationData->eeApplicationSociety->address) ? $applicationData->eeApplicationSociety->address : '')}}</span>
                                                 </div>
                                             </div>
                                             <div class="col-sm-6 field-col">
                                                 <div class="d-flex">
                                                     <span class="field-name">Building Number:</span>
-                                                    <span class="field-value">{{ $arrData['society_detail']->eeApplicationSociety->building_no }}</span>
+                                                    <span class="field-value">{{(isset($applicationData->eeApplicationSociety->building_no) ? $applicationData->eeApplicationSociety->building_no : '')}}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -75,25 +75,25 @@
                                             <div class="col-sm-6 field-col">
                                                 <div class="d-flex">
                                                     <span class="field-name">Name of Architect:</span>
-                                                    <span class="field-value">{{ $arrData['society_detail']->eeApplicationSociety->name_of_architect }}</span>
+                                                    <span class="field-value">{{(isset($applicationData->eeApplicationSociety->name_of_architect) ? $applicationData->eeApplicationSociety->name_of_architect : '')}}</span>
                                                 </div>
                                             </div>
                                             <div class="col-sm-6 field-col">
                                                 <div class="d-flex">
                                                     <span class="field-name">Architect Mobile Number:</span>
-                                                    <span class="field-value">{{ $arrData['society_detail']->eeApplicationSociety->architect_mobile_no }}</span>
+                                                    <span class="field-value">{{(isset($applicationData->eeApplicationSociety->architect_mobile_no) ? $applicationData->eeApplicationSociety->architect_mobile_no : '')}}</span>
                                                 </div>
                                             </div>
                                             <div class="col-sm-6 field-col">
                                                 <div class="d-flex">
                                                     <span class="field-name">Architect Address:</span>
-                                                    <span class="field-value">{{ $arrData['society_detail']->eeApplicationSociety->architect_address }}</span>
+                                                    <span class="field-value">{{(isset($applicationData->eeApplicationSociety->architect_address) ? $applicationData->eeApplicationSociety->architect_address : '')}}</span>
                                                 </div>
                                             </div>
                                             <div class="col-sm-6 field-col">
                                                 <div class="d-flex">
                                                     <span class="field-name">Architect Telephone Number:</span>
-                                                    <span class="field-value">{{ $arrData['society_detail']->eeApplicationSociety->architect_telephone_no }}</span>
+                                                    <span class="field-value">{{(isset($applicationData->eeApplicationSociety->architect_telephone_no) ? $applicationData->eeApplicationSociety->architect_telephone_no : '')}}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -150,34 +150,30 @@
                                                 </h3>
                                             </div>
                                             <div class="remarks-suggestions">
-                                                <form action="{{ route('forward-application') }}" id="forwardApplication" method="post">
+                                                <form action="{{ route('dyce.forward_application_data') }}" id="forwardApplication" method="post">
                                                     @csrf
-                                                    <input type="hidden" name="application_id" value="{{ $arrData['society_detail']->id }}">
                                                     <input type="hidden" name="to_role_id" id="to_role_id">
 
                                                     <div class="m-form__group form-group">
                                                         <div class="m-radio-inline">
                                                             <label class="m-radio m-radio--primary">
-                                                                <input type="radio" name="remarks-suggestion" class="forward-application" value="1" checked> Forward Application
+                                                                <input type="radio" name="remarks_suggestion" id="forward" class="forward-application" value="1" onclick="showDropDown(this.id);" checked> Forward Application
                                                                 <span></span>
                                                             </label>
                                                             <label class="m-radio m-radio--primary">
-                                                                <input type="hidden" name="check_status" class="check_status" value="1">
-                                                                <input type="hidden" name="user_id" value="{{ isset($arrData['application_status']) ? $arrData['application_status']->user_id : '' }}">
-                                                                <input type="hidden" name="role_id" value="{{ isset($arrData['application_status']) ? $arrData['application_status']->role_id : '' }}">
-                                                                <input type="radio" name="remarks-suggestion" class="forward-application" value="0"> Revert Application
+                                                                <input type="radio" name="remarks_suggestion" id="remark" class="forward-application" value="0" onclick="showDropDown(this.id);"> Send Application to EE
                                                                 <span></span>
                                                             </label>
                                                         </div>
-                                                        <div class="form-group m-form__group row mt-3 parent-data">
+                                                        <div class="form-group m-form__group row mt-3 parent-data" id="select_dropdown">
                                                             <label class="col-form-label col-lg-2 col-sm-12">
                                                                 Forward To:
                                                             </label>
                                                             <div class="col-lg-4 col-md-9 col-sm-12">
                                                                 <select class="form-control m-bootstrap-select m_selectpicker" name="to_user_id" id="to_user_id">
-                                                                    @foreach($arrData['parentData'] as $parent)
-                                                                        <option value="{{ $parent->id }}" data-role="{{ $parent->role_id }}">{{ $parent->name }} ({{ $arrData['role_name'] }})</option>
-                                                                    @endforeach
+                                                                
+                                                                        <option value="" data-role=""></option>
+                                                                    
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -186,19 +182,20 @@
                                                             <textarea class="form-control form-control--custom" name="remark" id="remark" cols="30" rows="5"></textarea>
                                                         </div>
                                                         <div class="mt-3 btn-list">
-                                                            <button type="submit" class="btn btn-primary">Save</button>
-                                                            {{--<button type="submit" class="btn btn-primary">Sign & Forward</button>
-                                                            <button type="submit" class="btn btn-primary">Forward</button>--}}
+                                                            <button type="submit" id="submitBtn" class="btn btn-primary" style="display: none">Submit</button>
+                                                            <button type="submit" id="sign" class="btn btn-primary forwrdBtn">Sign</button>
+                                                            <button type="submit" class="btn btn-primary forwrdBtn">Sign & Forward</button>
+                                                            <button type="submit" class="btn btn-primary forwrdBtn">Forward</button>
                                                             <button type="button" class="btn btn-secondary">Cancel</button>
                                                         </div>
                                                     </div>
-                                                </form>
+                                                    <input type="hidden" name="applicationId" value="{{$applicationData->id}}">                                                   
+                                               </form>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -209,26 +206,21 @@
 @endsection
 
 @section('js')
-    <script>
-        $(".forward-application").change(function () {
-            var data = $(this).val();
+<script>
 
-            if(data == 1)
-            {
-                $(".parent-data").show();
-                $(".check_status").val(1)
-            }
-            else
-            {
-                $(".parent-data").hide();
-                $(".check_status").val(0);
-            }
-        });
+    function showDropDown(id){
 
-        $("#forwardApplication").on("submit", function () {
-            var id = $("#to_user_id").find('option:selected').attr("data-role");
+        if (id == 'remark') {
+            $("#select_dropdown").css("display","none");
+            $(".forwrdBtn").css("display","none");
+            $("#submitBtn").css("display","inline-block");
+        }    
+        else {
+            $("#select_dropdown").css("display","block");
+            $(".forwrdBtn").css("display","inline-block");
+            $("#submitBtn").css("display","none");
+        }    
+    }
+</script>
 
-            $("#to_role_id").val(id);
-        });
-    </script>
 @endsection

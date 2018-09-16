@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\EEDepartment;
 
 use App\OlApplication;
+use App\OlApplicationStatus;
 use App\OlChecklistScrutiny;
 use App\OlConsentVerificationDetails;
 use App\OlConsentVerificationQuestionMaster;
@@ -16,6 +17,7 @@ use App\OlTitBitVerificationDetails;
 use App\OlTitBitVerificationQuestionMaster;
 use App\SocietyOfferLetter;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -39,6 +41,28 @@ class EEController extends Controller
      */
     public function index(Request $request, Datatables $datatables)
     {
+//        dd(session()->get('role_id'));
+        $ee_application_data = OlApplication::with(['applicationLayoutUser', 'olApplicationStatus' => function ($q) {
+            $q->whereNull('to_user_id')
+                ->where('to_role_id', session()->get('role_id'))
+                ->where(function($q){
+                    $q->where('status_id', config('commanConfig.applicationStatus.in_process'))
+                        ->orWhere('status_id', config('commanConfig.applicationStatus.forward_to'));
+//                        ->orWhere('status_id', config('commanConfig.applicationStatus.revert_to'));
+                })
+                ->orderBy('id', 'desc')->first();
+        }, 'eeApplicationSociety'])
+            ->whereHas('olApplicationStatus', function ($q) {
+                $q->whereNull('to_user_id')
+                    ->where('to_role_id', session()->get('role_id'))
+                    ->where(function($q){
+                        $q->where('status_id', config('commanConfig.applicationStatus.in_process'))
+                            ->orWhere('status_id', config('commanConfig.applicationStatus.forward_to'));
+//                            ->orWhere('status_id', config('commanConfig.applicationStatus.revert_to'));
+                    });
+            })->get()->toArray();
+
+        dd($ee_application_data);
         $getData = $request->all();
 
         $columns = [
@@ -57,14 +81,39 @@ class EEController extends Controller
 
             DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
 
-            $ee_application_data = OlApplication::with(['olApplicationStatus' => function($q){
-                $q->where('user_id', Auth::user()->id)
-                    ->where('role_id', session()->get('role_id'));
-            }, 'eeApplicationSociety'])
-            ->whereHas('olApplicationStatus', function($q){
-                $q->where('user_id', Auth::user()->id)
-                    ->where('role_id', session()->get('role_id'));
-            });
+            if(session()->get('role_name') == "ee_junior_engineer") {
+                $ee_application_data = OlApplication::with(['applicationLayoutUser', 'olApplicationStatus' => function ($q) {
+                    $q->whereNull('to_user_id')
+                        ->where('to_role_id', session()->get('role_id'))
+                        ->where(function($q){
+                            $q->where('status_id', config('commanConfig.applicationStatus.in_process'))
+                                ->orWhere('status_id', config('commanConfig.applicationStatus.revert_to'));
+                        });
+                }, 'eeApplicationSociety'])
+                    ->whereHas('olApplicationStatus', function ($q) {
+                        $q->whereNull('to_user_id')
+                            ->where('to_role_id', session()->get('role_id'))
+                            ->where(function($q){
+                                $q->where('status_id', config('commanConfig.applicationStatus.in_process'))
+                                    ->orWhere('status_id', config('commanConfig.applicationStatus.revert_to'));
+                            });
+                    });
+            }
+            else {
+                $ee_application_data = OlApplication::with(['applicationLayoutUser', 'olApplicationStatus' => function ($q) {
+                    $q->where('to_user_id', Auth::user()->id)
+                        ->where('to_role_id', session()->get('role_id'))
+                        ->where(function($q){
+                            $q->where('status_id', config('commanConfig.applicationStatus.in_process'))
+                                ->orWhere('status_id', config('commanConfig.applicationStatus.forward_to'))
+                                ->orWhere('status_id', config('commanConfig.applicationStatus.revert_to'));
+                        });
+                }, 'eeApplicationSociety'])
+                    ->whereHas('olApplicationStatus', function ($q) {
+                        $q->where('to_user_id', Auth::user()->id)
+                            ->where('to_role_id', session()->get('role_id'));
+                    });
+            }
 
             /*if($request->office_date_from)
             {
@@ -121,28 +170,83 @@ class EEController extends Controller
     }
 
     public function getForwardApplicationForm(){
-        $arrData['society_detail'] = OlApplication::with('eeApplicationSociety')->first();
+        $arrData['society_detail'] = OlApplication::with('eeApplicationSociety')->where('id', 2)->first();
         $user = User::with(['roles.parent.parentUser'])->where('id', Auth::user()->id)->first();
         $roles = array_get($user, 'roles');
         $parent = array_get($roles[0], 'parent');
         $arrData['parentData'] = array_get($parent, 'parentUser');
         $arrData['role_name'] = strtoupper(str_replace('_', ' ', $parent['name']));
 
+        $arrData['application_status'] = OlApplicationStatus::where('application_id', 1)
+                                                ->whereNotNull('to_user_id')
+                                                ->whereNotNull('to_role_id')->orderBy('id', 'desc')->first();
+//        dd($arrData['application_status']);
+
+
         return view('admin.ee_department.forward-application', compact('arrData'));
     }
 
     public function forwardApplication(Request $request)
     {
-        dd($request->all());
-        $forward_application = [
-            'application_id' => '',
-            'user_id' => Auth::user()->id,
-            'role_id' => session()->get('role_id'),
-            'status_id' => '',
-            'to_user_id' => '',
-            'remark' => $request->remark,
-        ];
+        if($request->check_status == 1) {
+            $forward_application = [[
+                'application_id' => $request->application_id,
+                'user_id' => Auth::user()->id,
+                'role_id' => session()->get('role_id'),
+                'status_id' => config('commanConfig.applicationStatus.forward_to'),
+                'to_user_id' => $request->to_user_id,
+                'to_role_id' => $request->to_role_id,
+                'remark' => $request->remark,
+                'created_at' => Carbon::now()
+            ],
 
+                [
+                    'application_id' => $request->application_id,
+                    'user_id' => $request->to_user_id,
+                    'role_id' => $request->to_role_id,
+                    'status_id' => config('commanConfig.applicationStatus.in_process'),
+                    'to_user_id' => NULL,
+                    'to_role_id' => NULL,
+                    'remark' => $request->remark,
+                    'created_at' => Carbon::now()
+                ]
+            ];
+
+//            echo "in forward";
+//            dd($forward_application);
+            OlApplicationStatus::insert($forward_application);
+        }
+        else{
+            $revert_application = [
+                [
+                    'application_id' => $request->application_id,
+                    'user_id' => Auth::user()->id,
+                    'role_id' => session()->get('role_id'),
+                    'status_id' => config('commanConfig.applicationStatus.revert_to'),
+                    'to_user_id' => $request->user_id,
+                    'to_role_id' => $request->role_id,
+                    'remark' => $request->remark,
+                    'created_at' => Carbon::now()
+                ],
+
+                [
+                    'application_id' => $request->application_id,
+                    'user_id' => $request->user_id,
+                    'role_id' => $request->role_id,
+                    'status_id' => config('commanConfig.applicationStatus.in_process'),
+                    'to_user_id' => NULL,
+                    'to_role_id' => session()->has('child') ? session()->get('child') : NULL,
+                    'remark' => $request->remark,
+                    'created_at' => Carbon::now()
+                ]
+            ];
+
+//            echo "in revert";
+//            dd($revert_application);
+            OlApplicationStatus::insert($revert_application);
+        }
+
+        return redirect()->back();
 
         // insert into ol_application_status_log table
     }
