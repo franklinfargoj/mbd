@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\EEDepartment;
 
 use App\OlApplication;
+use App\OlChecklistScrutiny;
+use App\OlConsentVerificationDetail;
+use App\OlConsentVerificationQuestionMaster;
 use App\OlSocietyDocumentsMaster;
 use App\OlSocietyDocumentsStatus;
 use App\SocietyOfferLetter;
@@ -140,12 +143,17 @@ class EEController extends Controller
 
     public function scrutinyRemarkByEE()
     {
+        // Document Scrutiny
         $arrData['society_detail'] = OlApplication::with('eeApplicationSociety')->first();
         $arrData['society_document'] = OlSocietyDocumentsMaster::get();
         $document_status_data = SocietyOfferLetter::with('societyDocuments')->first();
-
         $arrData['society_document_data'] = array_get($document_status_data,'societyDocuments')->keyBy('document_id')->toArray();
 //        dd($arrData['society_document_data']);
+
+        // Checklist Scrutiny
+
+        $arrData['consent_verification_question'] = OlConsentVerificationQuestionMaster::all();
+
         return view('admin.ee_department.scrutiny-remark', compact('arrData'));
     }
 
@@ -250,55 +258,62 @@ class EEController extends Controller
 
     public function consentVerification(Request $request)
     {
+//        dd($request->all());
         $ee_checklist_scrutiny = [
-            'application_id' => '',
+            'application_id' => $request->application_id,
             'user_id' => Auth::user()->id,
             'verification_type' => 'CONSENT VERIFICATION',
             'layout' => $request->layout,
             'details_of_notice' => $request->details_of_notice,
             'investigation_officer_name' => $request->investigation_officer_name,
-            'date_of_investigation' => $request->date_of_investigation
+            'date_of_investigation' => date('Y-m-d H:i:s', strtotime($request->date_of_investigation))
         ];
 
         // insert into ol_application_checklist_scrunity_details table
 
-        $ee_consent_verification = [
-            'application_id' => '',
-            'user_id' => Auth::user()->id,
-            'question_id' => $request->question_id,
-            'answer' => $request->answer,
-            'remark' => $request->remark
-        ];
+        OlChecklistScrutiny::insert($ee_checklist_scrutiny);
 
+        foreach($request->question_id as $key => $consent_data) {
+            $ee_consent_verification[] = [
+                'application_id' => $request->application_id,
+                'user_id' => Auth::user()->id,
+                'question_id' => $request->question_id[$key],
+                'answer' => $request->answer[$key],
+                'remark' => $request->remark[$key]
+            ];
+        }
         // insert into ol_consent_verification_details table
 
-        $ee_demarcation = [
+        OlConsentVerificationDetail::insert($ee_consent_verification);
+
+        return redirect()->back();
+        /*$ee_demarcation = [
             'application_id' => '',
             'user_id' => Auth::user()->id,
             'question_id' => $request->question_id,
             'answer' => $request->answer,
             'remark' => $request->remark
-        ];
+        ];*/
 
         // insert into ol_demarcation_details table
 
-        $ee_tit_bit = [
+        /*$ee_tit_bit = [
             'application_id' => '',
             'user_id' => Auth::user()->id,
             'question_id' => $request->question_id,
             'answer' => $request->answer,
             'remark' => $request->remark
-        ];
+        ];*/
 
         // insert into ol_tit_bit_details table
 
-        $ee_rg_location = [
+        /*$ee_rg_location = [
             'application_id' => '',
             'user_id' => Auth::user()->id,
             'question_id' => $request->question_id,
             'answer' => $request->answer,
             'remark' => $request->remark
-        ];
+        ];*/
 
         // insert into ol_rg_relocation_details table
     }

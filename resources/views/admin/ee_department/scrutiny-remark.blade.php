@@ -342,126 +342,209 @@
                                                     </li>
                                                 </ul>
                                             </div>
-                                            <form class="form--custom" action="" method="post">
-                                                <div class="row">
-                                                    <div class="col-sm-6">
-                                                        <div class="form-group row">
-                                                            <div class="col-sm-4 d-flex align-items-center">
-                                                                <label for="name">संस्थेचे नाव:</label>
-                                                            </div>
-                                                            <div class="col-sm-8">
-                                                                <input type="text" class="form-control form-control--custom"
-                                                                       id="name">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-6">
-                                                        <div class="form-group row">
-                                                            <div class="col-sm-4 d-flex align-items-center">
-                                                                <label for="building-no">इमारत क्र:</label>
-                                                            </div>
-                                                            <div class="col-sm-8">
-                                                                <input type="text" class="form-control form-control--custom"
-                                                                       id="building-no" placeholder="">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-6">
-                                                        <div class="form-group row">
-                                                            <div class="col-sm-4 d-flex align-items-center">
-                                                                <label for="name">अभिन्यास (Layout):</label>
-                                                            </div>
-                                                            <div class="col-sm-8">
-                                                                <input type="text" class="form-control form-control--custom"
-                                                                       id="name">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-6">
-                                                        <div class="form-group row">
-                                                            <div class="col-sm-4 d-flex align-items-center">
-                                                                <label for="building-no">नोटीस चा तपशील:</label>
-                                                            </div>
-                                                            <div class="col-sm-8">
-                                                                <input type="text" class="form-control form-control--custom"
-                                                                       id="building-no" placeholder="">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-6">
-                                                        <div class="form-group row">
-                                                            <div class="col-sm-4 d-flex align-items-center">
-                                                                <label for="name">तपासणी अधिकाऱ्यांचे नाव:</label>
-                                                            </div>
-                                                            <div class="col-sm-8">
-                                                                <input type="text" class="form-control form-control--custom"
-                                                                       id="name">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div id="scrunity-check-date" class="col-sm-6">
-                                                        <div class="form-group row">
-                                                            <div class="col-sm-4 d-flex align-items-center">
-                                                                <label for="building-no">तपासणी दिनांक:</label>
-                                                            </div>
-                                                            <div class="col-sm-8">
-                                                                <input type="text" class="form-control form-control--custom"
-                                                                       id="building-no" placeholder="">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div id="scrunity-place-date" class="col-sm-6">
-                                                        <div class="form-group row">
-                                                            <div class="col-sm-4 d-flex align-items-center">
-                                                                <label for="building-no">स्थळ पाहणी दिनांक:</label>
-                                                            </div>
-                                                            <div class="col-sm-8">
-                                                                <input type="text" class="form-control form-control--custom"
-                                                                       id="building-no" placeholder="">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
                                         </div>
                                         <div class="tab-content">
                                             <div class="tab-pane active" id="verification">
-                                                <div class="table-checklist m-portlet__body m-portlet__body--table">
-                                                    <div class="table-responsive">
-                                                        <table class="table">
-                                                            <thead class="thead-default">
-                                                            <th>#</th>
-                                                            <th class="table-data--xl">मुद्दा / तपशील</th>
-                                                            <th>होय</th>
-                                                            <th>नाही</th>
-                                                            <th>शेरा</th>
-                                                            </thead>
-                                                            <tbody>
-                                                            <tr>
-                                                                <td>1.</td>
-                                                                <td>७०% सभासदांनी पुनर्विकासास सहमती दर्शविली आहे
-                                                                    काय ?</td>
-                                                                <td>
-                                                                    <label class="m-radio m-radio--primary">
-                                                                        <input type="radio" name="one">
-                                                                        <span></span>
-                                                                    </label>
-                                                                </td>
-                                                                <td>
-                                                                    <label class="m-radio m-radio--primary">
-                                                                        <input type="radio" name="one">
-                                                                        <span></span>
-                                                                    </label></td>
-                                                                <td>
-                                                                    <textarea class="form-control form-control--custom form-control--textarea"
-                                                                              name="remark-one" id="remark-one"></textarea>
-                                                                </td>
-                                                            </tr>
-                                                            </tbody>
-                                                        </table>
+                                                <form class="form--custom" action="{{ route('consent-verfication') }}" method="post">
+                                                    @csrf
+                                                    <div class="row">
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group row">
+                                                                <div class="col-sm-4 d-flex align-items-center">
+                                                                    <label for="name">संस्थेचे नाव:</label>
+                                                                </div>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" value="{{ $arrData['society_detail']->eeApplicationSociety->name }}" class="form-control form-control--custom"
+                                                                          disabled id="name">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group row">
+                                                                <div class="col-sm-4 d-flex align-items-center">
+                                                                    <label for="building-no">इमारत क्र:</label>
+                                                                </div>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" class="form-control form-control--custom"
+                                                                         disabled value="{{ $arrData['society_detail']->eeApplicationSociety->building_no }}"  id="building-no" placeholder="">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group row">
+                                                                <div class="col-sm-4 d-flex align-items-center">
+                                                                    <label for="name">अभिन्यास (Layout):</label>
+                                                                </div>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" class="form-control form-control--custom"
+                                                                           name="layout" id="name" required>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group row">
+                                                                <div class="col-sm-4 d-flex align-items-center">
+                                                                    <label for="notice_detail">नोटीस चा तपशील:</label>
+                                                                </div>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" class="form-control form-control--custom"
+                                                                           name="details_of_notice" id="notice_detail" placeholder="" required>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group row">
+                                                                <div class="col-sm-4 d-flex align-items-center">
+                                                                    <label for="investigation_officer">तपासणी अधिकाऱ्यांचे नाव:</label>
+                                                                </div>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" class="form-control form-control--custom"
+                                                                           name="investigation_officer_name" id="investigation_officer" required>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="scrunity-check-date" class="col-sm-6">
+                                                            <div class="form-group row">
+                                                                <div class="col-sm-4 d-flex align-items-center">
+                                                                    <label for="m_datepicker">तपासणी दिनांक:</label>
+                                                                </div>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" class="form-control form-control--custom"
+                                                                           name="date_of_investigation" id="m_datepicker" required placeholder="">
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                    <div class="table-checklist m-portlet__body m-portlet__body--table">
+                                                        <div class="table-responsive">
+                                                            <table class="table">
+                                                                <thead class="thead-default">
+                                                                <th>#</th>
+                                                                <th class="table-data--xl">मुद्दा / तपशील</th>
+                                                                <th>होय</th>
+                                                                <th>नाही</th>
+                                                                <th>शेरा</th>
+                                                                </thead>
+                                                                <tbody>
+                                                                @php
+                                                                    $i = 1;
+                                                                @endphp
+
+                                                                <input type="hidden" name="application_id" value="{{ $arrData['society_detail']->id }}">
+                                                                @foreach($arrData['consent_verification_question'] as $consent_question)
+                                                                    <input type="hidden" name="question_id[{{$i}}]" value="{{ $consent_question->id }}">
+                                                                    <tr>
+                                                                        <td>{{ $i }}.</td>
+                                                                        <td>{{ $consent_question->question }}</td>
+                                                                        <td>
+                                                                            <label class="m-radio m-radio--primary">
+                                                                                <input type="radio" name="answer[{{$i}}]" value="1" checked>
+                                                                                <span></span>
+                                                                            </label>
+                                                                        </td>
+                                                                        <td>
+                                                                            <label class="m-radio m-radio--primary">
+                                                                                <input type="radio" name="answer[{{$i}}]" value="0">
+                                                                                <span></span>
+                                                                            </label></td>
+                                                                        <td>
+                                                                            <textarea class="form-control form-control--custom form-control--textarea"
+                                                                                      name="remark[{{$i}}]" id="remark-one"></textarea>
+                                                                        </td>
+                                                                    </tr>
+                                                                    @php
+                                                                        $i++;
+                                                                    @endphp
+                                                                @endforeach
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                    <button type="submit" class="btn btn-primary">Save</button>
+                                                </form>
                                             </div>
                                             <div class="tab-pane" id="demarcation">
+                                                <form class="form--custom" action="" method="post">
+                                                    <div class="row">
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group row">
+                                                                <div class="col-sm-4 d-flex align-items-center">
+                                                                    <label for="name">संस्थेचे नाव:</label>
+                                                                </div>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" class="form-control form-control--custom"
+                                                                           id="name">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group row">
+                                                                <div class="col-sm-4 d-flex align-items-center">
+                                                                    <label for="building-no">इमारत क्र:</label>
+                                                                </div>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" class="form-control form-control--custom"
+                                                                           id="building-no" placeholder="">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group row">
+                                                                <div class="col-sm-4 d-flex align-items-center">
+                                                                    <label for="name">अभिन्यास (Layout):</label>
+                                                                </div>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" class="form-control form-control--custom"
+                                                                           id="name">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group row">
+                                                                <div class="col-sm-4 d-flex align-items-center">
+                                                                    <label for="building-no">नोटीस चा तपशील:</label>
+                                                                </div>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" class="form-control form-control--custom"
+                                                                           id="building-no" placeholder="">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group row">
+                                                                <div class="col-sm-4 d-flex align-items-center">
+                                                                    <label for="name">तपासणी अधिकाऱ्यांचे नाव:</label>
+                                                                </div>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" class="form-control form-control--custom"
+                                                                           id="name">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="scrunity-check-date" class="col-sm-6">
+                                                            <div class="form-group row">
+                                                                <div class="col-sm-4 d-flex align-items-center">
+                                                                    <label for="building-no">तपासणी दिनांक:</label>
+                                                                </div>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" class="form-control form-control--custom"
+                                                                           id="building-no" placeholder="">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="scrunity-place-date" class="col-sm-6">
+                                                            <div class="form-group row">
+                                                                <div class="col-sm-4 d-flex align-items-center">
+                                                                    <label for="building-no">स्थळ पाहणी दिनांक:</label>
+                                                                </div>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" class="form-control form-control--custom"
+                                                                           id="building-no" placeholder="">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
                                                 <div class="table-checklist m-portlet__body m-portlet__body--table">
                                                     <div class="table-responsive">
                                                         <table class="table">
@@ -499,6 +582,87 @@
                                                 </div>
                                             </div>
                                             <div class="tab-pane" id="tit-bit">
+                                                <form class="form--custom" action="" method="post">
+                                                    <div class="row">
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group row">
+                                                                <div class="col-sm-4 d-flex align-items-center">
+                                                                    <label for="name">संस्थेचे नाव:</label>
+                                                                </div>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" class="form-control form-control--custom"
+                                                                           id="name">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group row">
+                                                                <div class="col-sm-4 d-flex align-items-center">
+                                                                    <label for="building-no">इमारत क्र:</label>
+                                                                </div>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" class="form-control form-control--custom"
+                                                                           id="building-no" placeholder="">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group row">
+                                                                <div class="col-sm-4 d-flex align-items-center">
+                                                                    <label for="name">अभिन्यास (Layout):</label>
+                                                                </div>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" class="form-control form-control--custom"
+                                                                           id="name">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group row">
+                                                                <div class="col-sm-4 d-flex align-items-center">
+                                                                    <label for="building-no">नोटीस चा तपशील:</label>
+                                                                </div>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" class="form-control form-control--custom"
+                                                                           id="building-no" placeholder="">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group row">
+                                                                <div class="col-sm-4 d-flex align-items-center">
+                                                                    <label for="name">तपासणी अधिकाऱ्यांचे नाव:</label>
+                                                                </div>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" class="form-control form-control--custom"
+                                                                           id="name">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="scrunity-check-date" class="col-sm-6">
+                                                            <div class="form-group row">
+                                                                <div class="col-sm-4 d-flex align-items-center">
+                                                                    <label for="building-no">तपासणी दिनांक:</label>
+                                                                </div>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" class="form-control form-control--custom"
+                                                                           id="building-no" placeholder="">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="scrunity-place-date" class="col-sm-6">
+                                                            <div class="form-group row">
+                                                                <div class="col-sm-4 d-flex align-items-center">
+                                                                    <label for="building-no">स्थळ पाहणी दिनांक:</label>
+                                                                </div>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" class="form-control form-control--custom"
+                                                                           id="building-no" placeholder="">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
                                                 <div class="table-checklist m-portlet__body m-portlet__body--table">
                                                     <div class="table-responsive">
                                                         <table class="table">
@@ -536,6 +700,87 @@
                                                 </div>
                                             </div>
                                             <div class="tab-pane" id="relocation">
+                                                <form class="form--custom" action="" method="post">
+                                                    <div class="row">
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group row">
+                                                                <div class="col-sm-4 d-flex align-items-center">
+                                                                    <label for="name">संस्थेचे नाव:</label>
+                                                                </div>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" class="form-control form-control--custom"
+                                                                           id="name">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group row">
+                                                                <div class="col-sm-4 d-flex align-items-center">
+                                                                    <label for="building-no">इमारत क्र:</label>
+                                                                </div>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" class="form-control form-control--custom"
+                                                                           id="building-no" placeholder="">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group row">
+                                                                <div class="col-sm-4 d-flex align-items-center">
+                                                                    <label for="name">अभिन्यास (Layout):</label>
+                                                                </div>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" class="form-control form-control--custom"
+                                                                           id="name">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group row">
+                                                                <div class="col-sm-4 d-flex align-items-center">
+                                                                    <label for="building-no">नोटीस चा तपशील:</label>
+                                                                </div>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" class="form-control form-control--custom"
+                                                                           id="building-no" placeholder="">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group row">
+                                                                <div class="col-sm-4 d-flex align-items-center">
+                                                                    <label for="name">तपासणी अधिकाऱ्यांचे नाव:</label>
+                                                                </div>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" class="form-control form-control--custom"
+                                                                           id="name">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="scrunity-check-date" class="col-sm-6">
+                                                            <div class="form-group row">
+                                                                <div class="col-sm-4 d-flex align-items-center">
+                                                                    <label for="building-no">तपासणी दिनांक:</label>
+                                                                </div>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" class="form-control form-control--custom"
+                                                                           id="building-no" placeholder="">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="scrunity-place-date" class="col-sm-6">
+                                                            <div class="form-group row">
+                                                                <div class="col-sm-4 d-flex align-items-center">
+                                                                    <label for="building-no">स्थळ पाहणी दिनांक:</label>
+                                                                </div>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" class="form-control form-control--custom"
+                                                                           id="building-no" placeholder="">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
                                                 <div class="table-checklist m-portlet__body m-portlet__body--table">
                                                     <div class="table-responsive">
                                                         <table class="table">

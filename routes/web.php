@@ -53,15 +53,18 @@ Route::resource('/rti_frontend', 'RtiFrontEndController');
 //Society Offer Letter
 Route::post('society_offer_letter/forgot_password','SocietyOfferLetterController@forgot_password')->name('society_offer_letter_forgot_password');
 Route::get('/society_offer_letter_dashboard', 'SocietyOfferLetterController@dashboard')->name('society_offer_letter_dashboard');
-Route::get('/offer_letter_application_form_self', 'SocietyOfferLetterController@show_offer_letter_application_self')->name('offer_letter_application_self');
+Route::get('/offer_letter_application_form_self/{id}', 'SocietyOfferLetterController@show_offer_letter_application_self')->name('offer_letter_application_self');
 Route::post('/save_offer_letter_application_form_self', 'SocietyOfferLetterController@save_offer_letter_application_self')->name('save_offer_letter_application_self');
-Route::get('/offer_letter_application_form_dev', 'SocietyOfferLetterController@show_offer_letter_application_dev')->name('offer_letter_application_dev');
+Route::get('/offer_letter_application_form_dev/{id}', 'SocietyOfferLetterController@show_offer_letter_application_dev')->name('offer_letter_application_dev');
 Route::post('/save_offer_letter_application_form_dev', 'SocietyOfferLetterController@save_offer_letter_application_dev')->name('save_offer_letter_application_dev');
 Route::get('documents_upload','SocietyOfferLetterController@displaySocietyDocuments')->name('documents_upload');
 Route::post('uploaded_documents','SocietyOfferLetterController@uploadSocietyDocuments')->name('uploaded_documents');
 Route::get('delete_uploaded_documents/{id}','SocietyOfferLetterController@deleteSocietyDocuments');
 Route::post('add_uploaded_documents_comment','SocietyOfferLetterController@addSocietyDocumentsComment')->name('add_documents_comment');
-Route::get('society_offer_letter_download','SocietyOfferLetterController@displayOfferLetterApplication')->name('society_offer_letter_download');
+// Route::get('society_offer_letter_download', function(){
+//     return view('frontend.society.upload_society_offer_letter_after_sign');
+// });
+Route::get('society_offer_letter_download','SocietyOfferLetterController@uploadOfferLetterAfterSign')->name('society_offer_letter_download');
 Route::post('upload_society_offer_letter','SocietyOfferLetterController@uploadOfferLetterAfterSign')->name('upload_society_offer_letter');
 
 Route::resource('/society_offer_letter', 'SocietyOfferLetterController');
@@ -138,8 +141,11 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('get-forward-application', 'EEDepartment\EEController@getForwardApplicationForm')->name('get-forward-application');
     Route::post('/forward-application', 'EEDepartment\EEController@forwardApplication')->name('forward-application');
 
+
+
 });
 
+Route::post('/consent-verfication', 'EEDepartment\EEController@consentVerification')->name('consent-verfication');
 
 Route::get('architect_application','ArchitectApplicationController@index')->name('architect_application');
 Route::get('shortlisted_architect_application','ArchitectApplicationController@shortlistedIndex')->name('shortlisted_architect_application');
