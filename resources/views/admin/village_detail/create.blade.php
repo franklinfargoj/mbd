@@ -1,16 +1,13 @@
 @extends('admin.layouts.app')
 @section('content')
-    <div class="m-subheader ">
-        <div class="d-flex align-items-center">
-            <div class="mr-auto">
-                <h3 class="m-subheader__title m-subheader__title--separator">Add Village </h3>
-            </div>
+    <div class="m-subheader px-0 m-subheader--top">
+        <div class="d-flex justify-content-center">
+                <h3 class="m-subheader__title">Village Details</h3>
             <div>
             </div>
         </div>
     </div>
     <!-- END: Subheader -->
-    <div class="m-content"></div>
     <div class="m-portlet m-portlet--mobile">
         <div class="m-portlet__head">
             <div class="m-portlet__head-caption">
@@ -21,9 +18,9 @@
                 </div>
             </div>
         </div>
-        <form id="addVillageDetail" role="form" method="post" class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" action="{{route('village_detail.store')}}" enctype="multipart/form-data">
+        <form id="addVillageDetail" role="form" method="post" class="m-form m-form--label-align-right" action="{{route('village_detail.store')}}" enctype="multipart/form-data">
             @csrf
-            <div class="m-portlet__body">
+            <div class="m-portlet__body m-portlet__body--spaced">
                 <div class="form-group m-form__group row">
                     <div class="col-lg-6 form-group">
                         <label class="col-form-label" for="board_id">Board:</label>

@@ -13,6 +13,7 @@ use App\Http\Requests\resolution\UpdateResolutionRequest;
 use Yajra\DataTables\DataTables;
 use DB;
 use App\Department;
+use Illuminate\Support\Facades\Storage;
 
 class ResolutionController extends Controller
 {
@@ -136,6 +137,7 @@ class ResolutionController extends Controller
 
     public function create()
     {
+
         $boards = Board::where('status', 1)->get()->toArray();
         $resolutionTypes = ResolutionType::all()->toArray();
         $header_data = $this->header_data;
@@ -156,7 +158,9 @@ class ResolutionController extends Controller
             'published_date' => $request->published_date,
             'revision_log_message' => $request->revision_log_message
         ];
-        
+
+
+        // dd($request->toArray());
         $uploadPath = '/uploads/resolutions';
         $destinationPath = public_path($uploadPath);
                 
@@ -164,12 +168,15 @@ class ResolutionController extends Controller
         {
             $file = $request->file('file');
             $file_name = time().$file->getFileName().'.'.$file->getClientOriginalExtension();
+            
+            Storage::disk('ftp')->putFileAs('Resolution',$request->file('file'),$file_name);
             if($file->move($destinationPath, $file_name))
             {
                 $dataToInsert['filepath'] = $uploadPath.'/';
                 $dataToInsert['filename'] = $file_name;
             }
         }
+        // dd($dataToInsert);
         Resolution::create($dataToInsert);
 
         return redirect('resolution')->with(['success'=> 'Record added succesfully']);
