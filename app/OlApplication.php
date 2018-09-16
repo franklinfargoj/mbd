@@ -10,6 +10,7 @@ class OlApplication extends Model
     protected $fillable = [
         'language_id',
         'society_id',
+        'layout_id',
         'request_form_id',
         'application_master_id',
         'application_no',
@@ -39,5 +40,10 @@ class OlApplication extends Model
 
     public function ol_application_master(){
        return $this->hasOne(OlApplicationMaster::class, 'id'); 
+    }
+
+    public function applicationLayoutUser()
+    {
+        return $this->hasMany('App\LayoutUser', 'layout_id','layout_id');
     }
 }

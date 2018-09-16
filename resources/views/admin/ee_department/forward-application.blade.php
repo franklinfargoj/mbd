@@ -162,7 +162,10 @@
                                                                 <span></span>
                                                             </label>
                                                             <label class="m-radio m-radio--primary">
-                                                                <input type="radio" name="remarks-suggestion" class="forward-application" value="0"> Send Application
+                                                                <input type="hidden" name="check_status" class="check_status" value="1">
+                                                                <input type="hidden" name="user_id" value="{{ isset($arrData['application_status']) ? $arrData['application_status']->user_id : '' }}">
+                                                                <input type="hidden" name="role_id" value="{{ isset($arrData['application_status']) ? $arrData['application_status']->role_id : '' }}">
+                                                                <input type="radio" name="remarks-suggestion" class="forward-application" value="0"> Revert Application
                                                                 <span></span>
                                                             </label>
                                                         </div>
@@ -213,10 +216,12 @@
             if(data == 1)
             {
                 $(".parent-data").show();
+                $(".check_status").val(1)
             }
             else
             {
                 $(".parent-data").hide();
+                $(".check_status").val(0);
             }
         });
 
