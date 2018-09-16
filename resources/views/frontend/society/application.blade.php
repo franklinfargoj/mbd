@@ -2,15 +2,11 @@
 @section('content')
 <!-- BEGIN: Subheader -->
 <div class="m-subheader ">
-  <div class="d-flex align-items-center">
-     <div class="mr-auto">
-        <h3 class="m-subheader__title m-subheader__title--separator title">
-        Applications for Redevelopment </h3>
-     </div>
+  <div class="d-flex">
+        <h3 class="m-subheader__title px-0">Applications for Redevelopment </h3>
   </div>
 </div>
  <!-- END: Subheader -->           
-<div class="m-content"></div>
  <div class="m-portlet m-portlet--mobile">
     <div class="m-portlet__body">
         <div class="col-xs-12 div_panel">
@@ -38,7 +34,7 @@
         <div class="col-xs-12 self_premium" id="self_premium">
           <span class="App_head"> List of Applications for Redevelopment - Self Redevelopment </span>
           <div class="options">
-            <p> <a href="{{ url('/offer_letter_application_form_self/'.$self_premium) }}"> New - Offer Letter </a></p>
+            <p> <a href=""> New - Offer Letter </a></p>
             <p> Revalidation of offer Letter </p>
             <p> Application for NOC </p>
             <p> Consent for OC </p>
@@ -48,7 +44,7 @@
         <div class="col-xs-12 self_premium" id="self_sharing">
           <span class="App_head"> List of Applications for Redevelopment - Self Redevelopment</span>
           <div class="options">
-            <p> <a href="{{ url('/offer_letter_application_form_self/'.$self_sharing) }}"> New - Offer Letter </a></p>
+            <p> <a href=""> New - Offer Letter </a></p>
             <p> Revalidation of offer Letter </p>
             <p> Application for NOC - IOD </p>
             <p> Tripartite Agreement </p>
@@ -60,7 +56,7 @@
         <div class="col-xs-12 self_premium" id="dev_premium">
           <span class="App_head"> List of Applications for Redevelopment - Redevelopment Thorugh Developer</span>
           <div class="options">
-            <p> <a href="{{ url('/offer_letter_application_form_dev/'.$dev_premium) }}"> New - Offer Letter </a></p>
+            <p> <a href=""> New - Offer Letter </a></p>
             <p> Revalidation of offer Letter </p>
             <p> Application for NOC </p>
             <p> Consent for OC </p>
@@ -70,7 +66,7 @@
         <div class="col-xs-12 self_premium" id="dev_sharing">
           <span class="App_head"> List of Applications for Redevelopment - Redevelopment Thorugh Developer</span>
           <div class="options">
-            <p> <a href="{{ url('/offer_letter_application_form_dev/'.$dev_sharing) }}"> New - Offer Letter </a></p>
+            <p> <a href=""> New - Offer Letter </a></p>
             <p> Revalidation of offer Letter </p>
             <p> Application for NOC - IOD </p>
             <p> Tripartite Agreement </p>
