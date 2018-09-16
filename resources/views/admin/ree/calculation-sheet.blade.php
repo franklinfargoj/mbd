@@ -5,7 +5,7 @@
     <div class="col-md-12">
         <div class="m-portlet__head">
             <div class="m-portlet__head-tools">
-                <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x justify-content-center nav-tabs--custom"
+                <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom"
                     role="tablist">
                     <li class="nav-item m-tabs__item">
                         <a class="nav-link m-tabs__link active show" data-toggle="tab" href="#one" role="tab"
@@ -853,7 +853,7 @@
                                                     <div class="custom-file">
                                                         <input class="custom-file-input" name="" type="file" id="test-upload"
                                                             required="">
-                                                        <label class="custom-file-label" for="test-upload">Choose file...</label>
+                                                        <label class="custom-file-label" for="test-upload">Choose file ...</label>
                                                     </div>
                                                     <div class="mt-auto">
                                                         <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>

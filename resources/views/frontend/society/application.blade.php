@@ -1,81 +1,89 @@
 @extends('admin.layouts.app')
 @section('content')
-<!-- BEGIN: Subheader -->
-<div class="m-subheader ">
-  <div class="d-flex">
-        <h3 class="m-subheader__title px-0">Applications for Redevelopment </h3>
+<div class="col-md-12">
+  <!-- BEGIN: Subheader -->
+  <div class="m-subheader px-0 m-subheader--top">
+      <div class="d-flex justify-content-center">
+          <h3 class="m-subheader__title">Applications for Redevelopment</h3>
+      </div>
   </div>
-</div>
- <!-- END: Subheader -->           
- <div class="m-portlet m-portlet--mobile">
-    <div class="m-portlet__body">
-        <div class="col-xs-12 div_panel">
-          <div class="col-xs-12 t_main">
-            <span class="t_head">Type of Applications for Redevelopment</span>
-          </div>
-          <div class="col-md-12 row"> 
-            <div class="col-md-6 d_left" style="">
-              <button type="button" class="btn border5 border555" id="selfBtn">
-                Self Redevelopment</button>
-                <button type="button" class="btn premium_btn self" id="selfPremBtn">
-                Premium </button>
-                <button type="button" class="btn premium_btn m_btn self" id="selfSharingBtn">Sharing </button>
+  <!-- END: Subheader -->           
+  <div class="m-portlet m-portlet--bordered-semi mb-0 m-portlet--shadow">
+    <div class="portlet-body">
+      <div class="m-portlet__body m-portlet__body--table">
+        <div class="m-subheader" style="padding: 0;">
+            <div class="d-flex align-items-center justify-content-center">
+                <h3 class="section-title">
+                  Type of Applications for Redevelopment
+                </h3>
             </div>
-
-            <div class="col-md-6 d_right">
-              <button type="button" class="btn border5 border555 btn2" id="redvlpBtn">Redevelopment Thorugh Developer</button>
-                <button type="button" class="btn premium_btn m_btn re_dev" id="devPremBtn">
-                Premium </button>
-                <button type="button" class="btn premium_btn m_btn re_dev" id="devSharingBtn">Sharing </button>              
-            </div>
-          </div> 
-        </div>  
-
-        <div class="col-xs-12 self_premium" id="self_premium">
-          <span class="App_head"> List of Applications for Redevelopment - Self Redevelopment </span>
-          <div class="options">
-            <p> <a href=""> New - Offer Letter </a></p>
-            <p> Revalidation of offer Letter </p>
-            <p> Application for NOC </p>
-            <p> Consent for OC </p>
-          </div>
-        </div>        
-
-        <div class="col-xs-12 self_premium" id="self_sharing">
-          <span class="App_head"> List of Applications for Redevelopment - Self Redevelopment</span>
-          <div class="options">
-            <p> <a href=""> New - Offer Letter </a></p>
-            <p> Revalidation of offer Letter </p>
-            <p> Application for NOC - IOD </p>
-            <p> Tripartite Agreement </p>
-            <p> Application for CC </p>
-            <p> Consent for OC </p>
-          </div>
         </div>
-
-        <div class="col-xs-12 self_premium" id="dev_premium">
-          <span class="App_head"> List of Applications for Redevelopment - Redevelopment Thorugh Developer</span>
-          <div class="options">
-            <p> <a href=""> New - Offer Letter </a></p>
-            <p> Revalidation of offer Letter </p>
-            <p> Application for NOC </p>
-            <p> Consent for OC </p>
+          <div class="container-fluid">
+            <div class="row"> 
+              <div class="col-md-6">
+                <button type="button" class="btn btn-block btn-primary" id="selfBtn">
+                  Self Redevelopment</button>
+                  <div class="d-flex justify-content-center mt-4">                    
+                    <button type="button" class="btn btn-metal self flex-grow-1" id="selfPremBtn">Premium</button>
+                    <button type="button" class="btn btn-metal m_btn self flex-grow-1" id="selfSharingBtn">Sharing</button>
+                  </div>
+              </div>
+              <div class="col-md-6">
+                <button type="button" class="btn btn-block btn-primary" id="redvlpBtn">Redevelopment Thorugh Developer</button>
+                <div class="d-flex justify-content-center mt-4">                    
+                  <button type="button" class="btn btn-metal m_btn re_dev flex-grow-1" id="devPremBtn">Premium</button>
+                  <button type="button" class="btn btn-metal m_btn re_dev flex-grow-1" id="devSharingBtn">Sharing</button>              
+                </div>
+              </div>
+            </div> 
           </div>
-        </div>  
 
-        <div class="col-xs-12 self_premium" id="dev_sharing">
-          <span class="App_head"> List of Applications for Redevelopment - Redevelopment Thorugh Developer</span>
-          <div class="options">
-            <p> <a href=""> New - Offer Letter </a></p>
-            <p> Revalidation of offer Letter </p>
-            <p> Application for NOC - IOD </p>
-            <p> Tripartite Agreement </p>
-            <p> Application for CC </p>
-            <p> Consent for OC </p>
+          <div class="col-xs-12 self_premium" id="self_premium">
+            <span class="App_head"> List of Applications for Redevelopment - Self Redevelopment </span>
+            <div class="options">
+              <p> <a href=""> New - Offer Letter </a></p>
+              <p> Revalidation of offer Letter </p>
+              <p> Application for NOC </p>
+              <p> Consent for OC </p>
+            </div>
+          </div>        
+
+          <div class="col-xs-12 self_premium" id="self_sharing">
+            <span class="App_head"> List of Applications for Redevelopment - Self Redevelopment</span>
+            <div class="options">
+              <p> <a href=""> New - Offer Letter </a></p>
+              <p> Revalidation of offer Letter </p>
+              <p> Application for NOC - IOD </p>
+              <p> Tripartite Agreement </p>
+              <p> Application for CC </p>
+              <p> Consent for OC </p>
+            </div>
           </div>
-        </div>                
+
+          <div class="col-xs-12 self_premium" id="dev_premium">
+            <span class="App_head"> List of Applications for Redevelopment - Redevelopment Thorugh Developer</span>
+            <div class="options">
+              <p> <a href=""> New - Offer Letter </a></p>
+              <p> Revalidation of offer Letter </p>
+              <p> Application for NOC </p>
+              <p> Consent for OC </p>
+            </div>
+          </div>  
+
+          <div class="col-xs-12 self_premium" id="dev_sharing">
+            <span class="App_head"> List of Applications for Redevelopment - Redevelopment Thorugh Developer</span>
+            <div class="options">
+              <p> <a href=""> New - Offer Letter </a></p>
+              <p> Revalidation of offer Letter </p>
+              <p> Application for NOC - IOD </p>
+              <p> Tripartite Agreement </p>
+              <p> Application for CC </p>
+              <p> Consent for OC </p>
+            </div>
+          </div>                
+      </div>
     </div>
- </div>
+  </div>
 </div>
 @endsection
 @section('Application_redevelopment')

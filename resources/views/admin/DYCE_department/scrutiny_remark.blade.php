@@ -126,7 +126,7 @@
                         <div class="custom-file">
                             <input type="file" class="file custom-file-input" name="document[]" type="file" id="test-upload">
                             <!-- <input type="file" class="file" name="documents[]"> -->
-                            <label class="custom-file-label" for="test-upload">Choose file...</label>
+                            <label class="custom-file-label" for="test-upload">Choose file ...</label>
                         </div>  
 		    			<a class="add_more" onclick="addMoreDocuments(this);">add more </a>
 		    			<i class="fa fa-close doc" id="document_1" onclick="removeDocuments(this.id)"></i>

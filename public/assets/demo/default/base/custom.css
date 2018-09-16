@@ -231,7 +231,7 @@
 
 .btn-link {
     padding: 0 5px;
-    color: #5a5a5a;
+    color: #f0791b;
 }
 
 .btn-link:focus,
@@ -259,9 +259,84 @@
     color: #08bb08;
 }
 
+.data-table--custom #dataTableBuilder_length label,
+.data-table--custom #dataTableBuilder_filter label {
+    display: flex;
+    align-items: center;
+}
+
+.data-table--custom table.dataTable {
+    margin-top: 10px;
+}
+
+.data-table--custom table.dataTable a {
+    color: #e5731a;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.data-table--custom table.dataTable a:hover,
+.data-table--custom table.dataTable a:focus {
+    color: #e5731a;
+}
+
+.data-table--custom table.dataTable a + a {
+    border-left: 1px solid #ccc;
+}
+
+.data-table--custom table.dataTable.no-footer {
+    border-bottom: none;
+}
+
+.data-table--custom .dataTables_wrapper .dataTables_filter input {
+    border-color: #ced4da;
+}
+
+.data-table--custom #dataTableBuilder_length label select {
+    margin-right: 10px;
+    border-color: #ced4da;
+}
+
+.data-table--custom table.dataTable thead th {
+    font-weight: 500;
+    background-color: #ebedf2;
+}
+
+.data-table--custom table.dataTable thead th,
+.data-table--custom table.dataTable tbody td {
+    color: #575962;
+    border-bottom: none;
+    border-bottom: 1px solid #d1d3d6 !important;
+    border-top: 1px solid #dee2e6;
+    border-left: 1px solid #d1d3d6 !important;
+    border-right: 1px solid #dee2e6;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.data-table--custom #dataTableBuilder_info {
+    text-align: left;
+}
+
+.data-table--custom .pagination {
+    justify-content: flex-end;
+}
+
+.form-control--fixed-height {
+    height: 41px;
+}
+
+.modal .modal-content .modal-header .close {
+    cursor: pointer;
+}
+
 /* theme classes over ride ends here */
 
 /* global classes starts here */
+
+.flex-grow-1 {
+    flex-grow: 1;
+}
 
 .d-inline-table {
     display: inline-table;
@@ -575,13 +650,6 @@
     border: 2px solid #555555;
 }
 
-.premium_btn {
-    border-radius: 16px;
-    width: 155px;
-    font-size: 14px;
-    background-color: #822e58 !important;
-}
-
 .m_btn {
     margin-left: 27px !important;
 }
@@ -602,7 +670,7 @@
 .options {
     padding: 40px;
     font-size: 16px;
-    font-weight: 700;
+    font-weight: 500;
 }
 
 .self,

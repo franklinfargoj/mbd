@@ -74,7 +74,7 @@
                                                     <div class="custom-file">
                                                         <input class="custom-file-input" name="document_name"  type="file" class="" id="test-upload_{{ $document->id }}" required>
                                                         <input class="form-control m-input" type="hidden" name="document_id" value="{{ $document->id }}">
-                                                        <label class="custom-file-label" for="test-upload_{{ $document->id }}">Choose file...</label>
+                                                        <label class="custom-file-label" for="test-upload_{{ $document->id }}">Choose file ...</label>
                                                     </div>
                                                     <br>
                                                     <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
@@ -87,7 +87,7 @@
                                             <div class="custom-file">
                                                 <input class="custom-file-input" name="document_name"  type="file" id="test-upload_{{ $document->id }}" required>
                                                 <input class="form-control m-input" type="hidden" name="document_id" value="{{ $document->id }}">
-                                                <label class="custom-file-label" for="test-upload_{{ $document->id }}">Choose file...</label>
+                                                <label class="custom-file-label" for="test-upload_{{ $document->id }}">Choose file ...</label>
                                             </div>
                                             <br>
                                             <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn_{{ $document->id }}">Upload</button>
