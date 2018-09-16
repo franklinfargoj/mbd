@@ -31,5 +31,13 @@ class OlApplication extends Model
     }
     public function visitDocuments(){
        return $this->hasMany('App\olSiteVisitDocuments', 'id','application_id'); 
-    }     
+    }
+
+    public function request_form(){
+       return $this->hasOne(OlRequestForm::class, 'id'); 
+    }
+
+    public function ol_application_master(){
+       return $this->hasOne(OlApplicationMaster::class, 'id'); 
+    }
 }
