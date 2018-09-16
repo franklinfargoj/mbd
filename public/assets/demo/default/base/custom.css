@@ -263,6 +263,23 @@
 
 /* global classes starts here */
 
+.d-inline-table {
+    display: inline-table;
+}
+
+.line-height-1 {
+    line-height: 1;
+}
+
+.table-scrollable {
+    overflow-x: auto;
+}
+
+.table.dataTable {
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
 .h-100vh {
     height: 100vh;
 }
