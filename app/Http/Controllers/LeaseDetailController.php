@@ -30,7 +30,7 @@ class LeaseDetailController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, Datatables $datatables, $id)
+    public function index(Request $request, Datatables $datatables, $id, $village_id)
     {
         $header_data = $this->header_data;
         $getData = $request->all();
@@ -64,7 +64,7 @@ class LeaseDetailController extends Controller
 
         $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
 
-        return view('admin.lease_detail.index', compact('html','header_data','getData', 'count', 'id'));
+        return view('admin.lease_detail.index', compact('html','header_data','getData', 'count', 'id', 'village_id'));
     }
 
     protected function getParameters() {

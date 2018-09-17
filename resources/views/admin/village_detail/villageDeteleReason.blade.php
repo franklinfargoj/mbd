@@ -12,7 +12,7 @@
             <!-- <p>Some text in the modal.</p> -->
             <div class="mb-0">
                 <label for="remark">Reason:</label>
-                <textarea name="delete_message" class="form-control form-control--custom" rows="5" id="delete_message"></textarea>
+                <textarea name="delete_message" class="form-control form-control--custom" rows="5" id="delete_message" required></textarea>
                 <span class="help-block"></span>
             </div>
         </div>
