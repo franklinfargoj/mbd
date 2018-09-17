@@ -3,7 +3,7 @@
 <div class="col-md-12">
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex">
-            <h3 class="m-subheader__title">Village Details</h3>
+            <h3 class="m-subheader__title">Add Village</h3>
         </div>
     </div>
     <!-- END: Subheader -->

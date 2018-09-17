@@ -20,7 +20,9 @@
     padding-bottom: 20px;
 }
 
-.m-brand.m-brand--skin-dark,
+.m-brand.m-brand--skin-dark {
+    background-color: #f08128;
+}
 .m-aside-left.m-aside-left--skin-dark {
     background-color: #f89445;
 }
