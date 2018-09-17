@@ -5,12 +5,15 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-6 overlay overlay--login h-100vh">
-                <div class="d-flex h-100 flex-column align-items-center justify-content-center">
+                <div class="d-flex justify-content-center align-items-center login-page-header">
                     <img class="login-logo" src="{{asset('assets/app/media/img/logos/mhada-logo.png')}}">
                 </div>
             </div>
             <div class="col-sm-6">
                 <div class="m-grid__item m-grid__item--fluid m-login__wrapper">
+                    <div class="d-flex justify-content-center align-items-center login-page-header login-page-header--text text-uppercase">
+                        <h3>Mumbai Board</h3>
+                    </div>
                     <div class="d-flex h-100 justify-content-center align-items-center">
                         <div class="m-login__container">
                             <div class="m-login__signin">
@@ -48,7 +51,7 @@
                                         <span style="padding: 19px;"> <img id="captcha_img" src="{{URL::to('captcha')}}"></span>
                                         <div class="d-inline-table align-middle line-height-1">
                                             <i class="fa fa-refresh" onclick="document.getElementById('captcha_img').src='{{ URL::to('captcha') }}'; return false"
-                                                title="Recapture" aria-hidden="true" style="font-size: 24px;cursor: pointer; padding-top: 12px;"></i>
+                                                title="Recapture" aria-hidden="true" style="font-size: 24px;cursor: pointer;"></i>
                                         </div>
                                         <input type="text" id="captcha" class="form-control" name="captcha"
                                             placeholder="Enter Captcha">
