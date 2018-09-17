@@ -1,5 +1,6 @@
 @extends('admin.layouts.app')
 @section('content')
+
 <div class="custom-wrapper">
     <div class="col-md-12">
         <div id="tabbed-content" class="">

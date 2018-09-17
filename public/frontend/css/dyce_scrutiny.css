@@ -28,7 +28,6 @@
 	padding: 6px;    
 }
 .file{
-	width: 220px;
     margin-left: 12px;	
 }
 textarea{
@@ -64,7 +63,7 @@ label{
 .b_text{
 	margin-left: 11px;
 }
-a{
+.add_more{
 	font-size:12px;
 	color: #a51f1f !important; 
 	cursor: pointer;	
