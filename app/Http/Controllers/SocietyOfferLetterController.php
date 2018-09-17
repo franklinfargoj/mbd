@@ -9,6 +9,7 @@ use App\OlSocietyDocumentsMaster;
 use App\OlSocietyDocumentsStatus;
 use App\OlSocietyDocumentsComment;
 use App\OlApplicationMaster;
+use DB;
 use Validator;
 use Mail;
 use Illuminate\Http\Request;
@@ -183,42 +184,61 @@ class SocietyOfferLetterController extends Controller
      * @param  void
      * @return \Illuminate\Http\Response
      */
-    public function dashboard()
+    public function dashboard(DataTables $datatables, Request $request)
     {
         $columns = [
             ['data' => 'application_no','name' => 'application_no','title' => 'Application No.'],
-            ['data' => 'application_type','name' => 'application_type','title' => 'Application'],
+            ['data' => 'application_master_id','name' => 'application_master_id','title' => 'Application Type'],
             ['data' => 'created_at','name' => 'created_date','title' => 'Date & Time of submission'],
             ['data' => 'status','name' => 'status','title' => 'Status'],
             ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
         ];
+        $getRequest = $request->all();
 
         if ($datatables->getRequest()->ajax()) {
             
-            $boards = Board::all();
-            
-            return $datatables->of($boards)
-                ->editColumn('application_no', function ($boards) {
-                    return $boards->board_name;
+            $ol_applications = OlApplication::where('society_id', '1')->with('ol_application_master');
+            $ol_applications = $ol_applications->selectRaw( DB::raw('application_no, application_master_id, created_at'));
+            // $ol_applications[] = $ol_applications[0];
+            // $parent_application_name = OlApplicationMaster::where('id', $ol_applications->ol_application_master->parent_id)->get();
+            // $ol_applications['parent_application_name'] = $parent_application_name[0];
+            dd($ol_applications);
+            return $datatables->of($ol_applications)
+                ->editColumn('application_no', function ($ol_applications) {
+                    return $ol_applications->application_no;
                 })
-                ->editColumn('application_type', function ($boards) {
-                    return $boards->status;
+                ->editColumn('application_master_id', function ($ol_applications) {
+                    return $ol_applications->application_no;
                 })
-                ->editColumn('created_at', function ($boards) {
-                    return $boards->board_name;
+                ->editColumn('created_at', function ($ol_applications) {
+                    return $ol_applications->created_at;
                 })
-                ->editColumn('status', function ($boards) {
-                    return $boards->status;
+                ->editColumn('status', function ($ol_applications) {
+                    return $ol_applications->created_at;
                 })
-                ->editColumn('actions', function ($boards) {
-                   return view('admin.board.actions', compact('boards'))->render();
+                ->editColumn('actions', function ($ol_applications) {
+                    return $ol_applications->created_at;
                 })
-                ->rawColumns(['application_no', 'application_type', 'created_at','status','actions'])
+                ->rawColumns(['application_no', 'application_master_id', 'created_at','status','actions'])
                 ->make(true);
         }
         
         $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
-        return view('frontend.society.dashboard');
+        return view('frontend.society.dashboard', compact('html', 'ol_applications'));
+    }
+
+    protected function getParameters() {
+        return [
+            'serverSide' => true,
+            'processing' => true,
+            'ordering'   =>'isSorted',
+            "order"=> [4, "desc" ],
+            "pageLength" => $this->list_num_of_records_per_page,
+            // 'fixedHeader' => [
+            //     'header' => true,
+            //     'footer' => true
+            // ]
+        ];
     }
 
     public function show_offer_letter_application_self($id){
@@ -357,7 +377,7 @@ class SocietyOfferLetterController extends Controller
 
     public function uploadOfferLetterAfterSign(Request $request){
         $application_name = OlApplication::where('society_id', '1')->with('ol_application_master')->get();
-        dd($application_name[0]->ol_application_master);
+        dd($application_name[0]);
         return view('frontend.society.upload_society_offer_letter_after_sign', compact('application_name'));
     }
 
