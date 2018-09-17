@@ -2,30 +2,20 @@
 @section('content')
 <div class="col-md-12">
     <div class="m-subheader px-0 m-subheader--top">
-        <div class="d-flex justify-content-center">
-            <h3 class="m-subheader__title">Village Details</h3>
+        <div class="d-flex">
+            <h3 class="m-subheader__title">Edit Village</h3>
         </div>
     </div>
     <!-- END: Subheader -->
     <div class="m-portlet m-portlet--mobile">
-        <div class="m-portlet__head">
-            <div class="m-portlet__head-caption">
-                <div class="m-portlet__head-title">
-                    <h3 class="m-portlet__head-text">
-
-                    </h3>
-                </div>
-            </div>
-        </div>
-
-        <form id="editVillageDetail" role="form" method="post" class="m-form m-form--label-align-right" action="{{route('village_detail.update', $arrData['village_data']['id'])}}" enctype="multipart/form-data">
+        <form id="editVillageDetail" role="form" method="post" class="m-form m-form--rows m-form--label-align-right" action="{{route('village_detail.update', $arrData['village_data']['id'])}}" enctype="multipart/form-data">
             @csrf
             @method("PUT")
             <div class="m-portlet__body m-portlet__body--spaced">
                 <div class="form-group m-form__group row">
                     <div class="col-lg-6 form-group">
                         <label class="col-form-label" for="board_id">Board:</label>
-                        <select class="form-control form-control--custom m-input" id="board_id" name="board_id">
+                        <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="board_id" name="board_id">
                             @foreach($arrData['board'] as $board_details)
                                 <option value="{{ $board_details->id  }}" {{ ($board_details->id == $arrData['village_data']['board_id']) ? "selected" : "" }}>{{ $board_details->board_name }}</option>
                             @endforeach
@@ -44,7 +34,7 @@
                     <div class="col-lg-6 form-group">
                         <label class="col-form-label" for="village_name">Village Name:</label>
                         <div class="m-input-icon m-input-icon--right">
-                            <input type="text" id="village_name" name="village_name" class="form-control form-control--custom m-input"  value="{{ $arrData['village_data']['village_name'] }}">
+                            <input type="text" id="village_name" name="village_name" class="form-control form-control--custom m-input" value="{{ $arrData['village_data']['village_name'] }}">
                             <span class="help-block">{{$errors->first('village_name')}}</span>
                         </div>
                     </div>
@@ -52,7 +42,7 @@
                     <div class="col-lg-6 form-group">
                         <label class="col-form-label" for="land_source_id">Land Source:</label>
                         <div class="m-input-icon m-input-icon--right">
-                            <select class="form-control form-control--custom m-input" id="land_source_id" name="land_source_id">
+                            <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="land_source_id" name="land_source_id">
                                 @foreach($arrData['land_source'] as $landDetails)
                                     <option value="{{ $landDetails->id  }}" {{ ($landDetails->id == $arrData['village_data']['land_source_id']) ? "selected" : "" }}>{{ $landDetails->source_name }}</option>
                                 @endforeach
@@ -66,7 +56,7 @@
                     <div class="col-lg-6 form-group">
                         <label class="col-form-label" for="land_address">Land Address:</label>
                         <div class="m-input-icon m-input-icon--right">
-                            <input type="text" id="land_address" name="land_address" class="form-control form-control--custom m-input"  value="{{ $arrData['village_data']['land_address'] }}">
+                            <input type="text" id="land_address" name="land_address" class="form-control form-control--custom m-input" value="{{ $arrData['village_data']['land_address'] }}">
                             <span class="help-block">{{$errors->first('land_address')}}</span>
                         </div>
                     </div>
@@ -74,7 +64,7 @@
                     <div class="col-lg-6 form-group">
                         <label class="col-form-label" for="district">District:</label>
                         <div class="m-input-icon m-input-icon--right">
-                            <input type="text" id="district" name="district" class="form-control form-control--custom m-input"  value="{{ $arrData['village_data']['district'] }}">
+                            <input type="text" id="district" name="district" class="form-control form-control--custom m-input" value="{{ $arrData['village_data']['district'] }}">
                             <span class="help-block">{{$errors->first('district')}}</span>
                         </div>
                     </div>
@@ -84,7 +74,7 @@
                     <div class="col-lg-6 form-group">
                         <label class="col-form-label" for="taluka">Taluka:</label>
                         <div class="m-input-icon m-input-icon--right">
-                            <input type="text" id="taluka" name="taluka" class="form-control form-control--custom" class="form-control form-control--custom m-input"  value="{{ $arrData['village_data']['taluka'] }}">
+                            <input type="text" id="taluka" name="taluka" class="form-control form-control--custom m-input" value="{{ $arrData['village_data']['taluka'] }}">
                             <span class="help-block">{{$errors->first('taluka')}}</span>
                         </div>
                     </div>
@@ -92,7 +82,7 @@
                     <div class="col-lg-6 form-group">
                         <label class="col-form-label" for="total_area">Total Area:</label>
                         <div class="m-input-icon m-input-icon--right">
-                            <input type="text" id="total_area" name="total_area" class="form-control form-control--custom m-input"  value="{{ $arrData['village_data']['total_area'] }}">
+                            <input type="text" id="total_area" name="total_area" class="form-control form-control--custom m-input" value="{{ $arrData['village_data']['total_area'] }}">
                             <span class="help-block">{{$errors->first('total_area')}}</span>
                         </div>
                     </div>
@@ -102,7 +92,7 @@
                     <div class="col-lg-6 form-group">
                         <label class="col-form-label" for="possession_date">Possession Date:</label>
                         <div class="m-input-icon m-input-icon--right">
-                            <input type="date" id="possession_date" name="possession_date" class="form-control form-control--custom" class="form-control form-control--custom m-input"  value="{{ $arrData['village_data']['possession_date'] }}">
+                            <input type="text" id="possession_date" name="possession_date" class="form-control form-control--custom m_datepicker" readonly value="{{ $arrData['village_data']['possession_date'] }}">
                             <span class="help-block">{{$errors->first('possession_date')}}</span>
                         </div>
                     </div>

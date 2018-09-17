@@ -3,7 +3,7 @@
 <div class="col-md-12">
   <!-- BEGIN: Subheader -->
   <div class="m-subheader px-0 m-subheader--top">
-      <div class="d-flex justify-content-center">
+      <div class="d-flex">
           <h3 class="m-subheader__title">Applications for Redevelopment</h3>
       </div>
   </div>
@@ -28,7 +28,7 @@
                     <button type="button" class="btn btn-metal m_btn self flex-grow-1" id="selfSharingBtn">Sharing</button>
                   </div>
               </div>
-              <div class="col-md-6">
+              <div class="col-md-6 border-left">
                 <button type="button" class="btn btn-block btn-primary" id="redvlpBtn">Redevelopment Thorugh Developer</button>
                 <div class="d-flex justify-content-center mt-4">                    
                   <button type="button" class="btn btn-metal m_btn re_dev flex-grow-1" id="devPremBtn">Premium</button>

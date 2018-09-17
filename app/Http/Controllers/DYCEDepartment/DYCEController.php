@@ -55,8 +55,6 @@ class DYCEController extends Controller
             });
 
             $dyce_application_data = $dyce_application_data->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').', application_no, ol_applications.id as id, submitted_at, society_id, current_status_id');
-            // dd($dyce_application_data);
-
 
             return $datatables->of($dyce_application_data)
 
@@ -77,7 +75,7 @@ class DYCEController extends Controller
                 })                
                 ->rawColumns(['society_name', 'building_name', 'society_address','date','actions'])
                 ->make(true);
-         }                                    
+        }                                    
 
         $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
         return view('admin.DYCE_department.index', compact('html','header_data','getData'));    	
@@ -88,19 +86,18 @@ class DYCEController extends Controller
             'serverSide' => true,
             'processing' => true,
             'ordering'   =>'isSorted',
-            "order"=> [6, "desc" ],
+            "order"      => [6, "desc" ],
             "pageLength" => $this->list_num_of_records_per_page
         ];
     } 
 
     // function used to DyCE Scrutiny & Remark page
-    public function dyceScrutinyRemark(Request $request,$applicationId){
-
+    public function dyceScrutinyRemark(Request $request){
+        $applicationId = 5;
         $applicationDocuments = OlApplication::join('ol_site_visit_documents','ol_site_visit_documents.application_id','ol_applications.id')->where('ol_applications.id',$applicationId)->get(); 
                    
         $applicationData = OlApplication::with(['eeApplicationSociety'])
                             ->where('id',$applicationId)->first();
-
 
         if(isset($applicationData))                   
         $applicationData->SiteVisitorOfficers = explode(",",$applicationData->site_visit_officers);                                      
@@ -140,9 +137,9 @@ class DYCEController extends Controller
                     $fileData[] = array('document_path' => $uploadPath.'/'.$file_name, 'application_id' => $applicationId);
                 }
             }
-            olSiteVisitDocuments::insert($fileData);  
-            // return Redirect::route('/dyce_scrutiny_remark/{{$applicationId}}');             
+            $data = olSiteVisitDocuments::insert($fileData);            
         }
+        return back(); 
     } 
 
     // society and EE documents
@@ -168,7 +165,7 @@ class DYCEController extends Controller
 
     //get all verifivation details submitted by EE
     protected function getVerificationDetails($eeScrutinyData,$applicationId){
-        
+
         $eeScrutinyData ->consentQuetions = OlConsentVerificationDetails::with('consentQuestions')->where('application_id',$applicationId)->get();
 
         $eeScrutinyData->DemarkQuetions = OlDemarcationVerificationDetails::with('DemarkQuestions')->where('application_id',$applicationId)->get(); 
@@ -205,7 +202,6 @@ class DYCEController extends Controller
     // forward or revert forward Application
     public function sendForwardApplication(Request $request){
 
-        dd($request);
         if ($request->remarks_suggestion == '0'){
             $data = [
                 'application_id' => $request->applicationId,

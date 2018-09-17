@@ -19,7 +19,7 @@
         <div class="modal-footer">
             <!-- <a href="{{url('/resolution')}}" role="button" class="btn default">Cancel</a> -->
             <button type="submit" class="btn btn-primary">Submit</button>
-            <button type="button" class="btn" data-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
             <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
         </div>
     </form>

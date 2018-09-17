@@ -138,7 +138,26 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('get-forward-application', 'EEDepartment\EEController@getForwardApplicationForm')->name('get-forward-application');
     Route::post('/forward-application', 'EEDepartment\EEController@forwardApplication')->name('forward-application');
 
+	//DYCE Department routes
+	Route::resource('dyce','DYCEDepartment\DYCEController');
+	Route::get('society_EE_documents/{id}','DYCEDepartment\DYCEController@societyEEDocuments')->name('dyce.society_EE_documents');
+	Route::get('ee_scrutiny_remark/{id}','DYCEDepartment\DYCEController@eeScrutinyRemark')->name('dyce.EE_Scrutiny_Remark');
+    Route::get('dyce_forward_application/{id}','DYCEDepartment\DYCEController@forwardApplication')->name('dyce.forward_application');
+    Route::post('forward_Application_data','DYCEDepartment\DYCEController@sendForwardApplication')->name('dyce.forward_application_data');
+
+    // DYCE route end
+
+    // CO department route 
+    Route::resource('co','CODepartment\COController');
+    Route::get('society_EE_documents/{id}','CODepartment\COController@societyEEDocuments')->name('co.society_EE_documents');
+    Route::get('ee_scrutiny_remark/{id}','CODepartment\COController@eeScrutinyRemark')->name('co.EE_Scrutiny_Remark');
+    Route::get('scrutiny_remark/{id}','CODepartment\COController@dyceScrutinyRemark')->name('co.scrutiny_remark');
+    Route::get('co_forward_application/{id}','CODepartment\COController@forwardApplication')->name('co.forward_application');
+    Route::post('forward_Application_data','CODepartment\COController@sendForwardApplication')->name('co.forward_application_data');
+
+    // CO routes end
 });
+    Route::get('scrutiny_remark','DYCEDepartment\DYCEController@dyceScrutinyRemark')->name('dyce.scrutiny_remark');
 
 Route::post('/consent-verfication', 'EEDepartment\EEController@consentVerification')->name('consent-verfication');
 Route::post('/ee-demarcation', 'EEDepartment\EEController@eeDemarcation')->name('ee-demarcation');
@@ -170,13 +189,6 @@ Route::get('captcha', function() {
 //route for society Application Page
 Route::get('/application','SocietyOfferLetterController@ViewApplications')->name('society_detail.application');
 
-//DYCE Department routes
-Route::resource('dyce','DYCEDepartment\DYCEController');
-Route::get('dyce_scrutiny_remark/{id}','DYCEDepartment\DYCEController@dyceScrutinyRemark')->name('dyce.scrutiny_remark');
-Route::get('societyEEDocuments/{id}','DYCEDepartment\DYCEController@societyEEDocuments')->name('dyce.society_EE_documents');
-Route::get('eeScrutinyRemark/{id}','DYCEDepartment\DYCEController@eeScrutinyRemark')->name('dyce.EE_Scrutiny_Remark');
-Route::get('forward_application/{id}','DYCEDepartment\DYCEController@forwardApplication')->name('dyce.forward_application');
-Route::post('forward_Application_data','DYCEDepartment\DYCEController@sendForwardApplication')->name('dyce.forward_application_data');
 
 // REE Department Routes
 
