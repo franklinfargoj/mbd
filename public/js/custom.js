@@ -1,5 +1,22 @@
 $(document).ready(function() {
 
+    // Initializing date picker
+
+    $(".m_datepicker").datepicker({
+        todayHighlight: !0,
+        templates: {
+            leftArrow: '<i class="la la-angle-left"></i>',
+            rightArrow: '<i class="la la-angle-right"></i>'
+        },
+        format: 'dd-mm-yyyy'
+    })
+
+    // Custom select box for data tables
+
+    $(".dataTables_wrapper select").addClass("m-bootstrap-select m_selectpicker form-control--custom");
+
+    // Show uploaded file name inside label
+
   $('.custom-file-input').change(function (e) {
       $(this).parents('.custom-file').find('.custom-file-label').text(e.target.files[0].name);
       console.log(document.querySelector(".custom-file-label"));
