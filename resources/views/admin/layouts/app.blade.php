@@ -146,7 +146,7 @@
     <!-- begin::Quick Sidebar -->
     <!-- end::Quick Sidebar -->
     <!-- begin::Scroll Top -->
-    <div id="m_scroll_top" class="m-scroll-top">
+    <div id="m_scroll_top" class="m-scroll-top m-scroll-top--skin-top" data-toggle="m-scroll-top" data-scroll-offset="500" data-scroll-speed="300">
         <i class="la la-arrow-up"></i>
     </div>
     <!-- end::Scroll Top -->

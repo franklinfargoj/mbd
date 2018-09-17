@@ -2,28 +2,19 @@
 @section('content')
 <div class="col-md-12">
     <div class="m-subheader px-0 m-subheader--top">
-        <div class="d-flex justify-content-center">
+        <div class="d-flex">
             <h3 class="m-subheader__title">Village Details</h3>
         </div>
     </div>
     <!-- END: Subheader -->
     <div class="m-portlet m-portlet--mobile">
-        <div class="m-portlet__head">
-            <div class="m-portlet__head-caption">
-                <div class="m-portlet__head-title">
-                    <h3 class="m-portlet__head-text">
-
-                    </h3>
-                </div>
-            </div>
-        </div>
-        <form id="addVillageDetail" role="form" method="post" class="m-form m-form--label-align-right" action="{{route('village_detail.store')}}" enctype="multipart/form-data">
+        <form id="addVillageDetail" role="form" method="post" class="m-form m-form--rows m-form--label-align-right" action="{{route('village_detail.store')}}" enctype="multipart/form-data">
             @csrf
             <div class="m-portlet__body m-portlet__body--spaced">
                 <div class="form-group m-form__group row">
                     <div class="col-lg-6 form-group">
                         <label class="col-form-label" for="board_id">Board:</label>
-                        <select class="form-control form-control--custom m-input" id="board_id" name="board_id">
+                        <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="board_id" name="board_id">
                             @foreach($arrData['board'] as $board_details)
                                 <option value="{{ $board_details->id  }}">{{ $board_details->board_name }}</option>
                             @endforeach
@@ -50,7 +41,7 @@
                     <div class="col-lg-6 form-group">
                         <label class="col-form-label" for="land_source_id">Land Source:</label>
                         <div class="m-input-icon m-input-icon--right">
-                            <select class="form-control form-control--custom m-input" id="land_source_id" name="land_source_id">
+                            <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="land_source_id" name="land_source_id">
                                 @foreach($arrData['land_source'] as $landDetails)
                                     <option value="{{ $landDetails->id  }}">{{ $landDetails->source_name }}</option>
                                 @endforeach
@@ -100,7 +91,7 @@
                     <div class="col-lg-6 form-group">
                         <label class="col-form-label" for="possession_date">Possession Date:</label>
                         <div class="m-input-icon m-input-icon--right">
-                            <input type="date" id="possession_date" name="possession_date" class="form-control form-control--custom" class="form-control form-control--custom m-input"  value="{{ old('possession_date') }}">
+                            <input type="text" id="possession_date" name="possession_date" class="form-control form-control--custom m-input m_datepicker" readonly value="{{ old('possession_date') }}">
                             <span class="help-block">{{$errors->first('possession_date')}}</span>
                         </div>
                     </div>
@@ -167,11 +158,11 @@
                     <div class="col-lg-6 form-group">
                         <label class="col-form-label" for="file_upload">Is 7/12 extract available:</label>
                         <div class="m-radio-inline">
-                            <label class="m-radio m-radio--priamry">
+                            <label class="m-radio m-radio--primary">
                                 <input type="radio" class="file_upload" name="file_upload" value="1" checked> Yes
                                 <span class="help-block"></span>
                             </label>
-                            <label class="m-radio m-radio--priamry">
+                            <label class="m-radio m-radio--primary">
                                 <input type="radio" class="file_upload" name="file_upload" value="0"> No
                                 <span class="help-block"></span>
                             </label>

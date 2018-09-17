@@ -1,8 +1,9 @@
 @extends('admin.layouts.app')
 @section('content')
+<div class="col-md-12">
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">
-        <div class="d-flex justify-content-center">
+        <div class="d-flex">
                 <h3 class="m-subheader__title">Village Details</h3>
             <div>
             </div>
@@ -19,7 +20,7 @@
                 </div>
             </div>
             <div class="text-right">
-                <a class="btn btn-danger" href="{{route('village_detail.create')}}">Add Village</a>
+                <a class="btn btn-primary" href="{{route('village_detail.create')}}">Add Village</a>
             </div>
         </div>
         @if(Session::has('success'))
@@ -84,6 +85,7 @@
 
     </div>
     <!-- END EXAMPLE TABLE PORTLET-->
+</div>
 @endsection
 <?php //dd($html->scripts()); ?>
 @section('datatablejs')
