@@ -3,7 +3,6 @@
 <!-- <style> -->
 <link href="{{asset('/frontend/css/dyce_scrutiny.css')}}" rel="stylesheet" type="text/css"/>
 
-<!-- </style> -->
 @endsection
 @section('content')
 
@@ -17,50 +16,85 @@
   </div>
 </div>
 <div class="m-content"></div>
-
-<!-- society and Appointed Architect details -->
- <div class="m-portlet m-portlet--mobile m_panel">
-    <div class="m-portlet__body main_panel">
-	    <p class="heading"> Society Details: </p>
-	    <div class="col-xs-12 row"> 
-	    	<div class="col-md-6 div_left">
-	    		<p> Application Number: 
-	    		<span class="t_value">{{(isset($applicationData->application_no) ? $applicationData->application_no : '')}}</span></p>
-	    		
-	    		<p> Society Name: 
-	    		<span class="t_value">{{(isset($applicationData->eeApplicationSociety->name) ? $applicationData->eeApplicationSociety->name : '')}}</span></p>
-	    		
-	    		<p> Building Number: 
-	    		<span>{{(isset($applicationData->eeApplicationSociety->building_no) ? $applicationData->eeApplicationSociety->building_no : '')}}</span></p>
-	    	</div>      	
-	    	<div class="col-md-6 div_right">
-	    		<p> Application Date :
-	    		<span>{{(isset($applicationData->created_at) ? $applicationData->created_at : '')}}</span></p>
-	    		
-	    		<p> Society Address: 
-	    		<span>{{(isset($applicationData->eeApplicationSociety->address) ? $applicationData->eeApplicationSociety->address : '')}}</span></p>
-	    	</div> 
-	    </div>	
-    	<p class="heading"> Appointed Architect Details: </p>
-    	<div class="col-md-12 row">
-    		<div class="col-md-6 div_left">
-    			<p> Name of Architect: 
-    			<span>{{(isset($applicationData->eeApplicationSociety->name_of_architect) ? $applicationData->eeApplicationSociety->name_of_architect : '')}}</span></p>	
-    			
-    			<p> Architect Address: 
-    			<span>{{(isset($applicationData->eeApplicationSociety->architect_address) ? $applicationData->eeApplicationSociety->architect_address : '')}}</span></p>	
-    		</div>
-	    	<div class="col-md-6 div_right">
-	    		<p> Architect mobile number:
-	    		<span>{{(isset($applicationData->eeApplicationSociety->architect_mobile_no) ? $applicationData->eeApplicationSociety->architect_mobile_no : '')}}</span> </p>
-	    		
-	    		<p> Architect telephone number: 
-	    		<span>{{(isset($applicationData->eeApplicationSociety->architect_telephone_no) ? $applicationData->eeApplicationSociety->architect_telephone_no : '')}}</span>
-	    		</p>
-	    	</div>     		
-    	</div> 
-    </div>    
-</div>  
+<div class="m-portlet m-portlet--mobile m_panel">
+    <div class="portlet-body">
+        <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
+            <div class="m-subheader">
+                <div class="d-flex align-items-center">
+                    <h3 class="section-title section-title--small">
+                        Society Details:
+                    </h3>
+                </div>
+                <div class="row field-row">
+                    <div class="col-sm-6 field-col">
+                        <div class="d-flex">
+                            <span class="field-name">Application Number:</span>
+                            <span class="field-value">{{(isset($applicationData->application_no) ? $applicationData->application_no : '')}} 
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 field-col">
+                        <div class="d-flex">
+                            <span class="field-name">Application Date:</span>
+                            <span class="field-value">{{(isset($applicationData->created_at) ? $applicationData->created_at : '')}}</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 field-col">
+                        <div class="d-flex">
+                            <span class="field-name">Society Name:</span>
+                            <span class="field-value">{{(isset($applicationData->eeApplicationSociety->name) ? $applicationData->eeApplicationSociety->name : '')}}</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 field-col">
+                        <div class="d-flex">
+                            <span class="field-name">Society Address:</span>
+                            <span class="field-value">{{(isset($applicationData->eeApplicationSociety->address) ? $applicationData->eeApplicationSociety->address : '')}}</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 field-col">
+                        <div class="d-flex">
+                            <span class="field-name">Building Number:</span>
+                            <span class="field-value">{{(isset($applicationData->eeApplicationSociety->building_no) ? $applicationData->eeApplicationSociety->building_no : '')}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="m-subheader">
+                <div class="d-flex align-items-center">
+                    <h3 class="section-title section-title--small">
+                        Appointed Architect Details:
+                    </h3>
+                </div>
+                <div class="row field-row">
+                    <div class="col-sm-6 field-col">
+                        <div class="d-flex">
+                            <span class="field-name">Name of Architect:</span>
+                            <span class="field-value">{{(isset($applicationData->eeApplicationSociety->name_of_architect) ? $applicationData->eeApplicationSociety->name_of_architect : '')}}</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 field-col">
+                        <div class="d-flex">
+                            <span class="field-name">Architect Mobile Number:</span>
+                            <span class="field-value">{{(isset($applicationData->eeApplicationSociety->architect_mobile_no) ? $applicationData->eeApplicationSociety->architect_mobile_no : '')}}</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 field-col">
+                        <div class="d-flex">
+                            <span class="field-name">Architect Address:</span>
+                            <span class="field-value">{{(isset($applicationData->eeApplicationSociety->architect_address) ? $applicationData->eeApplicationSociety->architect_address : '')}}</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 field-col">
+                        <div class="d-flex">
+                            <span class="field-name">Architect Telephone Number:</span>
+                            <span class="field-value">{{(isset($applicationData->eeApplicationSociety->architect_telephone_no) ? $applicationData->eeApplicationSociety->architect_telephone_no : '')}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> 
+</div>    
 <!-- end -->
 
 <!-- Site Visit -->
@@ -110,8 +144,8 @@
 		    			<div class="col-xs-12 upload_doc_{{$i}}">
 			    		    <label> Upload supporting files: </label>
 	                        <div class="col-md-12 custom-file">
-	                            <input type="file" class="file custom-file-input" name="document[]" id="test-upload">
-	                            <label class="custom-file-label" for="test-upload">{{explode('/',$documents->document_path)[3]}}</label>
+	                            <input type="file" class="file custom-file-input" name="document[]" id="test-upload_{{$i}}">
+	                            <label class="custom-file-label" for="test-upload_{{$i}}">{{explode('/',$documents->document_path)[3]}}</label>
 	                        </div>  
 			    			<input type="hidden" class="upload_doc_{{$i}}" id="documentId" name="documentId[]" 
 			    			value="{{$documents->id}}" readonly>
@@ -160,15 +194,17 @@
 	    		<div class="col-md-12">
 	    			<span>Is there any encrochment ?</span>
 	    			<input type="radio" class="radioBtn" name="encrochment" value="1" {{(isset($applicationData->demarkation_verification_comment) && $applicationData->is_encrochment == '1' ? 'checked' : '')}}> Yes
-	  				<input type="radio" class="radioBtn" name="encrochment" value="0" {{(isset($applicationData->demarkation_verification_comment) && $applicationData->is_encrochment == '0' ? 'checked' : '')}}> No 
+	  				<input type="radio" class="radioBtn" name="encrochment" value="0" {{(isset($applicationData->demarkation_verification_comment) && $applicationData->is_encrochment == '0' ? 'checked' : '')}}>No
+	  				<span class="error" id="encrochment_error" style="display:none;color:#f4516c">this feild required</span>
 	    			<p class="e_comments">If Yes, Comments</p>
-	    			<textarea rows="4" cols="63" name="encrochment_comments">{{(isset($applicationData->encrochment_verification_comment) ? $applicationData->encrochment_verification_comment : '')}}</textarea>
-	    			<input type="submit" class="s_btn" name="" value="save">
+	    			<textarea rows="4" cols="63" id="encrochment_comments" name="encrochment_comments">{{(isset($applicationData->encrochment_verification_comment) ? $applicationData->encrochment_verification_comment : '')}}</textarea>
+	    			<span class="error" id="encrochment_comments_error" style="display:none;color:#f4516c">this feild required</span>
+	    			<input type="button" class="s_btn" id="submitBtn" name="" value="save">
 	    		</div>
 	    	</div>
 	    </div>
 	</div>
-	<input type="hidden" name="applicationId" value="{{$applicationData->id}}">
+	<input type="hidden" name="applicationId" value="{{(isset($applicationData->id) ? $applicationData->id : '')}}">
 </form>  
 
 <input type="hidden" name="OfficiersCount" id="OfficiersCount" value="{{(isset($applicationData->SiteVisitorOfficers) ? count($applicationData->SiteVisitorOfficers)+2 : '')}}"> 
@@ -177,32 +213,21 @@
 @endsection
 @section('js')
 <script>
-  $("#dyce_scrunity_Form").validate({
-    rules:{
-      demarkation_comments	: "required",
-      officer_name 			: "required",
-      visit_date		    : "required",
-      document 				: "required",
-      encrochment 			: "required",
-      encrochment_comments  : "required",
-    }
-  });
+  	$("#dyce_scrunity_Form").validate({
+	    rules:{
+	      demarkation_comments	: "required",
+	      officer_name 			: "required",
+	      visit_date		    : "required",
+	      // "document[]" 			: "required",
+	      "officer_name[]"      : "required",
+	    }
+  	});
 
 	function removeOfficerName(data){
 		var id = data.substr(5,2);
 		$(".officer_name_"+id).css("display","none");
 		$(".officer_name_"+id+" input").attr("disabled","disabled");			
 	}
-	// $(".add_more").click(function(e){
-	// 	e.preventDefault();
-	// 	$(this).css("display","none");
-	// 	// var html = "<label> Name of Officer: </label>"+
-	// 	// html = "<input type='text' class='txtbox o_text' name='officer_name' id='officer_name'>"+
-	// 	// html = "<a href class='add_more'>add more </a>";
-
-	// 	// $(".site_v").append(html);
-	// 	$(".site_v").append("<label> Name of Officer: </label><input type='text' class='txtbox o_text' name='officer_name' id='officer_name'><a href class='add_more' onclick='addMoreText(this);'>add more </a>");
-	// });
 
 	function addMoreText(text){
 
@@ -214,13 +239,19 @@
 		$("#OfficiersCount").val(id);
 	}
 
-	function addMoreDocuments(text){
+	function selectFile() {
+		$('.custom-file-input').change(function (e) {
+	      $(this).parents('.custom-file').find('.custom-file-label').text(e.target.files[0].name);
+	    });
+	}
 
+	function addMoreDocuments(text){
 		var  id = $("#documentCount").val();
 		$(text).css("display","none");
 		$('.doc').css("visibility","visible");
-		$(".all_documents").append("<div class='col-xs-12 upload_doc_'"+id+"'><label> Upload supporting files: </label><div class='custom-file'><input type='file' class='file custom-file-input' name='document[]' id='test-upload_"+id+"'><label class='custom-file-label' for='test-upload_"+id+"'> Choose file .. </label></div><i class='fa fa-close doc' id='document_"+id+"' onclick='removeDocuments(this.id)'></i><a class='add_more' onclick='addMoreDocuments(this);'>add more </a></div>");	
+		$(".all_documents").append("<div class='col-xs-12 upload_doc_'"+id+"'><label> Upload supporting files: </label><div class='custom-file'><input type='file' class='file custom-file-input' name='document[]' id='test_upload_"+id+"'><label class='custom-file-label' for='test_upload_"+id+"'> Choose file .. </label></div><i class='fa fa-close doc' id='document_"+id+"' onclick='removeDocuments(this.id)'></i><a class='add_more' onclick='addMoreDocuments(this);'>add more </a></div>");	
 		id++;
+		selectFile();
 		$("#documentCount").val(id);	
 	}
 
@@ -229,6 +260,24 @@
 		$(".upload_doc_"+id).css("display","none");
 		$(".upload_doc_"+id).attr("disabled","disabled");
 	}
+
+	$("#submitBtn").click(function(){
+
+		var enrochComment = $("#encrochment_comments").val();
+		var isEnrochment  = $("input[name=encrochment]:checked").val();
+		
+		if (isEnrochment == undefined)
+			$("#encrochment_error").css("display","block");
+		else
+			$("#encrochment_error").css("display","none");
+
+		if (isEnrochment == '1' && enrochComment == ""){
+			$("#encrochment_comments_error").css("display","block");
+		}else{
+			$("#encrochment_comments_error").css("display","none");
+			$( "#dyce_scrunity_Form" ).submit();
+		}
+	});
 </script>
 @endsection
 
