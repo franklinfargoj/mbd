@@ -41,7 +41,7 @@
           <div class="col-xs-12 self_premium" id="self_premium">
             <span class="App_head"> List of Applications for Redevelopment - Self Redevelopment </span>
             <div class="options">
-              <p> <a href=""> New - Offer Letter </a></p>
+              <p> <a href="{{ url('/offer_letter_application_form_self/'. $self_premium) }}"> New - Offer Letter </a></p>
               <p> Revalidation of offer Letter </p>
               <p> Application for NOC </p>
               <p> Consent for OC </p>
@@ -51,7 +51,7 @@
           <div class="col-xs-12 self_premium" id="self_sharing">
             <span class="App_head"> List of Applications for Redevelopment - Self Redevelopment</span>
             <div class="options">
-              <p> <a href=""> New - Offer Letter </a></p>
+              <p> <a href="{{ url('/offer_letter_application_form_self/'. $self_sharing) }}"> New - Offer Letter </a></p>
               <p> Revalidation of offer Letter </p>
               <p> Application for NOC - IOD </p>
               <p> Tripartite Agreement </p>
@@ -63,7 +63,7 @@
           <div class="col-xs-12 self_premium" id="dev_premium">
             <span class="App_head"> List of Applications for Redevelopment - Redevelopment Thorugh Developer</span>
             <div class="options">
-              <p> <a href=""> New - Offer Letter </a></p>
+              <p> <a href="{{ url('/offer_letter_application_form_dev/'. $dev_premium) }}"> New - Offer Letter </a></p>
               <p> Revalidation of offer Letter </p>
               <p> Application for NOC </p>
               <p> Consent for OC </p>
@@ -73,7 +73,7 @@
           <div class="col-xs-12 self_premium" id="dev_sharing">
             <span class="App_head"> List of Applications for Redevelopment - Redevelopment Thorugh Developer</span>
             <div class="options">
-              <p> <a href=""> New - Offer Letter </a></p>
+              <p> <a href="{{ url('/offer_letter_application_form_dev/'. $dev_sharing) }}"> New - Offer Letter </a></p>
               <p> Revalidation of offer Letter </p>
               <p> Application for NOC - IOD </p>
               <p> Tripartite Agreement </p>
