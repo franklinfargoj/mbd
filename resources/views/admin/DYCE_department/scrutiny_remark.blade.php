@@ -136,8 +136,8 @@
 					</div>
 					<div class="col-xs-12 all_documents">
 					<?php $i=2;?>
-					@if(isset($applicationDocuments))
-						@foreach($applicationDocuments as $documents)	    		
+					@if(isset($applicationData->visitDocuments))
+						@foreach($applicationData->visitDocuments as $documents)
 							<div class="col-xs-12 upload_doc_{{$i}}">
 								<label> Upload supporting files: </label>
 								<div class="col-md-12 custom-file">
@@ -205,7 +205,7 @@
 	</form>  
 
 	<input type="hidden" name="OfficiersCount" id="OfficiersCount" value="{{(isset($applicationData->SiteVisitorOfficers) ? count($applicationData->SiteVisitorOfficers)+2 : '')}}"> 
-	<input type="hidden" name="documentCount" id="documentCount" value="{{(isset($applicationDocuments) ? count($applicationDocuments)+2 : '')}}"> 
+	<input type="hidden" name="documentCount" id="documentCount" value="{{(isset($applicationData->visitDocuments) ? count($applicationData->visitDocuments)+2 : '')}}"> 
 </div>
 @endsection
 @section('js')
@@ -246,7 +246,7 @@
 		var  id = $("#documentCount").val();
 		$(text).css("display","none");
 		$('.doc').css("visibility","visible");
-		$(".all_documents").append("<div class='col-xs-12 upload_doc_'"+id+"'><label> Upload supporting files: </label><div class='custom-file'><input type='file' class='file custom-file-input' name='document[]' id='test_upload_"+id+"'><label class='custom-file-label' for='test_upload_"+id+"'> Choose file .. </label></div><i class='fa fa-close doc' id='document_"+id+"' onclick='removeDocuments(this.id)'></i><a class='add_more' onclick='addMoreDocuments(this);'>add more </a></div>");	
+		$(".all_documents").append("<div class='col-xs-12 upload_doc_"+id+"'><label> Upload supporting files: </label><div class='custom-file'><input type='file' class='file custom-file-input' name='document[]' id='test_upload_"+id+"'><label class='custom-file-label' for='test_upload_"+id+"'> Choose file .. </label></div><i class='fa fa-close doc' id='document_"+id+"' onclick='removeDocuments(this.id)'></i><a class='add_more' onclick='addMoreDocuments(this);'>add more </a></div>");	
 		id++;
 		selectFile();
 		$("#documentCount").val(id);	

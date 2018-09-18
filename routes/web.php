@@ -142,22 +142,35 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 	Route::resource('dyce','DYCEDepartment\DYCEController');
 	Route::get('society_EE_documents/{id}','DYCEDepartment\DYCEController@societyEEDocuments')->name('dyce.society_EE_documents');
 	Route::get('ee_scrutiny_remark/{id}','DYCEDepartment\DYCEController@eeScrutinyRemark')->name('dyce.EE_Scrutiny_Remark');
+
     Route::get('dyce_forward_application/{id}','DYCEDepartment\DYCEController@forwardApplication')->name('dyce.forward_application');
     Route::post('forward_Application_data','DYCEDepartment\DYCEController@sendForwardApplication')->name('dyce.forward_application_data');
 
-    // DYCE route end
-
     // CO department route 
     Route::resource('co','CODepartment\COController');
-    Route::get('society_EE_documents/{id}','CODepartment\COController@societyEEDocuments')->name('co.society_EE_documents');
-    Route::get('ee_scrutiny_remark/{id}','CODepartment\COController@eeScrutinyRemark')->name('co.EE_Scrutiny_Remark');
-    Route::get('scrutiny_remark/{id}','CODepartment\COController@dyceScrutinyRemark')->name('co.scrutiny_remark');
-    Route::get('co_forward_application/{id}','CODepartment\COController@forwardApplication')->name('co.forward_application');
-    Route::post('forward_Application_data','CODepartment\COController@sendForwardApplication')->name('co.forward_application_data');
+    Route::get('society_ee_documents/{id}','CODepartment\COController@societyEEDocuments')->name('co.society_EE_documents');
+    Route::get('ee_Scrutiny_Remark/{id}','CODepartment\COController@eeScrutinyRemark')->name('co.EE_Scrutiny_Remark');
 
-    // CO routes end
+    Route::get('dyce_scrutiny_remark/{id}','CODepartment\COController@dyceScrutinyRemark')->name('co.scrutiny_remark');
+
+    Route::get('co_forward_application/{id}','CODepartment\COController@forwardApplication')->name('co.forward_application');
+
+    Route::post('save_forward_Application','CODepartment\COController@sendForwardApplication')->name('co.forward_application_data');
+
+        // CAP department route 
+    Route::resource('cap','CAPDepartment\CAPController');
+    // Route::get('society_ee_documents/{id}','CODepartment\COController@societyEEDocuments')->name('co.society_EE_documents');
+    // Route::get('ee_Scrutiny_Remark/{id}','CODepartment\COController@eeScrutinyRemark')->name('co.EE_Scrutiny_Remark');
+
+    // Route::get('dyce_scrutiny_remark/{id}','CODepartment\COController@dyceScrutinyRemark')->name('co.scrutiny_remark');
+
+    // Route::get('co_forward_application/{id}','CODepartment\COController@forwardApplication')->name('co.forward_application');
+
+    // Route::post('save_forward_Application','CODepartment\COController@sendForwardApplication')->name('co.forward_application_data');
+
 });
-    Route::get('scrutiny_remark','DYCEDepartment\DYCEController@dyceScrutinyRemark')->name('dyce.scrutiny_remark');
+
+Route::get('scrutiny_remark','DYCEDepartment\DYCEController@dyceScrutinyRemark')->name('dyce.scrutiny_remark');
 
 Route::post('/consent-verfication', 'EEDepartment\EEController@consentVerification')->name('consent-verfication');
 Route::post('/ee-demarcation', 'EEDepartment\EEController@eeDemarcation')->name('ee-demarcation');

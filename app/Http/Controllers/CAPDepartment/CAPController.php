@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\CODepartment;
+namespace App\Http\Controllers\CAPDepartment;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -21,13 +21,13 @@ use Config;
 use Auth;
 use DB;
 
-class COController extends Controller
+class CAPController extends Controller
 {
     public function __construct()
     {
         $this->CommonController = new CommonController();
         $this->list_num_of_records_per_page = Config::get('commanConfig.list_num_of_records_per_page');        
-    }	
+    }
 
     public function index(Request $request, Datatables $datatables){
 		
@@ -48,7 +48,7 @@ class COController extends Controller
 
             DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));          
 
-            $co_application_data = OlApplication::with(['olApplicationStatus' => function($q){
+            $cap_application_data = OlApplication::with(['olApplicationStatus' => function($q){
                 $q->where('user_id', Auth::id())
                     ->where('role_id', Auth::user()->role_id);
             }, 'eeApplicationSociety'])
@@ -57,24 +57,24 @@ class COController extends Controller
                     ->where('role_id', Auth::user()->role_id);
             });
 
-            $co_application_data = $co_application_data->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').', application_no, ol_applications.id as id, submitted_at, society_id, current_status_id');
+            $cap_application_data = $cap_application_data->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').', application_no, ol_applications.id as id, submitted_at, society_id, current_status_id');
 
-            return $datatables->of($co_application_data)
+            return $datatables->of($cap_application_data)
 
-                ->editColumn('society_name', function ($co_application_data) {
-                    return $co_application_data->eeApplicationSociety->name;
+                ->editColumn('society_name', function ($cap_application_data) {
+                    return $cap_application_data->eeApplicationSociety->name;
                 })
-                ->editColumn('building_name', function ($co_application_data) {
-                    return $co_application_data->eeApplicationSociety->building_no;
+                ->editColumn('building_name', function ($cap_application_data) {
+                    return $cap_application_data->eeApplicationSociety->building_no;
                 })
-                ->editColumn('society_address', function ($co_application_data) {
+                ->editColumn('society_address', function ($cap_application_data) {
                     return $co_application_data->eeApplicationSociety->address;
                 })                
-                ->editColumn('date', function ($co_application_data) {
-                    return $co_application_data->submitted_at;
+                ->editColumn('date', function ($cap_application_data) {
+                    return $cap_application_data->submitted_at;
                 })
-                ->editColumn('actions', function ($co_application_data) {
-                   return view('admin.co_department.action', compact('co_application_data'))->render();
+                ->editColumn('actions', function ($cap_application_data) {
+                   return view('admin.cap_department.action', compact('cap_application_data'))->render();
                 })                
                 ->rawColumns(['society_name', 'building_name', 'society_address','date','actions'])
                 ->make(true);
@@ -85,7 +85,7 @@ class COController extends Controller
    	
     }
 
-    protected function getParameters() {
+        protected function getParameters() {
         return [
             'serverSide' => true,
             'processing' => true,
@@ -93,35 +93,5 @@ class COController extends Controller
             "order"      => [6, "desc" ],
             "pageLength" => $this->list_num_of_records_per_page
         ];
-    } 
-
-    // society and EE documents
-    public function societyEEDocuments(Request $request,$applicationId){
-       
-        $societyDocuments = $this->CommonController->getSocietyEEDocuments($applicationId);
-       return view('admin.co_department.society_EE_documents',compact('societyDocuments'));
-    }
-
-    // EE - Scrutiny & Remark page
-    public function eeScrutinyRemark(Request $request,$applicationId){
-
-        $eeScrutinyData = $this->CommonController->getEEScrutinyRemark($applicationId);
-        return view('admin.co_department.EE_Scrunity_Remark',compact('eeScrutinyData'));
-    }
-
-    // DyCE Scrutiny & Remark page
-    public function dyceScrutinyRemark(Request $request,$applicationId){
-
-        $applicationData = $this->CommonController->getDyceScrutinyRemark($applicationId);
-        return view('admin.co_department.dyce_scrunity_remark',compact('applicationData'));
-    }
-
-    // Forward Application page
-    public function forwardApplication(Request $request, $applicationId){
-
-        $applicationData = $this->CommonController->getForwardApplication($applicationId);
-        return view('admin.co_department.forward_application',compact('applicationData'));  
-    }
-
-
+    }     
 }

@@ -4,7 +4,7 @@
 <a title="EE_Scrutiny_Remark" href="{{route('co.scrutiny_remark',$co_application_data->id)}}">DyCE Scrutiny & Remarks</a>  
 <a title="EE_Scrutiny_Remark" href="">REE calculation sheet</a>  
 <a title="scrutiny_remark" href="">Approve offer Letter</a>  
-<a title="Society_EE_Documents" href="">Forward Application</a>  
+<a title="Society_EE_Documents" href="{{route('co.forward_application', $co_application_data->id)}}">Forward Application</a>  
 <a title="Society_EE_Documents" href="">CAP Notes</a>
 
 

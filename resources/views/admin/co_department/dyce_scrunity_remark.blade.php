@@ -98,7 +98,7 @@
 <!-- end -->
 
 <!-- Site Visit -->
-<form role="form" id="dyce_scrunity_Form" name="scrunityForm" class="form-horizontal" method="post" action="{{ route('dyce.store')}}" enctype="multipart/form-data">
+<form role="form" id="dyce_scrunity_Form" name="scrunityForm" class="form-horizontal" method="post" action="" enctype="multipart/form-data">
 
  @csrf
 	 <div class="m-portlet m-portlet--mobile m_panel">
@@ -133,10 +133,10 @@
                     @foreach($applicationData->visitDocuments as $data)
                         <div class="col-sm-12 field-col">
                             <div class="d-flex">
-                                <span class="field-name">Supporting Documents:</span>
+                                <span style="width: 200px;">Supporting Documents:</span>
                                 <a href="{{asset($data->document_path)}}">
                                 <img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}" style="height:44px"></a>
-                                <span class="field-value" style="padding: 12px;">{{(explode('/',$data->document_path)[3])}}</span>
+                                <span class="field-value" style="padding-left: 15px;">{{(explode('/',$data->document_path)[3])}}</span>
                             </div>
                         </div>
                     @endforeach
@@ -168,10 +168,8 @@
 	    			<span>Is there any encrochment ?</span>
 	    			<input type="radio" class="radioBtn" name="encrochment" value="1" disabled {{(isset($applicationData->demarkation_verification_comment) && $applicationData->is_encrochment == '1' ? 'checked' : '')}}> Yes
 	  				<input type="radio" class="radioBtn" name="encrochment" value="0" disabled {{(isset($applicationData->demarkation_verification_comment) && $applicationData->is_encrochment == '0' ? 'checked' : '')}}>No
-	  				<span class="error" id="encrochment_error" style="display:none;color:#f4516c">this feild required</span>
 	    			<p class="e_comments">If Yes, Comments</p>
 	    			<textarea rows="4" cols="63" id="encrochment_comments" name="encrochment_comments" readonly>{{(isset($applicationData->encrochment_verification_comment) ? $applicationData->encrochment_verification_comment : '')}}</textarea>
-	    			<span class="error" id="encrochment_comments_error" style="display:none;color:#f4516c">this feild required</span>
 	    		</div>
 	    	</div>
 	    </div>
