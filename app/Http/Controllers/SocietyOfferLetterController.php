@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Auth\SessionGuard;
 use App\SocietyOfferLetter;
 use App\MasterEmailTemplates;
 use App\OlRequestForm;
@@ -18,7 +20,9 @@ use Redirect;
 use Yajra\DataTables\DataTables;
 use Config;
 use PDF;
+use Auth;
 use Hash;
+use Session;
 use App\Mail\SocietyOfferLetterForgotPassword;
 
 class SocietyOfferLetterController extends Controller
@@ -69,7 +73,7 @@ class SocietyOfferLetterController extends Controller
             $society_offer_letter_details = array(
                 'language_id' => '0',
                 'email' => $request->input('society_email'),
-                'password' => Hash::make($request->input('society_password')),
+                'password' => bcrypt($request->input('society_password')),
                 'name' => $request->input('society_name'),
                 'username' => $request->input('society_username'),
                 'building_no' => $request->input('society_building_no'),
@@ -80,7 +84,7 @@ class SocietyOfferLetterController extends Controller
                 'architect_mobile_no' => $request->input('society_architect_mobile_no'),
                 'architect_telephone_no' => $request->input('society_architect_telephone_no'),
                 'architect_address' => $request->input('society_architect_address'),
-                'remember_token' => rand().time(),
+                'remember_token' => $request->input('_token'),
                 'last_login_at' => date('Y-m-d')
             );
             SocietyOfferLetter::create($society_offer_letter_details);
@@ -146,12 +150,18 @@ class SocietyOfferLetterController extends Controller
         ]);        
         $email    = $request->input('email');
         $password = $request->input('password');
-        // dd($request->input());
-        // dd(bcrypt('test'));
-        if (isset($email) && isset($password)){
-            $SocietyUser = SocietyOfferLetter::where('email',$email)
-                                               ->where('password',Hash::check($password))->first();
-            dd($SocietyUser);
+        if (auth()->guard('society')->attempt(['email' => $email, 'password' => $password])) {
+            echo "Login SuccessFull<br/>";
+            dd(Auth::guard('society'));
+            exit;
+        } else {
+            echo "Login Failed Wrong Data Passed";exit;
+        }
+        
+        $db_password = SocietyOfferLetter::where('email',$email)->first();
+        if ($password == ($db_password->password)){
+            
+            dd($db_password);
             if ($SocietyUser){
                 $response['sucess'] = "Authenticate User";  
                 // Session::
