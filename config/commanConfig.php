@@ -10,7 +10,9 @@ return [
 
     'list_num_of_records_per_page' => 10,
     'dateFormat' => 'd-m-Y',
-    'dyce_jr_user' => 'dyce_jr_engineer',
+    'dyce_jr_user' => 'dyce_junior_engineer',
+    'ee_junior_engineer' => 'ee_junior_engineer',
+    'co_engineer' => 'co_engineer',
 
     'applicationStatus' => [
         'in_process' => 1,

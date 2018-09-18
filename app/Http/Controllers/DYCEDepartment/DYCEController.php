@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\DYCEDepartment;
 
+use App\Role;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Common\CommonController;
@@ -20,6 +21,7 @@ use App\User;
 use Config;
 use Auth;
 use DB;
+use Carbon\Carbon;
 
 class DYCEController extends Controller
 {
@@ -40,26 +42,48 @@ class DYCEController extends Controller
             ['data' => 'building_name','name' => 'eeApplicationSociety.building_no','title' => 'building No'],
             ['data' => 'society_address','name' => 'eeApplicationSociety.address','title' => 'Address'],
             // ['data' => 'model','name' => 'model','title' => 'Model'],
-            // ['data' => 'status','name' => 'status','title' => 'Status'],
+             ['data' => 'Status','name' => 'status','title' => 'Status'],
             ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
         ];
         if ($datatables->getRequest()->ajax()) {
 
-            DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));          
+            $dyce_application_data = OlApplication::with(['applicationLayoutUser', 'eeApplicationSociety', 'olApplicationStatusForLoginListing' => function($q){
+                $q->where('user_id', Auth::user()->id)
+                    ->where('role_id', session()->get('role_id'))
+                    ->orderBy('id', 'desc');
+            }])
+                ->whereHas('olApplicationStatusForLoginListing' ,function($q){
+                    $q->where('user_id', Auth::user()->id)
+                        ->where('role_id', session()->get('role_id'))
+                        ->orderBy('id', 'desc');
+                })
+                ->select()->get();
 
-            $dyce_application_data = OlApplication::with(['olApplicationStatus' => function($q){
-                $q->where('user_id', Auth::id())
-                    ->where('role_id', Auth::user()->role_id);
-            }, 'eeApplicationSociety'])
-            ->whereHas('olApplicationStatus', function($q){
-                $q->where('user_id', Auth::id())
-                    ->where('role_id', Auth::user()->role_id);
-            });
+            $listArray = [];
+            if($request->update_status)
+            {
+                foreach ($dyce_application_data as $app_data)
+                {
+                    if($app_data->olApplicationStatusForLoginListing[0]->status_id == $request->update_status)
+                    {
+//                        dd("in if");
+                        $listArray[] = $app_data;
+                    }
+                    else{
+//                        dd("in else");
+                        $listArray = [];
+                    }
+                }
+            }
+            else
+            {
+                $listArray =  $dyce_application_data;
+            }
 
-            $dyce_application_data = $dyce_application_data->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').', application_no, ol_applications.id as id, submitted_at, society_id, current_status_id');
-
-            return $datatables->of($dyce_application_data)
-
+            return $datatables->of($listArray)
+                ->editColumn('rownum', function ($listArray) {
+                    static $i = 0; $i++; return $i;
+                })
                 ->editColumn('society_name', function ($dyce_application_data) {
                     return $dyce_application_data->eeApplicationSociety->name;
                 })
@@ -70,12 +94,29 @@ class DYCEController extends Controller
                     return $dyce_application_data->eeApplicationSociety->address;
                 })                
                 ->editColumn('date', function ($dyce_application_data) {
-                    return $dyce_application_data->submitted_at;
+                    return date(config('commanConfig.dateFormat', strtotime($dyce_application_data->submitted_at)));
                 })
-                ->editColumn('actions', function ($dyce_application_data) {
-                   return view('admin.DYCE_department.action', compact('dyce_application_data'))->render();
-                })                
-                ->rawColumns(['society_name', 'building_name', 'society_address','date','actions'])
+                ->editColumn('actions', function ($dyce_application_data) use($request){
+                   return view('admin.DYCE_department.action', compact('dyce_application_data','request'))->render();
+                })
+                ->editColumn('Status', function ($listArray) use ($request) {
+                    $status = $listArray->olApplicationStatusForLoginListing[0]->status_id;
+
+                    if($request->update_status)
+                    {
+                        if($request->update_status == $status){
+                            $config_array = array_flip(config('commanConfig.applicationStatus'));
+                            $value = ucwords(str_replace('_', ' ', $config_array[$status]));
+                            return $value;
+                        }
+                    }else{
+                        $config_array = array_flip(config('commanConfig.applicationStatus'));
+                        $value = ucwords(str_replace('_', ' ', $config_array[$status]));
+                        return $value;
+                    }
+
+                })
+                ->rawColumns(['society_name', 'Status', 'building_name', 'society_address','date','actions'])
                 ->make(true);
         }                                    
 
@@ -88,7 +129,7 @@ class DYCEController extends Controller
             'serverSide' => true,
             'processing' => true,
             'ordering'   =>'isSorted',
-            "order"      => [6, "desc" ],
+            "order"      => [7, "desc" ],
             "pageLength" => $this->list_num_of_records_per_page
         ];
     } 
@@ -140,7 +181,7 @@ class DYCEController extends Controller
 
     // society and EE documents
     public function societyEEDocuments(Request $request,$applicationId){
-      
+
         $societyDocuments = $this->CommonController->getSocietyEEDocuments($applicationId);
        return view('admin.DYCE_department.society_EE_documents',compact('societyDocuments')); 
     }
@@ -155,34 +196,88 @@ class DYCEController extends Controller
     // Forward Application page
     public function forwardApplication(Request $request, $applicationId){
 
-        $applicationData = $this->CommonController->getForwardApplication($applicationId); 
-             
-        return view('admin.DYCE_department.forward_application',compact('applicationData'));  
+        $applicationData = $this->CommonController->getForwardApplication($applicationId);
+
+        $user = User::with(['roles.parent.parentUser'])->where('id', Auth::user()->id)->first();
+        $roles = array_get($user, 'roles');
+        $parent = array_get($roles[0], 'parent');
+
+        $arrData['parentData'] = array_get($parent, 'parentUser');
+        $arrData['role_name'] = strtoupper(str_replace('_', ' ', $parent['name']));
+
+        $arrData['application_status'] = OlApplicationStatus::where('application_id', $applicationId)
+            ->whereNotNull('to_user_id')
+            ->whereNotNull('to_role_id')->orderBy('id', 'desc')->first();
+
+        // CO Forward Application
+
+        $co_id = Role::where('name', '=', config('commanConfig.co_engineer'))->first();
+        $arrData['get_forward_co'] = User::where('role_id', $co_id->id)->get();
+        $arrData['co_role_name'] = strtoupper(str_replace('_', ' ', $co_id->name));
+        return view('admin.DYCE_department.forward_application',compact('applicationData', 'arrData'));
     }
 
     // forward or revert forward Application
     public function sendForwardApplication(Request $request){
+        if($request->check_status == 1) {
+            $forward_application = [[
+                    'application_id' => $request->applicationId,
+                    'user_id' => Auth::user()->id,
+                    'role_id' => session()->get('role_id'),
+                    'status_id' => config('commanConfig.applicationStatus.forward_to'),
+                    'to_user_id' => $request->to_user_id,
+                    'to_role_id' => $request->to_role_id,
+                    'remark' => $request->remark,
+                    'created_at' => Carbon::now()
+                ],
 
-        if ($request->remarks_suggestion == '0'){
-            $data = [
-                'application_id' => $request->applicationId,
-                'user_id'        => $request->remarks_suggestion,
-                'role_id'        => $request->to_role_id,
-                'status_id'      => $request->remarks_suggestion,
-                'to_user_id'     => $request->to_user_id,
-                'remark'         => $request->remark,
-            ];  
-        }else{
-            $data = [
-                'application_id' => $request->applicationId,
-                'user_id'        => $request->remarks_suggestion,
-                'role_id'        => $request->remarks_suggestion,
-                'status_id'      => $request->remarks_suggestion,
-                'to_user_id'     => $request->remarks_suggestion,
-                'remark'         => $request->remark,
+                [
+                    'application_id' => $request->applicationId,
+                    'user_id' => $request->to_user_id,
+                    'role_id' => $request->to_role_id,
+                    'status_id' => config('commanConfig.applicationStatus.in_process'),
+                    'to_user_id' => NULL,
+                    'to_role_id' => NULL,
+                    'remark' => $request->remark,
+                    'created_at' => Carbon::now()
+                ]
             ];
+
+//            echo "in forward";
+//            dd($forward_application);
+            OlApplicationStatus::insert($forward_application);
         }
-        // OlApplicationStatus::insert($data);
+        else{
+            $revert_application = [
+                [
+                    'application_id' => $request->applicationId,
+                    'user_id' => Auth::user()->id,
+                    'role_id' => session()->get('role_id'),
+                    'status_id' => config('commanConfig.applicationStatus.revert_to'),
+                    'to_user_id' => $request->user_id,
+                    'to_role_id' => $request->role_id,
+                    'remark' => $request->remark,
+                    'created_at' => Carbon::now()
+                ],
+
+                [
+                    'application_id' => $request->applicationId,
+                    'user_id' => $request->user_id,
+                    'role_id' => $request->role_id,
+                    'status_id' => config('commanConfig.applicationStatus.in_process'),
+                    'to_user_id' => NULL,
+                    'to_role_id' => NULL,
+                    'remark' => $request->remark,
+                    'created_at' => Carbon::now()
+                ]
+            ];
+//            echo "in revert";
+//            dd($revert_application);
+            OlApplicationStatus::insert($revert_application);
+        }
+
+        return redirect('/dyce');
+
     }
 }
 

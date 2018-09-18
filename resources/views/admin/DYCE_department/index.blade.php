@@ -19,7 +19,7 @@
             <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
                 <div class="row align-items-center">
                     <div class="col-xl-8 order-2 order-xl-1">
-                        <form role="form" id="eeForm" method="get" action="{{ route('ee.index') }}">
+                        <form role="form" id="eeForm" method="get" action="{{ route('dyce.index') }}">
                             <div class="form-group m-form__group row align-items-center">
                                 <div class="col-md-4">
                                     <label for="exampleSelect1">Search</label>
@@ -54,8 +54,9 @@
                                         <label for="office_date_to">Status</label>
                                         <select class="form-control m-input" id="update_status" name="update_status">
                                             <option value="">All</option>
-                                            <option value="1">In Progress</option>
-                                            <option value="2">Forwarded</option>
+                                            @foreach(config('commanConfig.applicationStatus') as $key => $application_status)
+                                                <option value="{{ $application_status }}" {{ ($status == $application_status) ? 'selected' : '' }}>{{ ucwords(str_replace('_', ' ', $key)) }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
