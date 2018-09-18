@@ -15,12 +15,14 @@ use App\OlSocietyDocumentsMaster;
 use App\OlSocietyDocumentsStatus;
 use App\OlTitBitVerificationDetails;
 use App\OlTitBitVerificationQuestionMaster;
+use App\Role;
 use App\SocietyOfferLetter;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\View;
 use Yajra\DataTables\DataTables;
 use Config;
 use DB;
@@ -41,28 +43,51 @@ class EEController extends Controller
      */
     public function index(Request $request, Datatables $datatables)
     {
-//        dd(session()->get('role_id'));
-        $ee_application_data = OlApplication::with(['applicationLayoutUser', 'olApplicationStatus' => function ($q) {
-            $q->whereNull('to_user_id')
-                ->where('to_role_id', session()->get('role_id'))
-                ->where(function($q){
-                    $q->where('status_id', config('commanConfig.applicationStatus.in_process'))
-                        ->orWhere('status_id', config('commanConfig.applicationStatus.forward_to'));
-//                        ->orWhere('status_id', config('commanConfig.applicationStatus.revert_to'));
-                })
-                ->orderBy('id', 'desc')->first();
-        }, 'eeApplicationSociety'])
-            ->whereHas('olApplicationStatus', function ($q) {
-                $q->whereNull('to_user_id')
-                    ->where('to_role_id', session()->get('role_id'))
-                    ->where(function($q){
-                        $q->where('status_id', config('commanConfig.applicationStatus.in_process'))
-                            ->orWhere('status_id', config('commanConfig.applicationStatus.forward_to'));
-//                            ->orWhere('status_id', config('commanConfig.applicationStatus.revert_to'));
-                    });
-            })->get()->toArray();
 
-        dd($ee_application_data);
+//        $ee_application_data = OlApplication::with(['applicationLayoutUser', 'olApplicationStatus' => function ($q) use($request){
+//            $q
+//                /*->where(function($q){
+//                    $q->where('status_id', config('commanConfig.applicationStatus.in_process'))
+//                        ->orWhere('status_id', config('commanConfig.applicationStatus.forward_to'));
+////                        ->orWhere('status_id', config('commanConfig.applicationStatus.revert_to'));
+//                })*/
+//                ->orderBy('id', 'desc');
+//
+//            if($request->update_status)
+//            {
+//                $q->where('status_id', '=', $request->update_status)
+//                   ->where('user_id', Auth::user()->id)
+//                    ->where('role_id', session()->get('role_id'));
+//            }
+//            else
+//            {
+//                $q->where('to_user_id', Auth::user()->id)
+//                    ->where('to_role_id', session()->get('role_id'));
+//            }
+//        }, 'eeApplicationSociety'])
+//            ->whereHas('olApplicationStatus', function ($q) use($request) {
+//                $q
+////                    ->where(function($q){
+////                        $q->where('status_id', config('commanConfig.applicationStatus.in_process'))
+////                            ->orWhere('status_id', config('commanConfig.applicationStatus.forward_to'));
+//////                            ->orWhere('status_id', config('commanConfig.applicationStatus.revert_to'));
+////                    });
+//                    ->orderBy('id', 'desc');
+//                if($request->update_status)
+//                {
+//                    $q->where('status_id', '=', $request->update_status)
+//                        ->where('user_id', Auth::user()->id)
+//                        ->where('role_id', session()->get('role_id'));
+//                }
+//                else
+//                {
+//                    $q->where('to_user_id', Auth::user()->id)
+//                    ->where('to_role_id', session()->get('role_id'));
+//                }
+//            })->get()->toArray();
+
+//        dd($ee_application_data);
+
         $getData = $request->all();
 
         $columns = [
@@ -73,74 +98,85 @@ class EEController extends Controller
             ['data' => 'society_building_no', 'name' => 'eeApplicationSociety.building_no', 'title' => 'Building No'],
             ['data' => 'society_address','name' => 'eeApplicationSociety.address','title' => 'Address'],
 //            ['data' => 'model','name' => 'model','title' => 'Model'],
-//            ['data' => 'current_status_id','name' => 'current_status_id','title' => 'Status'],
-//            ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
+            ['data' => 'Status','name' => 'current_status_id','title' => 'Status'],
+            ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
         ];
 
         if ($datatables->getRequest()->ajax()) {
 
-            DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
+            $ee_application_data = OlApplication::with(['applicationLayoutUser', 'eeApplicationSociety', 'olApplicationStatusForLoginListing' => function($q){
+                $q->where('user_id', Auth::user()->id)
+                    ->where('role_id', session()->get('role_id'))
+                    ->orderBy('id', 'desc');
+            }])
+                ->whereHas('olApplicationStatusForLoginListing' ,function($q){
+                    $q->where('user_id', Auth::user()->id)
+                        ->where('role_id', session()->get('role_id'))
+                        ->orderBy('id', 'desc');
+                })
+                ->select()->get();
 
-            if(session()->get('role_name') == "ee_junior_engineer") {
-                $ee_application_data = OlApplication::with(['applicationLayoutUser', 'olApplicationStatus' => function ($q) {
-                    $q->whereNull('to_user_id')
-                        ->where('to_role_id', session()->get('role_id'))
-                        ->where(function($q){
-                            $q->where('status_id', config('commanConfig.applicationStatus.in_process'))
-                                ->orWhere('status_id', config('commanConfig.applicationStatus.revert_to'));
-                        });
-                }, 'eeApplicationSociety'])
-                    ->whereHas('olApplicationStatus', function ($q) {
-                        $q->whereNull('to_user_id')
-                            ->where('to_role_id', session()->get('role_id'))
-                            ->where(function($q){
-                                $q->where('status_id', config('commanConfig.applicationStatus.in_process'))
-                                    ->orWhere('status_id', config('commanConfig.applicationStatus.revert_to'));
-                            });
-                    });
-            }
-            else {
-                $ee_application_data = OlApplication::with(['applicationLayoutUser', 'olApplicationStatus' => function ($q) {
-                    $q->where('to_user_id', Auth::user()->id)
-                        ->where('to_role_id', session()->get('role_id'))
-                        ->where(function($q){
-                            $q->where('status_id', config('commanConfig.applicationStatus.in_process'))
-                                ->orWhere('status_id', config('commanConfig.applicationStatus.forward_to'))
-                                ->orWhere('status_id', config('commanConfig.applicationStatus.revert_to'));
-                        });
-                }, 'eeApplicationSociety'])
-                    ->whereHas('olApplicationStatus', function ($q) {
-                        $q->where('to_user_id', Auth::user()->id)
-                            ->where('to_role_id', session()->get('role_id'));
-                    });
-            }
-
-            /*if($request->office_date_from)
+            $listArray = [];
+            if($request->update_status)
             {
-                $hearing_data = $hearing_data->whereDate('office_date', '>=', date('Y-m-d', strtotime($request->office_date_from)));
+                foreach ($ee_application_data as $app_data)
+                {
+                    if($app_data->olApplicationStatusForLoginListing[0]->status_id == $request->update_status)
+                    {
+//                        dd("in if");
+                        $listArray[] = $app_data;
+                    }
+                    else{
+//                        dd("in else");
+                        $listArray = [];
+                    }
+                }
+            }
+            else
+            {
+                $listArray =  $ee_application_data;
             }
 
-            if($request->office_date_to)
-            {
-                $hearing_data = $hearing_data->whereDate('office_date', '<=', date('Y-m-d', strtotime($request->office_date_to)));
-            }*/
+//            dd($listArray);
+//            $ee_application_data = $ee_application_data->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').', application_no, ol_applications.id as id, submitted_at, society_id, current_status_id');
 
-            $ee_application_data = $ee_application_data->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').', application_no, ol_applications.id as id, submitted_at, society_id, current_status_id');
+            return $datatables->of($listArray)
+                ->editColumn('rownum', function ($listArray) {
+                    static $i = 0; $i++; return $i;
+                })
+                ->editColumn('society_name', function ($listArray) {
+                    return $listArray->eeApplicationSociety->name;
+                })
+                ->editColumn('society_building_no', function ($listArray) {
+                    return $listArray->eeApplicationSociety->building_no;
+                })
+                ->editColumn('society_address', function ($listArray) {
+                    return $listArray->eeApplicationSociety->address;
+                })
+                ->editColumn('Status', function ($listArray) use ($request) {
+                    $status = $listArray->olApplicationStatusForLoginListing[0]->status_id;
 
-            return $datatables->of($ee_application_data)
-                ->editColumn('society_name', function ($ee_application_data) {
-                    return $ee_application_data->eeApplicationSociety->name;
+                    if($request->update_status)
+                    {
+                        if($request->update_status == $status){
+                            $config_array = array_flip(config('commanConfig.applicationStatus'));
+                            $value = ucwords(str_replace('_', ' ', $config_array[$status]));
+                            return $value;
+                        }
+                    }else{
+                        $config_array = array_flip(config('commanConfig.applicationStatus'));
+                        $value = ucwords(str_replace('_', ' ', $config_array[$status]));
+                        return $value;
+                    }
+
                 })
-                ->editColumn('society_building_no', function ($ee_application_data) {
-                    return $ee_application_data->eeApplicationSociety->building_no;
+                ->editColumn('submitted_at', function ($listArray) {
+                    return date(config('commanConfig.dateFormat', strtotime($listArray->submitted_at)));
                 })
-                ->editColumn('society_address', function ($ee_application_data) {
-                    return $ee_application_data->eeApplicationSociety->address;
+                ->editColumn('actions', function ($ee_application_data) use($request) {
+                    return view('admin.ee_department.actions', compact('ee_application_data', 'request'))->render();
                 })
-//                ->editColumn('actions', function ($hearing_data) {
-//                    return view('admin.hearing.actions', compact('hearing_data'))->render();
-//                })
-                ->rawColumns(['society_name', 'society_building_no', 'society_address'])
+                ->rawColumns(['society_name', 'actions', 'society_building_no', 'society_address', 'Status', 'submitted_at'])
                 ->make(true);
         }
 
@@ -154,34 +190,38 @@ class EEController extends Controller
             'serverSide' => true,
             'processing' => true,
             'ordering'   =>'isSorted',
-            "order"=> [5, "desc" ],
+            "order"=> [7, "desc" ],
             "pageLength" => $this->list_num_of_records_per_page
         ];
     }
 
-    public function documentSubmittedBySociety()
+    public function documentSubmittedBySociety($society_id)
     {
         $arrData['society_document'] = OlSocietyDocumentsMaster::get();
-        $document_status_data = SocietyOfferLetter::with('societyDocuments')->first();
+        $document_status_data = SocietyOfferLetter::with('societyDocuments')->where('id', $society_id)->first();
 
         $arrData['society_document_data'] = array_get($document_status_data,'societyDocuments')->keyBy('document_id')->toArray();
 
         return view('admin.ee_department.documentSubmitted', compact('arrData'));
     }
 
-    public function getForwardApplicationForm(){
-        $arrData['society_detail'] = OlApplication::with('eeApplicationSociety')->where('id', 2)->first();
+    public function getForwardApplicationForm($application_id){
+        $arrData['society_detail'] = OlApplication::with('eeApplicationSociety')->where('id', $application_id)->first();
         $user = User::with(['roles.parent.parentUser'])->where('id', Auth::user()->id)->first();
         $roles = array_get($user, 'roles');
         $parent = array_get($roles[0], 'parent');
         $arrData['parentData'] = array_get($parent, 'parentUser');
         $arrData['role_name'] = strtoupper(str_replace('_', ' ', $parent['name']));
 
-        $arrData['application_status'] = OlApplicationStatus::where('application_id', 1)
+        $arrData['application_status'] = OlApplicationStatus::where('application_id', $application_id)
                                                 ->whereNotNull('to_user_id')
                                                 ->whereNotNull('to_role_id')->orderBy('id', 'desc')->first();
-//        dd($arrData['application_status']);
 
+        // DyCE Junior Forward Application
+
+        $dyce_role_id = Role::where('name', '=', config('commanConfig.dyce_jr_user'))->first();
+        $arrData['get_forward_dyce'] = User::where('role_id', $dyce_role_id->id)->get();
+        $arrData['dyce_role_name'] = strtoupper(str_replace('_', ' ', $dyce_role_id->name));
 
         return view('admin.ee_department.forward-application', compact('arrData'));
     }
@@ -251,47 +291,47 @@ class EEController extends Controller
         // insert into ol_application_status_log table
     }
 
-    public function scrutinyRemarkByEE()
+    public function scrutinyRemarkByEE($application_id, $society_id)
     {
         // Document Scrutiny
-        $arrData['society_detail'] = OlApplication::with('eeApplicationSociety')->first();
+        $arrData['society_detail'] = OlApplication::with('eeApplicationSociety')->where('id', $application_id)->first();
         $arrData['society_document'] = OlSocietyDocumentsMaster::get();
-        $document_status_data = SocietyOfferLetter::with('societyDocuments')->first();
+        $document_status_data = SocietyOfferLetter::with('societyDocuments')->where('id', $society_id)->first();
         $arrData['society_document_data'] = array_get($document_status_data,'societyDocuments')->keyBy('document_id')->toArray();
 //        dd($arrData['society_document_data']);
 
         // Consent Scrutiny
 
         $arrData['consent_verification_question'] = OlConsentVerificationQuestionMaster::all();
-        $arrData['consent_verification_checkist_data'] = OlChecklistScrutiny::where('application_id', 1)
+        $arrData['consent_verification_checkist_data'] = OlChecklistScrutiny::where('application_id', $application_id)
                                                                                 ->where('verification_type', 'CONSENT VERIFICATION')
                                                                                 ->first();
-        $arrData['consent_verification_details_data'] = OlConsentVerificationDetails::where('application_id', 1)->get()->keyBy('question_id')->toArray();
+        $arrData['consent_verification_details_data'] = OlConsentVerificationDetails::where('application_id', $application_id)->get()->keyBy('question_id')->toArray();
 
         // Demarcation Scrutiny
 
         $arrData['demarcation_question'] = OlDemarcationVerificationQuestionMaster::all();
-        $arrData['demarcation_checkist_data'] = OlChecklistScrutiny::where('application_id', 1)
+        $arrData['demarcation_checkist_data'] = OlChecklistScrutiny::where('application_id', $application_id)
                                                                         ->where('verification_type', 'DEMARCATION')
                                                                         ->first();
-        $arrData['demarcation_details_data'] = OlDemarcationVerificationDetails::where('application_id', 1)->get()->keyBy('question_id')->toArray();
+        $arrData['demarcation_details_data'] = OlDemarcationVerificationDetails::where('application_id', $application_id)->get()->keyBy('question_id')->toArray();
 
         // Tit-Bit Scrutiny
 
         $arrData['tit_bit_question'] = OlTitBitVerificationQuestionMaster::all();
-        $arrData['tit_bit_checkist_data'] = OlChecklistScrutiny::where('application_id', 1)
+        $arrData['tit_bit_checkist_data'] = OlChecklistScrutiny::where('application_id', $application_id)
                                                                         ->where('verification_type', 'TIT BIT')
                                                                         ->first();
-        $arrData['tit_bit_details_data'] = OlTitBitVerificationDetails::where('application_id', 1)->get()->keyBy('question_id')->toArray();
+        $arrData['tit_bit_details_data'] = OlTitBitVerificationDetails::where('application_id', $application_id)->get()->keyBy('question_id')->toArray();
 
 
         // R.G Relocation
 
         $arrData['rg_question'] = OlRgRelocationVerificationQuestionMaster::all();
-        $arrData['rg_checkist_data'] = OlChecklistScrutiny::where('application_id', 1)
+        $arrData['rg_checkist_data'] = OlChecklistScrutiny::where('application_id', $application_id)
             ->where('verification_type', 'RG RELOCATION')
             ->first();
-        $arrData['rg_details_data'] = OlRelocationVerificationDetails::where('application_id', 1)->get()->keyBy('question_id')->toArray();
+        $arrData['rg_details_data'] = OlRelocationVerificationDetails::where('application_id', $application_id)->get()->keyBy('question_id')->toArray();
 
 //        dd($arrData);
         return view('admin.ee_department.scrutiny-remark', compact('arrData'));

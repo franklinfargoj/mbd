@@ -797,8 +797,10 @@
                                                             </table>
                                                         </div>
                                                     </div>
-                                        <button type="submit" class="btn btn-primary">Save</button>
-                                        </form>
+                                                <button type="submit" class="btn btn-primary">Save</button>
+                                                </form>
+                                            </div>
+                                    </div>
                                     </div>
                                 </div>
 
@@ -892,5 +894,7 @@
         });
 
         $("#demarcation_date, #tit_bit_date").datepicker();
+
+
     </script>
 @endsection

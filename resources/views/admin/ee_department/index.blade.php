@@ -63,8 +63,9 @@
                                         <label for="office_date_to">Status</label>
                                         <select class="form-control m-input" id="update_status" name="update_status">
                                             <option value="">All</option>
-                                            <option value="1">In Progress</option>
-                                            <option value="2">Forwarded</option>
+                                            @foreach(config('commanConfig.applicationStatus') as $key => $application_status)
+                                                <option value="{{ $application_status }}" {{ ($status == $application_status) ? 'selected' : '' }}>{{ ucwords(str_replace('_', ' ', $key)) }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
