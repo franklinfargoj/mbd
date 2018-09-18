@@ -42,27 +42,27 @@ class EEController extends Controller
     public function index(Request $request, Datatables $datatables)
     {
 //        dd(session()->get('role_id'));
-        $ee_application_data = OlApplication::with(['applicationLayoutUser', 'olApplicationStatus' => function ($q) {
-            $q->whereNull('to_user_id')
-                ->where('to_role_id', session()->get('role_id'))
-                ->where(function($q){
-                    $q->where('status_id', config('commanConfig.applicationStatus.in_process'))
-                        ->orWhere('status_id', config('commanConfig.applicationStatus.forward_to'));
-//                        ->orWhere('status_id', config('commanConfig.applicationStatus.revert_to'));
-                })
-                ->orderBy('id', 'desc')->first();
-        }, 'eeApplicationSociety'])
-            ->whereHas('olApplicationStatus', function ($q) {
-                $q->whereNull('to_user_id')
-                    ->where('to_role_id', session()->get('role_id'))
-                    ->where(function($q){
-                        $q->where('status_id', config('commanConfig.applicationStatus.in_process'))
-                            ->orWhere('status_id', config('commanConfig.applicationStatus.forward_to'));
-//                            ->orWhere('status_id', config('commanConfig.applicationStatus.revert_to'));
-                    });
-            })->get()->toArray();
+//         $ee_application_data = OlApplication::with(['applicationLayoutUser', 'olApplicationStatus' => function ($q) {
+//             $q->whereNull('to_user_id')
+//                 ->where('to_role_id', session()->get('role_id'))
+//                 ->where(function($q){
+//                     $q->where('status_id', config('commanConfig.applicationStatus.in_process'))
+//                         ->orWhere('status_id', config('commanConfig.applicationStatus.forward_to'));
+// //                        ->orWhere('status_id', config('commanConfig.applicationStatus.revert_to'));
+//                 })
+//                 ->orderBy('id', 'desc')->first();
+//         }, 'eeApplicationSociety'])
+//             ->whereHas('olApplicationStatus', function ($q) {
+//                 $q->whereNull('to_user_id')
+//                     ->where('to_role_id', session()->get('role_id'))
+//                     ->where(function($q){
+//                         $q->where('status_id', config('commanConfig.applicationStatus.in_process'))
+//                             ->orWhere('status_id', config('commanConfig.applicationStatus.forward_to'));
+// //                            ->orWhere('status_id', config('commanConfig.applicationStatus.revert_to'));
+//                     });
+//             })->get()->toArray();
 
-        dd($ee_application_data);
+//         dd($ee_application_data);
         $getData = $request->all();
 
         $columns = [

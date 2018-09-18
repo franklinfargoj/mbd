@@ -1,5 +1,9 @@
 /* theme classes over ride starts here */
 
+.m-subheader {
+    padding: 0;
+}
+
 .m-brand__logo-wrapper:focus {
     outline: none;
 }
@@ -138,7 +142,7 @@
 }
 
 .m-subheader + .m-subheader {
-    margin-top: 15px;
+    margin-top: 30px;
 }
 
 .m-tabs-line .m-tabs__item {
@@ -433,6 +437,14 @@
 /* theme classes over ride ends here */
 
 /* global classes starts here */
+
+.width-auto {
+    width: auto !important;
+}
+
+.position-relative {
+    position: relative;
+}
 
 .flex-grow-1 {
     -webkit-box-flex: 1;
@@ -851,6 +863,10 @@
     display: block;
 }
 
+.nav-pills .nav-link.disabled {
+    cursor: default;
+}
+
 /* #tabbed-content .tabs-inner li{
     display: inline-block;
     padding: 10px 14px;
@@ -904,6 +920,28 @@
 }
 
 /* Forward Application ends here */
+
+/* DyCE scrutiny remarks starts here */
+
+label.site-visit-label {
+    width: 175px;
+    margin-bottom: 0;
+}
+
+.add_more {
+    position: absolute;
+    top: 102%;
+    left: 0;
+}
+
+.close-icon {
+    position: absolute;
+    left: 102%;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* DyCE scrutiny remarks ends here */
 
 /* Login Page starts here */
 
