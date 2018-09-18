@@ -13,6 +13,7 @@ return [
     'dyce_jr_user' => 'dyce_junior_engineer',
     'ee_junior_engineer' => 'ee_junior_engineer',
     'co_engineer' => 'co_engineer',
+    'cap_engineer' => 'cap_engineer',
 
     'applicationStatus' => [
         'in_process' => 1,
