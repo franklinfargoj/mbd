@@ -140,14 +140,16 @@ class COController extends Controller
     // function used to DyCE Scrutiny & Remark page
     public function dyceScrutinyRemark(Request $request,$applicationId){
 
-        $applicationDocuments = OlApplication::join('ol_site_visit_documents','ol_site_visit_documents.application_id','ol_applications.id')->where('ol_applications.id',$applicationId)->get(); 
+        // $applicationDocuments = OlApplication::join('ol_site_visit_documents','ol_site_visit_documents.application_id','ol_applications.id')->where('ol_applications.id',$applicationId)->get(); 
+
+        // $applicationDocuments = OlApplication::with(['visitDocuments'])->get();
                    
-        $applicationData = OlApplication::with(['eeApplicationSociety'])
+        $applicationData = OlApplication::with(['eeApplicationSociety','visitDocuments'])
                             ->where('id',$applicationId)->first();
 
         if(isset($applicationData))                   
-        $applicationData->SiteVisitorOfficers = explode(",",$applicationData->site_visit_officers);                                      
-       
+        $applicationData->SiteVisitorOfficers = explode(",",$applicationData->site_visit_officers);   
+               
         return view('admin.co_department.dyce_scrunity_remark',compact('applicationData','applicationDocuments'));
     } 
 
