@@ -174,9 +174,9 @@
                                                             </label>
                                                             <div class="col-lg-4 col-md-9 col-sm-12">
                                                                 <select class="form-control m-bootstrap-select m_selectpicker" name="to_user_id" id="to_user_id">
-                                                                
-                                                                        <option value="" data-role=""></option>
-                                                                    
+                                                                    @foreach($arrData['get_forward_cap'] as $parent)
+                                                                        <option value="{{ $parent->id }}" data-role="{{ $parent->role_id }}">{{ $parent->name }} ({{ $arrData['cap_role_name'] }})</option>
+                                                                    @endforeach
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -189,7 +189,7 @@
                                                             {{--<button type="submit" id="sign" class="btn btn-primary forwrdBtn">Sign</button>
                                                             <button type="submit" class="btn btn-primary forwrdBtn">Sign & Forward</button>
                                                             <button type="submit" class="btn btn-primary forwrdBtn">Forward</button>--}}
-                                                            <button type="button" class="btn btn-secondary">Cancel</button>
+                                                            <button type="button" onclick="window.location.href='{{ url("/co") }}'" class="btn btn-secondary">Cancel</button>
                                                         </div>
                                                     </div>
                                                     <input type="hidden" name="applicationId" value="{{$applicationData->id}}">                                                   

@@ -85,31 +85,33 @@ Route::post('loadDepartmentsOfBoardUsingAjax', 'BoardController@loadDepartmentsO
 //resolutions frontend
 Route::get('/frontend_resolution_list', 'FrontendResolutionController@index')->name('frontend_resolution_list');
 
-//Hearing Admin
-Route::resource('/hearing', 'HearingController');
-Route::post('loadDeleteReasonOfHearingUsingAjax', 'HearingController@loadDeleteReasonOfHearingUsingAjax')->name('loadDeleteReasonOfHearingUsingAjax');
+Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']], function() {
+
+    //Hearing Admin
+    Route::resource('/hearing', 'HearingController');
+    Route::post('loadDeleteReasonOfHearingUsingAjax', 'HearingController@loadDeleteReasonOfHearingUsingAjax')->name('loadDeleteReasonOfHearingUsingAjax');
 //Route::get('/hearing/delete/{id}', 'HearingController@destroy')->name('hearing.delete');
 
-Route::resource('/schedule_hearing', 'ScheduleHearingController');
-Route::get('/schedule_hearing/create/{id}', 'ScheduleHearingController@create')->name('schedule_hearing.add');
+    Route::resource('/schedule_hearing', 'ScheduleHearingController');
+    Route::get('/schedule_hearing/create/{id}', 'ScheduleHearingController@create')->name('schedule_hearing.add');
 
-Route::resource('/fix_schedule', 'PrePostScheduleController');
-Route::get('/fix_schedule/create/{id}', 'PrePostScheduleController@create')->name('fix_schedule.add');
+    Route::resource('/fix_schedule', 'PrePostScheduleController');
+    Route::get('/fix_schedule/create/{id}', 'PrePostScheduleController@create')->name('fix_schedule.add');
 
-Route::resource('/upload_case_judgement', 'UploadCaseJudgementController');
-Route::get('/upload_case_judgement/create/{id}', 'UploadCaseJudgementController@create')->name('upload_case_judgement.add');
+    Route::resource('/upload_case_judgement', 'UploadCaseJudgementController');
+    Route::get('/upload_case_judgement/create/{id}', 'UploadCaseJudgementController@create')->name('upload_case_judgement.add');
 
-Route::get('/forward_case/create/{id}', 'ForwardCaseController@create')->name('forward_case.create');
-Route::post('/forward_case/store', 'ForwardCaseController@store')->name('forward_case.store');
-Route::get('/forward_case/edit/{id}', 'ForwardCaseController@edit')->name('forward_case.edit');
-Route::post('/forward_case/update/{id}', 'ForwardCaseController@update')->name('forward_case.update');
+    Route::get('/forward_case/create/{id}', 'ForwardCaseController@create')->name('forward_case.create');
+    Route::post('/forward_case/store', 'ForwardCaseController@store')->name('forward_case.store');
+    Route::get('/forward_case/edit/{id}', 'ForwardCaseController@edit')->name('forward_case.edit');
+    Route::post('/forward_case/update/{id}', 'ForwardCaseController@update')->name('forward_case.update');
 
-Route::get('/send_notice_to_appellant/create/{id}', 'SendNoticeToAppellantController@create')->name('send_notice_to_appellant.create');
-Route::post('/send_notice_to_appellant/store', 'SendNoticeToAppellantController@store')->name('send_notice_to_appellant.store');
-Route::get('/send_notice_to_appellant/edit/{id}', 'SendNoticeToAppellantController@edit')->name('send_notice_to_appellant.edit');
-Route::post('/send_notice_to_appellant/update/{id}', 'SendNoticeToAppellantController@update')->name('send_notice_to_appellant.update');
+    Route::get('/send_notice_to_appellant/create/{id}', 'SendNoticeToAppellantController@create')->name('send_notice_to_appellant.create');
+    Route::post('/send_notice_to_appellant/store', 'SendNoticeToAppellantController@store')->name('send_notice_to_appellant.store');
+    Route::get('/send_notice_to_appellant/edit/{id}', 'SendNoticeToAppellantController@edit')->name('send_notice_to_appellant.edit');
+    Route::post('/send_notice_to_appellant/update/{id}', 'SendNoticeToAppellantController@update')->name('send_notice_to_appellant.update');
 
-Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']], function() {
+    // Land Manager Routes
     Route::resource('/village_detail', 'VillageDetailController');
     Route::get('/society_detail/{id}', 'SocietyController@index')->name("society_detail.index");
     Route::get('/society_detail/create/{id}', 'SocietyController@create')->name("society_detail.create");
@@ -165,6 +167,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('dyce_scrutiny_remark/{id}','CAPDepartment\CAPController@dyceScrutinyRemark')->name('cap.dyce_Scrutiny_Remark');
 
     Route::get('cap_forward_application/{id}','CAPDepartment\CAPController@forwardApplication')->name('cap.forward_application');
+    Route::post('cap_save_forward_Application','CAPDepartment\CAPController@sendForwardApplication')->name('cap.forward_application_data');
 
     // Route::post('save_forward_Application','CODepartment\COController@sendForwardApplication')->name('co.forward_application_data');
 

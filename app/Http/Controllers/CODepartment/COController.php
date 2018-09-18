@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\CODepartment;
 
+use App\Role;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Common\CommonController;
@@ -167,9 +168,9 @@ class COController extends Controller
 
         // CAP Forward Application
 
-        /*$dyce_role_id = Role::where('name', '=', config('commanConfig.dyce_jr_user'))->first();
-        $arrData['get_forward_dyce'] = User::where('role_id', $dyce_role_id->id)->get();
-        $arrData['dyce_role_name'] = strtoupper(str_replace('_', ' ', $dyce_role_id->name));*/
+        $cap_role_id = Role::where('name', '=', config('commanConfig.cap_engineer'))->first();
+        $arrData['get_forward_cap'] = User::where('role_id', $cap_role_id->id)->get();
+        $arrData['cap_role_name'] = strtoupper(str_replace('_', ' ', $cap_role_id->name));
         return view('admin.co_department.forward_application',compact('applicationData', 'arrData'));
     }
 
