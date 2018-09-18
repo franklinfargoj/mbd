@@ -121,7 +121,7 @@
                     <div class="col-sm-6 field-col">
                         <div class="d-flex">
                             <span class="field-name">Name of Inspector:</span>
-                            <span class="field-value" style="width: 242px;word-break: break-all;">{{(isset($applicationData->eeApplicationSociety->building_no) ? $applicationData->eeApplicationSociety->building_no : '')}}</span>
+                            <span class="field-value" style="width: 242px;word-break: break-all;"></span>
                         </div>
                     </div>
                     <div class="col-sm-6 field-col">
@@ -130,13 +130,16 @@
                             <span class="field-value">{{(isset($applicationData->date_of_site_visit) ? $applicationData->date_of_site_visit : '')}}</span>
                         </div>
                     </div>
-                    <div class="col-sm-12 field-col">
-                        <div class="d-flex">
-                            <span class="field-name">Supporting Documents:</span>
-                            <img class="" src="{{ asset('/img/pdf-icon.svg')}}">
-                            <span class="field-value">abc.doc</span>
+                    @foreach($applicationData->visitDocuments as $data)
+                        <div class="col-sm-12 field-col">
+                            <div class="d-flex">
+                                <span class="field-name">Supporting Documents:</span>
+                                <a href="{{asset($data->document_path)}}">
+                                <img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}" style="height:44px"></a>
+                                <span class="field-value" style="padding: 12px;">{{(explode('/',$data->document_path)[3])}}</span>
+                            </div>
                         </div>
-                    </div>
+                    @endforeach
                 </div>
 	    </div>    
 	</div>   

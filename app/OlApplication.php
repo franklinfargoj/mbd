@@ -36,7 +36,7 @@ class OlApplication extends Model
     }
 
     public function visitDocuments(){
-       return $this->hasMany('App\olSiteVisitDocuments', 'id','application_id'); 
+       return $this->hasMany('App\olSiteVisitDocuments', 'application_id','id'); 
     }
 
     public function request_form(){
