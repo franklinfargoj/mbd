@@ -257,36 +257,70 @@ class EEController extends Controller
             OlApplicationStatus::insert($forward_application);
         }
         else{
-            $revert_application = [
-                [
-                    'application_id' => $request->application_id,
-                    'user_id' => Auth::user()->id,
-                    'role_id' => session()->get('role_id'),
-                    'status_id' => config('commanConfig.applicationStatus.revert_to'),
-                    'to_user_id' => $request->user_id,
-                    'to_role_id' => $request->role_id,
-                    'remark' => $request->remark,
-                    'created_at' => Carbon::now()
-                ],
+            if(session()->get('role_name') == config('commanConfig.ee_junior_engineer'))
+            {
+                $society_user_data = OlApplicationStatus::where('application_id', $request->application_id)
+                                                        ->where('society_flag', 1)
+                                                        ->orderBy('id', 'desc')->get();
 
-                [
-                    'application_id' => $request->application_id,
-                    'user_id' => $request->user_id,
-                    'role_id' => $request->role_id,
-                    'status_id' => config('commanConfig.applicationStatus.in_process'),
-                    'to_user_id' => NULL,
-                    'to_role_id' => session()->has('child') ? session()->get('child') : NULL,
-                    'remark' => $request->remark,
-                    'created_at' => Carbon::now()
-                ]
-            ];
+                $revert_application = [
+                    [
+                        'application_id' => $request->application_id,
+                        'user_id' => Auth::user()->id,
+                        'role_id' => session()->get('role_id'),
+                        'status_id' => config('commanConfig.applicationStatus.revert_to'),
+                        'to_user_id' => $society_user_data[0]->user_id,
+                        'to_role_id' => $society_user_data[0]->role_id,
+                        'remark' => $request->remark,
+                        'created_at' => Carbon::now()
+                    ],
+
+                    [
+                        'application_id' => $request->application_id,
+                        'society_flag' => $request->society_flag,
+                        'user_id' => $society_user_data[0]->user_id,
+                        'role_id' => $society_user_data[0]->role_id,
+                        'status_id' => config('commanConfig.applicationStatus.in_process'),
+                        'to_user_id' => NULL,
+                        'to_role_id' => NULL,
+                        'remark' => $request->remark,
+                        'created_at' => Carbon::now()
+                    ]
+                ];
+            }
+            else
+            {
+                $revert_application = [
+                    [
+                        'application_id' => $request->application_id,
+                        'user_id' => Auth::user()->id,
+                        'role_id' => session()->get('role_id'),
+                        'status_id' => config('commanConfig.applicationStatus.revert_to'),
+                        'to_user_id' => $request->user_id,
+                        'to_role_id' => $request->role_id,
+                        'remark' => $request->remark,
+                        'created_at' => Carbon::now()
+                    ],
+
+                    [
+                        'application_id' => $request->application_id,
+                        'user_id' => $request->user_id,
+                        'role_id' => $request->role_id,
+                        'status_id' => config('commanConfig.applicationStatus.in_process'),
+                        'to_user_id' => NULL,
+                        'to_role_id' => NULL,
+                        'remark' => $request->remark,
+                        'created_at' => Carbon::now()
+                    ]
+                ];
+            }
 
 //            echo "in revert";
 //            dd($revert_application);
             OlApplicationStatus::insert($revert_application);
         }
 
-        return redirect()->back();
+        return redirect('/ee');
 
         // insert into ol_application_status_log table
     }

@@ -8,6 +8,7 @@ use App\Http\Controllers\Common\CommonController;
 use Yajra\DataTables\DataTables;
 use App\olSiteVisitDocuments;
 use App\OlApplication;
+use Carbon\Carbon;
 use App\SocietyOfferLetter;
 use App\OlSocietyDocumentsStatus;
 use App\OlConsentVerificationDetails;
@@ -40,27 +41,49 @@ class COController extends Controller
             ['data' => 'building_name','name' => 'eeApplicationSociety.building_no','title' => 'building No'],
             ['data' => 'society_address','name' => 'eeApplicationSociety.address','title' => 'Address'],
             // ['data' => 'model','name' => 'model','title' => 'Model'],
-            // ['data' => 'status','name' => 'status','title' => 'Status'],
+             ['data' => 'Status','name' => 'status','title' => 'Status'],
             ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
         ];
 
         if ($datatables->getRequest()->ajax()) {
 
-            DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));          
+            $co_application_data = OlApplication::with(['applicationLayoutUser', 'eeApplicationSociety', 'olApplicationStatusForLoginListing' => function($q){
+                $q->where('user_id', Auth::user()->id)
+                    ->where('role_id', session()->get('role_id'))
+                    ->orderBy('id', 'desc');
+            }])
+                ->whereHas('olApplicationStatusForLoginListing' ,function($q){
+                    $q->where('user_id', Auth::user()->id)
+                        ->where('role_id', session()->get('role_id'))
+                        ->orderBy('id', 'desc');
+                })
+                ->select()->get();
 
-            $co_application_data = OlApplication::with(['olApplicationStatus' => function($q){
-                $q->where('user_id', Auth::id())
-                    ->where('role_id', Auth::user()->role_id);
-            }, 'eeApplicationSociety'])
-            ->whereHas('olApplicationStatus', function($q){
-                $q->where('user_id', Auth::id())
-                    ->where('role_id', Auth::user()->role_id);
-            });
+            $listArray = [];
+            if($request->update_status)
+            {
+                foreach ($co_application_data as $app_data)
+                {
+                    if($app_data->olApplicationStatusForLoginListing[0]->status_id == $request->update_status)
+                    {
+//                        dd("in if");
+                        $listArray[] = $app_data;
+                    }
+                    else{
+//                        dd("in else");
+                        $listArray = [];
+                    }
+                }
+            }
+            else
+            {
+                $listArray =  $co_application_data;
+            }
 
-            $co_application_data = $co_application_data->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').', application_no, ol_applications.id as id, submitted_at, society_id, current_status_id');
-
-            return $datatables->of($co_application_data)
-
+            return $datatables->of($listArray)
+                ->editColumn('rownum', function ($listArray) {
+                    static $i = 0; $i++; return $i;
+                })
                 ->editColumn('society_name', function ($co_application_data) {
                     return $co_application_data->eeApplicationSociety->name;
                 })
@@ -71,12 +94,29 @@ class COController extends Controller
                     return $co_application_data->eeApplicationSociety->address;
                 })                
                 ->editColumn('date', function ($co_application_data) {
-                    return $co_application_data->submitted_at;
+                    return date(config('commanConfig.dateFormat', strtotime($co_application_data->submitted_at)));
                 })
-                ->editColumn('actions', function ($co_application_data) {
-                   return view('admin.co_department.action', compact('co_application_data'))->render();
-                })                
-                ->rawColumns(['society_name', 'building_name', 'society_address','date','actions'])
+                ->editColumn('actions', function ($co_application_data) use($request){
+                   return view('admin.co_department.action', compact('co_application_data', 'request'))->render();
+                })
+                ->editColumn('Status', function ($listArray) use ($request) {
+                    $status = $listArray->olApplicationStatusForLoginListing[0]->status_id;
+
+                    if($request->update_status)
+                    {
+                        if($request->update_status == $status){
+                            $config_array = array_flip(config('commanConfig.applicationStatus'));
+                            $value = ucwords(str_replace('_', ' ', $config_array[$status]));
+                            return $value;
+                        }
+                    }else{
+                        $config_array = array_flip(config('commanConfig.applicationStatus'));
+                        $value = ucwords(str_replace('_', ' ', $config_array[$status]));
+                        return $value;
+                    }
+
+                })
+                ->rawColumns(['society_name', 'Status', 'building_name', 'society_address','date','actions'])
                 ->make(true);
         }        
     	        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
@@ -90,7 +130,7 @@ class COController extends Controller
             'serverSide' => true,
             'processing' => true,
             'ordering'   =>'isSorted',
-            "order"      => [6, "desc" ],
+            "order"      => [7, "desc" ],
             "pageLength" => $this->list_num_of_records_per_page
         ];
     } 
@@ -120,7 +160,80 @@ class COController extends Controller
     public function forwardApplication(Request $request, $applicationId){
 
         $applicationData = $this->CommonController->getForwardApplication($applicationId);
-        return view('admin.co_department.forward_application',compact('applicationData'));  
+        $arrData['application_status'] = OlApplicationStatus::where('application_id', $applicationId)
+            ->whereNotNull('to_user_id')
+            ->whereNotNull('to_role_id')->orderBy('id', 'desc')->first();
+
+
+        // CAP Forward Application
+
+        /*$dyce_role_id = Role::where('name', '=', config('commanConfig.dyce_jr_user'))->first();
+        $arrData['get_forward_dyce'] = User::where('role_id', $dyce_role_id->id)->get();
+        $arrData['dyce_role_name'] = strtoupper(str_replace('_', ' ', $dyce_role_id->name));*/
+        return view('admin.co_department.forward_application',compact('applicationData', 'arrData'));
+    }
+
+    public function sendForwardApplication(Request $request){
+//        dd($request->all());
+        if($request->check_status == 1) {
+            $forward_application = [[
+                'application_id' => $request->applicationId,
+                'user_id' => Auth::user()->id,
+                'role_id' => session()->get('role_id'),
+                'status_id' => config('commanConfig.applicationStatus.forward_to'),
+                'to_user_id' => $request->to_user_id,
+                'to_role_id' => $request->to_role_id,
+                'remark' => $request->remark,
+                'created_at' => Carbon::now()
+            ],
+
+            [
+                'application_id' => $request->applicationId,
+                'user_id' => $request->to_user_id,
+                'role_id' => $request->to_role_id,
+                'status_id' => config('commanConfig.applicationStatus.in_process'),
+                'to_user_id' => NULL,
+                'to_role_id' => NULL,
+                'remark' => $request->remark,
+                'created_at' => Carbon::now()
+            ]
+            ];
+
+//            echo "in forward";
+//            dd($forward_application);
+            OlApplicationStatus::insert($forward_application);
+        }
+        else{
+            $revert_application = [
+                [
+                    'application_id' => $request->applicationId,
+                    'user_id' => Auth::user()->id,
+                    'role_id' => session()->get('role_id'),
+                    'status_id' => config('commanConfig.applicationStatus.revert_to'),
+                    'to_user_id' => $request->user_id,
+                    'to_role_id' => $request->role_id,
+                    'remark' => $request->remark,
+                    'created_at' => Carbon::now()
+                ],
+
+                [
+                    'application_id' => $request->applicationId,
+                    'user_id' => $request->user_id,
+                    'role_id' => $request->role_id,
+                    'status_id' => config('commanConfig.applicationStatus.in_process'),
+                    'to_user_id' => NULL,
+                    'to_role_id' =>  NULL,
+                    'remark' => $request->remark,
+                    'created_at' => Carbon::now()
+                ]
+            ];
+//            echo "in revert";
+//            dd($revert_application);
+            OlApplicationStatus::insert($revert_application);
+        }
+
+        return redirect('/co');
+
     }
 
 
