@@ -189,7 +189,7 @@
                                                             {{--<button type="submit" id="sign" class="btn btn-primary forwrdBtn">Sign</button>
                                                             <button type="submit" class="btn btn-primary forwrdBtn">Sign & Forward</button>
                                                             <button type="submit" class="btn btn-primary forwrdBtn">Forward</button>--}}
-                                                            <button type="button" class="btn btn-secondary">Cancel</button>
+                                                            <button type="button" onclick="window.location.href='{{ url("/co") }}'" class="btn btn-secondary">Cancel</button>
                                                         </div>
                                                     </div>
                                                     <input type="hidden" name="applicationId" value="{{$applicationData->id}}">                                                   

@@ -99,7 +99,7 @@
                     <div class="col-lg-6 form-group">
                         <label class="col-form-label" for="date">Select Date:</label>
                         <div class="m-input-icon m-input-icon--right">
-                            <input type="date" id="date" name="date" class="form-control" class="form-control m-input"  value="{{ $arrData['schedule_prepost_data']->hearingSchedule->prePostSchedule[0]->date }}">
+                            <input type="text" id="date" name="date" class="form-control m_datepicker" class="form-control m-input"  value="{{ $arrData['schedule_prepost_data']->hearingSchedule->prePostSchedule[0]->date }}">
                             <span class="help-block">{{$errors->first('date')}}</span>
                         </div>
                     </div>

@@ -195,7 +195,7 @@
                                                             <button type="submit" class="btn btn-primary">Save</button>
                                                             {{--<button type="submit" class="btn btn-primary">Sign & Forward</button>
                                                             <button type="submit" class="btn btn-primary">Forward</button>--}}
-                                                            <button type="button" class="btn btn-secondary">Cancel</button>
+                                                            <button type="button" onclick="window.location.href='{{ url("/ee") }}'" class="btn btn-secondary">Cancel</button>
                                                         </div>
                                                     </div>
                                                 </form>

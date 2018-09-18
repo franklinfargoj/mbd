@@ -39,6 +39,8 @@ class Hearing extends Model
         'department_id',
         'board_id',
         'hearing_status_id',
+        'role_id',
+        'user_id'
     ];
 
     public function hearingDepartment()
