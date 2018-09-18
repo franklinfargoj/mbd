@@ -1,14 +1,17 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Auth\SessionGuard;
 use App\SocietyOfferLetter;
 use App\MasterEmailTemplates;
 use App\OlRequestForm;
+use App\OlApplicationMaster;
 use App\OlApplication;
+use App\OlApplicationStatus;
 use App\OlSocietyDocumentsMaster;
 use App\OlSocietyDocumentsStatus;
 use App\OlSocietyDocumentsComment;
-use App\OlApplicationMaster;
 use DB;
 use Validator;
 use Mail;
@@ -17,6 +20,9 @@ use Redirect;
 use Yajra\DataTables\DataTables;
 use Config;
 use PDF;
+use Auth;
+use Hash;
+use Session;
 use App\Mail\SocietyOfferLetterForgotPassword;
 
 class SocietyOfferLetterController extends Controller
@@ -78,7 +84,7 @@ class SocietyOfferLetterController extends Controller
                 'architect_mobile_no' => $request->input('society_architect_mobile_no'),
                 'architect_telephone_no' => $request->input('society_architect_telephone_no'),
                 'architect_address' => $request->input('society_architect_address'),
-                'remember_token' => rand().time(),
+                'remember_token' => $request->input('_token'),
                 'last_login_at' => date('Y-m-d')
             );
             SocietyOfferLetter::create($society_offer_letter_details);
@@ -144,13 +150,22 @@ class SocietyOfferLetterController extends Controller
         ]);        
         $email    = $request->input('email');
         $password = $request->input('password');
-
-        if (isset($email) && isset($password)){
-            $SocietyUser = SocietyOfferLetter::where('society_email',$email)
-                                               ->where('society_password',$password)->first();
+        if (auth()->guard('society')->attempt(['email' => $email, 'password' => $password])) {
+            echo "Login SuccessFull<br/>";
+            dd(Auth::guard('society'));
+            exit;
+        } else {
+            echo "Login Failed Wrong Data Passed";exit;
+        }
+        
+        $db_password = SocietyOfferLetter::where('email',$email)->first();
+        if ($password == ($db_password->password)){
+            
+            dd($db_password);
             if ($SocietyUser){
-                $response['sucess'] = "Authonticate User";  
-                // return Redirect::back()->withSuccess(['Authonticate User']);
+                $response['sucess'] = "Authenticate User";  
+                // Session::
+                return redirect()->route('society_offer_letter_dashboard');
             }else{
                 return Redirect::back()->withErrors(['Authontication Failed']);
             }
@@ -187,6 +202,7 @@ class SocietyOfferLetterController extends Controller
     public function dashboard(DataTables $datatables, Request $request)
     {
         $columns = [
+            ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'application_no','name' => 'application_no','title' => 'Application No.'],
             ['data' => 'application_master_id','name' => 'application_master_id','title' => 'Application Type'],
             ['data' => 'created_at','name' => 'created_date','title' => 'Date & Time of submission'],
@@ -194,27 +210,32 @@ class SocietyOfferLetterController extends Controller
             ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
         ];
         $getRequest = $request->all();
-
+        $ol_application_count = count(OlApplication::where('society_id', '1')->get());
         if ($datatables->getRequest()->ajax()) {
-            
-            $ol_applications = OlApplication::where('society_id', '1')->with('ol_application_master');
-            $ol_applications = $ol_applications->selectRaw( DB::raw('application_no, application_master_id, created_at'));
+            DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
+            $ol_applications = OlApplication::where('society_id', '1')->with(['ol_application_master', 'ol_application_status']);
+            if($request->application_master_id)
+            {
+                $ol_applications = $ol_applications->where('application_master_id', 'like', '%'.$request->application_master_id.'%');
+            }
+            $ol_applications = $ol_applications->selectRaw(DB::raw('@rownum  := @rownum  + 1 AS rownum').', current_status_id , application_no, application_master_id, created_at');
             // $ol_applications[] = $ol_applications[0];
             // $parent_application_name = OlApplicationMaster::where('id', $ol_applications->ol_application_master->parent_id)->get();
             // $ol_applications['parent_application_name'] = $parent_application_name[0];
-            dd($ol_applications);
+            // dd($ol_applications);
             return $datatables->of($ol_applications)
                 ->editColumn('application_no', function ($ol_applications) {
                     return $ol_applications->application_no;
                 })
                 ->editColumn('application_master_id', function ($ol_applications) {
-                    return $ol_applications->application_no;
+                    return $ol_applications->ol_application_master->title;
                 })
                 ->editColumn('created_at', function ($ol_applications) {
                     return $ol_applications->created_at;
                 })
                 ->editColumn('status', function ($ol_applications) {
-                    return $ol_applications->created_at;
+                    $status = explode('_', array_keys(config('commanConfig.applicationStatus'), $ol_applications->ol_application_status->status_id)[0]);
+                    return ucwords($status[0]). ' ' .ucwords($status[1]);
                 })
                 ->editColumn('actions', function ($ol_applications) {
                     return $ol_applications->created_at;
@@ -224,7 +245,7 @@ class SocietyOfferLetterController extends Controller
         }
         
         $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
-        return view('frontend.society.dashboard', compact('html', 'ol_applications'));
+        return view('frontend.society.dashboard', compact('html', 'ol_applications', 'ol_application_count'));
     }
 
     protected function getParameters() {
@@ -232,7 +253,7 @@ class SocietyOfferLetterController extends Controller
             'serverSide' => true,
             'processing' => true,
             'ordering'   =>'isSorted',
-            "order"=> [4, "desc" ],
+            "order"=> [5, "desc" ],
             "pageLength" => $this->list_num_of_records_per_page,
             // 'fixedHeader' => [
             //     'header' => true,
@@ -258,8 +279,10 @@ class SocietyOfferLetterController extends Controller
         );
         $last_inserted_id = OlRequestForm::create($input);
         $insert_application = array(
+            'user_id' => 1,
             'language_id' => '1',
             'society_id' => '1',
+            'layout_id' => 1,
             'request_form_id' => $last_inserted_id->id,
             'application_master_id' => $request->input('application_master_id'),
             'application_no' => rand().time(),
@@ -269,7 +292,17 @@ class SocietyOfferLetterController extends Controller
             'is_encrochment' => '0',
             'is_approve_offer_letter' => '0',
         );
-        OlApplication::create($insert_application);
+        $last_id = OlApplication::create($insert_application);
+        $insert_application_log = array(
+            'application_id' => $last_id->id,
+            'user_id' => 1,
+            'role_id' => 0,
+            'status_id' => config('commanConfig.applicationStatus.in_process'),
+            'to_user_id' => 0,
+            'to_role_id' => 0,
+            'remark' => ''
+        );
+        OlApplicationStatus::create($insert_application_log);
         return redirect()->route('documents_upload');
     }
 
@@ -279,7 +312,7 @@ class SocietyOfferLetterController extends Controller
     }
 
     public function save_offer_letter_application_dev(Request $request){
-        // dd($request);
+        // dd($request->input());
         $input = array(
             'society_id' => 1,
             'date_of_meeting' => date('Y-m-d', strtotime($request->input('date_of_meeting'))),
@@ -289,8 +322,10 @@ class SocietyOfferLetterController extends Controller
         );
         $last_inserted_id = OlRequestForm::create($input);
         $insert_application = array(
+            'user_id' => 1,
             'language_id' => '1',
             'society_id' => '1',
+            'layout_id' => 1,
             'request_form_id' => $last_inserted_id->id,
             'application_master_id' => $request->input('application_master_id'),
             'application_no' => rand().time(),
@@ -300,7 +335,17 @@ class SocietyOfferLetterController extends Controller
             'is_encrochment' => '0',
             'is_approve_offer_letter' => '0',
         );
-        OlApplication::create($insert_application);
+        $last_id = OlApplication::create($insert_application);
+        $insert_application_log = array(
+            'application_id' => $last_id->id,
+            'user_id' => 1,
+            'role_id' => 0,
+            'status_id' => config('commanConfig.applicationStatus.in_process'),
+            'to_user_id' => 0,
+            'to_role_id' => 0,
+            'remark' => ''
+        );
+        OlApplicationStatus::create($insert_application_log);
         return redirect()->route('documents_upload');
     }
 
@@ -355,8 +400,10 @@ class SocietyOfferLetterController extends Controller
     }
 
     public function displayOfferLetterApplication(){
+        // dd('hi');
         $data['society_details'] = SocietyOfferLetter::find('1');
         $data['ol_application'] = OlApplication::where('society_id', '1')->with('request_form')->get();
+
         $society_offer_letter_application = $this->generate_pdf($data);
         dd($society_offer_letter_application);
         // dd($society_offer_letter_application);       
@@ -365,11 +412,18 @@ class SocietyOfferLetterController extends Controller
     }
 
     public function generate_pdf(){
-        $data['society_details'] = SocietyOfferLetter::find('1');
-        $data['ol_application'] = OlApplication::where('society_id', '1')->with('request_form')->get();
+
+
+        $society_details = SocietyOfferLetter::find('1');
+        $ol_application = OlApplication::where('society_id', '1')->with('request_form')->get();
         $path = public_path('/uploads/resolutions/society_offer_letter_document.pdf');
-        $pdf = PDF::loadView('frontend.society.display_society_offer_letter_application', $data)->save($path);
-        // dd($pdf->output());
+        dd(html_entity_decode(view('frontend.society.display_society_offer_letter_application', compact('ol_application', 'society_details'))));
+        // $pdf->loadView('frontend.society.display_society_offer_letter_application', $data);
+        define('_MPDF_TTFONTDATAPATH', sys_get_temp_dir()."/");
+        $pdf = PDF::loadView('frontend.society.display_society_offer_letter_application', $data); // or PDF::loadHtml($html);
+        return $pdf->download($path);
+
+         die('m called');
         // $pdf->download('society_offer_letter_document.pdf');
         return $pdf;
 

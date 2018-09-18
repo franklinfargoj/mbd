@@ -53,9 +53,9 @@ Route::resource('/rti_frontend', 'RtiFrontEndController');
 //Society Offer Letter
 Route::post('society_offer_letter/forgot_password','SocietyOfferLetterController@forgot_password')->name('society_offer_letter_forgot_password');
 Route::get('/society_offer_letter_dashboard', 'SocietyOfferLetterController@dashboard')->name('society_offer_letter_dashboard');
-Route::get('/offer_letter_application_form_self', 'SocietyOfferLetterController@show_offer_letter_application_self')->name('offer_letter_application_self');
+Route::get('/offer_letter_application_form_self/{id}', 'SocietyOfferLetterController@show_offer_letter_application_self')->name('offer_letter_application_self');
 Route::post('/save_offer_letter_application_form_self', 'SocietyOfferLetterController@save_offer_letter_application_self')->name('save_offer_letter_application_self');
-Route::get('/offer_letter_application_form_dev', 'SocietyOfferLetterController@show_offer_letter_application_dev')->name('offer_letter_application_dev');
+Route::get('/offer_letter_application_form_dev/{id}', 'SocietyOfferLetterController@show_offer_letter_application_dev')->name('offer_letter_application_dev');
 Route::post('/save_offer_letter_application_form_dev', 'SocietyOfferLetterController@save_offer_letter_application_dev')->name('save_offer_letter_application_dev');
 Route::get('documents_upload','SocietyOfferLetterController@displaySocietyDocuments')->name('documents_upload');
 Route::post('uploaded_documents','SocietyOfferLetterController@uploadSocietyDocuments')->name('uploaded_documents');
@@ -128,14 +128,14 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     // EE Department Routes
 
     Route::resource('ee', 'EEDepartment\EEController');
-    Route::get('/scrutiny-remark', 'EEDepartment\EEController@scrutinyRemarkByEE')->name('scrutiny-remark');
+    Route::get('/scrutiny-remark/{application_id}/{society_id}', 'EEDepartment\EEController@scrutinyRemarkByEE')->name('scrutiny-remark');
     Route::post('/ee-scrutiny-document', 'EEDepartment\EEController@addDocumentScrutiny')->name('ee-scrutiny-document');
     Route::post('/get-ee-scrutiny-data', 'EEDepartment\EEController@getDocumentScrutinyData')->name('get-ee-scrutiny-data');
     Route::post('/edit-ee-scrutiny-document/{id}', 'EEDepartment\EEController@editDocumentScrutiny')->name('edit-ee-scrutiny-document');
     Route::post('/ee-document-scrutiny-delete/{id}', 'EEDepartment\EEController@deleteDocumentScrutiny')->name('ee-document-scrutiny-delete');
-    Route::get('/document-submitted', 'EEDepartment\EEController@documentSubmittedBySociety')->name('document-submitted');
+    Route::get('/document-submitted/{society_id}', 'EEDepartment\EEController@documentSubmittedBySociety')->name('document-submitted');
 
-    Route::get('get-forward-application', 'EEDepartment\EEController@getForwardApplicationForm')->name('get-forward-application');
+    Route::get('get-forward-application/{application_id}', 'EEDepartment\EEController@getForwardApplicationForm')->name('get-forward-application');
     Route::post('/forward-application', 'EEDepartment\EEController@forwardApplication')->name('forward-application');
 
 	//DYCE Department routes

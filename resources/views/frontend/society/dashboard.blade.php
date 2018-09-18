@@ -21,7 +21,9 @@
              </h3>
           </div>
        </div>
-       <a class="btn btn-danger" href="{{asset('resolution/create')}}" style="float: right;margin-top: 3%">Fill Application for Offer Letter</a>
+      @if($ol_application_count == 0)
+        <a class="btn btn-danger" href="{{asset('application')}}" style="float: right;margin-top: 3%">Fill Application for Offer Letter</a>
+      @endif
     </div>
     <div class="m-portlet__body">
        <!--begin: Search Form -->

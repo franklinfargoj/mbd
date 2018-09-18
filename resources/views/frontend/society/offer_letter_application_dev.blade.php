@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 @section('content')
-<form class="letter-form" action="{{ route('save_offer_letter_application_self') }}" method="post" id="offer_letter_application_self">
+<form class="letter-form" action="{{ route('save_offer_letter_application_dev') }}" method="post" id="save_offer_letter_application_dev">
 @csrf
 	<!-- BEGIN: Subheader -->
 	<div class="m-subheader letter-form-header">

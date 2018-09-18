@@ -40,6 +40,10 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'society' => [
+            'driver' => 'session',
+            'provider' => 'ol_societies',
+        ],
 
         'api' => [
             'driver' => 'token',
@@ -68,6 +72,10 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\User::class,
+        ],
+        'ol_societies' => [
+            'driver' => 'eloquent',
+            'model' => App\SocietyOfferLetter::class,
         ],
 
         // 'users' => [

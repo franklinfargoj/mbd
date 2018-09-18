@@ -3,8 +3,9 @@
 namespace App;
 use Validator;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class SocietyOfferLetter extends Model
+class SocietyOfferLetter extends Authenticatable
 {
 
     protected $table = "ol_societies";
