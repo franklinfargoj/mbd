@@ -68,7 +68,7 @@ class CAPController extends Controller
                     return $cap_application_data->eeApplicationSociety->building_no;
                 })
                 ->editColumn('society_address', function ($cap_application_data) {
-                    return $co_application_data->eeApplicationSociety->address;
+                    return $cap_application_data->eeApplicationSociety->address;
                 })                
                 ->editColumn('date', function ($cap_application_data) {
                     return $cap_application_data->submitted_at;
@@ -85,7 +85,7 @@ class CAPController extends Controller
    	
     }
 
-        protected function getParameters() {
+    protected function getParameters() {
         return [
             'serverSide' => true,
             'processing' => true,
@@ -93,5 +93,33 @@ class CAPController extends Controller
             "order"      => [6, "desc" ],
             "pageLength" => $this->list_num_of_records_per_page
         ];
-    }     
+    } 
+
+    // society and EE documents
+    public function societyEEDocuments(Request $request,$applicationId){
+       
+        $societyDocuments = $this->CommonController->getSocietyEEDocuments($applicationId);
+       return view('admin.cap_department.society_EE_documents',compact('societyDocuments'));
+    }
+
+    // EE - Scrutiny & Remark page
+    public function eeScrutinyRemark(Request $request,$applicationId){
+
+        $eeScrutinyData = $this->CommonController->getEEScrutinyRemark($applicationId);
+        return view('admin.cap_department.EE_Scrunity_Remark',compact('eeScrutinyData'));
+    } 
+
+    // DyCE Scrutiny & Remark page
+    public function dyceScrutinyRemark(Request $request,$applicationId){
+
+        $applicationData = $this->CommonController->getDyceScrutinyRemark($applicationId);
+        return view('admin.cap_department.dyce_scrunity_remark',compact('applicationData'));
+    } 
+
+    // Forward Application page
+    public function forwardApplication(Request $request, $applicationId){
+
+        $applicationData = $this->CommonController->getForwardApplication($applicationId);
+        return view('admin.cap_department.forward_application',compact('applicationData'));  
+    }                  
 }

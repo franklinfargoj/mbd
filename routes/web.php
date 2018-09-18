@@ -159,12 +159,12 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
         // CAP department route 
     Route::resource('cap','CAPDepartment\CAPController');
-    // Route::get('society_ee_documents/{id}','CODepartment\COController@societyEEDocuments')->name('co.society_EE_documents');
-    // Route::get('ee_Scrutiny_Remark/{id}','CODepartment\COController@eeScrutinyRemark')->name('co.EE_Scrutiny_Remark');
+    Route::get('society_EE_document/{id}','CAPDepartment\CAPController@societyEEDocuments')->name('cap.society_EE_documents');
+    Route::get('ee_scrutiny_remarks/{id}','CAPDepartment\CAPController@eeScrutinyRemark')->name('cap.EE_scrutiny_remark');
 
-    // Route::get('dyce_scrutiny_remark/{id}','CODepartment\COController@dyceScrutinyRemark')->name('co.scrutiny_remark');
+    Route::get('dyce_scrutiny_remark/{id}','CAPDepartment\CAPController@dyceScrutinyRemark')->name('cap.dyce_Scrutiny_Remark');
 
-    // Route::get('co_forward_application/{id}','CODepartment\COController@forwardApplication')->name('co.forward_application');
+    Route::get('cap_forward_application/{id}','CAPDepartment\CAPController@forwardApplication')->name('cap.forward_application');
 
     // Route::post('save_forward_Application','CODepartment\COController@sendForwardApplication')->name('co.forward_application_data');
 
