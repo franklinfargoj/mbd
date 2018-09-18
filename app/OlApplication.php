@@ -36,6 +36,11 @@ class OlApplication extends Model
         return $this->hasMany('App\OlApplicationStatus', 'application_id', 'id');
     }
 
+    public function olApplicationStatusForLoginListing()
+    {
+        return $this->hasMany('App\OlApplicationStatus', 'application_id', 'id');
+    }
+
     public function visitDocuments(){
        return $this->hasMany('App\olSiteVisitDocuments', 'application_id','id'); 
     }
