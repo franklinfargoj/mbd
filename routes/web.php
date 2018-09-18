@@ -207,6 +207,10 @@ Route::get('/application','SocietyOfferLetterController@ViewApplications')->name
 
 Route::group(['middleware' => ['disablepreventback']], function() {
     Route::resource('ree_applications', 'REEDepartment\REEController');
+    Route::get('society_EE_document/{id}','REEDepartment\REEController@societyEEDocuments')->name('ree.society_EE_documents');
+    Route::get('ee_Scrutiny_Remark/{id}','REEDepartment\REEController@eeScrutinyRemark')->name('ree.EE_Scrutiny_Remark');
+    Route::get('dyce_scrutiny_remark/{id}','REEDepartment\REEController@dyceScrutinyRemark')->name('ree.scrutiny_remark');
+    Route::get('ree_forward_application/{id}','REEDepartment\REEController@forwardApplication')->name('ree.forward_application');
     Route::resource('/ol_calculation_sheet', 'REEDepartment\OlApplicationCalculationSheetDetailsController');
 
 });

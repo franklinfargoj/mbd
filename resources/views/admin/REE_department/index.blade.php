@@ -1,46 +1,37 @@
 @extends('admin.layouts.app')
 @section('content')
-    <!-- BEGIN: Subheader -->
-    <div class="m-subheader ">
-        <div class="d-flex align-items-center">
-            <div class="mr-auto">
-                <h3 class="m-subheader__title m-subheader__title--separator">Applications for Offer Letter</h3>
-            </div>
-            <div>
-            </div>
+<!-- BEGIN: Subheader -->
+<div class="m-subheader ">
+    <div class="d-flex align-items-center">
+        <div class="mr-auto">
+            <h3 class="m-subheader__title m-subheader__title--separator">
+            Application for Offer Letter</h3>
+        </div>
+        <div>
         </div>
     </div>
-    <!-- END: Subheader -->
-    <div class="m-content"></div>
+</div>
+<!-- END: Subheader -->
+<div class="m-content"></div>
     <div class="m-portlet m-portlet--mobile">
-        {{--<div class="m-portlet__head">--}}
-            {{--<div class="m-portlet__head-caption">--}}
-                {{--<div class="m-portlet__head-title">--}}
-                    {{--<h3 class="m-portlet__head-text">--}}
-
-                    {{--</h3>--}}
-                {{--</div>--}}
-            {{--</div>--}}
-            {{--<a class="btn btn-danger" href="{{route('hearing.create')}}" style="float: right;margin-top: 3%">Add Hearing</a>--}}
-        {{--</div>--}}
         <div class="m-portlet__body">
             <!--begin: Search Form -->
             <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
                 <div class="row align-items-center">
                     <div class="col-xl-8 order-2 order-xl-1">
-                        <form role="form" id="reeForm" method="get" action="{{ route('ee.index') }}">
+                        <form role="form" id="eeForm" method="get" action="{{ route('ee.index') }}">
                             <div class="form-group m-form__group row align-items-center">
-                                {{--<div class="col-md-4">--}}
-                                    {{--<label for="exampleSelect1">Search</label>--}}
-                                    {{--<div class="m-input-icon m-input-icon--left">--}}
-                                        {{--<input type="text" class="form-control m-input m-input--solid" placeholder="Search..." id="m_form_search">--}}
-                                        {{--<span class="m-input-icon__icon m-input-icon__icon--left">--}}
-                                         {{--<span>--}}
-                                         {{--<i class="la la-search"></i>--}}
-                                         {{--</span>--}}
-                                         {{--</span>--}}
-                                    {{--</div>--}}
-                                {{--</div>--}}
+                                <div class="col-md-4">
+                                    <label for="exampleSelect1">Search</label>
+                                    <div class="m-input-icon m-input-icon--left">
+                                        <input type="text" class="form-control m-input m-input--solid" placeholder="Search..." id="m_form_search">
+                                        <span class="m-input-icon__icon m-input-icon__icon--left">
+                                         <span>
+                                         <i class="la la-search"></i>
+                                         </span>
+                                         </span>
+                                    </div>
+                                </div>
                                 <div class="col-md-4">
                                     <div class="form-group m-form__group">
                                         <label for="office_date_from">From Date</label>
@@ -98,7 +89,7 @@
 
     <script>
         $("#update_status").on("change", function () {
-            $("#reeForm").submit();
+            $("#eeForm").submit();
         });
     </script>
 @endsection
