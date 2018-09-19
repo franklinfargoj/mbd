@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 @section('content')
 <div class="page-bar">
-  <ul class="page-breadcrumb">
+  <!-- <ul class="page-breadcrumb">
     <li>
       <a href="index.html">Home</a>
       <i class="fa fa-circle"></i>
@@ -12,13 +12,17 @@
   </ul>
   <div class="page-toolbar">
 
-  </div>
+  </div> -->
 </div>
 <!-- END PAGE BAR -->
 <!-- BEGIN PAGE TITLE-->
-<h1 class="page-title"> FAQs
-  <small>&nbsp;</small>
-</h1>
+<div class="m-subheader px-0 m-subheader--top">
+    <div class="d-flex">
+            <h3 class="m-subheader__title">FAQs</h3>
+        <div>
+        </div>
+    </div>
+</div>
 <!-- END PAGE TITLE-->
 <!-- END PAGE HEADER-->
 <div class="row">
@@ -37,12 +41,12 @@
     <!-- BEGIN SAMPLE TABLE PORTLET-->
     <div class="portlet box purple">
       <div class="portlet-title">
-        <div class="caption">
+        <!-- <div class="caption">
           <i class="fa fa-cogs"></i>FAQ Listing </div>
           <div class="tools1 pull-right">
             <a href="{{route('faq.create')}}" role="button" style="margin-top: 5px;" class="btn btn-default">Add FAQ </a>
           </div>
-        </div>
+        </div> -->
         <div class="portlet-body">
           <div class="table-responsive">
             <table class="table table-striped table-bordered table-hover datatable mdl-data-table dataTable">

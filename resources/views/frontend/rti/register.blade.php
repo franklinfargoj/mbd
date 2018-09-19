@@ -27,20 +27,20 @@
             @csrf
                <div class="form-group m-form__group">
                   <!-- <label for="" class="col-form-label">First Name</label> -->
-                  <input class="form-control m-input" type="text" placeholder="Name of User" name="name" >
+                  <input class="form-control form-control--custom m-input" type="text" placeholder="Name of User" name="name" >
                </div>
                <div class="form-group m-form__group">
                   <!-- <label for="" class="col-form-label">Mobile No</label> -->
-                  <input class="form-control m-input" type="text" placeholder="Mobile No" name="mobile_no" autocomplete="off" data-container="body" data-toggle="m-tooltip" data-placement="right" title="" data-original-title="Mobile number must contain exactly 10 numbers.(+91) is by default considered.." data-skin="dark">
+                  <input class="form-control form-control--custom m-input" type="text" placeholder="Mobile No" name="mobile_no" autocomplete="off" data-container="body" data-toggle="m-tooltip" data-placement="right" title="" data-original-title="Mobile number must contain exactly 10 numbers.(+91) is by default considered.." data-skin="dark">
                </div>
                <div class="form-group m-form__group">
                   <!-- <label for="" class="col-form-label">Email Address</label> -->
-                  <input class="form-control m-input" id="email_val" type="text" placeholder="Email" name="email" autocomplete="off" data-container="body" data-toggle="m-tooltip" data-placement="right" title="" data-original-title="This field must contain a valid email address.." data-skin="dark">
+                  <input class="form-control form-control--custom m-input" id="email_val" type="text" placeholder="Email" name="email" autocomplete="off" data-container="body" data-toggle="m-tooltip" data-placement="right" title="" data-original-title="This field must contain a valid email address.." data-skin="dark">
                   <div class="error" id="email_error" style="display: none;">This Email-id is already used.</div>
                </div>
                <div class="form-group m-form__group">
                   <!-- <label for="" class="col-form-label">Pan Number</label> -->
-                  <textarea class="form-control form-control--textarea m-input" name="address" placeholder="Enter Address"></textarea>
+                  <textarea class="form-control form-control--custom form-control--textarea m-input" name="address" placeholder="Enter Address"></textarea>
                </div>
                <!--begin::Action-->
                   <div class="m-login__action d-flex justify-content-center">
