@@ -39,6 +39,7 @@ class DatabaseSeeder extends Seeder
         $this->call(LmPermissionSeeder::class);
         $this->call(HearingPermissionSeeder::class);
         $this->call(ResolutionPermissionSeeder::class);
+        $this->call(RTIPermissionSeeder::class);
 
         // $this->call(RtiFormTableSeeder::class);
     }

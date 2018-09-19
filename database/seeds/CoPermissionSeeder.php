@@ -25,8 +25,8 @@ class CoPermissionSeeder extends Seeder
         ]); 
 
         $user_id = User::insertGetId([
-            'name'               => 'ABC',
-            'email'              => 'ABC@gmail.com',
+            'name'               => 'CO',
+            'email'              => 'co@gmail.com',
             'password'           => bcrypt('1234'),
             'role_id'            => $role_id,
             'uploaded_note_path' => 'Test',

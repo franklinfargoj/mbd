@@ -92,6 +92,30 @@ class EEUserSeeder extends Seeder
                     'display_name' => 'Forward Application form data store',
                     'description' => 'Forward Application form data store'
                 ],
+
+                [
+                    'name' => 'consent-verfication',
+                    'display_name' => 'Consent verification data store',
+                    'description' => 'Consent verification data store'
+                ],
+
+                [
+                    'name' => 'ee-demarcation',
+                    'display_name' => 'EE Demarcation data store',
+                    'description' => 'EE Demarcation data store'
+                ],
+
+                [
+                    'name' => 'ee-tit-bit',
+                    'display_name' => 'EE TIT BIT data store',
+                    'description' => 'EE TIT BIT data store'
+                ],
+
+                [
+                    'name' => 'ee-rg-relocation',
+                    'display_name' => 'EE RG Relocation data store',
+                    'description' => 'EE RG Relocation data store'
+                ],
             ];
 
             $permission_role = [];
