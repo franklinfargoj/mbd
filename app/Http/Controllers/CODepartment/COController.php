@@ -48,40 +48,9 @@ class COController extends Controller
 
         if ($datatables->getRequest()->ajax()) {
 
-            $co_application_data = OlApplication::with(['applicationLayoutUser', 'eeApplicationSociety', 'olApplicationStatusForLoginListing' => function($q){
-                $q->where('user_id', Auth::user()->id)
-                    ->where('role_id', session()->get('role_id'))
-                    ->orderBy('id', 'desc');
-            }])
-                ->whereHas('olApplicationStatusForLoginListing' ,function($q){
-                    $q->where('user_id', Auth::user()->id)
-                        ->where('role_id', session()->get('role_id'))
-                        ->orderBy('id', 'desc');
-                })
-                ->select()->get();
+            $co_application_data = $this->CommonController->listApplicationData($request);
 
-            $listArray = [];
-            if($request->update_status)
-            {
-                foreach ($co_application_data as $app_data)
-                {
-                    if($app_data->olApplicationStatusForLoginListing[0]->status_id == $request->update_status)
-                    {
-//                        dd("in if");
-                        $listArray[] = $app_data;
-                    }
-                    else{
-//                        dd("in else");
-                        $listArray = [];
-                    }
-                }
-            }
-            else
-            {
-                $listArray =  $co_application_data;
-            }
-
-            return $datatables->of($listArray)
+            return $datatables->of($co_application_data)
                 ->editColumn('rownum', function ($listArray) {
                     static $i = 0; $i++; return $i;
                 })
@@ -161,9 +130,7 @@ class COController extends Controller
     public function forwardApplication(Request $request, $applicationId){
 
         $applicationData = $this->CommonController->getForwardApplication($applicationId);
-        $arrData['application_status'] = OlApplicationStatus::where('application_id', $applicationId)
-            ->whereNotNull('to_user_id')
-            ->whereNotNull('to_role_id')->orderBy('id', 'desc')->first();
+        $arrData['application_status'] = $this->CommonController->getCurrentApplicationStatus($applicationId);
 
 
         // CAP Forward Application
@@ -175,66 +142,8 @@ class COController extends Controller
     }
 
     public function sendForwardApplication(Request $request){
-//        dd($request->all());
-        if($request->check_status == 1) {
-            $forward_application = [[
-                'application_id' => $request->applicationId,
-                'user_id' => Auth::user()->id,
-                'role_id' => session()->get('role_id'),
-                'status_id' => config('commanConfig.applicationStatus.forward_to'),
-                'to_user_id' => $request->to_user_id,
-                'to_role_id' => $request->to_role_id,
-                'remark' => $request->remark,
-                'created_at' => Carbon::now()
-            ],
-
-            [
-                'application_id' => $request->applicationId,
-                'user_id' => $request->to_user_id,
-                'role_id' => $request->to_role_id,
-                'status_id' => config('commanConfig.applicationStatus.in_process'),
-                'to_user_id' => NULL,
-                'to_role_id' => NULL,
-                'remark' => $request->remark,
-                'created_at' => Carbon::now()
-            ]
-            ];
-
-//            echo "in forward";
-//            dd($forward_application);
-            OlApplicationStatus::insert($forward_application);
-        }
-        else{
-            $revert_application = [
-                [
-                    'application_id' => $request->applicationId,
-                    'user_id' => Auth::user()->id,
-                    'role_id' => session()->get('role_id'),
-                    'status_id' => config('commanConfig.applicationStatus.revert_to'),
-                    'to_user_id' => $request->user_id,
-                    'to_role_id' => $request->role_id,
-                    'remark' => $request->remark,
-                    'created_at' => Carbon::now()
-                ],
-
-                [
-                    'application_id' => $request->applicationId,
-                    'user_id' => $request->user_id,
-                    'role_id' => $request->role_id,
-                    'status_id' => config('commanConfig.applicationStatus.in_process'),
-                    'to_user_id' => NULL,
-                    'to_role_id' =>  NULL,
-                    'remark' => $request->remark,
-                    'created_at' => Carbon::now()
-                ]
-            ];
-//            echo "in revert";
-//            dd($revert_application);
-            OlApplicationStatus::insert($revert_application);
-        }
-
+        $this->CommonController->forwardApplicationForm($request);
         return redirect('/co');
-
     }
 
 

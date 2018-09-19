@@ -28,24 +28,26 @@ $(document).ready(function() {
   var tabs = document.querySelector('.tabs');
   var tabsList = document.querySelectorAll('.tabs li');
   var panels = document.querySelectorAll('.panel');
-  tabs.addEventListener('click', function(e) {
-    if(e.target.tagName == 'A'){
-      var targetPanel = document.querySelector(e.target.parentElement.dataset.target);
-      Array.from(tabsList).forEach(function(item){
-          if(item.classList.contains("active")) {
-              item.classList.remove("active");
+  if(tabs) {
+      tabs.addEventListener('click', function(e) {
+          if(e.target.tagName == 'A'){
+              var targetPanel = document.querySelector(e.target.parentElement.dataset.target);
+              Array.from(tabsList).forEach(function(item){
+                  if(item.classList.contains("active")) {
+                      item.classList.remove("active");
+                  }
+              });
+              e.target.parentElement.classList.add("active");
+              Array.from(panels).forEach(function(panel) {
+                  if(panel == targetPanel){
+                      panel.classList.add('active');
+                  }else{
+                      panel.classList.remove('active');
+                  }
+              });
           }
       });
-      e.target.parentElement.classList.add("active");
-      Array.from(panels).forEach(function(panel) {
-        if(panel == targetPanel){
-          panel.classList.add('active');
-        }else{
-          panel.classList.remove('active');
-        }
-      });
-    }
-  });
+  }
 
   $("#boardForm").validate({
     // errorElement: "span",

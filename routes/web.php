@@ -59,12 +59,14 @@ Route::get('/offer_letter_application_form_dev/{id}', 'SocietyOfferLetterControl
 Route::post('/save_offer_letter_application_form_dev', 'SocietyOfferLetterController@save_offer_letter_application_dev')->name('save_offer_letter_application_dev');
 Route::get('documents_upload','SocietyOfferLetterController@displaySocietyDocuments')->name('documents_upload');
 Route::post('uploaded_documents','SocietyOfferLetterController@uploadSocietyDocuments')->name('uploaded_documents');
-Route::get('delete_uploaded_documents/{id}','SocietyOfferLetterController@deleteSocietyDocuments');
+Route::get('delete_uploaded_documents/{id}','SocietyOfferLetterController@deleteSocietyDocuments')->name('delete_uploaded_documents');
 Route::post('add_uploaded_documents_comment','SocietyOfferLetterController@addSocietyDocumentsComment')->name('add_documents_comment');
 Route::get('society_offer_letter_download','SocietyOfferLetterController@displayOfferLetterApplication')->name('society_offer_letter_download');
 Route::post('upload_society_offer_letter','SocietyOfferLetterController@uploadOfferLetterAfterSign')->name('upload_society_offer_letter');
 
 Route::resource('/society_offer_letter', 'SocietyOfferLetterController');
+//Society Offer Letter END
+
 Route::resource('/email_templates', 'EmailTemplateController');
 // EE Department Routes
 Route::resource('ee', 'EEDepartment\EEController');
@@ -72,20 +74,20 @@ Route::resource('ee', 'EEDepartment\EEController');
 Route::get('/application','SocietyOfferLetterController@ViewApplications')->name('society_detail.application');
 Route::resource('received_application','DYCEDepartment\DYCEController');
 
-
-
-
-Route::get('/resolution/delete/{id}', 'ResolutionController@destroy')->name('resolution.delete');
-//resolutions backend
-//Route::get('/resolution/delete/{id}', 'ResolutionController@destroy')->name('resolution.delete');
-Route::resource('/resolution', 'ResolutionController');
-Route::post('loadDeleteReasonOfResolutionUsingAjax', 'ResolutionController@loadDeleteReasonOfResolutionUsingAjax')->name('loadDeleteReasonOfResolutionUsingAjax');
 Route::post('loadDepartmentsOfBoardUsingAjax', 'BoardController@loadDepartmentsOfBoardUsingAjax')->name('loadDepartmentsOfBoardUsingAjax');
 
-//resolutions frontend
-Route::get('/frontend_resolution_list', 'FrontendResolutionController@index')->name('frontend_resolution_list');
-
 Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']], function() {
+
+    // Resolution routes
+
+    Route::get('/resolution/delete/{id}', 'ResolutionController@destroy')->name('resolution.delete');
+//resolutions backend
+//Route::get('/resolution/delete/{id}', 'ResolutionController@destroy')->name('resolution.delete');
+    Route::resource('/resolution', 'ResolutionController');
+    Route::post('loadDeleteReasonOfResolutionUsingAjax', 'ResolutionController@loadDeleteReasonOfResolutionUsingAjax')->name('loadDeleteReasonOfResolutionUsingAjax');
+
+    //resolutions frontend
+    Route::get('/frontend_resolution_list', 'FrontendResolutionController@index')->name('frontend_resolution_list');
 
     //Hearing Admin
     Route::resource('/hearing', 'HearingController');
