@@ -15,5 +15,6 @@ return [
         'in_process' => 1,
         'forward_to' => 2,
         'revert_to' => 3,
-    ]
+    ],
+    'ee_junior_engineer' => 'ee_junior_engineer'
 ];
