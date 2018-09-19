@@ -195,7 +195,7 @@ class EEController extends Controller
 
                     [
                         'application_id' => $request->application_id,
-                        'society_flag' => $request->society_flag,
+                        'society_flag' => 1,
                         'user_id' => $society_user_data[0]->user_id,
                         'role_id' => $society_user_data[0]->role_id,
                         'status_id' => config('commanConfig.applicationStatus.in_process'),

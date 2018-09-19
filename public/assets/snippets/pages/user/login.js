@@ -306,7 +306,8 @@ var SnippetLogin = function() {
                             required: !0,
                         },
                         sr_no: {
-                            required: !0
+                            required: !0,
+                            number: true
                         },
                         village_name: {
                             required: !0
@@ -368,7 +369,8 @@ var SnippetLogin = function() {
                             required: !0,
                         },
                         sr_no: {
-                            required: !0
+                            required: !0,
+                            number: true
                         },
                         village_name: {
                             required: !0

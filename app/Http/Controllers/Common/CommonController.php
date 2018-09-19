@@ -98,11 +98,13 @@ class CommonController extends Controller
         $applicationData = OlApplication::with(['applicationLayoutUser', 'eeApplicationSociety', 'olApplicationStatusForLoginListing' => function($q){
             $q->where('user_id', Auth::user()->id)
                 ->where('role_id', session()->get('role_id'))
+                ->where('society_flag', 0)
                 ->orderBy('id', 'desc');
         }])
             ->whereHas('olApplicationStatusForLoginListing' ,function($q){
                 $q->where('user_id', Auth::user()->id)
                     ->where('role_id', session()->get('role_id'))
+                    ->where('society_flag', 0)
                     ->orderBy('id', 'desc');
             })
             ->select()->get();
