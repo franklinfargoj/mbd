@@ -150,6 +150,19 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('dyce_forward_application/{id}','DYCEDepartment\DYCEController@forwardApplication')->name('dyce.forward_application');
     Route::post('forward_Application_data','DYCEDepartment\DYCEController@sendForwardApplication')->name('dyce.forward_application_data');
 
+    // REE Department Routes
+
+    Route::resource('ree_applications', 'REEDepartment\REEController');
+    Route::get('society_ee_document/{id}','REEDepartment\REEController@societyEEDocuments')->name('ree.society_EE_documents');
+
+    Route::get('EE_scrutiny_remark/{id}','REEDepartment\REEController@eeScrutinyRemark')->name('ree.EE_Scrutiny_Remark');
+
+    Route::get('dyce_Scrutiny_Remark/{id}','REEDepartment\REEController@dyceScrutinyRemark')->name('ree.dyce_scrutiny_remark');
+
+    Route::get('ree_forward_application/{id}','REEDepartment\REEController@forwardApplication')->name('ree.forward_application');
+
+    Route::resource('/ol_calculation_sheet', 'REEDepartment\OlApplicationCalculationSheetDetailsController');
+
     // CO department route 
     Route::resource('co','CODepartment\COController');
     Route::get('society_ee_documents/{id}','CODepartment\COController@societyEEDocuments')->name('co.society_EE_documents');
@@ -208,17 +221,6 @@ Route::get('captcha', function() {
 Route::get('/application','SocietyOfferLetterController@ViewApplications')->name('society_detail.application');
 
 
-// REE Department Routes
-
-Route::group(['middleware' => ['disablepreventback']], function() {
-    Route::resource('ree_applications', 'REEDepartment\REEController');
-    Route::get('society_EE_document/{id}','REEDepartment\REEController@societyEEDocuments')->name('ree.society_EE_documents');
-    Route::get('ee_Scrutiny_Remark/{id}','REEDepartment\REEController@eeScrutinyRemark')->name('ree.EE_Scrutiny_Remark');
-    Route::get('dyce_scrutiny_remark/{id}','REEDepartment\REEController@dyceScrutinyRemark')->name('ree.scrutiny_remark');
-    Route::get('ree_forward_application/{id}','REEDepartment\REEController@forwardApplication')->name('ree.forward_application');
-    Route::resource('/ol_calculation_sheet', 'REEDepartment\OlApplicationCalculationSheetDetailsController');
-
-});
 
 // Frontend -- desgin views - abhiraj
 
