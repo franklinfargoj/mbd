@@ -12,6 +12,9 @@ use App\OlApplicationStatus;
 use App\OlSocietyDocumentsMaster;
 use App\OlSocietyDocumentsStatus;
 use App\OlSocietyDocumentsComment;
+use App\MasterLayout;
+use App\LayoutUser;
+use App\User;
 use DB;
 use Validator;
 use Mail;
@@ -264,8 +267,8 @@ class SocietyOfferLetterController extends Controller
 
     public function show_offer_letter_application_self($id){
         $society_details = SocietyOfferLetter::find('1');
-        // dd($society_details->building_no);
-        return view('frontend.society.offer_letter_application_self', compact('society_details', 'id'));
+        $layouts = MasterLayout::all();
+        return view('frontend.society.offer_letter_application_self', compact('society_details', 'id', 'layouts'));
     }
 
     public function save_offer_letter_application_self(Request $request){
@@ -282,7 +285,7 @@ class SocietyOfferLetterController extends Controller
             'user_id' => 1,
             'language_id' => '1',
             'society_id' => '1',
-            'layout_id' => 1,
+            'layout_id' => $request->input('layout_id'),
             'request_form_id' => $last_inserted_id->id,
             'application_master_id' => $request->input('application_master_id'),
             'application_no' => rand().time(),
@@ -293,22 +296,46 @@ class SocietyOfferLetterController extends Controller
             'is_approve_offer_letter' => '0',
         );
         $last_id = OlApplication::create($insert_application);
-        $insert_application_log = array(
-            'application_id' => $last_id->id,
-            'user_id' => 1,
-            'role_id' => 0,
-            'status_id' => config('commanConfig.applicationStatus.in_process'),
-            'to_user_id' => 0,
-            'to_role_id' => 0,
-            'remark' => ''
-        );
-        OlApplicationStatus::create($insert_application_log);
+        $layout_user_ids = LayoutUser::where('layout_id', $request->input('layout_id'))->get();
+        foreach ($layout_user_ids as $key => $value) {
+            $user_ids[] = $value['user_id'];
+        }
+        $users = User::whereIn('id', $user_ids)->get();
+        // dd($users);
+        if(count($users) > 0){
+            foreach($users as $key => $user){
+                $i = 0;
+                $insert_application_log_forward_to[$key]['application_id'] = $last_id->id;
+                $insert_application_log_forward_to[$key]['user_id'] = 1;
+                $insert_application_log_forward_to[$key]['role_id'] = 4;
+                $insert_application_log_forward_to[$key]['status_id'] = config('commanConfig.applicationStatus.forward_to');
+                $insert_application_log_forward_to[$key]['to_user_id'] = $user->id;
+                $insert_application_log_forward_to[$key]['to_role_id'] = $user->role_id;
+                $insert_application_log_forward_to[$key]['remark'] = '';
+                $insert_application_log_forward_to[$key]['created_at'] = date('Y-m-d');
+                $insert_application_log_forward_to[$key]['updated_at'] = date('Y-m-d');
+
+                $insert_application_log_in_process[$key]['application_id'] = $last_id->id;
+                $insert_application_log_in_process[$key]['user_id'] = $user->id;
+                $insert_application_log_in_process[$key]['role_id'] = $user->role_id;
+                $insert_application_log_in_process[$key]['status_id'] = config('commanConfig.applicationStatus.in_process');
+                $insert_application_log_in_process[$key]['to_user_id'] = 0;
+                $insert_application_log_in_process[$key]['to_role_id'] = 0;
+                $insert_application_log_in_process[$key]['remark'] = '';
+                $insert_application_log_in_process[$key]['created_at'] = date('Y-m-d');
+                $insert_application_log_in_process[$key]['updated_at'] = date('Y-m-d');
+                $i++;
+            }
+        }
+        // dd(array_merge($insert_application_log_forward_to, $insert_application_log_in_process));
+        OlApplicationStatus::insert(array_merge($insert_application_log_forward_to, $insert_application_log_in_process));       
         return redirect()->route('documents_upload');
     }
 
     public function show_offer_letter_application_dev($id){
         $society_details = SocietyOfferLetter::find('1');
-        return view('frontend.society.offer_letter_application_dev', compact('society_details', 'id'));
+        $layouts = MasterLayout::all();
+        return view('frontend.society.offer_letter_application_dev', compact('society_details', 'id', 'layouts'));
     }
 
     public function save_offer_letter_application_dev(Request $request){
@@ -325,7 +352,7 @@ class SocietyOfferLetterController extends Controller
             'user_id' => 1,
             'language_id' => '1',
             'society_id' => '1',
-            'layout_id' => 1,
+            'layout_id' => $request->input('layout_id'),
             'request_form_id' => $last_inserted_id->id,
             'application_master_id' => $request->input('application_master_id'),
             'application_no' => rand().time(),
@@ -336,16 +363,39 @@ class SocietyOfferLetterController extends Controller
             'is_approve_offer_letter' => '0',
         );
         $last_id = OlApplication::create($insert_application);
-        $insert_application_log = array(
-            'application_id' => $last_id->id,
-            'user_id' => 1,
-            'role_id' => 0,
-            'status_id' => config('commanConfig.applicationStatus.in_process'),
-            'to_user_id' => 0,
-            'to_role_id' => 0,
-            'remark' => ''
-        );
-        OlApplicationStatus::create($insert_application_log);
+        $layout_user_ids = LayoutUser::where('layout_id', $request->input('layout_id'))->get();
+        foreach ($layout_user_ids as $key => $value) {
+            $user_ids[] = $value['user_id'];
+        }
+        $users = User::whereIn('id', $user_ids)->get();
+        // dd($users);
+        if(count($users) > 0){
+            foreach($users as $key => $user){
+                $i = 0;
+                $insert_application_log_forward_to[$key]['application_id'] = $last_id->id;
+                $insert_application_log_forward_to[$key]['user_id'] = 1;
+                $insert_application_log_forward_to[$key]['role_id'] = 4;
+                $insert_application_log_forward_to[$key]['status_id'] = config('commanConfig.applicationStatus.forward_to');
+                $insert_application_log_forward_to[$key]['to_user_id'] = $user->id;
+                $insert_application_log_forward_to[$key]['to_role_id'] = $user->role_id;
+                $insert_application_log_forward_to[$key]['remark'] = '';
+                $insert_application_log_forward_to[$key]['created_at'] = date('Y-m-d');
+                $insert_application_log_forward_to[$key]['updated_at'] = date('Y-m-d');
+
+                $insert_application_log_in_process[$key]['application_id'] = $last_id->id;
+                $insert_application_log_in_process[$key]['user_id'] = $user->id;
+                $insert_application_log_in_process[$key]['role_id'] = $user->role_id;
+                $insert_application_log_in_process[$key]['status_id'] = config('commanConfig.applicationStatus.in_process');
+                $insert_application_log_in_process[$key]['to_user_id'] = 0;
+                $insert_application_log_in_process[$key]['to_role_id'] = 0;
+                $insert_application_log_in_process[$key]['remark'] = '';
+                $insert_application_log_in_process[$key]['created_at'] = date('Y-m-d');
+                $insert_application_log_in_process[$key]['updated_at'] = date('Y-m-d');
+                $i++;
+            }
+        }
+        // dd(array_merge($insert_application_log_forward_to, $insert_application_log_in_process));
+        OlApplicationStatus::insert(array_merge($insert_application_log_forward_to, $insert_application_log_in_process));
         return redirect()->route('documents_upload');
     }
 

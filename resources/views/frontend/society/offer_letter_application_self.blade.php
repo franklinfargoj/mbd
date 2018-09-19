@@ -4,6 +4,17 @@
 @csrf
 	<!-- BEGIN: Subheader -->
 	<div class="m-subheader letter-form-header">
+			<center>
+				<h3 class="m-subheader__title ">
+					<label for="layouts">Layouts</label>
+					<select class="form-control m-input m-input--square" id="layouts" name="layout_id" required>
+		                <option value="">Select Layout</option>
+		                @foreach($layouts as $layout)
+		                  <option value="{{ $layout['id'] }}">{{ $layout['layout_name'] }}</option>
+		                @endforeach
+		             </select>
+				</h3>
+			</center>
 		<div class="d-flex align-items-center justify-content-center">
 			<h3 class="m-subheader__title ">
 				अर्जाचा नमुना

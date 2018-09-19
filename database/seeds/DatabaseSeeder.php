@@ -33,6 +33,7 @@ class DatabaseSeeder extends Seeder
         $this->call(OlDemarcationVerificationQuestion::class);
         $this->call(OlRgRelocationVerificationQuestion::class);
         $this->call(OlTitBitVerificationQuestion::class);
+        $this->call(SocietyPermissionSeeder::class);
 
         // $this->call(RtiFormTableSeeder::class);
     }
