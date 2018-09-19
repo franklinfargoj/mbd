@@ -1,62 +1,61 @@
 @extends('frontend.layouts.app')
 @section('body')
-	<div class="m-grid__item m-grid__item--fluid  m-grid__item--order-tablet-and-mobile-1  m-login__wrapper">
-      <!--begin::Head-->
-      <div class="m-login__head">
+<div class="m-grid__item m-grid__item--fluid  m-grid__item--order-tablet-and-mobile-1  m-login__wrapper">
+    <!--begin::Head-->
+    <div class="m-login__head">
         <!-- <span>Don't have an account?</span>
         <a href="#" class="m-link m--font-danger">Sign Up</a> -->
-      </div>
-      <!--end::Head-->
+    </div>
+    <!--end::Head-->
 
-      <div class="m-login__logo text-center">
+    <div class="m-login__logo text-center">
         <a href="{{ url('/') }}">
-        <img src="{{asset('assets/app/media/img/logos/mhada-logo.png')}}" width="550">
+            <img src="{{asset('assets/app/media/img/logos/mhada-logo.png')}}" width="550">
         </a>
-      </div>
+    </div>
 
-      <!--begin::Body-->
-      <div class="m-login__body">
+    <!--begin::Body-->
+    <div class="m-login__body">
         <div class="m-login__signin">
-          <!--begin::Signin-->
-          <div class="m-login__signin">
-            <div class="m-login__title">
-              <h3>Check Application Status</h3>
-            </div>
+            <!--begin::Signin-->
+            <div class="m-login__signin">
+                <div class="m-login__title">
+                    <h3>Check Application Status</h3>
+                </div>
 
-            <!--begin::Form-->
-            <form class="m-login__form m-form" action="{{ route('rti_frontend_application_status') }}" id="rti_frontend_application_status_check" method="post">
-            @csrf
-              <div class="form-group m-form__group">
-                <input class="form-control m-input" type="text" placeholder="Application Number" name="application_no">
-              </div>
-              <div class="form-group m-form__group">
-                <input class="form-control m-input m-login__form-input--last" type="email" placeholder="Email Address" name="email">
-              </div>
-              <div class="m-login__action">
-                <a href="{{ route('rti_frontend.create') }}" class="m-link">
-                  <button id="m_login_signin_submit" class="btn btn-primary m-btn m-btn--pill m-btn--custom m-btn--air m-login__btn m-login__btn--primary">Register</button>
-                </a>
-                <a href="#">
-                  <button id="rti_application_status_check" class="btn btn-primary m-btn m-btn--pill m-btn--custom m-btn--air m-login__btn m-login__btn--primary">Check Status</button>
-                </a>
-              </div>
-            </form>
-            <!--end::Form-->
+                <!--begin::Form-->
+                <form class="m-login__form m-form" action="{{ route('rti_frontend_application_status') }}" id="rti_frontend_application_status_check"
+                    method="post">
+                    @csrf
+                    <div class="form-group m-form__group">
+                        <input class="form-control m-input" type="text" placeholder="Application Number" name="application_no">
+                    </div>
+                    <div class="form-group m-form__group">
+                        <input class="form-control m-input m-login__form-input--last" type="email" placeholder="Email Address"
+                            name="email">
+                    </div>
+                    <div class="m-login__action">
+                        <a id="m_login_signin_submit" href="{{ route('rti_frontend.create') }}" class="m-link btn btn-primary m-btn m-btn--pill m-btn--custom m-login__btn m-login__btn--primary">Register</a>
+                        <a id="rti_application_status_check" href="#" class="btn btn-primary m-btn m-btn--pill m-btn--custom m-login__btn m-login__btn--primary">Check
+                            Status</a>
+                    </div>
+                </form>
+                <!--end::Form-->
 
-            <!--begin::Action-->
-            <div class="m-login__action">
-              <!-- <a href="{{ route('rti_frontend.create') }}" class="m-link">
+                <!--begin::Action-->
+                <div class="m-login__action">
+                    <!-- <a href="{{ route('rti_frontend.create') }}" class="m-link">
                 <button id="m_login_signin_submit" class="btn btn-primary m-btn m-btn--pill m-btn--custom m-btn--air m-login__btn m-login__btn--primary">Register</button>
               </a> -->
-              <!-- <a href="#">
+                    <!-- <a href="#">
                 <button id="m_login_signin_submit" class="btn btn-primary m-btn m-btn--pill m-btn--custom m-btn--air m-login__btn m-login__btn--primary">Check Status</button>
               </a> -->
+                </div>
+                <!--end::Action-->
             </div>
-            <!--end::Action-->
-          </div>
         </div>
-        <div class="col-sm-1"></div>
-        <div class="m-login__signin">
+        <!-- <div class="col-sm-1"></div> -->
+        <!-- <div class="m-login__signin">
           <div class="m-login__title">
             <h3>Login</h3>
           </div>
@@ -76,9 +75,9 @@
             </a>
           </div>
           </form>
-        </div>
-      </div>
+        </div> -->
     </div>
+</div>
 <!-- <div class="m-grid__item m-grid__item--fluid  m-grid__item--order-tablet-and-mobile-1  m-login__wrapper">
   <div class="m-login__head">
   </div>

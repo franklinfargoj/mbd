@@ -10,7 +10,7 @@
 
       <div class="m-login__logo text-center">
         <a href="{{ url('/') }}">
-        <img src="{{asset('assets/app/media/img/logos/mhada-logo.png')}}" width="550">
+          <img src="{{asset('assets/app/media/img/logos/mhada-logo.png')}}" width="550">
         </a>
       </div>
 
@@ -40,16 +40,14 @@
                </div>
                <div class="form-group m-form__group">
                   <!-- <label for="" class="col-form-label">Pan Number</label> -->
-                  <textarea class="form-control m-input" name="address" placeholder="Enter Address"></textarea>
+                  <textarea class="form-control form-control--textarea m-input" name="address" placeholder="Enter Address"></textarea>
                </div>
                <!--begin::Action-->
-                  <div class="m-login__action">
-                    <a href="#" class="m-link">
+                  <div class="m-login__action d-flex justify-content-center">
+                    <!-- <a href="#" class="m-link">
                       
-                    </a>
-                    <a href="#">
-                      <button type="submit" id="m_login_signin_submit_rti_registration" class="btn btn-primary m-btn m-btn--pill m-btn--custom m-btn--air m-login__btn m-login__btn--primary">Register</button>
-                    </a>
+                    </a> -->
+                    <button type="submit" id="m_login_signin_submit_rti_registration" class="btn btn-primary m-btn m-btn--pill m-btn--custom">Register</button>
                   </div>
             </form>
             <!--end::Form-->

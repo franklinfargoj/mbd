@@ -266,6 +266,7 @@
 
 .form-control--textarea {
     min-height: 50px;
+    resize: none;
 }
 
 .modal .modal-content .modal-header,
@@ -418,6 +419,25 @@
 
 /* Data Table ends here */
 
+.m-login__wrapper .btn-group .btn {
+    height: 100%;
+    border: none;
+    color: #91899f !important;
+}
+
+.m-login__wrapper .btn-group.bootstrap-select {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+.m-login__wrapper .bootstrap-select.btn-group>.dropdown-toggle:after {
+    right: 30px;
+}
+
+.m-login__wrapper .col-form-label {
+    padding-left: 5px;
+}
+
 .bootstrap-select.btn-group>.dropdown-toggle:after {
     right: 20px;
 }
@@ -432,6 +452,51 @@
 
 .m-form--rows .form-group {
     margin-bottom: 0;
+}
+
+.m-link:hover:after {
+    display: none;
+}
+
+.m-login.m-login--6 .m-login__wrapper {
+    padding: 0;
+}
+
+.m-login.m-login--6 .m-login__wrapper .m-login__body {
+    height: auto;
+}
+
+.m-login.m-login--6 .m-login__wrapper .m-login__body .m-login__signin .m-login__action>a:first-child {
+    margin-left: 0;
+}
+
+.m-login.m-login--6 .m-login__wrapper .m-login__body .m-login__signin .m-login__action>a {
+    padding: 12px 40px;
+}
+
+.m-login.m-login--6 .m-login__wrapper .m-login__body .m-login__signin .m-login__title {
+    margin-bottom: 30px;
+}
+
+.m-login.m-login--6 .m-login__wrapper .m-login__body .m-login__signin .m-login__form {
+    margin-top: 0;
+}
+
+.m-login.m-login--6 .m-login__wrapper .m-login__body {
+    margin-top: 30px;
+}
+
+.m-login.m-login--6 .m-login__wrapper .m-login__body .m-login__signin {
+    max-width: 450px;
+    width: 100%;
+}
+
+.m-login.m-login--6 .m-login__wrapper .m-login__body .m-login__signin .m-login__title>h3 {
+    font-size: 1.6rem;
+}
+
+.has-danger .form-control-feedback {
+    font-size: 1rem;
 }
 
 /* theme classes over ride ends here */
@@ -533,6 +598,7 @@
 .btn-primary {
     background-color: #f0791b;
     border-color: #f0791b;
+    color: #fff !important;
 }
 
 .btn-primary:hover {
@@ -975,8 +1041,26 @@ label.site-visit-label {
 
 /* Login Page starts here */
 
+.m-login--left-box {
+    padding-top: 55px;
+}
+
+.m-login.m-login--2 .m-login__wrapper .m-login__container.m-login--right-box {
+    width: 100%;
+    max-width: 430px;
+    margin-top: -55px;
+}
+
+.m-login.m-login--2 .m-login__wrapper .m-login__container.m-login--right-box .m-login__head {
+    margin-top: 0;
+}
+
 .m-login.m-login--2.m-login-2--skin-2 .m-login__container .m-login__head .m-login__title {
     color: #58555f;
+}
+
+.m-login.m-login--2 .m-login__wrapper .m-login__container .m-login__form .m-login__form-sub {
+    margin: 0;
 }
 
 .logo-wrapper-inner .login-logo {
@@ -1004,6 +1088,18 @@ label.site-visit-label {
 
 .error {
     color: #f4a1a1;
+}
+
+.m-login__signin--box {
+    padding: 30px;
+    border: 5px solid rgba(0,0,0,0.7);
+    background-color: #f7f6f9;
+}
+
+.captcha-wrapper {
+    margin: 0 19px 0 0;
+    display: inline-block;
+    /* border: 1px solid rgba(0,0,0,0.2); */
 }
 
 .login-form {
@@ -1094,6 +1190,8 @@ label.site-visit-label {
     height: 45px;
     padding-top: 0;
     padding-bottom: 0;
+    background-color: #fff;
+    border: 1px solid rgba(0,0,0,0.2);
 }
 
 .m-login.m-login--2
@@ -1212,6 +1310,24 @@ label.site-visit-label {
 }
 
 /* Sign Up Page ends here */
+
+/* RTI Application Registration starts here */
+
+.m-login.m-login--2 .m-login__wrapper .m-login__container .m-login__form .m-form__group .form-control {
+    margin-top: 1rem;
+}
+
+.m-form .m-form__group label.col-form-label {
+    margin-top: 10px;
+    margin-left: 5px;
+    padding: 0;
+}
+
+.m-login.m-login--2 .m-login__wrapper .m-login__container .m-login__form .m-form__group {
+    margin-bottom: 10px;
+}
+
+/* RTI Application Registration ends here */
 
 /* Header starts here */
 

@@ -12,11 +12,11 @@
             <div class="col-sm-6">
                 <div class="m-grid__item m-grid__item--fluid m-login__wrapper d-flex flex-wrap justify-content-center">
                     <div class="d-flex flex-wrap">
-                        <div class="text-center w-100">
+                        <div class="text-center w-100 m-login--left-box">
                             <h3 class="text-uppercase">Mumbai Board</h3>
                         </div>
-                        <div class="m-login__container">
-                            <div class="m-login__signin">
+                        <div class="m-login__container m-login--right-box">
+                            <div class="m-login__signin m-login__signin--box">
                                 <div class="m-login__head">
                                     <h1 class="m-login__title mb-0 display-4">
                                         Sign In
@@ -48,7 +48,7 @@
                                             name="password" autocomplete="off">
                                     </div>
                                     <div class="form-group m-form__group" style="margin-top: 16px;">
-                                        <span style="padding: 19px;"> <img id="captcha_img" src="{{URL::to('captcha')}}"></span>
+                                        <span class="captcha-wrapper"> <img id="captcha_img" src="{{URL::to('captcha')}}"></span>
                                         <div class="d-inline-table align-middle line-height-1">
                                             <i class="fa fa-refresh" onclick="document.getElementById('captcha_img').src='{{ URL::to('captcha') }}'; return false"
                                                 title="Recapture" aria-hidden="true" style="font-size: 24px;cursor: pointer;"></i>
@@ -60,17 +60,19 @@
                                         </span>
                                         @endif
                                     </div>
-                                    {{--<div class="row m-login__form-sub">
-                                        <div class="col m--align-right m-login__form-right">
-                                            <a href="javascript:;" id="m_login_forget_password" class="m-link">
-                                                Forget Password ?
-                                            </a>
+                                    <div class="d-flex align-items-center justify-content-between m-login__form-action">
+                                        <div class="m-login__form-sub">
+                                            <div class="m--align-right m-login__form-right">
+                                                <a href="javascript:;" id="m_login_forget_password" class="m-link">
+                                                    Forget Password ?
+                                                </a>
+                                            </div>
                                         </div>
-                                    </div>--}}
-                                    <div class="m-login__form-action">
-                                        <button id="mhada-user" class="btn btn-primary m-btn m-btn--pill m-btn--custom m-login__btn m-login__btn--primary">
-                                            Sign In
-                                        </button>
+                                        <div class="">
+                                            <button id="mhada-user" class="btn btn-primary m-btn m-btn--pill m-btn--custom m-login__btn m-login__btn--primary">
+                                                Sign In
+                                            </button>
+                                        </div>
                                     </div>
                                 </form>
                             </div>
