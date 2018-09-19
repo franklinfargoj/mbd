@@ -47,40 +47,9 @@ class CAPController extends Controller
 
         if ($datatables->getRequest()->ajax()) {
 
-            $cap_application_data = OlApplication::with(['applicationLayoutUser', 'eeApplicationSociety', 'olApplicationStatusForLoginListing' => function($q){
-                $q->where('user_id', Auth::user()->id)
-                    ->where('role_id', session()->get('role_id'))
-                    ->orderBy('id', 'desc');
-            }])
-                ->whereHas('olApplicationStatusForLoginListing' ,function($q){
-                    $q->where('user_id', Auth::user()->id)
-                        ->where('role_id', session()->get('role_id'))
-                        ->orderBy('id', 'desc');
-                })
-                ->select()->get();
+            $cap_application_data = $this->CommonController->listApplicationData($request);
 
-            $listArray = [];
-            if($request->update_status)
-            {
-                foreach ($cap_application_data as $app_data)
-                {
-                    if($app_data->olApplicationStatusForLoginListing[0]->status_id == $request->update_status)
-                    {
-//                        dd("in if");
-                        $listArray[] = $app_data;
-                    }
-                    else{
-//                        dd("in else");
-                        $listArray = [];
-                    }
-                }
-            }
-            else
-            {
-                $listArray =  $cap_application_data;
-            }
-
-            return $datatables->of($listArray)
+            return $datatables->of($cap_application_data)
                 ->editColumn('rownum', function ($listArray) {
                     static $i = 0; $i++; return $i;
                 })
@@ -96,8 +65,8 @@ class CAPController extends Controller
                 ->editColumn('date', function ($cap_application_data) {
                     return date(config('commanConfig.dateFormat', strtotime($cap_application_data->submitted_at)));
                 })
-                ->editColumn('actions', function ($cap_application_data) {
-                   return view('admin.cap_department.action', compact('cap_application_data'))->render();
+                ->editColumn('actions', function ($cap_application_data) use($request){
+                   return view('admin.cap_department.action', compact('cap_application_data', 'request'))->render();
                 })
                 ->editColumn('Status', function ($listArray) use ($request) {
                     $status = $listArray->olApplicationStatusForLoginListing[0]->status_id;
@@ -160,73 +129,13 @@ class CAPController extends Controller
     public function forwardApplication(Request $request, $applicationId){
 
         $applicationData = $this->CommonController->getForwardApplication($applicationId);
-        $arrData['application_status'] = OlApplicationStatus::where('application_id', $applicationId)
-            ->whereNotNull('to_user_id')
-            ->whereNotNull('to_role_id')->orderBy('id', 'desc')->first();
+        $arrData['application_status'] = $this->CommonController->getCurrentApplicationStatus($applicationId);
 
         return view('admin.cap_department.forward_application',compact('applicationData', 'arrData'));
     }
 
     public function sendForwardApplication(Request $request){
-//        dd($request->all());
-        if($request->check_status == 1) {
-            $forward_application = [[
-                'application_id' => $request->applicationId,
-                'user_id' => Auth::user()->id,
-                'role_id' => session()->get('role_id'),
-                'status_id' => config('commanConfig.applicationStatus.forward_to'),
-                'to_user_id' => $request->to_user_id,
-                'to_role_id' => $request->to_role_id,
-                'remark' => $request->remark,
-                'created_at' => Carbon::now()
-            ],
-
-                [
-                    'application_id' => $request->applicationId,
-                    'user_id' => $request->to_user_id,
-                    'role_id' => $request->to_role_id,
-                    'status_id' => config('commanConfig.applicationStatus.in_process'),
-                    'to_user_id' => NULL,
-                    'to_role_id' => NULL,
-                    'remark' => $request->remark,
-                    'created_at' => Carbon::now()
-                ]
-            ];
-
-//            echo "in forward";
-//            dd($forward_application);
-            OlApplicationStatus::insert($forward_application);
-        }
-        else{
-            $revert_application = [
-                [
-                    'application_id' => $request->applicationId,
-                    'user_id' => Auth::user()->id,
-                    'role_id' => session()->get('role_id'),
-                    'status_id' => config('commanConfig.applicationStatus.revert_to'),
-                    'to_user_id' => $request->user_id,
-                    'to_role_id' => $request->role_id,
-                    'remark' => $request->remark,
-                    'created_at' => Carbon::now()
-                ],
-
-                [
-                    'application_id' => $request->applicationId,
-                    'user_id' => $request->user_id,
-                    'role_id' => $request->role_id,
-                    'status_id' => config('commanConfig.applicationStatus.in_process'),
-                    'to_user_id' => NULL,
-                    'to_role_id' =>  NULL,
-                    'remark' => $request->remark,
-                    'created_at' => Carbon::now()
-                ]
-            ];
-//            echo "in revert";
-//            dd($revert_application);
-            OlApplicationStatus::insert($revert_application);
-        }
-
+        $this->CommonController->forwardApplicationForm($request);
         return redirect('/cap');
-
     }
 }

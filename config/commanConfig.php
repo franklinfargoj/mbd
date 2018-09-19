@@ -17,8 +17,8 @@ return [
 
     'applicationStatus' => [
         'in_process' => 1,
-        'forward_to' => 2,
-        'revert_to' => 3,
+        'forwarded' => 2,
+        'reverted' => 3,
     ],
     'ee_junior_engineer' => 'ee_junior_engineer'
 ];
