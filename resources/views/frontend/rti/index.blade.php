@@ -8,11 +8,11 @@
     </div>
     <!--end::Head-->
 
-    <div class="m-login__logo text-center">
+    <!-- <div class="m-login__logo text-center">
         <a href="{{ url('/') }}">
             <img src="{{asset('assets/app/media/img/logos/mhada-logo.png')}}" width="550">
         </a>
-    </div>
+    </div> -->
 
     <!--begin::Body-->
     <div class="m-login__body">
@@ -28,10 +28,10 @@
                     method="post">
                     @csrf
                     <div class="form-group m-form__group">
-                        <input class="form-control m-input" type="text" placeholder="Application Number" name="application_no">
+                        <input class="form-control form-control--custom m-input" type="text" placeholder="Application Number" name="application_no">
                     </div>
                     <div class="form-group m-form__group">
-                        <input class="form-control m-input m-login__form-input--last" type="email" placeholder="Email Address"
+                        <input class="form-control form-control--custom m-input m-login__form-input--last" type="email" placeholder="Email Address"
                             name="email">
                     </div>
                     <div class="m-login__action">
