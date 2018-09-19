@@ -61,7 +61,9 @@ class HearingController extends Controller
 
             DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
 
-            $hearing_data = Hearing::with(['hearingDepartment', 'hearingSchedule.prePostSchedule', 'hearingForwardCase', 'hearingSendNoticeToAppellant', 'hearingUploadCaseJudgement']);
+            $hearing_data = Hearing::with(['hearingDepartment', 'hearingSchedule.prePostSchedule', 'hearingForwardCase', 'hearingSendNoticeToAppellant', 'hearingUploadCaseJudgement'])
+                            ->where('user_id', Auth::user()->id)
+                            ->where('role_id', session()->get('role_id'));
 
             if($request->office_date_from)
             {
@@ -146,6 +148,8 @@ class HearingController extends Controller
             'department_id' => $request->department,
             'board_id' => $request->board_id,
             'hearing_status_id' => $request->hearing_status_id,
+            'role_id' => session()->get('role_id'),
+            'user_id' => Auth::user()->id
         ];
 
         Hearing::create($data);
@@ -219,6 +223,8 @@ class HearingController extends Controller
             'department_id' => $request->department,
             'board_id' => $request->board_id,
             'hearing_status_id' => $request->hearing_status_id,
+            'role_id' => session()->get('role_id'),
+            'user_id' => Auth::user()->id
         ];
 
         $hearing->update($data);

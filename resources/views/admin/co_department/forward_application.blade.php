@@ -23,7 +23,7 @@
             <div class="m-grid__item m-grid__item--fluid m-wrapper">
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
+                        <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 p-0">
                             <div class="portlet-body">
                                 <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
                                     <div class="m-subheader">
@@ -150,7 +150,7 @@
                                                 </h3>
                                             </div>
                                             <div class="remarks-suggestions">
-                                                <form action="{{ route('dyce.forward_application_data') }}" id="forwardApplication" method="post">
+                                                <form action="{{ route('co.forward_application_data') }}" id="forwardApplication" method="post">
                                                     @csrf
                                                     <input type="hidden" name="to_role_id" id="to_role_id">
                                                     <input type="hidden" name="check_status" class="check_status" value="1">
@@ -174,15 +174,9 @@
                                                             </label>
                                                             <div class="col-lg-4 col-md-9 col-sm-12">
                                                                 <select class="form-control m-bootstrap-select m_selectpicker" name="to_user_id" id="to_user_id">
-                                                                    @if(count($arrData['parentData']) > 0)
-                                                                        @foreach($arrData['parentData'] as $parent)
-                                                                            <option value="{{ $parent->id }}" data-role="{{ $parent->role_id }}">{{ $parent->name }} ({{ $arrData['role_name'] }})</option>
-                                                                        @endforeach
-                                                                    @else
-                                                                        @foreach($arrData['get_forward_co'] as $parent)
-                                                                            <option value="{{ $parent->id }}" data-role="{{ $parent->role_id }}">{{ $parent->name }} ({{ $arrData['co_role_name'] }})</option>
-                                                                        @endforeach
-                                                                    @endif
+                                                                    @foreach($arrData['get_forward_cap'] as $parent)
+                                                                        <option value="{{ $parent->id }}" data-role="{{ $parent->role_id }}">{{ $parent->name }} ({{ $arrData['cap_role_name'] }})</option>
+                                                                    @endforeach
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -191,11 +185,11 @@
                                                             <textarea class="form-control form-control--custom" name="remark" id="remark" cols="30" rows="5"></textarea>
                                                         </div>
                                                         <div class="mt-3 btn-list">
-                                                            <button type="submit" onclick="window.location.href='{{ url("/dyce") }}'" class="btn btn-primary">Save</button>
+                                                            <button type="submit" class="btn btn-primary">Save</button>
                                                             {{--<button type="submit" id="sign" class="btn btn-primary forwrdBtn">Sign</button>
                                                             <button type="submit" class="btn btn-primary forwrdBtn">Sign & Forward</button>
                                                             <button type="submit" class="btn btn-primary forwrdBtn">Forward</button>--}}
-                                                            <button type="button" class="btn btn-secondary">Cancel</button>
+                                                            <button type="button" onclick="window.location.href='{{ url("/co") }}'" class="btn btn-secondary">Cancel</button>
                                                         </div>
                                                     </div>
                                                     <input type="hidden" name="applicationId" value="{{$applicationData->id}}">                                                   
@@ -216,7 +210,6 @@
 
 @section('js')
 <script>
-
     $(document).ready(function () {
         $(".forward-application").change(function () {
             var data = $(this).val();

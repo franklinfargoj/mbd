@@ -175,9 +175,15 @@
                                                             </label>
                                                             <div class="col-lg-4 col-md-9 col-sm-12">
                                                                 <select class="form-control m-bootstrap-select m_selectpicker" name="to_user_id" id="to_user_id">
-                                                                    @foreach($arrData['parentData'] as $parent)
-                                                                        <option value="{{ $parent->id }}" data-role="{{ $parent->role_id }}">{{ $parent->name }} ({{ $arrData['role_name'] }})</option>
-                                                                    @endforeach
+                                                                    @if(count($arrData['parentData']) > 0)
+                                                                        @foreach($arrData['parentData'] as $parent)
+                                                                            <option value="{{ $parent->id }}" data-role="{{ $parent->role_id }}">{{ $parent->name }} ({{ $arrData['role_name'] }})</option>
+                                                                        @endforeach
+                                                                    @else
+                                                                        @foreach($arrData['get_forward_dyce'] as $parent)
+                                                                            <option value="{{ $parent->id }}" data-role="{{ $parent->role_id }}">{{ $parent->name }} ({{ $arrData['dyce_role_name'] }})</option>
+                                                                        @endforeach
+                                                                    @endif
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -189,7 +195,7 @@
                                                             <button type="submit" class="btn btn-primary">Save</button>
                                                             {{--<button type="submit" class="btn btn-primary">Sign & Forward</button>
                                                             <button type="submit" class="btn btn-primary">Forward</button>--}}
-                                                            <button type="button" class="btn btn-secondary">Cancel</button>
+                                                            <button type="button" onclick="window.location.href='{{ url("/ee") }}'" class="btn btn-secondary">Cancel</button>
                                                         </div>
                                                     </div>
                                                 </form>

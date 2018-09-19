@@ -8,6 +8,7 @@ class OlApplication extends Model
 {
     protected $table = 'ol_applications';
     protected $fillable = [
+    	'user_id',
         'language_id',
         'society_id',
         'layout_id',
@@ -35,6 +36,11 @@ class OlApplication extends Model
         return $this->hasMany('App\OlApplicationStatus', 'application_id', 'id');
     }
 
+    public function olApplicationStatusForLoginListing()
+    {
+        return $this->hasMany('App\OlApplicationStatus', 'application_id', 'id');
+    }
+
     public function visitDocuments(){
        return $this->hasMany('App\olSiteVisitDocuments', 'application_id','id'); 
     }
@@ -45,6 +51,10 @@ class OlApplication extends Model
 
     public function ol_application_master(){
        return $this->hasOne(OlApplicationMaster::class, 'id', 'application_master_id'); 
+    }
+
+    public function ol_application_status(){
+       return $this->hasOne(OlApplicationStatus::class, 'id', 'current_status_id'); 
     }
 
     public function applicationLayoutUser()

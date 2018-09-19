@@ -162,8 +162,7 @@ return [
         'Thytanium\Captcha\CaptchaServiceProvider',
         App\Providers\RouteServiceProvider::class,
         Unisharp\Ckeditor\ServiceProvider::class,
-        niklasravnsborg\LaravelPdf\PdfServiceProvider::class,
-        Barryvdh\DomPDF\ServiceProvider::class,
+       Praem90\PDF\ServiceProvider::class,
 
     ],
 
@@ -215,8 +214,8 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 //        'Captcha' => Mews\Captcha\Facades\Captcha::class,
         'Captcha' => 'Thytanium\Captcha\Facades\Captcha',
-        'nPDF' => niklasravnsborg\LaravelPdf\Facades\Pdf::class,
-        'PDF' => Barryvdh\DomPDF\Facade::class,
+        'PDF' => Praem90\PDF\Facade::class,
+        
     ],
 
 ];

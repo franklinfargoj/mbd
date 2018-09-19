@@ -256,7 +256,7 @@
 						</div>
 						<div class="mt-3">
 							<button type="submit" class="s_btn btn btn-primary" id="submitBtn" name="">Save</button>
-						</div>					
+						</div>				
                     </div>
                 </div>
             </div>
@@ -292,9 +292,9 @@
         var id = $("#OfficiersCount").val();
         $(text).css("display", "none");
         $('.icon').css("visibility", "visible");
-        $(".site_v").append("<div class='d-flex flex-wrap align-items-center mb-5'><div class='officer_name_" + id +
+        $(".site_v").append("<div class='officer_name_" + id +
             "'><div class='d-flex align-items-center mb-5'><label class='site-visit-label'>Name of Officer:</label><div class='position-relative'><input type='text' class='txtbox form-control form-control--custom m_input' name='officer_name[]' id='officer_name'><a class='add_more' onclick='addMoreText(this);'>add more </a><i class='fa fa-close icon close-icon' id='icon_" +
-            id + "' onclick='removeOfficerName(this.id)'></i></div></div></div></div>");
+            id + "' onclick='removeOfficerName(this.id)'></i></div></div></div>");
         id++;
         $("#OfficiersCount").val(id);
     }

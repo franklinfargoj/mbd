@@ -931,7 +931,7 @@ label.site-visit-label {
 .add_more {
     position: absolute;
     top: 102%;
-    left: 0;
+    left: 1px;
 }
 
 .close-icon {
@@ -939,6 +939,26 @@ label.site-visit-label {
     left: 102%;
     top: 50%;
     transform: translateY(-50%);
+}
+
+.add_more{
+	font-size:12px;
+	color: #a51f1f !important; 
+	cursor: pointer;
+}
+
+.icon, .doc {
+	font-size: 17px;
+    color: #a72626;
+    cursor: pointer;
+    visibility: hidden;
+}
+
+.icon2, .doc2{
+	font-size: 17px;
+    color: #a72626;
+    cursor: pointer;
+    /*margin-left: 71px;	*/
 }
 
 /* DyCE scrutiny remarks ends here */

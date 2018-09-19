@@ -137,7 +137,7 @@ class DYCEPermissionSeeder extends Seeder
         $dyce_Jr_role_id = Role::insertGetId([
             'name'         => 'dyce_junior_engineer',
             'redirect_to'  => '/dyce',
-            'parent_id'    => $role_id,
+            'parent_id'    => $dyce_deputy_role_id,
             'display_name' => 'DYCE_junior_Engineer',
             'description'  => 'Login as DYCE junior Engineer'
         ]);

@@ -208,7 +208,7 @@
                     <div class="col-lg-6 form-group">
                         <label class="col-form-label" for="office_date">Date:</label>
                         <div class="m-input-icon m-input-icon--right">
-                            <input type="date" id="office_date" name="office_date" class="form-control" class="form-control m-input"  value="{{ old('office_date') }}">
+                            <input type="text" id="office_date" name="office_date" class="form-control" class="form-control m-input m_datepicker"  value="{{ old('office_date') }}">
                             <span class="help-block">{{$errors->first('office_date')}}</span>
                         </div>
                     </div>

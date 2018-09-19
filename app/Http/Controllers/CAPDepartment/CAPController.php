@@ -1,15 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\CODepartment;
+namespace App\Http\Controllers\CAPDepartment;
 
-use App\Role;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Common\CommonController;
 use Yajra\DataTables\DataTables;
 use App\olSiteVisitDocuments;
 use App\OlApplication;
-use Carbon\Carbon;
 use App\SocietyOfferLetter;
 use App\OlSocietyDocumentsStatus;
 use App\OlConsentVerificationDetails;
@@ -22,14 +20,15 @@ use App\User;
 use Config;
 use Auth;
 use DB;
+use Carbon\Carbon;
 
-class COController extends Controller
+class CAPController extends Controller
 {
     public function __construct()
     {
         $this->CommonController = new CommonController();
         $this->list_num_of_records_per_page = Config::get('commanConfig.list_num_of_records_per_page');        
-    }	
+    }
 
     public function index(Request $request, Datatables $datatables){
 		
@@ -48,7 +47,7 @@ class COController extends Controller
 
         if ($datatables->getRequest()->ajax()) {
 
-            $co_application_data = OlApplication::with(['applicationLayoutUser', 'eeApplicationSociety', 'olApplicationStatusForLoginListing' => function($q){
+            $cap_application_data = OlApplication::with(['applicationLayoutUser', 'eeApplicationSociety', 'olApplicationStatusForLoginListing' => function($q){
                 $q->where('user_id', Auth::user()->id)
                     ->where('role_id', session()->get('role_id'))
                     ->orderBy('id', 'desc');
@@ -63,7 +62,7 @@ class COController extends Controller
             $listArray = [];
             if($request->update_status)
             {
-                foreach ($co_application_data as $app_data)
+                foreach ($cap_application_data as $app_data)
                 {
                     if($app_data->olApplicationStatusForLoginListing[0]->status_id == $request->update_status)
                     {
@@ -78,27 +77,27 @@ class COController extends Controller
             }
             else
             {
-                $listArray =  $co_application_data;
+                $listArray =  $cap_application_data;
             }
 
             return $datatables->of($listArray)
                 ->editColumn('rownum', function ($listArray) {
                     static $i = 0; $i++; return $i;
                 })
-                ->editColumn('society_name', function ($co_application_data) {
-                    return $co_application_data->eeApplicationSociety->name;
+                ->editColumn('society_name', function ($cap_application_data) {
+                    return $cap_application_data->eeApplicationSociety->name;
                 })
-                ->editColumn('building_name', function ($co_application_data) {
-                    return $co_application_data->eeApplicationSociety->building_no;
+                ->editColumn('building_name', function ($cap_application_data) {
+                    return $cap_application_data->eeApplicationSociety->building_no;
                 })
-                ->editColumn('society_address', function ($co_application_data) {
-                    return $co_application_data->eeApplicationSociety->address;
+                ->editColumn('society_address', function ($cap_application_data) {
+                    return $cap_application_data->eeApplicationSociety->address;
                 })                
-                ->editColumn('date', function ($co_application_data) {
-                    return date(config('commanConfig.dateFormat', strtotime($co_application_data->submitted_at)));
+                ->editColumn('date', function ($cap_application_data) {
+                    return date(config('commanConfig.dateFormat', strtotime($cap_application_data->submitted_at)));
                 })
-                ->editColumn('actions', function ($co_application_data) use($request){
-                   return view('admin.co_department.action', compact('co_application_data', 'request'))->render();
+                ->editColumn('actions', function ($cap_application_data) {
+                   return view('admin.cap_department.action', compact('cap_application_data'))->render();
                 })
                 ->editColumn('Status', function ($listArray) use ($request) {
                     $status = $listArray->olApplicationStatusForLoginListing[0]->status_id;
@@ -140,22 +139,22 @@ class COController extends Controller
     public function societyEEDocuments(Request $request,$applicationId){
        
         $societyDocuments = $this->CommonController->getSocietyEEDocuments($applicationId);
-       return view('admin.co_department.society_EE_documents',compact('societyDocuments'));
+       return view('admin.cap_department.society_EE_documents',compact('societyDocuments'));
     }
 
     // EE - Scrutiny & Remark page
     public function eeScrutinyRemark(Request $request,$applicationId){
 
         $eeScrutinyData = $this->CommonController->getEEScrutinyRemark($applicationId);
-        return view('admin.co_department.EE_Scrunity_Remark',compact('eeScrutinyData'));
-    }
+        return view('admin.cap_department.EE_Scrunity_Remark',compact('eeScrutinyData'));
+    } 
 
     // DyCE Scrutiny & Remark page
     public function dyceScrutinyRemark(Request $request,$applicationId){
 
         $applicationData = $this->CommonController->getDyceScrutinyRemark($applicationId);
-        return view('admin.co_department.dyce_scrunity_remark',compact('applicationData'));
-    }
+        return view('admin.cap_department.dyce_scrunity_remark',compact('applicationData'));
+    } 
 
     // Forward Application page
     public function forwardApplication(Request $request, $applicationId){
@@ -165,13 +164,7 @@ class COController extends Controller
             ->whereNotNull('to_user_id')
             ->whereNotNull('to_role_id')->orderBy('id', 'desc')->first();
 
-
-        // CAP Forward Application
-
-        $cap_role_id = Role::where('name', '=', config('commanConfig.cap_engineer'))->first();
-        $arrData['get_forward_cap'] = User::where('role_id', $cap_role_id->id)->get();
-        $arrData['cap_role_name'] = strtoupper(str_replace('_', ' ', $cap_role_id->name));
-        return view('admin.co_department.forward_application',compact('applicationData', 'arrData'));
+        return view('admin.cap_department.forward_application',compact('applicationData', 'arrData'));
     }
 
     public function sendForwardApplication(Request $request){
@@ -188,16 +181,16 @@ class COController extends Controller
                 'created_at' => Carbon::now()
             ],
 
-            [
-                'application_id' => $request->applicationId,
-                'user_id' => $request->to_user_id,
-                'role_id' => $request->to_role_id,
-                'status_id' => config('commanConfig.applicationStatus.in_process'),
-                'to_user_id' => NULL,
-                'to_role_id' => NULL,
-                'remark' => $request->remark,
-                'created_at' => Carbon::now()
-            ]
+                [
+                    'application_id' => $request->applicationId,
+                    'user_id' => $request->to_user_id,
+                    'role_id' => $request->to_role_id,
+                    'status_id' => config('commanConfig.applicationStatus.in_process'),
+                    'to_user_id' => NULL,
+                    'to_role_id' => NULL,
+                    'remark' => $request->remark,
+                    'created_at' => Carbon::now()
+                ]
             ];
 
 //            echo "in forward";
@@ -233,9 +226,7 @@ class COController extends Controller
             OlApplicationStatus::insert($revert_application);
         }
 
-        return redirect('/co');
+        return redirect('/cap');
 
     }
-
-
 }
