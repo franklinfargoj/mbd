@@ -434,6 +434,16 @@
 
 /* global classes starts here */
 
+.text-primary {
+ color: #f08128!important;
+}
+
+.download-icon-pdf {
+    width: 20px;
+    height: 20px;
+    margin-left: 10px;
+}
+
 .flex-grow-1 {
     -webkit-box-flex: 1;
     -webkit-flex-grow: 1;

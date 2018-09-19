@@ -169,11 +169,13 @@
                     <div class="col-lg-6 form-group extract_upload" style="display: none">
                         <label class="col-form-label" for="extract">7/12 Extract:</label>
                         <div class="custom-file">
-                            <input type="file" id="extract" disabled name="extract" class="custom-file-input">{{ $arrData['village_data']['extract_file_name'] }}
+                            <div class="d-flex justify-content-center">
+                                <div class="text-truncate text-primary">{{ $arrData['village_data']['extract_file_name'] }}</div>
+                                <img style="cursor:pointer;" download class="download-icon-pdf" src="{{ asset('/img/down-arrow.svg') }}">
+                            </div>
+                            
                             <input type="hidden" name="extract_file_name" value="{{ $arrData['village_data']['extract_file_name'] }}">
                             <input type="hidden" name="extract_file_path" value="{{ $arrData['village_data']['extract_file_path'] }}">
-                            <label class="custom-file-label" for="extract">Choose
-                                file...</label>
                             <span class="help-block">{{$errors->first('extract')}}</span>
                         </div>
                     </div>
@@ -185,7 +187,7 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="btn-list">
-                                    <a href="{{url('/village_detail')}}" class="btn btn-secondary">Cancel</a>
+                                    <a href="{{url('/village_detail')}}" class="btn btn-secondary">Back</a>
                                 </div>
                             </div>
                         </div>
