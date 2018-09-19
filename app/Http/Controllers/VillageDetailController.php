@@ -79,6 +79,9 @@ class VillageDetailController extends Controller
                 ->editColumn('villageBoard', function ($village_data) {
                     return $village_data->villageBoard->board_name;
                 })
+                ->editColumn('possession_date', function ($village_data) {
+                    return date(config('commanConfig.dateFormat'), strtotime($village_data->possession_date));
+                })
                 ->editColumn('villageLandSource', function ($village_data) {
                     return $village_data->villageLandSource->source_name;
                 })
@@ -182,7 +185,12 @@ class VillageDetailController extends Controller
      */
     public function show($id)
     {
-        //
+        $header_data = $this->header_data;
+        $arrData['board'] = Board::where('status', 1)->get();
+        $arrData['land_source'] = LandSource::where('status', 1)->get();
+        $arrData['village_data'] = VillageDetail::FindOrFail($id)->toArray();
+
+        return view('admin.village_detail.show', compact('header_data', 'arrData'));
     }
 
     /**

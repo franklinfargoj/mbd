@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\EEDepartment;
 
+use App\Http\Controllers\Common\CommonController;
 use App\OlApplication;
 use App\OlApplicationStatus;
 use App\OlChecklistScrutiny;
@@ -33,6 +34,7 @@ class EEController extends Controller
 {
     public function __construct()
     {
+        $this->comman = new CommonController();
         $this->list_num_of_records_per_page = Config::get('commanConfig.list_num_of_records_per_page');
     }
 
@@ -43,51 +45,6 @@ class EEController extends Controller
      */
     public function index(Request $request, Datatables $datatables)
     {
-
-//        $ee_application_data = OlApplication::with(['applicationLayoutUser', 'olApplicationStatus' => function ($q) use($request){
-//            $q
-//                /*->where(function($q){
-//                    $q->where('status_id', config('commanConfig.applicationStatus.in_process'))
-//                        ->orWhere('status_id', config('commanConfig.applicationStatus.forward_to'));
-////                        ->orWhere('status_id', config('commanConfig.applicationStatus.revert_to'));
-//                })*/
-//                ->orderBy('id', 'desc');
-//
-//            if($request->update_status)
-//            {
-//                $q->where('status_id', '=', $request->update_status)
-//                   ->where('user_id', Auth::user()->id)
-//                    ->where('role_id', session()->get('role_id'));
-//            }
-//            else
-//            {
-//                $q->where('to_user_id', Auth::user()->id)
-//                    ->where('to_role_id', session()->get('role_id'));
-//            }
-//        }, 'eeApplicationSociety'])
-//            ->whereHas('olApplicationStatus', function ($q) use($request) {
-//                $q
-////                    ->where(function($q){
-////                        $q->where('status_id', config('commanConfig.applicationStatus.in_process'))
-////                            ->orWhere('status_id', config('commanConfig.applicationStatus.forward_to'));
-//////                            ->orWhere('status_id', config('commanConfig.applicationStatus.revert_to'));
-////                    });
-//                    ->orderBy('id', 'desc');
-//                if($request->update_status)
-//                {
-//                    $q->where('status_id', '=', $request->update_status)
-//                        ->where('user_id', Auth::user()->id)
-//                        ->where('role_id', session()->get('role_id'));
-//                }
-//                else
-//                {
-//                    $q->where('to_user_id', Auth::user()->id)
-//                    ->where('to_role_id', session()->get('role_id'));
-//                }
-//            })->get()->toArray();
-
-//        dd($ee_application_data);
-
         $getData = $request->all();
 
         $columns = [
@@ -104,43 +61,9 @@ class EEController extends Controller
 
         if ($datatables->getRequest()->ajax()) {
 
-            $ee_application_data = OlApplication::with(['applicationLayoutUser', 'eeApplicationSociety', 'olApplicationStatusForLoginListing' => function($q){
-                $q->where('user_id', Auth::user()->id)
-                    ->where('role_id', session()->get('role_id'))
-                    ->orderBy('id', 'desc');
-            }])
-                ->whereHas('olApplicationStatusForLoginListing' ,function($q){
-                    $q->where('user_id', Auth::user()->id)
-                        ->where('role_id', session()->get('role_id'))
-                        ->orderBy('id', 'desc');
-                })
-                ->select()->get();
+            $ee_application_data =  $this->comman->listApplicationData($request);
 
-            $listArray = [];
-            if($request->update_status)
-            {
-                foreach ($ee_application_data as $app_data)
-                {
-                    if($app_data->olApplicationStatusForLoginListing[0]->status_id == $request->update_status)
-                    {
-//                        dd("in if");
-                        $listArray[] = $app_data;
-                    }
-                    else{
-//                        dd("in else");
-                        $listArray = [];
-                    }
-                }
-            }
-            else
-            {
-                $listArray =  $ee_application_data;
-            }
-
-//            dd($listArray);
-//            $ee_application_data = $ee_application_data->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').', application_no, ol_applications.id as id, submitted_at, society_id, current_status_id');
-
-            return $datatables->of($listArray)
+            return $datatables->of($ee_application_data)
                 ->editColumn('rownum', function ($listArray) {
                     static $i = 0; $i++; return $i;
                 })
@@ -207,18 +130,13 @@ class EEController extends Controller
 
     public function getForwardApplicationForm($application_id){
         $arrData['society_detail'] = OlApplication::with('eeApplicationSociety')->where('id', $application_id)->first();
-        $user = User::with(['roles.parent.parentUser'])->where('id', Auth::user()->id)->first();
-        $roles = array_get($user, 'roles');
-        $parent = array_get($roles[0], 'parent');
-        $arrData['parentData'] = array_get($parent, 'parentUser');
-        $arrData['role_name'] = strtoupper(str_replace('_', ' ', $parent['name']));
 
-        $arrData['application_status'] = OlApplicationStatus::where('application_id', $application_id)
-                                                ->whereNotNull('to_user_id')
-                                                ->whereNotNull('to_role_id')->orderBy('id', 'desc')->first();
+        $parentData = $this->comman->getForwardApplicationParentData();
+        $arrData['parentData'] = $parentData['parentData'];
+        $arrData['role_name'] = $parentData['role_name'];
+        $arrData['application_status'] = $this->comman->getCurrentApplicationStatus($application_id);
 
         // DyCE Junior Forward Application
-
         $dyce_role_id = Role::where('name', '=', config('commanConfig.dyce_jr_user'))->first();
         $arrData['get_forward_dyce'] = User::where('role_id', $dyce_role_id->id)->get();
         $arrData['dyce_role_name'] = strtoupper(str_replace('_', ' ', $dyce_role_id->name));
@@ -233,7 +151,7 @@ class EEController extends Controller
                 'application_id' => $request->application_id,
                 'user_id' => Auth::user()->id,
                 'role_id' => session()->get('role_id'),
-                'status_id' => config('commanConfig.applicationStatus.forward_to'),
+                'status_id' => config('commanConfig.applicationStatus.forwarded'),
                 'to_user_id' => $request->to_user_id,
                 'to_role_id' => $request->to_role_id,
                 'remark' => $request->remark,
@@ -268,7 +186,7 @@ class EEController extends Controller
                         'application_id' => $request->application_id,
                         'user_id' => Auth::user()->id,
                         'role_id' => session()->get('role_id'),
-                        'status_id' => config('commanConfig.applicationStatus.revert_to'),
+                        'status_id' => config('commanConfig.applicationStatus.reverted'),
                         'to_user_id' => $society_user_data[0]->user_id,
                         'to_role_id' => $society_user_data[0]->role_id,
                         'remark' => $request->remark,
@@ -277,7 +195,7 @@ class EEController extends Controller
 
                     [
                         'application_id' => $request->application_id,
-                        'society_flag' => $request->society_flag,
+                        'society_flag' => 1,
                         'user_id' => $society_user_data[0]->user_id,
                         'role_id' => $society_user_data[0]->role_id,
                         'status_id' => config('commanConfig.applicationStatus.in_process'),
@@ -295,7 +213,7 @@ class EEController extends Controller
                         'application_id' => $request->application_id,
                         'user_id' => Auth::user()->id,
                         'role_id' => session()->get('role_id'),
-                        'status_id' => config('commanConfig.applicationStatus.revert_to'),
+                        'status_id' => config('commanConfig.applicationStatus.reverted'),
                         'to_user_id' => $request->user_id,
                         'to_role_id' => $request->role_id,
                         'remark' => $request->remark,

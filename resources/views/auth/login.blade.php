@@ -10,11 +10,11 @@
                 </div>
             </div>
             <div class="col-sm-6">
-                <div class="m-grid__item m-grid__item--fluid m-login__wrapper">
-                    <div class="d-flex justify-content-center align-items-center login-page-header login-page-header--text text-uppercase">
-                        <h3>Mumbai Board</h3>
-                    </div>
-                    <div class="d-flex h-100 justify-content-center align-items-center">
+                <div class="m-grid__item m-grid__item--fluid m-login__wrapper d-flex flex-wrap justify-content-center">
+                    <div class="d-flex flex-wrap">
+                        <div class="text-center w-100">
+                            <h3 class="text-uppercase">Mumbai Board</h3>
+                        </div>
                         <div class="m-login__container">
                             <div class="m-login__signin">
                                 <div class="m-login__head">

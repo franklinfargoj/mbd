@@ -48,55 +48,56 @@
             <div class="m-container m-container--fluid m-container--full-height">
                 <div class="m-stack m-stack--ver m-stack--desktop">
                     <!-- BEGIN: Brand -->
-                    <div class="m-stack__item m-brand  m-brand--skin-dark ">
+                    <!-- <div class="m-stack__item m-brand  m-brand--skin-dark ">
                         <div class="m-stack m-stack--ver m-stack--general">
                             <div class="m-stack__item m-stack__item--middle m-brand__logo">
-                                <a href="?page=index&demo=default" class="m-brand__logo-wrapper">
-                                    Mhada
-                                    <!-- <img alt="" src="./assets/demo/default/media/img/logo/logo_default_dark.png" /> -->
-                                </a>
+                                <a href="?page=index&demo=default" class="m-brand__logo-wrapper">Mhada</a>
                             </div>
                             <div class="m-stack__item m-stack__item--middle m-brand__tools">
-                                <!-- BEGIN: Left Aside Minimize Toggle -->
                                 <a href="javascript:;" id="m_aside_left_minimize_toggle" class="m-brand__icon m-brand__toggler m-brand__toggler--left m--visible-desktop-inline-block  ">
                                     <span></span>
                                 </a>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <!-- END: Brand -->
                     <div class="m-stack__item m-stack__item--fluid m-header-head header--custom" id="m_header_nav">
-                        <!-- BEGIN: Horizontal Menu -->
-                        <!-- END: Topbar -->
-                        <div class="d-flex align-items-center justify-content-end">
-                            <div class="m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push"
-                                data-dropdown-toggle="hover" aria-expanded="true">
-                                <a href="#" class="m-portlet__nav-link m-dropdown__toggle">
-                                    <!-- <i class="la la-plus m--hide"></i>
-                                <i class="la la-ellipsis-h"></i> -->
-                                    <i class="m-nav__link-icon fa fa-user" style="padding-right: 5px;"></i>
-                                    My Account
-                                </a>
-                                <div class="m-dropdown__wrapper">
-                                    <span class="m-dropdown__arrow m-dropdown__arrow--right m-dropdown__arrow--adjust"></span>
-                                    <div class="m-dropdown__inner">
-                                        <div class="m-dropdown__body">
-                                            <div class="m-dropdown__content">
-                                                <ul class="m-nav">
-                                                    <li class="m-nav__item">
-                                                        <a href="{{ route('logout') }}" class="m-nav__link" onclick="event.preventDefault();
-                                                                document.getElementById('logout-form').submit();">
-                                                            <!-- <i class="m-nav__link-icon flaticon-share"></i> -->
-                                                            <span class="m-nav__link-text">
-                                                                Sign Out
-                                                            </span>
-                                                        </a>
-                                                        <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                                            style="display: none;">
-                                                            {{ csrf_field() }}
-                                                        </form>
-                                                    </li>
-                                                </ul>
+                        <div class="d-flex justify-content-between">
+                            <div class="logo-wrapper-inner">
+                                <img class="login-logo" src="{{asset('assets/app/media/img/logos/mhada-logo.png')}}">
+                            </div>
+                            <!-- BEGIN: Horizontal Menu -->
+                            <!-- END: Topbar -->
+                            <div class="d-flex align-items-center justify-content-end">
+                                <div class="m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push"
+                                    data-dropdown-toggle="hover" aria-expanded="true">
+                                    <a href="#" class="m-portlet__nav-link m-dropdown__toggle">
+                                        <!-- <i class="la la-plus m--hide"></i>
+                                    <i class="la la-ellipsis-h"></i> -->
+                                        <i class="m-nav__link-icon fa fa-user" style="padding-right: 5px;"></i>
+                                        My Account
+                                    </a>
+                                    <div class="m-dropdown__wrapper">
+                                        <span class="m-dropdown__arrow m-dropdown__arrow--right m-dropdown__arrow--adjust"></span>
+                                        <div class="m-dropdown__inner">
+                                            <div class="m-dropdown__body">
+                                                <div class="m-dropdown__content">
+                                                    <ul class="m-nav">
+                                                        <li class="m-nav__item">
+                                                            <a href="{{ route('logout') }}" class="m-nav__link" onclick="event.preventDefault();
+                                                                    document.getElementById('logout-form').submit();">
+                                                                <!-- <i class="m-nav__link-icon flaticon-share"></i> -->
+                                                                <span class="m-nav__link-text">
+                                                                    Sign Out
+                                                                </span>
+                                                            </a>
+                                                            <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                                                style="display: none;">
+                                                                {{ csrf_field() }}
+                                                            </form>
+                                                        </li>
+                                                    </ul>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

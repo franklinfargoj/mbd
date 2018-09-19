@@ -74,20 +74,20 @@ Route::resource('ee', 'EEDepartment\EEController');
 Route::get('/application','SocietyOfferLetterController@ViewApplications')->name('society_detail.application');
 Route::resource('received_application','DYCEDepartment\DYCEController');
 
-
-
-
-Route::get('/resolution/delete/{id}', 'ResolutionController@destroy')->name('resolution.delete');
-//resolutions backend
-//Route::get('/resolution/delete/{id}', 'ResolutionController@destroy')->name('resolution.delete');
-Route::resource('/resolution', 'ResolutionController');
-Route::post('loadDeleteReasonOfResolutionUsingAjax', 'ResolutionController@loadDeleteReasonOfResolutionUsingAjax')->name('loadDeleteReasonOfResolutionUsingAjax');
 Route::post('loadDepartmentsOfBoardUsingAjax', 'BoardController@loadDepartmentsOfBoardUsingAjax')->name('loadDepartmentsOfBoardUsingAjax');
 
-//resolutions frontend
-Route::get('/frontend_resolution_list', 'FrontendResolutionController@index')->name('frontend_resolution_list');
-
 Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']], function() {
+
+    // Resolution routes
+
+    Route::get('/resolution/delete/{id}', 'ResolutionController@destroy')->name('resolution.delete');
+//resolutions backend
+//Route::get('/resolution/delete/{id}', 'ResolutionController@destroy')->name('resolution.delete');
+    Route::resource('/resolution', 'ResolutionController');
+    Route::post('loadDeleteReasonOfResolutionUsingAjax', 'ResolutionController@loadDeleteReasonOfResolutionUsingAjax')->name('loadDeleteReasonOfResolutionUsingAjax');
+
+    //resolutions frontend
+    Route::get('/frontend_resolution_list', 'FrontendResolutionController@index')->name('frontend_resolution_list');
 
     //Hearing Admin
     Route::resource('/hearing', 'HearingController');
