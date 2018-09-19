@@ -31,24 +31,6 @@ Route::resource('/department', 'DepartmentController');
 Route::get('/department/change_status/{id}', 'DepartmentController@change_status');
 Route::get('frontend_register','FrontendRegisterController@showRegisterForm');
 Route::post('frontend_register','FrontendRegisterController@frontendRegister');
-Route::get('rti_form','RtiFormController@showFrontendForm');
-// Route::post('rti_form','RtiFormController@saveFrontendForm');
-Route::get('rti_form_success','RtiFormController@rtiFormSuccess');
-Route::get('rti_form_success_close','RtiFormController@rtiFormSuccessClose');
-Route::get('rti_form_search','RtiFormController@searchRtiForm');
-Route::get('rti_applicants','RtiFormController@rtiApplicants');
-Route::get('schedule_meeting/{id}','RtiFormController@show_schedule_meeting_form');
-Route::post('rti_schedule_meeting/{id}','RtiFormController@schedule_meeting');
-Route::get('view_applicant/{id}','RtiFormController@view_applicant');
-Route::get('update_status/{id}','RtiFormController@show_update_status_form');
-Route::post('rti_update_status/{id}','RtiFormController@update_status');
-Route::get('rti_send_info/{id}','RtiFormController@show_send_info_form');
-Route::post('rti_sent_info/{id}','RtiFormController@send_info');
-Route::get('rti_forward_application/{id}','RtiFormController@show_forward_application_form');
-Route::post('rti_forwarded_application/{id}','RtiFormController@forward_application');
-Route::post('rti_frontend/create_application','RtiFrontEndController@saveRtiFrontendForm')->name('rti_frontend_application');
-Route::post('rti_frontend/view_application','RtiFrontEndController@show_rti_application_status')->name('rti_frontend_application_status');
-Route::resource('/rti_frontend', 'RtiFrontEndController');
 
 //Society Offer Letter
 Route::post('society_offer_letter/forgot_password','SocietyOfferLetterController@forgot_password')->name('society_offer_letter_forgot_password');
@@ -78,6 +60,26 @@ Route::post('loadDepartmentsOfBoardUsingAjax', 'BoardController@loadDepartmentsO
 
 Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']], function() {
 
+    // RTI Routes
+
+    Route::get('rti_form','RtiFormController@showFrontendForm')->name('rti_form');
+// Route::post('rti_form','RtiFormController@saveFrontendForm');
+    Route::get('rti_form_success','RtiFormController@rtiFormSuccess')->name('rti_form_success');
+    Route::get('rti_form_success_close','RtiFormController@rtiFormSuccessClose')->name('rti_form_success_close');
+    Route::get('rti_form_search','RtiFormController@searchRtiForm')->name('rti_form_search');
+    Route::get('rti_applicants','RtiFormController@rtiApplicants')->name('rti_applicants');
+    Route::get('schedule_meeting/{id}','RtiFormController@show_schedule_meeting_form')->name('schedule_meeting');
+    Route::post('rti_schedule_meeting/{id}','RtiFormController@schedule_meeting')->name('rti_schedule_meeting');
+    Route::get('view_applicant/{id}','RtiFormController@view_applicant')->name('view_applicant');
+    Route::get('update_status/{id}','RtiFormController@show_update_status_form')->name('update_status');
+    Route::post('rti_update_status/{id}','RtiFormController@update_status')->name('rti_update_status');
+    Route::get('rti_send_info/{id}','RtiFormController@show_send_info_form')->name('rti_send_info');
+    Route::post('rti_sent_info/{id}','RtiFormController@send_info')->name('rti_sent_info_data');
+    Route::get('rti_forward_application/{id}','RtiFormController@show_forward_application_form')->name('rti_forwarded_application');
+    Route::post('rti_forwarded_application/{id}','RtiFormController@forward_application')->name('rti_forwarded_application_data');
+    Route::post('rti_frontend/create_application','RtiFrontEndController@saveRtiFrontendForm')->name('rti_frontend_application');
+    Route::post('rti_frontend/view_application','RtiFrontEndController@show_rti_application_status')->name('rti_frontend_application_status');
+    Route::resource('/rti_frontend', 'RtiFrontEndController');
     // Resolution routes
 
     Route::get('/resolution/delete/{id}', 'ResolutionController@destroy')->name('resolution.delete');
@@ -142,6 +144,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('get-forward-application/{application_id}', 'EEDepartment\EEController@getForwardApplicationForm')->name('get-forward-application');
     Route::post('/forward-application', 'EEDepartment\EEController@forwardApplication')->name('forward-application');
 
+
 	//DYCE Department routes
 	Route::resource('dyce','DYCEDepartment\DYCEController');
 	Route::get('society_EE_documents/{id}','DYCEDepartment\DYCEController@societyEEDocuments')->name('dyce.society_EE_documents');
@@ -149,6 +152,19 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::get('dyce_forward_application/{id}','DYCEDepartment\DYCEController@forwardApplication')->name('dyce.forward_application');
     Route::post('forward_Application_data','DYCEDepartment\DYCEController@sendForwardApplication')->name('dyce.forward_application_data');
+
+    // REE Department Routes
+
+    Route::resource('ree_applications', 'REEDepartment\REEController');
+    Route::get('society_ee_document/{id}','REEDepartment\REEController@societyEEDocuments')->name('ree.society_EE_documents');
+
+    Route::get('EE_scrutiny_remark/{id}','REEDepartment\REEController@eeScrutinyRemark')->name('ree.EE_Scrutiny_Remark');
+
+    Route::get('dyce_Scrutiny_Remark/{id}','REEDepartment\REEController@dyceScrutinyRemark')->name('ree.dyce_scrutiny_remark');
+
+    Route::get('ree_forward_application/{id}','REEDepartment\REEController@forwardApplication')->name('ree.forward_application');
+
+    Route::resource('/ol_calculation_sheet', 'REEDepartment\OlApplicationCalculationSheetDetailsController');
 
     // CO department route 
     Route::resource('co','CODepartment\COController');
@@ -177,11 +193,6 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
 Route::get('scrutiny_remark','DYCEDepartment\DYCEController@dyceScrutinyRemark')->name('dyce.scrutiny_remark');
 
-Route::post('/consent-verfication', 'EEDepartment\EEController@consentVerification')->name('consent-verfication');
-Route::post('/ee-demarcation', 'EEDepartment\EEController@eeDemarcation')->name('ee-demarcation');
-Route::post('/ee-tit-bit', 'EEDepartment\EEController@titBit')->name('ee-tit-bit');
-Route::post('/ee-rg-relocation', 'EEDepartment\EEController@rgRelocation')->name('ee-rg-relocation');
-
 Route::get('architect_application','ArchitectApplicationController@index')->name('architect_application');
 Route::get('shortlisted_architect_application','ArchitectApplicationController@shortlistedIndex')->name('shortlisted_architect_application');
 Route::get('final_architect_application','ArchitectApplicationController@finalIndex')->name('final_architect_application');
@@ -208,17 +219,6 @@ Route::get('captcha', function() {
 Route::get('/application','SocietyOfferLetterController@ViewApplications')->name('society_detail.application');
 
 
-// REE Department Routes
-
-Route::group(['middleware' => ['disablepreventback']], function() {
-    Route::resource('ree_applications', 'REEDepartment\REEController');
-    Route::get('society_EE_document/{id}','REEDepartment\REEController@societyEEDocuments')->name('ree.society_EE_documents');
-    Route::get('ee_Scrutiny_Remark/{id}','REEDepartment\REEController@eeScrutinyRemark')->name('ree.EE_Scrutiny_Remark');
-    Route::get('dyce_scrutiny_remark/{id}','REEDepartment\REEController@dyceScrutinyRemark')->name('ree.scrutiny_remark');
-    Route::get('ree_forward_application/{id}','REEDepartment\REEController@forwardApplication')->name('ree.forward_application');
-    Route::resource('/ol_calculation_sheet', 'REEDepartment\OlApplicationCalculationSheetDetailsController');
-
-});
 
 // Frontend -- desgin views - abhiraj
 
