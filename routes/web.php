@@ -132,11 +132,11 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('/society_detail/show/{id}', 'SocietyController@show')->name("society_detail.show");
     Route::post('/society_detail/update/{id}', 'SocietyController@update')->name("society_detail.update");
 
+    Route::get('/lease_detail/create/{id}/{village_id}', 'LeaseDetailController@create')->name("lease_detail.create");
     Route::get('/lease_detail/{id}/{village_id}', 'LeaseDetailController@index')->name("lease_detail.index");
-    Route::get('/lease_detail/create/{id}', 'LeaseDetailController@create')->name("lease_detail.create");
     Route::post('/lease_detail/store', 'LeaseDetailController@store')->name("lease_detail.store");
 
-    Route::get('/lease_detail/renew-lease/{id}', 'LeaseDetailController@renewLease')->name('renew-lease.renew');
+    Route::get('/lease_detail/renew-lease/{id}/{village_id}', 'LeaseDetailController@renewLease')->name('renew-lease.renew');
     Route::post('/lease_detail/update-lease/{id}', 'LeaseDetailController@updateLease')->name('renew-lease.update-lease');
     Route::post('loadDeleteVillageUsingAjax', 'VillageDetailController@loadDeleteVillageUsingAjax')->name('loadDeleteVillageUsingAjax');
 
