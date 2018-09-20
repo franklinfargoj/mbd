@@ -34,7 +34,7 @@
                                     <input type="hidden" name="application_no" value="{{ $rti_applicant->unique_id }}">
                                     <select name="status" class="form-control">
                                       @foreach($rti_statuses as $rti_status)
-                                        <option value="{{ $rti_status['id'] }}" {{ ($rti_status['id'] == $rti_applicant['status'] ?'selected':'' )}}>{{ $rti_status['status_title'] }}</option>
+                                        <option value="{{ $rti_status['id'] }}" {{ ($rti_status['id'] == ($rti_applicant->master_rti_status!=""?$rti_applicant->master_rti_status->status_id:'') ?'selected':'' )}}>{{ $rti_status['status_title'] }}</option>
                                       @endforeach
                                     </select>
                                     <span class="help-block">{{$errors->first('status')}}</span>
@@ -45,8 +45,11 @@
                             <label class="col-md-4 control-label">Upload Information</label>
                             <div class="col-md-8 @if($errors->has('rti_info_file')) has-error @endif">
                               <div class="input-icon right">
-                                <input type="file" name="rti_info_file" id="rti_info_file" class="form-control" value="{{ old('rti_info_file', $rti_applicant->rti_send_info->filename ) }}">
+                              <input type="hidden" name="uploaded_file" value="{{$rti_applicant->rti_send_info!=""?$rti_applicant->rti_send_info->filename:''}}">
+                               <input type="hidden" name="uploaded_file_path" value="{{$rti_applicant->rti_send_info!=""?$rti_applicant->rti_send_info->filepath:''}}">
+                                <input type="file" name="rti_info_file" id="rti_info_file" class="form-control" value="{{ old('rti_info_file', $rti_applicant->rti_send_info!=""?$rti_applicant->rti_send_info->filename:'' ) }}">
                                 <span class="help-block">{{$errors->first('rti_info_file')}}</span>
+                                <a href="{{$rti_applicant->rti_send_info!=""?$rti_applicant->rti_send_info->filepath.$rti_applicant->rti_send_info->filename:''}}">{{$rti_applicant->rti_send_info!=""?$rti_applicant->rti_send_info->filename:''}}</a>
                               </div>
                             </div>
                           </div>
@@ -54,7 +57,7 @@
                             <label class="col-md-4 control-label">Comment</label>
                             <div class="col-md-8 @if($errors->has('rti_comment')) has-error @endif">
                               <div class="input-icon right">
-                                <textarea name="rti_comment" id="rti_comment" class="form-control">{{ old('rti_comment', $rti_applicant->rti_send_info->comment ) }}</textarea>
+                                <textarea name="rti_comment" id="rti_comment" class="form-control">{{ old('rti_comment', $rti_applicant->rti_send_info!=""?$rti_applicant->rti_send_info->comment:'' ) }}</textarea>
                                 <span class="help-block">{{$errors->first('rti_comment')}}</span>
                               </div>
                             </div>

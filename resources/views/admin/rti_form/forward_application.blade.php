@@ -25,7 +25,7 @@
                                     <input type="hidden" name="application_no" value="{{ $rti_applicant->unique_id }}">
                                     <select name="board" class="form-control">
                                       @foreach($boards as $board)
-                                        <option value="{{ $board['id'] }}" {{ ($board['id'] == $rti_applicant->rti_forward_application->board_id ?'selected':'' )}}>{{ $board['board_name'] }}</option>
+                                        <option value="{{ $board['id'] }}" {{ ($board['id'] == ($rti_applicant->rti_forward_application!=""?$rti_applicant->rti_forward_application->board_id:'') ?'selected':'' )}}>{{ $board['board_name'] }}</option>
                                       @endforeach
                                     </select>
                                     <span class="help-block">{{$errors->first('board')}}</span>
@@ -38,7 +38,7 @@
                                   <div class="input-icon right">
                                     <select name="department" class="form-control">
                                       @foreach($departments as $department)
-                                        <option value="{{ $department['id'] }}" {{ ($department['id'] == $rti_applicant->rti_forward_application->department_id ?'selected':'' )}}>{{ $department['department_name'] }}</option>
+                                        <option value="{{ $department['id'] }}" {{ ($department['id'] == ($rti_applicant->rti_forward_application!=""?$rti_applicant->rti_forward_application->department_id:"") ?'selected':'' )}}>{{ $department['department_name'] }}</option>
                                       @endforeach
                                     </select>
                                     <span class="help-block">{{$errors->first('department')}}</span>
@@ -49,7 +49,7 @@
                             <label class="col-md-4 control-label">Remarks</label>
                             <div class="col-md-8 @if($errors->has('rti_remarks')) has-error @endif">
                               <div class="input-icon right">
-                                <textarea name="rti_remarks" id="rti_remarks" class="form-control">{{ old('rti_remarks', $rti_applicant->rti_forward_application->remarks ) }}</textarea>
+                                <textarea name="rti_remarks" id="rti_remarks" class="form-control">{{ old('rti_remarks', ($rti_applicant->rti_forward_application!=""?$rti_applicant->rti_forward_application->remarks:"") ) }}</textarea>
                                 <span class="help-block">{{$errors->first('rti_remarks')}}</span>
                               </div>
                             </div>

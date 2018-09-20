@@ -43,51 +43,58 @@ class REEController extends Controller
             ['data' => 'date','name' => 'date','title' => 'Date'],
             ['data' => 'society_name','name' => 'eeApplicationSociety.name','title' => 'Society Name'],
             ['data' => 'building_name','name' => 'eeApplicationSociety.building_no','title' => 'building No'],
-            ['data' => 'society_address','name' => 'eeApplicationSociety.address','title' => 'Address'],
+            ['data' => 'society_address','name' => 'eeApplicationSociety.address','title' => 'Address','searchable' => false],
             // ['data' => 'model','name' => 'model','title' => 'Model'],
-            // ['data' => 'status','name' => 'status','title' => 'Status'],
+            ['data' => 'Status','name' => 'status','title' => 'Status'],
             ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
         ];
 
         if ($datatables->getRequest()->ajax()) {
 
-            DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));          
-
-            $ree_application_data = OlApplication::with(['olApplicationStatus' => function($q){
-                $q->where('user_id', Auth::id())
-                    ->where('role_id', Auth::user()->role_id);
-            }, 'eeApplicationSociety'])
-            ->whereHas('olApplicationStatus', function($q){
-                $q->where('user_id', Auth::id())
-                    ->where('role_id', Auth::user()->role_id);
-            });
-
-            $ree_application_data = $ree_application_data->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').', application_no, ol_applications.id as id, submitted_at, society_id, current_status_id');
-
-            return $datatables->of($ree_application_data)
-
-                ->editColumn('society_name', function ($ree_application_data) {
-                    return $ree_application_data->eeApplicationSociety->name;
-                })
-                ->editColumn('building_name', function ($ree_application_data) {
-                    return $ree_application_data->eeApplicationSociety->building_no;
-                })
-                ->editColumn('society_address', function ($ree_application_data) {
-                    return $ree_application_data->eeApplicationSociety->address;
-                })                
-                ->editColumn('date', function ($ree_application_data) {
-                    return $ree_application_data->submitted_at;
-                })
-                ->editColumn('actions', function ($ree_application_data) {
-                   return view('admin.REE_department.action', compact('ree_application_data'))->render();
-                })                
-                ->rawColumns(['society_name', 'building_name', 'society_address','date','actions'])
-                ->make(true);
-        }        
-                $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+            $ree_application_data = $this->CommonController->listApplicationData($request);
             
-            return view('admin.REE_department.index', compact('html','header_data','getData'));    
-    
+            return $datatables->of($ree_application_data)
+            ->editColumn('rownum', function ($listArray) {
+                static $i = 0; $i++; return $i;
+            })
+            ->editColumn('society_name', function ($ree_application_data) {
+                return $ree_application_data->eeApplicationSociety->name;
+            })
+            ->editColumn('building_name', function ($ree_application_data) {
+                return $ree_application_data->eeApplicationSociety->building_no;
+            })
+            ->editColumn('society_address', function ($ree_application_data) {
+                return $ree_application_data->eeApplicationSociety->address;
+            })                
+            ->editColumn('date', function ($ree_application_data) {
+                return date(config('commanConfig.dateFormat', strtotime($ree_application_data->submitted_at)));
+            })
+            ->editColumn('actions', function ($ree_application_data) {
+               return view('admin.REE_department.action', compact('ree_application_data'))->render();
+            }) 
+            ->editColumn('Status', function ($listArray) use ($request) {
+                $status = $listArray->olApplicationStatusForLoginListing[0]->status_id;
+
+                if ($request->update_status)
+                {
+                    if ($request->update_status == $status){
+                        $config_array = array_flip(config('commanConfig.applicationStatus'));
+                        $value = ucwords(str_replace('_', ' ', $config_array[$status]));
+                        return $value;
+                    }
+                }else{
+                    $config_array = array_flip(config('commanConfig.applicationStatus'));
+                    $value = ucwords(str_replace('_', ' ', $config_array[$status]));
+                    return $value;
+                }
+
+            })                               
+            ->rawColumns(['society_name', 'building_name', 'society_address','date','actions','Status'])
+            ->make(true);
+        }        
+            $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+            
+        return view('admin.REE_department.index', compact('html','header_data','getData'));        
     }
 
     protected function getParameters() {
@@ -95,7 +102,7 @@ class REEController extends Controller
             'serverSide' => true,
             'processing' => true,
             'ordering'   =>'isSorted',
-            "order"      => [6, "desc" ],
+            "order"      => [7, "desc" ],
             "pageLength" => $this->list_num_of_records_per_page
         ];
     } 

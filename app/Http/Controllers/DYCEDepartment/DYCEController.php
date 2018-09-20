@@ -108,12 +108,13 @@ class DYCEController extends Controller
 
         $applicationId = 1;   
         $applicationData = $this->CommonController->getDyceScrutinyRemark($applicationId);
+        dd($applicationData);
         return view('admin.DYCE_department.scrutiny_remark',compact('applicationData'));
     } 
 
     // function used to update details and upload documents by DYCE 
     public function store(Request $request){
-
+       
         $applicationId = $request->applicationId;
 
         if (isset($request->documentId))
@@ -140,7 +141,9 @@ class DYCEController extends Controller
 
                 if($file->move($destinationPath, $file_name))
                 {
-                    $fileData[] = array('document_path' => $uploadPath.'/'.$file_name, 'application_id' => $applicationId);
+                    $fileData[] = array('document_path' => $uploadPath.'/'.$file_name, 
+                        'application_id' => $applicationId,
+                        'user_id' => Auth::Id());
                 }
             }
             $data = olSiteVisitDocuments::insert($fileData);            
