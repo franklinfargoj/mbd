@@ -128,13 +128,14 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('/society_detail/create/{id}', 'SocietyController@create')->name("society_detail.create");
     Route::post('/society_detail/store', 'SocietyController@store')->name("society_detail.store");
     Route::get('/society_detail/edit/{id}', 'SocietyController@edit')->name("society_detail.edit");
+    Route::get('/society_detail/show/{id}', 'SocietyController@show')->name("society_detail.show");
     Route::post('/society_detail/update/{id}', 'SocietyController@update')->name("society_detail.update");
 
+    Route::get('/lease_detail/create/{id}/{village_id}', 'LeaseDetailController@create')->name("lease_detail.create");
     Route::get('/lease_detail/{id}/{village_id}', 'LeaseDetailController@index')->name("lease_detail.index");
-    Route::get('/lease_detail/create/{id}', 'LeaseDetailController@create')->name("lease_detail.create");
     Route::post('/lease_detail/store', 'LeaseDetailController@store')->name("lease_detail.store");
 
-    Route::get('/lease_detail/renew-lease/{id}', 'LeaseDetailController@renewLease')->name('renew-lease.renew');
+    Route::get('/lease_detail/renew-lease/{id}/{village_id}', 'LeaseDetailController@renewLease')->name('renew-lease.renew');
     Route::post('/lease_detail/update-lease/{id}', 'LeaseDetailController@updateLease')->name('renew-lease.update-lease');
     Route::post('loadDeleteVillageUsingAjax', 'VillageDetailController@loadDeleteVillageUsingAjax')->name('loadDeleteVillageUsingAjax');
 
@@ -170,6 +171,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('dyce_Scrutiny_Remark/{id}','REEDepartment\REEController@dyceScrutinyRemark')->name('ree.dyce_scrutiny_remark');
 
     Route::get('ree_forward_application/{id}','REEDepartment\REEController@forwardApplication')->name('ree.forward_application');
+    Route::post('ree_forward_Application_data','REEDepartment\REEController@sendForwardApplication')->name('ree.forward_application_data');
 
     Route::resource('/ol_calculation_sheet', 'REEDepartment\OlApplicationCalculationSheetDetailsController');
 
@@ -195,7 +197,6 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::post('cap_save_forward_Application','CAPDepartment\CAPController@sendForwardApplication')->name('cap.forward_application_data');
 
     // Route::post('save_forward_Application','CODepartment\COController@sendForwardApplication')->name('co.forward_application_data');
-
 });
 
 Route::get('scrutiny_remark','DYCEDepartment\DYCEController@dyceScrutinyRemark')->name('dyce.scrutiny_remark');
@@ -222,20 +223,6 @@ Route::get('captcha', function() {
 
 //route for society Application Page
 Route::get('/application','SocietyOfferLetterController@ViewApplications')->name('society_detail.application');
-
-
-
-// REE Department Routes
-
-Route::group(['middleware' => ['disablepreventback']], function() {
-    Route::resource('ree_applications', 'REEDepartment\REEController');
-    Route::get('society_EE_document/{id}','REEDepartment\REEController@societyEEDocuments')->name('ree.society_EE_documents');
-    Route::get('ee_Scrutiny_Remark/{id}','REEDepartment\REEController@eeScrutinyRemark')->name('ree.EE_Scrutiny_Remark');
-    Route::get('dyce_scrutiny_remark/{id}','REEDepartment\REEController@dyceScrutinyRemark')->name('ree.scrutiny_remark');
-    Route::get('ree_forward_application/{id}','REEDepartment\REEController@forwardApplication')->name('ree.forward_application');
-    Route::resource('/ol_calculation_sheet', 'REEDepartment\OlApplicationCalculationSheetDetailsController');
-
-});
 
 
 // Frontend -- desgin views - abhiraj

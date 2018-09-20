@@ -142,7 +142,11 @@ class SocietyController extends Controller
      */
     public function show($id)
     {
-        //
+        $header_data = $this->header_data;
+        $arrData['other_land'] = OtherLand::where('status', 1)->get();
+        $arrData['society_data'] = SocietyDetail::FindOrFail($id);
+
+        return view('admin.society_detail.show', compact('header_data', 'arrData', 'id'));
     }
 
     /**

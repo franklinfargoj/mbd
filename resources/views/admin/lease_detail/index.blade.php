@@ -19,9 +19,9 @@
                     </div>
                 </div>
                 @if($count > 0)
-                    <a class="btn btn-primary" href="{{route('renew-lease.renew', $id)}}" style="float: right;margin-top: 3%">Renew Lease</a>
+                    <a class="btn btn-primary" href="{{route('renew-lease.renew', [$id, $village_id])}}" style="float: right;margin-top: 3%">Renew Lease</a>
                 @else
-                    <a class="btn btn-primary" href="{{route('lease_detail.create', $id)}}" style="float: right;margin-top: 3%">Add Lease</a>
+                    <a class="btn btn-primary" href="{{route('lease_detail.create', [$id, $village_id])}}" style="float: right;margin-top: 3%">Add Lease</a>
                 @endif
             </div>
             @if(Session::has('success'))

@@ -14,31 +14,36 @@
     <div id="m_ver_menu" class="m-aside-menu  m-aside-menu--skin-dark m-aside-menu--submenu-skin-dark " m-menu-vertical="1"
         m-menu-scrollable="1" m-menu-dropdown-timeout="500" style="position: relative;">
         <ul class="m-menu__nav  m-menu__nav--dropdown-submenu-arrow ">
-            <li class="m-menu__item m-menu__item--active" aria-haspopup="true">
-                <a href="{{ url('/resolution') }}" class="m-menu__link ">
-                    <i class="m-menu__link-icon flaticon-line-graph"></i>
-                    <span class="m-menu__link-title">
-                        <span class="m-menu__link-wrap">
-                            <span class="m-menu__link-text">
-                                Resolution Listing
+            @if(in_array('resolution.index', session()->get('permission')))
+                <li class="m-menu__item m-menu__item--active" aria-haspopup="true">
+                    <a href="{{ url('/resolution') }}" class="m-menu__link ">
+                        <i class="m-menu__link-icon flaticon-line-graph"></i>
+                        <span class="m-menu__link-title">
+                            <span class="m-menu__link-wrap">
+                                <span class="m-menu__link-text">
+                                    Resolution Listing
+                                </span>
                             </span>
                         </span>
-                    </span>
-                </a>
-            </li>
+                    </a>
+                </li>
+            @endif
 
-            <li class="m-menu__item m-menu__item--active" aria-haspopup="true">
-                <a href="{{url('/rti_applicants')}}" class="m-menu__link ">
-                    <i class="m-menu__link-icon flaticon-line-graph"></i>
-                    <span class="m-menu__link-title">
-                        <span class="m-menu__link-wrap">
-                            <span class="m-menu__link-text">
-                                RTI Applicants
+
+            @if(in_array('rti_applicants', session()->get('permission')))
+                <li class="m-menu__item m-menu__item--active" aria-haspopup="true">
+                    <a href="{{url('/rti_applicants')}}" class="m-menu__link ">
+                        <i class="m-menu__link-icon flaticon-line-graph"></i>
+                        <span class="m-menu__link-title">
+                            <span class="m-menu__link-wrap">
+                                <span class="m-menu__link-text">
+                                    RTI Applicants
+                                </span>
                             </span>
                         </span>
-                    </span>
-                </a>
-            </li>
+                    </a>
+                </li>
+            @endif
 
             @php
             $hearing_permission = ['hearing.show', 'hearing.index', 'hearing.store', 'hearing.create',
@@ -53,36 +58,38 @@
             ];
             @endphp
             {{-- @if(!empty(array_intersect($hearing_permission, session()->get('permission'))))--}}
-            <li class="m-menu__item m-menu__item--active" aria-haspopup="true">
-                <a href="{{ url('hearing') }}" class="m-menu__link ">
-                    <i class="m-menu__link-icon flaticon-line-graph"></i>
-                    <span class="m-menu__link-title">
-                        <span class="m-menu__link-wrap">
-                            <span class="m-menu__link-text">
-                                Hearing
+            @if(in_array('hearing.index', session()->get('permission')))
+                <li class="m-menu__item m-menu__item--active" aria-haspopup="true">
+                    <a href="{{ url('hearing') }}" class="m-menu__link ">
+                        <i class="m-menu__link-icon flaticon-line-graph"></i>
+                        <span class="m-menu__link-title">
+                            <span class="m-menu__link-wrap">
+                                <span class="m-menu__link-text">
+                                    Hearing
+                                </span>
                             </span>
                         </span>
-                    </span>
-                </a>
-            </li>
-            {{--@endif--}}
+                    </a>
+                </li>
+            @endif
 
 
 
             {{-- @if(!empty(array_intersect($land_permission, session()->get('permission'))))--}}
-            <li class="m-menu__item m-menu__item--active" aria-haspopup="true">
-                <a href="{{url('/village_detail')}}" class="m-menu__link ">
-                    <i class="m-menu__link-icon flaticon-line-graph"></i>
-                    <span class="m-menu__link-title">
-                        <span class="m-menu__link-wrap">
-                            <span class="m-menu__link-text">
-                                Land
+            @if(in_array('village_detail.index', session()->get('permission')))
+                <li class="m-menu__item m-menu__item--active" aria-haspopup="true">
+                    <a href="{{url('/village_detail')}}" class="m-menu__link ">
+                        <i class="m-menu__link-icon flaticon-line-graph"></i>
+                        <span class="m-menu__link-title">
+                            <span class="m-menu__link-wrap">
+                                <span class="m-menu__link-text">
+                                    Land
+                                </span>
                             </span>
                         </span>
-                    </span>
-                </a>
-            </li>
-            {{--@endif--}}
+                    </a>
+                </li>
+            @endif
 
 
             <li class="m-menu__item m-menu__item--active" aria-haspopup="true">
@@ -98,7 +105,7 @@
                 </a>
             </li>
 
-            <li class="m-menu__item m-menu__item--active" aria-haspopup="true">
+            {{--<li class="m-menu__item m-menu__item--active" aria-haspopup="true">
                 <a href="{{url('/application')}}" class="m-menu__link ">
                     <i class="m-menu__link-icon flaticon-line-graph"></i>
                     <span class="m-menu__link-title">
@@ -109,9 +116,9 @@
                         </span>
                     </span>
                 </a>
-            </li>
+            </li>--}}
 
-            <li class="m-menu__item m-menu__item--active" aria-haspopup="true">
+            {{--<li class="m-menu__item m-menu__item--active" aria-haspopup="true">
                 <a href="" class="m-menu__link ">
                     <i class="m-menu__link-icon flaticon-line-graph"></i>
                     <span class="m-menu__link-title">
@@ -122,20 +129,35 @@
                         </span>
                     </span>
                 </a>
-            </li>
+            </li>--}}
 
-            <li class="m-menu__item m-menu__item--active" aria-haspopup="true">
-                <a href="{{ route('society_offer_letter_dashboard') }}" class="m-menu__link ">
-                    <i class="m-menu__link-icon flaticon-line-graph"></i>
-                    <span class="m-menu__link-title">
-                        <span class="m-menu__link-wrap">
-                            <span class="m-menu__link-text">
-                                Offer Letter Dashboard
+            @if(in_array('ee.index', session()->get('permission')) || in_array('dyce.index', session()->get('permission')) || in_array('ree_applications.index', session()->get('permission')) || in_array('co.index', session()->get('permission')) || in_array('cap.index', session()->get('permission')))
+                <li class="m-menu__item m-menu__item--active" aria-haspopup="true">
+                    <a href="{{ url(session()->get('redirect_to')) }}" class="m-menu__link ">
+                        <i class="m-menu__link-icon flaticon-line-graph"></i>
+                        <span class="m-menu__link-title">
+                            <span class="m-menu__link-wrap">
+                                <span class="m-menu__link-text">
+                                    Offer Letter
+                                </span>
                             </span>
                         </span>
-                    </span>
-                </a>
-            </li>
+                    </a>
+                </li>
+            @endif
+
+                {{--<li class="m-menu__item m-menu__item--active" aria-haspopup="true">
+                    <a href="{{ route('society_offer_letter_dashboard') }}" class="m-menu__link ">
+                        <i class="m-menu__link-icon flaticon-line-graph"></i>
+                        <span class="m-menu__link-title">
+                            <span class="m-menu__link-wrap">
+                                <span class="m-menu__link-text">
+                                    Offer Letter Dashboard
+                                </span>
+                            </span>
+                        </span>
+                    </a>
+                </li>--}}
         </ul>
     </div>
     <!-- END: Aside Menu -->

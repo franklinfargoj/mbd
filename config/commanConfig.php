@@ -14,6 +14,7 @@ return [
     'ee_junior_engineer' => 'ee_junior_engineer',
     'co_engineer' => 'co_engineer',
     'cap_engineer' => 'cap_engineer',
+    'ree_junior' => 'REE Junior Engineer',
 
     'applicationStatus' => [
         'in_process' => 1,

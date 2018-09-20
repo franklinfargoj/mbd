@@ -12,6 +12,7 @@
             <form id="addLeaseDetail" role="form" method="post" class="m-form m-form--rows m-form--label-align-right" action="{{route('lease_detail.store')}}">
                 @csrf
                 <input type="hidden" name="society_id" value="{{ $id }}">
+                <input type="hidden" name="village_id" value="{{ $village_id }}">
                 <div class="m-portlet__body m-portlet__body--spaced">
                     <div class="form-group m-form__group row">
                         <div class="col-lg-6 form-group">
@@ -53,7 +54,7 @@
                         <div class="col-lg-6 form-group">
                             <label class="col-form-label" for="lease_start_date">Start date of lease:</label>
                             <div class="m-input-icon m-input-icon--right">
-                                <input type="date" id="lease_start_date" name="lease_start_date" class="form-control form-control--custom m-input"  value="{{ old('lease_start_date') }}">
+                                <input type="text" id="lease_start_date" name="lease_start_date" class="m_datepicker form-control form-control--custom m-input"  value="{{ old('lease_start_date') }}">
                                 <span class="help-block">{{$errors->first('lease_start_date')}}</span>
                             </div>
                         </div>
@@ -93,7 +94,7 @@
                         <div class="col-lg-6 form-group">
                             <label class="col-form-label" for="lease_renewal_date">Date of Renewal of lease:</label>
                             <div class="m-input-icon m-input-icon--right">
-                                <input type="date" id="lease_renewal_date" name="lease_renewal_date" class="form-control form-control--custom" class="form-control form-control--custom m-input"  value="{{ old('lease_renewal_datedate_on_service_tax') }}">
+                                <input type="text" id="lease_renewal_date" name="lease_renewal_date" class="m_datepicker form-control form-control--custom" class="form-control form-control--custom m-input"  value="{{ old('lease_renewal_datedate_on_service_tax') }}">
                                 <span class="help-block">{{$errors->first('lease_renewal_date')}}</span>
                             </div>
                         </div>
@@ -145,7 +146,7 @@
                                 <div class="col-lg-6">
                                     <div class="btn-list">
                                         <button type="submit" id="add_lease" class="btn btn-primary">Save</button>
-                                        <a href="{{url('/lease_detail/'.$id)}}" class="btn btn-secondary">Cancel</a>
+                                        <a href="{{url('/lease_detail/'.$id.'/'.$village_id)}}" class="btn btn-secondary">Cancel</a>
                                     </div>
                                 </div>
                             </div>
