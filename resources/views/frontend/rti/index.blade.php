@@ -37,6 +37,7 @@
                             placeholder="Email Address" name="email">
                     </div>
                     <div class="m-login__action">
+
                         <a href="{{ route('rti_frontend.create') }}" class="m-link btn btn-primary m-btn m-btn--pill m-btn--custom m-login__btn m-login__btn--primary">Register</a>
                         <a id="rti_application_status_check" href="#" class="btn btn-primary m-btn m-btn--pill m-btn--custom m-login__btn m-login__btn--primary">Check
                             Status</a>

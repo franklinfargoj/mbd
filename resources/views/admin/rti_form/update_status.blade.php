@@ -11,6 +11,7 @@
 @endsection
 @section('content')
 	<div class="row">
+  {{ Breadcrumbs::render('update_status',$rti_applicant->id) }}
         <div class="col-md-12">
         		<h3>Update Status</h3>
         		<div class="col-md-9">

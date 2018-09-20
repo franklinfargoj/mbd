@@ -12,6 +12,7 @@
  </div>
  <!-- END: Subheader -->           
  <div class="m-content"></div>
+ {{ Breadcrumbs::render('resolution') }}
  <div class="m-portlet m-portlet--mobile">
     <div class="m-portlet__head">
        <div class="m-portlet__head-caption">

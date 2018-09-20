@@ -65,9 +65,12 @@ Route::resource('ee', 'EEDepartment\EEController');
 Route::resource('received_application','DYCEDepartment\DYCEController');
 
 Route::post('loadDepartmentsOfBoardUsingAjax', 'BoardController@loadDepartmentsOfBoardUsingAjax')->name('loadDepartmentsOfBoardUsingAjax');
+
+
+Route::resource('/rti_frontend', 'RtiFrontEndController');
+
 Route::post('rti_frontend/create_application','RtiFrontEndController@saveRtiFrontendForm')->name('rti_frontend_application');
 Route::post('rti_frontend/view_application','RtiFrontEndController@show_rti_application_status')->name('rti_frontend_application_status');
-Route::resource('/rti_frontend', 'RtiFrontEndController');
 Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']], function() {
 
     // RTI Routes
@@ -133,6 +136,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::get('/lease_detail/create/{id}/{village_id}', 'LeaseDetailController@create')->name("lease_detail.create");
     Route::get('/lease_detail/{id}/{village_id}', 'LeaseDetailController@index')->name("lease_detail.index");
+
     Route::post('/lease_detail/store', 'LeaseDetailController@store')->name("lease_detail.store");
 
     Route::get('/lease_detail/renew-lease/{id}/{village_id}', 'LeaseDetailController@renewLease')->name('renew-lease.renew');
