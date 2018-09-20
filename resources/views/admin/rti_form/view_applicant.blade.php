@@ -16,7 +16,7 @@
               <h4>Contact Details: -</h4>
               <div class="col-md-6">
                 <p>Mobile Number:&nbsp;&nbsp;{{ $rti_applicant->users->name }}</p>
-                <p>Query Status:&nbsp;&nbsp;{{ date('d-m-Y', strtotime($rti_applicant->created_at)) }}</p>
+                <p>Query Status:&nbsp;&nbsp;{{ $rti_applicant->master_rti_status!=""?$rti_applicant->master_rti_status->status_title->status_title:"" }}</p>
               </div>
               <div class="col-md-6">
                 <p>Email Address:&nbsp;&nbsp;{{ $rti_applicant->users->email }}</p>

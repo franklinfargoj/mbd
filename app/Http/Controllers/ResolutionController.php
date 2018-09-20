@@ -169,7 +169,7 @@ class ResolutionController extends Controller
             $file = $request->file('file');
             $file_name = time().$file->getFileName().'.'.$file->getClientOriginalExtension();
             
-            Storage::disk('ftp')->putFileAs('Resolution',$request->file('file'),$file_name);
+            Storage::disk(env('FILESYSTEM_DRIVER'))->putFileAs('Resolution',$request->file('file'),$file_name);
             if($file->move($destinationPath, $file_name))
             {
                 $dataToInsert['filepath'] = $uploadPath.'/';

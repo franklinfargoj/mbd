@@ -61,5 +61,6 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'check-permission' => \App\Http\Middleware\CheckPermission::class,
         'disablepreventback' => \App\Http\Middleware\DisablePreventBack::class,
+        'check_society_offer_letter_permission' => \App\Http\Middleware\CheckSocietyOfferLetterPermission::class,
     ];
 }
