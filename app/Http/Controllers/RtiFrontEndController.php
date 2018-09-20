@@ -59,9 +59,15 @@ class RtiFrontEndController extends Controller
     {
         // dd($id);
         // dd($errors);
-        $boards = Board::all();
-        $departments = Department::all();
-        return view('frontend.rti.register_applicants', compact('id', 'boards', 'departments'));
+        if(RtiFronendUser::find($id))
+        {
+            $boards = Board::all();
+            $departments = Department::all();
+            return view('frontend.rti.register_applicants', compact('id', 'boards', 'departments'));
+        }else
+        {
+            return redirect()->route('rti_frontend.index');
+        }
     }
 
     public function saveRtiFrontendForm(RtiFormSubmitRequest $request)
