@@ -35,7 +35,8 @@
                             name="email">
                     </div>
                     <div class="m-login__action">
-                        <a id="m_login_signin_submit" href="{{ route('rti_frontend.create') }}" class="m-link btn btn-primary m-btn m-btn--pill m-btn--custom m-login__btn m-login__btn--primary">Register</a>
+                    <!-- id removed from below a tag  id="m_login_signin_submit"-->
+                        <a href="{{ route('rti_frontend.create') }}" class="m-link btn btn-primary m-btn m-btn--pill m-btn--custom m-login__btn m-login__btn--primary">Register</a>
                         <a id="rti_application_status_check" href="#" class="btn btn-primary m-btn m-btn--pill m-btn--custom m-login__btn m-login__btn--primary">Check
                             Status</a>
                     </div>

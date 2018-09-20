@@ -58,6 +58,11 @@ Route::resource('received_application','DYCEDepartment\DYCEController');
 
 Route::post('loadDepartmentsOfBoardUsingAjax', 'BoardController@loadDepartmentsOfBoardUsingAjax')->name('loadDepartmentsOfBoardUsingAjax');
 
+Route::resource('/rti_frontend', 'RtiFrontEndController');
+
+Route::post('rti_frontend/create_application','RtiFrontEndController@saveRtiFrontendForm')->name('rti_frontend_application');
+Route::post('rti_frontend/view_application','RtiFrontEndController@show_rti_application_status')->name('rti_frontend_application_status');
+
 Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']], function() {
 
     // RTI Routes
@@ -77,9 +82,8 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::post('rti_sent_info/{id}','RtiFormController@send_info')->name('rti_sent_info_data');
     Route::get('rti_forward_application/{id}','RtiFormController@show_forward_application_form')->name('rti_forwarded_application');
     Route::post('rti_forwarded_application/{id}','RtiFormController@forward_application')->name('rti_forwarded_application_data');
-    Route::post('rti_frontend/create_application','RtiFrontEndController@saveRtiFrontendForm')->name('rti_frontend_application');
-    Route::post('rti_frontend/view_application','RtiFrontEndController@show_rti_application_status')->name('rti_frontend_application_status');
-    Route::resource('/rti_frontend', 'RtiFrontEndController');
+    
+    
     // Resolution routes
 
     Route::get('/resolution/delete/{id}', 'ResolutionController@destroy')->name('resolution.delete');
@@ -123,8 +127,10 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('/society_detail/edit/{id}', 'SocietyController@edit')->name("society_detail.edit");
     Route::post('/society_detail/update/{id}', 'SocietyController@update')->name("society_detail.update");
 
-    Route::get('/lease_detail/{id}/{village_id}', 'LeaseDetailController@index')->name("lease_detail.index");
     Route::get('/lease_detail/create/{id}', 'LeaseDetailController@create')->name("lease_detail.create");
+    
+    Route::get('/lease_detail/{id}/{village_id}', 'LeaseDetailController@index')->name("lease_detail.index");
+    
     Route::post('/lease_detail/store', 'LeaseDetailController@store')->name("lease_detail.store");
 
     Route::get('/lease_detail/renew-lease/{id}', 'LeaseDetailController@renewLease')->name('renew-lease.renew');

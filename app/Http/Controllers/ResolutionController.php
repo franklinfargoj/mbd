@@ -155,7 +155,7 @@ class ResolutionController extends Controller
             'description' => $request->description,
             'language' => $request->language,
             'reference_link' => $request->reference_link,
-            'published_date' => $request->published_date,
+            'published_date' => date('Y-m-d',strtotime($request->published_date)),
             'revision_log_message' => $request->revision_log_message
         ];
 
@@ -215,7 +215,7 @@ class ResolutionController extends Controller
         $resolution->description          = $request->description;
         $resolution->language             = $request->language;
         $resolution->reference_link       = $request->reference_link;
-        $resolution->published_date       = $request->published_date;
+        $resolution->published_date       = date('Y-m-d',strtotime($request->published_date));
         $resolution->revision_log_message = $request->revision_log_message;
 
         if ($request->has('file')) {
