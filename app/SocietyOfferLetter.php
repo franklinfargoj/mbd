@@ -3,12 +3,18 @@
 namespace App;
 use Validator;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class SocietyOfferLetter extends Authenticatable
 {
+    use Notifiable;
 
     protected $table = "ol_societies";
+
+    protected $primaryKey = "id";
+
+    // protected $guard = 'society';
 
 	protected $fillable = [
         'language_id',
@@ -25,7 +31,8 @@ class SocietyOfferLetter extends Authenticatable
         'architect_telephone_no',
         'architect_address',
         'remember_token',
-        'last_login_at'
+        'last_login_at',
+        'user_id'
     ];
 
 
@@ -50,5 +57,10 @@ class SocietyOfferLetter extends Authenticatable
     
     public function societyDocuments(){
         return $this->hasMany('App\OlSocietyDocumentsStatus', 'society_id','id');
-    }        
+    }     
+
+    public function roles()
+    {
+        return $this->belongsToMany('App\Role', 'role_user', 'user_id', 'role_id')->withPivot('start_date', 'end_date');
+    }
 }

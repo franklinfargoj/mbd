@@ -76,6 +76,7 @@ return [
         'ol_societies' => [
             'driver' => 'eloquent',
             'model' => App\SocietyOfferLetter::class,
+            'table' => 'ol_societies',
         ],
 
         // 'users' => [

@@ -230,6 +230,10 @@
     padding-right: 0;
 }
 
+.form-control--custom {
+    background-color: transparent !important;
+}
+
 .form--custom label {
     margin-bottom: 0;
 }
