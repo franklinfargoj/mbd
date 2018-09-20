@@ -14,6 +14,9 @@
                    <h1 class="m-login__title mb-0 display-4">
                       Your RTI Application Number : {{ $id }}
                    </h1>
+                   <center>
+                   <a target="_blank" id="" href="{{route('rti_frontend.index')}}" class="btn btn-primary m-btn m-btn--pill m-btn--custom m-login__btn m-login__btn--primary">Check
+                            Status</a></center>
                    <p class="sub-title"></p>
                 </div>
              </div>

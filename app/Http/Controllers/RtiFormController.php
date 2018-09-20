@@ -88,11 +88,12 @@ class RtiFormController extends Controller
             ['data' => 'created_at','name' => 'created_at','title' => 'Date of Submission'],
             ['data' => 'applicant_name','name' => 'applicant_name','title' => 'Applicant Name'],
             ['data' => 'meeting_scheduled_date','name' => 'created_at','title' => 'Meeting Scheduled Date'],
+            ['data' => 'rti_status_id','name' => 'rti_status_id','title' => 'Status'],
             ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
         ];
         if ($datatables->getRequest()->ajax()) {
             DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
-            $rti_applicants = RtiForm::with('rti_schedule_meetings');
+            $rti_applicants = RtiForm::with(['rti_schedule_meetings','master_rti_status']);
 
             if($request->status)
             {
@@ -119,7 +120,10 @@ class RtiFormController extends Controller
                     return $rti_applicants->applicant_name;
                 })
                 ->editColumn('meeting_scheduled_date', function ($rti_applicants) {
-                    return $rti_applicants->rti_schedule_meetings!=""?$rti_applicants->rti_schedule_meetings->meeting_scheduled_date:'';
+                    return $rti_applicants->rti_schedule_meetings!=""?$rti_applicants->rti_schedule_meetings->meeting_scheduled_date:' - ';
+                })
+                ->editColumn('rti_status_id', function ($rti_applicants) {
+                    return $rti_applicants->master_rti_status!=""?$rti_applicants->master_rti_status->status_title->status_title:' - ';
                 })
                 ->editColumn('actions', function ($rti_applicants) {
                    return view('admin.rti_form.actions', compact('rti_applicants'))->render();
