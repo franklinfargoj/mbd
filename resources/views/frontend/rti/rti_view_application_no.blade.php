@@ -10,11 +10,12 @@
        <div class="m-grid__item m-grid__item--fluid">
           <div class="m-login__container">
              <div class="m-login__signin">
-                <div class="m-login__head">
-                   <h1 class="m-login__title mb-0 display-4">
-                      Your RTI Application Number : {{ $id }}
-                   </h1>
-                   <p class="sub-title"></p>
+                <div class="m-login__head mt-5">
+                   <h3 class="section-title text-center">
+                      Your RTI Application Number : 
+                      <span class="d-block font-weight-normal mt-3">{{ $id }}</span>
+                   </h3>
+                   <p class="sub-title font-weight-normal"></p>
                 </div>
              </div>
           </div>

@@ -8,6 +8,7 @@ $(document).ready(function() {
             leftArrow: '<i class="la la-angle-left"></i>',
             rightArrow: '<i class="la la-angle-right"></i>'
         },
+        autoclose: true,
         format: 'dd-mm-yyyy'
     })
 

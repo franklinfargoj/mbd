@@ -6,10 +6,10 @@
         <div class="row">
             <div class="col-sm-6 overlay overlay--login h-100vh">
                 <div class="d-flex justify-content-center align-items-center login-page-header">
-                    <img class="login-logo" src="{{asset('assets/app/media/img/logos/mhada-logo.png')}}">
+                    <img class="login-logo" src="{{asset('/img/logo-short.png')}}">
                 </div>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-6 min-height-100vh">
                 <div class="m-grid__item m-grid__item--fluid m-login__wrapper d-flex flex-wrap justify-content-center">
                     <div class="d-flex flex-wrap">
                         <div class="text-center w-100 m-login--left-box">
@@ -44,8 +44,8 @@
                                     </div>
                                     <div class="form-group m-form__group">
                                         <!-- <label for="" class="col-form-label">Password</label> -->
-                                        <input class="form-control m-input" type="password" placeholder="Password"
-                                            name="password" autocomplete="off">
+                                        <input class="form-control m-input" type="password" placeholder="Password" name="password"
+                                            autocomplete="off">
                                     </div>
                                     <div class="form-group m-form__group" style="margin-top: 16px;">
                                         <span class="captcha-wrapper"> <img id="captcha_img" src="{{URL::to('captcha')}}"></span>
@@ -53,8 +53,7 @@
                                             <i class="fa fa-refresh" onclick="document.getElementById('captcha_img').src='{{ URL::to('captcha') }}'; return false"
                                                 title="Recapture" aria-hidden="true" style="font-size: 24px;cursor: pointer;"></i>
                                         </div>
-                                        <input type="text" id="captcha" class="form-control" name="captcha"
-                                            placeholder="Enter Captcha">
+                                        <input type="text" id="captcha" class="form-control" name="captcha" placeholder="Enter Captcha">
                                         @if($errors->has('captcha'))
                                         <span class="help-block" style="padding: 16px;color: red;">Invalid Captcha
                                         </span>
