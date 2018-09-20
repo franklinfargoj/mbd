@@ -5,9 +5,8 @@
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex">
                 <h3 class="m-subheader__title">Village Details</h3>
-            <div>
-            </div>
         </div>
+        {{ Breadcrumbs::render('village_detail') }}
     </div>
     <!-- END: Subheader -->
     <div class="m-portlet m-portlet--mobile">

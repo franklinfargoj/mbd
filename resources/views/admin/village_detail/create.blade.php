@@ -5,6 +5,7 @@
         <div class="d-flex">
             <h3 class="m-subheader__title">Add Village</h3>
         </div>
+        {{ Breadcrumbs::render('village_create') }}
     </div>
     <!-- END: Subheader -->
     <div class="m-portlet m-portlet--mobile">

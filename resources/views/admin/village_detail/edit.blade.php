@@ -5,6 +5,7 @@
         <div class="d-flex">
             <h3 class="m-subheader__title">Edit Village</h3>
         </div>
+        {{ Breadcrumbs::render('village_view',$arrData['village_data']['id']) }}
     </div>
     <!-- END: Subheader -->
     <div class="m-portlet m-portlet--mobile">

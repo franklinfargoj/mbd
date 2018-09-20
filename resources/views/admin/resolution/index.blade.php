@@ -12,6 +12,7 @@
  </div>
  <!-- END: Subheader -->           
  <div class="m-content"></div>
+ {{ Breadcrumbs::render('resolution') }}
  <div class="m-portlet m-portlet--mobile">
     <div class="m-portlet__head">
        <div class="m-portlet__head-caption">
@@ -21,7 +22,7 @@
              </h3>
           </div>
        </div>
-       <a class="btn btn-danger" href="{{asset('resolution/create')}}" style="float: right;margin-top: 3%">Add Resolution</a>
+       <a class="btn btn-danger" href="{{route('resolution.create')}}" style="float: right;margin-top: 3%">Add Resolution</a>
     </div>
     <div class="m-portlet__body">
        <!--begin: Search Form -->
