@@ -12,4 +12,9 @@ class RtiStatus extends Model
     	'status_id',
     	'application_id'
     ];
+
+    public function status_title()
+    {
+    	return $this->belongsTo(MasterRtiStatus::class,'status_id','id');
+    }
 }

@@ -1,12 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\User;
+use App\RtiFronendUser;
 use App\Board;
 use App\Department;
 use App\RtiForm;
 use App\Http\Requests\rti\RtiFormSubmitRequest;
 use Illuminate\Http\Request;
+use App\RtiStatus;
 
 class RtiFrontEndController extends Controller
 {
@@ -38,16 +39,13 @@ class RtiFrontEndController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->input());
         $input = array(
             'name' => $request->input('name'),
             'email' => $request->input('email'),
-            'password' => '',
             'mobile_no' => $request->input('mobile_no'),
             'address' => $request->input('address'),
         );
-        // dd($input);
-        $last_inserted_id = User::create($input);
+        $last_inserted_id = RtiFronendUser::create($input);
         return redirect()->route('rti_frontend.show', $last_inserted_id->id);
     }
 
@@ -68,7 +66,7 @@ class RtiFrontEndController extends Controller
 
     public function saveRtiFrontendForm(RtiFormSubmitRequest $request)
     {
-        // dd($request->input());
+        //dd($request->input());
         // $input = $request->except(['_token']);
         // $time = date("Ymd").time();
         // $input['unique_id'] = $time;
@@ -89,12 +87,13 @@ class RtiFrontEndController extends Controller
             'department_id' => $request->input('department_id'),
             'unique_id' => $request->input('user_id').date("Ymd").time(),
             'status' => '1',
-            'user_id' => $request->input('user_id'),
-            'rti_schedule_meeting_id' => '0',
-            'rti_status_id' => '0',
-            'rti_send_info_id' => '0',
-            'rti_forward_application_id' => '0',
+            //'user_id' => $request->input('user_id'),
+            'rti_schedule_meeting_id' => 0,
+            'rti_status_id' => 0,
+            'rti_send_info_id' => 0,
+            'rti_forward_application_id' => 0,
         );
+        
         // Session::put('rtiFormId',$input['unique_id']);
 
         if($request->hasFile('poverty_line_proof_file'))
@@ -110,10 +109,21 @@ class RtiFrontEndController extends Controller
             $input['info_post_type'] = '0';
             $input['poverty_line_proof'] = '';
         }
-        // dd($input);
+
         $last_id = RtiForm::create($input);
+
         $last_inserted_id = $last_id->id;
-        dd($last_inserted_id);
+        $updated_status = array(
+            'status_id' => 1,
+            'application_id' => $last_inserted_id
+        );
+
+        $last_updated_status_id = RtiStatus::create($updated_status);
+
+        $update_id['rti_status_id'] = $last_updated_status_id->id;
+
+        RtiForm::where('id', $last_inserted_id)->update($update_id);
+
         return redirect()->route('rti_frontend.edit', $input['frontend_user_id']);
     }
 
@@ -125,8 +135,10 @@ class RtiFrontEndController extends Controller
      */
     public function edit($id)
     {
-        $unique_id = RtiForm::find($id);
-        dd($unique_id);
+        $unique_id = RtiForm::where(['frontend_user_id'=>$id])->first();
+        $id=$unique_id->unique_id;
+        
+        //dd($unique_id);
         return view('frontend.rti.rti_view_application_no', compact('id'));
     }
 
@@ -155,8 +167,8 @@ class RtiFrontEndController extends Controller
 
     public function show_rti_application_status(Request $request){
         // dd($request->input());
-        $user_details = RtiForm::with(['users', 'master_rti_status'])->where('unique_id', $request->input('application_no'))->get();
-        $user_details = $user_details[0];
+        $user_details = RtiForm::with(['users', 'master_rti_status','department','rti_schedule_meetings','master_rti_status','rti_send_info'])->where('unique_id', $request->input('application_no'))->first();
+        //dd($user_details);
         if($user_details->users->email == $request->input('email')){
             return view('frontend.rti.rti_view_application_status', compact('user_details'));
         }else{

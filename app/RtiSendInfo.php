@@ -15,4 +15,8 @@ class RtiSendInfo extends Model
     	'filepath',
     	'filename'
     ];
+    public function status_title()
+    {
+    	return $this->belongsTo(MasterRtiStatus::class,'rti_status_id','id');
+    }
 }

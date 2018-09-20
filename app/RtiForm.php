@@ -16,7 +16,7 @@ class RtiForm extends Model
     }
 
     public function users(){
-    	return $this->belongsTo(User::class, 'user_id');
+    	return $this->belongsTo(RtiFronendUser::class, 'frontend_user_id');
     }
 
     public function rti_schedule_meetings(){
@@ -36,7 +36,11 @@ class RtiForm extends Model
     }
 
     public function department(){
-        return $this->belongsTo(Department::class, 'department_id');
+        return $this->belongsTo(Department::class, 'department_id','id');
+    }
+
+    public function master_rti_status(){
+        return $this->belongsTo(RtiStatus::class,'rti_status_id','id');
     }
 
     // public function status(){

@@ -12,7 +12,7 @@
 @section('content')
 	<div class="row">
         <div class="col-md-12">
-        		<h3>Schedule Meeting</h3>
+        		<h3>Update Status</h3>
         		<div class="col-md-9">
         			<div class="col-md-6">
         				<p>Application No:&nbsp;&nbsp;{{ $rti_applicant->unique_id }}</p>
@@ -34,7 +34,7 @@
                                     <input type="hidden" name="application_no" value="{{ $rti_applicant->unique_id }}">
                                     <select name="status" class="form-control">
                                       @foreach($rti_statuses as $rti_status)
-                                        <option value="{{ $rti_status['id'] }}" {{ ($rti_status['id'] == $rti_applicant['status'] ?'selected':'' )}}>{{ $rti_status['status_title'] }}</option>
+                                        <option value="{{ $rti_status['id'] }}" {{ ($rti_status['id'] == ($rti_applicant->master_rti_status!=""?$rti_applicant->master_rti_status->status_id:'') ?'selected':'' )}}>{{ $rti_status['status_title'] }}</option>
                                       @endforeach
                                     </select>
                                     <span class="help-block">{{$errors->first('status')}}</span>
