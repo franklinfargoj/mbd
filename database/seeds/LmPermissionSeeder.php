@@ -109,6 +109,11 @@ class LmPermissionSeeder extends Seeder
                     'description' => 'Update society data for a particular village'
                 ],
                 [
+                    'name' => 'society_detail.show',
+                    'display_name' => 'Show society data',
+                    'description' => 'Show society data'
+                ],
+                [
                     'name' => 'lease_detail.index',
                     'display_name' => 'List Lease',
                     'description' => 'List lease for a particular society'
