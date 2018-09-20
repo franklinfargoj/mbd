@@ -518,9 +518,27 @@
     font-size: 1rem;
 }
 
+.m-login .form-control {
+    border-radius: 40px;
+}
+
+.m-login__action {
+    margin-top: 10px;
+}
+
 /* theme classes over ride ends here */
 
 /* global classes starts here */
+
+.form--small {
+    max-width: 450px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.m-login__logo--header {
+    margin-bottom: 10px;
+}
 
 .width-auto {
     width: auto !important;
@@ -573,7 +591,15 @@
 }
 
 .light-bg {
-    background-color: #f2f3f8;
+    background-color: #f2f3f8 !important;
+}
+
+.transparent-bg {
+    background-color: transparent !important;
+}
+
+.no-shadow {
+    box-shadow: none !important;
 }
 
 .h-100vh {
@@ -1336,6 +1362,10 @@ label.site-visit-label {
             background-size: cover;
 }
 
+.m-login.m-login--6 .m-login__wrapper .m-login__body {
+    padding-top: 0;
+}
+
 /* Login Page ends here */
 
 /* Sign Up Page starts here */
@@ -1348,6 +1378,10 @@ label.site-visit-label {
     width: 100%;
     max-width: 900px !important;
     padding: 0 15px;
+}
+
+.m-login__container--sign-in .m-portlet {
+    margin-bottom: 30px;
 }
 
 /* Sign Up Page ends here */
