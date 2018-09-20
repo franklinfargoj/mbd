@@ -255,7 +255,8 @@
 							<span class="error" id="encrochment_comments_error" style="display:none;color:#f4516c">This feild is required</span>
 						</div>
 						<div class="mt-3">
-							<button type="submit" class="s_btn btn btn-primary" id="submitBtn" name="">Save</button>
+							<button type="button" class="s_btn btn btn-primary" id="submitBtn" name="">Save</button>
+
 						</div>				
                     </div>
                 </div>
@@ -318,9 +319,7 @@
         id++;
         selectFile();
         $("#documentCount").val(id);
-		// <input type="button" class="s_btn" id="submitBtn" name="" value="save">
     }
-	// <input type="button" class="s_btn" id="submitBtn" name="" value="save">
 
     function removeDocuments(data) {
         var id = data.substr(9, 2);
@@ -332,11 +331,6 @@
 
         var enrochComment = $("#encrochment_comments").val();
         var isEnrochment = $("input[name=encrochment]:checked").val();
-
-        // if (isEnrochment == undefined)
-        //     $("#encrochment_error").css("display", "block");
-        // else
-        //     $("#encrochment_error").css("display", "none");
 
         if (isEnrochment == '1' && enrochComment == "") {
             $("#encrochment_comments_error").css("display", "block");

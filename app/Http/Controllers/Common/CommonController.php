@@ -15,6 +15,7 @@ use App\OlTitBitVerificationDetails;
 use App\OlRelocationVerificationDetails;
 use App\OlChecklistScrutiny;
 use App\OlApplicationStatus;
+use App\Role;
 use App\User;
 use Config;
 use Auth;
@@ -85,8 +86,6 @@ class CommonController extends Controller
     // Forward Application page
     public function getForwardApplication($applicationId){
 
-        // $role = User::with(['roles.parent.parentUser'])->where('id', '2')->first();
-        // dd($role);
         $applicationData = OlApplication::with(['eeApplicationSociety'])
                 ->where('id',$applicationId)->first(); 
                  
@@ -129,7 +128,6 @@ class CommonController extends Controller
         {
             $listArray =  $applicationData;
         }
-
         return $listArray;
     }
 
@@ -215,4 +213,29 @@ class CommonController extends Controller
 
         return $arrData;
     }
+
+    public function getForwardData($applicationId,$Role){
+
+        $role_id = Role::where('name',$Role)->value('id');
+        $Data = OlApplicationStatus::where('application_id',$applicationId)->where('role_id',$role_id)->where('status_id', config('commanConfig.applicationStatus.forwarded'))->orderBy('id', 'desc')->first();
+       
+       return $Data;       
+    }
+
+    public function getRevertData($applicationId,$Role){
+
+        $role_id = Role::where('name',$Role)->value('id');
+
+        $Data = OlApplicationStatus::where('application_id',$applicationId)->where('role_id',$role_id)->where('status_id', config('commanConfig.applicationStatus.reverted'))->orderBy('id', 'desc')->first();
+
+       return $Data;         
+    }
+
+    public function getSocietyRevertData($applicationId,$Role){
+
+        $role_id = Role::where('name',$Role)->value('id');
+        $Data = OlApplicationStatus::where('application_id',$applicationId)->where('role_id',$role_id)->where('society_flag',1)->where('status_id', config('commanConfig.applicationStatus.reverted'))->orderBy('id', 'desc')->first();
+    
+       return $Data;         
+    }    
 }

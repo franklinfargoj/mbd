@@ -15,6 +15,12 @@ return [
     'co_engineer' => 'co_engineer',
     'cap_engineer' => 'cap_engineer',
 
+    //Branch Head 
+    'ee_branch_head' => 'ee_engineer',
+    'dyce_branch_head' => 'dyce_engineer',
+    // 'ree_branch_head' = ,
+
+
     'applicationStatus' => [
         'in_process' => 1,
         'forwarded' => 2,

@@ -16,6 +16,7 @@ use App\OlTitBitVerificationDetails;
 use App\OlRelocationVerificationDetails;
 use App\OlChecklistScrutiny;
 use App\OlApplicationStatus;
+use App\Role;
 use App\User;
 use Config;
 use Auth;
@@ -35,7 +36,7 @@ class REEController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request, Datatables $datatables){
-        
+
         $getData = $request->all();
         $columns = [
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
@@ -131,6 +132,15 @@ class REEController extends Controller
     public function forwardApplication(Request $request, $applicationId){
 
         $applicationData = $this->CommonController->getForwardApplication($applicationId);
+
+        $dyceRole = config('commanConfig.dyce_branch_head');
+        $eeRole   = config('commanConfig.ee_branch_head');
+
+        $applicationData->eeForwardLog =$this->CommonController->getForwardData($applicationId,$eeRole);
+        $applicationData->eeRevertLog = $this->CommonController->getSocietyRevertData($applicationId,$eeRole);
+        $applicationData->dyceForwardLog =$this->CommonController->getForwardData($applicationId,$dyceRole);
+        $applicationData->dyceRevertLog = $this->CommonController->getRevertData($applicationId,$dyceRole);
+
         return view('admin.REE_department.forward_application',compact('applicationData'));  
     }             
 
