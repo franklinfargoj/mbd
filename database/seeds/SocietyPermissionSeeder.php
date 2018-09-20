@@ -44,7 +44,7 @@ class SocietyPermissionSeeder extends Seeder
                 'name'         => 'society_offer_letter_forgot_password',
                 'display_name' => 'society_forgot_password',
                 'description'  => 'society forgot password functionality'
-            ],            
+            ],
             [
                 'name'         => 'society_offer_letter_dashboard',
                 'display_name' => 'society_offer_letter_application_listing',
@@ -99,6 +99,11 @@ class SocietyPermissionSeeder extends Seeder
                 'name'         => 'upload_society_offer_letter',
                 'display_name' => 'upload_society_offer_letter',
                 'description'  => 'upload submitted society offer letter application after signature'
+            ],
+            [
+                'name'         => 'society_detail.UserAuthentication',
+                'display_name' => 'society_detail.UserAuthentication',
+                'description'  => 'authenticates society offer letter users'
             ],
         ];
 

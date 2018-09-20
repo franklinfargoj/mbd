@@ -67,14 +67,35 @@ class SocietyOfferLetterController extends Controller
      */
     public function store(Request $request)
     {
-
+        // dd(config('commanConfig.society_offer_letter'));
         $validated_fields = SocietyOfferLetter::validate($request);
         if($validated_fields->fails()){
             $errors = $validated_fields->errors();
             return redirect()->route('society_offer_letter.index');
         }else{
+
+            $society_offer_letter_users = array(
+                'name' => $request->input('society_name'),
+                'email' => $request->input('society_email'),
+                'password' => bcrypt($request->input('society_password')),
+                'role_id' => config('commanConfig.society_offer_letter'),
+                'uploaded_note_path' => 'test',
+                'service_start_date' => '',
+                'service_end_date' => '',
+                'last_login_at' => '',
+                'remember_token' => '',
+                'created_at' => date('Y/m/d H:i:s'),
+                'updated_at' => '',
+                'mobile_no' =>  $request->input('society_contact_no'),
+                'address' => $request->input('society_address'),
+            );
+            // dd($society_offer_letter_users);
+            $last_inserted_id = User::create($society_offer_letter_users);
+            // dd($last_inserted_id);
             $society_offer_letter_details = array(
                 'language_id' => '0',
+                'user_id' => $last_inserted_id->id,
+                'role_id' => config('commanConfig.society_offer_letter'),
                 'email' => $request->input('society_email'),
                 'password' => bcrypt($request->input('society_password')),
                 'name' => $request->input('society_name'),
@@ -91,6 +112,7 @@ class SocietyOfferLetterController extends Controller
                 'last_login_at' => date('Y-m-d')
             );
             SocietyOfferLetter::create($society_offer_letter_details);
+            
             return redirect()->route('society_offer_letter.index')->with('registered', 'Society registered successfully!');
         }
     }
@@ -147,7 +169,7 @@ class SocietyOfferLetterController extends Controller
 
     // function used to Aunthonticate society user
     public function UserAuthentication(Request $request){
-
+        // dd($request);
        $validateData = $request->validate([
         'capture_text' => 'required|captcha',
         ]);        
