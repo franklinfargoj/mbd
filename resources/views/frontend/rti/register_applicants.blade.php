@@ -36,7 +36,7 @@
                                 <div class="form-group m-form__group">
                                     <label for="" class="col-form-label">Board</label>
                                     <input class="form-control m-input" type="hidden" name="user_id" value="{{ $id }}">
-                                    <select class="form-control m-bootstrap-select m_selectpicker m-input" name="board_id">
+                                    <select class="form-control form-control--custom m-bootstrap-select m_selectpicker m-input" name="board_id">
                                         <option value="0">Select Board</option>
                                         @foreach($boards as $board_value)
                                         <option value="{{ $board_value->id }}">{{ $board_value->board_name }}</option>
@@ -47,7 +47,7 @@
                             <div class="col-sm-6">
                                 <div class="form-group m-form__group">
                                     <label for="" class="col-form-label">Department</label>
-                                    <select class="form-control m-bootstrap-select m_selectpicker m-input" name="department_id">
+                                    <select class="form-control form-control--custom m-bootstrap-select m_selectpicker m-input" name="department_id">
                                         <option value="0">Select Department</option>
                                         @foreach($departments as $department_value)
                                         <option value="{{ $department_value->id }}">{{
