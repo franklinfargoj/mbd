@@ -20,5 +20,6 @@ return [
         'forwarded' => 2,
         'reverted' => 3,
     ],
-    'ee_junior_engineer' => 'ee_junior_engineer'
+    'ee_junior_engineer' => 'ee_junior_engineer',
+    'society_offer_letter' => 4,
 ];
