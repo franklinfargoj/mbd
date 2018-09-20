@@ -1,28 +1,15 @@
 @extends('admin.layouts.app')
 @section('content')
-    <div class="m-subheader ">
-        <div class="d-flex align-items-center">
-            <div class="mr-auto">
-                <h3 class="m-subheader__title m-subheader__title--separator">Send Notice to Appellant</h3>
-            </div>
-            <div>
-            </div>
+<div class="col-md-12">
+    <div class="m-subheader px-0 m-subheader--top">
+        <div class="d-flex">
+            <h3 class="m-subheader__title">Send Notice to Appellant</h3>
         </div>
     </div>
     <!-- END: Subheader -->
-    <div class="m-content"></div>
     <div class="m-portlet m-portlet--mobile">
-        <div class="m-portlet__head">
-            <div class="m-portlet__head-caption">
-                <div class="m-portlet__head-title">
-                    <h3 class="m-portlet__head-text">
 
-                    </h3>
-                </div>
-            </div>
-        </div>
-
-        <form id="editSendNoticeToAppellant" role="form" method="post" class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" action="{{route('send_notice_to_appellant.update', $arrData['hearing']->hearingSendNoticeToAppellant[0]->id)}}" enctype="multipart/form-data">
+        <form id="editSendNoticeToAppellant" role="form" method="post" class="m-form m-form--rows m-form--label-align-right" action="{{route('send_notice_to_appellant.update', $arrData['hearing']->hearingSendNoticeToAppellant[0]->id)}}" enctype="multipart/form-data">
             @csrf
 
             <input type="hidden" name="hearing_id" value="{{ $arrData['hearing']->id }}">
@@ -158,4 +145,5 @@
             </div>
         </form>
     </div>
+</div>
 @endsection
