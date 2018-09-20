@@ -98,22 +98,22 @@
                                             name="info_descr" autocomplete="off">
                                     </div>
                                 </div>
-                                <div class="col-sm-12">
-                                    <div class="form-group m-form__group">
-                                    <label for="" class="col-form-label">Whether information is required by?</label>
-                                    <div class="m-radio-inline mt-3">
-                                        <label for="rtiInfoRespondRadios" class="m-radio m-radio--primary">
-                                        <input type="radio" id="rtiInfoRespondRadios" name="info_post_or_person"
-                                            value="1">Post
-                                            <span></span>
-                                        </label>
-                                        <label for="rtiInfoRespondRadios" class="m-radio m-radio--primary">
-                                        <input type="radio" id="rtiInfoRespondRadios" name="info_post_or_person"
-                                            value="0">Person
-                                            <span></span>
-                                        </label>
-                                    </div>
-                                    </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="form-group m-form__group">
+                                  <label for="" class="col-form-label">Whether information is required by?</label>
+                                  <div class="m-radio-inline mt-3">
+                                    <label for="rtiInfoRespondRadios1" class="m-radio m-radio--primary">
+                                      <input type="radio" id="rtiInfoRespondRadios1" name="info_post_or_person"
+                                          value="1">Post
+                                          <span></span>
+                                    </label>
+                                    <label for="rtiInfoRespondRadios2" class="m-radio m-radio--primary">
+                                      <input type="radio" id="rtiInfoRespondRadios2" name="info_post_or_person"
+                                          value="0">Person
+                                          <span></span>
+                                    </label>
+                                  </div>
                                 </div>
                                 <div class="col-sm-12" id="infoPostTypeFormgroup" style="display:none;">
                                     <label class="mb-0">Post Type</label>
