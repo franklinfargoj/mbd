@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\REEDepartment;
 
+use App\Role;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Common\CommonController;
@@ -69,8 +70,8 @@ class REEController extends Controller
             ->editColumn('date', function ($ree_application_data) {
                 return date(config('commanConfig.dateFormat', strtotime($ree_application_data->submitted_at)));
             })
-            ->editColumn('actions', function ($ree_application_data) {
-               return view('admin.REE_department.action', compact('ree_application_data'))->render();
+            ->editColumn('actions', function ($ree_application_data) use($request){
+               return view('admin.REE_department.action', compact('ree_application_data', 'request'))->render();
             }) 
             ->editColumn('Status', function ($listArray) use ($request) {
                 $status = $listArray->olApplicationStatusForLoginListing[0]->status_id;
@@ -131,8 +132,28 @@ class REEController extends Controller
     public function forwardApplication(Request $request, $applicationId){
 
         $applicationData = $this->CommonController->getForwardApplication($applicationId);
-        return view('admin.REE_department.forward_application',compact('applicationData'));  
-    }             
+        $parentData = $this->CommonController->getForwardApplicationParentData();
+        $arrData['parentData'] = $parentData['parentData'];
+        $arrData['role_name'] = $parentData['role_name'];
+
+        $arrData['application_status'] = $this->CommonController->getCurrentApplicationStatus($applicationId);
+
+        // CO Forward Application
+
+        $co_id = Role::where('name', '=', config('commanConfig.co_engineer'))->first();
+        $arrData['get_forward_co'] = User::where('role_id', $co_id->id)->get();
+        $arrData['co_role_name'] = strtoupper(str_replace('_', ' ', $co_id->name));
+
+        return view('admin.REE_department.forward_application',compact('applicationData', 'arrData'));
+    }
+
+    public function sendForwardApplication(Request $request){
+
+        $this->CommonController->forwardApplicationForm($request);
+
+        return redirect('/ree_applications');
+
+    }
 
     public function documentSubmittedBySociety()
     {

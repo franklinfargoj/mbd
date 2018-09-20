@@ -200,7 +200,7 @@ class CommonController extends Controller
         $current_application_status = OlApplicationStatus::where('application_id', $application_id)
             ->where('to_user_id', Auth::user()->id)
             ->where('to_role_id', session()->get('role_id'))
-            ->where('status_id', config('commanConfig.applicationStatus.forward_to'))->orderBy('id', 'desc')->first();
+            ->where('status_id', config('commanConfig.applicationStatus.forwarded'))->orderBy('id', 'desc')->first();
 
         return $current_application_status;
     }
