@@ -88,3 +88,8 @@ Breadcrumbs::for('lease_create', function ($trail,$id,$village_id) {
 	$trail->push('lease_create', route('lease_detail.create',['id'=>$id,'village_id'=>$village_id]));
 });
 
+Breadcrumbs::for('lease_renew', function ($trail,$id,$village_id) {
+	$trail->parent('lease_detail',$id,$village_id);
+	$trail->push('lease_renew', route('renew-lease.renew',['id'=>$id,'village_id'=>$village_id]));
+});
+

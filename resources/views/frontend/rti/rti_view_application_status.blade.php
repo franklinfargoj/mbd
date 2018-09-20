@@ -18,7 +18,7 @@
                                   <h3 class="section-title mb-0 text-center">
                                       RTI Application Response
                                   </h3>
-                                  <a href="javascript:void(0);" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+                                  <a href="{{route('rti_frontend.index')}}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
                                 </div>
                             </div>
                             <div class="container-fluid">

@@ -5,6 +5,7 @@
             <div class="d-flex">
                 <h3 class="m-subheader__title">Add Lease</h3>
             </div>
+            {{ Breadcrumbs::render('lease_create',$id,$village_id) }}
         </div>
         <!-- END: Subheader -->
         <div class="m-portlet m-portlet--mobile">

@@ -485,7 +485,8 @@
     margin-left: 0;
 }
 
-.m-login.m-login--6 .m-login__wrapper .m-login__body .m-login__signin .m-login__action>a {
+.m-login.m-login--6 .m-login__wrapper .m-login__body .m-login__signin .m-login__action>a,
+.m-login.m-login--6 .m-login__wrapper .m-login__body .m-login__signin .m-login__action>.btn {
     padding: 12px 40px;
 }
 

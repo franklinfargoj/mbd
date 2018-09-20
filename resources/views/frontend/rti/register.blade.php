@@ -52,7 +52,9 @@
                                 placeholder="Enter Address"></textarea>
                         </div>
                         <!--begin::Action-->
-                        <div class="m-login__action d-flex justify-content-center">
+                        <div class="m-login__action d-flex justify-content-between">
+                        <a  href="{{route('rti_frontend.index')}}" class="btn btn-primary m-btn m-btn--pill m-btn--custom">
+                            Back</a>
                             <!-- <a href="#" class="m-link">
                           
                         </a> -->
