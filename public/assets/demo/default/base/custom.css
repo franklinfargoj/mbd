@@ -539,6 +539,13 @@
 
 /* global classes starts here */
 
+.has-danger .m-bootstrap-select + .form-control-feedback {
+    position: absolute;
+    bottom: -22px;
+    left: 0;
+    font-family: Poppins;
+}
+
 .bootstrap-timepicker-widget table td>a:hover {
     background-color: #f0791b;
 }
