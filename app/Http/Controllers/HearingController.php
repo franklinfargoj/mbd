@@ -8,8 +8,10 @@ use App\DeletedHearing;
 use App\Department;
 use App\Hearing;
 use App\HearingStatus;
+use App\HearingStatusLog;
 use App\Http\Requests\hearing\EditHearingRequest;
 use App\User;
+use Carbon\Carbon;
 use DB;
 use App\Http\Requests\hearing\AddHearingRequest;
 use Illuminate\Support\Facades\Auth;
@@ -40,6 +42,7 @@ class HearingController extends Controller
     {
         $header_data = $this->header_data;
         $getData = $request->all();
+        $hearing_status = HearingStatus::all();
 
         $columns = [
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
@@ -48,6 +51,7 @@ class HearingController extends Controller
             ['data' => 'office_date','name' => 'office_date','title' => 'Case Reg Date'],
             ['data' => 'applicant_name', 'name' => 'applicant_name', 'title' => 'Applicant Name'],
             ['data' => 'hearingDepartment','name' => 'hearingDepartment.department_name','title' => 'Department'],
+            ['data' => 'Status','name' => 'hearing_status_id','title' => 'Status'],
             ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
         ];
 
@@ -59,9 +63,9 @@ class HearingController extends Controller
 
         if ($datatables->getRequest()->ajax()) {
 
-            DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
+//            DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
 
-            $hearing_data = Hearing::with(['hearingDepartment', 'hearingSchedule.prePostSchedule', 'hearingForwardCase', 'hearingSendNoticeToAppellant', 'hearingUploadCaseJudgement'])
+            $hearing_data = Hearing::with(['hearingStatusLog.hearingStatus', 'hearingDepartment', 'hearingSchedule.prePostSchedule', 'hearingForwardCase', 'hearingSendNoticeToAppellant', 'hearingUploadCaseJudgement'])
                             ->where('user_id', Auth::user()->id)
                             ->where('role_id', session()->get('role_id'));
 
@@ -72,25 +76,74 @@ class HearingController extends Controller
 
             if($request->office_date_to)
             {
+
                 $hearing_data = $hearing_data->whereDate('office_date', '<=', date('Y-m-d', strtotime($request->office_date_to)));
             }
 
-            $hearing_data = $hearing_data->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').', case_year, hearing.id as id, case_number, department_id,  office_date, applicant_name');
+//            $hearing_data = $hearing_data->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').', case_year, hearing.id as id, case_number, department_id,  office_date, applicant_name');
 
-            return $datatables->of($hearing_data)
+            $hearing_data = $hearing_data->select()->get();
+
+            $listArray = [];
+            if($request->hearing_status_id)
+            {
+                foreach ($hearing_data as $hearing)
+                {
+                    if($hearing->olApplicationStatusForLoginListing[0]->status_id == $request->update_status)
+                    {
+//                        dd("in if");
+                        $listArray[] = $hearing;
+                    }
+                    else{
+//                        dd("in else");
+                        $listArray = [];
+                    }
+                }
+            }
+            else
+            {
+                $listArray =  $hearing_data;
+            }
+
+            return $datatables->of($listArray)
+                ->editColumn('rownum', function ($hearing_data) {
+                    static $i = 0;
+                    $i++;
+                    return $i;
+                })
                 ->editColumn('hearingDepartment', function ($hearing_data) {
                     return $hearing_data->hearingDepartment->department_name;
+                })
+                ->editColumn('office_date', function ($hearing_data) {
+                    return date(config('commanConfig.dateFormat'), strtotime($hearing_data->office_date));
                 })
                 ->editColumn('actions', function ($hearing_data) {
                     return view('admin.hearing.actions', compact('hearing_data'))->render();
                 })
-                ->rawColumns(['hearingDepartment', 'actions'])
+                ->editColumn('Status', function ($listArray) use ($request) {
+                    return $listArray->hearingStatusLog[0]->hearingStatus->status_title;
+
+                    if($request->hearing_status_id)
+                    {
+                        if($request->hearing_status_id == $status){
+                            $config_array = array_flip(config('commanConfig.applicationStatus'));
+                            $value = ucwords(str_replace('_', ' ', $config_array[$status]));
+                            return $value;
+                        }
+                    }else{
+                        $config_array = array_flip(config('commanConfig.applicationStatus'));
+                        $value = ucwords(str_replace('_', ' ', $config_array[$status]));
+                        return $value;
+                    }
+
+                })
+                ->rawColumns(['hearingDepartment', 'actions', 'office_date', 'Status'])
                 ->make(true);
         }
 
         $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
 
-        return view('admin.hearing.index', compact('html','header_data','getData'));
+        return view('admin.hearing.index', compact('html','header_data','getData', 'hearing_status'));
     }
 
     protected function getParameters() {
@@ -98,7 +151,7 @@ class HearingController extends Controller
             'serverSide' => true,
             'processing' => true,
             'ordering'   =>'isSorted',
-            "order"=> [6, "desc" ],
+            "order"=> [7, "desc" ],
             "pageLength" => $this->list_num_of_records_per_page
         ];
     }
@@ -141,7 +194,7 @@ class HearingController extends Controller
             'case_type' => $request->case_type,
             'office_year' => $request->office_year,
             'office_number' => $request->office_number,
-            'office_date' => $request->office_date,
+            'office_date' => date('Y-m-d', strtotime($request->office_date)),
             'office_tehsil' => $request->office_tehsil,
             'office_village' => $request->office_village,
             'office_remark' => $request->office_remark,
@@ -152,7 +205,17 @@ class HearingController extends Controller
             'user_id' => Auth::user()->id
         ];
 
-        Hearing::create($data);
+        $heaing_id = Hearing::create($data)->id;
+
+        $hearing_status_log = [
+            'hearing_id' => $heaing_id,
+            'user_id' => Auth::user()->id,
+            'role_id' => session()->get('role_id'),
+            'hearing_status_id' => $request->hearing_status_id,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ];
+        HearingStatusLog::insert($hearing_status_log);
 
         return redirect('hearing')->with(['success'=> 'Record added succesfully']);
     }
@@ -216,7 +279,7 @@ class HearingController extends Controller
             'case_type' => $request->case_type,
             'office_year' => $request->office_year,
             'office_number' => $request->office_number,
-            'office_date' => $request->office_date,
+            'office_date' => date('Y-m-d', strtotime($request->office_date)),
             'office_tehsil' => $request->office_tehsil,
             'office_village' => $request->office_village,
             'office_remark' => $request->office_remark,
@@ -228,6 +291,16 @@ class HearingController extends Controller
         ];
 
         $hearing->update($data);
+
+        $hearing_status_log = [
+            'hearing_id' => $id,
+            'user_id' => Auth::user()->id,
+            'role_id' => session()->get('role_id'),
+            'hearing_status_id' => $request->hearing_status_id,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ];
+        HearingStatusLog::insert($hearing_status_log);
 
         return redirect('hearing')->with(['success'=> 'Record updated succesfully']);
     }

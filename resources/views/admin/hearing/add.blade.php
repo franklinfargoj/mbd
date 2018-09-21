@@ -198,7 +198,7 @@
 
                 <div class="form-group m-form__group row">
                     <div class="col-lg-6 form-group">
-                        <label class="col-form-label" for="office_number">Number:</label>
+                        <label class="col-form-label" for="office_number">Phone Number:</label>
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="office_number" name="office_number" class="form-control" class="form-control m-input"  value="{{ old('office_number') }}">
                             <span class="help-block">{{$errors->first('office_number')}}</span>

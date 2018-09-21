@@ -39,4 +39,4 @@
     <a href="#" style="pointer-events: none;cursor: default;"></i>Send Notice To Applicant</a>
 @endif
 
-<a href="JavaScript:void(0)" onclick="deleteHearing({{$hearing_data->id}});"></i>Delete</a>
+<a style="cursor: pointer" class="delete-hearing" data-id="{{ $hearing_data->id }}" {{--onclick="deleteHearing({{$hearing_data->id}});"--}}></i>Delete</a>

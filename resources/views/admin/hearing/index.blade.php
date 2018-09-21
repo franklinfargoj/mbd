@@ -57,13 +57,27 @@
                                 <div class="col-md-4">
                                     <div class="form-group m-form__group">
                                         <label for="office_date_to">To Date</label>
-                                        <input type="text" id="office_date_to" name="office_date_to" class="form-control m-input m-input--solid m_datepicker" placeholder="From Date" value="{{ isset($getData['office_date_to'])? $getData['office_date_to'] : '' }}">
+                                        <input type="text" id="office_date_to" name="office_date_to" class="form-control m-input m-input--solid m_datepicker" placeholder="To Date" value="{{ isset($getData['office_date_to'])? $getData['office_date_to'] : '' }}">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group m-form__group">
+                                        <label for="office_date_to">Status</label>
+                                        <select class="form-control m-input" id="hearing_status_id" name="hearing_status_id">
+                                            <option value="">All</option>
+                                            @foreach($hearing_status as $status)
+                                                <option value="{{ $status->id }}">{{ $status->status_title}}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
 
                                 <div class="col-md-8" style="margin-top: 15px;">
                                     <div class="form-group m-form__group">
-                                        <button type="submit" class="btn btn-primary">Search</button>
+                                        <div class="btn-list">
+                                            <button type="submit" class="btn btn-primary">Search</button>
+                                            <button type="button" onclick="window.location.href='{{ url("/hearing") }}'" class="btn btn-primary">Reset</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -88,10 +102,31 @@
 @section('datatablejs')
 {!! $html->scripts() !!}
     <script>
-        function deleteHearing(id)
-        {
-            if(confirm("Are you sure to delete?"))
-            {
+        {{--function deleteHearing(id)--}}
+        {{--{--}}
+            {{--if(confirm("Are you sure to delete?"))--}}
+            {{--{--}}
+                {{--$.ajax({--}}
+                    {{--headers: {--}}
+                        {{--'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')--}}
+                    {{--},--}}
+                    {{--type:"POST",--}}
+                    {{--data:{--}}
+                        {{--id:id--}}
+                    {{--},--}}
+                    {{--url:"{{ route('loadDeleteReasonOfHearingUsingAjax') }}",--}}
+                    {{--success:function(res)--}}
+                    {{--{--}}
+                        {{--$("#myModal").html(res);--}}
+                        {{--$("#myModalBtn").click();--}}
+                    {{--}--}}
+                {{--});--}}
+            {{--}--}}
+        {{--}--}}
+
+        $(document).ready(function () {
+            $(document).on("click", ".delete-hearing", function () {
+                var id = $(this).attr("data-id");
                 $.ajax({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -107,8 +142,8 @@
                         $("#myModalBtn").click();
                     }
                 });
-            }
-        }
+            });
+        });
     </script>
 @endsection
 
