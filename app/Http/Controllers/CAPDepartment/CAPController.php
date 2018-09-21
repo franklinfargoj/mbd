@@ -17,6 +17,7 @@ use App\OlRelocationVerificationDetails;
 use App\OlChecklistScrutiny;
 use App\OlApplicationStatus;
 use App\User;
+use App\Role;
 use Config;
 use Auth;
 use DB;
@@ -131,16 +132,16 @@ class CAPController extends Controller
         $applicationData = $this->CommonController->getForwardApplication($applicationId);
         $arrData['application_status'] = $this->CommonController->getCurrentApplicationStatus($applicationId);
 
-        $eeRole   = config('commanConfig.ee_branch_head');
-        $dyceRole = config('commanConfig.dyce_branch_head');
-        $reeRole  = config('commanConfig.ree_branch_head');
+        // VP Forward Application
 
-        $applicationData->eeForwardLog =$this->CommonController->getForwardData($applicationId,$eeRole);            
-        $applicationData->eeRevertLog = $this->CommonController->getSocietyRevertData($applicationId,$eeRole);
-        $applicationData->dyceForwardLog =$this->CommonController->getForwardData($applicationId,$dyceRole);
-        $applicationData->dyceRevertLog = $this->CommonController->getRevertData($applicationId,$dyceRole);  
-        $applicationData->reeForwardLog =$this->CommonController->getForwardData($applicationId,$reeRole);
-        $applicationData->reeRevertLog = $this->CommonController->getRevertData($applicationId,$reeRole); 
+        $vp_role_id = Role::where('name', '=', config('commanConfig.cap_engineer'))->first();
+        $arrData['get_forward_vp'] = User::where('role_id', $vp_role_id->id)->get();
+        $arrData['vp_role_name'] = strtoupper(str_replace('_', ' ', $vp_role_id->name));
+    
+        // remark and history
+        $this->CommonController->getEEForwardRevertLog($applicationData,$applicationId);
+        $this->CommonController->getDyceForwardRevertLog($applicationData,$applicationId);
+        $this->CommonController->getREEForwardRevertLog($applicationData,$applicationId);
 
         return view('admin.cap_department.forward_application',compact('applicationData', 'arrData'));
     }
@@ -149,4 +150,8 @@ class CAPController extends Controller
         $this->CommonController->forwardApplicationForm($request);
         return redirect('/cap');
     }
+
+    public function displayCAPNote(Request $request){
+        return view('admin.cap_department.cap_notes');
+    }    
 }

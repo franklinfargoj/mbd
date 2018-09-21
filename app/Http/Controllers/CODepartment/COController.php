@@ -33,7 +33,8 @@ class COController extends Controller
 
     public function index(Request $request, Datatables $datatables){
 		
-		$getData = $request->all();
+
+        $getData = $request->all();
         $columns = [
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'application_no','name' => 'application_no','title' => 'Application Number'],
@@ -132,7 +133,6 @@ class COController extends Controller
         $applicationData = $this->CommonController->getForwardApplication($applicationId);
         $arrData['application_status'] = $this->CommonController->getCurrentApplicationStatus($applicationId);
 
-
         // CAP Forward Application
 
         $cap_role_id = Role::where('name', '=', config('commanConfig.cap_engineer'))->first();
@@ -140,19 +140,9 @@ class COController extends Controller
         $arrData['cap_role_name'] = strtoupper(str_replace('_', ' ', $cap_role_id->name));
 
         // remark and history
-        $eeRole   = config('commanConfig.ee_branch_head');
-        $dyceRole = config('commanConfig.dyce_branch_head');
-        $reeRole  = config('commanConfig.ree_branch_head');
-
-        $applicationData->eeForwardLog =$this->CommonController->getForwardData($applicationId,$eeRole);            
-        $applicationData->eeRevertLog = $this->CommonController->getSocietyRevertData($applicationId,$eeRole);
-        $applicationData->dyceForwardLog =$this->CommonController->getForwardData($applicationId,$dyceRole);
-        $applicationData->dyceRevertLog = $this->CommonController->getRevertData($applicationId,$dyceRole);  
-        $applicationData->reeForwardLog =$this->CommonController->getForwardData($applicationId,$reeRole);
-        $applicationData->reeRevertLog = $this->CommonController->getRevertData($applicationId,$reeRole); 
-
-        dd($applicationData);      
-
+        $this->CommonController->getEEForwardRevertLog($applicationData,$applicationId);
+        $this->CommonController->getDyceForwardRevertLog($applicationData,$applicationId);
+        $this->CommonController->getREEForwardRevertLog($applicationData,$applicationId);    
         return view('admin.co_department.forward_application',compact('applicationData', 'arrData'));
     }
 

@@ -73,7 +73,12 @@ class CapPermissionSeeder extends Seeder
                     'name' => 'cap.forward_application_data',
                     'display_name' => 'forward_application_data',
                     'description' => 'forward_application_data'
-                ]
+                ],
+                [
+                    'name' => 'cap.cap_notes',
+                    'display_name' => 'cap notes',
+                    'description' => 'cap notes'
+                ]                
             ];
 
             $permission_role = [];

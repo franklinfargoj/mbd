@@ -327,7 +327,8 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>                                        
+                                            </div>  
+                                                                                  
                                             <div class="table-checklist m-portlet__body m-portlet__body--table">
                                                 <div class="table-responsive">
                                                     <table class="table">
@@ -341,20 +342,21 @@
                                                         <tbody>
                                                         <?php $i = 1; ?>
                                                             @foreach($eeScrutinyData->consentQuetions as $data)
+
                                                                 <tr>
                                                                     <td>{{$i}}</td>
                                                                     <td>{{$data->consentQuestions->question}}</td>
                                                                     <td>
                                                                         <label class="m-radio m-radio--primary">
 
-                                                                            <input type="radio" class="radioBtn" name="con_radio_{{$i}}" disabled {{($data->answer == '1' ? 'checked' : '')}}>
+                                                                            <input type="radio" class="radioBtn" name="con_radio_{{$i}}" {{($data->answer == '1' ? 'checked' : '')}}>
                                                                             <span></span>
                                                                         </label>
                                                                     </td>
                                                                     <td>
                                                                         <label class="m-radio m-radio--primary">
 
-                                                                            <input type="radio" class="radioBtn" name="con_radio_{{$i}}" disabled {{($data->answer == '0' ? 'checked' : '')}}>
+                                                                            <input type="radio" class="radioBtn" name="con_radio_{{$i}}" {{($data->answer == '0' ? 'checked' : '')}}>
                                                                             <span></span>
                                                                         </label></td>
                                                                     <td>
@@ -436,13 +438,13 @@
                                                                     <td>{{$data->DemarkQuestions->question}}</td>
                                                                     <td>
                                                                         <label class="m-radio m-radio--primary">
-                                                                            <input type="radio" class="radioBtn" name="dem_radio_{{$i}}"  disabled {{($data->answer == '1' ? 'checked' : '')}}>
+                                                                            <input type="radio" class="radioBtn" name="dem_radio_{{$i}}"  {{($data->answer == '1' ? 'checked' : '')}}>
                                                                             <span></span>
                                                                         </label>
                                                                     </td>
                                                                     <td>
                                                                         <label class="m-radio m-radio--primary">
-                                                                            <input type="radio" class="radioBtn" name="dem_radio_{{$i}}" disabled {{($data->answer == '0' ? 'checked' : '')}}>
+                                                                            <input type="radio" class="radioBtn" name="dem_radio_{{$i}}" {{($data->answer == '0' ? 'checked' : '')}}>
                                                                             <span></span>
                                                                         </label></td>
                                                                     <td>
@@ -524,13 +526,13 @@
                                                                     <td>{{$data->TitBitQuestions->question}}</td>
                                                                     <td>
                                                                         <label class="m-radio m-radio--primary">
-                                                                            <input type="radio" name="tit_radio_{{$i}}" disabled {{($data->answer == '1' ? 'checked' : '')}}>
+                                                                            <input type="radio" name="tit_radio_{{$i}}" {{($data->answer == '1' ? 'checked' : '')}}>
                                                                             <span></span>
                                                                         </label>
                                                                     </td>
                                                                     <td>
                                                                         <label class="m-radio m-radio--primary">
-                                                                            <input type="radio" name="tit_radio_{{$i}}" disabled {{($data->answer == '0' ? 'checked' : '')}}>
+                                                                            <input type="radio" name="tit_radio_{{$i}}" {{($data->answer == '0' ? 'checked' : '')}}>
                                                                             <span></span>
                                                                         </label></td>
                                                                     <td>
@@ -591,13 +593,13 @@
                                                                     <td>{{($data->relocationQuestions->question)}}</td>
                                                                     <td>
                                                                         <label class="m-radio m-radio--primary">
-                                                                            <input type="radio" name="rg_radio_{{$i}}" disabled {{($data->answer == '1' ? 'checked' : '')}}>
+                                                                            <input type="radio" name="rg_radio_{{$i}}" {{($data->answer == '1' ? 'checked' : '')}}>
                                                                             <span></span>
                                                                         </label>
                                                                     </td>
                                                                     <td>
                                                                         <label class="m-radio m-radio--primary">
-                                                                            <input type="radio" name="rg_radio_{{$i}}" disabled {{($data->answer == '0' ? 'checked' : '')}}>
+                                                                            <input type="radio" name="rg_radio_{{$i}}" {{($data->answer == '0' ? 'checked' : '')}}>
                                                                             <span></span>
                                                                         </label></td>
                                                                     <td>
