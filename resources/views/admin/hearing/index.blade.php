@@ -28,11 +28,11 @@
                 </button> {{ Session::get('success') }}
             </div>
         @endif
-        <div class="m-portlet__body  m-portlet__body--spaced data-table--custom">
+        <div class="m-portlet__body m-portlet__body--spaced data-table--custom">
             <!--begin: Search Form -->
             <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
                 <div class="row align-items-center">
-                    <div class="col-xl-8 order-2 order-xl-1">
+                    <div class="col-xl-8">
                         <form role="form" method="get" action="{{ route('hearing.index') }}">
                             <div class="form-group m-form__group row align-items-center">
                                 {{--<div class="col-md-4">
@@ -58,7 +58,6 @@
                                         <input type="text" id="office_date_to" name="office_date_to" class="form-control form-control--custom m-input m_datepicker" placeholder="From Date" value="{{ isset($getData['office_date_to'])? $getData['office_date_to'] : '' }}">
                                     </div>
                                 </div>
-
                                 <div class="col-md-8" style="margin-top: 15px;">
                                     <div class="form-group m-form__group">
                                         <button type="submit" class="btn btn-primary">Search</button>
