@@ -49,7 +49,7 @@
                                     <h2 class="m--font-danger">
                                         @if(count($document->documents_uploaded) > 0 )
                                             @foreach($document->documents_uploaded as $document_uploaded)
-                                                @if($document_uploaded['society_id'] == '1')
+                                                @if($document_uploaded['society_id'] == $society->id)
                                                     <i class="fa fa-check"></i>
                                                 @else
                                                     <i class="fa fa-remove"></i>
@@ -63,7 +63,7 @@
                                 <td>
                                     @if(count($document->documents_uploaded) > 0 )
                                         @foreach($document->documents_uploaded as $document_uploaded)
-                                            @if($document_uploaded['society_id'] == '1')
+                                            @if($document_uploaded['society_id'] == $society->society_id)
                                                <span>
                                                     <a href="{{ asset($document_uploaded['society_document_path']) }}" data-value='{{ $document->id }}' class="upload_documents" download><button type="submit" class="btn btn-primary btn-custom"> Download</button></a>
                                                     <a href="{{ url('/delete_uploaded_documents/'.$document->id) }}" data-value='{{ $document->id }}' class="upload_documents"><button type="submit" class="btn btn-primary btn-custom"> <i class="fa fa-trash"></i></button></a>
