@@ -39,12 +39,12 @@
                             <form id="rti_forward_application" role="form" method="post" class="form-horizontal" action="{{ url('/rti_forwarded_application/'.$rti_applicant->id) }}"
                                 enctype="multipart/form-data">
                                 @csrf
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label">Board</label>
-                                    <div class="col-md-8 @if($errors->has('board')) has-error @endif">
-                                        <div class="input-icon right">
+                                <div class="form-group m-form__group row">
+                                    <div class="col-sm-6">
+                                        <div class="d-flex align-items-center @if($errors->has('board')) has-error @endif">
+                                            <label class="col-form-label field-name">Board:</label>
                                             <input type="hidden" name="application_no" value="{{ $rti_applicant->unique_id }}">
-                                            <select name="board" class="form-control">
+                                            <select name="board" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input">
                                                 @foreach($boards as $board)
                                                 <option value="{{ $board['id'] }}"
                                                     {{ ($board['id'] == ($rti_applicant->rti_forward_application!=""?$rti_applicant->rti_forward_application->board_id:'') ?'selected':'' )}}>{{
@@ -54,12 +54,10 @@
                                             <span class="help-block">{{$errors->first('board')}}</span>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label">Department</label>
-                                    <div class="col-md-8 @if($errors->has('department')) has-error @endif">
-                                        <div class="input-icon right">
-                                            <select name="department" class="form-control">
+                                    <div class="col-sm-6">
+                                        <div class="d-flex align-items-center @if($errors->has('department')) has-error @endif">
+                                            <label class="col-form-label field-name">Department:</label>
+                                            <select name="department" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input">
                                                 @foreach($departments as $department)
                                                 <option value="{{ $department['id'] }}"
                                                     {{ ($department['id'] == ($rti_applicant->rti_forward_application!=""?$rti_applicant->rti_forward_application->department_id:"") ?'selected':'' )}}>{{
@@ -70,20 +68,24 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label">Remarks</label>
-                                    <div class="col-md-8 @if($errors->has('rti_remarks')) has-error @endif">
-                                        <div class="input-icon right">
-                                            <textarea name="rti_remarks" id="rti_remarks" class="form-control">{{ old('rti_remarks', ($rti_applicant->rti_forward_application!=""?$rti_applicant->rti_forward_application->remarks:"") ) }}</textarea>
+                                <div class="form-group m-form__group row">
+                                    <div class="col-sm-12">
+                                        <div class="d-flex @if($errors->has('rti_remarks')) has-error @endif">
+                                            <label class="col-form-label field-name">Remarks:</label>
+                                            <textarea name="rti_remarks" id="rti_remarks" class="form-control form-control--custom form-control--textarea m-input">{{ old('rti_remarks', ($rti_applicant->rti_forward_application!=""?$rti_applicant->rti_forward_application->remarks:"") ) }}</textarea>
                                             <span class="help-block">{{$errors->first('rti_remarks')}}</span>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-actions">
-                                    <div class="row">
-                                        <div class="col-md-offset-4 col-md-8">
-                                            <button type="submit" class="btn blue">Submit</button>
-                                            <a href="{{url('rti_applicants')}}" role="button" class="btn default">Cancel</a>
+                                <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+                                    <div class="m-form__actions px-0">
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="btn-list">
+                                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                                    <a href="{{url('rti_applicants')}}" role="button" class="btn btn-secondary">Cancel</a>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -93,12 +95,6 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>
-<div class="col-md-12">
-    <div class="col-md-6">
-        <h4>Forward To</h4>
-
     </div>
 </div>
 @endsection
