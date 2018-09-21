@@ -60,7 +60,7 @@
                                     <div class="col-sm-6 field-col">
                                         <div class="d-flex">
                                             <span class="field-name">Download Application Form:</span>
-                                            <span class="field-value btn btn-link px-0">Download</span>
+                                            <a target="_blank" href="{{asset($user_details->rti_send_info->filepath.$user_details->rti_send_info->filename)}}" class="field-value btn btn-link px-0">Download</a>
                                         </div>
                                     </div>
                                     <div class="col-sm-12 field-col">
