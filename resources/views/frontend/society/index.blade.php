@@ -26,12 +26,17 @@
                                         @endif
                                     </p>
                                 </div>
+                                @if(count($errors) > 0)
+                                @foreach($errors as $error )
+                                    {{ $error }}
+                                @endforeach
+                                @endif
                                 @if($errors->any() && !$errors->has('capture_text'))
                                 <div class="alert alert-danger alert-block" style="margin-top: 14px;">
                                     <strong>{{$errors->first()}}</strong>
                                 </div>
                                 @endif
-                                <form class="m-login__form m-form" id="sign_in_form" name="sign_in_form" method="post" action="{{route('society_detail.UserAuthentication')}}">
+                                <form class="m-login__form m-form" id="sign_in_form" name="sign_in_form" method="post" action="{{route('loginUser')}}">
                                     @csrf
                                     <div class="form-group m-form__group">
                                         <!-- <label for="" class="col-form-label">Email Address</label> -->
@@ -52,7 +57,7 @@
                                                 title="Recapture" aria-hidden="true" style="font-size: 24px;cursor: pointer;"></i>
                                         </div>
 
-                                        <input type="text" id="capture_text" class="form-control" name="capture_text" placeholder="Enter Capture">
+                                        <input type="text" id="capture_text" class="form-control" name="captcha" placeholder="Enter Capture">
                                         @if($errors->has('capture_text'))
                                         <span class="help-block" style="padding: 16px;color: red;">Invalid capture </span>
                                         @endif

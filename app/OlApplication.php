@@ -61,4 +61,9 @@ class OlApplication extends Model
     {
         return $this->hasMany('App\LayoutUser', 'layout_id','layout_id');
     }
+
+    public function applicationMasterLayout()
+    {
+        return $this->hasMany(MasterLayout::class, 'id','layout_id');
+    }
 }
