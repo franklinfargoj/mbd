@@ -269,7 +269,8 @@
 }
 
 .form-control--textarea {
-    min-height: 50px;
+    min-height: 80px !important;
+    height: auto;
     resize: none;
 }
 
@@ -1512,11 +1513,11 @@ label.site-visit-label {
     margin-top: 1rem;
 }
 
-/* .m-form .m-form__group label.col-form-label {
+.rti-app-register-form .m-form .m-form__group label.col-form-label {
     margin-top: 10px;
     margin-left: 5px;
     padding: 0;
-} */
+}
 
 .m-login.m-login--2 .m-login__wrapper .m-login__container .m-login__form .m-form__group {
     margin-bottom: 10px;

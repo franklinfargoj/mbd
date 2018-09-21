@@ -16,7 +16,7 @@
         </ul>
     </div>
     @endif
-    <div class="m-grid__item m-grid__item--fluid m-login__wrapper">
+    <div class="m-grid__item m-grid__item--fluid m-login__wrapper rti-app-register-form">
         <div class="m-grid__item m-grid__item--fluid">
             <div class="m-login__container m-login__container--sign-in">
                 <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi">
@@ -60,13 +60,13 @@
                                 <div class="col-sm-6">
                                     <div class="form-group m-form__group">
                                         <label for="" class="col-form-label">Full Name</label>
-                                        <input class="form-control m-input" type="text" placeholder="Full Name" name="name">
+                                        <input class="form-control form-control--custom m-input" type="text" placeholder="Full Name" name="name">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group m-form__group">
                                         <label for="" class="col-form-label">Address</label>
-                                        <textarea class="form-control m-input" name="address" placeholder="Enter Address"></textarea>
+                                        <textarea class="form-control form-control--custom m-input" name="address" placeholder="Enter Address"></textarea>
                                     </div>
                                 </div>
                                 <!-- <div class="col-sm-6">
@@ -77,7 +77,7 @@
                                 <div class="col-sm-12">
                                     <div class="form-group m-form__group">
                                         <label for="" class="col-form-label">Subject matter of information</label>
-                                        <input class="form-control m-input" type="text" placeholder="Enter Subject" name="info_subject">
+                                        <input class="form-control form-control--custom m-input" type="text" placeholder="Enter Subject" name="info_subject">
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
@@ -94,8 +94,8 @@
                                 <div class="col-sm-12">
                                     <div class="form-group m-form__group">
                                         <label for="" class="col-form-label">Description of the information required</label>
-                                        <input class="form-control m-input" type="text" placeholder="Enter Description"
-                                            name="info_descr" autocomplete="off">
+                                        <textarea class="form-control form-control--custom form-control--textarea m-input" type="text" placeholder="Enter Description"
+                                            name="info_descr" autocomplete="off"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -136,7 +136,7 @@
                                         <span class="help-block">{{$errors->first('info_post_type')}}</span>
                                     </div>
                                 </div>
-                                <div class="col-sm-12">
+                                <div class="">
                                     <div class="form-group m-form__group">
                                     <label for="" class="mb-0">Whether the applicant is below poverty line?</label>
                                     <div class="m-radio-inline mt-3">
