@@ -73,6 +73,7 @@
                    </div>
                    <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
                      <div class="m-form__actions m-form__actions">
+                     <label>&nbsp;</label>
                         <div class="row">
                            <div class="col-lg-6">
                               <button type="submit" class="btn btn-primary">Search</button>
