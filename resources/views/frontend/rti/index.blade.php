@@ -30,11 +30,13 @@
                         @csrf
                         <div class="form-group m-form__group">
                             <input class="form-control form-control--custom m-input" type="text" placeholder="Application Number"
-                                name="application_no">
+                                name="application_no" value="{{old('application_no')}}">
+                                <span class="help-block">{{$errors->first('application_no')}}</span>
                         </div>
                         <div class="form-group m-form__group">
                             <input class="form-control form-control--custom m-input m-login__form-input--last" type="email"
-                                placeholder="Email Address" name="email">
+                                placeholder="Email Address" name="email" value="{{old('email')}}">
+                                <span class="help-block">{{$errors->first('email')}}</span>
                         </div>
                         <div class="m-login__action d-flex justify-content-between">
                             <a href="{{ route('rti_frontend.create') }}" class="m-link btn btn-primary m-btn m-btn--pill m-btn--custom m-login__btn m-login__btn--primary">Register</a>
