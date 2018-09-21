@@ -13,12 +13,12 @@ class AddUserIdColumnToOlApplicationsTable extends Migration
      */
     public function up()
     {
-        Schema::enableForeignKeyConstraints();
+        Schema::disableForeignKeyConstraints();
         Schema::table('ol_applications', function (Blueprint $table) {
             $table->unsignedInteger('user_id')->after('id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
-        Schema::disableForeignKeyConstraints();
+        Schema::enableForeignKeyConstraints();
     }
 
     /**

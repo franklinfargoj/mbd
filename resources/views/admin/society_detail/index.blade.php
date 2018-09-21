@@ -7,6 +7,7 @@
                 <h3 class="m-subheader__title">Society Details</h3>
                 <a href="{{ url('/village_detail') }}" class="btn btn-link ml-auto"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
             </div>
+            {{ Breadcrumbs::render('society_detail',$id) }}
         </div>
         <!-- END: Subheader -->
         <div class="m-portlet m-portlet--mobile">

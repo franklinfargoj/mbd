@@ -5,6 +5,7 @@
         <div class="d-flex">
             <h3 class="m-subheader__title">Edit Village</h3>
         </div>
+        {{ Breadcrumbs::render('village_view',$arrData['village_data']['id']) }}
     </div>
     <!-- END: Subheader -->
     <div class="m-portlet m-portlet--mobile">
@@ -92,7 +93,7 @@
                     <div class="col-lg-6 form-group">
                         <label class="col-form-label" for="possession_date">Possession Date:</label>
                         <div class="m-input-icon m-input-icon--right">
-                            <input type="text" id="possession_date" name="possession_date" class="form-control form-control--custom m_datepicker" readonly value="{{ $arrData['village_data']['possession_date'] }}">
+                            <input type="text" id="possession_date" name="possession_date" class="form-control form-control--custom m_datepicker" readonly value="{{ date(config('commanConfig.dateFormat'), strtotime($arrData['village_data']['possession_date'])) }}">
                             <span class="help-block">{{$errors->first('possession_date')}}</span>
                         </div>
                     </div>

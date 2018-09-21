@@ -12,6 +12,7 @@
   </div>
   <!-- END: Subheader -->           
   <div class="m-content"></div>
+  {{ Breadcrumbs::render('resolution_edit',$resolution->id) }}
   <div class="m-portlet m-portlet--mobile">
      <div class="m-portlet__head">
         <div class="m-portlet__head-caption">
@@ -133,7 +134,7 @@
                 <label class="col-md-4 control-label">Published date</label>
                 <div class="col-md-8 @if($errors->has('published_date')) has-error @endif">
                     <div class="input-icon right">
-                        <input type="text" name="published_date" id="published_date" class="form-control" value="{{old('published_date',$resolution->published_date)}}">
+                        <input type="text" name="published_date" id="published_date" class="form-control form-control--custom m-input m_datepicker" value="{{old('published_date',$resolution->published_date)}}">
                         <span class="help-block">{{$errors->first('published_date')}}</span>
                     </div>
                 </div>

@@ -138,6 +138,21 @@ class COController extends Controller
         $cap_role_id = Role::where('name', '=', config('commanConfig.cap_engineer'))->first();
         $arrData['get_forward_cap'] = User::where('role_id', $cap_role_id->id)->get();
         $arrData['cap_role_name'] = strtoupper(str_replace('_', ' ', $cap_role_id->name));
+
+        // remark and history
+        $eeRole   = config('commanConfig.ee_branch_head');
+        $dyceRole = config('commanConfig.dyce_branch_head');
+        $reeRole  = config('commanConfig.ree_branch_head');
+
+        $applicationData->eeForwardLog =$this->CommonController->getForwardData($applicationId,$eeRole);            
+        $applicationData->eeRevertLog = $this->CommonController->getSocietyRevertData($applicationId,$eeRole);
+        $applicationData->dyceForwardLog =$this->CommonController->getForwardData($applicationId,$dyceRole);
+        $applicationData->dyceRevertLog = $this->CommonController->getRevertData($applicationId,$dyceRole);  
+        $applicationData->reeForwardLog =$this->CommonController->getForwardData($applicationId,$reeRole);
+        $applicationData->reeRevertLog = $this->CommonController->getRevertData($applicationId,$reeRole); 
+
+        dd($applicationData);      
+
         return view('admin.co_department.forward_application',compact('applicationData', 'arrData'));
     }
 

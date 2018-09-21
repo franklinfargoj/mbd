@@ -14,11 +14,12 @@ return [
     'ee_junior_engineer' => 'ee_junior_engineer',
     'co_engineer' => 'co_engineer',
     'cap_engineer' => 'cap_engineer',
+    'ree_junior' => 'REE Junior Engineer',
 
     //Branch Head 
-    'ee_branch_head' => 'ee_engineer',
+    'ee_branch_head'   => 'ee_engineer',
     'dyce_branch_head' => 'dyce_engineer',
-    // 'ree_branch_head' = ,
+    'ree_branch_head'  => 'ree_engineer',
 
 
     'applicationStatus' => [

@@ -7,11 +7,11 @@
             <div class="m-portlet__head">
                 <div class="m-portlet__head-tools">
                     <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom">
-                        {{--<li class="nav-item m-tabs__item" data-target="#document-scrunity">
-                            <a class="nav-link m-tabs__link active show" data-toggle="tab" href="#scrutiny-history-tab">
+                        <li class="nav-item m-tabs__item" data-target="#document-scrunity">
+                            <a class="nav-link m-tabs__link show" data-toggle="tab" href="#scrutiny-history-tab">
                                 <i class="la la-cog"></i> Scrutiny History
                             </a>
-                        </li>--}}
+                        </li>
                         <li class="nav-item m-tabs__item">
                             <a class="nav-link m-tabs__link active show" data-toggle="tab" href="#forward-application-tab">
                                 <i class="la la-cog"></i> Forward Application
@@ -103,7 +103,7 @@
                         </div>
                         <div class="tab-content">
 
-                            {{--<div class="tab-pane active show" id="scrutiny-history-tab">
+                            <div class="tab-pane active show" id="scrutiny-history-tab">
                                 <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
                                     <div class="portlet-body">
                                         <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
@@ -117,30 +117,27 @@
                                                 <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container"
                                                     data-scrollbar-shown="true" data-scrollable="true" data-max-height="200">
                                                     <div class="remarks-section__data">
-                                                        <p class="remarks-section__data__row"><span>Date:</span><span>12/09/2018</span></p>
-                                                        <p class="remarks-section__data__row"><span>Time:</span><span>11:09
-                                                                am</span></p>
+                                                        <p class="remarks-section__data__row"><span>Date:</span><span>{{date("d-m-Y",strtotime($applicationData->eeRevertLog->created_at))}}</span></p>
+                                                        <p class="remarks-section__data__row"><span>Time:</span><span>{{date("H:i",strtotime($applicationData->eeRevertLog->created_at))}}</span></p>
                                                         <p class="remarks-section__data__row"><span>Action:</span><span>Sent
                                                                 to Society</span></p>
-                                                        <p class="remarks-section__data__row"><span>Description:</span><span>Lorem
-                                                                ipsum dolor sit amet consectetur adipisicing elit.
-                                                                Error, tempore facere! Ipsa nisi repudiandae
-                                                                architecto!</span></p>
+                                                        <p class="remarks-section__data__row"><span>Description:</span><span>{{$applicationData->eeRevertLog->remark}}</span></p>
                                                     </div>
+
                                                     <div class="remarks-section__data">
-                                                        <p class="remarks-section__data__row"><span>Date:</span><span>12-09-2018</span></p>
-                                                        <p class="remarks-section__data__row"><span>Time:</span><span>11:09 am</span></p>
-                                                        <p class="remarks-section__data__row"><span>Action:</span><span>Sent to Society</span></p>
-                                                        <p class="remarks-section__data__row"><span>Description:</span><span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Error, tempore facere! Ipsa nisi repudiandae architecto!</span></p>
+                                                        <p class="remarks-section__data__row"><span>Date:</span><span>{{date("d-m-Y",strtotime($applicationData->eeForwardLog->created_at))}}</span></p>
+                                                        <p class="remarks-section__data__row"><span>Time:</span><span>{{date("H:i",strtotime($applicationData->eeForwardLog->created_at))}}</span></p>
+                                                        <p class="remarks-section__data__row"><span>Action:</span><span>Forward  to DyCE</span></p>
+                                                        <p class="remarks-section__data__row"><span>Description:</span><span>{{$applicationData->eeForwardLog->remark}}</span></p>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>--}}
+                            </div>
 
-                            <div class="tab-pane active show" id="forward-application-tab">
+                            <div class="tab-pane show" id="forward-application-tab">
                                 <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
                                     <div class="portlet-body">
                                         <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">

@@ -11,7 +11,9 @@
     </div>
  </div>
  <!-- END: Subheader -->           
- <div class="m-content"></div>
+ <div class="m-content">
+ {{ Breadcrumbs::render('rti_applicants') }}
+ </div>
  <div class="m-portlet m-portlet--mobile">
     <div class="m-portlet__head">
        <div class="m-portlet__head-caption">

@@ -82,12 +82,12 @@ class LeaseDetailController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($id)
+    public function create($id, $village_id)
     {
         $header_data = $this->header_data;
         $arrData['month_data'] = MasterMonth::all();
 
-        return view('admin.lease_detail.create', compact('header_data', 'arrData', 'id'));
+        return view('admin.lease_detail.create', compact('header_data', 'arrData', 'id', 'village_id'));
     }
 
     /**
@@ -118,16 +118,16 @@ class LeaseDetailController extends Controller
 
         LeaseDetail::create($lease_detail);
 
-        return redirect('/lease_detail/'.$request->society_id)->with(['success'=> 'Lease added succesfully']);
+        return redirect('/lease_detail/'.$request->society_id.'/'.$request->village_id)->with(['success'=> 'Lease added succesfully']);
     }
 
-    public function renewLease($id)
+    public function renewLease($id, $village_id)
     {
         $header_data = $this->header_data;
         $arrData['month_data'] = MasterMonth::all();
         $arrData['lease_data'] = LeaseDetail::where(['society_id' => $id, 'lease_status' => 1])->first();
 
-        return view('admin.lease_detail.renew-lease', compact('header_data', 'arrData', 'id'));
+        return view('admin.lease_detail.renew-lease', compact('header_data', 'arrData', 'id', 'village_id'));
     }
 
     public function updateLease(LeaseDetailRequest $request, $id)
@@ -154,7 +154,7 @@ class LeaseDetailController extends Controller
 
         LeaseDetail::create($lease_detail);
 
-        return redirect('/lease_detail/'.$request->society_id)->with(['success'=> 'Lease renewed succesfully']);
+        return redirect('/lease_detail/'.$request->society_id.'/'.$request->village_id)->with(['success'=> 'Lease renewed succesfully']);
     }
 
     /**

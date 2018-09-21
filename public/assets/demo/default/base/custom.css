@@ -328,13 +328,19 @@
     padding: 0 5px;
 }
 
+.dataTables_wrapper .dataTables_paginate a {
+    color: #575962;
+}
+
 .dataTables_wrapper .dataTables_paginate li.disabled a {
     color: #ccc;
     cursor: default;
 }
 
-.dataTables_wrapper .dataTables_paginate a {
+.dataTables_wrapper .dataTables_paginate li.active a {
     color: #f0791b;
+    cursor: default;
+    text-decoration: underline;
 }
 
 .dataTables_wrapper #dataTableBuilder_length label,
@@ -468,6 +474,7 @@
 
 .m-login.m-login--6 .m-login__wrapper .m-login__body {
     height: auto;
+    margin-top: 0;
 }
 
 .m-login.m-login--6 .m-login__wrapper .m-login__body .m-login__signin .m-login__action>a:first-child {
@@ -487,7 +494,15 @@
 }
 
 .m-login.m-login--6 .m-login__wrapper .m-login__body {
-    margin-top: 30px;
+    padding-top: 30px;
+}
+
+.m-login.m-login--6 .m-login__wrapper .m-login__body .m-login__signin .m-login__form {
+    margin-bottom: 0;
+}
+
+.m-login.m-login--6 .m-login__wrapper .m-login__body .m-login__signin .m-login__action {
+    margin-bottom: 0;
 }
 
 .m-login.m-login--6 .m-login__wrapper .m-login__body .m-login__signin {
@@ -549,6 +564,18 @@
     max-width: 100% !important;
 }
 
+.min-height-100 {
+    min-height: 100%;
+}
+
+.min-height-100vh {
+    min-height: 100vh;
+}
+
+.light-bg {
+    background-color: #f2f3f8;
+}
+
 .h-100vh {
     height: 100vh;
 }
@@ -589,6 +616,7 @@
 
 .section-title {
     margin-bottom: 30px;
+    color: rgba(0,0,0,0.7);
 }
 
 .section-title--small {
@@ -899,7 +927,9 @@
 /* EE scrunity remarks starts here */
 
 .field-name {
-    width: 215px;
+    max-width: 215px;
+    width: 100%;
+    flex-shrink: 0;
 }
 
 .field-row {
@@ -1047,6 +1077,13 @@ label.site-visit-label {
 
 .m-login--left-box {
     padding-top: 55px;
+}
+
+.m-login.m-login--2 .m-login__wrapper .m-login__container {
+    max-width: 460px;
+    padding-left: 15px;
+    padding-right: 15px;
+    width: 100%;
 }
 
 .m-login.m-login--2 .m-login__wrapper .m-login__container.m-login--right-box {
@@ -1307,9 +1344,9 @@ label.site-visit-label {
     padding-top: 30px;
 }
 
-.m-login.m-login--2 .m-login__wrapper .m-login__container--sign-in {
+.m-login__container--sign-in {
     width: 100%;
-    max-width: 900px;
+    max-width: 900px !important;
     padding: 0 15px;
 }
 
@@ -1329,6 +1366,10 @@ label.site-visit-label {
 
 .m-login.m-login--2 .m-login__wrapper .m-login__container .m-login__form .m-form__group {
     margin-bottom: 10px;
+}
+
+.m-login.m-login--2 .m-login__wrapper .m-login__container .m-login__head {
+    margin-top: 0;
 }
 
 /* RTI Application Registration ends here */

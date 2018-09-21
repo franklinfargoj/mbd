@@ -1,6 +1,7 @@
 @extends('admin.layouts.app')
 @section('content')
 	<div class="row">
+  {{ Breadcrumbs::render('view_applicant',$rti_applicant->id) }}
         <div class="col-md-12">
         		<h3>View Applications</h3>
         		<div class="col-md-9">

@@ -175,11 +175,18 @@ class DYCEController extends Controller
 
         $arrData['application_status'] = $this->CommonController->getCurrentApplicationStatus($applicationId);
 
-        // CO Forward Application
+        // REE Forward Application
 
-        $co_id = Role::where('name', '=', config('commanConfig.co_engineer'))->first();
-        $arrData['get_forward_co'] = User::where('role_id', $co_id->id)->get();
-        $arrData['co_role_name'] = strtoupper(str_replace('_', ' ', $co_id->name));
+        $ree_id = Role::where('name', '=', config('commanConfig.ree_junior'))->first();
+        $arrData['get_forward_co'] = User::where('role_id', $ree_id->id)->get();
+        $arrData['co_role_name'] = strtoupper(str_replace('_', ' ', $ree_id->name));
+
+        //remark and history
+
+        $eeRole   = config('commanConfig.ee_branch_head');
+        $applicationData->eeForwardLog =$this->CommonController->getForwardData($applicationId,$eeRole);
+        $applicationData->eeRevertLog = $this->CommonController->getSocietyRevertData($applicationId,$eeRole);
+
         return view('admin.DYCE_department.forward_application',compact('applicationData', 'arrData'));
     }
 
