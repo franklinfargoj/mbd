@@ -427,6 +427,10 @@
     right: 8px;
 }
 
+.dataTables_wrapper .sorting_desc {
+    width: 300px;
+}
+
 /* Data Table ends here */
 
 .m-login__wrapper .btn-group .btn {
@@ -481,7 +485,8 @@
     margin-left: 0;
 }
 
-.m-login.m-login--6 .m-login__wrapper .m-login__body .m-login__signin .m-login__action>a {
+.m-login.m-login--6 .m-login__wrapper .m-login__body .m-login__signin .m-login__action>a,
+.m-login.m-login--6 .m-login__wrapper .m-login__body .m-login__signin .m-login__action>.btn {
     padding: 12px 40px;
 }
 
@@ -518,9 +523,39 @@
     font-size: 1rem;
 }
 
+.m-login .form-control {
+    border-radius: 40px;
+}
+
+.m-login__action {
+    margin-top: 10px;
+}
+
+.m-portlet__head--top {
+    margin-top: 30px;
+}
+
 /* theme classes over ride ends here */
 
 /* global classes starts here */
+
+.bootstrap-timepicker-widget table td>a:hover {
+    background-color: #f0791b;
+}
+
+.bootstrap-timepicker-widget table td>a:hover .la {
+    color: #fff;
+}
+
+.form--small {
+    max-width: 450px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.m-login__logo--header {
+    margin-bottom: 10px;
+}
 
 .width-auto {
     width: auto !important;
@@ -573,7 +608,15 @@
 }
 
 .light-bg {
-    background-color: #f2f3f8;
+    background-color: #f2f3f8 !important;
+}
+
+.transparent-bg {
+    background-color: transparent !important;
+}
+
+.no-shadow {
+    box-shadow: none !important;
 }
 
 .h-100vh {
@@ -600,6 +643,40 @@
 .form-control--custom {
     border: 1px solid #ced4da !important;
     resize: none;
+}
+
+.form-control--custom[readonly] {
+    background-color: #f4f5f8 !important;
+}
+
+.form-control--custom[readonly]:focus {
+    border: 1px solid #ced4da !important;
+    cursor: default !important;
+}
+
+.form-control--custom[readonly]:hover {
+    cursor: default !important;
+}
+
+.form-control--custom[disabled] {
+    background-color: #f4f5f8 !important;
+    cursor: default !important;
+}
+
+.form-control--custom.m_datepicker[readonly] {
+    background-color: transparent !important;
+    cursor: text !important;
+}
+
+.form-control--custom.m_datepicker[readonly]:focus,
+.form-control--custom.m_datepicker[readonly]:hover {
+    border: 1px solid #f0791b !important;
+}
+
+.m-radio.m-radio--primary > input:checked:disabled ~ span,
+.m-radio.m-radio--primary > input:checked:disabled ~ span:after {
+    border-color: #f4f5f8 !important;
+    cursor: default !important;
 }
 
 .pdf-icon {
@@ -1336,6 +1413,10 @@ label.site-visit-label {
             background-size: cover;
 }
 
+.m-login.m-login--6 .m-login__wrapper .m-login__body {
+    padding-top: 0;
+}
+
 /* Login Page ends here */
 
 /* Sign Up Page starts here */
@@ -1350,6 +1431,10 @@ label.site-visit-label {
     padding: 0 15px;
 }
 
+.m-login__container--sign-in .m-portlet {
+    margin-bottom: 30px;
+}
+
 /* Sign Up Page ends here */
 
 /* RTI Application Registration starts here */
@@ -1358,11 +1443,11 @@ label.site-visit-label {
     margin-top: 1rem;
 }
 
-.m-form .m-form__group label.col-form-label {
+/* .m-form .m-form__group label.col-form-label {
     margin-top: 10px;
     margin-left: 5px;
     padding: 0;
-}
+} */
 
 .m-login.m-login--2 .m-login__wrapper .m-login__container .m-login__form .m-form__group {
     margin-bottom: 10px;

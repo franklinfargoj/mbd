@@ -1,28 +1,16 @@
 @extends('admin.layouts.app')
 @section('content')
-    <div class="m-subheader ">
+    <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
             <div class="mr-auto">
                 <h3 class="m-subheader__title m-subheader__title--separator">Upload Case Judgement</h3>
             </div>
-            <div>
-            </div>
         </div>
     </div>
     <!-- END: Subheader -->
-    <div class="m-content"></div>
     <div class="m-portlet m-portlet--mobile">
-        <div class="m-portlet__head">
-            <div class="m-portlet__head-caption">
-                <div class="m-portlet__head-title">
-                    <h3 class="m-portlet__head-text">
 
-                    </h3>
-                </div>
-            </div>
-        </div>
-
-        <form id="forwardCase" role="form" method="post" class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" action="{{route('forward_case.update', $arrData['hearing']->hearingForwardCase[0]->id)}}">
+        <form id="forwardCase" role="form" method="post" class="m-form m-form--rows m-form--label-align-right" action="{{route('forward_case.update', $arrData['hearing']->hearingForwardCase[0]->id)}}">
             @csrf
             <input type="hidden" name="hearing_id" value="{{ $arrData['hearing']->id }}">
             <div class="m-portlet__body">
