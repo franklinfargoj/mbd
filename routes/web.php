@@ -33,6 +33,9 @@ Route::get('frontend_register','FrontendRegisterController@showRegisterForm');
 Route::post('frontend_register','FrontendRegisterController@frontendRegister');
 
 
+//resolution print
+Route::get('resolution/print','ResolutionController@print_data')->name('resolution.print');
+
 Route::group(['middleware' => ['check_society_offer_letter_permission']], function(){
         //Society Offer Letter
     Route::post('society_offer_letter/forgot_password','SocietyOfferLetterController@forgot_password')->name('society_offer_letter_forgot_password');
@@ -91,9 +94,9 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('rti_forward_application/{id}','RtiFormController@show_forward_application_form')->name('rti_forwarded_application');
     Route::post('rti_forwarded_application/{id}','RtiFormController@forward_application')->name('rti_forwarded_application_data');
     // Resolution routes
-
+    
     Route::get('/resolution/delete/{id}', 'ResolutionController@destroy')->name('resolution.delete');
-//resolutions backend
+//resolutions backend   
 //Route::get('/resolution/delete/{id}', 'ResolutionController@destroy')->name('resolution.delete');
     Route::resource('/resolution', 'ResolutionController');
     Route::post('loadDeleteReasonOfResolutionUsingAjax', 'ResolutionController@loadDeleteReasonOfResolutionUsingAjax')->name('loadDeleteReasonOfResolutionUsingAjax');
