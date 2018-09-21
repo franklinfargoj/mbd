@@ -269,7 +269,8 @@
 }
 
 .form-control--textarea {
-    min-height: 50px;
+    min-height: 80px !important;
+    height: auto;
     resize: none;
 }
 
@@ -427,8 +428,8 @@
     right: 8px;
 }
 
-.dataTables_wrapper .sorting_desc {
-    width: 300px;
+.dataTables_wrapper th:last-child {
+    width: 300px !important;
 }
 
 /* Data Table ends here */
@@ -535,9 +536,54 @@
     margin-top: 30px;
 }
 
+.m-subheader .m-subheader__title {
+    padding-right: 15px;
+}
+
+/* breadcrumbs starts here */
+
+.breadcrumb {
+    background-color: transparent;
+    border-radius: 0;
+    padding: 0;
+    margin: 0;
+}
+
+.breadcrumb-item {
+    transition: 0.3s all ease;
+    cursor: pointer;
+    color: #868e96;
+}
+
+.breadcrumb-item a {
+    color: #868e96;
+}
+
+.breadcrumb-item:hover {
+    color: #868e96;
+    /* color: #f0791b; */
+}
+
+.breadcrumb-item:hover a {
+    text-decoration: none;
+}
+
+/* breadcrumbs ends here */
+
+.m-body .m-wrapper {
+    overflow-y: auto;
+}
+
 /* theme classes over ride ends here */
 
 /* global classes starts here */
+
+.has-danger .m-bootstrap-select + .form-control-feedback {
+    position: absolute;
+    bottom: -22px;
+    left: 0;
+    font-family: Poppins;
+}
 
 .bootstrap-timepicker-widget table td>a:hover {
     background-color: #f0791b;
@@ -663,14 +709,31 @@
     cursor: default !important;
 }
 
-.form-control--custom.m_datepicker[readonly] {
+.form-control--custom.m_datepicker[readonly],
+.form-control--custom.m_timepicker[readonly] {
     background-color: transparent !important;
     cursor: text !important;
 }
 
 .form-control--custom.m_datepicker[readonly]:focus,
-.form-control--custom.m_datepicker[readonly]:hover {
+.form-control--custom.m_datepicker[readonly]:hover,
+.form-control--custom.m_timepicker[readonly]:focus,
+.form-control--custom.m_timepicker[readonly]:hover {
     border: 1px solid #f0791b !important;
+}
+
+.mdtp__wrapper[data-theme=blue] .mdtp__clock .mdtp__am.active,
+.mdtp__wrapper[data-theme=blue] .mdtp__clock .mdtp__clock_dot,
+.mdtp__wrapper[data-theme=blue] .mdtp__clock .mdtp__pm.active,
+.mdtp__wrapper[data-theme=blue] .mdtp__time_holder,
+.mdtp__wrapper[data-theme=blue] .mdtp__clock .mdtp__digit span:hover,
+.mdtp__wrapper[data-theme=blue] .mdtp__digit.active span,
+.mdtp__wrapper[data-theme=blue] .mdtp__digit.active:before {
+    background-color: #f0791b !important;
+}
+
+.mdtp__button, .mdtp__wrapper[data-theme=blue] .mdtp__button {
+    color: #f0791b !important;
 }
 
 .m-radio.m-radio--primary > input:checked:disabled ~ span,
@@ -758,6 +821,13 @@
     margin-bottom: 10px;
     max-width: none;
     width: 100%;
+    position: relative;
+}
+
+.custom-file-download {
+    position: absolute;
+    bottom: -22px;
+    left: 0;
 }
 
 .custom-file-input {
@@ -1443,11 +1513,11 @@ label.site-visit-label {
     margin-top: 1rem;
 }
 
-/* .m-form .m-form__group label.col-form-label {
+.rti-app-register-form .m-form .m-form__group label.col-form-label {
     margin-top: 10px;
     margin-left: 5px;
     padding: 0;
-} */
+}
 
 .m-login.m-login--2 .m-login__wrapper .m-login__container .m-login__form .m-form__group {
     margin-bottom: 10px;

@@ -9,7 +9,8 @@
     <!-- END: Subheader -->
     <div class="m-portlet m-portlet--mobile">
 
-        <form role="form" id="prePostSchedule" method="post" files="true" class="m-form m-form--rows m-form--label-align-right" action="{{route('fix_schedule.store')}}">
+        <form role="form" id="prePostSchedule" method="post" files="true" class="m-form m-form--rows m-form--label-align-right"
+            action="{{route('fix_schedule.store')}}">
             @csrf
 
             <input type="hidden" name="hearing_schedule_id" value="{{ $arrData['schedule_hearing_data']->hearingSchedule->id }}">
@@ -35,13 +36,15 @@
                 <div class="form-group m-form__group row">
                     <div class="col-lg-6 form-group">
                         <label class="col-form-label" for="case_year">Case Year:</label>
-                        <input type="text" id="case_year" name="case_year" class="form-control form-control--custom m-input" value="{{ $arrData['schedule_hearing_data']->case_year }}" readonly>
+                        <input type="text" id="case_year" name="case_year" class="form-control form-control--custom m-input"
+                            value="{{ $arrData['schedule_hearing_data']->case_year }}" readonly>
                         <span class="help-block">{{$errors->first('case_year')}}</span>
                     </div>
                     <div class="col-lg-6 form-group">
                         <label class="col-form-label" for="case_number">Case Number:</label>
                         <div class="m-input-icon m-input-icon--right">
-                            <input type="text" id="case_number" name="case_number" class="form-control form-control--custom m-input"  value="{{ $arrData['schedule_hearing_data']->case_number }}" readonly>
+                            <input type="text" id="case_number" name="case_number" class="form-control form-control--custom m-input"
+                                value="{{ $arrData['schedule_hearing_data']->case_number }}" readonly>
                             <span class="help-block">{{$errors->first('case_number')}}</span>
                         </div>
                     </div>
@@ -50,54 +53,48 @@
                 <div class="form-group m-form__group row">
                     <div class="col-lg-6 form-group">
                         <label class="col-form-label" for="appellant_name">Apellent Name:</label>
-                        <div class="m-input-icon m-input-icon--right">
-                            <input type="text" id="appellant_name" name="appellant_name" class="form-control form-control--custom m-input"  value="{{ $arrData['schedule_hearing_data']->applicant_name }}" readonly>
-                            <span class="help-block">{{$errors->first('appellant_name')}}</span>
-                        </div>
+                        <input type="text" id="appellant_name" name="appellant_name" class="form-control form-control--custom m-input"
+                            value="{{ $arrData['schedule_hearing_data']->applicant_name }}" readonly>
+                        <span class="help-block">{{$errors->first('appellant_name')}}</span>
                     </div>
 
                     <div class="col-lg-6 form-group">
                         <label class="col-form-label" for="respondent_name">Respondent Name:</label>
-                        <div class="m-input-icon m-input-icon--right">
-                            <input type="text" id="respondent_name" name="respondent_name" class="form-control form-control--custom m-input"  value="{{ $arrData['schedule_hearing_data']->respondent_name }}" readonly>
-                            <span class="help-block">{{$errors->first('respondent_name')}}</span>
-                        </div>
+                        <input type="text" id="respondent_name" name="respondent_name" class="form-control form-control--custom m-input"
+                            value="{{ $arrData['schedule_hearing_data']->respondent_name }}" readonly>
+                        <span class="help-block">{{$errors->first('respondent_name')}}</span>
                     </div>
                 </div>
 
                 <div class="form-group m-form__group row">
                     <div class="col-lg-6 form-group">
                         <label class="col-form-label" for="first_hearing_date">First Hearing Date:</label>
-                        <div class="m-input-icon m-input-icon--right">
-                            <input type="text" id="first_hearing_date" name="first_hearing_date" class="form-control form-control--custom" class="form-control form-control--custom m-input"  value="{{ $arrData['schedule_hearing_data']->hearingSchedule->preceding_date }}" readonly>
-                            <span class="help-block">{{$errors->first('first_hearing_date')}}</span>
-                        </div>
+                        <input type="text" id="first_hearing_date" name="first_hearing_date" class="form-control form-control--custom"
+                            class="form-control form-control--custom m-input" value="{{ $arrData['schedule_hearing_data']->hearingSchedule->preceding_date }}"
+                            readonly>
+                        <span class="help-block">{{$errors->first('first_hearing_date')}}</span>
                     </div>
 
                     <div class="col-lg-6 form-group">
                         <label class="col-form-label" for="preceding_officer_name">Preceding Officer Name:</label>
-                        <div class="m-input-icon m-input-icon--right">
-                            <input type="text" id="preceding_officer_name" name="preceding_officer_name" class="form-control form-control--custom m-input"  value="{{ $arrData['schedule_hearing_data']->preceding_officer_name }}" readonly>
-                            <span class="help-block">{{$errors->first('preceding_officer_name')}}</span>
-                        </div>
+                        <input type="text" id="preceding_officer_name" name="preceding_officer_name" class="form-control form-control--custom m-input"
+                            value="{{ $arrData['schedule_hearing_data']->preceding_officer_name }}" readonly>
+                        <span class="help-block">{{$errors->first('preceding_officer_name')}}</span>
                     </div>
                 </div>
 
                 <div class="form-group m-form__group row">
                     <div class="col-lg-6 form-group">
                         <label class="col-form-label" for="date">Select Date:</label>
-                        <div class="m-input-icon m-input-icon--right">
-                            <input type="text" id="date" name="date" class="form-control form-control--custom m_datepicker" class="form-control form-control--custom m-input"  value="{{ old('date') }}">
-                            <span class="help-block">{{$errors->first('date')}}</span>
-                        </div>
+                        <input type="text" id="date" name="date" class="form-control form-control--custom m_datepicker"
+                            class="form-control form-control--custom m-input" value="{{ old('date') }}">
+                        <span class="help-block">{{$errors->first('date')}}</span>
                     </div>
 
                     <div class="col-lg-6 form-group">
                         <label class="col-form-label" for="description">Description:</label>
-                        <div class="m-input-icon m-input-icon--right">
-                            <textarea id="description" name="description" class="form-control form-control--custom form-control--fixed-height m-input">{{ old('description') }}</textarea>
-                            <span class="help-block">{{$errors->first('description')}}</span>
-                        </div>
+                        <textarea id="description" name="description" class="form-control form-control--custom form-control--fixed-height m-input">{{ old('description') }}</textarea>
+                        <span class="help-block">{{$errors->first('description')}}</span>
                     </div>
                 </div>
 

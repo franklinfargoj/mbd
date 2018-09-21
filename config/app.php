@@ -151,7 +151,7 @@ return [
         /*
          * Package Service Providers...
          */
-
+        Maatwebsite\Excel\ExcelServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -162,7 +162,7 @@ return [
         'Thytanium\Captcha\CaptchaServiceProvider',
         App\Providers\RouteServiceProvider::class,
         Unisharp\Ckeditor\ServiceProvider::class,
-       Praem90\PDF\ServiceProvider::class,
+        Praem90\PDF\ServiceProvider::class,
 
     ],
 
@@ -215,7 +215,7 @@ return [
 //        'Captcha' => Mews\Captcha\Facades\Captcha::class,
         'Captcha' => 'Thytanium\Captcha\Facades\Captcha',
         'PDF' => Praem90\PDF\Facade::class,
-        
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
     ],
 
 ];

@@ -2,7 +2,7 @@
 
 // Rti Application
 Breadcrumbs::for('rti_applicants', function ($trail) {
-    $trail->push('rti_applicatnts', route('rti_applicants'));
+    $trail->push('rti_applicants', route('rti_applicants'));
 });
 
 Breadcrumbs::for('view_applicant', function ($trail,$id) {
