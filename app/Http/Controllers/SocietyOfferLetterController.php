@@ -281,7 +281,10 @@ class SocietyOfferLetterController extends Controller
                     return $status_display;
                 })
                 ->editColumn('actions', function ($ol_applications) {
-                    return $ol_applications->created_at;
+                    $status = explode('_', array_keys(config('commanConfig.applicationStatus'), $ol_applications->olApplicationStatus[0]->status_id)[0]);
+                    $status_display = '';
+                    foreach($status as $status_value){ $status_display .= ucwords($status_value). ' ';}
+                    return view('frontend.society.actions', compact('ol_applications', 'status_display'))->render();
                 })
                 ->rawColumns(['application_no', 'application_master_id', 'created_at','status','actions'])
                 ->make(true);
@@ -366,8 +369,8 @@ class SocietyOfferLetterController extends Controller
                 $insert_application_log_forward_to[$key]['to_user_id'] = $user->id;
                 $insert_application_log_forward_to[$key]['to_role_id'] = $user->role_id;
                 $insert_application_log_forward_to[$key]['remark'] = '';
-                $insert_application_log_forward_to[$key]['created_at'] = date('Y-m-d');
-                $insert_application_log_forward_to[$key]['updated_at'] = date('Y-m-d');
+                $insert_application_log_forward_to[$key]['created_at'] = date('Y-m-d H-i-s');
+                $insert_application_log_forward_to[$key]['updated_at'] = date('Y-m-d H-i-s');
 
                 $insert_application_log_in_process[$key]['application_id'] = $last_id->id;
                 $insert_application_log_in_process[$key]['society_flag'] = 0;
@@ -377,8 +380,8 @@ class SocietyOfferLetterController extends Controller
                 $insert_application_log_in_process[$key]['to_user_id'] = 0;
                 $insert_application_log_in_process[$key]['to_role_id'] = 0;
                 $insert_application_log_in_process[$key]['remark'] = '';
-                $insert_application_log_in_process[$key]['created_at'] = date('Y-m-d');
-                $insert_application_log_in_process[$key]['updated_at'] = date('Y-m-d');
+                $insert_application_log_in_process[$key]['created_at'] = date('Y-m-d H-i-s');
+                $insert_application_log_in_process[$key]['updated_at'] = date('Y-m-d H-i-s');
                 $i++;
             }
         }
@@ -441,8 +444,8 @@ class SocietyOfferLetterController extends Controller
                 $insert_application_log_forward_to[$key]['to_user_id'] = $user->id;
                 $insert_application_log_forward_to[$key]['to_role_id'] = $user->role_id;
                 $insert_application_log_forward_to[$key]['remark'] = '';
-                $insert_application_log_forward_to[$key]['created_at'] = date('Y-m-d');
-                $insert_application_log_forward_to[$key]['updated_at'] = date('Y-m-d');
+                $insert_application_log_forward_to[$key]['created_at'] = date('Y-m-d H-i-s');
+                $insert_application_log_forward_to[$key]['updated_at'] = date('Y-m-d H-i-s');
 
                 $insert_application_log_in_process[$key]['application_id'] = $last_id->id;
                 $insert_application_log_in_process[$key]['society_flag'] = 0;
@@ -452,8 +455,8 @@ class SocietyOfferLetterController extends Controller
                 $insert_application_log_in_process[$key]['to_user_id'] = 0;
                 $insert_application_log_in_process[$key]['to_role_id'] = 0;
                 $insert_application_log_in_process[$key]['remark'] = '';
-                $insert_application_log_in_process[$key]['created_at'] = date('Y-m-d');
-                $insert_application_log_in_process[$key]['updated_at'] = date('Y-m-d');
+                $insert_application_log_in_process[$key]['created_at'] = date('Y-m-d H-i-s');
+                $insert_application_log_in_process[$key]['updated_at'] = date('Y-m-d H-i-s');
                 $i++;
             }
         }
@@ -470,14 +473,46 @@ class SocietyOfferLetterController extends Controller
 
     public function displaySocietyDocuments(){
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();      
-        $application = OlApplication::where('society_id', $society->id)->first();
+        $application = OlApplication::where('society_id', $society->id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
+                $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
+            } ])->first();
         $documents = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->with('documents_uploaded')->get();
         // dd($society->id);
         $documents_uploaded = OlSocietyDocumentsStatus::where('society_id', $society->id)->get();
         $documents_comment = OlSocietyDocumentsComment::where('society_id', $society->id)->first();
 
-        // dd($documents);
+        // dd($application->olApplicationStatus);
         return view('frontend.society.society_upload_documents', compact('documents', 'documents_uploaded', 'society', 'application', 'documents_comment'));
+    }
+
+    public function addSocietyDocumentsComment(Request $request){
+        $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
+        $input = array(
+            'society_id' => $society->id,
+            'society_documents_comment' => $request->input('society_documents_comment'),
+        );
+        OlSocietyDocumentsComment::create($input);
+        return redirect()->route('society_offer_letter_download');
+    }
+
+    public function addSocietyDocumentsRemark(Request $request){
+        $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
+        $application = OlApplication::where('society_id', $society->id)->first();
+        $input = array(
+            'application_id' => $application->id,
+            'society_flag' => 1,
+            'user_id' => Auth::user()->id,
+            'role_id' => Auth::user()->role_id,
+            'status_id' => config('commanConfig.applicationStatus.forwarded'),
+            'to_user_id' => $request->input('user_id'),
+            'to_role_id' => $request->input('role_id'),
+            'society_documents_comment' => $request->input('remark'),
+            'created_at' => date('Y-m-d H-i-s'),
+            'updated_at' => date('Y-m-d H-i-s'),
+        );
+        // dd($input);
+        OlApplicationStatus::create($input);
+        return redirect()->route('society_offer_letter_dashboard');
     }
 
     public function viewSocietyDocuments(){
@@ -525,16 +560,6 @@ class SocietyOfferLetterController extends Controller
         unlink(public_path($delete_document_details[0]->society_document_path));
         OlSocietyDocumentsStatus::where('society_id', $society->id)->where('document_id', $id)->delete();
         return redirect()->route('documents_upload');
-    }
-
-    public function addSocietyDocumentsComment(Request $request){
-        $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
-        $input = array(
-            'society_id' => $society->id,
-            'society_documents_comment' => $request->input('society_documents_comment'),
-        );
-        OlSocietyDocumentsComment::create($input);
-        return redirect()->route('society_offer_letter_download');
     }
 
     public function displayOfferLetterApplication(){
