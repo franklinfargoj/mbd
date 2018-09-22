@@ -54,7 +54,7 @@
                                                     title="Recapture" aria-hidden="true" style="font-size: 24px;cursor: pointer;"></i>
                                                 <input type="text" id="captcha" class="form-control mt-0 ml-3" name="captcha" placeholder="Captcha">
                                                 @if($errors->has('captcha'))
-                                                <span class="help-block captcha-input-error" style="padding: 16px;color: red;">Invalid Captcha
+                                                <span class="help-block captcha-input-error" style="color: red;">Invalid Captcha
                                                 </span>
                                         </div>
                                         @endif

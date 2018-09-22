@@ -3,10 +3,10 @@
 <div class="col-md-12">
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">
-        <div class="d-flex">
-            <h3 class="m-subheader__title">Village Details</h3>
+        <div class="d-flex align-items-center">
+            <h3 class="m-subheader__title m-subheader__title--separator">Village Details</h3>
+            {{ Breadcrumbs::render('village_detail') }}
         </div>
-        {{ Breadcrumbs::render('village_detail') }}
     </div>
     <!-- END: Subheader -->
     <div class="m-portlet m-portlet--mobile">
@@ -23,11 +23,11 @@
             </div>
         </div>
         @if(Session::has('success'))
-            <div class="alert alert-success fade in alert-dismissible show" style="margin-top:18px;">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true" style="font-size:20px">×</span>
-                </button> {{ Session::get('success') }}
-            </div>
+        <div class="alert alert-success fade in alert-dismissible show" style="margin-top:18px;">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true" style="font-size:20px">×</span>
+            </button> {{ Session::get('success') }}
+        </div>
         @endif
         <div class="m-portlet__body m-portlet__body--spaced data-table--custom">
             <!--begin: Search Form -->
@@ -39,7 +39,8 @@
                                 <div class="col-md-4">
                                     <label for="exampleSelect1">Search</label>
                                     <div class="m-input-icon m-input-icon--left">
-                                        <input type="text" class="form-control m-input m-input--solid" placeholder="Search..." id="m_form_search">
+                                        <input type="text" class="form-control m-input m-input--solid" placeholder="Search..."
+                                            id="m_form_search">
                                         <span class="m-input-icon__icon m-input-icon__icon--left">
                                             <span><i class="la la-search"></i></span>
                                         </span>
@@ -73,8 +74,8 @@
             </div>--}}
             <!--end: Search Form -->
             <!--begin: Datatable -->
-        {!! $html->table() !!}
-        <!--end: Datatable -->
+            {!! $html->table() !!}
+            <!--end: Datatable -->
         </div>
     </div>
     <input type="hidden" id="myModalBtn" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" />
@@ -97,27 +98,24 @@
     } );*/
 
     //function to detele village details
-    function deleteVillage(id)
-    {
-      if(confirm("Are you sure to delete?"))
-      {
-        $.ajax({
-          headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            type : "POST",
-            data : { id : id },
-            url  : 'loadDeleteVillageUsingAjax',
-            success:function(res)
-            {
-              $("#myModal").html(res);
-              $("#myModalBtn").click();
-            }
-        });
-      }
+    function deleteVillage(id) {
+        if (confirm("Are you sure to delete?")) {
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type: "POST",
+                data: {
+                    id: id
+                },
+                url: 'loadDeleteVillageUsingAjax',
+                success: function (res) {
+                    $("#myModal").html(res);
+                    $("#myModalBtn").click();
+                }
+            });
+        }
     }
-  </script>
+
+</script>
 @endsection
-
-
-

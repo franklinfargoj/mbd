@@ -1,5 +1,7 @@
 $(document).ready(function() {
 
+    // add space if error
+
     // Initializing date picker
 
     $(".m_datepicker").datepicker({
