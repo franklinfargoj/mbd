@@ -9,6 +9,7 @@ class OlApplicationStatus extends Model
     protected $table = 'ol_application_status_log';
     protected $fillable = [
     	'application_id',
+        'society_flag',
         'user_id',
         'role_id',
         'status_id',
