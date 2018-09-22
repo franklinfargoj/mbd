@@ -40,16 +40,25 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+    
+    public function test(Request $request)
+    {
+        dd($request->all());
+    }
 
     public function logout(Request $request)
-    {
+    {   
+        $role_name = $request->session()->get('role_name');
         $this->guard()->logout();
 
         $request->session()->flush();
 
         $request->session()->regenerate();
-
-        return redirect('/login-user');
+        if($role_name === 'society'){
+            return redirect('/society_offer_letter');
+        }else{
+            return redirect('/login-user');
+        }
     }
 
     protected function guard()
@@ -68,7 +77,8 @@ class LoginController extends Controller
 //    }
 
     public function loginUser(Request $request)
-    {
+    {   
+        // dd($request->all());
         $validateData = $request->validate([
             'captcha' => 'required|captcha',
         ]);
@@ -88,5 +98,10 @@ class LoginController extends Controller
     public function getLoginForm()
     {
         return view('auth.login');
+    }
+
+    public function getSocietyLoginForm()
+    {
+        return view('frontend.society.index');
     }
 }
