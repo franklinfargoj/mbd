@@ -154,15 +154,17 @@
 @endsection
 @section('add_resolution_js')
 <script>
+    
     loadDepartmentsOfBoard();
 
     $('#board_id').change(function () {
         loadDepartmentsOfBoard();
+        $('.m_selectpicker').selectpicker('refresh');
     });
 
     function loadDepartmentsOfBoard() {
         var board_id = $('#board_id').val();
-        if (board_id != "") {
+        // if (board_id != "") {
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -174,9 +176,10 @@
                 url: "{{ route('loadDepartmentsOfBoardUsingAjax') }}",
                 success: function (res) {
                     $('#department_id').html(res);
+                    $('.m_selectpicker').selectpicker('refresh');
                 }
             });
-        }
+        // }
     }
 
 </script>

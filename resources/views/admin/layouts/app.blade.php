@@ -205,9 +205,9 @@
 
     <!--end::Page Vendors Scripts -->
     <!--begin::Page Resources -->
+    @yield('datatablejs');
+    @yield('js');
 </body>
-@yield('datatablejs');
-@yield('js');
 <!-- end::Body -->
 
 </html>

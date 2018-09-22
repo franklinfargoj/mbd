@@ -1,7 +1,5 @@
 $(document).ready(function() {
 
-    // add space if error
-
     //toggle password
     $(".toggle-password").click(function() {
 
