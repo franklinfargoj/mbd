@@ -209,6 +209,7 @@ Route::get('scrutiny_remark/{id}','DYCEDepartment\DYCEController@dyceScrutinyRem
     Route::get('/offer_letter_application_form_dev/{id}', 'SocietyOfferLetterController@show_offer_letter_application_dev')->name('offer_letter_application_dev');
     Route::post('/save_offer_letter_application_form_dev', 'SocietyOfferLetterController@save_offer_letter_application_dev')->name('save_offer_letter_application_dev');
     Route::get('documents_upload','SocietyOfferLetterController@displaySocietyDocuments')->name('documents_upload');
+    Route::post('add_uploaded_documents_remark','SocietyOfferLetterController@addSocietyDocumentsRemark')->name('add_uploaded_documents_remark');
     Route::get('documents_uploaded','SocietyOfferLetterController@viewSocietyDocuments')->name('documents_uploaded');
     Route::post('uploaded_documents','SocietyOfferLetterController@uploadSocietyDocuments')->name('uploaded_documents');
     Route::get('delete_uploaded_documents/{id}','SocietyOfferLetterController@deleteSocietyDocuments')->name('delete_uploaded_documents');
