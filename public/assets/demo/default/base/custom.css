@@ -574,6 +574,10 @@
     overflow-y: auto;
 }
 
+.m-login.m-login--2 .m-login__wrapper .m-login__container .m-login__form .m-form__group.has-danger .m-radio-inline .form-control-feedback {
+    padding-left: 0;
+}
+
 /* theme classes over ride ends here */
 
 /* global classes starts here */
@@ -583,6 +587,10 @@
     bottom: -22px;
     left: 0;
     font-family: Poppins;
+}
+
+.has-danger .m-bootstrap-select {
+    margin-bottom: 20px !important;
 }
 
 .bootstrap-timepicker-widget table td>a:hover {
@@ -739,6 +747,13 @@
 .m-radio.m-radio--primary > input:checked:disabled ~ span,
 .m-radio.m-radio--primary > input:checked:disabled ~ span:after {
     border-color: #f4f5f8 !important;
+    cursor: default !important;
+}
+
+.m-radio.m-radio--primary > input:checked:disabled:checked ~ span,
+.m-radio.m-radio--primary > input:checked:disabled:checked ~ span:after {
+    border-color: #bdc3d4 !important;
+    opacity: 1 !important;
     cursor: default !important;
 }
 
@@ -1473,10 +1488,21 @@ label.site-visit-label {
     position: relative;
 }
 
-#captcha-error {
+#captcha-error, .captcha-input-error {
     position: absolute;
     bottom: -22px;
     left: 0;
+}
+
+.error-wrap {
+    position: relative;
+}
+
+.error-wrap .form-control-feedback {
+    position: absolute;
+    bottom: -22px;
+    left: 0;
+    width: 50vw;
 }
 
 .m-login.m-login--6 .m-login__wrapper .m-login__body {
@@ -1485,6 +1511,13 @@ label.site-visit-label {
 
 .m-login__container--rounded-fields .has-danger .form-control-feedback {
     padding-left: 15px;
+}
+
+.hide-show-pwd {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
 }
 
 /* Login Page ends here */

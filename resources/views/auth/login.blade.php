@@ -42,10 +42,11 @@
                                         <input class="form-control m-input" type="email" placeholder="Email" name="email"
                                             value="{{ old('email') }}" autocomplete="off">
                                     </div>
-                                    <div class="form-group m-form__group">
+                                    <div class="form-group m-form__group position-relative">
                                         <!-- <label for="" class="col-form-label">Password</label> -->
                                         <input class="form-control m-input" type="password" placeholder="Password" name="password"
-                                            autocomplete="off">
+                                            autocomplete="off" id="password-field">
+                                            <span toggle="#password-field" class="fa fa-fw fa-eye hide-show-pwd toggle-password"></span>
                                     </div>
                                     <div class="form-group m-form__group" style="margin-top: 16px;">
                                         <div class="d-flex align-items-center position-relative">
@@ -54,7 +55,7 @@
                                                     title="Recapture" aria-hidden="true" style="font-size: 24px;cursor: pointer;"></i>
                                                 <input type="text" id="captcha" class="form-control mt-0 ml-3" name="captcha" placeholder="Captcha">
                                                 @if($errors->has('captcha'))
-                                                <span class="help-block captcha-input-error" style="padding: 16px;color: red;">Invalid Captcha
+                                                <span class="help-block captcha-input-error" style="color: red;">Invalid Captcha
                                                 </span>
                                         </div>
                                         @endif
@@ -62,7 +63,7 @@
                                     <div class="d-flex align-items-center justify-content-between m-login__form-action">
                                         <div class="m-login__form-sub">
                                             <div class="m--align-right m-login__form-right">
-                                                <a href="javascript:;" id="m_login_forget_password" class="m-link">
+                                                <a href="{{ route('password.request') }}"  class="m-link">
                                                     Forget Password ?
                                                 </a>
                                             </div>

@@ -2,10 +2,10 @@
 @section('content')
 <div class="col-md-12">
     <div class="m-subheader px-0 m-subheader--top">
-        <div class="d-flex">
-            <h3 class="m-subheader__title">Add Village</h3>
+        <div class="d-flex align-items-center">
+            <h3 class="m-subheader__title m-subheader__title--separator">Add Village</h3>
+            {{ Breadcrumbs::render('village_create') }}
         </div>
-        {{ Breadcrumbs::render('village_create') }}
     </div>
     <!-- END: Subheader -->
     <div class="m-portlet m-portlet--mobile">
