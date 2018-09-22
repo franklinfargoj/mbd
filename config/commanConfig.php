@@ -30,5 +30,5 @@ return [
         'reverted' => 3,
     ],
     'ee_junior_engineer' => 'ee_junior_engineer',
-    'society_offer_letter' => 12,
+    'society_offer_letter' => 'society',
 ];
