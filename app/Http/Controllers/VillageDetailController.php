@@ -266,7 +266,7 @@ class VillageDetailController extends Controller
 
         $village->update($village_data);
 
-        return redirect('/village_detail')->with(['success'=> 'Village added succesfully']);
+        return redirect('/village_detail')->with(['success'=> 'Village edited succesfully']);
     }
 
     /**
@@ -289,7 +289,7 @@ class VillageDetailController extends Controller
             'reason'             => $request->input('delete_message'),
             ]);
 
-        return redirect()->back()->with(['success'=> 'Record deleted succesfully']);
+        return redirect()->back()->with(['success'=> 'Village deleted succesfully']);
     }
 
     public function loadDeleteVillageUsingAjax(Request $request){
