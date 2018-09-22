@@ -16,6 +16,7 @@ use App\MasterLayout;
 use App\LayoutUser;
 use App\User;
 use App\RoleUser;
+use App\Role;
 use DB;
 use Validator;
 use Mail;
@@ -74,12 +75,12 @@ class SocietyOfferLetterController extends Controller
             $errors = $validated_fields->errors();
             return redirect()->route('society_offer_letter.index');
         }else{
-
+            $role_id = Role::where('name', config('commanConfig.society_offer_letter'))->first();
             $society_offer_letter_users = array(
                 'name' => $request->input('society_name'),
                 'email' => $request->input('society_email'),
                 'password' => bcrypt($request->input('society_password')),
-                'role_id' => config('commanConfig.society_offer_letter'),
+                'role_id' => $role_id->id,
                 'uploaded_note_path' => 'test',
                 'service_start_date' => '',
                 'service_end_date' => '',
@@ -90,13 +91,11 @@ class SocietyOfferLetterController extends Controller
                 'mobile_no' =>  $request->input('society_contact_no'),
                 'address' => $request->input('society_address'),
             );
-            // dd($society_offer_letter_users);
-            $last_inserted_id = User::create($society_offer_letter_users);
-            // dd($last_inserted_id->id);
-            $id = Roles::where('name', config('commanConfig.society_offer_letter'))->first();
+            $last_inserted_id = User::create($society_offer_letter_users);                    
+            
             $role_user = array(
                 'user_id'    => $last_inserted_id->id,
-                'role_id'    => $id->id,
+                'role_id'    => $role_id->id,
                 'start_date' => \Carbon\Carbon::now(),
                 'end_date' => ''
             );
@@ -105,7 +104,7 @@ class SocietyOfferLetterController extends Controller
             $society_offer_letter_details = array(
                 'language_id' => '0',
                 'user_id' => $last_inserted_id->id,
-                'role_id' => config('commanConfig.society_offer_letter'),
+                'role_id' => $role_id->id,
                 'email' => $request->input('society_email'),
                 'password' => bcrypt($request->input('society_password')),
                 'name' => $request->input('society_name'),
@@ -435,6 +434,7 @@ class SocietyOfferLetterController extends Controller
             foreach($users as $key => $user){
                 $i = 0;
                 $insert_application_log_forward_to[$key]['application_id'] = $last_id->id;
+                $insert_application_log_forward_to[$key]['society_flag'] = 1;
                 $insert_application_log_forward_to[$key]['user_id'] = Auth::user()->id;
                 $insert_application_log_forward_to[$key]['role_id'] = Auth::user()->role_id;
                 $insert_application_log_forward_to[$key]['status_id'] = config('commanConfig.applicationStatus.forwarded');
@@ -445,6 +445,7 @@ class SocietyOfferLetterController extends Controller
                 $insert_application_log_forward_to[$key]['updated_at'] = date('Y-m-d');
 
                 $insert_application_log_in_process[$key]['application_id'] = $last_id->id;
+                $insert_application_log_in_process[$key]['society_flag'] = 0;
                 $insert_application_log_in_process[$key]['user_id'] = $user->id;
                 $insert_application_log_in_process[$key]['role_id'] = $user->role_id;
                 $insert_application_log_in_process[$key]['status_id'] = config('commanConfig.applicationStatus.in_process');
