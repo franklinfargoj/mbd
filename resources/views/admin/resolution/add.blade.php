@@ -118,8 +118,8 @@
                     <div class="col-lg-6 form-group">
                         <div class="@if($errors->has('published_date')) has-error @endif">
                             <label class="col-form-label">Published Date:</label>
-                            <input type="text" name="published_date" id="published_date" class="form-control form-control--custom form-control form-control--custom--custom m-input m_datepicker"
-                                value="{{old('published_date')}}">
+                            <input type="text" name="published_date" id="published_date" class="form-control form-control--custom m-input m_datepicker"
+                                readonly value="{{old('published_date')}}">
                             <span class="help-block">{{$errors->first('published_date')}}</span>
                         </div>
                     </div>
