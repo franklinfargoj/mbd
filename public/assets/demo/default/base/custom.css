@@ -793,6 +793,12 @@
     border-color: #e77823;
 }
 
+.btn-primary.disabled, .btn-primary[disabled], .btn-primary.disabled:hover, .btn-primary[disabled]:hover {
+    background-color: #c37130 !important;
+    border-color: #c37130 !important;
+    cursor: default !important
+}
+
 .table--dark thead,
 .table--dark tr td:first-child {
     background-color: #f2f2f2;
