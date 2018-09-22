@@ -1481,6 +1481,13 @@ label.site-visit-label {
     padding-left: 15px;
 }
 
+.hide-show-pwd {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+}
+
 /* Login Page ends here */
 
 /* Sign Up Page starts here */
