@@ -105,6 +105,11 @@ class SocietyPermissionSeeder extends Seeder
                 'display_name' => 'society_detail.UserAuthentication',
                 'description'  => 'authenticates society offer letter users'
             ],
+            [
+                'name'         => 'documents_uploaded',
+                'display_name' => 'documents_uploaded',
+                'description'  => 'view uploaded society documents'
+            ]
         ];
 
         $permission_role = [];
