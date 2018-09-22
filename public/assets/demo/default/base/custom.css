@@ -269,7 +269,8 @@
 }
 
 .form-control--textarea {
-    min-height: 50px;
+    min-height: 80px !important;
+    height: auto;
     resize: none;
 }
 
@@ -328,13 +329,19 @@
     padding: 0 5px;
 }
 
+.dataTables_wrapper .dataTables_paginate a {
+    color: #575962;
+}
+
 .dataTables_wrapper .dataTables_paginate li.disabled a {
     color: #ccc;
     cursor: default;
 }
 
-.dataTables_wrapper .dataTables_paginate a {
+.dataTables_wrapper .dataTables_paginate li.active a {
     color: #f0791b;
+    cursor: default;
+    text-decoration: underline;
 }
 
 .dataTables_wrapper #dataTableBuilder_length label,
@@ -421,6 +428,10 @@
     right: 8px;
 }
 
+.dataTables_wrapper th:last-child {
+    width: 300px !important;
+}
+
 /* Data Table ends here */
 
 .m-login__wrapper .btn-group .btn {
@@ -468,13 +479,15 @@
 
 .m-login.m-login--6 .m-login__wrapper .m-login__body {
     height: auto;
+    margin-top: 0;
 }
 
 .m-login.m-login--6 .m-login__wrapper .m-login__body .m-login__signin .m-login__action>a:first-child {
     margin-left: 0;
 }
 
-.m-login.m-login--6 .m-login__wrapper .m-login__body .m-login__signin .m-login__action>a {
+.m-login.m-login--6 .m-login__wrapper .m-login__body .m-login__signin .m-login__action>a,
+.m-login.m-login--6 .m-login__wrapper .m-login__body .m-login__signin .m-login__action>.btn {
     padding: 12px 40px;
 }
 
@@ -487,7 +500,15 @@
 }
 
 .m-login.m-login--6 .m-login__wrapper .m-login__body {
-    margin-top: 30px;
+    padding-top: 30px;
+}
+
+.m-login.m-login--6 .m-login__wrapper .m-login__body .m-login__signin .m-login__form {
+    margin-bottom: 0;
+}
+
+.m-login.m-login--6 .m-login__wrapper .m-login__body .m-login__signin .m-login__action {
+    margin-bottom: 0;
 }
 
 .m-login.m-login--6 .m-login__wrapper .m-login__body .m-login__signin {
@@ -503,9 +524,84 @@
     font-size: 1rem;
 }
 
+.m-login .form-control {
+    border-radius: 40px;
+}
+
+.m-login__action {
+    margin-top: 10px;
+}
+
+.m-portlet__head--top {
+    margin-top: 30px;
+}
+
+.m-subheader .m-subheader__title {
+    padding-right: 15px;
+}
+
+/* breadcrumbs starts here */
+
+.breadcrumb {
+    background-color: transparent;
+    border-radius: 0;
+    padding: 0;
+    margin: 0;
+}
+
+.breadcrumb-item {
+    transition: 0.3s all ease;
+    cursor: pointer;
+    color: #868e96;
+}
+
+.breadcrumb-item a {
+    color: #868e96;
+}
+
+.breadcrumb-item:hover {
+    color: #868e96;
+    /* color: #f0791b; */
+}
+
+.breadcrumb-item:hover a {
+    text-decoration: none;
+}
+
+/* breadcrumbs ends here */
+
+.m-body .m-wrapper {
+    overflow-y: auto;
+}
+
 /* theme classes over ride ends here */
 
 /* global classes starts here */
+
+.has-danger .m-bootstrap-select + .form-control-feedback {
+    position: absolute;
+    bottom: -22px;
+    left: 0;
+    font-family: Poppins;
+}
+
+.bootstrap-timepicker-widget table td>a:hover {
+    background-color: #f0791b;
+}
+
+.bootstrap-timepicker-widget table td>a:hover .la {
+    color: #fff;
+}
+
+.form--small {
+    max-width: 450px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.m-login__logo--header {
+    margin-bottom: 10px;
+}
 
 .width-auto {
     width: auto !important;
@@ -549,6 +645,26 @@
     max-width: 100% !important;
 }
 
+.min-height-100 {
+    min-height: 100%;
+}
+
+.min-height-100vh {
+    min-height: 100vh;
+}
+
+.light-bg {
+    background-color: #f2f3f8 !important;
+}
+
+.transparent-bg {
+    background-color: transparent !important;
+}
+
+.no-shadow {
+    box-shadow: none !important;
+}
+
 .h-100vh {
     height: 100vh;
 }
@@ -575,6 +691,57 @@
     resize: none;
 }
 
+.form-control--custom[readonly] {
+    background-color: #f4f5f8 !important;
+}
+
+.form-control--custom[readonly]:focus {
+    border: 1px solid #ced4da !important;
+    cursor: default !important;
+}
+
+.form-control--custom[readonly]:hover {
+    cursor: default !important;
+}
+
+.form-control--custom[disabled] {
+    background-color: #f4f5f8 !important;
+    cursor: default !important;
+}
+
+.form-control--custom.m_datepicker[readonly],
+.form-control--custom.m_timepicker[readonly] {
+    background-color: transparent !important;
+    cursor: text !important;
+}
+
+.form-control--custom.m_datepicker[readonly]:focus,
+.form-control--custom.m_datepicker[readonly]:hover,
+.form-control--custom.m_timepicker[readonly]:focus,
+.form-control--custom.m_timepicker[readonly]:hover {
+    border: 1px solid #f0791b !important;
+}
+
+.mdtp__wrapper[data-theme=blue] .mdtp__clock .mdtp__am.active,
+.mdtp__wrapper[data-theme=blue] .mdtp__clock .mdtp__clock_dot,
+.mdtp__wrapper[data-theme=blue] .mdtp__clock .mdtp__pm.active,
+.mdtp__wrapper[data-theme=blue] .mdtp__time_holder,
+.mdtp__wrapper[data-theme=blue] .mdtp__clock .mdtp__digit span:hover,
+.mdtp__wrapper[data-theme=blue] .mdtp__digit.active span,
+.mdtp__wrapper[data-theme=blue] .mdtp__digit.active:before {
+    background-color: #f0791b !important;
+}
+
+.mdtp__button, .mdtp__wrapper[data-theme=blue] .mdtp__button {
+    color: #f0791b !important;
+}
+
+.m-radio.m-radio--primary > input:checked:disabled ~ span,
+.m-radio.m-radio--primary > input:checked:disabled ~ span:after {
+    border-color: #f4f5f8 !important;
+    cursor: default !important;
+}
+
 .pdf-icon {
     width: 22px;
 }
@@ -589,6 +756,7 @@
 
 .section-title {
     margin-bottom: 30px;
+    color: rgba(0,0,0,0.7);
 }
 
 .section-title--small {
@@ -653,6 +821,13 @@
     margin-bottom: 10px;
     max-width: none;
     width: 100%;
+    position: relative;
+}
+
+.custom-file-download {
+    position: absolute;
+    bottom: -22px;
+    left: 0;
 }
 
 .custom-file-input {
@@ -899,7 +1074,9 @@
 /* EE scrunity remarks starts here */
 
 .field-name {
-    width: 215px;
+    max-width: 215px;
+    width: 100%;
+    flex-shrink: 0;
 }
 
 .field-row {
@@ -1049,6 +1226,13 @@ label.site-visit-label {
     padding-top: 55px;
 }
 
+.m-login.m-login--2 .m-login__wrapper .m-login__container {
+    max-width: 460px;
+    padding-left: 15px;
+    padding-right: 15px;
+    width: 100%;
+}
+
 .m-login.m-login--2 .m-login__wrapper .m-login__container.m-login--right-box {
     width: 100%;
     max-width: 430px;
@@ -1096,7 +1280,7 @@ label.site-visit-label {
 
 .m-login__signin--box {
     padding: 30px;
-    border: 5px solid rgba(0,0,0,0.7);
+    border: 5px solid #f0791b;
     background-color: #f7f6f9;
 }
 
@@ -1272,31 +1456,29 @@ label.site-visit-label {
     height: 100%;
     z-index: -1;
     display: block;
-    background-image: -webkit-gradient(
-            linear,
-            left top, left bottom,
-            from(rgba(240, 115, 8, 0.8)),
-            to(rgba(240, 115, 8, 0.8))
-        ),
-        url(../../../../img/bg/login-bg-2.jpg);
-    background-image: -webkit-linear-gradient(
-            rgba(240, 115, 8, 0.8),
-            rgba(240, 115, 8, 0.8)
-        ),
-        url(../../../../img/bg/login-bg-2.jpg);
-    background-image: -o-linear-gradient(
-            rgba(240, 115, 8, 0.8),
-            rgba(240, 115, 8, 0.8)
-        ),
-        url(../../../../img/bg/login-bg-2.jpg);
-    background-image: linear-gradient(
-            rgba(240, 115, 8, 0.8),
-            rgba(240, 115, 8, 0.8)
-        ),
-        url(../../../../img/bg/login-bg-2.jpg);
+    background-image: url(../../../../img/bg/login-bg-3.jpg);
     background-repeat: no-repeat;
+    background-position: center bottom;
     -webkit-background-size: cover;
             background-size: cover;
+}
+
+.captcha-input-wrap {
+    position: relative;
+}
+
+#captcha-error {
+    position: absolute;
+    bottom: -22px;
+    left: 0;
+}
+
+.m-login.m-login--6 .m-login__wrapper .m-login__body {
+    padding-top: 0;
+}
+
+.m-login__container--rounded-fields .has-danger .form-control-feedback {
+    padding-left: 15px;
 }
 
 /* Login Page ends here */
@@ -1307,10 +1489,14 @@ label.site-visit-label {
     padding-top: 30px;
 }
 
-.m-login.m-login--2 .m-login__wrapper .m-login__container--sign-in {
+.m-login__container--sign-in {
     width: 100%;
-    max-width: 900px;
+    max-width: 900px !important;
     padding: 0 15px;
+}
+
+.m-login__container--sign-in .m-portlet {
+    margin-bottom: 30px;
 }
 
 /* Sign Up Page ends here */
@@ -1321,7 +1507,7 @@ label.site-visit-label {
     margin-top: 1rem;
 }
 
-.m-form .m-form__group label.col-form-label {
+.rti-app-register-form .m-form .m-form__group label.col-form-label {
     margin-top: 10px;
     margin-left: 5px;
     padding: 0;
@@ -1329,6 +1515,10 @@ label.site-visit-label {
 
 .m-login.m-login--2 .m-login__wrapper .m-login__container .m-login__form .m-form__group {
     margin-bottom: 10px;
+}
+
+.m-login.m-login--2 .m-login__wrapper .m-login__container .m-login__head {
+    margin-top: 0;
 }
 
 /* RTI Application Registration ends here */

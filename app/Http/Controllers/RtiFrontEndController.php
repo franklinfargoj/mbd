@@ -59,9 +59,15 @@ class RtiFrontEndController extends Controller
     {
         // dd($id);
         // dd($errors);
-        $boards = Board::all();
-        $departments = Department::all();
-        return view('frontend.rti.register_applicants', compact('id', 'boards', 'departments'));
+        if(RtiFronendUser::find($id))
+        {
+            $boards = Board::all();
+            $departments = Department::all();
+            return view('frontend.rti.register_applicants', compact('id', 'boards', 'departments'));
+        }else
+        {
+            return redirect()->route('rti_frontend.index');
+        }
     }
 
     public function saveRtiFrontendForm(RtiFormSubmitRequest $request)
@@ -79,8 +85,8 @@ class RtiFrontEndController extends Controller
             'applicant_name' => $request->input('name'),
             'applicant_addr' => $request->input('address'),
             'info_subject' => $request->input('info_subject'),
-            'info_period_from' => $request->input('info_period_from'),
-            'info_period_to' => $request->input('info_period_to'),
+            'info_period_from' =>date('Y-m-d', strtotime($request->input('info_period_from'))),
+            'info_period_to' => date('Y-m-d', strtotime($request->input('info_period_to'))),
             'info_descr' => $request->input('info_descr'),
             'info_post_or_person' => $request->input('info_post_or_person'),
             'applicant_below_poverty_line' => $request->input('applicant_below_poverty_line'),
@@ -168,11 +174,17 @@ class RtiFrontEndController extends Controller
     public function show_rti_application_status(Request $request){
         // dd($request->input());
         $user_details = RtiForm::with(['users', 'master_rti_status','department','rti_schedule_meetings','master_rti_status','rti_send_info'])->where('unique_id', $request->input('application_no'))->first();
-        //dd($user_details);
-        if($user_details->users->email == $request->input('email')){
-            return view('frontend.rti.rti_view_application_status', compact('user_details'));
-        }else{
-
+        if($user_details)
+        {
+            if($user_details->users->email == $request->input('email')){
+                return view('frontend.rti.rti_view_application_status', compact('user_details'));
+            }else{
+                return back()->withErrors(['application_error' => ['Invalid application number or email']]);
+            }
+        }else
+        {
+            return back()->withErrors(['application_error' => ['Invalid application number or email']]);
         }
+        
     }
 }

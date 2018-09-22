@@ -8,6 +8,7 @@ $(document).ready(function() {
             leftArrow: '<i class="la la-angle-left"></i>',
             rightArrow: '<i class="la la-angle-right"></i>'
         },
+        autoclose: true,
         format: 'dd-mm-yyyy'
     })
 
@@ -336,8 +337,8 @@ $(document).ready(function() {
      console.log(element);
    }
   });
-
-  $(document).on('change','#rtiInfoRespondRadios',function(){
+  
+  $(document).on('change',"input[name='info_post_or_person']",function(){
     if($("input[name='info_post_or_person']:checked"). val()==1)
     {
         $("#infoPostTypeFormgroup").show();

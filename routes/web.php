@@ -10,6 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::post('test','Auth\LoginController@test')->name('testing');
 
 Route::get('/', function () {
     return redirect('/login-user');
@@ -19,6 +20,7 @@ Route::group(['middleware' => 'disablepreventback'], function() {
     Auth::routes();
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/login-user', 'Auth\LoginController@getLoginForm')->name('login');
+    Route::get('/society-user', 'Auth\LoginController@getSocietyLoginForm')->name('society-user');
     Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
     Route::post('/loginUser', 'Auth\LoginController@loginUser')->name('loginUser');
 });
@@ -33,28 +35,22 @@ Route::get('frontend_register','FrontendRegisterController@showRegisterForm');
 Route::post('frontend_register','FrontendRegisterController@frontendRegister');
 
 
+
+//resolution print
+Route::get('resolution/print','ResolutionController@print_data')->name('resolution.print');
+
+
 Route::group(['middleware' => ['check_society_offer_letter_permission']], function(){
-        //Society Offer Letter
-    Route::post('society_offer_letter/forgot_password','SocietyOfferLetterController@forgot_password')->name('society_offer_letter_forgot_password');
-    Route::get('/society_offer_letter_dashboard', 'SocietyOfferLetterController@dashboard')->name('society_offer_letter_dashboard');
-    Route::get('/offer_letter_application_form_self/{id}', 'SocietyOfferLetterController@show_offer_letter_application_self')->name('offer_letter_application_self');
-    Route::post('/save_offer_letter_application_form_self', 'SocietyOfferLetterController@save_offer_letter_application_self')->name('save_offer_letter_application_self');
-    Route::get('/offer_letter_application_form_dev/{id}', 'SocietyOfferLetterController@show_offer_letter_application_dev')->name('offer_letter_application_dev');
-    Route::post('/save_offer_letter_application_form_dev', 'SocietyOfferLetterController@save_offer_letter_application_dev')->name('save_offer_letter_application_dev');
-    Route::get('documents_upload','SocietyOfferLetterController@displaySocietyDocuments')->name('documents_upload');
-    Route::post('uploaded_documents','SocietyOfferLetterController@uploadSocietyDocuments')->name('uploaded_documents');
-    Route::get('delete_uploaded_documents/{id}','SocietyOfferLetterController@deleteSocietyDocuments')->name('delete_uploaded_documents');
-    Route::post('add_uploaded_documents_comment','SocietyOfferLetterController@addSocietyDocumentsComment')->name('add_documents_comment');
-    Route::get('society_offer_letter_download','SocietyOfferLetterController@displayOfferLetterApplication')->name('society_offer_letter_download');
-    Route::post('upload_society_offer_letter','SocietyOfferLetterController@uploadOfferLetterAfterSign')->name('upload_society_offer_letter');
-    //route for society Application Page
-    Route::get('/application','SocietyOfferLetterController@ViewApplications')->name('society_detail.application');
+       
+});
+
+ Route::get('/application','SocietyOfferLetterController@ViewApplications')->name('society_detail.application');
     Route::get('refresh_captcha','SocietyOfferLetterController@RefreshCaptcha')->name('refresh_captcha');
     Route::post('UserAuthentication','SocietyOfferLetterController@UserAuthentication')->name('society_detail.UserAuthentication');
 
     Route::resource('/society_offer_letter', 'SocietyOfferLetterController');
-    //Society Offer Letter END
-});
+
+
 
 
 
@@ -66,6 +62,11 @@ Route::resource('received_application','DYCEDepartment\DYCEController');
 
 Route::post('loadDepartmentsOfBoardUsingAjax', 'BoardController@loadDepartmentsOfBoardUsingAjax')->name('loadDepartmentsOfBoardUsingAjax');
 
+
+Route::resource('/rti_frontend', 'RtiFrontEndController');
+
+Route::post('rti_frontend/create_application','RtiFrontEndController@saveRtiFrontendForm')->name('rti_frontend_application');
+Route::post('rti_frontend/view_application','RtiFrontEndController@show_rti_application_status')->name('rti_frontend_application_status');
 Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']], function() {
 
     // RTI Routes
@@ -85,13 +86,10 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::post('rti_sent_info/{id}','RtiFormController@send_info')->name('rti_sent_info_data');
     Route::get('rti_forward_application/{id}','RtiFormController@show_forward_application_form')->name('rti_forwarded_application');
     Route::post('rti_forwarded_application/{id}','RtiFormController@forward_application')->name('rti_forwarded_application_data');
-    Route::post('rti_frontend/create_application','RtiFrontEndController@saveRtiFrontendForm')->name('rti_frontend_application');
-    Route::post('rti_frontend/view_application','RtiFrontEndController@show_rti_application_status')->name('rti_frontend_application_status');
-    Route::resource('/rti_frontend', 'RtiFrontEndController');
     // Resolution routes
-
+    
     Route::get('/resolution/delete/{id}', 'ResolutionController@destroy')->name('resolution.delete');
-//resolutions backend
+//resolutions backend   
 //Route::get('/resolution/delete/{id}', 'ResolutionController@destroy')->name('resolution.delete');
     Route::resource('/resolution', 'ResolutionController');
     Route::post('loadDeleteReasonOfResolutionUsingAjax', 'ResolutionController@loadDeleteReasonOfResolutionUsingAjax')->name('loadDeleteReasonOfResolutionUsingAjax');
@@ -134,6 +132,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::get('/lease_detail/create/{id}/{village_id}', 'LeaseDetailController@create')->name("lease_detail.create");
     Route::get('/lease_detail/{id}/{village_id}', 'LeaseDetailController@index')->name("lease_detail.index");
+
     Route::post('/lease_detail/store', 'LeaseDetailController@store')->name("lease_detail.store");
 
     Route::get('/lease_detail/renew-lease/{id}/{village_id}', 'LeaseDetailController@renewLease')->name('renew-lease.renew');
@@ -159,6 +158,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 	Route::get('society_EE_documents/{id}','DYCEDepartment\DYCEController@societyEEDocuments')->name('dyce.society_EE_documents');
 	Route::get('ee_scrutiny_remark/{id}','DYCEDepartment\DYCEController@eeScrutinyRemark')->name('dyce.EE_Scrutiny_Remark');
 
+Route::get('scrutiny_remark/{id}','DYCEDepartment\DYCEController@dyceScrutinyRemark')->name('dyce.scrutiny_remark');
     Route::get('dyce_forward_application/{id}','DYCEDepartment\DYCEController@forwardApplication')->name('dyce.forward_application');
     Route::post('forward_Application_data','DYCEDepartment\DYCEController@sendForwardApplication')->name('dyce.forward_application_data');
 
@@ -181,7 +181,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('society_ee_documents/{id}','CODepartment\COController@societyEEDocuments')->name('co.society_EE_documents');
     Route::get('ee_Scrutiny_Remark/{id}','CODepartment\COController@eeScrutinyRemark')->name('co.EE_Scrutiny_Remark');
 
-    Route::get('dyce_scrutiny_remark/{id}','CODepartment\COController@dyceScrutinyRemark')->name('co.scrutiny_remark');
+    Route::get('scrutiny_remark_dyce/{id}','CODepartment\COController@dyceScrutinyRemark')->name('co.scrutiny_remark');
 
     Route::get('co_forward_application/{id}','CODepartment\COController@forwardApplication')->name('co.forward_application');
 
@@ -195,12 +195,33 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('dyce_scrutiny_remark/{id}','CAPDepartment\CAPController@dyceScrutinyRemark')->name('cap.dyce_Scrutiny_Remark');
 
     Route::get('cap_forward_application/{id}','CAPDepartment\CAPController@forwardApplication')->name('cap.forward_application');
+    Route::get('cap_notes','CAPDepartment\CAPController@displayCAPNote')->name('cap.cap_notes');
     Route::post('cap_save_forward_Application','CAPDepartment\CAPController@sendForwardApplication')->name('cap.forward_application_data');
 
     // Route::post('save_forward_Application','CODepartment\COController@sendForwardApplication')->name('co.forward_application_data');
+
+
+     //Society Offer Letter
+    Route::post('society_offer_letter/forgot_password','SocietyOfferLetterController@forgot_password')->name('society_offer_letter_forgot_password');
+    Route::get('/society_offer_letter_dashboard', 'SocietyOfferLetterController@dashboard')->name('society_offer_letter_dashboard');
+    Route::get('/offer_letter_application_form_self/{id}', 'SocietyOfferLetterController@show_offer_letter_application_self')->name('offer_letter_application_self');
+    Route::post('/save_offer_letter_application_form_self', 'SocietyOfferLetterController@save_offer_letter_application_self')->name('save_offer_letter_application_self');
+    Route::get('/offer_letter_application_form_dev/{id}', 'SocietyOfferLetterController@show_offer_letter_application_dev')->name('offer_letter_application_dev');
+    Route::post('/save_offer_letter_application_form_dev', 'SocietyOfferLetterController@save_offer_letter_application_dev')->name('save_offer_letter_application_dev');
+    Route::get('documents_upload','SocietyOfferLetterController@displaySocietyDocuments')->name('documents_upload');
+    Route::get('documents_uploaded','SocietyOfferLetterController@viewSocietyDocuments')->name('documents_uploaded');
+    Route::post('uploaded_documents','SocietyOfferLetterController@uploadSocietyDocuments')->name('uploaded_documents');
+    Route::get('delete_uploaded_documents/{id}','SocietyOfferLetterController@deleteSocietyDocuments')->name('delete_uploaded_documents');
+    Route::post('add_uploaded_documents_comment','SocietyOfferLetterController@addSocietyDocumentsComment')->name('add_documents_comment');
+    Route::get('society_offer_letter_download','SocietyOfferLetterController@displayOfferLetterApplication')->name('society_offer_letter_download');
+    Route::post('upload_society_offer_letter','SocietyOfferLetterController@uploadOfferLetterAfterSign')->name('upload_society_offer_letter');
+    //route for society Application Page
+   
+    //Society Offer Letter END
+
+
 });
 
-Route::get('scrutiny_remark','DYCEDepartment\DYCEController@dyceScrutinyRemark')->name('dyce.scrutiny_remark');
 
 Route::get('architect_application','ArchitectApplicationController@index')->name('architect_application');
 Route::get('shortlisted_architect_application','ArchitectApplicationController@shortlistedIndex')->name('shortlisted_architect_application');
@@ -222,8 +243,7 @@ Route::get('captcha', function() {
 });
 //Route::get('captcha', 'LoginController@captcha');
 
-//route for society Application Page
-Route::get('/application','SocietyOfferLetterController@ViewApplications')->name('society_detail.application');
+
 
 
 // Frontend -- desgin views - abhiraj

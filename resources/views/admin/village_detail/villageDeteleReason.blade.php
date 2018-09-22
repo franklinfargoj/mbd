@@ -11,7 +11,7 @@
       <div class="modal-body">
             <!-- <p>Some text in the modal.</p> -->
             <div class="mb-0">
-                <label for="remark">Reason:</label>
+                <label for="delete_message">Reason:</label>
                 <textarea name="delete_message" class="form-control form-control--custom" rows="5" id="delete_message" required></textarea>
                 <span class="help-block"></span>
             </div>

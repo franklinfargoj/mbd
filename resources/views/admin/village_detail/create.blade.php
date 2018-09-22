@@ -5,6 +5,7 @@
         <div class="d-flex">
             <h3 class="m-subheader__title">Add Village</h3>
         </div>
+        {{ Breadcrumbs::render('village_create') }}
     </div>
     <!-- END: Subheader -->
     <div class="m-portlet m-portlet--mobile">
@@ -114,7 +115,6 @@
                         </div>
                     </div>
 
-
                     <div class="col-lg-6 form-group">
                         <label class="col-form-label" for="mhada_name">Is 7/12 on MHADA's Name:</label>
                         <div class="m-radio-inline">
@@ -133,10 +133,8 @@
                 <div class="form-group m-form__group row align-items-center">
                     <div class="col-lg-6 form-group">
                         <label class="col-form-label" for="property_card">Property Card:</label>
-                        <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="property_card" name="property_card" class="form-control form-control--custom" class="form-control form-control--custom m-input"  value="{{ old('property_card') }}">
                             <span class="help-block">{{$errors->first('property_card')}}</span>
-                        </div>
                     </div>
 
                     <div class="col-lg-6 form-group">

@@ -12,6 +12,7 @@
  </div>
  <!-- END: Subheader -->           
  <div class="m-content"></div>
+ {{ Breadcrumbs::render('resolution') }}
  <div class="m-portlet m-portlet--mobile">
     <div class="m-portlet__head">
        <div class="m-portlet__head-caption">
@@ -21,7 +22,7 @@
              </h3>
           </div>
        </div>
-       <a class="btn btn-danger" href="{{asset('resolution/create')}}" style="float: right;margin-top: 3%">Add Resolution</a>
+       <a class="btn btn-danger" href="{{route('resolution.create')}}" style="float: right;margin-top: 3%">Add Resolution</a>
     </div>
     <div class="m-portlet__body">
        <!--begin: Search Form -->
@@ -39,13 +40,13 @@
                    <div class="col-md-3">
                       <div class="form-group m-form__group">
                          <label>From Date</label>
-                         <input type="date" class="form-control m-input m-input--solid" placeholder="From Date" name="published_from_date" value="{{ (!empty($getData) ? $getData['title'] : '') }}">
+                         <input type="text" class="form-control form-control--custom m-input m_datepicker" placeholder="From Date" name="published_from_date" value="{{ (!empty($getData) ? $getData['title'] : '') }}">
                       </div>
                    </div>
                    <div class="col-md-3">
                       <div class="form-group m-form__group">
                          <label>To Date</label>
-                         <input type="date" class="form-control m-input m-input--solid" placeholder="From Date" name="published_to_date" value="{{ (!empty($getData) ? $getData['title'] : '') }}">
+                         <input type="text" class="form-control form-control--custom m-input m_datepicker" placeholder="From Date" name="published_to_date" value="{{ (!empty($getData) ? $getData['title'] : '') }}">
                       </div>
                    </div>
                    <div class="col-md-3">
@@ -72,11 +73,19 @@
                    </div>
                    <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
                      <div class="m-form__actions m-form__actions">
+                     <label>&nbsp;</label>
                         <div class="row">
                            <div class="col-lg-6">
                               <button type="submit" class="btn btn-primary">Search</button>
                            </div>
+                           <div class="col-lg-3">
+                              <button type="submit" name="excel" value="excel" class="btn btn-info">Excel</button>
+                           </div>
+                           <div class="col-lg-3">
+                              <a target="_blank" href="{{route('resolution.print',['published_from_date'=>app('request')->input('published_from_date'),'published_to_date'=>app('request')->input('published_to_date'),'resolution_type_id'=>app('request')->input('resolution_type_id'),'board_id'=>app('request')->input('board_id')])}}" class="btn btn-info">Print</a>
+                           </div>
                         </div>
+                        
                      </div>
                   </div>
                 </form>                   

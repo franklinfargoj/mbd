@@ -17,6 +17,7 @@ use App\OlRelocationVerificationDetails;
 use App\OlChecklistScrutiny;
 use App\OlApplicationStatus;
 use App\User;
+use App\Role;
 use Config;
 use Auth;
 use DB;
@@ -131,6 +132,17 @@ class CAPController extends Controller
         $applicationData = $this->CommonController->getForwardApplication($applicationId);
         $arrData['application_status'] = $this->CommonController->getCurrentApplicationStatus($applicationId);
 
+        // VP Forward Application
+
+        $vp_role_id = Role::where('name', '=', config('commanConfig.cap_engineer'))->first();
+        $arrData['get_forward_vp'] = User::where('role_id', $vp_role_id->id)->get();
+        $arrData['vp_role_name'] = strtoupper(str_replace('_', ' ', $vp_role_id->name));
+    
+        // remark and history
+        $this->CommonController->getEEForwardRevertLog($applicationData,$applicationId);
+        $this->CommonController->getDyceForwardRevertLog($applicationData,$applicationId);
+        $this->CommonController->getREEForwardRevertLog($applicationData,$applicationId);
+
         return view('admin.cap_department.forward_application',compact('applicationData', 'arrData'));
     }
 
@@ -138,4 +150,8 @@ class CAPController extends Controller
         $this->CommonController->forwardApplicationForm($request);
         return redirect('/cap');
     }
+
+    public function displayCAPNote(Request $request){
+        return view('admin.cap_department.cap_notes');
+    }    
 }

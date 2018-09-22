@@ -14,6 +14,7 @@ use Yajra\DataTables\DataTables;
 use DB;
 use App\Department;
 use Illuminate\Support\Facades\Storage;
+use Excel;
 
 class ResolutionController extends Controller
 {
@@ -31,6 +32,45 @@ class ResolutionController extends Controller
         $this->list_num_of_records_per_page = Config::get('commanConfig.list_num_of_records_per_page');
     }
     
+
+    public function print_data(Request $request)
+    {
+        $resolutions = Resolution::with(['board','department','resolutionType'])->join('boards', 'resolutions.board_id', '=', 'boards.id')
+            ->join('departments', 'resolutions.department_id', '=', 'departments.id')
+            ->join('resolution_types', 'resolutions.resolution_type_id', '=', 'resolution_types.id');
+            
+            if($request->title)
+            {
+                $resolutions = $resolutions->where('title', 'like', '%'.$request->title.'%');
+            }
+
+            if($request->resolution_type_id)
+            {
+                $resolutions = $resolutions->where('resolution_type_id', $request->resolution_type_id);
+            }
+
+            if($request->board_id)
+            {
+                $resolutions = $resolutions->where('board_id', $request->board_id);
+            }
+        
+            if($request->published_from_date)
+            {
+                $resolutions = $resolutions->whereDate('published_date', '>=', date('Y-m-d', strtotime($request->published_from_date)));
+            }
+
+            if($request->published_to_date)
+            {
+                $resolutions = $resolutions->whereDate('published_date', '<=', date('Y-m-d', strtotime($request->published_to_date)));
+            }
+            
+            $resolutions = $resolutions->selectRaw( DB::raw('resolutions.id as id, boards.board_name, departments.department_name, resolution_types.name as resolutionType, title, resolution_code, published_date, filepath, filename'));
+            $resolutions= $resolutions->get();
+            //dd($resolutions);
+            return view('admin.resolution.print_data',compact('resolutions')); 
+    }
+    
+
     /**
      * Display a listing of the resource.
      *
@@ -43,7 +83,48 @@ class ResolutionController extends Controller
         $boards = Board::where('status', 1)->get()->toArray();
         $resolutionTypes = ResolutionType::all()->toArray();
         $getData = $request->all();
-        // dd($getData);
+        
+        if($request->excel)
+        {
+            $resolutions = Resolution::with(['board','department','resolutionType'])->join('boards', 'resolutions.board_id', '=', 'boards.id')
+            ->join('departments', 'resolutions.department_id', '=', 'departments.id')
+            ->join('resolution_types', 'resolutions.resolution_type_id', '=', 'resolution_types.id');
+            
+            if($request->title)
+            {
+                $resolutions = $resolutions->where('title', 'like', '%'.$request->title.'%');
+            }
+
+            if($request->resolution_type_id)
+            {
+                $resolutions = $resolutions->where('resolution_type_id', $request->resolution_type_id);
+            }
+
+            if($request->board_id)
+            {
+                $resolutions = $resolutions->where('board_id', $request->board_id);
+            }
+        
+            if($request->published_from_date)
+            {
+                $resolutions = $resolutions->whereDate('published_date', '>=', date('Y-m-d', strtotime($request->published_from_date)));
+            }
+
+            if($request->published_to_date)
+            {
+                $resolutions = $resolutions->whereDate('published_date', '<=', date('Y-m-d', strtotime($request->published_to_date)));
+            }
+            
+            $resolutions = $resolutions->selectRaw( DB::raw('resolutions.id as id, boards.board_name, departments.department_name, resolution_types.name as resolutionType, title, resolution_code, published_date, filepath, filename'));
+            $dataList= $resolutions->get();
+            return Excel::create('resolution_'.date('Y_m_d_H_i_s'), function($excel) use($dataList){
+
+                $excel->sheet('mySheet', function($sheet) use($dataList)
+                {
+                    $sheet->fromArray($dataList);
+                });
+            })->download('csv');
+        }
 
         $columns = [
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
@@ -56,7 +137,7 @@ class ResolutionController extends Controller
             ['data' => 'file','name' => 'file','title' => 'File','searchable' => false, 'orderable'=>false],
             ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
         ];
-
+        
         if ($datatables->getRequest()->ajax()) {
             
             
@@ -88,7 +169,7 @@ class ResolutionController extends Controller
             {
                 $resolutions = $resolutions->whereDate('published_date', '<=', date('Y-m-d', strtotime($request->published_to_date)));
             }
-
+            
             $resolutions = $resolutions->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').', resolutions.id as id, board_id, department_id, resolution_type_id, title, resolution_code, published_date, filepath, filename');
             
             return $datatables->of($resolutions)
@@ -155,7 +236,7 @@ class ResolutionController extends Controller
             'description' => $request->description,
             'language' => $request->language,
             'reference_link' => $request->reference_link,
-            'published_date' => $request->published_date,
+            'published_date' => date('Y-m-d',strtotime($request->published_date)),
             'revision_log_message' => $request->revision_log_message
         ];
 
@@ -215,7 +296,7 @@ class ResolutionController extends Controller
         $resolution->description          = $request->description;
         $resolution->language             = $request->language;
         $resolution->reference_link       = $request->reference_link;
-        $resolution->published_date       = $request->published_date;
+        $resolution->published_date       = date('Y-m-d',strtotime($request->published_date));
         $resolution->revision_log_message = $request->revision_log_message;
 
         if ($request->has('file')) {

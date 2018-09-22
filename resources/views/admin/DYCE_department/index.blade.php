@@ -22,26 +22,15 @@
                         <form role="form" id="eeForm" method="get" action="{{ route('dyce.index') }}">
                             <div class="form-group m-form__group row align-items-center">
                                 <div class="col-md-4">
-                                    <label for="exampleSelect1">Search</label>
-                                    <div class="m-input-icon m-input-icon--left">
-                                        <input type="text" class="form-control m-input m-input--solid" placeholder="Search..." id="m_form_search">
-                                        <span class="m-input-icon__icon m-input-icon__icon--left">
-                                         <span>
-                                         <i class="la la-search"></i>
-                                         </span>
-                                         </span>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
                                     <div class="form-group m-form__group">
                                         <label for="office_date_from">From Date</label>
-                                        <input type="date" id="office_date_from" name="office_date_from" class="form-control m-input m-input--solid" placeholder="From Date" value="{{ isset($getData['office_date_from'])? $getData['office_date_from'] : '' }}">
+                                        <input type="text" id="office_date_from" name="office_date_from" class="form-control m-input m-input--solid m_datepicker" placeholder="From Date" value="{{ isset($getData['office_date_from'])? $getData['office_date_from'] : '' }}">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group m-form__group">
                                         <label for="office_date_to">To Date</label>
-                                        <input type="date" id="office_date_to" name="office_date_to" class="form-control m-input m-input--solid" placeholder="From Date" value="{{ isset($getData['office_date_to'])? $getData['office_date_to'] : '' }}">
+                                        <input type="text" id="office_date_to" name="office_date_to" class="form-control m-input m-input--solid m_datepicker" placeholder="From Date" value="{{ isset($getData['office_date_to'])? $getData['office_date_to'] : '' }}">
                                     </div>
                                 </div>
 

@@ -36,7 +36,7 @@ class REEController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request, Datatables $datatables){
-        
+
         $getData = $request->all();
         $columns = [
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
@@ -132,6 +132,10 @@ class REEController extends Controller
     public function forwardApplication(Request $request, $applicationId){
 
         $applicationData = $this->CommonController->getForwardApplication($applicationId);
+
+        $this->CommonController->getEEForwardRevertLog($applicationData,$applicationId);
+        $this->CommonController->getDyceForwardRevertLog($applicationData,$applicationId);
+
         $parentData = $this->CommonController->getForwardApplicationParentData();
         $arrData['parentData'] = $parentData['parentData'];
         $arrData['role_name'] = $parentData['role_name'];
@@ -144,8 +148,8 @@ class REEController extends Controller
         $arrData['get_forward_co'] = User::where('role_id', $co_id->id)->get();
         $arrData['co_role_name'] = strtoupper(str_replace('_', ' ', $co_id->name));
 
-        return view('admin.REE_department.forward_application',compact('applicationData', 'arrData'));
-    }
+        return view('admin.REE_department.forward_application',compact('applicationData','arrData'));  
+    }             
 
     public function sendForwardApplication(Request $request){
 
@@ -154,6 +158,7 @@ class REEController extends Controller
         return redirect('/ree_applications');
 
     }
+
 
     public function documentSubmittedBySociety()
     {

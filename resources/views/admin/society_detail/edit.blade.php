@@ -5,6 +5,7 @@
             <div class="d-flex">
                 <h3 class="m-subheader__title">Edit Society</h3>
             </div>
+            {{ Breadcrumbs::render('society_detail_edit',$id) }}
         </div>
         <!-- END: Subheader -->
         <div class="m-portlet m-portlet--mobile">

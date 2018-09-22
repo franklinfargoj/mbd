@@ -33,7 +33,8 @@ class COController extends Controller
 
     public function index(Request $request, Datatables $datatables){
 		
-		$getData = $request->all();
+
+        $getData = $request->all();
         $columns = [
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'application_no','name' => 'application_no','title' => 'Application Number'],
@@ -132,12 +133,16 @@ class COController extends Controller
         $applicationData = $this->CommonController->getForwardApplication($applicationId);
         $arrData['application_status'] = $this->CommonController->getCurrentApplicationStatus($applicationId);
 
-
         // CAP Forward Application
 
         $cap_role_id = Role::where('name', '=', config('commanConfig.cap_engineer'))->first();
         $arrData['get_forward_cap'] = User::where('role_id', $cap_role_id->id)->get();
         $arrData['cap_role_name'] = strtoupper(str_replace('_', ' ', $cap_role_id->name));
+
+        // remark and history
+        $this->CommonController->getEEForwardRevertLog($applicationData,$applicationId);
+        $this->CommonController->getDyceForwardRevertLog($applicationData,$applicationId);
+        $this->CommonController->getREEForwardRevertLog($applicationData,$applicationId);    
         return view('admin.co_department.forward_application',compact('applicationData', 'arrData'));
     }
 
