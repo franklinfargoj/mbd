@@ -12,6 +12,7 @@
         <form id="forwardCase" role="form" method="post" class="m-form m-form--rows m-form--label-align-right" action="{{route('forward_case.store')}}">
             @csrf
             <input type="hidden" name="hearing_id" value="{{ $arrData['hearing']->id }}">
+            <input type="hidden" name="role_id" id="role_id">
             <div class="m-portlet__body m-portlet__body--spaced">
 
                 <div class="m-portlet__head px-0">
@@ -57,7 +58,7 @@
                     </div>
                 </div>
 
-                <div class="form-group m-form__group row">
+                {{--<div class="form-group m-form__group row">
                     <div class="col-lg-6 form-group">
                         <label class="col-form-label">Board:</label>
                         <input type="text" class="form-control form-control--custom m-input" value="{{ $arrData['hearing']->hearingBoard->board_name }}"
@@ -71,7 +72,7 @@
                             readonly>
                         <span class="help-block"></span>
                     </div>
-                </div>
+                </div>--}}
 
                 <div class="m-portlet__head px-0 m-portlet__head--top">
                     <div class="m-portlet__head-caption">
@@ -89,7 +90,7 @@
                 <div class="form-group m-form__group row">
                     <div class="col-lg-6 form-group">
                         <label class="col-form-label" for="board">Board:</label>
-                        <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="board_id"
+                        <select class="form-control form-control--custom m-input" id="board_id"
                             name="board">
                             <option value="">Select Board</option>
                             @foreach($arrData['board'] as $boardVal)
@@ -102,7 +103,7 @@
 
                     <div class="col-lg-6 form-group">
                         <label class="col-form-label" for="department">Department:</label>
-                        <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="department_id"
+                        <select class="form-control form-control--custom m-input" id="department_id"
                             name="department">
                             <option value="">Select Department</option>
                         </select>
@@ -111,6 +112,16 @@
                 </div>
 
                 <div class="form-group m-form__group row">
+
+                    <div class="col-lg-6 form-group">
+                        <label class="col-form-label" for="user">User:</label>
+                        <select class="form-control form-control--custom m-input" id="user"
+                            name="user">
+                            <option value="">Select User</option>
+                        </select>
+                        <span class="help-block">{{$errors->first('user')}}</span>
+                    </div>
+
                     <div class="col-lg-6 form-group">
                         <label class="col-form-label" for="description">Description:</label>
                         <textarea id="description" name="description" class="form-control form-control--custom form-control--fixed-height m-input">{{ old('description') }}</textarea>
@@ -154,11 +165,37 @@
                 data:{
                     board_id:board_id
                 },
-                url:"{{ route('loadDepartmentsOfBoardUsingAjax') }}",
+                url:"{{ route('loadDepartmentsOfBoardForHearing') }}",
                 success:function(res){
                     $('#department_id').html(res);
                 }
             });
         }
+
+        $("#department_id").change(function () {
+            var department_name = $("#department_id option:selected").html();
+            var board_id = $("#board_id option:selected").val();
+
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type:"POST",
+                data:{
+                    department_name:department_name,
+                    board_id: board_id
+                },
+                url:"{{ route('getDepartmentUser') }}",
+                success:function(res){
+                    $('#user').html(res);
+                }
+            });
+        });
+
+        $("#forwardCase").on("submit", function () {
+            var id = $("#user").find('option:selected').attr("data-role");
+
+            $("#role_id").val(id);
+        });
     </script>
 @endsection

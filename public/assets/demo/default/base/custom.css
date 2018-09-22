@@ -835,14 +835,6 @@
     width: 100%;
 }
 
-.custom-file-label {
-    cursor: pointer;
-    border: 1px solid #ced4da;
-    -webkit-border-radius: 0.25rem;
-            border-radius: 0.25rem;
-    width: 100%;
-}
-
 .custom-file-label,
 .custom-file-label::after {
     position: absolute;
@@ -852,6 +844,18 @@
     padding: 0.375rem 0.75rem;
     line-height: 1.5;
     color: #495057;
+}
+
+.custom-file-label {
+    cursor: pointer;
+    border: 1px solid #ced4da;
+    -webkit-border-radius: 0.25rem;
+    border-radius: 0.25rem;
+    width: 100%;
+    padding-right: 80px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .custom-file-label:after {

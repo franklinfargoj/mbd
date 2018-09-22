@@ -31,4 +31,21 @@ return [
     ],
     'ee_junior_engineer' => 'ee_junior_engineer',
     'society_offer_letter' => 4,
+
+    // Hearing Statuses
+
+    'joint_co' => 'Joint CO',
+    'co' => 'Co',
+
+    'joint_co_pa' => 'Joint CO PA',
+    'co_pa' => 'Co PA',
+    'hearingStatus' => [
+        'pending' => 1,
+        'scheduled_meeting' => 2,
+        'case_under_judgement' => 3,
+        'forwarded' => 4,
+        'notice_send' => 5,
+        'case_close' => 6,
+    ],
+
 ];

@@ -47,6 +47,18 @@
                             <span class="help-block">{{$errors->first('description')}}</span>
                         </div>
                     </div>
+
+                    <div class="col-lg-6 form-group">
+                        <div class="m-checkbox-list">
+
+                            <label class="m-checkbox m-checkbox--primary">
+                                <input type="checkbox" name="close_case" value="1"> Close case
+                                <span></span>
+                            </label>
+                        </div>
+                    </div>
+
+
                 </div>
 
             </div>

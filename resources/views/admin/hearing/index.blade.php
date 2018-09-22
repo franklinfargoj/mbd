@@ -17,9 +17,11 @@
                     </h3>
                 </div>
             </div>
-            <div class="text-right">
-                <a class="btn btn-primary" href="{{route('hearing.create')}}">Add Hearing</a>
-            </div>
+            @if(in_array('hearing.create', session()->get('permission')))
+                <div class="text-right">
+                    <a class="btn btn-primary" href="{{route('hearing.create')}}">Add Hearing</a>
+                </div>
+            @endif
         </div>
         @if(Session::has('success'))
             <div class="alert alert-success fade in alert-dismissible show" style="margin-top:18px;">
@@ -33,7 +35,7 @@
             <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
                 <div class="row align-items-center">
                     <div class="col-xl-8">
-                        <form role="form" method="get" action="{{ route('hearing.index') }}">
+                        <form role="form" id="hearingForm" method="get" action="{{ route('hearing.index') }}">
                             <div class="form-group m-form__group row align-items-center">
                                 {{--<div class="col-md-4">
                                     <label for="exampleSelect1">Search</label>
@@ -58,13 +60,18 @@
                                         <input type="text" id="office_date_to" name="office_date_to" class="form-control form-control--custom m-input m_datepicker" placeholder="To Date" value="{{ isset($getData['office_date_to'])? $getData['office_date_to'] : '' }}">
                                     </div>
                                 </div>
+
+                                @php
+                                    $status = isset($getData['hearing_status_id'])? $getData['hearing_status_id'] : '';
+                                @endphp
+
                                 <div class="col-md-4">
                                     <div class="form-group m-form__group">
                                         <label for="office_date_to">Status</label>
                                         <select class="form-control m-input" id="hearing_status_id" name="hearing_status_id">
                                             <option value="">All</option>
-                                            @foreach($hearing_status as $status)
-                                                <option value="{{ $status->id }}">{{ $status->status_title}}</option>
+                                            @foreach(config('commanConfig.hearingStatus') as $key => $hearing_status)
+                                                <option value="{{ $hearing_status }}" {{ ($status == $hearing_status) ? 'selected' : '' }}>{{ ucwords(str_replace('_', ' ', $key)) }}</option>
                                             @endforeach
                                         </select>
 
@@ -145,6 +152,12 @@
                 });
             });
         });
+    </script>
+
+    <script>
+    $("#hearing_status_id").on("change", function () {
+        $("#hearingForm").submit();
+    });
     </script>
 @endsection
 

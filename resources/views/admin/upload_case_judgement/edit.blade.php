@@ -34,10 +34,12 @@
                 <div class="form-group m-form__group row">
                     <div class="col-lg-6 form-group">
                         <label class="col-form-label" for="upload_judgement_case">Case Template:</label>
-                        <input type="file" id="upload_judgement_case" name="upload_judgement_case" class="custom-file-input" style="display: none">
-                        <div>{{$arrData['hearing_data']->hearingUploadCaseJudgement[0]->judgement_case_filename }}</div>
-                        <input type="hidden" name="upload_case" value="{{ $arrData['hearing_data']->hearingUploadCaseJudgement[0]->upload_judgement_case }}">
-                        <input type="hidden" name="judgement_case_filename" value="{{ $arrData['hearing_data']->hearingUploadCaseJudgement[0]->judgement_case_filename }}">
+                        <div class="custom-file">
+                            <input type="file" id="upload_judgement_case" name="upload_judgement_case" class="custom-file-input" style="display: none">
+                            <label title="{{$arrData['hearing_data']->hearingUploadCaseJudgement[0]->judgement_case_filename }}" class="custom-file-label" for="upload_judgement_case">{{$arrData['hearing_data']->hearingUploadCaseJudgement[0]->judgement_case_filename }}</label>
+                            <input type="hidden" name="upload_case" value="{{ $arrData['hearing_data']->hearingUploadCaseJudgement[0]->upload_judgement_case }}">
+                            <input type="hidden" name="judgement_case_filename" value="{{ $arrData['hearing_data']->hearingUploadCaseJudgement[0]->judgement_case_filename }}">
+                        </div>
                         <span class="help-block">{{$errors->first('upload_judgement_case')}}</span>
                     </div>
 

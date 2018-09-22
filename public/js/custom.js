@@ -195,7 +195,10 @@ $(document).ready(function() {
 
     $("#createHearingSchedule").validate({
         rules: {
-            preceding_number: "required",
+            preceding_number: {
+                required: true,
+                number:true
+            },
             preceding_date: "required",
             preceding_time: "required",
             description: "required",

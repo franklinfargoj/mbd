@@ -57,7 +57,7 @@
                     </div>
                 </div>
 
-                <div class="form-group m-form__group row">
+                {{--<div class="form-group m-form__group row">
                     <div class="col-lg-6 form-group">
                         <label class="col-form-label">Board:</label>
                         <input type="text" class="form-control m-input" value="{{ $arrData['hearing']->hearingBoard->board_name }}"
@@ -71,7 +71,7 @@
                             readonly>
                         <span class="help-block"></span>
                     </div>
-                </div>
+                </div>--}}
 
                 <div class="m-portlet__head px-0 m-portlet__head--top">
                     <div class="m-portlet__head-caption">

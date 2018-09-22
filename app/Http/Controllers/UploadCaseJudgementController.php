@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Hearing;
+use App\HearingStatusLog;
 use App\UploadCaseJudgement;
+use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use File;
+use Illuminate\Support\Facades\Auth;
 use Storage;
 
 class UploadCaseJudgementController extends Controller
@@ -72,6 +76,34 @@ class UploadCaseJudgementController extends Controller
 
         }
         UploadCaseJudgement::create($data);
+
+        $parent_role_id = User::where('role_id', session()->get('parent'))->first();
+
+        $hearing_status_log = [
+            [
+                'hearing_id' => $request->hearing_id,
+                'user_id' => Auth::user()->id,
+                'role_id' => session()->get('role_id'),
+                'hearing_status_id' => ($request->close_case == 1) ? config('commanConfig.hearingStatus.case_close') : config('commanConfig.hearingStatus.case_under_judgement'),
+                'to_user_id' => NULL,
+                'to_role_id' => NULL,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ],
+
+            [
+                'hearing_id' => $request->hearing_id,
+                'user_id' => $parent_role_id->id,
+                'role_id' => session()->get('parent'),
+                'hearing_status_id' => ($request->close_case == 1) ? config('commanConfig.hearingStatus.case_close') : config('commanConfig.hearingStatus.case_under_judgement'),
+                'to_user_id' => NULL,
+                'to_role_id' => NULL,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ]
+        ];
+
+        HearingStatusLog::insert($hearing_status_log);
 //
         return redirect('/hearing')->with('success','Case Judgement document uploaded successfully');
     }
@@ -141,6 +173,34 @@ class UploadCaseJudgementController extends Controller
         }
 
         UploadCaseJudgement::create($data);
+
+        $parent_role_id = User::where('role_id', session()->get('parent'))->first();
+
+        $hearing_status_log = [
+            [
+                'hearing_id' => $request->hearing_id,
+                'user_id' => Auth::user()->id,
+                'role_id' => session()->get('role_id'),
+                'hearing_status_id' => config('commanConfig.hearingStatus.case_under_judgement'),
+                'to_user_id' => NULL,
+                'to_role_id' => NULL,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ],
+
+            [
+                'hearing_id' => $request->hearing_id,
+                'user_id' => $parent_role_id->id,
+                'role_id' => session()->get('parent'),
+                'hearing_status_id' => config('commanConfig.hearingStatus.case_under_judgement'),
+                'to_user_id' => NULL,
+                'to_role_id' => NULL,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ]
+        ];
+
+        HearingStatusLog::insert($hearing_status_log);
 //
         return redirect('/hearing')->with('success','Case Judgement document uploaded successfully');
     }
