@@ -93,9 +93,10 @@ class SocietyOfferLetterController extends Controller
             // dd($society_offer_letter_users);
             $last_inserted_id = User::create($society_offer_letter_users);
             // dd($last_inserted_id->id);
+            $id = Roles::where('name', config('commanConfig.society_offer_letter'))->first();
             $role_user = array(
                 'user_id'    => $last_inserted_id->id,
-                'role_id'    => config('commanConfig.society_offer_letter'),
+                'role_id'    => $id->id,
                 'start_date' => \Carbon\Carbon::now(),
                 'end_date' => ''
             );
@@ -235,11 +236,6 @@ class SocietyOfferLetterController extends Controller
      */
     public function dashboard(DataTables $datatables, Request $request)
     {   
-        /*$society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
-        $ol_applications = OlApplication::where('society_id', $society_details->id)->with(['ol_application_master','olApplicationStatus' => function($q){
-                $q->where('society_flag', '1')->orderBy('id', 'desc');
-            } ])->get()->toArray();
-            dd($ol_applications);*/
         $columns = [
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'application_no','name' => 'application_no','title' => 'Application No.'],
@@ -280,14 +276,10 @@ class SocietyOfferLetterController extends Controller
                     return $ol_applications->created_at;
                 })
                 ->editColumn('status', function ($ol_applications) {
-
-                    return $ol_applications->olApplicationStatus[0]->status_id;
-                    // dd(array_keys(config('commanConfig.applicationStatus'), $ol_applications->olApplicationStatus[0]->status_id));
-                    // $status = explode('_', array_keys(config('commanConfig.applicationStatus'), $ol_applications->olApplicationStatus[0]->status_id[0]));
-                    // // dd($status);
-                    // $status_display = '';
-                    // foreach($status as $status_value){ $status_display .= ucwords($status_value). ' ';}
-                    // return $ol_applications->olApplicationStatus;
+                    $status = explode('_', array_keys(config('commanConfig.applicationStatus'), $ol_applications->olApplicationStatus[0]->status_id)[0]);
+                    $status_display = '';
+                    foreach($status as $status_value){ $status_display .= ucwords($status_value). ' ';}
+                    return $status_display;
                 })
                 ->editColumn('actions', function ($ol_applications) {
                     return $ol_applications->created_at;
@@ -379,7 +371,7 @@ class SocietyOfferLetterController extends Controller
                 $insert_application_log_forward_to[$key]['updated_at'] = date('Y-m-d');
 
                 $insert_application_log_in_process[$key]['application_id'] = $last_id->id;
-                $insert_application_log_forward_to[$key]['society_flag'] = 0;
+                $insert_application_log_in_process[$key]['society_flag'] = 0;
                 $insert_application_log_in_process[$key]['user_id'] = $user->id;
                 $insert_application_log_in_process[$key]['role_id'] = $user->role_id;
                 $insert_application_log_in_process[$key]['status_id'] = config('commanConfig.applicationStatus.in_process');
@@ -391,7 +383,7 @@ class SocietyOfferLetterController extends Controller
                 $i++;
             }
         }
-
+        // dd(array_merge($insert_application_log_forward_to, $insert_application_log_in_process));
         OlApplicationStatus::insert(array_merge($insert_application_log_forward_to, $insert_application_log_in_process));
         $last_society_flag_id = OlApplicationStatus::where('society_flag', '1')->orderBy('id', 'desc')->first();
         $id = OlApplicationStatus::find($last_society_flag_id->id);
