@@ -192,7 +192,7 @@
                 <div class="col-lg-6 form-group extract_upload" style="display: none">
                     <label class="col-form-label" for="extract">7/12 Extract:</label>
                     <div class="custom-file">
-                        <div class="d-flex justify-content-center">
+                        <div class="d-flex">
                             <div class="text-truncate text-primary">{{ $arrData['village_data']['extract_file_name'] }}</div>
                             <img style="cursor:pointer;" download class="download-icon-pdf" src="{{ asset('/img/down-arrow.svg') }}">
                         </div>
