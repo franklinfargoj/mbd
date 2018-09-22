@@ -17,7 +17,7 @@
     <!--begin::Body-->
     <div class="m-login__body">
         <!--begin::Signin-->
-        <div class="m-login__container m-login__container--sign-in">
+        <div class="m-login__container m-login__container--sign-in m-login__container--rounded-fields">
             <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi">
                 <div class="">
                     <div class="m-login__title text-center">

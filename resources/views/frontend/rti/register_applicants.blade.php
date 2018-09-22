@@ -18,7 +18,7 @@
     @endif
     <div class="m-grid__item m-grid__item--fluid m-login__wrapper rti-app-register-form">
         <div class="m-grid__item m-grid__item--fluid">
-            <div class="m-login__container m-login__container--sign-in">
+            <div class="m-login__container m-login__container--sign-in m-login__container--rounded-fields">
                 <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi">
                     <div class="m-login__signin">
                         <div class="m-login__head">
@@ -84,10 +84,14 @@
                                     <div class="form-group m-form__group">
                                         <label for="" class="col-form-label">The period to which the information relates</label>
                                         <div class="d-flex">
-                                        <input class="form-control form-control--custom m-input m_datepicker" type="text" placeholder="Select a Date" name="info_period_from"
-                                            autocomplete="off">
-                                        <input class="form-control form-control--custom m-input m_datepicker" style="margin-left: 30px;" type="text" placeholder="Select a Date" name="info_period_to"
-                                            autocomplete="off">
+                                            <div class="position-relative flex-grow-1">
+                                                <input class="form-control form-control--custom m-input m_datepicker" type="text" placeholder="Select a Date" name="info_period_from"
+                                                    autocomplete="off">
+                                            </div>
+                                            <div class="position-relative flex-grow-1">
+                                                <input class="form-control form-control--custom m-input m_datepicker" style="margin-left: 30px;" type="text" placeholder="Select a Date" name="info_period_to"
+                                                    autocomplete="off">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

@@ -24,7 +24,7 @@
                                     <p class="sub-title">
                                         @if (session('registered'))
                                         <div class="alert alert-success">
-                                            <center>{{ session('registered') }}</center>
+                                            <div class="text-center">{{ session('registered') }}</div>
                                         </div>
                                         @endif
                                     </p>
@@ -48,15 +48,15 @@
                                             autocomplete="off">
                                     </div>
                                     <div class="form-group m-form__group" style="margin-top: 16px;">
-                                        <span class="captcha-wrapper"> <img id="captcha_img" src="{{URL::to('captcha')}}"></span>
-                                        <div class="d-inline-table align-middle line-height-1">
-                                            <i class="fa fa-refresh" onclick="document.getElementById('captcha_img').src='{{ URL::to('captcha') }}'; return false"
-                                                title="Recapture" aria-hidden="true" style="font-size: 24px;cursor: pointer;"></i>
+                                        <div class="d-flex align-items-center position-relative">
+                                            <span class="captcha-wrapper"> <img id="captcha_img" src="{{URL::to('captcha')}}"></span>
+                                                <i class="fa fa-refresh" onclick="document.getElementById('captcha_img').src='{{ URL::to('captcha') }}'; return false"
+                                                    title="Recapture" aria-hidden="true" style="font-size: 24px;cursor: pointer;"></i>
+                                                <input type="text" id="captcha" class="form-control mt-0 ml-3" name="captcha" placeholder="Captcha">
+                                                @if($errors->has('captcha'))
+                                                <span class="help-block captcha-input-error" style="padding: 16px;color: red;">Invalid Captcha
+                                                </span>
                                         </div>
-                                        <input type="text" id="captcha" class="form-control" name="captcha" placeholder="Enter Captcha">
-                                        @if($errors->has('captcha'))
-                                        <span class="help-block" style="padding: 16px;color: red;">Invalid Captcha
-                                        </span>
                                         @endif
                                     </div>
                                     <div class="d-flex align-items-center justify-content-between m-login__form-action">
