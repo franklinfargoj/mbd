@@ -133,14 +133,8 @@ class REEController extends Controller
 
         $applicationData = $this->CommonController->getForwardApplication($applicationId);
 
-
-        $dyceRole = config('commanConfig.dyce_branch_head');
-        $eeRole   = config('commanConfig.ee_branch_head');
-
-        $applicationData->eeForwardLog =$this->CommonController->getForwardData($applicationId,$eeRole);
-        $applicationData->eeRevertLog = $this->CommonController->getSocietyRevertData($applicationId,$eeRole);
-        $applicationData->dyceForwardLog =$this->CommonController->getForwardData($applicationId,$dyceRole);
-        $applicationData->dyceRevertLog = $this->CommonController->getRevertData($applicationId,$dyceRole);
+        $this->CommonController->getEEForwardRevertLog($applicationData,$applicationId);
+        $this->CommonController->getDyceForwardRevertLog($applicationData,$applicationId);
 
         $parentData = $this->CommonController->getForwardApplicationParentData();
         $arrData['parentData'] = $parentData['parentData'];

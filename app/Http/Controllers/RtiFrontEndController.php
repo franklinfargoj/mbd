@@ -179,11 +179,11 @@ class RtiFrontEndController extends Controller
             if($user_details->users->email == $request->input('email')){
                 return view('frontend.rti.rti_view_application_status', compact('user_details'));
             }else{
-                return back()->withErrors(['email' => ['Invalid email']]);
+                return back()->withErrors(['application_error' => ['Invalid application number or email']]);
             }
         }else
         {
-            return back()->withErrors(['application_no' => ['Invalid application number']]);
+            return back()->withErrors(['application_error' => ['Invalid application number or email']]);
         }
         
     }
