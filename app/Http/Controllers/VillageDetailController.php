@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Storage;
 use Yajra\DataTables\DataTables;
 use Config;
+use Excel;
 
 class VillageDetailController extends Controller
 {
@@ -30,6 +31,30 @@ class VillageDetailController extends Controller
     public function __construct()
     {
         $this->list_num_of_records_per_page = Config::get('commanConfig.list_num_of_records_per_page');
+    }
+
+
+    public function print_data(Request $request)
+    {
+        $village_data = VillageDetail::with(['villageLandSource', 'villageBoard'])
+        ->where('user_id', Auth::user()->id)
+        ->where('role_id', session()->get('role_id'))->join('boards', 'lm_village_detail.board_id', '=', 'boards.id')->join('land_source', 'lm_village_detail.land_source_id', '=', 'land_source.id');
+
+$village_data = $village_data->selectRaw( DB::raw('boards.board_name as board,lm_village_detail.sr_no,lm_village_detail.village_name,land_source.source_name as source,lm_village_detail.land_address
+,lm_village_detail.district
+,lm_village_detail.taluka,
+lm_village_detail.total_area,
+lm_village_detail.possession_date
+,lm_village_detail.remark,
+lm_village_detail.7_12_extract
+,lm_village_detail.7_12_mhada_name,
+lm_village_detail.property_card
+,lm_village_detail.property_card_mhada_name,
+lm_village_detail.land_cost
+,lm_village_detail.extract_file_name,
+lm_village_detail.created_at,
+lm_village_detail.updated_at'))->get();
+            return view('admin.village_detail.print_data',compact('village_data')); 
     }
 
     /**
@@ -51,6 +76,36 @@ class VillageDetailController extends Controller
             ['data' => 'possession_date','name' => 'possession_date','title' => 'Possession Date'],
             ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
         ];
+
+        if($request->excel)
+        {
+            //dd('ok');
+            $village_data = VillageDetail::with(['villageLandSource', 'villageBoard'])
+                                            ->where('user_id', Auth::user()->id)
+                                            ->where('role_id', session()->get('role_id'))->join('boards', 'lm_village_detail.board_id', '=', 'boards.id')->join('land_source', 'lm_village_detail.land_source_id', '=', 'land_source.id');
+            
+            $village_data = $village_data->selectRaw( DB::raw('boards.board_name as board,lm_village_detail.sr_no,lm_village_detail.village_name,land_source.source_name as source,lm_village_detail.land_address
+,lm_village_detail.district
+,lm_village_detail.taluka,
+lm_village_detail.total_area,
+lm_village_detail.possession_date
+,lm_village_detail.remark,
+lm_village_detail.7_12_extract
+,lm_village_detail.7_12_mhada_name,
+lm_village_detail.property_card
+,lm_village_detail.property_card_mhada_name,
+lm_village_detail.land_cost
+,lm_village_detail.extract_file_name,
+lm_village_detail.created_at,
+lm_village_detail.updated_at'))->get();
+            return Excel::create('village_details_'.date('Y_m_d_H_i_s'), function($excel) use($village_data){
+
+                $excel->sheet('mySheet', function($sheet) use($village_data)
+                {
+                    $sheet->fromArray($village_data);
+                });
+            })->download('csv');
+        }
 
         if ($datatables->getRequest()->ajax()) {
 

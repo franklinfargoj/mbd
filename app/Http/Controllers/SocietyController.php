@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Config;
 use DB;
+use Excel;
 
 class SocietyController extends Controller
 {
@@ -24,6 +25,18 @@ class SocietyController extends Controller
     public function __construct()
     {
         $this->list_num_of_records_per_page = Config::get('commanConfig.list_num_of_records_per_page');
+    }
+
+
+    public function print_data($id)
+    {
+        $society_data = SocietyDetail::with('societyVillage')
+            ->join('lm_village_detail', 'lm_village_detail.id', '=', 'lm_society_detail.village_id')
+            ->join('other_land','lm_society_detail.other_land_id', '=', 'other_land.id')
+            ->where('village_id', $id);
+            $society_data = $society_data->selectRaw( DB::raw('lm_society_detail.society_name,lm_society_detail.district,lm_society_detail.taluka,lm_society_detail.village,lm_society_detail.survey_number,lm_society_detail.cts_number,lm_society_detail.chairman,lm_society_detail.society_address,lm_society_detail.area,lm_society_detail.date_on_service_tax,lm_society_detail.surplus_charges,lm_society_detail.surplus_charges_last_date,lm_village_detail.village_name,other_land.land_name'))->get();
+            //dd($society_data);
+            return view('admin.society_detail.print_data',compact('society_data')); 
     }
     /**
      * Display a listing of the resource.
@@ -44,7 +57,21 @@ class SocietyController extends Controller
             ['data' => 'surplus_charges', 'name' => 'surplus_charges', 'title' => 'Surplus Charges'],
             ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
         ];
+        if($request->excel)
+        {
+            $society_data = SocietyDetail::with('societyVillage')
+            ->join('lm_village_detail', 'lm_village_detail.id', '=', 'lm_society_detail.village_id')
+            ->join('other_land','lm_society_detail.other_land_id', '=', 'other_land.id')
+            ->where('village_id', $id);
+            $society_data = $society_data->selectRaw( DB::raw('lm_society_detail.society_name,lm_society_detail.district,lm_society_detail.taluka,lm_society_detail.village,lm_society_detail.survey_number,lm_society_detail.cts_number,lm_society_detail.chairman,lm_society_detail.society_address,lm_society_detail.area,lm_society_detail.date_on_service_tax,lm_society_detail.surplus_charges,lm_society_detail.surplus_charges_last_date,lm_village_detail.village_name,other_land.land_name'))->get();
+            return Excel::create('society_details_'.date('Y_m_d_H_i_s'), function($excel) use($society_data){
 
+                $excel->sheet('mySheet', function($sheet) use($society_data)
+                {
+                    $sheet->fromArray($society_data);
+                });
+            })->download('csv');
+        }
         if ($datatables->getRequest()->ajax()) {
 
             DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));

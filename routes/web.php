@@ -39,6 +39,11 @@ Route::post('frontend_register','FrontendRegisterController@frontendRegister');
 //resolution print
 Route::get('resolution/print','ResolutionController@print_data')->name('resolution.print');
 
+//village details print
+Route::get('village_detail/print','VillageDetailController@print_data')->name('village_detail.print');
+
+//society details print
+Route::get('society_detail/print/{id}','SocietyController@print_data')->name('society_detail.print');
 
 Route::group(['middleware' => ['check_society_offer_letter_permission']], function(){
        
@@ -122,6 +127,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::post('/send_notice_to_appellant/update/{id}', 'SendNoticeToAppellantController@update')->name('send_notice_to_appellant.update');
 
     // Land Manager Routes
+    
     Route::resource('/village_detail', 'VillageDetailController');
     Route::get('/society_detail/{id}', 'SocietyController@index')->name("society_detail.index");
     Route::get('/society_detail/create/{id}', 'SocietyController@create')->name("society_detail.create");
