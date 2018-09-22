@@ -38,10 +38,9 @@
                                     @csrf
 
                                     <div class="form-group row">
-                                        <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail') }}</label>
-                                        <div class="form-group m-form__group">
+                                        <div class="col-sm-12 form-group m-form__group">
                                         <!-- <label for="" class="col-form-label">Email Address</label> -->
-                                        <input class="form-control m-input" type="email" placeholder="Email" name="email"
+                                        <input class="form-control form-control--custom m-input" type="email" placeholder="Email" name="email"
                                             value="{{ old('email') }}" autocomplete="off" value="{{ old('email') }}" required>
                                             @if ($errors->has('email'))
                                                 <span class="invalid-feedback" role="alert">
@@ -51,10 +50,10 @@
                                         </div>
                                     </div>
 
-                                    <div class="">
+                                    <div class="text-center">
 
                                     <button type="submit" class="btn btn-primary m-btn m-btn--pill m-btn--custom m-login__btn m-login__btn--primary">
-                                        {{ __('Send Password Reset Link') }}
+                                        {{ __('Reset Password') }}
                                     </button>
                                     </div>
                                 </form>

@@ -1,18 +1,13 @@
 @extends('admin.layouts.app')
 @section('content')
 <!-- BEGIN: Subheader -->
-  <div class="m-subheader ">
-     <div class="d-flex align-items-center">
-        <div class="mr-auto">
-           <h3 class="m-subheader__title m-subheader__title--separator">Edit Resolution </h3>
-        </div>
-        <div>
-        </div>
+  <div class="m-subheader px-0 m-subheader--top">
+  <div class="d-flex align-items-center">
+        <h3 class="m-subheader__title m-subheader__title--separator">Edit Resolution </h3>
+        {{ Breadcrumbs::render('resolution_edit',$resolution->id) }}
      </div>
   </div>
   <!-- END: Subheader -->           
-  <div class="m-content"></div>
-  {{ Breadcrumbs::render('resolution_edit',$resolution->id) }}
   <div class="m-portlet m-portlet--mobile">
      <div class="m-portlet__head">
         <div class="m-portlet__head-caption">
