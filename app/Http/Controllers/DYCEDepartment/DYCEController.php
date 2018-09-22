@@ -104,11 +104,9 @@ class DYCEController extends Controller
     } 
 
     // function used to DyCE Scrutiny & Remark page
-    public function dyceScrutinyRemark(Request $request){
-
-        $applicationId = 1;   
+    public function dyceScrutinyRemark(Request $request, $applicationId){
+ 
         $applicationData = $this->CommonController->getDyceScrutinyRemark($applicationId);
-        dd($applicationData);
         return view('admin.DYCE_department.scrutiny_remark',compact('applicationData'));
     } 
 
@@ -116,7 +114,6 @@ class DYCEController extends Controller
     public function store(Request $request){
        
         $applicationId = $request->applicationId;
-
         if (isset($request->documentId))
             $removeDocument = olSiteVisitDocuments::where('application_id',$applicationId)->whereNotIn('id',$request->documentId)->delete();
         else
@@ -169,6 +166,7 @@ class DYCEController extends Controller
     public function forwardApplication(Request $request, $applicationId){
 
         $applicationData = $this->CommonController->getForwardApplication($applicationId);
+
         $parentData = $this->CommonController->getForwardApplicationParentData();
         $arrData['parentData'] = $parentData['parentData'];
         $arrData['role_name'] = $parentData['role_name'];
@@ -181,12 +179,8 @@ class DYCEController extends Controller
         $arrData['get_forward_co'] = User::where('role_id', $ree_id->id)->get();
         $arrData['co_role_name'] = strtoupper(str_replace('_', ' ', $ree_id->name));
 
-        //remark and history
-
-        $eeRole   = config('commanConfig.ee_branch_head');
-        $applicationData->eeForwardLog =$this->CommonController->getForwardData($applicationId,$eeRole);
-        $applicationData->eeRevertLog = $this->CommonController->getSocietyRevertData($applicationId,$eeRole);
-
+        $this->CommonController->getEEForwardRevertLog($applicationData,$applicationId);
+        // dd($applicationData);
         return view('admin.DYCE_department.forward_application',compact('applicationData', 'arrData'));
     }
 

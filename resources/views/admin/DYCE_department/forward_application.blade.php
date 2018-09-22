@@ -8,12 +8,12 @@
                 <div class="m-portlet__head-tools">
                     <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom">
                         <li class="nav-item m-tabs__item" data-target="#document-scrunity">
-                            <a class="nav-link m-tabs__link show" data-toggle="tab" href="#scrutiny-history-tab">
+                            <a class="nav-link m-tabs__link active show" data-toggle="tab" href="#scrutiny-history-tab">
                                 <i class="la la-cog"></i> Scrutiny History
                             </a>
                         </li>
                         <li class="nav-item m-tabs__item">
-                            <a class="nav-link m-tabs__link active show" data-toggle="tab" href="#forward-application-tab">
+                            <a class="nav-link m-tabs__link show" data-toggle="tab" href="#forward-application-tab">
                                 <i class="la la-cog"></i> Forward Application
                             </a>
                         </li>
@@ -117,18 +117,20 @@
                                                 <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container"
                                                     data-scrollbar-shown="true" data-scrollable="true" data-max-height="200">
                                                     <div class="remarks-section__data">
-                                                        <p class="remarks-section__data__row"><span>Date:</span><span>{{date("d-m-Y",strtotime($applicationData->eeRevertLog->created_at))}}</span></p>
-                                                        <p class="remarks-section__data__row"><span>Time:</span><span>{{date("H:i",strtotime($applicationData->eeRevertLog->created_at))}}</span></p>
+                                                        <p class="remarks-section__data__row"><span>Date:</span><span>{{(isset($applicationData->eeRevertLog) && $applicationData->eeRevertLog->created_at != '' ? date("d-m-Y", strtotime($applicationData->eeRevertLog->created_at)) : '')}}</span>
+
+                                                        </p>
+                                                        <p class="remarks-section__data__row"><span>Time:</span><span>{{(isset($applicationData->eeRevertLog) && $applicationData->eeRevertLog->created_at != '' ? date("H:i", strtotime($applicationData->eeRevertLog->created_at)) : '')}}</span></p>
                                                         <p class="remarks-section__data__row"><span>Action:</span><span>Sent
                                                                 to Society</span></p>
-                                                        <p class="remarks-section__data__row"><span>Description:</span><span>{{$applicationData->eeRevertLog->remark}}</span></p>
+                                                        <p class="remarks-section__data__row"><span>Description:</span><span>{{(isset($applicationData->eeRevertLog->remark) ? $applicationData->eeRevertLog->remark : '')}}</span></p>
                                                     </div>
 
                                                     <div class="remarks-section__data">
-                                                        <p class="remarks-section__data__row"><span>Date:</span><span>{{date("d-m-Y",strtotime($applicationData->eeForwardLog->created_at))}}</span></p>
-                                                        <p class="remarks-section__data__row"><span>Time:</span><span>{{date("H:i",strtotime($applicationData->eeForwardLog->created_at))}}</span></p>
+                                                        <p class="remarks-section__data__row"><span>Date:</span><span>{{(isset($applicationData->eeForwardLog) && $applicationData->eeForwardLog->created_at != '' ? date("d-m-Y", strtotime($applicationData->eeForwardLog->created_at)) : '')}}</span></p>
+                                                        <p class="remarks-section__data__row"><span>Time:</span><span>{{(isset($applicationData->eeForwardLog) && $applicationData->eeForwardLog->created_at != '' ? date("H:i", strtotime($applicationData->eeForwardLog->created_at)) : '')}}</span></p>
                                                         <p class="remarks-section__data__row"><span>Action:</span><span>Forward  to DyCE</span></p>
-                                                        <p class="remarks-section__data__row"><span>Description:</span><span>{{$applicationData->eeForwardLog->remark}}</span></p>
+                                                        <p class="remarks-section__data__row"><span>Description:</span><span>{{(isset($applicationData->eeForwardLog->remark) ? $applicationData->eeForwardLog->remark : '')}}</span></p>
                                                     </div>
                                                 </div>
                                             </div>

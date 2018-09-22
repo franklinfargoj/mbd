@@ -168,12 +168,13 @@
                             </div>
                             <div class="col-md-12 all_documents">
                                 <?php $i=2;?>
-                                @if(isset($applicationDocuments))
-                                @foreach($applicationDocuments as $documents)
+
+                                @if(isset($applicationData->visitDocuments))
+                                @foreach($applicationData->visitDocuments as $documents)
                                 <div class="d-flex flex-wrap align-items-center mb-5 upload_doc_{{$i}}">
                                     <label class="site-visit-label">Upload supporting files:</label>
-                                    <div class="col-md-12 custom-file width-auto mb-0 position-relative">
-                                        <input type="file" class="file custom-file-input" name="document[]" id="test-upload_{{$i}}">
+                                    <div class="custom-file width-auto mb-0 position-relative">
+                                        <input type="file" class="file custom-file-input upload_file_{{$i}}" name="document[]" id="test-upload_{{$i}}">
                                         <label class="custom-file-label" for="test-upload_{{$i}}">{{explode('/',$documents->document_path)[3]}}</label>
 										<input type="hidden" class="upload_doc_{{$i}}" id="documentId" name="documentId[]"
                                         value="{{$documents->id}}" readonly>
@@ -187,9 +188,7 @@
                                 <div class="d-flex flex-wrap align-items-center mb-5 upload_doc_1">
                                     <label class="site-visit-label">Upload supporting files:</label>
                                     <div class="custom-file width-auto mb-0 position-relative">
-                                        <input type="file" class="file custom-file-input" name="document[]" type="file"
-                                            id="test-upload">
-                                        <!-- <input type="file" class="file" name="documents[]"> -->
+                                        <input type="file" class="file custom-file-input upload_file_1" name="document[]" id="test-upload">
                                         <label class="custom-file-label" for="test-upload">Choose file ...</label>
 										<a class="add_more" onclick="addMoreDocuments(this);">add more</a>
 										<i class="fa fa-close doc close-icon" id="document_1" onclick="removeDocuments(this.id)"></i>
@@ -216,7 +215,6 @@
 						<div class="mt-3">
 							<label for="demarkation_comments">Comments:</label>
 							<textarea id="demarkation_comments" rows="5" cols="30" class="form-control form-control--custom" name="demarkation_comments">{{(isset($applicationData->demarkation_verification_comment) ? $applicationData->demarkation_verification_comment : '')}}</textarea>
-                            <!-- <input type="button" class="s_btn" name="" value="save"> -->
 						</div>
 					</div>
                 </div>
@@ -246,8 +244,6 @@
 									{{(isset($applicationData->demarkation_verification_comment) && $applicationData->is_encrochment == '0' ? 'checked' : '')}}>No
 								<span></span>
 							</label>
-							<!-- <span class="error" id="encrochment_error" style="display:none;color:#f4516c">this feild
-								required</span> -->
 						</div>
 						<div class="mt-3">
 							<label class="e_comments" for="encrochment_comments">If Yes, Comments:</label>
@@ -266,7 +262,7 @@
     </form>
 
     <input type="hidden" name="OfficiersCount" id="OfficiersCount" value="{{(isset($applicationData->SiteVisitorOfficers) ? count($applicationData->SiteVisitorOfficers)+2 : '')}}">
-    <input type="hidden" name="documentCount" id="documentCount" value="{{(isset($applicationDocuments) ? count($applicationDocuments)+2 : '')}}">
+    <input type="hidden" name="documentCount" id="documentCount" value="{{(isset($applicationData->visitDocuments) ? count($applicationData->visitDocuments)+2 : '')}}">
 </div>
 @endsection
 @section('js')
@@ -277,7 +273,7 @@
             officer_name: "required",
             visit_date: "required",
         	encrochment : "required",
-            "document[]" 	: "required",
+            // "document[]" 	: "required",
             "officer_name[]": "required",
         }
     });
@@ -310,10 +306,8 @@
         var id = $("#documentCount").val();
         $(text).css("display", "none");
         $('.doc').css("visibility", "visible");
-        $(".all_documents").append("<div class='col-xs-12 d-flex flex-wrap align-items-center mb-5 upload_doc_'" + id +
-            "'><label class='site-visit-label'>Upload supporting files:</label><div class='custom-file width-auto mb-0 position-relative'><input type='file' class='file custom-file-input' name='document[]' id='test_upload_" +
-            id + "'><label class='custom-file-label' for='test_upload_" + id +
-            "'> Choose file .. </label><i class='fa fa-close doc close-icon' id='document_" + id +
+        $(".all_documents").append("<div class='col-xs-12 d-flex flex-wrap align-items-center mb-5 upload_doc_"+id+"'><label class='site-visit-label'>Upload supporting files:</label><div class='custom-file width-auto mb-0 position-relative'><input type='file' class='file custom-file-input upload_file_"+id+"' name='document[]' id='test_upload_" +
+            id + "'><label class='custom-file-label' for='test_upload_"+id+"'> Choose file .. </label><i class='fa fa-close doc close-icon' id='document_" + id +
             "' onclick='removeDocuments(this.id)'></i><a class='add_more' onclick='addMoreDocuments(this);'>add more </a></div></div>"
         );
         id++;
@@ -323,8 +317,10 @@
 
     function removeDocuments(data) {
         var id = data.substr(9, 2);
-        $(".upload_doc_" + id).css("display", "none");
+        $(".upload_doc_" + id).css("visibility", "hidden");
+        $(".upload_doc_" + id).css("position", "absolute");
         $(".upload_doc_" + id).attr("disabled", "disabled");
+        $(".upload_file_" + id).attr("disabled", "disabled");
     }
 
     $("#submitBtn").click(function () {
