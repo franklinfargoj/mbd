@@ -5,23 +5,26 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-6 overlay overlay--login h-100vh">
-                <div class="d-flex h-100 flex-column align-items-center justify-content-center">
-                    <img class="login-logo" src="{{asset('assets/app/media/img/logos/mhada-logo.png')}}">
+                <div class="d-flex justify-content-center align-items-center login-page-header">
+                    <img class="login-logo" src="{{asset('/img/logo-short.png')}}">
                 </div>
             </div>
-            <div class="col-sm-6">
-                <div class="m-grid__item m-grid__item--fluid m-login__wrapper">
-                    <div class="d-flex h-100 justify-content-center align-items-center">
-                        <div class="m-login__container">
-                            <div class="m-login__signin">
+            <div class="col-sm-6 min-height-100vh">
+                <div class="m-grid__item m-grid__item--fluid m-login__wrapper d-flex flex-wrap justify-content-center">
+                    <div class="d-flex flex-wrap">
+                        <div class="text-center w-100 m-login--left-box">
+                            <h4 class="text-uppercase">MHADA Digitization</h4>
+                        </div>
+                        <div class="m-login__container m-login--right-box">
+                            <div class="m-login__signin m-login__signin--box">
                                 <div class="m-login__head">
                                     <h1 class="m-login__title mb-0 display-4">
-                                        MHADA Digitization
+                                        Sign In
                                     </h1>
                                     <p class="sub-title">
                                         @if (session('registered'))
                                         <div class="alert alert-success">
-                                            <center>{{ session('registered') }}</center>
+                                            <div class="text-center">{{ session('registered') }}</div>
                                         </div>
                                         @endif
                                     </p>
@@ -49,30 +52,32 @@
                                             autocomplete="off">
                                     </div>
                                     <div class="form-group m-form__group" style="margin-top: 16px;">
-                                        {{--<span class="captcha_img" style="padding: 19px;"> {!! captcha_img() !!}</span>--}}
-                                        <span style="padding: 19px;"> <img id="captcha_img" src="{{URL::to('captcha')}}"></span>
-                                        {{--<i class="fa fa-refresh btn_refresh" title="Recapture" aria-hidden="true" style="font-size: 24px;cursor: pointer;"></i>--}}
-                                        <div class="d-inline-table align-middle line-height-1">
-                                            <i class="fa fa-refresh" onclick="document.getElementById('captcha_img').src='{{ URL::to('captcha') }}'; return false"
-                                                title="Recapture" aria-hidden="true" style="font-size: 24px;cursor: pointer;"></i>
-                                        </div>
+                                        <div class="d-flex align-items-center position-relative">
+                                            {{--<span class="captcha_img" style="padding: 19px;"> {!! captcha_img() !!}</span>--}}
+                                            <span class="captcha-wrapper"> <img id="captcha_img" src="{{URL::to('captcha')}}"></span>
+                                            {{--<i class="fa fa-refresh btn_refresh" title="Recapture" aria-hidden="true" style="font-size: 24px;cursor: pointer;"></i>--}}
+                                                <i class="fa fa-refresh" onclick="document.getElementById('captcha_img').src='{{ URL::to('captcha') }}'; return false"
+                                                    title="Recapture" aria-hidden="true" style="font-size: 24px;cursor: pointer;"></i>
 
-                                        <input type="text" id="capture_text" class="form-control" name="captcha" placeholder="Enter Capture">
-                                        @if($errors->has('capture_text'))
-                                        <span class="help-block" style="padding: 16px;color: red;">Invalid capture </span>
+                                            <input type="text" id="capture_text" class="form-control mt-0 ml-3" name="captcha" placeholder="Captcha">
+                                            @if($errors->has('capture_text'))
+                                            <span class="help-block captcha-input-error" style="color: red;">Invalid captcha</span>
+                                        </div>
                                         @endif
                                     </div>
-                                    <div class="row m-login__form-sub">
-                                        <div class="col m--align-right m-login__form-right">
-                                            <a href="javascript:;" id="m_login_forget_password" class="m-link">
-                                                Forget Password ?
-                                            </a>
+                                    <div class="d-flex align-items-center justify-content-between m-login__form-action">
+                                        <div class="m-login__form-sub">
+                                            <div class="m--align-right m-login__form-right">
+                                                <a href="javascript:;" id="m_login_forget_password" class="m-link">
+                                                    Forget Password ?
+                                                </a>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="m-login__form-action mt-4 mb-4">
-                                        <button id="m_login_signin_submit" class="btn btn-primary m-btn m-btn--pill m-btn--custom m-login__btn m-login__btn--primary">
-                                            Sign In
-                                        </button>
+                                        <div class="">
+                                            <button id="m_login_signin_submit" class="btn btn-primary m-btn m-btn--pill m-btn--custom m-login__btn m-login__btn--primary">
+                                                Sign In
+                                            </button>
+                                        </div>
                                     </div>
                                 </form>
                             </div>
