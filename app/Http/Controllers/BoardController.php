@@ -171,14 +171,17 @@ class BoardController extends Controller
     {
         $logged_in_role_name = session()->get('role_name');
 
-        if($logged_in_role_name == config('commanConfig.joint_co_pa'))
+        if($logged_in_role_name == config('commanConfig.joint_co_pa') || $logged_in_role_name == config('commanConfig.joint_co'))
         {
+//            $role = Role::where('name', config('commanConfig.co'))->get()->toArray();
             $role_name = config('commanConfig.co');
         }
-        else
+        if($logged_in_role_name == config('commanConfig.co_pa') || $logged_in_role_name == config('commanConfig.co'))
         {
+//            $role = Role::where('name', config('commanConfig.joint_co'))->get()->toArray();
             $role_name = config('commanConfig.joint_co');
         }
+//        dd($role);
 
         $department_id = Department::where('department_name', $role_name)->get(['id']);
 
@@ -202,13 +205,14 @@ class BoardController extends Controller
     {
         $logged_in_role_name = session()->get('role_name');
 
-        if($logged_in_role_name == config('commanConfig.co_pa'))
-        {
-            $role_name = config('commanConfig.co_pa');
-        }
-        else
+        if($logged_in_role_name == config('commanConfig.co_pa') || $logged_in_role_name == config('commanConfig.co'))
         {
             $role_name = config('commanConfig.joint_co_pa');
+        }
+
+        if($logged_in_role_name == config('commanConfig.joint_co_pa') || $logged_in_role_name == config('commanConfig.joint_co'))
+        {
+            $role_name = config('commanConfig.co_pa');
         }
 
         $role_id = Role::where('name', $role_name)->first();

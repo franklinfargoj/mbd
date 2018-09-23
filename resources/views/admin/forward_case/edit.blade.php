@@ -3,7 +3,7 @@
 <div class="col-md-12">
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex">
-            <h3 class="m-subheader__title">Upload Case Judgement</h3>
+            <h3 class="m-subheader__title">Forward Case</h3>
         </div>
     </div>
     <!-- END: Subheader -->
