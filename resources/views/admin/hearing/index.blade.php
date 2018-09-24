@@ -74,7 +74,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group m-form__group">
                                         <label for="office_date_to">Status</label>
-                                        <select class="form-control m-input" id="hearing_status_id" name="hearing_status_id">
+                                        <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="hearing_status_id" name="hearing_status_id">
                                             <option value="">All</option>
                                             @foreach(config('commanConfig.hearingStatus') as $key => $hearing_status)
                                                 <option value="{{ $hearing_status }}" {{ ($status == $hearing_status) ? 'selected' : '' }}>{{ ucwords(str_replace('_', ' ', $key)) }}</option>

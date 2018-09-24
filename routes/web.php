@@ -276,4 +276,5 @@ Route::get('captcha', function() {
 Route::get('calculation-sheet', 'ReeCalculationSheet@CalculationSheet');
 Route::get('scrutiny-remarks', 'EeScrunityRemarks@ScrunityRemarks');
 Route::get('forward-application', 'EeForwardApplication@ForwardApplication');
+Route::get('offer-letter-doc', 'OfferLetterController@OfferLetterDoc');
 

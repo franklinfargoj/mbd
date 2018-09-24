@@ -10,7 +10,7 @@
                 </div>
             </div>
             <div class="col-sm-6 min-height-100vh">
-                <div class="m-grid__item m-grid__item--fluid m-login__wrapper d-flex flex-wrap justify-content-center">
+                <div class="m-grid__item m-grid__item--fluid m-login__wrapper">
                     <div class="d-flex flex-wrap">
                         <div class="text-center w-100 m-login--left-box">
                             <h4 class="text-uppercase">Mumbai Housing and Area Development Board</h4>
