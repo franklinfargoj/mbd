@@ -82,8 +82,13 @@ class ResolutionController extends Controller
         $header_data = $this->header_data;
         $boards = Board::where('status', 1)->get()->toArray();
         $resolutionTypes = ResolutionType::all()->toArray();
-        $getData = $request->all();
         
+        
+        if($request->reset)
+        {
+            return redirect()->route('resolution.index');
+        }
+
         if($request->excel)
         {
             $resolutions = Resolution::with(['board','department','resolutionType'])->join('boards', 'resolutions.board_id', '=', 'boards.id')

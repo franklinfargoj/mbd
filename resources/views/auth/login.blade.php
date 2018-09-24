@@ -46,7 +46,7 @@
                                         <!-- <label for="" class="col-form-label">Password</label> -->
                                         <input class="form-control m-input" type="password" placeholder="Password" name="password"
                                             autocomplete="off" id="password-field">
-                                            <span toggle="#password-field" class="fa fa-fw fa-eye hide-show-pwd toggle-password"></span>
+                                            <!-- <span toggle="#password-field" class="fa fa-fw fa-eye hide-show-pwd toggle-password"></span> -->
                                     </div>
                                     <div class="form-group m-form__group" style="margin-top: 16px;">
                                         <div class="d-flex align-items-center position-relative">
