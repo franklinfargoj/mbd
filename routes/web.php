@@ -192,7 +192,10 @@ Route::get('scrutiny_remark/{id}','DYCEDepartment\DYCEController@dyceScrutinyRem
     Route::get('download_cap_note/{id}','REEDepartment\REEController@downloadCapNote')->name('ree.download_cap_note');
     Route::post('ree_forward_Application_data','REEDepartment\REEController@sendForwardApplication')->name('ree.forward_application_data');
 
+
+
     Route::resource('/ol_calculation_sheet', 'REEDepartment\OlApplicationCalculationSheetDetailsController');
+    Route::post('ol_calculation_sheet/save_details','REEDepartment\OlApplicationCalculationSheetDetailsController@saveCalculationDetails')->name('save_calculation_details');
 
     // CO department route 
     Route::resource('co','CODepartment\COController');
