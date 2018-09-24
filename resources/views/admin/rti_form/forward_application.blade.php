@@ -73,7 +73,7 @@
                                         <div class="d-flex @if($errors->has('rti_remarks')) has-error @endif">
                                             <label class="col-form-label field-name">Remarks:</label>
                                             <textarea name="rti_remarks" id="rti_remarks" class="form-control form-control--custom form-control--textarea m-input">{{ old('rti_remarks', ($rti_applicant->rti_forward_application!=""?$rti_applicant->rti_forward_application->remarks:"") ) }}</textarea>
-                                            <span class="help-block">{{$errors->first('rti_remarks')}}</span>
+                                            <span class="text-danger">{{$errors->first('rti_remarks')}}</span>
                                         </div>
                                     </div>
                                 </div>

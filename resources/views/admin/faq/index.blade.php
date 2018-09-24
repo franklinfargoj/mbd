@@ -41,12 +41,17 @@
     <!-- BEGIN SAMPLE TABLE PORTLET-->
     <div class="portlet box purple">
       <div class="portlet-title">
-        <!-- <div class="caption">
+         <div class="caption">
           <i class="fa fa-cogs"></i>FAQ Listing </div>
+          <div class="btn-list text-right mb-4">
+                <a href="{{route('faq.index',['excel'=>'excel'])}}" name="excel" value="excel" class="btn btn-info">Excel</button>
+                <a target="_blank" href="{{route('faq.print_data')}}"
+                    class="btn btn-info">Print</a>
+            </div>
           <div class="tools1 pull-right">
             <a href="{{route('faq.create')}}" role="button" style="margin-top: 5px;" class="btn btn-default">Add FAQ </a>
           </div>
-        </div> -->
+        </div> 
         <div class="portlet-body">
           <div class="table-responsive">
             <table class="table table-striped table-bordered table-hover datatable mdl-data-table dataTable">

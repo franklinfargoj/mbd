@@ -32,9 +32,17 @@
                         <div class="col-sm-6 field-col">
                             <div class="d-flex">
                                 <span class="field-name">Download Application Form:</span>
-                                <span class="field-value">{{ $rti_applicant->applicant_name }}</span>
+                                <span class="field-value"><a target="_blank" href="{{route('download_applicant_form',['id'=>$rti_applicant->id])}}" class="btn btn-primary">Download</a></span>
                             </div>
-                        </div>                        
+                        </div> 
+                        @if($rti_applicant->poverty_line_proof!="")
+                        <div class="col-sm-6 field-col">
+                            <div class="d-flex">
+                                <span class="field-name">applicant is below poverty line:</span>
+                                <span class="field-value"><a target="_blank" href="{{asset('uploads/poverty_files/'.$rti_applicant->poverty_line_proof)}}">{{$rti_applicant->poverty_line_proof}}</a></span>
+                            </div>
+                        </div>    
+                        @endif                   
                     </div>
                 </div>
                 <div class="m-subheader">
@@ -47,7 +55,7 @@
                         <div class="col-sm-6 field-col">
                             <div class="d-flex">
                                 <span class="field-name">Mobile Number:</span>
-                                <span class="field-value">{{ $rti_applicant->users->name }}</span>
+                                <span class="field-value">{{ $rti_applicant->users->mobile_no }}</span>
                             </div>
                         </div>
                         <div class="col-sm-6 field-col">

@@ -105,17 +105,26 @@ class RtiFrontEndController extends Controller
 
         if($request->hasFile('poverty_line_proof_file'))
         {
-            $extension = $request->file('poverty_line_proof_file')->getClientOriginalExtension();
-            $path = Storage::putFileAs( '/poverty_files', $request->file('poverty_line_proof_file'), $time.'.'.$extension, 'public');
-            $input['poverty_line_proof'] = $request->get($time.'.'.$extension);
+            $uploadPath = '/uploads/poverty_files';
+            $destinationPath = public_path($uploadPath);
+            $file = $request->file('poverty_line_proof_file');
+            $file_name = time().$file->getFileName().'.'.$file->getClientOriginalExtension();
+            if($file->move($destinationPath, $file_name))
+            {
+                $input['poverty_line_proof'] = $file_name;
+            }
+            //dd($input['poverty_line_proof']);
+            // $extension = $request->file('poverty_line_proof_file')->getClientOriginalExtension();
+            // $path = Storage::putFileAs( '/poverty_files', $request->file('poverty_line_proof_file'), $time.'.'.$extension, 'public');
+            // $input['poverty_line_proof'] = $request->get($time.'.'.$extension);
         }
-        if(!empty($request->input('info_post_type')) && !empty($request->input('poverty_line_proof_file'))){
-            $input['info_post_type'] = $request->input('info_post_type');
-            $input['poverty_line_proof'] = '';
-        }else{
-            $input['info_post_type'] = '0';
-            $input['poverty_line_proof'] = '';
-        }
+        // if(!empty($request->input('info_post_type')) && !empty($request->input('poverty_line_proof_file'))){
+        //     $input['info_post_type'] = $request->input('info_post_type');
+        //     $input['poverty_line_proof'] = $file_name;
+        // }else{
+        //     $input['info_post_type'] = '0';
+        //     $input['poverty_line_proof'] = '';
+        // }
 
         $last_id = RtiForm::create($input);
 

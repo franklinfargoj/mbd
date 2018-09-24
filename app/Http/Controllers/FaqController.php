@@ -7,6 +7,7 @@ use App\Faq;
 use App\Http\Requests\faq\CreateFaqRequest;
 use App\Http\Requests\faq\UpdateFaqRequest;
 use Config;
+use Excel;
 
 class FaqController extends Controller
 {
@@ -23,13 +24,31 @@ class FaqController extends Controller
         $this->list_num_of_records_per_page = Config::get('commanConfig.list_num_of_records_per_page');
     }
 
+    public function print_data()
+    {
+        $faqs = Faq::all();
+        return view('admin.faq.print_data',compact('faqs'));
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+     if($request->excel=='excel')
+     {
+        $faqs = Faq::all();
+        return Excel::create('faq_'.date('Y_m_d_H_i_s'), function($excel) use($faqs){
+
+            $excel->sheet('mySheet', function($sheet) use($faqs)
+            {
+                $sheet->fromArray($faqs);
+            });
+        })->download('csv');
+         dd('excel');
+     }
       $faqs = Faq::all();
       $header_data = $this->header_data;
       return view('admin.faq.index',compact('faqs','header_data'));

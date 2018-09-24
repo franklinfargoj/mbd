@@ -25,6 +25,8 @@ Route::group(['middleware' => 'disablepreventback'], function() {
     Route::post('/loginUser', 'Auth\LoginController@loginUser')->name('loginUser');
 });
 
+//faq print
+Route::get('faq/print_data','FaqController@print_data')->name('faq.print_data');
 Route::resource('/faq', 'FaqController');
 Route::get('/faq/change_status/{id}', 'FaqController@change_status');
 Route::resource('/board', 'BoardController');
@@ -48,6 +50,11 @@ Route::get('society_detail/print/{id}','SocietyController@print_data')->name('so
 
 //lease details print
 Route::get('lease_detail/print/{id}','LeaseDetailController@print_data')->name('lease_detail.print');
+
+//Rti admin download applicants form in view application action
+Route::get('download_applicant_form/{id}','RtiFormController@download_applicant_form')->name('download_applicant_form');
+
+
 
 Route::group(['middleware' => ['check_society_offer_letter_permission']], function(){
        
