@@ -8,7 +8,7 @@ return [
     |
     */
 
-    'list_num_of_records_per_page' => 10,
+    'list_num_of_records_per_page' => 1,
     'dateFormat' => 'd-m-Y',
     
     'dyce_jr_user' => 'dyce_junior_engineer',
