@@ -54,7 +54,13 @@
                                 </div>
                             </div>
                             <div class="m-section__content mb-0 table-responsive">
-                                <table class="table mb-0">
+                                <form  role="form" method="POST"  action="{{ route('save_calculation_details') }}">
+                                    <span> Total Number of buildings: </span> <input type="text" name="total_no_of_buildings" id="total_no_of_buildings" value="{{ isset($calculationSheetDetails[0]->total_no_of_buildings) ? $calculationSheetDetails[0]->total_no_of_buildings : '' }}"/>
+
+                                <table class="table mb-0" style="padding-top: 10px;" >
+                                    <input name="_token" type="hidden" value="{!! csrf_token() !!}" />
+                                    <input name="application_id" type="hidden" value="{{ $applicationId }}"/>
+                                    <input name="user_id" type="hidden" value="{{ $user->id }}"/>
                                     <thead class="thead-default">
                                         <tr>
                                             <th class="table-data--xs">
@@ -76,7 +82,7 @@
                                                 भूखंडाचे क्षेत्रफळ
                                             </td>
                                             <td class="text-center">
-
+                                
                                             </td>
                                         </tr>
                                         <tr>
@@ -85,7 +91,7 @@
                                                 1. भाडेपट्टा करारनाम्यानुसार क्षेत्रफळ
                                             </td>
                                             <td class="text-center">
-
+                                                 <input type="text" class="total_area" name="area_as_per_lease_agreement" id="area_as_per_lease_agreement" value="{{ isset($calculationSheetDetails[0]->area_as_per_lease_agreement) ? $calculationSheetDetails[0]->area_as_per_lease_agreement : 0 }}"/>
                                             </td>
                                         </tr>
                                         <tr>
@@ -94,7 +100,7 @@
                                                 2. टिट बिट भूखंडाचे क्षेत्र
                                             </td>
                                             <td class="text-center">
-
+                                                  <input type="text" class="total_area" name="area_of_tit_bit_plot" id="area_of_tit_bit_plot" value="{{ isset($calculationSheetDetails[0]->area_of_tit_bit_plot) ? $calculationSheetDetails[0]->area_of_tit_bit_plot : 0 }}"/>
                                             </td>
                                         </tr>
                                         <tr>
@@ -103,7 +109,7 @@
                                                 3. आर जी भूखंडाचे क्षेत्र
                                             </td>
                                             <td class="text-center">
-
+                                                  <input type="text" class="total_area" name="area_of_rg_plot" id="area_of_rg_plot" value="{{ isset($calculationSheetDetails[0]->area_of_rg_plot) ? $calculationSheetDetails[0]->area_of_rg_plot : 0 }}"/>
                                             </td>
                                         </tr>
                                         <tr>
@@ -112,7 +118,7 @@
                                                 4. NTBNIB भूखंडाचे क्षेत्र
                                             </td>
                                             <td class="text-center">
-
+                                                  <input type="text" class="total_area" name="area_of_ntbnib_plot" id="area_of_ntbnib_plot" value="{{ isset($calculationSheetDetails[0]->area_of_ntbnib_plot) ? $calculationSheetDetails[0]->area_of_ntbnib_plot : 0 }}"/>
                                             </td>
                                         </tr>
                                         <tr>
@@ -121,7 +127,7 @@
                                                 Total भूखंडाचे क्षेत्रफळ
                                             </td>
                                             <td class="text-center">
-
+                                                <input type="text" name="area_of_total_plot" id="area_of_total_plot" />
                                             </td>
                                         </tr>
                                         <tr>
@@ -130,7 +136,7 @@
                                                 अभिनण्यानुसार भूखंडाचे क्षेत्रफळ
                                             </td>
                                             <td class="text-center">
-
+                                                <input type="text" name="area_as_per_introduction" id="area_as_per_introduction" value="{{ isset($calculationSheetDetails[0]->area_as_per_introduction) ? $calculationSheetDetails[0]->area_as_per_introduction : 0 }}"/>
                                             </td>
                                         </tr>
                                         <tr>
@@ -139,7 +145,7 @@
                                                 परिगणनाकरिता ग्राह्य भूखंडाचे क्षेत्रफळ (Min of 1 & 2)
                                             </td>
                                             <td class="text-center">
-
+                                                <input type="text" class="permissible_area" name="area_of_​​subsistence_to_calculate" id="area_of_​​subsistence_to_calculate" value="{{ isset($calculationSheetDetails[0]->area_of_​​subsistence_to_calculate) ? $calculationSheetDetails[0]->area_of_​​subsistence_to_calculate : 0 }}"/>
                                             </td>
                                         </tr>
                                         <tr>
@@ -148,7 +154,7 @@
                                                 अनुज्ञेय चटई क्षेत्र निर्देशांक
                                             </td>
                                             <td class="text-center">
-
+                                                <input type="text" class="permissible_area" name="permissible_carpet_area_coordinates" id="permissible_carpet_area_coordinates" value="{{ isset($calculationSheetDetails[0]->permissible_carpet_area_coordinates) ? $calculationSheetDetails[0]->permissible_carpet_area_coordinates : 0 }}"/>
                                             </td>
                                         </tr>
                                         <tr>
@@ -157,6 +163,7 @@
                                                 अनुज्ञेय बांधकाम क्षेत्रफळ
                                             </td>
                                             <td class="text-center">
+                                                <input type="text" name="permissible_construction_area" id="permissible_construction_area" value="{{ isset($calculationSheetDetails[0]->permissible_construction_area) ? $calculationSheetDetails[0]->permissible_construction_area : 0 }}"/>
                                                 (Table1 Point 3 * Table 1 Point 4)
                                             </td>
                                         </tr>
@@ -176,7 +183,7 @@
                                                 1. प्रति सदनिका चौ मी क्षेत्रफळ
                                             </td>
                                             <td class="text-center">
-
+                                                <input type="text" class="proratata_area" name="sqm_area_per_slot" id="sqm_area_per_slot" value="{{ isset($calculationSheetDetails[0]->sqm_area_per_slot) ? $calculationSheetDetails[0]->sqm_area_per_slot : 0 }}"/>
                                             </td>
                                         </tr>
                                         <tr>
@@ -185,7 +192,7 @@
                                                 2. एकूण सदनिका
                                             </td>
                                             <td class="text-center">
-
+                                                <input type="text" class="proratata_area" name="total_house" id="total_house" value="{{ isset($calculationSheetDetails[0]->total_house) ? $calculationSheetDetails[0]->total_house : 0 }}"/>
                                             </td>
                                         </tr>
                                         <tr>
@@ -194,6 +201,7 @@
                                                 Total
                                             </td>
                                             <td class="text-center">
+                                                <input type="text" name="permissible_proratata_area" id="permissible_proratata_area" />
                                                 (प्रति सदनिका चौ मी क्षेत्रफळ * एकूण सदनिका)
                                             </td>
                                         </tr>
@@ -416,8 +424,10 @@
                                                 tb 1 pt 17
                                             </td>
                                         </tr>
+                                          <tr><td colspan="3" align="right"><input type="submit" name="submit" class="btn btn-primary" value="Next" /> </td></tr>
                                     </tbody>
                                 </table>
+                                </form>
                                 <div class="modal fade show" id="select-from-dcr" tabindex="-1" role="dialog"
                                     aria-labelledby="exampleModalLabel">
                                     <div class="modal-dialog" role="document">
@@ -871,4 +881,46 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('calculation_sheet_js')
+    <script>
+        $(document).ready(function () {
+            var sum = 0;
+            $(".total_area").each(function(){
+                sum += +$(this).val();
+            });
+            $("#area_of_total_plot").val(sum);
+
+            $("#permissible_construction_area").val($("#area_of_​​subsistence_to_calculate").val()*$("#permissible_carpet_area_coordinates").val());
+
+            $("#permissible_proratata_area").val($("#sqm_area_per_slot").val()*$("#total_house").val());
+        })
+    </script>
+    <script>
+        $(document).on("keyup", ".total_area", function() {
+            var sum = 0;
+            $(".total_area").each(function(){
+                sum += +$(this).val();
+            });
+            $("#area_of_total_plot").val(sum);
+        });
+
+        $(document).on("keyup", ".permissible_area", function() {
+
+            $("#permissible_construction_area").val($("#area_of_​​subsistence_to_calculate").val()*$("#permissible_carpet_area_coordinates").val());
+        });
+
+
+        $(document).on("keyup", ".proratata_area", function() {
+
+            $("#permissible_proratata_area").val($("#sqm_area_per_slot").val()*$("#total_house").val());
+        });
+
+        $(document).on("keyup", ".proratata_area", function() {
+
+            $("#proyerta_construction_area").val($("#sqm_area_per_slot").val()*$("#total_house").val());
+        });
+
+    </script>
 @endsection

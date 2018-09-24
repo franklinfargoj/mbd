@@ -90,7 +90,12 @@ class ReePermissionSeeder extends Seeder
                     'name'         => 'ree.download_cap_note',
                     'display_name' => 'download cap note',
                     'description'  => 'download cap note'
-                ]
+                ],
+                [
+                    'name'         => 'save_calculation_details',
+                    'display_name' => 'Save calculation details',
+                    'description'  => 'Save calculation details'
+                ],
 
             ];
 

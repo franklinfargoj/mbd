@@ -202,7 +202,7 @@
     @yield('add_resolution_js');
     @yield('add_email_templates_js');
     @yield('Application_redevelopment');
-
+    @yield('calculation_sheet_js')
     <!--end::Page Vendors Scripts -->
     <!--begin::Page Resources -->
     @yield('datatablejs');

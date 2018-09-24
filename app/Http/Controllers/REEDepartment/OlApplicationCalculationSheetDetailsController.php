@@ -5,6 +5,7 @@ namespace App\Http\Controllers\REEDepartment;
 use App\OlApplicationCalculationSheetDetails;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OlApplicationCalculationSheetDetailsController extends Controller
 {
@@ -45,9 +46,9 @@ class OlApplicationCalculationSheetDetailsController extends Controller
      */
     public function show($id)
     {
-        // $id will be application id
-        echo "Calculation sheet goes here";exit;
-
+        $applicationId = $id;$user = Auth::user();
+        $calculationSheetDetails = OlApplicationCalculationSheetDetails::where('id','=',$id)->get();
+        return view('admin.REE_department.calculation_sheet',compact('calculationSheetDetails','applicationId','user'));
     }
 
     /**
@@ -82,5 +83,16 @@ class OlApplicationCalculationSheetDetailsController extends Controller
     public function destroy(OlApplicationCalculationSheetDetails $olApplicationCalculationSheetDetails)
     {
         //
+    }
+
+    public function saveCalculationDetails(Request $request)
+    {
+        echo "<pre>"; print_r($request->all());//exit;
+       // OlApplicationCalculationSheetDetails::create($request->all());
+
+        OlApplicationCalculationSheetDetails::updateOrCreate(['application_id'=>$request->get('application_id')],$request->all());
+      /*  $user = User::firstOrNew($request->all());
+        $user->foo = Input::get('foo');
+        $user->save();*/
     }
 }
