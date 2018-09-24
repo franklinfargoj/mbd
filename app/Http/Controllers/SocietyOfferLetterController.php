@@ -552,7 +552,7 @@ class SocietyOfferLetterController extends Controller
             }
         }
         $input = array(
-            'society_id' => '1',
+            'society_id' => $society->id,
             'document_id' => $request->input('document_id'),
             'society_document_path' => $uploadPath.'/'.$file_name,
         );
