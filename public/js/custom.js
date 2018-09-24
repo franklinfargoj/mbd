@@ -108,16 +108,16 @@ $(document).ready(function() {
       language: "required",
       published_date: "required",
       revision_log_message: "required",
-      file: {
-        extension : "pdf",
-        required  : function(element) {
-                      if ($("#File_name").text() == ""){
-                          return true;
-                      } else {
-                          return false;
-                      }
-                    }
-      },      
+    //   file: {
+    //     extension : "pdf",
+    //     required  : function(element) {
+    //                   if ($("#File_name").text() == ""){
+    //                       return true;
+    //                   } else {
+    //                       return false;
+    //                   }
+    //                 }
+    //   },      
     },
     messages : {
       file : {

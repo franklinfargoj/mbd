@@ -65,7 +65,7 @@ class ResolutionPermissionSeeder extends Seeder
                     'description' => 'Updating data of a particular resolution'
                 ],
                 [
-                    'name' => 'resolution.delete',
+                    'name' => 'resolution.destroy',
                     'display_name' => 'Delete a resolution',
                     'description' => 'Delete a particular resolution'
                 ],
