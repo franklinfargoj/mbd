@@ -73,8 +73,8 @@
                                                 <input type="file" name="rti_info_file" id="rti_info_file" class="custom-file-input"
                                                     value="{{ old('rti_info_file', $rti_applicant->rti_send_info!=""?$rti_applicant->rti_send_info->filename:'' ) }}">
                                                 <label class="custom-file-label" for="rti_info_file">Choose file...</label>
-                                                <span class="help-block">{{$errors->first('rti_info_file')}}</span>
-                                                <a class="d-block btn btn-link custom-file-download" href="{{$rti_applicant->rti_send_info!=""?$rti_applicant->rti_send_info->filepath.$rti_applicant->rti_send_info->filename:''}}">{{$rti_applicant->rti_send_info!=""?$rti_applicant->rti_send_info->filename:''}}</a>
+                                                <span class="text-danger">{{$errors->first('rti_info_file')}}</span>
+                                                <a target="_blank" class="d-block btn btn-link custom-file-download" href="{{$rti_applicant->rti_send_info!=""?$rti_applicant->rti_send_info->filepath.$rti_applicant->rti_send_info->filename:''}}">{{$rti_applicant->rti_send_info!=""?$rti_applicant->rti_send_info->filename:''}}</a>
                                             </div>
                                         </div>
                                     </div>
@@ -84,7 +84,7 @@
                                         <div class="d-flex align-items-center @if($errors->has('rti_comment')) has-error @endif">
                                             <label class="col-form-label field-name">Comment</label>
                                             <textarea name="rti_comment" id="rti_comment" class="form-control form-control--custom form-control--fixed-height m-input">{{ old('rti_comment', $rti_applicant->rti_send_info!=""?$rti_applicant->rti_send_info->comment:'' ) }}</textarea>
-                                            <span class="help-block">{{$errors->first('rti_comment')}}</span>
+                                            <span class="text-danger">{{$errors->first('rti_comment')}}</span>
                                         </div>
                                     </div>
                                 </div>

@@ -19,6 +19,8 @@ use App\Http\Requests\rti\SearchRtiFrontendRequest;
 use Yajra\DataTables\DataTables;
 use Config;
 use DB;
+use App\RtiFronendUser;
+use PDF;
 
 class RtiFormController extends Controller
 {
@@ -106,7 +108,7 @@ class RtiFormController extends Controller
             }
             // $rti_applicants = $rti_applicants->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').', unique_id, created_at, applicant_name, meeting_scheduled_date, id, status');
 
-            return $datatables->of($rti_applicants)
+            return $datatables->of($rti_applicants->orderBy('id'))
                 ->editColumn('rownum', function ($rti_applicants) {
                     return $rti_applicants->id;
                 })
@@ -184,6 +186,22 @@ class RtiFormController extends Controller
         return view('admin.rti_form.view_applicant', compact('rti_applicant'));
     }
 
+    public function download_applicant_form($id)
+    {
+        
+        if(RtiForm::find($id))
+        {
+            $application_form_data=RtiForm::find($id);
+            $boards = Board::all();
+            $departments = Department::all();
+            //$pdf = PDF::loadView('admin.rti_form.download_applicant_form', array('boards'=>$boards, 'departments'=>$departments,'application_form_data'=>$application_form_data)); // or PDF::loadHtml($html);
+            //return $pdf->download($filename); // or
+            $pdf = PDF::loadView('admin.rti_form.download_applicant_form', array('boards'=>$boards, 'departments'=>$departments,'application_form_data'=>$application_form_data));
+            return $pdf->download($application_form_data->unique_id.date('YmdHis').'.pdf');
+            //return view('admin.rti_form.download_applicant_form', compact('id', 'boards', 'departments','application_form_data'));
+        }
+    }
+
     public function show_update_status_form($id){
         $rti_applicant = RtiForm::with(['users'])->where('id', $id)->OrderBy('id','desc')->first();
         $rti_statuses = MasterRtiStatus::all();
@@ -211,6 +229,10 @@ class RtiFormController extends Controller
     }
 
     public function send_info(Request $request, $id){
+        $request->validate([
+            'rti_comment' => 'required',
+            'rti_info_file' => 'mimes:pdf',
+        ]);
         $input = array(
             'application_id' => $id,
             'rti_status_id' => $request->input('status'),
@@ -257,6 +279,9 @@ class RtiFormController extends Controller
     }
 
     public function forward_application(Request $request, $id){
+        $request->validate([
+            'rti_remarks' => 'required',
+        ]);
         $input = array(
             'application_id' => $id,
             'board_id' => $request->input('board'),
