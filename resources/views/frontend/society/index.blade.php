@@ -10,7 +10,7 @@
                 </div>
             </div>
             <div class="col-sm-6 min-height-100vh">
-                <div class="m-grid__item m-grid__item--fluid m-login__wrapper d-flex flex-wrap justify-content-center">
+                <div class="m-grid__item m-grid__item--fluid m-login__wrapper">
                     <div class="d-flex flex-wrap">
                         <div class="text-center w-100 m-login--left-box">
                             <h4 class="text-uppercase">MHADA Digitization</h4>
@@ -52,7 +52,7 @@
                                             autocomplete="off">
                                     </div>
                                     <div class="form-group m-form__group" style="margin-top: 16px;">
-                                        <div class="d-flex align-items-center position-relative">
+                                        <div class="d-flex align-items-center position-relative justify-content-between">
                                             {{--<span class="captcha_img" style="padding: 19px;"> {!! captcha_img() !!}</span>--}}
                                             <span class="captcha-wrapper"> <img id="captcha_img" src="{{URL::to('captcha')}}"></span>
                                             {{--<i class="fa fa-refresh btn_refresh" title="Recapture" aria-hidden="true" style="font-size: 24px;cursor: pointer;"></i>--}}

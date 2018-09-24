@@ -578,6 +578,10 @@
     padding-left: 0;
 }
 
+.datepicker-dropdown {
+    z-index: 999 !important;
+}
+
 /* theme classes over ride ends here */
 
 /* global classes starts here */
@@ -694,6 +698,10 @@
     width: 80px;
 }
 
+.bootstrap-select.btn-group.disabled, .bootstrap-select.btn-group>.disabled {
+    cursor: default;
+}
+
 .form-control--custom {
     border: 1px solid #ced4da !important;
     resize: none;
@@ -701,6 +709,16 @@
 
 .form-control--custom[readonly] {
     background-color: #f4f5f8 !important;
+}
+
+.form-control--custom[disabled] {
+    color: #575962;
+    opacity: .65
+}
+
+.bootstrap-select.btn-group>.dropdown-toggle.disabled.btn-default,
+.bootstrap-select.btn-group>.dropdown-toggle.disabled.btn-secondary {
+    color: #575962;
 }
 
 .form-control--custom[readonly]:focus {
@@ -712,9 +730,16 @@
     cursor: default !important;
 }
 
-.form-control--custom[disabled] {
+.form-control--custom[disabled],
+.form-control--custom.m_datepicker[readonly][disabled],
+.form-control--custom.m_timepicker[readonly][disabled] {
     background-color: #f4f5f8 !important;
     cursor: default !important;
+}
+
+.form-control--custom.m_datepicker[readonly][disabled]:hover,
+.form-control--custom.m_timepicker[readonly][disabled]:focus {
+    border-color: #ced4da !important;
 }
 
 .form-control--custom.m_datepicker[readonly],
@@ -1257,7 +1282,7 @@ label.site-visit-label {
 .m-login.m-login--2 .m-login__wrapper .m-login__container.m-login--right-box {
     width: 100%;
     max-width: 430px;
-    margin-top: -55px;
+    margin-top: 30px;
 }
 
 .m-login.m-login--2 .m-login__wrapper .m-login__container.m-login--right-box .m-login__head {
@@ -1308,7 +1333,16 @@ label.site-visit-label {
 .captcha-wrapper {
     margin: 0 19px 0 0;
     display: inline-block;
-    /* border: 1px solid rgba(0,0,0,0.2); */
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 40px;
+    overflow: hidden;
+    max-width: 130px;
+    width: 100%;
+}
+
+#captcha,
+#capture_text {
+    width: 40%;
 }
 
 .login-form {

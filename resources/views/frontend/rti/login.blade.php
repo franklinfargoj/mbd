@@ -31,7 +31,7 @@
    </head>
    <!-- end::Head -->
    <!-- end::Body -->
-   <body class="m--skin- m-header--fixed m-header--fixed-mobile m-aside-left--enabled m-aside-left--skin-dark m-aside-left--offcanvas m-footer--push m-aside--offcanvas-default" >
+   <body class="m--skin- m-header--fixed m-header--fixed-mobile m-aside-left--enabled m-aside-left--skin-dark m-footer--push" >
       <!-- begin:: Page -->
       <div class="m-grid m-grid--hor m-grid--root m-page">
          @section('body')
@@ -42,7 +42,7 @@
       </script>
       <!-- end:: Page -->
       <!--begin::Base Scripts -->
-      <script src="{{asset('/assets/vendors/base/vendors.bundle.js')}}" type="text/javascript"></script>
+      <!-- <script src="{{asset('/assets/vendors/base/vendors.bundle.js')}}" type="text/javascript"></script> -->
       <script src="{{asset('/assets/demo/default/base/scripts.bundle.js')}}" type="text/javascript"></script>
       <!--end::Base Scripts -->
       <!--begin::Page Snippets -->
