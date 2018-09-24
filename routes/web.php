@@ -66,6 +66,8 @@ Route::resource('ee', 'EEDepartment\EEController');
 Route::resource('received_application','DYCEDepartment\DYCEController');
 
 Route::post('loadDepartmentsOfBoardUsingAjax', 'BoardController@loadDepartmentsOfBoardUsingAjax')->name('loadDepartmentsOfBoardUsingAjax');
+Route::post('loadDepartmentsOfBoardForHearing', 'BoardController@loadDepartmentsOfBoardForHearing')->name('loadDepartmentsOfBoardForHearing');
+Route::post('getDepartmentUser', 'BoardController@getDepartmentUser')->name('getDepartmentUser');
 
 
 Route::resource('/rti_frontend', 'RtiFrontEndController');
@@ -154,6 +156,11 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::post('/edit-ee-scrutiny-document/{id}', 'EEDepartment\EEController@editDocumentScrutiny')->name('edit-ee-scrutiny-document');
     Route::post('/ee-document-scrutiny-delete/{id}', 'EEDepartment\EEController@deleteDocumentScrutiny')->name('ee-document-scrutiny-delete');
     Route::get('/document-submitted/{society_id}', 'EEDepartment\EEController@documentSubmittedBySociety')->name('document-submitted');
+
+    Route::post('/consent-verfication', 'EEDepartment\EEController@consentVerification')->name('consent-verfication');
+    Route::post('/ee-demarcation', 'EEDepartment\EEController@eeDemarcation')->name('ee-demarcation');
+    Route::post('/ee-tit-bit', 'EEDepartment\EEController@titBit')->name('ee-tit-bit');
+    Route::post('/ee-rg-relocation', 'EEDepartment\EEController@rgRelocation')->name('ee-rg-relocation');
 
     Route::get('get-forward-application/{application_id}', 'EEDepartment\EEController@getForwardApplicationForm')->name('get-forward-application');
     Route::post('/forward-application', 'EEDepartment\EEController@forwardApplication')->name('forward-application');

@@ -15,6 +15,7 @@ class Hearing extends Model
      * @var array
      */
     protected $dates = ['deleted_at'];
+    public $timestamps = false;
 
     protected $table = "hearing";
     protected $primaryKey = 'id';
@@ -84,5 +85,10 @@ class Hearing extends Model
     {
         return $this->hasMany('App\UploadCaseJudgement', 'hearing_id', 'id')
                     ->orderBy('id', 'desc');
+    }
+
+    public function hearingStatusLog()
+    {
+        return $this->hasMany('App\HearingStatusLog','hearing_id', 'id')->orderBy('id', 'desc');
     }
 }
