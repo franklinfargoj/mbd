@@ -33,4 +33,9 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Role', 'role_user', 'user_id', 'role_id')->withPivot('start_date', 'end_date');
     }
 
+    public function boardUser()
+    {
+        return $this->hasOne('App\BoardUser', 'user_id', 'id');
+    }
+
 }

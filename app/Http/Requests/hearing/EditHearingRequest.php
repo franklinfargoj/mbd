@@ -41,8 +41,8 @@ class EditHearingRequest extends FormRequest
             'office_tehsil' => 'required',
             'office_village' => 'required',
             'office_remark' => 'required',
-            'department' => 'required',
-            'hearing_status_id' => 'required',
+            /*'department' => 'required',
+            'hearing_status_id' => 'required',*/
         ];
     }
 }
