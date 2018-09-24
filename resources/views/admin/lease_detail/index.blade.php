@@ -37,8 +37,8 @@
         @endif
         <div class="m-portlet__body m-portlet__body--spaced data-table--custom">
             <div class="btn-list text-right mb-4">
-                <a href="#" name="excel" value="excel" class="btn btn-info">Excel</button>
-                <a target="_blank" href="#"
+                <a href="?excel=excel" name="excel" value="excel" class="btn btn-info">Excel</button>
+                <a target="_blank" href="{{route('lease_detail.print',['id'=>$id])}}"
                     class="btn btn-info">Print</a>
             </div>
             <!--begin: Search Form -->

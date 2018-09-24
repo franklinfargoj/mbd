@@ -46,6 +46,9 @@ Route::get('village_detail/print','VillageDetailController@print_data')->name('v
 //society details print
 Route::get('society_detail/print/{id}','SocietyController@print_data')->name('society_detail.print');
 
+//lease details print
+Route::get('lease_detail/print/{id}','LeaseDetailController@print_data')->name('lease_detail.print');
+
 Route::group(['middleware' => ['check_society_offer_letter_permission']], function(){
        
 });
