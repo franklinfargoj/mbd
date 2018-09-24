@@ -328,7 +328,7 @@
                                                     </div>
                                                 </div>
                                             </div>  
-                                                                                  
+
                                             <div class="table-checklist m-portlet__body m-portlet__body--table">
                                                 <div class="table-responsive">
                                                     <table class="table">
@@ -341,27 +341,27 @@
                                                         </thead>
                                                         <tbody>
                                                         <?php $i = 1; ?>
-                                                            @foreach($eeScrutinyData->consentQuetions as $data)
+                                                        @foreach($eeScrutinyData->consentQuetions as $data)
 
                                                                 <tr>
                                                                     <td>{{$i}}</td>
-                                                                    <td>{{$data->consentQuestions->question}}</td>
+                                                                    <td>{{$data->question}}</td>
                                                                     <td>
                                                                         <label class="m-radio m-radio--primary">
 
-                                                                            <input type="radio" class="radioBtn" name="con_radio_{{$i}}" disabled {{($data->answer == '1' ? 'checked' : '')}}>
+                                                                            <input type="radio" class="radioBtn" name="con_radio_{{$i}}" disabled {{ (isset($data->consentDetails->answer) && $data->consentDetails->answer == '1') ? 'checked' : ''}}>
                                                                             <span></span>
                                                                         </label>
                                                                     </td>
                                                                     <td>
                                                                         <label class="m-radio m-radio--primary">
 
-                                                                            <input type="radio" class="radioBtn" name="con_radio_{{$i}}" disabled {{($data->answer == '0' ? 'checked' : '')}}>
+                                                                            <input type="radio" class="radioBtn" name="con_radio_{{$i}}" disabled {{(isset($data->consentDetails->answer) && $data->consentDetails->answer == '0') ? 'checked' : ''}}>
                                                                             <span></span>
                                                                         </label></td>
                                                                     <td>
-                                                                        <textarea class="form-control form-control--custom form-control--textarea"
-                                                                            name="remark-one" id="remark-one">{{$data->remark}}</textarea>
+                                                                        <textarea class="form-control form-control--custom form-control--textarea" disabled
+                                                                            name="remark-one" id="remark-one">{{ (isset($data->consentDetails)) ? $data->consentDetails->remark : ""}}</textarea>
                                                                     </td>
                                                                 </tr>
                                                                 <?php $i++; ?>
@@ -432,24 +432,25 @@
                                                         </thead>
                                                         <tbody>
                                                             <?php $i = 1; ?>
-                                                            @foreach($eeScrutinyData->DemarkQuetions as $data)                                        
+                                                            {{--{{ dd($eeScrutinyData->DemarkQuetions) }}--}}
+                                                            @foreach($eeScrutinyData->DemarkQuetions as $data)
                                                                 <tr>
                                                                     <td>{{$i}}</td>
-                                                                    <td>{{$data->DemarkQuestions->question}}</td>
+                                                                    <td>{{$data->question}}</td>
                                                                     <td>
                                                                         <label class="m-radio m-radio--primary">
-                                                                            <input type="radio" class="radioBtn" name="dem_radio_{{$i}}" disabled {{($data->answer == '1' ? 'checked' : '')}}>
+                                                                            <input type="radio" class="radioBtn" name="dem_radio_{{$i}}" disabled {{(isset($data->demarkDetails) && $data->demarkDetails->answer == '1') ? 'checked' : ''}}>
                                                                             <span></span>
                                                                         </label>
                                                                     </td>
                                                                     <td>
                                                                         <label class="m-radio m-radio--primary">
-                                                                            <input type="radio" class="radioBtn" name="dem_radio_{{$i}}" disabled {{($data->answer == '0' ? 'checked' : '')}}>
+                                                                            <input type="radio" class="radioBtn" name="dem_radio_{{$i}}" disabled {{(isset($data->demarkDetails) && $data->demarkDetails->answer == '0') ? 'checked' : ''}}>
                                                                             <span></span>
                                                                         </label></td>
                                                                     <td>
-                                                                        <textarea class="form-control form-control--custom form-control--textarea"
-                                                                            name="remark-one" id="remark-one">{{$data-> remark}}</textarea>
+                                                                        <textarea class="form-control form-control--custom form-control--textarea" disabled
+                                                                            name="remark-one" id="remark-one">{{ isset($data->demarkDetails) ? $data->demarkDetails->remark : ""}}</textarea>
                                                                     </td>
                                                                 </tr>
                                                                 <?php $i++; ?>
@@ -523,21 +524,21 @@
                                                             @foreach($eeScrutinyData->TitBitQuetions as $data)
                                                                 <tr>
                                                                     <td>{{$i}}</td>
-                                                                    <td>{{$data->TitBitQuestions->question}}</td>
+                                                                    <td>{{$data->question}}</td>
                                                                     <td>
                                                                         <label class="m-radio m-radio--primary">
-                                                                            <input type="radio" name="tit_radio_{{$i}}" disabled {{($data->answer == '1' ? 'checked' : '')}}>
+                                                                            <input type="radio" name="tit_radio_{{$i}}" disabled {{(isset($data->titBitDetails) && $data->titBitDetails->answer == '1' ? 'checked' : '')}}>
                                                                             <span></span>
                                                                         </label>
                                                                     </td>
                                                                     <td>
                                                                         <label class="m-radio m-radio--primary">
-                                                                            <input type="radio" name="tit_radio_{{$i}}" disabled {{($data->answer == '0' ? 'checked' : '')}}>
+                                                                            <input type="radio" name="tit_radio_{{$i}}" disabled {{(isset($data->titBitDetails) && $data->titBitDetails->answer =='0' ? 'checked' : '')}}>
                                                                             <span></span>
                                                                         </label></td>
                                                                     <td>
-                                                                        <textarea class="form-control form-control--custom form-control--textarea"
-                                                                            name="remark-one" id="remark-one">{{$data-> remark}}</textarea>
+                                                                        <textarea class="form-control form-control--custom form-control--textarea" disabled
+                                                                            name="remark-one" id="remark-one">{{(isset($data->titBitDetails)) ? $data->titBitDetails->remark : ""}}</textarea>
                                                                     </td>
                                                                 </tr>
                                                                 <?php $i++; ?>
@@ -590,21 +591,21 @@
                                                              
                                                                 <tr>
                                                                     <td>{{$i}}</td>
-                                                                    <td>{{($data->relocationQuestions->question)}}</td>
+                                                                    <td>{{($data->question)}}</td>
                                                                     <td>
                                                                         <label class="m-radio m-radio--primary">
-                                                                            <input type="radio" name="rg_radio_{{$i}}" disabled {{($data->answer == '1' ? 'checked' : '')}}>
+                                                                            <input type="radio" name="rg_radio_{{$i}}" disabled {{(isset($data->titBitDetails) && $data->titBitDetails->answer == '1') ? 'checked' : ''}}>
                                                                             <span></span>
                                                                         </label>
                                                                     </td>
                                                                     <td>
                                                                         <label class="m-radio m-radio--primary">
-                                                                            <input type="radio" name="rg_radio_{{$i}}" disabled {{($data->answer == '0' ? 'checked' : '')}}>
+                                                                            <input type="radio" name="rg_radio_{{$i}}" disabled {{(isset($data->titBitDetails) && $data->titBitDetails->answer == '0') ? 'checked' : ''}}>
                                                                             <span></span>
                                                                         </label></td>
                                                                     <td>
-                                                                        <textarea class="form-control form-control--custom form-control--textarea"
-                                                                            name="remark-one" id="remark-one">{{$data-> remark}}</textarea>
+                                                                        <textarea class="form-control form-control--custom form-control--textarea" disabled
+                                                                            name="remark-one" id="remark-one">{{ isset($data->titBitDetails) ? $data->titBitDetails->remark : ''}}</textarea>
                                                                     </td>
                                                                 </tr>
                                                                 <?php $i++; ?>

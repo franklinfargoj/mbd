@@ -341,30 +341,31 @@
                                                         </thead>
                                                         <tbody>
                                                         <?php $i = 1; ?>
-                                                            @foreach($eeScrutinyData->consentQuetions as $data)
-                                                                <tr>
-                                                                    <td>{{$i}}</td>
-                                                                    <td>{{(isset($data->consentQuestions->question) ? $data->consentQuestions->question : '')}}</td>
-                                                                    <td>
-                                                                        <label class="m-radio m-radio--primary">
+                                                        @foreach($eeScrutinyData->consentQuetions as $data)
 
-                                                                            <input type="radio" class="radioBtn" name="con_radio_{{$i}}" {{(isset($data->answer) && $data->answer == '1' ? 'checked' : '')}}>
-                                                                            <span></span>
-                                                                        </label>
-                                                                    </td>
-                                                                    <td>
-                                                                        <label class="m-radio m-radio--primary">
+                                                            <tr>
+                                                                <td>{{$i}}</td>
+                                                                <td>{{$data->question}}</td>
+                                                                <td>
+                                                                    <label class="m-radio m-radio--primary">
 
-                                                                            <input type="radio" class="radioBtn" name="con_radio_{{$i}}" {{(isset($data->answer) && $data->answer == '0' ? 'checked' : '')}}>
-                                                                            <span></span>
-                                                                        </label></td>
-                                                                    <td>
-                                                                        <textarea class="form-control form-control--custom form-control--textarea"
-                                                                            name="remark-one" id="remark-one">{{isset($data->remark) ? $data->remark : ''}}</textarea>
-                                                                    </td>
-                                                                </tr>
-                                                                <?php $i++; ?>
-                                                            @endforeach
+                                                                        <input type="radio" class="radioBtn" name="con_radio_{{$i}}" disabled {{ (isset($data->consentDetails->answer) && $data->consentDetails->answer == '1') ? 'checked' : ''}}>
+                                                                        <span></span>
+                                                                    </label>
+                                                                </td>
+                                                                <td>
+                                                                    <label class="m-radio m-radio--primary">
+
+                                                                        <input type="radio" class="radioBtn" name="con_radio_{{$i}}" disabled {{(isset($data->consentDetails->answer) && $data->consentDetails->answer == '0') ? 'checked' : ''}}>
+                                                                        <span></span>
+                                                                    </label></td>
+                                                                <td>
+                                                                        <textarea class="form-control form-control--custom form-control--textarea" disabled
+                                                                                  name="remark-one" id="remark-one">{{ (isset($data->consentDetails)) ? $data->consentDetails->remark : ""}}</textarea>
+                                                                </td>
+                                                            </tr>
+                                                            <?php $i++; ?>
+                                                        @endforeach
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -431,24 +432,24 @@
                                                         </thead>
                                                         <tbody>
                                                             <?php $i = 1; ?>
-                                                            @foreach($eeScrutinyData->DemarkQuetions as $data)                                        
+                                                            @foreach($eeScrutinyData->DemarkQuetions as $data)
                                                                 <tr>
                                                                     <td>{{$i}}</td>
-                                                                    <td>{{isset($data->DemarkQuestions->question) ? $data->DemarkQuestions->question : ''}}</td>
+                                                                    <td>{{$data->question}}</td>
                                                                     <td>
                                                                         <label class="m-radio m-radio--primary">
-                                                                            <input type="radio" class="radioBtn" name="dem_radio_{{$i}}"  {{(isset($data->answer) && $data->answer == '1' ? 'checked' : '')}}>
+                                                                            <input type="radio" class="radioBtn" name="dem_radio_{{$i}}" disabled {{(isset($data->demarkDetails) && $data->demarkDetails->answer == '1') ? 'checked' : ''}}>
                                                                             <span></span>
                                                                         </label>
                                                                     </td>
                                                                     <td>
                                                                         <label class="m-radio m-radio--primary">
-                                                                            <input type="radio" class="radioBtn" name="dem_radio_{{$i}}" {{(isset($data->answer) && $data->answer == '0' ? 'checked' : '')}}>
+                                                                            <input type="radio" class="radioBtn" name="dem_radio_{{$i}}" disabled {{(isset($data->demarkDetails) && $data->demarkDetails->answer == '0') ? 'checked' : ''}}>
                                                                             <span></span>
                                                                         </label></td>
                                                                     <td>
-                                                                        <textarea class="form-control form-control--custom form-control--textarea"
-                                                                            name="remark-one" id="remark-one">{{isset($data-> remark) ? $data-> remark : ''}}</textarea>
+                                                                        <textarea class="form-control form-control--custom form-control--textarea" disabled
+                                                                                  name="remark-one" id="remark-one">{{ isset($data->demarkDetails) ? $data->demarkDetails->remark : ""}}</textarea>
                                                                     </td>
                                                                 </tr>
                                                                 <?php $i++; ?>
@@ -522,21 +523,21 @@
                                                             @foreach($eeScrutinyData->TitBitQuetions as $data)
                                                                 <tr>
                                                                     <td>{{$i}}</td>
-                                                                    <td>{{(isset($data->TitBitQuestions->question) ? $data->TitBitQuestions->question : '')}}</td>
+                                                                    <td>{{$data->question}}</td>
                                                                     <td>
                                                                         <label class="m-radio m-radio--primary">
-                                                                            <input type="radio" name="tit_radio_{{$i}}" {{(isset($data->answer) && $data->answer == '1' ? 'checked' : '')}}>
+                                                                            <input type="radio" name="tit_radio_{{$i}}" disabled {{(isset($data->titBitDetails) && $data->titBitDetails->answer == '1' ? 'checked' : '')}}>
                                                                             <span></span>
                                                                         </label>
                                                                     </td>
                                                                     <td>
                                                                         <label class="m-radio m-radio--primary">
-                                                                            <input type="radio" name="tit_radio_{{$i}}" {{(isset($data->answer) && $data->answer == '0' ? 'checked' : '')}}>
+                                                                            <input type="radio" name="tit_radio_{{$i}}" disabled {{(isset($data->titBitDetails) && $data->titBitDetails->answer =='0' ? 'checked' : '')}}>
                                                                             <span></span>
                                                                         </label></td>
                                                                     <td>
-                                                                        <textarea class="form-control form-control--custom form-control--textarea"
-                                                                            name="remark-one" id="remark-one">{{isset($data-> remark) ? $data-> remark : ''}}</textarea>
+                                                                        <textarea class="form-control form-control--custom form-control--textarea" disabled
+                                                                                  name="remark-one" id="remark-one">{{(isset($data->titBitDetails)) ? $data->titBitDetails->remark : ""}}</textarea>
                                                                     </td>
                                                                 </tr>
                                                                 <?php $i++; ?>
@@ -584,30 +585,30 @@
                                                             <th>शेरा</th>
                                                         </thead>
                                                         <tbody>
-                                                             <?php $i = 1; ?> 
-                                                             @foreach($eeScrutinyData->relocationQuetions as $data) 
-                                                             
-                                                                <tr>
-                                                                    <td>{{$i}}</td>
-                                                                    <td>{{(isset($data->relocationQuestions->question) ? $data->relocationQuestions->question : '')}}</td>
-                                                                    <td>
-                                                                        <label class="m-radio m-radio--primary">
-                                                                            <input type="radio" name="rg_radio_{{$i}}" {{(isset($data->answer) && $data->answer == '1' ? 'checked' : '')}}>
-                                                                            <span></span>
-                                                                        </label>
-                                                                    </td>
-                                                                    <td>
-                                                                        <label class="m-radio m-radio--primary">
-                                                                            <input type="radio" name="rg_radio_{{$i}}" {{(isset($data->answer) && $data->answer == '0' ? 'checked' : '')}}>
-                                                                            <span></span>
-                                                                        </label></td>
-                                                                    <td>
-                                                                        <textarea class="form-control form-control--custom form-control--textarea"
-                                                                            name="remark-one" id="remark-one">{{isset($data-> remark) ? $data-> remark : ''}}</textarea>
-                                                                    </td>
-                                                                </tr>
-                                                                <?php $i++; ?>
-                                                            @endforeach
+                                                             <?php $i = 1; ?>
+                                                             @foreach($eeScrutinyData->relocationQuetions as $data)
+
+                                                                 <tr>
+                                                                     <td>{{$i}}</td>
+                                                                     <td>{{($data->question)}}</td>
+                                                                     <td>
+                                                                         <label class="m-radio m-radio--primary">
+                                                                             <input type="radio" name="rg_radio_{{$i}}" disabled {{(isset($data->titBitDetails) && $data->titBitDetails->answer == '1') ? 'checked' : ''}}>
+                                                                             <span></span>
+                                                                         </label>
+                                                                     </td>
+                                                                     <td>
+                                                                         <label class="m-radio m-radio--primary">
+                                                                             <input type="radio" name="rg_radio_{{$i}}" disabled {{(isset($data->titBitDetails) && $data->titBitDetails->answer == '0') ? 'checked' : ''}}>
+                                                                             <span></span>
+                                                                         </label></td>
+                                                                     <td>
+                                                                        <textarea class="form-control form-control--custom form-control--textarea" disabled
+                                                                                  name="remark-one" id="remark-one">{{ isset($data->titBitDetails) ? $data->titBitDetails->remark : ''}}</textarea>
+                                                                     </td>
+                                                                 </tr>
+                                                                 <?php $i++; ?>
+                                                             @endforeach
                                                         </tbody>
                                                     </table>
                                                 </div>
