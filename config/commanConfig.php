@@ -28,6 +28,7 @@ return [
         'in_process' => 1,
         'forwarded' => 2,
         'reverted' => 3,
+        'pending' => 4,
     ],
     'ee_junior_engineer' => 'ee_junior_engineer',
 
