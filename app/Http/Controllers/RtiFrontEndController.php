@@ -45,6 +45,7 @@ class RtiFrontEndController extends Controller
             'mobile_no' => $request->input('mobile_no'),
             'address' => $request->input('address'),
         );
+        // dd($input);
         $last_inserted_id = RtiFronendUser::create($input);
         return redirect()->route('rti_frontend.show', $last_inserted_id->id);
     }
@@ -174,6 +175,7 @@ class RtiFrontEndController extends Controller
     public function show_rti_application_status(Request $request){
         // dd($request->input());
         $user_details = RtiForm::with(['users', 'master_rti_status','department','rti_schedule_meetings','master_rti_status','rti_send_info'])->where('unique_id', $request->input('application_no'))->first();
+        // dd($user_details);
         if($user_details)
         {
             if($user_details->users->email == $request->input('email')){

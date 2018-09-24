@@ -32,6 +32,11 @@
         </div>
         @endif
         <div class="m-portlet__body m-portlet__body--spaced data-table--custom">
+            <div class="btn-list text-right mb-4">
+                <a href="{{route('society_detail.index',['id'=>$id,'excel'=>'excel'])}}" name="excel" value="excel" class="btn btn-info">Excel</button>
+                <a target="_blank" href="{{route('society_detail.print',['id'=>$id])}}"
+                    class="btn btn-info">Print</a>
+            </div>
             <!--begin: Search Form -->
             {{--<div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
                 <div class="container-fluid">

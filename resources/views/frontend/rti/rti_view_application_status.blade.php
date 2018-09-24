@@ -52,7 +52,7 @@
                                         <div class="d-flex">
                                             <span class="field-name">Update Status:</span>
                                             <span class="field-value">{{
-                                                $user_details->master_rti_status!=""?$user_details->master_rti_status->status_title->status_title:'
+                                                ($user_details->master_rti_status!="") ? $user_details->master_rti_status->status_title->status_title: '
                                                 - ' }}
                                             </span>
                                         </div>
@@ -60,7 +60,11 @@
                                     <div class="col-sm-6 field-col">
                                         <div class="d-flex">
                                             <span class="field-name">Download Application Form:</span>
+                                            @if($user_details->rti_send_info!="") 
                                             <a target="_blank" href="{{asset($user_details->rti_send_info->filepath.$user_details->rti_send_info->filename)}}" class="field-value btn btn-link px-0">Download</a>
+                                            @else
+                                              -
+                                            @endif
                                         </div>
                                     </div>
                                     <div class="col-sm-12 field-col">

@@ -105,44 +105,93 @@
     </div>
      </div>
 </div>
-@if(count($documents) == count($documents_uploaded))
-<div class="row" style="margin-top: 5%">
-    <div class="col-md-12">
-        <div class="m-portlet m-portlet--creative m-portlet--first m-portlet--bordered-semi mb-0 m-portlet--table">
-            <div class="m-portlet__head main-sub-title">
-                 <div class="m-portlet__head-caption">
-                    <div class="m-portlet__head-title">
-                       <span class="m-portlet__head-icon m--hide">
-                       <i class="flaticon-statistics"></i>
-                       </span>
-                       <h2 class="m-portlet__head-label m-portlet__head-label--custom">
-                          <span>
-                          Submit Application
-                          </span>
-                       </h2>
-                    </div>
-                 </div>
+@if(!empty($documents) && !empty($documents_uploaded))
+  @if(count($documents) == count($documents_uploaded))
+  <div class="row" style="margin-top: 5%">
+      <div class="col-md-12">
+        @if($application->olApplicationStatus[0]->status_id == 3)
+        <div class="tab-pane active show" id="scrutiny-history-tab">
+        <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
+          <div class="portlet-body">
+              <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
+                  <div class="border-bottom pb-2">
+                      <h3 class="section-title section-title--small mb-2">
+                          Remark History:
+                      </h3>
+                      <span class="hint-text d-block">Remark by EE</span>
+                  </div>
+                  <div class="remarks-section">
+                          <div class="remarks-section__data">
+                              <p class="remarks-section__data__row"><span>Date:</span><span>{{date('d-m-Y', strtotime($application->olApplicationStatus[0]->created_at))}}</span>
+
+                              </p>
+                              <p class="remarks-section__data__row"><span>Time:</span><span>{{date('h:i:sa', strtotime($application->olApplicationStatus[0]->created_at))}}</span></p>
+                              <p class="remarks-section__data__row"><span>Action:</span><span>Sent
+                                      to Society</span></p>
+                              <p class="remarks-section__data__row"><span>Description:</span><span>{{$application->olApplicationStatus[0]->remark}}</span></p>
+                          </div>
+
+                          <div class="remarks-section__data">
+                              <form action="{{ route('add_uploaded_documents_remark') }}" method="post" enctype='multipart/form-data'>
+                                @csrf
+                                    <div class="form-group">
+                                        <label class="col-form-label">Remark</label>
+                                        <div class="col-md-8 @if($errors->has('society_documents_comment')) has-error @endif">
+                                            <div class="input-icon right">
+                                                <textarea name="remark" id="remark" class="form-control m-input">{{old('remark')}}</textarea>
+                                                <span class="help-block">{{$errors->first('remark')}}</span>
+                                                <input type="hidden" name="user_id" id="user_id" class="form-control m-input" value="{{ $application->olApplicationStatus[0]->user_id }}">
+                                                <input type="hidden" name="role_id" id="role_id" class="form-control m-input" value="{{ $application->olApplicationStatus[0]->role_id }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Submit</button>
+                               </form>
+                          </div>
+                  </div>
               </div>
-            <div class="m-portlet__body m-portlet__body--table">
-                <div class="m-section mb-0">
-                    <form action="{{ route('add_documents_comment') }}" method="post" enctype='multipart/form-data'>
-                    @csrf
-                        <div class="form-group">
-                            <label class="col-form-label">Comment</label>
-                            <div class="col-md-8 @if($errors->has('society_documents_comment')) has-error @endif">
-                                <div class="input-icon right">
-                                    <textarea name="society_documents_comment" id="society_documents_comment" class="form-control m-input">{{old('society_documents_comment')}}</textarea>
-                                    <span class="help-block">{{$errors->first('society_documents_comment')}}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <br>
-                        <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Submit</button>
-                   </form>
+          </div>
+      </div>
+  </div>
+  @else
+          <div class="m-portlet m-portlet--creative m-portlet--first m-portlet--bordered-semi mb-0 m-portlet--table">
+              <div class="m-portlet__head main-sub-title">
+                   <div class="m-portlet__head-caption">
+                      <div class="m-portlet__head-title">
+                         <span class="m-portlet__head-icon m--hide">
+                         <i class="flaticon-statistics"></i>
+                         </span>
+                         <h2 class="m-portlet__head-label m-portlet__head-label--custom">
+                            <span>
+                            Submit Application
+                            </span>
+                         </h2>
+                      </div>
+                   </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
+              <div class="m-portlet__body m-portlet__body--table">
+                  <div class="m-section mb-0">
+                      <form action="{{ route('add_documents_comment') }}" method="post" enctype='multipart/form-data'>
+                      @csrf
+                          <div class="form-group">
+                              <label class="col-form-label">Comment</label>
+                              <div class="col-md-8 @if($errors->has('society_documents_comment')) has-error @endif">
+                                  <div class="input-icon right">
+                                      <textarea name="society_documents_comment" id="society_documents_comment" class="form-control m-input">{{old('society_documents_comment')}}</textarea>
+                                      <span class="help-block">{{$errors->first('society_documents_comment')}}</span>
+                                  </div>
+                              </div>
+                          </div>
+                          <br>
+                          <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Submit</button>
+                     </form>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  @endif
+  @endif
 @endif
 @endsection

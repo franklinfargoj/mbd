@@ -8,5 +8,3 @@
 @endif
 <a title="CAP_notes" href="{{route('cap.cap_notes',$cap_application_data->id)}}">CAP Notes</a>
 
-
-
