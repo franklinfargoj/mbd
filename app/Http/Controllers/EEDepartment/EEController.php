@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\EEDepartment;
 
+use App\EENote;
 use App\Http\Controllers\Common\CommonController;
 use App\OlApplication;
 use App\OlApplicationStatus;
@@ -290,7 +291,18 @@ class EEController extends Controller
             ->first();
         $arrData['rg_details_data'] = OlRelocationVerificationDetails::where('application_id', $application_id)->get()->keyBy('question_id')->toArray();
 
-//        dd($arrData);
+        // EE Note download
+
+        $arrData['eeNote'] = EENote::where('application_id', $application_id)->orderBy('id', 'desc')->first();
+
+        // Get Application last Status
+
+        $arrData['get_last_status'] = OlApplicationStatus::where([
+                'application_id' =>  $application_id,
+                'user_id' => Auth::user()->id,
+                'role_id' => session()->get('role_id')
+            ])->orderBy('id', 'desc')->first();
+
         return view('admin.ee_department.scrutiny-remark', compact('arrData'));
     }
 
@@ -533,6 +545,35 @@ class EEController extends Controller
 
         return redirect()->back();
     }
+
+    public function uploadEENote(Request $request){
+        $applicationId   = $request->application_id;
+        $uploadPath      = '/uploads/ee_note';
+        $destinationPath = public_path($uploadPath);
+
+        if ($request->file('ee_note')){
+
+            $file = $request->file('ee_note');
+            $file_name = time().$file->getFileName().'.'.$file->getClientOriginalExtension();
+            $extension = $file->getClientOriginalExtension();
+
+            if($extension == "pdf") {
+                if ($file->move($destinationPath, $file_name)) {
+                    $fileData[] = array('document_path' => $uploadPath . '/' . $file_name,
+                        'application_id' => $applicationId,
+                        'user_id' => Auth::user()->id,
+                        'role_id' => session()->get('role_id'));
+                }
+                $data = EENote::insert($fileData);
+                return back()->with('success', 'EE Note uploaded successfully');
+            }
+            else
+            {
+                return back()->with('error', 'Only pdf allowed');
+            }
+        }
+    }
+
     /**
      * Show the form for creating a new resource.
      *

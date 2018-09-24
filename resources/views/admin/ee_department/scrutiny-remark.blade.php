@@ -37,7 +37,7 @@
                                                     Society Details:
                                                 </h3>
                                             </div>
-                                            
+
                                             <div class="row field-row">
                                                 <div class="col-sm-6 field-col">
                                                     <div class="d-flex">
@@ -109,6 +109,12 @@
                             </div>
                             <div class="tab-content">
 
+                                @php
+                                    if(isset($arrData['get_last_status']) && ($arrData['get_last_status']->status_id == config('commanConfig.applicationStatus.forwarded')))
+                                        $style = "display:none";
+                                    else
+                                        $style = "";
+                                @endphp
                                 <div class="panel active" id="document-scrunity">
                                     <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
                                         <div class="portlet-body">
@@ -158,15 +164,15 @@
                                                                     @endphp
                                                                     <p class="mb-2">{{ $comment_by_EE }}</p>
                                                                     <div class="d-flex btn-list-inline-wrap">
-
                                                                         @if($comment_by_EE && $ee_document)
-                                                                            <button class="btn btn-link btn-list-inline editDocumentStatus" style="cursor: pointer"
+
+                                                                            <button class="btn btn-link btn-list-inline editDocumentStatus" style="cursor: pointer; {{$style}}"
                                                                                     data-toggle="modal" data-id="{{ $i }}" data-documentStatusId={{ $document_status_id }} data-target="#edit-remark-{{$i}}">Edit</button>
 
-                                                                            <button class="btn btn-link btn-list-inline deleteDocumentStatus" style="cursor: pointer"
+                                                                            <button class="btn btn-link btn-list-inline deleteDocumentStatus" style="cursor: pointer; {{$style}}"
                                                                                     data-toggle="modal" data-id="{{ $i }}" data-documentStatusId={{ $document_status_id }} data-target="#delete-remark-{{$i}}">Delete</button>
                                                                         @else
-                                                                            <button class="btn btn-link btn-list-inline" style="cursor: pointer"
+                                                                            <button class="btn btn-link btn-list-inline" style="cursor: pointer;{{$style}}"
                                                                                     data-toggle="modal" data-target="#add-remark-{{$i}}">Add</button>
                                                                         @endif
 
@@ -460,7 +466,7 @@
                                                             </table>
                                                         </div>
                                                     </div>
-                                                    <button type="submit" class="btn btn-primary">Save</button>
+                                                    <button type="submit" style="{{ $style }}" class="btn btn-primary">Save</button>
                                                 </form>
                                             </div>
                                             <div class="tab-pane" id="demarcation">
@@ -581,7 +587,7 @@
                                                             </table>
                                                         </div>
                                                     </div>
-                                                    <button type="submit" class="btn btn-primary">Save</button>
+                                                    <button type="submit" style="{{ $style }}" class="btn btn-primary">Save</button>
                                                 </form>
                                             </div>
                                             <div class="tab-pane" id="tit-bit">
@@ -701,7 +707,7 @@
                                                             </table>
                                                         </div>
                                                     </div>
-                                                    <button type="submit" class="btn btn-primary">Save</button>
+                                                    <button type="submit" style="{{ $style }}" class="btn btn-primary">Save</button>
                                                 </form>
                                             </div>
                                             <div class="tab-pane" id="relocation">
@@ -798,7 +804,7 @@
                                                             </table>
                                                         </div>
                                                     </div>
-                                                <button type="submit" class="btn btn-primary">Save</button>
+                                                <button type="submit" style="{{ $style }}" class="btn btn-primary">Save</button>
                                                 </form>
                                             </div>
                                     </div>
@@ -809,6 +815,12 @@
                                     three
                                 </div> -->
 
+                                @php
+                                    if(isset($arrData['get_last_status']) && ($arrData['get_last_status']->status_id == config('commanConfig.applicationStatus.forwarded')))
+                                        $display = "display:none";
+                                    else
+                                        $display = "";
+                                @endphp
                                 <div class="panel" id="ee-note">
                                     <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
                                         <div class="portlet-body">
@@ -826,29 +838,34 @@
                                                             <div class="col-sm-6">
                                                                 <div class="d-flex flex-column h-100 two-cols">
                                                                     <h5>Download Note</h5>
-                                                                    <span class="hint-text">Download REE Note uploaded by
+                                                                    <span class="hint-text">Download EE Note uploaded by
                                                                     REE</span>
                                                                     <div class="mt-auto">
-                                                                        <button class="btn btn-primary">Download Note
-                                                                            Format</button>
+                                                                        @php
+                                                                            $href = isset($arrData['eeNote']->document_path) ? asset($arrData['eeNote']->document_path) : "#";
+                                                                        @endphp
+                                                                        <a href="{{ $href }}" download class="btn btn-primary">Download Note
+                                                                            Format</a>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-sm-6 border-left">
+                                                            <div class="col-sm-6 border-left" style="{{ $display }}">
                                                                 <div class="d-flex flex-column h-100 two-cols">
                                                                     <h5>Upload Note</h5>
-                                                                    <span class="hint-text">Click on 'Upload' to upload REE
+                                                                    <span class="hint-text">Click on 'Upload' to upload EE
                                                                     -
                                                                     Note</span>
-                                                                    <form action="" method="post">
+                                                                    <form action="{{ route('ee.upload_ee_note') }}" method="post" enctype="multipart/form-data">
+                                                                        @csrf
+                                                                        <input type="hidden" name="application_id" value="{{ $arrData['society_detail']->id }}">
                                                                         <div class="custom-file">
-                                                                            <input class="custom-file-input" name="" type="file"
+                                                                            <input class="custom-file-input" name="ee_note" type="file"
                                                                                    id="test-upload" required="">
                                                                             <label class="custom-file-label" for="test-upload">Choose
                                                                                 file...</label>
                                                                         </div>
                                                                         <div class="mt-auto">
-                                                                            <button type="submit" class="btn btn-primary btn-custom"
+                                                                            <button type="submit" style="{{ $style }}" class="btn btn-primary btn-custom"
                                                                                     id="uploadBtn">Upload</button>
                                                                         </div>
                                                                     </form>

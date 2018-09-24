@@ -49,6 +49,6 @@ return [
         'case_under_judgement' => 3,
         'forwarded' => 4,
         'notice_send' => 5,
-        'case_close' => 6,
+        'case_closed' => 6,
     ],
 ];

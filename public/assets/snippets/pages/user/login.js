@@ -352,6 +352,15 @@ var SnippetLogin = function() {
                         },
                         mhada_name: {
                             required: !0
+                        },
+                        extract: {
+                            required: '.file_upload[value="1"]:checked',
+                            accept: "pdf"
+                        }
+                    },
+                    messages: {
+                        extract:{
+                            accept: "Only pdf allowed",
                         }
                     }
                 }), t.valid() && (a.addClass("m-loader m-loader--right m-loader--light").attr("disabled", !0), setTimeout(function() {
@@ -415,8 +424,8 @@ var SnippetLogin = function() {
                         },
                         mhada_name: {
                             required: !0
-                        }
-                    }
+                        },
+                    },
                 }), t.valid() && (a.addClass("m-loader m-loader--right m-loader--light").attr("disabled", !0), setTimeout(function() {
                     $('#editVillageDetail').submit();
                 }, 500))

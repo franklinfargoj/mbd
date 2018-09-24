@@ -180,12 +180,10 @@
                     <div class="col-lg-6 form-group extract_upload" style="display: none">
                         <label class="col-form-label" for="extract">7/12 Extract:</label>
                         <div class="custom-file">
-                            <input type="file" id="extract" name="extract" class="custom-file-input">{{
-                            $arrData['village_data']['extract_file_name'] }}
+                            <input type="file" id="extract" name="extract" class="custom-file-input" style="display: none">
                             <input type="hidden" name="extract_file_name" value="{{ $arrData['village_data']['extract_file_name'] }}">
                             <input type="hidden" name="extract_file_path" value="{{ $arrData['village_data']['extract_file_path'] }}">
-                            <label class="custom-file-label" for="extract">Choose
-                                file...</label>
+                            <label title="{{$arrData['village_data']['extract_file_name'] }}" class="custom-file-label" for="extract">{{$arrData['village_data']['extract_file_name'] }}</label>
                             <span class="help-block">{{$errors->first('extract')}}</span>
                         </div>
                     </div>
