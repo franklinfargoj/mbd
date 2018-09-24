@@ -128,7 +128,7 @@ class UploadCaseJudgementController extends Controller
     public function edit($id)
     {
         $header_data = $this->header_data;
-        $arrData['hearing_data'] = Hearing::with('hearingUploadCaseJudgement')->first();
+        $arrData['hearing_data'] = Hearing::with('hearingUploadCaseJudgement')->where('id', $id)->first();
         $arrData['hearing_status'] = HearingStatusLog::where('hearing_id', $id)->orderBy('id', 'desc')->first();
 
         return view('admin.upload_case_judgement.edit', compact('header_data', 'arrData'));
