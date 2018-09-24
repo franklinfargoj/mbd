@@ -158,6 +158,11 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('get-forward-application/{application_id}', 'EEDepartment\EEController@getForwardApplicationForm')->name('get-forward-application');
     Route::post('/forward-application', 'EEDepartment\EEController@forwardApplication')->name('forward-application');
 
+    Route::post('/consent-verfication', 'EEDepartment\EEController@consentVerification')->name('consent-verfication');
+    Route::post('/ee-demarcation', 'EEDepartment\EEController@eeDemarcation')->name('ee-demarcation');
+    Route::post('/ee-tit-bit', 'EEDepartment\EEController@titBit')->name('ee-tit-bit');
+    Route::post('/ee-rg-relocation', 'EEDepartment\EEController@rgRelocation')->name('ee-rg-relocation');    
+
 
 	//DYCE Department routes
 	Route::resource('dyce','DYCEDepartment\DYCEController');

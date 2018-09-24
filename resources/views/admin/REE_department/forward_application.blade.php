@@ -102,7 +102,6 @@
                             </div>
                         </div>
                         <div class="tab-content">
-
                             <div class="tab-pane active show" id="scrutiny-history-tab">
                                 <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
                                     <div class="portlet-body">
@@ -168,6 +167,7 @@
                                 </div>
                             </div>
 
+                        </div>
                             <div class="tab-pane show" id="forward-application-tab">
                                 <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
                                     <div class="portlet-body">
@@ -233,7 +233,6 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
                     </div>
                 </div>
             </div>

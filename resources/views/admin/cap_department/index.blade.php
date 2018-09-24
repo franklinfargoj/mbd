@@ -14,7 +14,7 @@
             <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
                 <div class="row align-items-center">
                     <div class="col-md-12 order-2 order-xl-1">
-                        <form role="form" id="eeForm" method="get" class="form-group m-form__group row align-items-end" action="{{ route('co.index') }}">
+                        <form role="form" id="eeForm" method="get" class="form-group m-form__group row align-items-end" action="{{ route('cap.index') }}">
 <!--                                 <div class="col-md-3">
                                     <label for="exampleSelect1">Search</label>
                                     <div class="m-input-icon m-input-icon--left">

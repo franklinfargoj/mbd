@@ -87,7 +87,7 @@ class CommonController extends Controller
     public function getForwardApplication($applicationId){
 
         $applicationData = OlApplication::with(['eeApplicationSociety'])
-                ->where('id',$applicationId)->first(); 
+                ->where('id',$applicationId)->orderBy('id','DESC')->first();         
                  
         return  $applicationData;
     }
@@ -216,6 +216,8 @@ class CommonController extends Controller
         $ee_jr_user = Role::where('name',config('commanConfig.ee_junior_engineer'))
         ->value('id');
         $applicationData->eeForwardLog = OlApplicationStatus::where('application_id',$applicationId)->where('role_id',$ee_branch_head)->where('status_id', config('commanConfig.applicationStatus.forwarded'))->orderBy('id', 'desc')->first();
+
+        // dd($applicationData->eeForwardLog);
 
         $applicationData->eeRevertLog = OlApplicationStatus::where('application_id',$applicationId)->where('role_id',$ee_jr_user)->where('status_id', config('commanConfig.applicationStatus.reverted'))->where('society_flag',1)->orderBy('id', 'desc')->first();        
 

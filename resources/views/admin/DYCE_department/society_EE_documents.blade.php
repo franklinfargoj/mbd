@@ -34,12 +34,20 @@
           @foreach($societyDocuments[0]->societyDocuments as $data) 
             <tr>
               <td>{{$i+1}}</td>
-              <td>{{($data->documents_Name[0]->name)}}</td>
-              <td class="text-center"><a href="{{ asset($data->society_document_path) }}">
-              <img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a></td>
-              <td class="text-center"><a href="{{ asset($data->EE_document_path) }}">
-              <img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a></td>
-              <td><p class="mb-2">{{($data->comment_by_EE)}}</p></td>
+              <td>{{(isset($data->documents_Name[0]->name) ? $data->documents_Name[0]->name : '')}}</td>
+              <td class="text-center">
+              @if(isset($data->society_document_path))
+                <a href="{{ asset($data->society_document_path) }}">
+                <img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
+              @endif
+              </td>
+              <td class="text-center">
+              @if(isset($data->EE_document_path))
+                <a href="{{ asset($data->EE_document_path) }}">
+                <img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
+              @endif
+              </td>
+              <td><p class="mb-2">{{(isset($data->comment_by_EE) ? $data->comment_by_EE : '')}}</p></td>
             </tr>
             <?php $i++; ?>
           @endforeach

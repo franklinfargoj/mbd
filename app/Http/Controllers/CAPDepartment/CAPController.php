@@ -92,7 +92,7 @@ class CAPController extends Controller
         }        
     	        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
             
-            return view('admin.co_department.index', compact('html','header_data','getData'));    
+            return view('admin.cap_department.index', compact('html','header_data','getData'));    
    	
     }
 

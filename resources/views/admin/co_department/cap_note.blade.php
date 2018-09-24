@@ -31,8 +31,13 @@
         <span class="field-name"> Download CAP Note uploaded by CAP</span>
         <div class="d-flex flex-wrap align-items-center mb-5 upload_doc_1">
         </div> 
-        <a href="{{ asset(isset($capNote->document_path) ? $capNote->document_path : '' )}}" class="s_btn btn btn-primary" disabled id="submitBtn">
-        Download</a>            
+        @if(isset($capNote->document_path))
+          <a href="{{ asset($capNote->document_path) }}">
+        @else
+        <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;"> 
+        *Note : CAP note is not available.</span>  
+        @endif
+        <Button type="button" class="s_btn btn btn-primary" id="submitBtn"> Download </Button> </a>            
       </div>
   </div> 
 </form>

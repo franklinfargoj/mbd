@@ -4,7 +4,7 @@
 <a title="EE_Scrutiny_Remark" href="{{route('co.scrutiny_remark',$co_application_data->id)}}">DyCE Scrutiny & Remarks</a> 
 <a title="EE_Scrutiny_Remark" href="">REE calculation sheet</a>  
 <a title="scrutiny_remark" href="">Approve offer Letter</a>
-@if(!$request->update_status && $co_application_data->olApplicationStatusForLoginListing[0]->status_id == config('commanConfig.applicationStatus.in_process'))
+@if($co_application_data->olApplicationStatusForLoginListing[0]->status_id == config('commanConfig.applicationStatus.in_process'))
     <a title="Society_EE_Documents" href="{{route('co.forward_application', $co_application_data->id)}}">Forward Application</a>
 @endif
 <a title="Cap_Note" href="{{route('co.download_cap_note', $co_application_data->id)}}">CAP Notes</a>

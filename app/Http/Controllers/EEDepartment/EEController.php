@@ -181,11 +181,11 @@ class EEController extends Controller
             {
                 $society_user_data = OlApplicationStatus::where('application_id', $request->application_id)
                                                         ->where('society_flag', 1)
-                                                        ->orderBy('id', 'desc')->get();
-
+                                                        ->orderBy('id', 'desc')->get();                                     
                 $revert_application = [
                     [
                         'application_id' => $request->application_id,
+                        'society_flag' => 0,
                         'user_id' => Auth::user()->id,
                         'role_id' => session()->get('role_id'),
                         'status_id' => config('commanConfig.applicationStatus.reverted'),
@@ -200,7 +200,7 @@ class EEController extends Controller
                         'society_flag' => 1,
                         'user_id' => $society_user_data[0]->user_id,
                         'role_id' => $society_user_data[0]->role_id,
-                        'status_id' => config('commanConfig.applicationStatus.in_process'),
+                        'status_id' => config('commanConfig.applicationStatus.reverted'),
                         'to_user_id' => NULL,
                         'to_role_id' => NULL,
                         'remark' => $request->remark,

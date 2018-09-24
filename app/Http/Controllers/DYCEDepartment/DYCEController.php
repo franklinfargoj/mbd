@@ -108,8 +108,10 @@ class DYCEController extends Controller
     public function dyceScrutinyRemark(Request $request, $applicationId){
 
         $is_view = session()->get('role_name') == config('commanConfig.dyce_jr_user'); 
+
         $applicationData = $this->CommonController->getDyceScrutinyRemark($applicationId);
-        return view('admin.DYCE_department.scrutiny_remark',compact('applicationData'));
+       
+        return view('admin.DYCE_department.scrutiny_remark',compact('applicationData','is_view'));
     } 
 
     // function used to update details and upload documents by DYCE 
