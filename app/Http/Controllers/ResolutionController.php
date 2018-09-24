@@ -91,7 +91,7 @@ class ResolutionController extends Controller
 
         if($request->excel)
         {
-            $resolutions = Resolution::with(['board','department','resolutionType'])->join('boards', 'resolutions.board_id', '=', 'boards.id')
+            $resolutions = Resolution::join('boards', 'resolutions.board_id', '=', 'boards.id')
             ->join('departments', 'resolutions.department_id', '=', 'departments.id')
             ->join('resolution_types', 'resolutions.resolution_type_id', '=', 'resolution_types.id');
             
@@ -122,6 +122,7 @@ class ResolutionController extends Controller
             
             $resolutions = $resolutions->selectRaw( DB::raw('resolutions.id as id, boards.board_name, departments.department_name, resolution_types.name as resolutionType, title, resolution_code, published_date, filepath, filename'));
             $dataList= $resolutions->get();
+            
             return Excel::create('resolution_'.date('Y_m_d_H_i_s'), function($excel) use($dataList){
 
                 $excel->sheet('mySheet', function($sheet) use($dataList)

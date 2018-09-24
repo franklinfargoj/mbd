@@ -161,7 +161,7 @@ var SnippetLogin = function() {
                 e.preventDefault();
                 var a = $(this),
                     t = $(this).closest("form");
-                    // console.log(t)
+                     
                 t.validate({
                     rules:{
                         board_name:{
@@ -192,7 +192,9 @@ var SnippetLogin = function() {
                             required:true
                         },
                         info_post_type:{
-                            required:true
+                            required: function(element) {
+                                return $('#rtiInfoRespondRadios1').is(':checked')
+                              }
                         },
                     }
                 }), t.valid() && (a.addClass("m-loader m-loader--right m-loader--light").attr("disabled", !0), setTimeout(function() {
