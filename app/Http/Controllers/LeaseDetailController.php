@@ -31,8 +31,8 @@ class LeaseDetailController extends Controller
     {
         $lease_data = LeaseDetail::where(['lm_lease_detail.society_id' => $id])
             ->join('lm_society_detail','lm_lease_detail.society_id','=','lm_society_detail.id')->selectRaw(DB::raw('lm_lease_detail.id as id, lm_lease_detail.lease_rule_16_other,lm_lease_detail.lease_basis,lm_lease_detail.area,lm_lease_detail.lease_period,lm_lease_detail.lease_start_date,lm_lease_detail.lease_rent,lm_lease_detail.lease_rent_start_month,lm_lease_detail.interest_per_lease_agreement,lm_lease_detail.interest_per_lease_agreement,lm_lease_detail.lease_renewal_date,lm_lease_detail.lease_renewed_period,lm_lease_detail.rent_per_renewed_lease,lm_lease_detail.interest_per_renewed_lease_agreement,lm_lease_detail.month_rent_per_renewed_lease,lm_lease_detail.payment_detail,lm_lease_detail.lease_status,lm_society_detail.society_name'));
-            $dataList=$lease_data->orderBy('lm_lease_detail.created_at','desc')->get();
-        return view('admin.lease_detail.print_data',compact('lease_details')); 
+            $lease_data=$lease_data->orderBy('lm_lease_detail.created_at','desc')->get();
+        return view('admin.lease_detail.print_data',compact('lease_data')); 
     }
     /**
      * Display a listing of the resource.
@@ -58,10 +58,11 @@ class LeaseDetailController extends Controller
 
         if($request->excel)
         {
-            $lease_data = LeaseDetail::where(['lm_lease_detail.society_id' => $id])
+            $lease_data = LeaseDetail::where(['society_id' => $id])
             ->join('lm_society_detail','lm_lease_detail.society_id','=','lm_society_detail.id')->selectRaw(DB::raw('lm_lease_detail.id as id, lm_lease_detail.lease_rule_16_other,lm_lease_detail.lease_basis,lm_lease_detail.area,lm_lease_detail.lease_period,lm_lease_detail.lease_start_date,lm_lease_detail.lease_rent,lm_lease_detail.lease_rent_start_month,lm_lease_detail.interest_per_lease_agreement,lm_lease_detail.interest_per_lease_agreement,lm_lease_detail.lease_renewal_date,lm_lease_detail.lease_renewed_period,lm_lease_detail.rent_per_renewed_lease,lm_lease_detail.interest_per_renewed_lease_agreement,lm_lease_detail.month_rent_per_renewed_lease,lm_lease_detail.payment_detail,lm_lease_detail.lease_status,lm_society_detail.society_name'));
             $dataList=$lease_data->orderBy('lm_lease_detail.created_at','desc')->get();
-            return Excel::create('resolution_'.date('Y_m_d_H_i_s'), function($excel) use($dataList){
+            
+            return Excel::create('lease_detail_'.date('Y_m_d_H_i_s'), function($excel) use($dataList){
 
                 $excel->sheet('mySheet', function($sheet) use($dataList)
                 {
