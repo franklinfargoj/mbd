@@ -28,7 +28,7 @@ class HearingScheduleRequest extends FormRequest
             'preceding_date' => 'required',
             'preceding_time' => 'required',
             'description' => 'required',
-            'update_status' => 'required',
+//            'update_status' => 'required',
             'file.*' => 'required|mimes:pdf',
         ];
     }

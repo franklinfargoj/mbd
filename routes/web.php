@@ -38,12 +38,16 @@ Route::post('frontend_register','FrontendRegisterController@frontendRegister');
 
 //resolution print
 Route::get('resolution/print','ResolutionController@print_data')->name('resolution.print');
+Route::get('hearing/print','HearingController@print_data')->name('hearing.print');
 
 //village details print
 Route::get('village_detail/print','VillageDetailController@print_data')->name('village_detail.print');
 
 //society details print
 Route::get('society_detail/print/{id}','SocietyController@print_data')->name('society_detail.print');
+
+//lease details print
+Route::get('lease_detail/print/{id}','LeaseDetailController@print_data')->name('lease_detail.print');
 
 Route::group(['middleware' => ['check_society_offer_letter_permission']], function(){
        
@@ -66,6 +70,8 @@ Route::resource('ee', 'EEDepartment\EEController');
 Route::resource('received_application','DYCEDepartment\DYCEController');
 
 Route::post('loadDepartmentsOfBoardUsingAjax', 'BoardController@loadDepartmentsOfBoardUsingAjax')->name('loadDepartmentsOfBoardUsingAjax');
+Route::post('loadDepartmentsOfBoardForHearing', 'BoardController@loadDepartmentsOfBoardForHearing')->name('loadDepartmentsOfBoardForHearing');
+Route::post('getDepartmentUser', 'BoardController@getDepartmentUser')->name('getDepartmentUser');
 
 
 Route::resource('/rti_frontend', 'RtiFrontEndController');
@@ -155,6 +161,11 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::post('/ee-document-scrutiny-delete/{id}', 'EEDepartment\EEController@deleteDocumentScrutiny')->name('ee-document-scrutiny-delete');
     Route::get('/document-submitted/{society_id}', 'EEDepartment\EEController@documentSubmittedBySociety')->name('document-submitted');
 
+    Route::post('/consent-verfication', 'EEDepartment\EEController@consentVerification')->name('consent-verfication');
+    Route::post('/ee-demarcation', 'EEDepartment\EEController@eeDemarcation')->name('ee-demarcation');
+    Route::post('/ee-tit-bit', 'EEDepartment\EEController@titBit')->name('ee-tit-bit');
+    Route::post('/ee-rg-relocation', 'EEDepartment\EEController@rgRelocation')->name('ee-rg-relocation');
+
     Route::get('get-forward-application/{application_id}', 'EEDepartment\EEController@getForwardApplicationForm')->name('get-forward-application');
     Route::post('/forward-application', 'EEDepartment\EEController@forwardApplication')->name('forward-application');
 
@@ -181,7 +192,10 @@ Route::get('scrutiny_remark/{id}','DYCEDepartment\DYCEController@dyceScrutinyRem
     Route::get('download_cap_note/{id}','REEDepartment\REEController@downloadCapNote')->name('ree.download_cap_note');
     Route::post('ree_forward_Application_data','REEDepartment\REEController@sendForwardApplication')->name('ree.forward_application_data');
 
+
+
     Route::resource('/ol_calculation_sheet', 'REEDepartment\OlApplicationCalculationSheetDetailsController');
+    Route::post('ol_calculation_sheet/save_details','REEDepartment\OlApplicationCalculationSheetDetailsController@saveCalculationDetails')->name('save_calculation_details');
 
     // CO department route 
     Route::resource('co','CODepartment\COController');

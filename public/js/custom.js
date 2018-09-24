@@ -108,16 +108,16 @@ $(document).ready(function() {
       language: "required",
       published_date: "required",
       revision_log_message: "required",
-      file: {
-        extension : "pdf",
-        required  : function(element) {
-                      if ($("#File_name").text() == ""){
-                          return true;
-                      } else {
-                          return false;
-                      }
-                    }
-      },      
+    //   file: {
+    //     extension : "pdf",
+    //     required  : function(element) {
+    //                   if ($("#File_name").text() == ""){
+    //                       return true;
+    //                   } else {
+    //                       return false;
+    //                   }
+    //                 }
+    //   },      
     },
     messages : {
       file : {
@@ -207,7 +207,10 @@ $(document).ready(function() {
 
     $("#createHearingSchedule").validate({
         rules: {
-            preceding_number: "required",
+            preceding_number: {
+                required: true,
+                number:true
+            },
             preceding_date: "required",
             preceding_time: "required",
             description: "required",
@@ -248,6 +251,7 @@ $(document).ready(function() {
             board: "required",
             department: "required",
             description: "required",
+            user: "required"
         }
     });
 

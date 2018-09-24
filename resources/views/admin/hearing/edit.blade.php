@@ -2,8 +2,9 @@
 @section('content')
 <div class="col-md-12">
     <div class="m-subheader px-0 m-subheader--top">
-        <div class="d-flex">
-            <h3 class="m-subheader__title">Edit Hearing</h3>
+        <div class="d-flex align-items-center">
+            <h3 class="m-subheader__title m-subheader__title--separator">Edit Hearing</h3>
+            {{ Breadcrumbs::render('Hearing Edit', $arrData['hearing']->id) }}
         </div>
     </div>
     <!-- END: Subheader -->
@@ -187,6 +188,7 @@
                         <input type="text" id="office_date" name="office_date" class="form-control form-control--custom m_datepicker"
                             readonly value="{{ $arrData['hearing']->office_date }}">
                         <span class="help-block">{{$errors->first('office_date')}}</span>
+
                     </div>
                 </div>
 

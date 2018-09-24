@@ -93,3 +93,62 @@ Breadcrumbs::for('lease_renew', function ($trail,$id,$village_id) {
 	$trail->push('lease_renew', route('renew-lease.renew',['id'=>$id,'village_id'=>$village_id]));
 });
 
+// Hearing
+Breadcrumbs::for('Hearing', function ($trail) {
+    $trail->push('Hearing', route('hearing.index'));
+});
+
+Breadcrumbs::for('Hearing Create', function ($trail) {
+    $trail->parent('Hearing');
+    $trail->push('Hearing Create', route('hearing.create'));
+});
+
+Breadcrumbs::for('Hearing Edit', function ($trail, $id) {
+    $trail->parent('Hearing');
+    $trail->push('Hearing Edit', route('hearing.edit', $id));
+});
+
+Breadcrumbs::for('View Hearing', function ($trail, $hearing_id) {
+    $trail->parent('Hearing');
+    $trail->push('View Hearing', route('hearing.show', $hearing_id));
+});
+
+// Schedule Hearing
+
+Breadcrumbs::for('Schedule Hearing', function ($trail, $id) {
+    $trail->parent('Hearing');
+    $trail->push('Schedule Hearing', route('schedule_hearing.add', $id));
+});
+
+// Prepone/Postpone Hearing
+
+Breadcrumbs::for('Prepone/Postpone Hearing', function ($trail, $id) {
+    $trail->parent('Hearing');
+    $trail->push('Prepone/Postpone Hearing', route('fix_schedule.add', $id));
+});
+
+// Hearing Case Judgement
+
+Breadcrumbs::for('Upload Case Judgement', function ($trail, $id) {
+    $trail->parent('Hearing');
+    $trail->push('Upload Case Judgement', route('upload_case_judgement.add', $id));
+});
+
+// Forward Hearing
+
+Breadcrumbs::for('Forward Case', function ($trail, $id) {
+    $trail->parent('Hearing');
+    $trail->push('Forward Case', route('forward_case.create', $id));
+});
+
+/*Breadcrumbs::for('Forward Case', function ($trail, $id) {
+    $trail->parent('Hearing');
+    $trail->push('Forward Case', route('forward_case.edit', $id));
+});*/
+
+// Send Notice in Hearing
+
+Breadcrumbs::for('Send Notice To Appellant', function ($trail, $id) {
+    $trail->parent('Hearing');
+    $trail->push('Send Notice To Appellant', route('send_notice_to_appellant.create', $id));
+});

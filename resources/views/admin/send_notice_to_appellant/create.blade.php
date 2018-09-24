@@ -2,8 +2,9 @@
 @section('content')
 <div class="col-md-12">
     <div class="m-subheader px-0 m-subheader--top">
-        <div class="d-flex">
-            <h3 class="m-subheader__title">Send Notice to Appellant</h3>
+        <div class="d-flex align-items-center">
+            <h3 class="m-subheader__title m-subheader__title--separator">Send Notice to Appellant</h3>
+            {{ Breadcrumbs::render('Send Notice To Appellant', $arrData['hearing']->id) }}
         </div>
     </div>
     <!-- END: Subheader -->
@@ -58,7 +59,7 @@
                     </div>
                 </div>
 
-                <div class="form-group m-form__group row">
+                {{--<div class="form-group m-form__group row">
                     <div class="col-lg-6 form-group">
                         <label class="col-form-label">Board:</label>
                         <input type="text" class="form-control form-control--custom m-input" value="{{ $arrData['hearing']->hearingBoard->board_name }}"
@@ -72,7 +73,7 @@
                             readonly>
                         <span class="help-block"></span>
                     </div>
-                </div>
+                </div>--}}
 
                 <div class="m-portlet__head px-0 m-portlet__head--top">
                     <div class="m-portlet__head-caption">

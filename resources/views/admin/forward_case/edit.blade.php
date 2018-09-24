@@ -3,7 +3,7 @@
 <div class="col-md-12">
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex">
-            <h3 class="m-subheader__title">Upload Case Judgement</h3>
+            <h3 class="m-subheader__title">Forward Case</h3>
         </div>
     </div>
     <!-- END: Subheader -->
@@ -57,7 +57,7 @@
                     </div>
                 </div>
 
-                <div class="form-group m-form__group row">
+                {{--<div class="form-group m-form__group row">
                     <div class="col-lg-6 form-group">
                         <label class="col-form-label">Board:</label>
                         <input type="text" class="form-control m-input" value="{{ $arrData['hearing']->hearingBoard->board_name }}"
@@ -71,7 +71,7 @@
                             readonly>
                         <span class="help-block"></span>
                     </div>
-                </div>
+                </div>--}}
 
                 <div class="m-portlet__head px-0 m-portlet__head--top">
                     <div class="m-portlet__head-caption">
@@ -144,6 +144,30 @@
     $(document).ajaxComplete(function () {
         $("#department_id").val(dept_id).trigger("change");
     });
+
+
+    $('#board_id').change(function(){
+        loadDepartmentsOfBoard();
+    });
+
+    function loadDepartmentsOfBoard()
+    {
+        var board_id = $('#board_id').val();
+
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type:"POST",
+            data:{
+                board_id:board_id
+            },
+            url:"{{ route('loadDepartmentsOfBoardUsingAjax') }}",
+            success:function(res){
+                $('#department_id').html(res);
+            }
+        });
+    }
 
 </script>
 @endsection

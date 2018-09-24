@@ -24,7 +24,7 @@ class CreateOlApplicationCalculationSheetDetailsTable extends Migration
             $table->string('area_of_ntbnib_plot')->nullable();
             $table->string('area_as_per_introduction')->nullable();
             $table->string('area_of_​​subsistence_to_calculate')->nullable();
-            $table->string('permissible _carpet_area_coordinates')->nullable();
+            $table->string('permissible_carpet_area_coordinates')->nullable();
             $table->string('permissible_construction_area')->nullable();
             $table->string('sqm_area_per_slot')->nullable();
             $table->integer('total_house')->nullable();

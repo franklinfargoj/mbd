@@ -5,9 +5,13 @@ namespace App\Http\Controllers;
 use App\Hearing;
 use App\HearingSchedule;
 use App\HearingStatus;
+use App\HearingStatusLog;
 use App\Http\Requests\hearing_schedule\HearingScheduleRequest;
+use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use File;
+use Illuminate\Support\Facades\Auth;
 use Storage;
 
 class ScheduleHearingController extends Controller
@@ -56,7 +60,7 @@ class ScheduleHearingController extends Controller
         $input['preceding_number'] = $request->preceding_number;
         $input['preceding_time'] = $request->preceding_time;
         $input['description'] = $request->description;
-        $input['update_status'] = $request->update_status;
+        $input['update_status'] = config('commanConfig.hearingStatus.scheduled_meeting');
 
         if($request->hasFile('file'))
         {
@@ -89,6 +93,34 @@ class ScheduleHearingController extends Controller
         }
 
         HearingSchedule::create($input);
+
+        $parent_role_id = User::where('role_id', session()->get('parent'))->first();
+
+        $hearing_status_log = [
+            [
+                'hearing_id' => $request->hearing_id,
+                'user_id' => Auth::user()->id,
+                'role_id' => session()->get('role_id'),
+                'hearing_status_id' => config('commanConfig.hearingStatus.scheduled_meeting'),
+                'to_user_id' => NULL,
+                'to_role_id' => NULL,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ],
+
+            [
+                'hearing_id' => $request->hearing_id,
+                'user_id' => $parent_role_id->id,
+                'role_id' => session()->get('parent'),
+                'hearing_status_id' => config('commanConfig.hearingStatus.scheduled_meeting'),
+                'to_user_id' => NULL,
+                'to_role_id' => NULL,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ]
+        ];
+
+        HearingStatusLog::insert($hearing_status_log);
 
         return redirect('/hearing')->with(['success'=> 'Schedule created successfully']);
     }

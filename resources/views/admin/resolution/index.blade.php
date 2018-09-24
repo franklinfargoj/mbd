@@ -38,14 +38,14 @@
                                 <div class="form-group m-form__group">
                                     <label>From Date</label>
                                     <input type="text" class="form-control form-control--custom m-input m_datepicker"
-                                        placeholder="From Date" name="published_from_date" value="{{ (!empty($getData) ? $getData['title'] : '') }}">
+                                        placeholder="From Date" name="published_from_date" value="{{ (!empty($getData) ? $getData['published_from_date'] : '') }}">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group m-form__group">
                                     <label>To Date</label>
                                     <input type="text" class="form-control form-control--custom m-input m_datepicker"
-                                        placeholder="From Date" name="published_to_date" value="{{ (!empty($getData) ? $getData['title'] : '') }}">
+                                        placeholder="From Date" name="published_to_date" value="{{ (!empty($getData) ? $getData['published_to_date'] : '') }}">
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -55,7 +55,7 @@
                                         id="exampleSelect1" name="resolution_type_id">
                                         <option value="0">Select Resolution Type</option>
                                         @foreach($resolutionTypes as $resolutionType)
-                                        <option value="{{ $resolutionType['id'] }}">{{ $resolutionType['name'] }}</option>
+                                        <option {{ (!empty($getData) ? ($getData['resolution_type_id']==$resolutionType['id']?'selected':'') : '') }} value="{{ $resolutionType['id'] }}">{{ $resolutionType['name'] }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -67,13 +67,14 @@
                                         id="exampleSelect1" name="board_id">
                                         <option value="0">Select Board</option>
                                         @foreach($boards as $board)
-                                        <option value="{{ $board['id'] }}">{{ $board['board_name'] }}</option>
+                                        <option {{ (!empty($getData) ? ($getData['board_id']==$board['id']?'selected':'') : '') }} value="{{ $board['id'] }}">{{ $board['board_name'] }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <button type="submit" class="btn btn-primary">Search</button>
+                                <button type="submit" name="reset" value="Reset" class="btn btn-primary">Reset</button>
                             </div>
                             <div class="col-md-6 mt-5">
                                 <div class="btn-list text-right">

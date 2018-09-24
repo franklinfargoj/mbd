@@ -2,8 +2,9 @@
 @section('content')
 <div class="col-md-12">
     <div class="m-subheader px-0 m-subheader--top">
-        <div class="d-flex">
-            <h3 class="m-subheader__title">Schedule Hearing</h3>
+        <div class="d-flex align-items-center">
+            <h3 class="m-subheader__title m-subheader__title--separator">Schedule Hearing</h3>
+            {{ Breadcrumbs::render('Schedule Hearing', $arrData['hearing']->id) }}
         </div>
     </div>
     <!-- END: Subheader -->
@@ -97,18 +98,18 @@
                 </div>
 
                 <div class="form-group m-form__group row">
-                    <div class="col-lg-6 form-group">
-                        <label class="col-form-label" for="update_status">Update Status:</label>
-                        <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="update_status"
-                            name="update_status">
-                            @foreach($arrData['status'] as $hearing_status)
-                            <option value="{{ $hearing_status->id  }}"
-                                {{ ($hearing_status->id == $arrData['hearing']->hearing_status_id) ? "selected" : "" }}>{{
-                                $hearing_status->status_title}}</option>
-                            @endforeach
-                        </select>
-                        <span class="help-block">{{$errors->first('update_status')}}</span>
-                    </div>
+                    {{--<div class="col-lg-6 form-group">--}}
+                        {{--<label class="col-form-label" for="update_status">Update Status:</label>--}}
+                        {{--<select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="update_status"--}}
+                            {{--name="update_status">--}}
+                            {{--@foreach($arrData['status'] as $hearing_status)--}}
+                            {{--<option value="{{ $hearing_status->id  }}"--}}
+                                {{--{{ ($hearing_status->id == $arrData['hearing']->hearing_status_id) ? "selected" : "" }}>{{--}}
+                                {{--$hearing_status->status_title}}</option>--}}
+                            {{--@endforeach--}}
+                        {{--</select>--}}
+                        {{--<span class="help-block">{{$errors->first('update_status')}}</span>--}}
+                    {{--</div>--}}
 
                     <div class="col-lg-6 form-group">
                         <label class="col-form-label" for="update_supporting_documents">Update Supporting Documents:</label>

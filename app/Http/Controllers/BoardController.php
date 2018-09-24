@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Role;
+use App\User;
+use function foo\func;
 use Illuminate\Http\Request;
 use App\Board;
 use App\Department;
@@ -159,6 +162,70 @@ class BoardController extends Controller
         foreach($departments as $departmentVal)
         {
             $options .= '<option value="'.$departmentVal['id'].'">'.$departmentVal['department_name'].'</option>';
+        }
+
+        return $options;
+    }
+
+    public function loadDepartmentsOfBoardForHearing(Request $request)
+    {
+        $logged_in_role_name = session()->get('role_name');
+
+        if($logged_in_role_name == config('commanConfig.joint_co_pa') || $logged_in_role_name == config('commanConfig.joint_co'))
+        {
+//            $role = Role::where('name', config('commanConfig.co'))->get()->toArray();
+            $role_name = config('commanConfig.co');
+        }
+        if($logged_in_role_name == config('commanConfig.co_pa') || $logged_in_role_name == config('commanConfig.co'))
+        {
+//            $role = Role::where('name', config('commanConfig.joint_co'))->get()->toArray();
+            $role_name = config('commanConfig.joint_co');
+        }
+//        dd($role);
+
+        $department_id = Department::where('department_name', $role_name)->get(['id']);
+
+
+        $departments = Department::whereHas('boardDepartments', function($q) use ($request, $department_id){
+            $q->where('board_id', $request->board_id)
+                ->whereIn('department_id', $department_id);
+        })->get()->toArray();
+
+        $options = '<option value="">Select Department</option>';
+
+        foreach ($departments as $departmentVal) {
+            $options .= '<option value="' . $departmentVal['id'] . '">' . $departmentVal['department_name'] . '</option>';
+        }
+
+        return $options;
+    }
+
+    public function getDepartmentUser(Request $request)
+    {
+        $logged_in_role_name = session()->get('role_name');
+
+        if($logged_in_role_name == config('commanConfig.co_pa') || $logged_in_role_name == config('commanConfig.co'))
+        {
+            $role_name = config('commanConfig.joint_co_pa');
+        }
+
+        if($logged_in_role_name == config('commanConfig.joint_co_pa') || $logged_in_role_name == config('commanConfig.joint_co'))
+        {
+            $role_name = config('commanConfig.co_pa');
+        }
+
+        $role_id = Role::where('name', $role_name)->first();
+
+        $users = User::whereHas('boardUser' , function($q) use($request){
+            $q->where('board_id', $request->board_id);
+        })->where('role_id', $role_id->id)->get()->toArray();
+
+
+        $options = '<option value="">Select User</option>';
+        if($request->department_id) {
+            foreach ($users as $userData) {
+                $options .= '<option data-role="' . $userData['role_id'] . '" value="' . $userData['id'] . '">' . $userData['name'] . '</option>';
+            }
         }
 
         return $options;
