@@ -38,6 +38,7 @@ Route::post('frontend_register','FrontendRegisterController@frontendRegister');
 
 //resolution print
 Route::get('resolution/print','ResolutionController@print_data')->name('resolution.print');
+Route::get('hearing/print','HearingController@print_data')->name('hearing.print');
 
 //village details print
 Route::get('village_detail/print','VillageDetailController@print_data')->name('village_detail.print');
