@@ -2,8 +2,9 @@
 @section('content')
 <div class="col-md-12">
     <div class="m-subheader px-0 m-subheader--top">
-        <div class="d-flex">
-            <h3 class="m-subheader__title">Send Notice to Appellant</h3>
+        <div class="d-flex align-items-center">
+            <h3 class="m-subheader__title m-subheader__title--separator">Send Notice to Appellant</h3>
+            {{ Breadcrumbs::render('Send Notice To Appellant', $arrData['hearing']->id) }}
         </div>
     </div>
     <!-- END: Subheader -->
@@ -61,7 +62,7 @@
                     </div>
                 </div>
 
-                <div class="form-group m-form__group row">
+                {{--<div class="form-group m-form__group row">
                     <div class="col-lg-6 form-group">
                         <label class="col-form-label">Board:</label>
                         <input type="text" class="form-control form-control--custom m-input" value="{{ $arrData['hearing']->hearingBoard->board_name }}"
@@ -75,7 +76,7 @@
                             readonly>
                         <span class="help-block"></span>
                     </div>
-                </div>
+                </div>--}}
 
                 <div class="m-portlet__head px-0 m-portlet__head--top">
                     <div class="m-portlet__head-caption">
@@ -111,7 +112,7 @@
                         <div class="custom-file">
                             <input type="file" id="upload_notice" name="upload_notice" class="form-control form-control--custom"
                                 style="display: none">
-                            <div>{{$arrData['hearing']->hearingSendNoticeToAppellant[0]->upload_notice_filename }}</div>
+                            <label title="{{$arrData['hearing']->hearingSendNoticeToAppellant[0]->upload_notice_filename }}" class="custom-file-label" for="upload_notice">{{$arrData['hearing']->hearingSendNoticeToAppellant[0]->upload_notice_filename }}</label>
                             <span class="help-block">{{$errors->first('upload_notice')}}</span>
                         </div>
                     </div>

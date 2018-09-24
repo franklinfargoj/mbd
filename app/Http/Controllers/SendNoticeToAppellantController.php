@@ -128,6 +128,34 @@ class SendNoticeToAppellantController extends Controller
 
         SendNoticeToAppellant::create($data);
 
+        $parent_role_id = User::where('role_id', session()->get('parent'))->first();
+
+        $hearing_status_log = [
+            [
+                'hearing_id' => $request->hearing_id,
+                'user_id' => Auth::user()->id,
+                'role_id' => session()->get('role_id'),
+                'hearing_status_id' => config('commanConfig.hearingStatus.notice_send'),
+                'to_user_id' => NULL,
+                'to_role_id' => NULL,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ],
+
+            [
+                'hearing_id' => $request->hearing_id,
+                'user_id' => $parent_role_id->id,
+                'role_id' => session()->get('parent'),
+                'hearing_status_id' => config('commanConfig.hearingStatus.notice_send'),
+                'to_user_id' => NULL,
+                'to_role_id' => NULL,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ]
+        ];
+
+        HearingStatusLog::insert($hearing_status_log);
+
         return redirect('hearing')->with(['success'=> 'Record added succesfully']);
     }
 }

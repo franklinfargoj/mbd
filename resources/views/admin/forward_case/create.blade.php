@@ -2,8 +2,9 @@
 @section('content')
 <div class="col-md-12">
     <div class="m-subheader px-0 m-subheader--top">
-        <div class="d-flex">
-            <h3 class="m-subheader__title">Upload Case Judgement</h3>
+        <div class="d-flex align-items-center">
+            <h3 class="m-subheader__title m-subheader__title--separator">Forward Case</h3>
+            {{ Breadcrumbs::render('Forward Case', $arrData['hearing']->id) }}
         </div>
     </div>
     <!-- END: Subheader -->
@@ -90,7 +91,7 @@
                 <div class="form-group m-form__group row">
                     <div class="col-lg-6 form-group">
                         <label class="col-form-label" for="board">Board:</label>
-                        <select class="form-control form-control--custom m-input" id="board_id"
+                        <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="board_id"
                             name="board">
                             <option value="">Select Board</option>
                             @foreach($arrData['board'] as $boardVal)
@@ -103,7 +104,7 @@
 
                     <div class="col-lg-6 form-group">
                         <label class="col-form-label" for="department">Department:</label>
-                        <select class="form-control form-control--custom m-input" id="department_id"
+                        <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="department_id"
                             name="department">
                             <option value="">Select Department</option>
                         </select>
@@ -115,7 +116,7 @@
 
                     <div class="col-lg-6 form-group">
                         <label class="col-form-label" for="user">User:</label>
-                        <select class="form-control form-control--custom m-input" id="user"
+                        <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="user"
                             name="user">
                             <option value="">Select User</option>
                         </select>
@@ -151,6 +152,7 @@
 
         $('#board_id').change(function(){
             loadDepartmentsOfBoard();
+            $('.m_selectpicker').selectpicker('refresh');
         });
 
         function loadDepartmentsOfBoard()
@@ -168,11 +170,16 @@
                 url:"{{ route('loadDepartmentsOfBoardForHearing') }}",
                 success:function(res){
                     $('#department_id').html(res);
+                    $('.m_selectpicker').selectpicker('refresh');
+                    $("#user").val('default');
+                    $("#user").find('option').not(':first').remove();
+                    $("#user").selectpicker("refresh");
                 }
             });
         }
 
         $("#department_id").change(function () {
+            var department_id = $("#department_id option:selected").val();
             var department_name = $("#department_id option:selected").html();
             var board_id = $("#board_id option:selected").val();
 
@@ -183,11 +190,13 @@
                 type:"POST",
                 data:{
                     department_name:department_name,
-                    board_id: board_id
+                    board_id: board_id,
+                    department_id: department_id
                 },
                 url:"{{ route('getDepartmentUser') }}",
                 success:function(res){
                     $('#user').html(res);
+                    $('.m_selectpicker').selectpicker('refresh');
                 }
             });
         });

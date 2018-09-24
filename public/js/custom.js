@@ -239,6 +239,7 @@ $(document).ready(function() {
             board: "required",
             department: "required",
             description: "required",
+            user: "required"
         }
     });
 

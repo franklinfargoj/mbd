@@ -2,8 +2,9 @@
 @section('content')
 <div class="col-md-12">
     <div class="m-subheader px-0 m-subheader--top">
-        <div class="d-flex">
-            <h3 class="m-subheader__title">Upload Case Judgement</h3>
+        <div class="d-flex align-items-center">
+            <h3 class="m-subheader__title m-subheader__title--separator">Upload Case Judgement</h3>
+            {{ Breadcrumbs::render('Upload Case Judgement', $arrData['hearing_data']->id) }}
         </div>
     </div>
     <!-- END: Subheader -->
@@ -47,6 +48,16 @@
                         <label class="col-form-label" for="description">Description:</label>
                         <textarea id="description" name="description" class="form-control form-control--custom form-control--fixed-height m-input">{{ $arrData['hearing_data']->hearingUploadCaseJudgement[0]->description }}</textarea>
                         <span class="help-block">{{$errors->first('description')}}</span>
+                    </div>
+
+                    <div class="col-lg-6 form-group">
+                        <div class="m-checkbox-list">
+
+                            <label class="m-checkbox m-checkbox--primary">
+                                <input type="checkbox" name="close_case" value="1" {{ ($arrData['hearing_status']->hearing_status_id == config('commanConfig.hearingStatus.case_close')) ? "checked" : "" }}> Close case
+                                <span></span>
+                            </label>
+                        </div>
                     </div>
                 </div>
 

@@ -3,8 +3,9 @@
 <div class="col-md-12">
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">
-        <div class="d-flex">
-            <h3 class="m-subheader__title">Hearing Listing</h3>
+        <div class="d-flex align-items-center">
+            <h3 class="m-subheader__title m-subheader__title--separator">Hearing Listing</h3>
+            {{ Breadcrumbs::render('Hearing') }}
         </div>
     </div>
     <!-- END: Subheader -->

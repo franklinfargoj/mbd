@@ -193,9 +193,8 @@ class BoardController extends Controller
 
         $options = '<option value="">Select Department</option>';
 
-        foreach($departments as $departmentVal)
-        {
-            $options .= '<option value="'.$departmentVal['id'].'">'.$departmentVal['department_name'].'</option>';
+        foreach ($departments as $departmentVal) {
+            $options .= '<option value="' . $departmentVal['id'] . '">' . $departmentVal['department_name'] . '</option>';
         }
 
         return $options;
@@ -223,10 +222,10 @@ class BoardController extends Controller
 
 
         $options = '<option value="">Select User</option>';
-
-        foreach($users as $userData)
-        {
-            $options .= '<option data-role="'.$userData['role_id'].'" value="'.$userData['id'].'">'.$userData['name'].'</option>';
+        if($request->department_id) {
+            foreach ($users as $userData) {
+                $options .= '<option data-role="' . $userData['role_id'] . '" value="' . $userData['id'] . '">' . $userData['name'] . '</option>';
+            }
         }
 
         return $options;

@@ -37,7 +37,7 @@ return [
     'joint_co' => 'Joint CO',
     'co' => 'Co',
 
-    'joint_co_pa' => 'Joint CO PA',
+    'joint_co_pa' => 'Joint Co PA',
     'co_pa' => 'Co PA',
     'hearingStatus' => [
         'pending' => 1,

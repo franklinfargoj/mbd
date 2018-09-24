@@ -332,6 +332,48 @@ class HearingPermissionSeeder extends Seeder
 
             PermissionRole::insert($permission_role_joint_co);
             PermissionRole::insert($permission_role_co);
+
+            $board_id = \App\Board::where('board_name', '=', "Mumbai Board")->get(['id'])->first();
+
+            $department1 = \App\Department::create([
+                'department_name' => "Joint CO",
+                'status' => 1
+            ])->id;
+
+            $department2 = \App\Department::create([
+                'department_name' => "Co",
+                'status' => 1
+            ])->id;
+
+            $board_department1 = \App\BoardDepartment::create([
+                'board_id' => $board_id->id,
+                'department_id' => $department1,
+            ]);
+
+            $board_department2 = \App\BoardDepartment::create([
+                'board_id' => $board_id->id,
+                'department_id' => $department2,
+            ]);
+
+            $board_user1 = \App\BoardUser::create([
+                'board_id' => $board_id->id,
+                'user_id' => $joint_co_user_id
+            ]);
+
+            $board_user1 = \App\BoardUser::create([
+                'board_id' => $board_id->id,
+                'user_id' => $joint_co_pa_user_id
+            ]);
+
+            $board_user1 = \App\BoardUser::create([
+                'board_id' => $board_id->id,
+                'user_id' => $co_user_id
+            ]);
+
+            $board_user1 = \App\BoardUser::create([
+                'board_id' => $board_id->id,
+                'user_id' => $co_pa_user_id
+            ]);
         }
     }
 }

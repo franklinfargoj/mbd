@@ -1,8 +1,9 @@
 @extends('admin.layouts.app')
 @section('content')
 <div class="m-subheader px-0 m-subheader--top">
-    <div class="d-flex">
-        <h3 class="m-subheader__title">Prepone/ Postpone Hearing</h3>
+    <div class="d-flex align-items-center">
+        <h3 class="m-subheader__title m-subheader__title--separator">Prepone/ Postpone Hearing</h3>
+        {{ Breadcrumbs::render('Prepone/Postpone Hearing', $arrData['schedule_prepost_data']->id) }}
     </div>
 </div>
 <!-- END: Subheader -->

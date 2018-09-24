@@ -2,8 +2,9 @@
 @section('content')
 <div class="col-md-12">
     <div class="m-subheader px-0 m-subheader--top">
-        <div class="d-flex">
-            <h3 class="m-subheader__title">Upload Case Judgement</h3>
+        <div class="d-flex align-items-center">
+            <h3 class="m-subheader__title m-subheader__title--separator">Upload Case Judgement</h3>
+            {{ Breadcrumbs::render('Upload Case Judgement', $arrData['hearing_data']->id) }}
         </div>
     </div>
     <!-- END: Subheader -->
