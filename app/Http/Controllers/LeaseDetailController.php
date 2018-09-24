@@ -79,6 +79,9 @@ class LeaseDetailController extends Controller
             $lease_data = $lease_data->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').',lease_rule_16_other, lm_lease_detail.id as id, lm_lease_detail.area as area, society_id, lease_period, lease_start_date');
 
             return $datatables->of($lease_data)
+                ->editColumn('lease_start_date', function ($lease_data) {
+                    return date(config('commanConfig.dateFormat'), strtotime($lease_data->lease_start_date));
+                })
                 ->editColumn('leaseSociety', function ($lease_data) {
                     return $lease_data->leaseSociety->society_name;
                 })
