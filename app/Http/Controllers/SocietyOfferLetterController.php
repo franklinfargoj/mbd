@@ -477,11 +477,14 @@ class SocietyOfferLetterController extends Controller
                 $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
             } ])->first();
         $documents = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->with('documents_uploaded')->get();
-        // dd($society->id);
-        $documents_uploaded = OlSocietyDocumentsStatus::where('society_id', $society->id)->get();
+        foreach ($documents as $key => $value) {
+            $document_ids[] = $value->id;
+        }
+
+        $documents_uploaded = OlSocietyDocumentsStatus::where('society_id', $society->id)->whereIn('document_id', $document_ids)->get();
         $documents_comment = OlSocietyDocumentsComment::where('society_id', $society->id)->first();
 
-        // dd($application->olApplicationStatus);
+        // dd(count($documents_uploaded));
         return view('frontend.society.society_upload_documents', compact('documents', 'documents_uploaded', 'society', 'application', 'documents_comment'));
     }
 
@@ -506,7 +509,7 @@ class SocietyOfferLetterController extends Controller
             'status_id' => config('commanConfig.applicationStatus.forwarded'),
             'to_user_id' => $request->input('user_id'),
             'to_role_id' => $request->input('role_id'),
-            'society_documents_comment' => $request->input('remark'),
+            'remark' => $request->input('remark'),
             'created_at' => date('Y-m-d H-i-s'),
             'updated_at' => date('Y-m-d H-i-s'),
         );
@@ -520,7 +523,10 @@ class SocietyOfferLetterController extends Controller
         $application = OlApplication::where('society_id', $society->id)->first();
         // dd($society->id);
         $documents = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->with('documents_uploaded')->get();
-        $documents_uploaded = OlSocietyDocumentsStatus::where('society_id', $society->id)->get();
+        foreach ($documents as $key => $value) {
+            $document_ids[] = $value->id;
+        }
+        $documents_uploaded = OlSocietyDocumentsStatus::where('society_id', $society->id)->whereIn('document_id', $document_ids)->get();
         $documents_comment = OlSocietyDocumentsComment::where('society_id', $society->id)->first();
 
         return view('frontend.society.view_society_uploaded_documents', compact('documents', 'documents_uploaded', 'documents_comment'));
