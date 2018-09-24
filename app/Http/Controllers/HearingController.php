@@ -15,6 +15,7 @@ use Carbon\Carbon;
 use DB;
 use App\Http\Requests\hearing\AddHearingRequest;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\DataTables;
 use Illuminate\Http\Request;
 use Config;
@@ -31,6 +32,20 @@ class HearingController extends Controller
     public function __construct()
     {
         $this->list_num_of_records_per_page = Config::get('commanConfig.list_num_of_records_per_page');
+    }
+
+    public function print_data(Request $request)
+    {
+        $hearing_data = Hearing::with(['hearingStatusLog.hearingStatus','hearingStatusLog' => function($q){
+            $q->where('user_id', Auth::user()->id)
+                ->where('role_id', session()->get('role_id'));
+        }, 'hearingSchedule.prePostSchedule', 'hearingForwardCase', 'hearingSendNoticeToAppellant', 'hearingUploadCaseJudgement'])
+            ->whereHas('hearingStatusLog' ,function($q){
+                $q->where('user_id', Auth::user()->id)
+                    ->where('role_id', session()->get('role_id'));
+            })->get()->toArray();
+
+        return view('admin.hearing.print_data',compact('hearing_data'));
     }
 
     /**
@@ -54,6 +69,44 @@ class HearingController extends Controller
             ['data' => 'Status','name' => 'hearing_status_id','title' => 'Status'],
             ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
         ];
+
+        if($request->excel)
+        {
+            //dd('ok');
+            $hearing_data = Hearing::with(['hearingStatusLog.hearingStatus','hearingStatusLog' => function($q){
+                $q->where('user_id', Auth::user()->id)
+                    ->where('role_id', session()->get('role_id'));
+            }, 'hearingSchedule.prePostSchedule', 'hearingForwardCase', 'hearingSendNoticeToAppellant', 'hearingUploadCaseJudgement'])
+                ->whereHas('hearingStatusLog' ,function($q){
+                    $q->where('user_id', Auth::user()->id)
+                        ->where('role_id', session()->get('role_id'));
+                })->get()->toArray();
+
+            $hearing_excel_data = [];
+
+            $i = 1;
+            foreach ($hearing_data as $hearing)
+            {
+                $config_array = array_flip(config('commanConfig.hearingStatus'));
+                $current_status = $hearing['hearing_status_log'][0]['hearing_status_id'];
+
+                $hearing_excel_data[] = [
+                    'Sr. No.' => $i,
+                    'Case No.' => $hearing['case_number'],
+                    'Case Year' => $hearing['case_year'],
+                    'Apellent Name' => $hearing['applicant_name'],
+                    'Appelent Mobile No.' => $hearing['applicant_mobile_no'],
+                    'Status' => (array_key_exists($current_status, $config_array)) ? ucwords(str_replace('_', ' ', $config_array[$current_status])) : "",
+                ];
+            }
+            return Excel::create('hearing_'.date('Y_m_d_H_i_s'), function($excel) use($hearing_excel_data){
+
+                $excel->sheet('mySheet', function($sheet) use($hearing_excel_data)
+                {
+                    $sheet->fromArray($hearing_excel_data);
+                });
+            })->download('csv');
+        }
 
         if ($datatables->getRequest()->ajax()) {
 
