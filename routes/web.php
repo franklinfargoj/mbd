@@ -171,7 +171,8 @@ Route::get('scrutiny_remark/{id}','DYCEDepartment\DYCEController@dyceScrutinyRem
 
     Route::get('dyce_Scrutiny_Remark/{id}','REEDepartment\REEController@dyceScrutinyRemark')->name('ree.dyce_scrutiny_remark');
 
-    Route::get('ree_forward_application/{id}','REEDepartment\REEController@forwardApplication')->name('ree.forward_application');
+    Route::get('ree_forward_application/{id}','REEDepartment\REEController@forwardApplication')->name('ree.forward_application');   
+    Route::get('download_cap_note/{id}','REEDepartment\REEController@downloadCapNote')->name('ree.download_cap_note');
     Route::post('ree_forward_Application_data','REEDepartment\REEController@sendForwardApplication')->name('ree.forward_application_data');
 
     Route::resource('/ol_calculation_sheet', 'REEDepartment\OlApplicationCalculationSheetDetailsController');
@@ -187,6 +188,8 @@ Route::get('scrutiny_remark/{id}','DYCEDepartment\DYCEController@dyceScrutinyRem
 
     Route::post('save_forward_Application','CODepartment\COController@sendForwardApplication')->name('co.forward_application_data');
 
+    Route::get('download_note/{id}','CODepartment\COController@downloadCapNote')->name('co.download_cap_note');    
+
         // CAP department route 
     Route::resource('cap','CAPDepartment\CAPController');
     Route::get('society_EE_document/{id}','CAPDepartment\CAPController@societyEEDocuments')->name('cap.society_EE_documents');
@@ -195,7 +198,8 @@ Route::get('scrutiny_remark/{id}','DYCEDepartment\DYCEController@dyceScrutinyRem
     Route::get('dyce_scrutiny_remark/{id}','CAPDepartment\CAPController@dyceScrutinyRemark')->name('cap.dyce_Scrutiny_Remark');
 
     Route::get('cap_forward_application/{id}','CAPDepartment\CAPController@forwardApplication')->name('cap.forward_application');
-    Route::get('cap_notes','CAPDepartment\CAPController@displayCAPNote')->name('cap.cap_notes');
+    Route::get('cap_notes/{id}','CAPDepartment\CAPController@displayCAPNote')->name('cap.cap_notes');
+    Route::post('upload_cap_note','CAPDepartment\CAPController@uploadCAPNote')->name('cap.upload_cap_note');
     Route::post('cap_save_forward_Application','CAPDepartment\CAPController@sendForwardApplication')->name('cap.forward_application_data');
 
     // Route::post('save_forward_Application','CODepartment\COController@sendForwardApplication')->name('co.forward_application_data');

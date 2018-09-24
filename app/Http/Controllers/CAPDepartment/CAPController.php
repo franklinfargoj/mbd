@@ -16,6 +16,7 @@ use App\OlTitBitVerificationDetails;
 use App\OlRelocationVerificationDetails;
 use App\OlChecklistScrutiny;
 use App\OlApplicationStatus;
+use App\OlCapNotes;
 use App\User;
 use App\Role;
 use Config;
@@ -151,7 +152,31 @@ class CAPController extends Controller
         return redirect('/cap');
     }
 
-    public function displayCAPNote(Request $request){
-        return view('admin.cap_department.cap_notes');
-    }    
+    public function displayCAPNote(Request $request, $applicationId){
+
+        $capNote = $this->CommonController->downloadCapNote($applicationId);
+        return view('admin.cap_department.cap_notes',compact('applicationId','capNote'));
+    }  
+
+    public function uploadCAPNote(Request $request){
+        
+        $applicationId   = $request->applicationId;
+        $uploadPath      = '/uploads/cap_notes';
+        $destinationPath = public_path($uploadPath);
+
+        if ($request->file('cap_note')){
+
+            $file = $request->file('cap_note');
+            $file_name = time().$file->getFileName().'.'.$file->getClientOriginalExtension();
+
+            if($file->move($destinationPath, $file_name))
+            {
+                $fileData[] = array('document_path' => $uploadPath.'/'.$file_name, 
+                                   'application_id' => $applicationId,
+                                    'user_id'       => Auth::Id());
+            }
+            $data = OlCapNotes::insert($fileData);   
+            return back();         
+        }        
+    }  
 }

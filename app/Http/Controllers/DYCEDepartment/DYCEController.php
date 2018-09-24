@@ -32,6 +32,8 @@ class DYCEController extends Controller
     }	
     public function index(Request $request, Datatables $datatables){
 
+            $dyce_application_data = $this->CommonController->listApplicationData($request);
+            // dd($dyce_application_data);
         $getData = $request->all();
 
         $columns = [
@@ -47,7 +49,6 @@ class DYCEController extends Controller
         ];
         if ($datatables->getRequest()->ajax()) {
 
-            $dyce_application_data = $this->CommonController->listApplicationData($request);
 
             return $datatables->of($dyce_application_data)
                 ->editColumn('rownum', function ($listArray) {
@@ -105,7 +106,8 @@ class DYCEController extends Controller
 
     // function used to DyCE Scrutiny & Remark page
     public function dyceScrutinyRemark(Request $request, $applicationId){
- 
+
+        $is_view = session()->get('role_name') == config('commanConfig.dyce_jr_user'); 
         $applicationData = $this->CommonController->getDyceScrutinyRemark($applicationId);
         return view('admin.DYCE_department.scrutiny_remark',compact('applicationData'));
     } 

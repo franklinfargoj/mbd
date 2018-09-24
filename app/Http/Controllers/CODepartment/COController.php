@@ -151,5 +151,10 @@ class COController extends Controller
         return redirect('/co');
     }
 
+    public function downloadCapNote(Request $request, $applicationId){
 
+        $capNote = $this->CommonController->downloadCapNote($applicationId);
+
+        return view('admin.co_department.cap_note',compact('capNote'));
+     }    
 }

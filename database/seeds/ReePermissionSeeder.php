@@ -22,69 +22,74 @@ class ReePermissionSeeder extends Seeder
         if (count($ree_manager) == 0) {
             // REE branch head
             $ree_role_id = Role::insertGetId([
-                'name' => 'REE',
-                'redirect_to' => '/ree_applications',
-                'parent_id' => NULL,
+                'name'         => 'REE',
+                'redirect_to'  => '/ree_applications',
+                'parent_id'    => NULL,
                 'display_name' => 'Residential Executive Engineer',
-                'description' => 'Login as Residential Executive Engineer'
+                'description'  => 'Login as Residential Executive Engineer'
             ]);
 
             $ree_user_id = User::insertGetId([
-                'name' => 'Neelam',
-                'email' => 'neelam1.tambe@wwindia.com',
-                'password' => bcrypt('neelam123'),
-                'role_id' => $ree_role_id,
+                'name'      => 'Neelam',
+                'email'     => 'neelam1.tambe@wwindia.com',
+                'password'  => bcrypt('neelam123'),
+                'role_id'   => $ree_role_id,
                 'mobile_no' => '9969054274',
-                'address' => 'Mumbai',
+                'address'   => 'Mumbai',
                 'uploaded_note_path' => 'Test'
             ]);
 
             $role_user = RoleUser::insert([
-                'user_id' => $ree_user_id,
-                'role_id' => $ree_role_id,
+                'user_id'    => $ree_user_id,
+                'role_id'    => $ree_role_id,
                 'start_date' => \Carbon\Carbon::now()
             ]);
 
             $permissions = [
                 [
-                    'name' => 'ree_dashboard.index',
+                    'name'         => 'ree_dashboard.index',
                     'display_name' => 'REE Dashboard',
-                    'description' => 'REE Dashboard'
+                    'description'  => 'REE Dashboard'
                 ],
                 [
-                    'name' => 'ree_applications.index',
+                    'name'         => 'ree_applications.index',
                     'display_name' => 'REE Dashboard',
-                    'description' => 'REE Dashboard'
+                    'description'  => 'REE Dashboard'
                 ],
                 [
-                    'name' => 'ol_calculation_sheet.show',
+                    'name'         => 'ol_calculation_sheet.show',
                     'display_name' => 'Calculation Sheet',
-                    'description' => 'Application calculation sheet'
+                    'description'  => 'Application calculation sheet'
                 ],
                 [
-                    'name' => 'ree.society_EE_documents',
+                    'name'         => 'ree.society_EE_documents',
                     'display_name' => 'society EE documents',
-                    'description' => 'society EE documents'
+                    'description'  => 'society EE documents'
                 ],
                 [
-                    'name' => 'ree.EE_Scrutiny_Remark',
+                    'name'         => 'ree.EE_Scrutiny_Remark',
                     'display_name' => 'EE Scrutiny Remark',
-                    'description' => 'EE Scrutiny Remark'
+                    'description'  => 'EE Scrutiny Remark'
                 ],
                 [
-                    'name' => 'ree.dyce_scrutiny_remark',
+                    'name'         => 'ree.dyce_scrutiny_remark',
                     'display_name' => 'dyce scrutiny remark',
-                    'description' => 'dyce scrutiny remark'
+                    'description'  => 'dyce scrutiny remark'
                 ],
                 [
-                    'name' => 'ree.forward_application',
+                    'name'         => 'ree.forward_application',
                     'display_name' => 'forward application',
-                    'description' => 'forward application'
+                    'description'  => 'forward application'
                 ],
                 [
-                    'name' => 'ree.forward_application_data',
+                    'name'         => 'ree.forward_application_data',
                     'display_name' => 'forward application data',
-                    'description' => 'forward application data'
+                    'description'  => 'forward application data'
+                ],                
+                [
+                    'name'         => 'ree.download_cap_note',
+                    'display_name' => 'download cap note',
+                    'description'  => 'download cap note'
                 ]
 
             ];
@@ -96,7 +101,7 @@ class ReePermissionSeeder extends Seeder
 
                 $permission_role[] = [
                     'permission_id' => $permission_id,
-                    'role_id' => $ree_role_id,
+                    'role_id'       => $ree_role_id,
                 ];
             }
 
@@ -104,26 +109,26 @@ class ReePermissionSeeder extends Seeder
 
             // REE Assistant Engineer
             $ree_as_role_id = Role::insertGetId([
-                'name' => 'REE Assistant Engineer',
-                'redirect_to' => '/ree_applications',
-                'parent_id' => $ree_role_id,
+                'name'         => 'REE Assistant Engineer',
+                'redirect_to'  => '/ree_applications',
+                'parent_id'    => $ree_role_id,
                 'display_name' => 'REE Assistant Engineer',
-                'description' => 'Login as REE Assistant Engineer'
+                'description'  => 'Login as REE Assistant Engineer'
             ]);
 
             $ree_as_user_id = User::insertGetId([
-                'name' => 'REE1',
-                'email' => 'ree1@gmail.com',
-                'password' => bcrypt('1234'),
-                'role_id' => $ree_as_role_id,
+                'name'      => 'REE1',
+                'email'     => 'ree1@gmail.com',
+                'password'  => bcrypt('1234'),
+                'role_id'   => $ree_as_role_id,
                 'mobile_no' => '9969054274',
-                'address' => 'Mumbai',
+                'address'   => 'Mumbai',
                 'uploaded_note_path' => 'Test'
             ]);
 
             $role_user = RoleUser::insert([
-                'user_id' => $ree_as_user_id,
-                'role_id' => $ree_as_role_id,
+                'user_id'    => $ree_as_user_id,
+                'role_id'    => $ree_as_role_id,
                 'start_date' => \Carbon\Carbon::now()
             ]);
 
@@ -142,26 +147,26 @@ class ReePermissionSeeder extends Seeder
 
             // REE Deputy Engineer
             $ree_deputy_role_id = Role::insertGetId([
-                'name' => 'REE deputy Engineer',
-                'redirect_to' => '/ree_applications',
-                'parent_id' => $ree_as_role_id,
+                'name'         => 'REE deputy Engineer',
+                'redirect_to'  => '/ree_applications',
+                'parent_id'    => $ree_as_role_id,
                 'display_name' => 'REE Deputy Engineer',
-                'description' => 'Login as REE Deputy Engineer'
+                'description'  => 'Login as REE Deputy Engineer'
             ]);
 
             $ree_deputy_user_id = User::insertGetId([
-                'name' => 'REE2',
-                'email' => 'ree2@gmail.com',
-                'password' => bcrypt('1234'),
-                'role_id' => $ree_deputy_role_id,
+                'name'      => 'REE2',
+                'email'     => 'ree2@gmail.com',
+                'password'  => bcrypt('1234'),
+                'role_id'   => $ree_deputy_role_id,
                 'mobile_no' => '9969054274',
-                'address' => 'Mumbai',
+                'address'   => 'Mumbai',
                 'uploaded_note_path' => 'Test'
             ]);
 
             $role_user = RoleUser::insert([
-                'user_id' => $ree_deputy_user_id,
-                'role_id' => $ree_deputy_role_id,
+                'user_id'    => $ree_deputy_user_id,
+                'role_id'    => $ree_deputy_role_id,
                 'start_date' => \Carbon\Carbon::now()
             ]);
 
@@ -172,7 +177,7 @@ class ReePermissionSeeder extends Seeder
 
                 $permission_role2[] = [
                     'permission_id' => $permission_id,
-                    'role_id' => $ree_deputy_role_id,
+                    'role_id'       => $ree_deputy_role_id,
                 ];
             }
 
@@ -180,26 +185,26 @@ class ReePermissionSeeder extends Seeder
 
             // REE Junior Engineer
             $ree_Jr_role_id = Role::insertGetId([
-                'name' => 'REE Junior Engineer',
-                'redirect_to' => '/ree_applications',
-                'parent_id' => $ree_deputy_role_id,
+                'name'         => 'REE Junior Engineer',
+                'redirect_to'  => '/ree_applications',
+                'parent_id'    => $ree_deputy_role_id,
                 'display_name' => 'REE Junior Engineer',
-                'description' => 'Login as REE Junior Engineer'
+                'description'  => 'Login as REE Junior Engineer'
             ]);
 
             $ree_Jr_user_id = User::insertGetId([
-                'name' => 'REE3',
-                'email' => 'ree3@gmail.com',
-                'password' => bcrypt('1234'),
-                'role_id' => $ree_Jr_role_id,
+                'name'      => 'REE3',
+                'email'     => 'ree3@gmail.com',
+                'password'  => bcrypt('1234'),
+                'role_id'   => $ree_Jr_role_id,
                 'mobile_no' => '9969054274',
-                'address' => 'Mumbai',
+                'address'   => 'Mumbai',
                 'uploaded_note_path' => 'Test'
             ]);
 
             $role_user = RoleUser::insert([
-                'user_id' => $ree_Jr_user_id,
-                'role_id' => $ree_Jr_role_id,
+                'user_id'    => $ree_Jr_user_id,
+                'role_id'    => $ree_Jr_role_id,
                 'start_date' => \Carbon\Carbon::now()
             ]);
 
@@ -210,7 +215,7 @@ class ReePermissionSeeder extends Seeder
 
                 $permission_role3[] = [
                     'permission_id' => $permission_id,
-                    'role_id' => $ree_Jr_role_id,
+                    'role_id'       => $ree_Jr_role_id,
                 ];
             }
 

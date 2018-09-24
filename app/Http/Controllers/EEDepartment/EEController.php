@@ -120,7 +120,9 @@ class EEController extends Controller
 
     public function documentSubmittedBySociety($society_id)
     {
-        $arrData['society_document'] = OlSocietyDocumentsMaster::get();
+        $application_id = OlApplication::where('society_id', $society_id)->value('application_master_id');
+        $arrData['society_document'] = OlSocietyDocumentsMaster::where('application_id', $application_id)->get();
+
         $document_status_data = SocietyOfferLetter::with('societyDocuments')->where('id', $society_id)->first();
 
         $arrData['society_document_data'] = array_get($document_status_data,'societyDocuments')->keyBy('document_id')->toArray();
@@ -245,9 +247,12 @@ class EEController extends Controller
 
     public function scrutinyRemarkByEE($application_id, $society_id)
     {
+
+        $application_master_id = OlApplication::where('society_id', $society_id)->value('application_master_id');
+        $arrData['society_document'] = OlSocietyDocumentsMaster::where('application_id', $application_master_id)->get();       
         // Document Scrutiny
         $arrData['society_detail'] = OlApplication::with('eeApplicationSociety')->where('id', $application_id)->first();
-        $arrData['society_document'] = OlSocietyDocumentsMaster::get();
+        // $arrData['society_document'] = OlSocietyDocumentsMaster::get();
         $document_status_data = SocietyOfferLetter::with('societyDocuments')->where('id', $society_id)->first();
         $arrData['society_document_data'] = array_get($document_status_data,'societyDocuments')->keyBy('document_id')->toArray();
 //        dd($arrData['society_document_data']);

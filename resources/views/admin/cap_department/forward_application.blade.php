@@ -12,7 +12,7 @@
                                 <i class="la la-cog"></i> Scrutiny History
                             </a>
                         </li>
-                        <li class="nav-item m-tabs__item">
+                        <li class="nav-item m-tabs__item" data-target="#forward-application-tab">
                             <a class="nav-link m-tabs__link show" data-toggle="tab" href="#forward-application-tab">
                                 <i class="la la-cog"></i> Forward Application
                             </a>
@@ -195,9 +195,12 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>-
+                            </div>
 
-                            <div class="tab-pane show" id="forward-application-tab">
+                            
+                        </div>
+                    </div>
+                    <div class="tab-pane show" id="forward-application-tab">
                                 <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
                                     <div class="portlet-body">
                                         <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
@@ -256,8 +259,6 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>

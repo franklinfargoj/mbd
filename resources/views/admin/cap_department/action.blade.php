@@ -6,7 +6,7 @@
 @if(!$request->update_status && $cap_application_data->olApplicationStatusForLoginListing[0]->status_id == config('commanConfig.applicationStatus.in_process'))
     <a title="Forward_application" href="{{route('cap.forward_application',$cap_application_data->id)}}">Forward Application</a>
 @endif
-<a title="CAP_notes" href="{{route('cap.cap_notes')}}">CAP Notes</a>
+<a title="CAP_notes" href="{{route('cap.cap_notes',$cap_application_data->id)}}">CAP Notes</a>
 
 
 

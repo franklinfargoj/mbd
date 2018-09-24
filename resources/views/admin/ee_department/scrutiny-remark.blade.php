@@ -37,6 +37,7 @@
                                                     Society Details:
                                                 </h3>
                                             </div>
+                                            
                                             <div class="row field-row">
                                                 <div class="col-sm-6 field-col">
                                                     <div class="d-flex">

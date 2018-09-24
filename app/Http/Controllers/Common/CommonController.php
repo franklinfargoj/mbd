@@ -15,6 +15,7 @@ use App\OlTitBitVerificationDetails;
 use App\OlRelocationVerificationDetails;
 use App\OlChecklistScrutiny;
 use App\OlApplicationStatus;
+use App\OlCapNotes;
 use App\Role;
 use App\User;
 use Config;
@@ -114,12 +115,7 @@ class CommonController extends Controller
             {
                 if($app_data->olApplicationStatusForLoginListing[0]->status_id == $request->update_status)
                 {
-//                        dd("in if");
                     $listArray[] = $app_data;
-                }
-                else{
-//                        dd("in else");
-                    $listArray = [];
                 }
             }
         }
@@ -213,31 +209,6 @@ class CommonController extends Controller
         return $arrData;
     }
 
-    // public function getForwardData($applicationId,$Role){
-
-    //     $role_id = Role::where('name',$Role)->value('id');
-    //     $Data = OlApplicationStatus::where('application_id',$applicationId)->where('role_id',$role_id)->where('status_id', config('commanConfig.applicationStatus.forwarded'))->orderBy('id', 'desc')->first();
-       
-    //    return $Data;       
-    // }
-
-    // public function getRevertData($applicationId,$Role){
-
-    //     $role_id = Role::where('name',$Role)->value('id');
-
-    //     $Data = OlApplicationStatus::where('application_id',$applicationId)->where('role_id',$role_id)->where('status_id', config('commanConfig.applicationStatus.reverted'))->orderBy('id', 'desc')->first();
-
-    //    return $Data;         
-    // }
-
-    // public function getSocietyRevertData($applicationId,$Role){
-
-    //     $role_id = Role::where('name',$Role)->value('id');
-    //     $Data = OlApplicationStatus::where('application_id',$applicationId)->where('role_id',$role_id)->where('society_flag',1)->where('status_id', config('commanConfig.applicationStatus.reverted'))->orderBy('id', 'desc')->first();
-    
-    //    return $Data;         
-    // }
-
     public function getEEForwardRevertLog($applicationData,$applicationId){
         
         $ee_branch_head = Role::where('name',config('commanConfig.ee_branch_head'))
@@ -273,5 +244,11 @@ class CommonController extends Controller
 
         $applicationData->reeRevertLog = OlApplicationStatus::where('application_id',$applicationId)->where('role_id',$ree_jr_user)->where('status_id', config('commanConfig.applicationStatus.reverted'))->orderBy('id', 'desc')->first();             
        return $applicationData;       
+    }
+
+    public function downloadCapNote($applicationId){
+
+        $capNotes = OlCapNotes::where('application_id',$applicationId)->orderBy('id','DESC')->first();
+        return $capNotes;
     }              
 }

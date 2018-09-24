@@ -20,59 +20,64 @@ class CoPermissionSeeder extends Seeder
 
         if (count($co_manager) == 0) {
             $role_id = Role::insertGetId([
-                'name' => 'co_engineer',
-                'redirect_to' => '/co',
-                'parent_id' => NULL,
+                'name'         => 'co_engineer',
+                'redirect_to'  => '/co',
+                'parent_id'    => NULL,
                 'display_name' => 'Co_Engineer',
-                'description' => 'Login as CO Engineer'
+                'description'  => 'Login as CO Engineer'
             ]);
 
             $user_id = User::insertGetId([
-                'name' => 'CO',
-                'email' => 'co@gmail.com',
-                'password' => bcrypt('1234'),
-                'role_id' => $role_id,
+                'name'      => 'CO',
+                'email'     => 'co@gmail.com',
+                'password'  => bcrypt('1234'),
+                'role_id'   => $role_id,
                 'uploaded_note_path' => 'Test',
                 'mobile_no' => '9765238678',
-                'address' => 'Mumbai'
+                'address'   => 'Mumbai'
             ]);
 
             $role_user = RoleUser::insert([
-                'user_id' => $user_id,
-                'role_id' => $role_id,
+                'user_id'    => $user_id,
+                'role_id'    => $role_id,
                 'start_date' => \Carbon\Carbon::now()
             ]);
 
             $permissions = [
                 [
-                    'name' => 'co.index',
+                    'name'         => 'co.index',
                     'display_name' => 'index',
-                    'description' => 'index'
+                    'description'  => 'index'
                 ],
                 [
-                    'name' => 'co.society_EE_documents',
+                    'name'         => 'co.society_EE_documents',
                     'display_name' => 'society_EE_documents',
-                    'description' => 'society_EE_documents'
+                    'description'  => 'society_EE_documents'
                 ],
                 [
-                    'name' => 'co.EE_Scrutiny_Remark',
+                    'name'         => 'co.EE_Scrutiny_Remark',
                     'display_name' => 'EE_Scrutiny_Remark',
-                    'description' => 'EE_Scrutiny_Remark'
+                    'description'  => 'EE_Scrutiny_Remark'
                 ],
                 [
-                    'name' => 'co.scrutiny_remark',
+                    'name'         => 'co.scrutiny_remark',
                     'display_name' => 'scrutiny_remark',
-                    'description' => 'scrutiny_remark'
+                    'description'  => 'scrutiny_remark'
                 ],
                 [
-                    'name' => 'co.forward_application',
+                    'name'         => 'co.forward_application',
                     'display_name' => 'forward_application',
-                    'description' => 'forward_application'
+                    'description'  => 'forward_application'
                 ],
                 [
-                    'name' => 'co.forward_application_data',
+                    'name'         => 'co.forward_application_data',
                     'display_name' => 'forward_application_data',
-                    'description' => 'forward_application_data'
+                    'description'  => 'forward_application_data'
+                ],                
+                [
+                    'name'         => 'co.download_cap_note',
+                    'display_name' => 'download_cap_note',
+                    'description'  => 'download_cap_note'
                 ]
             ];
 
@@ -83,7 +88,7 @@ class CoPermissionSeeder extends Seeder
 
                 $permission_role[] = [
                     'permission_id' => $permission_id,
-                    'role_id' => $role_id,
+                    'role_id'       => $role_id,
                 ];
             }
 
