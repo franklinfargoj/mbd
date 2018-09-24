@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\EEDepartment;
 
+use App\EENote;
 use App\Http\Controllers\Common\CommonController;
 use App\OlApplication;
 use App\OlApplicationStatus;
@@ -181,11 +182,11 @@ class EEController extends Controller
             {
                 $society_user_data = OlApplicationStatus::where('application_id', $request->application_id)
                                                         ->where('society_flag', 1)
-                                                        ->orderBy('id', 'desc')->get();
-
+                                                        ->orderBy('id', 'desc')->get();                                     
                 $revert_application = [
                     [
                         'application_id' => $request->application_id,
+                        'society_flag' => 0,
                         'user_id' => Auth::user()->id,
                         'role_id' => session()->get('role_id'),
                         'status_id' => config('commanConfig.applicationStatus.reverted'),
@@ -200,7 +201,7 @@ class EEController extends Controller
                         'society_flag' => 1,
                         'user_id' => $society_user_data[0]->user_id,
                         'role_id' => $society_user_data[0]->role_id,
-                        'status_id' => config('commanConfig.applicationStatus.in_process'),
+                        'status_id' => config('commanConfig.applicationStatus.reverted'),
                         'to_user_id' => NULL,
                         'to_role_id' => NULL,
                         'remark' => $request->remark,
@@ -290,7 +291,18 @@ class EEController extends Controller
             ->first();
         $arrData['rg_details_data'] = OlRelocationVerificationDetails::where('application_id', $application_id)->get()->keyBy('question_id')->toArray();
 
-//        dd($arrData);
+        // EE Note download
+
+        $arrData['eeNote'] = EENote::where('application_id', $application_id)->orderBy('id', 'desc')->first();
+
+        // Get Application last Status
+
+        $arrData['get_last_status'] = OlApplicationStatus::where([
+                'application_id' =>  $application_id,
+                'user_id' => Auth::user()->id,
+                'role_id' => session()->get('role_id')
+            ])->orderBy('id', 'desc')->first();
+
         return view('admin.ee_department.scrutiny-remark', compact('arrData'));
     }
 
@@ -533,6 +545,35 @@ class EEController extends Controller
 
         return redirect()->back();
     }
+
+    public function uploadEENote(Request $request){
+        $applicationId   = $request->application_id;
+        $uploadPath      = '/uploads/ee_note';
+        $destinationPath = public_path($uploadPath);
+
+        if ($request->file('ee_note')){
+
+            $file = $request->file('ee_note');
+            $file_name = time().$file->getFileName().'.'.$file->getClientOriginalExtension();
+            $extension = $file->getClientOriginalExtension();
+
+            if($extension == "pdf") {
+                if ($file->move($destinationPath, $file_name)) {
+                    $fileData[] = array('document_path' => $uploadPath . '/' . $file_name,
+                        'application_id' => $applicationId,
+                        'user_id' => Auth::user()->id,
+                        'role_id' => session()->get('role_id'));
+                }
+                $data = EENote::insert($fileData);
+                return back()->with('success', 'EE Note uploaded successfully');
+            }
+            else
+            {
+                return back()->with('error', 'Only pdf allowed');
+            }
+        }
+    }
+
     /**
      * Show the form for creating a new resource.
      *

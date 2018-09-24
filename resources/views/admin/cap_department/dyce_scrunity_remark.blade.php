@@ -135,7 +135,7 @@
                             <div class="d-flex">
                                 <span style="width: 200px;">Supporting Documents:</span>
                                 <a href="{{asset($data->document_path)}}">
-                                <img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}" style="height:44px"></a>
+                                <img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                                 <span class="field-value" style="padding-left: 15px;">{{(explode('/',$data->document_path)[3])}}</span>
                             </div>
                         </div>

@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers\Common;
 
+use App\OlConsentVerificationQuestionMaster;
+use App\OlDemarcationVerificationQuestionMaster;
+use App\OlRgRelocationVerificationQuestionMaster;
+use App\OlTitBitVerificationQuestionMaster;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Yajra\DataTables\DataTables;
@@ -40,7 +44,7 @@ class CommonController extends Controller
 
         $eeScrutinyData = OlApplication::with(['eeApplicationSociety.societyDocuments.documents_Name'])
                 ->where('id',$applicationId)->first();
-         
+
         $this->getVerificationDetails($eeScrutinyData,$applicationId);         
         $this->getChecklistDetails($eeScrutinyData,$applicationId);
         return  $eeScrutinyData;                 
@@ -49,13 +53,25 @@ class CommonController extends Controller
     //get all verifivation details submitted by EE
     protected function getVerificationDetails($eeScrutinyData,$applicationId){
 
-        $eeScrutinyData ->consentQuetions = OlConsentVerificationDetails::with('consentQuestions')->where('application_id',$applicationId)->get();
+//        $eeScrutinyData ->consentQuetions = OlConsentVerificationDetails::with('consentQuestions')->where('application_id',$applicationId)->get();
+        $eeScrutinyData->consentQuetions = OlConsentVerificationQuestionMaster::with(['consentDetails' => function($q) use($applicationId){
+            $q->where('application_id', $applicationId);
+        }])->get();
 
-        $eeScrutinyData->DemarkQuetions = OlDemarcationVerificationDetails::with('DemarkQuestions')->where('application_id',$applicationId)->get(); 
+//        $eeScrutinyData->DemarkQuetions = OlDemarcationVerificationDetails::with('DemarkQuestions')->where('application_id',$applicationId)->get();
+        $eeScrutinyData->DemarkQuetions = OlDemarcationVerificationQuestionMaster::with(['demarkDetails' => function($q) use($applicationId){
+            $q->where('application_id', $applicationId);
+        }])->get();
 
-        $eeScrutinyData->TitBitQuetions = OlTitBitVerificationDetails::with('TitBitQuestions')->where('application_id',$applicationId)->get(); 
+//        $eeScrutinyData->TitBitQuetions = OlTitBitVerificationDetails::with('TitBitQuestions')->where('application_id',$applicationId)->get();
+        $eeScrutinyData->TitBitQuetions = OlTitBitVerificationQuestionMaster::with(['titBitDetails' => function($q) use($applicationId){
+            $q->where('application_id', $applicationId);
+        }])->get();
 
-        $eeScrutinyData->relocationQuetions = OlRelocationVerificationDetails::with('relocationQuestions')->where('application_id',$applicationId)->get();  
+//        $eeScrutinyData->relocationQuetions = OlRelocationVerificationDetails::with('relocationQuestions')->where('application_id',$applicationId)->get();
+        $eeScrutinyData->relocationQuetions = OlRgRelocationVerificationQuestionMaster::with(['relocationDetails' => function($q) use($applicationId){
+            $q->where('application_id', $applicationId);
+        }])->get();
     }
 
     // get all checklist details submitted by EE
@@ -87,7 +103,7 @@ class CommonController extends Controller
     public function getForwardApplication($applicationId){
 
         $applicationData = OlApplication::with(['eeApplicationSociety'])
-                ->where('id',$applicationId)->first(); 
+                ->where('id',$applicationId)->orderBy('id','DESC')->first();         
                  
         return  $applicationData;
     }
@@ -216,6 +232,8 @@ class CommonController extends Controller
         $ee_jr_user = Role::where('name',config('commanConfig.ee_junior_engineer'))
         ->value('id');
         $applicationData->eeForwardLog = OlApplicationStatus::where('application_id',$applicationId)->where('role_id',$ee_branch_head)->where('status_id', config('commanConfig.applicationStatus.forwarded'))->orderBy('id', 'desc')->first();
+
+        // dd($applicationData->eeForwardLog);
 
         $applicationData->eeRevertLog = OlApplicationStatus::where('application_id',$applicationId)->where('role_id',$ee_jr_user)->where('status_id', config('commanConfig.applicationStatus.reverted'))->where('society_flag',1)->orderBy('id', 'desc')->first();        
 

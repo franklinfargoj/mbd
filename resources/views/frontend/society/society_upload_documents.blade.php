@@ -185,6 +185,7 @@
                           </div>
                           <br>
                           <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Submit</button>
+                          <!-- <a href="{{ route('society_offer_letter_dashboard') }}" class="btn btn-primary btn-custom" id="">Cancel</a> -->
                      </form>
                   </div>
               </div>

@@ -28,6 +28,7 @@ return [
         'in_process' => 1,
         'forwarded' => 2,
         'reverted' => 3,
+        'pending' => 4,
     ],
     'ee_junior_engineer' => 'ee_junior_engineer',
 
@@ -48,6 +49,6 @@ return [
         'case_under_judgement' => 3,
         'forwarded' => 4,
         'notice_send' => 5,
-        'case_close' => 6,
+        'case_closed' => 6,
     ],
 ];

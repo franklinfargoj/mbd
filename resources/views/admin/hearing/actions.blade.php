@@ -1,6 +1,6 @@
 <a  href="{{ route('hearing.show', $hearing_data->id) }}"></i>View Hearing</a>
 
-@if($hearing_data->hearingStatusLog[0]->hearing_status_id == config('commanConfig.hearingStatus.forwarded') || $hearing_data->hearingStatusLog[0]->hearing_status_id == config('commanConfig.hearingStatus.case_close'))
+@if($hearing_data->hearingStatusLog[0]->hearing_status_id == config('commanConfig.hearingStatus.forwarded') || $hearing_data->hearingStatusLog[0]->hearing_status_id == config('commanConfig.hearingStatus.case_closed'))
     @php
         $style = 'pointer-events: none;
    cursor: default;';

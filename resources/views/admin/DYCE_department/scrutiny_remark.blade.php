@@ -124,34 +124,44 @@
 									<input type="text" class="txtbox form-control form-control--custom m_input" name="society_name" id="society_name" value="{{(isset($applicationData->eeApplicationSociety->name) ? $applicationData->eeApplicationSociety->name : '')}}"
 										readonly>
 								</div>
+                                @if($is_view)
+                                    <?php $i=2;?>
+                                    @if(isset($applicationData->SiteVisitorOfficers))
+                                        @foreach($applicationData->SiteVisitorOfficers as $officerName)
+                                            @if(!empty($officerName))
+                                            <div class="officer_name_{{$i}}">
+            									<div class="d-flex align-items-center mb-5">
+            										<label class="site-visit-label">Name of Officer:</label>
+            										<input type="text" class="txtbox form-control form-control--custom m_input" name="officer_name[]" id="officer_name"
+            											value="{{$officerName}}">
+            										<i class="fa fa-close icon2" id="icon_{{$i}}" onclick="removeOfficerName(this.id)"></i>
+            									</div>
+                                            </div>
+                                            @endif
+                                            <?php $i++;?>
+                                        @endforeach
+                                    @endif
 
-                                <?php $i=2;?>
-                                @if(isset($applicationData->SiteVisitorOfficers))
-                                @foreach($applicationData->SiteVisitorOfficers as $officerName)
-                                @if(!empty($officerName))
-                                <div class="officer_name_{{$i}}">
-									<div class="d-flex align-items-center mb-5">
-										<label class="site-visit-label">Name of Officer:</label>
-										<input type="text" class="txtbox form-control form-control--custom m_input" name="officer_name[]" id="officer_name"
-											value="{{$officerName}}">
-										<i class="fa fa-close icon2" id="icon_{{$i}}" onclick="removeOfficerName(this.id)"></i>
-									</div>
-                                </div>
+                                    <div class="officer_name_1">
+    									<div class="d-flex align-items-center mb-5">
+    										<label class="site-visit-label">Name of Officer:</label>
+    										<div class="position-relative">
+    											<input type="text" class="txtbox form-control form-control--custom m_input" name="officer_name[]" id="officer_name">
+    											<a class="add_more" onclick="addMoreText(this);">add more </a>
+    											<i class="fa fa-close icon close-icon" id="icon_1" onclick="removeOfficerName(this.id)"></i>
+    										</div>									
+    									</div>
+                                    </div>
+                                @else
+                                    <div class="officer_name">
+                                        <div class="d-flex align-items-center mb-5">
+                                            <label class="site-visit-label">Name of Officer:</label>
+                                            <div class="position-relative">
+                                                <span class="field-value" style="word-break: break-all;">{{$applicationData->site_visit_officers}}</span>
+                                            </div>                                  
+                                        </div>
+                                    </div>                                
                                 @endif
-                                <?php $i++;?>
-                                @endforeach
-                                @endif
-
-                                <div class="officer_name_1">
-									<div class="d-flex align-items-center mb-5">
-										<label class="site-visit-label">Name of Officer:</label>
-										<div class="position-relative">
-											<input type="text" class="txtbox form-control form-control--custom m_input" name="officer_name[]" id="officer_name">
-											<a class="add_more" onclick="addMoreText(this);">add more </a>
-											<i class="fa fa-close icon close-icon" id="icon_1" onclick="removeOfficerName(this.id)"></i>
-										</div>									
-									</div>
-                                </div>
                             </div>
 
                             <div class="col-md-6">
@@ -162,28 +172,28 @@
 								</div>
 								<div class="d-flex align-items-center mb-5">
 									<label class="site-visit-label">Date of site visit:</label>
-									<input type="text" class="txtbox v_text form-control form-control--custom m-input m_datepicker"
-										name="visit_date" id="visit_date" readonly value="{{(isset($applicationData->date_of_site_visit) ? $applicationData->date_of_site_visit : '')}}">
+									<input type="text" class="txtbox v_text form-control form-control--custom m-input {{($is_view ? 'm_datepicker' : '' )}}"
+										name="visit_date" id="visit_date" value="{{(isset($applicationData->date_of_site_visit) ? $applicationData->date_of_site_visit : '')}}" {{(!($is_view) ? 'readonly' : '' )}}>
 								</div>
                             </div>
                             <div class="col-md-12 all_documents">
+                            @if($is_view)
                                 <?php $i=2;?>
-
                                 @if(isset($applicationData->visitDocuments))
-                                @foreach($applicationData->visitDocuments as $documents)
-                                <div class="d-flex flex-wrap align-items-center mb-5 upload_doc_{{$i}}">
-                                    <label class="site-visit-label">Upload supporting files:</label>
-                                    <div class="custom-file width-auto mb-0 position-relative">
-                                        <input type="file" class="file custom-file-input upload_file_{{$i}}" name="document[]" id="test-upload_{{$i}}">
-                                        <label class="custom-file-label" for="test-upload_{{$i}}">{{explode('/',$documents->document_path)[3]}}</label>
-										<input type="hidden" class="upload_doc_{{$i}}" id="documentId" name="documentId[]"
-                                        value="{{$documents->id}}" readonly>
-										<i class="fa fa-close doc2 close-icon" id="document_{{$i}}" onclick="removeDocuments(this.id)"></i>
-										<span></span>
+                                    @foreach($applicationData->visitDocuments as $documents)
+                                    <div class="d-flex flex-wrap align-items-center mb-5 upload_doc_{{$i}}">
+                                        <label class="site-visit-label">Upload supporting files:</label>
+                                        <div class="custom-file width-auto mb-0 position-relative">
+                                            <input type="file" class="file custom-file-input upload_file_{{$i}}" name="document[]" id="test-upload_{{$i}}">
+                                            <label class="custom-file-label" for="test-upload_{{$i}}">{{explode('/',$documents->document_path)[3]}}</label>
+    										<input type="hidden" class="upload_doc_{{$i}}" id="documentId" name="documentId[]"
+                                            value="{{$documents->id}}" readonly>
+    										<i class="fa fa-close doc2 close-icon" id="document_{{$i}}" onclick="removeDocuments(this.id)"></i>
+    										<span></span>
+                                        </div>
                                     </div>
-                                </div>
-                                <?php $i++;?>
-                                @endforeach
+                                    <?php $i++;?>
+                                    @endforeach
                                 @endif
                                 <div class="d-flex flex-wrap align-items-center mb-5 upload_doc_1">
                                     <label class="site-visit-label">Upload supporting files:</label>
@@ -194,6 +204,18 @@
 										<i class="fa fa-close doc close-icon" id="document_1" onclick="removeDocuments(this.id)"></i>
                                     </div>
                                 </div>
+                            @else
+                                @foreach($applicationData->visitDocuments as $data)
+                                    <div class="col-sm-12 field-col">
+                                        <div class="d-flex">
+                                            <span style="width: 200px;">Supporting Documents:</span>
+                                            <a href="{{asset($data->document_path)}}">
+                                            <img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
+                                            <span class="field-value" style="padding-left: 15px;">{{(explode('/',$data->document_path)[3])}}</span>
+                                        </div>
+                                    </div>
+                                @endforeach                            
+                            @endif    
                             </div>
                         </div>
                     </div>
@@ -214,7 +236,7 @@
 					<div class="remarks-suggestions">
 						<div class="mt-3">
 							<label for="demarkation_comments">Comments:</label>
-							<textarea id="demarkation_comments" rows="5" cols="30" class="form-control form-control--custom" name="demarkation_comments">{{(isset($applicationData->demarkation_verification_comment) ? $applicationData->demarkation_verification_comment : '')}}</textarea>
+							<textarea id="demarkation_comments" rows="5" cols="30" class="form-control form-control--custom" name="demarkation_comments" {{(!($is_view) ? 'readonly' : '' )}}>{{(isset($applicationData->demarkation_verification_comment) ? $applicationData->demarkation_verification_comment : '')}}</textarea>
 						</div>
 					</div>
                 </div>
@@ -236,22 +258,24 @@
 							<span class="mr-3">Is there any encrochment ?</span>
 							<label class="m-radio m-radio--primary">
 								<input type="radio" class="radioBtn" name="encrochment" value="1" checked
-									{{(isset($applicationData->demarkation_verification_comment) && $applicationData->is_encrochment == '1' ? 'checked' : '')}}>Yes
+									{{(isset($applicationData->demarkation_verification_comment) && $applicationData->is_encrochment == '1' ? 'checked' : '')}} {{(!($is_view) ? 'disabled' : '' )}}>Yes
 									<span></span>
 							</label>
 							<label class="m-radio m-radio--primary">
 								<input type="radio" class="radioBtn" name="encrochment" value="0"
-									{{(isset($applicationData->demarkation_verification_comment) && $applicationData->is_encrochment == '0' ? 'checked' : '')}}>No
+									{{(isset($applicationData->demarkation_verification_comment) && $applicationData->is_encrochment == '0' ? 'checked' : '')}} {{(!($is_view) ? 'disabled' : '' )}}>No
 								<span></span>
 							</label>
 						</div>
 						<div class="mt-3">
 							<label class="e_comments" for="encrochment_comments">If Yes, Comments:</label>
-							<textarea rows="5" cols="30" class="form-control form-control--custom" id="encrochment_comments" name="encrochment_comments">{{(isset($applicationData->encrochment_verification_comment) ? $applicationData->encrochment_verification_comment : '')}}</textarea>
+							<textarea rows="5" cols="30" class="form-control form-control--custom" id="encrochment_comments" name="encrochment_comments" {{(!($is_view) ? 'readonly' : '' )}}>{{(isset($applicationData->encrochment_verification_comment) ? $applicationData->encrochment_verification_comment : '')}}</textarea>
 							<span class="error" id="encrochment_comments_error" style="display:none;color:#f4516c">This feild is required</span>
 						</div>
 						<div class="mt-3">
+                        @if($is_view)
 							<button type="button" class="s_btn btn btn-primary" id="submitBtn" name="">Save</button>
+                        @endif    
 
 						</div>				
                     </div>

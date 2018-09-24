@@ -14,7 +14,7 @@
             <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
                 <div class="row align-items-center">
                     <div class="col-md-12 order-2 order-xl-1">
-                        <form role="form" id="eeForm" method="get" class="form-group m-form__group row align-items-end" action="{{ route('co.index') }}">
+                        <form role="form" id="eeForm" method="get" class="form-group m-form__group row align-items-end" action="{{ route('cap.index') }}">
 <!--                                 <div class="col-md-3">
                                     <label for="exampleSelect1">Search</label>
                                     <div class="m-input-icon m-input-icon--left">
@@ -41,33 +41,31 @@
                                             placeholder="From Date" readonly value="{{ isset($getData['office_date_to'])? $getData['office_date_to'] : '' }}">
                                     </div>
                                 </div>
-                            </div>
 
-                            @php
-                            $status = isset($getData['update_status'])? $getData['update_status'] : '';
-                            @endphp
+                                @php
+                                $status = isset($getData['update_status'])? $getData['update_status'] : '';
+                                @endphp
 
-                            <div class="col-md-3">
-                                <div class="form-group m-form__group">
-                                    <label for="office_date_to">Status</label>
-                                    <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
-                                        id="update_status" name="update_status">
-                                        <option value="">All</option>
-                                        @foreach(config('commanConfig.applicationStatus') as $key =>
-                                        $application_status)
-                                        <option value="{{ $application_status }}"
-                                            {{ ($status == $application_status) ? 'selected' : '' }}>{{
-                                            ucwords(str_replace('_', ' ', $key)) }}</option>
-                                        @endforeach
-                                    </select>
+                                <div class="col-md-3">
+                                    <div class="form-group m-form__group">
+                                        <label for="office_date_to">Status</label>
+                                        <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="update_status" name="update_status">
+                                            <option value="">All</option>
+                                            @foreach(config('commanConfig.applicationStatus') as $key =>
+                                            $application_status)
+                                            <option value="{{ $application_status }}"
+                                                {{ ($status == $application_status) ? 'selected' : '' }}>{{
+                                                ucwords(str_replace('_', ' ', $key)) }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="col-md-3" style="margin-top: 15px;">
-                                <div class="form-group m-form__group">
-                                    <button type="submit" class="btn btn-primary">Search</button>
+                                <div class="col-md-3" style="margin-top: 15px;">
+                                    <div class="form-group m-form__group">
+                                        <button type="submit" class="btn btn-primary">Search</button>
+                                    </div>
                                 </div>
-                            </div>
                         </form>
                     </div>
                 </div>

@@ -49,7 +49,7 @@
                                     <h2 class="m--font-danger">
                                         @if(count($document->documents_uploaded) > 0 )
                                             @foreach($document->documents_uploaded as $document_uploaded)
-                                                @if($document_uploaded['society_id'] == '1')
+                                                @if($document_uploaded['society_id'] == $society->id)
                                                     <i class="fa fa-check"></i>
                                                 @else
                                                     <i class="fa fa-remove"></i>
@@ -63,7 +63,7 @@
                                 <td>
                                     @if(count($document->documents_uploaded) > 0 )
                                         @foreach($document->documents_uploaded as $document_uploaded)
-                                            @if($document_uploaded['society_id'] == '1')
+                                            @if($document_uploaded['society_id'] == $society->id)
                                                <span>
                                                     <a href="{{ asset($document_uploaded['society_document_path']) }}" data-value='{{ $document->id }}' class="upload_documents" download><button type="submit" class="btn btn-primary btn-custom"> Download</button></a>
                                                </span>                                      
@@ -109,7 +109,7 @@
                           Comment
                         </span>
                      </h3>
-                    <p>{{ $documents_comment->society_documents_comment }}</p>
+                    <p>{{ (isset($documents_comment->society_documents_comment) ? $documents_comment->society_documents_comment : '') }}</p>
                 </div>
             </div>
         </div>
