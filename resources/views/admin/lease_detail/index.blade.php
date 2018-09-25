@@ -6,28 +6,17 @@
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">Lease Details</h3>
             {{ Breadcrumbs::render('lease_detail',$id,$village_id) }}
-            <a href="{{ url('/society_detail/'.$village_id) }}" class="btn btn-link ml-auto"><i class="fa fa-long-arrow-left"
-                    style="padding-right: 8px;"></i>Back</a>
+            <div class="m-portlet__head px-0 ml-auto">
+                @if($count > 0)
+                <a class="btn btn-primary" href="{{route('renew-lease.renew', [$id, $village_id])}}">Renew Lease</a>
+                @else
+                <a class="btn btn-primary" href="{{route('lease_detail.create', [$id, $village_id])}}">Add Lease</a>
+                @endif
+            </div>
         </div>
     </div>
     <!-- END: Subheader -->
     <div class="m-portlet m-portlet--mobile">
-        <div class="m-portlet__head px-0">
-            <div class="m-portlet__head-caption">
-                <div class="m-portlet__head-title">
-                    <h3 class="m-portlet__head-text">
-
-                    </h3>
-                </div>
-            </div>
-            @if($count > 0)
-            <a class="btn btn-primary" href="{{route('renew-lease.renew', [$id, $village_id])}}" style="float: right;margin-top: 3%">Renew
-                Lease</a>
-            @else
-            <a class="btn btn-primary" href="{{route('lease_detail.create', [$id, $village_id])}}" style="float: right;margin-top: 3%">Add
-                Lease</a>
-            @endif
-        </div>
         @if(Session::has('success'))
         <div class="alert alert-success fade in alert-dismissible show" style="margin-top:18px;">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -35,11 +24,13 @@
             </button> {{ Session::get('success') }}
         </div>
         @endif
-        <div class="m-portlet__body m-portlet__body--spaced data-table--custom">
-            <div class="btn-list text-right mb-4">
-                <a href="?excel=excel" name="excel" value="excel" class="btn btn-info">Excel</button>
-                <a target="_blank" href="{{route('lease_detail.print',['id'=>$id])}}"
-                    class="btn btn-info">Print</a>
+        <div class="m-portlet__body data-table--custom">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <a href="{{ url('/society_detail/'.$village_id) }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+                <div class="btn-list text-right">
+                    <a href="?excel=excel" name="excel" value="excel" class="btn excel-icon"><img src="{{asset('/img/excel-icon.svg')}}"></button>
+                    <a target="_blank" href="{{route('lease_detail.print',['id'=>$id])}}" class="btn print-icon"><img src="{{asset('/img/print-icon.svg')}}"></a>
+                </div>
             </div>
             <!--begin: Search Form -->
             {{--<div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">

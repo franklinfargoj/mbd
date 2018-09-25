@@ -6,22 +6,11 @@
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">Village Details</h3>
             {{ Breadcrumbs::render('village_detail') }}
+            <a class="btn btn-primary ml-auto" href="{{route('village_detail.create')}}">Add Village</a>
         </div>
     </div>
     <!-- END: Subheader -->
     <div class="m-portlet m-portlet--mobile">
-        <div class="m-portlet__head px-0">
-            <div class="m-portlet__head-caption">
-                <div class="m-portlet__head-title">
-                    <h3 class="m-portlet__head-text">
-
-                    </h3>
-                </div>
-            </div>                
-            <div class="text-right">
-                <a class="btn btn-primary" href="{{route('village_detail.create')}}">Add Village</a>
-            </div>
-        </div>
         @if(Session::has('success'))
         <div class="alert alert-success fade in alert-dismissible show" style="margin-top:18px;">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -30,11 +19,10 @@
         </div>
         @endif
         
-        <div class="m-portlet__body m-portlet__body--spaced data-table--custom">
+        <div class="m-portlet__body data-table--custom">
             <div class="btn-list text-right mb-4">
-                <a href="{{route('village_detail.index',['excel'=>'excel'])}}" name="excel" value="excel" class="btn btn-info">Excel</button>
-                <a target="_blank" href="{{route('village_detail.print')}}"
-                    class="btn btn-info">Print</a>
+                <a href="{{route('village_detail.index',['excel'=>'excel'])}}" name="excel" value="excel" class="btn excel-icon"><img src="{{asset('/img/excel-icon.svg')}}"></a>
+                <a target="_blank" href="{{route('village_detail.print')}}" class="btn print-icon"><img src="{{asset('/img/print-icon.svg')}}"></a>
             </div>
             <!--begin: Search Form -->
             {{--<div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
