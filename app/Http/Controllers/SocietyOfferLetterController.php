@@ -504,7 +504,7 @@ class SocietyOfferLetterController extends Controller
 
     public function addSocietyDocumentsComment(Request $request){
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
-        dd($request->input('society_documents_comment'));
+        // dd($request->input('society_documents_comment'));
         if(!empty($request->input('society_documents_comment'))){
             $comments = $request->input('society_documents_comment');
         }else{
