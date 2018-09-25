@@ -112,6 +112,8 @@
                                 @php
                                     if(isset($arrData['get_last_status']) && ($arrData['get_last_status']->status_id == config('commanConfig.applicationStatus.forwarded')))
                                         $style = "display:none";
+                                    elseif (session()->get('role_name') != config('commanConfig.ee_junior_engineer'))
+                                        $style = "display:none";
                                     else
                                         $style = "";
                                 @endphp
@@ -817,6 +819,8 @@
 
                                 @php
                                     if(isset($arrData['get_last_status']) && ($arrData['get_last_status']->status_id == config('commanConfig.applicationStatus.forwarded')))
+                                        $display = "display:none";
+                                    elseif (session()->get('role_name') != config('commanConfig.ee_junior_engineer'))
                                         $display = "display:none";
                                     else
                                         $display = "";
