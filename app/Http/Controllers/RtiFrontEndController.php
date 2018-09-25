@@ -5,9 +5,11 @@ use App\RtiFronendUser;
 use App\Board;
 use App\Department;
 use App\RtiForm;
+use App\MasterRtiStatus;
+use App\RtiStatus;
 use App\Http\Requests\rti\RtiFormSubmitRequest;
 use Illuminate\Http\Request;
-use App\RtiStatus;
+
 
 class RtiFrontEndController extends Controller
 {
@@ -103,6 +105,7 @@ class RtiFrontEndController extends Controller
         
         // Session::put('rtiFormId',$input['unique_id']);
 
+        
         if($request->hasFile('poverty_line_proof_file'))
         {
             $uploadPath = '/uploads/poverty_files';
@@ -125,12 +128,12 @@ class RtiFrontEndController extends Controller
         //     $input['info_post_type'] = '0';
         //     $input['poverty_line_proof'] = '';
         // }
-
+                
         $last_id = RtiForm::create($input);
-
         $last_inserted_id = $last_id->id;
+        $rti_status_id = MasterRtiStatus::where('status_title', config('commanConfig.rti_form_status'))->value('id');
         $updated_status = array(
-            'status_id' => 1,
+            'status_id' => $rti_status_id,
             'application_id' => $last_inserted_id
         );
 
