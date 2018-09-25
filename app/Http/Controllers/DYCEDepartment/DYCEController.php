@@ -176,7 +176,7 @@ class DYCEController extends Controller
         $arrData['role_name'] = $parentData['role_name'];
 
         $arrData['application_status'] = $this->CommonController->getCurrentApplicationStatus($applicationId);
-
+        $arrData['get_current_status'] = $this->CommonController->getCurrentStatus($applicationId);
         // REE Forward Application
 
         $ree_id = Role::where('name', '=', config('commanConfig.ree_junior'))->first();
