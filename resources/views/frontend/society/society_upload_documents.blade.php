@@ -1,5 +1,17 @@
 @extends('admin.layouts.app')
 @section('content')
+<!-- BEGIN: Subheader -->
+ <div class="m-subheader ">
+    <div class="d-flex align-items-center">
+       <div class="mr-auto">
+          <h3 class="m-subheader__title m-subheader__title--separator">Dashboard </h3>
+          {{ Breadcrumbs::render('documents_upload') }}
+       </div>
+       <div>
+       </div>
+    </div>
+ </div>
+ <!-- END: Subheader -->
 <div class="row" style="margin-top: 5%">
     <div class="col-md-12">
        <div class="m-portlet m-portlet--creative m-portlet--first m-portlet--bordered-semi mb-0 m-portlet--table">

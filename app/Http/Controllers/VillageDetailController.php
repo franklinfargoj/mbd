@@ -260,7 +260,7 @@ lm_village_detail.updated_at'))->get();
         $arrData['board'] = Board::where('status', 1)->get();
         $arrData['land_source'] = LandSource::where('status', 1)->get();
         $arrData['village_data'] = VillageDetail::FindOrFail($id)->toArray();
-
+        // dd($arrData['village_data']['7_12_mhada_name']);
         return view('admin.village_detail.edit', compact('header_data', 'arrData'));
     }
 

@@ -132,12 +132,12 @@
                     <div class="m-radio-inline">
                         <label class="m-radio m-radio--primary">
                             <input type="radio" name="mhada_name" disabled value="1"
-                                {{ ($arrData['village_data']['7_12_extract'] == 1) ? "checked" : "" }}> Yes
+                                {{ ($arrData['village_data']['7_12_mhada_name'] == 1) ? "checked" : "" }}> Yes
                             <span class="help-block"></span>
                         </label>
                         <label class="m-radio m-radio--primary">
                             <input type="radio" name="mhada_name" disabled value="0"
-                                {{ ($arrData['village_data']['7_12_extract'] == 0) ? "checked" : "" }}> No
+                                {{ ($arrData['village_data']['7_12_mhada_name'] == 0) ? "checked" : "" }}> No
                             <span class="help-block"></span>
                         </label>
                     </div>

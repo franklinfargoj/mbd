@@ -118,12 +118,12 @@
                         <div class="m-radio-inline">
                             <label class="m-radio m-radio--primary">
                                 <input type="radio" name="mhada_name" value="1"
-                                    {{ ($arrData['village_data']['7_12_extract'] == 1) ? "checked" : "" }}> Yes
+                                    {{ ($arrData['village_data']['7_12_mhada_name'] == 1) ? "checked" : "" }}> Yes
                                 <span class="help-block"></span>
                             </label>
                             <label class="m-radio m-radio--primary">
                                 <input type="radio" name="mhada_name" value="0"
-                                    {{ ($arrData['village_data']['7_12_extract'] == 0) ? "checked" : "" }}> No
+                                    {{ ($arrData['village_data']['7_12_mhada_name'] == 0) ? "checked" : "" }}> No
                                 <span class="help-block"></span>
                             </label>
                         </div>
@@ -165,12 +165,12 @@
                         <label class="col-form-label" for="file_upload">Is 7/12 extract available:</label>
                         <div class="m-radio-inline">
                             <label class="m-radio m-radio--primary">
-                                <input type="radio" class="file_upload" name="file_upload" value="1"
+                                <input type="radio" class="file_upload" name="file_upload" value="1" id="file_upload" 
                                     {{ ($arrData['village_data']['7_12_extract'] == 1) ? "checked" : "" }}> Yes
                                 <span class="help-block"></span>
                             </label>
                             <label class="m-radio m-radio--primary">
-                                <input type="radio" class="file_upload" name="file_upload" value="0"
+                                <input type="radio" class="file_upload" name="file_upload" value="0" id="file_upload"
                                     {{ ($arrData['village_data']['7_12_extract'] == 0) ? "checked" : "" }}> No
                                 <span class="help-block"></span>
                             </label>

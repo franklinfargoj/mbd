@@ -152,3 +152,17 @@ Breadcrumbs::for('Send Notice To Appellant', function ($trail, $id) {
     $trail->parent('Hearing');
     $trail->push('Send Notice To Appellant', route('send_notice_to_appellant.create', $id));
 });
+
+Breadcrumbs::for('society_dashboard', function ($trail) {
+    $trail->push('Dashboard', route('society_offer_letter_dashboard'));
+});
+
+Breadcrumbs::for('documents_uploaded', function ($trail) {
+    $trail->push('Dashboard', route('society_offer_letter_dashboard'));
+    $trail->push('Uploaded documents', route('documents_uploaded'));
+});
+
+Breadcrumbs::for('documents_upload', function ($trail) {
+    $trail->push('Dashboard', route('society_offer_letter_dashboard'));
+    $trail->push('Upload documents', route('documents_upload'));
+});
