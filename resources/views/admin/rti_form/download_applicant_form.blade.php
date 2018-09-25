@@ -102,7 +102,7 @@
                                     </div>
                                 </div>
                                 
-                                @if($application_form_data->info_post_type=='1')
+                                @if($application_form_data->info_post_or_person=='1')
                                 <div class="col-sm-12" >
                                     <label class="mb-0">Post Type</label>
                                     <div class="m-radio-inline mt-3 form-group m-form__group error-wrap">
