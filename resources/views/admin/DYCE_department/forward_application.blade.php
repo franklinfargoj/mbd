@@ -178,8 +178,8 @@
                                                                             <option value="{{ $parent->id }}" data-role="{{ $parent->role_id }}">{{ $parent->name }} ({{ $arrData['role_name'] }})</option>
                                                                         @endforeach
                                                                     @else
-                                                                        @foreach($arrData['get_forward_co'] as $parent)
-                                                                            <option value="{{ $parent->id }}" data-role="{{ $parent->role_id }}">{{ $parent->name }} ({{ $arrData['co_role_name'] }})</option>
+                                                                        @foreach($arrData['get_forward_ree'] as $parent)
+                                                                            <option value="{{ $parent->id }}" data-role="{{ $parent->role_id }}">{{ $parent->name }} ({{ $arrData['ree_role_name'] }})</option>
                                                                         @endforeach
                                                                     @endif
                                                                 </select>

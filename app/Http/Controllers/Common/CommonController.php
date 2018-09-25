@@ -20,6 +20,7 @@ use App\OlRelocationVerificationDetails;
 use App\OlChecklistScrutiny;
 use App\OlApplicationStatus;
 use App\OlCapNotes;
+use App\EENote;
 use App\Role;
 use App\User;
 use Config;
@@ -44,6 +45,9 @@ class CommonController extends Controller
 
         $eeScrutinyData = OlApplication::with(['eeApplicationSociety.societyDocuments.documents_Name'])
                 ->where('id',$applicationId)->first();
+
+        $eeScrutinyData->eeNote = EENote::where('application_id', $applicationId)
+        ->orderBy('id', 'desc')->first();
 
         $this->getVerificationDetails($eeScrutinyData,$applicationId);         
         $this->getChecklistDetails($eeScrutinyData,$applicationId);
