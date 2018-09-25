@@ -132,6 +132,7 @@ class CAPController extends Controller
 
         $applicationData = $this->CommonController->getForwardApplication($applicationId);
         $arrData['application_status'] = $this->CommonController->getCurrentApplicationStatus($applicationId);
+        $arrData['get_current_status'] = $this->CommonController->getCurrentStatus($applicationId);
 
         // VP Forward Application
 

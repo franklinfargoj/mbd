@@ -12,11 +12,13 @@
                                 <i class="la la-cog"></i> Scrutiny History
                             </a>
                         </li>
-                        <li class="nav-item m-tabs__item" data-target="#forward-application-tab">
-                            <a class="nav-link m-tabs__link show" data-toggle="tab" href="#forward-application-tab">
-                                <i class="la la-cog"></i> Forward Application
-                            </a>
-                        </li>
+                        @if($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.pending'))
+                            <li class="nav-item m-tabs__item" data-target="#forward-application-tab">
+                                <a class="nav-link m-tabs__link show" data-toggle="tab" href="#forward-application-tab">
+                                    <i class="la la-cog"></i> Forward Application
+                                </a>
+                            </li>
+                        @endif
                     </ul>
                 </div>
             </div>

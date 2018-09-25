@@ -268,5 +268,15 @@ class CommonController extends Controller
 
         $capNotes = OlCapNotes::where('application_id',$applicationId)->orderBy('id','DESC')->first();
         return $capNotes;
-    }              
+    }
+
+    public function getCurrentStatus($application_id)
+    {
+        $current_status = OlApplicationStatus::where('application_id', $application_id)
+                                            ->where('user_id', Auth::user()->id)
+                                            ->where('role_id', session()->get('role_id'))
+                                            ->orderBy('id', 'desc')->first();
+
+        return $current_status;
+    }
 }
