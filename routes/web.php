@@ -54,7 +54,7 @@ Route::get('lease_detail/print/{id}','LeaseDetailController@print_data')->name('
 //Rti admin download applicants form in view application action
 Route::get('download_applicant_form/{id}','RtiFormController@download_applicant_form')->name('download_applicant_form');
 
-
+ Route::get('society_offer_letter/{id}','Common\CommonController@downloadOfferLetter')->name('society_offer_download');
 
 Route::group(['middleware' => ['check_society_offer_letter_permission']], function(){
        
@@ -189,7 +189,9 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 	Route::get('society_EE_documents/{id}','DYCEDepartment\DYCEController@societyEEDocuments')->name('dyce.society_EE_documents');
 	Route::get('ee_scrutiny_remark/{id}','DYCEDepartment\DYCEController@eeScrutinyRemark')->name('dyce.EE_Scrutiny_Remark');
 
-Route::get('scrutiny_remark/{id}','DYCEDepartment\DYCEController@dyceScrutinyRemark')->name('dyce.scrutiny_remark');
+    Route::get('scrutiny_remark/{id}','DYCEDepartment\DYCEController@dyceScrutinyRemark')->name('dyce.scrutiny_remark');
+
+
     Route::get('dyce_forward_application/{id}','DYCEDepartment\DYCEController@forwardApplication')->name('dyce.forward_application');
     Route::post('forward_Application_data','DYCEDepartment\DYCEController@sendForwardApplication')->name('dyce.forward_application_data');
 
@@ -303,4 +305,6 @@ Route::get('calculation-sheet', 'ReeCalculationSheet@CalculationSheet');
 Route::get('scrutiny-remarks', 'EeScrunityRemarks@ScrunityRemarks');
 Route::get('forward-application', 'EeForwardApplication@ForwardApplication');
 Route::get('offer-letter-doc', 'OfferLetterController@OfferLetterDoc');
+
+
 

@@ -17,6 +17,7 @@ use App\OlTitBitVerificationDetails;
 use App\OlRelocationVerificationDetails;
 use App\OlChecklistScrutiny;
 use App\OlApplicationStatus;
+use App\MasterLayout;
 use App\User;
 use Config;
 use Auth;
@@ -192,7 +193,7 @@ class DYCEController extends Controller
 
         return redirect('/dyce');
 
-    }
+    } 
 }
 
 
