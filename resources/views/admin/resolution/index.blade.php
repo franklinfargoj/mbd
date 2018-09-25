@@ -6,22 +6,11 @@
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">Resolution Listing</h3>
             {{ Breadcrumbs::render('resolution') }}
+            <a class="btn btn-primary ml-auto" href="{{route('resolution.create')}}">Add Resolution</a>
         </div>
     </div>
     <!-- END: Subheader -->
     <div class="m-portlet m-portlet--mobile">
-        <div class="m-portlet__head px-0">
-            <div class="m-portlet__head-caption">
-                <div class="m-portlet__head-title">
-                    <h3 class="m-portlet__head-text">
-
-                    </h3>
-                </div>
-            </div>
-            <div class="text-right">
-                <a class="btn btn-primary" href="{{route('resolution.create')}}">Add Resolution</a>
-            </div>
-        </div>
         <div class="m-portlet__body">
             <!--begin: Search Form -->
             <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
@@ -60,7 +49,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3 mt-4">
                                 <div class="form-group m-form__group">
                                     <label>Boards</label>
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
@@ -78,9 +67,9 @@
                             </div>
                             <div class="col-md-6 mt-5">
                                 <div class="btn-list text-right">
-                                    <button type="submit" name="excel" value="excel" class="btn btn-info">Excel</button>
+                                    <button type="submit" name="excel" value="excel" class="btn excel-icon"><img src="{{asset('/img/excel-icon.svg')}}"></button>
                                     <a target="_blank" href="{{route('resolution.print',['published_from_date'=>app('request')->input('published_from_date'),'published_to_date'=>app('request')->input('published_to_date'),'resolution_type_id'=>app('request')->input('resolution_type_id'),'board_id'=>app('request')->input('board_id')])}}"
-                                        class="btn btn-info">Print</a>
+                                        class="btn print-icon"><img src="{{asset('/img/print-icon.svg')}}"></a>
                                 </div>
                             </div>
                         </form>
