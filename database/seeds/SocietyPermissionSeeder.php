@@ -17,7 +17,7 @@ class SocietyPermissionSeeder extends Seeder
     {
         $society = Role::where('name', '=', 'society')->select('id')->get();
 
-        if(count($society ) > 0){
+        if(count($society ) == 0){
             // Society Login
             $role_id = Role::insertGetId([
                 'name'         => 'society',
