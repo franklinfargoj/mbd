@@ -131,7 +131,7 @@
                 </a>
             </li>--}}
 
-            @if(in_array('ee.index', session()->get('permission')) || in_array('dyce.index', session()->get('permission')) || in_array('ree_applications.index', session()->get('permission')) || in_array('co.index', session()->get('permission')) || in_array('cap.index', session()->get('permission')))
+            @if(in_array('ee.index', session()->get('permission')) || in_array('dyce.index', session()->get('permission')) || in_array('ree_applications.index', session()->get('permission')) || in_array('co.index', session()->get('permission')) || in_array('cap.index', session()->get('permission')) || in_array('society_offer_letter.index', session()->get('permission')))
                 <li class="m-menu__item m-menu__item--active" aria-haspopup="true">
                     <a href="{{ url(session()->get('redirect_to')) }}" class="m-menu__link ">
                         <i class="m-menu__link-icon flaticon-line-graph"></i>

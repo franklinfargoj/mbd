@@ -415,6 +415,11 @@ var SnippetLogin = function() {
                         },
                         mhada_name: {
                             required: !0
+                        },
+                        extract: {
+                            required: function(element) {
+                                return $('#file_upload').is(':checked')
+                            }
                         }
                     }
                 }), t.valid() && (a.addClass("m-loader m-loader--right m-loader--light").attr("disabled", !0), setTimeout(function() {
