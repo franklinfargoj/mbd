@@ -112,6 +112,16 @@ class SocietyPermissionSeeder extends Seeder
                     'name'         => 'documents_uploaded',
                     'display_name' => 'documents_uploaded',
                     'description'  => 'view uploaded society documents'
+                ],                
+                [
+                    'name'         => 'add_documents_comment',
+                    'display_name' => 'add_documents_comment',
+                    'description'  => 'add documents comment'
+                ],                
+                [
+                    'name'         => 'add_uploaded_documents_remark',
+                    'display_name' => 'add_uploaded_documents_remark',
+                    'description'  => 'add uploaded documents remark'
                 ]
             ];
 
