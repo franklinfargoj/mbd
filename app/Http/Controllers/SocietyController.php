@@ -59,11 +59,33 @@ class SocietyController extends Controller
         ];
         if($request->excel)
         {
-            $society_data = SocietyDetail::with('societyVillage')
-            ->join('lm_village_detail', 'lm_village_detail.id', '=', 'lm_society_detail.village_id')
+            $society_data = SocietyDetail::join('lm_village_detail', 'lm_village_detail.id', '=', 'lm_society_detail.village_id')
             ->join('other_land','lm_society_detail.other_land_id', '=', 'other_land.id')
             ->where('village_id', $id);
-            $society_data = $society_data->selectRaw( DB::raw('lm_society_detail.society_name,lm_society_detail.district,lm_society_detail.taluka,lm_society_detail.village,lm_society_detail.survey_number,lm_society_detail.cts_number,lm_society_detail.chairman,lm_society_detail.society_address,lm_society_detail.area,lm_society_detail.date_on_service_tax,lm_society_detail.surplus_charges,lm_society_detail.surplus_charges_last_date,lm_village_detail.village_name,other_land.land_name'))->get();
+            $society_data = $society_data->selectRaw( DB::raw('lm_society_detail.id,lm_society_detail.society_name,lm_society_detail.district,lm_society_detail.taluka,lm_society_detail.village,lm_society_detail.survey_number,lm_society_detail.cts_number,lm_society_detail.chairman,lm_society_detail.society_address,lm_society_detail.area,lm_society_detail.date_on_service_tax,lm_society_detail.surplus_charges,lm_society_detail.surplus_charges_last_date,lm_village_detail.village_name,other_land.land_name'))->get();
+            if(count($society_data) == 0){
+                $society_data = [];
+                $society_data[0]['id'] = '';
+                $society_data[0]['Society Name'] = '';
+                $society_data[0]['District'] = '';
+                $society_data[0]['Taluka'] = '';
+                $society_data[0]['Survey Number'] = '';
+                $society_data[0]['CTS Number'] = '';
+                $society_data[0]['Chairman'] = '';
+                $society_data[0]['Society Address'] = '';
+                $society_data[0]['Area'] = '';
+                $society_data[0]['Date mentioned on service tax letters'] = '';
+                $society_data[0]['Surplus Charges'] = '';
+                $society_data[0]['Lease rent as per renewed lease'] = '';
+                $society_data[0]['Last date of paying surplus charges'] = '';
+                $society_data[0]['Others'] = '';
+            }else{
+                foreach ($society_data as $society_data_key => $society_data_value) {
+                    $i=1;
+                    $society_data[$society_data_key]['id'] = $i;
+                    $i++;
+                }    
+            }
             return Excel::create('society_details_'.date('Y_m_d_H_i_s'), function($excel) use($society_data){
 
                 $excel->sheet('mySheet', function($sheet) use($society_data)
