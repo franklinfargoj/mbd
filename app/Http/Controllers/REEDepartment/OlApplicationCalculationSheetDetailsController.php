@@ -87,12 +87,7 @@ class OlApplicationCalculationSheetDetailsController extends Controller
 
     public function saveCalculationDetails(Request $request)
     {
-        echo "<pre>"; print_r($request->all());//exit;
-       // OlApplicationCalculationSheetDetails::create($request->all());
-
         OlApplicationCalculationSheetDetails::updateOrCreate(['application_id'=>$request->get('application_id')],$request->all());
-      /*  $user = User::firstOrNew($request->all());
-        $user->foo = Input::get('foo');
-        $user->save();*/
+        return redirect("ol_calculation_sheet/" . $request->get('application_id'));
     }
 }
