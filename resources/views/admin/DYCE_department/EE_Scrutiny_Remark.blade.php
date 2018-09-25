@@ -607,7 +607,7 @@
                                                                             <span></span>
                                                                         </label>
                                                                     </td>
-                                                                    <td>
+                                                                    <td> 
                                                                         <label class="m-radio m-radio--primary">
                                                                             <input type="radio" name="rg_radio_{{$i}}" disabled {{(isset($data->relocationQuetions) && $data->relocationQuetions->answer == '0') ? 'checked' : ''}}>
                                                                             <span></span>
