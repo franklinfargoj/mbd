@@ -159,6 +159,9 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('/lease_detail/renew-lease/{id}/{village_id}', 'LeaseDetailController@renewLease')->name('renew-lease.renew');
     Route::post('/lease_detail/update-lease/{id}', 'LeaseDetailController@updateLease')->name('renew-lease.update-lease');
     Route::post('loadDeleteVillageUsingAjax', 'VillageDetailController@loadDeleteVillageUsingAjax')->name('loadDeleteVillageUsingAjax');
+    Route::get('/lease_detail/edit-lease/{id}/{village_id}', 'LeaseDetailController@showLatestLease')->name('edit-lease.edit');
+    Route::get('/lease_detail/update-edit-lease/{id}/{village_id}', 'LeaseDetailController@updateLatestLease')->name('update-lease.update');
+    Route::get('/lease_detail/view-lease/{id}/{village_id}', 'LeaseDetailController@updateLatestLease')->name('view-lease.view');
 
     // EE Department Routes
 

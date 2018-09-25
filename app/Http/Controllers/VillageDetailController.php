@@ -98,6 +98,7 @@ lm_village_detail.land_cost
 ,lm_village_detail.extract_file_name,
 lm_village_detail.created_at,
 lm_village_detail.updated_at'))->get();
+            
             return Excel::create('village_details_'.date('Y_m_d_H_i_s'), function($excel) use($village_data){
 
                 $excel->sheet('mySheet', function($sheet) use($village_data)

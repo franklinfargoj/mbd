@@ -10,7 +10,7 @@
     <!-- END: Subheader -->
     <div class="m-portlet m-portlet--mobile">
         <form id="renewLeaseDetail" role="form" method="post" class="m-form m-form--rows m-form--label-align-right"
-            action="{{route('renew-lease.update-lease', $id)}}">
+            action="{{route('update-lease.update', $id)}}">
             @csrf
             <input type="hidden" name="society_id" value="{{ $id }}">
             <input type="hidden" name="village_id" value="{{ $village_id }}">

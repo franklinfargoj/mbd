@@ -92,7 +92,7 @@
             @endif
 
 
-            <li class="m-menu__item m-menu__item--active" aria-haspopup="true">
+            <!-- <li class="m-menu__item m-menu__item--active" aria-haspopup="true">
                 <a href="" class="m-menu__link ">
                     <i class="m-menu__link-icon flaticon-line-graph"></i>
                     <span class="m-menu__link-title">
@@ -103,7 +103,7 @@
                         </span>
                     </span>
                 </a>
-            </li>
+            </li> -->
 
             {{--<li class="m-menu__item m-menu__item--active" aria-haspopup="true">
                 <a href="{{url('/application')}}" class="m-menu__link ">
@@ -146,7 +146,7 @@
                 </li>
             @endif
 
-                {{--<li class="m-menu__item m-menu__item--active" aria-haspopup="true">
+                <!-- <li class="m-menu__item m-menu__item--active" aria-haspopup="true">
                     <a href="{{ route('society_offer_letter_dashboard') }}" class="m-menu__link ">
                         <i class="m-menu__link-icon flaticon-line-graph"></i>
                         <span class="m-menu__link-title">
@@ -157,7 +157,7 @@
                             </span>
                         </span>
                     </a>
-                </li>--}}
+                </li> -->
         </ul>
     </div>
     <!-- END: Aside Menu -->
