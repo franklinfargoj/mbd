@@ -120,9 +120,9 @@
                                     Sign Up
                                 </button>
                                 &nbsp;&nbsp;
-                                <button id="m_login_signup_cancel" class="btn btn-outline-focus m-btn m-btn--pill m-btn--custom m-login__btn">
-                                    <i class="la la-close"></i>
-                                </button>
+                                <a href="{{ route('society_offer_letter.index') }}" id="" class="btn btn-primary m-btn m-btn--pill m-btn--custom m-login__btn">
+                                    <!-- <i class="la la-close"></i> -->Cancel
+                                </a>
                             </div>
                         </form>
                     </div>
