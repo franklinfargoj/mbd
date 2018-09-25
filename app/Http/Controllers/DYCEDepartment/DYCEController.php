@@ -168,21 +168,20 @@ class DYCEController extends Controller
     public function forwardApplication(Request $request, $applicationId){
 
         $applicationData = $this->CommonController->getForwardApplication($applicationId);
+        $parentData      = $this->CommonController->getForwardApplicationParentData();
 
-        $parentData = $this->CommonController->getForwardApplicationParentData();
         $arrData['parentData'] = $parentData['parentData'];
-        $arrData['role_name'] = $parentData['role_name'];
+        $arrData['role_name']  = $parentData['role_name'];
 
         $arrData['application_status'] = $this->CommonController->getCurrentApplicationStatus($applicationId);
-
+        $arrData['get_current_status'] = $this->CommonController->getCurrentStatus($applicationId);
         // REE Forward Application
 
         $ree_id = Role::where('name', '=', config('commanConfig.ree_junior'))->first();
-        $arrData['get_forward_co'] = User::where('role_id', $ree_id->id)->get();
-        $arrData['co_role_name'] = strtoupper(str_replace('_', ' ', $ree_id->name));
+        $arrData['get_forward_ree'] = User::where('role_id', $ree_id->id)->get();
+        $arrData['ree_role_name']   = strtoupper(str_replace('_', ' ', $ree_id->name));
 
         $this->CommonController->getEEForwardRevertLog($applicationData,$applicationId);
-        // dd($applicationData);
         return view('admin.DYCE_department.forward_application',compact('applicationData', 'arrData'));
     }
 

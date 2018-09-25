@@ -1,22 +1,13 @@
 @extends('admin.layouts.app')
 @section('content')
-    <div class="row" style="margin-top: 5%">
         <div class="col-md-12">
-            <div class="m-portlet m-portlet--creative m-portlet--first m-portlet--bordered-semi mb-0 m-portlet--table">
-                <div class="m-portlet__head main-sub-title">
-                    <div class="m-portlet__head-caption">
-                        <div class="m-portlet__head-title">
-                   <span class="m-portlet__head-icon m--hide">
-                   <i class="flaticon-statistics"></i>
-                   </span>
-                            <h2 class="m-portlet__head-label m-portlet__head-label--custom">
-                      <span>
-                      Document Submitted By Society
-                      </span>
-                            </h2>
-                        </div>
-                    </div>
+            <div class="m-subheader px-0 m-subheader--top">
+                <div class="d-flex align-items-center">
+                    <h3 class="m-subheader__title m-subheader__title--separator">Document Submitted By Society</h3>
+                    <a href="{{ url('/ee') }}" class="btn btn-link ml-auto"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
                 </div>
+            </div>
+            <div class="m-portlet m-portlet--creative m-portlet--first m-portlet--bordered-semi mb-0 m-portlet--table">
 
                 <div class="m-portlet__body m-portlet__body--table">
                     <div class="m-section mb-0">
@@ -62,5 +53,4 @@
                 </div>
             </div>
         </div>
-    </div>
 @endsection

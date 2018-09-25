@@ -112,6 +112,8 @@
                                 @php
                                     if(isset($arrData['get_last_status']) && ($arrData['get_last_status']->status_id == config('commanConfig.applicationStatus.forwarded')))
                                         $style = "display:none";
+                                    elseif (session()->get('role_name') != config('commanConfig.ee_junior_engineer'))
+                                        $style = "display:none";
                                     else
                                         $style = "";
                                 @endphp
@@ -818,6 +820,8 @@
                                 @php
                                     if(isset($arrData['get_last_status']) && ($arrData['get_last_status']->status_id == config('commanConfig.applicationStatus.forwarded')))
                                         $display = "display:none";
+                                    elseif (session()->get('role_name') != config('commanConfig.ee_junior_engineer'))
+                                        $display = "display:none";
                                     else
                                         $display = "";
                                 @endphp
@@ -839,13 +843,17 @@
                                                                 <div class="d-flex flex-column h-100 two-cols">
                                                                     <h5>Download Note</h5>
                                                                     <span class="hint-text">Download EE Note uploaded by
-                                                                    REE</span>
+                                                                    EE</span>
                                                                     <div class="mt-auto">
-                                                                        @php
-                                                                            $href = isset($arrData['eeNote']->document_path) ? asset($arrData['eeNote']->document_path) : "#";
-                                                                        @endphp
-                                                                        <a href="{{ $href }}" download class="btn btn-primary">Download Note
-                                                                            Format</a>
+                                                                    @if(isset($arrData['eeNote']->document_path))
+                                                                        <a href="{{ asset($arrData['eeNote']->document_path)}}">
+                                                                    @else
+                                                                        <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
+                                                                     * Note :  EE note not available. </span>  
+                                                                    @endif   
+                                                                        <button class="btn btn-primary">Download offer Letter Application</button>
+                                                                            </a>
+                                                                           
                                                                     </div>
                                                                 </div>
                                                             </div>

@@ -12,11 +12,14 @@
                                 <i class="la la-cog"></i> Scrutiny History
                             </a>
                         </li>
-                        <li class="nav-item m-tabs__item">
-                            <a class="nav-link m-tabs__link show" data-toggle="tab" href="#forward-application-tab">
-                                <i class="la la-cog"></i> Forward Application
-                            </a>
-                        </li>
+
+                        @if($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.pending'))
+                            <li class="nav-item m-tabs__item">
+                                <a class="nav-link m-tabs__link show" data-toggle="tab" href="#forward-application-tab">
+                                    <i class="la la-cog"></i> Forward Application
+                                </a>
+                            </li>
+                        @endif
                     </ul>
                 </div>
             </div>
@@ -178,8 +181,8 @@
                                                                             <option value="{{ $parent->id }}" data-role="{{ $parent->role_id }}">{{ $parent->name }} ({{ $arrData['role_name'] }})</option>
                                                                         @endforeach
                                                                     @else
-                                                                        @foreach($arrData['get_forward_co'] as $parent)
-                                                                            <option value="{{ $parent->id }}" data-role="{{ $parent->role_id }}">{{ $parent->name }} ({{ $arrData['co_role_name'] }})</option>
+                                                                        @foreach($arrData['get_forward_ree'] as $parent)
+                                                                            <option value="{{ $parent->id }}" data-role="{{ $parent->role_id }}">{{ $parent->name }} ({{ $arrData['ree_role_name'] }})</option>
                                                                         @endforeach
                                                                     @endif
                                                                 </select>
@@ -190,7 +193,7 @@
                                                             <textarea class="form-control form-control--custom" name="remark" id="remark" cols="30" rows="5"></textarea>
                                                         </div>
                                                         <div class="mt-3 btn-list">
-                                                            <button type="submit" onclick="window.location.href='{{ url("/dyce") }}'" class="btn btn-primary">Save</button>
+                                                            <button type="submit" class="btn btn-primary">Save</button>
                                                             {{--<button type="submit" id="sign" class="btn btn-primary forwrdBtn">Sign</button>
                                                             <button type="submit" class="btn btn-primary forwrdBtn">Sign & Forward</button>
                                                             <button type="submit" class="btn btn-primary forwrdBtn">Forward</button>--}}
