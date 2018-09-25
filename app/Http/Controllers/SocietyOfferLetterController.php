@@ -78,6 +78,7 @@ class SocietyOfferLetterController extends Controller
         }else{
             // dd('clear');
             $role_id = Role::where('name', config('commanConfig.society_offer_letter'))->first();
+            // dd(config('commanConfig.society_offer_letter'));
             $society_offer_letter_users = array(
                 'name' => $request->input('society_name'),
                 'email' => $request->input('society_email'),
@@ -503,7 +504,7 @@ class SocietyOfferLetterController extends Controller
 
     public function addSocietyDocumentsComment(Request $request){
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
-        // dd($request->input('society_documents_comment'));
+        dd($request->input('society_documents_comment'));
         if(!empty($request->input('society_documents_comment'))){
             $comments = $request->input('society_documents_comment');
         }else{
@@ -574,10 +575,16 @@ class SocietyOfferLetterController extends Controller
         {
             $file = $request->file('document_name');
             $file_name = time().$file->getFileName().'.'.$file->getClientOriginalExtension();
-            if($file->move($destinationPath, $file_name))
-            {                
-                $dataToInsert['filepath'] = $uploadPath.'/';
-                $dataToInsert['filename'] = $file_name;
+            $extension = $request->file('document_name')->getClientOriginalExtension();
+            // dd($extension);
+            if ($extension == "pdf") {
+                if($file->move($destinationPath, $file_name))
+                {                
+                    $dataToInsert['filepath'] = $uploadPath.'/';
+                    $dataToInsert['filename'] = $file_name;
+                }
+            }else{
+                return redirect()->back()->with('error_'.$request->input('document_id'), 'Invalid type of file uploaded (only pdf allowed)');
             }
         }
         $input = array(
@@ -634,6 +641,11 @@ class SocietyOfferLetterController extends Controller
                 }
                 // dd($insert_application_log_forward);
                 OlApplicationStatus::insert(array_merge($insert_application_log_forwarded, $insert_application_log_in_process));
+                $add_comment = array(
+                    'society_id' => $society->id,
+                    'society_documents_comment' => 'N.A.',
+                );
+                OlSocietyDocumentsComment::create($add_comment);
                 // $last_society_flag_id = OlApplicationStatus::where('society_flag', '1')->orderBy('id', 'desc')->first();
                 // $id = OlApplicationStatus::find($last_society_flag_id->id);
                 // OlApplication::where('user_id', Auth::user()->id)->update([
