@@ -44,6 +44,7 @@ class DatabaseSeeder extends Seeder
         $this->call(CoPermissionSeeder::class);
         $this->call(ResolutionPermissionSeeder::class);
         $this->call(RTIPermissionSeeder::class);
+        $this->call(VpPermission::class);
 
         // $this->call(RtiFormTableSeeder::class);
     }

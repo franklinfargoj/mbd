@@ -108,7 +108,7 @@
                                 <span class="m-login__account-msg">
                                     Don't have an account yet ?
                                 </span>
-                                <a href="{{ route('society_offer_letter.create') }}" id="m_login_signup" class="m-link m-link--light m-login__account-link">
+                                <a href="{{ route('society_offer_letter.create') }}" id="" class="m-link m-link--light m-login__account-link">
                                     Sign Up
                                 </a>
                             </div>

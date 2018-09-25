@@ -34,8 +34,6 @@ return [
 
     'society_offer_letter' => 'society',
 
-    'society_offer_letter' => 4,
-
     // Hearing Statuses
 
     'joint_co' => 'Joint CO',
@@ -51,4 +49,6 @@ return [
         'notice_send' => 5,
         'case_closed' => 6,
     ],
+
+    'rti_form_status' => 'Send RTI Officer'
 ];
