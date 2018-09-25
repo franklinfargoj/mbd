@@ -39,6 +39,12 @@ class RtiFrontEndController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|unique:rti_frontend_users',
+            'mobile_no' => 'required|unique:rti_frontend_users',
+            'address' => 'required',
+        ]);
         $input = array(
             'name' => $request->input('name'),
             'email' => $request->input('email'),
