@@ -88,7 +88,7 @@ class ResolutionController extends Controller
         {
             return redirect()->route('resolution.index');
         }
-
+        $getData=$request->all();
         if($request->excel)
         {
             $resolutions = Resolution::join('boards', 'resolutions.board_id', '=', 'boards.id')
