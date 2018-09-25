@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\CAPDepartment;
+namespace App\Http\Controllers\VPDepartment;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -24,7 +24,7 @@ use Auth;
 use DB;
 use Carbon\Carbon;
 
-class CAPController extends Controller
+class VPController extends Controller
 {
     public function __construct()
     {
@@ -49,26 +49,26 @@ class CAPController extends Controller
 
         if ($datatables->getRequest()->ajax()) {
 
-            $cap_application_data = $this->CommonController->listApplicationData($request);
+            $vp_application_data = $this->CommonController->listApplicationData($request);
 
-            return $datatables->of($cap_application_data)
+            return $datatables->of($vp_application_data)
                 ->editColumn('rownum', function ($listArray) {
                     static $i = 0; $i++; return $i;
                 })
-                ->editColumn('society_name', function ($cap_application_data) {
-                    return $cap_application_data->eeApplicationSociety->name;
+                ->editColumn('society_name', function ($vp_application_data) {
+                    return $vp_application_data->eeApplicationSociety->name;
                 })
-                ->editColumn('building_name', function ($cap_application_data) {
-                    return $cap_application_data->eeApplicationSociety->building_no;
+                ->editColumn('building_name', function ($vp_application_data) {
+                    return $vp_application_data->eeApplicationSociety->building_no;
                 })
-                ->editColumn('society_address', function ($cap_application_data) {
-                    return $cap_application_data->eeApplicationSociety->address;
+                ->editColumn('society_address', function ($vp_application_data) {
+                    return $vp_application_data->eeApplicationSociety->address;
                 })                
-                ->editColumn('date', function ($cap_application_data) {
-                    return date(config('commanConfig.dateFormat', strtotime($cap_application_data->submitted_at)));
+                ->editColumn('date', function ($vp_application_data) {
+                    return date(config('commanConfig.dateFormat', strtotime($vp_application_data->submitted_at)));
                 })
-                ->editColumn('actions', function ($cap_application_data) use($request){
-                   return view('admin.cap_department.action', compact('cap_application_data', 'request'))->render();
+                ->editColumn('actions', function ($vp_application_data) use($request){
+                   return view('admin.vp_department.action', compact('vp_application_data', 'request'))->render();
                 })
                 ->editColumn('Status', function ($listArray) use ($request) {
                     $status = $listArray->olApplicationStatusForLoginListing[0]->status_id;
@@ -92,9 +92,9 @@ class CAPController extends Controller
         }        
     	        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
             
-            return view('admin.cap_department.index', compact('html','header_data','getData'));    
+            return view('admin.vp_department.index', compact('html','header_data','getData'));    
    	
-    }
+    } 
 
     protected function getParameters() {
         return [
@@ -104,80 +104,58 @@ class CAPController extends Controller
             "order"      => [7, "desc" ],
             "pageLength" => $this->list_num_of_records_per_page
         ];
-    } 
+    }
 
     // society and EE documents
     public function societyEEDocuments(Request $request,$applicationId){
        
         $societyDocuments = $this->CommonController->getSocietyEEDocuments($applicationId);
-       return view('admin.cap_department.society_EE_documents',compact('societyDocuments'));
+       return view('admin.vp_department.society_EE_documents',compact('societyDocuments'));
     }
 
     // EE - Scrutiny & Remark page
     public function eeScrutinyRemark(Request $request,$applicationId){
 
         $eeScrutinyData = $this->CommonController->getEEScrutinyRemark($applicationId);
-        return view('admin.cap_department.EE_Scrunity_Remark',compact('eeScrutinyData'));
-    } 
+        return view('admin.vp_department.EE_Scrunity_Remark',compact('eeScrutinyData'));
+    }
 
     // DyCE Scrutiny & Remark page
     public function dyceScrutinyRemark(Request $request,$applicationId){
 
         $applicationData = $this->CommonController->getDyceScrutinyRemark($applicationId);
-        return view('admin.cap_department.dyce_scrunity_remark',compact('applicationData'));
-    } 
+        // dd($applicationData);
+        return view('admin.vp_department.dyce_scrunity_remark',compact('applicationData'));
+    }
 
     // Forward Application page
     public function forwardApplication(Request $request, $applicationId){
 
         $applicationData = $this->CommonController->getForwardApplication($applicationId);
         $arrData['application_status'] = $this->CommonController->getCurrentApplicationStatus($applicationId);
-        $arrData['get_current_status'] = $this->CommonController->getCurrentStatus($applicationId);
 
-        // VP Forward Application
+        // REE Forward Application
 
-        $vp_role_id = Role::where('name', '=', config('commanConfig.vp_engineer'))->first();
-        $arrData['get_forward_vp'] = User::where('role_id', $vp_role_id->id)->get();
-        $arrData['vp_role_name'] = strtoupper(str_replace('_', ' ', $vp_role_id->name));
+        $ree_role_id = Role::where('name', '=', config('commanConfig.ree_junior'))->first();
+        $arrData['get_forward_ree'] = User::where('role_id', $ree_role_id->id)->get();
+        $arrData['ree_role_name'] = strtoupper(str_replace('_', ' ', $ree_role_id->name));
     
         // remark and history
         $this->CommonController->getEEForwardRevertLog($applicationData,$applicationId);
         $this->CommonController->getDyceForwardRevertLog($applicationData,$applicationId);
         $this->CommonController->getREEForwardRevertLog($applicationData,$applicationId);
 
-        return view('admin.cap_department.forward_application',compact('applicationData', 'arrData'));
-    }
+        return view('admin.vp_department.forward_application',compact('applicationData', 'arrData'));
+    } 
 
     public function sendForwardApplication(Request $request){
         $this->CommonController->forwardApplicationForm($request);
-        return redirect('/cap');
+        return redirect('/vp');
     }
 
     public function displayCAPNote(Request $request, $applicationId){
 
         $capNote = $this->CommonController->downloadCapNote($applicationId);
-        return view('admin.cap_department.cap_notes',compact('applicationId','capNote'));
-    }  
-
-    public function uploadCAPNote(Request $request){
-        
-        $applicationId   = $request->applicationId;
-        $uploadPath      = '/uploads/cap_notes';
-        $destinationPath = public_path($uploadPath);
-
-        if ($request->file('cap_note')){
-
-            $file = $request->file('cap_note');
-            $file_name = time().$file->getFileName().'.'.$file->getClientOriginalExtension();
-
-            if($file->move($destinationPath, $file_name))
-            {
-                $fileData[] = array('document_path' => $uploadPath.'/'.$file_name, 
-                                   'application_id' => $applicationId,
-                                    'user_id'       => Auth::Id());
-            }
-            $data = OlCapNotes::insert($fileData);   
-            return back();         
-        }        
-    }  
+        return view('admin.vp_department.cap_note',compact('applicationId','capNote'));
+    }                                    
 }

@@ -29,23 +29,27 @@
                         <div class="form-group m-form__group">
                             <!-- <label for="" class="col-form-label">First Name</label> -->
                             <input class="form-control form-control--custom m-input" type="text" placeholder="Name of User"
-                                name="name">
+                                name="name" value="{{old('name')}}">
+                                <span class="text-danger">{{$errors->first('name')}}</span>
                         </div>
                         <div class="form-group m-form__group">
                             <!-- <label for="" class="col-form-label">Mobile No</label> -->
                             <input class="form-control form-control--custom m-input" type="text" placeholder="Mobile No"
-                                name="mobile_no" autocomplete="off" >
+                                name="mobile_no" autocomplete="off" value="{{old('mobile_no')}}">
+                                <span class="text-danger">{{$errors->first('mobile_no')}}</span>
                         </div>
                         <div class="form-group m-form__group">
                             <!-- <label for="" class="col-form-label">Email Address</label> -->
                             <input class="form-control form-control--custom m-input" id="email_val" type="text"
-                                placeholder="Email" name="email" autocomplete="off" >
+                                placeholder="Email" name="email" autocomplete="off" value="{{old('email')}}">
+                                <span class="text-danger">{{$errors->first('email')}}</span>
                             <div class="error" id="email_error" style="display: none;">This Email-id is already used.</div>
                         </div>
                         <div class="form-group m-form__group">
                             <!-- <label for="" class="col-form-label">Pan Number</label> -->
                             <textarea class="form-control form-control--custom form-control--textarea m-input" name="address"
-                                placeholder="Enter Address"></textarea>
+                                placeholder="Enter Address">{{old('address')}}</textarea>
+                                <span class="text-danger">{{$errors->first('address')}}</span>
                         </div>
                         <!--begin::Action-->
                         <div class="m-login__action d-flex justify-content-between">

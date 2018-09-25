@@ -17,12 +17,12 @@ class ReePermissionSeeder extends Seeder
      */
     public function run()
     {
-        $ree_manager = Role::where('name', '=', 'REE')->select('id')->get();
+        $ree_manager = Role::where('name', '=', 'ree_engineer')->select('id')->get();
 
         if (count($ree_manager) == 0) {
             // REE branch head
             $ree_role_id = Role::insertGetId([
-                'name'         => 'REE',
+                'name'         => 'ree_engineer',
                 'redirect_to'  => '/ree_applications',
                 'parent_id'    => NULL,
                 'display_name' => 'Residential Executive Engineer',

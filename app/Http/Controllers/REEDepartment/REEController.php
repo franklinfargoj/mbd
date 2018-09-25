@@ -141,6 +141,7 @@ class REEController extends Controller
         $arrData['role_name'] = $parentData['role_name'];
 
         $arrData['application_status'] = $this->CommonController->getCurrentApplicationStatus($applicationId);
+        $arrData['get_current_status'] = $this->CommonController->getCurrentStatus($applicationId);
 
         // CO Forward Application
 
