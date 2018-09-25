@@ -651,8 +651,15 @@
                                                                 <h5>Download Note</h5>
                                                                 <span class="hint-text">Download EE Note uploaded by EE</span>
                                                                 <div class="mt-auto">
-                                                                    <button class="btn btn-primary">Download Note
-                                                                        Format</button>
+                                                                @if(isset($eeScrutinyData->eeNote->document_path))
+                                                                    <a href="{{ asset($eeScrutinyData->eeNote->document_path)}}">
+                                                                @else
+                                                                    <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
+                                                                 * Note :  EE note not available. </span>  
+                                                                @endif   
+                                                                    <button class="btn btn-primary">Download offer Letter Application</button>
+                                                                        </a>
+                                                                       
                                                                 </div>
                                                             </div>
                                                         </div>
