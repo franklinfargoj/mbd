@@ -988,6 +988,14 @@
     box-shadow: 0 0 0 0.2rem rgba(240, 121, 27, 0.25);
 }
 
+.excel-icon,
+.print-icon {
+    width: 24px;
+    height: auto;
+    background-color: transparent;
+    padding: 0;
+}
+
 /* global classes ends here */
 
 /* offer letter starts here */

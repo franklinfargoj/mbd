@@ -6,24 +6,11 @@
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">Society Details</h3>
             {{ Breadcrumbs::render('society_detail',$id) }}
-            <a href="{{ url('/village_detail') }}" class="btn btn-link ml-auto"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+            <a class="btn btn-primary ml-auto" href="{{route('society_detail.create', $id)}}">Add Society</a>
         </div>
     </div>
     <!-- END: Subheader -->
     <div class="m-portlet m-portlet--mobile">
-        <div class="m-portlet__head px-0">
-            <div class="m-portlet__head-caption">
-                <div class="m-portlet__head-title">
-                    <h3 class="m-portlet__head-text">
-
-                    </h3>
-                </div>
-            </div>
-            <div class="text-right">
-                <a class="btn btn-primary" href="{{route('society_detail.create', $id)}}">Add Society</a>
-            </div>
-        </div>
-
         @if(Session::has('success'))
         <div class="alert alert-success fade in alert-dismissible show" style="margin-top:18px;">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -31,11 +18,13 @@
             </button> {{ Session::get('success') }}
         </div>
         @endif
-        <div class="m-portlet__body m-portlet__body--spaced data-table--custom">
-            <div class="btn-list text-right mb-4">
-                <a href="{{route('society_detail.index',['id'=>$id,'excel'=>'excel'])}}" name="excel" value="excel" class="btn btn-info">Excel</button>
-                <a target="_blank" href="{{route('society_detail.print',['id'=>$id])}}"
-                    class="btn btn-info">Print</a>
+        <div class="m-portlet__body data-table--custom">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <a href="{{ url('/village_detail') }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+                <div class="btn-list text-right">
+                    <a href="{{route('society_detail.index',['id'=>$id,'excel'=>'excel'])}}" name="excel" value="excel" class="btn excel-icon"><img src="{{asset('/img/excel-icon.svg')}}"></a>
+                    <a target="_blank" href="{{route('society_detail.print',['id'=>$id])}}" class="btn print-icon"><img src="{{asset('/img/print-icon.svg')}}"></a>
+                </div>
             </div>
             <!--begin: Search Form -->
             {{--<div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">

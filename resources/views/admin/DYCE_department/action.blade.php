@@ -1,4 +1,4 @@
-<a title="view_Application" href="">View Application</a>
+<a title="view_Application" href="{{ route('society_offer_download', $dyce_application_data->id) }}">View Application</a>
 
 <a title="Society_EE_Documents" href="{{ route('dyce.society_EE_documents', $dyce_application_data->id) }}">Society & EE Documents</a>
 

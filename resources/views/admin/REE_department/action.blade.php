@@ -1,4 +1,4 @@
-<a title="view_Application" href="">View Application</a>  
+<a title="view_Application" href="{{ route('society_offer_download', $ree_application_data->id) }}">View Application</a>
 <a title="Society_EE_Documents" href="{{route('ree.society_EE_documents',$ree_application_data->id)}}">Society & EE Documents</a>  
 <a title="EE_Scrutiny_Remark" href="{{route('ree.EE_Scrutiny_Remark',$ree_application_data->id)}}">EE Scrutiny & Remarks</a>  
 <a title="DYCE_Scrutiny_Remark" href="{{route('ree.dyce_scrutiny_remark',$ree_application_data->id)}}">DyCE Scrutiny & Remarks</a>  

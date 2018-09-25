@@ -595,18 +595,18 @@
                                                                      <td>{{($data->question)}}</td>
                                                                      <td>
                                                                          <label class="m-radio m-radio--primary">
-                                                                             <input type="radio" name="rg_radio_{{$i}}" disabled {{(isset($data->titBitDetails) && $data->titBitDetails->answer == '1') ? 'checked' : ''}}>
+                                                                             <input type="radio" name="rg_radio_{{$i}}" disabled {{(isset($data->relocationDetails) && $data->relocationDetails->answer == '1') ? 'checked' : ''}}>
                                                                              <span></span>
                                                                          </label>
                                                                      </td>
                                                                      <td>
                                                                          <label class="m-radio m-radio--primary">
-                                                                             <input type="radio" name="rg_radio_{{$i}}" disabled {{(isset($data->titBitDetails) && $data->titBitDetails->answer == '0') ? 'checked' : ''}}>
+                                                                             <input type="radio" name="rg_radio_{{$i}}" disabled {{(isset($data->relocationDetails) && $data->relocationDetails->answer == '0') ? 'checked' : ''}}>
                                                                              <span></span>
                                                                          </label></td>
                                                                      <td>
                                                                         <textarea class="form-control form-control--custom form-control--textarea" disabled
-                                                                                  name="remark-one" id="remark-one">{{ isset($data->titBitDetails) ? $data->titBitDetails->remark : ''}}</textarea>
+                                                                                  name="remark-one" id="remark-one">{{ isset($data->relocationDetails) ? $data->relocationDetails->remark : ''}}</textarea>
                                                                      </td>
                                                                  </tr>
                                                                  <?php $i++; ?>

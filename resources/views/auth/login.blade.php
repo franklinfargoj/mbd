@@ -64,7 +64,7 @@
                                         <div class="m-login__form-sub">
                                             <div class="m--align-right m-login__form-right">
                                                 <a href="{{ route('password.request') }}"  class="m-link">
-                                                    Forget Password ?
+                                                    Forgot Password ?
                                                 </a>
                                             </div>
                                         </div>
