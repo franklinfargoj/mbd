@@ -20,7 +20,7 @@
                         <label class="col-form-label" for="lease_rule_other">Lease rule 16 & other:</label>
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="lease_rule_other" name="lease_rule_other" class="form-control form-control--custom m-input"
-                                value="{{ $arrData['lease_data']->lease_rule_16_other }}">
+                                value="{{ $arrData['lease_data']->lease_rule_16_other }}" readonly>
                             <span class="help-block">{{$errors->first('lease_rule_other')}}</span>
                         </div>
                     </div>
@@ -29,7 +29,7 @@
                         <label class="col-form-label" for="lease_basis">School/society/ others on lease basis:</label>
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="lease_basis" name="lease_basis" class="form-control form-control--custom m-input"
-                                value="{{ $arrData['lease_data']->lease_basis }}">
+                                value="{{ $arrData['lease_data']->lease_basis }}" readonly>
                             <span class="help-block">{{$errors->first('lease_basis')}}</span>
                         </div>
                     </div>
@@ -40,7 +40,7 @@
                         <label class="col-form-label" for="area">Area:</label>
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="area" name="area" class="form-control form-control--custom m-input"
-                                value="{{ $arrData['lease_data']->area }}">
+                                value="{{ $arrData['lease_data']->area }}" readonly>
                             <span class="help-block">{{$errors->first('area')}}</span>
                         </div>
                     </div>
@@ -49,7 +49,7 @@
                         <label class="col-form-label" for="lease_period">Lease Period:</label>
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="lease_period" name="lease_period" class="form-control form-control--custom m-input"
-                                value="{{ $arrData['lease_data']->lease_period }}">
+                                value="{{ $arrData['lease_data']->lease_period }}" readonly>
                             <span class="help-block">{{$errors->first('lease_period')}}</span>
                         </div>
                     </div>
@@ -69,7 +69,7 @@
                         <label class="col-form-label" for="lease_rent">Land rent / lease rent:</label>
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="lease_rent" name="lease_rent" class="form-control form-control--custom m-input"
-                                value="{{ $arrData['lease_data']->lease_rent }}">
+                                value="{{ $arrData['lease_data']->lease_rent }}" readonly>
                             <span class="help-block">{{$errors->first('lease_rent')}}</span>
                         </div>
                     </div>
@@ -96,7 +96,7 @@
                             agreement, in %:</label>
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="interest_per_lease_agreement" name="interest_per_lease_agreement"
-                                class="form-control form-control--custom m-input" value="{{ $arrData['lease_data']->lease_rent_start_month }}">
+                                class="form-control form-control--custom m-input" value="{{ $arrData['lease_data']->lease_rent_start_month }}" readonly>
                             <span class="help-block">{{$errors->first('interest_per_lease_agreement')}}</span>
                         </div>
                     </div>
@@ -116,7 +116,7 @@
                         <label class="col-form-label" for="lease_renewed_period">Period of renewed Lease:</label>
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="lease_renewed_period" name="lease_renewed_period" class="form-control form-control--custom m-input"
-                                value="{{ $arrData['lease_data']->lease_renewed_period }}">
+                                value="{{ $arrData['lease_data']->lease_renewed_period }}" readonly>
                             <span class="help-block">{{$errors->first('lease_renewed_period')}}</span>
                         </div>
                     </div>
@@ -127,7 +127,7 @@
                         <label class="col-form-label" for="rent_per_renewed_lease">Lease rent as per renewed lease:</label>
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="rent_per_renewed_lease" name="rent_per_renewed_lease" class="form-control form-control--custom m-input"
-                                value="{{ $arrData['lease_data']->rent_per_renewed_lease }}">
+                                value="{{ $arrData['lease_data']->rent_per_renewed_lease }}" readonly>
                             <span class="help-block">{{$errors->first('rent_per_renewed_lease')}}</span>
                         </div>
                     </div>
@@ -137,7 +137,7 @@
                             renewed Lease agreement, in %:</label>
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="interest_per_renewed_lease_agreement" name="interest_per_renewed_lease_agreement"
-                                class="form-control form-control--custom m-input" value="{{ $arrData['lease_data']->interest_per_renewed_lease_agreement }}">
+                                class="form-control form-control--custom m-input" value="{{ $arrData['lease_data']->interest_per_renewed_lease_agreement }}" readonly>
                             <span class="help-block">{{$errors->first('interest_per_renewed_lease_agreement')}}</span>
                         </div>
                     </div>
@@ -165,7 +165,7 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="btn-list">
-                                    <button type="submit" id="renew_lease" class="btn btn-primary">Save</button>
+                                    <button type="submit" id="renew_lease" class="btn btn-primary" disabled>Save</button>
                                     <a href="{{url('/lease_detail/'.$society_id. '/'.$village_id)}}" class="btn btn-secondary">Cancel</a>
                                 </div>
                             </div>

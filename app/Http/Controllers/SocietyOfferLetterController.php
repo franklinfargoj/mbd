@@ -264,7 +264,7 @@ class SocietyOfferLetterController extends Controller
             dd($ol_applications);*/
             return $datatables->of($ol_applications)
                 ->editColumn('rownum', function ($ol_applications) {
-                    $i = 0;
+                    static $i = 0;
                     $i++;
                     return $i;
                 })
