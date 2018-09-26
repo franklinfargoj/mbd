@@ -54,7 +54,7 @@ Route::get('lease_detail/print/{id}','LeaseDetailController@print_data')->name('
 //Rti admin download applicants form in view application action
 Route::get('download_applicant_form/{id}','RtiFormController@download_applicant_form')->name('download_applicant_form');
 
- Route::get('society_offer_letter/{id}','Common\CommonController@downloadOfferLetter')->name('society_offer_download');
+ Route::get('download_society_offer_letter/{id}','Common\CommonController@downloadOfferLetter')->name('society_offer_download');
 
 Route::group(['middleware' => ['check_society_offer_letter_permission']], function(){
        
