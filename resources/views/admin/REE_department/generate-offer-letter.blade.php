@@ -115,27 +115,30 @@
                         <div class="m-portlet m-portlet--mobile m_panel">
                             <div class="m-portlet__body" style="padding-right: 0;">
                                 <h3 class="section-title section-title--small mb-0">Offer Letter:</h3>
-                                <div class="row row-list">
-                                    <div class="col-md-12 row-list">
-                                        <p class="font-weight-semi-bold">View Offer letter</p>
-                                        <p>Click to view generated offer letter in PDF format</p>
-                                        <button type="submit" class="btn btn-primary">View offer Letter </button>
+                                <div class=" row-list">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <p class="font-weight-semi-bold">View Offer letter</p>
+                                            <p>Click to view generated offer letter in PDF format</p>
+                                            <button type="submit" class="btn btn-primary">View offer Letter </button>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="w-100 row-list">
-                                    <div class="container-fluid">
+                                    <div class="">
                                         <div class="row">
                                             <div class="col-sm-6">
-                                                <div class="d-flex flex-column h-100 two-cols">
+                                                <div class="d-flex flex-column h-100">
                                                     <h5>Download Offer Letter</h5>
-                                                    <span class="hint-text">Want to make changes in offer letter, click on below button to download offer letter in .doc format</span>
+                                                    <span class="hint-text">Want to make changes in offer letter, click
+                                                        on below button to download offer letter in .doc format</span>
                                                     <div class="mt-auto">
                                                         <button class="btn btn-primary">Download offer Letter</button>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-sm-6 border-left">
-                                                <div class="d-flex flex-column h-100 two-cols">
+                                                <div class="d-flex flex-column h-100">
                                                     <h5>Upload Offer Letter</h5>
                                                     <span class="hint-text">Click on 'Upload' to upload offer letter</span>
                                                     <form action="" method="post" enctype="multipart/form-data">
