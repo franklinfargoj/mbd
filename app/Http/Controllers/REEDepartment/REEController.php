@@ -165,6 +165,10 @@ class REEController extends Controller
         $capNote = $this->CommonController->downloadCapNote($applicationId);
         return view('admin.REE_department.cap_note',compact('capNote'));
     }
+
+    public function offerLetter(Request $request){
+        return view('admin.REE_department.offer_letter');
+    }
     
     public function documentSubmittedBySociety()
     {
