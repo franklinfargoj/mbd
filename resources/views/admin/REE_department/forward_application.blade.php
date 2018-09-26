@@ -25,7 +25,7 @@
             <div class="m-grid__item m-grid__item--fluid m-wrapper">
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 p-0">
+                        <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
                             <div class="portlet-body">
                                 <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
                                     <div class="m-subheader">
@@ -204,7 +204,7 @@
                                                             </label>
                                                             <div class="col-lg-4 col-md-9 col-sm-12">
                                                                 <select class="form-control m-bootstrap-select m_selectpicker" name="to_user_id" id="to_user_id">
-                                                                    @if(count($arrData['parentData']) > 0)
+                                                                    @if($arrData['parentData'])
                                                                         @foreach($arrData['parentData'] as $parent)
                                                                             <option value="{{ $parent->id }}" data-role="{{ $parent->role_id }}">{{ $parent->name }} ({{ $arrData['role_name'] }})</option>
                                                                         @endforeach
