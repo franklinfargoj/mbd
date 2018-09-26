@@ -216,6 +216,9 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::resource('/ol_calculation_sheet', 'REEDepartment\OlApplicationCalculationSheetDetailsController');
     Route::post('ol_calculation_sheet/save_details','REEDepartment\OlApplicationCalculationSheetDetailsController@saveCalculationDetails')->name('save_calculation_details');
 
+
+    Route::post('upload_ree_note','REEDepartment\REEController@uploadREENote')->name('ree.upload_ree_note');
+
     // CO department route 
     Route::resource('co','CODepartment\COController');
     Route::get('society_ee_documents/{id}','CODepartment\COController@societyEEDocuments')->name('co.society_EE_documents');
@@ -308,9 +311,11 @@ Route::get('calculation-sheet', 'ReeCalculationSheet@CalculationSheet');
 Route::get('scrutiny-remarks', 'EeScrunityRemarks@ScrunityRemarks');
 Route::get('forward-application', 'EeForwardApplication@ForwardApplication');
 Route::get('offer-letter-doc', 'OfferLetterController@OfferLetterDoc');
+
 // Route::get('offer_letter', 'OfferLetterController@OfferLetterDoc');
 
 Route::get('offer_letter','REEDepartment\REEController@offerLetter')->name('offer_letter');
+Route::get('generate-offer-letter', 'REEDepartment\REEController@GenerateOfferLetter');
 
 
 

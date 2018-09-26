@@ -655,13 +655,12 @@
                                                                 <div class="mt-auto">
                                                                 @if(isset($eeScrutinyData->eeNote->document_path))
                                                                     <a href="{{ asset($eeScrutinyData->eeNote->document_path)}}">
+                                                                    <button class="btn btn-primary">Download offer Letter Application</button>
+                                                                    </a>
                                                                 @else
                                                                     <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
                                                                  * Note :  EE note not available. </span>  
-                                                                @endif   
-                                                                    <button class="btn btn-primary">Download offer Letter Application</button>
-                                                                        </a>
-                                                                       
+                                                                @endif      
                                                                 </div>
                                                             </div>
                                                         </div>

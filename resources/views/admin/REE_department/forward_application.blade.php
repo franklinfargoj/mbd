@@ -208,7 +208,7 @@
                                                             </label>
                                                             <div class="col-lg-4 col-md-9 col-sm-12">
                                                                 <select class="form-control m-bootstrap-select m_selectpicker" name="to_user_id" id="to_user_id">
-                                                                    @if(count($arrData['parentData']) > 0)
+                                                                    @if($arrData['parentData'])
                                                                         @foreach($arrData['parentData'] as $parent)
                                                                             <option value="{{ $parent->id }}" data-role="{{ $parent->role_id }}">{{ $parent->name }} ({{ $arrData['role_name'] }})</option>
                                                                         @endforeach

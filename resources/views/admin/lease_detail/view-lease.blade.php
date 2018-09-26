@@ -165,8 +165,7 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="btn-list">
-                                    <button type="submit" id="renew_lease" class="btn btn-primary" disabled>Save</button>
-                                    <a href="{{url('/lease_detail/'.$society_id. '/'.$village_id)}}" class="btn btn-secondary">Cancel</a>
+                                    <a href="{{url('/lease_detail/'.$society_id. '/'.$village_id)}}" class="btn btn-secondary">Back</a>
                                 </div>
                             </div>
                         </div>

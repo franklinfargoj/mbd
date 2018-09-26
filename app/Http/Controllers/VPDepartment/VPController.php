@@ -133,7 +133,7 @@ class VPController extends Controller
 
         $applicationData = $this->CommonController->getForwardApplication($applicationId);
         $arrData['application_status'] = $this->CommonController->getCurrentApplicationStatus($applicationId);
-
+        $arrData['get_current_status'] = $this->CommonController->getCurrentStatus($applicationId);
         // REE Forward Application
 
         $ree_role_id = Role::where('name', '=', config('commanConfig.ree_junior'))->first();

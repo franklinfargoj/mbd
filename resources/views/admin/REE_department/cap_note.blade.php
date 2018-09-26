@@ -33,11 +33,13 @@
         </div> 
         @if(isset($capNote->document_path))
           <a href="{{ asset($capNote->document_path) }}">
+          <Button type="button" class="s_btn btn btn-primary" id="submitBtn"> Download </Button>
+         </a>
         @else
         <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;"> 
         *Note : CAP note is not available.</span>  
         @endif
-        <Button type="button" class="s_btn btn btn-primary" id="submitBtn"> Download </Button> </a>            
+                    
       </div>
   </div> 
 </form>

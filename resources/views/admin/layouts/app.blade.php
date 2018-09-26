@@ -200,6 +200,7 @@
     <script type="text/javascript" src="{{ asset('/js/bootstrap-select.js') }}"></script>
     <script type="text/javascript" src="{{ asset('/assets/demo/default/custom/components/forms/validation/form-widgets.js') }}"></script>
     @yield('add_resolution_js');
+    @yield('download_application_form_js');
     @yield('add_email_templates_js');
     @yield('Application_redevelopment');
     @yield('calculation_sheet_js')

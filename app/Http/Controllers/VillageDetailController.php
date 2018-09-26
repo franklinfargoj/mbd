@@ -40,7 +40,7 @@ class VillageDetailController extends Controller
         ->where('user_id', Auth::user()->id)
         ->where('role_id', session()->get('role_id'))->join('boards', 'lm_village_detail.board_id', '=', 'boards.id')->join('land_source', 'lm_village_detail.land_source_id', '=', 'land_source.id');
 
-$village_data = $village_data->selectRaw( DB::raw('boards.board_name as board,lm_village_detail.sr_no,lm_village_detail.village_name,land_source.source_name as source,lm_village_detail.land_address
+$village_data = $village_data->selectRaw( DB::raw('lm_village_detail.id, boards.board_name as board,lm_village_detail.sr_no,lm_village_detail.village_name,land_source.source_name as source,lm_village_detail.land_address
 ,lm_village_detail.district
 ,lm_village_detail.taluka,
 lm_village_detail.total_area,
@@ -54,7 +54,57 @@ lm_village_detail.land_cost
 ,lm_village_detail.extract_file_name,
 lm_village_detail.created_at,
 lm_village_detail.updated_at'))->get();
-            return view('admin.village_detail.print_data',compact('village_data')); 
+// dd($village_data);
+        if(count($village_data) == 0){
+                $dataListMaster = [];
+                $dataList = [];
+                $dataList['id'] = '';
+                $dataList['Board'] = '';
+                $dataList['Land Sr. No'] = '';
+                $dataList['Village Name'] = '';
+                $dataList['Land Source'] = '';
+                $dataList['Land Address'] = '';
+                $dataList['District'] = '';
+                $dataList['Taluka'] = '';
+                $dataList['Total Area'] = '';
+                $dataList['Possession Date'] = '';
+                $dataList['Remark'] = '';
+                $dataList['Land Cost'] = '';
+                $dataList["Is 7/12 on MHADA's Name"] = '';
+                $dataList['Property Card'] = '';
+                $dataList['Is Property card (PR card) is on MHADA’s name'] = '';
+                $dataList['7/12 Extract'] = '';
+                $dataList['7/12 Extract file name'] = '';
+                $dataListMaster[]=$dataList;
+            }else{
+                foreach ($village_data as $dataList_key => $dataList_value) {
+                    $i=1;
+                    $dataList = [];
+                    $dataList['id'] = $i;
+                    $dataList['Board'] = $dataList_value['board'];
+                    $dataList['Land Sr. No'] = $dataList_value['sr_no'];
+                    $dataList['Village Name'] = $dataList_value['village_name'];
+                    $dataList['Land Source'] = $dataList_value['source'];
+                    $dataList['Land Address'] = $dataList_value['land_address'];
+                    $dataList['District'] = $dataList_value['district'];
+                    $dataList['Taluka'] = $dataList_value['taluka'];
+                    $dataList['Total Area'] = $dataList_value['total_area'];
+                    $dataList['Possession Date'] = $dataList_value['possession_date'];
+                    $dataList['Remark'] = $dataList_value['remark'];
+                    $dataList['Land Cost'] = $dataList_value['land_cost'];
+                    $dataList["Is 7/12 on MHADA's Name"] = ($dataList_value['7_12_mhada_name'] == 1) ? 'yes' : 'no';
+                    $dataList['Property Card'] = $dataList_value['property_card'];
+                    $dataList['Is Property card (PR card) is on MHADA’s name'] = ($dataList_value['property_card_mhada_name']) ? 'yes' : 'no';
+                    $dataList['7/12 Extract'] = ($dataList_value['7_12_extract']) ? 'yes':'no' ;
+                    $dataList['7/12 Extract file name'] = $dataList_value['extract_file_name'];
+                    
+                    $dataListKeys = array_keys($dataList);
+                    $dataListMaster[]=$dataList;
+                    $i++;
+                }
+            }
+            
+            return view('admin.village_detail.print_data',compact('dataListMaster' ,'dataListKeys')); 
     }
 
     /**
@@ -84,7 +134,7 @@ lm_village_detail.updated_at'))->get();
                                             ->where('user_id', Auth::user()->id)
                                             ->where('role_id', session()->get('role_id'))->join('boards', 'lm_village_detail.board_id', '=', 'boards.id')->join('land_source', 'lm_village_detail.land_source_id', '=', 'land_source.id');
             
-            $village_data = $village_data->selectRaw( DB::raw('boards.board_name as board,lm_village_detail.sr_no,lm_village_detail.village_name,land_source.source_name as source,lm_village_detail.land_address
+            $village_data = $village_data->selectRaw( DB::raw('lm_village_detail.id, boards.board_name as board,lm_village_detail.sr_no,lm_village_detail.village_name,land_source.source_name as source,lm_village_detail.land_address
 ,lm_village_detail.district
 ,lm_village_detail.taluka,
 lm_village_detail.total_area,
@@ -98,12 +148,62 @@ lm_village_detail.land_cost
 ,lm_village_detail.extract_file_name,
 lm_village_detail.created_at,
 lm_village_detail.updated_at'))->get();
-            
-            return Excel::create('village_details_'.date('Y_m_d_H_i_s'), function($excel) use($village_data){
+            // dd($village_data);
 
-                $excel->sheet('mySheet', function($sheet) use($village_data)
+            if(count($village_data) == 0){
+                $dataListMaster = [];
+                $dataList = [];
+                $dataList['id'] = '';
+                $dataList['Board'] = '';
+                $dataList['Land Sr. No'] = '';
+                $dataList['Village Name'] = '';
+                $dataList['Land Source'] = '';
+                $dataList['Land Address'] = '';
+                $dataList['District'] = '';
+                $dataList['Taluka'] = '';
+                $dataList['Total Area'] = '';
+                $dataList['Possession Date'] = '';
+                $dataList['Remark'] = '';
+                $dataList['Land Cost'] = '';
+                $dataList["Is 7/12 on MHADA's Name"] = '';
+                $dataList['Property Card'] = '';
+                $dataList['Is Property card (PR card) is on MHADA’s name'] = '';
+                $dataList['7/12 Extract'] = '';
+                $dataList['7/12 Extract file name'] = '';
+                $dataListMaster[]=$dataList;
+            }else{
+                foreach ($village_data as $dataList_key => $dataList_value) {
+                    $i=1;
+                    $dataList = [];
+                    $dataList['id'] = $i;
+                    $dataList['Board'] = $dataList_value['board'];
+                    $dataList['Land Sr. No'] = $dataList_value['sr_no'];
+                    $dataList['Village Name'] = $dataList_value['village_name'];
+                    $dataList['Land Source'] = $dataList_value['source'];
+                    $dataList['Land Address'] = $dataList_value['land_address'];
+                    $dataList['District'] = $dataList_value['district'];
+                    $dataList['Taluka'] = $dataList_value['taluka'];
+                    $dataList['Total Area'] = $dataList_value['total_area'];
+                    $dataList['Possession Date'] = $dataList_value['possession_date'];
+                    $dataList['Remark'] = $dataList_value['remark'];
+                    $dataList['Land Cost'] = $dataList_value['land_cost'];
+                    $dataList["Is 7/12 on MHADA's Name"] = ($dataList_value['7_12_mhada_name'] == 1) ? 'yes' : 'no';
+                    $dataList['Property Card'] = $dataList_value['property_card'];
+                    $dataList['Is Property card (PR card) is on MHADA’s name'] = ($dataList_value['property_card_mhada_name']) ? 'yes' : 'no';
+                    $dataList['7/12 Extract'] = ($dataList_value['7_12_extract']) ? 'yes':'no' ;
+                    $dataList['7/12 Extract file name'] = $dataList_value['extract_file_name'];
+                    
+                    $dataListKeys = array_keys($dataList);
+                    $dataListMaster[]=$dataList;
+                    $i++;
+                }
+            }
+
+            return Excel::create('village_details_'.date('Y_m_d_H_i_s'), function($excel) use($dataListMaster){
+
+                $excel->sheet('mySheet', function($sheet) use($dataListMaster)
                 {
-                    $sheet->fromArray($village_data);
+                    $sheet->fromArray($dataListMaster);
                 });
             })->download('csv');
         }

@@ -7,7 +7,8 @@
 {{--@if($ree_application_data->olApplicationStatusForLoginListing[0]->status_id == config('commanConfig.applicationStatus.in_process'))--}}
     <a title="Forward Application" href="{{route('ree.forward_application',$ree_application_data->id)}}">Forward Application</a>
 {{--@endif--}}
+@if($ree_application_data->cap_notes!="")
 <a title="CAP Notes" href="{{route('ree.download_cap_note',$ree_application_data->id)}}">CAP Notes</a>
-
+@endif
 
 
