@@ -19,6 +19,7 @@ use App\OlTitBitVerificationDetails;
 use App\OlRelocationVerificationDetails;
 use App\OlChecklistScrutiny;
 use App\OlApplicationStatus;
+use App\MasterLayout;
 use App\OlCapNotes;
 use App\EENote;
 use App\Role;
@@ -282,5 +283,13 @@ class CommonController extends Controller
                                             ->orderBy('id', 'desc')->first();
 
         return $current_status;
-    }
+    } 
+
+    public function downloadOfferLetter(Request $request, $applicationId){
+
+        $ol_application = OlApplication::where('id', $applicationId)->with(['request_form', 'applicationMasterLayout','eeApplicationSociety'])->first();        
+        $layouts = MasterLayout::all();      
+        
+        return view('admin.DYCE_department.offer_letter', compact('ol_application', 'layouts'));
+    }      
 }

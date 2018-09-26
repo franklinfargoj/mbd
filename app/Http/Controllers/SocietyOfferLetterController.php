@@ -264,7 +264,7 @@ class SocietyOfferLetterController extends Controller
             dd($ol_applications);*/
             return $datatables->of($ol_applications)
                 ->editColumn('rownum', function ($ol_applications) {
-                    $i = 0;
+                    static $i = 0;
                     $i++;
                     return $i;
                 })
@@ -515,7 +515,8 @@ class SocietyOfferLetterController extends Controller
             'society_documents_comment' => $comments,
         );
         OlSocietyDocumentsComment::create($input);
-        return redirect()->route('society_offer_letter_download');
+        return redirect()->route('society_offer_letter_dashboard');
+        // return redirect()->route('society_offer_letter_download');
     }
 
     public function addSocietyDocumentsRemark(Request $request){

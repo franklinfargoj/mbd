@@ -69,7 +69,7 @@
                                         <div class="m-login__form-sub">
                                             <div class="m--align-right m-login__form-right">
                                                 <a href="javascript:;" id="m_login_forget_password" class="m-link">
-                                                    Forget Password ?
+                                                    Forgot Password ?
                                                 </a>
                                             </div>
                                         </div>

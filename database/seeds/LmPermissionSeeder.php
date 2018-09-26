@@ -138,6 +138,21 @@ class LmPermissionSeeder extends Seeder
                     'display_name' => 'Updated Renew Lease data',
                     'description' => 'Updated Renew Lease data'
                 ],
+                [
+                    'name' => 'edit-lease.edit',
+                    'display_name' => 'Shows edit page for Edit Lease data',
+                    'description' => 'Shows edit page for Edit Lease data'
+                ],
+                [
+                    'name' => 'update-lease.update',
+                    'display_name' => 'Updated Latest Lease data',
+                    'description' => 'Updated Latest Lease data'
+                ],
+                [
+                    'name' => 'view-lease.view',
+                    'display_name' => 'Views Latest Lease data',
+                    'description' => 'Views Latest Lease data'
+                ],
 
             ];
 

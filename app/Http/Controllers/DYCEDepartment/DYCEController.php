@@ -17,6 +17,7 @@ use App\OlTitBitVerificationDetails;
 use App\OlRelocationVerificationDetails;
 use App\OlChecklistScrutiny;
 use App\OlApplicationStatus;
+use App\MasterLayout;
 use App\User;
 use Config;
 use Auth;
@@ -124,7 +125,7 @@ class DYCEController extends Controller
         $olApplication = OlApplication::find($applicationId);                           
         $olApplication->update([
             'demarkation_verification_comment' => $request->demarkation_comments,
-            'date_of_site_visit'               => $request->visit_date,
+            'date_of_site_visit'               => date('Y-m-d',strtotime($request->visit_date)),
             'site_visit_officers'              => implode(",",$request->officer_name),
             'is_encrochment'                   => $request->encrochment,
             'encrochment_verification_comment' => $request->encrochment_comments
@@ -192,7 +193,7 @@ class DYCEController extends Controller
 
         return redirect('/dyce');
 
-    }
+    } 
 }
 
 

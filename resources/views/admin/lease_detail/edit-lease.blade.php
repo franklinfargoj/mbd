@@ -10,9 +10,9 @@
     <!-- END: Subheader -->
     <div class="m-portlet m-portlet--mobile">
         <form id="renewLeaseDetail" role="form" method="post" class="m-form m-form--rows m-form--label-align-right"
-            action="{{route('renew-lease.update-lease', $id)}}">
+            action="{{route('update-lease.update', $id)}}">
             @csrf
-            <input type="hidden" name="society_id" value="{{ $id }}">
+            <input type="hidden" name="society_id" value="{{ $society_id }}">
             <input type="hidden" name="village_id" value="{{ $village_id }}">
             <div class="m-portlet__body m-portlet__body--spaced">
                 <div class="form-group m-form__group row">
@@ -166,7 +166,7 @@
                             <div class="col-lg-6">
                                 <div class="btn-list">
                                     <button type="submit" id="renew_lease" class="btn btn-primary">Save</button>
-                                    <a href="{{url('/lease_detail/'.$id. '/'.$village_id)}}" class="btn btn-secondary">Cancel</a>
+                                    <a href="{{url('/lease_detail/'.$society_id. '/'.$village_id)}}" class="btn btn-secondary">Cancel</a>
                                 </div>
                             </div>
                         </div>

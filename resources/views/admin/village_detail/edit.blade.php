@@ -183,7 +183,7 @@
                             <input type="file" id="extract" name="extract" class="custom-file-input" style="display: none">
                             <input type="hidden" name="extract_file_name" value="{{ $arrData['village_data']['extract_file_name'] }}">
                             <input type="hidden" name="extract_file_path" value="{{ $arrData['village_data']['extract_file_path'] }}">
-                            <label title="{{$arrData['village_data']['extract_file_name'] }}" class="custom-file-label" for="extract">{{$arrData['village_data']['extract_file_name'] }}</label>
+                            <label title="{{$arrData['village_data']['extract_file_name'] }}" class="custom-file-label" for="extract">{{ (!empty($arrData['village_data']['extract_file_name'])) ? $arrData['village_data']['extract_file_name'] : "Choose File..." }}</label>
                             <span class="help-block">{{ (session('error'))? session('error') : '' }}{{$errors->first('extract')}}</span>
                         </div>
                     </div>
