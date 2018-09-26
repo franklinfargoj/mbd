@@ -235,4 +235,8 @@ class REEController extends Controller
     {
         //
     }
+
+    public function GenerateOfferLetter() {
+        return view('admin.REE_department.generate-offer-letter');
+    }
 }
