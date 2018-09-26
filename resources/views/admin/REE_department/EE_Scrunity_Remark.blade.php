@@ -28,7 +28,7 @@
             <div class="m-grid__item m-grid__item--fluid m-wrapper">
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 p-0">
+                        <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
                             <div class="portlet-body">
                                 <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
                                     <div class="m-subheader">
@@ -257,36 +257,13 @@
                                                 </li>
                                             </ul>
                                         </div>
-                                        <form class="form--custom" action="" method="post">
-                                            <div class="row">
-                                                <div class="col-sm-6">
-                                                    <div class="form-group row">
-                                                        <div class="col-sm-4 d-flex align-items-center">
-                                                            <label for="name">संस्थेचे नाव:</label>
-                                                        </div>
-                                                        <div class="col-sm-8">
-                                                            <input type="text" class="form-control form-control--custom"
-                                                                id="name" value="{{(isset($eeScrutinyData->eeApplicationSociety->name) ? $eeScrutinyData->eeApplicationSociety->name : '')}}" readonly>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <div class="form-group row">
-                                                        <div class="col-sm-4 d-flex align-items-center">
-                                                            <label for="building-no">इमारत क्र:</label>
-                                                        </div>
-                                                        <div class="col-sm-8">
-                                                            <input type="text" class="form-control form-control--custom"
-                                                                id="building-no" placeholder="" value="{{(isset($eeScrutinyData->eeApplicationSociety->building_no) ? $eeScrutinyData->eeApplicationSociety->building_no : '')}}" readonly>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                        
                                     </div>
                                     <div class="tab-content">
 
                                     <!-- Consent Verification -->
                                         <div class="tab-pane active" id="verification">
+                                        
                                             <div class="row">
                                                 <div class="col-sm-6">
                                                     <div class="form-group row">
