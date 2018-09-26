@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\lease_detail\LeaseDetailRequest;
 use App\LeaseDetail;
+use App\SocietyDetail;
 use App\MasterMonth;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
@@ -113,9 +114,14 @@ class LeaseDetailController extends Controller
 
             $lease_data = LeaseDetail::with('leaseSociety')->where(['society_id' => $id])->orderBy('created_at','desc');
 
-            $lease_data = $lease_data->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').',lease_rule_16_other, lm_lease_detail.id as id, lm_lease_detail.area as area, society_id, lease_period, lease_start_date');
+            $lease_data = $lease_data->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').',lease_rule_16_other, lm_lease_detail.id as id, lm_lease_detail.area as area, society_id, lease_period, lease_start_date, lease_status');
 
             return $datatables->of($lease_data)
+                ->editColumn('rownum', function ($lease_data) {
+                        static $i = 0;
+                        $i++;
+                        return $i;
+                    })
                 ->editColumn('lease_start_date', function ($lease_data) {
                     return date(config('commanConfig.dateFormat'), strtotime($lease_data->lease_start_date));
                 })
@@ -193,7 +199,7 @@ class LeaseDetailController extends Controller
         $header_data = $this->header_data;
         $arrData['month_data'] = MasterMonth::all();
         $arrData['lease_data'] = LeaseDetail::where(['society_id' => $id, 'lease_status' => 1])->first();
-        dd($arrData['lease_data']);
+        
         return view('admin.lease_detail.renew-lease', compact('header_data', 'arrData', 'id', 'village_id'));
     }
 
@@ -229,10 +235,13 @@ class LeaseDetailController extends Controller
         $arrData['month_data'] = MasterMonth::all();
         $arrData['lease_data'] = LeaseDetail::where(['id' => $id,'society_id' => $society_id, 'lease_status' => 1])->first();
         // dd($arrData['lease_data']);
-        return view('admin.lease_detail.edit-lease', compact('header_data', 'arrData', 'id', 'society_id'));
+        $village = SocietyDetail::where('id', $society_id)->first();
+        $village_id = $village->village_id;
+        // dd($society_id);
+        return view('admin.lease_detail.edit-lease', compact('header_data', 'arrData', 'id', 'society_id', 'village_id'));
     }
 
-    public function updateLatestLease(LeaseDetailRequest $request, $id){
+    public function updateLatestLease(Request $request, $id){
         $lease_data = LeaseDetail::where('id', $id)->first();
         $lease_detail = [
             'lease_rule_16_other' => $request->lease_rule_other,
@@ -248,13 +257,22 @@ class LeaseDetailController extends Controller
             'rent_per_renewed_lease' => $request->rent_per_renewed_lease,
             'interest_per_renewed_lease_agreement' => $request->interest_per_renewed_lease_agreement,
             'month_rent_per_renewed_lease' => $request->month_rent_per_renewed_lease,
-            'society_id' => $request->society_id,
             'lease_status' => 1
         ];
 
         LeaseDetail::where('id', $id)->update($lease_detail);
-        // SocietyDetail::where('id', )
-        return redirect('/lease_detail/'.$lease_data->society_id.'/'.$request->village_id)->with(['success'=> 'Lease renewed succesfully']);
+        // $village_id = SocietyDetail::where('id', $lease_data->society_id)->first();
+        return redirect('/lease_detail/'.$request->society_id.'/'.$request->village_id)->with(['success'=> 'Lease updated succesfully']);
+    }
+
+    public function viewLease($id, $society_id){
+        $header_data = $this->header_data;
+        $arrData['month_data'] = MasterMonth::all();
+        $arrData['lease_data'] = LeaseDetail::where(['id' => $id,'society_id' => $society_id, 'lease_status' => 1])->first();
+        // dd($arrData['lease_data']);
+        $village = SocietyDetail::where('id', $society_id)->first();
+        $village_id = $village->village_id;
+        return view('admin.lease_detail.view-lease', compact('header_data', 'arrData', 'id', 'society_id', 'village_id'));
     }
 
     /**
