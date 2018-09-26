@@ -36,7 +36,50 @@ class SocietyController extends Controller
             ->where('village_id', $id);
             $society_data = $society_data->selectRaw( DB::raw('lm_society_detail.society_name,lm_society_detail.district,lm_society_detail.taluka,lm_society_detail.village,lm_society_detail.survey_number,lm_society_detail.cts_number,lm_society_detail.chairman,lm_society_detail.society_address,lm_society_detail.area,lm_society_detail.date_on_service_tax,lm_society_detail.surplus_charges,lm_society_detail.surplus_charges_last_date,lm_village_detail.village_name,other_land.land_name'))->get();
             //dd($society_data);
-            return view('admin.society_detail.print_data',compact('society_data')); 
+            if(count($society_data) == 0){
+                $dataListMaster = [];
+                $dataList = [];
+                $dataList['id'] = '';
+                $dataList['Society Name'] = '';
+                $dataList['District'] = '';
+                $dataList['Taluka'] = '';
+                $dataList['Survey Number'] = '';
+                $dataList['CTS Number'] = '';
+                $dataList['Chairman'] = '';
+                $dataList['Society Address'] = '';
+                $dataList['Area'] = '';
+                $dataList['Date mentioned on service tax letters'] = '';
+                $dataList['Surplus Charges'] = '';
+                $dataList['Lease rent as per renewed lease'] = '';
+                $dataList['Last date of paying surplus charges'] = '';
+                $dataList['Land Name'] = '';
+                $dataListMaster[]=$dataList;
+            }else{
+                foreach ($society_data as $dataList_key => $dataList_value) {
+                    $i=1;
+                    $dataList = [];
+                    $dataList['id'] = $i;
+                    $dataList['Society Name'] = $dataList_value['society_name'];
+                    $dataList['District'] = $dataList_value['district'];
+                    $dataList['Taluka'] = $dataList_value['taluka'];
+                    $dataList['Village'] = $dataList_value['village'];
+                    $dataList['Survey Number'] = $dataList_value['survey_number'];
+                    $dataList['CTS Number'] = $dataList_value['cts_number'];
+                    $dataList['Chairman'] = $dataList_value['chairman'];
+                    $dataList['Society Address'] = $dataList_value['society_address'];
+                    $dataList['Area'] = $dataList_value['area'];
+                    $dataList['Date mentioned on service tax letters'] = $dataList_value['date_on_service_tax'];
+                    $dataList['Surplus Charges'] = $dataList_value['surplus_charges'];
+                    $dataList['Lease rent as per renewed lease'] = $dataList_value['surplus_charges_last_date'];
+                    $dataList['Last date of paying surplus charges'] = $dataList_value['village_name'];
+                    $dataList['Land Name'] = $dataList_value['land_name'];
+                    
+                    $dataListKeys = array_keys($dataList);
+                    $dataListMaster[]=$dataList;
+                    $i++;
+                }
+            }
+            return view('admin.society_detail.print_data',compact('dataListMaster', 'dataListKeys')); 
     }
     /**
      * Display a listing of the resource.
@@ -64,33 +107,54 @@ class SocietyController extends Controller
             ->where('village_id', $id);
             $society_data = $society_data->selectRaw( DB::raw('lm_society_detail.id,lm_society_detail.society_name,lm_society_detail.district,lm_society_detail.taluka,lm_society_detail.village,lm_society_detail.survey_number,lm_society_detail.cts_number,lm_society_detail.chairman,lm_society_detail.society_address,lm_society_detail.area,lm_society_detail.date_on_service_tax,lm_society_detail.surplus_charges,lm_society_detail.surplus_charges_last_date,lm_village_detail.village_name,other_land.land_name'))->get();
             if(count($society_data) == 0){
-                $society_data = [];
-                $society_data[0]['id'] = '';
-                $society_data[0]['Society Name'] = '';
-                $society_data[0]['District'] = '';
-                $society_data[0]['Taluka'] = '';
-                $society_data[0]['Survey Number'] = '';
-                $society_data[0]['CTS Number'] = '';
-                $society_data[0]['Chairman'] = '';
-                $society_data[0]['Society Address'] = '';
-                $society_data[0]['Area'] = '';
-                $society_data[0]['Date mentioned on service tax letters'] = '';
-                $society_data[0]['Surplus Charges'] = '';
-                $society_data[0]['Lease rent as per renewed lease'] = '';
-                $society_data[0]['Last date of paying surplus charges'] = '';
-                $society_data[0]['Others'] = '';
+                $dataListMaster = [];
+                $dataList = [];
+                $dataList['id'] = '';
+                $dataList['Society Name'] = '';
+                $dataList['District'] = '';
+                $dataList['Taluka'] = '';
+                $dataList['Survey Number'] = '';
+                $dataList['CTS Number'] = '';
+                $dataList['Chairman'] = '';
+                $dataList['Society Address'] = '';
+                $dataList['Area'] = '';
+                $dataList['Date mentioned on service tax letters'] = '';
+                $dataList['Surplus Charges'] = '';
+                $dataList['Lease rent as per renewed lease'] = '';
+                $dataList['Last date of paying surplus charges'] = '';
+                $dataList['Land Name'] = '';
+                $dataListMaster[]=$dataList;
             }else{
-                foreach ($society_data as $society_data_key => $society_data_value) {
+                foreach ($society_data as $dataList_key => $dataList_value) {
                     $i=1;
-                    $society_data[$society_data_key]['id'] = $i;
+                    $dataList = [];
+                    $dataList['id'] = $i;
+                    $dataList['Society Name'] = $dataList_value['society_name'];
+                    $dataList['District'] = $dataList_value['district'];
+                    $dataList['Taluka'] = $dataList_value['taluka'];
+                    $dataList['Village'] = $dataList_value['village'];
+                    $dataList['Survey Number'] = $dataList_value['survey_number'];
+                    $dataList['CTS Number'] = $dataList_value['cts_number'];
+                    $dataList['Chairman'] = $dataList_value['chairman'];
+                    $dataList['Society Address'] = $dataList_value['society_address'];
+                    $dataList['Area'] = $dataList_value['area'];
+                    $dataList['Date mentioned on service tax letters'] = $dataList_value['date_on_service_tax'];
+                    $dataList['Surplus Charges'] = $dataList_value['surplus_charges'];
+                    $dataList['Lease rent as per renewed lease'] = $dataList_value['surplus_charges_last_date'];
+                    $dataList['Last date of paying surplus charges'] = $dataList_value['village_name'];
+                    $dataList['Land Name'] = $dataList_value['land_name'];
+                    
+                    $dataListKeys = array_keys($dataList);
+                    $dataListMaster[]=$dataList;
                     $i++;
-                }    
+                }
             }
-            return Excel::create('society_details_'.date('Y_m_d_H_i_s'), function($excel) use($society_data){
+            // dd($dataListMaster);
+            return Excel::create('society_details_'.date('Y_m_d_H_i_s'), function($excel) use($dataListMaster){
 
-                $excel->sheet('mySheet', function($sheet) use($society_data)
+                $excel->sheet('mySheet', function($sheet) use($dataListMaster)
                 {
-                    $sheet->fromArray($society_data);
+                    $sheet->fromArray($dataListMaster);
                 });
             })->download('csv');
         }
