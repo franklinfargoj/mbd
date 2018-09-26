@@ -96,6 +96,11 @@ class ReePermissionSeeder extends Seeder
                     'display_name' => 'Save calculation details',
                     'description'  => 'Save calculation details'
                 ],
+                [
+                    'name'         => 'ree.upload_ree_note',
+                    'display_name' => 'Upload ree note',
+                    'description'  => 'Upload ree note'
+                ],
 
             ];
 
