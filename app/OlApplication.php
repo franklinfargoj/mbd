@@ -66,4 +66,9 @@ class OlApplication extends Model
     {
         return $this->hasMany(MasterLayout::class, 'id','layout_id');
     }
+
+    public function cap_notes()
+    {
+        return $this->hasOne(OlCapNotes::class,'application_id','id');
+    }
 }

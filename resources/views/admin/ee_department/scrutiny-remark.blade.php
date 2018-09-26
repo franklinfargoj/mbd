@@ -11,7 +11,7 @@
                                 <a class="nav-link m-tabs__link">
                                     <i class="la la-cog"></i> Document Scrutiny
                                 </a>
-                            </li>
+                            </li>   
                             <li class="nav-item m-tabs__item" data-target="#checklist-scrunity">
                                 <a class="nav-link m-tabs__link">
                                     <i class="la la-cog"></i> Checklist Scrutiny
@@ -847,12 +847,14 @@
                                                                     <div class="mt-auto">
                                                                     @if(isset($arrData['eeNote']->document_path))
                                                                         <a href="{{ asset($arrData['eeNote']->document_path)}}">
+                                                                        <button class="btn btn-primary">Download offer Letter Application</button>
+                                                                        </a>
                                                                     @else
                                                                         <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
                                                                      * Note :  EE note not available. </span>  
                                                                     @endif   
-                                                                        <button class="btn btn-primary">Download offer Letter Application</button>
-                                                                            </a>
+                                                                        
+                                                                    
                                                                            
                                                                     </div>
                                                                 </div>
