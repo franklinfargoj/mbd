@@ -635,6 +635,15 @@
 
 /* global classes starts here */
 
+.row-list {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.row-list + .row-list {
+    border-top: 1px solid #ccc;
+}
+
 .has-danger .m-bootstrap-select + .form-control-feedback {
     position: absolute;
     bottom: -22px;
@@ -1254,6 +1263,10 @@
 /* EE scrunity remarks ends here */
 
 /* Forward Application starts here */
+
+.remark-body + .remark-body {
+    margin-top: 30px;
+}
 
 .remarks-section__data {
     padding: 15px;
