@@ -12,7 +12,7 @@
   <div class="d-flex align-items-center">
      <div class="mr-auto">
         <h3 class="m-subheader__title m-subheader__title--separator title">
-        DyCE Scrutiny & Remark </h3>
+            Society & EE Documents </h3>
      </div>
   </div>
 </div>

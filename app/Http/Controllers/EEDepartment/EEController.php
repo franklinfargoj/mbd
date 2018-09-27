@@ -95,7 +95,7 @@ class EEController extends Controller
 
                 })
                 ->editColumn('submitted_at', function ($listArray) {
-                    return date(config('commanConfig.dateFormat', strtotime($listArray->submitted_at)));
+                    return date(config('commanConfig.dateFormat'), strtotime($listArray->submitted_at));
                 })
                 ->editColumn('actions', function ($ee_application_data) use($request) {
                     return view('admin.ee_department.actions', compact('ee_application_data', 'request'))->render();
