@@ -10,6 +10,7 @@ use App\REENote;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use niklasravnsborg\LaravelPdf\Facades\Pdf as NewPDF;
 
 class OlApplicationCalculationSheetDetailsController extends Controller
 {
@@ -114,8 +115,8 @@ class OlApplicationCalculationSheetDetailsController extends Controller
 
         $arrData['reeNote'] = REENote::where('application_id', $applicationId)->orderBy('id', 'desc')->first();
 
-        $pdf = PDF::loadView('admin.REE_department.calculation_sheet_pdf',['calculationSheetDetails' => $calculationSheetDetails,'applicationId'=>$applicationId,'user'=>$user,'arrData'=>$arrData]);
-        return $pdf->stream('document.pdf');
+       /* $pdf = NewPDF::loadView('admin.REE_department.calculation_sheet_pdf',['calculationSheetDetails' => $calculationSheetDetails,'applicationId'=>$applicationId,'user'=>$user,'arrData'=>$arrData]);
+        return $pdf->stream('document.pdf');*/
         OlApplicationCalculationSheetDetails::updateOrCreate(['application_id'=>$request->get('application_id')],$request->all());
         return redirect("ol_calculation_sheet/" . $request->get('application_id'));
     }
