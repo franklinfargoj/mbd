@@ -163,6 +163,7 @@ return [
         'Thytanium\Captcha\CaptchaServiceProvider',
         App\Providers\RouteServiceProvider::class,
         Unisharp\Ckeditor\ServiceProvider::class,
+        niklasravnsborg\LaravelPdf\PdfServiceProvider::class
        //Praem90\PDF\ServiceProvider::class,
 
     ],
@@ -217,6 +218,7 @@ return [
         'Captcha' => 'Thytanium\Captcha\Facades\Captcha',
         'PDF' => Barryvdh\DomPDF\Facade::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'mPDF' => niklasravnsborg\LaravelPdf\Facades\Pdf::class
     ],
 
 ];
