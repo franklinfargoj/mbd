@@ -1030,66 +1030,7 @@
                 }
             });
 
-
-           /* var sum = 0;
-            $(".total_area").each(function(){
-                sum += +$(this).val();
-            });
-            $("#area_of_total_plot").val(sum);*l
-
-            $("#permissible_construction_area").val($("#area_of_​​subsistence_to_calculate").val()*$("#permissible_carpet_area_coordinates").val());
-
-          //  $("#permissible_proratata_area").val($("#sqm_area_per_slot").val()*$("#total_house").val());
-
-           // $("#proratata_construction_area").val($("#per_sq_km_proyerta_construction_area").val()*$("#total_house").val());
-
-
-            var sub = parseFloat($("#total_permissible_construction_area").val()) - parseFloat($("#existing_construction_area").val());
-          //  $("#remaining_area").val(sub);
-          //  $("#remaining_residential_area").val(sub);
-
-
-
-       /*     if (parseFloat($("#redirekner_construction_rate").val()) === 0 || isNaN(parseFloat($("#redirekner_construction_rate").val()))) {
-                $("#redirekner_val").val(null);
-            }
-            else {
-                var div = parseFloat($("#redirekner_value").val()) / parseFloat($("#redirekner_construction_rate").val());
-                $("#redirekner_val").val(div.toFixed(2));
-            }
-*/
-
-          /*  var balance = $("#remaining_residential_area").val() * ( $("input[name=dcr_rate_in_percentage]:checked").val() / 100 ) ;
-            $("#balance_of_remaining_area").val(balance.toFixed(2));*/
-
-            /* remaining-------------------------
-                        $("#infrastructure_fee_amount").val((parseFloat($("#remaining_area").val()) * parseFloat($("#redirekner_value").val()) * (7/100)).toFixed(2));
-
-                        var fee_amount = (parseFloat($("#remaining_area").val()) * parseFloat($("#redirekner_value").val()) * (7/100)).toFixed(2);
-                        $("#infrastructure_fee_amount").val(fee_amount);
-                        $("#amount_to_be_paid_to_municipal").val(5/7 * fee_amount);
-                        $("#offsite_infrastructure_charges_to_municipal_corporation").val(5/7 * fee_amount);
-                        $("#offsite_infrastructure_charge_to_mhada").val(2/7 * fee_amount);
-
-                        $("#layout_approval_fee").val(1000*$("#total_house").val());
-
-
-                        $("#debraj_removal_fee").val(6600 * $("#total_no_of_buildings").val());
-                        $("#water_usage_charges").val(100000 * $("#total_no_of_buildings").val());
-
-                        var total_amount = 0;
-                        $(".total_amount").each(function(){
-                           // alert($(this).attr('id') + ' => ' +$(this).val());
-                            total_amount += +$(this).val();
-                           //alert(total_amount);
-                        });
-                        $("#total_amount_in_rs").val(total_amount);
-
-            -------------------- remining end ------------------ */
-
-            /*var offsite_infra_fee = ($("#remaining_area").val() * (7/100)) * ($("#area_in_reserved_seats_for_vp_pio").val() - $("#total_permissible_construction_area").val());
-
-            $("#off_site_infrastructure_fee").val(offsite_infra_fee.toFixed(2));*/
+            
 
         $("#amount_to_be_paid_to_municipal1").val((5/7 * $("#off_site_infrastructure_fee").val()).toFixed(2));
         $("#offsite_infrastructure_charge_to_mhada1").val((2/7 * $("#off_site_infrastructure_fee").val()).toFixed(2));
