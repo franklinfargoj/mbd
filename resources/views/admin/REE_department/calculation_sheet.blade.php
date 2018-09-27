@@ -977,12 +977,13 @@
                                                     <div class="mt-auto">
                                                        @if(isset($arrData['reeNote']->document_path))
                                                             <a href="{{ asset($arrData['reeNote']->document_path)}}">
-                                                                @else
-                                                                    <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
-                                                                     * Note :  REE note not available. </span>
-                                                                @endif
-                                                                <button class="btn btn-primary">Download Note Format</button>
+                                                            <button class="btn btn-primary">Download Note Format</button>
                                                             </a>
+                                                        @else
+                                                            <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
+                                                                * Note :  REE note not available. </span>
+                                                        @endif
+                                                                
                                                     </div>
                                                 </div>
                                             </div>
