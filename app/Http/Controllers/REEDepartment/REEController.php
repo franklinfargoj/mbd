@@ -69,7 +69,7 @@ class REEController extends Controller
                 return $ree_application_data->eeApplicationSociety->address;
             })                
             ->editColumn('date', function ($ree_application_data) {
-                return date(config('commanConfig.dateFormat', strtotime($ree_application_data->submitted_at)));
+                return date(config('commanConfig.dateFormat'), strtotime($ree_application_data->submitted_at));
             })
             ->editColumn('actions', function ($ree_application_data) use($request){
                return view('admin.REE_department.action', compact('ree_application_data', 'request'))->render();
@@ -141,7 +141,10 @@ class REEController extends Controller
         $arrData['parentData'] = $parentData['parentData'];
         $arrData['role_name'] = $parentData['role_name'];
 
-        $arrData['application_status'] = $this->CommonController->getCurrentApplicationStatus($applicationId);
+//        $arrData['application_status'] = $this->CommonController->getCurrentApplicationStatus($applicationId);
+        if(session()->get('role_name') != config('commanConfig.ree_junior'))
+            $arrData['application_status'] = $this->CommonController->getCurrentLoggedInChild($applicationId);
+
         $arrData['get_current_status'] = $this->CommonController->getCurrentStatus($applicationId);
 
         // CO Forward Application

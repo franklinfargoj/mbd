@@ -184,16 +184,16 @@ class CommonController extends Controller
                     'user_id' => Auth::user()->id,
                     'role_id' => session()->get('role_id'),
                     'status_id' => config('commanConfig.applicationStatus.reverted'),
-                    'to_user_id' => $request->user_id,
-                    'to_role_id' => $request->role_id,
+                    'to_user_id' => $request->to_child_id,
+                    'to_role_id' => $request->to_role_id,
                     'remark' => $request->remark,
                     'created_at' => Carbon::now()
                 ],
 
                 [
                     'application_id' => $request->applicationId,
-                    'user_id' => $request->user_id,
-                    'role_id' => $request->role_id,
+                    'user_id' => $request->to_child_id,
+                    'role_id' => $request->to_role_id,
                     'status_id' => config('commanConfig.applicationStatus.in_process'),
                     'to_user_id' => NULL,
                     'to_role_id' => NULL,
@@ -217,6 +217,17 @@ class CommonController extends Controller
             ->where('status_id', config('commanConfig.applicationStatus.forwarded'))->orderBy('id', 'desc')->first();
 
         return $current_application_status;
+    }
+
+    public function getCurrentLoggedInChild($application_id)
+    {
+        $child_role_id = Role::where('id', session()->get('role_id'))->get(['child_id']);
+        $result = json_decode($child_role_id[0]->child_id);
+        $status_user = OlApplicationStatus::where(['application_id' => $application_id, 'society_flag' => 0])->pluck('user_id')->toArray();
+
+        $final_child = User::with('roles')->whereIn('id', array_unique($status_user))->whereIn('role_id', $result)->get();
+
+        return $final_child;
     }
 
     public function getForwardApplicationParentData()

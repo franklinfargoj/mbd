@@ -65,7 +65,7 @@ class DYCEController extends Controller
                     return $dyce_application_data->eeApplicationSociety->address;
                 })                
                 ->editColumn('date', function ($dyce_application_data) {
-                    return date(config('commanConfig.dateFormat', strtotime($dyce_application_data->submitted_at)));
+                    return date(config('commanConfig.dateFormat'), strtotime($dyce_application_data->submitted_at));
                 })
                 ->editColumn('actions', function ($dyce_application_data) use($request){
                    return view('admin.DYCE_department.action', compact('dyce_application_data','request'))->render();
@@ -174,7 +174,9 @@ class DYCEController extends Controller
         $arrData['parentData'] = $parentData['parentData'];
         $arrData['role_name']  = $parentData['role_name'];
 
-        $arrData['application_status'] = $this->CommonController->getCurrentApplicationStatus($applicationId);
+//        $arrData['application_status'] = $this->CommonController->getCurrentApplicationStatus($applicationId);
+        if(session()->get('role_name') != config('commanConfig.dyce_jr_user'))
+            $arrData['application_status'] = $this->CommonController->getCurrentLoggedInChild($applicationId);
         $arrData['get_current_status'] = $this->CommonController->getCurrentStatus($applicationId);
         // REE Forward Application
 
