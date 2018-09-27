@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\society_detail\SocietyDetailRequest;
 use App\OtherLand;
 use App\SocietyDetail;
+use App\VillageDetail;
+use App\VillageSociety;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Config;
@@ -27,14 +29,24 @@ class SocietyController extends Controller
         $this->list_num_of_records_per_page = Config::get('commanConfig.list_num_of_records_per_page');
     }
 
+    public function getVillages($society_id)
+    {
+        $village_string="";
+        $Society=SocietyDetail::find($society_id)->first();
+        foreach($Society->Villages as $village)
+        {
+            $village_string.=$village->village_name.", ";
+        }
+       return trim($village_string,', ');
+    }
 
     public function print_data($id)
     {
-        $society_data = SocietyDetail::with('societyVillage')
-            ->join('lm_village_detail', 'lm_village_detail.id', '=', 'lm_society_detail.village_id')
+        $society_data = SocietyDetail::join('lm_village_detail', 'lm_village_detail.id', '=', 'lm_society_detail.village_id')
             ->join('other_land','lm_society_detail.other_land_id', '=', 'other_land.id')
-            ->where('village_id', $id);
-            $society_data = $society_data->selectRaw( DB::raw('lm_society_detail.society_name,lm_society_detail.district,lm_society_detail.taluka,lm_society_detail.village,lm_society_detail.survey_number,lm_society_detail.cts_number,lm_society_detail.chairman,lm_society_detail.society_address,lm_society_detail.area,lm_society_detail.date_on_service_tax,lm_society_detail.surplus_charges,lm_society_detail.surplus_charges_last_date,lm_village_detail.village_name,other_land.land_name'))->get();
+            ->join('village_societies','lm_society_detail.id', '=', 'village_societies.society_id')
+            ->where('village_societies.village_id', $id);
+            $society_data = $society_data->selectRaw( DB::raw('lm_society_detail.id,lm_society_detail.society_name,lm_society_detail.district,lm_society_detail.taluka,lm_society_detail.village,lm_society_detail.survey_number,lm_society_detail.cts_number,lm_society_detail.chairman,lm_society_detail.society_address,lm_society_detail.area,lm_society_detail.date_on_service_tax,lm_society_detail.surplus_charges,lm_society_detail.surplus_charges_last_date,lm_village_detail.village_name,other_land.land_name'))->get();
             //dd($society_data);
             if(count($society_data) == 0){
                 $dataListMaster = [];
@@ -43,6 +55,7 @@ class SocietyController extends Controller
                 $dataList['Society Name'] = '';
                 $dataList['District'] = '';
                 $dataList['Taluka'] = '';
+                $dataList['Village'] = ''   ;
                 $dataList['Survey Number'] = '';
                 $dataList['CTS Number'] = '';
                 $dataList['Chairman'] = '';
@@ -50,19 +63,20 @@ class SocietyController extends Controller
                 $dataList['Area'] = '';
                 $dataList['Date mentioned on service tax letters'] = '';
                 $dataList['Surplus Charges'] = '';
-                $dataList['Lease rent as per renewed lease'] = '';
                 $dataList['Last date of paying surplus charges'] = '';
                 $dataList['Land Name'] = '';
                 $dataListMaster[]=$dataList;
+                $dataListKeys = array_keys($dataList);
             }else{
                 foreach ($society_data as $dataList_key => $dataList_value) {
+                    //dd($this->getVillages($dataList_value['id']));
                     $i=1;
                     $dataList = [];
-                    $dataList['id'] = $i;
+                    $dataList['id'] = $i;   
                     $dataList['Society Name'] = $dataList_value['society_name'];
                     $dataList['District'] = $dataList_value['district'];
                     $dataList['Taluka'] = $dataList_value['taluka'];
-                    $dataList['Village'] = $dataList_value['village'];
+                    $dataList['Village'] = $this->getVillages($dataList_value['id']);
                     $dataList['Survey Number'] = $dataList_value['survey_number'];
                     $dataList['CTS Number'] = $dataList_value['cts_number'];
                     $dataList['Chairman'] = $dataList_value['chairman'];
@@ -70,8 +84,7 @@ class SocietyController extends Controller
                     $dataList['Area'] = $dataList_value['area'];
                     $dataList['Date mentioned on service tax letters'] = $dataList_value['date_on_service_tax'];
                     $dataList['Surplus Charges'] = $dataList_value['surplus_charges'];
-                    $dataList['Lease rent as per renewed lease'] = $dataList_value['surplus_charges_last_date'];
-                    $dataList['Last date of paying surplus charges'] = $dataList_value['village_name'];
+                    $dataList['Last date of paying surplus charges'] = $dataList_value['surplus_charges_last_date'];
                     $dataList['Land Name'] = $dataList_value['land_name'];
                     
                     $dataListKeys = array_keys($dataList);
@@ -120,7 +133,6 @@ class SocietyController extends Controller
                 $dataList['Area'] = '';
                 $dataList['Date mentioned on service tax letters'] = '';
                 $dataList['Surplus Charges'] = '';
-                $dataList['Lease rent as per renewed lease'] = '';
                 $dataList['Last date of paying surplus charges'] = '';
                 $dataList['Land Name'] = '';
                 $dataListMaster[]=$dataList;
@@ -132,7 +144,7 @@ class SocietyController extends Controller
                     $dataList['Society Name'] = $dataList_value['society_name'];
                     $dataList['District'] = $dataList_value['district'];
                     $dataList['Taluka'] = $dataList_value['taluka'];
-                    $dataList['Village'] = $dataList_value['village'];
+                    $dataList['Village'] = $this->getVillages($dataList_value['id']);
                     $dataList['Survey Number'] = $dataList_value['survey_number'];
                     $dataList['CTS Number'] = $dataList_value['cts_number'];
                     $dataList['Chairman'] = $dataList_value['chairman'];
@@ -140,10 +152,9 @@ class SocietyController extends Controller
                     $dataList['Area'] = $dataList_value['area'];
                     $dataList['Date mentioned on service tax letters'] = $dataList_value['date_on_service_tax'];
                     $dataList['Surplus Charges'] = $dataList_value['surplus_charges'];
-                    $dataList['Lease rent as per renewed lease'] = $dataList_value['surplus_charges_last_date'];
-                    $dataList['Last date of paying surplus charges'] = $dataList_value['village_name'];
+                    $dataList['Last date of paying surplus charges'] = $dataList_value['surplus_charges_last_date'];
                     $dataList['Land Name'] = $dataList_value['land_name'];
-                    
+        
                     $dataListKeys = array_keys($dataList);
                     $dataListMaster[]=$dataList;
                     $i++;
@@ -158,27 +169,29 @@ class SocietyController extends Controller
                 });
             })->download('csv');
         }
+       
         if ($datatables->getRequest()->ajax()) {
 
-            DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
+            // DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
+             $society_data = VillageDetail::with('Societies')->whereHas('Societies')->where('id',$id)->first();
+            // $society_data = VillageDetail::with('Societies')->whereHas('Societies')->where('id',$id);
+            $society_data= array_get($society_data, 'Societies')!=null?array_get($society_data, 'Societies'):[];
 
-            $society_data = SocietyDetail::with('societyVillage')->where('village_id', $id);
-
-//            if($request->office_date_from)
-//            {
-//                $hearing_data = $hearing_data->whereDate('office_date', '>=', date('Y-m-d', strtotime($request->office_date_from)));
-//            }
-//
-//            if($request->office_date_to)
-//            {
-//                $hearing_data = $hearing_data->whereDate('office_date', '<=', date('Y-m-d', strtotime($request->office_date_to)));
-//            }
-
-            $society_data = $society_data->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').',society_name, lm_society_detail.id as id, village_id, survey_number, society_address, surplus_charges');
+            // $society_data = $society_data->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').',society_name, lm_society_detail.id as id, village_id, survey_number, society_address, surplus_charges');
 
             return $datatables->of($society_data)
+                ->editColumn('rownum', function ($society_data) {
+                    static $i = 0;
+                    $i++;
+                    return $i;
+                })
                 ->editColumn('societyVillage', function ($society_data) {
-                    return $society_data->societyVillage->village_name;
+                    $village_string="";
+                    foreach($society_data->Villages as $viilage)
+                     {
+                        $village_string.= $viilage->village_name.",";
+                     }   
+                    return trim($village_string,','); 
                 })
                 ->editColumn('society_name', function ($society_data) {
                     return "<a href='".route('lease_detail.index', [$society_data->id, $society_data->societyVillage->id])."'>$society_data->society_name</a>";
@@ -214,6 +227,7 @@ class SocietyController extends Controller
     {
         $header_data = $this->header_data;
         $arrData['other_land'] = OtherLand::where('status', 1)->get();
+        $arrData['villages'] = VillageDetail::get();
 
         return view('admin.society_detail.create', compact('header_data', 'arrData', 'id'));
     }
@@ -226,6 +240,9 @@ class SocietyController extends Controller
      */
     public function store(SocietyDetailRequest $request)
     {
+        $request->validate([
+            'villages'=>'required|array|min:1'
+        ]); 
         $society_data = [
             'society_name' => $request->society_name,
             'district' => $request->district,
@@ -242,7 +259,8 @@ class SocietyController extends Controller
             'other_land_id' => $request->other_land_id
         ];
 
-        SocietyDetail::create($society_data);
+        $society_detail=SocietyDetail::create($society_data);
+        $society_detail->Villages()->attach($request->villages);
 
         return redirect('/society_detail/'.$request->village_id)->with(['success'=> 'Society added succesfully']);
     }
@@ -255,11 +273,18 @@ class SocietyController extends Controller
      */
     public function show($id)
     {
+        $villages_belongs=array();
         $header_data = $this->header_data;
         $arrData['other_land'] = OtherLand::where('status', 1)->get();
         $arrData['society_data'] = SocietyDetail::FindOrFail($id);
+        $arrData['villages'] = VillageDetail::get();
+        $has_villages=VillageSociety::where('society_id',$id)->get();
+        foreach($has_villages as $has_village)
+        {
+            $villages_belongs[]=$has_village->village_id;
+        }
 
-        return view('admin.society_detail.show', compact('header_data', 'arrData', 'id'));
+        return view('admin.society_detail.show', compact('header_data', 'arrData', 'id','villages_belongs'));
     }
 
     /**
@@ -270,11 +295,17 @@ class SocietyController extends Controller
      */
     public function edit($id)
     {
+        $villages_belongs=array();
         $header_data = $this->header_data;
         $arrData['other_land'] = OtherLand::where('status', 1)->get();
         $arrData['society_data'] = SocietyDetail::FindOrFail($id);
-
-        return view('admin.society_detail.edit', compact('header_data', 'arrData', 'id'));
+        $has_villages=VillageSociety::where('society_id',$id)->get();
+        foreach($has_villages as $has_village)
+        {
+            $villages_belongs[]=$has_village->village_id;
+        }
+        $arrData['villages'] = VillageDetail::get();
+        return view('admin.society_detail.edit', compact('header_data', 'arrData', 'id','villages_belongs'));
     }
 
     /**
@@ -286,6 +317,10 @@ class SocietyController extends Controller
      */
     public function update(Request $request, $id)
     {
+        //dd($request->all());
+        $request->validate([
+            'villages'=>'required|array|min:1'
+        ]);
         $society = SocietyDetail::find($id);
 
         $society_data = [
@@ -305,6 +340,7 @@ class SocietyController extends Controller
         ];
 
         $society->update($society_data);
+        $society->Villages()->sync($request->villages);
 
         return redirect('/society_detail/'.$request->village_id)->with(['success'=> 'Society updated succesfully']);
     }
