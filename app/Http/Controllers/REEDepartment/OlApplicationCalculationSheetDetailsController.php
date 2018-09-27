@@ -95,11 +95,11 @@ class OlApplicationCalculationSheetDetailsController extends Controller
 
     public function saveCalculationDetails(Request $request)
     {
-      //  echo "<pre>";print_r($request->all());exit;
+        //echo "<pre>";print_r($request->all());exit;
 
-        $this->validate($request, [
+     /*   $this->validate($request, [
             'total_no_of_buildings' => 'required',
-        ]);
+        ]);*/
 
         OlApplicationCalculationSheetDetails::updateOrCreate(['application_id'=>$request->get('application_id')],$request->all());
         return redirect("ol_calculation_sheet/" . $request->get('application_id'));
