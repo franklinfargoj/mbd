@@ -30,6 +30,12 @@ class AddAreaOfTotalPlotToCalculationSheet extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('ol_application_calculation_sheet_details', function (Blueprint $table) {
+            $table->dropColumn('area_of_total_plot');
+            $table->dropColumn('permissible_proratata_area');
+            $table->dropColumn('proratata_construction_area');
+            $table->dropColumn('remaining_area');
+            $table->dropColumn('redirekner_val');
+        });
     }
 }
