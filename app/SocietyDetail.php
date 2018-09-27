@@ -39,4 +39,9 @@ class SocietyDetail extends Model
     {
         return $this->belongsTo('App\VillageDetail', 'village_id');
     }
+
+    public function Villages()
+    {
+        return $this->belongsToMany('App\VillageDetail', 'village_societies', 'society_id', 'village_id');
+    }
 }

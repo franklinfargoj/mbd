@@ -134,6 +134,18 @@
                         <span class="help-block">{{$errors->first('other_land_id')}}</span>
                     </div>
                 </div>
+                <div class="col-lg-6 form-group">
+                    <label class="col-form-label" for="other_land_id">Villages:</label>
+                        <div class="m-input-icon m-input-icon--right">
+                            <select multiple class="form-control "
+                                id="villages" name="villages[]" disabled>
+                                @foreach($arrData['villages'] as $village)
+                                <option {{in_array($village->id,$villages_belongs)?'selected':''}} value="{{ $village->id  }}">{{ $village->village_name }}</option>
+                                @endforeach
+                            </select>
+                            <span class="help-block">{{$errors->first('villages')}}</span>
+                        </div>
+                    </div>
             </div>
             <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
                 <div class="m-form__actions px-0">
