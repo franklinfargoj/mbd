@@ -12,12 +12,12 @@ return [
 	'font_path' => base_path('resources/fonts/'),
 	'font_data' => [
 		'marathi' => [
-			'R'  => 'vakra-marathi-font.ttf',    // regular font
-			'B'  => 'vakra-marathi-font.ttf',       // optional: bold font
-			'I'  => 'vakra-marathi-font.ttf',     // optional: italic font
-			'BI' => 'vakra-marathi-font.ttf', // optional: bold-italic font
-			'useOTL' => 0xFF,    
-			'useKashida' => 75, 
+			'R'  => 'Kruti_Dev_010.ttf',    // regular font
+			'B'  => 'Kruti_Dev_010.ttf',       // optional: bold font
+			'I'  => 'Kruti_Dev_010.ttf',     // optional: italic font
+			'BI' => 'Kruti_Dev_010.ttf', // optional: bold-italic font
+			//'useOTL' => 0xFF,    
+			//'useKashida' => 75, 
 		]
 		// ...add as many as you want.
 	]
