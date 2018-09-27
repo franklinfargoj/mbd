@@ -32,31 +32,31 @@
                                         <div class="col-sm-6 field-col">
                                             <div class="d-flex">
                                                 <span class="field-name">Application Number:</span>
-                                                <span class="field-value"></span>
+                                                <span class="field-value">{{(isset($societyData->application_no) ? $societyData->application_no : '')}}</span>
                                             </div>
                                         </div>
                                         <div class="col-sm-6 field-col">
                                             <div class="d-flex">
                                                 <span class="field-name">Application Date:</span>
-                                                <span class="field-value"></span>
+                                                <span class="field-value">{{(isset($societyData->submitted_at) ? $societyData->submitted_at : '')}}</span>
                                             </div>
                                         </div>
                                         <div class="col-sm-6 field-col">
                                             <div class="d-flex">
                                                 <span class="field-name">Society Name:</span>
-                                                <span class="field-value"></span>
+                                                <span class="field-value">{{(isset($societyData->eeApplicationSociety->name) ? $societyData->eeApplicationSociety->name : '')}}</span>
                                             </div>
                                         </div>
                                         <div class="col-sm-6 field-col">
                                             <div class="d-flex">
                                                 <span class="field-name">Society Address:</span>
-                                                <span class="field-value"></span>
+                                                <span class="field-value">{{(isset($societyData->eeApplicationSociety->address) ? $societyData->eeApplicationSociety->address : '')}}</span>
                                             </div>
                                         </div>
                                         <div class="col-sm-6 field-col">
                                             <div class="d-flex">
                                                 <span class="field-name">Building Number:</span>
-                                                <span class="field-value"></span>
+                                                <span class="field-value">{{(isset($societyData->eeApplicationSociety->building_no) ? $societyData->eeApplicationSociety->building_no : '')}}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -71,25 +71,25 @@
                                         <div class="col-sm-6 field-col">
                                             <div class="d-flex">
                                                 <span class="field-name">Name of Architect:</span>
-                                                <span class="field-value"></span>
+                                                <span class="field-value">{{(isset($societyData->eeApplicationSociety->name_of_architect) ? $societyData->eeApplicationSociety->name_of_architect : '')}}</span>
                                             </div>
                                         </div>
                                         <div class="col-sm-6 field-col">
                                             <div class="d-flex">
                                                 <span class="field-name">Architect Mobile Number:</span>
-                                                <span class="field-value"></span>
+                                                <span class="field-value">{{(isset($societyData->eeApplicationSociety->architect_mobile_no) ? $societyData->eeApplicationSociety->architect_mobile_no : '')}}</span>
                                             </div>
                                         </div>
                                         <div class="col-sm-6 field-col">
                                             <div class="d-flex">
                                                 <span class="field-name">Architect Address:</span>
-                                                <span class="field-value"></span>
+                                                <span class="field-value">{{(isset($societyData->eeApplicationSociety->architect_address) ? $societyData->eeApplicationSociety->architect_address : '')}}</span>
                                             </div>
                                         </div>
                                         <div class="col-sm-6 field-col">
                                             <div class="d-flex">
                                                 <span class="field-name">Architect Telephone Number:</span>
-                                                <span class="field-value"></span>
+                                                <span class="field-value">{{(isset($societyData->eeApplicationSociety->architect_telephone_no) ? $societyData->eeApplicationSociety->architect_telephone_no : '')}}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -118,9 +118,10 @@
                                 <div class=" row-list">
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <p class="font-weight-semi-bold">View Offer letter</p>
+                                            <p class="font-weight-semi-bold">Edit Offer letter</p>
                                             <p>Click to view generated offer letter in PDF format</p>
-                                            <button type="submit" class="btn btn-primary">View offer Letter </button>
+                                            <a href="/edit_offer_letter" class="btn btn-primary" > Edit offer Letter</a>
+                                            <!-- <button type="submit">Edit offer Letter </button> -->
                                         </div>
                                     </div>
                                 </div>

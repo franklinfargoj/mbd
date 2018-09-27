@@ -22,6 +22,8 @@ use App\User;
 use Config;
 use Auth;
 use DB;
+use PDF;
+use File;
 
 class REEController extends Controller
 {
@@ -167,8 +169,12 @@ class REEController extends Controller
         return view('admin.REE_department.cap_note',compact('capNote'));
     }
 
-    public function offerLetter(Request $request){
-        return view('admin.REE_department.offer_letter');
+    public function GenerateOfferLetter(Request $request, $applicationId){
+        
+        $societyData = OlApplication::with(['eeApplicationSociety'])
+                ->where('id',$applicationId)->orderBy('id','DESC')->first();
+
+        return view('admin.REE_department.generate-offer-letter',compact('societyData'));
     }
     
     public function documentSubmittedBySociety()
@@ -267,5 +273,40 @@ class REEController extends Controller
                 return back()->with('error', 'Only pdf allowed');
             }
         }
+    }
+
+    public function pdfMerge(Request $request){
+
+        $pdf = new \PDFMerger;
+         $uploadPath      = '/uploads';
+        $pdfFile1Path = public_path($uploadPath) . '/pdf.pdf';
+        $pdfFile1Path1 = public_path($uploadPath) . '/sample.pdf';
+
+        $pdf->addPDF($pdfFile1Path, 'all');
+        $pdf->addPDF($pdfFile1Path1, 'all');
+
+        $file = $pdf->merge('file','mergedpdf.pdf');
+        file_put_contents($uploadPath, $file);
+    }
+
+    public function editOfferLetter(Request $request){
+        return view('admin.REE_department.offer_letter_1');
+    }
+
+    public function saveOfferLetter(Request $request){
+
+        $uploadPath = '/uploads/Draft_offer_letter';
+        $dest = public_path($uploadPath);
+        $content = str_replace('_', "", $_POST['ckeditorText']);
+
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadHTML($content);
+        $fileName = time().'ABC1.pdf';
+
+        if((!is_dir($dest))){
+            File::makeDirectory($dest, $mode = 0777, true, true);
+        }else{
+        }
+        $pdf->save($dest."/".$fileName);
     }
 }
