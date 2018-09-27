@@ -2,7 +2,9 @@
 <head>
     <meta charset="UTF-8">
     <style>
-        * { font-family: marathi; }
+        body {
+            font-family: 'marathi', sans-serif;
+        }
     </style>
 </head>
 <body>

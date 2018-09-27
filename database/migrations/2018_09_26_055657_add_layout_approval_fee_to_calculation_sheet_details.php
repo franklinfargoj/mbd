@@ -17,10 +17,6 @@ class AddLayoutApprovalFeeToCalculationSheetDetails extends Migration
             $table->string('layout_approval_fee')->after('offsite_infrastructure_charges_to_municipal_corporation')->nullable();
             $table->string('debraj_removal_fee')->after('layout_approval_fee')->nullable();
             $table->string('water_usage_charges')->after('debraj_removal_fee')->nullable();
-
-            $table->renameColumn('permissible _carpet_area_coordinates', 'permissible_carpet_area_coordinates');
-
-
         });
     }
 
@@ -35,9 +31,6 @@ class AddLayoutApprovalFeeToCalculationSheetDetails extends Migration
             $table->dropColumn('layout_approval_fee');
             $table->dropColumn('debraj_removal_fee');
             $table->dropColumn('water_usage_charges');
-
-            $table->renameColumn('permissible_carpet_area_coordinates', 'permissible _carpet_area_coordinates');
-
 
         });
     }
