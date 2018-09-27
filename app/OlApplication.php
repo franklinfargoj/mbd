@@ -33,7 +33,7 @@ class OlApplication extends Model
 
     public function olApplicationStatus()
     {
-        return $this->hasMany('App\OlApplicationStatus', 'application_id', 'id');
+        return $this->hasMany(OlApplicationStatus::class, 'application_id', 'id');
     }
 
     public function olApplicationStatusForLoginListing()
@@ -65,5 +65,10 @@ class OlApplication extends Model
     public function applicationMasterLayout()
     {
         return $this->hasMany(MasterLayout::class, 'id','layout_id');
+    }
+
+    public function cap_notes()
+    {
+        return $this->hasOne(OlCapNotes::class,'application_id','id');
     }
 }

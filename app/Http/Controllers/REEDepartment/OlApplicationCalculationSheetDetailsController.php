@@ -4,6 +4,8 @@ namespace App\Http\Controllers\REEDepartment;
 
 use App\OlApplicationCalculationSheetDetails;
 use App\Http\Controllers\Controller;
+use App\OlDcrRateMaster;
+use App\REENote;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -48,7 +50,13 @@ class OlApplicationCalculationSheetDetailsController extends Controller
     {
         $applicationId = $id;$user = Auth::user();
         $calculationSheetDetails = OlApplicationCalculationSheetDetails::where('id','=',$id)->get();
-        return view('admin.REE_department.calculation_sheet',compact('calculationSheetDetails','applicationId','user'));
+
+        $dcr_rates = OlDcrRateMaster::all();
+        // REE Note download
+
+        $arrData['reeNote'] = REENote::where('application_id', $applicationId)->orderBy('id', 'desc')->first();
+
+        return view('admin.REE_department.calculation_sheet',compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData'));
     }
 
     /**
@@ -87,6 +95,12 @@ class OlApplicationCalculationSheetDetailsController extends Controller
 
     public function saveCalculationDetails(Request $request)
     {
+        //echo "<pre>";print_r($request->all());exit;
+
+     /*   $this->validate($request, [
+            'total_no_of_buildings' => 'required',
+        ]);*/
+
         OlApplicationCalculationSheetDetails::updateOrCreate(['application_id'=>$request->get('application_id')],$request->all());
         return redirect("ol_calculation_sheet/" . $request->get('application_id'));
     }

@@ -1,5 +1,7 @@
 @extends('admin.layouts.app')
 @section('content')
+<p align="right"><a href="#" target="_blank" id="download_application_form" class="btn print-icon" rel="noopener" onclick="printContent('printdiv')"><img src="{{asset('/img/print-icon.svg')}}"></a></p>
+<div id="printdiv">
 <form class="letter-form" action="{{ route('save_offer_letter_application_dev') }}" method="post" id="save_offer_letter_application_dev">
 @csrf
 	<!-- BEGIN: Subheader -->
@@ -47,4 +49,21 @@
 		</div>
 	</div>
 </form>
+</div>
+@endsection
+@section('download_application_form_js')
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('#download_application_form').click(function(){
+			$(this).hide();
+		});
+	});
+	function printContent(element){
+		var restorepage = document.body.innerHTML;
+		var printcontent = document.getElementById(element).innerHTML;
+		document.body.innerHTML = printcontent;
+		window.print();
+		document.body.innerHTML = restorepage;
+	}
+</script>
 @endsection

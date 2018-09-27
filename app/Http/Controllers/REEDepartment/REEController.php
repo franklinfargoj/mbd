@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\REEDepartment;
 
+use App\REENote;
 use App\Role;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -165,6 +166,10 @@ class REEController extends Controller
         $capNote = $this->CommonController->downloadCapNote($applicationId);
         return view('admin.REE_department.cap_note',compact('capNote'));
     }
+
+    public function offerLetter(Request $request){
+        return view('admin.REE_department.offer_letter');
+    }
     
     public function documentSubmittedBySociety()
     {
@@ -236,8 +241,32 @@ class REEController extends Controller
         //
     }
 
-    public function GenerateOfferLetter() {
-        return view('admin.REE_department.generate-offer-letter');
+    public function uploadREENote(Request $request){
+        $applicationId   = $request->application_id;
+        $uploadPath      = '/uploads/ree_note';
+        $destinationPath = public_path($uploadPath);
+
+        if ($request->file('ree_note')){
+
+            $file = $request->file('ree_note');
+            $file_name = time().$file->getFileName().'.'.$file->getClientOriginalExtension();
+            $extension = $file->getClientOriginalExtension();
+
+            if($extension == "pdf") {
+                if ($file->move($destinationPath, $file_name)) {
+                    $fileData[] = array('document_path' => $uploadPath . '/' . $file_name,
+                        'application_id' => $applicationId,
+                        'user_id' => Auth::user()->id,
+                        'role_id' => session()->get('role_id'));
+                }
+                $data = REENote::insert($fileData);
+                return back()->with('success', 'REE Note uploaded successfully');
+            }
+            else
+            {
+                return back()->with('error', 'Only pdf allowed');
+            }
+        }
     }
 
     public function SharingCalculationSheet() {

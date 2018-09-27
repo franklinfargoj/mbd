@@ -25,7 +25,7 @@
             <div class="m-grid__item m-grid__item--fluid m-wrapper">
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 p-0">
+                        <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
                             <div class="portlet-body">
                                 <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
                                     <div class="m-subheader">
@@ -108,62 +108,66 @@
                                 <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
                                     <div class="portlet-body">
                                         <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
-                                            <div class="border-bottom pb-2">
-                                                <h3 class="section-title section-title--small mb-2">
-                                                    Remark History:
-                                                </h3>
-                                                <span class="hint-text d-block">Remark by EE</span>
-                                            </div>
-                                            <div class="remarks-section">
-                                                <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container"
-                                                    data-scrollbar-shown="true" data-scrollable="true" data-max-height="200">
-                                                    <!-- send to society -->
-                                                    <div class="remarks-section__data">
-                                                        <p class="remarks-section__data__row"><span>Date:</span><span>{{(isset($applicationData->eeRevertLog) && $applicationData->eeRevertLog->created_at != '' ? date("d-m-Y", strtotime($applicationData->eeRevertLog->created_at)) : '')}}</span>
+                                            <div class="remark-body">
+                                                <div class="border-bottom pb-2">
+                                                    <h3 class="section-title section-title--small mb-4">
+                                                        Remark History:
+                                                    </h3>
+                                                    <span class="hint-text d-block font-weight-semi-bold">Remark by EE</span>
+                                                </div>
+                                                <div class="remarks-section">
+                                                    <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container"
+                                                        data-scrollbar-shown="true" data-scrollable="true" data-max-height="200">
+                                                        <!-- send to society -->
+                                                        <div class="remarks-section__data">
+                                                            <p class="remarks-section__data__row"><span>Date:</span><span>{{(isset($applicationData->eeRevertLog) && $applicationData->eeRevertLog->created_at != '' ? date("d-m-Y", strtotime($applicationData->eeRevertLog->created_at)) : '')}}</span>
 
-                                                        </p>
-                                                        <p class="remarks-section__data__row"><span>Time:</span><span>{{(isset($applicationData->eeRevertLog) && $applicationData->eeRevertLog->created_at != '' ? date("H:i", strtotime($applicationData->eeRevertLog->created_at)) : '')}}</span></p>
-                                                        <p class="remarks-section__data__row"><span>Action:</span><span>Sent
-                                                                to Society</span></p>
-                                                        <p class="remarks-section__data__row"><span>Description:</span><span>{{(isset($applicationData->eeRevertLog->remark) ? $applicationData->eeRevertLog->remark : '')}}</span></p>
-                                                    </div>
-                                                    <!-- Forward  to DyCE -->
-                                                    <div class="remarks-section__data">
-                                                        <p class="remarks-section__data__row"><span>Date:</span><span>{{(isset($applicationData->eeForwardLog) && $applicationData->eeForwardLog->created_at != '' ? date("d-m-Y", strtotime($applicationData->eeForwardLog->created_at)) : '')}}</span></p>
-                                                        <p class="remarks-section__data__row"><span>Time:</span><span>{{(isset($applicationData->eeForwardLog) && $applicationData->eeForwardLog->created_at != '' ? date("H:i", strtotime($applicationData->eeForwardLog->created_at)) : '')}}</span></p>
-                                                        <p class="remarks-section__data__row"><span>Action:</span><span>Forward  to DyCE</span></p>
-                                                        <p class="remarks-section__data__row"><span>Description:</span><span>{{(isset($applicationData->eeForwardLog->remark) ? $applicationData->eeForwardLog->remark : '')}}</span></p>
+                                                            </p>
+                                                            <p class="remarks-section__data__row"><span>Time:</span><span>{{(isset($applicationData->eeRevertLog) && $applicationData->eeRevertLog->created_at != '' ? date("H:i", strtotime($applicationData->eeRevertLog->created_at)) : '')}}</span></p>
+                                                            <p class="remarks-section__data__row"><span>Action:</span><span>Sent
+                                                                    to Society</span></p>
+                                                            <p class="remarks-section__data__row"><span>Description:</span><span>{{(isset($applicationData->eeRevertLog->remark) ? $applicationData->eeRevertLog->remark : '')}}</span></p>
+                                                        </div>
+                                                        <!-- Forward  to DyCE -->
+                                                        <div class="remarks-section__data">
+                                                            <p class="remarks-section__data__row"><span>Date:</span><span>{{(isset($applicationData->eeForwardLog) && $applicationData->eeForwardLog->created_at != '' ? date("d-m-Y", strtotime($applicationData->eeForwardLog->created_at)) : '')}}</span></p>
+                                                            <p class="remarks-section__data__row"><span>Time:</span><span>{{(isset($applicationData->eeForwardLog) && $applicationData->eeForwardLog->created_at != '' ? date("H:i", strtotime($applicationData->eeForwardLog->created_at)) : '')}}</span></p>
+                                                            <p class="remarks-section__data__row"><span>Action:</span><span>Forward  to DyCE</span></p>
+                                                            <p class="remarks-section__data__row"><span>Description:</span><span>{{(isset($applicationData->eeForwardLog->remark) ? $applicationData->eeForwardLog->remark : '')}}</span></p>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
 
-                                            <div class="border-bottom pb-2">
-                                                <span class="hint-text d-block">Remark by DYCE</span>
-                                            </div>                                            
-                                            <div class="remarks-section">
-                                                <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container"
-                                                    data-scrollbar-shown="true" data-scrollable="true" data-max-height="200">
-                                                    <!-- send to EE -->
-                                                    <div class="remarks-section__data">
-                                                        <p class="remarks-section__data__row"><span>Date:</span><span>{{(isset($applicationData->dyceRevertLog) && $applicationData->dyceRevertLog->created_at != '' ? date("d-m-Y", strtotime($applicationData->dyceRevertLog->created_at)) : '')}}</span></p>
+                                            <div class="remark-body">
+                                                <div class="border-bottom pb-2">
+                                                    <span class="hint-text d-block font-weight-semi-bold">Remark by DYCE</span>
+                                                </div>                                            
+                                                <div class="remarks-section">
+                                                    <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container"
+                                                        data-scrollbar-shown="true" data-scrollable="true" data-max-height="200">
+                                                        <!-- send to EE -->
+                                                        <div class="remarks-section__data">
+                                                            <p class="remarks-section__data__row"><span>Date:</span><span>{{(isset($applicationData->dyceRevertLog) && $applicationData->dyceRevertLog->created_at != '' ? date("d-m-Y", strtotime($applicationData->dyceRevertLog->created_at)) : '')}}</span></p>
 
-                                                        <p class="remarks-section__data__row"><span>Time:</span><span>{{(isset($applicationData->dyceRevertLog) && $applicationData->dyceRevertLog->created_at != '' ? date("H:i", strtotime($applicationData->dyceRevertLog->created_at)) : '')}}</span></p>
-                                                        <p class="remarks-section__data__row"><span>Action:</span><span>Sent to EE</span></p>
-                                                        <p class="remarks-section__data__row"><span>Description:</span><span>{{(isset($applicationData->dyceRevertLog->remark) ? $applicationData->dyceRevertLog->remark : '')}}</span></p>
+                                                            <p class="remarks-section__data__row"><span>Time:</span><span>{{(isset($applicationData->dyceRevertLog) && $applicationData->dyceRevertLog->created_at != '' ? date("H:i", strtotime($applicationData->dyceRevertLog->created_at)) : '')}}</span></p>
+                                                            <p class="remarks-section__data__row"><span>Action:</span><span>Sent to EE</span></p>
+                                                            <p class="remarks-section__data__row"><span>Description:</span><span>{{(isset($applicationData->dyceRevertLog->remark) ? $applicationData->dyceRevertLog->remark : '')}}</span></p>
 
-                                                    </div>
+                                                        </div>
 
-                                                    <!-- Forward  to REE -->
-                                                    <div class="remarks-section__data">
-                                                        <p class="remarks-section__data__row"><span>Date:</span><span>{{(isset($applicationData->dyceForwardLog) && $applicationData->dyceForwardLog->created_at != '' ? date("d-m-Y", strtotime($applicationData->dyceForwardLog->created_at)) : '')}}</span></p>
-                                        
-                                                        <p class="remarks-section__data__row"><span>Time:</span><span>{{(isset($applicationData->dyceForwardLog) && $applicationData->dyceForwardLog->created_at != '' ? date("H:i", strtotime($applicationData->dyceForwardLog->created_at)) : '')}}</span></p>
+                                                        <!-- Forward  to REE -->
+                                                        <div class="remarks-section__data">
+                                                            <p class="remarks-section__data__row"><span>Date:</span><span>{{(isset($applicationData->dyceForwardLog) && $applicationData->dyceForwardLog->created_at != '' ? date("d-m-Y", strtotime($applicationData->dyceForwardLog->created_at)) : '')}}</span></p>
+                                            
+                                                            <p class="remarks-section__data__row"><span>Time:</span><span>{{(isset($applicationData->dyceForwardLog) && $applicationData->dyceForwardLog->created_at != '' ? date("H:i", strtotime($applicationData->dyceForwardLog->created_at)) : '')}}</span></p>
 
-                                                        <p class="remarks-section__data__row"><span>Action:</span><span>Forward  to REE</span></p>
-                                                        <p class="remarks-section__data__row"><span>Description:</span><span>{{(isset($applicationData->dyceForwardLog->remark) ? $applicationData->dyceForwardLog->remark : '')}}</span></           
+                                                            <p class="remarks-section__data__row"><span>Action:</span><span>Forward  to REE</span></p>
+                                                            <p class="remarks-section__data__row"><span>Description:</span><span>{{(isset($applicationData->dyceForwardLog->remark) ? $applicationData->dyceForwardLog->remark : '')}}</span></           
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>    
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -204,7 +208,7 @@
                                                             </label>
                                                             <div class="col-lg-4 col-md-9 col-sm-12">
                                                                 <select class="form-control m-bootstrap-select m_selectpicker" name="to_user_id" id="to_user_id">
-                                                                    @if(count($arrData['parentData']) > 0)
+                                                                    @if($arrData['parentData'])
                                                                         @foreach($arrData['parentData'] as $parent)
                                                                             <option value="{{ $parent->id }}" data-role="{{ $parent->role_id }}">{{ $parent->name }} ({{ $arrData['role_name'] }})</option>
                                                                         @endforeach

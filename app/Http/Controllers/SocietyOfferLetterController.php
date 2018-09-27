@@ -709,9 +709,9 @@ class SocietyOfferLetterController extends Controller
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $society_details = SocietyOfferLetter::find($society->id);
         $ol_application = OlApplication::where('user_id', Auth::user()->id)->with(['request_form', 'applicationMasterLayout'])->first();
-        $layouts = MasterLayout::all();      
-        
-        return view('frontend.society.display_society_offer_letter_application', compact('society_details', 'ol_application', 'layouts'));
+        $layouts = MasterLayout::all(); 
+        $id = $ol_application->application_master_id;
+        return view('frontend.society.display_society_offer_letter_application', compact('society_details', 'ol_application', 'layouts', 'id'));
     }
 
     public function generate_pdf(){
