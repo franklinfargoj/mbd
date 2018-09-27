@@ -1062,6 +1062,7 @@
     height: 16px;
     margin: 0 5px;
     width: 100%;
+    text-align: center;
 }
 
 .letter-form-input--xs {

@@ -68,7 +68,7 @@
                                     <div class="d-flex align-items-center justify-content-between m-login__form-action">
                                         <div class="m-login__form-sub">
                                             <div class="m--align-right m-login__form-right">
-                                                <a href="javascript:;" id="m_login_forget_password" class="m-link">
+                                                <a href="javascript:;" id="m_login_forget_password" class="m-link text-dark">
                                                     Forgot Password ?
                                                 </a>
                                             </div>

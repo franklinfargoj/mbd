@@ -239,4 +239,8 @@ class REEController extends Controller
     public function GenerateOfferLetter() {
         return view('admin.REE_department.generate-offer-letter');
     }
+
+    public function SharingCalculationSheet() {
+        return view('admin.REE_department.sharing-calculation-sheet');
+    }
 }

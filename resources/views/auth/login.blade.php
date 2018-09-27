@@ -63,7 +63,7 @@
                                     <div class="d-flex align-items-center justify-content-between m-login__form-action">
                                         <div class="m-login__form-sub">
                                             <div class="m--align-right m-login__form-right">
-                                                <a href="{{ route('password.request') }}"  class="m-link">
+                                                <a href="{{ route('password.request') }}"  class="m-link text-dark">
                                                     Forgot Password ?
                                                 </a>
                                             </div>
