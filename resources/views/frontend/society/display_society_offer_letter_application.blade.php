@@ -3,11 +3,17 @@
 	Application Form
 @endsection
 @section('content')
-<p align="right"><a href="#" target="_blank" id="download_application_form" class="btn print-icon" rel="noopener" onclick="printContent('printdiv')"><img src="{{asset('/img/print-icon.svg')}}"></a></p>
+<div class="m-subheader px-0">
+    <div class="d-flex align-items-center justify-content-end">
+    	<a href="{{ route('society_offer_letter_dashboard') }}" class="btn btn-link mr-3">
+    		<i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back
+    	</a>
+        <a href="#" target="_blank" id="download_application_form" class="btn print-icon" rel="noopener" onclick="printContent('printdiv')"><img src="{{asset('/img/print-icon.svg')}}"></a>
+    </div>
+</div>
 <div id="printdiv">
 	<form class="letter-form" action="{{ route('save_offer_letter_application_dev') }}" method="post" id="save_offer_letter_application_dev">
-	@csrf
-	
+	@csrf	
 			<!-- BEGIN: Subheader -->
 		<div class="m-subheader letter-form-header">
 				<center>
