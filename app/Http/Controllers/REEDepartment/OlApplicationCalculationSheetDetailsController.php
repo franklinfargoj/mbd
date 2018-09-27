@@ -6,6 +6,8 @@ use App\OlApplicationCalculationSheetDetails;
 use App\Http\Controllers\Controller;
 use App\OlDcrRateMaster;
 use App\REENote;
+//use Barryvdh\DomPDF\PDF;
+use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -101,6 +103,19 @@ class OlApplicationCalculationSheetDetailsController extends Controller
             'total_no_of_buildings' => 'required',
         ]);*/
 
+       // $pdf = PDF::loadView('pdf.result',['student' => $student]);
+
+
+        $applicationId = $request->get('application_id');$user = Auth::user();
+        $calculationSheetDetails = OlApplicationCalculationSheetDetails::where('id','=',$request->get('application_id'))->get();
+
+        $dcr_rates = OlDcrRateMaster::all();
+        // REE Note download
+
+        $arrData['reeNote'] = REENote::where('application_id', $applicationId)->orderBy('id', 'desc')->first();
+
+        $pdf = PDF::loadView('admin.REE_department.calculation_sheet_pdf',['calculationSheetDetails' => $calculationSheetDetails,'applicationId'=>$applicationId,'user'=>$user,'arrData'=>$arrData]);
+        return $pdf->stream('document.pdf');
         OlApplicationCalculationSheetDetails::updateOrCreate(['application_id'=>$request->get('application_id')],$request->all());
         return redirect("ol_calculation_sheet/" . $request->get('application_id'));
     }
