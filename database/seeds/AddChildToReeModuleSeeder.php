@@ -34,7 +34,7 @@ class AddChildToReeModuleSeeder extends Seeder
         $dyce_jr_id = Role::where('name', '=', 'dyce_junior_engineer')->first();
 
         // REE Head Role ID
-        $ree_head_id = Role::where('name', '=', 'REE')->first();
+        $ree_head_id = Role::where('name', '=', 'ree_engineer')->first();
 
         // REE Assistant Role ID
         $ree_ass_id = Role::where('name', '=', 'REE Assistant Engineer')->first();

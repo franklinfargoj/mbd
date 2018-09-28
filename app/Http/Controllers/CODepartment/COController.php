@@ -142,11 +142,24 @@ class COController extends Controller
 
         $cap_role_id = Role::where('name', '=', config('commanConfig.cap_engineer'))->first();
 
-        $arrData['get_forward_cap'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
-                                            ->where('lu.layout_id', session()->get('layout_id'))
-                                            ->where('role_id', $cap_role_id->id)->get();
+        if($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.offer_letter_generation'))
+        {
+            $ree_id = Role::where('name', '=', config('commanConfig.ree_junior'))->first();
 
-        $arrData['cap_role_name'] = strtoupper(str_replace('_', ' ', $cap_role_id->name));
+            $arrData['get_forward_ree'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
+                ->where('lu.layout_id', session()->get('layout_id'))
+                ->where('role_id', $ree_id->id)->get();
+
+            $arrData['ree_role_name']   = strtoupper(str_replace('_', ' ', $ree_id->name));
+        }
+        else
+        {
+            $arrData['get_forward_cap'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
+                ->where('lu.layout_id', session()->get('layout_id'))
+                ->where('role_id', $cap_role_id->id)->get();
+            $arrData['cap_role_name'] = strtoupper(str_replace('_', ' ', $cap_role_id->name));
+        }
+
 
         // remark and history
         $this->CommonController->getEEForwardRevertLog($applicationData,$applicationId);
@@ -156,7 +169,16 @@ class COController extends Controller
     }
 
     public function sendForwardApplication(Request $request){
-        $this->CommonController->forwardApplicationForm($request);
+        $arrData['get_current_status'] = $this->CommonController->getCurrentStatus($request->applicationId);
+
+        if($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.offer_letter_generation'))
+        {
+            $this->CommonController->generateOfferLetterForwardToREE($request);
+        }
+        else
+        {
+            $this->CommonController->forwardApplicationForm($request);
+        }
         return redirect('/co');
     }
 

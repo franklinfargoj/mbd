@@ -12,7 +12,7 @@
                                 <i class="la la-cog"></i> Scrutiny History
                             </a>
                         </li>
-                        @if($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.in_process'))
+                        @if($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.in_process') || $arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.offer_letter_generation') || $arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.offer_letter_approved'))
                             <li class="nav-item m-tabs__item">
                                 <a class="nav-link m-tabs__link show" data-toggle="tab" href="#forward-application-tab">
                                     <i class="la la-cog"></i> Forward Application
@@ -191,23 +191,33 @@
 
                                                     <div class="m-form__group form-group">
                                                         <div class="m-radio-inline">
-                                                            <label class="m-radio m-radio--primary">
-                                                                <input type="hidden" name="user_id">
-                                                                <input type="hidden" name="role_id">
-                                                                <input type="radio" name="remarks_suggestion" id="forward" class="forward-application" value="1" checked> Forward Application
-                                                                <span></span>
-                                                            </label>
-                                                            @if(session()->get('role_name') != config('commanConfig.ree_junior'))
+
+                                                            @if($arrData['get_current_status']->status_id != config('commanConfig.applicationStatus.offer_letter_approved'))
+                                                                <label class="m-radio m-radio--primary">
+                                                                    <input type="hidden" name="user_id">
+                                                                    <input type="hidden" name="role_id">
+                                                                    <input type="radio" name="remarks_suggestion" id="forward" class="forward-application" value="1" checked> Forward Application
+                                                                    <span></span>
+                                                                </label>
+                                                            @endif
+                                                            @if(session()->get('role_name') != config('commanConfig.ree_junior') && $arrData['get_current_status']->status_id != config('commanConfig.applicationStatus.offer_letter_generation') && $arrData['get_current_status']->status_id != config('commanConfig.applicationStatus.offer_letter_approved'))
                                                                 <label class="m-radio m-radio--primary">
                                                                     <input type="radio" name="remarks_suggestion" id="remark" class="forward-application" value="0"> Revert Application
                                                                     <span></span>
                                                                 </label>
                                                             @endif
                                                         </div>
-                                                        <div class="form-group m-form__group row mt-3 parent-data" id="select_dropdown">
-                                                            <label class="col-form-label col-lg-2 col-sm-12">
-                                                                Forward To:
+
+                                                        @if($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.offer_letter_approved'))
+                                                            <label class="m-radio m-radio--primary">
+                                                                <input type="radio" name="remarks_suggestion" id="remark" class="forward-application" value="1" checked> Send To Society
+                                                                <span></span>
                                                             </label>
+                                                        @else
+                                                            <div class="form-group m-form__group row mt-3 parent-data" id="select_dropdown">
+                                                                <label class="col-form-label col-lg-2 col-sm-12">
+                                                                    Forward To:
+                                                                </label>
                                                             <div class="col-lg-4 col-md-9 col-sm-12">
                                                                 <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" name="to_user_id" id="to_user_id">
                                                                     @if($arrData['parentData'])
@@ -215,28 +225,33 @@
                                                                             <option value="{{ $parent->user_id }}" data-role="{{ $parent->role_id }}">{{ $parent->name }} ({{ $arrData['role_name'] }})</option>
                                                                         @endforeach
                                                                     @else
-                                                                        @foreach($arrData['get_forward_co'] as $parent)
-                                                                            <option value="{{ $parent->user_id }}" data-role="{{ $parent->role_id }}">{{ $parent->name }} ({{ $arrData['co_role_name'] }})</option>
-                                                                        @endforeach
+                                                                        @if(isset($arrData['get_forward_co']))
+                                                                            @foreach($arrData['get_forward_co'] as $parent)
+                                                                                <option value="{{ $parent->user_id }}" data-role="{{ $parent->role_id }}">{{ $parent->name }} ({{ $arrData['co_role_name'] }})</option>
+                                                                            @endforeach
+                                                                        @endif
                                                                     @endif
                                                                 </select>
                                                             </div>
+                                                        @endif
                                                         </div>
 
-                                                        <div class="form-group m-form__group row mt-3 child-data" style="display: none">
-                                                            <label class="col-form-label col-lg-2 col-sm-12">
-                                                                Revert To:
-                                                            </label>
-                                                            <div class="col-lg-4 col-md-9 col-sm-12">
-                                                                <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" name="to_child_id" id="to_child_id">
-                                                                    @if(isset($arrData['application_status']))
-                                                                        @foreach($arrData['application_status'] as $child)
-                                                                            <option value="{{ $child->id }}" data-role="{{ $child->role_id }}">{{ $child->name }} ({{ strtoupper(str_replace('_', ' ',$child->roles[0]->name)) }})</option>
-                                                                        @endforeach
-                                                                    @endif
-                                                                </select>
+                                                        @if($arrData['get_current_status']->status_id != config('commanConfig.applicationStatus.offer_letter_generation') && $arrData['get_current_status']->status_id != config('commanConfig.applicationStatus.offer_letter_approved'))
+                                                            <div class="form-group m-form__group row mt-3 child-data" style="display: none">
+                                                                <label class="col-form-label col-lg-2 col-sm-12">
+                                                                    Revert To:
+                                                                </label>
+                                                                <div class="col-lg-4 col-md-9 col-sm-12">
+                                                                    <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" name="to_child_id" id="to_child_id">
+                                                                        @if(isset($arrData['application_status']))
+                                                                            @foreach($arrData['application_status'] as $child)
+                                                                                <option value="{{ $child->id }}" data-role="{{ $child->role_id }}">{{ $child->name }} ({{ strtoupper(str_replace('_', ' ',$child->roles[0]->name)) }})</option>
+                                                                            @endforeach
+                                                                        @endif
+                                                                    </select>
+                                                                </div>
                                                             </div>
-                                                        </div>
+                                                        @endif
 
                                                         <div class="mt-3">
                                                             <label for="remark">Remark:</label>

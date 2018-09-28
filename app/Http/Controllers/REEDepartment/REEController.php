@@ -152,18 +152,39 @@ class REEController extends Controller
         // CO Forward Application
 
         $co_id = Role::where('name', '=', config('commanConfig.co_engineer'))->first();
-        $arrData['get_forward_co'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
-                                            ->where('lu.layout_id', session()->get('layout_id'))
-                                            ->where('role_id', $co_id->id)->get();
+        if($arrData['get_current_status']->status_id != config('commanConfig.applicationStatus.offer_letter_approved'))
+        {
+            $arrData['get_forward_co'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
+                                ->where('lu.layout_id', session()->get('layout_id'))
+                                ->where('role_id', $co_id->id)->get();
+            $arrData['co_role_name'] = strtoupper(str_replace('_', ' ', $co_id->name));
+        }
 
-        $arrData['co_role_name'] = strtoupper(str_replace('_', ' ', $co_id->name));
 
         return view('admin.REE_department.forward_application',compact('applicationData','arrData'));  
     }             
 
     public function sendForwardApplication(Request $request){
 
-        $this->CommonController->forwardApplicationForm($request);
+//        dd($request->all());
+        $arrData['get_current_status'] = $this->CommonController->getCurrentStatus($request->applicationId);
+
+        if($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.offer_letter_generation'))
+        {
+            $this->CommonController->forwardApplicationToCoForOfferLetterGeneration($request);
+        }
+        elseif((session()->get('role_name') == config('commanConfig.ree_branch_head')) && $arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.offer_letter_approved'))
+        {
+            $this->CommonController->forwardApplicationToSociety($request);
+        }
+        elseif($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.offer_letter_approved'))
+        {
+            $this->CommonController->forwardApprovedApplication($request);
+        }
+        else
+        {
+            $this->CommonController->forwardApplicationForm($request);
+        }
 
         return redirect('/ree_applications');
 

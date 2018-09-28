@@ -230,6 +230,14 @@ class ReePermissionSeeder extends Seeder
             }
 
             PermissionRole::insert($permission_role3);
+
+            // Layout User Mapping
+            $layout_id = \App\MasterLayout::where("layout_name", '=', "Samata Nagar, Kandivali(E)")->first();
+
+            \App\LayoutUser::insert(['user_id' => $ree_user_id, 'layout_id' => $layout_id->id]);
+            \App\LayoutUser::insert(['user_id' => $ree_as_user_id, 'layout_id' => $layout_id->id]);
+            \App\LayoutUser::insert(['user_id' => $ree_deputy_user_id, 'layout_id' => $layout_id->id]);
+            \App\LayoutUser::insert(['user_id' => $ree_Jr_user_id, 'layout_id' => $layout_id->id]);
         }
     }
 }
