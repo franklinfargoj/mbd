@@ -71,4 +71,9 @@ class OlApplication extends Model
     {
         return $this->hasOne(OlCapNotes::class,'application_id','id');
     }
+
+    public function premiumCalculationSheet(){
+
+        return $this->hasOne(OlApplicationCalculationSheetDetails::class, 'application_id', 'id');   
+    }
 }

@@ -51,7 +51,9 @@
                                     </div>
 
                                     <div class="text-center">
-
+                                    <a href="{{ route('login') }}" class="btn btn-primary m-btn m-btn--pill m-btn--custom m-login__btn m-login__btn--primary">
+                                        {{ __('Back') }}
+</a>
                                     <button type="submit" class="btn btn-primary m-btn m-btn--pill m-btn--custom m-login__btn m-login__btn--primary">
                                         {{ __('Reset Password') }}
                                     </button>

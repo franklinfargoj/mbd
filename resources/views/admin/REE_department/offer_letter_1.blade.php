@@ -15,9 +15,9 @@
     <textarea id="ckeditorText" name="ckeditorText">
     <div style="" id="">
         <div style="width: 100%;">
+        {{  converNumberToWord(5120) }}
 
             <!-- Header starts here -->
-
             <div>
                 <div style="margin-top: 30px;">
                     <div style="float: right; width: 50%;"></div>
@@ -33,15 +33,15 @@
                 </div>
                 <h3 style="text-decoration: underline; text-align: center;">Offer
                     Letter</h3>
-                    <p > ASDFGGHHHH</p>
+                    <p > </p>
                 <div style="">
                     <p style="margin-bottom:0; line-height:0.25;">To,</p>
-                    <span style="margin-bottom:0; line-height:0.25;font-weight: bold;">The Secretary,</span>
-                    <p style="margin-bottom:0; line-height:0.25;">TAGORE NAGAR <span style="font-weight: bold;">PARIJATAK</span>
-                        CHSL,</p>
-                    <p style="margin-bottom:0; line-height:0.25;">Building No.<span style="font-weight: bold;">323434</span></p>
-                    <p style="margin-bottom:0; line-height:0.25;">Tagore Nagar, Vikhroli (East)</p>
-                    <p style="margin-bottom:0; line-height:0.25;">Mumbai - 400 083.</p>
+                    <span style="margin-bottom:0; line-height:0.25;">The Secretary,</span>
+                    <p style="margin-bottom:0; line-height:0.25;">{{$calculationData->eeApplicationSociety->name}}</p>
+                    <p style="margin-bottom:0; line-height:0.25;">Building No.
+                    <span style="font-weight: bold;">{{($calculationData->eeApplicationSociety->building_no ? $calculationData->eeApplicationSociety->building_no : '')}}</span></p>
+                    <p style="margin-bottom:0; line-height:0.25;">_______________________________________</p>
+                    <!-- <p style="margin-bottom:0; line-height:0.25;">Mumbai - 400 083.</p> -->
                 </div>
             </div>
 
@@ -53,45 +53,37 @@
 
                 <div style="margin-bottom: 10px;">
                     <div style="float: left; width:5%;">Sub:</div>
-                    <div style="float: left; width: 95%;">Proposed redevelopment of existing building ___<span style="font-weight: bold;">___</span>,
-                        known as _______________________________________ Co-op Hsg. Soc. bearing
-                        ________________ at village-_________________, Mumbai - 400 083 under DCR 33(5) dated
-                        08.10.2013 & it's modification dtd. 03.07.2017.
+                    <div style="float: left; width: 95%;">Proposed redevelopment of existing building No. <span style="font-weight: bold;"> {{($calculationData->eeApplicationSociety->building_no ? $calculationData->eeApplicationSociety->building_no : '')}}</span> known as _______________________________________ under DCR 33(5) dated 08.10.2013 & it's modification dtd. 03.07.2017.
                     </div>
                     <div style="clear: both;"></div>
                 </div>
                 <div style="margin-bottom: 10px;">
                     <div style="float: left; width:5%;">Ref:</div>
                     <div style="float: left; width: 95%;">
-                        <span style="display: block; margin-bottom: 4px;">1. Society's letter dated __________ &
-                            __________.</span>
-                        <span style="display: block;">2. Hon'ble V.P./A's approval ___________________.</span>
+                        <span style="display: block; margin-bottom: 4px;">1. Society's letter dated {{$calculationData->submitted_at}} </span>
+                        <span style="display: block;">2. Hon'ble V.P./A's approval dtd ___________________.</span>
                         <div style="clear: both;"></div>
                     </div>
                 </div>
             </div>
-
+            <!--  -->
             <!-- Subject ends here -->
 
             <!-- Letter Body starts here -->
 
             <div style="line-height: 1.5;">
                 <p style="margin-bottom: 5px;">Sir,</p>
-                <p style="text-indent: 25px; margin-top: 5px; margin-bottom: 5px;">With reference to the above, you
-                    have submitted subjective proposal for utilization of additional BUA & balance BUA of layout under
+                <p style="text-indent: 25px; margin-top: 5px; margin-bottom: 5px;">With reference to the above, you have submitted subjective proposal for utilization of additional BUA & balance BUA of layout under
                     DCR 33(5) dated 08.10.2013 & it's modification dtd. 03.07.2017, your proposal is approved By
                     Competent authority.</p>
-                <p style="text-indent: 25px; margin-top: 5px; margin-bottom: 5px;">Allotment of additional buildable
-                    area of ___________ (for residential use)[i.e. in the form of additional BUA +
-                    ___________ in the form of balance built up area of layout (Pro-rata)] over and above ___________
-                    existing
-                    built up area.</p>
-                <p style="text-indent: 25px; margin-top: 5px; margin-bottom: 5px;">The above allotment is on
-                    sub-divided plot as per layout admeasuring about ___________ (i.e. _____________________ +
-                    _____________________). The total built up area should be permitted up to existing BUA ___________
-                    + ___________ (for residential use)[i.e. 1,423.63 m2 in the form of additional BUA + 2,080.00 m2 in
-                    the form
-                    of balance built up area of layout (Pro-rata)] thus total BUA = ___________ only.</p>
+
+                <p style="text-indent: 25px; margin-top: 5px; margin-bottom: 5px;">Allotment of additional buildable area of <span style="font-weight: bold"> {{$calculationData->premiumCalculationSheet->remaining_area}} m<sup>2</sup> </span> (for residential use)[i.e. ___________ in the form of additional BUA +  ___________ m<sup>2</sup> in the form of balance built up area of layout (Pro-rata)] over and above {{$calculationData->premiumCalculationSheet->existing_construction_area}} m<sup>2</sup> 
+                    existing built up area.</p>
+                <p style="text-indent: 25px; margin-top: 5px; margin-bottom: 5px;">
+                The above allotment is on sub-divided plot as per layout admeasuring about <span style="font-weight: bold"> {{$calculationData->premiumCalculationSheet->area_of_​​subsistence_to_calculate}} m<sup>2</sup> </span> (i.e. _____________________ m<sup>2</sup> Lease Area +
+                    _____________________ m<sup>2</sup> Tit Bit area). The total built up area should be permitted up to existing BUA ___________ m<sup>2</sup>
+                    + <span style="font-weight: bold"> {{$calculationData->premiumCalculationSheet->remaining_area}} m<sup>2</sup> </span> (for residential use)[i.e. ___________ m<sup>2</sup> in the form of additional BUA + {{($calculationData->premiumCalculationSheet->proratata_construction_area ? $calculationData->premiumCalculationSheet->proratata_construction_area : '')}} m<sup>2</sup> in
+                    the form of balance built up area of layout (Pro-rata)] thus total BUA = <span style="font-weight: bold"> {{($calculationData->premiumCalculationSheet->total_permissible_construction_area ? $calculationData->premiumCalculationSheet->total_permissible_construction_area : '')}} m<sup>2</sup> </span> only.</p>
                 <p style="text-indent: 25px; margin-top: 5px; margin-bottom: 5px;">MHADA's resolution no.6260
                     dt.04.06.2007, AR 6615 dt.06.08.2013, AR 6349 dt.25.11.2008, AR No.6383 dt.24.02.2009, AR No.6397
                     dt.05.05.2009, AR No.6422 dt.07.08.2009 & Revised DCR 33(5) dated 03.07.2017 are applicable in the
@@ -120,50 +112,50 @@
                             <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">1.</td>
                             <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Scrutiny Fees (
                                 Residential Use )</td>
-                            <td style="border: 1px solid #000;padding: 5px 10px; text-align: right;"></td>
+                            <td style="border: 1px solid #000;padding: 5px 10px; text-align: right;"> {{($calculationData->premiumCalculationSheet->scrutiny_fee ? $calculationData->premiumCalculationSheet->scrutiny_fee : '')}} </td>
                         </tr>
                         <tr>
                             <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">2.</td>
                             <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Debris Removal Rs.
                                 6600/- Per Bldg.</td>
-                            <td style="border: 1px solid #000;padding: 5px 10px; text-align: right;"></td>
+                            <td style="border: 1px solid #000;padding: 5px 10px; text-align: right;">{{($calculationData->premiumCalculationSheet->debraj_removal_fee ? $calculationData->premiumCalculationSheet->debraj_removal_fee : '')}} </td>
                         </tr>
                         <tr>
                             <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">3.</td>
                             <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Layout approval
                                 fees (Rs. 1,000/- X 32 T/s)</td>
-                            <td style="border: 1px solid #000;padding: 5px 10px; text-align: right;"></td>
+                            <td style="border: 1px solid #000;padding: 5px 10px; text-align: right;"> {{($calculationData->premiumCalculationSheet->layout_approval_fee ? $calculationData->premiumCalculationSheet->layout_approval_fee : '')}} </td>
                         </tr>
                         <tr>
                             <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">4.</td>
                             <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Deposit Amount for
                                 Water Charges as per CE-II / A's Circular dated 02.06.2009</td>
-                            <td style="border: 1px solid #000;padding: 5px 10px; text-align: right;"></td>
+                            <td style="border: 1px solid #000;padding: 5px 10px; text-align: right;">{{($calculationData->premiumCalculationSheet->water_usage_charges ? $calculationData->premiumCalculationSheet->water_usage_charges : '')}}</td>
                         </tr>
                         <tr>
                             <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">5.</td>
                             <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Ready Reckoner
                                 Rate of 2018-19
                                 (CTS No. 351 (pt), Hariyali, Tagore Nagar)</td>
-                            <td style="border: 1px solid #000;padding: 5px 10px; text-align: right;"></td>
+                            <td style="border: 1px solid #000;padding: 5px 10px; text-align: right;">{{($calculationData->premiumCalculationSheet->redirekner_value ? $calculationData->premiumCalculationSheet->redirekner_value : '')}}</td>
                         </tr>
                         <tr>
                             <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">6.</td>
                             <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Rate of
                                 Construction </td>
-                            <td style="border: 1px solid #000;padding: 5px 10px; text-align: right;"></td>
+                            <td style="border: 1px solid #000;padding: 5px 10px; text-align: right;">{{($calculationData->premiumCalculationSheet->redirekner_construction_rate ? $calculationData->premiumCalculationSheet->redirekner_construction_rate : '')}}</td>
                         </tr>
                         <tr>
                             <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">7.</td>
                             <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">LR /RC Ratio
                                 (55,900.00 / 27,500.00)</td>
-                            <td style="border: 1px solid #000;padding: 5px 10px; text-align: right;"></td>
+                            <td style="border: 1px solid #000;padding: 5px 10px; text-align: right;">{{($calculationData->premiumCalculationSheet->redirekner_val ? $calculationData->premiumCalculationSheet->redirekner_val : '')}}</td>
                         </tr>
                         <tr>
                             <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">8.</td>
                             <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Premium towards
-                                additional buildable area for Residential use of 3,503.63 sq. mt. by charging Rs.
-                                25,155/- @ 45% current Ready Reckoner Rate of 2018-19 (i.e. 45% of Rs. 55,900/-) as per
+                                additional buildable area for ___________ use of <span style="font-weight: bold"> {{$calculationData->premiumCalculationSheet->remaining_area}} m<sup>2</sup> </span> sq. mt. by charging Rs.
+                                ___________@ ___________ current Ready Reckoner Rate of 2018-19 (i.e. ___________ of Rs. {{($calculationData->premiumCalculationSheet->redirekner_value ? $calculationData->premiumCalculationSheet->redirekner_value : '')}}/-) as per
                                 Table C-1, in DCR 33(5),dated 03.07.2017. </td>
                             <td style="border: 1px solid #000;padding: 5px 10px; text-align: right;"></td>
                         </tr>
@@ -171,23 +163,24 @@
                             <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">9.</td>
                             <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Offsite
                                 infrastructure charges
-                                (RR Rate 2018-19 Rs. 55,900/- x 7%) x (Permissible BUA as per 3.0 FSI 2,392.41 m2 +
-                                2,080.00 m2 balance BUA of layout (Pro-rata ) – (Existing BUA 968.78 m2 )
-                                (3,503.63 m2 X 55,900.00 X 7%)</td>
-                            <td style="border: 1px solid #000;padding: 5px 10px; text-align: right;"></td>
+                                (RR Rate 2018-19 Rs. {{($calculationData->premiumCalculationSheet->redirekner_value ? $calculationData->premiumCalculationSheet->redirekner_value : '')}} /- x 7%) x (Permissible BUA as per 3.0 FSI ___________ m2 +
+                                ___________ m<sup>2</sup> balance BUA of layout (Pro-rata ) – (Existing BUA ___________ m<sup>2</sup> )
+                                (___________ m<sup>2</sup> X ___________ X 7%)</td>
+                            
+                            <td style="border: 1px solid #000;padding: 5px 10px; text-align: right;">{{($calculationData->premiumCalculationSheet->infrastructure_fee_amount ? $calculationData->premiumCalculationSheet->infrastructure_fee_amount : '')}}</td>
                         </tr>
                         <tr>
                             <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">10.</td>
                             <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Amount to be paid
                                 to MCGM
                                 (5/7 of Sr. No. 09)</td>
-                            <td style="border: 1px solid #000;padding: 5px 10px; text-align: right;"></td>
+                            <td style="border: 1px solid #000;padding: 5px 10px; text-align: right;"> {{($calculationData->premiumCalculationSheet->amount_to_be_paid_to_municipal ? $calculationData->premiumCalculationSheet->amount_to_be_paid_to_municipal : '')}}</td>
                         </tr>
                         <tr>
                             <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">11.</td>
                             <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Amount to be paid
-                                to MHADA (2/7 of Sr.No.9)</td>
-                            <td style="border: 1px solid #000;padding: 5px 10px; text-align: right;"></td>
+                                to MHADA (2/7 of Sr.No. ____)</td>
+                            <td style="border: 1px solid #000;padding: 5px 10px; text-align: right;">{{($calculationData->premiumCalculationSheet->offsite_infrastructure_charge_to_mhada ? $calculationData->premiumCalculationSheet->offsite_infrastructure_charge_to_mhada : '')}}</td>
                         </tr>
                         <tr>
                             <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">12.</td>
@@ -199,7 +192,7 @@
                                     </tr>
                                 </table>
                             </td>
-                            <td style="border: 1px solid #000;padding: 5px 10px; text-align: right;"></td>
+                            <td style="border: 1px solid #000;padding: 5px 10px; text-align: right;">{{($calculationData->premiumCalculationSheet->total_amount_in_rs ? $calculationData->premiumCalculationSheet->total_amount_in_rs : '')}}</td>
                         </tr>
                         <tr>
                             <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;"></td>
@@ -209,8 +202,8 @@
                         <tr>
                             <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;"></td>
                             <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Total Amount to be
-                                paid to MCGM (Sr.No.10.)</td>
-                            <td style="border: 1px solid #000;padding: 5px 10px; text-align: right;"></td>
+                                paid to MCGM (Sr.No.____)</td>
+                            <td style="border: 1px solid #000;padding: 5px 10px; text-align: right;">{{($calculationData->premiumCalculationSheet->offsite_infrastructure_charges_to_municipal_corporation ? $calculationData->premiumCalculationSheet->offsite_infrastructure_charges_to_municipal_corporation : '')}}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -256,9 +249,8 @@
                             <td style="border: 1px solid #000; padding: 5px 10px; text-align: center; width: 4%;">1)</td>
                             <td style="border: 1px solid #000; padding: 5px 10px; text-align: left; width: 20%;">First
                                 Installment</td>
-                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left; width: 25%;"></td>
-                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left; width: 21%;">6
-                                Months from the date of offer letter issued.</td>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left; width: 25%;"><span style="font-weight: bold"> {{($calculationData->premiumCalculationSheet->payment_of_first_installment ? $calculationData->premiumCalculationSheet->payment_of_first_installment : '')}} </span></td>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left; width: 21%;"><span style="font-weight: bold"> 6 Months </span> from the date of offer letter issued.</td>
                             <td style="border: 1px solid #000; padding: 5px 10px; text-align: left; width: 10%;"></td>
                             <td style="border: 1px solid #000; padding: 5px 10px; text-align: left; width: 20%;"></td>
                         </tr>
@@ -266,9 +258,9 @@
                             <td style="border: 1px solid #000; padding: 5px 10px; text-align: center; width: 4%;">2)</td>
                             <td style="border: 1px solid #000; padding: 5px 10px; text-align: left; width: 20%;">Second
                                 Installment</td>
-                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left; width: 25%;"></td>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left; width: 25%;"><span style="font-weight: bold"> {{($calculationData->premiumCalculationSheet->payment_of_remaining_installment ? $calculationData->premiumCalculationSheet->payment_of_remaining_installment : '')}}</span></td>
                             <td style="border: 1px solid #000; padding: 5px 10px; text-align: left; width: 21%;">Within
-                                ONE year from the date of offer letter issued </td>
+                                <span style="font-weight: bold"> ONE year </span> from the date of offer letter issued </td>
                             <td style="border: 1px solid #000; padding: 5px 10px; text-align: left; width: 10%;"></td>
                             <td style="border: 1px solid #000; padding: 5px 10px; text-align: left; width: 20%;"></td>
                         </tr>
@@ -276,9 +268,9 @@
                             <td style="border: 1px solid #000; padding: 5px 10px; text-align: center; width: 4%;">3)</td>
                             <td style="border: 1px solid #000; padding: 5px 10px; text-align: left; width: 20%;">Third
                                 Installment</td>
-                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left; width: 25%;"></td>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left; width: 25%;"><span style="font-weight: bold"> {{($calculationData->premiumCalculationSheet->payment_of_remaining_installment ? $calculationData->premiumCalculationSheet->payment_of_remaining_installment : '')}}</span></td>
                             <td style="border: 1px solid #000; padding: 5px 10px; text-align: left; width: 21%;">Within
-                                TWO years from the date of offer letter issued.</td>
+                                <span style="font-weight: bold"> TWO years </span> from the date of offer letter issued.</td>
                             <td style="border: 1px solid #000; padding: 5px 10px; text-align: left; width: 10%;"></td>
                             <td style="border: 1px solid #000; padding: 5px 10px; text-align: left; width: 20%;"></td>
                         </tr>
@@ -286,9 +278,9 @@
                             <td style="border: 1px solid #000; padding: 5px 10px; text-align: center; width: 4%;">4)</td>
                             <td style="border: 1px solid #000; padding: 5px 10px; text-align: left; width: 20%;">Fourth
                                 Installment</td>
-                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left; width: 25%;"></td>
+                            <td style="border: 1px solid #000; padding: 5px 10px; text-align: left; width: 25%;"><span style="font-weight: bold"> {{($calculationData->premiumCalculationSheet->payment_of_remaining_installment ? $calculationData->premiumCalculationSheet->payment_of_remaining_installment : '')}}</span></td>
                             <td style="border: 1px solid #000; padding: 5px 10px; text-align: left; width: 21%;">Within
-                                THREE years from the date of first offer letter issued.</td>
+                                <span style="font-weight: bold"> THREE years </span> the date of first offer letter issued.</td>
                             <td style="border: 1px solid #000; padding: 5px 10px; text-align: left; width: 10%;"></td>
                             <td style="border: 1px solid #000; padding: 5px 10px; text-align: left; width: 20%;"></td>
                         </tr>
@@ -329,7 +321,7 @@
                 <p style="margin-bottom: 5px; margin-top: 5px;">9) All conditions in lease deed & sale deed are
                     applicable to the society.</p>
                 <p style="margin-bottom: 5px; margin-top: 5px;">10) The society shall execute a Supplementary Lease
-                    Deed with the Mumbai Board for allotment of additional Tit Bit area of 43.11 m2 before asking for
+                    Deed with the Mumbai Board for allotment of additional Tit Bit area of –––––––––– m<sup>2</sup> before asking for
                     consent letter for Occupation Certificate</p>
                 <p style="margin-bottom: 5px; margin-top: 5px;">11) Your society will have to submit duly signed &
                     registered development agreement before NOC.</p>
@@ -347,16 +339,17 @@
                     of NOC for said building if applicable.</p>
                 <p style="margin-bottom: 5px; margin-top: 5px;">16) Your society will abide by all terms and conditions
                     as may be given under NOC letter.</p>
-                <p style="margin-bottom: 5px; margin-top: 5px;">An amount of Rs. 2,60,95,112/- (Rs. Two Crore Sixty
+                <p style="margin-bottom: 5px; margin-top: 5px;">An amount of Rs. <span style="font-weight: bold"> {{($calculationData->premiumCalculationSheet->offsite_infrastructure_charges_to_municipal_corporation ? $calculationData->premiumCalculationSheet->offsite_infrastructure_charges_to_municipal_corporation : '')}} /- </span>(Rs. Two Crore Sixty
                     Lakh Ninety Five Thousand One Hundred & Twelve Only.) may be paid in the office of the Assistant
                     Accounts Officer/ Mumbai Board, Third Floor, Griha Nirman Bhavan, Bandra (E), Mumbai – 400051 by
-                    Demand Draft/ Pay Order within SIX months from the date of issue of this letter and produce
+                    Demand Draft/ Pay Order within <span style="font-weight: bold"> SIX months </span> from the date of issue of this letter and produce
                     certified Xerox copy of the receipt in this office.</p>
+
                 <p style="margin-bottom: 5px; margin-top: 5px;">Your society should pay offsite infrastructure charges
-                    as per modified DCR 33(5) clause (5) an amount of Rs. 97,92,646.00 (In words Rs. Ninety Seven Lakh
+                    as per modified DCR 33(5) clause (5) an amount of Rs. <span style="font-weight: bold"> {{($calculationData->premiumCalculationSheet->offsite_infrastructure_charges_to_municipal_corporation ? $calculationData->premiumCalculationSheet->offsite_infrastructure_charges_to_municipal_corporation : '')}} /- </span> (In words Rs. Ninety Seven Lakh
                     Ninety Two Thousand Six Hundred & Forty Six Only) payable to MCGM, in the office of the Executive
-                    Engineer, Building Permission Cell, Greater Mumbai, MHADA, Bandra (E),Mumbai 400 051., within SIX
-                    months from the date of issue of this letter and produce certified Xerox copy of the receipt in
+                    Engineer, Building Permission Cell, Greater Mumbai, MHADA, Bandra (E),Mumbai 400 051., within <span style="font-weight: bold"> SIX
+                    months </span> from the date of issue of this letter and produce certified Xerox copy of the receipt in
                     this office.</p>
                 <p style="margin-bottom: 5px; margin-top: 5px;">On receipt of the same the NOC for IOD / IOA purpose
                     will be processed & NOC for Commencement Certificate will be processed as per payment of premium &
@@ -377,11 +370,10 @@
             <div style="margin-top: 30px; line-height: 1.5;">
                 <p style="margin-bottom: 5px; margin-top: 5px;"><span style="font-weight: bold;">Copy to The Executive
                         Engineer, </span>Building Permission Cell, Greater Mumbai, MHADA, Bandra (E),Mumbai 400 051.You
-                    are requested to accept the payment of Rs. 97,92,646/- towards offsite infrastructure charges
+                    are requested to accept the payment of<span style="font-weight: bold"> Rs. {{($calculationData->premiumCalculationSheet->offsite_infrastructure_charges_to_municipal_corporation ? $calculationData->premiumCalculationSheet->offsite_infrastructure_charges_to_municipal_corporation : '')}} /- </span></span>/- towards offsite infrastructure charges
                     payable to MCGM.</p>
                 <p style="margin-bottom: 5px; margin-top: 5px;"><span style="font-weight: bold;">Copy to Architect for
-                        information: </span>Mrs. Rupali D. Mande, Bldg.No.41/1312, Suswagatam CHS, Tagore Nagar Road,
-                    Opp. PMC Bank, Vikhroli (East), Mumbai – 400 083 for information.</p>
+                        information: </span>{{($calculationData->eeApplicationSociety->name_of_architect ? $calculationData->eeApplicationSociety->name_of_architect : '')}}, {{($calculationData->eeApplicationSociety->architect_address ? $calculationData->eeApplicationSociety->architect_address : '')}} for information.</p>
                 <div style="margin-bottom: 5px; margin-top: 5px;">
                     <span style="font-weight: bold; display: block;">Copy forwarded for information and necessary
                         action in the matter to: -</span>
@@ -424,8 +416,7 @@
             <div style="margin-top: 30px; line-height: 1.5;">
                 <h3 style="text-transform: uppercase; font-weight: bold; text-align: center;">Annexure - I</h3>
                 <p style="margin-bottom: 5px; margin-top: 5px; text-indent: 5%;">The proposed work of redevelopment of
-                    the existing building No._____, known as TAGORE NAGAR _______________ Co-op Hsg. Soc. bearing CTS
-                    No. 351 (pt) at village-__________________________ under DCR 33(5) dated 03.07.2017 will be
+                    the existing building No.{{($calculationData->eeApplicationSociety->building_no ? $calculationData->eeApplicationSociety->building_no : '')}}, known as  ______________________________  under DCR 33(5) dated 03.07.2017 will be
                     undertaken by the society as per following terms and conditions :-</p>
             </div>
 
