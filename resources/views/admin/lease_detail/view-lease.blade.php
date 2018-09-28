@@ -4,7 +4,7 @@
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">Renew Lease</h3>
-            {{ Breadcrumbs::render('lease_renew',$id,$village_id) }}
+            {{ Breadcrumbs::render('lease_renew',$society_id) }}
         </div>
     </div>
     <!-- END: Subheader -->
@@ -13,7 +13,6 @@
             action="{{route('update-lease.update', $id)}}">
             @csrf
             <input type="hidden" name="society_id" value="{{ $society_id }}">
-            <input type="hidden" name="village_id" value="{{ $village_id }}">
             <div class="m-portlet__body m-portlet__body--spaced">
                 <div class="form-group m-form__group row">
                     <div class="col-lg-6 form-group">
@@ -60,7 +59,7 @@
                         <label class="col-form-label" for="lease_start_date">Start date of lease:</label>
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="lease_start_date" name="lease_start_date" class="form-control form-control--custom m-input m_datepicker"
-                                readonly value="{{ $arrData['lease_data']->lease_start_date }}">
+                                disabled value="{{ $arrData['lease_data']->lease_start_date }}">
                             <span class="help-block">{{$errors->first('lease_start_date')}}</span>
                         </div>
                     </div>
@@ -80,7 +79,7 @@
                         <label class="col-form-label" for="lease_rent_start_month">Month to start collection of lease
                             rent:</label>
                         <div class="m-input-icon m-input-icon--right">
-                            <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
+                            <select disabled class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
                                 id="lease_rent_start_month" name="lease_rent_start_month">
                                 @foreach($arrData['month_data'] as $month)
                                 <option value="{{ $month->id  }}" {{ ($month->id == $arrData['lease_data']->lease_rent_start_month) ? "selected" : "" }}>{{
@@ -106,7 +105,7 @@
                     <div class="col-lg-6 form-group">
                         <label class="col-form-label" for="lease_renewal_date">Date of Renewal of lease:</label>
                         <div class="m-input-icon m-input-icon--right">
-                            <input type="text" id="lease_renewal_date" name="lease_renewal_date" class="form-control form-control--custom m-input m_datepicker"
+                            <input disabled type="text" id="lease_renewal_date" name="lease_renewal_date" class="form-control form-control--custom m-input m_datepicker"
                                 readonly value="{{ $arrData['lease_data']->lease_renewal_date }}">
                             <span class="help-block">{{$errors->first('lease_renewal_date')}}</span>
                         </div>
@@ -148,7 +147,7 @@
                         <label class="col-form-label" for="month_rent_per_renewed_lease">Month to start collection of
                             lease rent as per renewed lease:</label>
                         <div class="m-input-icon m-input-icon--right">
-                            <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
+                            <select disabled class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
                                 id="month_rent_per_renewed_lease" name="month_rent_per_renewed_lease">
                                 @foreach($arrData['month_data'] as $month)
                                 <option value="{{ $month->id  }}" {{ ($month->id == $arrData['lease_data']->month_rent_per_renewed_lease) ? "selected" : "" }}>{{
@@ -165,7 +164,7 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="btn-list">
-                                    <a href="{{url('/lease_detail/'.$society_id. '/'.$village_id)}}" class="btn btn-secondary">Back</a>
+                                    <a href="{{url('/lease_detail/'.$society_id)}}" class="btn btn-secondary">Back</a>
                                 </div>
                             </div>
                         </div>

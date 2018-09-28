@@ -232,7 +232,8 @@ lm_village_detail.updated_at'))->get();
 
             return $datatables->of($village_data)
                 ->editColumn('village_name', function ($village_data) {
-                    return "<a href='".route('society_detail.index', $village_data->id)."'>$village_data->village_name</a>";
+                    return $village_data->village_name;
+                    //return "<a href='".route('society_detail.index', $village_data->id)."'>$village_data->village_name</a>";
                 })
                 ->editColumn('villageBoard', function ($village_data) {
                     return $village_data->villageBoard->board_name;

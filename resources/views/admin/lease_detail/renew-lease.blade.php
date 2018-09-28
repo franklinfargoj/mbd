@@ -4,7 +4,7 @@
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">Renew Lease</h3>
-            {{ Breadcrumbs::render('lease_renew',$id,$village_id) }}
+            {{ Breadcrumbs::render('lease_renew',$id) }}
         </div>
     </div>
     <!-- END: Subheader -->
@@ -13,7 +13,6 @@
             action="{{route('renew-lease.update-lease', $id)}}">
             @csrf
             <input type="hidden" name="society_id" value="{{ $id }}">
-            <input type="hidden" name="village_id" value="{{ $village_id }}">
             <div class="m-portlet__body m-portlet__body--spaced">
                 <div class="form-group m-form__group row">
                     <div class="col-lg-6 form-group">
@@ -166,7 +165,7 @@
                             <div class="col-lg-6">
                                 <div class="btn-list">
                                     <button type="submit" id="renew_lease" class="btn btn-primary">Save</button>
-                                    <a href="{{url('/lease_detail/'.$id. '/'.$village_id)}}" class="btn btn-secondary">Cancel</a>
+                                    <a href="{{url('/lease_detail/'.$id)}}" class="btn btn-secondary">Cancel</a>
                                 </div>
                             </div>
                         </div>

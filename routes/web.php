@@ -46,7 +46,7 @@ Route::get('hearing/print','HearingController@print_data')->name('hearing.print'
 Route::get('village_detail/print','VillageDetailController@print_data')->name('village_detail.print');
 
 //society details print
-Route::get('society_detail/print/{id}','SocietyController@print_data')->name('society_detail.print');
+Route::get('society_detail/print','SocietyController@print_data')->name('society_detail.print');
 
 //lease details print
 Route::get('lease_detail/print/{id}','LeaseDetailController@print_data')->name('lease_detail.print');
@@ -144,24 +144,26 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     // Land Manager Routes
     
     Route::resource('/village_detail', 'VillageDetailController');
-    Route::get('/society_detail/{id}', 'SocietyController@index')->name("society_detail.index");
-    Route::get('/society_detail/create/{id}', 'SocietyController@create')->name("society_detail.create");
+    Route::get('/society_detail', 'SocietyController@index')->name("society_detail.index");
+    //Route::get('/society_detail/{id}', 'SocietyController@index')->name("society_detail.index");
+    Route::get('/society_detail/create', 'SocietyController@create')->name("society_detail.create");
+    // Route::get('/society_detail/create/{id}', 'SocietyController@create')->name("society_detail.create");
     Route::post('/society_detail/store', 'SocietyController@store')->name("society_detail.store");
     Route::get('/society_detail/edit/{id}', 'SocietyController@edit')->name("society_detail.edit");
     Route::get('/society_detail/show/{id}', 'SocietyController@show')->name("society_detail.show");
     Route::post('/society_detail/update/{id}', 'SocietyController@update')->name("society_detail.update");
 
-    Route::get('/lease_detail/create/{id}/{village_id}', 'LeaseDetailController@create')->name("lease_detail.create");
-    Route::get('/lease_detail/{id}/{village_id}', 'LeaseDetailController@index')->name("lease_detail.index");
+    Route::get('/lease_detail/create/{id}', 'LeaseDetailController@create')->name("lease_detail.create");
+    Route::get('/lease_detail/{id}', 'LeaseDetailController@index')->name("lease_detail.index");
 
     Route::post('/lease_detail/store', 'LeaseDetailController@store')->name("lease_detail.store");
 
-    Route::get('/lease_detail/renew-lease/{id}/{village_id}', 'LeaseDetailController@renewLease')->name('renew-lease.renew');
+    Route::get('/lease_detail/renew-lease/{id}', 'LeaseDetailController@renewLease')->name('renew-lease.renew');
     Route::post('/lease_detail/update-lease/{id}', 'LeaseDetailController@updateLease')->name('renew-lease.update-lease');
     Route::post('loadDeleteVillageUsingAjax', 'VillageDetailController@loadDeleteVillageUsingAjax')->name('loadDeleteVillageUsingAjax');
-    Route::get('/lease_detail/edit-lease/{id}/{village_id}', 'LeaseDetailController@showLatestLease')->name('edit-lease.edit');
+    Route::get('/lease_detail/edit-lease/{id}/{society_id}', 'LeaseDetailController@showLatestLease')->name('edit-lease.edit');
     Route::post('/lease_detail/update-edit-lease/{id}', 'LeaseDetailController@updateLatestLease')->name('update-lease.update');
-    Route::get('/lease_detail/view-lease/{id}/{village_id}', 'LeaseDetailController@viewLease')->name('view-lease.view');
+    Route::get('/lease_detail/view-lease/{id}/{society_id}', 'LeaseDetailController@viewLease')->name('view-lease.view');
 
     // EE Department Routes
 
