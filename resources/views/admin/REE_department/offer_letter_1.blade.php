@@ -19,18 +19,19 @@
             <!-- Header starts here -->
 
             <div>
-                <div style="text-align: right; margin-top: 30px;">
-                    <div style="float: right;">
-                        <div style="text-align: left;">
-                            <span style="display: inline-block; text-align: left;">No.CO/MB/REE/NOC/F-1008/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/2018</span>
+                <div style="margin-top: 30px;">
+                    <div style="float: right; width: 50%;"></div>
+                    <div style="float: right; width: 50%;">
+                        <div>
+                            <span style="display: inline-block; color: red;">No.CO/MB/REE/NOC/F-1008/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/2018</span>
                         </div>
-                        <div style="text-align: left;">
-                            <span style="display: inline-block; text-align: left;">Date:</span>
+                        <div>
+                            <span style="display: inline-block;">Date:</span>
                         </div>
                     </div>
                     <div style="clear: both;"></div>
                 </div>
-                <h3 style="text-transform: uppercase; font-weight: bold; text-decoration: underline; text-align: center;">Offer
+                <h3 style="text-decoration: underline; text-align: center;">Offer
                     Letter</h3>
                     <p > ASDFGGHHHH</p>
                 <div style="">
