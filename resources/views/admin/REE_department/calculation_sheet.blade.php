@@ -848,7 +848,7 @@
                                                         अधिमूल्य च्या १/४)</small></span>
                                                 </td>
                                                 <td class="text-center">
-                                                    <input type="text" class="form-control form-control--custom" name="off_site_infrastructure_fee" id="off_site_infrastructure_fee" value="{{ isset($calculationSheetDetails[0]->off_site_infrastructure_fee) ? $calculationSheetDetails[0]->off_site_infrastructure_fee : 0 }}" />
+                                                    <input type="text" readonly class="form-control form-control--custom" name="off_site_infrastructure_fee" id="off_site_infrastructure_fee" value="{{ isset($calculationSheetDetails[0]->off_site_infrastructure_fee) ? $calculationSheetDetails[0]->off_site_infrastructure_fee : 0 }}" />
 
 
                                                 </td>
@@ -860,7 +860,7 @@
                                                     हफ्त्याची रक्कम पूर्णांकामध्ये
                                                 </td>
                                                 <td class="text-center">
-                                                    <input type="text" class="form-control form-control--custom" name="payment_of_remaining_installment" id="payment_of_remaining_installment" value="{{ isset($calculationSheetDetails[0]->payment_of_remaining_installment) ? $calculationSheetDetails[0]->payment_of_remaining_installment : 0 }}" />
+                                                    <input type="text" readonly class="form-control form-control--custom" name="payment_of_remaining_installment" id="payment_of_remaining_installment" value="{{ isset($calculationSheetDetails[0]->payment_of_remaining_installment) ? $calculationSheetDetails[0]->payment_of_remaining_installment : 0 }}" />
                                                 </td>
                                             </tr>
                                             <tr><td colspan="3" align="right"><input type="submit" name="submit" class="btn btn-primary" value="Save" /> </td></tr>
