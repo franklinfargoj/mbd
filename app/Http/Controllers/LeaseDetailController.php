@@ -52,8 +52,9 @@ class LeaseDetailController extends Controller
                 $dataList['Month to start collection of lease rent as per renewed lease'] = '';
                 $dataListMaster[]=$dataList;
             }else{
+                $i=1;
                 foreach ($dataLists as $dataList_key => $dataList_value) {
-                    $i=1;
+                    
                     // dd($dataList_key);
                     $dataList = [];
                     $dataList['id'] = $i;
@@ -125,8 +126,9 @@ class LeaseDetailController extends Controller
                 $dataList['Month to start collection of lease rent as per renewed lease'] = '';
                 $dataListMaster[]=$dataList;
             }else{
+                $i=1;
                 foreach ($dataLists as $dataList_key => $dataList_value) {
-                    $i=1;
+                    
                     // dd($dataList_key);
                     $dataList = [];
                     $dataList['id'] = $i;
