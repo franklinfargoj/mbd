@@ -124,6 +124,11 @@ class SocietyPermissionSeeder extends Seeder
                     'name'         => 'add_uploaded_documents_remark',
                     'display_name' => 'add_uploaded_documents_remark',
                     'description'  => 'add uploaded documents remark'
+                ],
+                [
+                    'name'         => 'society_offer_letter_application_download',
+                    'display_name' => 'society_offer_letter_application_download',
+                    'description'  => 'downloads society offer letter application form'
                 ]
             ];
 
