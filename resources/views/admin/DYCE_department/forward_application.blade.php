@@ -180,11 +180,11 @@
                                                                 <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" name="to_user_id" id="to_user_id">
                                                                     @if($arrData['parentData'])
                                                                         @foreach($arrData['parentData'] as $parent)
-                                                                            <option value="{{ $parent->id }}" data-role="{{ $parent->role_id }}">{{ $parent->name }} ({{ $arrData['role_name'] }})</option>
+                                                                            <option value="{{ $parent->user_id }}" data-role="{{ $parent->role_id }}">{{ $parent->name }} ({{ $arrData['role_name'] }})</option>
                                                                         @endforeach
                                                                     @else
                                                                         @foreach($arrData['get_forward_ree'] as $parent)
-                                                                            <option value="{{ $parent->id }}" data-role="{{ $parent->role_id }}">{{ $parent->name }} ({{ $arrData['ree_role_name'] }})</option>
+                                                                            <option value="{{ $parent->user_id }}" data-role="{{ $parent->role_id }}">{{ $parent->name }} ({{ $arrData['ree_role_name'] }})</option>
                                                                         @endforeach
                                                                     @endif
                                                                 </select>

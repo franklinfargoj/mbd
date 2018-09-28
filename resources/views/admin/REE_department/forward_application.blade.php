@@ -212,11 +212,11 @@
                                                                 <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" name="to_user_id" id="to_user_id">
                                                                     @if($arrData['parentData'])
                                                                         @foreach($arrData['parentData'] as $parent)
-                                                                            <option value="{{ $parent->id }}" data-role="{{ $parent->role_id }}">{{ $parent->name }} ({{ $arrData['role_name'] }})</option>
+                                                                            <option value="{{ $parent->user_id }}" data-role="{{ $parent->role_id }}">{{ $parent->name }} ({{ $arrData['role_name'] }})</option>
                                                                         @endforeach
                                                                     @else
                                                                         @foreach($arrData['get_forward_co'] as $parent)
-                                                                            <option value="{{ $parent->id }}" data-role="{{ $parent->role_id }}">{{ $parent->name }} ({{ $arrData['co_role_name'] }})</option>
+                                                                            <option value="{{ $parent->user_id }}" data-role="{{ $parent->role_id }}">{{ $parent->name }} ({{ $arrData['co_role_name'] }})</option>
                                                                         @endforeach
                                                                     @endif
                                                                 </select>
@@ -243,7 +243,7 @@
                                                             <textarea class="form-control form-control--custom" name="remark" id="remark" cols="30" rows="5"></textarea>
                                                         </div>
                                                         <div class="mt-3 btn-list">
-                                                            <button type="submit" onclick="window.location.href='{{ url("/ree_applications") }}'" class="btn btn-primary">Save</button>
+                                                            <button type="submit" class="btn btn-primary">Save</button>
                                                             {{--<button type="submit" id="sign" class="btn btn-primary forwrdBtn">Sign</button>
                                                             <button type="submit" class="btn btn-primary forwrdBtn">Sign & Forward</button>
                                                             <button type="submit" class="btn btn-primary forwrdBtn">Forward</button>--}}

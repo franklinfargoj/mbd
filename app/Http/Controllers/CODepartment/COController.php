@@ -65,7 +65,7 @@ class COController extends Controller
                     return $co_application_data->eeApplicationSociety->address;
                 })                
                 ->editColumn('date', function ($co_application_data) {
-                    return date(config('commanConfig.dateFormat', strtotime($co_application_data->submitted_at)));
+                    return date(config('commanConfig.dateFormat'), strtotime($co_application_data->submitted_at));
                 })
                 ->editColumn('actions', function ($co_application_data) use($request){
                    return view('admin.co_department.action', compact('co_application_data', 'request'))->render();
@@ -131,13 +131,21 @@ class COController extends Controller
     public function forwardApplication(Request $request, $applicationId){
 
         $applicationData = $this->CommonController->getForwardApplication($applicationId);
-        $arrData['application_status'] = $this->CommonController->getCurrentApplicationStatus($applicationId);
+//        $arrData['application_status'] = $this->CommonController->getCurrentApplicationStatus($applicationId);
+
+//        if(session()->get('role_name') != config('commanConfig.co_engineer'))
+            $arrData['application_status'] = $this->CommonController->getCurrentLoggedInChild($applicationId);
+
         $arrData['get_current_status'] = $this->CommonController->getCurrentStatus($applicationId);
 
         // CAP Forward Application
 
         $cap_role_id = Role::where('name', '=', config('commanConfig.cap_engineer'))->first();
-        $arrData['get_forward_cap'] = User::where('role_id', $cap_role_id->id)->get();
+
+        $arrData['get_forward_cap'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
+                                            ->where('lu.layout_id', session()->get('layout_id'))
+                                            ->where('role_id', $cap_role_id->id)->get();
+
         $arrData['cap_role_name'] = strtoupper(str_replace('_', ' ', $cap_role_id->name));
 
         // remark and history

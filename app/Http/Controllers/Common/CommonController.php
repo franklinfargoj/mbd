@@ -178,29 +178,57 @@ class CommonController extends Controller
             OlApplicationStatus::insert($forward_application);
         }
         else{
-            $revert_application = [
-                [
-                    'application_id' => $request->applicationId,
-                    'user_id' => Auth::user()->id,
-                    'role_id' => session()->get('role_id'),
-                    'status_id' => config('commanConfig.applicationStatus.reverted'),
-                    'to_user_id' => $request->to_child_id,
-                    'to_role_id' => $request->to_role_id,
-                    'remark' => $request->remark,
-                    'created_at' => Carbon::now()
-                ],
+            if(session()->get('role_name') == config('commanConfig.cap_engineer') || session()->get('role_name') == config('commanConfig.vp_engineer'))
+            {
+                $revert_application = [
+                    [
+                        'application_id' => $request->applicationId,
+                        'user_id' => Auth::user()->id,
+                        'role_id' => session()->get('role_id'),
+                        'status_id' => config('commanConfig.applicationStatus.reverted'),
+                        'to_user_id' => $request->user_id,
+                        'to_role_id' => $request->role_id,
+                        'remark' => $request->remark,
+                        'created_at' => Carbon::now()
+                    ],
 
-                [
-                    'application_id' => $request->applicationId,
-                    'user_id' => $request->to_child_id,
-                    'role_id' => $request->to_role_id,
-                    'status_id' => config('commanConfig.applicationStatus.in_process'),
-                    'to_user_id' => NULL,
-                    'to_role_id' => NULL,
-                    'remark' => $request->remark,
-                    'created_at' => Carbon::now()
-                ]
-            ];
+                    [
+                        'application_id' => $request->applicationId,
+                        'user_id' => $request->user_id,
+                        'role_id' => $request->role_id,
+                        'status_id' => config('commanConfig.applicationStatus.in_process'),
+                        'to_user_id' => NULL,
+                        'to_role_id' => NULL,
+                        'remark' => $request->remark,
+                        'created_at' => Carbon::now()
+                    ]
+                ];
+            }
+            else {
+                $revert_application = [
+                    [
+                        'application_id' => $request->applicationId,
+                        'user_id' => Auth::user()->id,
+                        'role_id' => session()->get('role_id'),
+                        'status_id' => config('commanConfig.applicationStatus.reverted'),
+                        'to_user_id' => $request->to_child_id,
+                        'to_role_id' => $request->to_role_id,
+                        'remark' => $request->remark,
+                        'created_at' => Carbon::now()
+                    ],
+
+                    [
+                        'application_id' => $request->applicationId,
+                        'user_id' => $request->to_child_id,
+                        'role_id' => $request->to_role_id,
+                        'status_id' => config('commanConfig.applicationStatus.in_process'),
+                        'to_user_id' => NULL,
+                        'to_role_id' => NULL,
+                        'remark' => $request->remark,
+                        'created_at' => Carbon::now()
+                    ]
+                ];
+            }
 //            echo "in revert";
 //            dd($revert_application);
             OlApplicationStatus::insert($revert_application);
@@ -232,7 +260,8 @@ class CommonController extends Controller
 
     public function getForwardApplicationParentData()
     {
-        $user = User::with(['roles.parent.parentUser'])->where('id', Auth::user()->id)->first();
+        $user = User::with(['roles.parent.parentUser'])->where('users.id', Auth::user()->id)->first();
+
         $roles = array_get($user, 'roles');
         $parent = array_get($roles[0], 'parent');
         $arrData['parentData'] = array_get($parent, 'parentUser');

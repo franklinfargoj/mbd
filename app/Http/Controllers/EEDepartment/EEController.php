@@ -150,7 +150,11 @@ class EEController extends Controller
 //        dd($arrData['application_status']);
         // DyCE Junior Forward Application
         $dyce_role_id = Role::where('name', '=', config('commanConfig.dyce_jr_user'))->first();
-        $arrData['get_forward_dyce'] = User::where('role_id', $dyce_role_id->id)->get();
+
+        $arrData['get_forward_dyce'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
+                                                ->where('lu.layout_id', session()->get('layout_id'))
+                                                ->where('role_id', $dyce_role_id->id)->get();
+
         $arrData['dyce_role_name'] = strtoupper(str_replace('_', ' ', $dyce_role_id->name));
 
         return view('admin.ee_department.forward-application', compact('arrData'));

@@ -219,11 +219,12 @@
                                                     <div class="m-form__group form-group">
                                                         <div class="m-radio-inline">
                                                             <label class="m-radio m-radio--primary">
-                                                                <input type="hidden" name="user_id" value="{{ isset($arrData['application_status']) ? $arrData['application_status']->user_id : '' }}">
-                                                                <input type="hidden" name="role_id" value="{{ isset($arrData['application_status']) ? $arrData['application_status']->role_id : '' }}">
+                                                                <input type="hidden" name="user_id">
+                                                                <input type="hidden" name="role_id">
                                                                 <input type="radio" name="remarks_suggestion" id="forward" class="forward-application" value="1" checked> Forward Application
                                                                 <span></span>
                                                             </label>
+
                                                             <label class="m-radio m-radio--primary">
                                                                 <input type="radio" name="remarks_suggestion" id="remark" class="forward-application" value="0"> Revert Application
                                                                 <span></span>
@@ -234,10 +235,25 @@
                                                                 Forward To:
                                                             </label>
                                                             <div class="col-lg-4 col-md-9 col-sm-12">
-                                                                <select class="form-control m-bootstrap-select m_selectpicker" name="to_user_id" id="to_user_id">
+                                                                <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" name="to_user_id" id="to_user_id">
                                                                     @foreach($arrData['get_forward_cap'] as $parent)
                                                                         <option value="{{ $parent->id }}" data-role="{{ $parent->role_id }}">{{ $parent->name }} ({{ $arrData['cap_role_name'] }})</option>
                                                                     @endforeach
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group m-form__group row mt-3 child-data" style="display: none">
+                                                            <label class="col-form-label col-lg-2 col-sm-12">
+                                                                Revert To:
+                                                            </label>
+                                                            <div class="col-lg-4 col-md-9 col-sm-12">
+                                                                <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" name="to_child_id" id="to_child_id">
+                                                                    @if(isset($arrData['application_status']))
+                                                                        @foreach($arrData['application_status'] as $child)
+                                                                            <option value="{{ $child->id }}" data-role="{{ $child->role_id }}">{{ $child->name }} ({{ strtoupper(str_replace('_', ' ',$child->roles[0]->name)) }})</option>
+                                                                        @endforeach
+                                                                    @endif
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -276,17 +292,27 @@
             if(data == 1)
             {
                 $(".parent-data").show();
+                $(".child-data").hide();
                 $(".check_status").val(1)
             }
             else
             {
                 $(".parent-data").hide();
+                $(".child-data").show();
                 $(".check_status").val(0);
             }
         });
 
         $("#forwardApplication").on("submit", function () {
-            var id = $("#to_user_id").find('option:selected').attr("data-role");
+            var data = $(".check_status").val();
+            if(data == 1) {
+                var id = $("#to_user_id").find('option:selected').attr("data-role");
+            }
+            else
+            {
+                var id = $("#to_child_id").find('option:selected').attr("data-role");
+            }
+
             $("#to_role_id").val(id);
         });
     });

@@ -177,11 +177,15 @@ class DYCEController extends Controller
 //        $arrData['application_status'] = $this->CommonController->getCurrentApplicationStatus($applicationId);
         if(session()->get('role_name') != config('commanConfig.dyce_jr_user'))
             $arrData['application_status'] = $this->CommonController->getCurrentLoggedInChild($applicationId);
+
         $arrData['get_current_status'] = $this->CommonController->getCurrentStatus($applicationId);
         // REE Forward Application
 
         $ree_id = Role::where('name', '=', config('commanConfig.ree_junior'))->first();
-        $arrData['get_forward_ree'] = User::where('role_id', $ree_id->id)->get();
+        $arrData['get_forward_ree'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
+                                            ->where('lu.layout_id', session()->get('layout_id'))
+                                            ->where('role_id', $ree_id->id)->get();
+
         $arrData['ree_role_name']   = strtoupper(str_replace('_', ' ', $ree_id->name));
 
         $this->CommonController->getEEForwardRevertLog($applicationData,$applicationId);

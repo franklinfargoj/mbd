@@ -33,7 +33,7 @@ class CAPController extends Controller
     }
 
     public function index(Request $request, Datatables $datatables){
-		
+
 		$getData = $request->all();
         $columns = [
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
@@ -65,7 +65,7 @@ class CAPController extends Controller
                     return $cap_application_data->eeApplicationSociety->address;
                 })                
                 ->editColumn('date', function ($cap_application_data) {
-                    return date(config('commanConfig.dateFormat', strtotime($cap_application_data->submitted_at)));
+                    return date(config('commanConfig.dateFormat'), strtotime($cap_application_data->submitted_at));
                 })
                 ->editColumn('actions', function ($cap_application_data) use($request){
                    return view('admin.cap_department.action', compact('cap_application_data', 'request'))->render();
