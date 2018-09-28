@@ -52,7 +52,7 @@ class OlApplicationCalculationSheetDetailsController extends Controller
     public function show($id)
     {
         $applicationId = $id;$user = Auth::user();
-        $calculationSheetDetails = OlApplicationCalculationSheetDetails::where('id','=',$id)->get();
+        $calculationSheetDetails = OlApplicationCalculationSheetDetails::where('application_id','=',$id)->get();
 
         $dcr_rates = OlDcrRateMaster::all();
         // REE Note download

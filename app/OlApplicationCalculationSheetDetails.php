@@ -46,6 +46,11 @@ class OlApplicationCalculationSheetDetails extends Model
         'payment_of_first_installment',
         'payment_of_remaining_installment',
         'amount_to_be_paid_to_board',
-
+        'area_of_total_plot',
+        'permissible_proratata_area',
+        'proratata_construction_area',
+        'remaining_area',
+        'redirekner_val',
+        'scrutiny_fee'
     ];
 }

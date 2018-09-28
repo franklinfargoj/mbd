@@ -9,17 +9,10 @@ return [
 	'creator'               => 'Laravel Pdf',
 	'display_mode'          => 'fullpage',
 	'tempDir'               => base_path('../temp/'),
-	'font_path' => base_path('resources/fonts/'),
-	'font_data' => [
-		'marathi' => [
-			'R'  => 'Kruti_Dev_010.ttf',    // regular font
-			'B'  => 'Kruti_Dev_010.ttf',       // optional: bold font
-			'I'  => 'Kruti_Dev_010.ttf',     // optional: italic font
-			'BI' => 'Kruti_Dev_010.ttf', // optional: bold-italic font
-			//'useOTL' => 0xFF,    
-			//'useKashida' => 75, 
-		]
-		// ...add as many as you want.
+	'font_path' 			=> base_path('resources/lang/marathi_font/'),
+	'font_data'				=> [
+			'marathi_fonts' => [
+				'R' => 'Shiv05.ttf'
+			]					
 	]
-
 ];
