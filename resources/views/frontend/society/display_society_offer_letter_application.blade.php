@@ -67,25 +67,12 @@
 	function printContent(element){
 		var restorepage = document.body.innerHTML;
 		var printcontent = document.getElementById(element).innerHTML;
+		console.log(printcontent);
 		document.body.innerHTML = printcontent;
 		restorepagetitle = document.title;
 		var d = new Date;
 		document.title = 'offer_letter_application_'+d.getTime();
-		var doc = new jsPDF();
-		var elementHandler = {
-            '#ignorePDF': function (element, renderer) {
-              return true;
-            }
-          };
-		doc.fromHTML(
-              printcontent,
-              15,
-              15,
-              {
-                'width': 180,
-              });
-		doc.save('offer_letter_application_'+d.getTime());
-		// window.print();
+		window.print();
 		document.body.innerHTML = restorepage;
 		document.title = restorepagetitle;
 	}
