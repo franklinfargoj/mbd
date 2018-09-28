@@ -1,4 +1,18 @@
 @extends('admin.layouts.app')
+@section('js')
+<script type="text/javascript">
+$(document).ready(function() {
+    var last_valid_selection = null;
+    $('#villages').change(function(event) {
+    if ($(this).val().length > 4) {
+        $(this).val(last_valid_selection);
+    } else {
+        last_valid_selection = $(this).val();
+    }
+    });
+});
+</script>
+@endsection
 @section('content')
 <div class="col-md-12">
     <div class="m-subheader px-0 m-subheader--top">
@@ -134,6 +148,18 @@
                                 @endforeach
                             </select>
                             <span class="help-block">{{$errors->first('other_land_id')}}</span>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 form-group">
+                        <label class="col-form-label" for="other_land_id">Villages:</label>
+                        <div class="m-input-icon m-input-icon--right">
+                            <select multiple class="form-control "
+                                id="villages" name="villages[]">
+                                @foreach($arrData['villages'] as $village)
+                                <option value="{{ $village->id  }}">{{ $village->village_name }}</option>
+                                @endforeach
+                            </select>
+                            <span class="text-danger">{{$errors->first('villages')}}</span>
                         </div>
                     </div>
                 </div>

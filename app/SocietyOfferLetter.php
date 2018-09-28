@@ -42,14 +42,12 @@ class SocietyOfferLetter extends Authenticatable
             'society_address' => 'required',
             'society_building_no' => 'required|alpha_num',
             'society_registration_no' => 'required|alpha_num',
-            'society_username' => 'required',
             'society_email' => 'required|unique:ol_societies,email',
             'society_contact_no' => 'required|numeric',
             'society_password' => 'required',
             'society_architect_name' => 'required',
             'society_architect_mobile_no' => 'required|numeric',
             'society_architect_address' => 'required',
-            'society_architect_telephone_no' => 'required',
         ]);
 
         return $validatedata;
