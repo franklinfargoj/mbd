@@ -32,7 +32,7 @@
 }
 
 .m-aside-menu.m-aside-menu--skin-dark .m-menu__nav > .m-menu__item:hover {
-    background-color: #c97635;
+    background-color: #ef7c22;
 }
 
 .m-brand.m-brand--skin-dark .m-brand__tools .m-brand__toggler span,
@@ -641,7 +641,7 @@
 }
 
 .m-aside-menu.m-aside-menu--skin-dark .m-menu__nav>.m-menu__item.m-menu__item--open {
-    background-color: #c97635;
+    background-color: #ef7c22;
 }
 
 .m-aside-menu.m-aside-menu--skin-dark .la-angle-right {
@@ -651,6 +651,11 @@
 .m-aside-menu.m-aside-menu--skin-dark .m-menu__nav>.m-menu__item.m-menu__item--open .la-angle-right {
     transform: rotate(90deg);
 }
+
+/* .m-aside-menu .m-menu__nav .m-menu__inner,
+.m-aside-menu .m-menu__nav .m-menu__submenu {
+    display: block !important;
+} */
 
 /* theme classes over ride ends here */
 

@@ -344,6 +344,7 @@ lm_village_detail.updated_at'))->get();
      */
     public function show($id)
     {
+        $id=base64_decode($id);
         $header_data = $this->header_data;
         $arrData['board'] = Board::where('status', 1)->get();
         $arrData['land_source'] = LandSource::where('status', 1)->get();
@@ -360,6 +361,7 @@ lm_village_detail.updated_at'))->get();
      */
     public function edit($id)
     {
+        $id=base64_decode($id);
         $header_data = $this->header_data;
         $arrData['board'] = Board::where('status', 1)->get();
         $arrData['land_source'] = LandSource::where('status', 1)->get();

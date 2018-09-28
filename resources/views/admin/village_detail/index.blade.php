@@ -6,7 +6,11 @@
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">Village Details</h3>
             {{ Breadcrumbs::render('village_detail') }}
-            <a class="btn btn-primary ml-auto" href="{{route('village_detail.create')}}">Add Village</a>
+            <div class="btn-list text-right ml-auto">
+                <a href="{{route('village_detail.index',['excel'=>'excel'])}}" name="excel" value="excel" class="btn excel-icon"><img src="{{asset('/img/excel-icon.svg')}}"></a>
+                <a target="_blank" href="{{route('village_detail.print')}}" class="btn print-icon"><img src="{{asset('/img/print-icon.svg')}}"></a>
+            </div>
+            <a class="btn btn-primary ml-3" href="{{route('village_detail.create')}}">Add Village</a>
         </div>
     </div>
     <!-- END: Subheader -->
@@ -20,10 +24,6 @@
         @endif
         
         <div class="m-portlet__body data-table--custom">
-            <div class="btn-list text-right mb-4">
-                <a href="{{route('village_detail.index',['excel'=>'excel'])}}" name="excel" value="excel" class="btn excel-icon"><img src="{{asset('/img/excel-icon.svg')}}"></a>
-                <a target="_blank" href="{{route('village_detail.print')}}" class="btn print-icon"><img src="{{asset('/img/print-icon.svg')}}"></a>
-            </div>
             <!--begin: Search Form -->
             {{--<div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
                 <div class="container-fluid">
