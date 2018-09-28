@@ -50,6 +50,7 @@ class REEController extends Controller
             ['data' => 'society_address','name' => 'eeApplicationSociety.address','title' => 'Address','searchable' => false],
             // ['data' => 'model','name' => 'model','title' => 'Model'],
             ['data' => 'Status','name' => 'status','title' => 'Status'],
+            ['data' => 'Model','name' => 'model','title' => 'Model'],
             ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
         ];
 
@@ -92,8 +93,11 @@ class REEController extends Controller
                     return $value;
                 }
 
-            })                               
-            ->rawColumns(['society_name', 'building_name', 'society_address','date','actions','Status'])
+            })
+            ->addColumn('Model', function ($ree_application_data) {
+                    return $ree_application_data->ol_application_master->model;
+                })
+            ->rawColumns(['society_name', 'building_name', 'society_address','date','actions','Status','Model'])
             ->make(true);
         }        
             $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
