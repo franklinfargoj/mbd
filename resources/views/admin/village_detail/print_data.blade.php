@@ -8,7 +8,7 @@
     <tr>
         <td>{{$village_dat['id']}}</td>
         <td>{{$village_dat['Board']}}</td>
-        <td>{{$village_dat['Land Sr. No']}}</td>
+        <td>{{$village_dat['Land Survey No']}}</td>
         <td>{{$village_dat['Village Name']}}</td>
         <td>{{$village_dat['Land Source']}}</td>
         <td>{{$village_dat['Land Address']}}</td>

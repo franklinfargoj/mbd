@@ -68,9 +68,10 @@ class SocietyController extends Controller
                 $dataListMaster[]=$dataList;
                 $dataListKeys = array_keys($dataList);
             }else{
+                $i=1;
                 foreach ($society_data as $dataList_key => $dataList_value) {
                     //dd($this->getVillages($dataList_value['id']));
-                    $i=1;
+                    
                     $dataList = [];
                     $dataList['id'] = $i;   
                     $dataList['Society Name'] = $dataList_value['society_name'];
@@ -137,8 +138,9 @@ class SocietyController extends Controller
                 $dataList['Land Name'] = '';
                 $dataListMaster[]=$dataList;
             }else{
+                $i=1;
                 foreach ($society_data as $dataList_key => $dataList_value) {
-                    $i=1;
+                    
                     $dataList = [];
                     $dataList['id'] = $i;
                     $dataList['Society Name'] = $dataList_value['society_name'];
