@@ -77,7 +77,7 @@
 
             {{-- @if(!empty(array_intersect($land_permission, session()->get('permission'))))--}}
             @if(in_array('village_detail.index', session()->get('permission')))
-            <li class="m-menu__item m-menu__item--active m-menu__item--submenu" aria-haspopup="true"
+            <li class="m-menu__item m-menu__item--active m-menu__item--submenu" id="sub-menu" aria-haspopup="true"
                 m-menu-submenu-toggle="hover">
                 <a href="{{url('/village_detail')}}" class="m-menu__link m-menu__toggle">
                     <i class="m-menu__link-icon flaticon-line-graph"></i>
@@ -92,8 +92,7 @@
                 </a>
                 <div class="m-menu__submenu" m-hidden-height="160" style=""><span class="m-menu__arrow"></span>
                     <ul class="m-menu__subnav">
-                        <li class="m-menu__item  m-menu__item--parent" aria-haspopup="true"><span class="m-menu__link"><span
-                                    class="m-menu__link-text">Buttons</span></span></li>
+                        
                         <li class="m-menu__item m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover"><a
                                 href="{{url('/village_detail')}}" class="m-menu__link m-menu__toggle"><span
                                     class="m-menu__link-text">Village Detail</span></i></a>
@@ -183,3 +182,5 @@
     <!-- END: Aside Menu -->
 </div>
 <!-- END: Left Aside -->
+@section('js')
+@endsection
