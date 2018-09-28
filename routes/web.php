@@ -316,6 +316,4 @@ Route::get('offer-letter-doc', 'OfferLetterController@OfferLetterDoc');
 
 Route::get('offer_letter','REEDepartment\REEController@offerLetter')->name('offer_letter');
 Route::get('generate-offer-letter', 'REEDepartment\REEController@GenerateOfferLetter');
-
-
-
+Route::get('sharing-calculation-sheet', 'REEDepartment\REEController@SharingCalculationSheet');
