@@ -18,8 +18,7 @@
             </button> {{ Session::get('success') }}
         </div>
         @endif
-        <div class="m-portlet__body data-table--custom">
-            <div class="d-flex justify-content-between align-items-center mb-4">
+        <div class="m-portlet__body data-table--custom mb-3">
                 <!-- <a href="{{ url('/village_detail') }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a> -->
                 <div class="btn-list text-right">
                     <a href="{{route('society_detail.index',['excel'=>'excel'])}}" name="excel" value="excel" class="btn excel-icon"><img src="{{asset('/img/excel-icon.svg')}}"></a>
