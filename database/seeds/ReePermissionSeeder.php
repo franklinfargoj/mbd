@@ -101,6 +101,16 @@ class ReePermissionSeeder extends Seeder
                     'display_name' => 'Upload ree note',
                     'description'  => 'Upload ree note'
                 ],
+                [
+                    'name'         => 'ol_sharing_calculation_sheet.show',
+                    'display_name' => 'Sharing Calculation Sheet',
+                    'description'  => 'Sharing Application calculation sheet'
+                ],
+                [
+                    'name'         => 'save_sharing_calculation_details',
+                    'display_name' => 'Save sharing calculation details',
+                    'description'  => 'Save sharing calculation details'
+                ],
 
             ];
 
