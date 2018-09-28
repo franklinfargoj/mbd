@@ -1,16 +1,16 @@
 @extends('admin.layouts.app')
 @section('js')
 <script type="text/javascript">
-$(document).ready(function() {
-    var last_valid_selection = null;
-    $('#villages').change(function(event) {
-    if ($(this).val().length > 4) {
-        $(this).val(last_valid_selection);
-    } else {
-        last_valid_selection = $(this).val();
-    }
-    });
-});
+// $(document).ready(function() {
+//     var last_valid_selection = null;
+//     $('#villages').change(function(event) {
+//     if ($(this).val().length > 4) {
+//         $(this).val(last_valid_selection);
+//     } else {
+//         last_valid_selection = $(this).val();
+//     }
+//     });
+// });
 </script>
 @endsection
 @section('content')
@@ -27,7 +27,6 @@ $(document).ready(function() {
         <form id="editSocietyDetail" role="form" method="post" class="m-form m-form--rows m-form--label-align-right"
             action="{{route('society_detail.update', $arrData['society_data']->id)}}">
             @csrf
-            <input type="hidden" name="village_id" value="{{ $arrData['society_data']->village_id }}">
             <div class="m-portlet__body m-portlet__body--spaced">
                 <div class="form-group m-form__group row">
                     <div class="col-lg-6 form-group">
@@ -157,7 +156,7 @@ $(document).ready(function() {
                     <div class="col-lg-6 form-group">
                     <label class="col-form-label" for="other_land_id">Villages:</label>
                         <div class="m-input-icon m-input-icon--right">
-                            <select multiple class="form-control "
+                            <select multiple class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
                                 id="villages" name="villages[]">
                                 @foreach($arrData['villages'] as $village)
                                 <option {{in_array($village->id,$villages_belongs)?'selected':''}} value="{{ $village->id  }}">{{ $village->village_name }}</option>
