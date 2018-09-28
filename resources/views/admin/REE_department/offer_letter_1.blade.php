@@ -9,7 +9,7 @@
 </head>
 
 <body>
-<form id="OfferLetterFRM" action="{{ route('ree.saveOfferLetter')}}" method="post">
+<form id="OfferLetterFRM" action="{{ route('ree.save_offer_letter')}}" method="post">
 @csrf
 <input type="hidden" id="applicationId" name="applicationId" value="{{$applicatonId}}">
     <textarea id="ckeditorText" name="ckeditorText">
@@ -35,7 +35,7 @@
                     <p > ASDFGGHHHH</p>
                 <div style="">
                     <p style="margin-bottom:0; line-height:0.25;">To,</p>
-                    <p style="margin-bottom:0; line-height:0.25;">The Secretary,</p>
+                    <span style="margin-bottom:0; line-height:0.25;font-weight: bold;">The Secretary,</span>
                     <p style="margin-bottom:0; line-height:0.25;">TAGORE NAGAR <span style="font-weight: bold;">PARIJATAK</span>
                         CHSL,</p>
                     <p style="margin-bottom:0; line-height:0.25;">Building No.<span style="font-weight: bold;">323434</span></p>
@@ -548,7 +548,7 @@
     <script src="{{ asset('vendor/unisharp/laravel-ckeditor/ckeditor.js') }}"></script>
     <script>
         CKEDITOR.disableAutoInline = true;
-        CKEDITOR.replace( 'ckeditorText', { height: 700});
+        CKEDITOR.replace( 'ckeditorText', { height: 700, allowedContent : true});
     </script>
     <script>
 

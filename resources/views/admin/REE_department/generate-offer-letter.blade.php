@@ -9,6 +9,15 @@
   $style1 = "display:block"; ?>
 @endif
 
+@if(session()->has('success') || session()->has('error'))
+    <div class="alert alert-success">
+        {{ session()->get('success') }}
+    </div>   
+     <div class="alert alert-error">
+        {{ session()->get('error') }}
+    </div>
+@endif
+
 <div class="custom-wrapper">
     <div class="col-md-12">
         <div class="m-portlet__head">
@@ -46,7 +55,9 @@
                                         <div class="col-sm-6 field-col">
                                             <div class="d-flex">
                                                 <span class="field-name">Application Date:</span>
-                                                <span class="field-value">{{(isset($societyData->submitted_at) ? $societyData->submitted_at : '')}}</span>
+                                                <span class="field-value">{{ ($societyData->submitted_at ? date(config('commanConfig.dateFormat'), strtotime($societyData->submitted_at)) : '')}}</span>
+
+
                                             </div>
                                         </div>
                                         <div class="col-sm-6 field-col">
@@ -212,8 +223,9 @@
         $(this).closest("#generate-offer-letter").remove();
     });
 
-    $(".pdfcheck").change(function(){
-        myfile= $(this).val();
+    $("#uploadBtn").click(function(e){
+
+        myfile= $("#test-upload").val();
         var ext = myfile.split('.').pop();
         if (ext != "pdf"){
             $("#file_error").text("Invalid File format(pdf file only).");
