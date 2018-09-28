@@ -115,7 +115,7 @@ class CommonController extends Controller
 
     public function listApplicationData($request)
     {
-        $applicationData = OlApplication::with(['applicationLayoutUser', 'eeApplicationSociety', 'olApplicationStatusForLoginListing' => function($q){
+        $applicationData = OlApplication::with(['applicationLayoutUser','ol_application_master', 'eeApplicationSociety', 'olApplicationStatusForLoginListing' => function($q){
             $q->where('user_id', Auth::user()->id)
                 ->where('role_id', session()->get('role_id'))
                 ->where('society_flag', 0)

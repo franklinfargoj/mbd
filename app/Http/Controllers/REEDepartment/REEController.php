@@ -16,6 +16,7 @@ use App\OlConsentVerificationDetails;
 use App\OlDemarcationVerificationDetails;
 use App\OlTitBitVerificationDetails;
 use App\OlRelocationVerificationDetails;
+use App\OlApplicationCalculationSheetDetails;
 use App\OlChecklistScrutiny;
 use App\OlApplicationStatus;
 use App\User;
@@ -24,6 +25,7 @@ use Auth;
 use DB;
 use PDF;
 use File;
+
 
 class REEController extends Controller
 {
@@ -50,6 +52,7 @@ class REEController extends Controller
             ['data' => 'society_address','name' => 'eeApplicationSociety.address','title' => 'Address','searchable' => false],
             // ['data' => 'model','name' => 'model','title' => 'Model'],
             ['data' => 'Status','name' => 'status','title' => 'Status'],
+            ['data' => 'Model','name' => 'model','title' => 'Model'],
             ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
         ];
 
@@ -92,8 +95,11 @@ class REEController extends Controller
                     return $value;
                 }
 
-            })                               
-            ->rawColumns(['society_name', 'building_name', 'society_address','date','actions','Status'])
+            })
+            ->addColumn('Model', function ($ree_application_data) {
+                    return $ree_application_data->ol_application_master->model;
+                })
+            ->rawColumns(['society_name', 'building_name', 'society_address','date','actions','Status','Model'])
             ->make(true);
         }        
             $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
@@ -324,7 +330,13 @@ class REEController extends Controller
 
     public function editOfferLetter(Request $request,$applicatonId){
         
-        return view('admin.REE_department.offer_letter_1',compact('applicatonId'));
+        // $calculationData = $this->getPermiumCalculationSheetData($applicatonId);
+
+        $calculationData = OlApplication::with(['premiumCalculationSheet','eeApplicationSociety'])->where('id',$applicatonId)->first();
+
+        // dd($calculationData->eeApplicationSociety->name);
+
+        return view('admin.REE_department.offer_letter_1',compact('applicatonId','calculationData'));
     }
 
     public function saveOfferLetter(Request $request){
@@ -379,5 +391,12 @@ class REEController extends Controller
                 ->where('id',$applicationId)->orderBy('id','DESC')->first();
 
         return view('admin.REE_department.approved_offer_letter',compact('applicationData'));
+    }
+
+    public function getPermiumCalculationSheetData($applicationId){
+        
+        $data = OlApplicationCalculationSheetDetails::where('application_id',$applicationId)->first()
+        ;
+        return $data;
     }
 }
