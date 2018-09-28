@@ -1,16 +1,17 @@
 @extends('admin.layouts.app')
 @section('js')
 <script type="text/javascript">
-$(document).ready(function() {
-    var last_valid_selection = null;
-    $('#villages').change(function(event) {
-    if ($(this).val().length > 4) {
-        $(this).val(last_valid_selection);
-    } else {
-        last_valid_selection = $(this).val();
-    }
-    });
-});
+    // $(document).ready(function() {
+    //     var last_valid_selection = null;
+    //     $('#villages').change(function(event) {
+    //     if ($(this).val().length > 4) {
+    //         $(this).val(last_valid_selection);
+    //     } else {
+    //         last_valid_selection = $(this).val();
+    //     }
+    //     });
+    // });
+
 </script>
 @endsection
 @section('content')
@@ -18,7 +19,7 @@ $(document).ready(function() {
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">Add Society</h3>
-            {{ Breadcrumbs::render('society_create',$id) }}
+            {{ Breadcrumbs::render('society_create') }}
         </div>
     </div>
     <!-- END: Subheader -->
@@ -26,7 +27,6 @@ $(document).ready(function() {
         <form id="addSocietyDetail" role="form" method="post" class="m-form m-form--rows m-form--label-align-right"
             action="{{route('society_detail.store')}}">
             @csrf
-            <input type="hidden" name="village_id" value="{{ $id }}">
             <div class="m-portlet__body m-portlet__body--spaced">
                 <div class="form-group m-form__group row">
                     <div class="col-lg-6 form-group">
@@ -150,11 +150,13 @@ $(document).ready(function() {
                             <span class="help-block">{{$errors->first('other_land_id')}}</span>
                         </div>
                     </div>
+                </div>
+                <div class="form-group m-form__group row">
                     <div class="col-lg-6 form-group">
                         <label class="col-form-label" for="other_land_id">Villages:</label>
                         <div class="m-input-icon m-input-icon--right">
-                            <select multiple class="form-control "
-                                id="villages" name="villages[]">
+                            <select multiple class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
+                                name="villages[]">
                                 @foreach($arrData['villages'] as $village)
                                 <option value="{{ $village->id  }}">{{ $village->village_name }}</option>
                                 @endforeach
@@ -169,7 +171,7 @@ $(document).ready(function() {
                             <div class="col-lg-6">
                                 <div class="btn-list">
                                     <button type="submit" id="add_society" class="btn btn-primary">Save</button>
-                                    <a href="{{url('/society_detail/'.$id)}}" class="btn btn-secondary">Cancel</a>
+                                    <a href="{{url('/society_detail/')}}" class="btn btn-secondary">Cancel</a>
                                 </div>
                             </div>
                         </div>

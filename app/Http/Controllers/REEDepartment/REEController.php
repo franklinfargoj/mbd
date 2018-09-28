@@ -345,4 +345,12 @@ class REEController extends Controller
             }
         }       
     }
+
+    public function approvedOfferLetter(Request $request,$applicationId){
+
+        $applicationData = OlApplication::with(['eeApplicationSociety'])
+                ->where('id',$applicationId)->orderBy('id','DESC')->first();
+
+        return view('admin.REE_department.approved_offer_letter',compact('applicationData'));
+    }
 }

@@ -36,7 +36,9 @@
                     <div class="col-sm-6 field-col">
                         <div class="d-flex">
                             <span class="field-name">Application Date:</span>
-                            <span class="field-value">{{(isset($applicationData->submitted_at) ? $applicationData->submitted_at : '')}}</span>
+                            <span class="field-value">{{(isset($applicationData->submitted_at) ? date(config('commanConfig.dateFormat'),strtotime($applicationData->submitted_at)) : '')}}</span>
+
+
                         </div>
                     </div>
                     <div class="col-sm-6 field-col">
@@ -101,79 +103,61 @@
 <form role="form" id="dyce_scrunity_Form" name="scrunityForm" class="form-horizontal" method="post" action="" enctype="multipart/form-data">
 
  @csrf
-	 <div class="m-portlet m-portlet--mobile m_panel">
-	    <div class="m-portlet__body" style="padding-right: 0;"> 
-	    	<p class="heading"> Site Visit </p>  
+     <div class="m-portlet m-portlet--mobile m_panel">
+        <div class="m-portlet__body" style="padding-right: 0;"> 
+            <h3 class="section-title section-title--small mb-0">Offer Letter:</h3>
                 <div class="row field-row">
-                    <div class="col-sm-6 field-col">
-                        <div class="d-flex">
-                            <span class="field-name">Society Name:</span>
-                            <span class="field-value">{{(isset($applicationData->eeApplicationSociety->name) ? $applicationData->eeApplicationSociety->name : '')}} 
-                            </span>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 field-col">
-                        <div class="d-flex">
-                            <span class="field-name">Building number:</span>
-                            <span class="field-value">{{(isset($applicationData->eeApplicationSociety->building_no) ? $applicationData->eeApplicationSociety->building_no : '')}}</span>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 field-col">
-                        <div class="d-flex">
-                            <span class="field-name">Name of Inspector:</span>
-                            <span class="field-value" style="width: 242px;word-break: break-all;"></span>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 field-col">
-                        <div class="d-flex">
-                            <span class="field-name">Date of site visit:</span>
-                            <span class="field-value">{{(isset($applicationData->date_of_site_visit) ? $applicationData->date_of_site_visit : '')}}</span>
-                        </div>
-                    </div>
-                    @foreach($applicationData->visitDocuments as $data)
-                        <div class="col-sm-12 field-col">
-                            <div class="d-flex">
-                                <span style="width: 200px;">Supporting Documents:</span>
-                                <a href="{{asset($data->document_path)}}">
-                                <img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}" style="height:44px"></a>
-                                <span class="field-value" style="padding-left: 15px;">{{(explode('/',$data->document_path)[3])}}</span>
-                            </div>
-                        </div>
-                    @endforeach
+                    <div class="col-md-12 row-list">
+                        <p class="font-weight-semi-bold">View Offer letter</p>
+                        <p>Click to view generated offer letter in PDF format</p>
+                        <button type="submit" class="btn btn-primary">View offer Letter </button>                        
+                    </div>                    
+                <!-- </div>                 -->
+                <!-- <div class="row field-row"> -->
+                    <div class="col-md-12 row-list">
+                        <p class="font-weight-semi-bold">Download Offer letter</p>
+                        <p>Want to make changes in offer letter, click on below button to download offer letter in .doc format</p>
+                        <button type="submit" class="btn btn-primary">Download offer Letter </button>                        
+                    </div>                    
                 </div>
-	    </div>    
-	</div>   
-	<!-- end  -->
+        </div>    
+    </div>   
+    <!-- end  -->
 
-	<!-- Demarkation verification -->
-	<div class="m-portlet m-portlet--mobile m_panel">
-	    <div class="m-portlet__body"> 
-	    	<p class="heading"> Demarkation verification </p>
-	    	<div class="col-xs-12 row">
-	    		<div class="col-md-12">
-	    			<p>Comments</p>
-	    			<textarea rows="4" cols="63" name="demarkation_comments" readonly>{{(isset($applicationData->demarkation_verification_comment) ? $applicationData->demarkation_verification_comment : '')}}</textarea>
-	    		</div>
-	    	</div>
-	    </div>
-	</div>   
-	<!-- end  -->
+    <!-- Demarkation verification -->
+    <div class="m-portlet m-portlet--mobile m_panel">
+        <div class="m-portlet__body"> 
+            <h3 class="section-title section-title--small mb-0">Remark on Offer Letter:</h3>
+            <p class="heading"> </p>
+            <div class="col-xs-12 row row-list">
+                <div class="col-md-12">
+                    <p class="font-weight-semi-bold">Remark by REE</p>
+                    <textarea rows="4" cols="63" name="demarkation_comments" readonly>{{(isset($applicationData->demarkation_verification_comment) ? $applicationData->demarkation_verification_comment : '')}}</textarea>
+                </div>
+            </div>           
+             <div class="col-xs-12 row row-list border-0">
+                <div class="col-md-12">
+                    <p class="font-weight-semi-bold">Remark by CO</p>
+                    <textarea rows="4" cols="63" name="demarkation_comments" readonly>{{(isset($applicationData->demarkation_verification_comment) ? $applicationData->demarkation_verification_comment : '')}}</textarea>
+                </div>
+            </div>
+        </div>
+    </div>   
+    <!-- end  -->
 
-	<!-- Encrochment verification -->
-	<div class="m-portlet m-portlet--mobile m_panel">
-	    <div class="m-portlet__body"> 
-	    	<p class="heading"> Encrochment Verification </p>
-	    	<div class="col-xs-12 row">
-	    		<div class="col-md-12">
-	    			<span>Is there any encrochment ?</span>
-	    			<input type="radio" class="radioBtn" name="encrochment" value="1" disabled {{(isset($applicationData->demarkation_verification_comment) && $applicationData->is_encrochment == '1' ? 'checked' : '')}}> Yes
-	  				<input type="radio" class="radioBtn" name="encrochment" value="0" disabled {{(isset($applicationData->demarkation_verification_comment) && $applicationData->is_encrochment == '0' ? 'checked' : '')}}>No
-	    			<p class="e_comments">If Yes, Comments</p>
-	    			<textarea rows="4" cols="63" id="encrochment_comments" name="encrochment_comments" readonly>{{(isset($applicationData->encrochment_verification_comment) ? $applicationData->encrochment_verification_comment : '')}}</textarea>
-	    		</div>
-	    	</div>
-	    </div>
-	</div>
+    <!-- Encrochment verification -->
+    <div class="m-portlet m-portlet--mobile m_panel">
+        <div class="m-portlet__body"> 
+            <h3 class="section-title section-title--small">Send to Society:</h3>
+            <div class="col-xs-12 row">
+                <div class="col-md-12">
+                    <p class="font-weight-semi-bold">Remark</p>
+                    <textarea rows="4" cols="63" name="demarkation_comments" readonly>{{(isset($applicationData->demarkation_verification_comment) ? $applicationData->demarkation_verification_comment : '')}}</textarea>
+                     <button type="submit" class="btn btn-primary">Send offer Letter </button>
+                </div>
+            </div>
+        </div>
+    </div>
 </form>  
 @endsection
 

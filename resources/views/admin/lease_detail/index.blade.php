@@ -5,12 +5,12 @@
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">Lease Details</h3>
-            {{ Breadcrumbs::render('lease_detail',$id,$village_id) }}
+            {{ Breadcrumbs::render('lease_detail',$id) }}
             <div class="m-portlet__head px-0 ml-auto">
                 @if($count > 0)
-                <a class="btn btn-primary" href="{{route('renew-lease.renew', [$id, $village_id])}}">Renew Lease</a>
+                <a class="btn btn-primary" href="{{route('renew-lease.renew', $id)}}">Renew Lease</a>
                 @else
-                <a class="btn btn-primary" href="{{route('lease_detail.create', [$id, $village_id])}}">Add Lease</a>
+                <a class="btn btn-primary" href="{{route('lease_detail.create', $id)}}">Add Lease</a>
                 @endif
             </div>
         </div>
@@ -26,7 +26,7 @@
         @endif
         <div class="m-portlet__body data-table--custom">
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <a href="{{ url('/society_detail/'.$village_id) }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+                <a href="{{ url('/society_detail/') }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
                 <div class="btn-list text-right">
                     <a href="?excel=excel" name="excel" value="excel" class="btn excel-icon"><img src="{{asset('/img/excel-icon.svg')}}"></button>
                     <a target="_blank" href="{{route('lease_detail.print',['id'=>$id])}}" class="btn print-icon"><img src="{{asset('/img/print-icon.svg')}}"></a>
