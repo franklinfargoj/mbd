@@ -96,11 +96,11 @@
                                     class="m-menu__link-text">Buttons</span></span></li>
                         <li class="m-menu__item m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover"><a
                                 href="{{url('/village_detail')}}" class="m-menu__link m-menu__toggle"><span
-                                    class="m-menu__link-text">village detail</span></i></a>
+                                    class="m-menu__link-text">Village Detail</span></i></a>
                         </li>
                         <li class="m-menu__item m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover"><a
                                 href="{{route('society_detail.index')}}" class="m-menu__link m-menu__toggle"><span
-                                    class="m-menu__link-text">society detail</span></i></a>
+                                    class="m-menu__link-text">Society Detail</span></i></a>
                         </li>
                     </ul>
                 </div>

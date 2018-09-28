@@ -32,7 +32,7 @@ class SocietyController extends Controller
     public function getVillages($society_id)
     {
         $village_string="";
-        $Society=SocietyDetail::find($society_id)->first();
+        $Society=SocietyDetail::with('Villages')->where('id',$society_id)->first();
         foreach($Society->Villages as $village)
         {
             $village_string.=$village->village_name.", ";
@@ -45,7 +45,6 @@ class SocietyController extends Controller
         $society_data = SocietyDetail::join('other_land','lm_society_detail.other_land_id', '=', 'other_land.id')
             ->join('village_societies','village_societies.society_id','=','lm_society_detail.id');
             $society_data = $society_data->selectRaw( DB::raw('lm_society_detail.id,lm_society_detail.society_name,lm_society_detail.district,lm_society_detail.taluka,lm_society_detail.village,lm_society_detail.survey_number,lm_society_detail.cts_number,lm_society_detail.chairman,lm_society_detail.society_address,lm_society_detail.area,lm_society_detail.date_on_service_tax,lm_society_detail.surplus_charges,lm_society_detail.surplus_charges_last_date,other_land.land_name'))->distinct('id')->get();
-            //dd($society_data);
             if(count($society_data) == 0){
                 $dataListMaster = [];
                 $dataList = [];
@@ -68,8 +67,6 @@ class SocietyController extends Controller
             }else{
                 $i=1;
                 foreach ($society_data as $dataList_key => $dataList_value) {
-                    //dd($this->getVillages($dataList_value['id']));
-                    
                     $dataList = [];
                     $dataList['id'] = $i;   
                     $dataList['Society Name'] = $dataList_value['society_name'];

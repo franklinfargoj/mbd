@@ -1,16 +1,17 @@
 @extends('admin.layouts.app')
 @section('js')
 <script type="text/javascript">
-// $(document).ready(function() {
-//     var last_valid_selection = null;
-//     $('#villages').change(function(event) {
-//     if ($(this).val().length > 4) {
-//         $(this).val(last_valid_selection);
-//     } else {
-//         last_valid_selection = $(this).val();
-//     }
-//     });
-// });
+    // $(document).ready(function() {
+    //     var last_valid_selection = null;
+    //     $('#villages').change(function(event) {
+    //     if ($(this).val().length > 4) {
+    //         $(this).val(last_valid_selection);
+    //     } else {
+    //         last_valid_selection = $(this).val();
+    //     }
+    //     });
+    // });
+
 </script>
 @endsection
 @section('content')
@@ -153,19 +154,22 @@
                             <span class="help-block">{{$errors->first('other_land_id')}}</span>
                         </div>
                     </div>
+
+                </div>
+                <div class="form-group m-form__group row">
                     <div class="col-lg-6 form-group">
-                    <label class="col-form-label" for="other_land_id">Villages:</label>
+                        <label class="col-form-label" for="other_land_id">Villages:</label>
                         <div class="m-input-icon m-input-icon--right">
                             <select multiple class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
                                 id="villages" name="villages[]">
                                 @foreach($arrData['villages'] as $village)
-                                <option {{in_array($village->id,$villages_belongs)?'selected':''}} value="{{ $village->id  }}">{{ $village->village_name }}</option>
+                                <option {{in_array($village->id,$villages_belongs)?'selected':''}} value="{{ $village->id  }}">{{
+                                    $village->village_name }}</option>
                                 @endforeach
                             </select>
                             <span class="text-danger">{{$errors->first('villages')}}</span>
                         </div>
                     </div>
-                    
                 </div>
                 <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
                     <div class="m-form__actions px-0">
