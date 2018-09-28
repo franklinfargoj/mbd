@@ -137,7 +137,10 @@ class CAPController extends Controller
         // VP Forward Application
 
         $vp_role_id = Role::where('name', '=', config('commanConfig.vp_engineer'))->first();
-        $arrData['get_forward_vp'] = User::where('role_id', $vp_role_id->id)->get();
+        $arrData['get_forward_vp'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
+                                            ->where('lu.layout_id', session()->get('layout_id'))
+                                            ->where('role_id', $vp_role_id->id)->get();
+
         $arrData['vp_role_name'] = strtoupper(str_replace('_', ' ', $vp_role_id->name));
     
         // remark and history
