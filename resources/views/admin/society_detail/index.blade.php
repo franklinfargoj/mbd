@@ -5,8 +5,8 @@
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">Society Details</h3>
-            {{ Breadcrumbs::render('society_detail',$id) }}
-            <a class="btn btn-primary ml-auto" href="{{route('society_detail.create', $id)}}">Add Society</a>
+            {{ Breadcrumbs::render('society_detail') }}
+            <a class="btn btn-primary ml-auto" href="{{route('society_detail.create')}}">Add Society</a>
         </div>
     </div>
     <!-- END: Subheader -->
@@ -18,12 +18,11 @@
             </button> {{ Session::get('success') }}
         </div>
         @endif
-        <div class="m-portlet__body data-table--custom">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <a href="{{ url('/village_detail') }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+        <div class="m-portlet__body data-table--custom mb-3">
+                <!-- <a href="{{ url('/village_detail') }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a> -->
                 <div class="btn-list text-right">
-                    <a href="{{route('society_detail.index',['id'=>$id,'excel'=>'excel'])}}" name="excel" value="excel" class="btn excel-icon"><img src="{{asset('/img/excel-icon.svg')}}"></a>
-                    <a target="_blank" href="{{route('society_detail.print',['id'=>$id])}}" class="btn print-icon"><img src="{{asset('/img/print-icon.svg')}}"></a>
+                    <a href="{{route('society_detail.index',['excel'=>'excel'])}}" name="excel" value="excel" class="btn excel-icon"><img src="{{asset('/img/excel-icon.svg')}}"></a>
+                    <a target="_blank" href="{{route('society_detail.print')}}" class="btn print-icon"><img src="{{asset('/img/print-icon.svg')}}"></a>
                 </div>
             </div>
             <!--begin: Search Form -->

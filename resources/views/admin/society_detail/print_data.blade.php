@@ -18,7 +18,6 @@
         <td>{{$society_dat['Area']}}</td>
         <td>{{$society_dat['Date mentioned on service tax letters']}}</td>
         <td>{{$society_dat['Surplus Charges']}}</td>
-        <td>{{$society_dat['Lease rent as per renewed lease']}}</td>
         <td>{{$society_dat['Last date of paying surplus charges']}}</td>
         <td>{{$society_dat['Land Name']}}</td>
     </tr>

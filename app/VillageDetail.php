@@ -47,4 +47,9 @@ class VillageDetail extends Model
    public function villageBoard(){
         return $this->hasOne("App\Board", "id", 'board_id');
     }
+
+    public function Societies()
+    {
+        return $this->belongsToMany('App\SocietyDetail', 'village_societies', 'village_id', 'society_id');
+    }
 }

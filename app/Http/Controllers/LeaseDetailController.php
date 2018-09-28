@@ -52,8 +52,9 @@ class LeaseDetailController extends Controller
                 $dataList['Month to start collection of lease rent as per renewed lease'] = '';
                 $dataListMaster[]=$dataList;
             }else{
+                $i=1;
                 foreach ($dataLists as $dataList_key => $dataList_value) {
-                    $i=1;
+                    
                     // dd($dataList_key);
                     $dataList = [];
                     $dataList['id'] = $i;
@@ -84,7 +85,7 @@ class LeaseDetailController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, Datatables $datatables, $id, $village_id)
+    public function index(Request $request, Datatables $datatables, $id)
     {
         $header_data = $this->header_data;
         $getData = $request->all();
@@ -125,8 +126,9 @@ class LeaseDetailController extends Controller
                 $dataList['Month to start collection of lease rent as per renewed lease'] = '';
                 $dataListMaster[]=$dataList;
             }else{
+                $i=1;
                 foreach ($dataLists as $dataList_key => $dataList_value) {
-                    $i=1;
+                    
                     // dd($dataList_key);
                     $dataList = [];
                     $dataList['id'] = $i;
@@ -204,7 +206,7 @@ class LeaseDetailController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($id, $village_id)
+    public function create($id)
     {
         $header_data = $this->header_data;
         $arrData['month_data'] = MasterMonth::all();
@@ -240,10 +242,10 @@ class LeaseDetailController extends Controller
 
         LeaseDetail::create($lease_detail);
 
-        return redirect('/lease_detail/'.$request->society_id.'/'.$request->village_id)->with(['success'=> 'Lease added succesfully']);
+        return redirect('/lease_detail/'.$request->society_id)->with(['success'=> 'Lease added succesfully']);
     }
 
-    public function renewLease($id, $village_id)
+    public function renewLease($id)
     {
         $header_data = $this->header_data;
         $arrData['month_data'] = MasterMonth::all();
@@ -317,8 +319,8 @@ class LeaseDetailController extends Controller
     public function viewLease($id, $society_id){
         $header_data = $this->header_data;
         $arrData['month_data'] = MasterMonth::all();
-        $arrData['lease_data'] = LeaseDetail::where(['id' => $id,'society_id' => $society_id, 'lease_status' => 1])->first();
-        // dd($arrData['lease_data']);
+        $arrData['lease_data'] = LeaseDetail::where(['id' => $id,'society_id' => $society_id])->first();
+         //dd($arrData['lease_data']);
         $village = SocietyDetail::where('id', $society_id)->first();
         $village_id = $village->village_id;
         return view('admin.lease_detail.view-lease', compact('header_data', 'arrData', 'id', 'society_id', 'village_id'));

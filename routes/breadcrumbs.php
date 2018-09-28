@@ -65,13 +65,13 @@ Breadcrumbs::for('village_edit', function ($trail,$id) {
 	$trail->push('village_edit/'.$id, route('village_detail.edit',$id));
 });
 
-Breadcrumbs::for('society_detail', function ($trail,$id) {
-	$trail->push('society_detail', route('society_detail.index',$id));
+Breadcrumbs::for('society_detail', function ($trail) {
+	$trail->push('society_detail', route('society_detail.index'));
 });
 
-Breadcrumbs::for('society_create', function ($trail,$id) {
-	$trail->parent('society_detail',$id);
-	$trail->push('society_create/'.$id, route('society_detail.create',$id));
+Breadcrumbs::for('society_create', function ($trail) {
+	$trail->parent('society_detail');
+	$trail->push('society_create/', route('society_detail.create'));
 });
 
 Breadcrumbs::for('society_detail_edit', function ($trail,$id) {
@@ -79,18 +79,18 @@ Breadcrumbs::for('society_detail_edit', function ($trail,$id) {
 	$trail->push('society_detail_edit/'.$id, route('society_detail.edit',$id));
 });
 
-Breadcrumbs::for('lease_detail', function ($trail,$id,$village_id) {
-	$trail->push('lease_detail', route('lease_detail.index',['id'=>$id,'village_id'=>$village_id]));
+Breadcrumbs::for('lease_detail', function ($trail,$id) {
+	$trail->push('lease_detail', route('lease_detail.index',['id'=>$id]));
 });
 
-Breadcrumbs::for('lease_create', function ($trail,$id,$village_id) {
-	$trail->parent('lease_detail',$id,$village_id);
-	$trail->push('lease_create', route('lease_detail.create',['id'=>$id,'village_id'=>$village_id]));
+Breadcrumbs::for('lease_create', function ($trail,$id) {
+	$trail->parent('lease_detail',$id);
+	$trail->push('lease_create', route('lease_detail.create',['id'=>$id]));
 });
 
-Breadcrumbs::for('lease_renew', function ($trail,$id,$village_id) {
-	$trail->parent('lease_detail',$id,$village_id);
-	$trail->push('lease_renew', route('renew-lease.renew',['id'=>$id,'village_id'=>$village_id]));
+Breadcrumbs::for('lease_renew', function ($trail,$id) {
+	$trail->parent('lease_detail',$id);
+	$trail->push('lease_renew', route('renew-lease.renew',['id'=>$id]));
 });
 
 // Hearing

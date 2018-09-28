@@ -6,8 +6,11 @@ use App\OlApplicationCalculationSheetDetails;
 use App\Http\Controllers\Controller;
 use App\OlDcrRateMaster;
 use App\REENote;
+//use Barryvdh\DomPDF\PDF;
+use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use niklasravnsborg\LaravelPdf\Facades\Pdf as NewPDF;
 
 class OlApplicationCalculationSheetDetailsController extends Controller
 {
@@ -49,7 +52,7 @@ class OlApplicationCalculationSheetDetailsController extends Controller
     public function show($id)
     {
         $applicationId = $id;$user = Auth::user();
-        $calculationSheetDetails = OlApplicationCalculationSheetDetails::where('id','=',$id)->get();
+        $calculationSheetDetails = OlApplicationCalculationSheetDetails::where('application_id','=',$id)->get();
 
         $dcr_rates = OlDcrRateMaster::all();
         // REE Note download
@@ -97,9 +100,6 @@ class OlApplicationCalculationSheetDetailsController extends Controller
     {
         //echo "<pre>";print_r($request->all());exit;
 
-     /*   $this->validate($request, [
-            'total_no_of_buildings' => 'required',
-        ]);*/
 
         OlApplicationCalculationSheetDetails::updateOrCreate(['application_id'=>$request->get('application_id')],$request->all());
         return redirect("ol_calculation_sheet/" . $request->get('application_id'));

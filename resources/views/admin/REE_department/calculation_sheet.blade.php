@@ -131,7 +131,7 @@
                                                     Total भूखंडाचे क्षेत्रफळ
                                                 </td>
                                                 <td class="text-center">
-                                                    <input class="form-control form-control--custom" readonly type="text" name="area_of_total_plot" id="area_of_total_plot" /></td>
+                                                    <input class="form-control form-control--custom" readonly type="text" name="area_of_total_plot" id="area_of_total_plot" value="{{ isset($calculationSheetDetails[0]->area_of_total_plot) ? $calculationSheetDetails[0]->area_of_total_plot : 0 }}"/></td>
                                             </tr>
                                             <tr>
                                                 <td>2.</td>
@@ -204,7 +204,7 @@
                                                     Total
                                                 </td>
                                                 <td class="text-center">
-                                                    <input type="text" readonly class="form-control form-control--custom" name="permissible_proratata_area" id="permissible_proratata_area" />
+                                                    <input type="text" readonly class="form-control form-control--custom" name="permissible_proratata_area" id="permissible_proratata_area" value="{{ isset($calculationSheetDetails[0]->permissible_proratata_area) ? $calculationSheetDetails[0]->permissible_proratata_area : 0 }}"/>
 
                                                 </td>
                                             </tr>
@@ -232,7 +232,7 @@
                                                     Total
                                                 </td>
                                                 <td class="text-center">
-                                                    <input type="text" readonly class="form-control form-control--custom" name="proratata_construction_area" id="proratata_construction_area" />
+                                                    <input type="text" readonly class="form-control form-control--custom" name="proratata_construction_area" id="proratata_construction_area" value="{{ isset($calculationSheetDetails[0]->proratata_construction_area) ? $calculationSheetDetails[0]->proratata_construction_area : 0 }}"/>
 
                                                 </td>
                                             </tr>
@@ -271,7 +271,7 @@
                                                     उर्वरित क्षेत्रफळ (अ.क्र 9. - अ.क्र.10 )
                                                 </td>
                                                 <td class="text-center">
-                                                    <input type="text" readonly class="form-control form-control--custom" name="remaining_area" id="remaining_area" />
+                                                    <input type="text" readonly class="form-control form-control--custom" name="remaining_area" id="remaining_area" value="{{ isset($calculationSheetDetails[0]->remaining_area) ? $calculationSheetDetails[0]->remaining_area : 0 }}"/>
 
                                                 </td>
                                             </tr>
@@ -303,7 +303,7 @@
                                                     LR/RC = ५५,९००/२७५००
                                                 </td>
                                                 <td class="text-center">
-                                                    <input type="text" readonly class=" form-control form-control--custom"  name="redirekner_val" id="redirekner_val" />
+                                                    <input type="text" readonly class=" form-control form-control--custom"  name="redirekner_val" id="redirekner_val" value="{{ isset($calculationSheetDetails[0]->redirekner_val) ? $calculationSheetDetails[0]->redirekner_val : 0 }}"/>
 
                                                 </td>
                                             </tr>
@@ -848,7 +848,7 @@
                                                         अधिमूल्य च्या १/४)</small></span>
                                                 </td>
                                                 <td class="text-center">
-                                                    <input type="text" class="form-control form-control--custom" name="off_site_infrastructure_fee" id="off_site_infrastructure_fee" value="{{ isset($calculationSheetDetails[0]->off_site_infrastructure_fee) ? $calculationSheetDetails[0]->off_site_infrastructure_fee : 0 }}" />
+                                                    <input type="text" readonly class="form-control form-control--custom" name="off_site_infrastructure_fee" id="off_site_infrastructure_fee" value="{{ isset($calculationSheetDetails[0]->off_site_infrastructure_fee) ? $calculationSheetDetails[0]->off_site_infrastructure_fee : 0 }}" />
 
 
                                                 </td>
@@ -860,7 +860,7 @@
                                                     हफ्त्याची रक्कम पूर्णांकामध्ये
                                                 </td>
                                                 <td class="text-center">
-                                                    <input type="text" class="form-control form-control--custom" name="payment_of_remaining_installment" id="payment_of_remaining_installment" value="{{ isset($calculationSheetDetails[0]->payment_of_remaining_installment) ? $calculationSheetDetails[0]->payment_of_remaining_installment : 0 }}" />
+                                                    <input type="text" readonly class="form-control form-control--custom" name="payment_of_remaining_installment" id="payment_of_remaining_installment" value="{{ isset($calculationSheetDetails[0]->payment_of_remaining_installment) ? $calculationSheetDetails[0]->payment_of_remaining_installment : 0 }}" />
                                                 </td>
                                             </tr>
                                             <tr><td colspan="3" align="right"><input type="submit" name="submit" class="btn btn-primary" value="Save" /> </td></tr>
@@ -977,12 +977,13 @@
                                                     <div class="mt-auto">
                                                        @if(isset($arrData['reeNote']->document_path))
                                                             <a href="{{ asset($arrData['reeNote']->document_path)}}">
-                                                                @else
-                                                                    <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
-                                                                     * Note :  REE note not available. </span>
-                                                                @endif
-                                                                <button class="btn btn-primary">Download Note Format</button>
+                                                            <button class="btn btn-primary">Download Note Format</button>
                                                             </a>
+                                                        @else
+                                                            <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
+                                                                * Note :  REE note not available. </span>
+                                                        @endif
+                                                                
                                                     </div>
                                                 </div>
                                             </div>
@@ -1030,84 +1031,26 @@
                 }
             });
 
+            
 
-            var sum = 0;
-            $(".total_area").each(function(){
-                sum += +$(this).val();
-            });
-            $("#area_of_total_plot").val(sum);
+        $("#amount_to_be_paid_to_municipal1").val((5/7 * $("#off_site_infrastructure_fee").val()).toFixed(2));
+        $("#offsite_infrastructure_charge_to_mhada1").val((2/7 * $("#off_site_infrastructure_fee").val()).toFixed(2));
+        $("#offsite_infrastructure_charge_to_mhada1_installment").val((2/7 * $("#off_site_infrastructure_fee").val()).toFixed(2));
 
-            $("#permissible_construction_area").val($("#area_of_​​subsistence_to_calculate").val()*$("#permissible_carpet_area_coordinates").val());
-
-            $("#permissible_proratata_area").val($("#sqm_area_per_slot").val()*$("#total_house").val());
-
-            $("#proratata_construction_area").val($("#per_sq_km_proyerta_construction_area").val()*$("#total_house").val());
+        $("#non_profit_duty").val(1/4 * $("#remaining_area_of_resident_area_balance").val());
+        $("#non_profit_duty_installment").val(1/4 * $("#remaining_area_of_resident_area_balance").val());
 
 
-            var sub = parseFloat($("#total_permissible_construction_area").val()) - parseFloat($("#existing_construction_area").val());
-            $("#remaining_area").val(sub);
-            $("#remaining_residential_area").val(sub);
+        var first_installment = 0;
+        $(".first_installment").each(function(){
+            first_installment += +$(this).val();
+        });
+        $("#payment_of_first_installment").val(first_installment);
 
+        $("#payment_of_remaining_installment").val($("#off_site_infrastructure_fee").val());
 
-
-            if (parseFloat($("#redirekner_construction_rate").val()) === 0 || isNaN(parseFloat($("#redirekner_construction_rate").val()))) {
-                $("#redirekner_val").val(null);
-            }
-            else {
-                var div = parseFloat($("#redirekner_value").val()) / parseFloat($("#redirekner_construction_rate").val());
-                $("#redirekner_val").val(div.toFixed(2));
-            }
-
-
-          /*  var balance = $("#remaining_residential_area").val() * ( $("input[name=dcr_rate_in_percentage]:checked").val() / 100 ) ;
-            $("#balance_of_remaining_area").val(balance.toFixed(2));*/
-
-
-            $("#infrastructure_fee_amount").val((parseFloat($("#remaining_area").val()) * parseFloat($("#redirekner_value").val()) * (7/100)).toFixed(2));
-
-            var fee_amount = (parseFloat($("#remaining_area").val()) * parseFloat($("#redirekner_value").val()) * (7/100)).toFixed(2);
-            $("#infrastructure_fee_amount").val(fee_amount);
-            $("#amount_to_be_paid_to_municipal").val(5/7 * fee_amount);
-            $("#offsite_infrastructure_charges_to_municipal_corporation").val(5/7 * fee_amount);
-            $("#offsite_infrastructure_charge_to_mhada").val(2/7 * fee_amount);
-
-            $("#layout_approval_fee").val(1000*$("#total_house").val());
-
-
-            $("#debraj_removal_fee").val(6600 * $("#total_no_of_buildings").val());
-            $("#water_usage_charges").val(100000 * $("#total_no_of_buildings").val());
-
-            var total_amount = 0;
-            $(".total_amount").each(function(){
-               // alert($(this).attr('id') + ' => ' +$(this).val());
-                total_amount += +$(this).val();
-               //alert(total_amount);
-            });
-            $("#total_amount_in_rs").val(total_amount);
-
-
-
-            /*var offsite_infra_fee = ($("#remaining_area").val() * (7/100)) * ($("#area_in_reserved_seats_for_vp_pio").val() - $("#total_permissible_construction_area").val());
-
-            $("#off_site_infrastructure_fee").val(offsite_infra_fee.toFixed(2));*/
-
-            $("#amount_to_be_paid_to_municipal1").val((5/7 * $("#off_site_infrastructure_fee").val()).toFixed(2));
-            $("#offsite_infrastructure_charge_to_mhada1").val((2/7 * $("#off_site_infrastructure_fee").val()).toFixed(2));
-            $("#offsite_infrastructure_charge_to_mhada1_installment").val((2/7 * $("#off_site_infrastructure_fee").val()).toFixed(2));
-
-            $("#non_profit_duty").val(1/4 * $("#remaining_area_of_resident_area_balance").val());
-            $("#non_profit_duty_installment").val(1/4 * $("#remaining_area_of_resident_area_balance").val());
-
-
-            var first_installment = 0;
-            $(".first_installment").each(function(){
-                first_installment += +$(this).val();
-            });
-            $("#payment_of_first_installment").val(first_installment);
-
-            $("#payment_of_remaining_installment").val($("#off_site_infrastructure_fee").val());
-        })
-    </script>
+    })
+</script>
     <script>
         $(document).on("keyup", "#total_no_of_buildings", function() {
             $("#debraj_removal_fee").val(6600 * $("#total_no_of_buildings").val());

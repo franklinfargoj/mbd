@@ -1,6 +1,23 @@
 @extends('admin.layouts.app')
 @section('content')
 
+@if($societyData->drafted_offer_letter)
+ <?php $style = "display:block"; 
+        $style1 = "display:none"; ?>
+ @else
+  <?php $style = "display:none"; 
+  $style1 = "display:block"; ?>
+@endif
+
+@if(session()->has('success') || session()->has('error'))
+    <div class="alert alert-success">
+        {{ session()->get('success') }}
+    </div>   
+     <div class="alert alert-error">
+        {{ session()->get('error') }}
+    </div>
+@endif
+
 <div class="custom-wrapper">
     <div class="col-md-12">
         <div class="m-portlet__head">
@@ -32,31 +49,33 @@
                                         <div class="col-sm-6 field-col">
                                             <div class="d-flex">
                                                 <span class="field-name">Application Number:</span>
-                                                <span class="field-value"></span>
+                                                <span class="field-value">{{(isset($societyData->application_no) ? $societyData->application_no : '')}}</span>
                                             </div>
                                         </div>
                                         <div class="col-sm-6 field-col">
                                             <div class="d-flex">
                                                 <span class="field-name">Application Date:</span>
-                                                <span class="field-value"></span>
+                                                <span class="field-value">{{ ($societyData->submitted_at ? date(config('commanConfig.dateFormat'), strtotime($societyData->submitted_at)) : '')}}</span>
+
+
                                             </div>
                                         </div>
                                         <div class="col-sm-6 field-col">
                                             <div class="d-flex">
                                                 <span class="field-name">Society Name:</span>
-                                                <span class="field-value"></span>
+                                                <span class="field-value">{{(isset($societyData->eeApplicationSociety->name) ? $societyData->eeApplicationSociety->name : '')}}</span>
                                             </div>
                                         </div>
                                         <div class="col-sm-6 field-col">
                                             <div class="d-flex">
                                                 <span class="field-name">Society Address:</span>
-                                                <span class="field-value"></span>
+                                                <span class="field-value">{{(isset($societyData->eeApplicationSociety->address) ? $societyData->eeApplicationSociety->address : '')}}</span>
                                             </div>
                                         </div>
                                         <div class="col-sm-6 field-col">
                                             <div class="d-flex">
                                                 <span class="field-name">Building Number:</span>
-                                                <span class="field-value"></span>
+                                                <span class="field-value">{{(isset($societyData->eeApplicationSociety->building_no) ? $societyData->eeApplicationSociety->building_no : '')}}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -71,25 +90,25 @@
                                         <div class="col-sm-6 field-col">
                                             <div class="d-flex">
                                                 <span class="field-name">Name of Architect:</span>
-                                                <span class="field-value"></span>
+                                                <span class="field-value">{{(isset($societyData->eeApplicationSociety->name_of_architect) ? $societyData->eeApplicationSociety->name_of_architect : '')}}</span>
                                             </div>
                                         </div>
                                         <div class="col-sm-6 field-col">
                                             <div class="d-flex">
                                                 <span class="field-name">Architect Mobile Number:</span>
-                                                <span class="field-value"></span>
+                                                <span class="field-value">{{(isset($societyData->eeApplicationSociety->architect_mobile_no) ? $societyData->eeApplicationSociety->architect_mobile_no : '')}}</span>
                                             </div>
                                         </div>
                                         <div class="col-sm-6 field-col">
                                             <div class="d-flex">
                                                 <span class="field-name">Architect Address:</span>
-                                                <span class="field-value"></span>
+                                                <span class="field-value">{{(isset($societyData->eeApplicationSociety->architect_address) ? $societyData->eeApplicationSociety->architect_address : '')}}</span>
                                             </div>
                                         </div>
                                         <div class="col-sm-6 field-col">
                                             <div class="d-flex">
                                                 <span class="field-name">Architect Telephone Number:</span>
-                                                <span class="field-value"></span>
+                                                <span class="field-value">{{(isset($societyData->eeApplicationSociety->architect_telephone_no) ? $societyData->eeApplicationSociety->architect_telephone_no : '')}}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -98,7 +117,7 @@
                         </div>
                     </div>
                     <div class="tab-content">
-                        <div class="tab-pane active show" id="generate-offer-letter" role="tabpanel">
+                        <div class="tab-pane active show" id="generate-offer-letter" role="tabpanel" style="{{$style1}}">
                             <div class="m-portlet m-portlet--mobile m_panel">
                                 <div class="m-portlet__body">
                                     <h3 class="section-title section-title--small mb-0">Remark on Offer Letter:</h3>
@@ -110,7 +129,8 @@
                             </div>
                         </div>
                     </div>
-                    <div id="show-offer-letter" style="display: none;">
+                    
+                    <div id="show-offer-letter" style="{{$style}}">
 
                         <div class="m-portlet m-portlet--mobile m_panel">
                             <div class="m-portlet__body" style="padding-right: 0;">
@@ -118,9 +138,10 @@
                                 <div class=" row-list">
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <p class="font-weight-semi-bold">View Offer letter</p>
+                                            <p class="font-weight-semi-bold">Edit Offer letter</p>
                                             <p>Click to view generated offer letter in PDF format</p>
-                                            <button type="submit" class="btn btn-primary">View offer Letter </button>
+                                            <a href="/edit_offer_letter/{{$societyData->id}}"  class="btn btn-primary" > Edit offer Letter</a>
+                                            <!-- <button type="submit">Edit offer Letter </button> -->
                                         </div>
                                     </div>
                                 </div>
@@ -133,7 +154,13 @@
                                                     <span class="hint-text">Want to make changes in offer letter, click
                                                         on below button to download offer letter in .doc format</span>
                                                     <div class="mt-auto">
-                                                        <button class="btn btn-primary">Download offer Letter</button>
+
+                                                    @if($societyData->drafted_offer_letter)
+                                                        <a href="{{asset($societyData->drafted_offer_letter)}}" class="btn btn-primary">Download offer Letter</a>
+                                                    @else
+                                                       <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
+                                                        * Note :  Offer Letter not available. </span>
+                                                 @endif
                                                     </div>
                                                 </div>
                                             </div>
@@ -141,12 +168,14 @@
                                                 <div class="d-flex flex-column h-100">
                                                     <h5>Upload Offer Letter</h5>
                                                     <span class="hint-text">Click on 'Upload' to upload offer letter</span>
-                                                    <form action="" method="post" enctype="multipart/form-data">
+                                                    <form action="{{route('ree.upload_offer_letter',$societyData->id)}}" method="post" enctype="multipart/form-data">
+                                                    @csrf
                                                         <div class="custom-file">
-                                                            <input class="custom-file-input" name="ee_note" type="file"
-                                                                id="test-upload" required="">
+                                                            <input class="custom-file-input pdfcheck" name="offer_letter" type="file"
+                                                                id="test-upload" required="required">
                                                             <label class="custom-file-label" for="test-upload">Choose
                                                                 file...</label>
+                                                        <span class="text-danger" id="file_error" ></span>
                                                         </div>
                                                         <div class="mt-auto">
                                                             <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
@@ -192,6 +221,20 @@
     $('#generate-letter-button').on('click', function () {
         $('#show-offer-letter').css("display", "block");
         $(this).closest("#generate-offer-letter").remove();
+    });
+
+    $("#uploadBtn").click(function(e){
+
+        myfile= $("#test-upload").val();
+        var ext = myfile.split('.').pop();
+        if (ext != "pdf"){
+            $("#file_error").text("Invalid File format(pdf file only).");
+            return false;
+        }
+        else{
+            $("#file_error").text("");
+        }
+
     });
 
 </script>

@@ -631,9 +631,30 @@
     z-index: 999 !important;
 }
 
+.m-aside-menu.m-aside-menu--skin-dark .m-menu__nav>.m-menu__item.m-menu__item--active>.m-menu__heading .m-menu__ver-arrow,
+.m-aside-menu.m-aside-menu--skin-dark .m-menu__nav>.m-menu__item.m-menu__item--active>.m-menu__link .m-menu__ver-arrow,
+.m-aside-menu.m-aside-menu--skin-dark .m-menu__nav>.m-menu__item .m-menu__submenu .m-menu__item:hover>.m-menu__heading .m-menu__link-text,
+.m-aside-menu.m-aside-menu--skin-dark .m-menu__nav>.m-menu__item .m-menu__submenu .m-menu__item:hover>.m-menu__link .m-menu__link-text,
+.m-aside-menu.m-aside-menu--skin-dark .m-menu__nav>.m-menu__item .m-menu__submenu .m-menu__item>.m-menu__heading .m-menu__link-text,
+.m-aside-menu.m-aside-menu--skin-dark .m-menu__nav>.m-menu__item .m-menu__submenu .m-menu__item>.m-menu__link .m-menu__link-text {
+    color: #f7f8fa;
+}
+
+.m-aside-menu.m-aside-menu--skin-dark .m-menu__nav>.m-menu__item.m-menu__item--open {
+    background-color: #c97635;
+}
+
+.m-aside-menu.m-aside-menu--skin-dark .la-angle-right {
+    transition: 0.3s all ease;
+}
+
+.m-aside-menu.m-aside-menu--skin-dark .m-menu__nav>.m-menu__item.m-menu__item--open .la-angle-right {
+    transform: rotate(90deg);
+}
+
 /* theme classes over ride ends here */
 
-/* global classes starts here */
+/* global classes starts here */theme
 
 .row-list {
     padding-top: 15px;
@@ -1062,6 +1083,7 @@
     height: 16px;
     margin: 0 5px;
     width: 100%;
+    text-align: center;
 }
 
 .letter-form-input--xs {
@@ -1632,6 +1654,16 @@ label.site-visit-label {
 
 /* Sign Up Page starts here */
 
+.sign-up-bg {
+    background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url(../../../../img/bg/login-bg-3.jpg);
+    background-repeat: no-repeat;
+}
+
+.sign-up-box {
+    padding: 30px !important;
+    background-color: rgba(0,0,0,0.6);
+}
+
 .m-login__signup {
     padding-top: 30px;
 }
@@ -1644,6 +1676,25 @@ label.site-visit-label {
 
 .m-login__container--sign-in .m-portlet {
     margin-bottom: 30px;
+}
+
+.m-login.m-login--2.sign-up-bg .m-login__wrapper .m-login__container .m-login__form .m-form__group .form-control {
+    background-color: rgba(0,0,0,0.6);
+    color: rgba(255,255,255,0.9);
+}
+
+.m-login.m-login--2.m-login-2--skin-2.sign-up-bg .m-login__container .m-login__form .form-control::-webkit-input-placeholder {
+    color: rgba(255,255,255,0.9);
+}
+
+.m-login.m-login--2.m-login-2--skin-2.sign-up-bg .m-login__container .m-login__form .form-control::-moz-placeholder { /* Firefox 19+ */
+    color: rgba(255,255,255,0.9);
+}
+.m-login.m-login--2.m-login-2--skin-2.sign-up-bg .m-login__container .m-login__form .form-control:-ms-input-placeholder { /* IE 10+ */
+    color: rgba(255,255,255,0.9);
+}
+.m-login.m-login--2.m-login-2--skin-2.sign-up-bg .m-login__container .m-login__form .form-control:-moz-placeholder { /* Firefox 18- */
+    color: rgba(255,255,255,0.9);
 }
 
 /* Sign Up Page ends here */

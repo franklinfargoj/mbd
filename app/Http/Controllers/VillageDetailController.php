@@ -60,7 +60,7 @@ lm_village_detail.updated_at'))->get();
                 $dataList = [];
                 $dataList['id'] = '';
                 $dataList['Board'] = '';
-                $dataList['Land Sr. No'] = '';
+                $dataList['Land Survey No'] = '';
                 $dataList['Village Name'] = '';
                 $dataList['Land Source'] = '';
                 $dataList['Land Address'] = '';
@@ -77,12 +77,13 @@ lm_village_detail.updated_at'))->get();
                 $dataList['7/12 Extract file name'] = '';
                 $dataListMaster[]=$dataList;
             }else{
+                $i=1;
                 foreach ($village_data as $dataList_key => $dataList_value) {
-                    $i=1;
+                    
                     $dataList = [];
                     $dataList['id'] = $i;
                     $dataList['Board'] = $dataList_value['board'];
-                    $dataList['Land Sr. No'] = $dataList_value['sr_no'];
+                    $dataList['Land Survey No'] = $dataList_value['sr_no'];
                     $dataList['Village Name'] = $dataList_value['village_name'];
                     $dataList['Land Source'] = $dataList_value['source'];
                     $dataList['Land Address'] = $dataList_value['land_address'];
@@ -155,7 +156,7 @@ lm_village_detail.updated_at'))->get();
                 $dataList = [];
                 $dataList['id'] = '';
                 $dataList['Board'] = '';
-                $dataList['Land Sr. No'] = '';
+                $dataList['Land Survey No'] = '';
                 $dataList['Village Name'] = '';
                 $dataList['Land Source'] = '';
                 $dataList['Land Address'] = '';
@@ -172,12 +173,13 @@ lm_village_detail.updated_at'))->get();
                 $dataList['7/12 Extract file name'] = '';
                 $dataListMaster[]=$dataList;
             }else{
+                $i=1;
                 foreach ($village_data as $dataList_key => $dataList_value) {
-                    $i=1;
+                    
                     $dataList = [];
                     $dataList['id'] = $i;
                     $dataList['Board'] = $dataList_value['board'];
-                    $dataList['Land Sr. No'] = $dataList_value['sr_no'];
+                    $dataList['Land Survey No'] = $dataList_value['sr_no'];
                     $dataList['Village Name'] = $dataList_value['village_name'];
                     $dataList['Land Source'] = $dataList_value['source'];
                     $dataList['Land Address'] = $dataList_value['land_address'];
@@ -230,7 +232,8 @@ lm_village_detail.updated_at'))->get();
 
             return $datatables->of($village_data)
                 ->editColumn('village_name', function ($village_data) {
-                    return "<a href='".route('society_detail.index', $village_data->id)."'>$village_data->village_name</a>";
+                    return $village_data->village_name;
+                    //return "<a href='".route('society_detail.index', $village_data->id)."'>$village_data->village_name</a>";
                 })
                 ->editColumn('villageBoard', function ($village_data) {
                     return $village_data->villageBoard->board_name;

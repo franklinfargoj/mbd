@@ -13,7 +13,7 @@
                 <div class="m-grid__item m-grid__item--fluid m-login__wrapper">
                     <div class="d-flex flex-wrap">
                         <div class="text-center w-100 m-login--left-box">
-                            <h4 class="text-uppercase">MHADA Digitization</h4>
+                            <h4 class="text-uppercase">MUMBAI HOUSING AND AREA DEVELOPMENT BOARD</h4>
                         </div>
                         <div class="m-login__container m-login--right-box">
                             <div class="m-login__signin m-login__signin--box">
@@ -68,7 +68,7 @@
                                     <div class="d-flex align-items-center justify-content-between m-login__form-action">
                                         <div class="m-login__form-sub">
                                             <div class="m--align-right m-login__form-right">
-                                                <a href="javascript:;" id="m_login_forget_password" class="m-link">
+                                                <a href="javascript:;" id="m_login_forget_password" class="m-link text-dark">
                                                     Forgot Password ?
                                                 </a>
                                             </div>

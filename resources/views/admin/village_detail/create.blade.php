@@ -24,7 +24,7 @@
                     </div>
 
                     <div class="col-lg-6 form-group">
-                        <label class="col-form-label" for="sr_no">Land Sr. No:</label>
+                        <label class="col-form-label" for="sr_no">Land Survey No:</label>
                         <input type="text" id="sr_no" name="sr_no" class="form-control form-control--custom m-input" value="{{ old('sr_no') }}">
                         <span class="help-block">{{$errors->first('sr_no')}}</span>
                     </div>
