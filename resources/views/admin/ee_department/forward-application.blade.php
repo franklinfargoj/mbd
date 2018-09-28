@@ -170,8 +170,8 @@
 
                                                                 @if(session()->get('role_name') != config('commanConfig.ee_junior_engineer'))
                                                                     <input type="radio" name="remarks-suggestion" class="forward-application" value="0"> Revert Application
+                                                                    <span></span>
                                                                 @endif
-                                                                <span></span>
                                                             </label>
                                                         </div>
                                                         <div class="form-group m-form__group row mt-3 parent-data">

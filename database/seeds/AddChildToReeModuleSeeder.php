@@ -58,7 +58,7 @@ class AddChildToReeModuleSeeder extends Seeder
         Role::where('id', $ee_deputy_id->id)->update(['child_id' => $ee_deputy_child]);
 
         $dyce_head_child = json_encode([$ee_head_id->id, $dyce_deputy_id->id]);
-        Role::where('id', $dyce_head_id->id)->update(['child_id' => $ee_deputy_child]);
+        Role::where('id', $dyce_head_id->id)->update(['child_id' => $dyce_head_child]);
 
         $dyce_deputy_child = json_encode([$dyce_jr_id->id]);
         Role::where('id', $dyce_deputy_id->id)->update(['child_id' => $dyce_deputy_child]);

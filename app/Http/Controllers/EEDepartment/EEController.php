@@ -139,13 +139,16 @@ class EEController extends Controller
         $arrData['role_name'] = $parentData['role_name'];
 //        $arrData['application_status'] = $this->comman->getCurrentApplicationStatus($application_id);
 
-        $child_role_id = Role::where('id', session()->get('role_id'))->get(['child_id']);
-        $result = json_decode($child_role_id[0]->child_id);
-        $status_user = OlApplicationStatus::where(['application_id' => $application_id])->pluck('user_id')->toArray();
 
-        $final_child = User::with('roles')->whereIn('id', array_unique($status_user))->whereIn('role_id', $result)->get();
+        if(session()->get('role_name') != config('commanConfig.ee_junior_engineer')) {
+            $child_role_id = Role::where('id', session()->get('role_id'))->get(['child_id']);
+            $result = json_decode($child_role_id[0]->child_id);
+            $status_user = OlApplicationStatus::where(['application_id' => $application_id])->pluck('user_id')->toArray();
 
-        $arrData['application_status'] = $final_child;
+            $final_child = User::with('roles')->whereIn('id', array_unique($status_user))->whereIn('role_id', $result)->get();
+
+            $arrData['application_status'] = $final_child;
+        }
 
 //        dd($arrData['application_status']);
         // DyCE Junior Forward Application
