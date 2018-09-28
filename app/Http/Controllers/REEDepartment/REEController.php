@@ -168,14 +168,6 @@ class REEController extends Controller
         $capNote = $this->CommonController->downloadCapNote($applicationId);
         return view('admin.REE_department.cap_note',compact('capNote'));
     }
-
-    public function GenerateOfferLetter(Request $request, $applicationId){
-        
-        $societyData = OlApplication::with(['eeApplicationSociety'])
-                ->where('id',$applicationId)->orderBy('id','DESC')->first();
-
-        return view('admin.REE_department.generate-offer-letter',compact('societyData'));
-    }
     
     public function documentSubmittedBySociety()
     {
@@ -275,6 +267,16 @@ class REEController extends Controller
         }
     }
 
+    public function GenerateOfferLetter(Request $request, $applicationId){
+        
+        $societyData = OlApplication::with(['eeApplicationSociety'])
+                ->where('id',$applicationId)->orderBy('id','DESC')->first();
+
+        $societyData->drafted_offer_letter = OlApplication::where('id',$applicationId)->value('drafted_offer_letter');   
+        
+        return view('admin.REE_department.generate-offer-letter',compact('societyData'));
+    }    
+
     public function pdfMerge(Request $request){
 
         $pdf = new \PDFMerger;
@@ -289,24 +291,29 @@ class REEController extends Controller
         file_put_contents($uploadPath, $file);
     }
 
-    public function editOfferLetter(Request $request){
-        return view('admin.REE_department.offer_letter_1');
+    public function editOfferLetter(Request $request,$applicatonId){
+        
+        return view('admin.REE_department.offer_letter_1',compact('applicatonId'));
     }
 
     public function saveOfferLetter(Request $request){
-
+       
         $uploadPath = '/uploads/Draft_offer_letter';
-        $dest = public_path($uploadPath);
+        $destination = public_path($uploadPath);
         $content = str_replace('_', "", $_POST['ckeditorText']);
 
         $pdf = \App::make('dompdf.wrapper');
         $pdf->loadHTML($content);
-        $fileName = time().'ABC1.pdf';
+        $fileName = time().'draft_letter_'.$request->applicationId.'.pdf';
+        $draftedOfferLetter = $uploadPath."/".$fileName;
 
-        if((!is_dir($dest))){
-            File::makeDirectory($dest, $mode = 0777, true, true);
-        }else{
+        if ((!is_dir($destination))){
+            File::makeDirectory($destination, $mode = 0777, true, true);
         }
-        $pdf->save($dest."/".$fileName);
+        $pdf->save($destination."/".$fileName);
+
+        OlApplication::where('id',$request->applicationId)->update(["drafted_offer_letter" => $draftedOfferLetter]);
+
+        return redirect('generate_offer_letter/'.$request->applicationId);
     }
 }

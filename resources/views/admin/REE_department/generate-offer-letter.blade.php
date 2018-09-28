@@ -1,6 +1,14 @@
 @extends('admin.layouts.app')
 @section('content')
 
+@if($societyData->drafted_offer_letter)
+ <?php $style = "display:block"; 
+        $style1 = "display:none"; ?>
+ @else
+  <?php $style = "display:none"; 
+  $style1 = "display:block"; ?>
+@endif
+
 <div class="custom-wrapper">
     <div class="col-md-12">
         <div class="m-portlet__head">
@@ -98,7 +106,7 @@
                         </div>
                     </div>
                     <div class="tab-content">
-                        <div class="tab-pane active show" id="generate-offer-letter" role="tabpanel">
+                        <div class="tab-pane active show" id="generate-offer-letter" role="tabpanel" style="{{$style1}}">
                             <div class="m-portlet m-portlet--mobile m_panel">
                                 <div class="m-portlet__body">
                                     <h3 class="section-title section-title--small mb-0">Remark on Offer Letter:</h3>
@@ -110,7 +118,8 @@
                             </div>
                         </div>
                     </div>
-                    <div id="show-offer-letter" style="display: none;">
+                    
+                    <div id="show-offer-letter" style="{{$style}}">
 
                         <div class="m-portlet m-portlet--mobile m_panel">
                             <div class="m-portlet__body" style="padding-right: 0;">
@@ -120,7 +129,7 @@
                                         <div class="col-md-12">
                                             <p class="font-weight-semi-bold">Edit Offer letter</p>
                                             <p>Click to view generated offer letter in PDF format</p>
-                                            <a href="/edit_offer_letter" class="btn btn-primary" > Edit offer Letter</a>
+                                            <a href="/edit_offer_letter/{{$societyData->id}}"  class="btn btn-primary" > Edit offer Letter</a>
                                             <!-- <button type="submit">Edit offer Letter </button> -->
                                         </div>
                                     </div>
@@ -134,7 +143,13 @@
                                                     <span class="hint-text">Want to make changes in offer letter, click
                                                         on below button to download offer letter in .doc format</span>
                                                     <div class="mt-auto">
-                                                        <button class="btn btn-primary">Download offer Letter</button>
+
+                                                    @if($societyData->drafted_offer_letter)
+                                                        <a href="{{asset($societyData->drafted_offer_letter)}}" class="btn btn-primary">Download offer Letter</a>
+                                                    @else
+                                                       <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
+                                                        * Note :  Offer Letter not available. </span>
+                                                 @endif
                                                     </div>
                                                 </div>
                                             </div>

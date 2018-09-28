@@ -11,6 +11,7 @@
 <body>
 <form id="OfferLetterFRM" action="{{ route('ree.saveOfferLetter')}}" method="post">
 @csrf
+<input type="hidden" id="applicationId" name="applicationId" value="{{$applicatonId}}">
     <textarea id="ckeditorText" name="ckeditorText">
     <div style="" id="">
         <div style="width: 100%;">
@@ -537,7 +538,8 @@
     </div>
 
 </textarea>
-<input type="submit" value="save">
+<input type="submit" value="save" style="background-color: #f0791b;border-color: #f0791b;color: #fff !important;font-family: Poppins;cursor: pointer;display: inline-block;font-weight: 400;text-align: center;white-space: nowrap;vertical-align: middle;border: 1px solid transparent;transition: all .15s ease-in-out;border-radius: .25rem;line-height: 1.25;padding: .65rem 1.25rem;font-size: 1rem;">
+           
 </form>
 </body>
 
