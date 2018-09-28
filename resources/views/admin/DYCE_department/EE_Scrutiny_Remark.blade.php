@@ -285,13 +285,6 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                    </div>
-                                    <div class="tab-content">
-
-                                    <!-- Consent Verification -->
-                                        <div class="tab-pane active" id="verification">
-                                            <div class="row">
                                                 <div class="col-sm-6">
                                                     <div class="form-group row">
                                                         <div class="col-sm-4 d-flex align-items-center">
@@ -336,7 +329,11 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>  
+                                            </div>
+                                    <div class="tab-content">
+
+                                    <!-- Consent Verification -->
+                                        <div class="tab-pane active" id="verification">
 
                                             <div class="table-checklist m-portlet__body m-portlet__body--table">
                                                 <div class="table-responsive">

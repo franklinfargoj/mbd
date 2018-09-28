@@ -24,14 +24,14 @@
                                 <div class="form-group m-form__group @if($errors->has('society_name')) has-error @endif">
                                     <!-- <label for="" class="col-form-label">First Name</label> -->
                                     <input class="form-control m-input" type="text" placeholder="Society Name" name="society_name" value="{{ old('society_name') }}">
-                                    <span class="help-block">{{$errors->first('society_name')}}</span>
+                                    <span class="text-danger">{{$errors->first('society_name')}}</span>
                                 </div>
                                 </div>
                                 <div class="col-sm-6">
                                 <div class="form-group m-form__group @if($errors->has('society_address')) has-error @endif">
                                     <!-- <label for="" class="col-form-label">Last Name</label> -->
                                     <textarea class="form-control m-input" placeholder="Society Address" name="society_address" value="{{ old('society_address') }}"></textarea>
-                                    <span class="help-block">{{$errors->first('society_address')}}</span>
+                                    <span class="text-danger">{{$errors->first('society_address')}}</span>
                                 </div>
                                 </div>
                                 <div class="col-sm-6">
@@ -45,47 +45,92 @@
                                 <div class="form-group m-form__group @if($errors->has('society_building_no')) has-error @endif">
                                     <!-- <label for="" class="col-form-label">Email Address</label> -->
                                     <input class="form-control m-input" type="text" placeholder="Society Building No" name="society_building_no" value="{{ old('society_building_no') }}">
-                                    <span class="help-block">{{$errors->first('society_building_no')}}</span>
+                                    <span class="text-danger">{{$errors->first('society_building_no')}}</span>
                                 </div>
                                 </div>
                                 <div class="col-sm-6">
                                 <div class="form-group m-form__group @if($errors->has('society_registration_no')) has-error @endif">
                                     <!-- <label for="" class="col-form-label">Mobile No</label> -->
                                     <input class="form-control m-input" type="text" placeholder="Society Registration No" name="society_registration_no" value="{{ old('society_registration_no') }}">
-                                    <span class="help-block">{{$errors->first('society_registration_no')}}</span>
+                                    <span class="text-danger">{{$errors->first('society_registration_no')}}</span>
                                 </div>
                                 </div>
                                 <div class="col-sm-6">
+<<<<<<< HEAD
+                                <div class="form-group m-form__group @if($errors->has('society_username')) has-error @endif">
+                                    <!-- <label for="" class="col-form-label">Pan Number</label> -->
+                                    <input class="form-control m-input" type="text" placeholder="User Name" name="society_username" value="{{ old('society_username') }}">
+                                    <span class="text-danger">{{$errors->first('society_username')}}</span>
+=======
                                 <div class="form-group m-form__group @if($errors->has('society_architect_name')) has-error @endif">
                                     <!-- <label for="" class="col-form-label">Confirm Password</label> -->
                                     <input class="form-control m-input" type="text" placeholder="Architect Name" name="society_architect_name" value="{{ old('society_architect_name') }}">
                                     <span class="help-block">{{$errors->first('society_architect_name')}}</span>
+>>>>>>> master
                                 </div>
                                 </div>
                                 <div class="col-sm-6">
                                 <div class="form-group m-form__group @if($errors->has('society_email')) has-error @endif">
                                     <!-- <label for="" class="col-form-label">Confirm Password</label> -->
                                     <input class="form-control m-input" type="email" placeholder="Email Address" name="society_email" value="{{ old('society_email') }}">
-                                    <span class="help-block">{{$errors->first('society_email')}}</span>
+                                    <span class="text-danger">{{$errors->first('society_email')}}</span>
                                 </div>
                                 </div>
                                 <div class="col-sm-6">
+<<<<<<< HEAD
+                                <div class="form-group m-form__group @if($errors->has('society_contact_no')) has-error @endif">
+                                    <!-- <label for="" class="col-form-label">Confirm Password</label> -->
+                                    <input class="form-control m-input" type="text" placeholder="Contact No" name="society_contact_no" value="{{ old('society_contact_no') }}">
+                                    <span class="text-danger">{{$errors->first('society_contact_no')}}</span>
+                                </div>
+                                </div>
+                                <div class="col-sm-6">
+                                <div class="form-group m-form__group @if($errors->has('society_password')) has-error @endif">
+                                    <!-- <label for="" class="col-form-label">Password</label> -->
+                                    <input class="form-control m-input" type="password" placeholder="Password" name="society_password" value="{{ old('society_password') }}">
+                                    <span class="text-danger">{{$errors->first('society_password')}}</span>
+                                </div>
+                                </div>
+                            </div>
+                            <div class="m-login__form-divider">
+                                <div>
+                                    <div class="m-divider">
+                                        <h3 class="section-title section-title--small text-center mb-0 mt-4">Architect Details:</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                <div class="form-group m-form__group @if($errors->has('society_architect_name')) has-error @endif">
+                                    <!-- <label for="" class="col-form-label">Confirm Password</label> -->
+                                    <input class="form-control m-input" type="text" placeholder="Architect Name" name="society_architect_name" value="{{ old('society_architect_name') }}">
+                                    <span class="text-danger">{{$errors->first('society_architect_name')}}</span>
+                                </div>
+                                </div>
+                                <div class="col-sm-6">
+=======
+>>>>>>> master
                                 <div class="form-group m-form__group @if($errors->has('society_architect_mobile_no')) has-error @endif">
                                     <!-- <label for="" class="col-form-label">Confirm Password</label> -->
                                     <input class="form-control m-input" type="text" placeholder="Architect Mobile Number" name="society_architect_mobile_no" value="{{ old('society_architect_mobile_no') }}">
-                                    <span class="help-block">{{$errors->first('society_architect_mobile_no')}}</span>
+                                    <span class="text-danger">{{$errors->first('society_architect_mobile_no')}}</span>
                                 </div>
                                 </div>
                                 <div class="col-sm-6">
                                 <div class="form-group m-form__group @if($errors->has('society_architect_address')) has-error @endif">
                                     <!-- <label for="" class="col-form-label">Password</label> -->
                                     <textarea class="form-control m-input" placeholder="Architect Address" name="society_architect_address" value="{{ old('society_architect_address') }}"></textarea>
-                                    <span class="help-block">{{$errors->first('society_architect_address')}}</span>
+                                    <span class="text-danger">{{$errors->first('society_architect_address')}}</span>
                                 </div>
                                 </div>
                                 <div class="col-sm-6">
                                 <div class="form-group m-form__group @if($errors->has('society_password')) has-error @endif">
                                     <!-- <label for="" class="col-form-label">Password</label> -->
+<<<<<<< HEAD
+                                    <input class="form-control m-input" type="text" placeholder="Architect Telephone Number"
+                                        name="society_architect_telephone_no" value="{{ old('society_architect_telephone_no') }}">
+                                    <span class="text-danger">{{$errors->first('society_architect_telephone_no')}}</span>
+=======
                                     <input class="form-control m-input" type="password" placeholder="Password" name="society_password" id="password" value="{{ old('society_password') }}">
                                     <span class="help-block">{{$errors->first('society_password')}}</span>
                                 </div>
@@ -102,6 +147,7 @@
                                     <!-- <label for="" class="col-form-label">Confirm Password</label> -->
                                     <input class="form-control m-input" type="email" placeholder="Optional Email Address" name="optional_society_email" value="{{ old('society_email') }}">
                                     <span class="help-block">{{$errors->first('society_email')}}</span>
+>>>>>>> master
                                 </div>
                                 </div>
                             </div>

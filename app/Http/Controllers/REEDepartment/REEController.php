@@ -22,6 +22,8 @@ use App\User;
 use Config;
 use Auth;
 use DB;
+use PDF;
+use File;
 
 class REEController extends Controller
 {
@@ -166,10 +168,6 @@ class REEController extends Controller
         $capNote = $this->CommonController->downloadCapNote($applicationId);
         return view('admin.REE_department.cap_note',compact('capNote'));
     }
-
-    public function offerLetter(Request $request){
-        return view('admin.REE_department.offer_letter');
-    }
     
     public function documentSubmittedBySociety()
     {
@@ -271,5 +269,80 @@ class REEController extends Controller
 
     public function SharingCalculationSheet() {
         return view('admin.REE_department.sharing-calculation-sheet');
+    }    
+
+    public function GenerateOfferLetter(Request $request, $applicationId){
+        
+        $societyData = OlApplication::with(['eeApplicationSociety'])
+                ->where('id',$applicationId)->orderBy('id','DESC')->first();
+
+        $societyData->drafted_offer_letter = OlApplication::where('id',$applicationId)->value('drafted_offer_letter');   
+        
+        return view('admin.REE_department.generate-offer-letter',compact('societyData'));
+    }    
+
+    public function pdfMerge(Request $request){
+
+        $pdf = new \PDFMerger;
+         $uploadPath      = '/uploads';
+        $pdfFile1Path = public_path($uploadPath) . '/pdf.pdf';
+        $pdfFile1Path1 = public_path($uploadPath) . '/sample.pdf';
+
+        $pdf->addPDF($pdfFile1Path, 'all');
+        $pdf->addPDF($pdfFile1Path1, 'all');
+
+        $file = $pdf->merge('file','mergedpdf.pdf');
+        file_put_contents($uploadPath, $file);
+    }
+
+    public function editOfferLetter(Request $request,$applicatonId){
+        
+        return view('admin.REE_department.offer_letter_1',compact('applicatonId'));
+    }
+
+    public function saveOfferLetter(Request $request){
+       
+        $uploadPath = '/uploads/Draft_offer_letter';
+        $destination = public_path($uploadPath);
+        $content = str_replace('_', "", $_POST['ckeditorText']);
+
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadHTML($content);
+        $fileName = time().'draft_letter_'.$request->applicationId.'.pdf';
+        $draftedOfferLetter = $uploadPath."/".$fileName;
+
+        if ((!is_dir($destination))){
+            File::makeDirectory($destination, $mode = 0777, true, true);
+        }
+        $pdf->save($destination."/".$fileName);
+
+        OlApplication::where('id',$request->applicationId)->update(["drafted_offer_letter" => $draftedOfferLetter]);
+
+        return redirect('generate_offer_letter/'.$request->applicationId);
+    }
+
+    public function uploadOfferLetter(Request $request,$applicationId){
+
+        $uploadPath      = '/uploads/uploaded_offer_letter';
+        $destinationPath = public_path($uploadPath); 
+        
+        if ($request->file('offer_letter')) {
+            $file = $request->file('offer_letter');
+            $file_name = time().$file->getFileName().'.'.$file->getClientOriginalExtension();
+            $extension = $file->getClientOriginalExtension();
+
+            if ($extension == "pdf") {
+
+                if ($file->move($destinationPath, $file_name)) {
+
+                    $offerLetterPath = $uploadPath."/".$file_name; 
+                    OlApplication::where('id',$applicationId)->update(["offer_letter_document_path" => $offerLetterPath]);
+
+                    return redirect()->back()->with('success', 'Successfully uploaded');
+                }
+            } else {
+                return redirect()->back()->with('error', 'Invalid format. pdf file only.');
+            }
+        }       
     }
 }
