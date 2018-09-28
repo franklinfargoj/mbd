@@ -16,6 +16,7 @@ use App\OlConsentVerificationDetails;
 use App\OlDemarcationVerificationDetails;
 use App\OlTitBitVerificationDetails;
 use App\OlRelocationVerificationDetails;
+use App\OlApplicationCalculationSheetDetails;
 use App\OlChecklistScrutiny;
 use App\OlApplicationStatus;
 use App\User;
@@ -24,6 +25,7 @@ use Auth;
 use DB;
 use PDF;
 use File;
+
 
 class REEController extends Controller
 {
@@ -297,7 +299,13 @@ class REEController extends Controller
 
     public function editOfferLetter(Request $request,$applicatonId){
         
-        return view('admin.REE_department.offer_letter_1',compact('applicatonId'));
+        // $calculationData = $this->getPermiumCalculationSheetData($applicatonId);
+
+        $calculationData = OlApplication::with(['premiumCalculationSheet','eeApplicationSociety'])->where('id',$applicatonId)->first();
+
+        // dd($calculationData->eeApplicationSociety->name);
+
+        return view('admin.REE_department.offer_letter_1',compact('applicatonId','calculationData'));
     }
 
     public function saveOfferLetter(Request $request){
@@ -352,5 +360,12 @@ class REEController extends Controller
                 ->where('id',$applicationId)->orderBy('id','DESC')->first();
 
         return view('admin.REE_department.approved_offer_letter',compact('applicationData'));
+    }
+
+    public function getPermiumCalculationSheetData($applicationId){
+        
+        $data = OlApplicationCalculationSheetDetails::where('application_id',$applicationId)->first()
+        ;
+        return $data;
     }
 }

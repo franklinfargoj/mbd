@@ -157,5 +157,10 @@ class COController extends Controller
         $capNote = $this->CommonController->downloadCapNote($applicationId);
 
         return view('admin.co_department.cap_note',compact('capNote'));
-     }    
+     } 
+
+    public function approveOfferLetter(Request $request, $applicationId){
+
+        return view('admin.co_department.approve_offer_letter');
+    }    
 }
