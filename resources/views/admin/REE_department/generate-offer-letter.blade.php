@@ -157,12 +157,14 @@
                                                 <div class="d-flex flex-column h-100">
                                                     <h5>Upload Offer Letter</h5>
                                                     <span class="hint-text">Click on 'Upload' to upload offer letter</span>
-                                                    <form action="" method="post" enctype="multipart/form-data">
+                                                    <form action="{{route('ree.upload_offer_letter',$societyData->id)}}" method="post" enctype="multipart/form-data">
+                                                    @csrf
                                                         <div class="custom-file">
-                                                            <input class="custom-file-input" name="ee_note" type="file"
-                                                                id="test-upload" required="">
+                                                            <input class="custom-file-input pdfcheck" name="offer_letter" type="file"
+                                                                id="test-upload" required="required">
                                                             <label class="custom-file-label" for="test-upload">Choose
                                                                 file...</label>
+                                                        <span class="text-danger" id="file_error" ></span>
                                                         </div>
                                                         <div class="mt-auto">
                                                             <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
@@ -208,6 +210,19 @@
     $('#generate-letter-button').on('click', function () {
         $('#show-offer-letter').css("display", "block");
         $(this).closest("#generate-offer-letter").remove();
+    });
+
+    $(".pdfcheck").change(function(){
+        myfile= $(this).val();
+        var ext = myfile.split('.').pop();
+        if (ext != "pdf"){
+            $("#file_error").text("Invalid File format(pdf file only).");
+            return false;
+        }
+        else{
+            $("#file_error").text("");
+        }
+
     });
 
 </script>

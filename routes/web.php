@@ -318,9 +318,10 @@ Route::get('offer-letter-doc', 'OfferLetterController@OfferLetterDoc');
 // Route::get('offer_letter','REEDepartment\REEController@offerLetter')->name('offer_letter');
 Route::get('generate_offer_letter/{id}', 'REEDepartment\REEController@GenerateOfferLetter')->name('ree.generate_offer_letter');
 
-Route::get('pdfMerge', 'REEDepartment\REEController@pdfMerge')->name('ree.pdfMerge');
+// Route::get('pdfMerge', 'REEDepartment\REEController@pdfMerge')->name('ree.pdfMerge');
 Route::get('edit_offer_letter/{id}', 'REEDepartment\REEController@editOfferLetter')->name('ree.edit_offer_letter');
-Route::post('saveOfferLetter', 'REEDepartment\REEController@saveOfferLetter')->name('ree.saveOfferLetter');
+Route::post('save_offer_letter', 'REEDepartment\REEController@saveOfferLetter')->name('ree.saveOfferLetter');
+Route::post('upload_offer_letter/{id}', 'REEDepartment\REEController@uploadOfferLetter')->name('ree.upload_offer_letter');
 
 
 

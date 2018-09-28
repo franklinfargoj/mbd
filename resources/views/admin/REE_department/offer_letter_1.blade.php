@@ -81,7 +81,7 @@
                     DCR 33(5) dated 08.10.2013 & it's modification dtd. 03.07.2017, your proposal is approved By
                     Competent authority.</p>
                 <p style="text-indent: 25px; margin-top: 5px; margin-bottom: 5px;">Allotment of additional buildable
-                    area of ___________ (for residential use)[i.e. ___________ in the form of additional BUA +
+                    area of ___________ (for residential use)[i.e. in the form of additional BUA +
                     ___________ in the form of balance built up area of layout (Pro-rata)] over and above ___________
                     existing
                     built up area.</p>

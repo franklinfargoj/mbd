@@ -316,4 +316,29 @@ class REEController extends Controller
 
         return redirect('generate_offer_letter/'.$request->applicationId);
     }
+
+    public function uploadOfferLetter(Request $request,$applicationId){
+
+        $uploadPath      = '/uploads/uploaded_offer_letter';
+        $destinationPath = public_path($uploadPath); 
+        
+        if ($request->file('offer_letter')) {
+            $file = $request->file('offer_letter');
+            $file_name = time().$file->getFileName().'.'.$file->getClientOriginalExtension();
+            $extension = $file->getClientOriginalExtension();
+
+            if ($extension == "pdf") {
+
+                if ($file->move($destinationPath, $file_name)) {
+
+                    $offerLetterPath = $uploadPath."/".$file_name; 
+                    OlApplication::where('id',$applicationId)->update(["offer_letter_document_path" => $offerLetterPath]);
+
+                    return redirect()->back()->with('success', 'Successfully uploaded');
+                }
+            } else {
+                return redirect()->back()->with('error', 'Invalid format. pdf file only.');
+            }
+        }       
+    }
 }
