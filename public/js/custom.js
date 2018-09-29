@@ -36,6 +36,11 @@ $(document).ready(function () {
         console.log("file", e.target.files[0].name)
     });
 
+    // store the currently selected tab in the hash value
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) { location.replace($(e.target).attr("href")); });
+    // switch to the currently selected tab when loading the page
+    $('.nav-tabs a[href="' + window.location.hash + '"]').tab('show');
+
     //Tabbed Content
 
     var tabs = document.querySelector('.tabs');
