@@ -32,7 +32,7 @@
 }
 
 .m-aside-menu.m-aside-menu--skin-dark .m-menu__nav > .m-menu__item:hover {
-    background-color: #c97635;
+    background-color: #ef7c22;
 }
 
 .m-brand.m-brand--skin-dark .m-brand__tools .m-brand__toggler span,
@@ -641,7 +641,7 @@
 }
 
 .m-aside-menu.m-aside-menu--skin-dark .m-menu__nav>.m-menu__item.m-menu__item--open {
-    background-color: #c97635;
+    background-color: #ef7c22;
 }
 
 .m-aside-menu.m-aside-menu--skin-dark .la-angle-right {
@@ -652,9 +652,14 @@
     transform: rotate(90deg);
 }
 
+/* .m-aside-menu .m-menu__nav .m-menu__inner,
+.m-aside-menu .m-menu__nav .m-menu__submenu {
+    display: block !important;
+} */
+
 /* theme classes over ride ends here */
 
-/* global classes starts here */theme
+/* global classes starts here */
 
 .row-list {
     padding-top: 15px;
@@ -1655,7 +1660,7 @@ label.site-visit-label {
 /* Sign Up Page starts here */
 
 .sign-up-bg {
-    background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url(../../../../img/bg/login-bg-3.jpg);
+    background-image: url(../../../../img/bg/login-bg-3.jpg);
     background-repeat: no-repeat;
 }
 

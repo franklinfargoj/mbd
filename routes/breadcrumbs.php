@@ -7,27 +7,27 @@ Breadcrumbs::for('rti_applicants', function ($trail) {
 
 Breadcrumbs::for('view_applicant', function ($trail,$id) {
     $trail->parent('rti_applicants');
-    $trail->push('view_applicant/'.$id, route('view_applicant',$id));
+    $trail->push('view_applicant/', route('view_applicant',$id));
 });
 
 Breadcrumbs::for('schedule_meeting', function ($trail,$id) {
     $trail->parent('rti_applicants');
-    $trail->push('schedule_meeting/'.$id, route('schedule_meeting',$id));
+    $trail->push('schedule_meeting/', route('schedule_meeting',$id));
 });
 
 Breadcrumbs::for('update_status', function ($trail,$id) {
     $trail->parent('rti_applicants');
-    $trail->push('update_status/'.$id, route('update_status',$id));
+    $trail->push('update_status/', route('update_status',$id));
 });
 
 Breadcrumbs::for('rti_send_info', function ($trail,$id) {
     $trail->parent('rti_applicants');
-    $trail->push('rti_send_info/'.$id, route('rti_send_info',$id));
+    $trail->push('rti_send_info/', route('rti_send_info',$id));
 });
 
 Breadcrumbs::for('rti_forwarded_application', function ($trail,$id) {
     $trail->parent('rti_applicants');
-    $trail->push('rti_forwarded_application/'.$id, route('rti_forwarded_application',$id));
+    $trail->push('rti_forwarded_application/', route('rti_forwarded_application',$id));
 });
 
 //Resolution
@@ -42,7 +42,7 @@ Breadcrumbs::for('resolution_create', function ($trail) {
  
 Breadcrumbs::for('resolution_edit', function ($trail,$id) {
 	$trail->parent('resolution');
-    $trail->push('resolution_edit/'.$id, route('resolution.edit',$id));
+    $trail->push('resolution_edit/', route('resolution.edit',$id));
 });
 
 //Land
@@ -57,12 +57,12 @@ Breadcrumbs::for('village_create', function ($trail) {
 
 Breadcrumbs::for('village_view', function ($trail,$id) {
 	$trail->parent('village_detail');
-	$trail->push('village_view/'.$id, route('village_detail.show',$id));
+	$trail->push('village_view/', route('village_detail.show',$id));
 });
 
 Breadcrumbs::for('village_edit', function ($trail,$id) {
 	$trail->parent('village_detail');
-	$trail->push('village_edit/'.$id, route('village_detail.edit',$id));
+	$trail->push('village_edit/', route('village_detail.edit',$id));
 });
 
 Breadcrumbs::for('society_detail', function ($trail) {
@@ -76,7 +76,7 @@ Breadcrumbs::for('society_create', function ($trail) {
 
 Breadcrumbs::for('society_detail_edit', function ($trail,$id) {
 	$trail->parent('society_detail',$id);
-	$trail->push('society_detail_edit/'.$id, route('society_detail.edit',$id));
+	$trail->push('society_detail_edit/', route('society_detail.edit',$id));
 });
 
 Breadcrumbs::for('lease_detail', function ($trail,$id) {

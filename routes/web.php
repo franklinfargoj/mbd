@@ -323,7 +323,7 @@ Route::get('offer-letter-doc', 'OfferLetterController@OfferLetterDoc');
 // Route::get('generate-offer-letter', 'REEDepartment\REEController@GenerateOfferLetter');
 Route::get('sharing-calculation-sheet', 'REEDepartment\REEController@SharingCalculationSheet');
 
-// Route::get('offer_letter','REEDepartment\REEController@offerLetter')->name('offer_letter');
+Route::get('offer_letter','REEDepartment\REEController@offerLetter')->name('offer_letter');
 
 // Route::get('pdfMerge', 'REEDepartment\REEController@pdfMerge')->name('ree.pdfMerge');
 Route::get('approved_offer_letter/{id}','REEDepartment\REEController@approvedOfferLetter')->name('ree.approved_offer_letter');

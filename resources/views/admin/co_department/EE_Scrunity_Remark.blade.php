@@ -48,7 +48,7 @@
                                             <div class="col-sm-6 field-col">
                                                 <div class="d-flex">
                                                     <span class="field-name">Application Date:</span>
-                                                    <span class="field-value">{{(isset($eeScrutinyData->submitted_at) ? $eeScrutinyData->submitted_at : '')}}</span>
+                                                    <span class="field-value">{{(isset($eeScrutinyData->submitted_at) ? date(config('commanConfig.dateFormat'),strtotime($eeScrutinyData->submitted_at)) : '')}}</span>
                                                 </div>
                                             </div>
                                             <div class="col-sm-6 field-col">

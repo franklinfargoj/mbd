@@ -9,7 +9,7 @@
 @endif
 
 
-<a title="Offer Letter" href="{{url('offer_letter')}}">Offer Letter</a>
+<a title="Offer Letter" href="{{route('ree.generate_offer_letter',$ree_application_data->id)}}">Offer Letter</a>
 {{--@if($ree_application_data->olApplicationStatusForLoginListing[0]->status_id == config('commanConfig.applicationStatus.in_process'))--}}
     <a title="Forward Application" href="{{route('ree.forward_application',$ree_application_data->id)}}">Forward Application</a>
 {{--@endif--}}
