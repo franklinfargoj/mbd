@@ -558,7 +558,6 @@
 </body>
 
 </html>
-@section('add_email_templates_js')
 <script src="{{ asset('vendor/unisharp/laravel-ckeditor/ckeditor.js') }}"></script>
 <script>
     CKEDITOR.disableAutoInline = true;
@@ -569,4 +568,4 @@
 
 </script>
 <script>
-@endsection
+
