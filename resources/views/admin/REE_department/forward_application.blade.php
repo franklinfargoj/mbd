@@ -208,7 +208,7 @@
                                                             @endif
                                                         </div>
 
-                                                        @if($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.offer_letter_approved'))
+                                                        @if($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.offer_letter_approved') && (session()->get('role_name') == config('commanConfig.ree_branch_head')))
                                                             <label class="m-radio m-radio--primary">
                                                                 <input type="radio" name="remarks_suggestion" id="remark" class="forward-application" value="1" checked> Send To Society
                                                                 <span></span>

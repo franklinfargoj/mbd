@@ -199,8 +199,8 @@ class VPController extends Controller
 
                 [
                     'application_id' => $request->applicationId,
-                    'user_id' => $request->to_child_id,
-                    'role_id' => $request->to_role_id,
+                    'user_id' => $request->user_id,
+                    'role_id' => $request->role_id,
                     'status_id' => config('commanConfig.applicationStatus.in_process'),
                     'to_user_id' => NULL,
                     'to_role_id' => NULL,
