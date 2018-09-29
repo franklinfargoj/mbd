@@ -127,6 +127,7 @@ class CommonController extends Controller
                     ->where('society_flag', 0)
                     ->orderBy('id', 'desc');
             })
+            ->orderBy('id', 'desc')
             ->select()->get();
 
         $listArray = [];

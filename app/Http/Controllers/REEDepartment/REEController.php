@@ -47,12 +47,12 @@ class REEController extends Controller
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'application_no','name' => 'application_no','title' => 'Application Number'],
             ['data' => 'date','name' => 'date','title' => 'Date'],
-            ['data' => 'society_name','name' => 'eeApplicationSociety.name','title' => 'Society Name'],
-            ['data' => 'building_name','name' => 'eeApplicationSociety.building_no','title' => 'building No'],
-            ['data' => 'society_address','name' => 'eeApplicationSociety.address','title' => 'Address','searchable' => false],
+            ['data' => 'eeApplicationSociety.name','name' => 'eeApplicationSociety.name','title' => 'Society Name'],
+            ['data' => 'eeApplicationSociety.building_no','name' => 'eeApplicationSociety.building_no','title' => 'building No'],
+            ['data' => 'eeApplicationSociety.address','name' => 'eeApplicationSociety.address','title' => 'Address','searchable' => false],
             // ['data' => 'model','name' => 'model','title' => 'Model'],
-            ['data' => 'Status','name' => 'status','title' => 'Status'],
-            // ['data' => 'Model','name' => 'model','title' => 'Model'],
+            ['data' => 'Status','name' => 'Status','title' => 'Status'],
+            // ['data' => 'Model','name' => 'Model','title' => 'Model'],
             ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
         ];
 
@@ -64,13 +64,13 @@ class REEController extends Controller
             ->editColumn('rownum', function ($listArray) {
                 static $i = 0; $i++; return $i;
             })
-            ->editColumn('society_name', function ($ree_application_data) {
+            ->editColumn('eeApplicationSociety.name', function ($ree_application_data) {
                 return $ree_application_data->eeApplicationSociety->name;
             })
-            ->editColumn('building_name', function ($ree_application_data) {
+            ->editColumn('eeApplicationSociety.building_no', function ($ree_application_data) {
                 return $ree_application_data->eeApplicationSociety->building_no;
             })
-            ->editColumn('society_address', function ($ree_application_data) {
+            ->editColumn('eeApplicationSociety.address', function ($ree_application_data) {
                 return $ree_application_data->eeApplicationSociety->address;
             })                
             ->editColumn('date', function ($ree_application_data) {
@@ -96,9 +96,9 @@ class REEController extends Controller
                 }
 
             })
-            /*->addColumn('Model', function ($ree_application_data) {
-                    return $ree_application_data->ol_application_master->model;
-                })*/
+           // ->editColumn('Model', function ($ree_application_data) {
+           //          return $ree_application_data->ol_application_master->model;
+           //      })
             ->rawColumns(['society_name', 'building_name', 'society_address','date','actions','Status'])
             ->make(true);
         }        

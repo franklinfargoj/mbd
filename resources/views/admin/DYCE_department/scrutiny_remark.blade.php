@@ -34,8 +34,7 @@
                         <div class="col-sm-6 field-col">
                             <div class="d-flex">
                                 <span class="field-name">Application Date:</span>
-                                <span class="field-value">{{(isset($applicationData->submitted_at) ?
-                                    $applicationData->submitted_at : '')}}</span>
+                                <span class="field-value">{{($applicationData->submitted_at) ? date(config('commanConfig.dateFormat'),strtotime($applicationData->submitted_at)) : ''}}</span>
                             </div>
                         </div>
                         <div class="col-sm-6 field-col">

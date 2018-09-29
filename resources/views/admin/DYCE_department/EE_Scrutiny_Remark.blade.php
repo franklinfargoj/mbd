@@ -41,31 +41,37 @@
                                                 <div class="d-flex">
                                                     <span class="field-name">Application Number:</span>
                                                     <span class="field-value">
-                                                    {{(isset($eeScrutinyData->application_no) ? $eeScrutinyData->application_no : '')}}</span>
+                                                        {{(isset($eeScrutinyData->application_no) ?
+                                                        $eeScrutinyData->application_no : '')}}</span>
                                                 </div>
                                             </div>
                                             <div class="col-sm-6 field-col">
                                                 <div class="d-flex">
                                                     <span class="field-name">Application Date:</span>
-                                                    <span class="field-value">{{(isset($eeScrutinyData->submitted_at) ? $eeScrutinyData->submitted_at : '')}}</span>
+                                                    <span class="field-value">{{(isset($eeScrutinyData->submitted_at) ? date(config('commanConfig.dateFormat'),strtotime($eeScrutinyData->submitted_at)) : '')}}</span>
+
+                                                    
                                                 </div>
                                             </div>
                                             <div class="col-sm-6 field-col">
                                                 <div class="d-flex">
                                                     <span class="field-name">Society Name:</span>
-                                                    <span class="field-value">{{(isset($eeScrutinyData->eeApplicationSociety->name) ? $eeScrutinyData->eeApplicationSociety->name : '')}}</span>
+                                                    <span class="field-value">{{(isset($eeScrutinyData->eeApplicationSociety->name)
+                                                        ? $eeScrutinyData->eeApplicationSociety->name : '')}}</span>
                                                 </div>
                                             </div>
                                             <div class="col-sm-6 field-col">
                                                 <div class="d-flex">
                                                     <span class="field-name">Society Address:</span>
-                                                    <span class="field-value">{{(isset($eeScrutinyData->eeApplicationSociety->address) ? $eeScrutinyData->eeApplicationSociety->address : '')}}</span>
+                                                    <span class="field-value">{{(isset($eeScrutinyData->eeApplicationSociety->address)
+                                                        ? $eeScrutinyData->eeApplicationSociety->address : '')}}</span>
                                                 </div>
                                             </div>
                                             <div class="col-sm-6 field-col">
                                                 <div class="d-flex">
                                                     <span class="field-name">Building Number:</span>
-                                                    <span class="field-value">{{(isset($eeScrutinyData->eeApplicationSociety->building_no) ? $eeScrutinyData->eeApplicationSociety->building_no : '')}}</span>
+                                                    <span class="field-value">{{(isset($eeScrutinyData->eeApplicationSociety->building_no)
+                                                        ? $eeScrutinyData->eeApplicationSociety->building_no : '')}}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -80,25 +86,33 @@
                                             <div class="col-sm-6 field-col">
                                                 <div class="d-flex">
                                                     <span class="field-name">Name of Architect:</span>
-                                                    <span class="field-value">{{(isset($eeScrutinyData->eeApplicationSociety->name_of_architect) ? $eeScrutinyData->eeApplicationSociety->name_of_architect : '')}}</span>
+                                                    <span class="field-value">{{(isset($eeScrutinyData->eeApplicationSociety->name_of_architect)
+                                                        ? $eeScrutinyData->eeApplicationSociety->name_of_architect :
+                                                        '')}}</span>
                                                 </div>
                                             </div>
                                             <div class="col-sm-6 field-col">
                                                 <div class="d-flex">
                                                     <span class="field-name">Architect Mobile Number:</span>
-                                                    <span class="field-value">{{(isset($eeScrutinyData->eeApplicationSociety->architect_mobile_no) ? $eeScrutinyData->eeApplicationSociety->architect_mobile_no : '')}}</span>
+                                                    <span class="field-value">{{(isset($eeScrutinyData->eeApplicationSociety->architect_mobile_no)
+                                                        ? $eeScrutinyData->eeApplicationSociety->architect_mobile_no :
+                                                        '')}}</span>
                                                 </div>
                                             </div>
                                             <div class="col-sm-6 field-col">
                                                 <div class="d-flex">
                                                     <span class="field-name">Architect Address:</span>
-                                                    <span class="field-value">{{(isset($eeScrutinyData->eeApplicationSociety->architect_address) ? $eeScrutinyData->eeApplicationSociety->architect_address : '')}}</span>
+                                                    <span class="field-value">{{(isset($eeScrutinyData->eeApplicationSociety->architect_address)
+                                                        ? $eeScrutinyData->eeApplicationSociety->architect_address :
+                                                        '')}}</span>
                                                 </div>
                                             </div>
                                             <div class="col-sm-6 field-col">
                                                 <div class="d-flex">
                                                     <span class="field-name">Architect Telephone Number:</span>
-                                                    <span class="field-value">{{(isset($eeScrutinyData->eeApplicationSociety->architect_telephone_no) ? $eeScrutinyData->eeApplicationSociety->architect_telephone_no : '')}}</span>
+                                                    <span class="field-value">{{(isset($eeScrutinyData->eeApplicationSociety->architect_telephone_no)
+                                                        ? $eeScrutinyData->eeApplicationSociety->architect_telephone_no
+                                                        : '')}}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -130,27 +144,29 @@
                                                     </thead>
                                                     <tbody>
                                                         <?php $i=0; ?>
-                                                        @foreach($eeScrutinyData->eeApplicationSociety->societyDocuments as $data)
-                                                            <tr>
-                                                                <td>{{$i+1}}</td>
-                                                                <td>{{($data->documents_Name[0]->name)}}</td>
-                                                                <td class="text-center">
+                                                        @foreach($eeScrutinyData->eeApplicationSociety->societyDocuments
+                                                        as $data)
+                                                        <tr>
+                                                            <td>{{$i+1}}</td>
+                                                            <td>{{($data->documents_Name[0]->name)}}</td>
+                                                            <td class="text-center">
                                                                 @if(isset($data->society_document_path))
-                                                                    <a href="{{ asset($data->society_document_path) }}">
+                                                                <a href="{{ asset($data->society_document_path) }}">
                                                                     <img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                                                                 @endif
-                                                                </td>
-                                                                <td>
-                                                                    <p class="mb-2">{{$data->comment_by_EE}}</p>
-                                                                </td>
-                                                                <td class="text-center">
-                                                                @if(isset($data->EE_document_path))    
-                                                                    <a href="{{ asset($data->EE_document_path) }}"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}">
-                                                                     </a>
+                                                            </td>
+                                                            <td>
+                                                                <p class="mb-2">{{$data->comment_by_EE}}</p>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @if(isset($data->EE_document_path))
+                                                                <a href="{{ asset($data->EE_document_path) }}"><img
+                                                                        class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}">
+                                                                </a>
                                                                 @endif
-                                                                </td>
-                                                            </tr>
-                                                            <?php $i++; ?>
+                                                            </td>
+                                                        </tr>
+                                                        <?php $i++; ?>
                                                         @endforeach
                                                     </tbody>
                                                 </table>
@@ -270,7 +286,8 @@
                                                         </div>
                                                         <div class="col-sm-8">
                                                             <input type="text" class="form-control form-control--custom"
-                                                                id="name" value="{{(isset($eeScrutinyData->eeApplicationSociety->name) ? $eeScrutinyData->eeApplicationSociety->name : '')}}" readonly>
+                                                                id="name" value="{{(isset($eeScrutinyData->eeApplicationSociety->name) ? $eeScrutinyData->eeApplicationSociety->name : '')}}"
+                                                                readonly>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -281,7 +298,8 @@
                                                         </div>
                                                         <div class="col-sm-8">
                                                             <input type="text" class="form-control form-control--custom"
-                                                                id="building-no" placeholder="" value="{{(isset($eeScrutinyData->eeApplicationSociety->building_no) ? $eeScrutinyData->eeApplicationSociety->building_no : '')}}" readonly>
+                                                                id="building-no" placeholder="" value="{{(isset($eeScrutinyData->eeApplicationSociety->building_no) ? $eeScrutinyData->eeApplicationSociety->building_no : '')}}"
+                                                                readonly>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -292,7 +310,8 @@
                                                         </div>
                                                         <div class="col-sm-8">
                                                             <input type="text" class="form-control form-control--custom"
-                                                                id="name" value="{{(isset($eeScrutinyData->Consent_checklist->layout) ? $eeScrutinyData->Consent_checklist->layout : '')}}" readonly>
+                                                                id="name" value="{{(isset($eeScrutinyData->Consent_checklist->layout) ? $eeScrutinyData->Consent_checklist->layout : '')}}"
+                                                                readonly>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -303,7 +322,8 @@
                                                         </div>
                                                         <div class="col-sm-8">
                                                             <input type="text" class="form-control form-control--custom"
-                                                                id="building-no" placeholder="" value="{{(isset($eeScrutinyData->Consent_checklist->details_of_notice) ? $eeScrutinyData->Consent_checklist->details_of_notice : '')}}" readonly>
+                                                                id="building-no" placeholder="" value="{{(isset($eeScrutinyData->Consent_checklist->details_of_notice) ? $eeScrutinyData->Consent_checklist->details_of_notice : '')}}"
+                                                                readonly>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -314,7 +334,8 @@
                                                         </div>
                                                         <div class="col-sm-8">
                                                             <input type="text" class="form-control form-control--custom"
-                                                                id="name" value="{{(isset($eeScrutinyData->Consent_checklist->investigation_officer_name) ? $eeScrutinyData->Consent_checklist->investigation_officer_name : '')}}" readonly>
+                                                                id="name" value="{{(isset($eeScrutinyData->Consent_checklist->investigation_officer_name) ? $eeScrutinyData->Consent_checklist->investigation_officer_name : '')}}"
+                                                                readonly>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -325,356 +346,381 @@
                                                         </div>
                                                         <div class="col-sm-8">
                                                             <input type="text" class="form-control form-control--custom"
-                                                                id="building-no" placeholder="" value="{{(isset($eeScrutinyData->Consent_checklist->date_of_investigation) ? $eeScrutinyData->Consent_checklist->date_of_investigation : '')}}" readonly>
+                                                                id="building-no" placeholder="" value="{{(isset($eeScrutinyData->Consent_checklist->date_of_investigation) ? $eeScrutinyData->Consent_checklist->date_of_investigation : '')}}"
+                                                                readonly>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                    <div class="tab-content">
+                                            <div class="tab-content">
 
-                                    <!-- Consent Verification -->
-                                        <div class="tab-pane active" id="verification">
+                                                <!-- Consent Verification -->
+                                                <div class="tab-pane active" id="verification">
 
-                                            <div class="table-checklist m-portlet__body m-portlet__body--table">
-                                                <div class="table-responsive">
-                                                    <table class="table">
-                                                        <thead class="thead-default">
-                                                            <th>#</th>
-                                                            <th class="table-data--xl">मुद्दा / तपशील</th>
-                                                            <th>होय</th>
-                                                            <th>नाही</th>
-                                                            <th>शेरा</th>
-                                                        </thead>
-                                                        <tbody>
-                                                        <?php $i = 1; ?>
-                                                        @foreach($eeScrutinyData->consentQuetions as $data)
+                                                    <div class="table-checklist m-portlet__body m-portlet__body--table">
+                                                        <div class="table-responsive">
+                                                            <table class="table">
+                                                                <thead class="thead-default">
+                                                                    <th>#</th>
+                                                                    <th class="table-data--xl">मुद्दा / तपशील</th>
+                                                                    <th>होय</th>
+                                                                    <th>नाही</th>
+                                                                    <th>शेरा</th>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <?php $i = 1; ?>
+                                                                    @foreach($eeScrutinyData->consentQuetions as $data)
 
-                                                                <tr>
-                                                                    <td>{{$i}}</td>
-                                                                    <td>{{$data->question}}</td>
-                                                                    <td>
-                                                                        <label class="m-radio m-radio--primary">
+                                                                    <tr>
+                                                                        <td>{{$i}}</td>
+                                                                        <td>{{$data->question}}</td>
+                                                                        <td>
+                                                                            <label class="m-radio m-radio--primary">
 
-                                                                            <input type="radio" class="radioBtn" name="con_radio_{{$i}}" disabled {{ (isset($data->consentDetails->answer) && $data->consentDetails->answer == '1') ? 'checked' : ''}}>
-                                                                            <span></span>
-                                                                        </label>
-                                                                    </td>
-                                                                    <td>
-                                                                        <label class="m-radio m-radio--primary">
+                                                                                <input type="radio" class="radioBtn"
+                                                                                    name="con_radio_{{$i}}" disabled
+                                                                                    {{ (isset($data->consentDetails->answer) && $data->consentDetails->answer == '1') ? 'checked' : ''}}>
+                                                                                <span></span>
+                                                                            </label>
+                                                                        </td>
+                                                                        <td>
+                                                                            <label class="m-radio m-radio--primary">
 
-                                                                            <input type="radio" class="radioBtn" name="con_radio_{{$i}}" disabled {{(isset($data->consentDetails->answer) && $data->consentDetails->answer == '0') ? 'checked' : ''}}>
-                                                                            <span></span>
-                                                                        </label></td>
-                                                                    <td>
-                                                                        <textarea class="form-control form-control--custom form-control--textarea" disabled
-                                                                            name="remark-one" id="remark-one">{{ (isset($data->consentDetails)) ? $data->consentDetails->remark : ""}}</textarea>
-                                                                    </td>
-                                                                </tr>
-                                                                <?php $i++; ?>
-                                                            @endforeach
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <!-- Demarkation Verification -->
-                                        <div class="tab-pane" id="demarcation">
-                                            <div class="row">
-                                                <div class="col-sm-6">
-                                                    <div class="form-group row">
-                                                        <div class="col-sm-4 d-flex align-items-center">
-                                                            <label for="name">अभिन्यास (Layout):</label>
-                                                        </div>
-                                                        <div class="col-sm-8">
-                                                            <input type="text" class="form-control form-control--custom"
-                                                                id="name" value="{{(isset($eeScrutinyData->Demark_checklist->layout) ? $eeScrutinyData->Demark_checklist->layout : '')}}" readonly>
+                                                                                <input type="radio" class="radioBtn"
+                                                                                    name="con_radio_{{$i}}" disabled
+                                                                                    {{(isset($data->consentDetails->answer) && $data->consentDetails->answer == '0') ? 'checked' : ''}}>
+                                                                                <span></span>
+                                                                            </label></td>
+                                                                        <td>
+                                                                            <textarea class="form-control form-control--custom form-control--textarea"
+                                                                                disabled name="remark-one" id="remark-one">{{ (isset($data->consentDetails)) ? $data->consentDetails->remark : ""}}</textarea>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <?php $i++; ?>
+                                                                    @endforeach
+                                                                </tbody>
+                                                            </table>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-6">
-                                                    <div class="form-group row">
-                                                        <div class="col-sm-4 d-flex align-items-center">
-                                                            <label for="building-no">नोटीस चा तपशील:</label>
-                                                        </div>
-                                                        <div class="col-sm-8">
-                                                            <input type="text" class="form-control form-control--custom"
-                                                                id="building-no" placeholder="" value="{{(isset($eeScrutinyData->Demark_checklist->details_of_notice) ? $eeScrutinyData->Demark_checklist->details_of_notice : '')}}" readonly>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <div class="form-group row">
-                                                        <div class="col-sm-4 d-flex align-items-center">
-                                                            <label for="name">तपासणी अधिकाऱ्यांचे नाव:</label>
-                                                        </div>
-                                                        <div class="col-sm-8">
-                                                            <input type="text" class="form-control form-control--custom"
-                                                                id="name" value="{{(isset($eeScrutinyData->Demark_checklist->investigation_officer_name) ? $eeScrutinyData->Demark_checklist->investigation_officer_name : '')}}" readonly>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div id="scrunity-check-date" class="col-sm-6">
-                                                    <div class="form-group row">
-                                                        <div class="col-sm-4 d-flex align-items-center">
-                                                            <label for="building-no">स्थळ पाहणी दिनांक:</label>
-                                                        </div>
-                                                        <div class="col-sm-8">
-                                                            <input type="text" class="form-control form-control--custom"
-                                                                id="building-no" placeholder="" value="{{(isset($eeScrutinyData->Demark_checklist->date_of_investigation) ? $eeScrutinyData->Demark_checklist->date_of_investigation : '')}}" readonly>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="table-checklist m-portlet__body m-portlet__body--table">
-                                                <div class="table-responsive">
-                                                    <table class="table">
-                                                        <thead class="thead-default">
-                                                            <th>#</th>
-                                                            <th class="table-data--xl">मुद्दा / तपशील</th>
-                                                            <th>होय</th>
-                                                            <th>नाही</th>
-                                                            <th>शेरा</th>
-                                                        </thead>
-                                                        <tbody>
-                                                            <?php $i = 1; ?>
-                                                           
-                                                            @foreach($eeScrutinyData->DemarkQuetions as $data)
-                                                                <tr>
-                                                                    <td>{{$i}}</td>
-                                                                    <td>{{$data->question}}</td>
-                                                                    <td>
-                                                                        <label class="m-radio m-radio--primary">
-                                                                            <input type="radio" class="radioBtn" name="dem_radio_{{$i}}" disabled {{(isset($data->demarkDetails) && $data->demarkDetails->answer == '1') ? 'checked' : ''}}>
-                                                                            <span></span>
-                                                                        </label>
-                                                                    </td>
-                                                                    <td>
-                                                                        <label class="m-radio m-radio--primary">
-                                                                            <input type="radio" class="radioBtn" name="dem_radio_{{$i}}" disabled {{(isset($data->demarkDetails) && $data->demarkDetails->answer == '0') ? 'checked' : ''}}>
-                                                                            <span></span>
-                                                                        </label></td>
-                                                                    <td>
-                                                                        <textarea class="form-control form-control--custom form-control--textarea" disabled
-                                                                            name="remark-one" id="remark-one">{{ isset($data->demarkDetails) ? $data->demarkDetails->remark : ""}}</textarea>
-                                                                    </td>
-                                                                </tr>
-                                                                <?php $i++; ?>
-                                                            @endforeach
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
 
-                                        <!-- TitBit Verification -->
-                                        <div class="tab-pane" id="tit-bit">
-                                            <div class="row">
-                                                <div class="col-sm-6">
-                                                    <div class="form-group row">
-                                                        <div class="col-sm-4 d-flex align-items-center">
-                                                            <label for="name">अभिन्यास (Layout):</label>
-                                                        </div>
-                                                        <div class="col-sm-8">
-                                                            <input type="text" class="form-control form-control--custom"
-                                                                id="name" value="{{(isset($eeScrutinyData->TitBit_checklist->layout) ? $eeScrutinyData->TitBit_checklist->layout : '')}}" readonly>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <div class="form-group row">
-                                                        <div class="col-sm-4 d-flex align-items-center">
-                                                            <label for="building-no">नोटीस चा तपशील:</label>
-                                                        </div>
-                                                        <div class="col-sm-8">
-                                                            <input type="text" class="form-control form-control--custom"
-                                                                id="building-no" placeholder="" value="{{(isset($eeScrutinyData->TitBit_checklist->details_of_notice) ? $eeScrutinyData->TitBit_checklist->details_of_notice : '')}}" readonly>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <div class="form-group row">
-                                                        <div class="col-sm-4 d-flex align-items-center">
-                                                            <label for="name">तपासणी अधिकाऱ्यांचे नाव:</label>
-                                                        </div>
-                                                        <div class="col-sm-8">
-                                                            <input type="text" class="form-control form-control--custom"
-                                                                id="name" value="{{(isset($eeScrutinyData->TitBit_checklist->investigation_officer_name) ? $eeScrutinyData->TitBit_checklist->investigation_officer_name : '')}}" readonly>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div id="scrunity-check-date" class="col-sm-6">
-                                                    <div class="form-group row">
-                                                        <div class="col-sm-4 d-flex align-items-center">
-                                                            <label for="building-no">स्थळ पाहणी दिनांक:</label>
-                                                        </div>
-                                                        <div class="col-sm-8">
-                                                            <input type="text" class="form-control form-control--custom"
-                                                                id="building-no" placeholder="" value="{{(isset($eeScrutinyData->TitBit_checklist->date_of_investigation) ? $eeScrutinyData->TitBit_checklist->date_of_investigation : '')}}" readonly>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>                                        
-                                            <div class="table-checklist m-portlet__body m-portlet__body--table">
-                                                <div class="table-responsive">
-                                                    <table class="table">
-                                                        <thead class="thead-default">
-                                                            <th>#</th>
-                                                            <th class="table-data--xl">मुद्दा / तपशील</th>
-                                                            <th>होय</th>
-                                                            <th>नाही</th>
-                                                            <th>शेरा</th>
-                                                        </thead>
-                                                        <tbody>
-                                                            <?php $i = 1; ?>
-                                                            @foreach($eeScrutinyData->TitBitQuetions as $data)
-                                                                <tr>
-                                                                    <td>{{$i}}</td>
-                                                                    <td>{{$data->question}}</td>
-                                                                    <td>
-                                                                        <label class="m-radio m-radio--primary">
-                                                                            <input type="radio" name="tit_radio_{{$i}}" disabled {{(isset($data->titBitDetails) && $data->titBitDetails->answer == '1' ? 'checked' : '')}}>
-                                                                            <span></span>
-                                                                        </label>
-                                                                    </td>
-                                                                    <td>
-                                                                        <label class="m-radio m-radio--primary">
-                                                                            <input type="radio" name="tit_radio_{{$i}}" disabled {{(isset($data->titBitDetails) && $data->titBitDetails->answer =='0' ? 'checked' : '')}}>
-                                                                            <span></span>
-                                                                        </label></td>
-                                                                    <td>
-                                                                        <textarea class="form-control form-control--custom form-control--textarea" disabled
-                                                                            name="remark-one" id="remark-one">{{(isset($data->titBitDetails)) ? $data->titBitDetails->remark : ""}}</textarea>
-                                                                    </td>
-                                                                </tr>
-                                                                <?php $i++; ?>
-                                                            @endforeach
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <!-- Relocation Verification -->
-                                        <div class="tab-pane" id="relocation">
-                                            <div class="row">
-                                                <div class="col-sm-6">
-                                                    <div class="form-group row">
-                                                        <div class="col-sm-4 d-flex align-items-center">
-                                                            <label for="name">अभिन्यास (Layout):</label>
-                                                        </div>
-                                                        <div class="col-sm-8">
-                                                            <input type="text" class="form-control form-control--custom"
-                                                                id="name" value="{{(isset($eeScrutinyData->Relocation_checklist->layout) ? $eeScrutinyData->Relocation_checklist->layout : '')}}" readonly>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <div class="form-group row">
-                                                        <div class="col-sm-4 d-flex align-items-center">
-                                                            <label for="building-no">नोटीस चा तपशील:</label>
-                                                        </div>
-                                                        <div class="col-sm-8">
-                                                            <input type="text" class="form-control form-control--custom"
-                                                                id="building-no" placeholder="" value="{{(isset($eeScrutinyData->Relocation_checklist->details_of_notice) ? $eeScrutinyData->Relocation_checklist->details_of_notice : '')}}" readonly>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>                                        
-                                            <div class="table-checklist m-portlet__body m-portlet__body--table">
-                                                <div class="table-responsive">
-                                                    <table class="table">
-                                                        <thead class="thead-default">
-                                                            <th>#</th>
-                                                            <th class="table-data--xl">मुद्दा / तपशील</th>
-                                                            <th>होय</th>
-                                                            <th>नाही</th>
-                                                            <th>शेरा</th>
-                                                        </thead>
-                                                        <tbody>
-                                                             <?php $i = 1; ?> 
-                                                             @foreach($eeScrutinyData->relocationQuetions as $data) 
-                                                             
-                                                                <tr>
-                                                                    <td>{{$i}}</td>
-                                                                    <td>{{($data->question)}}</td>
-                                                                    <td>
-                                                                        <label class="m-radio m-radio--primary">
-                                                                            <input type="radio" name="rg_radio_{{$i}}" disabled {{(isset($data->relocationDetails) && $data->relocationDetails->answer == '1') ? 'checked' : ''}}>
-                                                                            <span></span>
-                                                                        </label>
-                                                                    </td>
-                                                                    <td> 
-                                                                        <label class="m-radio m-radio--primary">
-                                                                            <input type="radio" name="rg_radio_{{$i}}" disabled {{(isset($data->relocationDetails) && $data->relocationDetails->answer == '0') ? 'checked' : ''}}>
-                                                                            <span></span>
-                                                                        </label></td>
-                                                                    <td>
-                                                                        <textarea class="form-control form-control--custom form-control--textarea" disabled
-                                                                            name="remark-one" id="remark-one">{{ isset($data->relocationDetails) ? $data->relocationDetails->remark : ''}}</textarea>
-                                                                    </td>
-                                                                </tr>
-                                                                <?php $i++; ?>
-                                                            @endforeach
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    </form>
-
-                                </div>
-                            </div>
-
-                            <!-- <div class="tab-pane" id="three" aria-expanded="false">
-                                three
-                            </div> -->
-
-                            <div class="panel" id="ee-note">
-                                <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
-                                    <div class="portlet-body">
-                                        <div class="m-portlet__body m-portlet__body--table">
-                                            <div class="m-subheader" style="padding: 0;">
-                                                <div class="d-flex align-items-center justify-content-center">
-                                                    <h3 class="section-title">
-                                                        Note
-                                                    </h3>
-                                                </div>
-                                            </div>
-                                            <div class="m-section__content mb-0 table-responsive">
-                                                <div class="container">
+                                                <!-- Demarkation Verification -->
+                                                <div class="tab-pane" id="demarcation">
                                                     <div class="row">
                                                         <div class="col-sm-6">
-                                                            <div class="d-flex flex-column h-100 two-cols">
-                                                                <h5>Download Note</h5>
-                                                                <span class="hint-text">Download EE Note uploaded by EE</span>
-                                                                <div class="mt-auto">
-                                                                @if(isset($eeScrutinyData->eeNote->document_path))
-                                                                    <a href="{{ asset($eeScrutinyData->eeNote->document_path)}}">
-                                                                    <button class="btn btn-primary">Download offer Letter Application</button>
-                                                                    </a>
-                                                                @else
-                                                                    <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
-                                                                 * Note :  EE note not available. </span>  
-                                                                @endif      
+                                                            <div class="form-group row">
+                                                                <div class="col-sm-4 d-flex align-items-center">
+                                                                    <label for="name">अभिन्यास (Layout):</label>
+                                                                </div>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" class="form-control form-control--custom"
+                                                                        id="name" value="{{(isset($eeScrutinyData->Demark_checklist->layout) ? $eeScrutinyData->Demark_checklist->layout : '')}}"
+                                                                        readonly>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group row">
+                                                                <div class="col-sm-4 d-flex align-items-center">
+                                                                    <label for="building-no">नोटीस चा तपशील:</label>
+                                                                </div>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" class="form-control form-control--custom"
+                                                                        id="building-no" placeholder="" value="{{(isset($eeScrutinyData->Demark_checklist->details_of_notice) ? $eeScrutinyData->Demark_checklist->details_of_notice : '')}}"
+                                                                        readonly>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group row">
+                                                                <div class="col-sm-4 d-flex align-items-center">
+                                                                    <label for="name">तपासणी अधिकाऱ्यांचे नाव:</label>
+                                                                </div>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" class="form-control form-control--custom"
+                                                                        id="name" value="{{(isset($eeScrutinyData->Demark_checklist->investigation_officer_name) ? $eeScrutinyData->Demark_checklist->investigation_officer_name : '')}}"
+                                                                        readonly>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="scrunity-check-date" class="col-sm-6">
+                                                            <div class="form-group row">
+                                                                <div class="col-sm-4 d-flex align-items-center">
+                                                                    <label for="building-no">स्थळ पाहणी दिनांक:</label>
+                                                                </div>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" class="form-control form-control--custom"
+                                                                        id="building-no" placeholder="" value="{{(isset($eeScrutinyData->Demark_checklist->date_of_investigation) ? $eeScrutinyData->Demark_checklist->date_of_investigation : '')}}"
+                                                                        readonly>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    <div class="table-checklist m-portlet__body m-portlet__body--table">
+                                                        <div class="table-responsive">
+                                                            <table class="table">
+                                                                <thead class="thead-default">
+                                                                    <th>#</th>
+                                                                    <th class="table-data--xl">मुद्दा / तपशील</th>
+                                                                    <th>होय</th>
+                                                                    <th>नाही</th>
+                                                                    <th>शेरा</th>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <?php $i = 1; ?>
+
+                                                                    @foreach($eeScrutinyData->DemarkQuetions as $data)
+                                                                    <tr>
+                                                                        <td>{{$i}}</td>
+                                                                        <td>{{$data->question}}</td>
+                                                                        <td>
+                                                                            <label class="m-radio m-radio--primary">
+                                                                                <input type="radio" class="radioBtn"
+                                                                                    name="dem_radio_{{$i}}" disabled
+                                                                                    {{(isset($data->demarkDetails) && $data->demarkDetails->answer == '1') ? 'checked' : ''}}>
+                                                                                <span></span>
+                                                                            </label>
+                                                                        </td>
+                                                                        <td>
+                                                                            <label class="m-radio m-radio--primary">
+                                                                                <input type="radio" class="radioBtn"
+                                                                                    name="dem_radio_{{$i}}" disabled
+                                                                                    {{(isset($data->demarkDetails) && $data->demarkDetails->answer == '0') ? 'checked' : ''}}>
+                                                                                <span></span>
+                                                                            </label></td>
+                                                                        <td>
+                                                                            <textarea class="form-control form-control--custom form-control--textarea"
+                                                                                disabled name="remark-one" id="remark-one">{{ isset($data->demarkDetails) ? $data->demarkDetails->remark : ""}}</textarea>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <?php $i++; ?>
+                                                                    @endforeach
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- TitBit Verification -->
+                                                <div class="tab-pane" id="tit-bit">
+                                                    <div class="row">
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group row">
+                                                                <div class="col-sm-4 d-flex align-items-center">
+                                                                    <label for="name">अभिन्यास (Layout):</label>
+                                                                </div>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" class="form-control form-control--custom"
+                                                                        id="name" value="{{(isset($eeScrutinyData->TitBit_checklist->layout) ? $eeScrutinyData->TitBit_checklist->layout : '')}}"
+                                                                        readonly>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group row">
+                                                                <div class="col-sm-4 d-flex align-items-center">
+                                                                    <label for="building-no">नोटीस चा तपशील:</label>
+                                                                </div>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" class="form-control form-control--custom"
+                                                                        id="building-no" placeholder="" value="{{(isset($eeScrutinyData->TitBit_checklist->details_of_notice) ? $eeScrutinyData->TitBit_checklist->details_of_notice : '')}}"
+                                                                        readonly>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group row">
+                                                                <div class="col-sm-4 d-flex align-items-center">
+                                                                    <label for="name">तपासणी अधिकाऱ्यांचे नाव:</label>
+                                                                </div>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" class="form-control form-control--custom"
+                                                                        id="name" value="{{(isset($eeScrutinyData->TitBit_checklist->investigation_officer_name) ? $eeScrutinyData->TitBit_checklist->investigation_officer_name : '')}}"
+                                                                        readonly>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="scrunity-check-date" class="col-sm-6">
+                                                            <div class="form-group row">
+                                                                <div class="col-sm-4 d-flex align-items-center">
+                                                                    <label for="building-no">स्थळ पाहणी दिनांक:</label>
+                                                                </div>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" class="form-control form-control--custom"
+                                                                        id="building-no" placeholder="" value="{{(isset($eeScrutinyData->TitBit_checklist->date_of_investigation) ? $eeScrutinyData->TitBit_checklist->date_of_investigation : '')}}"
+                                                                        readonly>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="table-checklist m-portlet__body m-portlet__body--table">
+                                                        <div class="table-responsive">
+                                                            <table class="table">
+                                                                <thead class="thead-default">
+                                                                    <th>#</th>
+                                                                    <th class="table-data--xl">मुद्दा / तपशील</th>
+                                                                    <th>होय</th>
+                                                                    <th>नाही</th>
+                                                                    <th>शेरा</th>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <?php $i = 1; ?>
+                                                                    @foreach($eeScrutinyData->TitBitQuetions as $data)
+                                                                    <tr>
+                                                                        <td>{{$i}}</td>
+                                                                        <td>{{$data->question}}</td>
+                                                                        <td>
+                                                                            <label class="m-radio m-radio--primary">
+                                                                                <input type="radio" name="tit_radio_{{$i}}"
+                                                                                    disabled
+                                                                                    {{(isset($data->titBitDetails) && $data->titBitDetails->answer == '1' ? 'checked' : '')}}>
+                                                                                <span></span>
+                                                                            </label>
+                                                                        </td>
+                                                                        <td>
+                                                                            <label class="m-radio m-radio--primary">
+                                                                                <input type="radio" name="tit_radio_{{$i}}"
+                                                                                    disabled
+                                                                                    {{(isset($data->titBitDetails) && $data->titBitDetails->answer =='0' ? 'checked' : '')}}>
+                                                                                <span></span>
+                                                                            </label></td>
+                                                                        <td>
+                                                                            <textarea class="form-control form-control--custom form-control--textarea"
+                                                                                disabled name="remark-one" id="remark-one">{{(isset($data->titBitDetails)) ? $data->titBitDetails->remark : ""}}</textarea>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <?php $i++; ?>
+                                                                    @endforeach
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Relocation Verification -->
+                                                <div class="tab-pane" id="relocation">
+                                                    <div class="row">
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group row">
+                                                                <div class="col-sm-4 d-flex align-items-center">
+                                                                    <label for="name">अभिन्यास (Layout):</label>
+                                                                </div>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" class="form-control form-control--custom"
+                                                                        id="name" value="{{(isset($eeScrutinyData->Relocation_checklist->layout) ? $eeScrutinyData->Relocation_checklist->layout : '')}}"
+                                                                        readonly>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group row">
+                                                                <div class="col-sm-4 d-flex align-items-center">
+                                                                    <label for="building-no">नोटीस चा तपशील:</label>
+                                                                </div>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" class="form-control form-control--custom"
+                                                                        id="building-no" placeholder="" value="{{(isset($eeScrutinyData->Relocation_checklist->details_of_notice) ? $eeScrutinyData->Relocation_checklist->details_of_notice : '')}}"
+                                                                        readonly>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="table-checklist m-portlet__body m-portlet__body--table">
+                                                        <div class="table-responsive">
+                                                            <table class="table">
+                                                                <thead class="thead-default">
+                                                                    <th>#</th>
+                                                                    <th class="table-data--xl">मुद्दा / तपशील</th>
+                                                                    <th>होय</th>
+                                                                    <th>नाही</th>
+                                                                    <th>शेरा</th>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <?php $i = 1; ?>
+                                                                    @foreach($eeScrutinyData->relocationQuetions as
+                                                                    $data)
+
+                                                                    <tr>
+                                                                        <td>{{$i}}</td>
+                                                                        <td>{{($data->question)}}</td>
+                                                                        <td>
+                                                                            <label class="m-radio m-radio--primary">
+                                                                                <input type="radio" name="rg_radio_{{$i}}"
+                                                                                    disabled
+                                                                                    {{(isset($data->relocationDetails) && $data->relocationDetails->answer == '1') ? 'checked' : ''}}>
+                                                                                <span></span>
+                                                                            </label>
+                                                                        </td>
+                                                                        <td>
+                                                                            <label class="m-radio m-radio--primary">
+                                                                                <input type="radio" name="rg_radio_{{$i}}"
+                                                                                    disabled
+                                                                                    {{(isset($data->relocationDetails) && $data->relocationDetails->answer == '0') ? 'checked' : ''}}>
+                                                                                <span></span>
+                                                                            </label></td>
+                                                                        <td>
+                                                                            <textarea class="form-control form-control--custom form-control--textarea"
+                                                                                disabled name="remark-one" id="remark-one">{{ isset($data->relocationDetails) ? $data->relocationDetails->remark : ''}}</textarea>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <?php $i++; ?>
+                                                                    @endforeach
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+
+                                    </div>
+                                </div>
+
+                                <!-- <div class="tab-pane" id="three" aria-expanded="false">
+                                three
+                            </div> -->
+
+
+
+                            </div>
+                        </div>
+                        <div class="panel" id="ee-note">
+                            <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
+                                <div class="portlet-body">
+                                    <div class="m-portlet__body m-portlet__body--table">
+                                        <div class="m-subheader" style="padding: 0;">
+                                            <div class="d-flex align-items-center justify-content-center">
+                                                <h3 class="section-title">
+                                                    Note
+                                                </h3>
+                                            </div>
+                                        </div>
+                                        <div class="m-section__content mb-0 table-responsive">
+                                            <div class="d-flex flex-column h-100">
+                                                <h5>Download Note</h5>
+                                                <span class="hint-text">Download EE Note uploaded
+                                                    by EE</span>
+                                                <div class="mt-3">
+                                                    @if(isset($eeScrutinyData->eeNote->document_path))
+                                                    <a href="{{ asset($eeScrutinyData->eeNote->document_path)}}">
+                                                        <button class="btn btn-primary">Download
+                                                            offer Letter Application</button>
+                                                    </a>
+                                                    @else
+                                                    <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
+                                                        * Note : EE note not available. </span>
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-@endsection
+    @endsection

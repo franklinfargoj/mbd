@@ -2,12 +2,12 @@
     <div style="font-size: 18px;">
         <div>
             <div style="text-align: center;">
-                <h3 style="font-weight: bold;">अर्जाचा नमुना</h3>
+                <h3 style="font-weight: bold; margin-top: 5px; margin-bottom: 5px;">अर्जाचा नमुना</h3>
             </div>
             <div>
                 <p>
-                    <p style="display: block; font-weight: bold;">प्रति,</p>
-                    <table style="margin-left: -5px;">
+                    <p style="display: block; font-weight: bold; line-height: 0; margin-top: 5px; margin-bottom: 5px;">प्रति,</p>
+                    <table style="margin-left: -5px; margin-top: 5px; margin-bottom: 5px;">
                         <tbody>
                             <tr>
                                 <td style="font-size: 18px;">कार्यकारी अभियंता,</td>
@@ -16,14 +16,14 @@
                             </tr>
                         </tbody>
                     </table>
-                    <p style="display: block;">मुंबई गृहनिर्माण व क्षेत्रविकास मंडळ,</p>
-                    <p style="display: block;">गृहनिर्माण भवन, वांद्रे (पुर्व),</p>
-                    <p style="display: block;">मुंबई - ४०००५१.</p>
+                    <p style="display: block; margin-top: 5px; margin-bottom: 5px;">मुंबई गृहनिर्माण व क्षेत्रविकास मंडळ,</p>
+                    <p style="display: block; margin-top: 5px; margin-bottom: 5px;">गृहनिर्माण भवन, वांद्रे (पुर्व),</p>
+                    <p style="display: block; margin-top: 5px; margin-bottom: 5px;">मुंबई - ४०००५१.</p>
                 </p>
             </div>
         </div>
         <div>
-            <div style="line-height: 1.8;">
+            <div style="line-height: 1.5;">
                 <p style="text-indent: 80px;"><span style="display: block; font-weight: bold;">विषय :- </span>इमारत क्र. <span style="width: 50px; border-bottom: 1px solid #000;">{{ $society_details->building_no }}</span>, <span style="width: 200px; border-bottom: 1px solid #000;">{{ $society_details->name }}</span> सहकारी गृहनिर्माण संस्थेच्या @if($id == '2' || $id == '6')स्वय@endifंपुनर्विकासाच्या प्रस्तावास मंजूरी मिळण्याबाबतचा अर्ज.</p>
                 <p style="font-weight: bold;">महोदय,</p>
                 <p style="text-indent: 80px;">आम्ही <span style="width: 150px; border-bottom: 1px solid #000;">{{ $society_details->name }}</span> सहकारी गृहनिर्माण संस्थेचे पदाधिकारी ( इमारत क्र. <span style="width: 50px; border-bottom: 1px solid #000;">{{ $society_details->building_no }}</span> पत्ता - <span style="width: 200px; border-bottom: 1px solid #000;">{{ $society_details->address }}</span>) आपणांस विनंती करतो की, आम्ही रहात असलेल्या सदरहू इमारतीचा @if($id == '2' || $id == '6')स्वय@endifंपुनर्विकास विकास नियंत्रण नियमावली ३३ (५) अंतर्गत @if($id == '13' || $id == '6') गृहसत्ता हिस्सेदारी @else अधिमुल्य आधारित @endif तत्वावर करु इच्छितो. आमच्या गृहनिर्माण संस्थेने दिनांक <span style="width: 100px; border-bottom: 1px solid #000;">{{ date('d-m-Y', strtotime($ol_application->request_form->date_of_meeting)) }}</span> रोजी @if($id == '2' || $id == '6')स्वय@endifंपुनर्विकासासंदर्भात सर्वसाधारण सभेचा ठराव क्र. <span style="width: 200px; border-bottom: 1px solid #000;">{{ $ol_application->request_form->resolution_no }}</span> अन्वये निर्णय घेतला आहे.</p>
@@ -33,11 +33,9 @@
             </div>
             <div style="margin-top: 30px;">
                 <div style="float: right; text-align: right;">
-                    <p style="margin-top: 30px; margin-bottom: 80px;">आपला विश्वासू</p>
-                    <p>
-                        <span style="display: block;">अध्यक्ष / सचिव / खजिनदार</span>
-                        <p>------- स.गृ.नि. संस्था मर्या.</p>
-                    </p>
+                    <p style="margin-top: 0; margin-bottom: 60px;">आपला विश्वासू</p>
+                        <p style="display: block; margin-top: 5px; margin-bottom: 5px;">अध्यक्ष / सचिव / खजिनदार</p>
+                        <p style="display: block; margin-top: 5px; margin-bottom: 5px;">------- स.गृ.नि. संस्था मर्या.</p>
                 </div>
             </div>
         </div>
