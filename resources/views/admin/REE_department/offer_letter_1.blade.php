@@ -58,8 +58,7 @@
                             <td valign="top" style="border: 1px solid #000; text-align: center; padding: 5px;">Sub:</td>
                             <td valign="top" style="border: 1px solid #000; padding: 5px;">
                                 Proposed redevelopment of existing building ___<span style="font-weight: bold;">___</span>,
-                                known as _______________________________________ Co-op Hsg. Soc. bearing
-                                ________________ at village-_________________, Mumbai - 400 083 under DCR 33(5) dated
+                                known as _______________________________________  under DCR 33(5) dated
                                 08.10.2013 & it's modification dtd. 03.07.2017.
                             </td>
                         </tr>
