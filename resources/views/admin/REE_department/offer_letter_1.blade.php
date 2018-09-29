@@ -569,3 +569,4 @@
 
 </script>
 <script>
+@endsection
