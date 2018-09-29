@@ -121,7 +121,7 @@
                           Comment
                         </span>
                      </h3>
-                    <p>{{ (isset($documents_comment->society_documents_comment) ? $documents_comment->society_documents_comment : '') }}</p>
+                    <p>{{ ($documents_comment->society_documents_comment != 'N.A.') ? $documents_comment->society_documents_comment : '-' }}</p>
                 </div>
             </div>
         </div>
