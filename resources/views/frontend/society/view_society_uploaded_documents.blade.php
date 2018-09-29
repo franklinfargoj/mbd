@@ -9,12 +9,10 @@
         </div>
     </div>
     <!-- END: Subheader -->
-    <div class="m-portlet m-portlet--creative m-portlet--bordered-semi mb-0">
+    <div class="m-portlet m-portlet--bordered-semi mb-0">
         <div class="m-subheader">
             <div class="d-flex align-items-center">
-                <h3 class="section-title section-title--small">
-                    Uploaded Attachments:
-                </h3>
+                <h3 class="section-title section-title--small">Uploaded Attachments:</h3>
             </div>
         </div>
         <div class="m-portlet__body m-portlet__body--table">
@@ -85,7 +83,7 @@
         </div>
     </div>
     @if(count($documents) == count($documents_uploaded))
-    <div class="m-portlet m-portlet--creative m-portlet--bordered-semi mb-0">
+    <div class="m-portlet m-portlet--bordered-semi mb-0">
         <div class="">
             <h3 class="section-title section-title--small">Submit Application:</h3>
         </div>
