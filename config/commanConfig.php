@@ -50,5 +50,7 @@ return [
         'case_closed' => 6,
     ],
 
-    'rti_form_status' => 'Send RTI Officer'
+    'rti_form_status' => 'Send RTI Officer',
+
+    'storage_server' => 'http://storage.mhada.php-dev.in',
 ];
