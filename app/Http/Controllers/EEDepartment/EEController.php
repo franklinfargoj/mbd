@@ -52,9 +52,9 @@ class EEController extends Controller
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'application_no','name' => 'application_no','title' => 'Application Number'],
             ['data' => 'submitted_at','name' => 'submitted_at','title' => 'Date'],
-            ['data' => 'society_name','name' => 'eeApplicationSociety.name','title' => 'Society Name'],
-            ['data' => 'society_building_no', 'name' => 'eeApplicationSociety.building_no', 'title' => 'Building No'],
-            ['data' => 'society_address','name' => 'eeApplicationSociety.address','title' => 'Address'],
+            ['data' => 'eeApplicationSociety.name','name' => 'eeApplicationSociety.name','title' => 'Society Name'],
+            ['data' => 'eeApplicationSociety.building_no', 'name' => 'eeApplicationSociety.building_no', 'title' => 'Building No'],
+            ['data' => 'eeApplicationSociety.address','name' => 'eeApplicationSociety.address','title' => 'Address'],
 //            ['data' => 'model','name' => 'model','title' => 'Model'],
             ['data' => 'Status','name' => 'current_status_id','title' => 'Status'],
             ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
@@ -68,13 +68,13 @@ class EEController extends Controller
                 ->editColumn('rownum', function ($listArray) {
                     static $i = 0; $i++; return $i;
                 })
-                ->editColumn('society_name', function ($listArray) {
+                ->editColumn('eeApplicationSociety.name', function ($listArray) {
                     return $listArray->eeApplicationSociety->name;
                 })
-                ->editColumn('society_building_no', function ($listArray) {
+                ->editColumn('eeApplicationSociety.building_no', function ($listArray) {
                     return $listArray->eeApplicationSociety->building_no;
                 })
-                ->editColumn('society_address', function ($listArray) {
+                ->editColumn('eeApplicationSociety.address', function ($listArray) {
                     return $listArray->eeApplicationSociety->address;
                 })
                 ->editColumn('Status', function ($listArray) use ($request) {
@@ -338,7 +338,7 @@ class EEController extends Controller
             $file = $request->file('EE_document_path');
 
             if ($extension == "pdf") {
-                $name = File::name($request->file('EE_document_path')->getClientOriginalName()) . '_' . $time . '.' . $extension;
+                $name = 'ee_note_' . $time . '.' . $extension;
 //                $path = Storage::putFileAs('/EE_document_path', $request->file('EE_document'), $name, 'public');
                 if($file->move($destinationPath, $name))
                 {
@@ -382,7 +382,7 @@ class EEController extends Controller
 
             if ($extension == "pdf") {
                 unlink(public_path($request->oldFileName));
-                $name = File::name($request->file('EE_document')->getClientOriginalName()) . '_' . $time . '.' . $extension;
+                $name = 'ee_note_' . $time . '.' . $extension;
 //                $path = Storage::putFileAs('/EE_document_path', $request->file('EE_document'), $name, 'public');
                 if($file->move($destinationPath, $name))
                 {
@@ -570,7 +570,7 @@ class EEController extends Controller
         if ($request->file('ee_note')){
 
             $file = $request->file('ee_note');
-            $file_name = time().$file->getFileName().'.'.$file->getClientOriginalExtension();
+            $file_name = time().'ee_note.'.$file->getClientOriginalExtension();
             $extension = $file->getClientOriginalExtension();
 
             if($extension == "pdf") {

@@ -28,6 +28,7 @@ use Config;
 use Auth;
 use DB;
 use Carbon\Carbon;
+use Storage;
 
 class CommonController extends Controller
 {
@@ -127,6 +128,7 @@ class CommonController extends Controller
                     ->where('society_flag', 0)
                     ->orderBy('id', 'desc');
             })
+            ->orderBy('id', 'desc')
             ->select()->get();
 
         $listArray = [];
@@ -464,5 +466,15 @@ class CommonController extends Controller
         $layouts = MasterLayout::all();      
         
         return view('admin.DYCE_department.offer_letter', compact('ol_application', 'layouts'));
-    }      
+    }  
+
+
+    public function ftpFileUpload($folderName,$file,$fileName){
+
+        Storage::disk('ftp')->putFileAs($folderName,$file,$fileName);
+        return;
+
+    }
+
+
 }
