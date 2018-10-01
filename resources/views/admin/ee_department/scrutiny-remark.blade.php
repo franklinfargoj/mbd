@@ -228,7 +228,7 @@
                                                                                             </div>--}}
                                                                                         </div>
                                                                                         <div class="modal-footer">
-                                                                                            <button type="submit" class="btn btn-primary">Save</button>
+                                                                                            <button type="submit" class="btn btn-primary" id="submitBtn">Save</button>
                                                                                             <button type="button" class="btn btn-secondary"
                                                                                                     data-dismiss="modal">Cancel</button>
                                                                                         </div>
@@ -928,6 +928,24 @@
 
         $("#demarcation_date, #tit_bit_date").datepicker();
 
+        $("#submitBtn").click(function(){
+          myfile = $(".cap_note").val();
+          var ext = myfile.split('.').pop();      
+          if (myfile != ''){        
+              
+              if (ext != "pdf"){
+                $("#file_error").text("Invalid type of file uploaded (only pdf allowed).");
+                return false;
+              }
+              else{
+                $("#file_error").text("");
+                return true;
+              }      
+          }else{
+            $("#file_error").text("This field required");
+            return false;
+          }
+        });
 
     </script>
 @endsection

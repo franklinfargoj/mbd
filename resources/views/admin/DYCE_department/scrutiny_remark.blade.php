@@ -9,7 +9,7 @@
 @if(session()->has('success') || session()->has('error'))
     <div class="alert alert-success">
         {{ session()->get('success') }}
-    </div>   
+    </div>      
      <div class="alert alert-error">
         {{ session()->get('error') }}
     </div>
@@ -210,7 +210,7 @@
                                         <input type="file" class="file custom-file-input file_ext upload_file_1" name="document[]" id="test-upload">
                                         <label class="custom-file-label" for="test-upload">Choose file ...</label>
                                         <span id="file_error_" class="text-danger"></span>
-										<a class="add_more" onclick="addMoreDocuments(this);">add more</a>
+										<a class="add_more" id="add_more_1" onclick="addMoreDocuments(this);">add more</a>
 										<i class="fa fa-close doc close-icon" id="document_1" onclick="removeDocuments(this.id)"></i>
                                     </div>
                                 </div>
@@ -240,7 +240,7 @@
                 <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
 					<div class="">
 						<h3 class="section-title section-title--small">
-							Demarkation verification:
+							Demarcation verification:
 						</h3>
 					</div>
 					<div class="remarks-suggestions">
@@ -260,12 +260,12 @@
                 <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
 					<div class="">
 						<h3 class="section-title section-title--small">
-							Encrochment Verification:
+							Encroachment Verification:
 						</h3>
 					</div>
                     <div class="m-form__group form-group">
 						<div class="m-radio-inline">
-							<span class="mr-3">Is there any encrochment ?</span>
+							<span class="mr-3">Is there any encroachment ?</span>
 							<label class="m-radio m-radio--primary">
 								<input type="radio" class="radioBtn" name="encrochment" value="1" checked
 									{{(isset($applicationData->demarkation_verification_comment) && $applicationData->is_encrochment == '1' ? 'checked' : '')}} {{(!($is_view) ? 'disabled' : '' )}}>Yes
@@ -301,6 +301,8 @@
 @endsection
 @section('js')
 <script>
+
+var isError = 0;
     $("#dyce_scrunity_Form").validate({
         rules: {
             demarkation_comments: "required",
@@ -338,19 +340,28 @@
 
     function addMoreDocuments(text) {
 
-        var validateDocument = checkDocument();
-        if(validateDocument){
+        var id = $.trim(text.id.substr(9,2));
+        myfile= $("#test_upload_"+id).val();
+        console.log(myfile);
+        $(".file_ext").each(function(){
+            // console.log(this.id);
+        });
+        isError = 1;
+        // console.log(text.id);
+        checkDocument();
+        // console.log(validateDocument);
+        // if(validateDocument){
             var id = $("#documentCount").val();
             $(text).css("display", "none");
             $('.doc').css("visibility", "visible");
             $(".all_documents").append("<div class='col-xs-12 d-flex flex-wrap align-items-center mb-5 upload_doc_"+id+"'><label class='site-visit-label'>Upload supporting files:</label><div class='custom-file width-auto mb-0 position-relative'><input type='file' class='file custom-file-input file_ext upload_file_"+id+"' name='document[]' id='test_upload_" +
                 id + "'><label class='custom-file-label' for='test_upload_"+id+"'> Choose file .. </label><span class='text-danger' id='file_error_"+id+"'></span><i class='fa fa-close doc close-icon' id='document_" + id +
-                "' onclick='removeDocuments(this.id)'></i><a class='add_more' onclick='addMoreDocuments(this);'>add more </a></div></div>"
+                "' onclick='removeDocuments(this.id)'></i><a class='add_more' id='add_more_"+id+"' onclick='addMoreDocuments(this);'>add more </a></div></div>"
             );
             id++;
             selectFile();
             $("#documentCount").val(id);            
-        }
+        // }
     }
 
     function removeDocuments(data) {
@@ -362,34 +373,48 @@
     }
 
     $("#submitBtn").click(function () {
+        console.log(isError);
+        $validateDoc = checkDocument();
+        
+        if ($validateDoc){
+            var enrochComment = $("#encrochment_comments").val();
+            var isEnrochment = $("input[name=encrochment]:checked").val();
 
-        var enrochComment = $("#encrochment_comments").val();
-        var isEnrochment = $("input[name=encrochment]:checked").val();
-
-        if (isEnrochment == '1' && enrochComment == "") {
-            $("#encrochment_comments_error").css("display", "block");
-        } else {
-            $("#encrochment_comments_error").css("display", "none");
-            $("#dyce_scrunity_Form").submit();
+            if (isEnrochment == '1' && enrochComment == "") {
+                $("#encrochment_comments_error").css("display", "block");
+            } else {
+                $("#encrochment_comments_error").css("display", "none");
+                $("#dyce_scrunity_Form").submit();
+            }
         }
+
     });
 
     function checkDocument(){
 
         $(".file_ext").each(function(){
             var id = this.id;
+            // console.log(this.id);
+            
             var id1 = id.substr(12,1);
             myfile= $("#"+id).val();
             var ext = myfile.split('.').pop();
-            if (ext != "pdf"){
-                console.log(id);
-                $("#file_error_"+id1).text("Invalid File format(pdf file only).");
-                $(this).closest(".custom-file").addClass("has-error");
-                return false;
-            }
-            else{
-                $("#file_error").text("");
-            }
+            // if (myfile != ""){
+                if (ext != "pdf"){
+                    $("#file_error_"+id1).text("Invalid type of file uploaded (only pdf allowed)");
+                    $(this).closest(".custom-file").addClass("has-error");
+                    return false;
+                }
+                else{
+                    $("#file_error_"+id1).text("");
+                    $(this).closest(".custom-file").removeClass("has-error");
+                    return true;
+                }    
+            // }else{
+            //     $("#file_error_"+id1).text("This field required.");
+            //     $(this).closest(".custom-file").addClass("has-error");
+            //     return false;                
+            // }
         });
     }
 

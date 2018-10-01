@@ -168,16 +168,25 @@ class CAPController extends Controller
         if ($request->file('cap_note')){
 
             $file = $request->file('cap_note');
-            $file_name = time().$file->getFileName().'.'.$file->getClientOriginalExtension();
+            $file_name = time().'cap_note'.'.'.$file->getClientOriginalExtension();
+            $extension = $file->getClientOriginalExtension();
+            $folder_name = "cap_notes";
 
-            if($file->move($destinationPath, $file_name))
-            {
-                $fileData[] = array('document_path' => $uploadPath.'/'.$file_name, 
-                                   'application_id' => $applicationId,
-                                    'user_id'       => Auth::Id());
+            if ($extension == "pdf"){
+                $path = config('commanConfig.storage_server').'/'.$folder_name.'/'.$file_name;
+
+                $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$request->file('cap_note'),$file_name);
+
+                    $fileData[] = array('document_path' => $path, 
+                                       'application_id' => $applicationId,
+                                        'user_id'       => Auth::Id());
+
+                $data = OlCapNotes::insert($fileData);   
+                return redirect('/cap')->with('success','CAP Note uploaded successfully.');                         
+            } else {
+                return back()->with('pdf_error', 'Invalid type of file uploaded (only pdf allowed).');
             }
-            $data = OlCapNotes::insert($fileData);   
-            return back();         
+
         }        
     }  
 }

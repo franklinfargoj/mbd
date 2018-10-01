@@ -13,7 +13,7 @@
             <!--begin: Search Form -->
             <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
                 <div class="row align-items-center">
-                    <div class="col-md-12 order-2 order-xl-1">
+                    <div class="col-md-12">
                         <form role="form" id="eeForm" method="get" class="form-group m-form__group row align-items-end" action="{{ route('co.index') }}">
 <!--                                 <div class="col-md-3">
                                     <label for="exampleSelect1">Search</label>
@@ -41,7 +41,6 @@
                                             placeholder="From Date" readonly value="{{ isset($getData['office_date_to'])? $getData['office_date_to'] : '' }}">
                                     </div>
                                 </div>
-                            </div>
 
                             @php
                             $status = isset($getData['update_status'])? $getData['update_status'] : '';
@@ -63,10 +62,11 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-3" style="margin-top: 15px;">
+                            <div class="col-md-12" style="margin-top: 15px;">
                                 <div class="form-group m-form__group">
                                     <button type="submit" class="btn btn-primary">Search</button>
                                 </div>
+                            </div>
                             </div>
                         </form>
                     </div>

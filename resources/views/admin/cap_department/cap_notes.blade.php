@@ -7,6 +7,15 @@
 @endsection
 @section('content')
 
+@if(session()->has('success') || session()->has('pdf_error'))
+  <div class="alert alert-success">
+      {{ session()->get('success') }}
+  </div>   
+   <div class="alert alert-error">
+      {{ session()->get('pdf_error') }}
+  </div>
+@endif
+
 <!-- BEGIN: Subheader -->
 <div class="m-subheader ">
   <div class="d-flex align-items-center">
@@ -63,11 +72,12 @@
                                       Note</span>
                                       <form action="" method="post">
                                           <div class="custom-file">
-                                              <input class="custom-file-input"  type="file"
+                                              <input class="custom-file-input cap_note"  type="file"
                                                      id="test-upload" name="cap_note" required="">
                                               <label class="custom-file-label" for="test-upload">Choose
                                                   file...</label>
                                           </div>
+                                              <span id="file_error" class="text-danger"></span>
                                           <div class="mt-auto">
                                               <button type="submit" class="btn btn-primary btn-custom"
                                                       id="uploadBtn">Upload</button>
@@ -83,7 +93,26 @@
       </div>
   </div>
 </form>
-
-
-
 @endsection   
+@section('js')
+  <script>
+    $("#uploadBtn").click(function(){
+      myfile = $(".cap_note").val();
+      var ext = myfile.split('.').pop();      
+      if (myfile != ''){        
+          
+          if (ext != "pdf"){
+            $("#file_error").text("Invalid type of file uploaded (only pdf allowed).");
+            return false;
+          }
+          else{
+            $("#file_error").text("");
+            return true;
+          }      
+      }else{
+        $("#file_error").text("This field required");
+        return false;
+      }
+    });
+  </script>
+@endsection

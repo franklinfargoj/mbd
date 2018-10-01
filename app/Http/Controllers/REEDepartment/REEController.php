@@ -304,6 +304,7 @@ class REEController extends Controller
     public function editOfferLetter(Request $request,$applicatonId){
         // 
         $model = OlApplication::with('ol_application_master')->where('id',$applicatonId)->first();
+
         if ($model->ol_application_master->model == 'Premium'){
             
             $calculationData = OlApplication::with(['premiumCalculationSheet','eeApplicationSociety'])->where('id',$applicatonId)->first();   
@@ -312,17 +313,25 @@ class REEController extends Controller
             $calculationData = OlApplication::with(['sharingCalculationSheet','eeApplicationSociety'])->where('id',$applicatonId)->first();            
         }
 
+        if($model->text_offer_letter){
+            $path = public_path($model->text_offer_letter);
+            $content = File::get($path);            
+        }else{
+           $content = ""; 
+        }
+
         // dd($calculationData);
         // $calculationData = $this->getPermiumCalculationSheetData($applicatonId);
 
 
         // dd($calculationData->eeApplicationSociety->name);
 
-        return view('admin.REE_department.offer_letter_1',compact('applicatonId','calculationData'));
+        return view('admin.REE_department.offer_letter_1',compact('applicatonId','calculationData','content'));
     }
 
     public function saveOfferLetter(Request $request){
-       
+        
+        $id = $request->applicationId;
         $uploadPath = '/uploads/Draft_offer_letter';
         $destination = public_path($uploadPath);
         $content = str_replace('_', "", $_POST['ckeditorText']);
@@ -332,12 +341,27 @@ class REEController extends Controller
         $fileName = time().'draft_letter_'.$request->applicationId.'.pdf';
         $draftedOfferLetter = $uploadPath."/".$fileName;
 
+        //save file in text format
+        $uploadPath1 = '/uploads/text_offer_letter';
+        $dest = public_path($uploadPath1);
+
+        if ((!is_dir($dest))){
+            File::makeDirectory($dest, $mode = 0777, true, true);
+        } 
+        $file_nm =  time()."text_offer_letter_".$id.'.txt';
+        $filePath = $dest."/".$file_nm;
+
+        File::put($filePath,$content);
+        $textOfferLetter = $uploadPath1."/".$file_nm;
+
+        // drafted offer letter    
+     
         if ((!is_dir($destination))){
             File::makeDirectory($destination, $mode = 0777, true, true);
         }
         $pdf->save($destination."/".$fileName);
 
-        OlApplication::where('id',$request->applicationId)->update(["drafted_offer_letter" => $draftedOfferLetter]);
+        OlApplication::where('id',$request->applicationId)->update(["drafted_offer_letter" => $draftedOfferLetter, "text_offer_letter" => $textOfferLetter]);
 
         return redirect('generate_offer_letter/'.$request->applicationId);
     }
