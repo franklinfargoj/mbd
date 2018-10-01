@@ -148,7 +148,7 @@ class DYCEController extends Controller
             }
             $data = olSiteVisitDocuments::insert($fileData);            
         }
-        return back(); 
+        return redirect('/dyce'); 
     } 
 
     // society and EE documents

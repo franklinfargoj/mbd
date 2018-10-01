@@ -302,10 +302,19 @@ class REEController extends Controller
     }
 
     public function editOfferLetter(Request $request,$applicatonId){
-        
+        // 
+        $model = OlApplication::with('ol_application_master')->where('id',$applicatonId)->first();
+        if ($model->ol_application_master->model == 'Premium'){
+            
+            $calculationData = OlApplication::with(['premiumCalculationSheet','eeApplicationSociety'])->where('id',$applicatonId)->first();   
+                     
+        }else if($model->ol_application_master->model == 'Sharing') {
+            $calculationData = OlApplication::with(['sharingCalculationSheet','eeApplicationSociety'])->where('id',$applicatonId)->first();            
+        }
+
+        // dd($calculationData);
         // $calculationData = $this->getPermiumCalculationSheetData($applicatonId);
 
-        $calculationData = OlApplication::with(['premiumCalculationSheet','eeApplicationSociety'])->where('id',$applicatonId)->first();
 
         // dd($calculationData->eeApplicationSociety->name);
 

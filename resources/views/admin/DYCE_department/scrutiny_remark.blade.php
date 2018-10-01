@@ -6,6 +6,15 @@
 @endsection
 @section('content')
 
+@if(session()->has('success') || session()->has('error'))
+    <div class="alert alert-success">
+        {{ session()->get('success') }}
+    </div>   
+     <div class="alert alert-error">
+        {{ session()->get('error') }}
+    </div>
+@endif
+
 <div class="col-md-12">
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">
@@ -180,11 +189,12 @@
                                 <?php $i=2;?>
                                 @if(isset($applicationData->visitDocuments))
                                     @foreach($applicationData->visitDocuments as $documents)
-                                    <div class="d-flex flex-wrap align-items-center mb-5 upload_doc_{{$i}}">
+                                    <div class="d-flex align-items-center mb-5 upload_doc_{{$i}}">
                                         <label class="site-visit-label">Upload supporting files:</label>
-                                        <div class="custom-file width-auto mb-0 position-relative">
-                                            <input type="file" class="file custom-file-input upload_file_{{$i}}" name="document[]" id="test-upload_{{$i}}">
+                                        <div class="custom-file custom-file--fixed mb-0 position-relative">
+                                            <input type="file" class="file custom-file-input file_ext upload_file_{{$i}}" name="document[]" id="test-upload_{{$i}}">
                                             <label class="custom-file-label" for="test-upload_{{$i}}">{{explode('/',$documents->document_path)[3]}}</label>
+                                            <span id="file_error_{{$i}}" class="text-danger"></span>
     										<input type="hidden" class="upload_doc_{{$i}}" id="documentId" name="documentId[]"
                                             value="{{$documents->id}}" readonly>
     										<i class="fa fa-close doc2 close-icon" id="document_{{$i}}" onclick="removeDocuments(this.id)"></i>
@@ -194,11 +204,12 @@
                                     <?php $i++;?>
                                     @endforeach
                                 @endif
-                                <div class="d-flex flex-wrap align-items-center mb-5 upload_doc_1">
+                                <div class="d-flex align-items-center mb-5 upload_doc_1">
                                     <label class="site-visit-label">Upload supporting files:</label>
-                                    <div class="custom-file width-auto mb-0 position-relative">
-                                        <input type="file" class="file custom-file-input upload_file_1" name="document[]" id="test-upload">
+                                    <div class="custom-file custom-file--fixed mb-0 position-relative">
+                                        <input type="file" class="file custom-file-input file_ext upload_file_1" name="document[]" id="test-upload">
                                         <label class="custom-file-label" for="test-upload">Choose file ...</label>
+                                        <span id="file_error_" class="text-danger"></span>
 										<a class="add_more" onclick="addMoreDocuments(this);">add more</a>
 										<i class="fa fa-close doc close-icon" id="document_1" onclick="removeDocuments(this.id)"></i>
                                     </div>
@@ -326,16 +337,20 @@
     }
 
     function addMoreDocuments(text) {
-        var id = $("#documentCount").val();
-        $(text).css("display", "none");
-        $('.doc').css("visibility", "visible");
-        $(".all_documents").append("<div class='col-xs-12 d-flex flex-wrap align-items-center mb-5 upload_doc_"+id+"'><label class='site-visit-label'>Upload supporting files:</label><div class='custom-file width-auto mb-0 position-relative'><input type='file' class='file custom-file-input upload_file_"+id+"' name='document[]' id='test_upload_" +
-            id + "'><label class='custom-file-label' for='test_upload_"+id+"'> Choose file .. </label><i class='fa fa-close doc close-icon' id='document_" + id +
-            "' onclick='removeDocuments(this.id)'></i><a class='add_more' onclick='addMoreDocuments(this);'>add more </a></div></div>"
-        );
-        id++;
-        selectFile();
-        $("#documentCount").val(id);
+
+        var validateDocument = checkDocument();
+        if(validateDocument){
+            var id = $("#documentCount").val();
+            $(text).css("display", "none");
+            $('.doc').css("visibility", "visible");
+            $(".all_documents").append("<div class='col-xs-12 d-flex flex-wrap align-items-center mb-5 upload_doc_"+id+"'><label class='site-visit-label'>Upload supporting files:</label><div class='custom-file width-auto mb-0 position-relative'><input type='file' class='file custom-file-input file_ext upload_file_"+id+"' name='document[]' id='test_upload_" +
+                id + "'><label class='custom-file-label' for='test_upload_"+id+"'> Choose file .. </label><span class='text-danger' id='file_error_"+id+"'></span><i class='fa fa-close doc close-icon' id='document_" + id +
+                "' onclick='removeDocuments(this.id)'></i><a class='add_more' onclick='addMoreDocuments(this);'>add more </a></div></div>"
+            );
+            id++;
+            selectFile();
+            $("#documentCount").val(id);            
+        }
     }
 
     function removeDocuments(data) {
@@ -358,6 +373,25 @@
             $("#dyce_scrunity_Form").submit();
         }
     });
+
+    function checkDocument(){
+
+        $(".file_ext").each(function(){
+            var id = this.id;
+            var id1 = id.substr(12,1);
+            myfile= $("#"+id).val();
+            var ext = myfile.split('.').pop();
+            if (ext != "pdf"){
+                console.log(id);
+                $("#file_error_"+id1).text("Invalid File format(pdf file only).");
+                $(this).closest(".custom-file").addClass("has-error");
+                return false;
+            }
+            else{
+                $("#file_error").text("");
+            }
+        });
+    }
 
 </script>
 @endsection
