@@ -9,6 +9,7 @@ use App\LandSource;
 use App\VillageDetail;
 use App\DeletedVillages;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Common\CommonController;
 use DB;
 use File;
 use Illuminate\Support\Facades\Auth;
@@ -30,6 +31,7 @@ class VillageDetailController extends Controller
 
     public function __construct()
     {
+        $this->CommonController = new CommonController();
         $this->list_num_of_records_per_page = Config::get('commanConfig.list_num_of_records_per_page');
     }
 
@@ -314,10 +316,18 @@ lm_village_detail.updated_at'))->get();
                 $extension = $request->file('extract')->getClientOriginalExtension();
                 if ($extension == "pdf") {
                     $name = File::name($request->file('extract')->getClientOriginalName()) . '_' . $time . '.' . $extension;
-                    $path = Storage::putFileAs('/7_12_extract_document', $request->file('extract'), $name, 'public');
+                    // $path = Storage::putFileAs('/7_12_extract_document', $request->file('extract'), $name, 'public');
+                    $folder_name = "7_12_extract_document";
+                    $path = config('commanConfig.storage_server').'/'.$folder_name.'/'.$name;
+                    // Storage::disk('ftp')->putFileAs('7_12_extract_document',$request->file('extract'),$name);
+
+
+                    $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$request->file('extract'),$name);    
+
                     $village_data['7_12_extract'] = 1;
                     $village_data['extract_file_path'] = $path;
                     $village_data['extract_file_name'] = File::name($request->file('extract')->getClientOriginalName()) . '.' . $extension;
+                    //dd($village_data);
                 } else {
                     return redirect()->back()->with('error', 'Invalid type of file uploaded (only pdf allowed)');
                 }

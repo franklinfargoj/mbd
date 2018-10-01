@@ -124,7 +124,7 @@
                             Site Visit:
                         </h3>
                     </div>
-                    <div class="container-fluid">
+                    <div class="">
                         <div class="row">
                             <div class="col-md-6 site_v">
 								<div class="d-flex align-items-center mb-5">

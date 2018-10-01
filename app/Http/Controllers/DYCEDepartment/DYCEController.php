@@ -41,11 +41,11 @@ class DYCEController extends Controller
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'application_no','name' => 'application_no','title' => 'Application Number'],
             ['data' => 'date','name' => 'date','title' => 'Date'],
-            ['data' => 'society_name','name' => 'eeApplicationSociety.name','title' => 'Society Name'],
-            ['data' => 'building_name','name' => 'eeApplicationSociety.building_no','title' => 'building No'],
-            ['data' => 'society_address','name' => 'eeApplicationSociety.address','title' => 'Address'],
+            ['data' => 'eeApplicationSociety.name','name' => 'eeApplicationSociety.name','title' => 'Society Name'],
+            ['data' => 'eeApplicationSociety.building_no','name' => 'eeApplicationSociety.building_no','title' => 'building No'],
+            ['data' => 'eeApplicationSociety.address','name' => 'eeApplicationSociety.address','title' => 'Address'],
             // ['data' => 'model','name' => 'model','title' => 'Model'],
-             ['data' => 'Status','name' => 'status','title' => 'Status'],
+             ['data' => 'Status','name' => 'Status','title' => 'Status'],
             ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
         ];
         if ($datatables->getRequest()->ajax()) {
@@ -55,13 +55,13 @@ class DYCEController extends Controller
                 ->editColumn('rownum', function ($listArray) {
                     static $i = 0; $i++; return $i;
                 })
-                ->editColumn('society_name', function ($dyce_application_data) {
+                ->editColumn('eeApplicationSociety.name', function ($dyce_application_data) {
                     return $dyce_application_data->eeApplicationSociety->name;
                 })
-                ->editColumn('building_name', function ($dyce_application_data) {
+                ->editColumn('eeApplicationSociety.building_no', function ($dyce_application_data) {
                     return $dyce_application_data->eeApplicationSociety->building_no;
                 })
-                ->editColumn('society_address', function ($dyce_application_data) {
+                ->editColumn('eeApplicationSociety.address', function ($dyce_application_data) {
                     return $dyce_application_data->eeApplicationSociety->address;
                 })                
                 ->editColumn('date', function ($dyce_application_data) {
