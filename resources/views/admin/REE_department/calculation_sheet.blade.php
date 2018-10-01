@@ -59,10 +59,14 @@
                                         <input type="text" class="form-control form-control--xs form-control--custom flex-grow-0 ml-3"
                                             name="total_no_of_buildings" id="total_no_of_buildings" value="{{ isset($calculationSheetDetails[0]->total_no_of_buildings) ? $calculationSheetDetails[0]->total_no_of_buildings : 0 }}" />
                                     </div>
-                                    <table class="table mb-0" style="padding-top: 10px;">
+                                    <table id="one" class="table mb-0" style="padding-top: 10px;">
                                         <input name="_token" type="hidden" value="{!! csrf_token() !!}" />
                                         <input name="application_id" type="hidden" value="{{ $applicationId }}" />
                                         <input name="user_id" type="hidden" value="{{ $user->id }}" />
+                                        <div class="d-flex justify-content-between align-items-center mb-4">
+                                            <a  target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
+                                                        src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("one");'></a>
+                                        </div>
                                         <thead class="thead-default">
                                             <tr>
                                                 <th class="table-data--xs">
@@ -680,6 +684,10 @@
                                     <input name="_token" type="hidden" value="{!! csrf_token() !!}" />
                                     <input name="application_id" type="hidden" value="{{ $applicationId }}" />
                                     <input name="user_id" type="hidden" value="{{ $user->id }}" />
+                                    <div class="d-flex justify-content-between align-items-center mb-4">
+                                        <a  target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
+                                                    src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("two");'></a>
+                                    </div>
                                     <table class="table mb-0">
                                         <thead class="thead-default">
                                             <tr>
@@ -815,7 +823,12 @@
                                     <input name="_token" type="hidden" value="{!! csrf_token() !!}" />
                                     <input name="application_id" type="hidden" value="{{ $applicationId }}" />
                                     <input name="user_id" type="hidden" value="{{ $user->id }}" />
+                                    <div class="d-flex justify-content-between align-items-center mb-4">
+                                        <a  target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
+                                                    src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("three");'></a>
+                                    </div>
                                     <table class="table mb-0">
+
                                         <thead class="thead-default">
                                             <tr>
                                                 <th class="table-data--xs">
@@ -940,6 +953,10 @@
                                     <input name="_token" type="hidden" value="{!! csrf_token() !!}" />
                                     <input name="application_id" type="hidden" value="{{ $applicationId }}" />
                                     <input name="user_id" type="hidden" value="{{ $user->id }}" />
+                                    <div class="d-flex justify-content-between align-items-center mb-4">
+                                        <a  target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
+                                                    src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("four");'></a>
+                                    </div>
                                     <table class="table mb-0">
                                         <thead class="thead-default">
                                             <tr>
@@ -1005,6 +1022,10 @@
                                 </div>
                             </div>
                             <div class="m-section__content mb-0 table-responsive">
+                                <div class="d-flex justify-content-between align-items-center mb-4">
+                                    <a  target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
+                                                src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("five");'></a>
+                                </div>
                                 <table class="table mb-0">
                                     <thead class="thead-default">
                                         <tr>
@@ -1364,6 +1385,25 @@
         $("#offsite_infrastructure_charge_to_mhada1").val((2 / 7 * $(this).val()).toFixed(2));
         $("#offsite_infrastructure_charge_to_mhada1_installment").val((2 / 7 * $(this).val()).toFixed(2));
     });
+
+
+    function PrintElem(elem)
+    {
+        var mywindow = window.open('', 'PRINT', 'height=400,width=600');
+
+        mywindow.document.write('<html><head><title>Maharashtra Housing and development authority</title>');
+        mywindow.document.write('</head><body >');
+        mywindow.document.write(document.getElementById(elem).innerHTML);
+        mywindow.document.write('</body></html>');
+
+        mywindow.document.close(); // necessary for IE >= 10
+        mywindow.focus(); // necessary for IE >= 10*/
+
+        mywindow.print();
+        mywindow.close();
+
+        return true;
+    }
 
 </script>
 @endsection
