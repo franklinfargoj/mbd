@@ -316,18 +316,12 @@ lm_village_detail.updated_at'))->get();
                 $extension = $request->file('extract')->getClientOriginalExtension();
                 if ($extension == "pdf") {
                     $name = File::name($request->file('extract')->getClientOriginalName()) . '_' . $time . '.' . $extension;
-                    // $path = Storage::putFileAs('/7_12_extract_document', $request->file('extract'), $name, 'public');
                     $folder_name = "7_12_extract_document";
-                    $path = config('commanConfig.storage_server').'/'.$folder_name.'/'.$name;
-                    // Storage::disk('ftp')->putFileAs('7_12_extract_document',$request->file('extract'),$name);
-
-
-                    $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$request->file('extract'),$name);    
-
+                    $path = '/'.$folder_name.'/';
+                    $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$request->file('extract'),$name);
                     $village_data['7_12_extract'] = 1;
                     $village_data['extract_file_path'] = $path;
-                    $village_data['extract_file_name'] = File::name($request->file('extract')->getClientOriginalName()) . '.' . $extension;
-                    //dd($village_data);
+                    $village_data['extract_file_name'] = $name;
                 } else {
                     return redirect()->back()->with('error', 'Invalid type of file uploaded (only pdf allowed)');
                 }
@@ -416,10 +410,12 @@ lm_village_detail.updated_at'))->get();
                 $extension = $request->file('extract')->getClientOriginalExtension();
                 if ($extension == "pdf") {
                     $name = File::name($request->file('extract')->getClientOriginalName()) . '_' . $time . '.' . $extension;
-                    $path = Storage::putFileAs('/7_12_extract_document', $request->file('extract'), $name, 'public');
+                    $folder_name = '7_12_extract_document';
+                    $path='/'.$folder_name.'/';
+                    $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$request->file('extract'),$name);
                     $village_data['7_12_extract'] = 1;
                     $village_data['extract_file_path'] = $path;
-                    $village_data['extract_file_name'] = File::name($request->file('extract')->getClientOriginalName()) . '.' . $extension;
+                    $village_data['extract_file_name'] = $name;
                 } else {
                     return redirect()->back()->with('error', 'Invalid type of file uploaded (only pdf allowed)');
                 }

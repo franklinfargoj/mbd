@@ -194,7 +194,7 @@
                     <div class="custom-file">
                         <div class="d-flex">
                             <div class="text-truncate text-primary">{{ $arrData['village_data']['extract_file_name'] }}</div>
-                            <img style="cursor:pointer;" download class="download-icon-pdf" src="{{ asset('/img/down-arrow.svg') }}">
+                            <a href="{{ config('commanConfig.storage_server').$arrData['village_data']['extract_file_path'].$arrData['village_data']['extract_file_name'] }}"><img style="cursor:pointer;" download class="download-icon-pdf" src="{{ asset('/img/down-arrow.svg') }}"></a>
                         </div>
 
                         <input type="hidden" name="extract_file_name" value="{{ $arrData['village_data']['extract_file_name'] }}">
