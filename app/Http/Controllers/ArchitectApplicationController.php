@@ -59,9 +59,9 @@ class ArchitectApplicationController extends Controller
     return view('admin.architect.final',compact('applications','header_data','shortlisted','finalSelected'));
   }
 
-  public function viewApplication()
+  public function viewApplication($id)
   {
-
+    return decrypt($id);
   }
 
   public function evaluateApplication($encryptedId)

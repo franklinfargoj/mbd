@@ -64,8 +64,8 @@
                                     @if($document_uploaded['society_id'] == $society->id)
                                     <span>
                                         <a href="{{ asset($document_uploaded['society_document_path']) }}" data-value='{{ $document->id }}'
-                                            class="upload_documents" download><button type="submit" class="btn btn-primary btn-custom">
-                                                Download</button></a>
+                                            class="btn btn-primary btn-custom"" download target="_blank" rel="noopener">
+                                                Download</a>
                                     </span>
                                     @endif
                                     @endforeach
