@@ -45,11 +45,15 @@
                                         <h3 class="section-title">तक्ता - अ</h3>
                                     </div>
                                 </div>
-                                <div class="m-section__content mb-0 table-responsive">
+                                <div id="one" class="m-section__content mb-0 table-responsive">
                                     <form  role="form" method="POST"  action="{{ route('save_sharing_calculation_details') }}">
                                         <input name="_token" type="hidden" value="{!! csrf_token() !!}" />
                                         <input name="application_id" type="hidden" value="{{ $applicationId }}"/>
                                         <input name="user_id" type="hidden" value="{{ $user->id }}"/>
+                                        <div class="d-flex justify-content-between align-items-center mb-4">
+                                        <a  target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
+                                                    src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("one");'></a>
+                                        </div>
                                         <table class="table mb-0" style="padding-top: 10px;">
                                             <thead class="thead-default">
                                             <tr>
@@ -392,14 +396,14 @@
                                         <h3 class="section-title">Table B</h3>
                                     </div>
                                 </div>
-                                <div class="m-section__content mb-0 table-responsive">
+                                <div id="two" class="m-section__content mb-0 table-responsive">
                                     <form  role="form" method="POST"  action="{{ route('save_sharing_calculation_details') }}">
                                         <input name="_token" type="hidden" value="{!! csrf_token() !!}" />
                                         <input name="application_id" type="hidden" value="{{ $applicationId }}"/>
                                         <input name="user_id" type="hidden" value="{{ $user->id }}"/>
                                         <div class="d-flex justify-content-between align-items-center mb-4">
-                                            <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
-                                                        src="{{asset('/img/print-icon.svg')}}"></a>
+                                            <a  target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
+                                                        src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("two");'></a>
                                         </div>
                                         <table class="table mb-0" style="padding-top: 10px;">
                                             <thead class="thead-default">
@@ -589,14 +593,14 @@
                                         <h3 class="section-title">Table C</h3>
                                     </div>
                                 </div>
-                                <div class="m-section__content mb-0 table-responsive">
+                                <div id="three" class="m-section__content mb-0 table-responsive">
                                     <form  role="form" method="POST"  action="{{ route('save_sharing_calculation_details') }}">
                                         <input name="_token" type="hidden" value="{!! csrf_token() !!}" />
                                         <input name="application_id" type="hidden" value="{{ $applicationId }}"/>
                                         <input name="user_id" type="hidden" value="{{ $user->id }}"/>
                                         <div class="d-flex justify-content-between align-items-center mb-4">
-                                            <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
-                                                        src="{{asset('/img/print-icon.svg')}}"></a>
+                                            <a  target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
+                                                        src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("three");'></a>
                                         </div>
                                         <table class="table mb-0" style="padding-top: 10px;">
                                             <thead class="thead-default">
@@ -831,14 +835,14 @@
                                         <h3 class="section-title">Table D</h3>
                                     </div>
                                 </div>
-                                <div class="m-section__content mb-0 table-responsive">
+                                <div id="four" class="m-section__content mb-0 table-responsive">
                                     <form  role="form" method="POST"  action="{{ route('save_sharing_calculation_details') }}">
                                         <input name="_token" type="hidden" value="{!! csrf_token() !!}" />
                                         <input name="application_id" type="hidden" value="{{ $applicationId }}"/>
                                         <input name="user_id" type="hidden" value="{{ $user->id }}"/>
                                         <div class="d-flex justify-content-between align-items-center mb-4">
-                                            <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
-                                                        src="{{asset('/img/print-icon.svg')}}"></a>
+                                            <a  target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
+                                                        src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("four");'></a>
                                         </div>
                                         <table class="table mb-0" style="padding-top: 10px;">
                                             <thead class="thead-default">
@@ -1213,6 +1217,42 @@
             $("#total_rehabilitation_construction_area").val( parseFloat($("#total_rehabilitation_mattress_area_with_dcr").val()) * 1.2 );
 
         });
+
+
+        function printDiv(elem)
+        {
+
+            var divToPrint=document.getElementById(elem);
+
+            var newWin=window.open('','Print-Window');
+
+            newWin.document.open();
+
+            newWin.document.write('<html><body onload="window.print()">'+divToPrint.innerHTML+'</body></html>');
+
+            newWin.document.close();
+
+            setTimeout(function(){newWin.close();},10);
+
+        }
+
+        function PrintElem(elem)
+        {
+            var mywindow = window.open('', 'PRINT', 'height=400,width=600');
+
+            mywindow.document.write('<html><head><title>Maharashtra Housing and development authority</title>');
+            mywindow.document.write('</head><body >');
+            mywindow.document.write(document.getElementById(elem).innerHTML);
+            mywindow.document.write('</body></html>');
+
+            mywindow.document.close(); // necessary for IE >= 10
+            mywindow.focus(); // necessary for IE >= 10*/
+
+            mywindow.print();
+            mywindow.close();
+
+            return true;
+        }
 
 
     </script>
