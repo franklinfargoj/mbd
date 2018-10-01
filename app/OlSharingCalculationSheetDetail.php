@@ -24,6 +24,8 @@ class OlSharingCalculationSheetDetail extends Model
   'total_rehabilitation_mattress_area',
   'dcr_a_val',
   'per_sq_km_proyerta_construction_area',
+   'total_additional_claims',
+   'total_rehabilitation_mattress_area_with_dcr',
   'total_rehabilitation_construction_area',
   'lr_val',
   'rc_val',

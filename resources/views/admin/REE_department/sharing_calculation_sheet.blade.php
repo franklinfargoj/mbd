@@ -114,7 +114,6 @@
                                                     <input class="form-control form-control--custom" readonly type="text"
                                                            name="permissible_construction_area" id="permissible_construction_area" value="{{ isset($calculationSheetDetails[0]->permissible_construction_area) ? $calculationSheetDetails[0]->permissible_construction_area : 0 }}"/>
 
-                                                    (Table1 Point 1 * Table 1 Point 2)"
                                                 </td>
                                             </tr>
                                             <tr>
@@ -167,7 +166,6 @@
                                                     <input class="form-control form-control--custom" readonly type="text"
                                                            name="total_permissible_construction_area" id="total_permissible_construction_area" value="{{ isset($calculationSheetDetails[0]->total_permissible_construction_area) ? $calculationSheetDetails[0]->total_permissible_construction_area : 0 }}"/>
 
-                                                    (Table1 Point 3 + Table 1 Point 4)
                                                 </td>
                                             </tr>
                                             <tr>
@@ -176,7 +174,7 @@
                                                     अनुज्ञेय चटई क्षेत्रफळ प्रतिगाळा
                                                 </td>
                                                 <td class="text-center">
-                                                    <input class="form-control form-control--custom"  type="text"
+                                                    <input class="remianing_area form-control form-control--custom"  type="text"
                                                            name="permissible_mattress_area" id="permissible_mattress_area" value="{{ isset($calculationSheetDetails[0]->permissible_mattress_area) ? $calculationSheetDetails[0]->permissible_mattress_area : 0 }}"/>
 
                                                 </td>
@@ -191,7 +189,6 @@
                                                     <input class="form-control form-control--custom" readonly type="text"
                                                            name="revised_permissible_mattress_area" id="revised_permissible_mattress_area" value="{{ isset($calculationSheetDetails[0]->revised_permissible_mattress_area) ? $calculationSheetDetails[0]->revised_permissible_mattress_area : 0 }}"/>
 
-                                                    (Table1 Point 6 *  35%)
                                                 </td>
                                             </tr>
                                             <tr>
@@ -203,7 +200,7 @@
                                                     गृहीत धरण्यात येत आहे
                                                 </td>
                                                 <td class="text-center">
-                                                    <input class="form-control form-control--custom"  type="text"
+                                                    <input class="remianing_area form-control form-control--custom"  type="text"
                                                            name="revised_increased_area_for_residential_use" id="revised_increased_area_for_residential_use" value="{{ isset($calculationSheetDetails[0]->revised_increased_area_for_residential_use) ? $calculationSheetDetails[0]->revised_increased_area_for_residential_use : 0 }}"/>
 
                                                 </td>
@@ -217,7 +214,6 @@
                                                     <input class="form-control form-control--custom" readonly type="text"
                                                            name="total_rehabilitation_mattress_area" id="total_rehabilitation_mattress_area" value="{{ isset($calculationSheetDetails[0]->total_rehabilitation_mattress_area) ? $calculationSheetDetails[0]->total_rehabilitation_mattress_area : 0 }}"/>
 
-                                                    pt 8 * एकूण सदनिका"
                                                 </td>
                                             </tr>
                                             <tr>
@@ -232,7 +228,7 @@
                                                     </span>
                                                 </td>
                                             </tr>
-                                            <tr>
+                                            <!--<tr>
                                                 <td></td>
                                                 <td>
                                                     1. प्रति सदनिका चौ मी प्रोरेटा बांधकाम क्षेत्रफळ
@@ -240,6 +236,17 @@
                                                 <td class="text-center">
                                                     <input class="form-control form-control--custom"  type="text"
                                                            name="per_sq_km_proyerta_construction_area" id="per_sq_km_proyerta_construction_area" value="{{ isset($calculationSheetDetails[0]->per_sq_km_proyerta_construction_area) ? $calculationSheetDetails[0]->per_sq_km_proyerta_construction_area : 0 }}"/>
+
+                                                </td>
+                                            </tr>-->
+                                            <tr>
+                                                <td></td>
+                                                <td>
+                                                    Total
+                                                </td>
+                                                <td class="text-center">
+                                                    <input class="form-control form-control--custom"  type="text"
+                                                           name="total_additional_claims" id="total_additional_claims" value="{{ isset($calculationSheetDetails[0]->total_additional_claims) ? $calculationSheetDetails[0]->total_additional_claims : 0 }}"/>
 
                                                 </td>
                                             </tr>
@@ -251,7 +258,7 @@
                                                 </td>
                                                 <td class="text-center">
                                                     <input class="form-control form-control--custom" readonly type="text"
-                                                           name="total_rehabilitation_mattress_area1" id="total_rehabilitation_mattress_area1" value="{{ isset($calculationSheetDetails[0]->total_rehabilitation_mattress_area) ? $calculationSheetDetails[0]->total_rehabilitation_mattress_area : 0 }}"/>
+                                                           name="total_rehabilitation_mattress_area_with_dcr" id="total_rehabilitation_mattress_area_with_dcr" value="{{ isset($calculationSheetDetails[0]->total_rehabilitation_mattress_area) ? $calculationSheetDetails[0]->total_rehabilitation_mattress_area : 0 }}"/>
 
                                                 </td>
                                             </tr>
@@ -262,7 +269,7 @@
                                                     एकूण पुनर्वसन बांधकाम क्षेत्रफळ
                                                 </td>
                                                 <td class="text-center">
-                                                    <input class="remaining_area form-control form-control--custom"  type="text"
+                                                    <input class="remaining_area form-control form-control--custom"  readonly type="text"
                                                            name="total_rehabilitation_construction_area" id="total_rehabilitation_construction_area" value="{{ isset($calculationSheetDetails[0]->total_rehabilitation_construction_area) ? $calculationSheetDetails[0]->total_rehabilitation_construction_area : 0 }}"/>
 
                                                 </td>
@@ -299,7 +306,7 @@
                                                                         <div class="m-radio--box">
                                                                             <label class="m-radio m-radio--box-label">
                                                                                 <input type="radio" name="dcr_a_val"
-                                                                                       id="" value="nil" {{ isset($calculationSheetDetails[0]->dcr_a_val) && $calculationSheetDetails[0]->dcr_a_val == 'nil' ? 'checked' : '' }}>
+                                                                                       id="" value="0" {{ isset($calculationSheetDetails[0]->dcr_a_val) && $calculationSheetDetails[0]->dcr_a_val == 'nil' ? 'checked' : '' }}>
                                                                                 <span class="m-radio--box-span">
                                                                                     <span>Nil</span>
                                                                                 </span>
@@ -464,7 +471,6 @@
                                                     <input class="form-control form-control--custom" readonly type="text"
                                                            name="mattress_area_for_construction_area" id="mattress_area_for_construction_area" value="{{ isset($calculationSheetDetails[0]->mattress_area_for_construction_area) ? $calculationSheetDetails[0]->mattress_area_for_construction_area : 0 }}"/>
 
-                                                    table 1 pt 12 * 3
                                                 </td>
                                             </tr>
                                             <tr><td colspan="3" align="right"><input type="submit" name="submit" class="btn btn-primary" value="Save" /> </td></tr>
@@ -616,7 +622,6 @@
                                                     <input class="form-control form-control--custom" readonly type="text"
                                                            name="remaining_area" id="remaining_area" value="{{ isset($calculationSheetDetails[0]->remaining_area) ? $calculationSheetDetails[0]->remaining_area : 0 }}"/>
 
-                                                    (Table 1 pt 5 - tb 1 pt 12 -  tb 2 pt 5)
                                                 </td>
                                             </tr>
                                             <tr>
@@ -871,7 +876,6 @@
                                                     <input class="form-control form-control--custom" readonly type="text"
                                                            name="off_site_infrastructure_fee" id="off_site_infrastructure_fee" value="{{ isset($calculationSheetDetails[0]->off_site_infrastructure_fee) ? $calculationSheetDetails[0]->off_site_infrastructure_fee : 0 }}"/>
 
-                                                    [ (tb 1 pt 4 - tb 4 pt 1) * (LR * 7%) ]
                                                 </td>
                                                 </td>
                                             </tr>
@@ -886,7 +890,6 @@
                                                            name="amount_to_be_paid_to_municipal" id="amount_to_be_paid_to_municipal" value="{{ isset($calculationSheetDetails[0]->amount_to_be_paid_to_municipal) ? $calculationSheetDetails[0]->amount_to_be_paid_to_municipal : 0 }}"/>
 
 
-                                                    5/7 * tb 4 pt 1
                                                 </td>
                                             </tr>
                                             <tr>
@@ -900,7 +903,6 @@
                                                            name="offsite_infrastructure_charge_to_mhada" id="offsite_infrastructure_charge_to_mhada" value="{{ isset($calculationSheetDetails[0]->offsite_infrastructure_charge_to_mhada) ? $calculationSheetDetails[0]->offsite_infrastructure_charge_to_mhada : 0 }}"/>
 
 
-                                                    2/7 * tb4 pt 1
                                                 </td>
                                             </tr>
                                             <tr>
@@ -934,7 +936,7 @@
                                                 <td class="text-center">
                                                     <input class="total_amount_in_rs form-control form-control--custom" readonly type="text"
                                                            name="layout_approval_fee" id="layout_approval_fee" value="{{ isset($calculationSheetDetails[0]->layout_approval_fee) ? $calculationSheetDetails[0]->layout_approval_fee : 0 }}"/>
-                                                    १००० * एकूण सदनिका"
+
                                                 </td>
                                             </tr>
                                             <tr>
@@ -969,7 +971,6 @@
                                                            name="amount_to_b_paid_to_municipal_corporation" id="amount_to_b_paid_to_municipal_corporation" value="{{ isset($calculationSheetDetails[0]->amount_to_b_paid_to_municipal_corporation) ? $calculationSheetDetails[0]->amount_to_b_paid_to_municipal_corporation : 0 }}"/>
 
 
-                                                    tb 4 pt 3"
                                                 </td>
                                             </tr>
                                             <tr><td colspan="3" align="right"><input type="submit" name="submit" class="btn btn-primary" value="Save" /> </td></tr>
@@ -1120,6 +1121,9 @@
 
             $("#total_rehabilitation_mattress_area").val($("#total_house").val()*$(this).val());
 
+            $("#total_rehabilitation_mattress_area_with_dcr").val(parseFloat($("#total_additional_claims").val()) + parseFloat($("#total_rehabilitation_mattress_area").val()));
+
+            $("#total_rehabilitation_construction_area").val( parseFloat($("#total_rehabilitation_mattress_area_with_dcr").val()) * 1.2 );
         });
         $(document).on("keyup", "#lr_val , #rc_val", function() {
 
@@ -1177,7 +1181,8 @@
 
         $(document).on("keyup", "#total_house", function() {
             $("#layout_approval_fee").val(1000 * $(this).val());
-        });
+
+            });
 
 
 
@@ -1189,7 +1194,25 @@
             $("#total_amount_in_rs").val(total_amount_in_rs);
         });
 
+        $(document).on("change", "input[type=radio][name=dcr_a_val]", function() {
 
+            var total_claims = ($(this).val() / 100) * $("#permissible_mattress_area").val() * $("#total_house").val();
+            $("#total_additional_claims").val(total_claims.toFixed(2));
+
+            $("#total_rehabilitation_mattress_area_with_dcr").val(parseFloat($("#total_additional_claims").val()) + parseFloat($("#total_rehabilitation_mattress_area").val()));
+
+            $("#total_rehabilitation_construction_area").val( parseFloat($("#total_rehabilitation_mattress_area_with_dcr").val()) * 1.2 );
+        });
+        $(document).on("keyup", "#total_house, #permissible_mattress_area", function() {
+            var total_claims = ($("input[type=radio][name=dcr_a_val]:checked").val() / 100) * $("#permissible_mattress_area").val() * $("#total_house").val();
+
+            $("#total_additional_claims").val(total_claims.toFixed(2));
+
+            $("#total_rehabilitation_mattress_area_with_dcr").val(parseFloat($("#total_additional_claims").val()) + parseFloat($("#total_rehabilitation_mattress_area").val()));
+
+            $("#total_rehabilitation_construction_area").val( parseFloat($("#total_rehabilitation_mattress_area_with_dcr").val()) * 1.2 );
+
+        });
 
 
     </script>
