@@ -15,9 +15,11 @@ use DB;
 use App\Department;
 use Illuminate\Support\Facades\Storage;
 use Excel;
+use App\Http\Controllers\Common\CommonController;
 
 class ResolutionController extends Controller
 {
+    protected $CommonController;
     public $header_data = array(
         'menu' => 'Resolution',
         'menu_url' => 'resolution',
@@ -27,8 +29,9 @@ class ResolutionController extends Controller
 
     protected $list_num_of_records_per_page;
 
-    public function __construct()
+    public function __construct(CommonController $CommonController)
     {
+        $this->CommonController = $CommonController;
         $this->list_num_of_records_per_page = Config::get('commanConfig.list_num_of_records_per_page');
     }
     
@@ -247,23 +250,18 @@ class ResolutionController extends Controller
         ];
 
 
-        // dd($request->toArray());
-        $uploadPath = '/uploads/resolutions';
+        $uploadPath = 'resolutions';
         $destinationPath = public_path($uploadPath);
                 
         if($request->file('file'))
         {
             $file = $request->file('file');
             $file_name = time().$file->getFileName().'.'.$file->getClientOriginalExtension();
-            
-            Storage::disk(env('FILESYSTEM_DRIVER'))->putFileAs('Resolution',$request->file('file'),$file_name);
-            if($file->move($destinationPath, $file_name))
-            {
-                $dataToInsert['filepath'] = $uploadPath.'/';
-                $dataToInsert['filename'] = $file_name;
-            }
+            $path = "/".$uploadPath."/";
+            $this->CommonController->ftpFileUpload($uploadPath,$request->file('file'),$file_name);
+            $dataToInsert['filepath'] = $path;
+            $dataToInsert['filename'] = $file_name;
         }
-        // dd($dataToInsert);
         Resolution::create($dataToInsert);
 
         return redirect('resolution')->with(['success'=> 'Record added succesfully']);
@@ -284,13 +282,13 @@ class ResolutionController extends Controller
 
     public function update(UpdateResolutionRequest $request, $id)
     {
-        $uploadPath      = '/uploads/resolutions';
+        $uploadPath      = 'resolutions';
         $destinationPath = public_path($uploadPath);
 
         if ($request->has('file')){ 
             $file      = $request->file('file');
             $file_name = time().$file->getFileName().'.'.$file->getClientOriginalExtension();
-            $file->move($destinationPath, $file_name);
+            $this->CommonController->ftpFileUpload($uploadPath,$request->file('file'),$file_name);
         }
 
         $resolution = Resolution::findOrFail($id);
@@ -306,7 +304,7 @@ class ResolutionController extends Controller
         $resolution->revision_log_message = $request->revision_log_message;
 
         if ($request->has('file')) {
-            $resolution->filepath = $uploadPath.'/';
+            $resolution->filepath = '/'.$uploadPath.'/';
             $resolution->filename = $file_name;
         }
         $resolution->save();

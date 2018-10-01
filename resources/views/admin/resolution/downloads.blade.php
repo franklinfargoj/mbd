@@ -1,1 +1,1 @@
-<a title="Download" href="{{ asset($resolutions->filepath.$resolutions->filename) }}" download>Download</a>
+<a title="Download" href="{{ config('commanConfig.storage_server').$resolutions->filepath.$resolutions->filename }}" download>Download</a>

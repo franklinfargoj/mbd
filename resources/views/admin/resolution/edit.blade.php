@@ -95,6 +95,7 @@
                             <div class="custom-file">
                                 <input type="file" name="file" id="uploadedFile" class="custom-file-input">
                                 <label class="custom-file-label" for="uploadedFile">{{old('description',$resolution->filename)}}</label>
+                                <a href="{{ config('commanConfig.storage_server').$resolution->filepath.$resolution->filename }}"">{{old('description',$resolution->filename)}}</a>
                                 <span class="help-block">{{$errors->first('file')}}</span>
                             </div>
                         </div>
