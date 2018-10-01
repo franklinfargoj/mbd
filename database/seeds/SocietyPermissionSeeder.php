@@ -17,19 +17,7 @@ class SocietyPermissionSeeder extends Seeder
     {
         $society = Role::where('name', '=', 'society')->select('id')->get();
 
-        if(count($society)==0){
-            // Society Login
-            //dd('if');
-            $role_id = Role::insertGetId([
-                'name'         => 'society',
-                'redirect_to'  => '/society_offer_letter_dashboard',
-                'parent_id'    => NULL,
-                'display_name' => 'Society Offer Letter',
-                'description'  => 'Login as Society'
-            ]);
-            
-            
-            $permissions = [
+        $permissions = [
                 [
                     'name'         => 'society_offer_letter.index',
                     'display_name' => 'index',
@@ -128,9 +116,25 @@ class SocietyPermissionSeeder extends Seeder
                 [
                     'name'         => 'society_offer_letter_application_download',
                     'display_name' => 'society_offer_letter_application_download',
-                    'description'  => 'downloads society offer letter application form'
+                    'description'  => 'downloads society offer letter application'
+                ],
+                [
+                    'name'         => 'upload_society_offer_letter_application',
+                    'display_name' => 'upload_society_offer_letter_application',
+                    'description'  => 'uploads society offer letter application'
                 ]
             ];
+
+        if(count($society)==0){
+            // Society Login
+            //dd('if');
+            $role_id = Role::insertGetId([
+                'name'         => 'society',
+                'redirect_to'  => '/society_offer_letter_dashboard',
+                'parent_id'    => NULL,
+                'display_name' => 'Society Offer Letter',
+                'description'  => 'Login as Society'
+            ]);
 
             $permission_role = [];
 
@@ -147,105 +151,6 @@ class SocietyPermissionSeeder extends Seeder
             PermissionRole::insert($permission_role); 
         }else
         {
-
-            //dd('else');
-            $permissions = [
-                [
-                    'name'         => 'society_offer_letter.index',
-                    'display_name' => 'index',
-                    'description'  => 'index'
-                ],            
-                [
-                    'name'         => 'society_offer_letter.store',
-                    'display_name' => 'society_offer_letter_registration',
-                    'description'  => 'store society registration details for offer letter'
-                ],            
-                [
-                    'name'         => 'society_offer_letter.create',
-                    'display_name' => 'display_society_offer_letter_registration',
-                    'description'  => 'displays society registration form for offer letter'
-                ],            
-                [
-                    'name'         => 'society_offer_letter_forgot_password',
-                    'display_name' => 'society_forgot_password',
-                    'description'  => 'society forgot password functionality'
-                ],
-                [
-                    'name'         => 'society_offer_letter_dashboard',
-                    'display_name' => 'society_offer_letter_application_listing',
-                    'description'  => 'society offer letter application listing'
-                ],            
-                [
-                    'name'         => 'offer_letter_application_self',
-                    'display_name' => 'offer_letter_application_self',
-                    'description'  => 'displays offer letter application form for self redevelopment'
-                ],            
-                [
-                    'name'         => 'save_offer_letter_application_self',
-                    'display_name' => 'save_offer_letter_application_self',
-                    'description'  => 'saves offer letter application form for self redevelopment'
-                ],
-                [
-                    'name'         => 'offer_letter_application_dev',
-                    'display_name' => 'offer_letter_application_dev',
-                    'description'  => 'displays offer letter application form for redevelopment through developer'
-                ],
-                [
-                    'name'         => 'save_offer_letter_application_dev',
-                    'display_name' => 'save_offer_letter_application_dev',
-                    'description'  => 'saves offer letter application form for redevelopment through developer'
-                ],
-                [
-                    'name'         => 'documents_upload',
-                    'display_name' => 'documents_upload',
-                    'description'  => 'displays document names listings & upload documents form'
-                ],
-                [
-                    'name'         => 'uploaded_documents',
-                    'display_name' => 'uploaded_documents',
-                    'description'  => 'displays download and upload option for submitted offer letter application form'
-                ],
-                [
-                    'name'         => 'delete_uploaded_documents',
-                    'display_name' => 'delete_uploaded_documents',
-                    'description'  => 'deletes documents for submitted offer letter application form'
-                ],
-                [
-                    'name'         => 'add_documents_comment',
-                    'display_name' => 'add_documents_comment',
-                    'description'  => 'add comments for uploaded documents for submitted offer letter application form'
-                ],
-                [
-                    'name'         => 'society_offer_letter_download',
-                    'display_name' => 'society_offer_letter_download',
-                    'description'  => 'displays submitted society offer letter application'
-                ],
-                [
-                    'name'         => 'upload_society_offer_letter',
-                    'display_name' => 'upload_society_offer_letter',
-                    'description'  => 'upload submitted society offer letter application after signature'
-                ],
-                [
-                    'name'         => 'society_detail.UserAuthentication',
-                    'display_name' => 'society_detail.UserAuthentication',
-                    'description'  => 'authenticates society offer letter users'
-                ],
-                [
-                    'name'         => 'documents_uploaded',
-                    'display_name' => 'documents_uploaded',
-                    'description'  => 'view uploaded society documents'
-                ],                
-                [
-                    'name'         => 'add_documents_comment',
-                    'display_name' => 'add_documents_comment',
-                    'description'  => 'add documents comment'
-                ],                
-                [
-                    'name'         => 'add_uploaded_documents_remark',
-                    'display_name' => 'add_uploaded_documents_remark',
-                    'description'  => 'add uploaded documents remark'
-                ]
-            ];
 
             $permission_role = [];
 
@@ -264,8 +169,7 @@ class SocietyPermissionSeeder extends Seeder
                         'permission_id' => $permission_id,
                         'role_id' => $society[0]->id,
                     ];
-                }
-                
+                }                
             }
             if(count($permission_role)>0)
             {
