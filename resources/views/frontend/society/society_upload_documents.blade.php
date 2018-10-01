@@ -75,7 +75,7 @@
                                     @if($document_uploaded['society_id'] == $society->id)
                                     <span>
                                         <a href="{{ asset($document_uploaded['society_document_path']) }}" data-value='{{ $document->id }}'
-                                            class="upload_documents" download><button type="submit" class="btn btn-primary btn-custom">
+                                            class="upload_documents" target="_blank" rel="noopener" download><button type="submit" class="btn btn-primary btn-custom">
                                                 Download</button></a>
                                         <a href="{{ url('/delete_uploaded_documents/'.$document->id) }}" data-value='{{ $document->id }}'
                                             class="upload_documents"><button type="submit" class="btn btn-primary btn-custom">
