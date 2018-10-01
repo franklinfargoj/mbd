@@ -1,3 +1,17 @@
+// $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+//     var hash = $(e.target).attr('href');
+//     if (history.pushState) {
+//       history.pushState(null, null, hash);
+//     } else {
+//       location.hash = hash;
+//     }
+//   });
+  
+//   var hash = window.location.hash;
+//   if (hash) {
+//     $('.nav-link[href="' + hash + '"]').tab('show');
+// }
+
 $(document).ready(function () {
 
     //toggle password
@@ -37,9 +51,42 @@ $(document).ready(function () {
     });
 
     // store the currently selected tab in the hash value
-    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) { location.replace($(e.target).attr("href")); });
-    // switch to the currently selected tab when loading the page
-    $('.nav-tabs a[href="' + window.location.hash + '"]').tab('show');
+    // $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) { location.replace($(e.target).attr("href")); });
+    // // switch to the currently selected tab when loading the page
+    // $('.nav-tabs a[href="' + window.location.hash + '"]').tab('show');
+
+    // $('a[data-toggle="tab"]').on('click', function (e) {
+
+    //     var theTabId = $(this).attr('href');
+    //     var activeTabs = (window.localStorage.getItem('activeTab') ? window.localStorage.getItem('activeTab').split(',') : []);
+
+    //     var $sameLevelTabs = $(e.target).parents('.nav-tabs').find('[data-toggle="tab"]');
+
+    //     $.each($sameLevelTabs, function (index, element) {
+    //         var tabId = $(element).attr('href');
+    //         if (theTabId != tabId && activeTabs.indexOf(tabId) !== -1) {
+    //             activeTabs.splice(activeTabs.indexOf(tabId), 1);
+    //         }
+    //     });
+
+    //     //unique tabs
+    //     if (activeTabs.indexOf($(e.target).attr('href')) === -1) {
+    //         activeTabs.push($(e.target).attr('href'));
+    //     }
+
+    //     window.localStorage.setItem('activeTab', activeTabs.join(','));
+
+    // });
+
+    // var activeTabs = window.localStorage.getItem('activeTab');
+    // if (activeTabs) {
+    //     var activeTabs = (window.localStorage.getItem('activeTab') ? window.localStorage.getItem('activeTab').split(',') : []);
+    //     $.each(activeTabs, function (index, element) {
+    //         $('[data-toggle="tab"][href="' + element + '"]').tab('show');
+    //     });
+    // }
+
+    
 
     //Tabbed Content
 

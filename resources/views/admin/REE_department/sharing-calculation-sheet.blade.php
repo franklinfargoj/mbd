@@ -7,7 +7,7 @@
             <div class="m-portlet__head-tools">
                 <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom" role="tablist">
                     <li class="nav-item m-tabs__item">
-                        <a class="nav-link m-tabs__link active show" data-toggle="tab" href="#one" role="tab"
+                        <a class="nav-link m-tabs__link" data-toggle="tab" href="#one" role="tab"
                             aria-selected="false">
                             <i class="la la-cog"></i> Table A
                         </a>
@@ -932,8 +932,10 @@
                                                     @csrf
                                                     <input type="hidden" name="application_id" value="">
                                                     <div class="custom-file">
-                                                        <input class="custom-file-input" name="ree_note" type="file" id="test-upload" required="">
-                                                        <label class="custom-file-label" for="test-upload">Choose file ...</label>
+                                                        <input class="custom-file-input" name="ree_note" type="file" id="test-upload"
+                                                            required="">
+                                                        <label class="custom-file-label" for="test-upload">Choose file
+                                                            ...</label>
                                                     </div>
                                                     <div class="mt-auto">
                                                         <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
@@ -951,4 +953,53 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('calculation_sheet_js')
+
+<script>
+    $(document).ready(function () {
+        // **Start** Save tabs location on window refresh or submit
+
+        // Set first tab to active if user visits page for the first time
+
+        if (localStorage.getItem("activeTab") === null) {
+            document.querySelector(".nav-link.m-tabs__link").classList.add("active", "show");
+        } else {
+            document.querySelector(".nav-link.m-tabs__link").classList.remove("active", "show");
+        }
+
+        if (location.hash) {
+            $('a[href=\'' + location.hash + '\']').tab('show');
+        }
+        var activeTab = localStorage.getItem('activeTab');
+        if (activeTab) {
+            $('a[href="' + activeTab + '"]').tab('show');
+        }
+
+        $('body').on('click', 'a[data-toggle=\'tab\']', function (e) {
+            e.preventDefault()
+            var tab_name = this.getAttribute('href')
+            if (history.pushState) {
+                history.pushState(null, null, tab_name)
+            } else {
+                location.hash = tab_name
+            }
+            localStorage.setItem('activeTab', tab_name)
+
+            $(this).tab('show');
+            return false;
+        });
+
+        $(window).on('popstate', function () {
+            var anchor = location.hash ||
+                $('a[data-toggle=\'tab\']').first().attr('href');
+            $('a[href=\'' + anchor + '\']').tab('show');
+        });
+
+        // **End** Save tabs location on window refresh or submit
+    });
+
+</script>
+
 @endsection

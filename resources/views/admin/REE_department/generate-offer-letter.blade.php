@@ -32,7 +32,7 @@
                 </ul>
             </div>
         </div>
-        <div class="m-grid__item m-grid__item--fluid m-wrapper">
+        <div class="m-grid__item m-grid__item--fluid">
             <div class="row">
                 <div class="col-md-12">
                     <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
