@@ -298,8 +298,7 @@ class CommonController extends Controller
 
     public function ftpFileUpload($folderName,$file,$fileName){
 
-        Storage::disk('ftp')->putFileAs($folderName,$file,$fileName);
-        return;
+        return Storage::disk('ftp')->putFileAs($folderName,$file,$fileName);
 
     }
 
