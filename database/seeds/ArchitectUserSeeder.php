@@ -68,9 +68,9 @@ class ArchitectUserSeeder extends Seeder
                     'description' => 'tempCertificateGenerate'
                 ],
                 [
-                    'name' => 'finalCertificateGenerate',
-                    'display_name' => 'finalCertificateGenerate',
-                    'description' => 'finalCertificateGenerate'
+                    'name' => 'postfinalCertificateGenerate',
+                    'display_name' => 'postfinalCertificateGenerate',
+                    'description' => 'postfinalCertificateGenerate'
                 ]
             ];
         // $architect=Role::where('name', '=', 'architect')->select('id')->first();

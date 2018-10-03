@@ -67,7 +67,7 @@
             <div class="col-md-6">
               <h3>Upload Certificate</h3>
               <h5>Click on 'Upload' to upload certificate in</h5>
-              <form class="form-control" action="{{url('finalCertificateGenerate')}}" method="post" enctype="multipart/form-data">
+              <form class="form-control" action="{{url('postfinalCertificateGenerate')}}" method="post" enctype="multipart/form-data">
                 @csrf
                 <input type="file" name="certificate" accept="application/*" required>
                 <input type="hidden" name="ap_no" value="{{$encryptedId}}">

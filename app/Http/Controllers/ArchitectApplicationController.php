@@ -143,8 +143,7 @@ class ArchitectApplicationController extends Controller
 
     $ArchitectApplication=ArchitectApplication::find(decrypt($encryptedId));
     $content=view('admin.architect.certificate',compact('ArchitectApplication'));
-    print_r($content);
-    exit;
+    
     $phpWord = new \PhpOffice\PhpWord\PhpWord();
     $section = $phpWord->addSection();
     $text = $section->addText("Applicant Number: ".$application->application_number);
@@ -163,6 +162,7 @@ class ArchitectApplicationController extends Controller
   public function postFinalCertificateGenerate(CertificateUploadRequest $request)
   {
 
+    dd('sd');
     if($request->hasFile('certificate'))
     {
       $applicationId = decrypt($request->get('ap_no'));
@@ -184,7 +184,7 @@ class ArchitectApplicationController extends Controller
 
   public function getForwardApplication($encryptedId)
   {
-
+    dd(decrypt($encryptedId));
   }
 
 
