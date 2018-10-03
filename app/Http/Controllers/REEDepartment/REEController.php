@@ -25,6 +25,7 @@ use Auth;
 use DB;
 use PDF;
 use File;
+use Storage;
 
 
 class REEController extends Controller
@@ -302,89 +303,81 @@ class REEController extends Controller
     }
 
     public function editOfferLetter(Request $request,$applicatonId){
-        // 
+        
         $model = OlApplication::with('ol_application_master')->where('id',$applicatonId)->first();
-
         if ($model->ol_application_master->model == 'Premium'){
             
-            $calculationData = OlApplication::with(['premiumCalculationSheet','eeApplicationSociety'])->where('id',$applicatonId)->first();   
+            $calculationData = OlApplication::with(['premiumCalculationSheet','eeApplicationSociety'])->where('id',$applicatonId)->first();  
+            $blade =  "premiun_offer_letter";
                      
         }else if($model->ol_application_master->model == 'Sharing') {
-            $calculationData = OlApplication::with(['sharingCalculationSheet','eeApplicationSociety'])->where('id',$applicatonId)->first();            
+            $calculationData = OlApplication::with(['sharingCalculationSheet','eeApplicationSociety'])->where('id',$applicatonId)->first(); 
+            // dd($calculationData);
+            $blade =  "sharing_offer_letter";           
         }
 
+        // dd($calculationData);
+
         if($model->text_offer_letter){
-            $path = public_path($model->text_offer_letter);
-            $content = File::get($path);            
+
+            $content = Storage::disk('ftp')->get($model->text_offer_letter); 
+                   
         }else{
            $content = ""; 
         }
 
-        // dd($calculationData);
-        // $calculationData = $this->getPermiumCalculationSheetData($applicatonId);
-
-
-        // dd($calculationData->eeApplicationSociety->name);
-
-        return view('admin.REE_department.offer_letter_1',compact('applicatonId','calculationData','content'));
+        return view('admin.REE_department.'.$blade,compact('applicatonId','calculationData','content'));
     }
 
     public function saveOfferLetter(Request $request){
-        
+
         $id = $request->applicationId;
-        $uploadPath = '/uploads/Draft_offer_letter';
-        $destination = public_path($uploadPath);
         $content = str_replace('_', "", $_POST['ckeditorText']);
+        $folder_name = 'Draft_offer_letter';
 
         $pdf = \App::make('dompdf.wrapper');
         $pdf->loadHTML($content);
-        $fileName = time().'draft_letter_'.$request->applicationId.'.pdf';
-        $draftedOfferLetter = $uploadPath."/".$fileName;
+        $fileName = time().'draft_offer_letter_'.$id.'.pdf';
+        $filePath = $folder_name."/".$fileName;
 
-        //save file in text format
-        $uploadPath1 = '/uploads/text_offer_letter';
-        $dest = public_path($uploadPath1);
-
-        if ((!is_dir($dest))){
-            File::makeDirectory($dest, $mode = 0777, true, true);
+        if (!(Storage::disk('ftp')->has($folder_name))) {            
+            Storage::disk('ftp')->makeDirectory($folder_name, $mode = 0777, true, true);
         } 
+        Storage::disk('ftp')->put($filePath, $pdf->output());
+
+        //text offer letter
+
+        $folder_name1 = 'text_offer_letter';
+
+        if (!(Storage::disk('ftp')->has($folder_name1))) {            
+            Storage::disk('ftp')->makeDirectory($folder_name1, $mode = 0777, true, true);
+        }        
         $file_nm =  time()."text_offer_letter_".$id.'.txt';
-        $filePath = $dest."/".$file_nm;
+        $filePath1 = $folder_name1."/".$file_nm;
 
-        File::put($filePath,$content);
-        $textOfferLetter = $uploadPath1."/".$file_nm;
+        Storage::disk('ftp')->put($filePath1, $content);
 
-        // drafted offer letter    
-     
-        if ((!is_dir($destination))){
-            File::makeDirectory($destination, $mode = 0777, true, true);
-        }
-        $pdf->save($destination."/".$fileName);
-
-        OlApplication::where('id',$request->applicationId)->update(["drafted_offer_letter" => $draftedOfferLetter, "text_offer_letter" => $textOfferLetter]);
+        OlApplication::where('id',$request->applicationId)->update(["drafted_offer_letter" => $filePath, "text_offer_letter" => $filePath1]);
 
         return redirect('generate_offer_letter/'.$request->applicationId);
     }
 
     public function uploadOfferLetter(Request $request,$applicationId){
-
-        $uploadPath      = '/uploads/uploaded_offer_letter';
-        $destinationPath = public_path($uploadPath); 
         
         if ($request->file('offer_letter')) {
             $file = $request->file('offer_letter');
-            $file_name = time().$file->getFileName().'.'.$file->getClientOriginalExtension();
             $extension = $file->getClientOriginalExtension();
+            $file_name = time().'_uploaded_offer_letter_'.$applicationId.'.'.$extension;
+            $folder_name = "uploaded_offer_letter";
 
             if ($extension == "pdf") {
 
-                if ($file->move($destinationPath, $file_name)) {
+                $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$request->file('offer_letter'),$file_name);
 
-                    $offerLetterPath = $uploadPath."/".$file_name; 
+                    $offerLetterPath = $folder_name."/".$file_name; 
                     OlApplication::where('id',$applicationId)->update(["offer_letter_document_path" => $offerLetterPath]);
 
                     return redirect()->back()->with('success', 'Successfully uploaded');
-                }
             } else {
                 return redirect()->back()->with('error', 'Invalid format. pdf file only.');
             }
