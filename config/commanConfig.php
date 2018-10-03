@@ -29,6 +29,9 @@ return [
         'forwarded' => 2,
         'reverted' => 3,
         'pending' => 4,
+        'offer_letter_generation' => 5,
+        'offer_letter_approved' => 6,
+        'sent_to_society' => 7
     ],
     'ee_junior_engineer' => 'ee_junior_engineer',
 

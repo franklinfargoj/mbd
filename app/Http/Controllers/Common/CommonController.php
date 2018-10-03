@@ -180,32 +180,193 @@ class CommonController extends Controller
             OlApplicationStatus::insert($forward_application);
         }
         else{
-            $revert_application = [
-                [
-                    'application_id' => $request->applicationId,
-                    'user_id' => Auth::user()->id,
-                    'role_id' => session()->get('role_id'),
-                    'status_id' => config('commanConfig.applicationStatus.reverted'),
-                    'to_user_id' => $request->user_id,
-                    'to_role_id' => $request->role_id,
-                    'remark' => $request->remark,
-                    'created_at' => Carbon::now()
-                ],
+            if(session()->get('role_name') == config('commanConfig.cap_engineer') || session()->get('role_name') == config('commanConfig.vp_engineer'))
+            {
+                $revert_application = [
+                    [
+                        'application_id' => $request->applicationId,
+                        'user_id' => Auth::user()->id,
+                        'role_id' => session()->get('role_id'),
+                        'status_id' => config('commanConfig.applicationStatus.reverted'),
+                        'to_user_id' => $request->user_id,
+                        'to_role_id' => $request->role_id,
+                        'remark' => $request->remark,
+                        'created_at' => Carbon::now()
+                    ],
+
+                    [
+                        'application_id' => $request->applicationId,
+                        'user_id' => $request->user_id,
+                        'role_id' => $request->role_id,
+                        'status_id' => config('commanConfig.applicationStatus.in_process'),
+                        'to_user_id' => NULL,
+                        'to_role_id' => NULL,
+                        'remark' => $request->remark,
+                        'created_at' => Carbon::now()
+                    ]
+                ];
+            }
+            else {
+                $revert_application = [
+                    [
+                        'application_id' => $request->applicationId,
+                        'user_id' => Auth::user()->id,
+                        'role_id' => session()->get('role_id'),
+                        'status_id' => config('commanConfig.applicationStatus.reverted'),
+                        'to_user_id' => $request->to_child_id,
+                        'to_role_id' => $request->to_role_id,
+                        'remark' => $request->remark,
+                        'created_at' => Carbon::now()
+                    ],
+
+                    [
+                        'application_id' => $request->applicationId,
+                        'user_id' => $request->to_child_id,
+                        'role_id' => $request->to_role_id,
+                        'status_id' => config('commanConfig.applicationStatus.in_process'),
+                        'to_user_id' => NULL,
+                        'to_role_id' => NULL,
+                        'remark' => $request->remark,
+                        'created_at' => Carbon::now()
+                    ]
+                ];
+            }
+//            echo "in revert";
+//            dd($revert_application);
+            OlApplicationStatus::insert($revert_application);
+        }
+
+        return true;
+    }
+
+
+    public function forwardApplicationToCoForOfferLetterGeneration($request)
+    {
+        if($request->check_status == 1) {
+            $forward_application = [[
+                'application_id' => $request->applicationId,
+                'user_id' => Auth::user()->id,
+                'role_id' => session()->get('role_id'),
+                'status_id' => config('commanConfig.applicationStatus.forwarded'),
+                'to_user_id' => $request->to_user_id,
+                'to_role_id' => $request->to_role_id,
+                'remark' => $request->remark,
+                'created_at' => Carbon::now()
+            ],
 
                 [
                     'application_id' => $request->applicationId,
-                    'user_id' => $request->user_id,
-                    'role_id' => $request->role_id,
-                    'status_id' => config('commanConfig.applicationStatus.in_process'),
+                    'user_id' => $request->to_user_id,
+                    'role_id' => $request->to_role_id,
+                    'status_id' => config('commanConfig.applicationStatus.offer_letter_generation'),
                     'to_user_id' => NULL,
                     'to_role_id' => NULL,
                     'remark' => $request->remark,
                     'created_at' => Carbon::now()
                 ]
             ];
-//            echo "in revert";
-//            dd($revert_application);
-            OlApplicationStatus::insert($revert_application);
+
+//            echo "in forward";
+//            dd($forward_application);
+            OlApplicationStatus::insert($forward_application);
+            OlApplication::where('id', $request->applicationId)->update(['status_offer_letter' => config('commanConfig.applicationStatus.offer_letter_generation')]);
+        }
+
+        return true;
+    }
+
+    public function generateOfferLetterForwardToREE($request)
+    {
+        if($request->check_status == 1) {
+            $forward_application = [[
+                'application_id' => $request->applicationId,
+                'user_id' => Auth::user()->id,
+                'role_id' => session()->get('role_id'),
+                'status_id' => config('commanConfig.applicationStatus.forwarded'),
+                'to_user_id' => $request->to_user_id,
+                'to_role_id' => $request->to_role_id,
+                'remark' => $request->remark,
+                'created_at' => Carbon::now()
+            ],
+
+                [
+                    'application_id' => $request->applicationId,
+                    'user_id' => $request->to_user_id,
+                    'role_id' => $request->to_role_id,
+                    'status_id' => config('commanConfig.applicationStatus.offer_letter_approved'),
+                    'to_user_id' => NULL,
+                    'to_role_id' => NULL,
+                    'remark' => $request->remark,
+                    'created_at' => Carbon::now()
+                ]
+            ];
+
+//            echo "in forward";
+//            dd($forward_application);
+            OlApplicationStatus::insert($forward_application);
+            OlApplication::where('id', $request->applicationId)->update(['status_offer_letter' => config('commanConfig.applicationStatus.offer_letter_approved')]);
+        }
+
+        return true;
+    }
+
+    public function forwardApprovedApplication($request)
+    {
+        if($request->check_status == 1) {
+            $forward_application = [[
+                'application_id' => $request->applicationId,
+                'user_id' => Auth::user()->id,
+                'role_id' => session()->get('role_id'),
+                'status_id' => config('commanConfig.applicationStatus.forwarded'),
+                'to_user_id' => $request->to_user_id,
+                'to_role_id' => $request->to_role_id,
+                'remark' => $request->remark,
+                'created_at' => Carbon::now()
+            ],
+
+                [
+                    'application_id' => $request->applicationId,
+                    'user_id' => $request->to_user_id,
+                    'role_id' => $request->to_role_id,
+                    'status_id' => config('commanConfig.applicationStatus.offer_letter_approved'),
+                    'to_user_id' => NULL,
+                    'to_role_id' => NULL,
+                    'remark' => $request->remark,
+                    'created_at' => Carbon::now()
+                ]
+            ];
+
+//            echo "in forward";
+//            dd($forward_application);
+            OlApplicationStatus::insert($forward_application);
+            OlApplication::where('id', $request->applicationId)->update(['status_offer_letter' => config('commanConfig.applicationStatus.offer_letter_approved')]);
+        }
+
+        return true;
+    }
+
+    public function forwardApplicationToSociety($request)
+    {
+        $society_details = OlApplicationStatus::where(['society_flag' => 1, 'application_id' => $request->applicationId])->orderBy('id', 'desc')->first();
+//        dd($society_details);
+        if($request->check_status == 1) {
+            $forward_application = [
+                [
+                'application_id' => $request->applicationId,
+                'user_id' => Auth::user()->id,
+                'role_id' => session()->get('role_id'),
+                'status_id' => config('commanConfig.applicationStatus.sent_to_society'),
+                'to_user_id' => $society_details->user_id,
+                'to_role_id' => $society_details->role_id,
+                'remark' => $request->remark,
+                'created_at' => Carbon::now()
+                ],
+            ];
+
+//            echo "in forward";
+//            dd($forward_application);
+            OlApplicationStatus::insert($forward_application);
+            OlApplication::where('id', $request->applicationId)->update(['status_offer_letter' => config('commanConfig.applicationStatus.sent_to_society')]);
         }
 
         return true;
@@ -221,9 +382,21 @@ class CommonController extends Controller
         return $current_application_status;
     }
 
+    public function getCurrentLoggedInChild($application_id)
+    {
+        $child_role_id = Role::where('id', session()->get('role_id'))->get(['child_id']);
+        $result = json_decode($child_role_id[0]->child_id);
+        $status_user = OlApplicationStatus::where(['application_id' => $application_id, 'society_flag' => 0])->pluck('user_id')->toArray();
+
+        $final_child = User::with('roles')->whereIn('id', array_unique($status_user))->whereIn('role_id', $result)->get();
+
+        return $final_child;
+    }
+
     public function getForwardApplicationParentData()
     {
-        $user = User::with(['roles.parent.parentUser'])->where('id', Auth::user()->id)->first();
+        $user = User::with(['roles.parent.parentUser'])->where('users.id', Auth::user()->id)->first();
+
         $roles = array_get($user, 'roles');
         $parent = array_get($roles[0], 'parent');
         $arrData['parentData'] = array_get($parent, 'parentUser');

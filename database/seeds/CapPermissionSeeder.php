@@ -98,6 +98,10 @@ class CapPermissionSeeder extends Seeder
             }
 
             PermissionRole::insert($permission_role);
+
+            $layout_id = \App\MasterLayout::where("layout_name", '=', "Samata Nagar, Kandivali(E)")->first();
+
+            \App\LayoutUser::insert(['user_id' => $user_id, 'layout_id' => $layout_id->id]);
         }
     }
 }

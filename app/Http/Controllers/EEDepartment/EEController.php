@@ -95,7 +95,7 @@ class EEController extends Controller
 
                 })
                 ->editColumn('submitted_at', function ($listArray) {
-                    return date(config('commanConfig.dateFormat', strtotime($listArray->submitted_at)));
+                    return date(config('commanConfig.dateFormat'), strtotime($listArray->submitted_at));
                 })
                 ->editColumn('actions', function ($ee_application_data) use($request) {
                     return view('admin.ee_department.actions', compact('ee_application_data', 'request'))->render();
@@ -137,11 +137,27 @@ class EEController extends Controller
         $parentData = $this->comman->getForwardApplicationParentData();
         $arrData['parentData'] = $parentData['parentData'];
         $arrData['role_name'] = $parentData['role_name'];
-        $arrData['application_status'] = $this->comman->getCurrentApplicationStatus($application_id);
+//        $arrData['application_status'] = $this->comman->getCurrentApplicationStatus($application_id);
 
+
+        if(session()->get('role_name') != config('commanConfig.ee_junior_engineer')) {
+            $child_role_id = Role::where('id', session()->get('role_id'))->get(['child_id']);
+            $result = json_decode($child_role_id[0]->child_id);
+            $status_user = OlApplicationStatus::where(['application_id' => $application_id])->pluck('user_id')->toArray();
+
+            $final_child = User::with('roles')->whereIn('id', array_unique($status_user))->whereIn('role_id', $result)->get();
+
+            $arrData['application_status'] = $final_child;
+        }
+
+//        dd($arrData['application_status']);
         // DyCE Junior Forward Application
         $dyce_role_id = Role::where('name', '=', config('commanConfig.dyce_jr_user'))->first();
-        $arrData['get_forward_dyce'] = User::where('role_id', $dyce_role_id->id)->get();
+
+        $arrData['get_forward_dyce'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
+                                                ->where('lu.layout_id', session()->get('layout_id'))
+                                                ->where('role_id', $dyce_role_id->id)->get();
+
         $arrData['dyce_role_name'] = strtoupper(str_replace('_', ' ', $dyce_role_id->name));
 
         return view('admin.ee_department.forward-application', compact('arrData'));
@@ -161,16 +177,16 @@ class EEController extends Controller
                 'created_at' => Carbon::now()
             ],
 
-                [
-                    'application_id' => $request->application_id,
-                    'user_id' => $request->to_user_id,
-                    'role_id' => $request->to_role_id,
-                    'status_id' => config('commanConfig.applicationStatus.in_process'),
-                    'to_user_id' => NULL,
-                    'to_role_id' => NULL,
-                    'remark' => $request->remark,
-                    'created_at' => Carbon::now()
-                ]
+            [
+                'application_id' => $request->application_id,
+                'user_id' => $request->to_user_id,
+                'role_id' => $request->to_role_id,
+                'status_id' => config('commanConfig.applicationStatus.in_process'),
+                'to_user_id' => NULL,
+                'to_role_id' => NULL,
+                'remark' => $request->remark,
+                'created_at' => Carbon::now()
+            ]
             ];
 
 //            echo "in forward";
@@ -178,7 +194,7 @@ class EEController extends Controller
             OlApplicationStatus::insert($forward_application);
         }
         else{
-            if(session()->get('role_name') == config('commanConfig.ee_junior_engineer'))
+            /*if(session()->get('role_name') == config('commanConfig.ee_junior_engineer'))
             {
                 $society_user_data = OlApplicationStatus::where('application_id', $request->application_id)
                                                         ->where('society_flag', 1)
@@ -210,23 +226,23 @@ class EEController extends Controller
                 ];
             }
             else
-            {
+            {*/
                 $revert_application = [
                     [
                         'application_id' => $request->application_id,
                         'user_id' => Auth::user()->id,
                         'role_id' => session()->get('role_id'),
                         'status_id' => config('commanConfig.applicationStatus.reverted'),
-                        'to_user_id' => $request->user_id,
-                        'to_role_id' => $request->role_id,
+                        'to_user_id' => $request->to_child_id,
+                        'to_role_id' => $request->to_role_id,
                         'remark' => $request->remark,
                         'created_at' => Carbon::now()
                     ],
 
                     [
                         'application_id' => $request->application_id,
-                        'user_id' => $request->user_id,
-                        'role_id' => $request->role_id,
+                        'user_id' => $request->to_child_id,
+                        'role_id' => $request->to_role_id,
                         'status_id' => config('commanConfig.applicationStatus.in_process'),
                         'to_user_id' => NULL,
                         'to_role_id' => NULL,
@@ -234,7 +250,7 @@ class EEController extends Controller
                         'created_at' => Carbon::now()
                     ]
                 ];
-            }
+//            }
 
 //            echo "in revert";
 //            dd($revert_application);
