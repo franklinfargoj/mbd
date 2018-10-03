@@ -425,4 +425,18 @@ class REEController extends Controller
         ;
         return $data;
     }
+
+    public function sendForApproval(Request $request){
+
+        // dd($request->applicationId);
+        $co_id = Role::where('name', '=', config('commanConfig.co_engineer'))->first();
+        $get_forward_co = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
+                            ->where('lu.layout_id', session()->get('layout_id'))
+                            ->where('role_id', $co_id->id)->first();   
+
+        $this->CommonController->forwardApplicationToCoForOfferLetterGeneration($request,$get_forward_co);
+
+        return redirect('/ree_applications');                 
+        // $arco_role_name'] = strtoupper(str_replace('_', ' ', $co_id->name));        
+    }
 }

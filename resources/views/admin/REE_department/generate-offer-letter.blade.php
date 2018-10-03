@@ -188,7 +188,10 @@
                                 </div>
                             </div>
                         </div>
-
+                       <form role="form" id="sendForApproval" style="margin-top: 30px;" name="sendForApproval" class="form-horizontal" method="post" action="{{ route('ree.send_for_approval')}}"
+                        enctype="multipart/form-data">
+                        @csrf 
+                        <input type="hidden" name="applicationId" value="{{(isset($societyData->id) ? $societyData->id : '')}}">
                         <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
                             <div class="portlet-body">
                                 <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
@@ -202,12 +205,13 @@
                                                 name="demarkation_comments"></textarea>
                                         </div>
                                         <div class="mt-3 btn-list">
-                                            <button class="btn btn-primary">Send For Approval</button>
+                                            <button class="btn btn-primary" type="submit">Send For Approval</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        </form>
                     </div>
                 </div>
             </div>

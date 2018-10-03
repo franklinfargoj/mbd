@@ -240,24 +240,24 @@ class CommonController extends Controller
     }
 
 
-    public function forwardApplicationToCoForOfferLetterGeneration($request)
+    public function forwardApplicationToCoForOfferLetterGeneration($request,$getCo)
     {
-        if($request->check_status == 1) {
+        // if($request->check_status == 1) {
             $forward_application = [[
                 'application_id' => $request->applicationId,
                 'user_id' => Auth::user()->id,
                 'role_id' => session()->get('role_id'),
                 'status_id' => config('commanConfig.applicationStatus.forwarded'),
-                'to_user_id' => $request->to_user_id,
-                'to_role_id' => $request->to_role_id,
+                'to_user_id' => $getCo->user_id,
+                'to_role_id' => $getCo->role_id,
                 'remark' => $request->remark,
                 'created_at' => Carbon::now()
             ],
 
                 [
                     'application_id' => $request->applicationId,
-                    'user_id' => $request->to_user_id,
-                    'role_id' => $request->to_role_id,
+                    'user_id' => $getCo->user_id,
+                    'role_id' => $getCo->role_id,
                     'status_id' => config('commanConfig.applicationStatus.offer_letter_generation'),
                     'to_user_id' => NULL,
                     'to_role_id' => NULL,
@@ -270,7 +270,7 @@ class CommonController extends Controller
 //            dd($forward_application);
             OlApplicationStatus::insert($forward_application);
             OlApplication::where('id', $request->applicationId)->update(['status_offer_letter' => config('commanConfig.applicationStatus.offer_letter_generation')]);
-        }
+        // }
 
         return true;
     }

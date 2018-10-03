@@ -192,5 +192,14 @@ class COController extends Controller
     public function approveOfferLetter(Request $request, $applicationId){
 
         return view('admin.co_department.approve_offer_letter');
+    }
+
+    public function approvedOfferLetter(Request $request){
+
+        $ree_id = Role::where('name', '=', config('commanConfig.ree_junior'))->first();
+
+        $arrData['get_forward_ree'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
+            ->where('lu.layout_id', session()->get('layout_id'))
+            ->where('role_id', $ree_id->id)->get();        
     }    
 }

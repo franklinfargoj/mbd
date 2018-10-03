@@ -1,6 +1,9 @@
 @extends('admin.layouts.app')
 @section('content')
 
+<form role="form" id="sendApprovedOffer" style="margin-top: 30px;" name="sendForApproval" class="form-horizontal" method="post" action="{{ route('co.send_approved_offer_letter')}}" enctype="multipart/form-data">
+@csrf 
+<input type="hidden" name="applicationId" value="1">
 <div class="col-md-12">
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
@@ -61,4 +64,5 @@
 
 </div>
 </div>
+</form>
 @endsection
