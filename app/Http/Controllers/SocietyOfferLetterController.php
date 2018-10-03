@@ -712,31 +712,41 @@ class SocietyOfferLetterController extends Controller
 
     public function showuploadOfferLetterAfterSign(){
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
-        $application_name = OlApplication::where('society_id', $society->id)->with('ol_application_master')->get();
+        $application_details = OlApplication::where('society_id', $society->id)->with('ol_application_master')->get();
         // dd($application_name);
-        return view('frontend.society.upload_download_offer_letter_application_form', compact('application_name'));
+        return view('frontend.society.upload_download_offer_letter_application_form', compact('application_details'));
     }
 
     public function uploadOfferLetterAfterSign(Request $request){
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $application_name = OlApplication::where('society_id', $society->id)->with('ol_application_master')->get();
-        
+        // dd($request->input('id'));
         if($request->file('offer_letter_application_form'))
         {
             $file = $request->file('offer_letter_application_form');
             $file_name = time().$file->getFileName().'.'.$file->getClientOriginalExtension();
             $extension = $request->file('offer_letter_application_form')->getClientOriginalExtension();
             if ($extension == "pdf") {
-                if($file->move($destinationPath, $file_name))
-                {                
-                    $dataToInsert['filepath'] = $uploadPath.'/';
-                    $dataToInsert['filename'] = $file_name;
-                }
+                $time = time();
+                $name = File::name($request->file('offer_letter_application_form')->getClientOriginalName()) . '_' . $time . '.' . $extension;
+                $folder_name = "society_offer_letter_documents";
+                $path = config('commanConfig.storage_server').'/'.$folder_name.'/'.$name;
+                $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$request->file('offer_letter_application_form'),$name);
+                $input = array(
+                    'application_path' => $path,
+                    'submitted_at' => date('Y-m-d')
+                );
+                OlApplication::where('society_id', $society->id)->where('id', $request->input('id'))->update($input);
+                // if($file->move($destinationPath, $file_name))
+                // {                
+                //     $dataToInsert['filepath'] = $uploadPath.'/';
+                //     $dataToInsert['filename'] = $file_name;
+                // }
             }else{
                 return redirect()->back()->with('error_uploaded_file', 'Invalid type of file uploaded (only pdf allowed)');
             }
         }
-        return view('frontend.society.upload_society_offer_letter_after_sign', compact('application_name'));
+        return redirect()->route('society_offer_letter_dashboard');
     }
 
 

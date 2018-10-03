@@ -7,7 +7,7 @@
                 <div class="m-subheader" style="padding: 0;">
                     <div class="d-flex align-items-center justify-content-center">
                         <h4 class="section-title">
-                            Application for {{ $application_name[0]->ol_application_master->title }}
+                            Application for {{ $application_details[0]->ol_application_master->title }}
                         </h4>
                     </div>
                 </div>
@@ -39,6 +39,7 @@
                                                 {{session('error_uploaded_file')}}
                                                 @endif
                                             </span>
+                                            <input type="hidden" name="id" value="{{ $application_details[0]->id }}">
                                         </div>
                                         <div class="mt-auto">
                                             <button type="submit" class="btn btn-primary btn-custom"

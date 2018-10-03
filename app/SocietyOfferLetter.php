@@ -40,14 +40,14 @@ class SocietyOfferLetter extends Authenticatable
     	$validatedata = Validator::make($request->input(), [
             'society_name' => 'required',
             'society_address' => 'required',
+            'society_contact_no' => 'required|numeric',
             'society_building_no' => 'required|alpha_num',
             'society_registration_no' => 'required|alpha_num',
-            'society_email' => 'required|unique:ol_societies,email',
-            'society_contact_no' => 'required|numeric',
-            'society_password' => 'required',
             'society_architect_name' => 'required',
+            'society_email' => 'required|unique:ol_societies,email|unique:users,email',
             'society_architect_mobile_no' => 'required|numeric',
             'society_architect_address' => 'required',
+            'society_password' => 'required',
         ]);
 
         return $validatedata;
