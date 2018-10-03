@@ -45,6 +45,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ResolutionPermissionSeeder::class);
         $this->call(RTIPermissionSeeder::class);
         $this->call(VpPermission::class);
+        $this->call(AddChildToReeModuleSeeder::class);
 
         // $this->call(RtiFormTableSeeder::class);
     }

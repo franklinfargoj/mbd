@@ -74,7 +74,7 @@ class REEController extends Controller
                 return $ree_application_data->eeApplicationSociety->address;
             })                
             ->editColumn('date', function ($ree_application_data) {
-                return date(config('commanConfig.dateFormat', strtotime($ree_application_data->submitted_at)));
+                return date(config('commanConfig.dateFormat'), strtotime($ree_application_data->submitted_at));
             })
             ->editColumn('actions', function ($ree_application_data) use($request){
                return view('admin.REE_department.action', compact('ree_application_data', 'request'))->render();
@@ -149,21 +149,48 @@ class REEController extends Controller
         $arrData['parentData'] = $parentData['parentData'];
         $arrData['role_name'] = $parentData['role_name'];
 
-        $arrData['application_status'] = $this->CommonController->getCurrentApplicationStatus($applicationId);
+//        $arrData['application_status'] = $this->CommonController->getCurrentApplicationStatus($applicationId);
+        if(session()->get('role_name') != config('commanConfig.ree_junior'))
+            $arrData['application_status'] = $this->CommonController->getCurrentLoggedInChild($applicationId);
+
         $arrData['get_current_status'] = $this->CommonController->getCurrentStatus($applicationId);
 
         // CO Forward Application
 
         $co_id = Role::where('name', '=', config('commanConfig.co_engineer'))->first();
-        $arrData['get_forward_co'] = User::where('role_id', $co_id->id)->get();
-        $arrData['co_role_name'] = strtoupper(str_replace('_', ' ', $co_id->name));
+        if($arrData['get_current_status']->status_id != config('commanConfig.applicationStatus.offer_letter_approved'))
+        {
+            $arrData['get_forward_co'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
+                                ->where('lu.layout_id', session()->get('layout_id'))
+                                ->where('role_id', $co_id->id)->get();
+            $arrData['co_role_name'] = strtoupper(str_replace('_', ' ', $co_id->name));
+        }
+
 
         return view('admin.REE_department.forward_application',compact('applicationData','arrData'));  
     }             
 
     public function sendForwardApplication(Request $request){
 
-        $this->CommonController->forwardApplicationForm($request);
+//        dd($request->all());
+        $arrData['get_current_status'] = $this->CommonController->getCurrentStatus($request->applicationId);
+
+        if($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.offer_letter_generation'))
+        {
+            $this->CommonController->forwardApplicationToCoForOfferLetterGeneration($request);
+        }
+        elseif((session()->get('role_name') == config('commanConfig.ree_branch_head')) && $arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.offer_letter_approved'))
+        {
+            $this->CommonController->forwardApplicationToSociety($request);
+        }
+        elseif($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.offer_letter_approved'))
+        {
+            $this->CommonController->forwardApprovedApplication($request);
+        }
+        else
+        {
+            $this->CommonController->forwardApplicationForm($request);
+        }
 
         return redirect('/ree_applications');
 

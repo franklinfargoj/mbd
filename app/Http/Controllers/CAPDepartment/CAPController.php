@@ -33,7 +33,7 @@ class CAPController extends Controller
     }
 
     public function index(Request $request, Datatables $datatables){
-		
+
 		$getData = $request->all();
         $columns = [
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
@@ -65,7 +65,7 @@ class CAPController extends Controller
                     return $cap_application_data->eeApplicationSociety->address;
                 })                
                 ->editColumn('date', function ($cap_application_data) {
-                    return date(config('commanConfig.dateFormat', strtotime($cap_application_data->submitted_at)));
+                    return date(config('commanConfig.dateFormat'), strtotime($cap_application_data->submitted_at));
                 })
                 ->editColumn('actions', function ($cap_application_data) use($request){
                    return view('admin.cap_department.action', compact('cap_application_data', 'request'))->render();
@@ -137,7 +137,10 @@ class CAPController extends Controller
         // VP Forward Application
 
         $vp_role_id = Role::where('name', '=', config('commanConfig.vp_engineer'))->first();
-        $arrData['get_forward_vp'] = User::where('role_id', $vp_role_id->id)->get();
+        $arrData['get_forward_vp'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
+                                            ->where('lu.layout_id', session()->get('layout_id'))
+                                            ->where('role_id', $vp_role_id->id)->get();
+
         $arrData['vp_role_name'] = strtoupper(str_replace('_', ' ', $vp_role_id->name));
     
         // remark and history
