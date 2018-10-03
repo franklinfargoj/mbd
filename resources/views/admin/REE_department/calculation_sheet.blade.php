@@ -65,7 +65,7 @@
                                         <input name="user_id" type="hidden" value="{{ $user->id }}" />
                                         <div class="d-flex justify-content-between align-items-center mb-4">
                                             <a  target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
-                                                        src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("one");'></a>
+                                                        src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("one");' style="max-width: 22px"></a>
                                         </div>
                                         <thead class="thead-default">
                                             <tr>
@@ -686,7 +686,7 @@
                                     <input name="user_id" type="hidden" value="{{ $user->id }}" />
                                     <div class="d-flex justify-content-between align-items-center mb-4">
                                         <a  target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
-                                                    src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("two");'></a>
+                                                    src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("two");' style="max-width: 22px"></a>
                                     </div>
                                     <table class="table mb-0">
                                         <thead class="thead-default">
@@ -825,7 +825,7 @@
                                     <input name="user_id" type="hidden" value="{{ $user->id }}" />
                                     <div class="d-flex justify-content-between align-items-center mb-4">
                                         <a  target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
-                                                    src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("three");'></a>
+                                                    src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("three");' style="max-width: 22px"></a>
                                     </div>
                                     <table class="table mb-0">
 
@@ -955,7 +955,7 @@
                                     <input name="user_id" type="hidden" value="{{ $user->id }}" />
                                     <div class="d-flex justify-content-between align-items-center mb-4">
                                         <a  target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
-                                                    src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("four");'></a>
+                                                    src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("four");' style="max-width: 22px"></a>
                                     </div>
                                     <table class="table mb-0">
                                         <thead class="thead-default">
@@ -1024,7 +1024,7 @@
                             <div class="m-section__content mb-0 table-responsive">
                                 <div class="d-flex justify-content-between align-items-center mb-4">
                                     <a  target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
-                                                src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("five");'></a>
+                                                src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("five");' style="max-width: 22px"></a>
                                 </div>
                                 <table class="table mb-0">
                                     <thead class="thead-default">
