@@ -8,6 +8,8 @@ use App\ArchitectApplicationMark;
 use Config;
 use App\Http\Requests\architect\EvaluationMarkRequest;
 use App\Http\Requests\architect\CertificateUploadRequest;
+use Mpdf\Mpdf;
+use App\Http\Controllers\Common\CommonController;
 
 class ArchitectApplicationController extends Controller
 {
@@ -18,9 +20,10 @@ class ArchitectApplicationController extends Controller
     'side_menu' => 'architect_application'
   );
   protected $list_num_of_records_per_page;
-
-  public function __construct()
+  protected $CommonController;
+  public function __construct(CommonController $CommonController)
   {
+    $this->CommonController=$CommonController;
     $this->list_num_of_records_per_page = Config::get('commanConfig.list_num_of_records_per_page');
   }
 
@@ -61,8 +64,11 @@ class ArchitectApplicationController extends Controller
 
   public function viewApplication($id)
   {
-    return decrypt($id);
+   // return decrypt($id);
+   $ArchitectApplication=ArchitectApplication::find(decrypt($encryptedId));
+    return view('admin.architect.view_application',compact('ArchitectApplication'));
   }
+  
 
   public function evaluateApplication($encryptedId)
   {
@@ -87,32 +93,71 @@ class ArchitectApplicationController extends Controller
 
   public function getGenerateCertificate($encryptedId)
   {
+    $ArchitectApplication=ArchitectApplication::find(decrypt($encryptedId));
+    if($ArchitectApplication->certificate_path!=null)
+    {
+      return redirect()->route('finalCertificateGenerate',['id'=>$encryptedId]);
+    }
     return view('admin.architect.generate_certificate',compact('header_data','encryptedId'));
   }
 
   public function getFinalCertificateGenerate($encryptedId)
   {
-    return view('admin.architect.final_generate_certificate',compact('header_data','encryptedId'));
+    $certificate_generated=0;
+    $ArchitectApplication=ArchitectApplication::find(decrypt($encryptedId));
+    if($ArchitectApplication)
+    {
+      if($ArchitectApplication->certificate_path==null)
+      {
+        $mpdf = new Mpdf();
+        $mpdf->autoScriptToLang = true;
+        $mpdf->autoLangToFont = true;
+        $contents = view('admin.architect.certificate',compact('ArchitectApplication'));
+        $mpdf->WriteHTML($contents);
+        $filename=decrypt($encryptedId).time().'.pdf';
+        $cerificate_file_name='/temp_certificate/'.$filename;
+        $mpdf->Output(storage_path().$cerificate_file_name, 'F');
+        $folder_name='temp_certificate';
+        if (!(\Storage::disk('ftp')->has($folder_name))) 
+        {
+           \Storage::disk('ftp')->makeDirectory($folder_name, $mode = 0777, true, true); 
+        } 
+        $filePath=$folder_name."/".$filename;
+        $file_local = \Storage::disk('local')->get($filePath);
+        \Storage::disk('ftp')->put($filePath, $file_local);
+        $ArchitectApplication->certificate_path=$cerificate_file_name;
+        $ArchitectApplication->save();
+      }
+      //$mpdf->Output();
+      //return view('admin.architect.certificate');
+      return view('admin.architect.final_generate_certificate',compact('header_data','encryptedId','ArchitectApplication'));
+    }
+    
   }
 
   public function getTempCertificateGenerate($encryptedId)
   {
-        $application = ArchitectApplication::select('*',\DB::raw("(SELECT SUM(marks) FROM architect_application_marks WHERE architect_application_marks.architect_application_id = architect_application.id) as marks"))
-                                              ->where('id',decrypt($encryptedId))
-                                              ->first();
-        $phpWord = new \PhpOffice\PhpWord\PhpWord();
-        $section = $phpWord->addSection();
-        $text = $section->addText("Applicant Number: ".$application->application_number);
-        $text = $section->addText("Applicant Name: ".$application->candidate_name);
-        $text = $section->addText("Applicant Email: ".$application->candidate_email);
-        $text = $section->addText("Applicant Mobile NO: ".$application->candidate_mobile_no);
+    $application = ArchitectApplication::select('*',\DB::raw("(SELECT SUM(marks) FROM architect_application_marks WHERE architect_application_marks.architect_application_id = architect_application.id) as marks"))
+    ->where('id',decrypt($encryptedId))
+    ->first();
 
-        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
-        try {
-            $objWriter->save(storage_path('temp_certificate/'.$application->application_number.'.docx'));
-        } catch (Exception $e) {
-        }
-        return response()->download(storage_path('temp_certificate/'.$application->application_number.'.docx'));
+    $ArchitectApplication=ArchitectApplication::find(decrypt($encryptedId));
+    $content=view('admin.architect.certificate',compact('ArchitectApplication'));
+    print_r($content);
+    exit;
+    $phpWord = new \PhpOffice\PhpWord\PhpWord();
+    $section = $phpWord->addSection();
+    $text = $section->addText("Applicant Number: ".$application->application_number);
+    $text = $section->addText("Applicant Name: ".$application->candidate_name);
+    $text = $section->addText("Applicant Email: ".$application->candidate_email);
+    $text = $section->addText("Applicant Mobile NO: ".$application->candidate_mobile_no);
+
+    $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
+    try {
+    $objWriter->save(storage_path('temp_certificate/'.$application->application_number.'.docx'));
+    } catch (Exception $e) {
+    }
+    return response()->download(storage_path('temp_certificate/'.$application->application_number.'.docx'));
   }
 
   public function postFinalCertificateGenerate(CertificateUploadRequest $request)

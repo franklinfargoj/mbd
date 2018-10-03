@@ -284,22 +284,22 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
    
     //Society Offer Letter END
 
+    //architect Module
+    Route::get('architect_application','ArchitectApplicationController@index')->name('architect_application');
+    Route::get('shortlisted_architect_application','ArchitectApplicationController@shortlistedIndex')->name('shortlisted_architect_application');
+    Route::get('final_architect_application','ArchitectApplicationController@finalIndex')->name('final_architect_application');
+    Route::get('view_architect_application/{id}','ArchitectApplicationController@viewApplication')->name('view_architect_application');
+    Route::get('evaluate_architect_application/{id}','ArchitectApplicationController@evaluateApplication')->name('evaluate_architect_application');
+    Route::post('save_evaluate_marks','ArchitectApplicationController@saveEvaluateMarks')->name('save_evaluate_marks');
+    Route::get('generate_certificate/{id}','ArchitectApplicationController@getGenerateCertificate')->name('generate_certificate');
+    Route::get('forward_application/{id}','ArchitectApplicationController@getForwardApplication')->name('forward_application');
+    Route::get('finalCertificateGenerate/{id}','ArchitectApplicationController@getFinalCertificateGenerate')->name('finalCertificateGenerate');
+    Route::get('tempCertificateGenerate/{id}','ArchitectApplicationController@getTempCertificateGenerate')->name('tempCertificateGenerate');
+    Route::post('finalCertificateGenerate','ArchitectApplicationController@postFinalCertificateGenerate')->name('postfinalCertificateGenerate');
+
+    //architect module end
 
 });
-
-
-Route::get('architect_application','ArchitectApplicationController@index')->name('architect_application');
-Route::get('shortlisted_architect_application','ArchitectApplicationController@shortlistedIndex')->name('shortlisted_architect_application');
-Route::get('final_architect_application','ArchitectApplicationController@finalIndex')->name('final_architect_application');
-Route::get('view_architect_application/{id}','ArchitectApplicationController@viewApplication')->name('view_architect_application');
-Route::get('evaluate_architect_application/{id}','ArchitectApplicationController@evaluateApplication')->name('evaluate_architect_application');
-Route::post('save_evaluate_marks','ArchitectApplicationController@saveEvaluateMarks')->name('save_evaluate_marks');
-Route::get('generate_certificate/{id}','ArchitectApplicationController@getGenerateCertificate')->name('generate_certificate');
-Route::get('forward_application/{id}','ArchitectApplicationController@getForwardApplication')->name('forward_application');
-Route::get('finalCertificateGenerate/{id}','ArchitectApplicationController@getFinalCertificateGenerate')->name('finalCertificateGenerate');
-Route::get('tempCertificateGenerate/{id}','ArchitectApplicationController@getTempCertificateGenerate')->name('tempCertificateGenerate');
-Route::post('finalCertificateGenerate','ArchitectApplicationController@postFinalCertificateGenerate')->name('finalCertificateGenerate');
-
 
 // Route::get('refresh_captcha','SocietyOfferLetterController@RefreshCaptcha')->name('refresh_captcha');
 

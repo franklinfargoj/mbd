@@ -55,7 +55,8 @@
           <div class="col-md-12">
             <h3>View Certificate</h3>
             <h5>Click to view generated Certificate in PDF format</h5>
-            <a href="javascript:void(0);" class="btn btn-danger" data-toggle="modal" data-target="#certificateModal" role="button">View Certificate</a>
+            <a target="_blank" href="{{config('commanConfig.storage_server').$ArchitectApplication->certificate_path}}" class="btn btn-danger" role="button">View Certificate</a>
+            <!-- <a href="javascript:void(0);" class="btn btn-danger" data-toggle="modal" data-target="#certificateModal" role="button">View Certificate</a> -->
           </div>
           <div class="row">
             <div class="col-md-6">

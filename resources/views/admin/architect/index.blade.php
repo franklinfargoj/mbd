@@ -3,7 +3,7 @@
 <div class="page-bar">
   <ul class="page-breadcrumb">
     <li>
-      <a href="index.html">Home</a>
+      <a href="{{route('architect_application')}}">Home</a>
       <i class="fa fa-circle"></i>
     </li>
     <li>
@@ -128,7 +128,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      @php $i=0 @endphp
+                      @php $i=1 @endphp
                       @forelse($applications as $row)
                       <tr>
                         <td>{{$i++}}</td>
@@ -143,7 +143,7 @@
                           &nbsp; | &nbsp;
                           <a title="Evaluate Apllication" href="{{ url('evaluate_architect_application/'. encrypt($row->id)) }}">Evaluate Application</a>
                           &nbsp; | &nbsp;
-                          @if($row->application_status=='Final')
+                          @if($row->application_status==4)
                             <a title="Generate Certificate" href="{{ url('generate_certificate/'. encrypt($row->id)) }}">Generate Certificate</a>
                           @else
                             <a title="Forward" href="{{ url('forward_application/'. encrypt($row->id)) }}">Forward Application</a>
