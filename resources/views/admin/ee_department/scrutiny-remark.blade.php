@@ -451,7 +451,7 @@
                                                                         <td>{{ $consent_question->question }}</td>
                                                                         <td>
                                                                             <label class="m-radio m-radio--primary">
-                                                                                <input {{$disabled}} type="radio" name="answer[{{$i}}]" value="1" {{ (isset($arrData['consent_verification_details_data'][$consent_question->id]) && $arrData['consent_verification_details_data'][$consent_question->id]['answer'] == 1) ? 'checked' : 'checked' }}>
+                                                                                <input {{$disabled}} type="radio" name="answer[{{$i}}]" value="1" {{ (isset($arrData['consent_verification_details_data'][$consent_question->id]) && $arrData['consent_verification_details_data'][$consent_question->id]['answer'] == 1) ? 'checked' : '' }}>
                                                                                 <span></span>
                                                                             </label>
                                                                         </td>
@@ -571,7 +571,7 @@
                                                                         <td>{{ $demarcation_question->question }}</td>
                                                                         <td>
                                                                             <label class="m-radio m-radio--primary">
-                                                                                <input {{$disabled}} type="radio" name="answer[{{ $i }}]" value="1" {{ (isset($arrData['demarcation_details_data'][$demarcation_question->id]) && $arrData['demarcation_details_data'][$demarcation_question->id]['answer'] == 1) ? 'checked' : 'checked' }}>
+                                                                                <input {{$disabled}} type="radio" name="answer[{{ $i }}]" value="1" {{ (isset($arrData['demarcation_details_data'][$demarcation_question->id]) && $arrData['demarcation_details_data'][$demarcation_question->id]['answer'] == 1) ? 'checked' : '' }}>
                                                                                 <span></span>
                                                                             </label>
                                                                         </td>
@@ -692,7 +692,7 @@
                                                                         <td>{{ $tit_bit->question }}</td>
                                                                         <td>
                                                                             <label class="m-radio m-radio--primary">
-                                                                                <input {{$disabled}} type="radio" name="answer[{{ $i }}]" value="1" {{ (isset($arrData['tit_bit_details_data'][$tit_bit->id]) && $arrData['tit_bit_details_data'][$tit_bit->id]['answer'] == 1) ? 'checked' : 'checked' }}>
+                                                                                <input {{$disabled}} type="radio" name="answer[{{ $i }}]" value="1" {{ (isset($arrData['tit_bit_details_data'][$tit_bit->id]) && $arrData['tit_bit_details_data'][$tit_bit->id]['answer'] == 1) ? 'checked' : '' }}>
                                                                                 <span></span>
                                                                             </label>
                                                                         </td>
@@ -789,7 +789,7 @@
                                                                         <td>{{ $rg_question->question }}</td>
                                                                         <td>
                                                                             <label class="m-radio m-radio--primary">
-                                                                                <input {{$disabled}} type="radio" name="answer[{{ $i }}]" value="1" {{ (isset($arrData['rg_details_data'][$rg_question->id]) && $arrData['rg_details_data'][$rg_question->id]['answer'] == 1) ? 'checked' : 'checked' }}>
+                                                                                <input {{$disabled}} type="radio" name="answer[{{ $i }}]" value="1" {{ (isset($arrData['rg_details_data'][$rg_question->id]) && $arrData['rg_details_data'][$rg_question->id]['answer'] == 1) ? 'checked' : '' }}>
                                                                                 <span></span>
                                                                             </label>
                                                                         </td>
@@ -851,8 +851,8 @@
                                                                     EE</span>
                                                                     <div class="mt-auto">
                                                                     @if(isset($arrData['eeNote']->document_path))
-                                                                        <a href="{{ asset($arrData['eeNote']->document_path)}}">
-                                                                        <button class="btn btn-primary">Download offer Letter Application</button>
+                                                                        <a download href="{{ asset($arrData['eeNote']->document_path)}}">
+                                                                        <button class="btn btn-primary">Download EE Note Format</button>
                                                                         </a>
                                                                     @else
                                                                         <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">

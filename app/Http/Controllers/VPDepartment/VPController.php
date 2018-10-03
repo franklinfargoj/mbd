@@ -137,7 +137,11 @@ class VPController extends Controller
         // REE Forward Application
 
         $ree_role_id = Role::where('name', '=', config('commanConfig.ree_junior'))->first();
-        $arrData['get_forward_ree'] = User::where('role_id', $ree_role_id->id)->get();
+
+        $arrData['get_forward_ree'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
+                                            ->where('lu.layout_id', session()->get('layout_id'))
+                                            ->where('role_id', $ree_role_id->id)->get();
+
         $arrData['ree_role_name'] = strtoupper(str_replace('_', ' ', $ree_role_id->name));
     
         // remark and history
@@ -149,7 +153,65 @@ class VPController extends Controller
     } 
 
     public function sendForwardApplication(Request $request){
-        $this->CommonController->forwardApplicationForm($request);
+//        $this->CommonController->forwardApplicationForm($request);
+//        dd($request->all());
+        if($request->check_status == 1) {
+            $forward_application = [[
+                'application_id' => $request->applicationId,
+                'user_id' => Auth::user()->id,
+                'role_id' => session()->get('role_id'),
+                'status_id' => config('commanConfig.applicationStatus.forwarded'),
+                'to_user_id' => $request->to_user_id,
+                'to_role_id' => $request->to_role_id,
+                'remark' => $request->remark,
+                'created_at' => Carbon::now()
+            ],
+
+            [
+                'application_id' => $request->applicationId,
+                'user_id' => $request->to_user_id,
+                'role_id' => $request->to_role_id,
+                'status_id' => config('commanConfig.applicationStatus.offer_letter_generation'),
+                'to_user_id' => NULL,
+                'to_role_id' => NULL,
+                'remark' => $request->remark,
+                'created_at' => Carbon::now()
+            ]
+            ];
+
+//            echo "in forward";
+//            dd($forward_application);
+            OlApplicationStatus::insert($forward_application);
+            OlApplication::where('id', $request->applicationId)->update(['status_offer_letter' => config('commanConfig.applicationStatus.offer_letter_generation')]);
+        }
+        else{
+            $revert_application = [
+                [
+                    'application_id' => $request->applicationId,
+                    'user_id' => Auth::user()->id,
+                    'role_id' => session()->get('role_id'),
+                    'status_id' => config('commanConfig.applicationStatus.reverted'),
+                    'to_user_id' => $request->user_id,
+                    'to_role_id' => $request->role_id,
+                    'remark' => $request->remark,
+                    'created_at' => Carbon::now()
+                ],
+
+                [
+                    'application_id' => $request->applicationId,
+                    'user_id' => $request->user_id,
+                    'role_id' => $request->role_id,
+                    'status_id' => config('commanConfig.applicationStatus.in_process'),
+                    'to_user_id' => NULL,
+                    'to_role_id' => NULL,
+                    'remark' => $request->remark,
+                    'created_at' => Carbon::now()
+                ]
+            ];
+            OlApplicationStatus::insert($revert_application);
+        }
+//            echo "in revert";
+//            dd($revert_application);
         return redirect('/vp');
     }
 

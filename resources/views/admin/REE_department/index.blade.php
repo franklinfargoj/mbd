@@ -27,7 +27,7 @@
                                 <div class="form-group m-form__group">
                                     <label for="office_date_to">To Date</label>
                                     <input type="text" id="office_date_to" name="office_date_to" class="form-control form-control--custom m-input m_datepicker"
-                                        placeholder="From Date" value="{{ isset($getData['office_date_to'])? $getData['office_date_to'] : '' }}">
+                                        placeholder="To Date" value="{{ isset($getData['office_date_to'])? $getData['office_date_to'] : '' }}">
                                 </div>
                             </div>
 

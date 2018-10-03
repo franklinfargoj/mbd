@@ -237,7 +237,7 @@
                                                             <div class="col-lg-4 col-md-9 col-sm-12">
                                                                 <select class="form-control m-bootstrap-select m_selectpicker" name="to_user_id" id="to_user_id">
                                                                     @foreach($arrData['get_forward_ree'] as $parent)
-                                                                        <option value="{{ $parent->id }}" data-role="{{ $parent->role_id }}">{{ $parent->name }} ({{ $arrData['ree_role_name'] }})</option>
+                                                                        <option value="{{ $parent->user_id }}" data-role="{{ $parent->role_id }}">{{ $parent->name }} ({{ $arrData['ree_role_name'] }})</option>
                                                                     @endforeach
                                                                 </select>
                                                             </div>
