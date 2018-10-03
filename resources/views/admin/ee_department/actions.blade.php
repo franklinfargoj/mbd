@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <a title="view_Application" href="{{ route('society_offer_download', $ee_application_data->id) }}">View Application</a>
 <a href="{{ route('document-submitted', $ee_application_data->id) }}">Society Documents</a>
 
