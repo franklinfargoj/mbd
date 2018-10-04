@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use App\User;
 use Closure;
+use Session;
 use Illuminate\Support\Facades\Auth;
 
 class CheckPermission
@@ -18,7 +19,6 @@ class CheckPermission
     public function handle($request, Closure $next)
     {
         $current_route = \Request::route()->getName();
-
         $user = User::with(['roles.permission', 'roles.parent', 'roles.child'])->where('id', Auth::user()->id)->first();
         $roles = array_get($user, 'roles');
         $parent = array_get($roles[0], 'parent');
@@ -32,8 +32,8 @@ class CheckPermission
             session(['redirect_to' => $roles->first()->redirect_to]);
             session(['role_name' => $roles->first()->name]);
             session(['role_id' => $roles->first()->id]);
-            session(['parent' => isset($parent) ? $parent->id : '']);
-            session(['child' => isset($child) ? $child->id : '']);
+            session(['parent' => isset($parent) ? $parent->id : null]);
+            session(['child' => isset($child) ? $child->id : null]);
             return $next($request);
         }
 
