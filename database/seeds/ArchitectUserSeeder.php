@@ -71,7 +71,28 @@ class ArchitectUserSeeder extends Seeder
                     'name' => 'postfinalCertificateGenerate',
                     'display_name' => 'postfinalCertificateGenerate',
                     'description' => 'postfinalCertificateGenerate'
+                ],
+                [
+                    'name' => 'architect.edit_certificate',
+                    'display_name' => 'architect.edit_certificate',
+                    'description' => 'architect.edit_certificate'
+                ],
+                [
+                    'name' => 'architect.update_certificate',
+                    'display_name' => 'architect.update_certificate',
+                    'description' => 'architect.update_certificate'
+                ],
+                [
+                    'name' => 'architect.post_final_signed_certificate',
+                    'display_name' => 'architect.post_final_signed_certificate',
+                    'description' => 'architect.post_final_signed_certificate'
+                ],
+                [
+                    'name' => 'post_forward_application',
+                    'display_name' => 'post_forward_application',
+                    'description' => 'post_forward_application'
                 ]
+                
             ];
         // $architect=Role::where('name', '=', 'architect')->select('id')->first();
         // if(!$architect)

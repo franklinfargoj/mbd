@@ -31,15 +31,22 @@ class ArchitectApplication extends Model
                 return "Scrutiny Pending";
                 break;
             case '3':
-                return "ShortListed";
+                return "Forward";
                 break;
             case '4':
+                return "ShortListed";
+                break;
+            case '5':
                 return "Final";
                 break;
-
             default:
                 return "New Application";
                 break;
         }
+    }
+
+    public function ArchitectApplicationStatusForLoginListing()
+    {
+        return $this->hasMany('App\ArchitectApplicationStatusLog', 'architect_application_id', 'id');
     }
 }

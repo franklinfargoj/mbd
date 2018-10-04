@@ -405,6 +405,18 @@ class CommonController extends Controller
         return $arrData;
     }
 
+    public function getForwardApplicationArchitectParentData()
+    {
+        $user = User::with(['roles.parent.parentUserArchitect'])->where('users.id', Auth::user()->id)->first();
+
+        $roles = array_get($user, 'roles');
+        $parent = array_get($roles[0], 'parent');
+        $arrData['parentData'] = array_get($parent, 'parentUserArchitect');
+        $arrData['role_name'] = strtoupper(str_replace('_', ' ', $parent['name']));
+
+        return $arrData;
+    }
+
     public function getEEForwardRevertLog($applicationData,$applicationId){
         
         $ee_branch_head = Role::where('name',config('commanConfig.ee_branch_head'))

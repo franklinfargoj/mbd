@@ -117,6 +117,7 @@
                   <table class="table table-striped table-bordered table-hover datatable mdl-data-table dataTable">
                     <thead>
                       <tr>
+                        <th></th>
                         <th>Sr No.</th>
                         <th>Application No.</th>
                         <th>Date</th>
@@ -130,13 +131,21 @@
                     <tbody>
                       @php $i=1 @endphp
                       @forelse($applications as $row)
+                      @php
+                          $status=isset($row->ArchitectApplicationStatusForLoginListing[0])?$row->ArchitectApplicationStatusForLoginListing[0]->status_id:1;
+                          $config_array = array_flip(config('commanConfig.architect_applicationStatus'));
+                          $value = ucwords(str_replace('_', ' ', $config_array[$status]));
+                      @endphp
                       <tr>
+                        <td><input type="checkbox" name="shortlist_check" value="{{$row->id}}"></td>
                         <td>{{$i++}}</td>
                         <td>{{$row->application_number}}</td>
                         <td>{{$row->application_date}}</td>
                         <td>{{$row->candidate_name}}</td>
                         <td>{{$row->candidate_email}}<br>{{$row->candidate_mobile_no}}</td>
-                        <td>{{$row->application_status}}</td>
+                        <td>
+                          
+                        {{$value}}</td>
                         <td>{{$row->marks}}</td>
                         <td>
                           <a title="View Application" href="{{ url('view_architect_application/'. encrypt($row->id)) }}">View Application</a>
@@ -146,7 +155,10 @@
                           @if($row->application_status==4)
                             <a title="Generate Certificate" href="{{ url('generate_certificate/'. encrypt($row->id)) }}">Generate Certificate</a>
                           @else
+                          
+                          @if($status!==config('commanConfig.architect_applicationStatus')['forward'])
                             <a title="Forward" href="{{ url('forward_application/'. encrypt($row->id)) }}">Forward Application</a>
+                          @endif 
                           @endif
                         </td>
                       </tr>
