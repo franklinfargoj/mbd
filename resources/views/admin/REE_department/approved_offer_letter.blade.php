@@ -108,10 +108,11 @@
     <!-- end -->
 
     <!-- Site Visit -->
-    <form role="form" id="dyce_scrunity_Form" name="scrunityForm" class="form-horizontal" method="post" action=""
+    <form role="form" id="approved_letter" name="approved_letter" class="form-horizontal" method="post" action="{{route('ree.send_letter_society')}}"
         enctype="multipart/form-data">
 
         @csrf
+        <input type="hidden" name="applicationId" value="{{$applicationData->id}}">
         <div class="m-portlet m-portlet--mobile m_panel">
             <div class="m-portlet__body" style="padding-right: 0;">
                 <h3 class="section-title section-title--small mb-0">Offer Letter:</h3>
@@ -119,7 +120,12 @@
                     <div class="col-md-12 row-list">
                         <p class="font-weight-semi-bold">View Offer letter</p>
                         <p>Click to view generated offer letter in PDF format</p>
-                        <button type="submit" class="btn btn-primary">View offer Letter </button>
+
+                         @if($applicationData->offer_letter_document_path)   
+                            <a href="{{config('commanConfig.storage_server').'/'.$applicationData->offer_letter_document_path}}" class="btn btn-primary" target="_blank" rel="noopener"> 
+                            View offer Letter </a>
+                        @endif
+                        <!-- <button type="submit" class="btn btn-primary">View offer Letter </button> -->
                     </div>
                     <!-- </div>                 -->
                     <!-- <div class="row field-row"> -->
@@ -127,7 +133,10 @@
                         <p class="font-weight-semi-bold">Download Offer letter</p>
                         <p>Want to make changes in offer letter, click on below button to download offer letter in .doc
                             format</p>
-                        <button type="submit" class="btn btn-primary">Download offer Letter </button>
+
+                        @if($applicationData->offer_letter_document_path)   
+                            <a href=" {{config('commanConfig.storage_server').'/'.$applicationData->offer_letter_document_path}}" class="btn btn-primary" download> Download offer Letter </a>
+                        @endif    
                     </div>
                 </div>
             </div>
@@ -162,7 +171,7 @@
                 <div class="col-xs-12 row">
                     <div class="col-md-12">
                         <p class="font-weight-semi-bold">Remark</p>
-                        <textarea rows="4" cols="63" name="demarkation_comments" readonly>{{(isset($applicationData->demarkation_verification_comment) ? $applicationData->demarkation_verification_comment : '')}}</textarea>
+                        <textarea rows="4" cols="63" name="remark">{{(isset($applicationData->demarkation_verification_comment) ? $applicationData->demarkation_verification_comment : '')}}</textarea>
                         <button type="submit" class="btn btn-primary">Send offer Letter </button>
                     </div>
                 </div>

@@ -20,13 +20,13 @@
                         View offer letter</h3>
                 </div>
                 <div class="mt-3 btn-list">
-                    <button class="btn btn-primary">View</button>
+                    <a href="{{config('commanConfig.storage_server').'/'.$applicationData->offer_letter_document_path}}" class="btn btn-primary" target="_blank">View</a>
                 </div>
                 <div class="remarks-suggestions">
                     <div class="mt-3">
                         <label for="demarkation_comments">Remark by REE</label>
                         <textarea id="demarkation_comments" rows="5" cols="30" class="form-control form-control--custom"
-                            name="demarkation_comments"></textarea>
+                            name="demarkation_comments">{{ isset($applicationData->ReeLog->remark) ? $applicationData->ReeLog->remark : '' }}</textarea>
                     </div>
                 </div>
             </div>
@@ -42,7 +42,7 @@
                 </div>
                 <div class="m-radio-inline">
                     <label class="m-radio m-radio--primary">
-                        <input type="radio" name="remarks-suggestion" class="forward-application" value="1" checked="">
+                        <input type="radio" name="is_approved" class="forward-application" value="1" checked="">
                         Approve Offer Letter
                         <span></span>
                     </label>
@@ -50,12 +50,14 @@
                 <div class="remarks-suggestions">
                     <div class="mt-3">
                         <label for="demarkation_comments">Remark</label>
-                        <textarea id="demarkation_comments" rows="5" cols="30" class="form-control form-control--custom"
-                            name="demarkation_comments"></textarea>
+                        <textarea id="remark" rows="5" cols="30" class="form-control form-control--custom"
+                            name="remark">{{ isset($applicationData->coLog->remark) ? $applicationData->coLog->remark : '' }}</textarea>
                     </div>
-                    <div class="mt-3 btn-list">
-                        <button class="btn btn-primary">Approve</button>
-                    </div>
+                    @if($applicationData->is_approve_offer_letter == 0)
+                        <div class="mt-3 btn-list">
+                            <input type="submit" class="btn btn-primary" value="Approve">
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>

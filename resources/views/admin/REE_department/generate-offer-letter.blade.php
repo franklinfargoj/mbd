@@ -9,10 +9,7 @@
   $style1 = "display:block"; ?>
 @endif
 
-@if(session()->has('success') || session()->has('error'))
-    <div class="alert alert-success">
-        {{ session()->get('success') }}
-    </div>   
+@if(session()->has('error'))    
      <div class="alert alert-error">
         {{ session()->get('error') }}
     </div>
@@ -134,6 +131,8 @@
 
                         <div class="m-portlet m-portlet--mobile m_panel">
                             <div class="m-portlet__body" style="padding-right: 0;">
+                            
+                            @if($societyData->ree_Jr_id)
                                 <h3 class="section-title section-title--small mb-0">Offer Letter:</h3>
                                 <div class=" row-list">
                                     <div class="row">
@@ -145,6 +144,7 @@
                                         </div>
                                     </div>
                                 </div>
+                            @endif    
                                 <div class="w-100 row-list">
                                     <div class="">
                                         <div class="row">
@@ -164,54 +164,58 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-6 border-left">
-                                                <div class="d-flex flex-column h-100">
-                                                    <h5>Upload Offer Letter</h5>
-                                                    <span class="hint-text">Click on 'Upload' to upload offer letter</span>
-                                                    <form action="{{route('ree.upload_offer_letter',$societyData->id)}}" method="post" enctype="multipart/form-data">
-                                                    @csrf
-                                                        <div class="custom-file">
-                                                            <input class="custom-file-input pdfcheck" name="offer_letter" type="file"
-                                                                id="test-upload" required="required">
-                                                            <label class="custom-file-label" for="test-upload">Choose
-                                                                file...</label>
-                                                        <span class="text-danger" id="file_error" ></span>
-                                                        </div>
-                                                        <div class="mt-auto">
-                                                            <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
-                                                        </div>
-                                                    </form>
+                                            @if($societyData->ree_Jr_id)
+                                                <div class="col-sm-6 border-left">
+                                                    <div class="d-flex flex-column h-100">
+                                                        <h5>Upload Offer Letter</h5>
+                                                        <span class="hint-text">Click on 'Upload' to upload offer letter</span>
+                                                        <form action="{{route('ree.upload_offer_letter',$societyData->id)}}" method="post" enctype="multipart/form-data">
+                                                        @csrf
+                                                            <div class="custom-file">
+                                                                <input class="custom-file-input pdfcheck" name="offer_letter" type="file"
+                                                                    id="test-upload" required="required">
+                                                                <label class="custom-file-label" for="test-upload">Choose
+                                                                    file...</label>
+                                                            <span class="text-danger" id="file_error" ></span>
+                                                            </div>
+                                                            <div class="mt-auto">
+                                                                <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
                                                 </div>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @if($societyData->ree_branch_head)
+                           <form role="form" id="sendForApproval" style="margin-top: 30px;" name="sendForApproval" class="form-horizontal" method="post" action="{{ route('ree.send_for_approval')}}"
+                            enctype="multipart/form-data">
+                            @csrf 
+                            <input type="hidden" name="applicationId" value="{{(isset($societyData->id) ? $societyData->id : '')}}">
+                            <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
+                                <div class="portlet-body">
+                                    <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
+                                        <div class="">
+                                            <h3 class="section-title section-title--small">Send to CO:</h3>
+                                        </div>
+                                        <div class="remarks-suggestions">
+                                            <div class="mt-3">
+                                                <label for="demarkation_comments">Remarks:</label>
+                                                <textarea id="demarkation_comments" rows="5" cols="30" class="form-control form-control--custom"
+                                                    name="demarkation_comments"></textarea>
+                                            </div>
+                                            <div class="mt-3 btn-list">
+                                                <button class="btn btn-primary" type="submit">Send For Approval</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                       <form role="form" id="sendForApproval" style="margin-top: 30px;" name="sendForApproval" class="form-horizontal" method="post" action="{{ route('ree.send_for_approval')}}"
-                        enctype="multipart/form-data">
-                        @csrf 
-                        <input type="hidden" name="applicationId" value="{{(isset($societyData->id) ? $societyData->id : '')}}">
-                        <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
-                            <div class="portlet-body">
-                                <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
-                                    <div class="">
-                                        <h3 class="section-title section-title--small">Send to CO:</h3>
-                                    </div>
-                                    <div class="remarks-suggestions">
-                                        <div class="mt-3">
-                                            <label for="demarkation_comments">Remarks:</label>
-                                            <textarea id="demarkation_comments" rows="5" cols="30" class="form-control form-control--custom"
-                                                name="demarkation_comments"></textarea>
-                                        </div>
-                                        <div class="mt-3 btn-list">
-                                            <button class="btn btn-primary" type="submit">Send For Approval</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        </form>
+                            </form>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -231,15 +235,24 @@
 
         myfile= $("#test-upload").val();
         var ext = myfile.split('.').pop();
-        if (ext != "pdf"){
-            $("#file_error").text("Invalid File format(pdf file only).");
-            return false;
-        }
-        else{
-            $("#file_error").text("");
+        if(myfile != ""){
+            if (ext != "pdf"){
+                $("#file_error").text("Invalid File format(pdf file only).");
+                return false;
+            }
+            else{
+                $("#file_error").text("");
+            }            
+        }else{
+           $("#file_error").text("This field required."); 
+           return false;
         }
 
     });
+
+    $(document).ready(function(){
+        $(".display_msg").delay(1000).slideUp(300);
+    });    
 
 </script>
 @endsection

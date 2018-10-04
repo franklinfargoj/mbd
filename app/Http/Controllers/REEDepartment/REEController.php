@@ -173,21 +173,21 @@ class REEController extends Controller
 
     public function sendForwardApplication(Request $request){
 
-//        dd($request->all());
-        $arrData['get_current_status'] = $this->CommonController->getCurrentStatus($request->applicationId);
+        $arrData['get_current_status'] = $this->CommonController->getCurrentStatus
+        ($request->applicationId);
 
         if($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.offer_letter_generation'))
         {
-            $this->CommonController->forwardApplicationToCoForOfferLetterGeneration($request);
+            $this->CommonController->generateOfferLetterREE($request);
         }
-        elseif((session()->get('role_name') == config('commanConfig.ree_branch_head')) && $arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.offer_letter_approved'))
-        {
-            $this->CommonController->forwardApplicationToSociety($request);
-        }
-        elseif($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.offer_letter_approved'))
-        {
-            $this->CommonController->forwardApprovedApplication($request);
-        }
+        // elseif((session()->get('role_name') == config('commanConfig.ree_branch_head')) && $arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.offer_letter_approved'))
+        // {
+        //     $this->CommonController->forwardApplicationToSociety($request);
+        // }
+        // elseif($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.offer_letter_approved'))
+        // {
+        //     $this->CommonController->forwardApprovedApplication($request);
+        // }
         else
         {
             $this->CommonController->forwardApplicationForm($request);
@@ -310,6 +310,9 @@ class REEController extends Controller
         $societyData = OlApplication::with(['eeApplicationSociety'])
                 ->where('id',$applicationId)->orderBy('id','DESC')->first();
 
+        $societyData->ree_Jr_id = (session()->get('role_name') == config('commanConfig.ree_junior')); 
+        $societyData->ree_branch_head = (session()->get('role_name') == config('commanConfig.ree_branch_head')); 
+
         $societyData->drafted_offer_letter = OlApplication::where('id',$applicationId)->value('drafted_offer_letter');   
         
         return view('admin.REE_department.generate-offer-letter',compact('societyData'));
@@ -404,7 +407,7 @@ class REEController extends Controller
                     $offerLetterPath = $folder_name."/".$file_name; 
                     OlApplication::where('id',$applicationId)->update(["offer_letter_document_path" => $offerLetterPath]);
 
-                    return redirect()->back()->with('success', 'Successfully uploaded');
+                    return redirect('/ree_applications')->with('success', 'Offer Letter uploaded successfully.');
             } else {
                 return redirect()->back()->with('error', 'Invalid format. pdf file only.');
             }
@@ -438,5 +441,12 @@ class REEController extends Controller
 
         return redirect('/ree_applications');                 
         // $arco_role_name'] = strtoupper(str_replace('_', ' ', $co_id->name));        
+    }
+
+    public function sendOfferLetterToSociety(Request $request){
+
+        $this->CommonController->forwardApplicationToSociety($request);
+        return redirect('/ree_applications')->with('success','send successfully.');
+        
     }
 }

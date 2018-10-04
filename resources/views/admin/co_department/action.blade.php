@@ -4,6 +4,7 @@
 <a title="DYCE_Scrutiny_Remark" href="{{route('co.scrutiny_remark',$co_application_data->id)}}">DyCE Scrutiny & Remarks</a> 
 <a title="REE calculation sheet" href="">REE calculation sheet</a>  
 <a title="Approve offer Letter" href="{{route('co.approve_offer_letter',$co_application_data->id)}}">Approve offer Letter</a>
+
 {{--@if($co_application_data->olApplicationStatusForLoginListing[0]->status_id == config('commanConfig.applicationStatus.in_process'))--}}
     <a title="Society_EE_Documents" href="{{route('co.forward_application', $co_application_data->id)}}">Forward Application</a>
 {{--@endif--}}
