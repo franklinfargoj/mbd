@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Session;
+use App\Role;
 
 class LoginController extends Controller
 {
@@ -84,11 +85,19 @@ class LoginController extends Controller
         ]);
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
-            if(strrpos(Session::get('_previous')['url'], 'captcha') == false){
-                return redirect('/society_offer_letter')->with('error', "Please enter valid credentials");
+            if(is_numeric(explode('/', explode('.', Session::get('_previous')['url'])[0])[2]) == true){
+                // Authentication passed...
+                return redirect('/home');
+            }else{
+                $role_name = Role::where('id', Auth::user()->role_id)->value('name');
+                if(explode('/', explode('.', Session::get('_previous')['url'])[0])[2] == $role_name){
+                    // Authentication passed...
+                    return redirect('/home');
+                }else{
+                    return redirect('/society_offer_letter')->with('error', "Please enter valid credentials");
+                }
             }
-            // Authentication passed...
-            return redirect('/home');
+            
         }
         else
         {
