@@ -52,7 +52,7 @@
                                         <input name="user_id" type="hidden" value="{{ $user->id }}"/>
                                         <div class="d-flex justify-content-between align-items-center mb-4">
                                         <a  target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
-                                                    src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("one");'></a>
+                                                    src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("one");' style="max-width:22px"></a>
                                         </div>
                                         <table class="table mb-0" style="padding-top: 10px;">
                                             <thead class="thead-default">
@@ -1238,10 +1238,11 @@
 
         function PrintElem(elem)
         {
-            var mywindow = window.open('', 'PRINT', 'height=400,width=600');
+
+	    var mywindow = window.open('', 'PRINT', 'height=600,width=600');
 
             mywindow.document.write('<html><head><title>Maharashtra Housing and development authority</title>');
-            mywindow.document.write('</head><body >');
+            mywindow.document.write('</head><body>');
             mywindow.document.write(document.getElementById(elem).innerHTML);
             mywindow.document.write('</body></html>');
 
@@ -1251,7 +1252,7 @@
             mywindow.print();
             mywindow.close();
 
-            return true;
+            return true;      
         }
 
 
