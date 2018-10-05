@@ -44,7 +44,7 @@
                                     <h3 class="section-title">तक्ता - अ</h3>
                                 </div>
                             </div>
-                            <div id="one" class="m-section__content mb-0 table-responsive">
+                            <div class="m-section__content mb-0 table-responsive">
                                 <form role="form" method="POST" action="{{ route('save_sharing_calculation_details') }}">
                                     <input name="_token" type="hidden" value="{!! csrf_token() !!}" />
                                     <input name="application_id" type="hidden" value="{{ $applicationId }}" />
