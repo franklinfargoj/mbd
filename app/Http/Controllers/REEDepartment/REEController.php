@@ -275,28 +275,29 @@ class REEController extends Controller
 
     public function uploadREENote(Request $request){
         $applicationId   = $request->application_id;
-        $uploadPath      = '/uploads/ree_note';
-        $destinationPath = public_path($uploadPath);
 
         if ($request->file('ree_note')){
 
             $file = $request->file('ree_note');
-            $file_name = time().$file->getFileName().'.'.$file->getClientOriginalExtension();
             $extension = $file->getClientOriginalExtension();
+            $file_name = time().'ree_note.'.$extension;
+            $folder_name = "ree_note";
+            $path = $folder_name."/".$file_name;
 
             if($extension == "pdf") {
-                if ($file->move($destinationPath, $file_name)) {
-                    $fileData[] = array('document_path' => $uploadPath . '/' . $file_name,
+                $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$request->file('ree_note'),$file_name);
+
+                    $fileData[] = array('document_path' => $path,
                         'application_id' => $applicationId,
                         'user_id' => Auth::user()->id,
                         'role_id' => session()->get('role_id'));
-                }
+
                 $data = REENote::insert($fileData);
-                return back()->with('success', 'REE Note uploaded successfully');
+                return redirect('/ree_applications')->with('success', 'REE note uploaded successfully.'); 
             }
             else
             {
-                return back()->with('error', 'Only pdf allowed');
+                return back()->with('error', 'Invalid type of file uploaded (only pdf allowed).');
             }
         }
     }
