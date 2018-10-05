@@ -1,4 +1,4 @@
-<div class="d-flex justify-content-between btn-icon-list">
+<div class="d-flex btn-icon-list">
     <a class="d-flex flex-column align-items-center" href="{{ route('village_detail.show', base64_encode($village_data->id)) }}"><span
             class="btn-icon btn-icon--view"><img src="{{ asset('/img/view-icon.svg')}}"></span>View</a>
     <a class="d-flex flex-column align-items-center" href="{{ route('village_detail.edit', base64_encode($village_data->id)) }}"><span

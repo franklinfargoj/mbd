@@ -22,7 +22,7 @@
             </button> {{ Session::get('success') }}
         </div>
         @endif
-        <div class="m-portlet__body data-table--custom mb-3">
+        <div class="m-portlet__body data-table--custom data-table--icons mb-3">
                 <!-- <a href="{{ url('/village_detail') }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a> -->
             </div>
             <!--begin: Search Form -->

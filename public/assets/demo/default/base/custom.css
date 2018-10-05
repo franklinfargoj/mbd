@@ -1087,9 +1087,7 @@
 
 /* Sidebar starts here */
 
-.m-menu__item--submenu {
-
-}
+.m-menu__item--submenu {}
 
 /* Sidebar ends here */
 
@@ -1922,8 +1920,9 @@ label.site-visit-label {
     text-decoration: none;
 }
 
-.dataTables_wrapper table.dataTable .btn-icon-list a + a {
+.dataTables_wrapper table.dataTable .btn-icon-list a +a  {
     border-left: none;
+    margin-left: 30px;
 }
 
 /* Icons ends here */
