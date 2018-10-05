@@ -49,6 +49,7 @@
             @endphp
             <form method="post" action="{{route('save_evaluate_marks')}}">
               @csrf
+              <input type="hidden" name="application_id" value="{{$architect_application_id}}">
             <table class="table table-striped table-bordered table-hover datatable mdl-data-table dataTable">
               <thead>
                 <tr>
@@ -69,6 +70,7 @@
                     <div class="@if($errors->has('marks')) has-error @endif">
                       <input {{ $disable }} type="text" name="marks[]" class="form-control" value="{{$row->marks}}">
                       <input type="hidden" name="id[]" value="{{$row->id}}">
+                      
                       <span class="help-block">{{$errors->first('marks')}}</span>
                     </div>
                   </td>

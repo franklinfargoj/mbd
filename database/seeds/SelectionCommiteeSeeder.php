@@ -51,6 +51,11 @@ class SelectionCommiteeSeeder extends Seeder
                 'name' => 'forward_application',
                 'display_name' => 'forward_application',
                 'description' => 'forward_application'
+            ],
+            [
+                'name' => 'finalise_architect_application',
+                'display_name' => 'finalise_architect_application',
+                'description' => 'finalise_architect_application'
             ]
             
         ];
