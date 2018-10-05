@@ -93,6 +93,7 @@ class LeaseDetailController extends Controller
 
         $count = LeaseDetail::with('leaseSociety')->where(['society_id' => $id, 'lease_status' => 1])->get()->count();
         $columns = [
+            ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'lease_rule_16_other','name' => 'lease_rule_16_other','title' => 'Lease rule 16 & other'],
             ['data' => 'area','name' => 'area','title' => 'Area'],
@@ -169,6 +170,9 @@ class LeaseDetailController extends Controller
             $lease_data = $lease_data->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').',lease_rule_16_other, lm_lease_detail.id as id, lm_lease_detail.area as area, society_id, lease_period, lease_start_date, lease_status');
 
             return $datatables->of($lease_data)
+                ->editColumn('radio', function ($village_data) {
+                    return '<input type="radio" name="village_data_id">';
+                })
                 ->editColumn('rownum', function ($lease_data) {
                         static $i = 0;
                         $i++;
@@ -183,7 +187,7 @@ class LeaseDetailController extends Controller
                 ->editColumn('actions', function ($lease_data) {
                     return view('admin.lease_detail.actions', compact('lease_data'))->render();
                 })
-                ->rawColumns(['lease_start_date', 'leaseSociety', 'actions'])
+                ->rawColumns(['radio', 'lease_start_date', 'leaseSociety', 'actions'])
                 ->make(true);
         }
 
@@ -197,7 +201,7 @@ class LeaseDetailController extends Controller
             'serverSide' => true,
             'processing' => true,
             'ordering'   =>'isSorted',
-            "order"=> [5, "desc" ],
+            "order"=> [6, "desc" ],
             "pageLength" => $this->list_num_of_records_per_page
         ];
     }
