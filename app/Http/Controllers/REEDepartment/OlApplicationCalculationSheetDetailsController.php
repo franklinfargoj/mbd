@@ -100,8 +100,7 @@ class OlApplicationCalculationSheetDetailsController extends Controller
     {
         //echo "<pre>";print_r($request->all());exit;
 
-
         OlApplicationCalculationSheetDetails::updateOrCreate(['application_id'=>$request->get('application_id')],$request->all());
-        return redirect("ol_calculation_sheet/" . $request->get('application_id'));
+        return redirect("ol_calculation_sheet/" . $request->get('application_id')."#".$request->get('redirect_tab'));
     }
 }

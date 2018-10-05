@@ -49,6 +49,7 @@
                                     <input name="_token" type="hidden" value="{!! csrf_token() !!}" />
                                     <input name="application_id" type="hidden" value="{{ $applicationId }}" />
                                     <input name="user_id" type="hidden" value="{{ $user->id }}" />
+                                    <input name="redirect_tab" type="hidden" value="two" />
                                     <div class="d-flex justify-content-between align-items-center mb-4">
                                         <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
                                                 src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("one");'
@@ -291,7 +292,7 @@
                                             </tr>
                                             <tr>
                                                 <td colspan="3" align="right"><input type="submit" name="submit" class="btn btn-primary"
-                                                        value="Save" /> </td>
+                                                        value="Next" /> </td>
                                             </tr>
 
                                         </tbody>
@@ -420,6 +421,7 @@
                                     <input name="_token" type="hidden" value="{!! csrf_token() !!}" />
                                     <input name="application_id" type="hidden" value="{{ $applicationId }}" />
                                     <input name="user_id" type="hidden" value="{{ $user->id }}" />
+                                    <input name="redirect_tab" type="hidden" value="three" />
                                     <div class="d-flex justify-content-between align-items-center mb-4">
                                         <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
                                                 src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("two");'
@@ -500,7 +502,7 @@
                                             </tr>
                                             <tr>
                                                 <td colspan="3" align="right"><input type="submit" name="submit" class="btn btn-primary"
-                                                        value="Save" /> </td>
+                                                        value="Next" /> </td>
                                             </tr>
 
 
@@ -627,6 +629,7 @@
                                     <input name="_token" type="hidden" value="{!! csrf_token() !!}" />
                                     <input name="application_id" type="hidden" value="{{ $applicationId }}" />
                                     <input name="user_id" type="hidden" value="{{ $user->id }}" />
+                                    <input name="redirect_tab" type="hidden" value="four" />
                                     <div class="d-flex justify-content-between align-items-center mb-4">
                                         <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
                                                 src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("three");'
@@ -722,7 +725,7 @@
                                             </tr>
                                             <tr>
                                                 <td colspan="3" align="right"><input type="submit" name="submit" class="btn btn-primary"
-                                                        value="Save" /> </td>
+                                                        value="Next" /> </td>
                                             </tr>
 
                                         </tbody>
@@ -882,6 +885,7 @@
                                     <input name="_token" type="hidden" value="{!! csrf_token() !!}" />
                                     <input name="application_id" type="hidden" value="{{ $applicationId }}" />
                                     <input name="user_id" type="hidden" value="{{ $user->id }}" />
+                                    <input name="redirect_tab" type="hidden" value="four" />
                                     <div class="d-flex justify-content-between align-items-center mb-4">
                                         <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
                                                 src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("four");'
@@ -1031,7 +1035,7 @@
                                             </tr>
                                             <tr>
                                                 <td colspan="3" align="right"><input type="submit" name="submit" class="btn btn-primary"
-                                                        value="Save" /> </td>
+                                                        value="Next" /> </td>
                                             </tr>
 
                                         </tbody>
