@@ -33,7 +33,7 @@ class CAPController extends Controller
     }
 
     public function index(Request $request, Datatables $datatables){
-		
+
 		$getData = $request->all();
         $columns = [
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
@@ -65,7 +65,7 @@ class CAPController extends Controller
                     return $cap_application_data->eeApplicationSociety->address;
                 })                
                 ->editColumn('date', function ($cap_application_data) {
-                    return date(config('commanConfig.dateFormat', strtotime($cap_application_data->submitted_at)));
+                    return date(config('commanConfig.dateFormat'), strtotime($cap_application_data->submitted_at));
                 })
                 ->editColumn('actions', function ($cap_application_data) use($request){
                    return view('admin.cap_department.action', compact('cap_application_data', 'request'))->render();
@@ -137,7 +137,10 @@ class CAPController extends Controller
         // VP Forward Application
 
         $vp_role_id = Role::where('name', '=', config('commanConfig.vp_engineer'))->first();
-        $arrData['get_forward_vp'] = User::where('role_id', $vp_role_id->id)->get();
+        $arrData['get_forward_vp'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
+                                            ->where('lu.layout_id', session()->get('layout_id'))
+                                            ->where('role_id', $vp_role_id->id)->get();
+
         $arrData['vp_role_name'] = strtoupper(str_replace('_', ' ', $vp_role_id->name));
     
         // remark and history
@@ -168,16 +171,25 @@ class CAPController extends Controller
         if ($request->file('cap_note')){
 
             $file = $request->file('cap_note');
-            $file_name = time().$file->getFileName().'.'.$file->getClientOriginalExtension();
+            $file_name = time().'cap_note'.'.'.$file->getClientOriginalExtension();
+            $extension = $file->getClientOriginalExtension();
+            $folder_name = "cap_notes";
 
-            if($file->move($destinationPath, $file_name))
-            {
-                $fileData[] = array('document_path' => $uploadPath.'/'.$file_name, 
-                                   'application_id' => $applicationId,
-                                    'user_id'       => Auth::Id());
+            if ($extension == "pdf"){
+                $path = config('commanConfig.storage_server').'/'.$folder_name.'/'.$file_name;
+
+                $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$request->file('cap_note'),$file_name);
+
+                    $fileData[] = array('document_path' => $path, 
+                                       'application_id' => $applicationId,
+                                        'user_id'       => Auth::Id());
+
+                $data = OlCapNotes::insert($fileData);   
+                return redirect('/cap')->with('success','CAP Note uploaded successfully.');                         
+            } else {
+                return back()->with('pdf_error', 'Invalid type of file uploaded (only pdf allowed).');
             }
-            $data = OlCapNotes::insert($fileData);   
-            return back();         
+
         }        
     }  
 }

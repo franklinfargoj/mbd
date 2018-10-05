@@ -61,7 +61,7 @@ class ForwardCaseController extends Controller
         }
 
 //        dd([$role_id,$user_id]);
-        $parent_role_id = Role::where('id', $request->user)->get(['parent_id'])->first();
+        $parent_role_id = Role::where('id', $request->role_id)->get(['parent_id'])->first();
         $parent_user_id = User::where('role_id', $parent_role_id->parent_id)->get(['id'])->first();
 
         $hearing_status_log = [

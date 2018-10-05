@@ -1,13 +1,19 @@
 @extends('admin.layouts.app')
 @section('content')
 
+@if(session()->has('error'))
+  <div class="alert alert-success">
+      {{ session()->get('success') }}
+  </div>   
+@endif
+
 <div class="custom-wrapper">
     <div class="col-md-12">
         <div class="m-portlet__head">
             <div class="m-portlet__head-tools">
                 <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom" role="tablist">
                     <li class="nav-item m-tabs__item">
-                        <a class="nav-link m-tabs__link" data-toggle="tab" href="#one" role="tab"
+                        <a class="nav-link m-tabs__link active show" data-toggle="tab" href="#one" role="tab"
                             aria-selected="false">
                             <i class="la la-cog"></i> परिगणनेचा तक्ता - अ
                         </a>
@@ -59,13 +65,15 @@
                                         <input type="text" class="form-control form-control--xs form-control--custom flex-grow-0 ml-3"
                                             name="total_no_of_buildings" id="total_no_of_buildings" value="{{ isset($calculationSheetDetails[0]->total_no_of_buildings) ? $calculationSheetDetails[0]->total_no_of_buildings : 0 }}" />
                                     </div>
-                                    <table id="one" class="table mb-0" style="padding-top: 10px;">
+                                    <table id="one" class="table mb-0 table--box-input" style="padding-top: 10px;">
                                         <input name="_token" type="hidden" value="{!! csrf_token() !!}" />
                                         <input name="application_id" type="hidden" value="{{ $applicationId }}" />
                                         <input name="user_id" type="hidden" value="{{ $user->id }}" />
+                                        <input name="redirect_tab" type="hidden" value="two" />
                                         <div class="d-flex justify-content-between align-items-center mb-4">
-                                            <a  target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
-                                                        src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("one");'></a>
+                                            <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
+                                                    src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("one");'
+                                                    style="max-width: 22px"></a>
                                         </div>
                                         <thead class="thead-default">
                                             <tr>
@@ -366,7 +374,7 @@
                                             <tr>
                                                 <td></td>
                                                 <td>
-                                                    2. दर (DCR % of tb 1 pt 12)
+                                                    2. दर
                                                 </td>
                                                 <td class="text-center">
                                                     <span style="cursor: pointer" data-toggle="modal" data-target="#select-from-dcr">Select
@@ -495,8 +503,8 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td colspan="3" align="right"><input type="submit" name="submit" class="btn btn-primary"
-                                                        value="Save" /> </td>
+                                                <td colspan="3" align="right"><input type="submit" name="submit" class="btn btn-primary btn-next"
+                                                        value="Next" /> </td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -684,11 +692,13 @@
                                     <input name="_token" type="hidden" value="{!! csrf_token() !!}" />
                                     <input name="application_id" type="hidden" value="{{ $applicationId }}" />
                                     <input name="user_id" type="hidden" value="{{ $user->id }}" />
+                                    <input name="redirect_tab" type="hidden" value="three" />
                                     <div class="d-flex justify-content-between align-items-center mb-4">
-                                        <a  target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
-                                                    src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("two");'></a>
+                                        <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
+                                                src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("two");'
+                                                style="max-width: 22px"></a>
                                     </div>
-                                    <table class="table mb-0">
+                                    <table class="table mb-0 table--box-input">
                                         <thead class="thead-default">
                                             <tr>
                                                 <th class="table-data--xs">
@@ -796,8 +806,8 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td colspan="3" align="right"><input type="submit" name="submit" class="btn btn-primary"
-                                                        value="Save" /> </td>
+                                                <td colspan="3" align="right"><input type="submit" name="submit" class="btn btn-primary btn-next"
+                                                        value="Next" /> </td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -823,11 +833,13 @@
                                     <input name="_token" type="hidden" value="{!! csrf_token() !!}" />
                                     <input name="application_id" type="hidden" value="{{ $applicationId }}" />
                                     <input name="user_id" type="hidden" value="{{ $user->id }}" />
+                                    <input name="redirect_tab" type="hidden" value="four" />
                                     <div class="d-flex justify-content-between align-items-center mb-4">
-                                        <a  target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
-                                                    src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("three");'></a>
+                                        <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
+                                                src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("three");'
+                                                style="max-width: 22px"></a>
                                     </div>
-                                    <table class="table mb-0">
+                                    <table class="table mb-0 table--box-input">
 
                                         <thead class="thead-default">
                                             <tr>
@@ -926,8 +938,8 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td colspan="3" align="right"><input type="submit" name="submit" class="btn btn-primary"
-                                                        value="Save" /> </td>
+                                                <td colspan="3" align="right"><input type="submit" name="submit" class="btn btn-primary btn-next"
+                                                        value="Next" /> </td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -953,11 +965,13 @@
                                     <input name="_token" type="hidden" value="{!! csrf_token() !!}" />
                                     <input name="application_id" type="hidden" value="{{ $applicationId }}" />
                                     <input name="user_id" type="hidden" value="{{ $user->id }}" />
+                                    <input name="redirect_tab" type="hidden" value="five" />
                                     <div class="d-flex justify-content-between align-items-center mb-4">
-                                        <a  target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
-                                                    src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("four");'></a>
+                                        <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
+                                                src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("four");'
+                                                style="max-width: 22px"></a>
                                     </div>
-                                    <table class="table mb-0">
+                                    <table class="table mb-0 table--box-input">
                                         <thead class="thead-default">
                                             <tr>
                                                 <th class="table-data--xs">
@@ -999,8 +1013,8 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td colspan="3" align="right"><input type="submit" name="submit" class="btn btn-primary"
-                                                        value="Save" /> </td>
+                                                <td colspan="3" align="right"><input type="submit" name="submit" class="btn btn-primary btn-next"
+                                                        value="Next" /> </td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -1023,10 +1037,10 @@
                             </div>
                             <div class="m-section__content mb-0 table-responsive">
                                 <div class="d-flex justify-content-between align-items-center mb-4">
-                                    <a  target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
-                                                src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("five");'></a>
+                                    <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
+                                            src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("five");' style="max-width: 22px"></a>
                                 </div>
-                                <table class="table mb-0">
+                                <table class="table mb-0 table--box-input">
                                     <thead class="thead-default">
                                         <tr>
                                             <th class="table-data--xs">
@@ -1149,6 +1163,7 @@
                                                         <label class="custom-file-label" for="test-upload">Choose file
                                                             ...</label>
                                                     </div>
+                                                    <span class="text-danger" id="file_error" ></span>
                                                     <div class="mt-auto">
                                                         <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
                                                     </div>
@@ -1175,7 +1190,7 @@
 
         // Set first tab to active if user visits page for the first time
 
-        if(localStorage.getItem("activeTab") === null) {
+        if (localStorage.getItem("activeTab") === null) {
             document.querySelector(".nav-link.m-tabs__link").classList.add("active", "show");
         } else {
             document.querySelector(".nav-link.m-tabs__link").classList.remove("active", "show");
@@ -1200,6 +1215,8 @@
             localStorage.setItem('activeTab', tab_name)
 
             $(this).tab('show');
+
+            localStorage.clear();
             return false;
         });
 
@@ -1207,9 +1224,10 @@
             var anchor = location.hash ||
                 $('a[data-toggle=\'tab\']').first().attr('href');
             $('a[href=\'' + anchor + '\']').tab('show');
+            window.scrollTo(0, 0);            
         });
 
-        // **End** Save tabs location on window refresh or submit
+        // // **End** Save tabs location on window refresh or submit
 
         $('input').on('keypress', function (event) {
             var regex = new RegExp("^[0-9]+$");
@@ -1387,8 +1405,7 @@
     });
 
 
-    function PrintElem(elem)
-    {
+    function PrintElem(elem) {
         var mywindow = window.open('', 'PRINT', 'height=400,width=600');
 
         mywindow.document.write('<html><head><title>Maharashtra Housing and development authority</title>');
@@ -1404,6 +1421,25 @@
 
         return true;
     }
+
+    $("#uploadBtn").click(function(){
+      myfile = $("#test-upload").val();
+      var ext = myfile.split('.').pop();      
+      if (myfile != ''){        
+          
+          if (ext != "pdf"){
+            $("#file_error").text("Invalid type of file uploaded (only pdf allowed).");
+            return false;
+          }
+          else{
+            $("#file_error").text("");
+            return true;
+          }      
+      }else{
+        $("#file_error").text("This field required");
+        return false;
+      }
+    });
 
 </script>
 @endsection

@@ -9,7 +9,6 @@
     </div>
     <!-- END: Subheader -->
     <div class="m-portlet m-portlet--mobile">
-
         <form id="editHearingForm" role="form" method="post" class="m-form m-form--rows m-form--label-align-right"
             action="{{route('hearing.update', $arrData['hearing']->id)}}">
             @method('PUT')

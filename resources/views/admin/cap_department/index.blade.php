@@ -1,5 +1,17 @@
 @extends('admin.layouts.app')
 @section('content')
+
+@if(session()->has('success'))
+    <div class="alert alert-success display_msg">
+        {{ session()->get('success') }}
+    </div>   
+@endif
+@if(session()->has('error'))       
+     <div class="alert alert-error display_msg">
+        {{ session()->get('error') }}
+    </div>
+@endif
+
 <div class="col-md-12">
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">
@@ -35,11 +47,12 @@
                                         placeholder="From Date" readonly value="{{ isset($getData['office_date_from'])? $getData['office_date_from'] : '' }}">
                                 </div>
                             </div>
+
                             <div class="col-md-3">
                                 <div class="form-group m-form__group">
                                     <label for="office_date_to">To Date</label>
                                     <input type="text" id="office_date_to" name="office_date_to" class="form-control form-control--custom m-input m_datepicker"
-                                        placeholder="From Date" readonly value="{{ isset($getData['office_date_to'])? $getData['office_date_to'] : '' }}">
+                                        placeholder="To Date" readonly value="{{ isset($getData['office_date_to'])? $getData['office_date_to'] : '' }}">
                                 </div>
                             </div>
 
@@ -91,9 +104,13 @@
 {!! $html->scripts() !!}
 
 <script>
+    $(document).ready(function(){
+        $(".display_msg").delay(1000).slideUp(300);
+    }); 
+
     $("#update_status").on("change", function () {
         $("#eeForm").submit();
     });
-
+    
 </script>
 @endsection

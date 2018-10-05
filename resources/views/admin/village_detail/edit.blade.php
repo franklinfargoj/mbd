@@ -4,7 +4,7 @@
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">Edit Village</h3>
-            {{ Breadcrumbs::render('village_view',$arrData['village_data']['id']) }}
+            {{ Breadcrumbs::render('village_edit',$arrData['village_data']['id']) }}
         </div>
     </div>
     <!-- END: Subheader -->

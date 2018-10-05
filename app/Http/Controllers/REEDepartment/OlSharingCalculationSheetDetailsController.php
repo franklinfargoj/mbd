@@ -101,6 +101,6 @@ class OlSharingCalculationSheetDetailsController extends Controller
         //echo "<pre>";print_r($request->all());exit;
 
         OlSharingCalculationSheetDetail::updateOrCreate(['application_id'=>$request->get('application_id')],$request->all());
-        return redirect("ol_sharing_calculation_sheet/" . $request->get('application_id'));
+        return redirect("ol_sharing_calculation_sheet/" . $request->get('application_id')."#".$request->get('redirect_tab'));
     }
 }

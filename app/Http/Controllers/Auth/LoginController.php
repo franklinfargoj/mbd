@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Session;
+use App\Role;
 
 class LoginController extends Controller
 {
@@ -78,20 +80,37 @@ class LoginController extends Controller
 
     public function loginUser(Request $request)
     {   
-        // dd($request->all());
         $validateData = $request->validate([
             'captcha' => 'required|captcha',
         ]);
-
         $credentials = $request->only('email', 'password');
-
         if (Auth::attempt($credentials)) {
-            // Authentication passed...
-            return redirect('/home');
+            if(is_numeric(explode('/', explode('.', Session::get('_previous')['url'])[0])[2]) == true){
+                // Authentication passed...
+                return redirect('/home');
+            }else{
+                $role_name = Role::where('id', Auth::user()->role_id)->value('name');
+                if(explode('/', explode('.', Session::get('_previous')['url'])[0])[2] == 'society'){
+                    // Authentication passed...
+                    return redirect('/home');
+                }else{
+                    if(!empty($role_name)){
+                        // Authentication passed...
+                        return redirect('/home');  
+                    }else{
+                        return redirect('/society_offer_letter')->with('error', "Please enter valid credentials");
+                    }
+                }
+            }
+            
         }
         else
         {
-            return redirect('/login-user')->with('error', "Please enter valid credentials");
+            if(strrpos(Session::get('_previous')['url'], 'society.') == false){
+                return redirect('/society_offer_letter')->with('error', "Please enter valid credentials");
+            }else{
+                return redirect('/login-user')->with('error', "Please enter valid credentials");
+            }
         }
     }
 

@@ -41,6 +41,7 @@ $(document).ready(function () {
     // Custom select box for data tables
 
     $(".dataTables_wrapper select").addClass("m-bootstrap-select m_selectpicker form-control--custom");
+    $("#dataTableBuilder_filter input").addClass("form-control--custom");
 
     // Show uploaded file name inside label
 

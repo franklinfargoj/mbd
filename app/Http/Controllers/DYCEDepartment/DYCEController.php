@@ -65,7 +65,7 @@ class DYCEController extends Controller
                     return $dyce_application_data->eeApplicationSociety->address;
                 })                
                 ->editColumn('date', function ($dyce_application_data) {
-                    return date(config('commanConfig.dateFormat', strtotime($dyce_application_data->submitted_at)));
+                    return date(config('commanConfig.dateFormat'), strtotime($dyce_application_data->submitted_at));
                 })
                 ->editColumn('actions', function ($dyce_application_data) use($request){
                    return view('admin.DYCE_department.action', compact('dyce_application_data','request'))->render();
@@ -131,24 +131,27 @@ class DYCEController extends Controller
             'encrochment_verification_comment' => $request->encrochment_comments
             ]);
 
-        $uploadPath      = '/uploads/dyceDocuments';
-        $destinationPath = public_path($uploadPath);
-
         if ($request->file('document')){
             foreach ($request->file('document') as $file){
+                $extension = $file->getClientOriginalExtension();
+                $file_name = time().'site_documents'.'.'.$extension;
 
-                $file_name = time().$file->getFileName().'.'.$file->getClientOriginalExtension();
+                if($extension == "pdf"){
 
-                if($file->move($destinationPath, $file_name))
-                {
-                    $fileData[] = array('document_path' => $uploadPath.'/'.$file_name, 
+                    $folder_name = "dyceDocuments";
+                    $path = $folder_name."/".$file_name;  
+                    $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$file,$file_name);      
+
+                    $fileData[] = array('document_path' => $path, 
                         'application_id' => $applicationId,
                         'user_id' => Auth::Id());
+                    $data = olSiteVisitDocuments::insert($fileData);            
+                }else{
+                    return back()->with('error','Invalid type of file uploaded (only pdf allowed)'); 
                 }
             }
-            $data = olSiteVisitDocuments::insert($fileData);            
         }
-        return back(); 
+        return redirect('/dyce')->with('success','Data Submitted Successfully.'); 
     } 
 
     // society and EE documents
@@ -174,12 +177,18 @@ class DYCEController extends Controller
         $arrData['parentData'] = $parentData['parentData'];
         $arrData['role_name']  = $parentData['role_name'];
 
-        $arrData['application_status'] = $this->CommonController->getCurrentApplicationStatus($applicationId);
+//        $arrData['application_status'] = $this->CommonController->getCurrentApplicationStatus($applicationId);
+        if(session()->get('role_name') != config('commanConfig.dyce_jr_user'))
+            $arrData['application_status'] = $this->CommonController->getCurrentLoggedInChild($applicationId);
+
         $arrData['get_current_status'] = $this->CommonController->getCurrentStatus($applicationId);
         // REE Forward Application
 
         $ree_id = Role::where('name', '=', config('commanConfig.ree_junior'))->first();
-        $arrData['get_forward_ree'] = User::where('role_id', $ree_id->id)->get();
+        $arrData['get_forward_ree'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
+                                            ->where('lu.layout_id', session()->get('layout_id'))
+                                            ->where('role_id', $ree_id->id)->get();
+
         $arrData['ree_role_name']   = strtoupper(str_replace('_', ' ', $ree_id->name));
 
         $this->CommonController->getEEForwardRevertLog($applicationData,$applicationId);
@@ -191,7 +200,7 @@ class DYCEController extends Controller
 
         $this->CommonController->forwardApplicationForm($request);
 
-        return redirect('/dyce');
+        return redirect('/dyce')->with('success','Application send Successfully.');;
 
     } 
 }

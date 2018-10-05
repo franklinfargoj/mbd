@@ -8,8 +8,22 @@ class ArchitectApplicationStatusLog extends Model
 {
     protected $table = "architect_application_status_logs";
 
+    public $timestamps=false;
+
+    protected $fillable = [
+    	'architect_application_id',
+        'user_id',
+        'role_id',
+        'status_id',
+        'to_user_id',
+        'to_role_id',
+        'remark',
+        'changed_at'
+    ];
     public function architectApplication()
     {
         return $this->belongsTo(ArchitectApplication::class);
     }
+
+    
 }

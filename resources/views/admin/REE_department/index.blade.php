@@ -1,5 +1,12 @@
 @extends('admin.layouts.app')
 @section('content')
+
+@if(session()->has('success'))
+    <div class="alert alert-success display_msg">
+        {{ session()->get('success') }}
+    </div>   
+@endif
+
 <div class="col-md-12">
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">
@@ -27,7 +34,7 @@
                                 <div class="form-group m-form__group">
                                     <label for="office_date_to">To Date</label>
                                     <input type="text" id="office_date_to" name="office_date_to" class="form-control form-control--custom m-input m_datepicker"
-                                        placeholder="From Date" value="{{ isset($getData['office_date_to'])? $getData['office_date_to'] : '' }}">
+                                        placeholder="To Date" value="{{ isset($getData['office_date_to'])? $getData['office_date_to'] : '' }}">
                                 </div>
                             </div>
 
@@ -82,5 +89,8 @@
         $("#eeForm").submit();
     });
 
+    $(document).ready(function(){
+        $(".display_msg").delay(1000).slideUp(300);
+    });     
 </script>
 @endsection
