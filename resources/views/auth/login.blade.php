@@ -48,6 +48,11 @@
                                             autocomplete="off" id="password-field">
                                         <!-- <span toggle="#password-field" class="fa fa-fw fa-eye hide-show-pwd toggle-password"></span> -->
                                     </div>
+                                    <div class="m-login__form-sub m-login__forgot">
+                                        <a href="{{ route('password.request') }}" class="m-link text-dark">
+                                            Forgot Password ?
+                                        </a>
+                                    </div>
                                     <div class="form-group m-form__group" style="margin-top: 16px;">
                                         <div class="d-flex position-relative justify-content-between">
                                             <i class="fa fa-refresh" onclick="document.getElementById('captcha_img').src='{{ URL::to('captcha') }}'; return false"
@@ -62,18 +67,9 @@
                                         </div>
                                         @endif
                                     </div>
-                                    <button id="mhada-user" class="btn btn-block btn-primary m-btn m-btn--pill m-btn--custom m-login__btn m-login__btn--primary mt-3">
+                                    <button id="mhada-user" class="btn btn-block btn-primary m-btn m-btn--pill m-btn--custom m-login__btn m-login__btn--primary">
                                         Sign In
                                     </button>
-                                    <div class="d-flex align-items-center justify-content-center m-login__form-action">
-                                        <div class="m-login__form-sub">
-                                            <div class="m--align-right m-login__form-right">
-                                                <a href="{{ route('password.request') }}" class="m-link text-dark">
-                                                    Forgot Password ?
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </form>
                             </div>
 

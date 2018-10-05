@@ -54,7 +54,7 @@
                                         <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
                                                 src="{{asset('/img/print-icon.svg')}}"></a>
                                     </div>
-                                    <table class="table mb-0" style="padding-top: 10px;">
+                                    <table class="table mb-0 table--box-input" style="padding-top: 10px;">
                                         <input name="_token" type="hidden" value="" />
                                         <input name="application_id" type="hidden" value="" />
                                         <input name="user_id" type="hidden" value="" />
@@ -88,7 +88,7 @@
                                                 <td>
                                                     1. टिट बिट भूखंडाचे क्षेत्र
                                                 </td>
-                                                <td class="text-center">
+                                                <td>
                                                     <input type="text" class="form-control form-control--custom" name="area_as_per_lease_agreement"
                                                         id="area_as_per_lease_agreement" value="" />
                                                 </td>
@@ -352,7 +352,7 @@
                                         <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
                                                 src="{{asset('/img/print-icon.svg')}}"></a>
                                     </div>
-                                    <table class="table mb-0" style="padding-top: 10px;">
+                                    <table class="table mb-0 table--box-input" style="padding-top: 10px;">
                                         <input name="_token" type="hidden" value="" />
                                         <input name="application_id" type="hidden" value="" />
                                         <input name="user_id" type="hidden" value="" />
@@ -388,7 +388,6 @@
                                                 <td class="text-center">
                                                     <input type="text" class="form-control form-control--custom" name="area_as_per_lease_agreement"
                                                         id="area_as_per_lease_agreement" value="" />
-                                                </td>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -445,7 +444,7 @@
                                         <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
                                                 src="{{asset('/img/print-icon.svg')}}"></a>
                                     </div>
-                                    <table class="table mb-0" style="padding-top: 10px;">
+                                    <table class="table mb-0 table--box-input" style="padding-top: 10px;">
                                         <input name="_token" type="hidden" value="" />
                                         <input name="application_id" type="hidden" value="" />
                                         <input name="user_id" type="hidden" value="" />
@@ -481,7 +480,6 @@
                                                 <td class="text-center">
                                                     <input type="text" class="form-control form-control--custom" name="area_as_per_lease_agreement"
                                                         id="area_as_per_lease_agreement" value="" />
-                                                </td>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -771,7 +769,7 @@
                                         <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
                                                 src="{{asset('/img/print-icon.svg')}}"></a>
                                     </div>
-                                    <table class="table mb-0" style="padding-top: 10px;">
+                                    <table class="table mb-0 table--box-input" style="padding-top: 10px;">
                                         <input name="_token" type="hidden" value="" />
                                         <input name="application_id" type="hidden" value="" />
                                         <input name="user_id" type="hidden" value="" />
@@ -808,7 +806,6 @@
                                                 <td class="text-center">
                                                     <input type="text" class="form-control form-control--custom" name="area_as_per_lease_agreement"
                                                         id="area_as_per_lease_agreement" value="[ (tb 1 pt 4 - tb 4 pt 1) * (LR * 7%) ]" />
-                                                </td>
                                                 </td>
                                             </tr>
                                             <tr>

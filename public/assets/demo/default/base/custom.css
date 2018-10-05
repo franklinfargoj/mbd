@@ -1,5 +1,9 @@
 /* theme classes over ride starts here */
 
+.m-subheader .m-subheader__title.m-subheader__title--separator {
+    border-right: 1px solid #949494;
+}
+
 .m-subheader {
     padding: 0;
 }
@@ -876,6 +880,23 @@
     border: 1px solid #f0791b !important;
 }
 
+.table--box-input td .form-control--custom {
+    border: 1px solid #ced4da !important;
+    border-radius: .25rem;
+    color: #575962;
+    font-weight: normal;
+}
+
+.table--box-input td .form-control--custom[readonly],
+.table--box-input td .form-control--custom[readonly]:focus {
+    background-color: #f4f5f8 !important;
+    border-color: #ced4da !important;
+}
+
+.table--box-input td .form-control--custom:focus {
+    border-color: #f0791b !important;
+}
+
 .mdtp__wrapper[data-theme=blue] .mdtp__clock .mdtp__am.active,
 .mdtp__wrapper[data-theme=blue] .mdtp__clock .mdtp__clock_dot,
 .mdtp__wrapper[data-theme=blue] .mdtp__clock .mdtp__pm.active,
@@ -1428,7 +1449,7 @@ label.site-visit-label {
 
 .m-login.m-login--2 .m-login__wrapper .m-login__container.m-login--right-box {
     width: 100%;
-    max-width: 500px;
+    max-width: 450px;
     margin-top: 30px;
 }
 
@@ -1441,7 +1462,8 @@ label.site-visit-label {
 }
 
 .m-login.m-login--2 .m-login__wrapper .m-login__container .m-login__form .m-login__form-sub {
-    margin: 0;
+    margin-top: 0;
+    margin-bottom: 25px;
 }
 
 .logo-wrapper-inner .login-logo {
@@ -1473,7 +1495,8 @@ label.site-visit-label {
 
 .m-login__signin--box {
     padding: 30px 70px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    /* box-shadow: 0 0 10px rgba(0,0,0,0.2); */
+    box-shadow: 2px 3px 14px -1px rgba(0,0,0,0.2)
 }
 
 .m-login__signin--box .fa-refresh {
@@ -1485,7 +1508,8 @@ label.site-visit-label {
 
 .captcha-wrapper {
     display: inline-block;
-    border: 1px solid rgba(0,0,0,0.2);
+    border: 1px solid #9d9d9d;
+    border-right-color: transparent;
     border-top-left-radius: 40px;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
@@ -1497,7 +1521,6 @@ label.site-visit-label {
 #captcha,
 #capture_text {
     width: 50%;
-    height: auto;
     border-top-left-radius: 0;
     border-top-right-radius: 40px;
     border-bottom-right-radius: 40px;
@@ -1588,17 +1611,57 @@ label.site-visit-label {
     margin: 0;
 }
 
+.btn.m-btn--custom {
+    font-size: 1.2rem;
+}
+
 .m-login.m-login--2
     .m-login__wrapper
     .m-login__container
     .m-login__form
     .m-form__group
     .form-control {
+    font-size: 1.2rem;
     height: 45px;
     padding-top: 0;
     padding-bottom: 0;
     background-color: #fff;
-    border: 1px solid rgba(0,0,0,0.2);
+    color: #363636;
+    border: 1px solid #9d9d9d;
+}
+
+.m-login.m-login--2
+    .m-login__wrapper
+    .m-login__container
+    .m-login__form
+    .m-form__group
+    .form-control::-webkit-input-placeholder {
+    color: #363636;
+}
+
+.m-login.m-login--2
+    .m-login__wrapper
+    .m-login__container
+    .m-login__form
+    .m-form__group
+    .form-control::-moz-placeholder {
+    color: #363636;
+}
+.m-login.m-login--2
+    .m-login__wrapper
+    .m-login__container
+    .m-login__form
+    .m-form__group
+    .form-control:-ms-input-placeholder {
+    color: #363636;
+}
+.m-login.m-login--2
+    .m-login__wrapper
+    .m-login__container
+    .m-login__form
+    .m-form__group
+    .form-control:-moz-placeholder {
+    color: #363636;
 }
 
 .m-login.m-login--2
@@ -1716,6 +1779,37 @@ label.site-visit-label {
     top: 50%;
     right: 10px;
     transform: translateY(-50%);
+}
+
+.m-login__btn {
+    height: 45px;
+}
+
+.m-login__forgot {
+    padding-lefT: 25px !important;
+}
+
+.m-login__forgot a {
+    font-size: 0.9rem !important;
+    color: #363636;
+}
+
+.m-login__btn {
+    margin-top: 30px;
+}
+
+.m-login.m-login--2.m-login-2--skin-2 .m-login__container .m-login__account .m-login__account-msg,
+.m-login.m-login--2.m-login-2--skin-2 .m-login__container .m-login__account .m-login__account-link {
+    font-size: 1.2rem;
+    color: #363636;
+}
+
+.m-login.m-login--2.m-login-2--skin-2 .m-login__container .m-login__account .m-login__account-link {
+    font-weight: 600;
+}
+
+.m-login.m-login--2 .m-login__wrapper .m-login__container .m-login__account {
+    margin-top: 20px;
 }
 
 /* Login Page ends here */
