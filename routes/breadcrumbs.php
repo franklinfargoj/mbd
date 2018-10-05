@@ -93,6 +93,16 @@ Breadcrumbs::for('lease_renew', function ($trail,$id) {
 	$trail->push('lease_renew', route('renew-lease.renew',['id'=>$id]));
 });
 
+Breadcrumbs::for('lease_edit', function ($trail,$id,$society_id) {
+    $trail->parent('lease_detail',$id);
+    $trail->push('lease_edit', route('edit-lease.edit',['id'=>$id, 'society_id'=>$society_id]));
+});
+
+Breadcrumbs::for('lease_view', function ($trail,$id,$society_id) {
+    $trail->parent('lease_detail',$id);
+    $trail->push('lease_view', route('view-lease.view',['id'=>$id, 'society_id'=>$society_id]));
+});
+
 // Hearing
 Breadcrumbs::for('Hearing', function ($trail) {
     $trail->push('Hearing', route('hearing.index'));

@@ -89,6 +89,7 @@ class ScheduleHearingController extends Controller
         }
         else
         {
+            // dd($request->input());
             return redirect()->back()->with('error','Please select file to upload');
         }
 

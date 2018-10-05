@@ -48,7 +48,7 @@ class SocietyController extends Controller
             if(count($society_data) == 0){
                 $dataListMaster = [];
                 $dataList = [];
-                $dataList['id'] = '';
+                $dataList['Sr. No.'] = '';
                 $dataList['Society Name'] = '';
                 $dataList['District'] = '';
                 $dataList['Taluka'] = '';
@@ -68,7 +68,7 @@ class SocietyController extends Controller
                 $i=1;
                 foreach ($society_data as $dataList_key => $dataList_value) {
                     $dataList = [];
-                    $dataList['id'] = $i;   
+                    $dataList['Sr. No.'] = $i;   
                     $dataList['Society Name'] = $dataList_value['society_name'];
                     $dataList['District'] = $dataList_value['district'];
                     $dataList['Taluka'] = $dataList_value['taluka'];
@@ -88,7 +88,7 @@ class SocietyController extends Controller
                     $i++;
                 }
             }
-            return view('admin.society_detail.print_data',compact('dataListMaster', 'dataListKeys')); 
+            return view('admin.print_data',compact('dataListMaster', 'dataListKeys')); 
     }
     /**
      * Display a listing of the resource.
