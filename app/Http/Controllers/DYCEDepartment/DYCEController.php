@@ -131,24 +131,27 @@ class DYCEController extends Controller
             'encrochment_verification_comment' => $request->encrochment_comments
             ]);
 
-        $uploadPath      = '/uploads/dyceDocuments';
-        $destinationPath = public_path($uploadPath);
-
         if ($request->file('document')){
             foreach ($request->file('document') as $file){
+                $extension = $file->getClientOriginalExtension();
+                $file_name = time().'site_documents'.'.'.$extension;
 
-                $file_name = time().$file->getFileName().'.'.$file->getClientOriginalExtension();
+                if($extension == "pdf"){
 
-                if($file->move($destinationPath, $file_name))
-                {
-                    $fileData[] = array('document_path' => $uploadPath.'/'.$file_name, 
+                    $folder_name = "dyceDocuments";
+                    $path = $folder_name."/".$file_name;  
+                    $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$file,$file_name);      
+
+                    $fileData[] = array('document_path' => $path, 
                         'application_id' => $applicationId,
                         'user_id' => Auth::Id());
+                    $data = olSiteVisitDocuments::insert($fileData);            
+                }else{
+                    return back()->with('error','Invalid type of file uploaded (only pdf allowed)'); 
                 }
             }
-            $data = olSiteVisitDocuments::insert($fileData);            
         }
-        return redirect('/dyce'); 
+        return redirect('/dyce')->with('success','Data Submitted Successfully.'); 
     } 
 
     // society and EE documents
@@ -197,7 +200,7 @@ class DYCEController extends Controller
 
         $this->CommonController->forwardApplicationForm($request);
 
-        return redirect('/dyce');
+        return redirect('/dyce')->with('success','Application send Successfully.');;
 
     } 
 }

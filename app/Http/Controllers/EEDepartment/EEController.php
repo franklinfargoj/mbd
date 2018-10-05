@@ -251,7 +251,7 @@ class EEController extends Controller
             OlApplicationStatus::insert($revert_application);
         }
 
-        return redirect('/ee');
+        return redirect('/ee')->with('success','Application send successfully.');
 
         // insert into ol_application_status_log table
     }
@@ -306,7 +306,7 @@ class EEController extends Controller
         $arrData['eeNote'] = EENote::where('application_id', $application_id)->orderBy('id', 'desc')->first();
 
         // Get Application last Status
-
+        // dd($arrData);
         $arrData['get_last_status'] = OlApplicationStatus::where([
                 'application_id' =>  $application_id,
                 'user_id' => Auth::user()->id,
@@ -318,9 +318,6 @@ class EEController extends Controller
 
     public function addDocumentScrutiny(Request $request)
     {
-        $uploadPath = '/uploads/EE_document_path';
-        $destinationPath = public_path($uploadPath);
-
         $document_status = OlSocietyDocumentsStatus::find($request->document_status_id);
         $ee_document_scrutiny = [
             'comment_by_EE' => $request->remark,
@@ -332,12 +329,13 @@ class EEController extends Controller
             $file = $request->file('EE_document_path');
 
             if ($extension == "pdf") {
+
+                $folder_name = "EE_document_path";
                 $name = 'ee_note_' . $time . '.' . $extension;
-//                $path = Storage::putFileAs('/EE_document_path', $request->file('EE_document'), $name, 'public');
-                if($file->move($destinationPath, $name))
-                {
-                    $ee_document_scrutiny['EE_document_path'] = $uploadPath.'/'.$name;
-                }
+                $path = $folder_name."/".$name;
+
+                $fileUpload = $this->comman->ftpFileUpload($folder_name,$request->file('EE_document_path'),$name);
+                $ee_document_scrutiny['EE_document_path'] = $path;
             } else {
                 return redirect()->back()->with('error','Invalid type of file uploaded (only pdf allowed)');
             }
@@ -365,23 +363,20 @@ class EEController extends Controller
             'comment_by_EE' => $request->comment_by_EE,
         ];
 
-        $uploadPath = '/uploads/EE_document_path';
-        $destinationPath = public_path($uploadPath);
-        // dd($request->file('document_name'));
-
         $time = time();
+
         if($request->hasFile('EE_document')) {
             $extension = $request->file('EE_document')->getClientOriginalExtension();
             $file = $request->file('EE_document');
 
             if ($extension == "pdf") {
-                unlink(public_path($request->oldFileName));
+                Storage::disk('ftp')->delete($request->oldFileName);
                 $name = 'ee_note_' . $time . '.' . $extension;
-//                $path = Storage::putFileAs('/EE_document_path', $request->file('EE_document'), $name, 'public');
-                if($file->move($destinationPath, $name))
-                {
-                    $ee_document_scrutiny['EE_document_path'] = $uploadPath.'/'.$name;
-                }
+                $folder_name = "EE_document_path";
+                $Filepath = $folder_name."/".$name;
+
+                $fileUpload1 = $this->comman->ftpFileUpload($folder_name,$request->file('EE_document'),$name);                
+                $fileUpload = $ee_document_scrutiny['EE_document_path'] = $Filepath;
             } else {
                 return redirect()->back()->with('error','Invalid type of file uploaded (only pdf allowed)');
             }
@@ -442,9 +437,9 @@ class EEController extends Controller
             $ee_consent_verification[] = [
                 'application_id' => $request->application_id,
                 'user_id' => Auth::user()->id,
-                'question_id' => $request->question_id[$key],
-                'answer' => $request->answer[$key],
-                'remark' => $request->remark[$key]
+                'question_id' => isset($request->question_id[$key]) ? $request->question_id[$key] : NULL,
+                'answer' => isset($request->answer[$key]) ? $request->answer[$key] : NULL,
+                'remark' => isset($request->remark[$key]) ? $request->remark[$key] : NULL
             ];
         }
         // insert into ol_consent_verification_details table
@@ -477,9 +472,9 @@ class EEController extends Controller
             $ee_demarcation[] = [
                 'application_id' => $request->application_id,
                 'user_id' => Auth::user()->id,
-                'question_id' => $request->question_id[$key],
-                'answer' => $request->answer[$key],
-                'remark' => $request->remark[$key]
+                'question_id' => isset($request->question_id[$key]) ? $request->question_id[$key] : NULL,
+                'answer' => isset($request->answer[$key]) ? $request->answer[$key] : NULL,
+                'remark' => isset($request->remark[$key]) ? $request->remark[$key] : NULL
             ];
         }
 
@@ -511,9 +506,9 @@ class EEController extends Controller
             $ee_tit_bit[] = [
                 'application_id' => $request->application_id,
                 'user_id' => Auth::user()->id,
-                'question_id' => $request->question_id[$key],
-                'answer' => $request->answer[$key],
-                'remark' => $request->remark[$key]
+                'question_id' => isset($request->question_id[$key]) ? $request->question_id[$key] : NULL,
+                'answer' => isset($request->answer[$key]) ? $request->answer[$key] : NULL,
+                'remark' => isset($request->remark[$key]) ? $request->remark[$key] : NULL
             ];
         }
 
@@ -545,9 +540,9 @@ class EEController extends Controller
             $rg_relocation[] = [
                 'application_id' => $request->application_id,
                 'user_id' => Auth::user()->id,
-                'question_id' => $request->question_id[$key],
-                'answer' => $request->answer[$key],
-                'remark' => $request->remark[$key]
+                'question_id' => isset($request->question_id[$key]) ? $request->question_id[$key] : NULL,
+                'answer' => isset($request->answer[$key]) ? $request->answer[$key] : NULL,
+                'remark' => isset($request->remark[$key]) ? $request->remark[$key] : NULL
             ];
         }
 
@@ -564,22 +559,26 @@ class EEController extends Controller
         if ($request->file('ee_note')){
 
             $file = $request->file('ee_note');
-            $file_name = time().'ee_note.'.$file->getClientOriginalExtension();
             $extension = $file->getClientOriginalExtension();
+            $file_name = time().'ee_note.'.$extension;
+            $folder_name = "ee_note";
+            $path = $folder_name."/".$file_name;
 
             if($extension == "pdf") {
-                if ($file->move($destinationPath, $file_name)) {
-                    $fileData[] = array('document_path' => $uploadPath . '/' . $file_name,
+
+                $fileUpload = $this->comman->ftpFileUpload($folder_name,$request->file('ee_note'),$file_name);
+
+                    $fileData[] = array('document_path' => $path,
                         'application_id' => $applicationId,
                         'user_id' => Auth::user()->id,
                         'role_id' => session()->get('role_id'));
-                }
+
                 $data = EENote::insert($fileData);
-                return back()->with('success', 'EE Note uploaded successfully');
+                return redirect('/ee')->with('success', 'EE Note uploaded successfully');
             }
             else
             {
-                return back()->with('error', 'Only pdf allowed');
+                return back()->with('error', 'Invalid type of file uploaded (only pdf allowed).');
             }
         }
     }
