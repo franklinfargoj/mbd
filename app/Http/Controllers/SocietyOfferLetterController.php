@@ -280,7 +280,7 @@ class SocietyOfferLetterController extends Controller
                     return $ol_applications->ol_application_master->title;
                 })
                 ->editColumn('created_at', function ($ol_applications) {
-                    return $ol_applications->created_at;
+                    return date('d-m-Y h:i:s', strtotime($ol_applications->created_at));
                 })
                 ->editColumn('status', function ($ol_applications) {
                     $status = explode('_', array_keys(config('commanConfig.applicationStatus'), $ol_applications->olApplicationStatus[0]->status_id)[0]);
