@@ -1,6 +1,12 @@
 @extends('admin.layouts.app')
 @section('content')
 
+@if(session()->has('error'))
+    <div class="alert alert-success display_msg">
+        {{ session()->get('error') }}
+    </div>  
+@endif
+
     <div class="custom-wrapper">
         <div class="col-md-12">
             <div id="tabbed-content" class="">
@@ -222,13 +228,14 @@
                                                                                                 <label class="custom-file-label" for="EE_document_path_{{ $i }}">Choose
                                                                                                     file...</label>
                                                                                             </div>
+                                                                                            <span class="text-danger" id="file_error_{{ $i }}"> </span>
                                                                                             {{--<div class="mt-auto">
-                                                                                                <button type="submit" class="btn btn-primary btn-custom"
+                                                                                                <button type="submit" id="btn_{{ $i }}" class="btn btn-primary btn-custom"
                                                                                                         id="uploadBtn">Upload</button>
                                                                                             </div>--}}
                                                                                         </div>
                                                                                         <div class="modal-footer">
-                                                                                            <button type="submit" class="btn btn-primary">Save</button>
+                                                                                            <button type="submit" class="btn btn-primary submt_btn" id="submitBtn_{{ $i }}">Save</button>
                                                                                             <button type="button" class="btn btn-secondary"
                                                                                                     data-dismiss="modal">Cancel</button>
                                                                                         </div>
@@ -257,19 +264,28 @@
                                                                                                     <textarea class="form-control form-control--custom"
                                                                                                               name="comment_by_EE" id="comment_by_EE_{{ $i }}" cols="30" rows="5"></textarea>
                                                                                                 </div>
-                                                                                                <div class="custom-file">
-                                                                                                    <input class="custom-file-input" name="EE_document" type="file"
-                                                                                                           id="EE_document_{{ $i }}">
-                                                                                                    <label class="custom-file-label" for="EE_document_{{ $i }}">Choose
+<!--                                                                                                 <div class="custom-file">
+                                                                                                    <input class="custom-file-input" name="EE_document_path" type="file"
+                                                                                                           id="EE_document_path_{{ $i }}">
+                                                                                                    <label class="custom-file-label" for="EE_document_path_{{ $i }}">Choose
                                                                                                         file...</label>
-                                                                                                </div>
+                                                                                                </div> -->
+
+                                                                                                <div class="custom-file">
+                                                                                                <input class="custom-file-input" name="EE_document" type="file"
+                                                                                                       id="EE_document_{{ $i }}" required="">
+                                                                                                <label class="custom-file-label" for="EE_document_{{ $i }}">Choose
+                                                                                                    file...</label>
+                                                                                            </div>
+
+                                                                                                <span class="text-danger" id="edit_file_error_{{ $i }}"></span>
                                                                                                 {{--<div class="mt-auto">
                                                                                                     <button type="submit" class="btn btn-primary btn-custom"
                                                                                                             id="uploadBtn">Upload</button>
                                                                                                 </div>--}}
                                                                                             </div>
                                                                                             <div class="modal-footer">
-                                                                                                <button type="submit" class="btn btn-primary">Save</button>
+                                                                                                <button type="submit" class="btn btn-primary edit_btn" id="editBtn_{{ $i }}">Save</button>
                                                                                                 <button type="button" class="btn btn-secondary"
                                                                                                         data-dismiss="modal">Cancel</button>
                                                                                             </div>
@@ -451,7 +467,7 @@
                                                                         <td>{{ $consent_question->question }}</td>
                                                                         <td>
                                                                             <label class="m-radio m-radio--primary">
-                                                                                <input {{$disabled}} type="radio" name="answer[{{$i}}]" value="1" {{ (isset($arrData['consent_verification_details_data'][$consent_question->id]) && $arrData['consent_verification_details_data'][$consent_question->id]['answer'] == 1) ? 'checked' : 'checked' }}>
+                                                                                <input {{$disabled}} type="radio" name="answer[{{$i}}]" value="1" {{ (isset($arrData['consent_verification_details_data'][$consent_question->id]) && $arrData['consent_verification_details_data'][$consent_question->id]['answer'] == 1) ? 'checked' : '' }}>
                                                                                 <span></span>
                                                                             </label>
                                                                         </td>
@@ -571,7 +587,7 @@
                                                                         <td>{{ $demarcation_question->question }}</td>
                                                                         <td>
                                                                             <label class="m-radio m-radio--primary">
-                                                                                <input {{$disabled}} type="radio" name="answer[{{ $i }}]" value="1" {{ (isset($arrData['demarcation_details_data'][$demarcation_question->id]) && $arrData['demarcation_details_data'][$demarcation_question->id]['answer'] == 1) ? 'checked' : 'checked' }}>
+                                                                                <input {{$disabled}} type="radio" name="answer[{{ $i }}]" value="1" {{ (isset($arrData['demarcation_details_data'][$demarcation_question->id]) && $arrData['demarcation_details_data'][$demarcation_question->id]['answer'] == 1) ? 'checked' : '' }}>
                                                                                 <span></span>
                                                                             </label>
                                                                         </td>
@@ -692,7 +708,7 @@
                                                                         <td>{{ $tit_bit->question }}</td>
                                                                         <td>
                                                                             <label class="m-radio m-radio--primary">
-                                                                                <input {{$disabled}} type="radio" name="answer[{{ $i }}]" value="1" {{ (isset($arrData['tit_bit_details_data'][$tit_bit->id]) && $arrData['tit_bit_details_data'][$tit_bit->id]['answer'] == 1) ? 'checked' : 'checked' }}>
+                                                                                <input {{$disabled}} type="radio" name="answer[{{ $i }}]" value="1" {{ (isset($arrData['tit_bit_details_data'][$tit_bit->id]) && $arrData['tit_bit_details_data'][$tit_bit->id]['answer'] == 1) ? 'checked' : '' }}>
                                                                                 <span></span>
                                                                             </label>
                                                                         </td>
@@ -789,7 +805,7 @@
                                                                         <td>{{ $rg_question->question }}</td>
                                                                         <td>
                                                                             <label class="m-radio m-radio--primary">
-                                                                                <input {{$disabled}} type="radio" name="answer[{{ $i }}]" value="1" {{ (isset($arrData['rg_details_data'][$rg_question->id]) && $arrData['rg_details_data'][$rg_question->id]['answer'] == 1) ? 'checked' : 'checked' }}>
+                                                                                <input {{$disabled}} type="radio" name="answer[{{ $i }}]" value="1" {{ (isset($arrData['rg_details_data'][$rg_question->id]) && $arrData['rg_details_data'][$rg_question->id]['answer'] == 1) ? 'checked' : '' }}>
                                                                                 <span></span>
                                                                             </label>
                                                                         </td>
@@ -850,9 +866,13 @@
                                                                     <span class="hint-text">Download EE Note uploaded by
                                                                     EE</span>
                                                                     <div class="mt-auto">
+                                                                    
                                                                     @if(isset($arrData['eeNote']->document_path))
-                                                                        <a href="{{ asset($arrData['eeNote']->document_path)}}">
-                                                                        <button class="btn btn-primary">Download offer Letter Application</button>
+
+                                                                        <a download href="{{ config('commanConfig.storage_server').'/'.$arrData['eeNote']->document_path}} ">
+                                                                        <button class="btn btn-primary">
+
+                                                                        Download EE Note Format</button>
                                                                         </a>
                                                                     @else
                                                                         <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
@@ -879,8 +899,9 @@
                                                                             <label class="custom-file-label" for="test-upload">Choose
                                                                                 file...</label>
                                                                         </div>
+                                                                        <span class="text-danger" id="file_error"></span>
                                                                         <div class="mt-auto">
-                                                                            <button type="submit" style="{{ $style }}" class="btn btn-primary btn-custom"
+                                                                            <button type="submit" style="{{ $style }}" class="btn btn-primary btn-custom upload_note"
                                                                                     id="uploadBtn">Upload</button>
                                                                         </div>
                                                                     </form>
@@ -928,6 +949,70 @@
 
         $("#demarcation_date, #tit_bit_date").datepicker();
 
+        $(".submt_btn").click(function(){
+            var id = this.id.substr(10,2);
+            console.log(id);
+            myfile = $("#EE_document_path_"+id).val();
+            var ext = myfile.split('.').pop();      
+            console.log(ext);
+          if (myfile != ''){                      
+              if (ext != "pdf"){
+                $("#file_error_"+id).text("Invalid type of file uploaded (only pdf allowed).");
+                return false;
+              }
+              else{
+                $("#file_error_"+id).text("");
+                return true;
+              }      
+          }else{
+            $("#file_error_"+id).text("This field required");
+            return false;
+          }
+        });
+
+        $(".edit_btn").click(function(){
+            var id = this.id.substr(8,2);
+            console.log(id);
+            myfile = $("#EE_document_"+id).val();
+            var ext = myfile.split('.').pop();      
+            console.log(ext);
+          if (myfile != ''){                      
+              if (ext != "pdf"){
+                $("#edit_file_error_"+id).text("Invalid type of file uploaded (only pdf allowed).");
+                return false;
+              }
+              else{
+                $("#edit_file_error_"+id).text("");
+                return true;
+              }      
+          }else{
+            $("#edit_file_error_"+id).text("This field required");
+            return false;
+          }
+        });  
+
+    $(".upload_note").click(function(){
+      myfile = $("#test-upload").val();
+      var ext = myfile.split('.').pop();      
+      if (myfile != ''){        
+          
+          if (ext != "pdf"){
+            $("#file_error").text("Invalid type of file uploaded (only pdf allowed).");
+            return false;
+          }
+          else{
+            $("#file_error").text("");
+            return true;
+          }      
+      }else{
+        $("#file_error").text("This field required");
+        return false;
+      }
+    });
+
+    $(document).ready(function(){
+        $(".display_msg").delay(1000).slideUp(300);
+    });              
 
     </script>
 @endsection

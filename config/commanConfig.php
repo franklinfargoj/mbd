@@ -23,13 +23,30 @@ return [
     'dyce_branch_head' => 'dyce_engineer',
     'ree_branch_head'  => 'ree_engineer',
 
+    'junior_architect'=>'junior_architect',
+    'senior_architect'=>'senior_architect',
+    'architect'=>'architect',
+
+    'selection_commitee'=>'selection_commitee',
 
     'applicationStatus' => [
         'in_process' => 1,
         'forwarded' => 2,
         'reverted' => 3,
         'pending' => 4,
+        'offer_letter_generation' => 5,
+        'offer_letter_approved' => 6,
+        'sent_to_society' => 7
     ],
+   
+    'architect_applicationStatus' => [
+        'new_application' => 1,
+        'scrutiny_pending' => 2,
+        'forward' => 3,
+        'shortListed' => 4,
+        'final' => 5
+    ],
+
     'ee_junior_engineer' => 'ee_junior_engineer',
 
     'society_offer_letter' => 'society',

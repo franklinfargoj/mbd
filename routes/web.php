@@ -215,7 +215,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
 
 
-    Route::resource('/ol_calculation_sheet', 'REEDepartment\OlApplicationCalculationSheetDetailsController');
+    // Route::resource('/ol_calculation_sheet', 'REEDepartment\OlApplicationCalculationSheetDetailsController');
     Route::post('ol_calculation_sheet/save_details','REEDepartment\OlApplicationCalculationSheetDetailsController@saveCalculationDetails')->name('save_calculation_details');
 
     Route::resource('/ol_sharing_calculation_sheet', 'REEDepartment\OlSharingCalculationSheetDetailsController');
@@ -284,22 +284,24 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
    
     //Society Offer Letter END
 
-
+    //architect Module
+    Route::get('architect_application','ArchitectApplicationController@index')->name('architect_application');
+    Route::get('shortlisted_architect_application','ArchitectApplicationController@shortlistedIndex')->name('shortlisted_architect_application');
+    Route::get('final_architect_application','ArchitectApplicationController@finalIndex')->name('final_architect_application');
+    Route::get('view_architect_application/{id}','ArchitectApplicationController@viewApplication')->name('view_architect_application');
+    Route::get('evaluate_architect_application/{id}','ArchitectApplicationController@evaluateApplication')->name('evaluate_architect_application');
+    Route::post('save_evaluate_marks','ArchitectApplicationController@saveEvaluateMarks')->name('save_evaluate_marks');
+    Route::get('generate_certificate/{id}','ArchitectApplicationController@getGenerateCertificate')->name('generate_certificate');
+    Route::get('forward_application/{id}','ArchitectApplicationController@getForwardApplication')->name('forward_application');
+    Route::post('post_forward_application','ArchitectApplicationController@forward_application')->name('post_forward_application');
+    Route::get('finalCertificateGenerate/{id}','ArchitectApplicationController@getFinalCertificateGenerate')->name('finalCertificateGenerate');
+    Route::get('tempCertificateGenerate/{id}','ArchitectApplicationController@getTempCertificateGenerate')->name('tempCertificateGenerate');
+    Route::post('finalCertificateGenerate','ArchitectApplicationController@postFinalCertificateGenerate')->name('architect.post_final_signed_certificate');
+    Route::get('architect_edit_certificate/{id}','ArchitectApplicationController@edit_certificate')->name('architect.edit_certificate');
+    Route::post('architect_update_certificate','ArchitectApplicationController@update_certificate')->name('architect.update_certificate');
+    //architect module end
+    
 });
-
-
-Route::get('architect_application','ArchitectApplicationController@index')->name('architect_application');
-Route::get('shortlisted_architect_application','ArchitectApplicationController@shortlistedIndex')->name('shortlisted_architect_application');
-Route::get('final_architect_application','ArchitectApplicationController@finalIndex')->name('final_architect_application');
-Route::get('view_architect_application/{id}','ArchitectApplicationController@viewApplication')->name('view_architect_application');
-Route::get('evaluate_architect_application/{id}','ArchitectApplicationController@evaluateApplication')->name('evaluate_architect_application');
-Route::post('save_evaluate_marks','ArchitectApplicationController@saveEvaluateMarks')->name('save_evaluate_marks');
-Route::get('generate_certificate/{id}','ArchitectApplicationController@getGenerateCertificate')->name('generate_certificate');
-Route::get('forward_application/{id}','ArchitectApplicationController@getForwardApplication')->name('forward_application');
-Route::get('finalCertificateGenerate/{id}','ArchitectApplicationController@getFinalCertificateGenerate')->name('finalCertificateGenerate');
-Route::get('tempCertificateGenerate/{id}','ArchitectApplicationController@getTempCertificateGenerate')->name('tempCertificateGenerate');
-Route::post('finalCertificateGenerate','ArchitectApplicationController@postFinalCertificateGenerate')->name('finalCertificateGenerate');
-
 
 // Route::get('refresh_captcha','SocietyOfferLetterController@RefreshCaptcha')->name('refresh_captcha');
 
@@ -334,5 +336,12 @@ Route::post('save_offer_letter', 'REEDepartment\REEController@saveOfferLetter')-
 Route::post('upload_offer_letter/{id}', 'REEDepartment\REEController@uploadOfferLetter')->name('ree.upload_offer_letter');
 
 Route::get('approve_offer_letter/{id}','CODepartment\COController@approveOfferLetter')->name('co.approve_offer_letter');
+Route::post('send_approved_offer_letter','CODepartment\COController@approvedOfferLetter')->name('co.send_approved_offer_letter');
+Route::post('send_for_approval','REEDepartment\REEController@sendForApproval')->name('ree.send_for_approval');
+Route::post('send_letter_society','REEDepartment\REEController@sendOfferLetterToSociety')->name('ree.send_letter_society');
+
+Route::get('calculation_sheet/{id}','Common\CommonController@showCalculationSheet')->name('show_calculation_sheet');
+
+Route::resource('/ol_calculation_sheet', 'REEDepartment\OlApplicationCalculationSheetDetailsController');
 
 

@@ -13,7 +13,7 @@
                 <div class="m-grid__item m-grid__item--fluid m-login__wrapper">
                     <div class="d-flex flex-wrap">
                         <div class="text-center w-100 m-login--left-box">
-                            <h4 class="text-uppercase">MUMBAI HOUSING AND AREA DEVELOPMENT BOARD</h4>
+                            <h4 class="text-uppercase">Mumbai Housing and Area Development Board</h4>
                         </div>
                         <div class="m-login__container m-login--right-box">
                             <div class="m-login__signin m-login__signin--box">
@@ -27,11 +27,16 @@
                                             <div class="text-center">{{ session('registered') }}</div>
                                         </div>
                                         @endif
+                                        @if (session('error'))
+                                        <div class="alert alert-danger">
+                                            <div class="text-center">{{ session('error') }}</div>
+                                        </div>
+                                        @endif
                                     </p>
                                 </div>
                                 @if(count($errors) > 0)
                                 @foreach($errors as $error )
-                                    {{ $error }}
+                                {{ $error }}
                                 @endforeach
                                 @endif
                                 @if($errors->any() && !$errors->has('capture_text'))
@@ -39,7 +44,8 @@
                                     <strong>{{$errors->first()}}</strong>
                                 </div>
                                 @endif
-                                <form class="m-login__form m-form" id="sign_in_form" name="sign_in_form" method="post" action="{{route('loginUser')}}">
+                                <form class="m-login__form m-form" id="sign_in_form" name="sign_in_form" method="post"
+                                    action="{{route('loginUser')}}">
                                     @csrf
                                     <div class="form-group m-form__group">
                                         <!-- <label for="" class="col-form-label">Email Address</label> -->
@@ -51,33 +57,32 @@
                                         <input class="form-control m-input" type="password" placeholder="Password" name="password"
                                             autocomplete="off">
                                     </div>
+                                    <div class="m-login__form-sub m-login__forgot">
+                                        <a href="{{ route('password.request') }}" class="m-link text-dark">
+                                            Forgot Password ?
+                                        </a>
+                                    </div>
                                     <div class="form-group m-form__group" style="margin-top: 16px;">
-                                        <div class="d-flex align-items-center position-relative justify-content-between">
+                                        <div class="d-flex position-relative justify-content-between">
                                             {{--<span class="captcha_img" style="padding: 19px;"> {!! captcha_img() !!}</span>--}}
                                             <span class="captcha-wrapper"> <img id="captcha_img" src="{{URL::to('captcha')}}"></span>
-                                            {{--<i class="fa fa-refresh btn_refresh" title="Recapture" aria-hidden="true" style="font-size: 24px;cursor: pointer;"></i>--}}
-                                                <i class="fa fa-refresh" onclick="document.getElementById('captcha_img').src='{{ URL::to('captcha') }}'; return false"
-                                                    title="Recapture" aria-hidden="true" style="font-size: 24px;cursor: pointer;"></i>
+                                            {{--<i class="fa fa-refresh btn_refresh" title="Recapture" aria-hidden="true"
+                                                style="font-size: 24px;cursor: pointer;"></i>--}}
+                                            <i class="fa fa-refresh" onclick="document.getElementById('captcha_img').src='{{ URL::to('captcha') }}'; return false"
+                                                title="Recapture" aria-hidden="true" style="font-size: 24px;cursor: pointer;"></i>
 
-                                            <input type="text" id="capture_text" class="form-control mt-0 ml-3" name="captcha" placeholder="Captcha">
+                                            <input type="text" id="capture_text" class="form-control mt-0" name="captcha"
+                                                placeholder="Captcha">
                                             @if($errors->has('capture_text'))
-                                            <span class="help-block captcha-input-error" style="color: red;">Invalid captcha</span>
+                                            <span class="help-block captcha-input-error" style="color: red;">Invalid
+                                                captcha</span>
                                         </div>
                                         @endif
                                     </div>
                                     <div class="d-flex align-items-center justify-content-between m-login__form-action">
-                                        <div class="m-login__form-sub">
-                                            <div class="m--align-right m-login__form-right">
-                                                <a href="{{ route('password.request') }}"  class="m-link text-dark">
-                                                    Forgot Password ?
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div class="">
-                                            <button id="m_login_signin_submit" class="btn btn-primary m-btn m-btn--pill m-btn--custom m-login__btn m-login__btn--primary">
-                                                Sign In
-                                            </button>
-                                        </div>
+                                        <button id="m_login_signin_submit" class="btn btn-block btn-primary m-btn m-btn--pill m-btn--custom m-login__btn m-login__btn--primary">
+                                            Sign In
+                                        </button>
                                     </div>
                                 </form>
                             </div>
@@ -87,11 +92,13 @@
                                         Forgotten Password ?
                                     </h1>
                                 </div>
-                                <form class='m-login__form m-form' id='society_forgot_password_form' method="post" action="{{ route('society_offer_letter_forgot_password') }}">
+                                <form class='m-login__form m-form' id='society_forgot_password_form' method="post"
+                                    action="{{ route('society_offer_letter_forgot_password') }}">
                                     @csrf
                                     <div class="form-group m-form__group">
                                         <!-- <label for="" class="col-form-label">Enter your email to reset your password :</label> -->
-                                        <input class="form-control m-input" type="email" placeholder="Email Address" name="society_email">
+                                        <input class="form-control m-input" type="email" placeholder="Email Address"
+                                            name="society_email">
                                     </div>
                                     <div class="m-login__form-action">
                                         <button id="m_login_forget_password_submit_society_offer_letter" class="btn primaryfocus m-btn m-btn--pill m-btn--custom m-login__btn m-login__btn--primaryr">
@@ -108,7 +115,8 @@
                                 <span class="m-login__account-msg">
                                     Don't have an account yet ?
                                 </span>
-                                <a href="{{ route('society_offer_letter.create') }}" id="" class="m-link m-link--light m-login__account-link">
+                                <br>
+                                <a href="{{ route('society_offer_letter.create') }}" id="" class="m-link m-link--light m-login__account-link mt-1">
                                     Sign Up
                                 </a>
                             </div>
@@ -118,6 +126,6 @@
             </div>
         </div>
     </div>
-    
+
 </div>
 @endsection

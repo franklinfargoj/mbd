@@ -165,6 +165,32 @@
             </li>
             @endif
 
+            @if(in_array('architect_application', session()->get('permission')) || in_array('view_architect_application',
+            session()->get('permission')) || in_array('evaluate_architect_application', session()->get('permission')) ||
+            in_array('shortlisted_architect_application', session()->get('permission')) || in_array('final_architect_application',
+            session()->get('permission')) || in_array('save_evaluate_marks', session()->get('permission')) ||
+            in_array('generate_certificate', session()->get('permission')) ||
+            in_array('forward_application', session()->get('permission')) ||
+            in_array('finalCertificateGenerate', session()->get('permission')) ||
+            in_array('tempCertificateGenerate', session()->get('permission')) ||
+            in_array('postfinalCertificateGenerate', session()->get('permission')) ||
+            in_array('architect.edit_certificate', session()->get('permission')) ||
+            in_array('architect.update_certificate', session()->get('permission'))||
+            in_array('architect.post_final_signed_certificate', session()->get('permission')))
+            <li class="m-menu__item m-menu__item--active" aria-haspopup="true">
+                <a href="{{ url(session()->get('redirect_to')) }}" class="m-menu__link ">
+                    <i class="m-menu__link-icon flaticon-line-graph"></i>
+                    <span class="m-menu__link-title">
+                        <span class="m-menu__link-wrap">
+                            <span class="m-menu__link-text">
+                                Architect Applications
+                            </span>
+                        </span>
+                    </span>
+                </a>
+            </li>
+            @endif
+
             <!-- <li class="m-menu__item m-menu__item--active" aria-haspopup="true">
                     <a href="{{ route('society_offer_letter_dashboard') }}" class="m-menu__link ">
                         <i class="m-menu__link-icon flaticon-line-graph"></i>

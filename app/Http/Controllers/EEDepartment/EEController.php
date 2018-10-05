@@ -95,7 +95,7 @@ class EEController extends Controller
 
                 })
                 ->editColumn('submitted_at', function ($listArray) {
-                    return date(config('commanConfig.dateFormat', strtotime($listArray->submitted_at)));
+                    return date(config('commanConfig.dateFormat'), strtotime($listArray->submitted_at));
                 })
                 ->editColumn('actions', function ($ee_application_data) use($request) {
                     return view('admin.ee_department.actions', compact('ee_application_data', 'request'))->render();
@@ -119,16 +119,10 @@ class EEController extends Controller
         ];
     }
 
-    public function documentSubmittedBySociety($society_id)
+    public function documentSubmittedBySociety($applicationId)
     {
-        $application_id = OlApplication::where('society_id', $society_id)->value('application_master_id');
-        $arrData['society_document'] = OlSocietyDocumentsMaster::where('application_id', $application_id)->get();
-
-        $document_status_data = SocietyOfferLetter::with('societyDocuments')->where('id', $society_id)->first();
-
-        $arrData['society_document_data'] = array_get($document_status_data,'societyDocuments')->keyBy('document_id')->toArray();
-
-        return view('admin.ee_department.documentSubmitted', compact('arrData'));
+        $societyDocument = $this->comman->getSocietyEEDocuments($applicationId);
+        return view('admin.ee_department.documentSubmitted', compact('societyDocument'));
     }
 
     public function getForwardApplicationForm($application_id){
@@ -137,11 +131,27 @@ class EEController extends Controller
         $parentData = $this->comman->getForwardApplicationParentData();
         $arrData['parentData'] = $parentData['parentData'];
         $arrData['role_name'] = $parentData['role_name'];
-        $arrData['application_status'] = $this->comman->getCurrentApplicationStatus($application_id);
+//        $arrData['application_status'] = $this->comman->getCurrentApplicationStatus($application_id);
 
+
+        if(session()->get('role_name') != config('commanConfig.ee_junior_engineer')) {
+            $child_role_id = Role::where('id', session()->get('role_id'))->get(['child_id']);
+            $result = json_decode($child_role_id[0]->child_id);
+            $status_user = OlApplicationStatus::where(['application_id' => $application_id])->pluck('user_id')->toArray();
+
+            $final_child = User::with('roles')->whereIn('id', array_unique($status_user))->whereIn('role_id', $result)->get();
+
+            $arrData['application_status'] = $final_child;
+        }
+
+//        dd($arrData['application_status']);
         // DyCE Junior Forward Application
         $dyce_role_id = Role::where('name', '=', config('commanConfig.dyce_jr_user'))->first();
-        $arrData['get_forward_dyce'] = User::where('role_id', $dyce_role_id->id)->get();
+
+        $arrData['get_forward_dyce'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
+                                                ->where('lu.layout_id', session()->get('layout_id'))
+                                                ->where('role_id', $dyce_role_id->id)->get();
+
         $arrData['dyce_role_name'] = strtoupper(str_replace('_', ' ', $dyce_role_id->name));
 
         return view('admin.ee_department.forward-application', compact('arrData'));
@@ -161,16 +171,16 @@ class EEController extends Controller
                 'created_at' => Carbon::now()
             ],
 
-                [
-                    'application_id' => $request->application_id,
-                    'user_id' => $request->to_user_id,
-                    'role_id' => $request->to_role_id,
-                    'status_id' => config('commanConfig.applicationStatus.in_process'),
-                    'to_user_id' => NULL,
-                    'to_role_id' => NULL,
-                    'remark' => $request->remark,
-                    'created_at' => Carbon::now()
-                ]
+            [
+                'application_id' => $request->application_id,
+                'user_id' => $request->to_user_id,
+                'role_id' => $request->to_role_id,
+                'status_id' => config('commanConfig.applicationStatus.in_process'),
+                'to_user_id' => NULL,
+                'to_role_id' => NULL,
+                'remark' => $request->remark,
+                'created_at' => Carbon::now()
+            ]
             ];
 
 //            echo "in forward";
@@ -178,7 +188,7 @@ class EEController extends Controller
             OlApplicationStatus::insert($forward_application);
         }
         else{
-            if(session()->get('role_name') == config('commanConfig.ee_junior_engineer'))
+            /*if(session()->get('role_name') == config('commanConfig.ee_junior_engineer'))
             {
                 $society_user_data = OlApplicationStatus::where('application_id', $request->application_id)
                                                         ->where('society_flag', 1)
@@ -210,23 +220,23 @@ class EEController extends Controller
                 ];
             }
             else
-            {
+            {*/
                 $revert_application = [
                     [
                         'application_id' => $request->application_id,
                         'user_id' => Auth::user()->id,
                         'role_id' => session()->get('role_id'),
                         'status_id' => config('commanConfig.applicationStatus.reverted'),
-                        'to_user_id' => $request->user_id,
-                        'to_role_id' => $request->role_id,
+                        'to_user_id' => $request->to_child_id,
+                        'to_role_id' => $request->to_role_id,
                         'remark' => $request->remark,
                         'created_at' => Carbon::now()
                     ],
 
                     [
                         'application_id' => $request->application_id,
-                        'user_id' => $request->user_id,
-                        'role_id' => $request->role_id,
+                        'user_id' => $request->to_child_id,
+                        'role_id' => $request->to_role_id,
                         'status_id' => config('commanConfig.applicationStatus.in_process'),
                         'to_user_id' => NULL,
                         'to_role_id' => NULL,
@@ -234,14 +244,14 @@ class EEController extends Controller
                         'created_at' => Carbon::now()
                     ]
                 ];
-            }
+//            }
 
 //            echo "in revert";
 //            dd($revert_application);
             OlApplicationStatus::insert($revert_application);
         }
 
-        return redirect('/ee');
+        return redirect('/ee')->with('success','Application send successfully.');
 
         // insert into ol_application_status_log table
     }
@@ -296,7 +306,7 @@ class EEController extends Controller
         $arrData['eeNote'] = EENote::where('application_id', $application_id)->orderBy('id', 'desc')->first();
 
         // Get Application last Status
-
+        // dd($arrData);
         $arrData['get_last_status'] = OlApplicationStatus::where([
                 'application_id' =>  $application_id,
                 'user_id' => Auth::user()->id,
@@ -308,9 +318,6 @@ class EEController extends Controller
 
     public function addDocumentScrutiny(Request $request)
     {
-        $uploadPath = '/uploads/EE_document_path';
-        $destinationPath = public_path($uploadPath);
-
         $document_status = OlSocietyDocumentsStatus::find($request->document_status_id);
         $ee_document_scrutiny = [
             'comment_by_EE' => $request->remark,
@@ -322,12 +329,13 @@ class EEController extends Controller
             $file = $request->file('EE_document_path');
 
             if ($extension == "pdf") {
+
+                $folder_name = "EE_document_path";
                 $name = 'ee_note_' . $time . '.' . $extension;
-//                $path = Storage::putFileAs('/EE_document_path', $request->file('EE_document'), $name, 'public');
-                if($file->move($destinationPath, $name))
-                {
-                    $ee_document_scrutiny['EE_document_path'] = $uploadPath.'/'.$name;
-                }
+                $path = $folder_name."/".$name;
+
+                $fileUpload = $this->comman->ftpFileUpload($folder_name,$request->file('EE_document_path'),$name);
+                $ee_document_scrutiny['EE_document_path'] = $path;
             } else {
                 return redirect()->back()->with('error','Invalid type of file uploaded (only pdf allowed)');
             }
@@ -355,23 +363,20 @@ class EEController extends Controller
             'comment_by_EE' => $request->comment_by_EE,
         ];
 
-        $uploadPath = '/uploads/EE_document_path';
-        $destinationPath = public_path($uploadPath);
-        // dd($request->file('document_name'));
-
         $time = time();
+
         if($request->hasFile('EE_document')) {
             $extension = $request->file('EE_document')->getClientOriginalExtension();
             $file = $request->file('EE_document');
 
             if ($extension == "pdf") {
-                unlink(public_path($request->oldFileName));
+                Storage::disk('ftp')->delete($request->oldFileName);
                 $name = 'ee_note_' . $time . '.' . $extension;
-//                $path = Storage::putFileAs('/EE_document_path', $request->file('EE_document'), $name, 'public');
-                if($file->move($destinationPath, $name))
-                {
-                    $ee_document_scrutiny['EE_document_path'] = $uploadPath.'/'.$name;
-                }
+                $folder_name = "EE_document_path";
+                $Filepath = $folder_name."/".$name;
+
+                $fileUpload1 = $this->comman->ftpFileUpload($folder_name,$request->file('EE_document'),$name);                
+                $fileUpload = $ee_document_scrutiny['EE_document_path'] = $Filepath;
             } else {
                 return redirect()->back()->with('error','Invalid type of file uploaded (only pdf allowed)');
             }
@@ -432,9 +437,9 @@ class EEController extends Controller
             $ee_consent_verification[] = [
                 'application_id' => $request->application_id,
                 'user_id' => Auth::user()->id,
-                'question_id' => $request->question_id[$key],
-                'answer' => $request->answer[$key],
-                'remark' => $request->remark[$key]
+                'question_id' => isset($request->question_id[$key]) ? $request->question_id[$key] : NULL,
+                'answer' => isset($request->answer[$key]) ? $request->answer[$key] : NULL,
+                'remark' => isset($request->remark[$key]) ? $request->remark[$key] : NULL
             ];
         }
         // insert into ol_consent_verification_details table
@@ -467,9 +472,9 @@ class EEController extends Controller
             $ee_demarcation[] = [
                 'application_id' => $request->application_id,
                 'user_id' => Auth::user()->id,
-                'question_id' => $request->question_id[$key],
-                'answer' => $request->answer[$key],
-                'remark' => $request->remark[$key]
+                'question_id' => isset($request->question_id[$key]) ? $request->question_id[$key] : NULL,
+                'answer' => isset($request->answer[$key]) ? $request->answer[$key] : NULL,
+                'remark' => isset($request->remark[$key]) ? $request->remark[$key] : NULL
             ];
         }
 
@@ -501,9 +506,9 @@ class EEController extends Controller
             $ee_tit_bit[] = [
                 'application_id' => $request->application_id,
                 'user_id' => Auth::user()->id,
-                'question_id' => $request->question_id[$key],
-                'answer' => $request->answer[$key],
-                'remark' => $request->remark[$key]
+                'question_id' => isset($request->question_id[$key]) ? $request->question_id[$key] : NULL,
+                'answer' => isset($request->answer[$key]) ? $request->answer[$key] : NULL,
+                'remark' => isset($request->remark[$key]) ? $request->remark[$key] : NULL
             ];
         }
 
@@ -535,9 +540,9 @@ class EEController extends Controller
             $rg_relocation[] = [
                 'application_id' => $request->application_id,
                 'user_id' => Auth::user()->id,
-                'question_id' => $request->question_id[$key],
-                'answer' => $request->answer[$key],
-                'remark' => $request->remark[$key]
+                'question_id' => isset($request->question_id[$key]) ? $request->question_id[$key] : NULL,
+                'answer' => isset($request->answer[$key]) ? $request->answer[$key] : NULL,
+                'remark' => isset($request->remark[$key]) ? $request->remark[$key] : NULL
             ];
         }
 
@@ -554,22 +559,26 @@ class EEController extends Controller
         if ($request->file('ee_note')){
 
             $file = $request->file('ee_note');
-            $file_name = time().'ee_note.'.$file->getClientOriginalExtension();
             $extension = $file->getClientOriginalExtension();
+            $file_name = time().'ee_note.'.$extension;
+            $folder_name = "ee_note";
+            $path = $folder_name."/".$file_name;
 
             if($extension == "pdf") {
-                if ($file->move($destinationPath, $file_name)) {
-                    $fileData[] = array('document_path' => $uploadPath . '/' . $file_name,
+
+                $fileUpload = $this->comman->ftpFileUpload($folder_name,$request->file('ee_note'),$file_name);
+
+                    $fileData[] = array('document_path' => $path,
                         'application_id' => $applicationId,
                         'user_id' => Auth::user()->id,
                         'role_id' => session()->get('role_id'));
-                }
+
                 $data = EENote::insert($fileData);
-                return back()->with('success', 'EE Note uploaded successfully');
+                return redirect('/ee')->with('success', 'EE Note uploaded successfully');
             }
             else
             {
-                return back()->with('error', 'Only pdf allowed');
+                return back()->with('error', 'Invalid type of file uploaded (only pdf allowed).');
             }
         }
     }

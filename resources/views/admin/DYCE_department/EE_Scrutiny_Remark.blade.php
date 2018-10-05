@@ -702,7 +702,8 @@
                                                     by EE</span>
                                                 <div class="mt-3">
                                                     @if(isset($eeScrutinyData->eeNote->document_path))
-                                                    <a href="{{ asset($eeScrutinyData->eeNote->document_path)}}">
+                                                    <a href="{{ config('commanConfig.storage_server').'/'.$eeScrutinyData->eeNote->document_path }}">
+
                                                         <button class="btn btn-primary">Download
                                                             offer Letter Application</button>
                                                     </a>

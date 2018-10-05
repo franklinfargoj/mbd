@@ -26,6 +26,13 @@ class Role extends Model
 
     public function parentUser()
     {
+        return $this->hasMany('App\User', 'role_id', 'id')
+            ->leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
+            ->where('lu.layout_id', session()->get('layout_id'));
+    }
+
+    public function parentUserArchitect()
+    {
         return $this->hasMany('App\User', 'role_id', 'id');
     }
 }

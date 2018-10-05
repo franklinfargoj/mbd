@@ -6,6 +6,12 @@
 @endsection
 @section('content')
 
+@if(session()->has('error'))
+    <div class="alert alert-success display_msg">
+        {{ session()->get('error') }}
+    </div>  
+@endif
+
 <div class="col-md-12">
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">
@@ -180,11 +186,13 @@
                                 <?php $i=2;?>
                                 @if(isset($applicationData->visitDocuments))
                                     @foreach($applicationData->visitDocuments as $documents)
-                                    <div class="d-flex flex-wrap align-items-center mb-5 upload_doc_{{$i}}">
+                                     
+                                    <div class="d-flex align-items-center mb-5 upload_doc_{{$i}}">
                                         <label class="site-visit-label">Upload supporting files:</label>
-                                        <div class="custom-file width-auto mb-0 position-relative">
-                                            <input type="file" class="file custom-file-input upload_file_{{$i}}" name="document[]" id="test-upload_{{$i}}">
-                                            <label class="custom-file-label" for="test-upload_{{$i}}">{{explode('/',$documents->document_path)[3]}}</label>
+                                        <div class="custom-file custom-file--fixed mb-0 position-relative">
+                                            <input type="file" class="file custom-file-input file_ext upload_file_{{$i}}" name="document[]" id="test-upload_{{$i}}">
+                                            <label class="custom-file-label" for="test-upload_{{$i}}" id="file_label_{{$i}}">{{isset(explode('/',$documents->document_path)[1]) ? explode('/',$documents->document_path)[1] : ''}}</label>
+                                            <span id="file_error_{{$i}}" class="text-danger"></span>
     										<input type="hidden" class="upload_doc_{{$i}}" id="documentId" name="documentId[]"
                                             value="{{$documents->id}}" readonly>
     										<i class="fa fa-close doc2 close-icon" id="document_{{$i}}" onclick="removeDocuments(this.id)"></i>
@@ -194,23 +202,26 @@
                                     <?php $i++;?>
                                     @endforeach
                                 @endif
-                                <div class="d-flex flex-wrap align-items-center mb-5 upload_doc_1">
+                                <div class="d-flex align-items-center mb-5 upload_doc_1">
                                     <label class="site-visit-label">Upload supporting files:</label>
-                                    <div class="custom-file width-auto mb-0 position-relative">
-                                        <input type="file" class="file custom-file-input upload_file_1" name="document[]" id="test-upload">
-                                        <label class="custom-file-label" for="test-upload">Choose file ...</label>
-										<a class="add_more" onclick="addMoreDocuments(this);">add more</a>
+                                    <div class="custom-file custom-file--fixed mb-0 position-relative">
+                                        <input type="file" class="file custom-file-input file_ext upload_file_1" name="document[]" id="test-upload_1">
+                                        <label class="custom-file-label" for="test-upload_1" id="file_label_1">Choose file ...</label>
+                                        <span id="file_error_1" class="text-danger"></span>
+										<a class="add_more" id="add_more_1" onclick="addMoreDocuments(this);">add more</a>
 										<i class="fa fa-close doc close-icon" id="document_1" onclick="removeDocuments(this.id)"></i>
                                     </div>
                                 </div>
                             @else
                                 @foreach($applicationData->visitDocuments as $data)
+
                                     <div class="col-sm-12 field-col">
                                         <div class="d-flex">
                                             <span style="width: 200px;">Supporting Documents:</span>
-                                            <a href="{{asset($data->document_path)}}">
+                                            <a href="{{config('commanConfig.storage_server').'/'.$data->document_path}}" target="_blank">
+
                                             <img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
-                                            <span class="field-value" style="padding-left: 15px;">{{(explode('/',$data->document_path)[3])}}</span>
+                                            <span class="field-value" style="padding-left: 15px;">{{ (isset(explode('/',$data->document_path)[1]) ? explode('/',$data->document_path)[1]: '') }}</span>
                                         </div>
                                     </div>
                                 @endforeach                            
@@ -229,7 +240,7 @@
                 <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
 					<div class="">
 						<h3 class="section-title section-title--small">
-							Demarkation verification:
+							Demarcation verification:
 						</h3>
 					</div>
 					<div class="remarks-suggestions">
@@ -249,12 +260,12 @@
                 <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
 					<div class="">
 						<h3 class="section-title section-title--small">
-							Encrochment Verification:
+							Encroachment Verification:
 						</h3>
 					</div>
                     <div class="m-form__group form-group">
 						<div class="m-radio-inline">
-							<span class="mr-3">Is there any encrochment ?</span>
+							<span class="mr-3">Is there any encroachment ?</span>
 							<label class="m-radio m-radio--primary">
 								<input type="radio" class="radioBtn" name="encrochment" value="1" checked
 									{{(isset($applicationData->demarkation_verification_comment) && $applicationData->is_encrochment == '1' ? 'checked' : '')}} {{(!($is_view) ? 'disabled' : '' )}}>Yes
@@ -290,13 +301,14 @@
 @endsection
 @section('js')
 <script>
+
+var isError = 0;
     $("#dyce_scrunity_Form").validate({
         rules: {
             demarkation_comments: "required",
             officer_name: "required",
             visit_date: "required",
         	encrochment : "required",
-            // "document[]" 	: "required",
             "officer_name[]": "required",
         }
     });
@@ -326,16 +338,34 @@
     }
 
     function addMoreDocuments(text) {
-        var id = $("#documentCount").val();
-        $(text).css("display", "none");
-        $('.doc').css("visibility", "visible");
-        $(".all_documents").append("<div class='col-xs-12 d-flex flex-wrap align-items-center mb-5 upload_doc_"+id+"'><label class='site-visit-label'>Upload supporting files:</label><div class='custom-file width-auto mb-0 position-relative'><input type='file' class='file custom-file-input upload_file_"+id+"' name='document[]' id='test_upload_" +
-            id + "'><label class='custom-file-label' for='test_upload_"+id+"'> Choose file .. </label><i class='fa fa-close doc close-icon' id='document_" + id +
-            "' onclick='removeDocuments(this.id)'></i><a class='add_more' onclick='addMoreDocuments(this);'>add more </a></div></div>"
-        );
-        id++;
-        selectFile();
-        $("#documentCount").val(id);
+
+        var id = $.trim(text.id.substr(9,2));
+        myfile= $("#test-upload_"+id).val();
+        var ext = myfile.split('.').pop();
+
+        if (ext != "pdf"){
+            $("#file_error_"+id).text("Invalid type of file uploaded (only pdf allowed)");
+            $("#test-upload_"+id).closest(".custom-file").addClass("has-error");
+            isError = 1;
+        }
+        else{
+            $("#file_error_"+id).text("");
+            $("#test-upload_"+id).closest(".custom-file").removeClass("has-error");
+            isError = 0;
+        }    
+        
+        if(isError == 0){
+            var id = $("#documentCount").val();
+            $(text).css("display", "none");
+            $('.doc').css("visibility", "visible");
+            $(".all_documents").append("<div class='d-flex flex-wrap align-items-center mb-5 upload_doc_"+id+"'><label class='site-visit-label'>Upload supporting files:</label><div class='custom-file custom-file--fixed mb-0 position-relative'><input type='file' class='file custom-file-input file_ext upload_file_"+id+"' name='document[]' id='test-upload_" +
+                id + "'><label class='custom-file-label' for='test-upload_"+id+"' id='file_label_"+id+"'> Choose file .. </label><span class='text-danger' id='file_error_"+id+"'></span><i class='fa fa-close doc close-icon' id='document_" + id +
+                "' onclick='removeDocuments(this.id)'></i><a class='add_more' id='add_more_"+id+"' onclick='addMoreDocuments(this);'>add more </a></div></div>"
+            );
+            id++;
+            selectFile();
+            $("#documentCount").val(id);            
+         }
     }
 
     function removeDocuments(data) {
@@ -346,7 +376,7 @@
         $(".upload_file_" + id).attr("disabled", "disabled");
     }
 
-    $("#submitBtn").click(function () {
+    $("#submitBtn").click(function () {   
 
         var enrochComment = $("#encrochment_comments").val();
         var isEnrochment = $("input[name=encrochment]:checked").val();
@@ -357,7 +387,12 @@
             $("#encrochment_comments_error").css("display", "none");
             $("#dyce_scrunity_Form").submit();
         }
+
     });
+
+    $(document).ready(function(){
+        $(".display_msg").delay(1000).slideUp(300);
+    }); 
 
 </script>
 @endsection

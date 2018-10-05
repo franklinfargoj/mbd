@@ -27,19 +27,19 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @php
-                                    $i = 1;
-                                @endphp
-                                @foreach($arrData['society_document'] as $document)
+                                <?php $i=0; ?>
+                                @foreach($societyDocument[0]->societyDocuments as $data)
                                     <tr>
-                                        <td>{{ $i }}.</td>
-                                        <td>{{ $document->name }}<span class="compulsory-text"><small>(Compulsory Document)</small></span>
+                                        <td>{{ $i+1}}.</td>
+                                        <td>{{(isset($data->documents_Name[0]->name) ? $data->documents_Name[0]->name : '')}}
+                                        <span class="compulsory-text"><small>(Compulsory Document)</small></span>
                                         </td>
-                                        @php
-                                            $path = $arrData['society_document_data'][$document->id]['society_document_path'];
-
-                                        @endphp
-                                        <td class="text-center"><a download href="{{ asset($path) }}"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a></td>
+                                        <td class="text-center">
+                                        @if(isset($data->society_document_path))
+                                            <a href="{{ asset($data->society_document_path) }}">
+                                            <img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
+                                        @endif
+                                        </td>
                                     </tr>
 
                                     @php

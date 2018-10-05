@@ -280,7 +280,7 @@ class SocietyOfferLetterController extends Controller
                     return $ol_applications->ol_application_master->title;
                 })
                 ->editColumn('created_at', function ($ol_applications) {
-                    return $ol_applications->created_at;
+                    return date('d-m-Y h:i:s', strtotime($ol_applications->created_at));
                 })
                 ->editColumn('status', function ($ol_applications) {
                     $status = explode('_', array_keys(config('commanConfig.applicationStatus'), $ol_applications->olApplicationStatus[0]->status_id)[0]);
@@ -734,14 +734,9 @@ class SocietyOfferLetterController extends Controller
                 $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$request->file('offer_letter_application_form'),$name);
                 $input = array(
                     'application_path' => $path,
-                    'submitted_at' => date('Y-m-d')
+                    'submitted_at' => date('Y-m-d H-i-s')
                 );
                 OlApplication::where('society_id', $society->id)->where('id', $request->input('id'))->update($input);
-                // if($file->move($destinationPath, $file_name))
-                // {                
-                //     $dataToInsert['filepath'] = $uploadPath.'/';
-                //     $dataToInsert['filename'] = $file_name;
-                // }
             }else{
                 return redirect()->back()->with('error_uploaded_file', 'Invalid type of file uploaded (only pdf allowed)');
             }
