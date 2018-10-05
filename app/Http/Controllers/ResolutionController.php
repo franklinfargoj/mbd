@@ -67,10 +67,54 @@ class ResolutionController extends Controller
                 $resolutions = $resolutions->whereDate('published_date', '<=', date('Y-m-d', strtotime($request->published_to_date)));
             }
             
-            $resolutions = $resolutions->selectRaw( DB::raw('resolutions.id as id, boards.board_name, departments.department_name, resolution_types.name as resolutionType, title, resolution_code, published_date, filepath, filename'));
+            $resolutions = $resolutions->selectRaw( DB::raw('resolutions.id as id, boards.board_name, departments.department_name, resolution_types.name as resolutionType, title, resolution_code, description, language, reference_link, published_date, filepath, filename, revision_log_message'));
             $resolutions= $resolutions->get();
-            //dd($resolutions);
-            return view('admin.resolution.print_data',compact('resolutions')); 
+            // dd($resolutions);
+
+            if(count($resolutions) == 0){
+                $dataListMaster = [];
+                $dataList = [];
+                $dataList['Sr. No.'] = '';
+                $dataList['Board'] = '';
+                $dataList['Department'] = '';
+                $dataList['Resolution Type'] = '';
+                $dataList['Resolution Code'] = '';
+                $dataList['Title'] = '';
+                $dataList['Description'] = '';
+                $dataList['Filepath'] = '';
+                $dataList['Filename'] = '';
+                $dataList['Language'] = '';
+                $dataList['Reference Link'] = '';
+                $dataList['Published Date'] = '';
+                $dataList["Revision Log Message"] = '';
+                $dataListMaster[]=$dataList;
+            }else{
+                $i=1;
+                foreach ($resolutions as $dataList_key => $dataList_value) {
+                    
+                    $dataList = [];
+                    $dataList['Sr. No.'] = $i;
+                    $dataList['Board'] = $dataList_value['board_name'];
+                    $dataList['Department'] = $dataList_value['department_name'];
+                    $dataList['Resolution Type'] = $dataList_value['resolutionType'];
+                    $dataList['Resolution Code'] = $dataList_value['resolution_code'];
+                    $dataList['Title'] = $dataList_value['title'];
+                    $dataList['Description'] = $dataList_value['description'];
+                    $dataList['Filepath'] = $dataList_value['filepath'];
+                    $dataList['Filename'] = $dataList_value['filename'];
+                    $dataList['Language'] = $dataList_value['language'];
+                    $dataList['Reference Link'] = $dataList_value['reference_link'];
+                    $dataList['Published Date'] = $dataList_value['published_date'];
+                    $dataList['Revision Log Message'] = $dataList_value['revision_log_message'];
+                    
+                    $dataListKeys = array_keys($dataList);
+                    $dataListMaster[]=$dataList;
+                    $i++;
+                }
+            }
+
+            // dd($dataListMaster);
+            return view('admin.print_data',compact('dataListMaster', 'dataListKeys')); 
     }
     
 
@@ -123,14 +167,55 @@ class ResolutionController extends Controller
                 $resolutions = $resolutions->whereDate('published_date', '<=', date('Y-m-d', strtotime($request->published_to_date)));
             }
             
-            $resolutions = $resolutions->selectRaw( DB::raw('resolutions.id as id, boards.board_name, departments.department_name, resolution_types.name as resolutionType, title, resolution_code, published_date, filepath, filename'));
-            $dataList= $resolutions->get();
-            
-            return Excel::create('resolution_'.date('Y_m_d_H_i_s'), function($excel) use($dataList){
+            $resolutions = $resolutions->selectRaw( DB::raw('resolutions.id as id, boards.board_name, departments.department_name, resolution_types.name as resolutionType, title, resolution_code, description, language, reference_link, published_date, filepath, filename, revision_log_message'));
+            $resolutions= $resolutions->get();
+            if(count($resolutions) == 0){
+                $dataListMaster = [];
+                $dataList = [];
+                $dataList['Sr. No.'] = '';
+                $dataList['Board'] = '';
+                $dataList['Department'] = '';
+                $dataList['Resolution Type'] = '';
+                $dataList['Resolution Code'] = '';
+                $dataList['Title'] = '';
+                $dataList['Description'] = '';
+                $dataList['Filepath'] = '';
+                $dataList['Filename'] = '';
+                $dataList['Language'] = '';
+                $dataList['Reference Link'] = '';
+                $dataList['Published Date'] = '';
+                $dataList["Revision Log Message"] = '';
+                $dataListMaster[]=$dataList;
+            }else{
+                $i=1;
+                foreach ($resolutions as $dataList_key => $dataList_value) {
+                    // dd(array_keys($dataList_value->toArray()));
+                    $dataList = [];
+                    $dataList['Sr. No.'] = $i;
+                    $dataList['Board'] = $dataList_value['board_name'];
+                    $dataList['Department'] = $dataList_value['department_name'];
+                    $dataList['Resolution Type'] = $dataList_value['resolutionType'];
+                    $dataList['Resolution Code'] = $dataList_value['resolution_code'];
+                    $dataList['Title'] = $dataList_value['title'];
+                    $dataList['Description'] = $dataList_value['description'];
+                    $dataList['Filepath'] = $dataList_value['filepath'];
+                    $dataList['Filename'] = $dataList_value['filename'];
+                    $dataList['Language'] = $dataList_value['language'];
+                    $dataList['Reference Link'] = $dataList_value['reference_link'];
+                    $dataList['Published Date'] = $dataList_value['published_date'];
+                    $dataList['Revision Log Message'] = $dataList_value['revision_log_message'];
+                    
+                    $dataListKeys = array_keys($dataList);
+                    // dd($dataListKeys);
+                    $dataListMaster[]=$dataList;
+                    $i++;
+                }
+            }
+            return Excel::create('resolution_'.date('Y_m_d_H_i_s'), function($excel) use($dataListMaster){
 
-                $excel->sheet('mySheet', function($sheet) use($dataList)
+                $excel->sheet('mySheet', function($sheet) use($dataListMaster)
                 {
-                    $sheet->fromArray($dataList);
+                    $sheet->fromArray($dataListMaster);
                 });
             })->download('csv');
         }

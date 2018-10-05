@@ -33,9 +33,12 @@
         @endif
         <div class="m-portlet__body m-portlet__body--spaced data-table--custom">
             <div class="btn-list text-right mb-4">
-                <a href="{{route('hearing.index',['excel'=>'excel'])}}" name="excel" value="excel" class="btn btn-info">Excel</a>
-                    <a target="_blank" href="{{route('hearing.print')}}"
-                       class="btn btn-info">Print</a>
+                <a href="{{route('hearing.index',['excel'=>'excel'])}}" name="excel" value="excel" class="btn excel-icon"><img src="{{asset('/img/excel-icon.svg')}}"></a>
+                <!-- <button type="submit" name="excel" value="excel" class="btn excel-icon"><img src="{{asset('/img/excel-icon.svg')}}"></button> -->
+                    <!-- <a target="_blank" href="{{route('hearing.print')}}"
+                       class="btn btn-info">Print</a> -->
+                <a target="_blank" href="{{route('resolution.print',['published_from_date'=>app('request')->input('published_from_date'),'published_to_date'=>app('request')->input('published_to_date'),'resolution_type_id'=>app('request')->input('resolution_type_id'),'board_id'=>app('request')->input('board_id')])}}"
+                class="btn print-icon"><img src="{{asset('/img/print-icon.svg')}}"></a>
             </div>
             <!--begin: Search Form -->
             <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
@@ -93,6 +96,13 @@
                                         </div>
                                     </div>
                                 </div>
+                                <!-- <div class="col-md-6 mt-5">
+                                    <div class="btn-list text-right">
+                                        <button type="submit" name="excel" value="excel" class="btn excel-icon"><img src="{{asset('/img/excel-icon.svg')}}"></button>
+                                        <a target="_blank" href="{{route('resolution.print',['published_from_date'=>app('request')->input('published_from_date'),'published_to_date'=>app('request')->input('published_to_date'),'resolution_type_id'=>app('request')->input('resolution_type_id'),'board_id'=>app('request')->input('board_id')])}}"
+                                            class="btn print-icon"><img src="{{asset('/img/print-icon.svg')}}"></a>
+                                    </div>
+                                </div> -->
                             </div>
                         </form>
                     </div>

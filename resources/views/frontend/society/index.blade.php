@@ -27,6 +27,11 @@
                                             <div class="text-center">{{ session('registered') }}</div>
                                         </div>
                                         @endif
+                                        @if (session('error'))
+                                        <div class="alert alert-danger">
+                                            <div class="text-center">{{ session('error') }}</div>
+                                        </div>
+                                        @endif
                                     </p>
                                 </div>
                                 @if(count($errors) > 0)

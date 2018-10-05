@@ -331,7 +331,6 @@ class HearingController extends Controller
     public function update(EditHearingRequest $request, $id)
     {
         $hearing = Hearing::find($id);
-
         $data = [
             'preceding_officer_name' => $request->preceding_officer_name,
             'case_year' => $request->case_year,
