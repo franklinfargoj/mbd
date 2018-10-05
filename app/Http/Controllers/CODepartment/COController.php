@@ -191,6 +191,29 @@ class COController extends Controller
 
     public function approveOfferLetter(Request $request, $applicationId){
 
-        return view('admin.co_department.approve_offer_letter');
+        $ree_branch_head = Role::where('name',config('commanConfig.ree_branch_head'))->value('id');
+        $co = Role::where('name',config('commanConfig.co_engineer'))->value('id');
+
+        $applicationData = OlApplication::where('id',$applicationId)->first();
+
+        $applicationData->ReeLog = OlApplicationStatus::where('application_id',$applicationId)->where('role_id',$ree_branch_head)->where('status_id', config('commanConfig.applicationStatus.forwarded'))->orderBy('id', 'desc')->first();
+
+        $applicationData->coLog = OlApplicationStatus::where('application_id',$applicationId)->where('role_id',$co)->where('status_id', config('commanConfig.applicationStatus.forwarded'))->orderBy('id', 'desc')->first(); 
+
+        return view('admin.co_department.approve_offer_letter',compact('applicationData'));
+    }
+
+    public function approvedOfferLetter(Request $request){
+
+        $ree_id = Role::where('name', '=', config('commanConfig.ree_junior'))->first();
+
+        $ree = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
+            ->where('lu.layout_id', session()->get('layout_id'))
+            ->where('role_id', $ree_id->id)->first(); 
+
+            $this->CommonController->generateOfferLetterForwardToREE($request,$ree);
+            return redirect('/co')->with('success','Approved Offer Letter successfully.');
+
+        // $updateApplication = OlApplication::where('id',)           
     }    
 }

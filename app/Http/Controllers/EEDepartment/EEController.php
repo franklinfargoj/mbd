@@ -119,16 +119,10 @@ class EEController extends Controller
         ];
     }
 
-    public function documentSubmittedBySociety($society_id)
+    public function documentSubmittedBySociety($applicationId)
     {
-        $application_id = OlApplication::where('society_id', $society_id)->value('application_master_id');
-        $arrData['society_document'] = OlSocietyDocumentsMaster::where('application_id', $application_id)->get();
-
-        $document_status_data = SocietyOfferLetter::with('societyDocuments')->where('id', $society_id)->first();
-
-        $arrData['society_document_data'] = array_get($document_status_data,'societyDocuments')->keyBy('document_id')->toArray();
-
-        return view('admin.ee_department.documentSubmitted', compact('arrData'));
+        $societyDocument = $this->comman->getSocietyEEDocuments($applicationId);
+        return view('admin.ee_department.documentSubmitted', compact('societyDocument'));
     }
 
     public function getForwardApplicationForm($application_id){

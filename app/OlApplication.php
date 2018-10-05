@@ -76,4 +76,9 @@ class OlApplication extends Model
 
         return $this->hasOne(OlApplicationCalculationSheetDetails::class, 'application_id', 'id');   
     }
+
+    public function sharingCalculationSheet(){
+
+        return $this->hasOne(OlSharingCalculationSheetDetail::class, 'application_id', 'id');   
+    }    
 }

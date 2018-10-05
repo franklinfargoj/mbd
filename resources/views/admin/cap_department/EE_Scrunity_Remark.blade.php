@@ -646,13 +646,14 @@
                                                                 <span class="hint-text">Download EE Note uploaded by EE</span>
                                                                 <div class="mt-auto">
                                                                 @if(isset($eeScrutinyData->eeNote->document_path))
-                                                                    <a href="{{ asset($eeScrutinyData->eeNote->document_path)}}">
-                                                                        <button class="btn btn-primary">Download offer Letter Application</button>
-                                                                    </a>
+
+                                                                    <a href="{{ asset($eeScrutinyData->eeNote->document_path)}}" class="btn btn-primary"> Download  EE note
+                                                                        </a>
                                                                 @else
                                                                     <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
-                                                                    * Note :  EE note not available. </span>
-                                                                @endif
+                                                                 * Note :  EE note not available. </span>  
+                                                                @endif  
+
                                                                 </div>
                                                             </div>
                                                         </div>
