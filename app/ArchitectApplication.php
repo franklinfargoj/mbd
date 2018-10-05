@@ -24,23 +24,17 @@ class ArchitectApplication extends Model
     public function getApplicationStatusAttribute($value)
     {
         switch ($value) {
-            case '1':
-                return "New Application";
+            case 0:
+                return "None";
                 break;
-            case '2':
-                return "Scrutiny Pending";
+            case 1:
+                return "Shortlisted";
                 break;
-            case '3':
-                return "Forward";
-                break;
-            case '4':
-                return "ShortListed";
-                break;
-            case '5':
+            case 2:
                 return "Final";
                 break;
             default:
-                return "New Application";
+                return "None";
                 break;
         }
     }
