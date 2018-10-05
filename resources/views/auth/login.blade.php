@@ -18,9 +18,9 @@
                         <div class="m-login__container m-login--right-box">
                             <div class="m-login__signin m-login__signin--box">
                                 <div class="m-login__head">
-                                    <h1 class="m-login__title mb-0 display-4">
+                                    <!-- <h1 class="m-login__title mb-0 display-4">
                                         Sign In
-                                    </h1>
+                                    </h1> -->
                                     <p class="sub-title">
                                         @if (session('registered'))
                                         <div class="alert alert-success">
@@ -46,32 +46,32 @@
                                         <!-- <label for="" class="col-form-label">Password</label> -->
                                         <input class="form-control m-input" type="password" placeholder="Password" name="password"
                                             autocomplete="off" id="password-field">
-                                            <!-- <span toggle="#password-field" class="fa fa-fw fa-eye hide-show-pwd toggle-password"></span> -->
+                                        <!-- <span toggle="#password-field" class="fa fa-fw fa-eye hide-show-pwd toggle-password"></span> -->
                                     </div>
                                     <div class="form-group m-form__group" style="margin-top: 16px;">
-                                        <div class="d-flex align-items-center position-relative justify-content-between">
+                                        <div class="d-flex position-relative justify-content-between">
+                                            <i class="fa fa-refresh" onclick="document.getElementById('captcha_img').src='{{ URL::to('captcha') }}'; return false"
+                                                title="Recapture" aria-hidden="true" style="font-size: 24px;cursor: pointer;"></i>
                                             <span class="captcha-wrapper"> <img id="captcha_img" src="{{URL::to('captcha')}}"></span>
-                                                <i class="fa fa-refresh" onclick="document.getElementById('captcha_img').src='{{ URL::to('captcha') }}'; return false"
-                                                    title="Recapture" aria-hidden="true" style="font-size: 24px;cursor: pointer;"></i>
-                                                <input type="text" id="captcha" class="form-control mt-0 ml-3" name="captcha" placeholder="Captcha">
-                                                @if($errors->has('captcha'))
-                                                <span class="help-block captcha-input-error" style="color: red;">Invalid Captcha
-                                                </span>
+                                            <input type="text" id="captcha" class="form-control mt-0" name="captcha"
+                                                placeholder="Captcha">
+                                            @if($errors->has('captcha'))
+                                            <span class="help-block captcha-input-error" style="color: red;">Invalid
+                                                Captcha
+                                            </span>
                                         </div>
                                         @endif
                                     </div>
-                                    <div class="d-flex align-items-center justify-content-between m-login__form-action">
+                                    <button id="mhada-user" class="btn btn-block btn-primary m-btn m-btn--pill m-btn--custom m-login__btn m-login__btn--primary mt-3">
+                                        Sign In
+                                    </button>
+                                    <div class="d-flex align-items-center justify-content-center m-login__form-action">
                                         <div class="m-login__form-sub">
                                             <div class="m--align-right m-login__form-right">
-                                                <a href="{{ route('password.request') }}"  class="m-link text-dark">
+                                                <a href="{{ route('password.request') }}" class="m-link text-dark">
                                                     Forgot Password ?
                                                 </a>
                                             </div>
-                                        </div>
-                                        <div class="">
-                                            <button id="mhada-user" class="btn btn-primary m-btn m-btn--pill m-btn--custom m-login__btn m-login__btn--primary">
-                                                Sign In
-                                            </button>
                                         </div>
                                     </div>
                                 </form>

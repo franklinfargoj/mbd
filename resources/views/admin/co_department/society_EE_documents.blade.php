@@ -18,7 +18,7 @@
 
     <!-- society and Appointed Architect details -->
     <div class="m-portlet m-portlet--mobile m_panel">
-        <div class="m-portlet__body main_panel">
+        <div class="m-portlet__body m-portlet__body--table main_panel">
             <table class="table mb-0">
                 <thead class="thead-default">
                     <th class="table-data--xs">अ क्र.</th>
