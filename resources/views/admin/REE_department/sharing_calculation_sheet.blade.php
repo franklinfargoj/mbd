@@ -1142,6 +1142,7 @@
             localStorage.setItem('activeTab', tab_name)
 
             $(this).tab('show');
+            localStorage.clear();
             return false;
         });
 
@@ -1347,9 +1348,21 @@
 
         newWin.document.open();
 
+<<<<<<< HEAD
+        function PrintElem(elem)
+        {
+
+	    var mywindow = window.open('', 'PRINT', 'height=600,width=600');
+
+            mywindow.document.write('<html><head><title>Maharashtra Housing and development authority</title>');
+            mywindow.document.write('</head><body>');
+            mywindow.document.write(document.getElementById(elem).innerHTML);
+            mywindow.document.write('</body></html>');
+=======
         newWin.document.write('<html><body onload="window.print()">' + divToPrint.innerHTML + '</body></html>');
 
         newWin.document.close();
+>>>>>>> 5482e5eb2297f91dbec962f964952a32aa13b949
 
         setTimeout(function () {
             newWin.close();
@@ -1357,8 +1370,13 @@
 
     }
 
+<<<<<<< HEAD
+            return true;      
+        }
+=======
     function PrintElem(elem) {
         var mywindow = window.open('', 'PRINT', 'height=600,width=600');
+>>>>>>> 5482e5eb2297f91dbec962f964952a32aa13b949
 
         mywindow.document.write('<html><head><title>Maharashtra Housing and development authority</title>');
 
@@ -1419,8 +1437,12 @@
             $('a[href=\'' + anchor + '\']').tab('show');
         });
 
+<<<<<<< HEAD
+    </script>
+=======
         // **End** Save tabs location on window refresh or submit
     });
 
 </script>
+>>>>>>> 5482e5eb2297f91dbec962f964952a32aa13b949
 @endsection

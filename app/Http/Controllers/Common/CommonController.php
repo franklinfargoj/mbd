@@ -17,6 +17,10 @@ use App\OlConsentVerificationDetails;
 use App\OlDemarcationVerificationDetails;
 use App\OlTitBitVerificationDetails;
 use App\OlRelocationVerificationDetails;
+use App\OlApplicationCalculationSheetDetails;
+use App\OlSharingCalculationSheetDetail;
+use App\OlDcrRateMaster;
+use App\REENote;
 use App\OlChecklistScrutiny;
 use App\OlApplicationStatus;
 use App\MasterLayout;
@@ -483,7 +487,6 @@ class CommonController extends Controller
 
 
     public function ftpFileUpload($folderName,$file,$fileName){
-
         return Storage::disk('ftp')->putFileAs($folderName,$file,$fileName);
 
     }
@@ -517,7 +520,29 @@ class CommonController extends Controller
         OlApplication::where('id', $request->applicationId)->update(['status_offer_letter' => config('commanConfig.applicationStatus.offer_letter_generation')]);
 
         return true;
-    }    
+    } 
 
+    public function showCalculationSheet($applicationId){
 
+       $user = Auth::user();
+       $model = OlApplication::with('ol_application_master')->where('id',$applicationId)->first();
+       if ($model->ol_application_master->model == 'Premium'){
+        $calculationSheetDetails = OlApplicationCalculationSheetDetails::where('application_id','=',$applicationId)->get();
+
+        $blade = 'premiunCalculationSheet';
+
+       }elseif($model->ol_application_master->model == 'Sharing'){
+
+        $calculationSheetDetails = OlSharingCalculationSheetDetail::where('application_id','=',$applicationId)->get();
+
+        $blade = 'sharingCalculationSheet';
+       }
+    
+        $dcr_rates = OlDcrRateMaster::all();
+        // REE Note download
+
+        $arrData['reeNote'] = REENote::where('application_id', $applicationId)->orderBy('id', 'desc')->first();
+
+        return view('admin.common.'.$blade,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData'));       
+    }   
 }

@@ -215,7 +215,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
 
 
-    Route::resource('/ol_calculation_sheet', 'REEDepartment\OlApplicationCalculationSheetDetailsController');
+    // Route::resource('/ol_calculation_sheet', 'REEDepartment\OlApplicationCalculationSheetDetailsController');
     Route::post('ol_calculation_sheet/save_details','REEDepartment\OlApplicationCalculationSheetDetailsController@saveCalculationDetails')->name('save_calculation_details');
 
     Route::resource('/ol_sharing_calculation_sheet', 'REEDepartment\OlSharingCalculationSheetDetailsController');
@@ -299,6 +299,9 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::post('finalCertificateGenerate','ArchitectApplicationController@postFinalCertificateGenerate')->name('architect.post_final_signed_certificate');
     Route::get('architect_edit_certificate/{id}','ArchitectApplicationController@edit_certificate')->name('architect.edit_certificate');
     Route::post('architect_update_certificate','ArchitectApplicationController@update_certificate')->name('architect.update_certificate');
+    Route::post('shortlist_architect_application','ArchitectApplicationController@shortlist_architect_application')->name('shortlist_architect_application');
+    
+    Route::post('finalise_architect_application','ArchitectApplicationController@finalise_architect_application')->name('finalise_architect_application');
     //architect module end
     
 });
@@ -339,5 +342,9 @@ Route::get('approve_offer_letter/{id}','CODepartment\COController@approveOfferLe
 Route::post('send_approved_offer_letter','CODepartment\COController@approvedOfferLetter')->name('co.send_approved_offer_letter');
 Route::post('send_for_approval','REEDepartment\REEController@sendForApproval')->name('ree.send_for_approval');
 Route::post('send_letter_society','REEDepartment\REEController@sendOfferLetterToSociety')->name('ree.send_letter_society');
+
+Route::get('calculation_sheet/{id}','Common\CommonController@showCalculationSheet')->name('show_calculation_sheet');
+
+Route::resource('/ol_calculation_sheet', 'REEDepartment\OlApplicationCalculationSheetDetailsController');
 
 

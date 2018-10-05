@@ -1,6 +1,12 @@
 @extends('admin.layouts.app')
 @section('content')
 
+@if(session()->has('error'))
+  <div class="alert alert-success">
+      {{ session()->get('success') }}
+  </div>   
+@endif
+
 <div class="custom-wrapper">
     <div class="col-md-12">
         <div class="m-portlet__head">
@@ -1157,6 +1163,7 @@
                                                         <label class="custom-file-label" for="test-upload">Choose file
                                                             ...</label>
                                                     </div>
+                                                    <span class="text-danger" id="file_error" ></span>
                                                     <div class="mt-auto">
                                                         <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
                                                     </div>
@@ -1414,6 +1421,25 @@
 
         return true;
     }
+
+    $("#uploadBtn").click(function(){
+      myfile = $("#test-upload").val();
+      var ext = myfile.split('.').pop();      
+      if (myfile != ''){        
+          
+          if (ext != "pdf"){
+            $("#file_error").text("Invalid type of file uploaded (only pdf allowed).");
+            return false;
+          }
+          else{
+            $("#file_error").text("");
+            return true;
+          }      
+      }else{
+        $("#file_error").text("This field required");
+        return false;
+      }
+    });
 
 </script>
 @endsection

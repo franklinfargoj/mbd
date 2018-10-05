@@ -30,9 +30,10 @@ class LeaseDetailController extends Controller
 
     public function print_data(Request $request,$id)
     {
-        $lease_data = LeaseDetail::where(['lm_lease_detail.society_id' => $id])
+        $lease_data = LeaseDetail::with(['lease_rent_start_month_rel', 'month_rent_per_renewed_lease_rel'])->where(['lm_lease_detail.society_id' => $id])
             ->join('lm_society_detail','lm_lease_detail.society_id','=','lm_society_detail.id')->selectRaw(DB::raw('lm_lease_detail.id as id, lm_lease_detail.lease_rule_16_other,lm_lease_detail.lease_basis,lm_lease_detail.area,lm_lease_detail.lease_period,lm_lease_detail.lease_start_date,lm_lease_detail.lease_rent,lm_lease_detail.lease_rent_start_month,lm_lease_detail.interest_per_lease_agreement,lm_lease_detail.interest_per_lease_agreement,lm_lease_detail.lease_renewal_date,lm_lease_detail.lease_renewed_period,lm_lease_detail.rent_per_renewed_lease,lm_lease_detail.interest_per_renewed_lease_agreement,lm_lease_detail.month_rent_per_renewed_lease,lm_lease_detail.payment_detail,lm_lease_detail.lease_status,lm_society_detail.society_name'));
             $dataLists=$lease_data->orderBy('lm_lease_detail.created_at','desc')->get();
+            // dd($dataLists);
             if(count($dataLists) == 0){
                 $dataListMaster = [];
                 $dataList = [];
@@ -55,7 +56,7 @@ class LeaseDetailController extends Controller
                 $i=1;
                 foreach ($dataLists as $dataList_key => $dataList_value) {
                     
-                    // dd($dataList_key);
+                    // dd($dataList_value->month_rent_per_renewed_lease_rel->month_name);
                     $dataList = [];
                     $dataList['id'] = $i;
                     $dataList['Lease rule 16 & other'] = $dataList_value['lease_rule_16_other'];
@@ -64,13 +65,13 @@ class LeaseDetailController extends Controller
                     $dataList['Lease Period'] = $dataList_value['lease_period'];
                     $dataList['Start date of lease'] = $dataList_value['lease_start_date'];
                     $dataList['Land rent / lease rent'] = $dataList_value['lease_rent'];
-                    $dataList['Month to start collection of lease rent'] = $dataList_value['lease_rent_start_month'];
+                    $dataList['Month to start collection of lease rent'] = $dataList_value->lease_rent_start_month_rel->month_name;
                     $dataList['Interest as per Lease agreement, in %'] = $dataList_value['interest_per_lease_agreement'];
                     $dataList['Date of Renewal of lease'] = $dataList_value['lease_renewal_date'];
                     $dataList['Period of renewed Lease'] = $dataList_value['lease_renewed_period'];
                     $dataList['Lease rent as per renewed lease'] = $dataList_value['rent_per_renewed_lease'];
                     $dataList['Interest as per renewed Lease agreement, in %'] = $dataList_value['interest_per_renewed_lease_agreement'];
-                    $dataList['Month to start collection of lease rent as per renewed lease'] = $dataList_value['month_rent_per_renewed_lease'];
+                    $dataList['Month to start collection of lease rent as per renewed lease'] = $dataList_value->month_rent_per_renewed_lease_rel->month_name;
                     
                     $dataListKeys = array_keys($dataList);
                     $dataListMaster[]=$dataList;
@@ -78,7 +79,7 @@ class LeaseDetailController extends Controller
                 }
             }
             
-        return view('admin.lease_detail.print_data',compact('dataListMaster', 'dataListKeys')); 
+        return view('admin.print_data',compact('dataListMaster', 'dataListKeys')); 
     }
     /**
      * Display a listing of the resource.
@@ -92,6 +93,7 @@ class LeaseDetailController extends Controller
 
         $count = LeaseDetail::with('leaseSociety')->where(['society_id' => $id, 'lease_status' => 1])->get()->count();
         $columns = [
+            ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'lease_rule_16_other','name' => 'lease_rule_16_other','title' => 'Lease rule 16 & other'],
             ['data' => 'area','name' => 'area','title' => 'Area'],
@@ -168,6 +170,9 @@ class LeaseDetailController extends Controller
             $lease_data = $lease_data->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').',lease_rule_16_other, lm_lease_detail.id as id, lm_lease_detail.area as area, society_id, lease_period, lease_start_date, lease_status');
 
             return $datatables->of($lease_data)
+                ->editColumn('radio', function ($village_data) {
+                    return '<input type="radio" name="village_data_id">';
+                })
                 ->editColumn('rownum', function ($lease_data) {
                         static $i = 0;
                         $i++;
@@ -182,7 +187,7 @@ class LeaseDetailController extends Controller
                 ->editColumn('actions', function ($lease_data) {
                     return view('admin.lease_detail.actions', compact('lease_data'))->render();
                 })
-                ->rawColumns(['lease_start_date', 'leaseSociety', 'actions'])
+                ->rawColumns(['radio', 'lease_start_date', 'leaseSociety', 'actions'])
                 ->make(true);
         }
 
@@ -196,7 +201,7 @@ class LeaseDetailController extends Controller
             'serverSide' => true,
             'processing' => true,
             'ordering'   =>'isSorted',
-            "order"=> [5, "desc" ],
+            "order"=> [6, "desc" ],
             "pageLength" => $this->list_num_of_records_per_page
         ];
     }

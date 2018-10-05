@@ -86,7 +86,7 @@
                         <div class="custom-file">
                             <input type="file" id="case_template" name="file[case_template]" class="custom-file-input">
                             <label class="custom-file-label" for="case_template">Choose file...</label>
-                            <span class="help-block">{{$errors->first('file.case_template')}}</span>
+                            <span class="help-block">@if (session('error')){{ session('error') }}@endif</span>
                         </div>
                     </div>
 
@@ -117,7 +117,7 @@
                             <input type="file" id="update_supporting_documents" name="file[update_supporting_documents]"
                                 class="custom-file-input">
                             <label class="custom-file-label" for="update_supporting_documents">Choose file...</label>
-                            <span class="help-block">{{$errors->first('file.update_supporting_documents')}}</span>
+                            <span class="help-block">@if (session('error')){{ session('error') }}@endif</span>
                         </div>
                     </div>
                 </div>

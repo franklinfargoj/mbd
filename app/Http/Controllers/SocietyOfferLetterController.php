@@ -280,7 +280,7 @@ class SocietyOfferLetterController extends Controller
                     return $ol_applications->ol_application_master->title;
                 })
                 ->editColumn('created_at', function ($ol_applications) {
-                    return $ol_applications->created_at;
+                    return date('d-m-Y h:i:s', strtotime($ol_applications->created_at));
                 })
                 ->editColumn('status', function ($ol_applications) {
                     $status = explode('_', array_keys(config('commanConfig.applicationStatus'), $ol_applications->olApplicationStatus[0]->status_id)[0]);
@@ -506,7 +506,7 @@ class SocietyOfferLetterController extends Controller
         }else{
             $remark = 'N.A.';
         }
-        $input = array(
+        $input_forwarded = array(
             'application_id' => $application->id,
             'society_flag' => 1,
             'user_id' => Auth::user()->id,
@@ -518,8 +518,21 @@ class SocietyOfferLetterController extends Controller
             'created_at' => date('Y-m-d H-i-s'),
             'updated_at' => date('Y-m-d H-i-s'),
         );
+        $input_in_process = array(
+            'application_id' => $application->id,
+            'society_flag' => 0,
+            'user_id' => $request->input('user_id'),
+            'role_id' => $request->input('role_id'),
+            'status_id' => config('commanConfig.applicationStatus.in_process'),
+            'to_user_id' => 0,
+            'to_role_id' => 0,
+            'remark' => $remark,
+            'created_at' => date('Y-m-d H-i-s'),
+            'updated_at' => date('Y-m-d H-i-s'),
+        );
         
-        OlApplicationStatus::create($input);
+        OlApplicationStatus::create($input_forwarded);
+        OlApplicationStatus::create($input_in_process);
         return redirect()->route('society_offer_letter_dashboard');
     }
 

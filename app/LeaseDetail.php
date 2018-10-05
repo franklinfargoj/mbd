@@ -40,4 +40,14 @@ class LeaseDetail extends Model
     {
         return $this->belongsTo('App\SocietyDetail', 'society_id');
     }
+
+    public function lease_rent_start_month_rel()
+    {
+        return $this->belongsTo(MasterMonth::class, 'lease_rent_start_month');
+    }
+
+    public function month_rent_per_renewed_lease_rel()
+    {
+        return $this->belongsTo(MasterMonth::class, 'month_rent_per_renewed_lease');
+    }
 }
