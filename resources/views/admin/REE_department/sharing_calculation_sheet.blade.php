@@ -1408,6 +1408,8 @@
             localStorage.setItem('activeTab', tab_name)
 
             $(this).tab('show');
+
+            localStorage.clear();
             return false;
         });
 
