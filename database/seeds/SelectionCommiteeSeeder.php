@@ -41,13 +41,23 @@ class SelectionCommiteeSeeder extends Seeder
                 'name' => 'post_forward_application',
                 'display_name' => 'post_forward_application',
                 'description' => 'post_forward_application'
+            ],
+            [
+                'name' => 'evaluate_architect_application',
+                'display_name' => 'evaluate_architect_application',
+                'description' => 'evaluate_architect_application'
+            ],
+            [
+                'name' => 'forward_application',
+                'display_name' => 'forward_application',
+                'description' => 'forward_application'
             ]
             
         ];
         if(Role::where(['name'=>'selection_commitee'])->first())
             {
                 $selection_commitee_id=Role::where(['name'=>'selection_commitee'])->first();
-                $selection_commitee_id=$architect_id->id;
+                $selection_commitee_id=$selection_commitee_id->id;
             }else
             {
                 $selection_commitee_id=Role::insertGetId([

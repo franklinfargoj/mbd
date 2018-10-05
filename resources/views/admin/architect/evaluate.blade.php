@@ -43,6 +43,10 @@
         </div>
         <div class="portlet-body">
           <div class="table-responsive">
+            @php
+            $disable="";
+            echo $disable=$is_view==true?'':'disabled';
+            @endphp
             <form method="post" action="{{route('save_evaluate_marks')}}">
               @csrf
             <table class="table table-striped table-bordered table-hover datatable mdl-data-table dataTable">
@@ -63,14 +67,14 @@
                   <td>{{$row->document_path}}</td>
                   <td>
                     <div class="@if($errors->has('marks')) has-error @endif">
-                      <input type="text" name="marks[]" class="form-control" value="{{$row->marks}}">
+                      <input {{ $disable }} type="text" name="marks[]" class="form-control" value="{{$row->marks}}">
                       <input type="hidden" name="id[]" value="{{$row->id}}">
                       <span class="help-block">{{$errors->first('marks')}}</span>
                     </div>
                   </td>
                   <td>
                     <div class="@if($errors->has('remark')) has-error @endif">
-                      <textarea name="remark[]"  class="form-control">{{$row->remark}}</textarea>
+                      <textarea {{ $disable }} name="remark[]"  class="form-control">{{$row->remark}}</textarea>
                       <span class="help-block">{{$errors->first('remark')}}</span>
                     </div>
                   </td>
@@ -84,7 +88,7 @@
                   <th>Grand total</th>
                   <th>&nbsp;</th>
                   <th>{{$i}}</th>
-                  <th><input type="submit" value="Save"></th>
+                  <th><input type="submit" style="display:{{$is_view==false?'none':'block'}}" value="Save"></th>
                 </tr>
               </tbody>
             </table>
