@@ -53,20 +53,26 @@
         </div>
         <div class="portlet-body">
           <div class="col-md-12">
+          {{-- @if(!$ArchitectApplication->drafted_certificate!="") --}}
             <h3>View Certificate</h3>
-            <h5>Click to view generated Certificate in PDF format</h5>
-            <a href="javascript:void(0);" class="btn btn-danger" data-toggle="modal" data-target="#certificateModal" role="button">View Certificate</a>
+            <h5>Want to make changes in Certificate, click on below button to download Certificate in editable format</h5>
+            <a href="{{route('architect.edit_certificate',$encryptedId)}}" class="btn btn-danger" role="button">View Certificate</a>
+            <!-- <a href="javascript:void(0);" class="btn btn-danger" data-toggle="modal" data-target="#certificateModal" role="button">View Certificate</a> -->
+            {{-- @endif--}}
           </div>
           <div class="row">
             <div class="col-md-6">
+            @if($ArchitectApplication->drafted_certificate!="")
               <h3>Download Certificate</h3>
-              <h5>Want to make changes in Certificate, click on below button to download Certificate in .doc format</h5>
-              <a href="{{url('tempCertificateGenerate/'.$encryptedId)}}" class="btn btn-danger" role="button">Download Certificate</a>
+              <h5>Click to view generated Certificate in PDF format</h5>
+              <a target="_blank" href="{{config('commanConfig.storage_server').'/'.$ArchitectApplication->certificate_path}}" class="btn btn-danger" role="button">Download Certificate</a>
+
+            @endif
             </div>
             <div class="col-md-6">
               <h3>Upload Certificate</h3>
               <h5>Click on 'Upload' to upload certificate in</h5>
-              <form class="form-control" action="{{url('finalCertificateGenerate')}}" method="post" enctype="multipart/form-data">
+              <form class="form-control" action="{{route('architect.post_final_signed_certificate')}}" method="post" enctype="multipart/form-data">
                 @csrf
                 <input type="file" name="certificate" accept="application/*" required>
                 <input type="hidden" name="ap_no" value="{{$encryptedId}}">
