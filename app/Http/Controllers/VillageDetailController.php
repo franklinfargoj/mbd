@@ -121,6 +121,7 @@ lm_village_detail.updated_at'))->get();
         $getData = $request->all();
 
         $columns = [
+            ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'villageBoard','name' => 'villageBoard.board_name','title' => 'Board Name'],
             ['data' => 'village_name','name' => 'village_name','title' => 'Village Name'],
@@ -234,6 +235,9 @@ lm_village_detail.updated_at'))->get();
             $village_data = $village_data->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').',village_name, lm_village_detail.id as id, board_id, land_source_id, land_address, possession_date');
 
             return $datatables->of($village_data)
+                ->editColumn('radio', function ($village_data) {
+                    return '<input type="radio" name="village_data_id">';
+                })
                 ->editColumn('rownum', function ($village_data) {
                     static $i = 0;
                     $i++;
@@ -255,7 +259,7 @@ lm_village_detail.updated_at'))->get();
                 ->editColumn('actions', function ($village_data) {
                     return view('admin.village_detail.actions', compact('village_data'))->render();
                 })
-                ->rawColumns(['villageBoard', 'villageLandSource', 'village_name', 'actions'])
+                ->rawColumns(['radio', 'villageBoard', 'villageLandSource', 'village_name', 'actions'])
                 ->make(true);
         }
 
@@ -269,7 +273,7 @@ lm_village_detail.updated_at'))->get();
             'serverSide' => true,
             'processing' => true,
             'ordering'   =>'isSorted',
-            "order"=> [6, "desc" ],
+            "order"=> [7, "desc" ],
             "pageLength" => $this->list_num_of_records_per_page
         ];
     }

@@ -101,6 +101,7 @@ class SocietyController extends Controller
         $getData = $request->all();
 
         $columns = [
+            ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'society_name','name' => 'society_name','title' => 'Society Name'],
             ['data' => 'societyVillage','name' => 'societyVillage.village_name','title' => 'Village Name'],
@@ -176,6 +177,9 @@ class SocietyController extends Controller
             // $society_data = $society_data->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').',society_name, lm_society_detail.id as id, village_id, survey_number, society_address, surplus_charges');
 
             return $datatables->of($society_data)
+                ->editColumn('radio', function ($village_data) {
+                    return '<input type="radio" name="village_data_id">';
+                })
                 ->editColumn('rownum', function ($society_data) {
                     static $i = 0;
                     $i++;
@@ -195,7 +199,7 @@ class SocietyController extends Controller
                 ->editColumn('actions', function ($society_data) {
                     return view('admin.society_detail.actions', compact('society_data'))->render();
                 })
-                ->rawColumns(['societyVillage', 'society_name', 'actions'])
+                ->rawColumns(['radio', 'societyVillage', 'society_name', 'actions'])
                 ->make(true);
         }
 
@@ -209,7 +213,7 @@ class SocietyController extends Controller
             'serverSide' => true,
             'processing' => true,
             'ordering'   =>'isSorted',
-            "order"=> [6, "desc" ],
+            "order"=> [7, "desc" ],
             "pageLength" => $this->list_num_of_records_per_page
         ];
     }

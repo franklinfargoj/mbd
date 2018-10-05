@@ -221,6 +221,7 @@ class ResolutionController extends Controller
         }
 
         $columns = [
+            ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'board','name' => 'board.board_name','title' => 'Board Name'],
             ['data' => 'department','name' => 'department.department_name','title' => 'Department Name'],
@@ -267,6 +268,9 @@ class ResolutionController extends Controller
             $resolutions = $resolutions->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').', resolutions.id as id, board_id, department_id, resolution_type_id, title, resolution_code, published_date, filepath, filename');
             
             return $datatables->of($resolutions)
+                ->editColumn('radio', function ($resolutions) {
+                    return '<input type="radio" name="resolutions_id">';
+                })
                 ->editColumn('board', function ($resolutions) {
                     return $resolutions->board->board_name;
                 })
@@ -286,7 +290,7 @@ class ResolutionController extends Controller
                 ->editColumn('actions', function ($resolutions) {
                    return view('admin.resolution.actions', compact('resolutions'))->render();
                 })
-                ->rawColumns(['board','department','file','published_date','actions'])
+                ->rawColumns(['radio', 'board','department','file','published_date','actions'])
                 ->make(true);
         }
         
@@ -300,7 +304,7 @@ class ResolutionController extends Controller
             'serverSide' => true,
             'processing' => true,
             'ordering'   =>'isSorted',
-            "order"=> [8, "desc" ],
+            "order"=> [9, "desc" ],
             "pageLength" => $this->list_num_of_records_per_page,
             // 'fixedHeader' => [
             //     'header' => true,

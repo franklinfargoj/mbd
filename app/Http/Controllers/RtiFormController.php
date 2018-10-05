@@ -85,6 +85,7 @@ class RtiFormController extends Controller
         $getData = $request->all();
         $rti_statuses = MasterRtiStatus::all();
         $columns = [
+            ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No', 'searchable' => false],
             ['data' => 'unique_id','name' => 'unique_id','title' => 'RTI Application No.'],
             ['data' => 'created_at','name' => 'created_at','title' => 'Date of Submission'],
@@ -109,6 +110,9 @@ class RtiFormController extends Controller
             // $rti_applicants = $rti_applicants->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').', unique_id, created_at, applicant_name, meeting_scheduled_date, id, status');
 
             return $datatables->of($rti_applicants->orderBy('id'))
+                ->editColumn('radio', function ($rti_applicants) {
+                    return '<input type="radio" name="rti_applicants_id">';
+                })
                 ->editColumn('rownum', function ($rti_applicants) {
                     return $rti_applicants->id;
                 })
@@ -130,7 +134,7 @@ class RtiFormController extends Controller
                 ->editColumn('actions', function ($rti_applicants) {
                    return view('admin.rti_form.actions', compact('rti_applicants'))->render();
                 })
-                ->rawColumns(['board_name','status','actions'])
+                ->rawColumns(['radio', 'board_name','status','actions'])
                 ->make(true);
         }
 
@@ -143,7 +147,7 @@ class RtiFormController extends Controller
             'serverSide' => true,
             'processing' => true,
             'ordering'   =>'isSorted',
-            "order"=> [5, "desc" ],
+            "order"=> [6, "desc" ],
             "pageLength" => $this->list_num_of_records_per_page,
             // 'fixedHeader' => [
             //     'header' => true,
@@ -183,6 +187,7 @@ class RtiFormController extends Controller
         if($rti_applicant){
             $rti_applicant = $rti_applicant;
         }
+        // dd($rti_applicant);
         return view('admin.rti_form.view_applicant', compact('rti_applicant'));
     }
 

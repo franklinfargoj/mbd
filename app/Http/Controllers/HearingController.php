@@ -60,6 +60,7 @@ class HearingController extends Controller
         $hearing_status = HearingStatus::all();
 
         $columns = [
+            ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'case_number','name' => 'case_number','title' => 'Case Number'],
             ['data' => 'case_year','name' => 'case_year','title' => 'Case Year'],
@@ -155,6 +156,9 @@ class HearingController extends Controller
             }
 
             return $datatables->of($listArray)
+                ->editColumn('radio', function ($hearing_data) {
+                    return '<input type="radio" name="hearing_data_id">';
+                })
                 ->editColumn('rownum', function ($hearing_data) {
                     static $i = 0;
                     $i++;
@@ -186,7 +190,7 @@ class HearingController extends Controller
                     }
 
                 })
-                ->rawColumns(['actions', 'office_date', 'Status'])
+                ->rawColumns(['radio', 'actions', 'office_date', 'Status'])
                 ->make(true);
         }
 
@@ -201,7 +205,7 @@ class HearingController extends Controller
             'serverSide' => true,
             'processing' => true,
             'ordering'   =>'isSorted',
-            "order"=> [6, "desc" ],
+            "order"=> [7, "desc" ],
             "pageLength" => $this->list_num_of_records_per_page
         ];
     }
