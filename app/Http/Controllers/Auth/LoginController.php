@@ -90,11 +90,16 @@ class LoginController extends Controller
                 return redirect('/home');
             }else{
                 $role_name = Role::where('id', Auth::user()->role_id)->value('name');
-                if(explode('/', explode('.', Session::get('_previous')['url'])[0])[2] == $role_name){
+                if(explode('/', explode('.', Session::get('_previous')['url'])[0])[2] == 'society'){
                     // Authentication passed...
                     return redirect('/home');
                 }else{
-                    return redirect('/society_offer_letter')->with('error', "Please enter valid credentials");
+                    if(!empty($role_name)){
+                        // Authentication passed...
+                        return redirect('/home');  
+                    }else{
+                        return redirect('/society_offer_letter')->with('error', "Please enter valid credentials");
+                    }
                 }
             }
             
