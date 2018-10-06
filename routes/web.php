@@ -334,6 +334,7 @@ Route::get('offer_letter','REEDepartment\REEController@offerLetter')->name('offe
 // Route::get('pdfMerge', 'REEDepartment\REEController@pdfMerge')->name('ree.pdfMerge');
 Route::get('approved_offer_letter/{id}','REEDepartment\REEController@approvedOfferLetter')->name('ree.approved_offer_letter');
 Route::get('generate_offer_letter/{id}', 'REEDepartment\REEController@GenerateOfferLetter')->name('ree.generate_offer_letter');
+
 Route::get('edit_offer_letter/{id}', 'REEDepartment\REEController@editOfferLetter')->name('ree.edit_offer_letter');
 Route::post('save_offer_letter', 'REEDepartment\REEController@saveOfferLetter')->name('ree.save_offer_letter');
 Route::post('upload_offer_letter/{id}', 'REEDepartment\REEController@uploadOfferLetter')->name('ree.upload_offer_letter');
@@ -346,9 +347,16 @@ Route::post('send_letter_society','REEDepartment\REEController@sendOfferLetterTo
 Route::get('calculation_sheet/{id}','Common\CommonController@showCalculationSheet')->name('show_calculation_sheet');
 
 Route::get('view_application/{id}','CAPDepartment\CAPController@viewApplication')->name('cap.view_application');
+
+Route::get('view_application_co/{id}','CODepartment\COController@viewApplication')->name('co.view_application');
+
+Route::get('view_application_ee/{id}','EEDepartment\EEController@viewApplication')->name('ee.view_application');
 Route::get('view_application_vp/{id}','VPDepartment\VPController@viewApplication')->name('vp.view_application');
 Route::get('view_application_ree/{id}','REEDepartment\REEController@viewApplication')->name('ree.view_application');
 Route::get('calculation_sheet_vp/{id}','VPDepartment\VPController@showCalculationSheet')->name('vp.show_calculation_sheet');
+
+Route::get('calculation_sheet_co/{id}','CODepartment\COController@showCalculationSheet')->name('co.show_calculation_sheet');
+
 Route::get('calculation_sheet_cap/{id}','CAPDepartment\CAPController@showCalculationSheet')->name('cap.show_calculation_sheet');
 
 Route::resource('/ol_calculation_sheet', 'REEDepartment\OlApplicationCalculationSheetDetailsController');
