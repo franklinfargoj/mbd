@@ -81,7 +81,7 @@
                 </div>
 
                 <div class="col-lg-6 form-group">
-                    <label class="col-form-label" for="area">Area:</label>
+                    <label class="col-form-label" for="area">Area (sq. ft.):</label>
                     <div class="m-input-icon m-input-icon--right">
                         <input type="text" id="area" name="area" readonly class="form-control form-control--custom m-input"
                             value="{{ $arrData['society_data']->area }}">
