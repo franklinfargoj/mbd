@@ -1,4 +1,7 @@
-@extends('admin.layouts.app')
+@extends('admin.layouts.sidebarAction')
+@section('actions')
+    @include('admin.co_department.action',compact('ol_application'))
+@endsection
 @section('content')
 
 <form role="form" id="sendApprovedOffer" style="margin-top: 30px;" name="sendForApproval" class="form-horizontal" method="post" action="{{ route('co.send_approved_offer_letter')}}" enctype="multipart/form-data">
@@ -19,14 +22,18 @@
                     <h3 class="section-title section-title--small">
                         View offer letter</h3>
                 </div>
+                @if(isset($applicationData->offer_letter_document_path))
                 <div class="mt-3 btn-list">
                     <a href="{{config('commanConfig.storage_server').'/'.$applicationData->offer_letter_document_path}}" class="btn btn-primary" target="_blank">View</a>
                 </div>
+                @else
+                <span class="text-danger">*Note : Offer letter not available.</span>
+                @endif
                 <div class="remarks-suggestions">
                     <div class="mt-3">
                         <label for="demarkation_comments">Remark by REE</label>
                         <textarea id="demarkation_comments" rows="5" cols="30" class="form-control form-control--custom"
-                            name="demarkation_comments">{{ isset($applicationData->ReeLog->remark) ? $applicationData->ReeLog->remark : '' }}</textarea>
+                            name="demarkation_comments" disabled>{{ isset($applicationData->ReeLog->remark) ? $applicationData->ReeLog->remark : '' }}</textarea>
                     </div>
                 </div>
             </div>
@@ -51,9 +58,9 @@
                     <div class="mt-3">
                         <label for="demarkation_comments">Remark</label>
                         <textarea id="remark" rows="5" cols="30" class="form-control form-control--custom"
-                            name="remark">{{ isset($applicationData->coLog->remark) ? $applicationData->coLog->remark : '' }}</textarea>
+                            name="remark" disabled>{{ isset($applicationData->coLog->remark) ? $applicationData->coLog->remark : '' }}</textarea>
                     </div>
-                    @if($applicationData->is_approve_offer_letter == 0)
+                    @if($ol_application->status->status_id == config('commanConfig.applicationStatus.offer_letter_generation'))
                         <div class="mt-3 btn-list">
                             <input type="submit" class="btn btn-primary" value="Approve">
                         </div>
@@ -62,8 +69,6 @@
             </div>
         </div>
     </div>
-
-
 </div>
 </div>
 </form>

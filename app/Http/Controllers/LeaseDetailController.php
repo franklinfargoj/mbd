@@ -172,7 +172,7 @@ class LeaseDetailController extends Controller
             return $datatables->of($lease_data)
                 ->editColumn('radio', function ($lease_data) {
                     $url = route('view-lease.view', [$lease_data->id, $lease_data->society_id]);
-                    return '<label class="m-radio m-radio--primary"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
+                    return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
                 })
                 ->editColumn('rownum', function ($lease_data) {
                         static $i = 0;

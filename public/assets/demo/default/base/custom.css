@@ -584,10 +584,6 @@
     font-size: 1rem;
 }
 
-.m-login .form-control {
-    border-radius: 40px;
-}
-
 .m-login__action {
     margin-top: 10px;
 }
@@ -679,9 +675,47 @@
     display: block !important;
 } */
 
+.m-login.m-login--2.no-radius-form .m-login__wrapper .m-login__container .m-login__form .m-form__group .form-control {
+    border-radius: 0;
+}
+
+.m-radio.m-radio--primary>span {
+    border-color: #f0791b;
+}
+
+.m-radio>span:after {
+    top: 50%;
+    left: 50%;
+    margin: 0;
+    background: #f0791b;
+    transform: translate(-50%, -50%);
+}
+
+.m-radio.m-radio--primary.m-radio--link>span {
+    border-color: #f0791b;
+    top: -5px;
+    width: 16px;
+    height: 16px;
+}
+
+.m-radio.m-radio--primary.m-radio--link>span:after {
+    width: 1px;
+    height: 1px;
+}
+
 /* theme classes over ride ends here */
 
 /* global classes starts here */
+
+.block-title {
+    color: #fff;
+    text-transform: uppercase;
+    background-color: #f0791b;
+    text-align: center;
+    padding: 10px 0;
+    font-size: 1.4rem;
+    margin-bottom: 0;
+}
 
 .filter-wrap {
     margin-top: 30px;
@@ -1127,12 +1161,6 @@
 }
 
 /* global classes ends here */
-
-/* Sidebar starts here */
-
-.m-menu__item--submenu {}
-
-/* Sidebar ends here */
 
 /* offer letter starts here */
 
@@ -1817,18 +1845,41 @@ label.site-visit-label {
 
 /* Sign Up Page starts here */
 
+.signup-wrapper {
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+.m-login__signup .form-group {
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+}
+
+.m-login__head--signup {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    padding-left: 15px;
+}
+
+.m-login__head--signup .m-login__title {
+    font-size: 2.57rem;
+    line-height: 1.3;
+}
+
+.overlay--signup::before {
+    background-image: url('../../../../img/bg/signup-bg.jpg');
+}
+
 .sign-up-bg {
-    background-image: url(../../../../img/bg/login-bg-3.jpg);
+    background-image: url('../../../../img/bg/login-bg-3.jpg');
     background-repeat: no-repeat;
 }
 
 .sign-up-box {
     padding: 30px !important;
     background-color: rgba(0, 0, 0, 0.6);
-}
-
-.m-login__signup {
-    padding-top: 30px;
 }
 
 .m-login__container--sign-in {

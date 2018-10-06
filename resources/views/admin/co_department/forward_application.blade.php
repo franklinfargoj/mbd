@@ -1,4 +1,7 @@
-@extends('admin.layouts.app')
+@extends('admin.layouts.sidebarAction')
+@section('actions')
+    @include('admin.co_department.action',compact('ol_application'))
+@endsection
 @section('content')
 
 <div class="custom-wrapper">
@@ -12,7 +15,8 @@
                                 <i class="la la-cog"></i> Scrutiny History
                             </a>
                         </li>
-                        @if($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.in_process') || $arrData['get_current_status']->status_id != config('commanConfig.applicationStatus.offer_letter_generation'))
+
+                        @if(($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.in_process') || $arrData['get_current_status']->status_id != config('commanConfig.applicationStatus.offer_letter_generation') || $arrData['get_current_status']->status_id != config('commanConfig.applicationStatus.offer_letter_approved') ) && $arrData['get_current_status']->status_id != config('commanConfig.applicationStatus.forwarded'))
                             <li class="nav-item m-tabs__item">
                                 <a class="nav-link m-tabs__link show" data-toggle="tab" href="#forward-application-tab">
                                     <i class="la la-cog"></i> Forward Application

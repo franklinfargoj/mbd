@@ -36,6 +36,7 @@ class COController extends Controller
 
         $getData = $request->all();
         $columns = [
+            ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'application_no','name' => 'application_no','title' => 'Application Number'],
             ['data' => 'date','name' => 'date','title' => 'Date'],
@@ -44,7 +45,7 @@ class COController extends Controller
             ['data' => 'eeApplicationSociety.address','name' => 'eeApplicationSociety.address','title' => 'Address'],
             // ['data' => 'model','name' => 'model','title' => 'Model'],
              ['data' => 'Status','name' => 'Status','title' => 'Status'],
-            ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
+            // ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
         ];
 
         if ($datatables->getRequest()->ajax()) {
@@ -55,6 +56,10 @@ class COController extends Controller
                 ->editColumn('rownum', function ($listArray) {
                     static $i = 0; $i++; return $i;
                 })
+                ->editColumn('radio', function ($co_application_data) {
+                    $url = route('co.view_application', $co_application_data->id);
+                    return '<label class="m-radio m-radio--primary"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
+                })                
                 ->editColumn('eeApplicationSociety.name', function ($co_application_data) {
                     return $co_application_data->eeApplicationSociety->name;
                 })
@@ -67,9 +72,9 @@ class COController extends Controller
                 ->editColumn('date', function ($co_application_data) {
                     return date(config('commanConfig.dateFormat'), strtotime($co_application_data->submitted_at));
                 })
-                ->editColumn('actions', function ($co_application_data) use($request){
-                   return view('admin.co_department.action', compact('co_application_data', 'request'))->render();
-                })
+                // ->editColumn('actions', function ($co_application_data) use($request){
+                //    return view('admin.co_department.action', compact('co_application_data', 'request'))->render();
+                // })
                 ->editColumn('Status', function ($listArray) use ($request) {
                     $status = $listArray->olApplicationStatusForLoginListing[0]->status_id;
 
@@ -87,7 +92,7 @@ class COController extends Controller
                     }
 
                 })
-                ->rawColumns(['society_name', 'Status', 'building_name', 'society_address','date','actions'])
+                ->rawColumns(['radio','society_name', 'Status', 'building_name', 'society_address','date','actions'])
                 ->make(true);
         }        
     	        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
@@ -108,28 +113,34 @@ class COController extends Controller
 
     // society and EE documents
     public function societyEEDocuments(Request $request,$applicationId){
-       
+
+       $ol_application = $this->CommonController->getOlApplication($applicationId);
+        $ol_application->status = $this->CommonController->getCurrentStatus($applicationId);
+
         $societyDocuments = $this->CommonController->getSocietyEEDocuments($applicationId);
-       return view('admin.co_department.society_EE_documents',compact('societyDocuments'));
+       return view('admin.co_department.society_EE_documents',compact('societyDocuments','ol_application'));
     }
 
     // EE - Scrutiny & Remark page
     public function eeScrutinyRemark(Request $request,$applicationId){
-
+        $ol_application = $this->CommonController->getOlApplication($applicationId);
+        $ol_application->status = $this->CommonController->getCurrentStatus($applicationId);
         $eeScrutinyData = $this->CommonController->getEEScrutinyRemark($applicationId);
-        return view('admin.co_department.EE_Scrunity_Remark',compact('eeScrutinyData'));
+        return view('admin.co_department.EE_Scrunity_Remark',compact('eeScrutinyData','ol_application'));
     }
 
     // DyCE Scrutiny & Remark page
     public function dyceScrutinyRemark(Request $request,$applicationId){
-
+         $ol_application = $this->CommonController->getOlApplication($applicationId);
+         $ol_application->status = $this->CommonController->getCurrentStatus($applicationId);
         $applicationData = $this->CommonController->getDyceScrutinyRemark($applicationId);
-        return view('admin.co_department.dyce_scrunity_remark',compact('applicationData'));
+        return view('admin.co_department.dyce_scrunity_remark',compact('applicationData','ol_application'));
     }
 
     // Forward Application page
     public function forwardApplication(Request $request, $applicationId){
-
+         $ol_application = $this->CommonController->getOlApplication($applicationId);
+         $ol_application->status = $this->CommonController->getCurrentStatus($applicationId);
         $applicationData = $this->CommonController->getForwardApplication($applicationId);
 //        $arrData['application_status'] = $this->CommonController->getCurrentApplicationStatus($applicationId);
 
@@ -165,7 +176,7 @@ class COController extends Controller
         $this->CommonController->getEEForwardRevertLog($applicationData,$applicationId);
         $this->CommonController->getDyceForwardRevertLog($applicationData,$applicationId);
         $this->CommonController->getREEForwardRevertLog($applicationData,$applicationId);    
-        return view('admin.co_department.forward_application',compact('applicationData', 'arrData'));
+        return view('admin.co_department.forward_application',compact('applicationData', 'arrData','ol_application'));
     }
 
     public function sendForwardApplication(Request $request){
@@ -183,14 +194,18 @@ class COController extends Controller
     }
 
     public function downloadCapNote(Request $request, $applicationId){
-
+        $ol_application = $this->CommonController->getOlApplication($applicationId);
+        $ol_application->status = $this->CommonController->getCurrentStatus($applicationId);
         $capNote = $this->CommonController->downloadCapNote($applicationId);
 
-        return view('admin.co_department.cap_note',compact('capNote'));
+        return view('admin.co_department.cap_note',compact('capNote','ol_application'));
      } 
 
     public function approveOfferLetter(Request $request, $applicationId){
 
+        $ol_application = $this->CommonController->getOlApplication($applicationId);
+        $ol_application->status = $this->CommonController->getCurrentStatus($applicationId);
+        // dd($ol_application->status->status_id);
         $ree_branch_head = Role::where('name',config('commanConfig.ree_branch_head'))->value('id');
         $co = Role::where('name',config('commanConfig.co_engineer'))->value('id');
 
@@ -200,7 +215,7 @@ class COController extends Controller
 
         $applicationData->coLog = OlApplicationStatus::where('application_id',$applicationId)->where('role_id',$co)->where('status_id', config('commanConfig.applicationStatus.forwarded'))->orderBy('id', 'desc')->first(); 
 
-        return view('admin.co_department.approve_offer_letter',compact('applicationData'));
+        return view('admin.co_department.approve_offer_letter',compact('applicationData','ol_application'));
     }
 
     public function approvedOfferLetter(Request $request){
@@ -215,5 +230,30 @@ class COController extends Controller
             return redirect('/co')->with('success','Approved Offer Letter successfully.');
 
         // $updateApplication = OlApplication::where('id',)           
-    }    
+    }
+
+    public function viewApplication(Request $request, $applicationId){
+
+        $ol_application = $this->CommonController->getOlApplication($applicationId);
+        $ol_application->status = $this->CommonController->getCurrentStatus($applicationId);
+
+        $ol_application = $this->CommonController->downloadOfferLetter($applicationId);
+        $ol_application->folder = 'co_department';
+
+        return view('admin.common.offer_letter', compact('ol_application'));
+    } 
+
+    public function showCalculationSheet(Request $request, $applicationId){
+        
+        $user = $this->CommonController->showCalculationSheet($applicationId);
+        $ol_application = $this->CommonController->getOlApplication($applicationId);
+        $ol_application->status = $this->CommonController->getCurrentStatus($applicationId);
+        $ol_application->folder = 'co_department';
+        $calculationSheetDetails = $user->calculationSheetDetails;
+        $dcr_rates = $user->dcr_rates;
+        $blade = $user->blade;
+        $arrData['reeNote'] = $user->areeNote;
+        // dd($blade);
+        return view('admin.common.'.$blade,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application'));         
+    }            
 }
