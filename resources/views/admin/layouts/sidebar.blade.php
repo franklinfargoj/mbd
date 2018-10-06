@@ -30,6 +30,7 @@
             @endif
 
 
+
             @if(in_array('rti_applicants', session()->get('permission')))
             <li class="m-menu__item m-menu__item--active" aria-haspopup="true">
                 <a href="{{url('/rti_applicants')}}" class="m-menu__link ">
@@ -163,6 +164,7 @@
             </li>
             @endif
 
+
             @if(in_array('architect_application', session()->get('permission')) ||
             in_array('view_architect_application',
             session()->get('permission')) || in_array('evaluate_architect_application', session()->get('permission'))
@@ -191,6 +193,8 @@
                 </a>
             </li>
             @endif
+
+            @yield('actions')
 
             <!-- <li class="m-menu__item m-menu__item--active" aria-haspopup="true">
                     <a href="{{ route('society_offer_letter_dashboard') }}" class="m-menu__link ">

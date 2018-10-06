@@ -140,8 +140,7 @@
                     <div class="col-sm-6 field-col">
                         <div class="d-flex">
                             <span class="field-name">Date of site visit:</span>
-                            <span class="field-value">{{(isset($applicationData->date_of_site_visit) ?
-                                $applicationData->date_of_site_visit : '')}}</span>
+                            <span class="field-value">{{($applicationData->date_of_site_visit) ? date(config('commanConfig.dateFormat'),strtotime($applicationData->date_of_site_visit)) : ''}}</span>
                         </div>
                     </div>
                     @foreach($applicationData->visitDocuments as $data)
