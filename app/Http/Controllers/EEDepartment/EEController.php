@@ -71,7 +71,7 @@ class EEController extends Controller
                 })
                 ->editColumn('radio', function ($ee_application_data) {
                     $url = route('ee.view_application', $ee_application_data->id);
-                    return '<label class="m-radio m-radio--primary"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
+                    return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
                 })                
                 ->editColumn('eeApplicationSociety.name', function ($listArray) {
                     return $listArray->eeApplicationSociety->name;
