@@ -51,6 +51,11 @@ class SelectionCommiteeSeeder extends Seeder
                 'name' => 'forward_application',
                 'display_name' => 'forward_application',
                 'description' => 'forward_application'
+            ],
+            [
+                'name' => 'finalise_architect_application',
+                'display_name' => 'finalise_architect_application',
+                'description' => 'finalise_architect_application'
             ]
             
         ];
@@ -62,7 +67,7 @@ class SelectionCommiteeSeeder extends Seeder
             {
                 $selection_commitee_id=Role::insertGetId([
                     'name' => 'selection_commitee',
-                    'redirect_to' => '/shortlisted_architect_application',
+                    'redirect_to' => '/architect_application',
                     'parent_id' => NULL,
                     'display_name' => 'Selection Commitee',
                     'description' => 'Selection Commitee'

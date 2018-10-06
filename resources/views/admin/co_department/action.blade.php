@@ -3,7 +3,8 @@
 <a title="EE_Scrutiny_Remark" href="{{route('co.EE_Scrutiny_Remark',$co_application_data->id)}}">EE Scrutiny & Remarks</a>  
 <a title="DYCE_Scrutiny_Remark" href="{{route('co.scrutiny_remark',$co_application_data->id)}}">DyCE Scrutiny & Remarks</a> 
 
-<a title="REE calculation sheet" href="{{route('show_calculation_sheet',$co_application_data>id)}}">REE calculation sheet</a>  
+<a title="REE calculation sheet" href="{{route('show_calculation_sheet',$co_application_data->id)}}">REE calculation sheet</a>  
+
 <a title="Approve offer Letter" href="{{route('co.approve_offer_letter',$co_application_data->id)}}">Approve offer Letter</a>
 
 {{--@if($co_application_data->olApplicationStatusForLoginListing[0]->status_id == config('commanConfig.applicationStatus.in_process'))--}}

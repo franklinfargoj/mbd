@@ -92,14 +92,12 @@
                 </a>
                 <div class="m-menu__submenu" m-hidden-height="160" style=""><span class="m-menu__arrow"></span>
                     <ul class="m-menu__subnav">
-                        
-                        <li class="m-menu__item m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover"><a
-                                href="{{url('/village_detail')}}" class="m-menu__link m-menu__toggle"><span
-                                    class="m-menu__link-text">Village Detail</span></i></a>
+
+                        <li class="m-menu__item m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover">
+                            <a href="{{url('/village_detail')}}" class="m-menu__link m-menu__toggle"><img class="radio-icon" src="{{ asset('/img/radio-icon.svg')}}"><span class="m-menu__link-text">Village Detail</span></i></a>
                         </li>
-                        <li class="m-menu__item m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover"><a
-                                href="{{route('society_detail.index')}}" class="m-menu__link m-menu__toggle"><span
-                                    class="m-menu__link-text">Society Detail</span></i></a>
+                        <li class="m-menu__item m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover">
+                            <a href="{{route('society_detail.index')}}" class="m-menu__link m-menu__toggle"><img class="radio-icon" src="{{ asset('/img/radio-icon.svg')}}"><span class="m-menu__link-text">Society Detail</span></i></a>
                         </li>
                     </ul>
                 </div>
@@ -165,9 +163,12 @@
             </li>
             @endif
 
-            @if(in_array('architect_application', session()->get('permission')) || in_array('view_architect_application',
-            session()->get('permission')) || in_array('evaluate_architect_application', session()->get('permission')) ||
-            in_array('shortlisted_architect_application', session()->get('permission')) || in_array('final_architect_application',
+            @if(in_array('architect_application', session()->get('permission')) ||
+            in_array('view_architect_application',
+            session()->get('permission')) || in_array('evaluate_architect_application', session()->get('permission'))
+            ||
+            in_array('shortlisted_architect_application', session()->get('permission')) ||
+            in_array('final_architect_application',
             session()->get('permission')) || in_array('save_evaluate_marks', session()->get('permission')) ||
             in_array('generate_certificate', session()->get('permission')) ||
             in_array('forward_application', session()->get('permission')) ||

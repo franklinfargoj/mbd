@@ -24,7 +24,7 @@
             </button> {{ Session::get('success') }}
         </div>
         @endif
-        <div class="m-portlet__body data-table--custom">
+        <div class="m-portlet__body data-table--custom data-table--icons">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <a href="{{ url('/society_detail/') }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
                 <div class="btn-list text-right">

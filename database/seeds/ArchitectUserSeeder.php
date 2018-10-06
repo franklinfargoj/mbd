@@ -91,6 +91,11 @@ class ArchitectUserSeeder extends Seeder
                     'name' => 'post_forward_application',
                     'display_name' => 'post_forward_application',
                     'description' => 'post_forward_application'
+                ],
+                [
+                    'name' => 'shortlist_architect_application',
+                    'display_name' => 'shortlist_architect_application',
+                    'description' => 'shortlist_architect_application'
                 ]
                 
             ];

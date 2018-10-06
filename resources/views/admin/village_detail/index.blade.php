@@ -23,7 +23,7 @@
         </div>
         @endif
         
-        <div class="m-portlet__body data-table--custom">
+        <div class="m-portlet__body data-table--custom data-table--icons">
             <!--begin: Search Form -->
             {{--<div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
                 <div class="container-fluid">

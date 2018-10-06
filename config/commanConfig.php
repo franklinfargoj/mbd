@@ -43,8 +43,13 @@ return [
         'new_application' => 1,
         'scrutiny_pending' => 2,
         'forward' => 3,
-        'shortListed' => 4,
-        'final' => 5
+        // 'shortListed' => 4,
+        // 'final' => 5
+    ],
+    'architect_application_status' => [
+        'none'=>0,
+        'shortListed' => 1,
+        'final' => 2
     ],
 
     'ee_junior_engineer' => 'ee_junior_engineer',
