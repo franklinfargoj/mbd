@@ -1,4 +1,7 @@
-@extends('admin.layouts.app')
+@extends('admin.layouts.sidebarAction')
+@section('actions')
+    @include('admin.ee_department.action',compact('ol_application'))
+@endsection
 @section('content')
 
 @if(session()->has('error'))

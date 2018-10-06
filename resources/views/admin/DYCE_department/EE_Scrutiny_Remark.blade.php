@@ -704,8 +704,7 @@
                                                     @if(isset($eeScrutinyData->eeNote->document_path))
                                                     <a href="{{ config('commanConfig.storage_server').'/'.$eeScrutinyData->eeNote->document_path }}">
 
-                                                        <button class="btn btn-primary">Download
-                                                            offer Letter Application</button>
+                                                        <button class="btn btn-primary">Download EE Note Format</button>
                                                     </a>
                                                     @else
                                                     <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">

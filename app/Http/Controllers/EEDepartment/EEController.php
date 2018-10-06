@@ -49,6 +49,7 @@ class EEController extends Controller
         $getData = $request->all();
 
         $columns = [
+            ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'application_no','name' => 'application_no','title' => 'Application Number'],
             ['data' => 'submitted_at','name' => 'submitted_at','title' => 'Date'],
@@ -57,7 +58,7 @@ class EEController extends Controller
             ['data' => 'eeApplicationSociety.address','name' => 'eeApplicationSociety.address','title' => 'Address'],
 //            ['data' => 'model','name' => 'model','title' => 'Model'],
             ['data' => 'Status','name' => 'current_status_id','title' => 'Status'],
-            ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
+            // ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
         ];
 
         if ($datatables->getRequest()->ajax()) {
@@ -68,6 +69,10 @@ class EEController extends Controller
                 ->editColumn('rownum', function ($listArray) {
                     static $i = 0; $i++; return $i;
                 })
+                ->editColumn('radio', function ($ee_application_data) {
+                    $url = route('ee.view_application', $ee_application_data->id);
+                    return '<label class="m-radio m-radio--primary"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
+                })                
                 ->editColumn('eeApplicationSociety.name', function ($listArray) {
                     return $listArray->eeApplicationSociety->name;
                 })
@@ -97,10 +102,10 @@ class EEController extends Controller
                 ->editColumn('submitted_at', function ($listArray) {
                     return date(config('commanConfig.dateFormat'), strtotime($listArray->submitted_at));
                 })
-                ->editColumn('actions', function ($ee_application_data) use($request) {
-                    return view('admin.ee_department.actions', compact('ee_application_data', 'request'))->render();
-                })
-                ->rawColumns(['society_name', 'actions', 'society_building_no', 'society_address', 'Status', 'submitted_at'])
+                // ->editColumn('actions', function ($ee_application_data) use($request) {
+                //     return view('admin.ee_department.actions', compact('ee_application_data', 'request'))->render();
+                // })
+                ->rawColumns(['radio','society_name', 'society_building_no', 'society_address', 'Status', 'submitted_at'])
                 ->make(true);
         }
 
@@ -121,11 +126,16 @@ class EEController extends Controller
 
     public function documentSubmittedBySociety($applicationId)
     {
+        $ol_application = $this->comman->getOlApplication($applicationId);    
         $societyDocument = $this->comman->getSocietyEEDocuments($applicationId);
-        return view('admin.ee_department.documentSubmitted', compact('societyDocument'));
+        $ol_application->status = $this->comman->getCurrentStatus($applicationId);
+        return view('admin.ee_department.documentSubmitted', compact('societyDocument','ol_application'));
     }
 
     public function getForwardApplicationForm($application_id){
+
+        $ol_application = $this->comman->getOlApplication($application_id);
+        $ol_application->status = $this->comman->getCurrentStatus($application_id);
         $arrData['society_detail'] = OlApplication::with('eeApplicationSociety')->where('id', $application_id)->first();
 
         $parentData = $this->comman->getForwardApplicationParentData();
@@ -156,7 +166,7 @@ class EEController extends Controller
 
         $arrData['dyce_role_name'] = strtoupper(str_replace('_', ' ', $dyce_role_id->name));
 
-        return view('admin.ee_department.forward-application', compact('arrData', 'society_role_id'));
+        return view('admin.ee_department.forward-application', compact('arrData', 'society_role_id','ol_application'));
     }
 
     public function forwardApplication(Request $request)
@@ -262,7 +272,8 @@ class EEController extends Controller
 
     public function scrutinyRemarkByEE($application_id, $society_id)
     {
-
+        $ol_application = $this->comman->getOlApplication($application_id);
+        $ol_application->status = $this->comman->getCurrentStatus($application_id);
         $application_master_id = OlApplication::where('society_id', $society_id)->value('application_master_id');
         $arrData['society_document'] = OlSocietyDocumentsMaster::where('application_id', $application_master_id)->get();       
         // Document Scrutiny
@@ -317,7 +328,7 @@ class EEController extends Controller
                 'role_id' => session()->get('role_id')
             ])->orderBy('id', 'desc')->first();
 
-        return view('admin.ee_department.scrutiny-remark', compact('arrData'));
+        return view('admin.ee_department.scrutiny-remark', compact('arrData','ol_application'));
     }
 
     public function addDocumentScrutiny(Request $request)
@@ -587,69 +598,12 @@ class EEController extends Controller
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+    public function viewApplication(Request $request, $applicationId){
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+        $ol_application = $this->comman->downloadOfferLetter($applicationId);
+        $ol_application->folder = 'ee_department';
+        $ol_application->status = $this->comman->getCurrentStatus($applicationId);
+        // dd();
+        return view('admin.common.offer_letter', compact('ol_application'));
+    }    
 }
