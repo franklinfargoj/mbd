@@ -57,8 +57,9 @@ class CAPController extends Controller
                     static $i = 0; $i++; return $i;
                 })
                 ->editColumn('radio', function ($cap_application_data) {
-                    
-                    return '<a href="javascript:void();" class="show_actions" data-value="'.route('cap.view_application', $cap_application_data->id).'"><label class="m-radio m-radio--primary"><input type="radio" name="applicationId"><span></span></label></a>';
+
+                    $url = route('cap.view_application', $cap_application_data->id);
+                    return '<label class="m-radio m-radio--primary"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
                 })
                 ->editColumn('eeApplicationSociety.name', function ($cap_application_data) {
                     return $cap_application_data->eeApplicationSociety->name;
@@ -162,7 +163,7 @@ class CAPController extends Controller
 
     public function sendForwardApplication(Request $request){
         $this->CommonController->forwardApplicationForm($request);
-        return redirect('/cap');
+        return redirect('/cap')->with('success','Application send successfully.');
     }
 
     public function displayCAPNote(Request $request, $applicationId){
@@ -175,8 +176,6 @@ class CAPController extends Controller
     public function uploadCAPNote(Request $request){
         
         $applicationId   = $request->applicationId;
-        $uploadPath      = '/uploads/cap_notes';
-        $destinationPath = public_path($uploadPath);
 
         if ($request->file('cap_note')){
 
@@ -186,7 +185,7 @@ class CAPController extends Controller
             $folder_name = "cap_notes";
 
             if ($extension == "pdf"){
-                $path = config('commanConfig.storage_server').'/'.$folder_name.'/'.$file_name;
+                $path = $folder_name.'/'.$file_name;
 
                 $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$request->file('cap_note'),$file_name);
 
@@ -208,5 +207,18 @@ class CAPController extends Controller
         $ol_application->folder = 'cap_department';
 
         return view('admin.common.offer_letter', compact('ol_application'));
-    }  
+    }
+
+    public function showCalculationSheet(Request $request, $applicationId){
+        
+        $user = $this->CommonController->showCalculationSheet($applicationId);
+        $ol_application = $this->CommonController->getOlApplication($applicationId);
+        $ol_application->folder = 'cap_department';
+        $calculationSheetDetails = $user->calculationSheetDetails;
+        $dcr_rates = $user->dcr_rates;
+        $blade = $user->blade;
+        $arrData['reeNote'] = $user->areeNote;
+        // dd($blade);
+        return view('admin.common.'.$blade,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application'));         
+    }         
 }

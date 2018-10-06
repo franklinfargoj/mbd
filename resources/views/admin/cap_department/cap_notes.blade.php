@@ -55,7 +55,10 @@
                                             <span class="hint-text">Download CAP Note uploaded by CAP</span>
                                             <div class="mt-auto">
                                                 @if(isset($capNote->document_path))
-                                                <a href="{{ asset($capNote->document_path) }}">
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$capNote->document_path }}">
+
+                                                
+                                                
                                                     <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>
@@ -73,17 +76,18 @@
                                             <span class="hint-text">Click on 'Upload' to upload CAP - Note
                                                 -
                                                 Note</span>
-                                            <form action="" method="post">
+                                            <!-- <form action="" method="post"> -->
                                                 <div class="custom-file">
-                                                    <input class="custom-file-input" type="file" id="test-upload" name="cap_note"
+                                                    <input class="custom-file-input cap_note" type="file" id="test-upload" name="cap_note"
                                                         required="">
                                                     <label class="custom-file-label" for="test-upload">Choose
                                                         file...</label>
                                                 </div>
+                                                <span class="text-danger" id="file_error"></span>
                                                 <div class="mt-auto">
                                                     <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
                                                 </div>
-                                            </form>
+                                            <!-- </form> -->
                                         </div>
                                     </div>
                                 </div>

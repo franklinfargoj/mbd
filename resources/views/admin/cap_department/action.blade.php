@@ -27,7 +27,7 @@
 </li>
 
 <li class="m-menu__item m-menu__item--submenu" aria-haspopup="true">
-    <a class="m-menu__link m-menu__toggle" title="REE Calculation Sheet" href="{{route('show_calculation_sheet',$ol_application->id)}}">
+    <a class="m-menu__link m-menu__toggle" title="REE Calculation Sheet" href="{{route('cap.show_calculation_sheet',$ol_application->id)}}">
         <img class="radio-icon" src="{{ asset('/img/radio-icon.svg')}}">
         <span class="m-menu__link-text">REE Calculation Sheet</span>
     </a>

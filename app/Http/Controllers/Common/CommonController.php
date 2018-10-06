@@ -523,28 +523,29 @@ class CommonController extends Controller
     } 
 
     public function showCalculationSheet($applicationId){
-
-       $user = Auth::user();
-       $ol_application = $this->getOlApplication($applicationId);
+       
+       $arr = array();
+       $arr = Auth::user();
        $model = OlApplication::with('ol_application_master')->where('id',$applicationId)->first();
        if ($model->ol_application_master->model == 'Premium'){
-        $calculationSheetDetails = OlApplicationCalculationSheetDetails::where('application_id','=',$applicationId)->get();
+        $arr->calculationSheetDetails = OlApplicationCalculationSheetDetails::where('application_id','=',$applicationId)->get();
 
-        $blade = 'premiunCalculationSheet';
+        $arr->blade = 'premiunCalculationSheet';
 
        }elseif($model->ol_application_master->model == 'Sharing'){
 
-        $calculationSheetDetails = OlSharingCalculationSheetDetail::where('application_id','=',$applicationId)->get();
+        $arr->calculationSheetDetails = OlSharingCalculationSheetDetail::where('application_id','=',$applicationId)->get();
 
-        $blade = 'sharingCalculationSheet';
+        $arr->blade = 'sharingCalculationSheet';
        }
     
-        $dcr_rates = OlDcrRateMaster::all();
-        // REE Note download
+        $arr->dcr_rates = OlDcrRateMaster::all();
 
-        $arrData['reeNote'] = REENote::where('application_id', $applicationId)->orderBy('id', 'desc')->first();
+        // $arr->arrData['reeNote'] = REENote::where('application_id', $applicationId)->orderBy('id', 'desc')->first();   
 
-        return view('admin.common.'.$blade,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application'));       
+        $arr->areeNote = REENote::where('application_id', $applicationId)->orderBy('id', 'desc')->first();
+
+        return $arr;      
     }
 
     public function getOlApplication($applicationId){
