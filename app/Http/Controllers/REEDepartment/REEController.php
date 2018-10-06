@@ -1,4 +1,4 @@
-<?php
+Fc<?php
 
 namespace App\Http\Controllers\REEDepartment;
 
@@ -262,6 +262,8 @@ class REEController extends Controller
         
         $ol_application = $this->CommonController->getOlApplication($applicationId);
         $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
+        $applicationLog = $this->CommonController->getCurrentStatus($applicationId);
+
         $societyData = OlApplication::with(['eeApplicationSociety'])
                 ->where('id',$applicationId)->orderBy('id','DESC')->first();
 
@@ -270,7 +272,7 @@ class REEController extends Controller
 
         $societyData->drafted_offer_letter = OlApplication::where('id',$applicationId)->value('drafted_offer_letter');   
         
-        return view('admin.REE_department.generate-offer-letter',compact('societyData','ol_application'));
+        return view('admin.REE_department.generate-offer-letter',compact('societyData','ol_application','applicationLog'));
     }    
 
     public function pdfMerge(Request $request){
