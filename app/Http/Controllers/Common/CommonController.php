@@ -131,14 +131,26 @@ class CommonController extends Controller
                     ->where('role_id', session()->get('role_id'))
                     ->where('society_flag', 0)
                     ->orderBy('id', 'desc');
-            })
-            ->orderBy('id', 'desc')
+            });
+
+        if($request->submitted_at_from)
+        {
+            $applicationData = $applicationData->whereDate('submitted_at', '>=', date('Y-m-d', strtotime($request->submitted_at_from)));
+        }
+
+        if($request->submitted_at_to)
+        {
+            $applicationData = $applicationData->whereDate('submitted_at', '<=', date('Y-m-d', strtotime($request->submitted_at_to)));
+        }
+
+        $applicationDataDefine = $applicationData->orderBy('ol_applications.id', 'desc')
             ->select()->get();
 
         $listArray = [];
         if($request->update_status)
         {
-            foreach ($applicationData as $app_data)
+            
+            foreach ($applicationDataDefine as $app_data)
             {
                 if($app_data->olApplicationStatusForLoginListing[0]->status_id == $request->update_status)
                 {
@@ -148,8 +160,9 @@ class CommonController extends Controller
         }
         else
         {
-            $listArray =  $applicationData;
+            $listArray =  $applicationDataDefine;
         }
+       
         return $listArray;
     }
 
@@ -180,7 +193,7 @@ class CommonController extends Controller
             ];
 
 //            echo "in forward";
-//            dd($forward_application);
+            dd($forward_application);
             OlApplicationStatus::insert($forward_application);
         }
         else{
@@ -477,12 +490,12 @@ class CommonController extends Controller
         return $current_status;
     } 
 
-    public function downloadOfferLetter(Request $request, $applicationId){
+    public function downloadOfferLetter($applicationId){
 
         $ol_application = OlApplication::where('id', $applicationId)->with(['request_form', 'applicationMasterLayout','eeApplicationSociety'])->first();        
-        $layouts = MasterLayout::all();      
+        $ol_application->layouts = MasterLayout::all();      
         
-        return view('admin.DYCE_department.offer_letter', compact('ol_application', 'layouts'));
+        return  $ol_application;   
     }  
 
 
@@ -523,26 +536,35 @@ class CommonController extends Controller
     } 
 
     public function showCalculationSheet($applicationId){
-
-       $user = Auth::user();
+       
+       $arr = array();
+       $arr = Auth::user();
        $model = OlApplication::with('ol_application_master')->where('id',$applicationId)->first();
        if ($model->ol_application_master->model == 'Premium'){
-        $calculationSheetDetails = OlApplicationCalculationSheetDetails::where('application_id','=',$applicationId)->get();
+        $arr->calculationSheetDetails = OlApplicationCalculationSheetDetails::where('application_id','=',$applicationId)->get();
 
-        $blade = 'premiunCalculationSheet';
+        $arr->blade = 'premiunCalculationSheet';
 
        }elseif($model->ol_application_master->model == 'Sharing'){
 
-        $calculationSheetDetails = OlSharingCalculationSheetDetail::where('application_id','=',$applicationId)->get();
+        $arr->calculationSheetDetails = OlSharingCalculationSheetDetail::where('application_id','=',$applicationId)->get();
 
-        $blade = 'sharingCalculationSheet';
+        $arr->blade = 'sharingCalculationSheet';
        }
     
-        $dcr_rates = OlDcrRateMaster::all();
-        // REE Note download
+        $arr->dcr_rates = OlDcrRateMaster::all();
 
-        $arrData['reeNote'] = REENote::where('application_id', $applicationId)->orderBy('id', 'desc')->first();
+        // $arr->arrData['reeNote'] = REENote::where('application_id', $applicationId)->orderBy('id', 'desc')->first();   
 
-        return view('admin.common.'.$blade,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData'));       
+        $arr->areeNote = REENote::where('application_id', $applicationId)->orderBy('id', 'desc')->first();
+
+        return $arr;      
+    }
+
+    public function getOlApplication($applicationId){
+
+        $ol_application = OlApplication::where('id', $applicationId)->with(['request_form', 'applicationMasterLayout','eeApplicationSociety'])->first();   
+        
+        return $ol_application;      
     }   
 }

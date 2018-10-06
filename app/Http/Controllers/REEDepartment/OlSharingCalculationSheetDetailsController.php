@@ -3,14 +3,20 @@
 namespace App\Http\Controllers\REEDepartment;
 use App\Http\Controllers\Controller;
 use App\OlSharingCalculationSheetDetail;
+use App\Http\Controllers\Common\CommonController;
 use Illuminate\Http\Request;
 
 use App\OlDcrRateMaster;
+use App\OlApplication;
 use Illuminate\Support\Facades\Auth;
 use App\REENote;
 
 class OlSharingCalculationSheetDetailsController extends Controller
 {
+    public function __construct()
+    {
+        $this->CommonController = new CommonController();
+    }    
     /**
      * Display a listing of the resource.
      *
@@ -51,6 +57,8 @@ class OlSharingCalculationSheetDetailsController extends Controller
     public function show($id)
     {
         $applicationId = $id;$user = Auth::user();
+        $ol_application = $this->CommonController->getOlApplication($id);
+        $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$id)->first();        
         $calculationSheetDetails = OlSharingCalculationSheetDetail::where('application_id','=',$id)->get();
 
         $dcr_rates = OlDcrRateMaster::all();
@@ -58,7 +66,7 @@ class OlSharingCalculationSheetDetailsController extends Controller
 
         $arrData['reeNote'] = REENote::where('application_id', $applicationId)->orderBy('id', 'desc')->first();
 
-        return view('admin.REE_department.sharing_calculation_sheet',compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData'));
+        return view('admin.REE_department.sharing_calculation_sheet',compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application'));
 
     }
 

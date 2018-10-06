@@ -146,7 +146,7 @@
                                                                 </td>
                                                                 <td class="text-center">
                                                                 @if(isset($data->EE_document_path))
-                                                                    <a href="{{ asset($data->EE_document_path) }}"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
+                                                                    <a href="{{config('commanConfig.storage_server').'/'.$data->EE_document_path}}"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                                                                 @endif
                                                                 </td>
                                                             </tr>
@@ -652,8 +652,8 @@
                                                                 <span class="hint-text">Download EE Note uploaded by EE</span>
                                                                 <div class="mt-auto">
                                                                 @if(isset($eeScrutinyData->eeNote->document_path))
-                                                                    <a href="{{ asset($eeScrutinyData->eeNote->document_path)}}">
-                                                                        <button class="btn btn-primary">Download EE Note uploaded by EE</button>
+                                                                    <a href="{{ config('commanConfig.storage_server').'/'.$eeScrutinyData->eeNote->document_path }}">
+                                                                        <button class="btn btn-primary">Download EE Note </button>
                                                                     </a>
                                                                 @else
                                                                     <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">

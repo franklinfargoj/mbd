@@ -1,14 +1,8 @@
 @extends('admin.layouts.sidebarAction')
 @section('actions')
-    @include('admin.REE_department.action',compact('ol_application'))
+    @include('admin.'.$ol_application->folder.'.action',compact('ol_application'))
 @endsection
 @section('content')
-
-@if(session()->has('error'))
-  <div class="alert alert-success">
-      {{ session()->get('success') }}
-  </div>   
-@endif
 
 <div class="custom-wrapper">
     <div class="col-md-12">
@@ -16,7 +10,7 @@
             <div class="m-portlet__head-tools">
                 <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom" role="tablist">
                     <li class="nav-item m-tabs__item">
-                        <a class="nav-link m-tabs__link active show" data-toggle="tab" href="#one" role="tab"
+                        <a class="nav-link m-tabs__link" data-toggle="tab" href="#one" role="tab"
                             aria-selected="false">
                             <i class="la la-cog"></i> परिगणनेचा तक्ता - अ
                         </a>
@@ -66,17 +60,15 @@
                                     <div class="d-flex justify-content-start align-items-center mb-4">
                                         <span class="flex-shrink-0 text-nowrap">Total Number of buildings:</span>
                                         <input type="text" class="form-control form-control--xs form-control--custom flex-grow-0 ml-3"
-                                            name="total_no_of_buildings" id="total_no_of_buildings" value="{{ isset($calculationSheetDetails[0]->total_no_of_buildings) ? $calculationSheetDetails[0]->total_no_of_buildings : 0 }}" />
+                                            name="total_no_of_buildings" id="total_no_of_buildings" value="{{ isset($calculationSheetDetails[0]->total_no_of_buildings) ? $calculationSheetDetails[0]->total_no_of_buildings : 0 }}" readonly />
                                     </div>
-                                    <table id="one" class="table mb-0 table--box-input" style="padding-top: 10px;">
+                                    <table id="one" class="table mb-0" style="padding-top: 10px;">
                                         <input name="_token" type="hidden" value="{!! csrf_token() !!}" />
                                         <input name="application_id" type="hidden" value="{{ $applicationId }}" />
                                         <input name="user_id" type="hidden" value="{{ $user->id }}" />
-                                        <input name="redirect_tab" type="hidden" value="two" />
                                         <div class="d-flex justify-content-between align-items-center mb-4">
-                                            <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
-                                                    src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("one");'
-                                                    style="max-width: 22px"></a>
+                                            <a  target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
+                                                        src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("one");' style="max-width: 22px"></a>
                                         </div>
                                         <thead class="thead-default">
                                             <tr>
@@ -110,7 +102,7 @@
                                                 <td class="text-center">
                                                     <input type="text" class="total_area form-control form-control--custom"
                                                         name="area_as_per_lease_agreement" id="area_as_per_lease_agreement"
-                                                        value="{{ isset($calculationSheetDetails[0]->area_as_per_lease_agreement) ? $calculationSheetDetails[0]->area_as_per_lease_agreement : 0 }}" />
+                                                        value="{{ isset($calculationSheetDetails[0]->area_as_per_lease_agreement) ? $calculationSheetDetails[0]->area_as_per_lease_agreement : 0 }}" readonly/>
                                                 </td>
                                                 </td>
                                             </tr>
@@ -121,7 +113,7 @@
                                                 </td>
                                                 <td class="text-center">
                                                     <input type="text" class="total_area form-control form-control--custom"
-                                                        name="area_of_tit_bit_plot" id="area_of_tit_bit_plot" value="{{ isset($calculationSheetDetails[0]->area_of_tit_bit_plot) ? $calculationSheetDetails[0]->area_of_tit_bit_plot : 0 }}" />
+                                                        name="area_of_tit_bit_plot" id="area_of_tit_bit_plot" value="{{ isset($calculationSheetDetails[0]->area_of_tit_bit_plot) ? $calculationSheetDetails[0]->area_of_tit_bit_plot : 0 }}" readonly/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -131,7 +123,7 @@
                                                 </td>
                                                 <td class="text-center">
                                                     <input type="text" class="total_area form-control form-control--custom"
-                                                        name="area_of_rg_plot" id="area_of_rg_plot" value="{{ isset($calculationSheetDetails[0]->area_of_rg_plot) ? $calculationSheetDetails[0]->area_of_rg_plot : 0 }}" />
+                                                        name="area_of_rg_plot" id="area_of_rg_plot" value="{{ isset($calculationSheetDetails[0]->area_of_rg_plot) ? $calculationSheetDetails[0]->area_of_rg_plot : 0 }}" readonly/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -141,7 +133,7 @@
                                                 </td>
                                                 <td class="text-center">
                                                     <input type="text" class="total_area form-control form-control--custom"
-                                                        name="area_of_ntbnib_plot" id="area_of_ntbnib_plot" value="{{ isset($calculationSheetDetails[0]->area_of_ntbnib_plot) ? $calculationSheetDetails[0]->area_of_ntbnib_plot : 0 }}" />
+                                                        name="area_of_ntbnib_plot" id="area_of_ntbnib_plot" value="{{ isset($calculationSheetDetails[0]->area_of_ntbnib_plot) ? $calculationSheetDetails[0]->area_of_ntbnib_plot : 0 }}" readonly/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -151,7 +143,7 @@
                                                 </td>
                                                 <td class="text-center">
                                                     <input class="form-control form-control--custom" readonly type="text"
-                                                        name="area_of_total_plot" id="area_of_total_plot" value="{{ isset($calculationSheetDetails[0]->area_of_total_plot) ? $calculationSheetDetails[0]->area_of_total_plot : 0 }}" /></td>
+                                                        name="area_of_total_plot" id="area_of_total_plot" value="{{ isset($calculationSheetDetails[0]->area_of_total_plot) ? $calculationSheetDetails[0]->area_of_total_plot : 0 }}" readonly/></td>
                                             </tr>
                                             <tr>
                                                 <td>2.</td>
@@ -160,7 +152,7 @@
                                                 </td>
                                                 <td class="text-center">
                                                     <input type="text" class="form-control form-control--custom" name="area_as_per_introduction"
-                                                        id="area_as_per_introduction" value="{{ isset($calculationSheetDetails[0]->area_as_per_introduction) ? $calculationSheetDetails[0]->area_as_per_introduction : 0 }}" />
+                                                        id="area_as_per_introduction" value="{{ isset($calculationSheetDetails[0]->area_as_per_introduction) ? $calculationSheetDetails[0]->area_as_per_introduction : 0 }}" readonly/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -171,7 +163,7 @@
                                                 <td class="text-center">
                                                     <input type="text" class="permissible_area total_permissible form-control form-control--custom"
                                                         name="area_of_​​subsistence_to_calculate" id="area_of_​​subsistence_to_calculate"
-                                                        value="{{ isset($calculationSheetDetails[0]->area_of_​​subsistence_to_calculate) ? $calculationSheetDetails[0]->area_of_​​subsistence_to_calculate : 0 }}" />
+                                                        value="{{ isset($calculationSheetDetails[0]->area_of_​​subsistence_to_calculate) ? $calculationSheetDetails[0]->area_of_​​subsistence_to_calculate : 0 }}" readonly/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -182,7 +174,7 @@
                                                 <td class="text-center">
                                                     <input type="text" class="permissible_area total_permissible form-control form-control--custom"
                                                         name="permissible_carpet_area_coordinates" id="permissible_carpet_area_coordinates"
-                                                        value="{{ isset($calculationSheetDetails[0]->permissible_carpet_area_coordinates) ? $calculationSheetDetails[0]->permissible_carpet_area_coordinates : 0 }}" />
+                                                        value="{{ isset($calculationSheetDetails[0]->permissible_carpet_area_coordinates) ? $calculationSheetDetails[0]->permissible_carpet_area_coordinates : 0 }}" readonly/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -193,7 +185,7 @@
                                                 <td class="text-center">
                                                     <input type="text" readonly class="total_permissible form-control form-control--custom"
                                                         name="permissible_construction_area" id="permissible_construction_area"
-                                                        value="{{ isset($calculationSheetDetails[0]->permissible_construction_area) ? $calculationSheetDetails[0]->permissible_construction_area : 0 }}" />
+                                                        value="{{ isset($calculationSheetDetails[0]->permissible_construction_area) ? $calculationSheetDetails[0]->permissible_construction_area : 0 }}" readonly/>
 
                                                 </td>
                                             </tr>
@@ -214,7 +206,7 @@
                                                 </td>
                                                 <td class="text-center">
                                                     <input type="text" class="proratata_area form-control form-control--custom"
-                                                        name="sqm_area_per_slot" id="sqm_area_per_slot" value="{{ isset($calculationSheetDetails[0]->sqm_area_per_slot) ? $calculationSheetDetails[0]->sqm_area_per_slot : 0 }}" />
+                                                        name="sqm_area_per_slot" id="sqm_area_per_slot" value="{{ isset($calculationSheetDetails[0]->sqm_area_per_slot) ? $calculationSheetDetails[0]->sqm_area_per_slot : 0 }}" readonly/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -224,7 +216,7 @@
                                                 </td>
                                                 <td class="text-center">
                                                     <input type="text" class="proratata_area total_permissible form-control form-control--custom"
-                                                        name="total_house" id="total_house" value="{{ isset($calculationSheetDetails[0]->total_house) ? $calculationSheetDetails[0]->total_house : 0 }}" />
+                                                        name="total_house" id="total_house" value="{{ isset($calculationSheetDetails[0]->total_house) ? $calculationSheetDetails[0]->total_house : 0 }}" readonly />
                                                 </td>
                                             </tr>
                                             <tr>
@@ -235,7 +227,7 @@
                                                 <td class="text-center">
                                                     <input type="text" readonly class="form-control form-control--custom"
                                                         name="permissible_proratata_area" id="permissible_proratata_area"
-                                                        value="{{ isset($calculationSheetDetails[0]->permissible_proratata_area) ? $calculationSheetDetails[0]->permissible_proratata_area : 0 }}" />
+                                                        value="{{ isset($calculationSheetDetails[0]->permissible_proratata_area) ? $calculationSheetDetails[0]->permissible_proratata_area : 0 }}" readonly/>
 
                                                 </td>
                                             </tr>
@@ -256,7 +248,7 @@
                                                 <td class="text-center">
                                                     <input type="text" class="total_permissible form-control form-control--custom"
                                                         name="per_sq_km_proyerta_construction_area" id="per_sq_km_proyerta_construction_area"
-                                                        value="{{ isset($calculationSheetDetails[0]->per_sq_km_proyerta_construction_area) ? $calculationSheetDetails[0]->per_sq_km_proyerta_construction_area : 0 }}" />
+                                                        value="{{ isset($calculationSheetDetails[0]->per_sq_km_proyerta_construction_area) ? $calculationSheetDetails[0]->per_sq_km_proyerta_construction_area : 0 }}" readonly/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -280,7 +272,7 @@
                                                 <td class="text-center">
                                                     <input type="text" class="total_permissible form-control form-control--custom"
                                                         name="area_in_reserved_seats_for_vp_pio" id="area_in_reserved_seats_for_vp_pio"
-                                                        value="{{ isset($calculationSheetDetails[0]->area_in_reserved_seats_for_vp_pio) ? $calculationSheetDetails[0]->area_in_reserved_seats_for_vp_pio : 0 }}" />
+                                                        value="{{ isset($calculationSheetDetails[0]->area_in_reserved_seats_for_vp_pio) ? $calculationSheetDetails[0]->area_in_reserved_seats_for_vp_pio : 0 }}" readonly/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -303,7 +295,7 @@
                                                 <td class="text-center">
                                                     <input type="text" class="remaining_area form-control form-control--custom"
                                                         name="existing_construction_area" id="existing_construction_area"
-                                                        value="{{ isset($calculationSheetDetails[0]->existing_construction_area) ? $calculationSheetDetails[0]->existing_construction_area : 0 }}" />
+                                                        value="{{ isset($calculationSheetDetails[0]->existing_construction_area) ? $calculationSheetDetails[0]->existing_construction_area : 0 }}" readonly/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -328,7 +320,7 @@
                                                 </td>
                                                 <td class="text-center">
                                                     <input type="text" class="redirekner_val form-control form-control--custom"
-                                                        name="redirekner_value" id="redirekner_value" value="{{ isset($calculationSheetDetails[0]->redirekner_value) ? $calculationSheetDetails[0]->redirekner_value : 0 }}" />
+                                                        name="redirekner_value" id="redirekner_value" value="{{ isset($calculationSheetDetails[0]->redirekner_value) ? $calculationSheetDetails[0]->redirekner_value : 0 }}" readonly/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -339,7 +331,7 @@
                                                 <td class="text-center">
                                                     <input type="text" class="redirekner_val form-control form-control--custom"
                                                         name="redirekner_construction_rate" id="redirekner_construction_rate"
-                                                        value="{{ isset($calculationSheetDetails[0]->redirekner_construction_rate) ? $calculationSheetDetails[0]->redirekner_construction_rate : 0 }}" />
+                                                        value="{{ isset($calculationSheetDetails[0]->redirekner_construction_rate) ? $calculationSheetDetails[0]->redirekner_construction_rate : 0 }}" readonly/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -377,11 +369,12 @@
                                             <tr>
                                                 <td></td>
                                                 <td>
-                                                    2. दर
+                                                    2. दर (DCR % of tb 1 pt 12)
                                                 </td>
                                                 <td class="text-center">
-                                                    <span style="cursor: pointer" data-toggle="modal" data-target="#select-from-dcr">Select
+                                                    <span style="cursor: pointer" data-toggle="modal" >Select
                                                         from DCR</span>
+                                                        <!-- data-target="#select-from-dcr" -->
                                                 </td>
                                             </tr>
                                             <tr>
@@ -505,10 +498,7 @@
 
                                                 </td>
                                             </tr>
-                                            <tr>
-                                                <td colspan="3" align="right"><input type="submit" name="submit" class="btn btn-primary btn-next"
-                                                        value="Next" /> </td>
-                                            </tr>
+
                                         </tbody>
                                     </table>
 
@@ -695,13 +685,11 @@
                                     <input name="_token" type="hidden" value="{!! csrf_token() !!}" />
                                     <input name="application_id" type="hidden" value="{{ $applicationId }}" />
                                     <input name="user_id" type="hidden" value="{{ $user->id }}" />
-                                    <input name="redirect_tab" type="hidden" value="three" />
                                     <div class="d-flex justify-content-between align-items-center mb-4">
-                                        <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
-                                                src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("two");'
-                                                style="max-width: 22px"></a>
+                                        <a  target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
+                                                    src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("two");' style="max-width: 22px"></a>
                                     </div>
-                                    <table class="table mb-0 table--box-input">
+                                    <table class="table mb-0">
                                         <thead class="thead-default">
                                             <tr>
                                                 <th class="table-data--xs">
@@ -732,7 +720,7 @@
                                                 </td>
                                                 <td class="text-center">
                                                     <input type="text" class="form-control form-control--custom" name="remaining_area_of_resident_area"
-                                                        id="remaining_area_of_resident_area" value="{{ isset($calculationSheetDetails[0]->remaining_area_of_resident_area) ? $calculationSheetDetails[0]->remaining_area_of_resident_area : 0 }}" />
+                                                        id="remaining_area_of_resident_area" value="{{ isset($calculationSheetDetails[0]->remaining_area_of_resident_area) ? $calculationSheetDetails[0]->remaining_area_of_resident_area : 0 }}" readonly />
 
                                                 </td>
                                             </tr>
@@ -743,7 +731,7 @@
                                                 </td>
                                                 <td class="text-center">
                                                     <input type="text" class="form-control form-control--custom" name="remaining_area_of_resident_area_rate"
-                                                        id="remaining_area_of_resident_area_rate" value="{{ isset($calculationSheetDetails[0]->remaining_area_of_resident_area_rate) ? $calculationSheetDetails[0]->remaining_area_of_resident_area_rate : 0 }}" />
+                                                        id="remaining_area_of_resident_area_rate" value="{{ isset($calculationSheetDetails[0]->remaining_area_of_resident_area_rate) ? $calculationSheetDetails[0]->remaining_area_of_resident_area_rate : 0 }}" readonly/>
 
                                                 </td>
                                             </tr>
@@ -754,7 +742,7 @@
                                                 </td>
                                                 <td class="text-center">
                                                     <input type="text" class="form-control form-control--custom" name="remaining_area_of_resident_area_balance"
-                                                        id="remaining_area_of_resident_area_balance" value="{{ isset($calculationSheetDetails[0]->remaining_area_of_resident_area_balance) ? $calculationSheetDetails[0]->remaining_area_of_resident_area_balance : 0 }}" />
+                                                        id="remaining_area_of_resident_area_balance" value="{{ isset($calculationSheetDetails[0]->remaining_area_of_resident_area_balance) ? $calculationSheetDetails[0]->remaining_area_of_resident_area_balance : 0 }}" readonly/>
 
                                                 </td>
                                             </tr>
@@ -769,7 +757,7 @@
                                                 </td>
                                                 <td class="text-center">
                                                     <input type="text" class="form-control form-control--custom" name="off_site_infrastructure_fee"
-                                                        id="off_site_infrastructure_fee" value="{{ isset($calculationSheetDetails[0]->off_site_infrastructure_fee) ? $calculationSheetDetails[0]->off_site_infrastructure_fee : 0 }}" />
+                                                        id="off_site_infrastructure_fee" value="{{ isset($calculationSheetDetails[0]->off_site_infrastructure_fee) ? $calculationSheetDetails[0]->off_site_infrastructure_fee : 0 }}" readonly/>
 
                                                 </td>
                                             </tr>
@@ -808,10 +796,10 @@
 
                                                 </td>
                                             </tr>
-                                            <tr>
-                                                <td colspan="3" align="right"><input type="submit" name="submit" class="btn btn-primary btn-next"
-                                                        value="Next" /> </td>
-                                            </tr>
+<!--                                             <tr>
+                                                <td colspan="3" align="right"><input type="submit" name="submit" class="btn btn-primary"
+                                                        value="Save" /> </td>
+                                            </tr> -->
                                         </tbody>
                                     </table>
                                 </form>
@@ -836,13 +824,11 @@
                                     <input name="_token" type="hidden" value="{!! csrf_token() !!}" />
                                     <input name="application_id" type="hidden" value="{{ $applicationId }}" />
                                     <input name="user_id" type="hidden" value="{{ $user->id }}" />
-                                    <input name="redirect_tab" type="hidden" value="four" />
                                     <div class="d-flex justify-content-between align-items-center mb-4">
-                                        <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
-                                                src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("three");'
-                                                style="max-width: 22px"></a>
+                                        <a  target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
+                                                    src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("three");' style="max-width: 22px"></a>
                                     </div>
-                                    <table class="table mb-0 table--box-input">
+                                    <table class="table mb-0">
 
                                         <thead class="thead-default">
                                             <tr>
@@ -940,10 +926,10 @@
 
                                                 </td>
                                             </tr>
-                                            <tr>
-                                                <td colspan="3" align="right"><input type="submit" name="submit" class="btn btn-primary btn-next"
-                                                        value="Next" /> </td>
-                                            </tr>
+<!--                                             <tr>
+                                                <td colspan="3" align="right"><input type="submit" name="submit" class="btn btn-primary"
+                                                        value="Save" /> </td>
+                                            </tr> -->
                                         </tbody>
                                     </table>
                                 </form>
@@ -968,13 +954,11 @@
                                     <input name="_token" type="hidden" value="{!! csrf_token() !!}" />
                                     <input name="application_id" type="hidden" value="{{ $applicationId }}" />
                                     <input name="user_id" type="hidden" value="{{ $user->id }}" />
-                                    <input name="redirect_tab" type="hidden" value="five" />
                                     <div class="d-flex justify-content-between align-items-center mb-4">
-                                        <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
-                                                src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("four");'
-                                                style="max-width: 22px"></a>
+                                        <a  target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
+                                                    src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("four");' style="max-width: 22px"></a>
                                     </div>
-                                    <table class="table mb-0 table--box-input">
+                                    <table class="table mb-0">
                                         <thead class="thead-default">
                                             <tr>
                                                 <th class="table-data--xs">
@@ -1015,10 +999,10 @@
                                                         value="{{ isset($calculationSheetDetails[0]->payment_of_remaining_installment) ? $calculationSheetDetails[0]->payment_of_remaining_installment : 0 }}" />
                                                 </td>
                                             </tr>
-                                            <tr>
-                                                <td colspan="3" align="right"><input type="submit" name="submit" class="btn btn-primary btn-next"
-                                                        value="Next" /> </td>
-                                            </tr>
+<!--                                             <tr>
+                                                <td colspan="3" align="right"><input type="submit" name="submit" class="btn btn-primary"
+                                                        value="Save" /> </td>
+                                            </tr> -->
                                         </tbody>
                                     </table>
                                 </form>
@@ -1040,10 +1024,10 @@
                             </div>
                             <div class="m-section__content mb-0 table-responsive">
                                 <div class="d-flex justify-content-between align-items-center mb-4">
-                                    <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
-                                            src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("five");' style="max-width: 22px"></a>
+                                    <a  target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
+                                                src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("five");' style="max-width: 22px"></a>
                                 </div>
-                                <table class="table mb-0 table--box-input">
+                                <table class="table mb-0">
                                     <thead class="thead-default">
                                         <tr>
                                             <th class="table-data--xs">
@@ -1154,26 +1138,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-6 border-left">
-                                            <div class="d-flex flex-column h-100 two-cols">
-                                                <h5>Upload Note</h5>
-                                                <span class="hint-text">Click on 'Upload' to upload REE - Note</span>
-                                                <form action="{{ route('ree.upload_ree_note') }}" method="post" enctype="multipart/form-data">
-                                                    @csrf
-                                                    <input type="hidden" name="application_id" value="{{ $applicationId }}">
-                                                    <div class="custom-file">
-                                                        <input class="custom-file-input" name="ree_note" type="file" id="test-upload"
-                                                            required="">
-                                                        <label class="custom-file-label" for="test-upload">Choose file
-                                                            ...</label>
-                                                    </div>
-                                                    <span class="text-danger" id="file_error" ></span>
-                                                    <div class="mt-auto">
-                                                        <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -1194,7 +1158,7 @@
 
         // Set first tab to active if user visits page for the first time
 
-        if (localStorage.getItem("activeTab") === null) {
+        if(localStorage.getItem("activeTab") === null) {
             document.querySelector(".nav-link.m-tabs__link").classList.add("active", "show");
         } else {
             document.querySelector(".nav-link.m-tabs__link").classList.remove("active", "show");
@@ -1219,8 +1183,6 @@
             localStorage.setItem('activeTab', tab_name)
 
             $(this).tab('show');
-
-            localStorage.clear();
             return false;
         });
 
@@ -1228,10 +1190,9 @@
             var anchor = location.hash ||
                 $('a[data-toggle=\'tab\']').first().attr('href');
             $('a[href=\'' + anchor + '\']').tab('show');
-            window.scrollTo(0, 0);            
         });
 
-        // // **End** Save tabs location on window refresh or submit
+        // **End** Save tabs location on window refresh or submit
 
         $('input').on('keypress', function (event) {
             var regex = new RegExp("^[0-9]+$");
@@ -1409,7 +1370,8 @@
     });
 
 
-    function PrintElem(elem) {
+    function PrintElem(elem)
+    {
         var mywindow = window.open('', 'PRINT', 'height=400,width=600');
 
         mywindow.document.write('<html><head><title>Maharashtra Housing and development authority</title>');
@@ -1425,25 +1387,6 @@
 
         return true;
     }
-
-    $("#uploadBtn").click(function(){
-      myfile = $("#test-upload").val();
-      var ext = myfile.split('.').pop();      
-      if (myfile != ''){        
-          
-          if (ext != "pdf"){
-            $("#file_error").text("Invalid type of file uploaded (only pdf allowed).");
-            return false;
-          }
-          else{
-            $("#file_error").text("");
-            return true;
-          }      
-      }else{
-        $("#file_error").text("This field required");
-        return false;
-      }
-    });
 
 </script>
 @endsection

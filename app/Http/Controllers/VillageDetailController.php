@@ -236,7 +236,8 @@ lm_village_detail.updated_at'))->get();
 
             return $datatables->of($village_data)
                 ->editColumn('radio', function ($village_data) {
-                    return '<input type="radio" name="village_data_id">';
+                    $url = route('village_detail.show', base64_encode($village_data->id));
+                    return '<label class="m-radio m-radio--primary"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
                 })
                 ->editColumn('rownum', function ($village_data) {
                     static $i = 0;

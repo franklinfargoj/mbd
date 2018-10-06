@@ -1,4 +1,7 @@
-@extends('admin.layouts.app')
+@extends('admin.layouts.sidebarAction')
+@section('actions')
+    @include('admin.REE_department.action',compact('ol_application'))
+@endsection
 @section('css')
 <!-- <style> -->
 <link href="{{asset('/frontend/css/dyce_scrutiny.css')}}" rel="stylesheet" type="text/css" />
@@ -12,7 +15,7 @@
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">
-                DyCE Scrutiny & Remark </h3>
+                Society & EE Documents </h3>
         </div>
     </div>
 
@@ -41,8 +44,7 @@
                         </td>
                         <td class="text-center">
                             @if(isset($data->EE_document_path))
-                            <a href="{{ asset($data->EE_document_path) }}">
-                                <img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
+                            <a href="{{ config('commanConfig.storage_server').'/'.$data->EE_document_path }}"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                             @endif
                         </td>
                         <td>

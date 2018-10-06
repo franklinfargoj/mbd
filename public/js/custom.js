@@ -115,6 +115,11 @@ $(document).ready(function () {
         });
     }
 
+    $('.show_actions').on('click', function(){
+        var view_route = $(this).attr('data-value');
+        window.location = view_route;
+    });
+
     $("#boardForm").validate({
         // errorElement: "span",
         //errorClass : "text-red",
@@ -487,3 +492,8 @@ $(document).ready(function () {
 //     });
 //   }
 // });
+function geturl(view_route){
+        console.log(view_route);
+       // var view_route = $(this).attr('data-value');
+        window.location = view_route; 
+    }

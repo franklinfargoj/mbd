@@ -1,4 +1,7 @@
-@extends('admin.layouts.app')
+@extends('admin.layouts.sidebarAction')
+@section('actions')
+    @include('admin.REE_department.action',compact('ol_application'))
+@endsection
 @section('css')
 <!-- <style> -->
 <link href="{{asset('/frontend/css/dyce_scrutiny.css')}}" rel="stylesheet" type="text/css"/>
@@ -32,7 +35,7 @@
         <div class="d-flex flex-wrap align-items-center mb-5 upload_doc_1">
         </div> 
         @if(isset($capNote->document_path))
-          <a href="{{ asset($capNote->document_path) }}">
+          <a href="{{ config('commanConfig.storage_server').'/'.$capNote->document_path }}">          
           <Button type="button" class="s_btn btn btn-primary" id="submitBtn"> Download </Button>
          </a>
         @else

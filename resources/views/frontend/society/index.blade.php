@@ -49,12 +49,12 @@
                                     @csrf
                                     <div class="form-group m-form__group">
                                         <!-- <label for="" class="col-form-label">Email Address</label> -->
-                                        <input class="form-control m-input" type="text" placeholder="Email" name="email"
+                                        <input class="form-control form-control-icon form-control-icon--email m-input" type="text" placeholder="Email" name="email"
                                             autocomplete="off">
                                     </div>
                                     <div class="form-group m-form__group">
                                         <!-- <label for="" class="col-form-label">Password</label> -->
-                                        <input class="form-control m-input" type="password" placeholder="Password" name="password"
+                                        <input class="form-control form-control-icon form-control-icon--password m-input" type="password" placeholder="Password" name="password"
                                             autocomplete="off">
                                     </div>
                                     <div class="m-login__form-sub m-login__forgot">

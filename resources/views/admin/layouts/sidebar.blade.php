@@ -30,6 +30,7 @@
             @endif
 
 
+
             @if(in_array('rti_applicants', session()->get('permission')))
             <li class="m-menu__item m-menu__item--active" aria-haspopup="true">
                 <a href="{{url('/rti_applicants')}}" class="m-menu__link ">
@@ -163,6 +164,7 @@
             </li>
             @endif
 
+
             @if(in_array('architect_application', session()->get('permission')) ||
             in_array('view_architect_application',
             session()->get('permission')) || in_array('evaluate_architect_application', session()->get('permission'))
@@ -191,6 +193,26 @@
                 </a>
             </li>
             @endif
+
+            <li class="m-menu__item m-menu__item--active m-menu__item--submenu" id="sub-menu" aria-haspopup="true"
+                m-menu-submenu-toggle="hover">
+                <a href="javascript:void(0);" class="m-menu__link m-menu__toggle">
+                    <i class="m-menu__link-icon flaticon-line-graph"></i>
+                    <span class="m-menu__link-title">
+                        <span class="m-menu__link-wrap">
+                            <span class="m-menu__link-text">
+                                Actions
+                            </span>
+                            <i class="m-menu__ver-arrow la la-angle-right"></i>
+                        </span>
+                    </span>
+                </a>
+                <div class="m-menu__submenu" m-hidden-height="160" style=""><span class="m-menu__arrow"></span>
+                    <ul class="m-menu__subnav">
+                        @yield('actions')       
+                    </ul>
+                </div>
+            </li>
 
             <!-- <li class="m-menu__item m-menu__item--active" aria-haspopup="true">
                     <a href="{{ route('society_offer_letter_dashboard') }}" class="m-menu__link ">

@@ -1,4 +1,7 @@
-@extends('admin.layouts.app')
+@extends('admin.layouts.sidebarAction')
+@section('actions')
+    @include('admin.cap_department.action',compact('ol_application'))
+@endsection
 @section('content')
 
 <div class="custom-wrapper">

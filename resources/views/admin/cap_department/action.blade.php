@@ -1,12 +1,48 @@
-<a title="view_Application" href="{{ route('society_offer_download', $cap_application_data->id) }}">View Application</a>
-<a title="Society_EE_Documents" href="{{route('cap.society_EE_documents',$cap_application_data->id)}}">Society & EE Documents</a> 
-<a title="EE_Scrutiny_Remark" href="{{route('cap.EE_scrutiny_remark',$cap_application_data->id)}}">EE Scrutiny & Remarks</a>  
-<a title="DYCE_Scrutiny_Remark" href="{{route('cap.dyce_Scrutiny_Remark',$cap_application_data->id)}}">DyCE Scrutiny & Remarks</a> 
+<li class="m-menu__item m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover">
+    <a class="m-menu__link m-menu__toggle" title="view_Application" href="{{ route('cap.view_application', $ol_application->id) }}">
+        <img class="radio-icon" src="{{ asset('/img/radio-icon.svg')}}">
+        <span class="m-menu__link-text">View Applications</span>
+    </a>
+</li>
 
-<a title="REE_calculation_sheet" href="{{route('show_calculation_sheet',$cap_application_data->id)}}">REE calculation sheet</a>
+<li class="m-menu__item m-menu__item--submenu" aria-haspopup="true">
+    <a class="m-menu__link" title="Society & EE Documents" href="{{route('cap.society_EE_documents',$ol_application->id)}}">
+        <img class="radio-icon" src="{{ asset('/img/radio-icon.svg')}}">
+        <span class="m-menu__link-text">Society & EE Documents</span>
+    </a>
+</li>
 
-{{--@if($cap_application_data->olApplicationStatusForLoginListing[0]->status_id == config('commanConfig.applicationStatus.in_process'))--}}
-    <a title="Forward_application" href="{{route('cap.forward_application',$cap_application_data->id)}}">Forward Application</a>
-{{--@endif--}}
-<a title="CAP_notes" href="{{route('cap.cap_notes',$cap_application_data->id)}}">CAP Notes</a>
+<li class="m-menu__item m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover">
+    <a class="m-menu__link m-menu__toggle" title="EE Scrutiny & Remarks" href="{{route('cap.EE_scrutiny_remark',$ol_application->id)}}">
+        <img class="radio-icon" src="{{ asset('/img/radio-icon.svg')}}">
+        <span class="m-menu__link-text">EE Scrutiny & Remarks</span>
+    </a>
+</li>
 
+<li class="m-menu__item m-menu__item--submenu" aria-haspopup="true">
+    <a class="m-menu__link m-menu__toggle" title="DyCE Scrutiny & Remarks" href="{{route('cap.dyce_Scrutiny_Remark',$ol_application->id)}}">
+        <img class="radio-icon" src="{{ asset('/img/radio-icon.svg')}}">
+        <span class="m-menu__link-text">DyCE Scrutiny & Remarks</span>
+    </a>
+</li>
+
+<li class="m-menu__item m-menu__item--submenu" aria-haspopup="true">
+    <a class="m-menu__link m-menu__toggle" title="REE Calculation Sheet" href="{{route('cap.show_calculation_sheet',$ol_application->id)}}">
+        <img class="radio-icon" src="{{ asset('/img/radio-icon.svg')}}">
+        <span class="m-menu__link-text">REE Calculation Sheet</span>
+    </a>
+</li>
+
+<li class="m-menu__item m-menu__item--submenu" aria-haspopup="true">
+    <a class="m-menu__link m-menu__toggle" title="Forward Application" href="{{route('cap.forward_application',$ol_application->id)}}">
+        <img class="radio-icon" src="{{ asset('/img/radio-icon.svg')}}">
+        <span class="m-menu__link-text">Forward Application</span>
+    </a>
+</li>
+
+<li class="m-menu__item m-menu__item--submenu" aria-haspopup="true">
+    <a class="m-menu__link m-menu__toggle" title="CAP Notes" href="{{route('cap.cap_notes',$ol_application->id)}}">
+        <img class="radio-icon" src="{{ asset('/img/radio-icon.svg')}}">
+        <span class="m-menu__link-text">CAP Notes</span>
+    </a>
+</li>

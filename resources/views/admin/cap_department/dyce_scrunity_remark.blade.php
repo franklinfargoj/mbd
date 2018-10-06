@@ -1,4 +1,7 @@
-@extends('admin.layouts.app')
+@extends('admin.layouts.sidebarAction')
+@section('actions')
+    @include('admin.cap_department.action',compact('ol_application'))
+@endsection
 @section('css')
 <!-- <style> -->
 <link href="{{asset('/frontend/css/dyce_scrutiny.css')}}" rel="stylesheet" type="text/css" />
@@ -143,17 +146,16 @@
                     <div class="col-sm-6 field-col">
                         <div class="d-flex">
                             <span class="field-name">Date of site visit:</span>
-                            <span class="field-value">{{(isset($applicationData->date_of_site_visit) ?
-                                $applicationData->date_of_site_visit : '')}}</span>
+                            <span class="field-value">{{($applicationData->date_of_site_visit) ? date(config('commanConfig.dateFormat'),strtotime($applicationData->date_of_site_visit)) : ''}}</span>
                         </div>
                     </div>
                     @foreach($applicationData->visitDocuments as $data)
                     <div class="col-sm-12 field-col">
                         <div class="d-flex">
                             <span style="width: 200px;">Supporting Documents:</span>
-                            <a href="{{asset($data->document_path)}}">
+                            <a href="{{config('commanConfig.storage_server').'/'.$data->document_path}}">
                                 <img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
-                            <span class="field-value" style="padding-left: 15px;">{{(explode('/',$data->document_path)[3])}}</span>
+                            <span class="field-value" style="padding-left: 15px;">{{ (isset(explode('/',$data->document_path)[1]) ? explode('/',$data->document_path)[1]: '') }}</span>
                         </div>
                     </div>
                     @endforeach
@@ -171,7 +173,7 @@
                 <div class="remarks-suggestions">
                     <div class="mt-3">
                         <label for="demarkation_comments">Comments:</label>
-                        <textarea rows="5" cols="30" name="demarkation_comments" readonly>{{(isset($applicationData->demarkation_verification_comment) ? $applicationData->demarkation_verification_comment : '')}}</textarea>
+                        <textarea rows="5" cols="30" name="demarkation_comments" class="form-control form-control--custom" readonly>{{(isset($applicationData->demarkation_verification_comment) ? $applicationData->demarkation_verification_comment : '')}}</textarea>
                     </div>
                 </div>
             </div>
@@ -197,8 +199,8 @@
                             {{(isset($applicationData->demarkation_verification_comment) && $applicationData->is_encrochment == '0' ? 'checked' : '')}}>No
                         <span></span>
                     </label>
-                    <label class="e_comments" for="encrochment_comments">If Yes, Comments:</label>
-                    <textarea rows="5" cols="30" id="encrochment_comments" name="encrochment_comments" readonly>{{(isset($applicationData->encrochment_verification_comment) ? $applicationData->encrochment_verification_comment : '')}}</textarea>
+                    <p class="e_comments" for="encrochment_comments">If Yes, Comments:</p>
+                    <textarea rows="5" cols="30" class="form-control form-control--custom" id="encrochment_comments" name="encrochment_comments" readonly>{{(isset($applicationData->encrochment_verification_comment) ? $applicationData->encrochment_verification_comment : '')}}</textarea>
                 </div>
             </div>
         </div>
