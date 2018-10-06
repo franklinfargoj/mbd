@@ -1,4 +1,4 @@
-Fc<?php
+<?php
 
 namespace App\Http\Controllers\REEDepartment;
 
