@@ -3,7 +3,7 @@
 <style>
   /* Add a black background color to the top navigation */
 .topnav {
-    background-color: #F05C1B;
+    background-color: #E5731A;
     overflow: hidden;
 }
 
@@ -133,7 +133,7 @@
               @if($is_commitee==true)
               <div class="col-md-6 mt-5">
                   <button type="submit" name="final" value="final" class="btn btn-primary">Add to Final list</button>
-                  <button type="submit" name="remove_final" value="remove_final" class="btn btn-primary">Remaove from  Final list</button>
+                  <button type="submit" name="remove_final" value="remove_final" class="btn btn-primary">Remove from  Final list</button>
               </div>
               @endif
               {!! $html->table() !!}

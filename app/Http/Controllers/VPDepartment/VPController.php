@@ -226,7 +226,7 @@ class VPController extends Controller
         }
 //            echo "in revert";
 //            dd($revert_application);
-        return redirect('/vp');
+        return redirect('/vp')->with('success','Application send successfully.');
     }
 
     public function displayCAPNote(Request $request, $applicationId){

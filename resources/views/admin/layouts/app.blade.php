@@ -210,6 +210,7 @@
     <!--begin::Page Resources -->
     @yield('datatablejs');
     @yield('js');
+    <!-- @yield('village_view_js'); -->
 </body>
 <!-- end::Body -->
 

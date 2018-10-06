@@ -83,7 +83,7 @@
                     </div>
 
                     <div class="col-lg-6 form-group">
-                        <label class="col-form-label" for="total_area">Total Area:</label>
+                        <label class="col-form-label" for="total_area">Total Area (sq. ft.):</label>
                         <input type="text" id="total_area" name="total_area" class="form-control form-control--custom m-input"
                             value="{{ $arrData['village_data']['total_area'] }}">
                         <span class="help-block">{{$errors->first('total_area')}}</span>

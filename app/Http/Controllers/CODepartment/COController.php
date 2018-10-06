@@ -179,7 +179,7 @@ class COController extends Controller
         {
             $this->CommonController->forwardApplicationForm($request);
         }
-        return redirect('/co');
+        return redirect('/co')->with('success','Application send successfully.');
     }
 
     public function downloadCapNote(Request $request, $applicationId){

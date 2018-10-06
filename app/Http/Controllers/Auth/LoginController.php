@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\URL;
 use Session;
 use App\Role;
 
@@ -106,10 +107,21 @@ class LoginController extends Controller
         }
         else
         {
-            if(strrpos(Session::get('_previous')['url'], 'society.') == false){
-                return redirect('/society_offer_letter')->with('error', "Please enter valid credentials");
+//            dd(Session::get('_previous')['url']);
+//            dd(explode('.', explode('/', "http://mhada.php-dev.in/login-user")[2])[0]);
+            if(is_numeric(explode('.', explode('/', URL::previous())[2])[0]) == true){
+                if(explode('/', URL::previous())[3] == 'society_offer_letter'){
+                    return redirect('/society_offer_letter')->with('error', "Please enter valid credentials");
+                }else{
+                    // Authentication passed...
+                    return redirect('/login-user')->with('error', "Please enter valid credentials");
+                }
             }else{
-                return redirect('/login-user')->with('error', "Please enter valid credentials");
+                if(explode('/', explode('.', URL::previous())[2])[0] == 'society'){
+                    return redirect('/society_offer_letter')->with('error', "Please enter valid credentials");
+                }else{
+                    return redirect('/login-user')->with('error', "Please enter valid credentials");
+                }
             }
         }
     }

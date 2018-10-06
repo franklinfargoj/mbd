@@ -59,7 +59,9 @@ class REEController extends Controller
         ];
         if ($datatables->getRequest()->ajax()) {
 
+            //dd($request);
             $ree_application_data = $this->CommonController->listApplicationData($request);
+            // dd($ree_application_data);
             // $ol_application = $this->CommonController->getOlApplication($ree_application_data->id);
             
             return $datatables->of($ree_application_data)
@@ -206,7 +208,7 @@ class REEController extends Controller
             $this->CommonController->forwardApplicationForm($request);
         }
 
-        return redirect('/ree_applications');
+        return redirect('/ree_applications')->with('success','Application send successfully.');
 
     }
 

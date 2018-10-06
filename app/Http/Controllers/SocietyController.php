@@ -177,8 +177,9 @@ class SocietyController extends Controller
             // $society_data = $society_data->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').',society_name, lm_society_detail.id as id, village_id, survey_number, society_address, surplus_charges');
 
             return $datatables->of($society_data)
-                ->editColumn('radio', function ($village_data) {
-                    return '<input type="radio" name="village_data_id">';
+                ->editColumn('radio', function ($society_data) {
+                    $url = route('society_detail.show', $society_data->id);
+                    return '<label class="m-radio m-radio--primary"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
                 })
                 ->editColumn('rownum', function ($society_data) {
                     static $i = 0;
