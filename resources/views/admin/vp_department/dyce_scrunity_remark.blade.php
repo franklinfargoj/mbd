@@ -152,9 +152,9 @@
                     <div class="col-sm-12 field-col">
                         <div class="d-flex">
                             <span style="width: 200px;">Supporting Documents:</span>
-                            <a href="{{asset($data->document_path)}}">
+                            <a href="{{config('commanConfig.storage_server').'/'.$data->document_path}}">
                                 <img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
-                            <span class="field-value" style="padding-left: 15px;">{{(explode('/',$data->document_path)[3])}}</span>
+                            <span class="field-value" style="padding-left: 15px;">{{ (isset(explode('/',$data->document_path)[1]) ? explode('/',$data->document_path)[1]: '') }}</span>
                         </div>
                     </div>
                     @endforeach

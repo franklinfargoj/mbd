@@ -1139,7 +1139,8 @@
                                                 <span class="hint-text">Download REE Note uploaded by REE</span>
                                                 <div class="mt-auto">
                                                     @if(isset($arrData['reeNote']->document_path))
-                                                    <a href="{{ asset($arrData['reeNote']->document_path)}}">
+                                                    <a href="{{config('commanConfig.storage_server').'/'.$arrData['reeNote']->document_path}}">
+
                                                         <button class="btn btn-primary">Download Note Format</button>
                                                     </a>
                                                     @else
