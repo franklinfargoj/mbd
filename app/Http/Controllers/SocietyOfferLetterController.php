@@ -286,6 +286,9 @@ class SocietyOfferLetterController extends Controller
                     $status = explode('_', array_keys(config('commanConfig.applicationStatus'), $ol_applications->olApplicationStatus[0]->status_id)[0]);
                     $status_display = '';
                     foreach($status as $status_value){ $status_display .= ucwords($status_value). ' ';}
+                    if($status_display = 'Sent To Society'){
+                        $status_display = 'Approved';
+                    }
                     return $status_display;
                 })
                 ->editColumn('actions', function ($ol_applications) {

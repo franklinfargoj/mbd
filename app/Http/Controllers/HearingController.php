@@ -157,7 +157,8 @@ class HearingController extends Controller
 
             return $datatables->of($listArray)
                 ->editColumn('radio', function ($hearing_data) {
-                    return '<input type="radio" name="hearing_data_id">';
+                    $url = route('hearing.show', $hearing_data->id);
+                    return '<label class="m-radio m-radio--primary"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
                 })
                 ->editColumn('rownum', function ($hearing_data) {
                     static $i = 0;

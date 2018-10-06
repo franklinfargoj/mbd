@@ -92,7 +92,7 @@ class RtiFormController extends Controller
             ['data' => 'applicant_name','name' => 'applicant_name','title' => 'Applicant Name'],
             ['data' => 'meeting_scheduled_date','name' => 'created_at','title' => 'Meeting Scheduled Date'],
             ['data' => 'rti_status_id','name' => 'rti_status_id','title' => 'Status'],
-            ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
+            // ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
         ];
         if ($datatables->getRequest()->ajax()) {
             DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
@@ -111,10 +111,13 @@ class RtiFormController extends Controller
 
             return $datatables->of($rti_applicants->orderBy('id'))
                 ->editColumn('radio', function ($rti_applicants) {
-                    return '<input type="radio" name="rti_applicants_id">';
+                    $url = route('view_applicant', [$rti_applicants->id]);
+                    return '<label class="m-radio m-radio--primary"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
                 })
                 ->editColumn('rownum', function ($rti_applicants) {
-                    return $rti_applicants->id;
+                    static $i = 0;
+                    $i++;
+                    return $i;
                 })
                 ->editColumn('rti_application_no', function ($rti_applicants) {
                     return $rti_applicants->unique_id;
@@ -132,7 +135,7 @@ class RtiFormController extends Controller
                     return $rti_applicants->master_rti_status!=""?$rti_applicants->master_rti_status->status_title->status_title:' - ';
                 })
                 ->editColumn('actions', function ($rti_applicants) {
-                   return view('admin.rti_form.actions', compact('rti_applicants'))->render();
+                   // return view('admin.rti_form.actions', compact('rti_applicants'))->render();
                 })
                 ->rawColumns(['radio', 'board_name','status','actions'])
                 ->make(true);
