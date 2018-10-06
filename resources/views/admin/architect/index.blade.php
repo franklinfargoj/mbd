@@ -94,13 +94,13 @@
                                 <button type="submit" class="btn btn-primary">Search</button>
                                 <button type="submit" name="reset" value="Reset" class="btn btn-primary">Reset</button>
                             </div>
-                            <div class="col-md-6 mt-5">
+                            <!-- <div class="col-md-6 mt-5">
                                 <div class="btn-list text-right">
                                     <button type="submit" name="excel" value="excel" class="btn excel-icon"><img src="{{asset('/img/excel-icon.svg')}}"></button>
                                     <a target="_blank" href=""
                                         class="btn print-icon"><img src="{{asset('/img/print-icon.svg')}}"></a>
                                 </div>
-                            </div>
+                            </div> -->
                             
                         </form>
                         

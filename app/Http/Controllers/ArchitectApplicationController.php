@@ -66,10 +66,20 @@ class ArchitectApplicationController extends Controller
       
       
       DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
+      if(config('commanConfig.junior_architect')==session()->get('role_name'))
+      {
+        $architect_applications = ArchitectApplication::with(['ArchitectApplicationStatusForLoginListing'=>function($query){
+          return $query->where(['user_id'=>auth()->user()->id,'role_id'=>session()->get('role_id')])->orderBy('id','desc');
+        }]);
+      }else
+      {
+        $architect_applications = ArchitectApplication::with(['ArchitectApplicationStatusForLoginListing'=>function($query){
+          return $query->where(['user_id'=>auth()->user()->id,'role_id'=>session()->get('role_id')])->orderBy('id','desc');
+        }])->whereHas('ArchitectApplicationStatusForLoginListing',function($query){
+          return $query->where(['user_id'=>auth()->user()->id,'role_id'=>session()->get('role_id')]);
+        });
+      }
       
-      $architect_applications = ArchitectApplication::with(['ArchitectApplicationStatusForLoginListing'=>function($query){
-        return $query->where(['user_id'=>auth()->user()->id,'role_id'=>session()->get('role_id')])->orderBy('id','desc')->first();
-      }]);
       //dd($architect_applications->get()->toArray());
       if($application_status!="")
       {
@@ -127,10 +137,13 @@ class ArchitectApplicationController extends Controller
               return $architect_applications->candidate_email."<br>".$architect_applications->candidate_mobile_no;
           })
           ->editColumn('status', function ($architect_applications) {
-              $status=isset($architect_applications->ArchitectApplicationStatusForLoginListing[0])?$architect_applications->ArchitectApplicationStatusForLoginListing[0]->status_id:1;
+              $status=isset($architect_applications->ArchitectApplicationStatusForLoginListing[0])?$architect_applications->ArchitectApplicationStatusForLoginListing[0]->status_id:'1';
               $config_array = array_flip(config('commanConfig.architect_applicationStatus'));
               $value = ucwords(str_replace('_', ' ', $config_array[$status]));
-
+              if($architect_applications->application_status=='Final' && $status==1)
+              {
+                  return $architect_applications->application_status;
+              }
             return $value.($architect_applications->application_status=='None'?'':' & '.$architect_applications->application_status);
           })
           ->editColumn('actions', function ($architect_applications) {
@@ -237,7 +250,9 @@ class ArchitectApplicationController extends Controller
   public function evaluateApplication($encryptedId)
   {
     $id = decrypt($encryptedId);
-    $architect_application_id=$ArchitectApplication=ArchitectApplication::find($id)->value('id');
+    
+    $architect_application_id=ArchitectApplication::find($id);
+    $architect_application_id=$architect_application_id->id;
     $is_view = session()->get('role_name') == config('commanConfig.junior_architect');
     $application = ArchitectApplicationMark::where('architect_application_id',$id)->get();
     $header_data = $this->header_data;
@@ -246,6 +261,7 @@ class ArchitectApplicationController extends Controller
 
   public function saveEvaluateMarks(EvaluationMarkRequest $request)
   {
+    //dd($request->application_id);
     $marks = $request->get('marks');
     $ids = $request->get('id');
     $remark = $request->get('remark');
@@ -295,7 +311,7 @@ class ArchitectApplicationController extends Controller
         }
         $content=view('admin.architect.certificate',compact('ArchitectApplication'));
         File::put($destination."/".$ArchitectApplication->id.$ArchitectApplication->application_number.".txt", $content);
-        $ArchitectApplication->drafted_certificate='uploads/temp_certificate/'.$ArchitectApplication->application_number.".txt";
+        $ArchitectApplication->drafted_certificate='uploads/temp_certificate/'.$ArchitectApplication->id.$ArchitectApplication->application_number.".txt";
         $ArchitectApplication->save();
       }
       return view('admin.architect.final_generate_certificate',compact('header_data','encryptedId','ArchitectApplication'));
