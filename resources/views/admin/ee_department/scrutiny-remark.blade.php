@@ -167,6 +167,7 @@
                                                                         {
                                                                             $comment_by_EE = $arrData['society_document_data'][$document->id]['comment_by_EE'];
                                                                             $document_status_id = $arrData['society_document_data'][$document->id]['id'];
+
                                                                             $ee_document = $arrData['society_document_data'][$document->id]['EE_document_path'];
                                                                         }
                                                                         else
@@ -330,8 +331,10 @@
                                                                         </div>
                                                                     </div>
                                                                 </td>
+
                                                                 @if(!empty($ee_document))
-                                                                    <td class="text-center"><a download href="{{ asset($ee_document) }}"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a></td>
+                                                                
+                                                                    <td class="text-center"><a download href="{{config('commanConfig.storage_server').'/'.$ee_document}}"><img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a></td>
                                                                 @else
                                                                     <td></td>
                                                                 @endif
@@ -701,7 +704,9 @@
                                                                 @endphp
 
                                                                 <input type="hidden" name="application_id" value="{{ $arrData['society_detail']->id }}">
+
                                                                 @foreach($arrData['tit_bit_question'] as $tit_bit)
+
                                                                     <input type="hidden" name="question_id[{{$i}}]" value="{{ $tit_bit->id }}">
                                                                     <tr>
                                                                         <td>{{ $i }}.</td>
@@ -714,7 +719,7 @@
                                                                         </td>
                                                                         <td>
                                                                             <label class="m-radio m-radio--primary">
-                                                                                <input {{$disabled}} type="radio" name="answer[{{ $i }}]" value="0" {{ (isset($arrData['tit_bit_details_data'][$tit_bit->id]) && $arrData['tit_bit_details_data'][$tit_bit->id]['answer'] == 0) ? 'checked' : '' }}>
+                                                                                <input {{$disabled}} type="radio" name="answer[{{ $i }}]" value="0" {{ (isset($arrData['tit_bit_details_data'][$tit_bit->id]) && ($arrData['tit_bit_details_data'][$tit_bit->id]['answer'] == 0)) ? 'checked' : '' }}>
                                                                                 <span></span>
                                                                             </label></td>
                                                                         <td>
