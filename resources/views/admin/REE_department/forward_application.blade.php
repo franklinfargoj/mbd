@@ -12,7 +12,7 @@
                                 <i class="la la-cog"></i> Scrutiny History
                             </a>
                         </li>
-                        @if($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.in_process') || $arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.offer_letter_generation') || $arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.offer_letter_approved'))
+                        @if($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.in_process') || ($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.offer_letter_generation') && session()->get('role_name') != config('commanConfig.ree_branch_head')) || ($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.offer_letter_approved') && session()->get('role_name') != config('commanConfig.ree_branch_head')))
                             <li class="nav-item m-tabs__item">
                                 <a class="nav-link m-tabs__link show" data-toggle="tab" href="#forward-application-tab">
                                     <i class="la la-cog"></i> Forward Application

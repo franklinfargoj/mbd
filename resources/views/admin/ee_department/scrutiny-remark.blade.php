@@ -441,8 +441,8 @@
                                                                     <label for="m_datepicker">तपासणी दिनांक:</label>
                                                                 </div>
                                                                 <div class="col-sm-8">
-                                                                    <input {{$disabled}} type="text" class="form-control form-control--custom" value="{{isset($arrData['consent_verification_checkist_data']) ? $arrData['consent_verification_checkist_data']->date_of_investigation : '' }}"
-                                                                           name="date_of_investigation" id="m_datepicker" required placeholder="">
+                                                                    <input {{$disabled}} type="text" class="form-control form-control--custom m_datepicker" value="{{isset($arrData['consent_verification_checkist_data']) ? $arrData['consent_verification_checkist_data']->date_of_investigation : '' }}"
+                                                                           name="date_of_investigation" required placeholder="">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -474,9 +474,18 @@
                                                                                 <span></span>
                                                                             </label>
                                                                         </td>
+                                                                        @php
+                                                                            if(isset($arrData['consent_verification_details_data'][$consent_question->id]['answer']) && $arrData['consent_verification_details_data'][$consent_question->id]['answer'] == 0)
+                                                                            {
+                                                                                $checked = 'checked';
+                                                                            }
+                                                                            else{
+                                                                                $checked = '';
+                                                                            }
+                                                                        @endphp
                                                                         <td>
                                                                             <label class="m-radio m-radio--primary">
-                                                                                <input {{$disabled}} type="radio" name="answer[{{$i}}]" value="0" {{ (isset($arrData['consent_verification_details_data'][$consent_question->id]) && $arrData['consent_verification_details_data'][$consent_question->id]['answer'] == 0) ? 'checked' : '' }}>
+                                                                                <input {{$disabled}} type="radio" name="answer[{{$i}}]" value="0" {{ $checked }}>
                                                                                 <span></span>
                                                                             </label></td>
                                                                         <td>
@@ -560,7 +569,7 @@
                                                                     <label for="building-no">स्थळ पाहणी दिनांक:</label>
                                                                 </div>
                                                                 <div class="col-sm-8">
-                                                                    <input {{$disabled}} type="text" class="form-control form-control--custom" required value="{{isset($arrData['demarcation_checkist_data']) ? $arrData['demarcation_checkist_data']->date_of_investigation : '' }}"
+                                                                    <input {{$disabled}} type="text" class="form-control form-control--custom m_datepicker" required value="{{isset($arrData['demarcation_checkist_data']) ? $arrData['demarcation_checkist_data']->date_of_investigation : '' }}"
                                                                           name="date_of_investigation" id="demarcation_date" placeholder="">
                                                                 </div>
                                                             </div>
@@ -594,9 +603,18 @@
                                                                                 <span></span>
                                                                             </label>
                                                                         </td>
+                                                                        @php
+                                                                            if(isset($arrData['demarcation_details_data'][$demarcation_question->id]['answer']) && $arrData['demarcation_details_data'][$demarcation_question->id]['answer'] == 0)
+                                                                            {
+                                                                                $checked_demarcation = 'checked';
+                                                                            }
+                                                                            else{
+                                                                                $checked_demarcation = '';
+                                                                            }
+                                                                        @endphp
                                                                         <td>
                                                                             <label class="m-radio m-radio--primary">
-                                                                                <input {{$disabled}} type="radio" name="answer[{{ $i }}]" value="0" {{ (isset($arrData['demarcation_details_data'][$demarcation_question->id]) && $arrData['demarcation_details_data'][$demarcation_question->id]['answer'] == 1) ? 'checked' : '' }}>
+                                                                                <input {{$disabled}} type="radio" name="answer[{{ $i }}]" value="0" {{ $checked_demarcation  }}>
                                                                                 <span></span>
                                                                             </label></td>
                                                                         <td>
@@ -681,7 +699,7 @@
                                                                     <label for="building-no">स्थळ पाहणी दिनांक:</label>
                                                                 </div>
                                                                 <div class="col-sm-8">
-                                                                    <input {{$disabled}} type="text" class="form-control form-control--custom" required value="{{isset($arrData['tit_bit_checkist_data']) ? $arrData['tit_bit_checkist_data']->date_of_investigation : '' }}"
+                                                                    <input {{$disabled}} type="text" class="form-control form-control--custom m_datepicker" required value="{{isset($arrData['tit_bit_checkist_data']) ? $arrData['tit_bit_checkist_data']->date_of_investigation : '' }}"
                                                                            name="date_of_investigation" id="tit_bit_date" placeholder="">
                                                                 </div>
                                                             </div>
@@ -717,9 +735,18 @@
                                                                                 <span></span>
                                                                             </label>
                                                                         </td>
+                                                                        @php
+                                                                            if(isset($arrData['tit_bit_details_data'][$tit_bit->id]['answer']) && $arrData['tit_bit_details_data'][$tit_bit->id]['answer'] == 0)
+                                                                            {
+                                                                                $checked_tit_bit = 'checked';
+                                                                            }
+                                                                            else{
+                                                                                $checked_tit_bit = '';
+                                                                            }
+                                                                        @endphp
                                                                         <td>
                                                                             <label class="m-radio m-radio--primary">
-                                                                                <input {{$disabled}} type="radio" name="answer[{{ $i }}]" value="0" {{ (isset($arrData['tit_bit_details_data'][$tit_bit->id]) && ($arrData['tit_bit_details_data'][$tit_bit->id]['answer'] == 0)) ? 'checked' : '' }}>
+                                                                                <input {{$disabled}} type="radio" name="answer[{{ $i }}]" value="0" {{ $checked_tit_bit }}>
                                                                                 <span></span>
                                                                             </label></td>
                                                                         <td>
@@ -814,9 +841,18 @@
                                                                                 <span></span>
                                                                             </label>
                                                                         </td>
+                                                                        @php
+                                                                            if(isset($arrData['rg_details_data'][$rg_question->id]['answer']) && $arrData['rg_details_data'][$rg_question->id]['answer'] == 0)
+                                                                            {
+                                                                                $checked_rg_location = 'checked';
+                                                                            }
+                                                                            else{
+                                                                                $checked_rg_location = '';
+                                                                            }
+                                                                        @endphp
                                                                         <td>
                                                                             <label class="m-radio m-radio--primary">
-                                                                                <input {{$disabled}} type="radio" name="answer[{{ $i }}]" value="0" {{ (isset($arrData['rg_details_data'][$rg_question->id]) && $arrData['rg_details_data'][$rg_question->id]['answer'] == 0) ? 'checked' : '' }}>
+                                                                                <input {{$disabled}} type="radio" name="answer[{{ $i }}]" value="0" {{ $checked_rg_location }}>
                                                                                 <span></span>
                                                                             </label></td>
                                                                         <td>
@@ -952,7 +988,7 @@
             });
         });
 
-        $("#demarcation_date, #tit_bit_date").datepicker();
+//        $("#demarcation_date, #tit_bit_date").datepicker();
 
         $(".submt_btn").click(function(){
             var id = this.id.substr(10,2);

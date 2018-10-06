@@ -75,7 +75,7 @@ class VPController extends Controller
                     return $vp_application_data->eeApplicationSociety->address;
                 })                
                 ->editColumn('date', function ($vp_application_data) {
-                    return date(config('commanConfig.dateFormat', strtotime($vp_application_data->submitted_at)));
+                    return date(config('commanConfig.dateFormat'), strtotime($vp_application_data->submitted_at));
                 })
                 // ->editColumn('actions', function ($vp_application_data) use($request){
                 //    return view('admin.vp_department.action', compact('vp_application_data', 'request'))->render();

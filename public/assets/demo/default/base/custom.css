@@ -292,15 +292,21 @@
     top: 2px !important;
 }
 
-.form-control--custom.bootstrap-select.btn-group .dropdown-menu.inner>li.selected>a .text,
-.form-control--custom.bootstrap-select.btn-group .dropdown-menu.inner>li:hover>a .text,
-.form-control--custom.bootstrap-select.btn-group .dropdown-menu.inner>li.selected>a span.check-mark,
-.form-control--custom.bootstrap-select.btn-group .dropdown-menu.inner>li:hover>a span.check-mark {
+.bootstrap-select.btn-group .dropdown-menu.inner>li.selected>a .text,
+.bootstrap-select.btn-group .dropdown-menu.inner>li:hover>a .text,
+.bootstrap-select.btn-group .dropdown-menu.inner>li.selected>a span.check-mark,
+.bootstrap-select.btn-group .dropdown-menu.inner>li:hover>a span.check-mark,
+.bootstrap-select.btn-group .dropdown-menu.inner>li.selected>a {
     color: #fff;
 }
 
+.bootstrap-select.btn-group .dropdown-menu {
+    border: 1px solid #f0791b;
+}
+
 .form-control--custom.bootstrap-select.btn-group .dropdown-menu.inner>li.selected>a,
-.form-control--custom.bootstrap-select.btn-group .dropdown-menu.inner>li>a:hover {
+.form-control--custom.bootstrap-select.btn-group .dropdown-menu.inner>li>a:hover,
+.bootstrap-select.btn-group .dropdown-menu.inner>li.selected>a {
     background-color: #f0791b;
 }
 

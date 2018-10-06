@@ -131,8 +131,19 @@ class CommonController extends Controller
                     ->where('role_id', session()->get('role_id'))
                     ->where('society_flag', 0)
                     ->orderBy('id', 'desc');
-            })
-            ->orderBy('id', 'desc')
+            });
+
+        if($request->submitted_at_from)
+        {
+            $applicationData = $applicationData->whereDate('submitted_at', '>=', date('Y-m-d', strtotime($request->submitted_at_from)));
+        }
+
+        if($request->submitted_at_to)
+        {
+            $applicationData = $applicationData->whereDate('submitted_at', '<=', date('Y-m-d', strtotime($request->submitted_at_to)));
+        }
+
+        $applicationData->orderBy('id', 'desc')
             ->select()->get();
 
         $listArray = [];
@@ -180,7 +191,7 @@ class CommonController extends Controller
             ];
 
 //            echo "in forward";
-//            dd($forward_application);
+            dd($forward_application);
             OlApplicationStatus::insert($forward_application);
         }
         else{

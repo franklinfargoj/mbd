@@ -173,8 +173,8 @@ class REEController extends Controller
 
     public function sendForwardApplication(Request $request){
 
-        $arrData['get_current_status'] = $this->CommonController->getCurrentStatus
-        ($request->applicationId);
+//        dd($request->all());
+        $arrData['get_current_status'] = $this->CommonController->getCurrentStatus($request->applicationId);
 
         if($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.offer_letter_generation'))
         {
@@ -184,10 +184,10 @@ class REEController extends Controller
         // {
         //     $this->CommonController->forwardApplicationToSociety($request);
         // }
-        // elseif($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.offer_letter_approved'))
-        // {
-        //     $this->CommonController->forwardApprovedApplication($request);
-        // }
+         elseif($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.offer_letter_approved'))
+         {
+             $this->CommonController->forwardApprovedApplication($request);
+         }
         else
         {
             $this->CommonController->forwardApplicationForm($request);
