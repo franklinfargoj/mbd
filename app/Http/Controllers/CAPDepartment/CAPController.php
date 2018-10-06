@@ -36,6 +36,7 @@ class CAPController extends Controller
 
 		$getData = $request->all();
         $columns = [
+            ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'application_no','name' => 'application_no','title' => 'Application Number'],
             ['data' => 'date','name' => 'date','title' => 'Date'],
@@ -44,7 +45,7 @@ class CAPController extends Controller
             ['data' => 'eeApplicationSociety.address','name' => 'eeApplicationSociety.address','title' => 'Address'],
             // ['data' => 'model','name' => 'model','title' => 'Model'],
              ['data' => 'Status','name' => 'Status','title' => 'Status'],
-            ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
+            // ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
         ];
 
         if ($datatables->getRequest()->ajax()) {
@@ -54,6 +55,10 @@ class CAPController extends Controller
             return $datatables->of($cap_application_data)
                 ->editColumn('rownum', function ($listArray) {
                     static $i = 0; $i++; return $i;
+                })
+                ->editColumn('radio', function ($cap_application_data) {
+                    
+                    return '<a href="javascript:void();" class="show_actions" data-value="'.route('cap.view_application', base64_encode($cap_application_data->id)).'"><label class="m-radio m-radio--primary"><input type="radio" data-value="'.$cap_application_data->id.'" name="applicationId"><span></span></label></a>';
                 })
                 ->editColumn('eeApplicationSociety.name', function ($cap_application_data) {
                     return $cap_application_data->eeApplicationSociety->name;
@@ -67,9 +72,9 @@ class CAPController extends Controller
                 ->editColumn('date', function ($cap_application_data) {
                     return date(config('commanConfig.dateFormat'), strtotime($cap_application_data->submitted_at));
                 })
-                ->editColumn('actions', function ($cap_application_data) use($request){
-                   return view('admin.cap_department.action', compact('cap_application_data', 'request'))->render();
-                })
+                // ->editColumn('actions', function ($cap_application_data) use($request){
+                //    return view('admin.cap_department.action', compact('cap_application_data', 'request'))->render();
+                // })
                 ->editColumn('Status', function ($listArray) use ($request) {
                     $status = $listArray->olApplicationStatusForLoginListing[0]->status_id;
 
@@ -87,12 +92,12 @@ class CAPController extends Controller
                     }
 
                 })
-                ->rawColumns(['society_name', 'Status', 'building_name', 'society_address','date','actions'])
+                ->rawColumns(['radio','society_name', 'Status', 'building_name', 'society_address','date'])
                 ->make(true);
         }        
     	        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
             
-            return view('admin.cap_department.index', compact('html','header_data','getData'));    
+            return view('admin.cap_department.index', compact('html','header_data','getData','cap_application_data'));    
    	
     }
 
@@ -109,27 +114,31 @@ class CAPController extends Controller
     // society and EE documents
     public function societyEEDocuments(Request $request,$applicationId){
        
+        $ol_application = $this->CommonController->getOlApplication($applicationId);       
         $societyDocuments = $this->CommonController->getSocietyEEDocuments($applicationId);
-       return view('admin.cap_department.society_EE_documents',compact('societyDocuments'));
+       return view('admin.cap_department.society_EE_documents',compact('societyDocuments','ol_application'));
     }
 
     // EE - Scrutiny & Remark page
     public function eeScrutinyRemark(Request $request,$applicationId){
 
+        $ol_application = $this->CommonController->getOlApplication($applicationId);
         $eeScrutinyData = $this->CommonController->getEEScrutinyRemark($applicationId);
-        return view('admin.cap_department.EE_Scrunity_Remark',compact('eeScrutinyData'));
+        return view('admin.cap_department.EE_Scrunity_Remark',compact('eeScrutinyData','ol_application','ol_application'));
     } 
 
     // DyCE Scrutiny & Remark page
     public function dyceScrutinyRemark(Request $request,$applicationId){
 
         $applicationData = $this->CommonController->getDyceScrutinyRemark($applicationId);
-        return view('admin.cap_department.dyce_scrunity_remark',compact('applicationData'));
+        $ol_application = $this->CommonController->getOlApplication($applicationId);
+        return view('admin.cap_department.dyce_scrunity_remark',compact('applicationData','ol_application'));
     } 
 
     // Forward Application page
     public function forwardApplication(Request $request, $applicationId){
 
+        $ol_application = $this->CommonController->getOlApplication($applicationId);
         $applicationData = $this->CommonController->getForwardApplication($applicationId);
         $arrData['application_status'] = $this->CommonController->getCurrentApplicationStatus($applicationId);
         $arrData['get_current_status'] = $this->CommonController->getCurrentStatus($applicationId);
@@ -148,7 +157,7 @@ class CAPController extends Controller
         $this->CommonController->getDyceForwardRevertLog($applicationData,$applicationId);
         $this->CommonController->getREEForwardRevertLog($applicationData,$applicationId);
 
-        return view('admin.cap_department.forward_application',compact('applicationData', 'arrData'));
+        return view('admin.cap_department.forward_application',compact('applicationData', 'arrData','ol_application'));
     }
 
     public function sendForwardApplication(Request $request){
@@ -158,8 +167,9 @@ class CAPController extends Controller
 
     public function displayCAPNote(Request $request, $applicationId){
 
+        $ol_application = $this->CommonController->getOlApplication($applicationId);
         $capNote = $this->CommonController->downloadCapNote($applicationId);
-        return view('admin.cap_department.cap_notes',compact('applicationId','capNote'));
+        return view('admin.cap_department.cap_notes',compact('applicationId','capNote','ol_application'));
     }  
 
     public function uploadCAPNote(Request $request){
@@ -191,5 +201,12 @@ class CAPController extends Controller
             }
 
         }        
+    }
+
+    public function viewApplication(Request $request, $applicationId){
+        $ol_application = $this->CommonController->downloadOfferLetter($applicationId);
+        $ol_application->folder = 'cap_department';
+
+        return view('admin.common.offer_letter', compact('ol_application'));
     }  
 }

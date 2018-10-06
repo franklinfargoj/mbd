@@ -144,8 +144,7 @@
                     <div class="col-sm-6 field-col">
                         <div class="d-flex">
                             <span class="field-name">Date of site visit:</span>
-                            <span class="field-value">{{(isset($applicationData->date_of_site_visit) ?
-                                $applicationData->date_of_site_visit : '')}}</span>
+                            <span class="field-value">{{($applicationData->date_of_site_visit) ? date(config('commanConfig.dateFormat'),strtotime($applicationData->date_of_site_visit)) : ''}}</span>
                         </div>
                     </div>
                     @foreach($applicationData->visitDocuments as $data)
@@ -172,7 +171,7 @@
                 <div class="remarks-suggestions">
                     <div class="mt-3">
                         <label for="demarkation_comments">Comments:</label>
-                        <textarea rows="4" cols="63" name="demarkation_comments" readonly>{{(isset($applicationData->demarkation_verification_comment) ? $applicationData->demarkation_verification_comment : '')}}</textarea>
+                        <textarea rows="4" cols="63" name="demarkation_comments" class="form-control form-control--custom" readonly>{{(isset($applicationData->demarkation_verification_comment) ? $applicationData->demarkation_verification_comment : '')}}</textarea>
                     </div>
                 </div>
             </div>

@@ -344,6 +344,7 @@ Route::post('send_for_approval','REEDepartment\REEController@sendForApproval')->
 Route::post('send_letter_society','REEDepartment\REEController@sendOfferLetterToSociety')->name('ree.send_letter_society');
 
 Route::get('calculation_sheet/{id}','Common\CommonController@showCalculationSheet')->name('show_calculation_sheet');
+Route::get('view_application/{id}','CAPDepartment\CAPController@viewApplication')->name('cap.view_application');
 
 Route::resource('/ol_calculation_sheet', 'REEDepartment\OlApplicationCalculationSheetDetailsController');
 

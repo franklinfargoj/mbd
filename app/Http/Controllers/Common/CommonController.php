@@ -477,12 +477,12 @@ class CommonController extends Controller
         return $current_status;
     } 
 
-    public function downloadOfferLetter(Request $request, $applicationId){
+    public function downloadOfferLetter($applicationId){
 
         $ol_application = OlApplication::where('id', $applicationId)->with(['request_form', 'applicationMasterLayout','eeApplicationSociety'])->first();        
-        $layouts = MasterLayout::all();      
+        $ol_application->layouts = MasterLayout::all();      
         
-        return view('admin.DYCE_department.offer_letter', compact('ol_application', 'layouts'));
+        return  $ol_application;   
     }  
 
 
@@ -525,6 +525,7 @@ class CommonController extends Controller
     public function showCalculationSheet($applicationId){
 
        $user = Auth::user();
+       $ol_application = $this->getOlApplication($applicationId);
        $model = OlApplication::with('ol_application_master')->where('id',$applicationId)->first();
        if ($model->ol_application_master->model == 'Premium'){
         $calculationSheetDetails = OlApplicationCalculationSheetDetails::where('application_id','=',$applicationId)->get();
@@ -543,6 +544,13 @@ class CommonController extends Controller
 
         $arrData['reeNote'] = REENote::where('application_id', $applicationId)->orderBy('id', 'desc')->first();
 
-        return view('admin.common.'.$blade,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData'));       
+        return view('admin.common.'.$blade,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application'));       
+    }
+
+    public function getOlApplication($applicationId){
+
+        $ol_application = OlApplication::where('id', $applicationId)->with(['request_form', 'applicationMasterLayout','eeApplicationSociety'])->first();   
+        
+        return $ol_application;      
     }   
 }

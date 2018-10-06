@@ -37,7 +37,7 @@
                                 <img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a></td>
                         <td class="text-center">
                             @if(isset($data->EE_document_path))
-                            <a href="{{ asset($data->EE_document_path) }}">
+                            <a href="{{config('commanConfig.storage_server').'/'.$data->EE_document_path }}">
                                 <img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                             @endif
                         </td>
