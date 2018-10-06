@@ -652,7 +652,7 @@
                                                                 <span class="hint-text">Download EE Note uploaded by EE</span>
                                                                 <div class="mt-auto">
                                                                 @if(isset($eeScrutinyData->eeNote->document_path))
-                                                                    <a href="{{ asset($eeScrutinyData->eeNote->document_path)}}">
+                                                                    <a href="{{ config('commanConfig.storage_server').'/'.$eeScrutinyData->eeNote->document_path }}">
                                                                         <button class="btn btn-primary">Download EE Note uploaded by EE</button>
                                                                     </a>
                                                                 @else
