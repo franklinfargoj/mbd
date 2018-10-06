@@ -134,6 +134,8 @@ class EEController extends Controller
 //        $arrData['application_status'] = $this->comman->getCurrentApplicationStatus($application_id);
 
 
+        $society_role_id = Role::where('name', config('commanConfig.society_offer_letter'))->first();
+
         if(session()->get('role_name') != config('commanConfig.ee_junior_engineer')) {
             $child_role_id = Role::where('id', session()->get('role_id'))->get(['child_id']);
             $result = json_decode($child_role_id[0]->child_id);
@@ -144,7 +146,6 @@ class EEController extends Controller
             $arrData['application_status'] = $final_child;
         }
 
-//        dd($arrData['application_status']);
         // DyCE Junior Forward Application
         $dyce_role_id = Role::where('name', '=', config('commanConfig.dyce_jr_user'))->first();
 
@@ -154,7 +155,7 @@ class EEController extends Controller
 
         $arrData['dyce_role_name'] = strtoupper(str_replace('_', ' ', $dyce_role_id->name));
 
-        return view('admin.ee_department.forward-application', compact('arrData'));
+        return view('admin.ee_department.forward-application', compact('arrData', 'society_role_id'));
     }
 
     public function forwardApplication(Request $request)
@@ -226,6 +227,7 @@ class EEController extends Controller
                         'application_id' => $request->application_id,
                         'user_id' => Auth::user()->id,
                         'role_id' => session()->get('role_id'),
+                        'society_flag' => 0,
                         'status_id' => config('commanConfig.applicationStatus.reverted'),
                         'to_user_id' => $request->to_child_id,
                         'to_role_id' => $request->to_role_id,
@@ -237,6 +239,7 @@ class EEController extends Controller
                         'application_id' => $request->application_id,
                         'user_id' => $request->to_child_id,
                         'role_id' => $request->to_role_id,
+                        'society_flag' => $request->society_flag,
                         'status_id' => config('commanConfig.applicationStatus.in_process'),
                         'to_user_id' => NULL,
                         'to_role_id' => NULL,

@@ -154,6 +154,7 @@
                                                     @csrf
                                                     <input type="hidden" name="application_id" value="{{ $arrData['society_detail']->id }}">
                                                     <input type="hidden" name="to_role_id" id="to_role_id">
+                                                    <input type="hidden" name="society_flag" id="society_flag" value="0">
 
                                                     <div class="m-form__group form-group">
                                                         <div class="m-radio-inline">
@@ -201,7 +202,7 @@
                                                                 <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" name="to_child_id" id="to_child_id">
                                                                     @if(isset($arrData['application_status']))
                                                                         @foreach($arrData['application_status'] as $child)
-                                                                            <option value="{{ $child->id }}" data-role="{{ $child->role_id }}">{{ $child->name }} ({{ strtoupper(str_replace('_', ' ',$child->roles[0]->name)) }})</option>
+                                                                            <option value="{{ $child->id }}" data-society="{{ ($child->role_id == $society_role_id->id) ? 1 : 0 }}" data-role="{{ $child->role_id }}">{{ $child->name }} ({{ strtoupper(str_replace('_', ' ',$child->roles[0]->name)) }})</option>
                                                                         @endforeach
                                                                     @endif
                                                                 </select>
@@ -262,9 +263,11 @@
             else
             {
                 var id = $("#to_child_id").find('option:selected').attr("data-role");
+                var society_flag = $("#to_child_id").find('option:selected').attr("data-society");
             }
 
             $("#to_role_id").val(id);
+            $("#society_flag").val(society_flag);
         });
     </script>
 @endsection
