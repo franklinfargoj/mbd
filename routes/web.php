@@ -347,6 +347,7 @@ Route::get('calculation_sheet/{id}','Common\CommonController@showCalculationShee
 
 Route::get('view_application/{id}','CAPDepartment\CAPController@viewApplication')->name('cap.view_application');
 Route::get('view_application_vp/{id}','VPDepartment\VPController@viewApplication')->name('vp.view_application');
+Route::get('view_application_ree/{id}','REEDepartment\REEController@viewApplication')->name('ree.view_application');
 Route::get('calculation_sheet_vp/{id}','VPDepartment\VPController@showCalculationSheet')->name('vp.show_calculation_sheet');
 Route::get('calculation_sheet_cap/{id}','CAPDepartment\CAPController@showCalculationSheet')->name('cap.show_calculation_sheet');
 

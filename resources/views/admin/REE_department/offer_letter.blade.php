@@ -1,4 +1,7 @@
-@extends('admin.layouts.app')
+@extends('admin.layouts.sidebarAction')
+@section('actions')
+    @include('admin.REE_department.action',compact('ol_application'))
+@endsection
 @section('css')
 <!-- <style> -->
 <link href="{{asset('/frontend/css/dyce_scrutiny.css')}}" rel="stylesheet" type="text/css" />

@@ -5,7 +5,7 @@
     @endif
 @endif
 @if(session()->get('role_name') == config('commanConfig.selection_commitee'))
-    @if($architect_applications->application_status=='Final')
+    @if($architect_applications->application_status=='Final' && session()->get('role_name') != config('commanConfig.selection_commitee'))
     @else
     <input type="checkbox" name="application_id[]" value="{{$architect_applications->id}}">
     @endif

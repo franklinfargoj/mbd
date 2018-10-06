@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\REEDepartment;
 
 use App\OlApplicationCalculationSheetDetails;
+use App\Http\Controllers\Common\CommonController;
 use App\Http\Controllers\Controller;
 use App\OlDcrRateMaster;
+use App\OlApplication;
 use App\REENote;
 //use Barryvdh\DomPDF\PDF;
 use Barryvdh\DomPDF\Facade as PDF;
@@ -14,6 +16,10 @@ use niklasravnsborg\LaravelPdf\Facades\Pdf as NewPDF;
 
 class OlApplicationCalculationSheetDetailsController extends Controller
 {
+        public function __construct()
+    {
+        $this->CommonController = new CommonController();
+    }
     /**
      * Display a listing of the resource.
      *
@@ -52,6 +58,8 @@ class OlApplicationCalculationSheetDetailsController extends Controller
     public function show($id)
     {
         $applicationId = $id;$user = Auth::user();
+        $ol_application = $this->CommonController->getOlApplication($id);
+        $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$id)->first();
         $calculationSheetDetails = OlApplicationCalculationSheetDetails::where('application_id','=',$id)->get();
 
         $dcr_rates = OlDcrRateMaster::all();
@@ -59,7 +67,7 @@ class OlApplicationCalculationSheetDetailsController extends Controller
 
         $arrData['reeNote'] = REENote::where('application_id', $applicationId)->orderBy('id', 'desc')->first();
 
-        return view('admin.REE_department.calculation_sheet',compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData'));
+        return view('admin.REE_department.calculation_sheet',compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application'));
     }
 
     /**
