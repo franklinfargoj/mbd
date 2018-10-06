@@ -39,12 +39,12 @@
                                     @csrf
                                     <div class="form-group m-form__group">
                                         <!-- <label for="" class="col-form-label">Email Address</label> -->
-                                        <input class="form-control m-input" type="email" placeholder="Email" name="email"
+                                        <input class="form-control form-control-icon form-control-icon--email m-input" type="email" placeholder="Email" name="email"
                                             value="{{ old('email') }}" autocomplete="off">
                                     </div>
                                     <div class="form-group m-form__group position-relative">
                                         <!-- <label for="" class="col-form-label">Password</label> -->
-                                        <input class="form-control m-input" type="password" placeholder="Password" name="password"
+                                        <input class="form-control form-control-icon form-control-icon--password m-input" type="password" placeholder="Password" name="password"
                                             autocomplete="off" id="password-field">
                                         <!-- <span toggle="#password-field" class="fa fa-fw fa-eye hide-show-pwd toggle-password"></span> -->
                                     </div>

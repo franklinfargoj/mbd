@@ -60,6 +60,12 @@
     color: #f7f8fa;
 }
 
+.m-aside-menu.m-aside-menu--skin-dark .m-menu__link-text {
+    max-width: 135px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
 .m-aside-menu.m-aside-menu--skin-dark .m-menu__nav>.m-menu__item.m-menu__item--active>.m-menu__heading .m-menu__link-text,
 .m-aside-menu.m-aside-menu--skin-dark .m-menu__nav>.m-menu__item.m-menu__item--active>.m-menu__link .m-menu__link-text,
 .m-aside-menu.m-aside-menu--skin-dark .m-menu__nav>.m-menu__item.m-menu__item--active>.m-menu__heading .m-menu__link-icon,
@@ -668,6 +674,21 @@
 /* theme classes over ride ends here */
 
 /* global classes starts here */
+
+.form-control-icon {
+    background-repeat: no-repeat !important;
+    background-position: center right 15px !important;
+    background-size: 22px !important;
+    padding-right: 50px !important;
+}
+
+.form-control-icon--email {
+    background-image: url('../../../../img/email-icon.svg') !important;
+}
+
+.form-control-icon--password {
+    background-image: url('../../../../img/password-icon.svg') !important;
+}
 
 .row-list {
     padding-top: 15px;
