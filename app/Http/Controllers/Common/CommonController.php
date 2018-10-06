@@ -193,7 +193,7 @@ class CommonController extends Controller
             ];
 
 //            echo "in forward";
-            dd($forward_application);
+//            dd($forward_application);
             OlApplicationStatus::insert($forward_application);
         }
         else{
