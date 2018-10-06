@@ -126,6 +126,7 @@
 }
 
 .bootstrap-select.btn-group .dropdown-menu.inner {
+    border-radius: 8px;
     border: 1px solid #f0791b;
 }
 
@@ -676,6 +677,20 @@
 
 /* global classes starts here */
 
+.filter-wrap {
+    margin-top: 30px;
+}
+
+.filter-icon {
+    width: 15px;
+    margin-right: 5px;
+    height: auto;
+}
+
+.btn-transparent {
+    background-color: transparent;
+}
+
 .form-control-icon {
     background-repeat: no-repeat !important;
     background-position: center right 15px !important;
@@ -886,7 +901,7 @@
 .form-control--custom.m_datepicker[readonly]:hover,
 .form-control--custom.m_timepicker[readonly]:focus,
 .form-control--custom.m_timepicker[readonly]:hover {
-    border: 1px solid #f0791b !important;
+    border-bottom: 1px solid #f0791b !important;
 }
 
 .table--box-input td .form-control--custom {
