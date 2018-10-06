@@ -269,7 +269,8 @@ class ResolutionController extends Controller
             
             return $datatables->of($resolutions)
                 ->editColumn('radio', function ($resolutions) {
-                    return '<input type="radio" name="resolutions_id">';
+                    // $url = route('resolution.edit', [$resolutions->id]);
+                    // return '<label class="m-radio m-radio--primary"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
                 })
                 ->editColumn('board', function ($resolutions) {
                     return $resolutions->board->board_name;

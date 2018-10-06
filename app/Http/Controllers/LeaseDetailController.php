@@ -170,8 +170,9 @@ class LeaseDetailController extends Controller
             $lease_data = $lease_data->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').',lease_rule_16_other, lm_lease_detail.id as id, lm_lease_detail.area as area, society_id, lease_period, lease_start_date, lease_status');
 
             return $datatables->of($lease_data)
-                ->editColumn('radio', function ($village_data) {
-                    return '<input type="radio" name="village_data_id">';
+                ->editColumn('radio', function ($lease_data) {
+                    $url = route('view-lease.view', [$lease_data->id, $lease_data->society_id]);
+                    return '<label class="m-radio m-radio--primary"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
                 })
                 ->editColumn('rownum', function ($lease_data) {
                         static $i = 0;

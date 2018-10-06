@@ -1,7 +1,7 @@
-<a title="Edit" href="{{ url('/view_applicant/'.$rti_applicants->id) }}"></i>View Applications</a>
-<a title="Schedule Meeting" href="{{ url('/schedule_meeting/'.$rti_applicants->id) }}"></i>Schedule Meeting</a> 
-<a title="Edit" href="{{ url('/update_status/'.$rti_applicants->id) }}"></i>Update Status</a>
-<a title="Edit" href="{{ url('/rti_send_info/'.$rti_applicants->id) }}"></i>Send Information To Applicant</a>
-<a title="Edit" href="{{ url('/rti_forward_application/'.$rti_applicants->id) }}"></i>Forward Application</a>
-{{--<a title="Delete" href="{{ route('resolution.delete', $rti_applicants->id) }}">Delete</a>--}}
-{{--<a title="Delete" href="javascript::void(0)" onclick="deleteResolution({{$rti_applicants->id}});">Delete</a>--}}
+<li class="m-menu__item m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover"><a class="m-menu__link m-menu__toggle" title="View" href="{{ url('/view_applicant/'.$rti_applicant->id) }}"></i><span class="m-menu__link-text">View Applications</span></a></li>
+<li class="m-menu__item m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover"><a class="m-menu__link m-menu__toggle" title="Schedule Meeting" href="{{ url('/schedule_meeting/'.$rti_applicant->id) }}"></i><span class="m-menu__link-text">Schedule Meeting</span></a></li>
+<li class="m-menu__item m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover"><a class="m-menu__link m-menu__toggle" title="Edit" href="{{ url('/update_status/'.$rti_applicant->id) }}"></i><span class="m-menu__link-text">Update Status</span></a></li>
+<li class="m-menu__item m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover"><a class="m-menu__link m-menu__toggle" title="Edit" href="{{ url('/rti_send_info/'.$rti_applicant->id) }}"></i><span class="m-menu__link-text">Send Information To Applicant</span></a></li>
+<li class="m-menu__item m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover"><a class="m-menu__link m-menu__toggle" title="Edit" href="{{ url('/rti_forward_application/'.$rti_applicant->id) }}"></i><span class="m-menu__link-text">Forward Application</span></a></li>
+{{--<a title="Delete" href="{{ route('resolution.delete', $rti_applicant->id) }}">Delete</a>--}}
+{{--<a title="Delete" href="javascript::void(0)" onclick="deleteResolution({{$rti_applicant->id}});">Delete</a>--}}
