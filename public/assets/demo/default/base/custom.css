@@ -652,6 +652,7 @@
     color: #fff;
     font-size: 1.07rem;
     padding-left: 30px;
+    white-space: nowrap;
 }
 
 .m-aside-menu.m-aside-menu--skin-dark .m-menu__nav>.m-menu__item.m-menu__item--open {

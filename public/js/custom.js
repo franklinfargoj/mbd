@@ -117,7 +117,6 @@ $(document).ready(function () {
 
     $('.show_actions').on('click', function(){
         var view_route = $(this).attr('data-value');
-        // console.log(village_detail_id);
         window.location = view_route;
     });
 
