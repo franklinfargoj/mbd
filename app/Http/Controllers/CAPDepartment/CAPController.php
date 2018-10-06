@@ -58,7 +58,7 @@ class CAPController extends Controller
                 })
                 ->editColumn('radio', function ($cap_application_data) {
                     
-                    return '<a href="javascript:void();" class="show_actions" data-value="'.route('cap.view_application', base64_encode($cap_application_data->id)).'"><label class="m-radio m-radio--primary"><input type="radio" data-value="'.$cap_application_data->id.'" name="applicationId"><span></span></label></a>';
+                    return '<a href="javascript:void();" class="show_actions" data-value="'.route('cap.view_application', $cap_application_data->id).'"><label class="m-radio m-radio--primary"><input type="radio" name="applicationId"><span></span></label></a>';
                 })
                 ->editColumn('eeApplicationSociety.name', function ($cap_application_data) {
                     return $cap_application_data->eeApplicationSociety->name;
