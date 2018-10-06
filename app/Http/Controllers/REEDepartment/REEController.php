@@ -208,7 +208,7 @@ class REEController extends Controller
             $this->CommonController->forwardApplicationForm($request);
         }
 
-        return redirect('/ree_applications');
+        return redirect('/ree_applications')->with('success','Application send successfully.');
 
     }
 
