@@ -143,13 +143,14 @@ class CommonController extends Controller
             $applicationData = $applicationData->whereDate('submitted_at', '<=', date('Y-m-d', strtotime($request->submitted_at_to)));
         }
 
-        $applicationData->orderBy('id', 'desc')
+        $applicationDataDefine = $applicationData->orderBy('ol_applications.id', 'desc')
             ->select()->get();
 
         $listArray = [];
         if($request->update_status)
         {
-            foreach ($applicationData as $app_data)
+            
+            foreach ($applicationDataDefine as $app_data)
             {
                 if($app_data->olApplicationStatusForLoginListing[0]->status_id == $request->update_status)
                 {
@@ -159,8 +160,9 @@ class CommonController extends Controller
         }
         else
         {
-            $listArray =  $applicationData;
+            $listArray =  $applicationDataDefine;
         }
+       
         return $listArray;
     }
 
