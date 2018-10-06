@@ -34,15 +34,15 @@
                         <div class="col-md-3">
                             <div class="form-group m-form__group">
                                 <label for="office_date_from">From Date</label>
-                                <input type="text" id="office_date_from" name="office_date_from" class="form-control form-control--custom m-input m_datepicker"
-                                    placeholder="From Date" readonly value="{{ isset($getData['office_date_from'])? $getData['office_date_from'] : '' }}">
+                                <input type="text" id="submitted_at_from" name="submitted_at_from" class="form-control form-control--custom m-input m_datepicker"
+                                    placeholder="From Date" readonly value="{{ isset($getData['submitted_at_from'])? $getData['submitted_at_from'] : '' }}">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group m-form__group">
                                 <label for="office_date_to">To Date</label>
-                                <input type="text" id="office_date_to" name="office_date_to" class="form-control form-control--custom m-input m_datepicker"
-                                    placeholder="From Date" readonly value="{{ isset($getData['office_date_to'])? $getData['office_date_to'] : '' }}">
+                                <input type="text" id="submitted_at_to" name="submitted_at_to" class="form-control form-control--custom m-input m_datepicker"
+                                    placeholder="To Date" readonly value="{{ isset($getData['submitted_at_to'])? $getData['submitted_at_to'] : '' }}">
                             </div>
                         </div>
 

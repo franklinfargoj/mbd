@@ -108,7 +108,7 @@ class LoginController extends Controller
         else
         {
 //            dd(Session::get('_previous')['url']);
-//            dd(explode('/', URL::previous())[3]);
+//            dd(explode('.', explode('/', "http://mhada.php-dev.in/login-user")[2])[0]);
             if(is_numeric(explode('.', explode('/', URL::previous())[2])[0]) == true){
                 if(explode('/', URL::previous())[3] == 'society_offer_letter'){
                     return redirect('/society_offer_letter')->with('error', "Please enter valid credentials");
@@ -117,7 +117,7 @@ class LoginController extends Controller
                     return redirect('/login-user')->with('error', "Please enter valid credentials");
                 }
             }else{
-                if(explode('/', explode('.', URL::previous())[2])[2] == 'society'){
+                if(explode('/', explode('.', URL::previous())[2])[0] == 'society'){
                     return redirect('/society_offer_letter')->with('error', "Please enter valid credentials");
                 }else{
                     return redirect('/login-user')->with('error', "Please enter valid credentials");
