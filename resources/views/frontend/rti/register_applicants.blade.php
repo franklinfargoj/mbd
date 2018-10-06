@@ -1,6 +1,6 @@
 @extends('frontend.rti.login')
 @section('body')
-<div class="m-grid__item m-grid__item--fluid m-grid m-grid--hor m-login m-login--singin m-login--2 m-login-2--skin-2 light-bg"
+<div class="m-grid__item m-grid__item--fluid m-grid m-grid--hor m-login m-login--singin m-login--2 m-login-2--skin-2 no-radius-form light-bg"
     id="m_login" style="position: relative;">
     <div class="m-login__logo m-login__logo--header transparent-bg no-shadow text-center">
         <a href="{{ url('/') }}"></a>
@@ -95,12 +95,12 @@
                                         </div>
                                         <div class="col-sm-6">
                                             <input class="form-control form-control--custom m-input m_datepicker" type="text"
-                                                placeholder="Select a Date" name="info_period_from" value="{{old('info_period_from')}}"
+                                                placeholder="Select a Date From" name="info_period_from" value="{{old('info_period_from')}}"
                                                 autocomplete="off">
                                         </div>
                                         <div class="col-sm-6">
                                             <input class="form-control form-control--custom m-input m_datepicker" type="text"
-                                                placeholder="Select a Date" name="info_period_to" value="{{old('info_period_to')}}"
+                                                placeholder="Select a Date To" name="info_period_to" value="{{old('info_period_to')}}"
                                                 autocomplete="off">
                                         </div>
                                     </div>

@@ -154,8 +154,8 @@
                                             <div class="col-sm-6">
                                                 <div class="d-flex flex-column h-100">
                                                     <h5>Download Offer Letter</h5>
-                                                    <span class="hint-text">Want to make changes in offer letter, click
-                                                        on below button to download offer letter in .doc format</span>
+<!--                                                     <span class="hint-text">Want to make changes in offer letter, click
+                                                        on below button to download offer letter in .doc format</span> -->
                                                     <div class="mt-auto">
 
                                                     @if($societyData->drafted_offer_letter)
@@ -193,7 +193,7 @@
                                 </div>
                             </div>
                         </div>
-                        @if($societyData->ree_branch_head)
+                        @if($societyData->ree_branch_head && $applicationLog->status_id != 2)
                            <form role="form" id="sendForApproval" style="margin-top: 30px;" name="sendForApproval" class="form-horizontal" method="post" action="{{ route('ree.send_for_approval')}}"
                             enctype="multipart/form-data">
                             @csrf 
