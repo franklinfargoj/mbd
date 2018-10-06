@@ -56,7 +56,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-8" style="margin-top: 15px;">
+                        <div class="col-md-12" style="margin-top: 15px;">
                             <div class="">
                                 <button type="submit" class="btn btn-primary">Search</button>
                             </div>

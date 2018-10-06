@@ -1,4 +1,7 @@
-@extends('admin.layouts.app')
+@extends('admin.layouts.sidebarAction')
+@section('actions')
+    @include('admin.REE_department.action',compact('ol_application'))
+@endsection
 @section('content')
 
 @if($societyData->drafted_offer_letter)

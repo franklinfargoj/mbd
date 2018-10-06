@@ -14,7 +14,11 @@ use App\OlConsentVerificationDetails;
 use App\OlDemarcationVerificationDetails;
 use App\OlTitBitVerificationDetails;
 use App\OlRelocationVerificationDetails;
+use App\OlApplicationCalculationSheetDetails;
+use App\OlSharingCalculationSheetDetail;
 use App\OlChecklistScrutiny;
+use App\OlDcrRateMaster;
+use App\REENote;
 use App\OlApplicationStatus;
 use App\OlCapNotes;
 use App\User;
@@ -36,6 +40,7 @@ class VPController extends Controller
 		
 		$getData = $request->all();
         $columns = [
+            ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'application_no','name' => 'application_no','title' => 'Application Number'],
             ['data' => 'date','name' => 'date','title' => 'Date'],
@@ -44,8 +49,9 @@ class VPController extends Controller
             ['data' => 'eeApplicationSociety.address','name' => 'eeApplicationSociety.address','title' => 'Address'],
             // ['data' => 'model','name' => 'model','title' => 'Model'],
              ['data' => 'Status','name' => 'Status','title' => 'Status'],
-            ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
+            // ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
         ];
+
 
         if ($datatables->getRequest()->ajax()) {
 
@@ -54,6 +60,10 @@ class VPController extends Controller
             return $datatables->of($vp_application_data)
                 ->editColumn('rownum', function ($listArray) {
                     static $i = 0; $i++; return $i;
+                })
+                ->editColumn('radio', function ($vp_application_data) {
+                    $url = route('vp.view_application', $vp_application_data->id);
+                    return '<label class="m-radio m-radio--primary"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
                 })
                 ->editColumn('eeApplicationSociety.name', function ($vp_application_data) {
                     return $vp_application_data->eeApplicationSociety->name;
@@ -65,11 +75,11 @@ class VPController extends Controller
                     return $vp_application_data->eeApplicationSociety->address;
                 })                
                 ->editColumn('date', function ($vp_application_data) {
-                    return date(config('commanConfig.dateFormat', strtotime($vp_application_data->submitted_at)));
+                    return date(config('commanConfig.dateFormat'), strtotime($vp_application_data->submitted_at));
                 })
-                ->editColumn('actions', function ($vp_application_data) use($request){
-                   return view('admin.vp_department.action', compact('vp_application_data', 'request'))->render();
-                })
+                // ->editColumn('actions', function ($vp_application_data) use($request){
+                //    return view('admin.vp_department.action', compact('vp_application_data', 'request'))->render();
+                // })
                 ->editColumn('Status', function ($listArray) use ($request) {
                     $status = $listArray->olApplicationStatusForLoginListing[0]->status_id;
 
@@ -87,7 +97,7 @@ class VPController extends Controller
                     }
 
                 })
-                ->rawColumns(['society_name', 'Status', 'building_name', 'society_address','date','actions'])
+                ->rawColumns(['radio','society_name', 'Status', 'building_name', 'society_address','date'])
                 ->make(true);
         }        
     	        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
@@ -109,28 +119,32 @@ class VPController extends Controller
     // society and EE documents
     public function societyEEDocuments(Request $request,$applicationId){
        
+       $ol_application = $this->CommonController->getOlApplication($applicationId);
         $societyDocuments = $this->CommonController->getSocietyEEDocuments($applicationId);
-       return view('admin.vp_department.society_EE_documents',compact('societyDocuments'));
+       return view('admin.vp_department.society_EE_documents',compact('ol_application','societyDocuments'));
     }
 
     // EE - Scrutiny & Remark page
     public function eeScrutinyRemark(Request $request,$applicationId){
 
+        $ol_application = $this->CommonController->getOlApplication($applicationId);
         $eeScrutinyData = $this->CommonController->getEEScrutinyRemark($applicationId);
-        return view('admin.vp_department.EE_Scrunity_Remark',compact('eeScrutinyData'));
+        return view('admin.vp_department.EE_Scrunity_Remark',compact('ol_application','eeScrutinyData'));
     }
 
     // DyCE Scrutiny & Remark page
     public function dyceScrutinyRemark(Request $request,$applicationId){
-
+        
+        $ol_application = $this->CommonController->getOlApplication($applicationId);
         $applicationData = $this->CommonController->getDyceScrutinyRemark($applicationId);
         // dd($applicationData);
-        return view('admin.vp_department.dyce_scrunity_remark',compact('applicationData'));
+        return view('admin.vp_department.dyce_scrunity_remark',compact('ol_application','applicationData'));
     }
 
     // Forward Application page
     public function forwardApplication(Request $request, $applicationId){
 
+        $ol_application = $this->CommonController->getOlApplication($applicationId);
         $applicationData = $this->CommonController->getForwardApplication($applicationId);
         $arrData['application_status'] = $this->CommonController->getCurrentApplicationStatus($applicationId);
         $arrData['get_current_status'] = $this->CommonController->getCurrentStatus($applicationId);
@@ -149,7 +163,7 @@ class VPController extends Controller
         $this->CommonController->getDyceForwardRevertLog($applicationData,$applicationId);
         $this->CommonController->getREEForwardRevertLog($applicationData,$applicationId);
 
-        return view('admin.vp_department.forward_application',compact('applicationData', 'arrData'));
+        return view('admin.vp_department.forward_application',compact('applicationData', 'arrData','ol_application'));
     } 
 
     public function sendForwardApplication(Request $request){
@@ -217,7 +231,29 @@ class VPController extends Controller
 
     public function displayCAPNote(Request $request, $applicationId){
 
+        $ol_application = $this->CommonController->getOlApplication($applicationId);
         $capNote = $this->CommonController->downloadCapNote($applicationId);
-        return view('admin.vp_department.cap_note',compact('applicationId','capNote'));
-    }                                    
+        return view('admin.vp_department.cap_note',compact('applicationId','capNote','ol_application'));
+    } 
+
+    public function viewApplication(Request $request, $applicationId){
+
+        $ol_application = $this->CommonController->downloadOfferLetter($applicationId);
+        $ol_application->folder = 'vp_department';
+
+        return view('admin.common.offer_letter', compact('ol_application'));
+    }
+
+    public function showCalculationSheet(Request $request, $applicationId){
+        
+        $user = $this->CommonController->showCalculationSheet($applicationId);
+        $ol_application = $this->CommonController->getOlApplication($applicationId);
+        $ol_application->folder = 'vp_department';
+        $calculationSheetDetails = $user->calculationSheetDetails;
+        $dcr_rates = $user->dcr_rates;
+        $blade = $user->blade;
+        $arrData['reeNote'] = $user->areeNote;
+        // dd($blade);
+        return view('admin.common.'.$blade,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application'));         
+    }                                        
 }
