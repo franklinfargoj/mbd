@@ -150,6 +150,7 @@ class EEController extends Controller
         $dyce_role_id = Role::where('name', '=', config('commanConfig.dyce_jr_user'))->first();
 
         $arrData['get_forward_dyce'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
+
                                                 ->where('lu.layout_id', session()->get('layout_id'))
                                                 ->where('role_id', $dyce_role_id->id)->get();
 
@@ -240,7 +241,7 @@ class EEController extends Controller
                         'user_id' => $request->to_child_id,
                         'role_id' => $request->to_role_id,
                         'society_flag' => $request->society_flag,
-                        'status_id' => config('commanConfig.applicationStatus.in_process'),
+                        'status_id' => config('commanConfig.applicationStatus.reverted'),
                         'to_user_id' => NULL,
                         'to_role_id' => NULL,
                         'remark' => $request->remark,
