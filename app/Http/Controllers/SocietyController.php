@@ -179,7 +179,7 @@ class SocietyController extends Controller
             return $datatables->of($society_data)
                 ->editColumn('radio', function ($society_data) {
                     $url = route('society_detail.show', $society_data->id);
-                    return '<label class="m-radio m-radio--primary"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
+                    return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
                 })
                 ->editColumn('rownum', function ($society_data) {
                     static $i = 0;

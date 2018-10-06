@@ -679,6 +679,30 @@
     border-radius: 0;
 }
 
+.m-radio.m-radio--primary>span {
+    border-color: #f0791b;
+}
+
+.m-radio>span:after {
+    top: 50%;
+    left: 50%;
+    margin: 0;
+    background: #f0791b;
+    transform: translate(-50%, -50%);
+}
+
+.m-radio.m-radio--primary.m-radio--link>span {
+    border-color: #f0791b;
+    top: -5px;
+    width: 16px;
+    height: 16px;
+}
+
+.m-radio.m-radio--primary.m-radio--link>span:after {
+    width: 1px;
+    height: 1px;
+}
+
 /* theme classes over ride ends here */
 
 /* global classes starts here */

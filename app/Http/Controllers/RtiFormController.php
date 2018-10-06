@@ -112,7 +112,7 @@ class RtiFormController extends Controller
             return $datatables->of($rti_applicants->orderBy('id'))
                 ->editColumn('radio', function ($rti_applicants) {
                     $url = route('view_applicant', [$rti_applicants->id]);
-                    return '<label class="m-radio m-radio--primary"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
+                    return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
                 })
                 ->editColumn('rownum', function ($rti_applicants) {
                     static $i = 0;
