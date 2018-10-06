@@ -45,6 +45,7 @@ class REEController extends Controller
 
         $getData = $request->all();
         $columns = [
+            ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'application_no','name' => 'application_no','title' => 'Application Number'],
             ['data' => 'date','name' => 'date','title' => 'Date'],
@@ -54,17 +55,21 @@ class REEController extends Controller
             // ['data' => 'model','name' => 'model','title' => 'Model'],
             ['data' => 'Status','name' => 'Status','title' => 'Status'],
             // ['data' => 'Model','name' => 'Model','title' => 'Model'],
-            ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
+            // ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
         ];
-
         if ($datatables->getRequest()->ajax()) {
 
             $ree_application_data = $this->CommonController->listApplicationData($request);
+            // $ol_application = $this->CommonController->getOlApplication($ree_application_data->id);
             
             return $datatables->of($ree_application_data)
             ->editColumn('rownum', function ($listArray) {
                 static $i = 0; $i++; return $i;
             })
+            ->editColumn('radio', function ($ree_application_data) {
+                $url = route('ree.view_application', $ree_application_data->id);
+                return '<label class="m-radio m-radio--primary"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
+            })            
             ->editColumn('eeApplicationSociety.name', function ($ree_application_data) {
                 return $ree_application_data->eeApplicationSociety->name;
             })
@@ -77,9 +82,9 @@ class REEController extends Controller
             ->editColumn('date', function ($ree_application_data) {
                 return date(config('commanConfig.dateFormat'), strtotime($ree_application_data->submitted_at));
             })
-            ->editColumn('actions', function ($ree_application_data) use($request){
-               return view('admin.REE_department.action', compact('ree_application_data', 'request'))->render();
-            }) 
+            // ->editColumn('actions', function ($ree_application_data) use($request){
+            //    return view('admin.REE_department.action', compact('ree_application_data', 'request'))->render();
+            // }) 
             ->editColumn('Status', function ($listArray) use ($request) {
                 $status = $listArray->olApplicationStatusForLoginListing[0]->status_id;
 
@@ -100,7 +105,7 @@ class REEController extends Controller
            // ->editColumn('Model', function ($ree_application_data) {
            //          return $ree_application_data->ol_application_master->model;
            //      })
-            ->rawColumns(['society_name', 'building_name', 'society_address','date','actions','Status'])
+            ->rawColumns(['radio','society_name', 'building_name', 'society_address','date','Status'])
             ->make(true);
         }        
             $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
@@ -119,28 +124,36 @@ class REEController extends Controller
     } 
 
     public function societyEEDocuments(Request $request,$applicationId){
-       
+        
+        $ol_application = $this->CommonController->getOlApplication($applicationId);
+        $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
         $societyDocuments = $this->CommonController->getSocietyEEDocuments($applicationId);
-       return view('admin.REE_department.society_EE_documents',compact('societyDocuments'));
+       return view('admin.REE_department.society_EE_documents',compact('ol_application','societyDocuments'));
     }
 
     // EE - Scrutiny & Remark page
     public function eeScrutinyRemark(Request $request,$applicationId){
 
+        $ol_application = $this->CommonController->getOlApplication($applicationId);
+        $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
         $eeScrutinyData = $this->CommonController->getEEScrutinyRemark($applicationId);
-        return view('admin.REE_department.EE_Scrunity_Remark',compact('eeScrutinyData'));
+        return view('admin.REE_department.EE_Scrunity_Remark',compact('ol_application','eeScrutinyData'));
     }   
 
     // DyCE Scrutiny & Remark page
     public function dyceScrutinyRemark(Request $request,$applicationId){
 
+        $ol_application = $this->CommonController->getOlApplication($applicationId);
+        $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
         $applicationData = $this->CommonController->getDyceScrutinyRemark($applicationId);
-        return view('admin.REE_department.dyce_scrunity_remark',compact('applicationData'));
+        return view('admin.REE_department.dyce_scrunity_remark',compact('ol_application','applicationData'));
     }
 
     // Forward Application page
     public function forwardApplication(Request $request, $applicationId){
 
+        $ol_application = $this->CommonController->getOlApplication($applicationId);
+        $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
         $applicationData = $this->CommonController->getForwardApplication($applicationId);
 
         $this->CommonController->getEEForwardRevertLog($applicationData,$applicationId);
@@ -168,7 +181,7 @@ class REEController extends Controller
         }
 
 
-        return view('admin.REE_department.forward_application',compact('applicationData','arrData'));  
+        return view('admin.REE_department.forward_application',compact('applicationData','arrData','ol_application'));  
     }             
 
     public function sendForwardApplication(Request $request){
@@ -199,78 +212,15 @@ class REEController extends Controller
 
     public function downloadCapNote(Request $request, $applicationId){
 
+        $ol_application = $this->CommonController->getOlApplication($applicationId);
+        $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
         $capNote = $this->CommonController->downloadCapNote($applicationId);
-        return view('admin.REE_department.cap_note',compact('capNote'));
+        return view('admin.REE_department.cap_note',compact('capNote','ol_application'));
     }
     
     public function documentSubmittedBySociety()
     {
         // return view('admin.ee_department.documentSubmitted');
-    }
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 
     public function uploadREENote(Request $request){
@@ -308,6 +258,8 @@ class REEController extends Controller
 
     public function GenerateOfferLetter(Request $request, $applicationId){
         
+        $ol_application = $this->CommonController->getOlApplication($applicationId);
+        $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
         $societyData = OlApplication::with(['eeApplicationSociety'])
                 ->where('id',$applicationId)->orderBy('id','DESC')->first();
 
@@ -316,7 +268,7 @@ class REEController extends Controller
 
         $societyData->drafted_offer_letter = OlApplication::where('id',$applicationId)->value('drafted_offer_letter');   
         
-        return view('admin.REE_department.generate-offer-letter',compact('societyData'));
+        return view('admin.REE_department.generate-offer-letter',compact('societyData','ol_application'));
     }    
 
     public function pdfMerge(Request $request){
@@ -417,10 +369,12 @@ class REEController extends Controller
 
     public function approvedOfferLetter(Request $request,$applicationId){
 
+        $ol_application = $this->CommonController->getOlApplication($applicationId);
+        $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
         $applicationData = OlApplication::with(['eeApplicationSociety'])
                 ->where('id',$applicationId)->orderBy('id','DESC')->first();
 
-        return view('admin.REE_department.approved_offer_letter',compact('applicationData'));
+        return view('admin.REE_department.approved_offer_letter',compact('applicationData','ol_application'));
     }
 
     public function getPermiumCalculationSheetData($applicationId){
@@ -450,4 +404,14 @@ class REEController extends Controller
         return redirect('/ree_applications')->with('success','send successfully.');
         
     }
+
+    public function viewApplication(Request $request, $applicationId){
+
+        $ol_application = $this->CommonController->downloadOfferLetter($applicationId);
+        $ol_application->folder = 'REE_department';
+
+        $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
+        
+        return view('admin.common.offer_letter', compact('ol_application'));
+    }    
 }
