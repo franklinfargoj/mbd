@@ -12,8 +12,14 @@
   $style1 = "display:block"; ?>
 @endif
 
+@if(session()->has('success'))    
+     <div class="alert alert-success display_msg">
+        {{ session()->get('error') }}
+    </div>
+@endif
+
 @if(session()->has('error'))    
-     <div class="alert alert-error">
+     <div class="alert alert-success display_msg">
         {{ session()->get('error') }}
     </div>
 @endif

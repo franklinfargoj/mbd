@@ -158,6 +158,8 @@ class CAPController extends Controller
         $this->CommonController->getDyceForwardRevertLog($applicationData,$applicationId);
         $this->CommonController->getREEForwardRevertLog($applicationData,$applicationId);
 
+        // dd($applicationData);
+
         return view('admin.cap_department.forward_application',compact('applicationData', 'arrData','ol_application'));
     }
 
@@ -193,8 +195,9 @@ class CAPController extends Controller
                                        'application_id' => $applicationId,
                                         'user_id'       => Auth::Id());
 
-                $data = OlCapNotes::insert($fileData);   
-                return redirect('/cap')->with('success','CAP Note uploaded successfully.');                         
+                $data = OlCapNotes::insert($fileData);
+                   
+                return back()->with('success','CAP Note uploaded successfully.');                         
             } else {
                 return back()->with('pdf_error', 'Invalid type of file uploaded (only pdf allowed).');
             }

@@ -114,5 +114,9 @@
         $("#eeForm").submit();
     });
 
+    $(document).ready(function () {
+        $(".display_msg").delay(1000).slideUp(300);
+    });     
+
 </script>
 @endsection

@@ -10,11 +10,13 @@
 @endsection
 @section('content')
 
-@if(session()->has('success') || session()->has('pdf_error'))
-  <div class="alert alert-success">
+@if(session()->has('success'))
+  <div class="alert alert-success display_msg">
       {{ session()->get('success') }}
-  </div>   
-   <div class="alert alert-error">
+  </div>  
+  @endif
+  @if(session()->has('pdf_error')) 
+   <div class="alert alert-error display_msg">
       {{ session()->get('pdf_error') }}
   </div>
 @endif
@@ -121,6 +123,10 @@
         return false;
       }
     });
+
+    $(document).ready(function () {
+        $(".display_msg").delay(1000).slideUp(300);
+    });    
   </script>
 @endsection
 
