@@ -618,24 +618,24 @@
                                 <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
                                     <div class="portlet-body">
                                         <div class="m-portlet__body m-portlet__body--table">
-                                            <div class="m-subheader" style="padding: 0;">
+<!--                                             <div class="m-subheader" style="padding: 0;">
                                                 <div class="d-flex align-items-center justify-content-center">
                                                     <h3 class="section-title">
                                                         Note
                                                     </h3>
                                                 </div>
-                                            </div>
+                                            </div> -->
                                             <div class="m-section__content mb-0 table-responsive">
                                                 <div class="container">
                                                     <div class="row">
                                                         <div class="col-sm-6">
                                                             <div class="d-flex flex-column h-100 two-cols">
-                                                                <h5>Download Note</h5>
+                                                                <h5>Download EE Note</h5>
                                                                 <span class="hint-text">Download EE Note uploaded by EE</span>
                                                                 <div class="mt-auto">
                                                                 @if(isset($eeScrutinyData->eeNote->document_path))
                                                                     <a href="{{ config('commanConfig.storage_server').'/'.$eeScrutinyData->eeNote->document_path }}">
-                                                                    <button class="btn btn-primary">Download EE Note</button>
+                                                                    <button class="btn btn-primary">Download</button>
                                                                     </a>
                                                                 @else
                                                                     <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
