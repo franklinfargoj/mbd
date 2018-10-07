@@ -28,7 +28,7 @@
             @elseif($route_name=='dyce.view_application')
             {{ Breadcrumbs::render('view_application_dyce',$ol_application->id) }}
             @elseif($route_name=='cap.view_application')
-            {{ Breadcrumbs::render('view_application_cap',$ol_application->id) }}
+            {{ Breadcrumbs::render('view_application',$ol_application->id) }}
             @else
             @endif
             <p class="ml-auto text-right"><a href="#" target="_blank" id="download_application_form" class="btn print-icon"

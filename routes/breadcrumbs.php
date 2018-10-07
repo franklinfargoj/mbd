@@ -202,6 +202,10 @@ Breadcrumbs::for('DYCE_scrutiny_cap', function ($trail,$id) {
 //     $trail->parent('cap');
 //     $trail->push('REE_calculation', route('cap.dyce_Scrutiny_Remark',$id));
 // });
+Breadcrumbs::for('calculation_sheet_cap', function ($trail,$id) {
+    $trail->parent('cap');
+    $trail->push('calculation_sheet', route('cap.show_calculation_sheet',$id));
+});
 
 Breadcrumbs::for('Forward_Application_cap', function ($trail,$id) {
     $trail->parent('cap');
@@ -238,6 +242,10 @@ Breadcrumbs::for('DYCE_scrutiny_vp', function ($trail,$id) {
 //     $trail->parent('vp');
 //     $trail->push('REE_calculation', route('vp.forward_application',$id));
 // });
+Breadcrumbs::for('calculation_sheet_vp', function ($trail,$id) {
+    $trail->parent('vp');
+    $trail->push('calculation_sheet', route('vp.show_calculation_sheet',$id));
+});
 
 Breadcrumbs::for('Forward_Application_vp', function ($trail,$id) {
     $trail->parent('vp');
@@ -279,6 +287,11 @@ Breadcrumbs::for('Approve_offer_letter', function ($trail,$id) {
 //     $trail->parent('co');
 //     $trail->push('REE_calculation', route('vp.forward_application',$id));
 // });
+Breadcrumbs::for('calculation_sheet_co', function ($trail,$id) {
+    $trail->parent('co');
+    $trail->push('calculation_sheet', route('co.show_calculation_sheet',$id));
+});
+
 
 Breadcrumbs::for('Forward_Application_co', function ($trail,$id) {
     $trail->parent('co');
