@@ -156,12 +156,30 @@
                     <span class="m-menu__link-title">
                         <span class="m-menu__link-wrap">
                             <span class="m-menu__link-text">
-                                Offer Letter
+                                Listing
                             </span>
                         </span>
                     </span>
                 </a>
             </li>
+                @if(Session::all()['role_name'] == 'society')
+                    @if(isset($ol_application_count))
+                        @if($ol_application_count == 1)
+                            <li class="m-menu__item m-menu__item--active" aria-haspopup="true">
+                                <a href="{{route('society_detail.application')}}" class="m-menu__link ">
+                                    <i class="m-menu__link-icon flaticon-line-graph"></i>
+                                    <span class="m-menu__link-title">
+                                        <span class="m-menu__link-wrap">
+                                            <span class="m-menu__link-text">
+                                                Apply for Offer Letter
+                                            </span>
+                                        </span>
+                                    </span>
+                                </a>
+                            </li>
+                        @endif
+                    @endif
+                @endif
             @endif
 
 
