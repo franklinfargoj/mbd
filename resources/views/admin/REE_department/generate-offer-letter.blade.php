@@ -14,7 +14,7 @@
 
 @if(session()->has('success'))    
      <div class="alert alert-success display_msg">
-        {{ session()->get('error') }}
+        {{ session()->get('success') }}
     </div>
 @endif
 
@@ -166,7 +166,7 @@
                                                     <div class="mt-auto">
 
                                                     @if($societyData->drafted_offer_letter)
-                                                        <a href="{{config('commanConfig.storage_server').'/'.$societyData->drafted_offer_letter}}" class="btn btn-primary">Download offer Letter</a>
+                                                        <a href="{{config('commanConfig.storage_server').'/'.$societyData->drafted_offer_letter}}" class="btn btn-primary">Download</a>
                                                     @else
                                                        <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
                                                         * Note :  Offer Letter not available. </span>
@@ -200,7 +200,8 @@
                                 </div>
                             </div>
                         </div>
-                        @if($societyData->ree_branch_head && $applicationLog->status_id != 2)
+                       
+                        @if($societyData->ree_branch_head && $societyData->status_offer_letter == config('commanConfig.applicationStatus.offer_letter_generation') && $applicationLog->status_id != config('commanConfig.applicationStatus.forwarded'))
                            <form role="form" id="sendForApproval" style="margin-top: 30px;" name="sendForApproval" class="form-horizontal" method="post" action="{{ route('ree.send_for_approval')}}"
                             enctype="multipart/form-data">
                             @csrf 
@@ -215,7 +216,7 @@
                                             <div class="mt-3">
                                                 <label for="demarkation_comments">Remarks:</label>
                                                 <textarea id="demarkation_comments" rows="5" cols="30" class="form-control form-control--custom"
-                                                    name="demarkation_comments"></textarea>
+                                                    name="remark"></textarea>
                                             </div>
                                             <div class="mt-3 btn-list">
                                                 <button class="btn btn-primary" type="submit">Send For Approval</button>

@@ -374,12 +374,13 @@ class REEController extends Controller
 
     public function approvedOfferLetter(Request $request,$applicationId){
 
+        $ree_head = session()->get('role_name') == config('commanConfig.ree_branch_head'); 
         $ol_application = $this->CommonController->getOlApplication($applicationId);
         $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
         $applicationData = OlApplication::with(['eeApplicationSociety'])
                 ->where('id',$applicationId)->orderBy('id','DESC')->first();
 
-        return view('admin.REE_department.approved_offer_letter',compact('applicationData','ol_application'));
+        return view('admin.REE_department.approved_offer_letter',compact('applicationData','ol_application','ree_head'));
     }
 
     public function getPermiumCalculationSheetData($applicationId){
