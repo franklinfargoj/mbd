@@ -162,7 +162,7 @@ class CommonController extends Controller
         {
             $listArray =  $applicationDataDefine;
         }
-       
+
         return $listArray;
     }
 
