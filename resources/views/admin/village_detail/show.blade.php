@@ -1,9 +1,12 @@
-@extends('admin.layouts.app')
+@extends('admin.layouts.sidebarAction')
+@section('actions')
+    @include('admin.village_detail.action',compact('arrData'))
+@endsection
 @section('content')
 <div class="col-md-12">
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
-            <h3 class="m-subheader__title m-subheader__title--separator">View Village</h3>
+            <h3 class="m-subheader__title m-subheader__title--separator">View Land</h3>
             {{ Breadcrumbs::render('village_view',$arrData['village_data']['id']) }}
         </div>
     </div>
