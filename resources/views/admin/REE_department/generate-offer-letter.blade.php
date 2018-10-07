@@ -14,7 +14,7 @@
 
 @if(session()->has('success'))    
      <div class="alert alert-success display_msg">
-        {{ session()->get('error') }}
+        {{ session()->get('success') }}
     </div>
 @endif
 
