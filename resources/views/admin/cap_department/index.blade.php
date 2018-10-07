@@ -112,7 +112,7 @@
 
 <script>
     $(document).ready(function () {
-        $(".display_msg").delay(1000).slideUp(300);
+        $(".display_msg").delay(5000).slideUp(300);
     });
 
     $("#update_status").on("change", function () {
