@@ -176,3 +176,10 @@ Breadcrumbs::for('documents_upload', function ($trail) {
     $trail->push('Dashboard', route('society_offer_letter_dashboard'));
     $trail->push('Upload documents', route('documents_upload'));
 });
+
+
+//EE Department
+
+Breadcrumbs::for('ee', function ($trail) {
+	$trail->push('Home', route('ee.index'));
+});
