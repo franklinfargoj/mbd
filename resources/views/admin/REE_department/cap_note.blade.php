@@ -17,6 +17,9 @@
         <h3 class="m-subheader__title m-subheader__title--separator">
         CAP - Notes </h3>
         {{ Breadcrumbs::render('cap_note_ree',$ol_application->id) }}
+         <div class="ml-auto btn-list">
+            <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+        </div>
      </div>
   </div>
 </div>

@@ -198,6 +198,11 @@ Breadcrumbs::for('EE_scrutiny_cap', function ($trail,$id) {
     $trail->push('EE_scrutiny', route('cap.EE_scrutiny_remark',$id));
 });
 
+Breadcrumbs::for('Forward_Application_ee', function ($trail,$id) {
+    $trail->parent('ee');
+    $trail->push('Forward_Application_ee', route('ee.forward_application',$id));
+});
+
 Breadcrumbs::for('DYCE_scrutiny_cap', function ($trail,$id) {
     $trail->parent('cap');
     $trail->push('DYCE_scrutiny', route('cap.dyce_Scrutiny_Remark',$id));
