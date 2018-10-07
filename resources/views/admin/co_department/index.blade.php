@@ -10,12 +10,13 @@
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">Application for Offer Letter</h3>
+            {{ Breadcrumbs::render('co') }}
             <button type="button" class="btn btn-transparent ml-auto" data-toggle="collapse" data-target="#filter">
                 <img class="filter-icon" src="{{asset('/img/filter-icon.svg')}}">Filter
             </button>
         </div>
     </div>
-    <div id="filter" class="filter-wrap collapse">
+    <div id="filter" class="m-portlet filter-wrap collapse">
         <div class="">
             <div class="col-md-12">
                 <form role="form" id="eeForm" method="get" class="form-group m-form__group row align-items-end mb-0" action="{{ route('co.index') }}">
@@ -112,6 +113,10 @@
     $("#update_status").on("change", function () {
         $("#eeForm").submit();
     });
+
+    $(document).ready(function () {
+        $(".display_msg").delay(1000).slideUp(300);
+    });     
 
 </script>
 @endsection

@@ -5,13 +5,13 @@
 @section('content')
 
 @if(session()->has('success'))
-  <div class="alert alert-success">
+  <div class="alert alert-success display_msg">
       {{ session()->get('success') }}
   </div>   
 @endif
 
 @if(session()->has('error'))
-  <div class="alert alert-success">
+  <div class="alert alert-success display_msg">
       {{ session()->get('success') }}
   </div>   
 @endif
@@ -54,6 +54,7 @@
                     </li>
                 </ul>
             </div>
+            {{ Breadcrumbs::render('calculation_sheet',$ol_application->id) }}
         </div>
         <div class="tab-content">
             <div class="tab-pane active show" id="one" role="tabpanel">
@@ -1449,6 +1450,10 @@
         $("#file_error").text("This field required");
         return false;
       }
+    });
+
+    $(document).ready(function () {
+        $(".display_msg").delay(1000).slideUp(300);
     });
 
 </script>

@@ -22,8 +22,9 @@
                                 </a>
                             </li>
                         @endif
-                    </ul>
+                    </ul>                    
                 </div>
+                {{ Breadcrumbs::render('Forward_Application_cap',$ol_application->id) }}
             </div>
             <div class="m-grid__item m-grid__item--fluid m-wrapper">
                 <div class="row">

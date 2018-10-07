@@ -39,6 +39,7 @@
                             </li>
                         </ul>
                     </div>
+                    {{ Breadcrumbs::render('document-submitted',$ol_application->id,$arrData['society_detail']->id) }}
                 </div>
                 <div class="m-grid__item m-grid__item--fluid m-wrapper">
                     <div class="row">
@@ -456,7 +457,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="table-checklist m-portlet__body m-portlet__body--table">
+                                                    <div class="table-checklist m-portlet__body m-portlet__body--table table--box-input">
                                                         <div class="table-responsive">
                                                             <table class="table">
                                                                 <thead class="thead-default">
@@ -585,7 +586,7 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="table-checklist m-portlet__body m-portlet__body--table">
+                                                    <div class="table-checklist m-portlet__body m-portlet__body--table table--box-input">
                                                         <div class="table-responsive">
                                                             <table class="table">
                                                                 <thead class="thead-default">
@@ -715,7 +716,7 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="table-checklist m-portlet__body m-portlet__body--table">
+                                                    <div class="table-checklist m-portlet__body m-portlet__body--table table--box-input">
                                                         <div class="table-responsive">
                                                             <table class="table">
                                                                 <thead class="thead-default">
@@ -823,7 +824,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="table-checklist m-portlet__body m-portlet__body--table">
+                                                    <div class="table-checklist m-portlet__body m-portlet__body--table table--box-input">
                                                         <div class="table-responsive">
                                                             <table class="table">
                                                                 <thead class="thead-default">

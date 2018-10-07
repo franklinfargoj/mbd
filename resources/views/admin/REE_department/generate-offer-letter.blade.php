@@ -12,8 +12,14 @@
   $style1 = "display:block"; ?>
 @endif
 
+@if(session()->has('success'))    
+     <div class="alert alert-success display_msg">
+        {{ session()->get('success') }}
+    </div>
+@endif
+
 @if(session()->has('error'))    
-     <div class="alert alert-error">
+     <div class="alert alert-success display_msg">
         {{ session()->get('error') }}
     </div>
 @endif
@@ -31,6 +37,7 @@
                     </li>
                 </ul>
             </div>
+             {{ Breadcrumbs::render('generate_offer_letter',$ol_application->id) }}
         </div>
         <div class="m-grid__item m-grid__item--fluid">
             <div class="row">

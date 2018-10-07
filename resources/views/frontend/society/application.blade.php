@@ -90,11 +90,13 @@
 <script>
 $("#selfBtn").click(function(){
   $(".re_dev").css("display","none");
+  $("#self_sharing,#self_premium,#dev_premium,#dev_sharing").css("display","none");
   $(".self").css("display","inline-block");
 });
 
 $("#redvlpBtn").click(function(){
   $(".self").css("display","none");
+  $("#self_sharing,#self_premium,#dev_premium,#dev_sharing").css("display","none");
   $(".re_dev").css("display","inline-block");
 });
 
