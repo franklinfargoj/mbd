@@ -286,7 +286,8 @@ class SocietyOfferLetterController extends Controller
                     $status = explode('_', array_keys(config('commanConfig.applicationStatus'), $ol_applications->olApplicationStatus[0]->status_id)[0]);
                     $status_display = '';
                     foreach($status as $status_value){ $status_display .= ucwords($status_value). ' ';}
-                    if($status_display = 'Sent To Society'){
+                    
+                    if($status_display == 'Sent To Society'){
                         $status_display = 'Approved';
                     }
                     return $status_display;
@@ -605,8 +606,9 @@ class SocietyOfferLetterController extends Controller
 
         if(count($documents_master) == count($documents_uploaded)){
             $role_id = Role::where('name', 'ee_junior_engineer')->first();
-            // dd($role_id->id);
+            
             $user_ids = RoleUser::where('role_id', $role_id->id)->get();
+            // dd($user_ids);
             $layout_user_ids = LayoutUser::where('layout_id', $application->layout_id)->whereIn('user_id', $user_ids)->get();
             foreach ($layout_user_ids as $key => $value) {
                 $select_user_ids[] = $value['user_id'];
@@ -639,7 +641,7 @@ class SocietyOfferLetterController extends Controller
                     $insert_application_log_in_process[$key]['updated_at'] = date('Y-m-d H-i-s');
                     $i++;
                 }
-                
+                // dd(array_merge($insert_application_log_forwarded, $insert_application_log_in_process));
                 OlApplicationStatus::insert(array_merge($insert_application_log_forwarded, $insert_application_log_in_process));
                 $add_comment = array(
                     'society_id' => $society->id,
