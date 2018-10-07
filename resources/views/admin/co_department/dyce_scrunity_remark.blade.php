@@ -173,7 +173,7 @@
                     Demarkation Verification:
                 </h3>
                 <div class="remarks-suggestions">
-                    <div class="mt-3">
+                    <div class="mt-3 table--box-input">
                         <label for="demarkation_comments">Comments:</label>
                         <textarea rows="5" cols="30" class="form-control form-control--custom" name="demarkation_comments" readonly>{{(isset($applicationData->demarkation_verification_comment) ? $applicationData->demarkation_verification_comment : '')}}</textarea>
                     </div>
@@ -183,7 +183,7 @@
         <!-- end  -->
 
         <!-- Encrochment verification -->
-        <div class="m-portlet m-portlet--mobile m_panel">
+        <div class="m-portlet m-portlet--mobile m_panel table--box-input">
             <div class="m-portlet__body">
                 <h3 class="section-title section-title--small">
                     Encrochment Verification:

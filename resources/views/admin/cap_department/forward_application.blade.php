@@ -246,7 +246,7 @@
                                                                 </select>
                                                             </div>
                                                         </div>
-                                                        <div class="mt-3">
+                                                        <div class="mt-3 table--box-input">
                                                             <label for="remark">Remark:</label>
                                                             <textarea class="form-control form-control--custom" name="remark" id="remark" cols="30" rows="5"></textarea>
                                                         </div>

@@ -444,7 +444,7 @@
     padding-right: 10px;
     border-bottom: none;
     vertical-align: middle;
-    white-space: nowrap;
+    text-align: center;
 }
 
 .dataTables_wrapper table.dataTable thead th {
@@ -481,7 +481,7 @@
     right: 8px;
 }
 
-.dataTables_wrapper th:last-child {
+.data-table--actions th:last-child {
     width: 250px !important;
 }
 
@@ -948,20 +948,20 @@
     border-bottom: 1px solid #f0791b !important;
 }
 
-.table--box-input td .form-control--custom {
+.table--box-input .form-control--custom {
     border: 1px solid #ced4da !important;
     border-radius: .25rem;
     color: #575962;
     font-weight: normal;
 }
 
-.table--box-input td .form-control--custom[readonly],
-.table--box-input td .form-control--custom[readonly]:focus {
+.table--box-input .form-control--custom[readonly],
+.table--box-input .form-control--custom[readonly]:focus {
     background-color: #f4f5f8 !important;
     border-color: #ced4da !important;
 }
 
-.table--box-input td .form-control--custom:focus {
+.table--box-input .form-control--custom:focus {
     border-color: #f0791b !important;
 }
 
@@ -1114,8 +1114,6 @@
 .custom-file-label {
     cursor: pointer;
     border-bottom: 1px solid #ced4da;
-    -webkit-border-radius: 0.25rem;
-    border-radius: 0.25rem;
     width: 100%;
     padding-right: 80px;
     white-space: nowrap;

@@ -227,7 +227,7 @@
                                                                                         @endphp
 
                                                                                         <input type="hidden" name="document_status_id" value="{{ $document_status_id }}">
-                                                                                        <div class="modal-body">
+                                                                                        <div class="modal-body table--box-input">
                                                                                             <div class="mb-4">
                                                                                                 <label for="remark">Remark:</label>
                                                                                                 <textarea class="form-control form-control--custom"
