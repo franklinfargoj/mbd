@@ -14,7 +14,7 @@
                 <img class="filter-icon" src="{{asset('/img/filter-icon.svg')}}">Filter
             </button>
         </div>
-        <div id="filter" class="filter-wrap collapse">
+        <div id="filter" class="m-portlet filter-wrap collapse">
             <div class="row align-items-center">
                 <div class="col-md-12 order-2 order-xl-1">
                     <form role="form" id="eeForm" method="get" class="form-group m-form__group row align-items-end mb-0"

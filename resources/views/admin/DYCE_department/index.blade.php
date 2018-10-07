@@ -16,7 +16,7 @@
                 <img class="filter-icon" src="{{asset('/img/filter-icon.svg')}}">Filter
             </button>
         </div>
-        <div id="filter" class="filter-wrap collapse">
+        <div id="filter" class="m-portlet filter-wrap collapse">
             <div class="row align-items-center">
                 <div class="col-xl-8 order-2 order-xl-1">
                     <form role="form" id="eeForm" method="get" action="{{ route('dyce.index') }}">
@@ -70,11 +70,6 @@
     <!-- END: Subheader -->
     <div class="m-portlet m-portlet--mobile">
         <div class="m-portlet__body">
-            <!--begin: Search Form -->
-            <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
-
-            </div>
-            <!--end: Search Form -->
             <!--begin: Datatable -->
             {!! $html->table() !!}
             <!--end: Datatable -->
