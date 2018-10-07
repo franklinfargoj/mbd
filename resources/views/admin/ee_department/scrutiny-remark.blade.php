@@ -457,7 +457,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="table-checklist m-portlet__body m-portlet__body--table">
+                                                    <div class="table-checklist m-portlet__body m-portlet__body--table table--box-input">
                                                         <div class="table-responsive">
                                                             <table class="table">
                                                                 <thead class="thead-default">
@@ -586,7 +586,7 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="table-checklist m-portlet__body m-portlet__body--table">
+                                                    <div class="table-checklist m-portlet__body m-portlet__body--table table--box-input">
                                                         <div class="table-responsive">
                                                             <table class="table">
                                                                 <thead class="thead-default">
@@ -716,7 +716,7 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="table-checklist m-portlet__body m-portlet__body--table">
+                                                    <div class="table-checklist m-portlet__body m-portlet__body--table table--box-input">
                                                         <div class="table-responsive">
                                                             <table class="table">
                                                                 <thead class="thead-default">
@@ -824,7 +824,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="table-checklist m-portlet__body m-portlet__body--table">
+                                                    <div class="table-checklist m-portlet__body m-portlet__body--table table--box-input">
                                                         <div class="table-responsive">
                                                             <table class="table">
                                                                 <thead class="thead-default">

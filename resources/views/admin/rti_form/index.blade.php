@@ -10,7 +10,7 @@
                 <img class="filter-icon" src="{{asset('/img/filter-icon.svg')}}">Filter
             </button>
         </div>
-        <div id="filter" class="filter-wrap collapse">
+        <div id="filter" class="m-portlet filter-wrap collapse">
             <div class="row align-items-center">
                 <div class="col-xl-8 order-2 order-xl-1">
                     <form class="form-group m-form__group row align-items-center mb-0" method="get" action="{{ url('rti_applicants') }}">
