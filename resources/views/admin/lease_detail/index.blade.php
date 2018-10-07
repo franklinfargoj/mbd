@@ -6,6 +6,11 @@
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">Lease Details</h3>
             {{ Breadcrumbs::render('lease_detail',$id) }}
+            <div class="ml-auto btn-list">
+                <a href="{{ url('/society_detail/') }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+                    <a href="?excel=excel" name="excel" value="excel" class="btn excel-icon"><img src="{{asset('/img/excel-icon.svg')}}"></a>
+                    <a target="_blank" href="{{route('lease_detail.print',['id'=>$id])}}" class="btn print-icon"><img src="{{asset('/img/print-icon.svg')}}"></a>
+            </div>
         </div>
     </div>
     <!-- END: Subheader -->
@@ -18,13 +23,6 @@
         </div>
         @endif
         <div class="m-portlet__body data-table--custom data-table--icons">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <a href="{{ url('/society_detail/') }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
-                <div class="btn-list text-right">
-                    <a href="?excel=excel" name="excel" value="excel" class="btn excel-icon"><img src="{{asset('/img/excel-icon.svg')}}"></button>
-                    <a target="_blank" href="{{route('lease_detail.print',['id'=>$id])}}" class="btn print-icon"><img src="{{asset('/img/print-icon.svg')}}"></a>
-                </div>
-            </div>
             <!--begin: Search Form -->
             {{--<div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
                 <div class="container-fluid">
