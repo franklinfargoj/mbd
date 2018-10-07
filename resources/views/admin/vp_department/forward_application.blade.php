@@ -24,6 +24,7 @@
                         @endif
                     </ul>
                 </div>
+                {{ Breadcrumbs::render('Forward_Application_vp',$ol_application->id) }}
             </div>
             <div class="m-grid__item m-grid__item--fluid m-wrapper">
                 <div class="row">

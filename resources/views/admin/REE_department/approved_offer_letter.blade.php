@@ -14,7 +14,8 @@
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">
-                DyCE Scrutiny & Remark </h3>
+                Approved Offer Letter </h3>
+                 {{ Breadcrumbs::render('approved_offer_letter',$ol_application->id) }}
         </div>
     </div>
     <div class="m-portlet m-portlet--mobile m_panel">

@@ -16,6 +16,7 @@
             <h3 class="m-subheader__title m-subheader__title--separator">
                 DyCE Scrutiny & Remark
             </h3>
+            {{ Breadcrumbs::render('DYCE_scrutiny_co',$ol_application->id) }}
         </div>
     </div>
     <div class="m-portlet m-portlet--mobile m_panel">
