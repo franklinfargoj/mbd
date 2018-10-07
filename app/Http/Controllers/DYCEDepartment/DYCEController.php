@@ -38,6 +38,7 @@ class DYCEController extends Controller
         $getData = $request->all();
 
         $columns = [
+            ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'application_no','name' => 'application_no','title' => 'Application Number'],
             ['data' => 'date','name' => 'date','title' => 'Date'],
@@ -46,7 +47,7 @@ class DYCEController extends Controller
             ['data' => 'eeApplicationSociety.address','name' => 'eeApplicationSociety.address','title' => 'Address'],
             // ['data' => 'model','name' => 'model','title' => 'Model'],
              ['data' => 'Status','name' => 'Status','title' => 'Status'],
-            ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
+            // ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
         ];
         if ($datatables->getRequest()->ajax()) {
 
@@ -55,6 +56,10 @@ class DYCEController extends Controller
                 ->editColumn('rownum', function ($listArray) {
                     static $i = 0; $i++; return $i;
                 })
+                ->editColumn('radio', function ($dyce_application_data) {
+                    $url = route('dyce.view_application', $dyce_application_data->id);
+                    return '<label class="m-radio m-radio--primary"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
+                })                
                 ->editColumn('eeApplicationSociety.name', function ($dyce_application_data) {
                     return $dyce_application_data->eeApplicationSociety->name;
                 })
@@ -67,9 +72,9 @@ class DYCEController extends Controller
                 ->editColumn('date', function ($dyce_application_data) {
                     return date(config('commanConfig.dateFormat'), strtotime($dyce_application_data->submitted_at));
                 })
-                ->editColumn('actions', function ($dyce_application_data) use($request){
-                   return view('admin.DYCE_department.action', compact('dyce_application_data','request'))->render();
-                })
+                // ->editColumn('actions', function ($dyce_application_data) use($request){
+                //    return view('admin.DYCE_department.action', compact('dyce_application_data','request'))->render();
+                // })
                 ->editColumn('Status', function ($listArray) use ($request) {
                     $status = $listArray->olApplicationStatusForLoginListing[0]->status_id;
 
@@ -87,7 +92,7 @@ class DYCEController extends Controller
                     }
 
                 })
-                ->rawColumns(['society_name', 'Status', 'building_name', 'society_address','date','actions'])
+                ->rawColumns(['radio','society_name', 'Status', 'building_name', 'society_address','date'])
                 ->make(true);
         }                                    
 
@@ -107,10 +112,11 @@ class DYCEController extends Controller
 
     // function used to DyCE Scrutiny & Remark page
     public function dyceScrutinyRemark(Request $request, $applicationId){
-
+        $ol_application = $this->CommonController->getOlApplication($applicationId);
+        $ol_application->log = $this->CommonController->getCurrentStatus($applicationId);
         $is_view = session()->get('role_name') == config('commanConfig.dyce_jr_user'); 
         $applicationData = $this->CommonController->getDyceScrutinyRemark($applicationId);       
-        return view('admin.DYCE_department.scrutiny_remark',compact('applicationData','is_view'));
+        return view('admin.DYCE_department.scrutiny_remark',compact('applicationData','is_view','ol_application'));
     } 
 
     // function used to update details and upload documents by DYCE 
@@ -151,26 +157,29 @@ class DYCEController extends Controller
                 }
             }
         }
-        return redirect('/dyce')->with('success','Data Submitted Successfully.'); 
+        return back()->with('success','Data Submitted Successfully.'); 
     } 
 
     // society and EE documents
     public function societyEEDocuments(Request $request,$applicationId){
 
+        $ol_application = $this->CommonController->getOlApplication($applicationId);
         $societyDocuments = $this->CommonController->getSocietyEEDocuments($applicationId);
-       return view('admin.DYCE_department.society_EE_documents',compact('societyDocuments')); 
+       return view('admin.DYCE_department.society_EE_documents',compact('societyDocuments','ol_application')); 
     }
 
     // EE - Scrutiny & Remark page
     public function eeScrutinyRemark(Request $request,$applicationId){
 
+        $ol_application = $this->CommonController->getOlApplication($applicationId);
         $eeScrutinyData = $this->CommonController->getEEScrutinyRemark($applicationId);
-        return view('admin.DYCE_department.EE_Scrutiny_Remark',compact('eeScrutinyData'));
+        return view('admin.DYCE_department.EE_Scrutiny_Remark',compact('eeScrutinyData','ol_application'));
     }
 
     // Forward Application page
     public function forwardApplication(Request $request, $applicationId){
 
+        $ol_application = $this->CommonController->getOlApplication($applicationId);
         $applicationData = $this->CommonController->getForwardApplication($applicationId);
         $parentData      = $this->CommonController->getForwardApplicationParentData();
 
@@ -192,7 +201,7 @@ class DYCEController extends Controller
         $arrData['ree_role_name']   = strtoupper(str_replace('_', ' ', $ree_id->name));
 
         $this->CommonController->getEEForwardRevertLog($applicationData,$applicationId);
-        return view('admin.DYCE_department.forward_application',compact('applicationData', 'arrData'));
+        return view('admin.DYCE_department.forward_application',compact('applicationData', 'arrData','ol_application'));
     }
 
     // forward or revert forward Application
@@ -203,6 +212,14 @@ class DYCEController extends Controller
         return redirect('/dyce')->with('success','Application send Successfully.');;
 
     } 
+
+    public function viewApplication(Request $request, $applicationId){
+
+        $ol_application = $this->CommonController->downloadOfferLetter($applicationId);
+        $ol_application->folder = 'DYCE_department';
+
+        return view('admin.common.offer_letter', compact('ol_application'));
+    }    
 }
 
 
