@@ -5,13 +5,13 @@
 @section('content')
 
 @if(session()->has('success'))
-  <div class="alert alert-success">
+  <div class="alert alert-success display_msg">
       {{ session()->get('success') }}
   </div>   
 @endif
 
 @if(session()->has('error'))
-  <div class="alert alert-success">
+  <div class="alert alert-success display_msg">
       {{ session()->get('success') }}
   </div>   
 @endif
@@ -1450,6 +1450,10 @@
         $("#file_error").text("This field required");
         return false;
       }
+    });
+
+    $(document).ready(function () {
+        $(".display_msg").delay(1000).slideUp(300);
     });
 
 </script>

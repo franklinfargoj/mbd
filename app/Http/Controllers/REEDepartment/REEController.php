@@ -365,7 +365,7 @@ class REEController extends Controller
                     $offerLetterPath = $folder_name."/".$file_name; 
                     OlApplication::where('id',$applicationId)->update(["offer_letter_document_path" => $offerLetterPath]);
 
-                    return redirect('/ree_applications')->with('success', 'Offer Letter uploaded successfully.');
+                    return redirect()->back()->with('success', 'Offer Letter uploaded successfully.');
             } else {
                 return redirect()->back()->with('error', 'Invalid format. pdf file only.');
             }
@@ -399,7 +399,7 @@ class REEController extends Controller
 
         $this->CommonController->forwardApplicationToCoForOfferLetterGeneration($request,$get_forward_co);
 
-        return redirect('/ree_applications');                 
+        return redirect()->back();                 
         // $arco_role_name'] = strtoupper(str_replace('_', ' ', $co_id->name));        
     }
 
