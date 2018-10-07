@@ -293,7 +293,7 @@ Breadcrumbs::for('download_cap_note', function ($trail,$id) {
 //REE Breadcrumbs
 
 Breadcrumbs::for('ree', function ($trail) {
-    $trail->push('Home', route('co.index'));
+    $trail->push('Home', route('ree_applications.index'));
 });
 
 Breadcrumbs::for('society_EE_documents_ree', function ($trail,$id) {
