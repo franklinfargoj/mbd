@@ -164,17 +164,23 @@ Breadcrumbs::for('Send Notice To Appellant', function ($trail, $id) {
 });
 
 Breadcrumbs::for('society_dashboard', function ($trail) {
-    $trail->push('Dashboard', route('society_offer_letter_dashboard'));
+    $trail->push('Listing', route('society_offer_letter_dashboard'));
 });
 
 Breadcrumbs::for('documents_uploaded', function ($trail) {
-    $trail->push('Dashboard', route('society_offer_letter_dashboard'));
-    $trail->push('Uploaded documents', route('documents_uploaded'));
+    $trail->push('Listing', route('society_offer_letter_dashboard'));
+    $trail->push('View Uploaded documents', route('documents_uploaded'));
 });
 
 Breadcrumbs::for('documents_upload', function ($trail) {
-    $trail->push('Dashboard', route('society_offer_letter_dashboard'));
+    $trail->push('Listing', route('society_offer_letter_dashboard'));
     $trail->push('Upload documents', route('documents_upload'));
+});
+
+Breadcrumbs::for('society_application', function ($trail) {
+    $trail->push('Listing', route('society_offer_letter_dashboard'));
+    $trail->push('Applications for Redevelopment
+', route('society_detail.application'));
 });
 
 //cap Breadcrumbs

@@ -3,8 +3,9 @@
 <div class="col-md-12">
   <!-- BEGIN: Subheader -->
   <div class="m-subheader px-0 m-subheader--top">
-      <div class="d-flex">
-          <h3 class="m-subheader__title">Applications for Redevelopment</h3>
+      <div class="d-flex align-items-center">
+        <h3 class="m-subheader__title m-subheader__title--separator">Applications for Redevelopment</h3>
+        {{ Breadcrumbs::render('society_application') }}
       </div>
   </div>
   <!-- END: Subheader -->           

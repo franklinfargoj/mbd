@@ -266,7 +266,7 @@ class SocietyOfferLetterController extends Controller
                 $ol_applications = $ol_applications->where('application_master_id', 'like', '%'.$request->application_master_id.'%');
             }
             $ol_applications = $ol_applications->get();
-
+            // dd($ol_applications);
             return $datatables->of($ol_applications)
                 ->editColumn('rownum', function ($ol_applications) {
                     static $i = 0;
@@ -287,7 +287,7 @@ class SocietyOfferLetterController extends Controller
                     $status_display = '';
                     foreach($status as $status_value){ $status_display .= ucwords($status_value). ' ';}
                     
-                    if($status_display == 'Sent To Society'){
+                    if($status_display == 'Sent To Society '){
                         $status_display = 'Approved';
                     }
                     return $status_display;
