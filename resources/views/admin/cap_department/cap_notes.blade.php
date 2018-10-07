@@ -26,6 +26,7 @@
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">
                 CAP - Notes </h3>
+                {{ Breadcrumbs::render('cap_note_cap',$ol_application->id) }}
         </div>
     </div>
 

@@ -26,6 +26,7 @@
                         </li>
                     </ul>
                 </div>
+                {{ Breadcrumbs::render('scrutiny-remark-dyce',$ol_application->id) }}
             </div>
             <div class="m-grid__item m-grid__item--fluid m-wrapper">
                 <div class="row">

@@ -1,13 +1,5 @@
 /* theme classes over ride starts here */
 
-.m-subheader .m-subheader__title.m-subheader__title--separator {
-    border-right: 1px solid #949494;
-}
-
-.m-subheader {
-    padding: 0;
-}
-
 .m-brand__logo-wrapper:focus {
     outline: none;
 }
@@ -704,6 +696,18 @@
     height: 1px;
 }
 
+.m-subheader .m-subheader__title {
+    color: #6c6e7b;
+}
+
+.m-subheader .m-subheader__title.m-subheader__title--separator {
+    border-right: 1px solid #6c6e7b;
+}
+
+.m-subheader {
+    padding: 0;
+}
+
 /* theme classes over ride ends here */
 
 /* global classes starts here */
@@ -983,6 +987,7 @@
     cursor: default !important;
 }
 
+.m-radio.m-radio--primary>input:disabled~span,
 .m-radio.m-radio--primary>input:checked:disabled:checked~span,
 .m-radio.m-radio--primary>input:checked:disabled:checked~span:after {
     border-color: #bdc3d4 !important;

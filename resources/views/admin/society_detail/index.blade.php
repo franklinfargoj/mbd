@@ -10,7 +10,6 @@
                 <a href="{{route('society_detail.index',['excel'=>'excel'])}}" name="excel" value="excel" class="btn excel-icon"><img src="{{asset('/img/excel-icon.svg')}}"></a>
                 <a target="_blank" href="{{route('society_detail.print')}}" class="btn print-icon"><img src="{{asset('/img/print-icon.svg')}}"></a>
             </div>
-            <a class="btn btn-primary ml-3" href="{{route('society_detail.create')}}">Add Society</a>
         </div>
     </div>
     <!-- END: Subheader -->

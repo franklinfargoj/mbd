@@ -6,13 +6,6 @@
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">Lease Details</h3>
             {{ Breadcrumbs::render('lease_detail',$id) }}
-            <div class="m-portlet__head px-0 ml-auto">
-                @if($count > 0)
-                <a class="btn btn-primary" href="{{route('renew-lease.renew', $id)}}">Renew Lease</a>
-                @else
-                <a class="btn btn-primary" href="{{route('lease_detail.create', $id)}}">Add Lease</a>
-                @endif
-            </div>
         </div>
     </div>
     <!-- END: Subheader -->

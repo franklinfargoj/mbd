@@ -12,6 +12,7 @@
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">
                 Approve Offer Letter </h3>
+                {{ Breadcrumbs::render('Approve_offer_letter',$ol_application->id) }}
         </div>
     </div>
 
