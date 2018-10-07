@@ -120,7 +120,7 @@ class REEController extends Controller
             'serverSide' => true,
             'processing' => true,
             'ordering'   =>'isSorted',
-            "order"      => [7, "desc" ],
+            "order"      => [1, "asc" ],
             "pageLength" => $this->list_num_of_records_per_page
         ];
     } 
