@@ -923,7 +923,7 @@
                                                                         <a download href="{{ config('commanConfig.storage_server').'/'.$arrData['eeNote']->document_path}} ">
                                                                         <button class="btn btn-primary">
 
-                                                                        Download EE Note Format</button>
+                                                                        Download</button>
                                                                         </a>
                                                                     @else
                                                                         <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
