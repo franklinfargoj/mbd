@@ -31,6 +31,7 @@
                     </li>
                 </ul>
             </div>
+             {{ Breadcrumbs::render('generate_offer_letter',$ol_application->id) }}
         </div>
         <div class="m-grid__item m-grid__item--fluid">
             <div class="row">

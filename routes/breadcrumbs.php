@@ -177,9 +177,167 @@ Breadcrumbs::for('documents_upload', function ($trail) {
     $trail->push('Upload documents', route('documents_upload'));
 });
 
+//cap Breadcrumbs
 
-//EE Department
-
-Breadcrumbs::for('ee', function ($trail) {
-	$trail->push('Home', route('ee.index'));
+Breadcrumbs::for('cap', function ($trail) {
+    $trail->push('Home', route('cap.index'));
 });
+
+Breadcrumbs::for('society_EE_documents_cap', function ($trail,$id) {
+    $trail->parent('cap');
+    $trail->push('society_EE_documents', route('cap.society_EE_documents',$id));
+});
+
+Breadcrumbs::for('EE_scrutiny_cap', function ($trail,$id) {
+    $trail->parent('cap');
+    $trail->push('EE_scrutiny', route('cap.EE_scrutiny_remark',$id));
+});
+
+Breadcrumbs::for('DYCE_scrutiny_cap', function ($trail,$id) {
+    $trail->parent('cap');
+    $trail->push('DYCE_scrutiny', route('cap.dyce_Scrutiny_Remark',$id));
+});
+
+// Breadcrumbs::for('REE_calculation_cap', function ($trail,$id) {
+//     $trail->parent('cap');
+//     $trail->push('REE_calculation', route('cap.dyce_Scrutiny_Remark',$id));
+// });
+
+Breadcrumbs::for('Forward_Application_cap', function ($trail,$id) {
+    $trail->parent('cap');
+    $trail->push('Forward_Application', route('cap.forward_application',$id));
+});
+
+Breadcrumbs::for('cap_note_cap', function ($trail,$id) {
+    $trail->parent('cap');
+    $trail->push('cap_note', route('cap.cap_notes',$id));
+});
+
+//vp Breadcrumbs
+
+Breadcrumbs::for('vp', function ($trail) {
+    $trail->push('Home', route('vp.index'));
+});
+
+Breadcrumbs::for('society_EE_documents_vp', function ($trail,$id) {
+    $trail->parent('vp');
+    $trail->push('society_EE_documents', route('vp.society_EE_documents',$id));
+});
+
+Breadcrumbs::for('EE_scrutiny_vp', function ($trail,$id) {
+    $trail->parent('vp');
+    $trail->push('EE_scrutiny', route('vp.EE_scrutiny_remark',$id));
+});
+
+Breadcrumbs::for('DYCE_scrutiny_vp', function ($trail,$id) {
+    $trail->parent('vp');
+    $trail->push('DYCE_scrutiny', route('vp.dyce_Scrutiny_Remark',$id));
+});
+
+// Breadcrumbs::for('REE_calculation_cap', function ($trail,$id) {
+//     $trail->parent('vp');
+//     $trail->push('REE_calculation', route('vp.forward_application',$id));
+// });
+
+Breadcrumbs::for('Forward_Application_vp', function ($trail,$id) {
+    $trail->parent('vp');
+    $trail->push('Forward_Application', route('vp.forward_application',$id));
+});
+
+Breadcrumbs::for('cap_note_vp', function ($trail,$id) {
+    $trail->parent('vp');
+    $trail->push('cap_note', route('vp.cap_notes',$id));
+});
+
+//co Breadcrumbs
+
+Breadcrumbs::for('co', function ($trail) {
+    $trail->push('Home', route('co.index'));
+});
+
+Breadcrumbs::for('society_EE_documents_co', function ($trail,$id) {
+    $trail->parent('co');
+    $trail->push('society_EE_documents', route('co.society_EE_documents',$id));
+});
+
+Breadcrumbs::for('EE_scrutiny_co', function ($trail,$id) {
+    $trail->parent('co');
+    $trail->push('EE_scrutiny', route('co.EE_Scrutiny_Remark',$id));
+});
+
+Breadcrumbs::for('DYCE_scrutiny_co', function ($trail,$id) {
+    $trail->parent('co');
+    $trail->push('DYCE_scrutiny', route('co.scrutiny_remark',$id));
+});
+
+Breadcrumbs::for('Approve_offer_letter', function ($trail,$id) {
+    $trail->parent('co');
+    $trail->push('Approve_offer_letter', route('co.approve_offer_letter',$id));
+});
+
+// Breadcrumbs::for('REE_calculation_cap', function ($trail,$id) {
+//     $trail->parent('co');
+//     $trail->push('REE_calculation', route('vp.forward_application',$id));
+// });
+
+Breadcrumbs::for('Forward_Application_co', function ($trail,$id) {
+    $trail->parent('co');
+    $trail->push('Forward_Application', route('co.forward_application',$id));
+});
+
+Breadcrumbs::for('download_cap_note', function ($trail,$id) {
+    $trail->parent('co');
+    $trail->push('cap_note', route('co.download_cap_note',$id));
+});
+
+//REE Breadcrumbs
+
+Breadcrumbs::for('ree', function ($trail) {
+    $trail->push('Home', route('co.index'));
+});
+
+Breadcrumbs::for('society_EE_documents_ree', function ($trail,$id) {
+    $trail->parent('ree');
+    $trail->push('society_EE_documents', route('ree.society_EE_documents',$id));
+});
+
+Breadcrumbs::for('EE_scrutiny_ree', function ($trail,$id) {
+    $trail->parent('ree');
+    $trail->push('EE_scrutiny', route('ree.EE_Scrutiny_Remark',$id));
+});
+
+Breadcrumbs::for('DYCE_scrutiny_ree', function ($trail,$id) {
+    $trail->parent('ree');
+    $trail->push('DYCE_scrutiny', route('ree.dyce_scrutiny_remark',$id));
+});
+
+Breadcrumbs::for('calculation_sheet', function ($trail,$id) {
+    $trail->parent('ree');
+    $trail->push('calculation_sheet', route('ol_calculation_sheet.index',$id));
+});
+
+Breadcrumbs::for('approved_offer_letter', function ($trail,$id) {
+    $trail->parent('ree');
+    $trail->push('approved_offer_letter', route('ree.approved_offer_letter',$id));
+});
+
+Breadcrumbs::for('generate_offer_letter', function ($trail,$id) {
+    $trail->parent('ree');
+    $trail->push('generate_offer_letter', route('ree.generate_offer_letter',$id));
+});
+
+// Breadcrumbs::for('REE_calculation_cap', function ($trail,$id) {
+//     $trail->parent('co');
+//     $trail->push('REE_calculation', route('vp.forward_application',$id));
+// });
+
+Breadcrumbs::for('Forward_Application_ree', function ($trail,$id) {
+    $trail->parent('ree');
+    $trail->push('Forward_Application', route('ree.forward_application',$id));
+});
+
+Breadcrumbs::for('cap_note_ree', function ($trail,$id) {
+    $trail->parent('ree');
+    $trail->push('cap_note', route('ree.download_cap_note',$id));
+});
+
