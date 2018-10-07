@@ -39,6 +39,7 @@
                             </li>
                         </ul>
                     </div>
+                    {{ Breadcrumbs::render('document-submitted',$ol_application->id,$arrData['society_detail']->id) }}
                 </div>
                 <div class="m-grid__item m-grid__item--fluid m-wrapper">
                     <div class="row">

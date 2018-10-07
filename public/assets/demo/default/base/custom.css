@@ -444,6 +444,7 @@
     padding-right: 10px;
     border-bottom: none;
     vertical-align: middle;
+    white-space: nowrap;
 }
 
 .dataTables_wrapper table.dataTable thead th {

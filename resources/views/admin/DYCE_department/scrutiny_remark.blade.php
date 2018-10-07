@@ -26,6 +26,7 @@
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title">DyCE Scrutiny & Remark</h3>
+            {{ Breadcrumbs::render('scrutiny_remark-dyce',$ol_application->id) }}
         </div>
     </div>
     <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">

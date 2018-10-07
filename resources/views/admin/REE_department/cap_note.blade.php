@@ -16,6 +16,7 @@
      <div class="mr-auto">
         <h3 class="m-subheader__title m-subheader__title--separator">
         CAP - Notes </h3>
+        {{ Breadcrumbs::render('cap_note_ree',$ol_application->id) }}
      </div>
   </div>
 </div>
