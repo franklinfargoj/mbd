@@ -251,7 +251,7 @@ class EEController extends Controller
                         'user_id' => $request->to_child_id,
                         'role_id' => $request->to_role_id,
                         'society_flag' => $request->society_flag,
-                        'status_id' => config('commanConfig.applicationStatus.reverted'),
+                        'status_id' => config('commanConfig.applicationStatus.in_process'),
                         'to_user_id' => NULL,
                         'to_role_id' => NULL,
                         'remark' => $request->remark,
@@ -589,7 +589,7 @@ class EEController extends Controller
                         'role_id' => session()->get('role_id'));
 
                 $data = EENote::insert($fileData);
-                return redirect('/ee')->with('success', 'EE Note uploaded successfully');
+                return back()->with('success', 'EE Note uploaded successfully');
             }
             else
             {

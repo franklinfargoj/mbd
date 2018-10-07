@@ -4,6 +4,12 @@
 @endsection
 @section('content')
 
+@if(session()->has('success'))
+    <div class="alert alert-success display_msg">
+        {{ session()->get('success') }}
+    </div>  
+@endif
+
 @if(session()->has('error'))
     <div class="alert alert-success display_msg">
         {{ session()->get('error') }}
@@ -622,7 +628,7 @@
                                                                             </label></td>
                                                                         <td>
                                                                             <textarea class="form-control form-control--custom form-control--textarea"
-                                                                                      name="remark[{{ $i }}]" id="remark-one">{{ isset($arrData['demarcation_details_data'][$demarcation_question->id]) ? $arrData['demarcation_details_data'][$demarcation_question->id]['remark'] : '' }}</textarea>
+                                                                                      name="remark[{{ $i }}]" {{$disabled}} id="remark-one">{{ isset($arrData['demarcation_details_data'][$demarcation_question->id]) ? $arrData['demarcation_details_data'][$demarcation_question->id]['remark'] : '' }}</textarea>
                                                                         </td>
                                                                     </tr>
 

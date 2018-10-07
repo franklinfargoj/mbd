@@ -348,6 +348,8 @@ Route::get('calculation_sheet/{id}','Common\CommonController@showCalculationShee
 
 Route::get('view_application/{id}','CAPDepartment\CAPController@viewApplication')->name('cap.view_application');
 
+Route::get('view_application_dyce/{id}','DYCEDepartment\DYCEController@viewApplication')->name('dyce.view_application');
+
 Route::get('view_application_co/{id}','CODepartment\COController@viewApplication')->name('co.view_application');
 
 Route::get('view_application_ee/{id}','EEDepartment\EEController@viewApplication')->name('ee.view_application');

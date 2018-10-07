@@ -4,6 +4,18 @@
 @endsection
 @section('content')
 
+@if(session()->has('success'))
+  <div class="alert alert-success">
+      {{ session()->get('success') }}
+  </div>   
+@endif
+
+@if(session()->has('error'))
+  <div class="alert alert-success">
+      {{ session()->get('success') }}
+  </div>   
+@endif
+
 <div class="custom-wrapper">
     <div class="col-md-12">
         <div class="m-portlet__head">

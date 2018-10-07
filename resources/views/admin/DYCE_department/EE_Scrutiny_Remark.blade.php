@@ -1,4 +1,7 @@
-@extends('admin.layouts.app')
+@extends('admin.layouts.sidebarAction')
+@section('actions')
+    @include('admin.DYCE_department.action',compact('ol_application'))
+@endsection
 @section('content')
 <div class="custom-wrapper">
     <div class="col-md-12">
@@ -160,7 +163,9 @@
                                                             </td>
                                                             <td class="text-center">
                                                                 @if(isset($data->EE_document_path))
-                                                                <a href="{{ asset($data->EE_document_path) }}"><img
+                                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->EE_document_path }}">
+                                                                
+                                                                <img
                                                                         class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}">
                                                                 </a>
                                                                 @endif

@@ -1,14 +1,26 @@
-<a title="view_Application" href="{{ route('society_offer_download', $dyce_application_data->id) }}">View Application</a>
+<li class="m-menu__item m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover"><a class="m-menu__link m-menu__toggle" title="view_Application" href="{{ route('dyce.view_application', $ol_application->id) }}"><img class="radio-icon" src="{{ asset('/img/radio-icon.svg')}}"><span class="m-menu__link-text">View Applications</span></a></li>
 
-<a title="Society_EE_Documents" href="{{ route('dyce.society_EE_documents', $dyce_application_data->id) }}">Society & EE Documents</a>
+<li class="m-menu__item m-menu__item--submenu" aria-haspopup="true"><a class="m-menu__link" title="Society & EE Documents" href="{{route('dyce.society_EE_documents',$ol_application->id)}}">
+<img class="radio-icon" src="{{ asset('/img/radio-icon.svg')}}"><span class="m-menu__link-text">Society & EE Documents</span></a></li>
 
-<a title="EE_Scrutiny_Remark" href="{{ route('dyce.EE_Scrutiny_Remark', $dyce_application_data->id) }}">EE Scrutiny</a>
+<li class="m-menu__item m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover">
+	<a class="m-menu__link m-menu__toggle" title="EE Scrutiny & Remarks" href="{{route('dyce.EE_Scrutiny_Remark',$ol_application->id)}}">
+		<img class="radio-icon" src="{{ asset('/img/radio-icon.svg')}}"><span class="m-menu__link-text">EE Scrutiny & Remarks</span>
+	</a>
+</li>
 
-<a title="scrutiny_remark" href="{{ route('dyce.scrutiny_remark',$dyce_application_data->id) }}">Scrutiny & Remarks</a>
+<li class="m-menu__item m-menu__item--submenu" aria-haspopup="true">
+	<a class="m-menu__link m-menu__toggle" title="DyCE Scrutiny & Remarks" href="{{route('dyce.scrutiny_remark',$ol_application->id)}}">
+		<img class="radio-icon" src="{{ asset('/img/radio-icon.svg')}}"><span class="m-menu__link-text"> Scrutiny & Remarks</span>
+	</a>
+</li>
+
+<li class="m-menu__item m-menu__item--submenu" aria-haspopup="true">
+	<a class="m-menu__link m-menu__toggle" title="Forward Application" href="{{route('dyce.forward_application',$ol_application->id)}}">
+		<img class="radio-icon" src="{{ asset('/img/radio-icon.svg')}}"><span class="m-menu__link-text">Forward Application </span>
+	</a>
+</li>
 
 
-{{--@if($dyce_application_data->olApplicationStatusForLoginListing[0]->status_id == config('commanConfig.applicationStatus.in_process'))--}}
-    <a title="Forward_Application" href="{{ route('dyce.forward_application', $dyce_application_data->id) }}">Forward Application</a>
-{{--@endif--}}
 
 

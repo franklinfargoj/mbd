@@ -63,11 +63,11 @@ class REEController extends Controller
             $ree_application_data = $this->CommonController->listApplicationData($request);
             // dd($ree_application_data);
             // $ol_application = $this->CommonController->getOlApplication($ree_application_data->id);
-            
+              
             return $datatables->of($ree_application_data)
-            ->editColumn('rownum', function ($listArray) {
-                static $i = 0; $i++; return $i;
-            })
+                ->editColumn('rownum', function ($listArray) {
+                     static $i = 0; $i++; return $i;
+                })
             ->editColumn('radio', function ($ree_application_data) {
                 $url = route('ree.view_application', $ree_application_data->id);
                 return '<label class="m-radio m-radio--primary"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
@@ -245,7 +245,8 @@ class REEController extends Controller
                         'role_id' => session()->get('role_id'));
 
                 $data = REENote::insert($fileData);
-                return redirect('/ree_applications')->with('success', 'REE note uploaded successfully.'); 
+
+                return back()->with('success', 'REE note uploaded successfully.'); 
             }
             else
             {

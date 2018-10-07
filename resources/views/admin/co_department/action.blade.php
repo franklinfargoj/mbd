@@ -28,12 +28,14 @@
     </a>
 </li>
 
+@if(isset($ol_application->offer_letter_document_path))
 <li class="m-menu__item m-menu__item--submenu" aria-haspopup="true">
     <a class="m-menu__link m-menu__toggle" title="Forward Application" href="{{route('co.approve_offer_letter',$ol_application->id)}}">
         <img class="radio-icon" src="{{ asset('/img/radio-icon.svg')}}">
         <span class="m-menu__link-text">Approve offer Letter</span>
     </a>
 </li>
+@endif
 
 @if($ol_application->cap_notes!="")
 <li class="m-menu__item m-menu__item--submenu" aria-haspopup="true">

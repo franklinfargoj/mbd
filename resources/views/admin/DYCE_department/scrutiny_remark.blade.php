@@ -1,10 +1,19 @@
-@extends('admin.layouts.app')
+@extends('admin.layouts.sidebarAction')
+@section('actions')
+    @include('admin.DYCE_department.action',compact('ol_application'))
+@endsection
 @section('css')
 <!-- <style> -->
 <link href="{{asset('/frontend/css/dyce_scrutiny.css')}}" rel="stylesheet" type="text/css" />
 
 @endsection
 @section('content')
+
+@if(session()->has('success'))
+    <div class="alert alert-success display_msg">
+        {{ session()->get('success') }}
+    </div>  
+@endif
 
 @if(session()->has('error'))
     <div class="alert alert-success display_msg">
@@ -283,7 +292,7 @@
 							<span class="error" id="encrochment_comments_error" style="display:none;color:#f4516c">This feild is required</span>
 						</div>
 						<div class="mt-3">
-                        @if($is_view)
+                        @if($is_view && ($ol_application->log->status_id == config('commanConfig.applicationStatus.in_process')))
 							<button type="button" class="s_btn btn btn-primary" id="submitBtn" name="">Save</button>
                         @endif    
 
