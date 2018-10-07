@@ -95,7 +95,7 @@
                     <ul class="m-menu__subnav">
 
                         <li class="m-menu__item m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover">
-                            <a href="{{url('/village_detail')}}" class="m-menu__link m-menu__toggle"><img class="radio-icon" src="{{ asset('/img/radio-icon.svg')}}"><span class="m-menu__link-text">Village Detail</span></i></a>
+                            <a href="{{url('/village_detail')}}" class="m-menu__link m-menu__toggle"><img class="radio-icon" src="{{ asset('/img/radio-icon.svg')}}"><span class="m-menu__link-text">Land Detail</span></i></a>
                         </li>
                         <li class="m-menu__item m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover">
                             <a href="{{route('society_detail.index')}}" class="m-menu__link m-menu__toggle"><img class="radio-icon" src="{{ asset('/img/radio-icon.svg')}}"><span class="m-menu__link-text">Society Detail</span></i></a>
@@ -103,6 +103,52 @@
                     </ul>
                 </div>
             </li>
+
+                @if(\Illuminate\Support\Facades\Request::is('village_detail'))
+                    <li class="m-menu__item m-menu__item--active" aria-haspopup="true">
+                        <a href="{{route('village_detail.create')}}" class="m-menu__link ">
+                            <i class="m-menu__link-icon flaticon-line-graph"></i>
+                            <span class="m-menu__link-title">
+                        <span class="m-menu__link-wrap">
+                            <span class="m-menu__link-text">
+                                Add Land
+                            </span>
+                        </span>
+                    </span>
+                        </a>
+                    </li>
+                @endif
+
+                    @if(\Illuminate\Support\Facades\Request::is('society_detail'))
+                        <li class="m-menu__item m-menu__item--active" aria-haspopup="true">
+                            <a href="{{route('society_detail.create')}}" class="m-menu__link ">
+                                <i class="m-menu__link-icon flaticon-line-graph"></i>
+                                <span class="m-menu__link-title">
+                    <span class="m-menu__link-wrap">
+                        <span class="m-menu__link-text">
+                            Add Society
+                        </span>
+                    </span>
+                </span>
+                            </a>
+                        </li>
+                    @endif
+
+                    @if(\Illuminate\Support\Facades\Request::is('lease_detail/*') && (isset($count) && ($count == 0)))
+                        @php $id = collect(request()->segments())->last(); @endphp
+                        <li class="m-menu__item m-menu__item--active" aria-haspopup="true">
+                            <a href="{{route('lease_detail.create', $id)}}" class="m-menu__link ">
+                                <i class="m-menu__link-icon flaticon-line-graph"></i>
+                                <span class="m-menu__link-title">
+                    <span class="m-menu__link-wrap">
+                        <span class="m-menu__link-text">
+                            Add Lease
+                        </span>
+                    </span>
+                </span>
+                            </a>
+                        </li>
+                    @endif
             @endif
 
 
