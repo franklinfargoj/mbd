@@ -394,7 +394,7 @@ Breadcrumbs::for('view_application', function ($trail,$id) {
 
 Breadcrumbs::for('document-submitted', function ($trail,$id) {
     $trail->parent('ee');
-    $trail->push('document-submitted', route('document-submitted',$id));
+    $trail->push('document-scrutiny', route('document-submitted',$id));
 });
 
 Breadcrumbs::for('scrutiny-remark', function ($trail,$id,$society_id) {
