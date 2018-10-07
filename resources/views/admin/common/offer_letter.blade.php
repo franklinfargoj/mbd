@@ -6,6 +6,7 @@
 <style type="text/css" media="print">
 #printdiv { size: auto;  margin: 0mm; }
 </style>
+
 <p align="right"><a href="#" target="_blank" id="download_application_form" class="btn print-icon" rel="noopener" onclick="printContent('printdiv')"><img src="{{asset('/img/print-icon.svg')}}"></a></p>
 <div id="printdiv">
 <form class="letter-form" action="{{ route('save_offer_letter_application_dev') }}" method="post" id="save_offer_letter_application_dev">
