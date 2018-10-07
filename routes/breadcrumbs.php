@@ -341,3 +341,79 @@ Breadcrumbs::for('cap_note_ree', function ($trail,$id) {
     $trail->push('cap_note', route('ree.download_cap_note',$id));
 });
 
+Breadcrumbs::for('ee', function ($trail) {
+	$trail->push('Home', route('ee.index'));
+});
+
+//offer letter
+Breadcrumbs::for('view_application_ee', function ($trail,$id) {
+    $trail->parent('ee');
+    $trail->push('view_application', route('ee.view_application',$id));
+});
+
+Breadcrumbs::for('view_application_vp', function ($trail,$id) {
+    $trail->parent('vp');
+    $trail->push('view_application', route('vp.view_application',$id));
+});
+
+Breadcrumbs::for('view_application_ree', function ($trail,$id) {
+    $trail->parent('ree');
+    $trail->push('view_application', route('ree.view_application',$id));
+});
+
+Breadcrumbs::for('view_application_co', function ($trail,$id) {
+    $trail->parent('co');
+    $trail->push('view_application', route('co.view_application',$id));
+});
+
+Breadcrumbs::for('view_application_dyce', function ($trail,$id) {
+    $trail->parent('dyce');
+    $trail->push('view_application', route('dyce.view_application',$id));
+});
+
+Breadcrumbs::for('view_application', function ($trail,$id) {
+    $trail->parent('cap');
+    $trail->push('view_application', route('cap.view_application',$id));
+});
+
+
+//offer letter
+
+Breadcrumbs::for('document-submitted', function ($trail,$id) {
+    $trail->parent('ee');
+    $trail->push('document-submitted', route('document-submitted',$id));
+});
+
+Breadcrumbs::for('scrutiny-remark', function ($trail,$id,$society_id) {
+    $trail->parent('ee');
+    $trail->push('scrutiny-remark', route('scrutiny-remark',$id,$society_id));
+});
+
+//Dyce
+
+
+Breadcrumbs::for('dyce', function ($trail) {
+	$trail->push('Home', route('dyce.index'));
+});
+
+Breadcrumbs::for('scrutiny-remark-dyce', function ($trail,$id) {
+    $trail->parent('dyce');
+    $trail->push('scrutiny-remark', route('dyce.society_EE_documents',$id));
+});
+
+Breadcrumbs::for('EE_Scrutiny_Remark-dyce', function ($trail,$id) {
+    $trail->parent('dyce');
+    $trail->push('EE_Scrutiny_Remark', route('dyce.EE_Scrutiny_Remark',$id));
+});
+
+Breadcrumbs::for('scrutiny_remark-dyce', function ($trail,$id) {
+    $trail->parent('dyce');
+    $trail->push('Dyce_Scrutiny_Remark', route('dyce.scrutiny_remark',$id));
+});
+
+Breadcrumbs::for('forward_application-dyce', function ($trail,$id) {
+    $trail->parent('dyce');
+    $trail->push('forward_application', route('dyce.forward_application',$id));
+});
+
+
