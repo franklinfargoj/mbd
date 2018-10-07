@@ -79,6 +79,11 @@ Breadcrumbs::for('society_detail_edit', function ($trail,$id) {
 	$trail->push('Edit Society', route('society_detail.edit',$id));
 });
 
+Breadcrumbs::for('society_detail_view', function ($trail,$id) {
+	$trail->parent('society_detail',$id);
+	$trail->push('View Society', route('society_detail.show',$id));
+});
+
 Breadcrumbs::for('lease_detail', function ($trail,$id) {
 	$trail->push('Lease Detail', route('lease_detail.index',['id'=>$id]));
 });
