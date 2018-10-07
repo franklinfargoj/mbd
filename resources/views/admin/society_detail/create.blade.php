@@ -20,6 +20,9 @@
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">Add Society</h3>
             {{ Breadcrumbs::render('society_create') }}
+            <div class="ml-auto btn-list">
+                <a href="{{ url('/society_detail/') }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+            </div>
         </div>
     </div>
     <!-- END: Subheader -->

@@ -42,6 +42,17 @@
                     </li>
                 </ul>
             </div>
+            @php
+            $route_name=\Request::route()->getName();
+            @endphp
+            @if($route_name=='co.show_calculation_sheet')
+                {{ Breadcrumbs::render('calculation_sheet_co',$ol_application->id) }}
+            @elseif($route_name=='vp.show_calculation_sheet')
+                {{ Breadcrumbs::render('calculation_sheet_vp',$ol_application->id) }}
+            @elseif($route_name=='cap.show_calculation_sheet')
+                {{ Breadcrumbs::render('calculation_sheet_cap',$ol_application->id) }}
+            @else
+            @endif
         </div>
         <div class="tab-content">
             <div class="tab-pane active show" id="one" role="tabpanel">

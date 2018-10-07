@@ -27,6 +27,9 @@
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">DyCE Scrutiny & Remark</h3>
             {{ Breadcrumbs::render('scrutiny_remark-dyce',$ol_application->id) }}
+            <div class="ml-auto btn-list">
+                <a href="{{ session()->get('redirect_to') }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+            </div>
         </div>
     </div>
     <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
@@ -401,7 +404,7 @@ var isError = 0;
     });
 
     $(document).ready(function(){
-        $(".display_msg").delay(1000).slideUp(300);
+        $(".display_msg").delay(5000).slideUp(300);
     }); 
 
 </script>

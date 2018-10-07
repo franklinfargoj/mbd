@@ -23,14 +23,14 @@
                                     </h1>
                                     <p class="sub-title">
                                         @if (session('registered'))
-                                        <div class="alert alert-success">
-                                            <div class="text-center">{{ session('registered') }}</div>
-                                        </div>
-                                        @endif
-                                        @if (session('error'))
-                                        <div class="alert alert-danger">
-                                            <div class="text-center">{{ session('error') }}</div>
-                                        </div>
+                                            <div class="alert alert-success society_registered">
+                                                <div class="text-center">{{ session('registered') }}</div>
+                                            </div>
+                                            @endif
+                                            @if (session('error'))
+                                            <div class="alert alert-danger society_registered">
+                                                <div class="text-center">{{ session('error') }}</div>
+                                            </div>
                                         @endif
                                     </p>
                                 </div>
@@ -128,4 +128,11 @@
     </div>
 
 </div>
+@endsection
+@section('js')
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.society_registered').delay("slow").slideUp("slow");
+    });
+</script>
 @endsection

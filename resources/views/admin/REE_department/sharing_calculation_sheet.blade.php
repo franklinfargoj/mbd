@@ -18,9 +18,15 @@
 
 <div class="custom-wrapper">
     <div class="col-md-12">
+        <div class="d-flex">
+            {{ Breadcrumbs::render('calculation_sheet',$ol_application->id) }}
+            <div class="ml-auto btn-list">
+                <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+            </div>
+        </div>
         <div class="m-portlet__head">
             <div class="m-portlet__head-tools">
-                <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom" role="tablist">
+                <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom m-portlet m-portlet--nav-tabs" role="tablist">
                     <li class="nav-item m-tabs__item">
                         <a class="nav-link m-tabs__link active show" data-toggle="tab" href="#one" role="tab" aria-selected="false">
                             <i class="la la-cog"></i> Table A
@@ -48,7 +54,6 @@
                     </li>
                 </ul>
             </div>
-            {{ Breadcrumbs::render('calculation_sheet',$ol_application->id) }}
         </div>
         <div class="tab-content">
             <div class="tab-pane active show" id="one" role="tabpanel">
@@ -1434,7 +1439,7 @@
     });
 
     $(document).ready(function () {
-        $(".display_msg").delay(1000).slideUp(300);
+        $(".display_msg").delay(5000).slideUp(300);
     });
 
 </script>

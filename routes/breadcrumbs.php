@@ -47,60 +47,65 @@ Breadcrumbs::for('resolution_edit', function ($trail,$id) {
 
 //Land
 Breadcrumbs::for('village_detail', function ($trail) {
-	$trail->push('village_detail', route('village_detail.index'));
+	$trail->push('Land Detail', route('village_detail.index'));
 });
 
 Breadcrumbs::for('village_create', function ($trail) {
 	$trail->parent('village_detail');
-	$trail->push('village_create', route('village_detail.create'));
+	$trail->push('Create Land', route('village_detail.create'));
 });
 
 Breadcrumbs::for('village_view', function ($trail,$id) {
 	$trail->parent('village_detail');
-	$trail->push('village_view/', route('village_detail.show',$id));
+	$trail->push('View Land', route('village_detail.show',$id));
 });
 
 Breadcrumbs::for('village_edit', function ($trail,$id) {
 	$trail->parent('village_detail');
-	$trail->push('village_edit/', route('village_detail.edit',$id));
+	$trail->push('Edit Land', route('village_detail.edit',$id));
 });
 
 Breadcrumbs::for('society_detail', function ($trail) {
-	$trail->push('society_detail', route('society_detail.index'));
+	$trail->push('Society Detail', route('society_detail.index'));
 });
 
 Breadcrumbs::for('society_create', function ($trail) {
 	$trail->parent('society_detail');
-	$trail->push('society_create/', route('society_detail.create'));
+	$trail->push('Add Society', route('society_detail.create'));
 });
 
 Breadcrumbs::for('society_detail_edit', function ($trail,$id) {
 	$trail->parent('society_detail',$id);
-	$trail->push('society_detail_edit/', route('society_detail.edit',$id));
+	$trail->push('Edit Society', route('society_detail.edit',$id));
+});
+
+Breadcrumbs::for('society_detail_view', function ($trail,$id) {
+	$trail->parent('society_detail',$id);
+	$trail->push('View Society', route('society_detail.show',$id));
 });
 
 Breadcrumbs::for('lease_detail', function ($trail,$id) {
-	$trail->push('lease_detail', route('lease_detail.index',['id'=>$id]));
+	$trail->push('Lease Detail', route('lease_detail.index',['id'=>$id]));
 });
 
 Breadcrumbs::for('lease_create', function ($trail,$id) {
 	$trail->parent('lease_detail',$id);
-	$trail->push('lease_create', route('lease_detail.create',['id'=>$id]));
+	$trail->push('Add Lease', route('lease_detail.create',['id'=>$id]));
 });
 
 Breadcrumbs::for('lease_renew', function ($trail,$id) {
 	$trail->parent('lease_detail',$id);
-	$trail->push('lease_renew', route('renew-lease.renew',['id'=>$id]));
+	$trail->push('Renew Lease', route('renew-lease.renew',['id'=>$id]));
 });
 
 Breadcrumbs::for('lease_edit', function ($trail,$id,$society_id) {
-    $trail->parent('lease_detail',$id);
-    $trail->push('lease_edit', route('edit-lease.edit',['id'=>$id, 'society_id'=>$society_id]));
+    $trail->parent('lease_detail',$society_id);
+    $trail->push('Edit Lease', route('edit-lease.edit',['id'=>$id, 'society_id'=>$society_id]));
 });
 
 Breadcrumbs::for('lease_view', function ($trail,$id,$society_id) {
-    $trail->parent('lease_detail',$id);
-    $trail->push('lease_view', route('view-lease.view',['id'=>$id, 'society_id'=>$society_id]));
+    $trail->parent('lease_detail',$society_id);
+    $trail->push('View Lease', route('view-lease.view',['id'=>$id, 'society_id'=>$society_id]));
 });
 
 // Hearing
@@ -164,17 +169,23 @@ Breadcrumbs::for('Send Notice To Appellant', function ($trail, $id) {
 });
 
 Breadcrumbs::for('society_dashboard', function ($trail) {
-    $trail->push('Dashboard', route('society_offer_letter_dashboard'));
+    $trail->push('Listing', route('society_offer_letter_dashboard'));
 });
 
 Breadcrumbs::for('documents_uploaded', function ($trail) {
-    $trail->push('Dashboard', route('society_offer_letter_dashboard'));
-    $trail->push('Uploaded documents', route('documents_uploaded'));
+    $trail->push('Listing', route('society_offer_letter_dashboard'));
+    $trail->push('View Uploaded documents', route('documents_uploaded'));
 });
 
 Breadcrumbs::for('documents_upload', function ($trail) {
-    $trail->push('Dashboard', route('society_offer_letter_dashboard'));
+    $trail->push('Listing', route('society_offer_letter_dashboard'));
     $trail->push('Upload documents', route('documents_upload'));
+});
+
+Breadcrumbs::for('society_application', function ($trail) {
+    $trail->push('Listing', route('society_offer_letter_dashboard'));
+    $trail->push('Applications for Redevelopment
+', route('society_detail.application'));
 });
 
 //cap Breadcrumbs
@@ -193,6 +204,11 @@ Breadcrumbs::for('EE_scrutiny_cap', function ($trail,$id) {
     $trail->push('EE_scrutiny', route('cap.EE_scrutiny_remark',$id));
 });
 
+Breadcrumbs::for('Forward_Application_ee', function ($trail,$id) {
+    $trail->parent('ee');
+    $trail->push('Forward_Application_ee', route('ee.forward_application',$id));
+});
+
 Breadcrumbs::for('DYCE_scrutiny_cap', function ($trail,$id) {
     $trail->parent('cap');
     $trail->push('DYCE_scrutiny', route('cap.dyce_Scrutiny_Remark',$id));
@@ -202,6 +218,10 @@ Breadcrumbs::for('DYCE_scrutiny_cap', function ($trail,$id) {
 //     $trail->parent('cap');
 //     $trail->push('REE_calculation', route('cap.dyce_Scrutiny_Remark',$id));
 // });
+Breadcrumbs::for('calculation_sheet_cap', function ($trail,$id) {
+    $trail->parent('cap');
+    $trail->push('calculation_sheet', route('cap.show_calculation_sheet',$id));
+});
 
 Breadcrumbs::for('Forward_Application_cap', function ($trail,$id) {
     $trail->parent('cap');
@@ -238,6 +258,10 @@ Breadcrumbs::for('DYCE_scrutiny_vp', function ($trail,$id) {
 //     $trail->parent('vp');
 //     $trail->push('REE_calculation', route('vp.forward_application',$id));
 // });
+Breadcrumbs::for('calculation_sheet_vp', function ($trail,$id) {
+    $trail->parent('vp');
+    $trail->push('calculation_sheet', route('vp.show_calculation_sheet',$id));
+});
 
 Breadcrumbs::for('Forward_Application_vp', function ($trail,$id) {
     $trail->parent('vp');
@@ -279,6 +303,11 @@ Breadcrumbs::for('Approve_offer_letter', function ($trail,$id) {
 //     $trail->parent('co');
 //     $trail->push('REE_calculation', route('vp.forward_application',$id));
 // });
+Breadcrumbs::for('calculation_sheet_co', function ($trail,$id) {
+    $trail->parent('co');
+    $trail->push('calculation_sheet', route('co.show_calculation_sheet',$id));
+});
+
 
 Breadcrumbs::for('Forward_Application_co', function ($trail,$id) {
     $trail->parent('co');
@@ -381,7 +410,7 @@ Breadcrumbs::for('view_application', function ($trail,$id) {
 
 Breadcrumbs::for('document-submitted', function ($trail,$id) {
     $trail->parent('ee');
-    $trail->push('document-submitted', route('document-submitted',$id));
+    $trail->push('document-scrutiny', route('document-submitted',$id));
 });
 
 Breadcrumbs::for('scrutiny-remark', function ($trail,$id,$society_id) {

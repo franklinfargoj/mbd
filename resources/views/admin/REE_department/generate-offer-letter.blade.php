@@ -38,6 +38,9 @@
                 </ul>
             </div>
              {{ Breadcrumbs::render('generate_offer_letter',$ol_application->id) }}
+            <div class="ml-auto btn-list">
+                <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+            </div>
         </div>
         <div class="m-grid__item m-grid__item--fluid">
             <div class="row">
@@ -166,7 +169,7 @@
                                                     <div class="mt-auto">
 
                                                     @if($societyData->drafted_offer_letter)
-                                                        <a href="{{config('commanConfig.storage_server').'/'.$societyData->drafted_offer_letter}}" class="btn btn-primary">Download offer Letter</a>
+                                                        <a href="{{config('commanConfig.storage_server').'/'.$societyData->drafted_offer_letter}}" class="btn btn-primary">Download</a>
                                                     @else
                                                        <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
                                                         * Note :  Offer Letter not available. </span>
@@ -200,7 +203,8 @@
                                 </div>
                             </div>
                         </div>
-                        @if($societyData->ree_branch_head && $applicationLog->status_id != 2)
+                       
+                        @if($societyData->ree_branch_head && $societyData->status_offer_letter == config('commanConfig.applicationStatus.offer_letter_generation') && $applicationLog->status_id != config('commanConfig.applicationStatus.forwarded'))
                            <form role="form" id="sendForApproval" style="margin-top: 30px;" name="sendForApproval" class="form-horizontal" method="post" action="{{ route('ree.send_for_approval')}}"
                             enctype="multipart/form-data">
                             @csrf 
@@ -215,7 +219,7 @@
                                             <div class="mt-3">
                                                 <label for="demarkation_comments">Remarks:</label>
                                                 <textarea id="demarkation_comments" rows="5" cols="30" class="form-control form-control--custom"
-                                                    name="demarkation_comments"></textarea>
+                                                    name="remark"></textarea>
                                             </div>
                                             <div class="mt-3 btn-list">
                                                 <button class="btn btn-primary" type="submit">Send For Approval</button>
@@ -261,7 +265,7 @@
     });
 
     $(document).ready(function(){
-        $(".display_msg").delay(1000).slideUp(300);
+        $(".display_msg").delay(5000).slideUp(300);
     });    
 
 </script>

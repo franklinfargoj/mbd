@@ -4,7 +4,7 @@
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
-            <h3 class="m-subheader__title m-subheader__title--separator">Dashboard </h3>
+            <h3 class="m-subheader__title m-subheader__title--separator">View Uploaded Documents </h3>
             {{ Breadcrumbs::render('documents_uploaded') }}
         </div>
     </div>

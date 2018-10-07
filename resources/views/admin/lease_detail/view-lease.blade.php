@@ -1,10 +1,16 @@
-@extends('admin.layouts.app')
+@extends('admin.layouts.sidebarAction')
+@section('actions')
+    @include('admin.lease_detail.action',compact('society_id'))
+@endsection
 @section('content')
 <div class="col-md-12">
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">View Lease</h3>
             {{ Breadcrumbs::render('lease_view', $id, $society_id) }}
+            <div class="ml-auto btn-list">
+                <a href="{{ url('/lease_detail/'.$society_id) }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+            </div>
         </div>
     </div>
     <!-- END: Subheader -->

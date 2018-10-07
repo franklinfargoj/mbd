@@ -16,8 +16,12 @@
             <h3 class="m-subheader__title m-subheader__title--separator">
                 Approved Offer Letter </h3>
                  {{ Breadcrumbs::render('approved_offer_letter',$ol_application->id) }}
+                <div class="ml-auto btn-list">
+                    <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+                </div>
         </div>
     </div>
+
     <div class="m-portlet m-portlet--mobile m_panel">
         <div class="portlet-body">
             <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
@@ -127,7 +131,7 @@
 
                          @if($applicationData->offer_letter_document_path)   
                             <a href="{{config('commanConfig.storage_server').'/'.$applicationData->offer_letter_document_path}}" class="btn btn-primary" target="_blank" rel="noopener"> 
-                            View offer Letter </a>
+                            View</a>
                         @endif
                         <!-- <button type="submit" class="btn btn-primary">View offer Letter </button> -->
                     </div>
@@ -139,7 +143,7 @@
                             format</p>
 
                         @if($applicationData->offer_letter_document_path)   
-                            <a href=" {{config('commanConfig.storage_server').'/'.$applicationData->offer_letter_document_path}}" class="btn btn-primary" download> Download offer Letter </a>
+                            <a href=" {{config('commanConfig.storage_server').'/'.$applicationData->offer_letter_document_path}}" class="btn btn-primary" download> Download</a>
                         @endif    
                     </div>
                 </div>
@@ -169,6 +173,7 @@
         <!-- end  -->
 
         <!-- Encrochment verification -->
+        @if($ree_head)
         <div class="m-portlet m-portlet--mobile m_panel">
             <div class="m-portlet__body">
                 <h3 class="section-title section-title--small">Send to Society:</h3>
@@ -181,6 +186,7 @@
                 </div>
             </div>
         </div>
+        @endif
     </form>
 </div>
 @endsection

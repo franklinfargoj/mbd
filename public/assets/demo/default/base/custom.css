@@ -1,7 +1,17 @@
 /* theme classes over ride starts here */
 
+.m-portlet.m-portlet--nav-tabs {
+    margin-top: 15px;
+    padding: 15px;
+    margin-bottom: 0;
+}
+
 .m-brand__logo-wrapper:focus {
     outline: none;
+}
+
+.m-portlet + .tab-content {
+    margin-top: 50px;
 }
 
 .datepicker tbody tr>td.day.active,

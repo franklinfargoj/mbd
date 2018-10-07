@@ -4,7 +4,7 @@
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
-            <h3 class="m-subheader__title m-subheader__title--separator">Dashboard</h3>
+            <h3 class="m-subheader__title m-subheader__title--separator">Upload documents</h3>
             {{ Breadcrumbs::render('documents_upload') }}
         </div>
     </div>
@@ -208,7 +208,7 @@
                         </div>
                         <form action="{{ route('add_documents_comment') }}" method="post" enctype='multipart/form-data'>
                             @csrf
-                            <div class="remarks-suggestions">
+                            <div class="remarks-suggestions table--box-input">
                                 <div class="mt-3">
                                     <label for="society_documents_comment">Comment</label>
                                     <div class="@if($errors->has('society_documents_comment')) has-error @endif">

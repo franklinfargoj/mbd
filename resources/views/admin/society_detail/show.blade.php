@@ -1,9 +1,16 @@
-@extends('admin.layouts.app')
+@extends('admin.layouts.sidebarAction')
+@section('actions')
+    @include('admin.society_detail.action',compact('arrData'))
+@endsection
 @section('content')
 <div class="col-md-12">
     <div class="m-subheader px-0 m-subheader--top">
-        <div class="d-flex">
-            <h3 class="m-subheader__title">View Society</h3>
+        <div class="d-flex align-items-center">
+            <h3 class="m-subheader__title m-subheader__title--separator">View Society</h3>
+            {{ Breadcrumbs::render('society_detail_view',$id) }}
+            <div class="ml-auto btn-list">
+                <a href="{{ url('/society_detail/') }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+            </div>
         </div>
     </div>
     <!-- END: Subheader -->
