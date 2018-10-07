@@ -119,7 +119,7 @@ class EEController extends Controller
             'serverSide' => true,
             'processing' => true,
             'ordering'   =>'isSorted',
-            "order"=> [0, "asc" ],
+            "order"=> [1, "asc" ],
             "pageLength" => $this->list_num_of_records_per_page
         ];
     }
