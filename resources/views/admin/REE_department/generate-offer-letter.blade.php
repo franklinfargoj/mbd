@@ -200,7 +200,8 @@
                                 </div>
                             </div>
                         </div>
-                        @if($societyData->ree_branch_head && $applicationLog->status_id != 2)
+                    
+                        @if($societyData->ree_branch_head && $societyData->status_offer_letter == config('commanConfig.applicationStatus.offer_letter_generation'))
                            <form role="form" id="sendForApproval" style="margin-top: 30px;" name="sendForApproval" class="form-horizontal" method="post" action="{{ route('ree.send_for_approval')}}"
                             enctype="multipart/form-data">
                             @csrf 
