@@ -67,7 +67,10 @@ class OlApplicationCalculationSheetDetailsController extends Controller
 
         $arrData['reeNote'] = REENote::where('application_id', $applicationId)->orderBy('id', 'desc')->first();
 
+
         return view('admin.REE_department.calculation_sheet',compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application'));
+
+
     }
 
     /**
