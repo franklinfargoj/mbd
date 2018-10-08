@@ -249,7 +249,7 @@ class SocietyOfferLetterController extends Controller
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'application_no','name' => 'application_no','title' => 'Application No.'],
             ['data' => 'application_master_id','name' => 'application_master_id','title' => 'Application Type'],
-            ['data' => 'created_at','name' => 'created_date','title' => 'Submission Date'],
+            ['data' => 'created_at','name' => 'created_date','title' => 'Submission Date', 'class' => 'datatable-date'],
             ['data' => 'status','name' => 'status','title' => 'Status'],
             ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
         ];
