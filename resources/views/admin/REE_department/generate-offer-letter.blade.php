@@ -26,9 +26,13 @@
 
 <div class="custom-wrapper">
     <div class="col-md-12">
-        <div class="m-portlet__head">
-            <div class="m-portlet__head-tools">
-                <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom" role="tablist">
+        <div class="d-flex">
+            {{ Breadcrumbs::render('generate_offer_letter',$ol_application->id) }}
+            <div class="ml-auto btn-list">
+                <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+            </div>
+        </div>
+                <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom  m-portlet m-portlet--nav-tabs" role="tablist">
                     <li class="nav-item m-tabs__item">
                         <a class="nav-link m-tabs__link active show" data-toggle="tab" href="#generate-offer-letter"
                             role="tab" aria-selected="false">
@@ -36,12 +40,6 @@
                         </a>
                     </li>
                 </ul>
-            </div>
-             {{ Breadcrumbs::render('generate_offer_letter',$ol_application->id) }}
-        </div>
-        <div class="m-grid__item m-grid__item--fluid">
-            <div class="row">
-                <div class="col-md-12">
                     <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
                         <div class="portlet-body">
                             <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
@@ -161,12 +159,10 @@
                                             <div class="col-sm-6">
                                                 <div class="d-flex flex-column h-100">
                                                     <h5>Download Offer Letter</h5>
-<!--                                                     <span class="hint-text">Want to make changes in offer letter, click
-                                                        on below button to download offer letter in .doc format</span> -->
                                                     <div class="mt-auto">
 
                                                     @if($societyData->drafted_offer_letter)
-                                                        <a href="{{config('commanConfig.storage_server').'/'.$societyData->drafted_offer_letter}}" class="btn btn-primary">Download offer Letter</a>
+                                                        <a href="{{config('commanConfig.storage_server').'/'.$societyData->drafted_offer_letter}}" class="btn btn-primary">Download</a>
                                                     @else
                                                        <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
                                                         * Note :  Offer Letter not available. </span>
@@ -200,8 +196,8 @@
                                 </div>
                             </div>
                         </div>
-                    
-                        @if($societyData->ree_branch_head && $societyData->status_offer_letter == config('commanConfig.applicationStatus.offer_letter_generation'))
+                       
+                        @if($societyData->ree_branch_head && $societyData->status_offer_letter == config('commanConfig.applicationStatus.offer_letter_generation') && $applicationLog->status_id != config('commanConfig.applicationStatus.forwarded'))
                            <form role="form" id="sendForApproval" style="margin-top: 30px;" name="sendForApproval" class="form-horizontal" method="post" action="{{ route('ree.send_for_approval')}}"
                             enctype="multipart/form-data">
                             @csrf 
@@ -216,7 +212,7 @@
                                             <div class="mt-3">
                                                 <label for="demarkation_comments">Remarks:</label>
                                                 <textarea id="demarkation_comments" rows="5" cols="30" class="form-control form-control--custom"
-                                                    name="demarkation_comments"></textarea>
+                                                    name="remark"></textarea>
                                             </div>
                                             <div class="mt-3 btn-list">
                                                 <button class="btn btn-primary" type="submit">Send For Approval</button>
@@ -228,9 +224,6 @@
                             </form>
                         @endif
                     </div>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 @endsection
@@ -262,7 +255,7 @@
     });
 
     $(document).ready(function(){
-        $(".display_msg").delay(1000).slideUp(300);
+        $(".display_msg").delay(5000).slideUp(300);
     });    
 
 </script>

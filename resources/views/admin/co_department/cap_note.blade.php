@@ -16,6 +16,9 @@
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">CAP - Notes</h3>
             {{ Breadcrumbs::render('download_cap_note',$ol_application->id) }}
+            <div class="ml-auto btn-list">
+                <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+            </div>
         </div>
     </div>
 
@@ -34,7 +37,8 @@
                 <div class="d-flex flex-wrap align-items-center mb-5 upload_doc_1">
                 </div>
                 @if(isset($capNote->document_path))
-                <a href="{{ asset($capNote->document_path) }}">
+                <a href="{{ config('commanConfig.storage_server').'/'.$capNote->document_path }}">
+                
                     @else
                     <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
                         *Note : CAP note is not available.</span>

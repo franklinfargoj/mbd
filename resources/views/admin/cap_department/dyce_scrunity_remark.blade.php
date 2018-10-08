@@ -16,6 +16,7 @@
             <h3 class="m-subheader__title m-subheader__title--separator">
                 DyCE Scrutiny & Remark </h3>
                 {{ Breadcrumbs::render('DYCE_scrutiny_cap',$ol_application->id) }}
+            <a href="{{ url()->previous() }}" class="btn btn-link ml-auto"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
         </div>
     </div>
     <div class="m-portlet m-portlet--mobile m_panel">
@@ -141,7 +142,8 @@
                     <div class="col-sm-6 field-col">
                         <div class="d-flex">
                             <span class="field-name">Name of Inspector:</span>
-                            <span class="field-value" style="width: 242px;word-break: break-all;"></span>
+                            <span class="field-value" style="width: 242px;word-break: break-all;">{{(isset($applicationData->site_visit_officers)
+                                ? $applicationData->site_visit_officers : '')}}</span>
                         </div>
                     </div>
                     <div class="col-sm-6 field-col">
@@ -172,7 +174,7 @@
                     Demarkation Verification:
                 </h3>
                 <div class="remarks-suggestions">
-                    <div class="mt-3">
+                    <div class="mt-3 table--box-input">
                         <label for="demarkation_comments">Comments:</label>
                         <textarea rows="5" cols="30" name="demarkation_comments" class="form-control form-control--custom" readonly>{{(isset($applicationData->demarkation_verification_comment) ? $applicationData->demarkation_verification_comment : '')}}</textarea>
                     </div>
@@ -182,7 +184,7 @@
         <!-- end  -->
 
         <!-- Encrochment verification -->
-        <div class="m-portlet m-portlet--mobile m_panel">
+        <div class="m-portlet m-portlet--mobile m_panel table--box-input">
             <div class="m-portlet__body">
                 <h3 class="section-title section-title--small">
                     Encrochment Verification:

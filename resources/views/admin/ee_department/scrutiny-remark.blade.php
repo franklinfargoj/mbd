@@ -18,10 +18,16 @@
 
     <div class="custom-wrapper">
         <div class="col-md-12">
+            <div class="d-flex">
+                {{ Breadcrumbs::render('document-submitted',$ol_application->id,$arrData['society_detail']->id) }}
+                <div class="ml-auto btn-list">
+                    <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+                </div>
+            </div>
             <div id="tabbed-content" class="">
                 <div class="m-portlet__head">
                     <div class="m-portlet__head-tools">
-                        <ul id="top-tabs" class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom tabs">
+                        <ul id="top-tabs" class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom tabs m-portlet m-portlet--nav-tabs">
                             <li class="nav-item m-tabs__item active" data-target="#document-scrunity">
                                 <a class="nav-link m-tabs__link">
                                     <i class="la la-cog"></i> Document Scrutiny
@@ -39,7 +45,6 @@
                             </li>
                         </ul>
                     </div>
-                    {{ Breadcrumbs::render('document-submitted',$ol_application->id,$arrData['society_detail']->id) }}
                 </div>
                 <div class="m-grid__item m-grid__item--fluid m-wrapper">
                     <div class="row">
@@ -227,7 +232,7 @@
                                                                                         @endphp
 
                                                                                         <input type="hidden" name="document_status_id" value="{{ $document_status_id }}">
-                                                                                        <div class="modal-body">
+                                                                                        <div class="modal-body table--box-input">
                                                                                             <div class="mb-4">
                                                                                                 <label for="remark">Remark:</label>
                                                                                                 <textarea class="form-control form-control--custom"
@@ -923,7 +928,7 @@
                                                                         <a download href="{{ config('commanConfig.storage_server').'/'.$arrData['eeNote']->document_path}} ">
                                                                         <button class="btn btn-primary">
 
-                                                                        Download EE Note Format</button>
+                                                                        Download</button>
                                                                         </a>
                                                                     @else
                                                                         <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
@@ -1062,7 +1067,7 @@
     });
 
     $(document).ready(function(){
-        $(".display_msg").delay(1000).slideUp(300);
+        $(".display_msg").delay("slow").slideUp("slow");
     });              
 
     </script>

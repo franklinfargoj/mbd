@@ -96,8 +96,12 @@ class LoginController extends Controller
                     return redirect('/home');
                 }else{
                     if(!empty($role_name)){
-                        // Authentication passed...
-                        return redirect('/home');  
+                        if($role_name != 'society'){
+                            // Authentication passed...
+                            return redirect('/home');  
+                        }else{
+                            return redirect('/login-user')->with('error', "Please enter valid credentials");
+                        }
                     }else{
                         return redirect('/society_offer_letter')->with('error', "Please enter valid credentials");
                     }
@@ -113,7 +117,7 @@ class LoginController extends Controller
                 if(explode('/', URL::previous())[3] == 'society_offer_letter'){
                     return redirect('/society_offer_letter')->with('error', "Please enter valid credentials");
                 }else{
-                    // Authentication passed...
+                    
                     return redirect('/login-user')->with('error', "Please enter valid credentials");
                 }
             }else{

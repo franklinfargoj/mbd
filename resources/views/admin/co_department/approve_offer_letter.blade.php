@@ -6,13 +6,17 @@
 
 <form role="form" id="sendApprovedOffer" style="margin-top: 30px;" name="sendForApproval" class="form-horizontal" method="post" action="{{ route('co.send_approved_offer_letter')}}" enctype="multipart/form-data">
 @csrf 
-<input type="hidden" name="applicationId" value="1">
+
+<input type="hidden" name="applicationId" value="{{$applicationData->id}}">
 <div class="col-md-12">
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">
                 Approve Offer Letter </h3>
                 {{ Breadcrumbs::render('Approve_offer_letter',$ol_application->id) }}
+            <div class="ml-auto btn-list">
+                <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+            </div>
         </div>
     </div>
 
@@ -30,6 +34,7 @@
                 @else
                 <span class="text-danger">*Note : Offer letter not available.</span>
                 @endif
+
                 <div class="remarks-suggestions">
                     <div class="mt-3">
                         <label for="demarkation_comments">Remark by REE</label>
@@ -59,7 +64,7 @@
                     <div class="mt-3">
                         <label for="demarkation_comments">Remark</label>
                         <textarea id="remark" rows="5" cols="30" class="form-control form-control--custom"
-                            name="remark" disabled>{{ isset($applicationData->coLog->remark) ? $applicationData->coLog->remark : '' }}</textarea>
+                            name="remark"></textarea>
                     </div>
                     @if($ol_application->status->status_id == config('commanConfig.applicationStatus.offer_letter_generation'))
                         <div class="mt-3 btn-list">

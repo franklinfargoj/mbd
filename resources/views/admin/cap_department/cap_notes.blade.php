@@ -29,6 +29,7 @@
             <h3 class="m-subheader__title m-subheader__title--separator">
                 CAP - Notes </h3>
                 {{ Breadcrumbs::render('cap_note_cap',$ol_application->id) }}
+                <a href="{{ url()->previous() }}" class="btn btn-link ml-auto"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
         </div>
     </div>
 
@@ -125,7 +126,7 @@
     });
 
     $(document).ready(function () {
-        $(".display_msg").delay(1000).slideUp(300);
+        $(".display_msg").delay(5000).slideUp(300);
     });    
   </script>
 @endsection

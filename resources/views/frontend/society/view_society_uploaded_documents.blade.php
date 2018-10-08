@@ -4,7 +4,7 @@
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
-            <h3 class="m-subheader__title m-subheader__title--separator">Dashboard </h3>
+            <h3 class="m-subheader__title m-subheader__title--separator">View Uploaded Documents </h3>
             {{ Breadcrumbs::render('documents_uploaded') }}
         </div>
     </div>
@@ -90,7 +90,7 @@
         <div class="m-portlet__body m-portlet__body--table">
             <div class="remarks-suggestions">
                 <div class="mt-3">
-                    <label for="society_documents_comment">Comment</label>
+                    <label for="society_documents_comment">Comment:</label>
                 </div>
                 <p>{{ ($documents_comment->society_documents_comment != 'N.A.') ?
                     $documents_comment->society_documents_comment : '-' }}</p>

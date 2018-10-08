@@ -17,6 +17,7 @@
             <h3 class="m-subheader__title m-subheader__title--separator">
                 Society & EE Documents </h3>
                 {{ Breadcrumbs::render('society_EE_documents_cap',$ol_application->id) }}
+            <a href="{{ url()->previous() }}" class="btn btn-link ml-auto"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
         </div>
     </div>
 

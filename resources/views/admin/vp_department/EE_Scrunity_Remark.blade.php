@@ -6,10 +6,16 @@
 
 <div class="custom-wrapper">
     <div class="col-md-12">
+        <div class="d-flex">
+            {{ Breadcrumbs::render('EE_scrutiny_vp',$ol_application->id) }}
+            <div class="ml-auto btn-list">
+                <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+            </div>
+        </div>
         <div id="tabbed-content" class="">
             <div class="m-portlet__head">
                 <div class="m-portlet__head-tools">
-                    <ul id="top-tabs" class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom tabs">
+                    <ul id="top-tabs" class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom tabs m-portlet m-portlet--nav-tabs">
                         <li class="nav-item m-tabs__item active" data-target="#document-scrunity">
                             <a class="nav-link m-tabs__link">
                                 <i class="la la-cog"></i> Document Scrutiny
@@ -27,7 +33,6 @@
                         </li>
                     </ul>
                 </div>
-                {{ Breadcrumbs::render('EE_scrutiny_vp',$ol_application->id) }}
             </div>
             <div class="m-grid__item m-grid__item--fluid m-wrapper">
                 <div class="row">
@@ -634,13 +639,13 @@
                                 <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
                                     <div class="portlet-body">
                                         <div class="m-portlet__body m-portlet__body--table">
-                                            <div class="m-subheader" style="padding: 0;">
+<!--                                             <div class="m-subheader" style="padding: 0;">
                                                 <div class="d-flex align-items-center justify-content-center">
                                                     <h3 class="section-title">
                                                         Note
                                                     </h3>
                                                 </div>
-                                            </div>
+                                            </div> -->
                                             <div class="m-section__content mb-0 table-responsive">
                                                 <div class="container">
                                                     <div class="row">
@@ -651,7 +656,7 @@
                                                                 <div class="mt-auto">
                                                                 @if(isset($eeScrutinyData->eeNote->document_path))
                                                                     <a href="{{ config('commanConfig.storage_server').'/'.$eeScrutinyData->eeNote->document_path }}">
-                                                                        <button class="btn btn-primary">Download EE Note</button>
+                                                                        <button class="btn btn-primary">Download</button>
                                                                     </a>
                                                                 @else
                                                                     <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
