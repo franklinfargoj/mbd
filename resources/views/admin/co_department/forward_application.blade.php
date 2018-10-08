@@ -6,10 +6,16 @@
 
 <div class="custom-wrapper">
     <div class="col-md-12">
+        <div class="d-flex">
+            {{ Breadcrumbs::render('Forward_Application_co',$ol_application->id) }}
+            <div class="ml-auto btn-list">
+                <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+            </div>
+        </div>
         <div class="">
             <div class="m-portlet__head">
                 <div class="m-portlet__head-tools">
-                    <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom">
+                    <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom m-portlet m-portlet--nav-tabs">
                         <li class="nav-item m-tabs__item" data-target="#document-scrunity">
                             <a class="nav-link m-tabs__link active show" data-toggle="tab" href="#scrutiny-history-tab">
                                 <i class="la la-cog"></i> Scrutiny History
@@ -25,7 +31,6 @@
                         @endif
                     </ul>
                 </div>
-                {{ Breadcrumbs::render('Forward_Application_co',$ol_application->id) }}
             </div>
             <div class="m-grid__item m-grid__item--fluid m-wrapper">
                 <div class="row">

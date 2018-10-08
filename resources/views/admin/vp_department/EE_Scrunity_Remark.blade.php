@@ -6,10 +6,16 @@
 
 <div class="custom-wrapper">
     <div class="col-md-12">
+        <div class="d-flex">
+            {{ Breadcrumbs::render('EE_scrutiny_vp',$ol_application->id) }}
+            <div class="ml-auto btn-list">
+                <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+            </div>
+        </div>
         <div id="tabbed-content" class="">
             <div class="m-portlet__head">
                 <div class="m-portlet__head-tools">
-                    <ul id="top-tabs" class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom tabs">
+                    <ul id="top-tabs" class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom tabs m-portlet m-portlet--nav-tabs">
                         <li class="nav-item m-tabs__item active" data-target="#document-scrunity">
                             <a class="nav-link m-tabs__link">
                                 <i class="la la-cog"></i> Document Scrutiny
@@ -27,7 +33,6 @@
                         </li>
                     </ul>
                 </div>
-                {{ Breadcrumbs::render('EE_scrutiny_vp',$ol_application->id) }}
             </div>
             <div class="m-grid__item m-grid__item--fluid m-wrapper">
                 <div class="row">
