@@ -355,10 +355,10 @@ Breadcrumbs::for('generate_offer_letter', function ($trail,$id) {
     $trail->push('generate_offer_letter', route('ree.generate_offer_letter',$id));
 });
 
-// Breadcrumbs::for('REE_calculation_cap', function ($trail,$id) {
-//     $trail->parent('co');
-//     $trail->push('REE_calculation', route('vp.forward_application',$id));
-// });
+ Breadcrumbs::for('REE_calculation', function ($trail,$id) {
+     $trail->parent('ree');
+     $trail->push('REE_calculation', route('ree.show_calculation_sheet',$id));
+ });
 
 Breadcrumbs::for('Forward_Application_ree', function ($trail,$id) {
     $trail->parent('ree');

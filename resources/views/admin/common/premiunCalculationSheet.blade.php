@@ -51,6 +51,8 @@
                 {{ Breadcrumbs::render('calculation_sheet_vp',$ol_application->id) }}
             @elseif($route_name=='cap.show_calculation_sheet')
                 {{ Breadcrumbs::render('calculation_sheet_cap',$ol_application->id) }}
+            @elseif($route_name=='ree.show_calculation_sheet')
+                {{ Breadcrumbs::render('REE_calculation',$ol_application->id) }}
             @else
             @endif
         </div>
@@ -383,9 +385,10 @@
                                                     2. दर (DCR % of tb 1 pt 12)
                                                 </td>
                                                 <td class="text-center">
-                                                    <span style="cursor: pointer" data-toggle="modal" >Select
-                                                        from DCR</span>
-                                                        <!-- data-target="#select-from-dcr" -->
+                                                    <input type="text" readonly class="form-control form-control--custom"
+                                                           name="dcr_rate_in_percentage" id="dcr_rate_in_percentage"
+                                                           value="{{ isset($calculationSheetDetails[0]->dcr_rate_in_percentage) ? $calculationSheetDetails[0]->dcr_rate_in_percentage.'%' : '0%' }}" />
+
                                                 </td>
                                             </tr>
                                             <tr>

@@ -74,6 +74,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                    @if($ol_application->status->status_id == config('commanConfig.applicationStatus.in_process'))
                                     <div class="col-sm-6 border-left">
                                         <div class="d-flex flex-column h-100 two-cols">
                                             <h5>Upload Note</h5>
@@ -94,6 +95,7 @@
                                             <!-- </form> -->
                                         </div>
                                     </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>

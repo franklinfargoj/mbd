@@ -22,7 +22,7 @@
                 <img class="filter-icon" src="{{asset('/img/filter-icon.svg')}}">Filter
             </button>
         </div>
-        <div id="filter" class="filter-wrap collapse">
+        <div id="filter" class="filter-wrap collapse show">
             <div class="row align-items-center">
                 <div class="col-md-12 order-2 order-xl-1">
                     <form role="form" id="eeForm" method="get" class="form-group m-form__group row align-items-end mb-0"
@@ -41,7 +41,6 @@
                                 </div> -->
                         <div class="col-md-3">
                             <div class="form-group m-form__group">
-                                <label for="office_date_from">From Date</label>
                                 <input type="text" id="submitted_at_from" name="submitted_at_from" class="form-control form-control--custom m-input m_datepicker"
                                     placeholder="From Date" readonly value="{{ isset($getData['submitted_at_from'])? $getData['submitted_at_from'] : '' }}">
                             </div>
@@ -49,7 +48,6 @@
 
                         <div class="col-md-3">
                             <div class="form-group m-form__group">
-                                <label for="office_date_to">To Date</label>
                                 <input type="text" id="submitted_at_to" name="submitted_at_to" class="form-control form-control--custom m-input m_datepicker"
                                     placeholder="To Date" readonly value="{{ isset($getData['submitted_at_to'])? $getData['submitted_at_to'] : '' }}">
                             </div>
@@ -61,10 +59,9 @@
 
                         <div class="col-md-3">
                             <div class="form-group m-form__group">
-                                <label for="office_date_to">Status</label>
                                 <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
                                     id="update_status" name="update_status">
-                                    <option value="">All</option>
+                                    <option value="">Select Status</option>
                                     @foreach(config('commanConfig.applicationStatus') as $key =>
                                     $application_status)
                                     <option value="{{ $application_status }}"

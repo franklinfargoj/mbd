@@ -170,7 +170,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            @if($societyData->ree_Jr_id)
+                                            @if($societyData->ree_Jr_id && $applicationLog->status_id != config('commanConfig.applicationStatus.forwarded'))
                                                 <div class="col-sm-6 border-left">
                                                     <div class="d-flex flex-column h-100">
                                                         <h5>Upload Offer Letter</h5>

@@ -46,7 +46,7 @@ class VPController extends Controller
             ['data' => 'date','name' => 'date','title' => 'Date', 'class' => 'datatable-date'],
             ['data' => 'eeApplicationSociety.name','name' => 'eeApplicationSociety.name','title' => 'Society Name'],
             ['data' => 'eeApplicationSociety.building_no','name' => 'eeApplicationSociety.building_no','title' => 'building No'],
-            ['data' => 'eeApplicationSociety.address','name' => 'eeApplicationSociety.address','title' => 'Address'],
+            ['data' => 'eeApplicationSociety.address','name' => 'eeApplicationSociety.address','title' => 'Address', 'class' => 'datatable-address'],
             // ['data' => 'model','name' => 'model','title' => 'Model'],
              ['data' => 'Status','name' => 'Status','title' => 'Status'],
             // ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
@@ -63,7 +63,7 @@ class VPController extends Controller
                 })
                 ->editColumn('radio', function ($vp_application_data) {
                     $url = route('vp.view_application', $vp_application_data->id);
-                    return '<label class="m-radio m-radio--primary"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
+                    return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
                 })
                 ->editColumn('eeApplicationSociety.name', function ($vp_application_data) {
                     return $vp_application_data->eeApplicationSociety->name;
@@ -72,7 +72,7 @@ class VPController extends Controller
                     return $vp_application_data->eeApplicationSociety->building_no;
                 })
                 ->editColumn('eeApplicationSociety.address', function ($vp_application_data) {
-                    return $vp_application_data->eeApplicationSociety->address;
+                    return "<span>".$vp_application_data->eeApplicationSociety->address."</span>";
                 })                
                 ->editColumn('date', function ($vp_application_data) {
                     return date(config('commanConfig.dateFormat'), strtotime($vp_application_data->submitted_at));
@@ -88,16 +88,16 @@ class VPController extends Controller
                         if($request->update_status == $status){
                             $config_array = array_flip(config('commanConfig.applicationStatus'));
                             $value = ucwords(str_replace('_', ' ', $config_array[$status]));
-                            return $value;
+                            return '<span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$status) .' m-badge--wide">'.$value.'</span>';
                         }
                     }else{
                         $config_array = array_flip(config('commanConfig.applicationStatus'));
                         $value = ucwords(str_replace('_', ' ', $config_array[$status]));
-                        return $value;
+                        return '<span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$status) .' m-badge--wide">'.$value.'</span>';
                     }
 
                 })
-                ->rawColumns(['radio','society_name', 'Status', 'building_name', 'society_address','date'])
+                ->rawColumns(['radio','society_name', 'Status', 'building_name', 'society_address','date','eeApplicationSociety.address'])
                 ->make(true);
         }        
     	        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
