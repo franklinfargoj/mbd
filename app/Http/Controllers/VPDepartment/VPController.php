@@ -63,7 +63,7 @@ class VPController extends Controller
                 })
                 ->editColumn('radio', function ($vp_application_data) {
                     $url = route('vp.view_application', $vp_application_data->id);
-                    return '<label class="m-radio m-radio--primary"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
+                    return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
                 })
                 ->editColumn('eeApplicationSociety.name', function ($vp_application_data) {
                     return $vp_application_data->eeApplicationSociety->name;

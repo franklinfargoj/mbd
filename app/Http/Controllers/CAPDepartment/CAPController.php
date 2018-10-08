@@ -59,7 +59,7 @@ class CAPController extends Controller
                 ->editColumn('radio', function ($cap_application_data) {
 
                     $url = route('cap.view_application', $cap_application_data->id);
-                    return '<label class="m-radio m-radio--primary"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
+                    return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
                 })
                 ->editColumn('eeApplicationSociety.name', function ($cap_application_data) {
                     return $cap_application_data->eeApplicationSociety->name;

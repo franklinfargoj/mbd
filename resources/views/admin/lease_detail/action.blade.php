@@ -1,4 +1,4 @@
-<li class="m-menu__item m-menu__item--active m-menu__item--submenu" id="sub-menu" aria-haspopup="true"
+{{--<li class="m-menu__item m-menu__item--active m-menu__item--submenu" id="sub-menu" aria-haspopup="true"
     m-menu-submenu-toggle="hover">
     <a href="javascript:void(0);" class="m-menu__link m-menu__toggle">
         <i class="m-menu__link-icon flaticon-line-graph"></i>
@@ -21,7 +21,7 @@
             </li>
         </ul>
     </div>
-</li>
+</li>--}}
 
 
 
