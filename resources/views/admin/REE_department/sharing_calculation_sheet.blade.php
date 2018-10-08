@@ -280,7 +280,7 @@
                                                     Total
                                                 </td>
                                                 <td class="text-center">
-                                                    <input class="form-control form-control--custom" type="text" name="total_additional_claims"
+                                                    <input readonly class="form-control form-control--custom" type="text" name="total_additional_claims"
                                                            id="total_additional_claims" value="{{ isset($calculationSheetDetails[0]->total_additional_claims) ? $calculationSheetDetails[0]->total_additional_claims : 0 }}" />
 
                                                 </td>
@@ -1198,7 +1198,7 @@
             var lr_cal = parseFloat(0.07 * $("#lr_val").val());
             var substract = parseFloat($("#total_permissible_construction_area").val()) - parseFloat($(
                 "#existing_construction_area").val());
-            $("#off_site_infrastructure_fee").val(substract * lr_cal);
+            $("#off_site_infrastructure_fee").val((substract * lr_cal).toFixed(2));
 
             $("#layout_approval_fee").val(1000 * $("#total_house").val());
 
@@ -1252,7 +1252,7 @@
 
         $(document).on("keyup", "#permissible_mattress_area", function () {
 
-            $("#revised_permissible_mattress_area").val(0.35 * $(this).val());
+            $("#revised_permissible_mattress_area").val((0.35 * $(this).val()).toFixed(2));
 
         });
 
@@ -1313,7 +1313,7 @@
             var lr_cal = parseFloat(0.07 * $("#lr_val").val());
             var substract = parseFloat($("#total_permissible_construction_area").val()) - parseFloat($(
                 "#existing_construction_area").val());
-            $("#off_site_infrastructure_fee").val(substract * lr_cal);
+            $("#off_site_infrastructure_fee").val((substract * lr_cal).toFixed(2));
 
         });
 
