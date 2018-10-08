@@ -286,16 +286,18 @@ class SocietyOfferLetterController extends Controller
                     $status = explode('_', array_keys(config('commanConfig.applicationStatus'), $ol_applications->olApplicationStatus[0]->status_id)[0]);
                     $status_display = '';
                     foreach($status as $status_value){ $status_display .= ucwords($status_value). ' ';}
-                    
+                    $status_color = '';
                     if($status_display == 'Sent To Society '){
                         $status_display = 'Approved';
                     }
-                    return $status_display;
+                    
+                    return '<span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$ol_applications->olApplicationStatus[0]->status_id) .' m-badge--wide">'.$status_display.'</span>';
                 })
                 ->editColumn('actions', function ($ol_applications) {
                     $status = explode('_', array_keys(config('commanConfig.applicationStatus'), $ol_applications->olApplicationStatus[0]->status_id)[0]);
                     $status_display = '';
                     foreach($status as $status_value){ $status_display .= ucwords($status_value). ' ';}
+                    // dd($ol_applications->offer_letter_document_path);
                     return view('frontend.society.actions', compact('ol_applications', 'status_display'))->render();
                 })
                 ->rawColumns(['application_no', 'application_master_id', 'created_at','status','actions'])

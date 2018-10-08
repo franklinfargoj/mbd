@@ -46,6 +46,8 @@
                     {{ Breadcrumbs::render('calculation_sheet_vp',$ol_application->id) }}
                 @elseif($route_name=='cap.show_calculation_sheet')
                     {{ Breadcrumbs::render('calculation_sheet_cap',$ol_application->id) }}
+                @elseif($route_name=='ree.show_calculation_sheet')
+                    {{ Breadcrumbs::render('REE_calculation',$ol_application->id) }}
                 @else
                 @endif
             </div>
@@ -241,9 +243,9 @@
                                                     अ नुसार अतिरिक्त हक्क
                                                 </td>
                                                 <td class="text-center">
-                                                    <span style="cursor: pointer" data-toggle="modal" >
-                                                        DCR A
-                                                    </span> 
+                                                    <input class="form-control form-control--custom" readonly type="text"
+                                                           name="dcr_a_val" id="dcr_a_val" value="{{ isset($calculationSheetDetails[0]->dcr_a_val) ? $calculationSheetDetails[0]->dcr_a_val.'%' : '0%' }}"/>
+
                                                     <!-- data-target="#dcr-a-modal" -->
                                                 </td>
                                             </tr>
@@ -476,9 +478,9 @@
                                                     क्षेत्रफळ
                                                 </td>
                                                 <td class="text-center">
-                                                     <span style="cursor: pointer" data-toggle="modal" >
-                                                        DCR B
-                                                    </span>
+                                                    <input class="form-control form-control--custom" readonly type="text"
+                                                           name="dcr_b_val" id="dcr_b_val" value="{{ isset($calculationSheetDetails[0]->dcr_b_val) ? $calculationSheetDetails[0]->dcr_b_val.'%' : '0%' }}"/>
+
                                                     <!-- data-target="#dcr-b-modal" -->
                                                 </td>
                                             </tr>
@@ -663,9 +665,12 @@
                                                     C नुसार shariung हक्क
                                                 </td>
                                                 <td class="text-center">
-                                                    <span style="cursor: pointer" data-toggle="modal" >
-                                                        DCR C
-                                                    </span>
+                                                    <input class="form-control form-control--custom" readonly type="text"
+                                                           name="dcr_c_society_val" id="dcr_c_society_val" value="{{ isset($calculationSheetDetails[0]->dcr_c_society_val) ? $calculationSheetDetails[0]->dcr_c_society_val.'%' : '0%' }}"/>
+
+                                                    <input class="form-control form-control--custom" readonly type="text"
+                                                           name="dcr_c_mhada_val" id="dcr_c_mhada_val" value="{{ isset($calculationSheetDetails[0]->dcr_c_mhada_val) ? $calculationSheetDetails[0]->dcr_c_mhada_val.'%' : '0%' }}"/>
+
                                                     <!-- data-target="#select-dcr" -->
                                                 </td>
                                             </tr>

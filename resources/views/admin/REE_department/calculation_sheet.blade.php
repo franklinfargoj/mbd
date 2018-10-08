@@ -1,19 +1,19 @@
 @extends('admin.layouts.sidebarAction')
 @section('actions')
-    @include('admin.REE_department.action',compact('ol_application'))
+@include('admin.REE_department.action',compact('ol_application'))
 @endsection
 @section('content')
 
 @if(session()->has('success'))
-  <div class="alert alert-success display_msg">
-      {{ session()->get('success') }}
-  </div>   
+<div class="alert alert-success display_msg">
+    {{ session()->get('success') }}
+</div>
 @endif
 
 @if(session()->has('error'))
-  <div class="alert alert-success display_msg">
-      {{ session()->get('success') }}
-  </div>   
+<div class="alert alert-success display_msg">
+    {{ session()->get('success') }}
+</div>
 @endif
 
 <div class="custom-wrapper">
@@ -24,39 +24,39 @@
                 <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
             </div>
         </div>
-        <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom m-portlet m-portlet--nav-tabs" role="tablist">
-                    <li class="nav-item m-tabs__item">
-                        <a class="nav-link m-tabs__link active show" data-toggle="tab" href="#one" role="tab"
-                            aria-selected="false">
-                            <i class="la la-cog"></i> परिगणनेचा तक्ता - अ
-                        </a>
-                    </li>
-                    <li class="nav-item m-tabs__item">
-                        <a class="nav-link m-tabs__link" data-toggle="tab" href="#two" role="tab" aria-selected="false">
-                            <i class="la la-briefcase"></i> Part payment
-                        </a>
-                    </li>
-                    <li class="nav-item m-tabs__item">
-                        <a class="nav-link m-tabs__link" data-toggle="tab" href="#three" role="tab" aria-selected="true">
-                            <i class="la la-bell-o"></i>1st installment
-                        </a>
-                    </li>
-                    <li class="nav-item m-tabs__item">
-                        <a class="nav-link m-tabs__link" data-toggle="tab" href="#four" role="tab" aria-selected="false">
-                            <i class="la la-cog"></i> 2nd, 3rd & 4th installment
-                        </a>
-                    </li>
-                    <li class="nav-item m-tabs__item">
-                        <a class="nav-link m-tabs__link" data-toggle="tab" href="#five" role="tab" aria-selected="false">
-                            <i class="la la-briefcase"></i>Summary
-                        </a>
-                    </li>
-                    <li class="nav-item m-tabs__item">
-                        <a class="nav-link m-tabs__link" data-toggle="tab" href="#six" role="tab" aria-selected="true">
-                            <i class="la la-bell-o"></i>REE - Note
-                        </a>
-                    </li>
-                </ul>
+        <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom m-portlet m-portlet--nav-tabs"
+            role="tablist">
+            <li class="nav-item m-tabs__item">
+                <a class="nav-link m-tabs__link active show" data-toggle="tab" href="#one" role="tab" aria-selected="false">
+                    <i class="la la-cog"></i> परिगणनेचा तक्ता - अ
+                </a>
+            </li>
+            <li class="nav-item m-tabs__item">
+                <a class="nav-link m-tabs__link" data-toggle="tab" href="#two" role="tab" aria-selected="false">
+                    <i class="la la-briefcase"></i> Part payment
+                </a>
+            </li>
+            <li class="nav-item m-tabs__item">
+                <a class="nav-link m-tabs__link" data-toggle="tab" href="#three" role="tab" aria-selected="true">
+                    <i class="la la-bell-o"></i>1st installment
+                </a>
+            </li>
+            <li class="nav-item m-tabs__item">
+                <a class="nav-link m-tabs__link" data-toggle="tab" href="#four" role="tab" aria-selected="false">
+                    <i class="la la-cog"></i> 2nd, 3rd & 4th installment
+                </a>
+            </li>
+            <li class="nav-item m-tabs__item">
+                <a class="nav-link m-tabs__link" data-toggle="tab" href="#five" role="tab" aria-selected="false">
+                    <i class="la la-briefcase"></i>Summary
+                </a>
+            </li>
+            <li class="nav-item m-tabs__item">
+                <a class="nav-link m-tabs__link" data-toggle="tab" href="#six" role="tab" aria-selected="true">
+                    <i class="la la-bell-o"></i>REE - Note
+                </a>
+            </li>
+        </ul>
         <div class="tab-content">
             <div class="tab-pane active show" id="one" role="tabpanel">
                 <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
@@ -1175,7 +1175,7 @@
                                                         <label class="custom-file-label" for="test-upload">Choose file
                                                             ...</label>
                                                     </div>
-                                                    <span class="text-danger" id="file_error" ></span>
+                                                    <span class="text-danger" id="file_error"></span>
                                                     <div class="mt-auto">
                                                         <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
                                                     </div>
@@ -1236,7 +1236,7 @@
             var anchor = location.hash ||
                 $('a[data-toggle=\'tab\']').first().attr('href');
             $('a[href=\'' + anchor + '\']').tab('show');
-            window.scrollTo(0, 0);            
+            window.scrollTo(0, 0);
         });
 
         // // **End** Save tabs location on window refresh or submit
@@ -1418,15 +1418,17 @@
 
 
     function PrintElem(elem) {
-        var mywindow = window.open('', 'PRINT', 'height=400,width=600');
+var printable = document.getElementById(elem).innerHTML;
+
+       var mywindow = window.open('', 'PRINT', 'height=400,width=600');
 
         mywindow.document.write('<html><head><title>Maharashtra Housing and development authority</title>');
         mywindow.document.write('</head><body >');
-        mywindow.document.write(document.getElementById(elem).innerHTML);
+        mywindow.document.write(printable);
         mywindow.document.write('</body></html>');
 
-        mywindow.document.close(); // necessary for IE >= 10
-        mywindow.focus(); // necessary for IE >= 10*/
+        mywindow.document.close();
+        mywindow.focus();
 
         mywindow.print();
         mywindow.close();
@@ -1434,23 +1436,22 @@
         return true;
     }
 
-    $("#uploadBtn").click(function(){
-      myfile = $("#test-upload").val();
-      var ext = myfile.split('.').pop();      
-      if (myfile != ''){        
-          
-          if (ext != "pdf"){
-            $("#file_error").text("Invalid type of file uploaded (only pdf allowed).");
+    $("#uploadBtn").click(function () {
+        myfile = $("#test-upload").val();
+        var ext = myfile.split('.').pop();
+        if (myfile != '') {
+
+            if (ext != "pdf") {
+                $("#file_error").text("Invalid type of file uploaded (only pdf allowed).");
+                return false;
+            } else {
+                $("#file_error").text("");
+                return true;
+            }
+        } else {
+            $("#file_error").text("This field required");
             return false;
-          }
-          else{
-            $("#file_error").text("");
-            return true;
-          }      
-      }else{
-        $("#file_error").text("This field required");
-        return false;
-      }
+        }
     });
 
     $(document).ready(function () {

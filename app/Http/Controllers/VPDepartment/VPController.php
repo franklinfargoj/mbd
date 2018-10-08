@@ -46,7 +46,7 @@ class VPController extends Controller
             ['data' => 'date','name' => 'date','title' => 'Date', 'class' => 'datatable-date'],
             ['data' => 'eeApplicationSociety.name','name' => 'eeApplicationSociety.name','title' => 'Society Name'],
             ['data' => 'eeApplicationSociety.building_no','name' => 'eeApplicationSociety.building_no','title' => 'building No'],
-            ['data' => 'eeApplicationSociety.address','name' => 'eeApplicationSociety.address','title' => 'Address'],
+            ['data' => 'eeApplicationSociety.address','name' => 'eeApplicationSociety.address','title' => 'Address', 'class' => 'datatable-address'],
             // ['data' => 'model','name' => 'model','title' => 'Model'],
              ['data' => 'Status','name' => 'Status','title' => 'Status'],
             // ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
@@ -72,7 +72,7 @@ class VPController extends Controller
                     return $vp_application_data->eeApplicationSociety->building_no;
                 })
                 ->editColumn('eeApplicationSociety.address', function ($vp_application_data) {
-                    return $vp_application_data->eeApplicationSociety->address;
+                    return "<span>".$vp_application_data->eeApplicationSociety->address."</span>";
                 })                
                 ->editColumn('date', function ($vp_application_data) {
                     return date(config('commanConfig.dateFormat'), strtotime($vp_application_data->submitted_at));
@@ -97,7 +97,7 @@ class VPController extends Controller
                     }
 
                 })
-                ->rawColumns(['radio','society_name', 'Status', 'building_name', 'society_address','date'])
+                ->rawColumns(['radio','society_name', 'Status', 'building_name', 'society_address','date','eeApplicationSociety.address'])
                 ->make(true);
         }        
     	        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());

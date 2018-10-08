@@ -159,28 +159,27 @@
                 <div class="col-xs-12 row row-list">
                     <div class="col-md-12">
                         <p class="font-weight-semi-bold">Remark by REE</p>
-                        <textarea rows="4" cols="63" name="demarkation_comments" readonly>{{(isset($applicationData->demarkation_verification_comment) ? $applicationData->demarkation_verification_comment : '')}}</textarea>
+                        <textarea rows="4" cols="63" name="demarkation_comments" readonly>{{(isset($applicationData->reeForwardLog) ? $applicationData->reeForwardLog->remark : '')}}</textarea>
                     </div>
                 </div>
                 <div class="col-xs-12 row row-list border-0">
                     <div class="col-md-12">
                         <p class="font-weight-semi-bold">Remark by CO</p>
-                        <textarea rows="4" cols="63" name="demarkation_comments" readonly>{{(isset($applicationData->demarkation_verification_comment) ? $applicationData->demarkation_verification_comment : '')}}</textarea>
+                        <textarea rows="4" cols="63" name="demarkation_comments" readonly>{{(isset($applicationData->coLog) ? $applicationData->coLog->remark : '')}}</textarea>
                     </div>
                 </div>
             </div>
         </div>
         <!-- end  -->
-
         <!-- Encrochment verification -->
-        @if($ree_head)
+        @if($ree_head && $applicationData->status_offer_letter != config('commanConfig.applicationStatus.sent_to_society'))
         <div class="m-portlet m-portlet--mobile m_panel">
             <div class="m-portlet__body">
                 <h3 class="section-title section-title--small">Send to Society:</h3>
                 <div class="col-xs-12 row">
                     <div class="col-md-12">
                         <p class="font-weight-semi-bold">Remark</p>
-                        <textarea rows="4" cols="63" name="remark">{{(isset($applicationData->demarkation_verification_comment) ? $applicationData->demarkation_verification_comment : '')}}</textarea>
+                        <textarea rows="4" cols="63" name="remark"></textarea>
                         <button type="submit" class="btn btn-primary">Send offer Letter </button>
                     </div>
                 </div>

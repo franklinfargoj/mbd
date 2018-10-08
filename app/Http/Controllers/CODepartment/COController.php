@@ -42,7 +42,7 @@ class COController extends Controller
             ['data' => 'date','name' => 'date','title' => 'Date', 'class' => 'datatable-date'],
             ['data' => 'eeApplicationSociety.name','name' => 'eeApplicationSociety.name','title' => 'Society Name'],
             ['data' => 'eeApplicationSociety.building_no','name' => 'eeApplicationSociety.building_no','title' => 'building No'],
-            ['data' => 'eeApplicationSociety.address','name' => 'eeApplicationSociety.address','title' => 'Address'],
+            ['data' => 'eeApplicationSociety.address','name' => 'eeApplicationSociety.address','title' => 'Address', 'class' => 'datatable-address'],
             // ['data' => 'model','name' => 'model','title' => 'Model'],
              ['data' => 'Status','name' => 'Status','title' => 'Status'],
             // ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
@@ -67,7 +67,7 @@ class COController extends Controller
                     return $co_application_data->eeApplicationSociety->building_no;
                 })
                 ->editColumn('eeApplicationSociety.address', function ($co_application_data) {
-                    return $co_application_data->eeApplicationSociety->address;
+                    return "<span>".$co_application_data->eeApplicationSociety->address."</span>";
                 })                
                 ->editColumn('date', function ($co_application_data) {
                     return date(config('commanConfig.dateFormat'), strtotime($co_application_data->submitted_at));
@@ -92,7 +92,7 @@ class COController extends Controller
                     }
 
                 })
-                ->rawColumns(['radio','society_name', 'Status', 'building_name', 'society_address','date','actions'])
+                ->rawColumns(['radio','society_name', 'Status', 'building_name', 'society_address','date','actions','eeApplicationSociety.address'])
                 ->make(true);
         }        
     	        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());

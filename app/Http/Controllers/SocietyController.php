@@ -104,7 +104,7 @@ class SocietyController extends Controller
             ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'society_name','name' => 'society_name','title' => 'Society Name'],
-            ['data' => 'societyVillage','name' => 'societyVillage.village_name','title' => 'Village Name'],
+            ['data' => 'societyVillage', 'class'=> 'datatable-village', 'name' => 'societyVillage.village_name','title' => 'Village Name'],
             ['data' => 'survey_number','name' => 'survey_number','title' => 'Survey Number'],
             ['data' => 'society_address','name' => 'society_address','title' => 'Society Address'],
             ['data' => 'surplus_charges', 'name' => 'surplus_charges', 'title' => 'Surplus Charges'],
@@ -192,7 +192,7 @@ class SocietyController extends Controller
                      {
                         $village_string.= $viilage->village_name.",";
                      }   
-                    return trim($village_string,','); 
+                    return "<span>".trim($village_string,',')."</span>";
                 })
                 ->editColumn('society_name', function ($society_data) {
                     return "<a href='".route('lease_detail.index', [$society_data->id])."'>$society_data->society_name</a>";
