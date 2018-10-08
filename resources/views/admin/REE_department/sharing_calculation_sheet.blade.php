@@ -1239,7 +1239,10 @@
 
         $(document).on("keyup", "#sqm_area_per_slot , #total_house", function () {
 
-            $("#permissible_proratata_area").val($("#sqm_area_per_slot").val() * $("#total_house").val());
+            var sqm_area_per_slot = (isNaN($("#sqm_area_per_slot").val())) ? 0 : $("#sqm_area_per_slot").val();
+            var total_house = (isNaN($("#total_house").val())) ? 0 : $("#total_house").val();
+
+            $("#permissible_proratata_area").val(sqm_area_per_slot * total_house);
 
             $("#total_permissible_construction_area").val(parseFloat($("#permissible_construction_area").val()) +
                 parseFloat($("#permissible_proratata_area").val()));
