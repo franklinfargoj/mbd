@@ -17,6 +17,9 @@
                 DyCE Scrutiny & Remark
             </h3>
             {{ Breadcrumbs::render('DYCE_scrutiny_co',$ol_application->id) }}
+            <div class="ml-auto btn-list">
+                <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+            </div>
         </div>
     </div>
     <div class="m-portlet m-portlet--mobile m_panel">

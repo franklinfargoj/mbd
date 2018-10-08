@@ -8,7 +8,7 @@
                 <div class="d-flex align-items-center">
                     <h3 class="m-subheader__title m-subheader__title--separator">Document Submitted By Society</h3>
                     {{ Breadcrumbs::render('document-submitted',$ol_application->id) }}
-                    <a href="{{ url('/ee') }}" class="btn btn-link ml-auto"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+                    <a href="{{ url()->previous() }}" class="btn btn-link ml-auto"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
                 </div>
             </div>
             <div class="m-portlet m-portlet--creative m-portlet--first m-portlet--bordered-semi mb-0 m-portlet--table">
