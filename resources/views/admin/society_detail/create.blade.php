@@ -158,7 +158,7 @@
                     <div class="col-lg-6 form-group">
                         <label class="col-form-label" for="other_land_id">Villages:</label>
                         <div class="m-input-icon m-input-icon--right">
-                            <select multiple class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
+                            <select title="Select Village" id="villages-select" multiple class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
                                 name="villages[]">
                                 @foreach($arrData['villages'] as $village)
                                 <option value="{{ $village->id  }}">{{ $village->village_name }}</option>
@@ -180,6 +180,7 @@
                         </div>
                     </div>
                 </div>
+            </div>
         </form>
     </div>
 </div>
