@@ -368,7 +368,12 @@
 
 /* Data Table starts here */
 
-td.datatable-village span {
+td.datatable-address span {
+    width: 200px;
+    display: inline-block;
+}
+
+td. span {
     width: 150px;
     text-overflow: ellipsis;
     overflow: hidden;

@@ -55,7 +55,7 @@ class EEController extends Controller
             ['data' => 'submitted_at','name' => 'submitted_at','title' => 'Date', 'class' => 'datatable-date'],
             ['data' => 'eeApplicationSociety.name','name' => 'eeApplicationSociety.name','title' => 'Society Name'],
             ['data' => 'eeApplicationSociety.building_no', 'name' => 'eeApplicationSociety.building_no', 'title' => 'Building No'],
-            ['data' => 'eeApplicationSociety.address','name' => 'eeApplicationSociety.address','title' => 'Address'],
+            ['data' => 'eeApplicationSociety.address','name' => 'eeApplicationSociety.address','title' => 'Address','class' => 'datatable-address'],
 //            ['data' => 'model','name' => 'model','title' => 'Model'],
             ['data' => 'Status','name' => 'current_status_id','title' => 'Status'],
             // ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
@@ -80,7 +80,7 @@ class EEController extends Controller
                     return $listArray->eeApplicationSociety->building_no;
                 })
                 ->editColumn('eeApplicationSociety.address', function ($listArray) {
-                    return $listArray->eeApplicationSociety->address;
+                    return "<span>".$listArray->eeApplicationSociety->address."</span>";
                 })
                 ->editColumn('Status', function ($listArray) use ($request) {
                     $status = $listArray->olApplicationStatusForLoginListing[0]->status_id;
@@ -105,7 +105,7 @@ class EEController extends Controller
                 // ->editColumn('actions', function ($ee_application_data) use($request) {
                 //     return view('admin.ee_department.actions', compact('ee_application_data', 'request'))->render();
                 // })
-                ->rawColumns(['radio','society_name', 'society_building_no', 'society_address', 'Status', 'submitted_at'])
+                ->rawColumns(['radio','society_name', 'society_building_no', 'society_address', 'Status', 'submitted_at','eeApplicationSociety.address'])
                 ->make(true);
         }
 

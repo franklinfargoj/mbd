@@ -51,7 +51,7 @@ class REEController extends Controller
             ['data' => 'date','name' => 'date','title' => 'Date', 'class' => 'datatable-date'],
             ['data' => 'eeApplicationSociety.name','name' => 'eeApplicationSociety.name','title' => 'Society Name'],
             ['data' => 'eeApplicationSociety.building_no','name' => 'eeApplicationSociety.building_no','title' => 'building No'],
-            ['data' => 'eeApplicationSociety.address','name' => 'eeApplicationSociety.address','title' => 'Address','searchable' => false],
+            ['data' => 'eeApplicationSociety.address','name' => 'eeApplicationSociety.address','title' => 'Address','class' => 'datatable-address', 'searchable' => false],
             // ['data' => 'model','name' => 'model','title' => 'Model'],
             ['data' => 'Status','name' => 'Status','title' => 'Status'],
             // ['data' => 'Model','name' => 'Model','title' => 'Model'],
@@ -70,7 +70,7 @@ class REEController extends Controller
                 })
             ->editColumn('radio', function ($ree_application_data) {
                 $url = route('ree.view_application', $ree_application_data->id);
-                return '<label class="m-radio m-radio--primary"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
+                return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
             })            
             ->editColumn('eeApplicationSociety.name', function ($ree_application_data) {
                 return $ree_application_data->eeApplicationSociety->name;
@@ -79,7 +79,7 @@ class REEController extends Controller
                 return $ree_application_data->eeApplicationSociety->building_no;
             })
             ->editColumn('eeApplicationSociety.address', function ($ree_application_data) {
-                return $ree_application_data->eeApplicationSociety->address;
+                return "<span>".$ree_application_data->eeApplicationSociety->address."</span>";
             })                
             ->editColumn('date', function ($ree_application_data) {
                 return date(config('commanConfig.dateFormat'), strtotime($ree_application_data->submitted_at));
@@ -107,7 +107,7 @@ class REEController extends Controller
            // ->editColumn('Model', function ($ree_application_data) {
            //          return $ree_application_data->ol_application_master->model;
            //      })
-            ->rawColumns(['radio','society_name', 'building_name', 'society_address','date','Status'])
+            ->rawColumns(['radio','society_name', 'building_name', 'society_address','date','Status','eeApplicationSociety.address'])
             ->make(true);
         }        
             $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
@@ -264,7 +264,6 @@ class REEController extends Controller
         $ol_application = $this->CommonController->getOlApplication($applicationId);
         $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
         $applicationLog = $this->CommonController->getCurrentStatus($applicationId);
-
         $societyData = OlApplication::with(['eeApplicationSociety'])
                 ->where('id',$applicationId)->orderBy('id','DESC')->first();
 
@@ -379,6 +378,12 @@ class REEController extends Controller
         $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
         $applicationData = OlApplication::with(['eeApplicationSociety'])
                 ->where('id',$applicationId)->orderBy('id','DESC')->first();
+
+        $this->CommonController->getREEForwardRevertLog($applicationData,$applicationId); 
+       
+       // get Co log
+        $co = Role::where('name',config('commanConfig.co_engineer'))->value('id');
+        $applicationData->coLog = OlApplicationStatus::where('application_id',$applicationId)->where('role_id',$co)->where('status_id', config('commanConfig.applicationStatus.forwarded'))->orderBy('id', 'desc')->first();   
 
         return view('admin.REE_department.approved_offer_letter',compact('applicationData','ol_application','ree_head'));
     }
