@@ -17,7 +17,6 @@
 
         <div style="" id="">
             <div style="width: 100%;">
-            {{  converNumberToWord(5120) }}
 
                 <!-- Header starts here -->
                 <div>
