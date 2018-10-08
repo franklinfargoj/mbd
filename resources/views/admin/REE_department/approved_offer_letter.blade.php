@@ -180,7 +180,7 @@
                 <div class="col-xs-12 row">
                     <div class="col-md-12">
                         <p class="font-weight-semi-bold">Remark</p>
-                        <textarea rows="4" cols="63" name="remark">{{(isset($applicationData->demarkation_verification_comment) ? $applicationData->demarkation_verification_comment : '')}}</textarea>
+                        <textarea rows="4" cols="63" name="remark"></textarea>
                         <button type="submit" class="btn btn-primary">Send offer Letter </button>
                     </div>
                 </div>
