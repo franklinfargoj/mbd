@@ -144,7 +144,8 @@
                     <div class="col-sm-6 field-col">
                         <div class="d-flex">
                             <span class="field-name">Name of Inspector:</span>
-                            <span class="field-value" style="width: 242px;word-break: break-all;"></span>
+                            <span class="field-value" style="width: 242px;word-break: break-all;">{{(isset($applicationData->site_visit_officers)
+                                ? $applicationData->site_visit_officers : '')}}</span>
                         </div>
                     </div>
                     <div class="col-sm-6 field-col">
