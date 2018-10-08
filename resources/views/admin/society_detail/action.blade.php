@@ -14,16 +14,15 @@
     <div class="m-menu__submenu" m-hidden-height="160" style=""><span class="m-menu__arrow"></span>
         <ul class="m-menu__subnav">
             <li class="m-menu__item m-menu__item--submenu" aria-haspopup="true">
-                <a class="m-menu__link" title="Add Society" href="{{route('society_detail.create')}}">
-                    <img class="radio-icon" src="{{ asset('/img/radio-icon.svg')}}">
-                    <span class="m-menu__link-text">Add Society</span>
-                </a>
-            </li>
-
-            <li class="m-menu__item m-menu__item--submenu" aria-haspopup="true">
                 <a class="m-menu__link" title="Add Land" href="{{route('village_detail.create')}}">
                     <img class="radio-icon" src="{{ asset('/img/radio-icon.svg')}}">
                     <span class="m-menu__link-text">Add Land</span>
+                </a>
+            </li>
+            <li class="m-menu__item m-menu__item--submenu" aria-haspopup="true">
+                <a class="m-menu__link" title="Add Society" href="{{route('society_detail.create')}}">
+                    <img class="radio-icon" src="{{ asset('/img/radio-icon.svg')}}">
+                    <span class="m-menu__link-text">Add Society</span>
                 </a>
             </li>
         </ul>

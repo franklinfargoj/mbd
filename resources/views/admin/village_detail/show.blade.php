@@ -9,7 +9,7 @@
             <h3 class="m-subheader__title m-subheader__title--separator">View Land</h3>
             {{ Breadcrumbs::render('village_view',$arrData['village_data']['id']) }}
             <div class="ml-auto btn-list">
-                <a href="{{ url('/village_detail/') }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+                <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
             </div>
         </div>
     </div>
