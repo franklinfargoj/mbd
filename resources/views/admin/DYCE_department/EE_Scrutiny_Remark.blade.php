@@ -297,8 +297,7 @@
                                                         </div>
                                                         <div class="col-sm-8">
                                                             <input type="text" class="form-control form-control--custom"
-                                                                id="name" value="{{(isset($eeScrutinyData->eeApplicationSociety->name) ? $eeScrutinyData->eeApplicationSociety->name : '')}}"
-                                                                readonly>
+                                                                id="name" value="{{(isset($eeScrutinyData->eeApplicationSociety->name) ? $eeScrutinyData->eeApplicationSociety->name : '')}}" readonly>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -309,11 +308,16 @@
                                                         </div>
                                                         <div class="col-sm-8">
                                                             <input type="text" class="form-control form-control--custom"
-                                                                id="building-no" placeholder="" value="{{(isset($eeScrutinyData->eeApplicationSociety->building_no) ? $eeScrutinyData->eeApplicationSociety->building_no : '')}}"
-                                                                readonly>
+                                                                id="building-no" placeholder="" value="{{(isset($eeScrutinyData->eeApplicationSociety->building_no) ? $eeScrutinyData->eeApplicationSociety->building_no : '')}}" readonly>
                                                         </div>
                                                     </div>
                                                 </div>
+                                            </div> 
+                                            <div class="tab-content">
+
+                                                <!-- Consent Verification -->
+                                                <div class="tab-pane active" id="verification">
+                                            <div class="row">
                                                 <div class="col-sm-6">
                                                     <div class="form-group row">
                                                         <div class="col-sm-4 d-flex align-items-center">
@@ -321,8 +325,7 @@
                                                         </div>
                                                         <div class="col-sm-8">
                                                             <input type="text" class="form-control form-control--custom"
-                                                                id="name" value="{{(isset($eeScrutinyData->Consent_checklist->layout) ? $eeScrutinyData->Consent_checklist->layout : '')}}"
-                                                                readonly>
+                                                                id="name" value="{{(isset($eeScrutinyData->Consent_checklist->layout) ? $eeScrutinyData->Consent_checklist->layout : '')}}" readonly>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -333,8 +336,7 @@
                                                         </div>
                                                         <div class="col-sm-8">
                                                             <input type="text" class="form-control form-control--custom"
-                                                                id="building-no" placeholder="" value="{{(isset($eeScrutinyData->Consent_checklist->details_of_notice) ? $eeScrutinyData->Consent_checklist->details_of_notice : '')}}"
-                                                                readonly>
+                                                                id="building-no" placeholder="" value="{{(isset($eeScrutinyData->Consent_checklist->details_of_notice) ? $eeScrutinyData->Consent_checklist->details_of_notice : '')}}" readonly>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -345,8 +347,7 @@
                                                         </div>
                                                         <div class="col-sm-8">
                                                             <input type="text" class="form-control form-control--custom"
-                                                                id="name" value="{{(isset($eeScrutinyData->Consent_checklist->investigation_officer_name) ? $eeScrutinyData->Consent_checklist->investigation_officer_name : '')}}"
-                                                                readonly>
+                                                                id="name" value="{{(isset($eeScrutinyData->Consent_checklist->investigation_officer_name) ? $eeScrutinyData->Consent_checklist->investigation_officer_name : '')}}" readonly>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -357,17 +358,11 @@
                                                         </div>
                                                         <div class="col-sm-8">
                                                             <input type="text" class="form-control form-control--custom"
-                                                                id="building-no" placeholder="" value="{{(isset($eeScrutinyData->Consent_checklist->date_of_investigation) ? $eeScrutinyData->Consent_checklist->date_of_investigation : '')}}"
-                                                                readonly>
+                                                                id="building-no" placeholder="" value="{{(isset($eeScrutinyData->Consent_checklist->date_of_investigation) ? $eeScrutinyData->Consent_checklist->date_of_investigation : '')}}" readonly>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="tab-content">
-
-                                                <!-- Consent Verification -->
-                                                <div class="tab-pane active" id="verification">
-
+                                            </div>  
                                                     <div class="table-checklist m-portlet__body m-portlet__body--table">
                                                         <div class="table-responsive">
                                                             <table class="table">

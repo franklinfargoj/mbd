@@ -268,7 +268,30 @@
                                                 </li>
                                             </ul>
                                         </div>
-                                        
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-4 d-flex align-items-center">
+                                                            <label for="name">संस्थेचे नाव:</label>
+                                                        </div>
+                                                        <div class="col-sm-8">
+                                                            <input type="text" class="form-control form-control--custom"
+                                                                id="name" value="{{(isset($eeScrutinyData->eeApplicationSociety->name) ? $eeScrutinyData->eeApplicationSociety->name : '')}}" readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-4 d-flex align-items-center">
+                                                            <label for="building-no">इमारत क्र:</label>
+                                                        </div>
+                                                        <div class="col-sm-8">
+                                                            <input type="text" class="form-control form-control--custom"
+                                                                id="building-no" placeholder="" value="{{(isset($eeScrutinyData->eeApplicationSociety->building_no) ? $eeScrutinyData->eeApplicationSociety->building_no : '')}}" readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>                                        
                                     </div>
                                     <div class="tab-content">
 
