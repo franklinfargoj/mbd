@@ -42,7 +42,7 @@ class CAPController extends Controller
             ['data' => 'date','name' => 'date','title' => 'Date', 'class' => 'datatable-date'],
             ['data' => 'eeApplicationSociety.name','name' => 'eeApplicationSociety.name','title' => 'Society Name'],
             ['data' => 'eeApplicationSociety.building_no','name' => 'eeApplicationSociety.building_no','title' => 'building No'],
-            ['data' => 'eeApplicationSociety.address','name' => 'eeApplicationSociety.address','title' => 'Address'],
+            ['data' => 'eeApplicationSociety.address','name' => 'eeApplicationSociety.address','title' => 'Address', 'class' => 'datatable-address'],
             // ['data' => 'model','name' => 'model','title' => 'Model'],
              ['data' => 'Status','name' => 'Status','title' => 'Status'],
             // ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
@@ -68,7 +68,7 @@ class CAPController extends Controller
                     return $cap_application_data->eeApplicationSociety->building_no;
                 })
                 ->editColumn('eeApplicationSociety.address', function ($cap_application_data) {
-                    return $cap_application_data->eeApplicationSociety->address;
+                    return "<span>".$cap_application_data->eeApplicationSociety->address."</span>";
                 })                
                 ->editColumn('date', function ($cap_application_data) {
                     return date(config('commanConfig.dateFormat'), strtotime($cap_application_data->submitted_at));
@@ -93,7 +93,7 @@ class CAPController extends Controller
                     }
 
                 })
-                ->rawColumns(['radio','society_name', 'Status', 'building_name', 'society_address','date'])
+                ->rawColumns(['radio','society_name', 'Status', 'building_name', 'society_address','date','eeApplicationSociety.address'])
                 ->make(true);
         }        
     	        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
@@ -171,6 +171,8 @@ class CAPController extends Controller
     public function displayCAPNote(Request $request, $applicationId){
 
         $ol_application = $this->CommonController->getOlApplication($applicationId);
+        $ol_application->status = $this->CommonController->getCurrentStatus($applicationId);
+        // dd($ol_application->status->status_id);
         $capNote = $this->CommonController->downloadCapNote($applicationId);
         return view('admin.cap_department.cap_notes',compact('applicationId','capNote','ol_application'));
     }  

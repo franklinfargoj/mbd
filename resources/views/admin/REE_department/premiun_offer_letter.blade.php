@@ -19,8 +19,6 @@
         @else
         <div style="" id="">
             <div style="width: 100%;">
-            {{  converNumberToWord(5120) }}
-
                 <!-- Header starts here -->
                 <div>
                     <div style="margin-top: 30px; text-align: right;">
@@ -206,7 +204,7 @@
                             <tr>
                                 <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;"></td>
                                 <td colspan="2" style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Rs.
-                                    Nine Crore Twenty One Lakh Ninety Five Thousand Four Hundred & Seventy One Only.</td>
+                                    {{  converNumberToWord(($calculationData->premiumCalculationSheet) !="" ? $calculationData->premiumCalculationSheet->total_amount_in_rs : '' ) }}</td>
                             </tr>
                             <tr>
                                 <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;"></td>
@@ -348,15 +346,13 @@
                         of NOC for said building if applicable.</p>
                     <p style="margin-bottom: 5px; margin-top: 5px;">16) Your society will abide by all terms and conditions
                         as may be given under NOC letter.</p>
-                    <p style="margin-bottom: 5px; margin-top: 5px;">An amount of Rs. <span style="font-weight: bold"> {{($calculationData->premiumCalculationSheet != "" ? $calculationData->premiumCalculationSheet->offsite_infrastructure_charges_to_municipal_corporation : '')}} /- </span>(Rs. Two Crore Sixty
-                        Lakh Ninety Five Thousand One Hundred & Twelve Only.) may be paid in the office of the Assistant
+                    <p style="margin-bottom: 5px; margin-top: 5px;">An amount of Rs. <span style="font-weight: bold"> {{($calculationData->premiumCalculationSheet != "" ? $calculationData->premiumCalculationSheet->offsite_infrastructure_charges_to_municipal_corporation : '')}} /- </span>(Rs.  {{  converNumberToWord(($calculationData->premiumCalculationSheet) !="" ? $calculationData->premiumCalculationSheet->offsite_infrastructure_charges_to_municipal_corporation : '' ) }}) may be paid in the office of the Assistant
                         Accounts Officer/ Mumbai Board, Third Floor, Griha Nirman Bhavan, Bandra (E), Mumbai – 400051 by
                         Demand Draft/ Pay Order within <span style="font-weight: bold"> SIX months </span> from the date of issue of this letter and produce
                         certified Xerox copy of the receipt in this office.</p>
 
                     <p style="margin-bottom: 5px; margin-top: 5px;">Your society should pay offsite infrastructure charges
-                        as per modified DCR 33(5) clause (5) an amount of Rs. <span style="font-weight: bold"> {{($calculationData->premiumCalculationSheet != "" ? $calculationData->premiumCalculationSheet->offsite_infrastructure_charges_to_municipal_corporation : '')}} /- </span> (In words Rs. Ninety Seven Lakh
-                        Ninety Two Thousand Six Hundred & Forty Six Only) payable to MCGM, in the office of the Executive
+                        as per modified DCR 33(5) clause (5) an amount of Rs. <span style="font-weight: bold"> {{($calculationData->premiumCalculationSheet != "" ? $calculationData->premiumCalculationSheet->offsite_infrastructure_charges_to_municipal_corporation : '')}} /- </span> (In words Rs. {{  converNumberToWord(($calculationData->premiumCalculationSheet) !="" ? $calculationData->premiumCalculationSheet->offsite_infrastructure_charges_to_municipal_corporation : '' ) }}) payable to MCGM, in the office of the Executive
                         Engineer, Building Permission Cell, Greater Mumbai, MHADA, Bandra (E),Mumbai 400 051., within <span style="font-weight: bold"> SIX
                         months </span> from the date of issue of this letter and produce certified Xerox copy of the receipt in
                         this office.</p>

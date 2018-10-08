@@ -70,7 +70,7 @@
 		<span class="m-menu__link-text">Offer Letter</span></a>
 	</li>
 
-@elseif($ol_application->status_offer_letter == config('commanConfig.applicationStatus.offer_letter_approved'))
+@elseif($ol_application->status_offer_letter == config('commanConfig.applicationStatus.offer_letter_approved') || $ol_application->status_offer_letter == config('commanConfig.applicationStatus.sent_to_society'))
 	<li class="m-menu__item m-menu__item--submenu" aria-haspopup="true">
 		<a class="m-menu__link m-menu__toggle" title="Offer Letter" href="{{route('ree.approved_offer_letter',$ol_application->id)}}">
 		<img class="radio-icon" src="{{ asset('/img/radio-icon.svg')}}">
