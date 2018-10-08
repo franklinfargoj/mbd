@@ -18,7 +18,7 @@
                 </div>
             </div>
         </div>
-        <div id="filter" class="m-portlet filter-wrap collapse">
+        <div id="filter" class="m-portlet filter-wrap collapse show">
             <div class="row align-items-center">
                 <div class="col-md-12 order-2 order-xl-1">
                     <!-- <div class="form-group m-form__group row align-items-center"> -->

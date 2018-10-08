@@ -36,9 +36,9 @@
 
 .m-aside-left.m-aside-left--skin-dark {
     background: rgb(252, 118, 79);
-    background: -moz-linear-gradient(top, rgba(252, 118, 79, 1) 1%, rgba(255, 194, 99, 1) 100%);
-    background: -webkit-linear-gradient(top, rgba(252, 118, 79, 1) 1%, rgba(255, 194, 99, 1) 100%);
-    background: linear-gradient(to bottom, rgba(252, 118, 79, 1) 1%, rgba(255, 194, 99, 1) 100%);
+    background: -moz-linear-gradient(top, rgb(253, 131, 96) 1%, rgba(255, 194, 99, 1) 100%);
+    background: -webkit-linear-gradient(top, rgb(253, 131, 96) 1%, rgba(255, 194, 99, 1) 100%);
+    background: linear-gradient(to bottom, rgb(253, 131, 96) 1%, rgba(255, 194, 99, 1) 100%);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fc764f', endColorstr='#ffc263', GradientType=0);
 }
 
@@ -719,11 +719,11 @@ td. span {
 }
 
 .m-subheader .m-subheader__title {
-    color: #6c6e7b;
+    color: #858b92;
 }
 
 .m-subheader .m-subheader__title.m-subheader__title--separator {
-    border-right: 1px solid #868e96;
+    border-right: 1px solid #afb8c1;
 }
 
 .m-subheader {
