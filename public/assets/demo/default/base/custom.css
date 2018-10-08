@@ -62,18 +62,17 @@
     color: #f7f8fa;
 }
 
-.m-aside-menu.m-aside-menu--skin-dark .m-menu__link-text {
-    max-width: 135px;
-    text-overflow: ellipsis;
-    overflow: hidden;
-}
+/*.m-aside-menu.m-aside-menu--skin-dark .m-menu__link-text {*/
+    /*max-width: 135px;*/
+    /*text-overflow: ellipsis;*/
+    /*overflow: hidden;*/
+/*}*/
 
 .m-aside-menu.m-aside-menu--skin-dark .m-menu__nav>.m-menu__item.m-menu__item--active>.m-menu__heading .m-menu__link-text,
 .m-aside-menu.m-aside-menu--skin-dark .m-menu__nav>.m-menu__item.m-menu__item--active>.m-menu__link .m-menu__link-text,
 .m-aside-menu.m-aside-menu--skin-dark .m-menu__nav>.m-menu__item.m-menu__item--active>.m-menu__heading .m-menu__link-icon,
 .m-aside-menu.m-aside-menu--skin-dark .m-menu__nav>.m-menu__item.m-menu__item--active>.m-menu__link .m-menu__link-icon {
     color: #f7f8fa;
-    white-space: nowrap;
     font-size: 18px;
 }
 
@@ -368,6 +367,14 @@
 }
 
 /* Data Table starts here */
+
+td.datatable-village span {
+    width: 150px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    display: inline-block;
+}
 
 .dataTables_wrapper .dataTables_paginate .pagination {
     margin-top: 0.755em;
