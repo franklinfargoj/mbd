@@ -1342,8 +1342,13 @@
 
         $(document).on("change", "input[type=radio][name=dcr_a_val]", function () {
 
-            var total_claims = ($(this).val() / 100) * $("#permissible_mattress_area").val() * $("#total_house").val();
+            var dcr_a_val = (isNaN($(this).val())) ? 0 : $(this).val();
+            var permissible_mattress_area = (isNaN($("#permissible_mattress_area").val())) ? 0 : $("#permissible_mattress_area").val();
+            var total_house = (isNaN($("#total_house").val())) ? 0 : $("#total_house").val();
+
+            var total_claims = (dcr_a_val / 100) * permissible_mattress_area * total_house;
             $("#total_additional_claims").val(total_claims.toFixed(2));
+
 
             $("#total_rehabilitation_mattress_area_with_dcr").val(parseFloat($("#total_additional_claims").val()) +
                 parseFloat($("#total_rehabilitation_mattress_area").val()));
@@ -1352,9 +1357,12 @@
                 "#total_rehabilitation_mattress_area_with_dcr").val()) * 1.2);
         });
         $(document).on("keyup", "#total_house, #permissible_mattress_area", function () {
-            var total_claims = ($("input[type=radio][name=dcr_a_val]:checked").val() / 100) * $(
-                "#permissible_mattress_area").val() * $("#total_house").val();
 
+            var dcr_a_val = (isNaN($("input[type=radio][name=dcr_a_val]:checked").val())) ? 0 : $("input[type=radio][name=dcr_a_val]:checked").val();
+            var permissible_mattress_area = (isNaN($("#permissible_mattress_area").val())) ? 0 : $("#permissible_mattress_area").val();
+            var total_house = (isNaN($("#total_house").val())) ? 0 : $("#total_house").val();
+
+            var total_claims = (dcr_a_val / 100) * permissible_mattress_area * total_house;
             $("#total_additional_claims").val(total_claims.toFixed(2));
 
             $("#total_rehabilitation_mattress_area_with_dcr").val(parseFloat($("#total_additional_claims").val()) +
