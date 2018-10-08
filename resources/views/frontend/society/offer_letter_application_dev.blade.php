@@ -54,10 +54,8 @@
        <button type="submit" id="save_offer_letter_application_self" class="btn btn-primary">
        Submit Application
        </button>
-        <a href="{{ route('society_offer_letter_dashboard') }}">
-           <button id="m_login_signin_submit" class="btn btn-primary">
+        <a href="{{ route('society_offer_letter_dashboard') }}" class="btn btn-primary">
            Cancel
-           </button>
        </a>
     </div>
 </form>

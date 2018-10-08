@@ -88,12 +88,12 @@ class VPController extends Controller
                         if($request->update_status == $status){
                             $config_array = array_flip(config('commanConfig.applicationStatus'));
                             $value = ucwords(str_replace('_', ' ', $config_array[$status]));
-                            return $value;
+                            return '<span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$status) .' m-badge--wide">'.$value.'</span>';
                         }
                     }else{
                         $config_array = array_flip(config('commanConfig.applicationStatus'));
                         $value = ucwords(str_replace('_', ' ', $config_array[$status]));
-                        return $value;
+                        return '<span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$status) .' m-badge--wide">'.$value.'</span>';
                     }
 
                 })
