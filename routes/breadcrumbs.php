@@ -79,6 +79,11 @@ Breadcrumbs::for('society_detail_edit', function ($trail,$id) {
 	$trail->push('Edit Society', route('society_detail.edit',$id));
 });
 
+Breadcrumbs::for('society_detail_view', function ($trail,$id) {
+	$trail->parent('society_detail',$id);
+	$trail->push('View Society', route('society_detail.show',$id));
+});
+
 Breadcrumbs::for('lease_detail', function ($trail,$id) {
 	$trail->push('Lease Detail', route('lease_detail.index',['id'=>$id]));
 });
@@ -197,6 +202,11 @@ Breadcrumbs::for('society_EE_documents_cap', function ($trail,$id) {
 Breadcrumbs::for('EE_scrutiny_cap', function ($trail,$id) {
     $trail->parent('cap');
     $trail->push('EE_scrutiny', route('cap.EE_scrutiny_remark',$id));
+});
+
+Breadcrumbs::for('Forward_Application_ee', function ($trail,$id) {
+    $trail->parent('ee');
+    $trail->push('Forward_Application_ee', route('ee.forward_application',$id));
 });
 
 Breadcrumbs::for('DYCE_scrutiny_cap', function ($trail,$id) {

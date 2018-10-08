@@ -25,8 +25,11 @@
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
-            <h3 class="m-subheader__title">DyCE Scrutiny & Remark</h3>
+            <h3 class="m-subheader__title m-subheader__title--separator">DyCE Scrutiny & Remark</h3>
             {{ Breadcrumbs::render('scrutiny_remark-dyce',$ol_application->id) }}
+            <div class="ml-auto btn-list">
+                <a href="{{ session()->get('redirect_to') }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+            </div>
         </div>
     </div>
     <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
@@ -254,7 +257,7 @@
 						</h3>
 					</div>
 					<div class="remarks-suggestions">
-						<div class="mt-3">
+						<div class="mt-3 table--box-input">
 							<label for="demarkation_comments">Comments:</label>
 							<textarea id="demarkation_comments" rows="5" cols="30" class="form-control form-control--custom" name="demarkation_comments" {{(!($is_view) ? 'readonly' : '' )}}>{{(isset($applicationData->demarkation_verification_comment) ? $applicationData->demarkation_verification_comment : '')}}</textarea>
 						</div>
@@ -287,7 +290,7 @@
 								<span></span>
 							</label>
 						</div>
-						<div class="mt-3">
+						<div class="mt-3 table--box-input">
 							<label class="e_comments" for="encrochment_comments">If Yes, Comments:</label>
 							<textarea rows="5" cols="30" class="form-control form-control--custom" id="encrochment_comments" name="encrochment_comments" {{(!($is_view) ? 'readonly' : '' )}}>{{(isset($applicationData->encrochment_verification_comment) ? $applicationData->encrochment_verification_comment : '')}}</textarea>
 							<span class="error" id="encrochment_comments_error" style="display:none;color:#f4516c">This feild is required</span>
