@@ -561,7 +561,7 @@ class CommonController extends Controller
 
     public function getOlApplication($applicationId){
 
-        $ol_application = OlApplication::where('id', $applicationId)->with(['request_form', 'applicationMasterLayout','eeApplicationSociety'])->first();   
+        $ol_application = OlApplication::where('id', $applicationId)->with(['request_form', 'applicationMasterLayout','eeApplicationSociety','ol_application_master'])->first();
         
         return $ol_application;      
     }   

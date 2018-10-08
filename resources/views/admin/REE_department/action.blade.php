@@ -42,7 +42,13 @@
     </a>
 </li>
 
-@if($ol_application->model->ol_application_master->model == 'Premium')
+@if(session()->get('role_name') != config('commanConfig.ree_junior'))
+<li class="m-menu__item m-menu__item--submenu" aria-haspopup="true">
+      <a class="m-menu__link m-menu__toggle" title="View Calculation sheet" href="{{url('calculation_sheet_ree',$ol_application->id)}}">
+      <img class="radio-icon" src="{{ asset('/img/radio-icon.svg')}}">
+      <span class="m-menu__link-text">View Calculation sheet</span></a>
+</li>
+@elseif($ol_application->model->ol_application_master->model == 'Premium')
 <li class="m-menu__item m-menu__item--submenu" aria-haspopup="true">
     <a class="m-menu__link m-menu__toggle" title="Prepare Calculation sheet" href="{{url('ol_calculation_sheet',$ol_application->id)}}">
     <img class="radio-icon" src="{{ asset('/img/radio-icon.svg')}}">
