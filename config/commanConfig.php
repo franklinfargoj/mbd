@@ -38,7 +38,17 @@ return [
         'offer_letter_approved' => 6,
         'sent_to_society' => 7
     ],
-   
+    
+    'applicationStatusColor' => [
+        '1' => 'metal',
+        '2' => 'info',
+        '3' => 'danger',
+        '4' => 'metal',
+        '5' => 'purple',
+        '6' => 'purple',
+        '7' => 'success'
+    ],
+
     'architect_applicationStatus' => [
         'new_application' => 1,
         'scrutiny_pending' => 2,
