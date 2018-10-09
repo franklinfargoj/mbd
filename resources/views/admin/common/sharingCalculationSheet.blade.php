@@ -1065,22 +1065,22 @@
                 }
             });
 
-            $("#total_permissible_construction_area").val(parseFloat($("#permissible_construction_area").val()) + parseFloat($("#permissible_proratata_area").val()) );
+            $("#total_permissible_construction_area").attr('value',parseFloat($("#permissible_construction_area").val()) + parseFloat($("#permissible_proratata_area").val()) );
 
-            $("#remaining_area").val(parseFloat($("#total_permissible_construction_area").val()) - parseFloat($("#total_rehabilitation_construction_area").val()) - parseFloat($("#mattress_area_for_construction_area").val()) );
+            $("#remaining_area").attr('value',parseFloat($("#total_permissible_construction_area").val()) - parseFloat($("#total_rehabilitation_construction_area").val()) - parseFloat($("#mattress_area_for_construction_area").val()) );
 
             var lr_cal = parseFloat(0.07 * $("#lr_val").val());
             var substract = parseFloat($("#total_permissible_construction_area").val()) - parseFloat($("#existing_construction_area").val());
-            $("#off_site_infrastructure_fee").val(substract * lr_cal );
+            $("#off_site_infrastructure_fee").attr('value',substract * lr_cal );
 
-            $("#layout_approval_fee").val(1000 * $("#total_house").val());
+            $("#layout_approval_fee").attr('value',1000 * $("#total_house").val());
 
 
                 var total_amount_in_rs = 0;
                 $(".total_amount_in_rs").each(function(){
                     total_amount_in_rs += +$(this).val();
                 });
-                $("#total_amount_in_rs").val(total_amount_in_rs);
+                $("#total_amount_in_rs").attr('value',total_amount_in_rs);
 
 
 
@@ -1096,97 +1096,97 @@
             $(".total_area").each(function(){
                 sum += +$(this).val();
             });
-            $("#area_of_total_plot").val(sum);
+            $("#area_of_total_plot").attr('value',sum);
         });
 
         $(document).on("keyup", ".total_area , #permissible_carpet_area_coordinates", function() {
 
-            $("#permissible_construction_area").val($("#area_of_total_plot").val()*$("#permissible_carpet_area_coordinates").val());
+            $("#permissible_construction_area").attr('value',$("#area_of_total_plot").val()*$("#permissible_carpet_area_coordinates").val());
 
-            $("#total_permissible_construction_area").val(parseFloat($("#permissible_construction_area").val()) + parseFloat($("#permissible_proratata_area").val()) );
+            $("#total_permissible_construction_area").attr('value',parseFloat($("#permissible_construction_area").val()) + parseFloat($("#permissible_proratata_area").val()) );
 
 
         });
 
         $(document).on("keyup", "#sqm_area_per_slot , #total_house", function() {
 
-            $("#permissible_proratata_area").val($("#sqm_area_per_slot").val()*$("#total_house").val());
+            $("#permissible_proratata_area").attr('value',$("#sqm_area_per_slot").val()*$("#total_house").val());
 
-            $("#total_permissible_construction_area").val(parseFloat($("#permissible_construction_area").val()) + parseFloat($("#permissible_proratata_area").val()) );
+            $("#total_permissible_construction_area").attr('value',parseFloat($("#permissible_construction_area").val()) + parseFloat($("#permissible_proratata_area").val()) );
 
 
         });
 
         $(document).on("keyup", "#permissible_mattress_area", function() {
 
-            $("#revised_permissible_mattress_area").val(0.35*$(this).val());
+            $("#revised_permissible_mattress_area").attr('value',0.35*$(this).val());
 
         });
 
         $(document).on("keyup", "#revised_increased_area_for_residential_use", function() {
 
-            $("#total_rehabilitation_mattress_area").val($("#total_house").val()*$(this).val());
+            $("#total_rehabilitation_mattress_area").attr('value',$("#total_house").val()*$(this).val());
 
-            $("#total_rehabilitation_mattress_area_with_dcr").val(parseFloat($("#total_additional_claims").val()) + parseFloat($("#total_rehabilitation_mattress_area").val()));
+            $("#total_rehabilitation_mattress_area_with_dcr").attr('value',parseFloat($("#total_additional_claims").val()) + parseFloat($("#total_rehabilitation_mattress_area").val()));
 
-            $("#total_rehabilitation_construction_area").val( parseFloat($("#total_rehabilitation_mattress_area_with_dcr").val()) * 1.2 );
+            $("#total_rehabilitation_construction_area").attr('value', parseFloat($("#total_rehabilitation_mattress_area_with_dcr").val()) * 1.2 );
         });
         $(document).on("keyup", "#lr_val , #rc_val", function() {
 
             var div = parseFloat($("#lr_val").val()) / parseFloat($("#rc_val").val());
 
-            $("#lr_rc_division_val").val(div.toFixed(2));
+            $("#lr_rc_division_val").attr('value',div.toFixed(2));
 
         });
 
         $(document).on("keyup", "#total_rehabilitation_construction_area", function() {
 
-            $("#mattress_area_for_construction_area").val((($("input[type=radio][name=dcr_b_val]").val() / 100) * $(this).val()).toFixed(2));
+            $("#mattress_area_for_construction_area").attr('value',(($("input[type=radio][name=dcr_b_val]").val() / 100) * $(this).val()).toFixed(2));
 
         });
 
         $(document).on("change", "input[type=radio][name=dcr_b_val]", function() {
 
-            $("#mattress_area_for_construction_area").val((($(this).val() / 100) * $("#total_rehabilitation_construction_area").val()).toFixed(2));
+            $("#mattress_area_for_construction_area").attr('value',(($(this).val() / 100) * $("#total_rehabilitation_construction_area").val()).toFixed(2));
 
         });
 
         $(document).on("keyup", ".remaining_area", function() {
-            $("#remaining_area").val(parseFloat($("#total_permissible_construction_area").val()) - parseFloat($("#total_rehabilitation_construction_area").val()) - parseFloat($("#mattress_area_for_construction_area").val()) );
+            $("#remaining_area").attr('value',parseFloat($("#total_permissible_construction_area").val()) - parseFloat($("#total_rehabilitation_construction_area").val()) - parseFloat($("#mattress_area_for_construction_area").val()) );
 
         });
 
 
         $(document).on("change", "input[type=radio][name=dcr_c_society_val]", function() {
 
-            $("#society_share").val((($(this).val() / 100) * $("#remaining_area").val()).toFixed(2));
+            $("#society_share").attr('value',(($(this).val() / 100) * $("#remaining_area").val()).toFixed(2));
 
         });
         $(document).on("change", "input[type=radio][name=dcr_c_mhada_val]", function() {
 
             var mhada_share = (($(this).val() / 100) * $("#remaining_area").val()).toFixed(2);
-            $("#mhada_share").val(mhada_share);
-            $("#mhada_share_with_fungib").val((mhada_share * 1.35).toFixed(2));
+            $("#mhada_share").attr('value',mhada_share);
+            $("#mhada_share_with_fungib").attr('value',(mhada_share * 1.35).toFixed(2));
 
         });
 
         $(document).on("keyup", ".infra_fee", function() {
             var lr_cal = parseFloat(0.07 * $("#lr_val").val());
            var substract = parseFloat($("#total_permissible_construction_area").val()) - parseFloat($("#existing_construction_area").val());
-            $("#off_site_infrastructure_fee").val(substract * lr_cal );
+            $("#off_site_infrastructure_fee").attr('value',substract * lr_cal );
 
         });
 
 
         $(document).on("keyup", "#existing_construction_area", function() {
-            $("#amount_to_be_paid_to_municipal").val((5/7 * $(this).val()).toFixed(2));
-            $("#offsite_infrastructure_charge_to_mhada").val((2/7 * $(this).val()).toFixed(2));
-            $("#amount_to_b_paid_to_municipal_corporation").val((5/7 * $(this).val()).toFixed(2));
+            $("#amount_to_be_paid_to_municipal").attr('value',(5/7 * $(this).val()).toFixed(2));
+            $("#offsite_infrastructure_charge_to_mhada").attr('value',(2/7 * $(this).val()).toFixed(2));
+            $("#amount_to_b_paid_to_municipal_corporation").attr('value',(5/7 * $(this).val()).toFixed(2));
         });
 
 
         $(document).on("keyup", "#total_house", function() {
-            $("#layout_approval_fee").val(1000 * $(this).val());
+            $("#layout_approval_fee").attr('value',1000 * $(this).val());
 
             });
 
@@ -1197,7 +1197,7 @@
             $(".total_amount_in_rs").each(function(){
                 total_amount_in_rs += +$(this).val();
             });
-            $("#total_amount_in_rs").val(total_amount_in_rs);
+            $("#total_amount_in_rs").attr('value',total_amount_in_rs);
         });
 
         $(document).on("change", "input[type=radio][name=dcr_a_val]", function() {
@@ -1205,18 +1205,18 @@
             var total_claims = ($(this).val() / 100) * $("#permissible_mattress_area").val() * $("#total_house").val();
             $("#total_additional_claims").val(total_claims.toFixed(2));
 
-            $("#total_rehabilitation_mattress_area_with_dcr").val(parseFloat($("#total_additional_claims").val()) + parseFloat($("#total_rehabilitation_mattress_area").val()));
+            $("#total_rehabilitation_mattress_area_with_dcr").attr('value',parseFloat($("#total_additional_claims").val()) + parseFloat($("#total_rehabilitation_mattress_area").val()));
 
-            $("#total_rehabilitation_construction_area").val( parseFloat($("#total_rehabilitation_mattress_area_with_dcr").val()) * 1.2 );
+            $("#total_rehabilitation_construction_area").attr('value',parseFloat($("#total_rehabilitation_mattress_area_with_dcr").val()) * 1.2 );
         });
         $(document).on("keyup", "#total_house, #permissible_mattress_area", function() {
             var total_claims = ($("input[type=radio][name=dcr_a_val]:checked").val() / 100) * $("#permissible_mattress_area").val() * $("#total_house").val();
 
-            $("#total_additional_claims").val(total_claims.toFixed(2));
+            $("#total_additional_claims").attr('value',total_claims.toFixed(2));
 
-            $("#total_rehabilitation_mattress_area_with_dcr").val(parseFloat($("#total_additional_claims").val()) + parseFloat($("#total_rehabilitation_mattress_area").val()));
+            $("#total_rehabilitation_mattress_area_with_dcr").attr('value',parseFloat($("#total_additional_claims").val()) + parseFloat($("#total_rehabilitation_mattress_area").val()));
 
-            $("#total_rehabilitation_construction_area").val( parseFloat($("#total_rehabilitation_mattress_area_with_dcr").val()) * 1.2 );
+            $("#total_rehabilitation_construction_area").attr('value', parseFloat($("#total_rehabilitation_mattress_area_with_dcr").val()) * 1.2 );
 
         });
 
