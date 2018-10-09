@@ -1,61 +1,61 @@
 @extends('admin.layouts.sidebarAction')
 @section('actions')
-    @include('admin.'.$ol_application->folder.'.action',compact('ol_application'))
+@include('admin.'.$ol_application->folder.'.action',compact('ol_application'))
 @endsection
 @section('content')
 
 <div class="custom-wrapper">
     <div class="col-md-12">
-        <div class="m-portlet__head">
-            <div class="m-portlet__head-tools">
-                <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom" role="tablist">
-                    <li class="nav-item m-tabs__item">
-                        <a class="nav-link m-tabs__link" data-toggle="tab" href="#one" role="tab"
-                            aria-selected="false">
-                            <i class="la la-cog"></i> परिगणनेचा तक्ता - अ
-                        </a>
-                    </li>
-                    <li class="nav-item m-tabs__item">
-                        <a class="nav-link m-tabs__link" data-toggle="tab" href="#two" role="tab" aria-selected="false">
-                            <i class="la la-briefcase"></i> Part payment
-                        </a>
-                    </li>
-                    <li class="nav-item m-tabs__item">
-                        <a class="nav-link m-tabs__link" data-toggle="tab" href="#three" role="tab" aria-selected="true">
-                            <i class="la la-bell-o"></i>1st installment
-                        </a>
-                    </li>
-                    <li class="nav-item m-tabs__item">
-                        <a class="nav-link m-tabs__link" data-toggle="tab" href="#four" role="tab" aria-selected="false">
-                            <i class="la la-cog"></i> 2nd, 3rd & 4th installment
-                        </a>
-                    </li>
-                    <li class="nav-item m-tabs__item">
-                        <a class="nav-link m-tabs__link" data-toggle="tab" href="#five" role="tab" aria-selected="false">
-                            <i class="la la-briefcase"></i>Summary
-                        </a>
-                    </li>
-                    <li class="nav-item m-tabs__item">
-                        <a class="nav-link m-tabs__link" data-toggle="tab" href="#six" role="tab" aria-selected="true">
-                            <i class="la la-bell-o"></i>REE - Note
-                        </a>
-                    </li>
-                </ul>
-            </div>
+        <div class="d-flex">
             @php
             $route_name=\Request::route()->getName();
             @endphp
             @if($route_name=='co.show_calculation_sheet')
-                {{ Breadcrumbs::render('calculation_sheet_co',$ol_application->id) }}
+            {{ Breadcrumbs::render('calculation_sheet_co',$ol_application->id) }}
             @elseif($route_name=='vp.show_calculation_sheet')
-                {{ Breadcrumbs::render('calculation_sheet_vp',$ol_application->id) }}
+            {{ Breadcrumbs::render('calculation_sheet_vp',$ol_application->id) }}
             @elseif($route_name=='cap.show_calculation_sheet')
-                {{ Breadcrumbs::render('calculation_sheet_cap',$ol_application->id) }}
+            {{ Breadcrumbs::render('calculation_sheet_cap',$ol_application->id) }}
             @elseif($route_name=='ree.show_calculation_sheet')
-                {{ Breadcrumbs::render('REE_calculation',$ol_application->id) }}
+            {{ Breadcrumbs::render('REE_calculation',$ol_application->id) }}
             @else
             @endif
+            <div class="ml-auto btn-list">
+                <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+            </div>
         </div>
+        <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom" role="tablist">
+            <li class="nav-item m-tabs__item">
+                <a class="nav-link m-tabs__link" data-toggle="tab" href="#one" role="tab" aria-selected="false">
+                    <i class="la la-cog"></i> परिगणनेचा तक्ता - अ
+                </a>
+            </li>
+            <li class="nav-item m-tabs__item">
+                <a class="nav-link m-tabs__link" data-toggle="tab" href="#two" role="tab" aria-selected="false">
+                    <i class="la la-briefcase"></i> Part payment
+                </a>
+            </li>
+            <li class="nav-item m-tabs__item">
+                <a class="nav-link m-tabs__link" data-toggle="tab" href="#three" role="tab" aria-selected="true">
+                    <i class="la la-bell-o"></i>1st installment
+                </a>
+            </li>
+            <li class="nav-item m-tabs__item">
+                <a class="nav-link m-tabs__link" data-toggle="tab" href="#four" role="tab" aria-selected="false">
+                    <i class="la la-cog"></i> 2nd, 3rd & 4th installment
+                </a>
+            </li>
+            <li class="nav-item m-tabs__item">
+                <a class="nav-link m-tabs__link" data-toggle="tab" href="#five" role="tab" aria-selected="false">
+                    <i class="la la-briefcase"></i>Summary
+                </a>
+            </li>
+            <li class="nav-item m-tabs__item">
+                <a class="nav-link m-tabs__link" data-toggle="tab" href="#six" role="tab" aria-selected="true">
+                    <i class="la la-bell-o"></i>REE - Note
+                </a>
+            </li>
+        </ul>
         <div class="tab-content">
             <div class="tab-pane active show" id="one" role="tabpanel">
                 <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
@@ -73,15 +73,17 @@
                                     <div class="d-flex justify-content-start align-items-center mb-4">
                                         <span class="flex-shrink-0 text-nowrap">Total Number of buildings:</span>
                                         <input type="text" class="form-control form-control--xs form-control--custom flex-grow-0 ml-3"
-                                            name="total_no_of_buildings" id="total_no_of_buildings" value="{{ isset($calculationSheetDetails[0]->total_no_of_buildings) ? $calculationSheetDetails[0]->total_no_of_buildings : 0 }}" readonly />
+                                            name="total_no_of_buildings" id="total_no_of_buildings" value="{{ isset($calculationSheetDetails[0]->total_no_of_buildings) ? $calculationSheetDetails[0]->total_no_of_buildings : 0 }}"
+                                            readonly />
                                     </div>
                                     <table id="one" class="table mb-0" style="padding-top: 10px;">
                                         <input name="_token" type="hidden" value="{!! csrf_token() !!}" />
                                         <input name="application_id" type="hidden" value="{{ $applicationId }}" />
                                         <input name="user_id" type="hidden" value="{{ $user->id }}" />
                                         <div class="d-flex justify-content-between align-items-center mb-4">
-                                            <a  target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
-                                                        src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("one");' style="max-width: 22px"></a>
+                                            <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
+                                                    src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("one");'
+                                                    style="max-width: 22px"></a>
                                         </div>
                                         <thead class="thead-default">
                                             <tr>
@@ -115,7 +117,8 @@
                                                 <td class="text-center">
                                                     <input type="text" class="total_area form-control form-control--custom"
                                                         name="area_as_per_lease_agreement" id="area_as_per_lease_agreement"
-                                                        value="{{ isset($calculationSheetDetails[0]->area_as_per_lease_agreement) ? $calculationSheetDetails[0]->area_as_per_lease_agreement : 0 }}" readonly/>
+                                                        value="{{ isset($calculationSheetDetails[0]->area_as_per_lease_agreement) ? $calculationSheetDetails[0]->area_as_per_lease_agreement : 0 }}"
+                                                        readonly />
                                                 </td>
                                                 </td>
                                             </tr>
@@ -126,7 +129,8 @@
                                                 </td>
                                                 <td class="text-center">
                                                     <input type="text" class="total_area form-control form-control--custom"
-                                                        name="area_of_tit_bit_plot" id="area_of_tit_bit_plot" value="{{ isset($calculationSheetDetails[0]->area_of_tit_bit_plot) ? $calculationSheetDetails[0]->area_of_tit_bit_plot : 0 }}" readonly/>
+                                                        name="area_of_tit_bit_plot" id="area_of_tit_bit_plot" value="{{ isset($calculationSheetDetails[0]->area_of_tit_bit_plot) ? $calculationSheetDetails[0]->area_of_tit_bit_plot : 0 }}"
+                                                        readonly />
                                                 </td>
                                             </tr>
                                             <tr>
@@ -136,7 +140,8 @@
                                                 </td>
                                                 <td class="text-center">
                                                     <input type="text" class="total_area form-control form-control--custom"
-                                                        name="area_of_rg_plot" id="area_of_rg_plot" value="{{ isset($calculationSheetDetails[0]->area_of_rg_plot) ? $calculationSheetDetails[0]->area_of_rg_plot : 0 }}" readonly/>
+                                                        name="area_of_rg_plot" id="area_of_rg_plot" value="{{ isset($calculationSheetDetails[0]->area_of_rg_plot) ? $calculationSheetDetails[0]->area_of_rg_plot : 0 }}"
+                                                        readonly />
                                                 </td>
                                             </tr>
                                             <tr>
@@ -146,7 +151,8 @@
                                                 </td>
                                                 <td class="text-center">
                                                     <input type="text" class="total_area form-control form-control--custom"
-                                                        name="area_of_ntbnib_plot" id="area_of_ntbnib_plot" value="{{ isset($calculationSheetDetails[0]->area_of_ntbnib_plot) ? $calculationSheetDetails[0]->area_of_ntbnib_plot : 0 }}" readonly/>
+                                                        name="area_of_ntbnib_plot" id="area_of_ntbnib_plot" value="{{ isset($calculationSheetDetails[0]->area_of_ntbnib_plot) ? $calculationSheetDetails[0]->area_of_ntbnib_plot : 0 }}"
+                                                        readonly />
                                                 </td>
                                             </tr>
                                             <tr>
@@ -156,7 +162,8 @@
                                                 </td>
                                                 <td class="text-center">
                                                     <input class="form-control form-control--custom" readonly type="text"
-                                                        name="area_of_total_plot" id="area_of_total_plot" value="{{ isset($calculationSheetDetails[0]->area_of_total_plot) ? $calculationSheetDetails[0]->area_of_total_plot : 0 }}" readonly/></td>
+                                                        name="area_of_total_plot" id="area_of_total_plot" value="{{ isset($calculationSheetDetails[0]->area_of_total_plot) ? $calculationSheetDetails[0]->area_of_total_plot : 0 }}"
+                                                        readonly /></td>
                                             </tr>
                                             <tr>
                                                 <td>2.</td>
@@ -165,7 +172,8 @@
                                                 </td>
                                                 <td class="text-center">
                                                     <input type="text" class="form-control form-control--custom" name="area_as_per_introduction"
-                                                        id="area_as_per_introduction" value="{{ isset($calculationSheetDetails[0]->area_as_per_introduction) ? $calculationSheetDetails[0]->area_as_per_introduction : 0 }}" readonly/>
+                                                        id="area_as_per_introduction" value="{{ isset($calculationSheetDetails[0]->area_as_per_introduction) ? $calculationSheetDetails[0]->area_as_per_introduction : 0 }}"
+                                                        readonly />
                                                 </td>
                                             </tr>
                                             <tr>
@@ -176,7 +184,8 @@
                                                 <td class="text-center">
                                                     <input type="text" class="permissible_area total_permissible form-control form-control--custom"
                                                         name="area_of_​​subsistence_to_calculate" id="area_of_​​subsistence_to_calculate"
-                                                        value="{{ isset($calculationSheetDetails[0]->area_of_​​subsistence_to_calculate) ? $calculationSheetDetails[0]->area_of_​​subsistence_to_calculate : 0 }}" readonly/>
+                                                        value="{{ isset($calculationSheetDetails[0]->area_of_​​subsistence_to_calculate) ? $calculationSheetDetails[0]->area_of_​​subsistence_to_calculate : 0 }}"
+                                                        readonly />
                                                 </td>
                                             </tr>
                                             <tr>
@@ -187,7 +196,8 @@
                                                 <td class="text-center">
                                                     <input type="text" class="permissible_area total_permissible form-control form-control--custom"
                                                         name="permissible_carpet_area_coordinates" id="permissible_carpet_area_coordinates"
-                                                        value="{{ isset($calculationSheetDetails[0]->permissible_carpet_area_coordinates) ? $calculationSheetDetails[0]->permissible_carpet_area_coordinates : 0 }}" readonly/>
+                                                        value="{{ isset($calculationSheetDetails[0]->permissible_carpet_area_coordinates) ? $calculationSheetDetails[0]->permissible_carpet_area_coordinates : 0 }}"
+                                                        readonly />
                                                 </td>
                                             </tr>
                                             <tr>
@@ -198,7 +208,8 @@
                                                 <td class="text-center">
                                                     <input type="text" readonly class="total_permissible form-control form-control--custom"
                                                         name="permissible_construction_area" id="permissible_construction_area"
-                                                        value="{{ isset($calculationSheetDetails[0]->permissible_construction_area) ? $calculationSheetDetails[0]->permissible_construction_area : 0 }}" readonly/>
+                                                        value="{{ isset($calculationSheetDetails[0]->permissible_construction_area) ? $calculationSheetDetails[0]->permissible_construction_area : 0 }}"
+                                                        readonly />
 
                                                 </td>
                                             </tr>
@@ -219,7 +230,8 @@
                                                 </td>
                                                 <td class="text-center">
                                                     <input type="text" class="proratata_area form-control form-control--custom"
-                                                        name="sqm_area_per_slot" id="sqm_area_per_slot" value="{{ isset($calculationSheetDetails[0]->sqm_area_per_slot) ? $calculationSheetDetails[0]->sqm_area_per_slot : 0 }}" readonly/>
+                                                        name="sqm_area_per_slot" id="sqm_area_per_slot" value="{{ isset($calculationSheetDetails[0]->sqm_area_per_slot) ? $calculationSheetDetails[0]->sqm_area_per_slot : 0 }}"
+                                                        readonly />
                                                 </td>
                                             </tr>
                                             <tr>
@@ -229,7 +241,8 @@
                                                 </td>
                                                 <td class="text-center">
                                                     <input type="text" class="proratata_area total_permissible form-control form-control--custom"
-                                                        name="total_house" id="total_house" value="{{ isset($calculationSheetDetails[0]->total_house) ? $calculationSheetDetails[0]->total_house : 0 }}" readonly />
+                                                        name="total_house" id="total_house" value="{{ isset($calculationSheetDetails[0]->total_house) ? $calculationSheetDetails[0]->total_house : 0 }}"
+                                                        readonly />
                                                 </td>
                                             </tr>
                                             <tr>
@@ -240,7 +253,8 @@
                                                 <td class="text-center">
                                                     <input type="text" readonly class="form-control form-control--custom"
                                                         name="permissible_proratata_area" id="permissible_proratata_area"
-                                                        value="{{ isset($calculationSheetDetails[0]->permissible_proratata_area) ? $calculationSheetDetails[0]->permissible_proratata_area : 0 }}" readonly/>
+                                                        value="{{ isset($calculationSheetDetails[0]->permissible_proratata_area) ? $calculationSheetDetails[0]->permissible_proratata_area : 0 }}"
+                                                        readonly />
 
                                                 </td>
                                             </tr>
@@ -261,7 +275,8 @@
                                                 <td class="text-center">
                                                     <input type="text" class="total_permissible form-control form-control--custom"
                                                         name="per_sq_km_proyerta_construction_area" id="per_sq_km_proyerta_construction_area"
-                                                        value="{{ isset($calculationSheetDetails[0]->per_sq_km_proyerta_construction_area) ? $calculationSheetDetails[0]->per_sq_km_proyerta_construction_area : 0 }}" readonly/>
+                                                        value="{{ isset($calculationSheetDetails[0]->per_sq_km_proyerta_construction_area) ? $calculationSheetDetails[0]->per_sq_km_proyerta_construction_area : 0 }}"
+                                                        readonly />
                                                 </td>
                                             </tr>
                                             <tr>
@@ -285,7 +300,8 @@
                                                 <td class="text-center">
                                                     <input type="text" class="total_permissible form-control form-control--custom"
                                                         name="area_in_reserved_seats_for_vp_pio" id="area_in_reserved_seats_for_vp_pio"
-                                                        value="{{ isset($calculationSheetDetails[0]->area_in_reserved_seats_for_vp_pio) ? $calculationSheetDetails[0]->area_in_reserved_seats_for_vp_pio : 0 }}" readonly/>
+                                                        value="{{ isset($calculationSheetDetails[0]->area_in_reserved_seats_for_vp_pio) ? $calculationSheetDetails[0]->area_in_reserved_seats_for_vp_pio : 0 }}"
+                                                        readonly />
                                                 </td>
                                             </tr>
                                             <tr>
@@ -308,7 +324,8 @@
                                                 <td class="text-center">
                                                     <input type="text" class="remaining_area form-control form-control--custom"
                                                         name="existing_construction_area" id="existing_construction_area"
-                                                        value="{{ isset($calculationSheetDetails[0]->existing_construction_area) ? $calculationSheetDetails[0]->existing_construction_area : 0 }}" readonly/>
+                                                        value="{{ isset($calculationSheetDetails[0]->existing_construction_area) ? $calculationSheetDetails[0]->existing_construction_area : 0 }}"
+                                                        readonly />
                                                 </td>
                                             </tr>
                                             <tr>
@@ -333,7 +350,8 @@
                                                 </td>
                                                 <td class="text-center">
                                                     <input type="text" class="redirekner_val form-control form-control--custom"
-                                                        name="redirekner_value" id="redirekner_value" value="{{ isset($calculationSheetDetails[0]->redirekner_value) ? $calculationSheetDetails[0]->redirekner_value : 0 }}" readonly/>
+                                                        name="redirekner_value" id="redirekner_value" value="{{ isset($calculationSheetDetails[0]->redirekner_value) ? $calculationSheetDetails[0]->redirekner_value : 0 }}"
+                                                        readonly />
                                                 </td>
                                             </tr>
                                             <tr>
@@ -344,7 +362,8 @@
                                                 <td class="text-center">
                                                     <input type="text" class="redirekner_val form-control form-control--custom"
                                                         name="redirekner_construction_rate" id="redirekner_construction_rate"
-                                                        value="{{ isset($calculationSheetDetails[0]->redirekner_construction_rate) ? $calculationSheetDetails[0]->redirekner_construction_rate : 0 }}" readonly/>
+                                                        value="{{ isset($calculationSheetDetails[0]->redirekner_construction_rate) ? $calculationSheetDetails[0]->redirekner_construction_rate : 0 }}"
+                                                        readonly />
                                                 </td>
                                             </tr>
                                             <tr>
@@ -386,8 +405,7 @@
                                                 </td>
                                                 <td class="text-center">
                                                     <input type="text" readonly class="form-control form-control--custom"
-                                                           name="dcr_rate_in_percentage" id="dcr_rate_in_percentage"
-                                                           value="{{ isset($calculationSheetDetails[0]->dcr_rate_in_percentage) ? $calculationSheetDetails[0]->dcr_rate_in_percentage.'%' : '0%' }}" />
+                                                        name="dcr_rate_in_percentage" id="dcr_rate_in_percentage" value="{{ isset($calculationSheetDetails[0]->dcr_rate_in_percentage) ? $calculationSheetDetails[0]->dcr_rate_in_percentage.'%' : '0%' }}" />
 
                                                 </td>
                                             </tr>
@@ -700,8 +718,9 @@
                                     <input name="application_id" type="hidden" value="{{ $applicationId }}" />
                                     <input name="user_id" type="hidden" value="{{ $user->id }}" />
                                     <div class="d-flex justify-content-between align-items-center mb-4">
-                                        <a  target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
-                                                    src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("two");' style="max-width: 22px"></a>
+                                        <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
+                                                src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("two");'
+                                                style="max-width: 22px"></a>
                                     </div>
                                     <table class="table mb-0">
                                         <thead class="thead-default">
@@ -734,7 +753,8 @@
                                                 </td>
                                                 <td class="text-center">
                                                     <input type="text" class="form-control form-control--custom" name="remaining_area_of_resident_area"
-                                                        id="remaining_area_of_resident_area" value="{{ isset($calculationSheetDetails[0]->remaining_area_of_resident_area) ? $calculationSheetDetails[0]->remaining_area_of_resident_area : 0 }}" readonly />
+                                                        id="remaining_area_of_resident_area" value="{{ isset($calculationSheetDetails[0]->remaining_area_of_resident_area) ? $calculationSheetDetails[0]->remaining_area_of_resident_area : 0 }}"
+                                                        readonly />
 
                                                 </td>
                                             </tr>
@@ -745,7 +765,8 @@
                                                 </td>
                                                 <td class="text-center">
                                                     <input type="text" class="form-control form-control--custom" name="remaining_area_of_resident_area_rate"
-                                                        id="remaining_area_of_resident_area_rate" value="{{ isset($calculationSheetDetails[0]->remaining_area_of_resident_area_rate) ? $calculationSheetDetails[0]->remaining_area_of_resident_area_rate : 0 }}" readonly/>
+                                                        id="remaining_area_of_resident_area_rate" value="{{ isset($calculationSheetDetails[0]->remaining_area_of_resident_area_rate) ? $calculationSheetDetails[0]->remaining_area_of_resident_area_rate : 0 }}"
+                                                        readonly />
 
                                                 </td>
                                             </tr>
@@ -756,7 +777,8 @@
                                                 </td>
                                                 <td class="text-center">
                                                     <input type="text" class="form-control form-control--custom" name="remaining_area_of_resident_area_balance"
-                                                        id="remaining_area_of_resident_area_balance" value="{{ isset($calculationSheetDetails[0]->remaining_area_of_resident_area_balance) ? $calculationSheetDetails[0]->remaining_area_of_resident_area_balance : 0 }}" readonly/>
+                                                        id="remaining_area_of_resident_area_balance" value="{{ isset($calculationSheetDetails[0]->remaining_area_of_resident_area_balance) ? $calculationSheetDetails[0]->remaining_area_of_resident_area_balance : 0 }}"
+                                                        readonly />
 
                                                 </td>
                                             </tr>
@@ -771,7 +793,8 @@
                                                 </td>
                                                 <td class="text-center">
                                                     <input type="text" class="form-control form-control--custom" name="off_site_infrastructure_fee"
-                                                        id="off_site_infrastructure_fee" value="{{ isset($calculationSheetDetails[0]->off_site_infrastructure_fee) ? $calculationSheetDetails[0]->off_site_infrastructure_fee : 0 }}" readonly/>
+                                                        id="off_site_infrastructure_fee" value="{{ isset($calculationSheetDetails[0]->off_site_infrastructure_fee) ? $calculationSheetDetails[0]->off_site_infrastructure_fee : 0 }}"
+                                                        readonly />
 
                                                 </td>
                                             </tr>
@@ -810,7 +833,7 @@
 
                                                 </td>
                                             </tr>
-<!--                                             <tr>
+                                            <!--                                             <tr>
                                                 <td colspan="3" align="right"><input type="submit" name="submit" class="btn btn-primary"
                                                         value="Save" /> </td>
                                             </tr> -->
@@ -839,8 +862,9 @@
                                     <input name="application_id" type="hidden" value="{{ $applicationId }}" />
                                     <input name="user_id" type="hidden" value="{{ $user->id }}" />
                                     <div class="d-flex justify-content-between align-items-center mb-4">
-                                        <a  target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
-                                                    src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("three");' style="max-width: 22px"></a>
+                                        <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
+                                                src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("three");'
+                                                style="max-width: 22px"></a>
                                     </div>
                                     <table class="table mb-0">
 
@@ -940,7 +964,7 @@
 
                                                 </td>
                                             </tr>
-<!--                                             <tr>
+                                            <!--                                             <tr>
                                                 <td colspan="3" align="right"><input type="submit" name="submit" class="btn btn-primary"
                                                         value="Save" /> </td>
                                             </tr> -->
@@ -969,8 +993,9 @@
                                     <input name="application_id" type="hidden" value="{{ $applicationId }}" />
                                     <input name="user_id" type="hidden" value="{{ $user->id }}" />
                                     <div class="d-flex justify-content-between align-items-center mb-4">
-                                        <a  target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
-                                                    src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("four");' style="max-width: 22px"></a>
+                                        <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
+                                                src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("four");'
+                                                style="max-width: 22px"></a>
                                     </div>
                                     <table class="table mb-0">
                                         <thead class="thead-default">
@@ -1013,7 +1038,7 @@
                                                         value="{{ isset($calculationSheetDetails[0]->payment_of_remaining_installment) ? $calculationSheetDetails[0]->payment_of_remaining_installment : 0 }}" />
                                                 </td>
                                             </tr>
-<!--                                             <tr>
+                                            <!--                                             <tr>
                                                 <td colspan="3" align="right"><input type="submit" name="submit" class="btn btn-primary"
                                                         value="Save" /> </td>
                                             </tr> -->
@@ -1038,8 +1063,8 @@
                             </div>
                             <div class="m-section__content mb-0 table-responsive">
                                 <div class="d-flex justify-content-between align-items-center mb-4">
-                                    <a  target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
-                                                src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("five");' style="max-width: 22px"></a>
+                                    <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
+                                            src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("five");' style="max-width: 22px"></a>
                                 </div>
                                 <table class="table mb-0">
                                     <thead class="thead-default">
@@ -1172,7 +1197,7 @@
 
         // Set first tab to active if user visits page for the first time
 
-        if(localStorage.getItem("activeTab") === null) {
+        if (localStorage.getItem("activeTab") === null) {
             document.querySelector(".nav-link.m-tabs__link").classList.add("active", "show");
         } else {
             document.querySelector(".nav-link.m-tabs__link").classList.remove("active", "show");
@@ -1217,26 +1242,29 @@
             }
         });
 
-        $('#amount_to_be_paid_to_municipal1').attr('value', (5 / 7 * $("#off_site_infrastructure_fee").val()).toFixed(2));
-
-        $("#offsite_infrastructure_charge_to_mhada1").attr('value',(2 / 7 * $("#off_site_infrastructure_fee").val()).toFixed(
+        $('#amount_to_be_paid_to_municipal1').attr('value', (5 / 7 * $("#off_site_infrastructure_fee").val()).toFixed(
             2));
 
+        $("#offsite_infrastructure_charge_to_mhada1").attr('value', (2 / 7 * $("#off_site_infrastructure_fee").val())
+            .toFixed(
+                2));
 
-        $("#offsite_infrastructure_charge_to_mhada1_installment").attr('value',(2 / 7 * $("#off_site_infrastructure_fee")
+
+        $("#offsite_infrastructure_charge_to_mhada1_installment").attr('value', (2 / 7 * $(
+                "#off_site_infrastructure_fee")
             .val()).toFixed(2));
 
-        $("#non_profit_duty").attr('value',1 / 4 * $("#remaining_area_of_resident_area_balance").val());
-        $("#non_profit_duty_installment").attr('value',1 / 4 * $("#remaining_area_of_resident_area_balance").val());
+        $("#non_profit_duty").attr('value', 1 / 4 * $("#remaining_area_of_resident_area_balance").val());
+        $("#non_profit_duty_installment").attr('value', 1 / 4 * $("#remaining_area_of_resident_area_balance").val());
 
 
         var first_installment = 0;
         $(".first_installment").each(function () {
             first_installment += +$(this).val();
         });
-        $("#payment_of_first_installment").attr('value',first_installment);
+        $("#payment_of_first_installment").attr('value', first_installment);
 
-        $("#payment_of_remaining_installment").attr('value',$("#off_site_infrastructure_fee").val());
+        $("#payment_of_remaining_installment").attr('value', $("#off_site_infrastructure_fee").val());
 
 
 
@@ -1246,14 +1274,14 @@
 </script>
 <script>
     $(document).on("keyup", "#total_no_of_buildings", function () {
-        $("#debraj_removal_fee").attr('value',6600 * $("#total_no_of_buildings").val());
-        $("#water_usage_charges").attr('value',100000 * $("#total_no_of_buildings").val());
+        $("#debraj_removal_fee").attr('value', 6600 * $("#total_no_of_buildings").val());
+        $("#water_usage_charges").attr('value', 100000 * $("#total_no_of_buildings").val());
 
         var total_amount = 0;
         $(".total_amount").each(function () {
             total_amount += +$(this).val();
         });
-        $("#total_amount_in_rs").attr('value',total_amount);
+        $("#total_amount_in_rs").attr('value', total_amount);
     });
 
     $(document).on("keyup", ".total_area", function () {
@@ -1261,36 +1289,37 @@
         $(".total_area").each(function () {
             sum += +$(this).val();
         });
-        $("#area_of_total_plot").attr('value',sum);
+        $("#area_of_total_plot").attr('value', sum);
     });
 
     $(document).on("keyup", ".permissible_area", function () {
 
-        $("#permissible_construction_area").attr('value',$("#area_of_​​subsistence_to_calculate").val() * $(
+        $("#permissible_construction_area").attr('value', $("#area_of_​​subsistence_to_calculate").val() * $(
             "#permissible_carpet_area_coordinates").val());
     });
 
 
     $(document).on("keyup", ".proratata_area", function () {
 
-        $("#permissible_proratata_area").attr('value',$("#sqm_area_per_slot").val() * $("#total_house").val());
+        $("#permissible_proratata_area").attr('value', $("#sqm_area_per_slot").val() * $("#total_house").val());
     });
 
     $(document).on("keyup", "#per_sq_km_proyerta_construction_area", function () {
 
-        $("#proratata_construction_area").attr('value',$(this).val() * $("#total_house").val());
+        $("#proratata_construction_area").attr('value', $(this).val() * $("#total_house").val());
     });
 
     $(document).on("keyup", "#total_house", function () {
 
-        $("#proratata_construction_area").attr('value',$("#per_sq_km_proyerta_construction_area").val() * $(this).val());
+        $("#proratata_construction_area").attr('value', $("#per_sq_km_proyerta_construction_area").val() * $(
+            this).val());
         $("#layout_approval_fee").val(1000 * $(this).val());
 
         var total_amount = 0;
         $(".total_amount").each(function () {
             total_amount += +$(this).val();
         });
-        $("#total_amount_in_rs").attr('value',total_amount);
+        $("#total_amount_in_rs").attr('value', total_amount);
     });
 
 
@@ -1298,7 +1327,7 @@
 
         var total = parseFloat($("#permissible_construction_area").val()) + parseFloat($(
             "#proratata_construction_area").val()) + parseFloat($('#area_in_reserved_seats_for_vp_pio').val());
-        $("#total_permissible_construction_area").attr('value',total);
+        $("#total_permissible_construction_area").attr('value', total);
     });
 
     $(document).on("keyup", ".remaining_area", function () {
@@ -1312,13 +1341,13 @@
 
         var sub = parseFloat($("#total_permissible_construction_area").val()) - parseFloat($(
             "#existing_construction_area").val());
-        $("#remaining_area").attr('value',sub);
-        $("#remaining_residential_area").attr('value',sub);
+        $("#remaining_area").attr('value', sub);
+        $("#remaining_residential_area").attr('value', sub);
 
         if ($('input[type=radio][name=dcr_rate_in_percentage]').is(':checked')) {
             var balance = $("#remaining_residential_area").val() * ($(
                 "input[type=radio][name=dcr_rate_in_percentage]").val() / 100);
-            $("#balance_of_remaining_area").attr('value',balance.toFixed(2));
+            $("#balance_of_remaining_area").attr('value', balance.toFixed(2));
         }
 
     });
@@ -1328,10 +1357,10 @@
 
         if (parseFloat($("#redirekner_construction_rate").val()) === 0 || isNaN(parseFloat($(
                 "#redirekner_construction_rate").val()))) {
-            $("#redirekner_val").attr('value',null);
+            $("#redirekner_val").attr('value', null);
         } else {
             var div = parseFloat($("#redirekner_value").val()) / parseFloat($("#redirekner_construction_rate").val());
-            $("#redirekner_val").attr('value',div.toFixed(2));
+            $("#redirekner_val").attr('value', div.toFixed(2));
         }
 
 
@@ -1341,13 +1370,13 @@
     $(document).on("change", "input[type=radio][name=dcr_rate_in_percentage]", function () {
 
         var balance = $("#remaining_residential_area").val() * ($(this).val() / 100);
-        $("#balance_of_remaining_area").attr('value',balance.toFixed(2));
+        $("#balance_of_remaining_area").attr('value', balance.toFixed(2));
 
         var total_amount = 0;
         $(".total_amount").each(function () {
             total_amount += +$(this).val();
         });
-        $("#total_amount_in_rs").attr('value',total_amount);
+        $("#total_amount_in_rs").attr('value', total_amount);
 
     });
 
@@ -1355,16 +1384,16 @@
     $(document).on("keyup", "#redirekner_value", function () {
         var fee_amount = (parseFloat($("#remaining_area").val()) * parseFloat($("#redirekner_value").val()) * (
             7 / 100)).toFixed(2);
-        $("#infrastructure_fee_amount").attr('value',fee_amount);
-        $("#amount_to_be_paid_to_municipal").attr('value',5 / 7 * fee_amount);
-        $("#offsite_infrastructure_charges_to_municipal_corporation").attr('value',5 / 7 * fee_amount);
-        $("#offsite_infrastructure_charge_to_mhada").attr('value',2 / 7 * fee_amount);
+        $("#infrastructure_fee_amount").attr('value', fee_amount);
+        $("#amount_to_be_paid_to_municipal").attr('value', 5 / 7 * fee_amount);
+        $("#offsite_infrastructure_charges_to_municipal_corporation").attr('value', 5 / 7 * fee_amount);
+        $("#offsite_infrastructure_charge_to_mhada").attr('value', 2 / 7 * fee_amount);
 
         var total_amount = 0;
         $(".total_amount").each(function () {
             total_amount += +$(this).val();
         });
-        $("#total_amount_in_rs").attr('value',total_amount);
+        $("#total_amount_in_rs").attr('value', total_amount);
 
     });
 
@@ -1373,25 +1402,25 @@
         $(".total_amount").each(function () {
             total_amount += +$(this).val();
         });
-        $("#total_amount_in_rs").attr('value',total_amount);
+        $("#total_amount_in_rs").attr('value', total_amount);
     });
 
     $(document).on("keyup", "#remaining_area_of_resident_area_balance", function () {
-        $("#non_profit_duty").attr('value',1 / 4 * $(this).val());
-        $("#non_profit_duty_installment").attr('value',1 / 4 * $(this).val());
+        $("#non_profit_duty").attr('value', 1 / 4 * $(this).val());
+        $("#non_profit_duty_installment").attr('value', 1 / 4 * $(this).val());
     });
 
 
     $(document).on("keyup", "#off_site_infrastructure_fee", function () {
 
-        $("#amount_to_be_paid_to_municipal1").attr('value',(5 / 7 * $(this).val()).toFixed(2));
-        $("#offsite_infrastructure_charge_to_mhada1").attr('value',(2 / 7 * $(this).val()).toFixed(2));
-        $("#offsite_infrastructure_charge_to_mhada1_installment").attr('value',(2 / 7 * $(this).val()).toFixed(2));
+        $("#amount_to_be_paid_to_municipal1").attr('value', (5 / 7 * $(this).val()).toFixed(2));
+        $("#offsite_infrastructure_charge_to_mhada1").attr('value', (2 / 7 * $(this).val()).toFixed(2));
+        $("#offsite_infrastructure_charge_to_mhada1_installment").attr('value', (2 / 7 * $(this).val()).toFixed(
+            2));
     });
 
 
-    function PrintElem(elem)
-    {
+    function PrintElem(elem) {
         var mywindow = window.open('', 'PRINT', 'height=400,width=600');
 
         mywindow.document.write('<html><head><title>Maharashtra Housing and development authority</title>');

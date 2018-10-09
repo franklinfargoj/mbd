@@ -12,7 +12,7 @@
                 {{ method_field('DELETE') }}
                 @csrf
                 <!-- <label class="col-md-4 control-label">Board Name</label> -->
-                <div class="mb-0 @if($errors->has('delete_reason')) has-error @endif">
+                <div class="table--box-input mb-0 @if($errors->has('delete_reason')) has-error @endif">
                     <label for="delete_reason">Reason:</label>
                     <textarea name="delete_reason" class="form-control form-control--custom" rows="5" id="delete_reason"
                         required>{{old('delete_reason')}}</textarea>

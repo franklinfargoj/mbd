@@ -423,8 +423,10 @@ class ArchitectApplicationController extends Controller
           $arrData['get_forward_commitee'] = User::where('role_id', $commitee_role_id->id)->get();
 
           $arrData['commitee_role_name'] = strtoupper(str_replace('_', ' ', $commitee_role_id->name));
-        }else
+        }
+        else
         {
+          //dd('ok');
           $commitee_role_id = Role::where('name', '=', config('commanConfig.selection_commitee'))->first();
 
           $arrData['get_forward_commitee'] = User::where('role_id', $commitee_role_id->id)->get();

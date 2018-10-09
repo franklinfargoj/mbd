@@ -43,7 +43,7 @@
                                 <div class="form-group m-form__group">
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
                                         id="update_status" name="update_status">
-                                        <option value="">Select Status</option>
+                                        <option value="" style="font-weight: normal;">Select Status</option>
                                         @foreach(config('commanConfig.applicationStatus') as $key =>
                                         $application_status)
                                         <option value="{{ $application_status }}"
@@ -58,7 +58,7 @@
                                 <div class="form-group m-form__group">
                                     <div class="btn-list">
                                         <button type="submit" class="btn btn-primary">Search</button>
-                                        <button type="reset" class="btn btn-metal">Reset</button>
+                                        <button type="reset" onclick="window.location.href='{{ url("/dyce") }}'"class="btn btn-metal">Reset</button>
                                     </div>
                                 </div>
                             </div>
@@ -89,9 +89,9 @@
 {!! $html->scripts() !!}
 
 <script>
-    $("#update_status").on("change", function () {
+    /*$("#update_status").on("change", function () {
         $("#eeForm").submit();
-    });
+    });*/
 
     $(document).ready(function () {
         $(".display_msg").delay(5000).slideUp(300);
