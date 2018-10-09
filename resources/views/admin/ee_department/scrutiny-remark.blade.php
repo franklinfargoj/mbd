@@ -28,17 +28,17 @@
                 <div class="m-portlet__head">
                     <div class="m-portlet__head-tools">
                         <ul id="top-tabs" class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom tabs m-portlet m-portlet--nav-tabs">
-                            <li class="nav-item m-tabs__item active" data-target="#document-scrunity">
+                            <li class="nav-item m-tabs__item active ee_tabs" data-target="#document-scrunity" id="section-1">
                                 <a class="nav-link m-tabs__link">
                                     <i class="la la-cog"></i> Document Scrutiny
                                 </a>
                             </li>   
-                            <li class="nav-item m-tabs__item" data-target="#checklist-scrunity">
+                            <li class="nav-item m-tabs__item ee_tabs" data-target="#checklist-scrunity" id="section-2">
                                 <a class="nav-link m-tabs__link">
                                     <i class="la la-cog"></i> Checklist Scrutiny
                                 </a>
                             </li>
-                            <li class="nav-item m-tabs__item" data-target="#ee-note">
+                            <li class="nav-item m-tabs__item ee_tabs" data-target="#ee-note" id="section-3">
                                 <a class="nav-link m-tabs__link">
                                     <i class="la la-cog"></i> EE Note
                                 </a>
@@ -143,7 +143,7 @@
                                         $disabled="";
                                     }
                                 @endphp
-                                <div class="panel active" id="document-scrunity">
+                                <div class="panel active section-1" id="document-scrunity">
                                     <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
                                         <div class="portlet-body">
                                             <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
@@ -367,32 +367,32 @@
                                     </div>
                                 </div>
 
-                                <div class="panel" id="checklist-scrunity">
+                                <div class="panel section-2" id="checklist-scrunity">
                                     <div class="m-portlet">
                                         <div class="tab-pane--nested-tabs__inner">
                                             <div>
                                                 <ul id="scrunity-tabs" class="nav nav-pills nav-justified" role="tablist">
                                                     <li class="nav-item">
-                                                        <a class="nav-link active show" data-toggle="pill" href="#verification">
+                                                        <a class="nav-link active show nested_t" data-toggle="pill" href="#verification" id="nested_tab_1">
                                                             Consent Verification</a>
                                                     </li>
                                                     <li class="nav-item">
-                                                        <a class="nav-link" data-toggle="pill" href="#demarcation">
+                                                        <a class="nav-link nested_t" data-toggle="pill" href="#demarcation" id="nested_tab_2">
                                                             Demarcation</a>
                                                     </li>
                                                     <li class="nav-item">
-                                                        <a class="nav-link" data-toggle="pill" href="#tit-bit">
+                                                        <a class="nav-link nested_t" data-toggle="pill" href="#tit-bit" id="nested_tab_3">
                                                             Tit-Bit</a>
                                                     </li>
                                                     <li class="nav-item ">
-                                                        <a class="nav-link" data-toggle="pill" href="#relocation">
+                                                        <a class="nav-link nested_t" data-toggle="pill" href="#relocation" id="nested_tab_4">
                                                             R.G. Relocation</a>
                                                     </li>
                                                 </ul>
                                             </div>
                                         </div>
                                         <div class="tab-content">
-                                            <div class="tab-pane active" id="verification">
+                                            <div class="tab-pane active nested_tab_1" id="verification">
                                                 <form class="form--custom" action="{{ route('consent-verfication') }}" method="post">
                                                     @csrf
                                                     <div class="row">
@@ -519,7 +519,7 @@
                                                     <button type="submit" style="{{ $style }}" class="btn btn-primary">Save</button>
                                                 </form>
                                             </div>
-                                            <div class="tab-pane" id="demarcation">
+                                            <div class="tab-pane nested_tab_2" id="demarcation">
                                                 <form class="form--custom" action="{{ route('ee-demarcation') }}" method="post">
                                                     @csrf
                                                     <div class="row">
@@ -649,7 +649,7 @@
                                                     <button type="submit" style="{{ $style }}" class="btn btn-primary">Save</button>
                                                 </form>
                                             </div>
-                                            <div class="tab-pane" id="tit-bit">
+                                            <div class="tab-pane nested_tab_3" id="tit-bit">
                                                 <form class="form--custom" action="{{ route('ee-tit-bit') }}" method="post">
                                                     @csrf
                                                     <div class="row">
@@ -780,7 +780,7 @@
                                                     <button type="submit" style="{{ $style }}" class="btn btn-primary">Save</button>
                                                 </form>
                                             </div>
-                                            <div class="tab-pane" id="relocation">
+                                            <div class="tab-pane nested_tab_4" id="relocation">
                                                 <form class="form--custom" action="{{ route('ee-rg-relocation') }}" method="post">
                                                     @csrf
                                                     <div class="row">
@@ -902,7 +902,7 @@
                                     else
                                         $display = "";
                                 @endphp
-                                <div class="panel" id="ee-note">
+                                <div class="panel section-3" id="ee-note">
                                     <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
                                         <div class="portlet-body">
                                             <div class="m-portlet__body m-portlet__body--table">
@@ -970,7 +970,7 @@
                                         </div>
                                     </div>
                                 </div>
-
+                                 <div class="hidden" id="hiddenPart" value="0">
                             </div>
                         </div>
                     </div>
@@ -982,6 +982,7 @@
 @endsection
 
 @section('js')
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
     <script>
         $(".editDocumentStatus, .deleteDocumentStatus").on("click", function(){
             var documentstatusid = $(this).attr('data-documentstatusid');
@@ -1031,7 +1032,7 @@
             console.log(id);
             myfile = $("#EE_document_"+id).val();
             var ext = myfile.split('.').pop();      
-            console.log(ext);
+
           if (myfile != ''){                      
               if (ext != "pdf"){
                 $("#edit_file_error_"+id).text("Invalid type of file uploaded (only pdf allowed).");
@@ -1066,9 +1067,38 @@
       }
     });
 
+    var link = 0;
     $(document).ready(function(){
         $(".display_msg").delay("slow").slideUp("slow");
-    });              
+        
+        var id = Cookies.get('sectionId');
+        if(id != undefined){
+            $(".panel").removeClass('active'); 
+            $(".m-tabs__item").removeClass('active');
+            $("#"+id).addClass('active');
+            $("."+id).addClass('active');  
+        }
+        //nested tabs
+        var nestedTab = Cookies.get('nestedTab');
+        
+        if(id != undefined){
+            $(".nested_t").removeClass('active');
+            $("#"+nestedTab).addClass('active');
+            $(".tab-pane").removeClass('active');
+            $("."+nestedTab).addClass('active');            
+        }
+    });  
+
+    $(".ee_tabs").on('click', function(){
+        $("#hiddenPart").val("1");
+        $(".nav-item").removeClass('active');       
+        Cookies.set('sectionId', this.id); 
+    });    
+
+    $(".nested_t").on('click', function(){ 
+        $("#hiddenPart").val("1");       
+        Cookies.set('nestedTab', this.id);       
+    }); 
 
     </script>
 @endsection

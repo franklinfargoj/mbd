@@ -6,42 +6,40 @@
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">RTI Applicants Listing </h3>
             {{ Breadcrumbs::render('rti_applicants') }}
-            <button type="button" class="btn btn-transparent ml-auto" data-toggle="collapse" data-target="#filter">
+            <!-- <button type="button" class="btn btn-transparent ml-auto" data-toggle="collapse" data-target="#filter">
                 <img class="filter-icon" src="{{asset('/img/filter-icon.svg')}}">Filter
-            </button>
+            </button> -->
         </div>
-        <div id="filter" class="m-portlet filter-wrap collapse show">
-            <div class="row align-items-center">
-                <div class="col-xl-8 order-2 order-xl-1">
+        <div class="m-portlet m-portlet--compact filter-wrap">
+            <div class="row align-items-center row--filter">
+                <div class="col-md-12">
                     <form class="form-group m-form__group row align-items-center mb-0" method="get" action="{{ url('rti_applicants') }}">
-                        <div class="col-md-4">
-                            <label for="date_of_submission" class="control-label">
-                                Date of Submission
-                            </label>
-                            <div class="">
+                        <div class="col-md-2">
+                            <div class="form-group m-form__group">
                                 <input type="text" name="date_of_submission" id="date_of_submission" class="form-control form-control--custom m-input m_datepicker"
-                                    value="{{ isset($getData['date_of_submission'])? $getData['date_of_submission'] : '' }}">
+                                    value="{{ isset($getData['date_of_submission'])? $getData['date_of_submission'] : '' }}"
+                                    placeholder="Date">
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group m-form__group">
-                                <label class="control-label">
-                                    Status
-                                </label>
-                                <div class="">
-                                    <select name="status" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input">
-                                        <option value="0">Select Status</option>
-                                        @foreach($rti_statuses as $rti_status)
-                                        <option value="{{ $rti_status['id'] }}" @if(count($getData)> 0)
-                                            {{ ($rti_status['id'] == $getData['status'] ?'selected':'' )}}
-                                            @endif>{{ $rti_status['status_title'] }}</option>
-                                        @endforeach
-                                    </select>
+                                <select name="status" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input">
+                                    <option value="0">Select Status</option>
+                                    @foreach($rti_statuses as $rti_status)
+                                    <option value="{{ $rti_status['id'] }}" @if(count($getData)> 0)
+                                        {{ ($rti_status['id'] == $getData['status'] ?'selected':'' )}}
+                                        @endif>{{ $rti_status['status_title'] }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group m-form__group">
+                                <div class="btn-list">
+                                    <button type="submit" class="btn btn-primary">Search</button>
+                                    <button type="reset" class="btn btn-metal">Reset</button>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-12" style="margin-bottom: 15px;">
-                            <button type="submit" class="btn btn-primary">Search</button>
                         </div>
                     </form>
                 </div>
