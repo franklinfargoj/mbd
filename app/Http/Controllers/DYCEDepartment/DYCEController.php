@@ -58,7 +58,7 @@ class DYCEController extends Controller
                 })
                 ->editColumn('radio', function ($dyce_application_data) {
                     $url = route('dyce.view_application', $dyce_application_data->id);
-                    return '<label class="m-radio m-radio--primary"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
+                    return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
                 })                
                 ->editColumn('eeApplicationSociety.name', function ($dyce_application_data) {
                     return $dyce_application_data->eeApplicationSociety->name;

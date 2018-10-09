@@ -730,6 +730,15 @@ td. span {
     padding: 0;
 }
 
+.m-portlet--compact {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.row--filter {
+    margin-bottom: -1rem;
+}
+
 /* theme classes over ride ends here */
 
 /* global classes starts here */

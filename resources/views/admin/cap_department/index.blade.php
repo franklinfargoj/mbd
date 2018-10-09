@@ -18,13 +18,13 @@
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">Application for Offer Letter</h3>
             {{ Breadcrumbs::render('cap') }}
-            <button type="button" class="btn btn-transparent ml-auto" data-toggle="collapse" data-target="#filter">
+            <!-- <button type="button" class="btn btn-transparent ml-auto" data-toggle="collapse" data-target="#filter">
                 <img class="filter-icon" src="{{asset('/img/filter-icon.svg')}}">Filter
-            </button>
+            </button> -->
         </div>
-        <div id="filter" class="filter-wrap collapse show">
-            <div class="row align-items-center">
-                <div class="col-md-12 order-2 order-xl-1">
+        <div class="m-portlet m-portlet--compact filter-wrap">
+            <div class="row align-items-center row--filter">
+                <div class="col-md-12">
                     <form role="form" id="eeForm" method="get" class="form-group m-form__group row align-items-end mb-0"
                         action="{{ route('cap.index') }}">
                         <!--                                 <div class="col-md-3">
@@ -39,14 +39,14 @@
                                         </span>
                                     </div>
                                 </div> -->
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <div class="form-group m-form__group">
                                 <input type="text" id="submitted_at_from" name="submitted_at_from" class="form-control form-control--custom m-input m_datepicker"
                                     placeholder="From Date" readonly value="{{ isset($getData['submitted_at_from'])? $getData['submitted_at_from'] : '' }}">
                             </div>
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <div class="form-group m-form__group">
                                 <input type="text" id="submitted_at_to" name="submitted_at_to" class="form-control form-control--custom m-input m_datepicker"
                                     placeholder="To Date" readonly value="{{ isset($getData['submitted_at_to'])? $getData['submitted_at_to'] : '' }}">
@@ -72,9 +72,12 @@
                             </div>
                         </div>
 
-                        <div class="col-md-12" style="margin-top: 15px;">
-                            <div class="">
-                                <button type="submit" class="btn btn-primary">Search</button>
+                        <div class="col">
+                            <div class="form-group m-form__group">
+                                <div class="btn-list">
+                                    <button type="submit" class="btn btn-primary">Search</button>
+                                    <button type="reset" class="btn btn-metal">Reset</button>
+                                </div>
                             </div>
                         </div>
                     </form>
@@ -85,11 +88,6 @@
     <!-- END: Subheader -->
     <div class="m-portlet m-portlet--mobile">
         <div class="m-portlet__body">
-            <!--begin: Search Form -->
-            <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
-
-            </div>
-            <!--end: Search Form -->
             <!--begin: Datatable -->
             {!! $html->table() !!}
             <!--end: Datatable -->

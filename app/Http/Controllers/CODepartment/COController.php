@@ -58,7 +58,7 @@ class COController extends Controller
                 })
                 ->editColumn('radio', function ($co_application_data) {
                     $url = route('co.view_application', $co_application_data->id);
-                    return '<label class="m-radio m-radio--primary"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
+                    return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
                 })                
                 ->editColumn('eeApplicationSociety.name', function ($co_application_data) {
                     return $co_application_data->eeApplicationSociety->name;
