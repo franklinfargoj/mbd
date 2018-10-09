@@ -775,7 +775,7 @@
 
                                                 </td>
                                             </tr>
-                                            <tr>
+                                            <tr id="thisprint">
                                                 <td>3.</td>
                                                 <td>
                                                     उपरोक्त ऑफ साईट इन्फ्रास्ट्रक्चर शुक्ल रक्कमेपैकी म न प स
@@ -1217,37 +1217,43 @@
             }
         });
 
-        $("#amount_to_be_paid_to_municipal1").val((5 / 7 * $("#off_site_infrastructure_fee").val()).toFixed(2));
-        $("#offsite_infrastructure_charge_to_mhada1").val((2 / 7 * $("#off_site_infrastructure_fee").val()).toFixed(
+        $('#amount_to_be_paid_to_municipal1').attr('value', (5 / 7 * $("#off_site_infrastructure_fee").val()).toFixed(2));
+
+        $("#offsite_infrastructure_charge_to_mhada1").attr('value',(2 / 7 * $("#off_site_infrastructure_fee").val()).toFixed(
             2));
-        $("#offsite_infrastructure_charge_to_mhada1_installment").val((2 / 7 * $("#off_site_infrastructure_fee")
+
+
+        $("#offsite_infrastructure_charge_to_mhada1_installment").attr('value',(2 / 7 * $("#off_site_infrastructure_fee")
             .val()).toFixed(2));
 
-        $("#non_profit_duty").val(1 / 4 * $("#remaining_area_of_resident_area_balance").val());
-        $("#non_profit_duty_installment").val(1 / 4 * $("#remaining_area_of_resident_area_balance").val());
+        $("#non_profit_duty").attr('value',1 / 4 * $("#remaining_area_of_resident_area_balance").val());
+        $("#non_profit_duty_installment").attr('value',1 / 4 * $("#remaining_area_of_resident_area_balance").val());
 
 
         var first_installment = 0;
         $(".first_installment").each(function () {
             first_installment += +$(this).val();
         });
-        $("#payment_of_first_installment").val(first_installment);
+        $("#payment_of_first_installment").attr('value',first_installment);
 
-        $("#payment_of_remaining_installment").val($("#off_site_infrastructure_fee").val());
+        $("#payment_of_remaining_installment").attr('value',$("#off_site_infrastructure_fee").val());
+
+
+
 
     })
 
 </script>
 <script>
     $(document).on("keyup", "#total_no_of_buildings", function () {
-        $("#debraj_removal_fee").val(6600 * $("#total_no_of_buildings").val());
-        $("#water_usage_charges").val(100000 * $("#total_no_of_buildings").val());
+        $("#debraj_removal_fee").attr('value',6600 * $("#total_no_of_buildings").val());
+        $("#water_usage_charges").attr('value',100000 * $("#total_no_of_buildings").val());
 
         var total_amount = 0;
         $(".total_amount").each(function () {
             total_amount += +$(this).val();
         });
-        $("#total_amount_in_rs").val(total_amount);
+        $("#total_amount_in_rs").attr('value',total_amount);
     });
 
     $(document).on("keyup", ".total_area", function () {
@@ -1255,36 +1261,36 @@
         $(".total_area").each(function () {
             sum += +$(this).val();
         });
-        $("#area_of_total_plot").val(sum);
+        $("#area_of_total_plot").attr('value',sum);
     });
 
     $(document).on("keyup", ".permissible_area", function () {
 
-        $("#permissible_construction_area").val($("#area_of_​​subsistence_to_calculate").val() * $(
+        $("#permissible_construction_area").attr('value',$("#area_of_​​subsistence_to_calculate").val() * $(
             "#permissible_carpet_area_coordinates").val());
     });
 
 
     $(document).on("keyup", ".proratata_area", function () {
 
-        $("#permissible_proratata_area").val($("#sqm_area_per_slot").val() * $("#total_house").val());
+        $("#permissible_proratata_area").attr('value',$("#sqm_area_per_slot").val() * $("#total_house").val());
     });
 
     $(document).on("keyup", "#per_sq_km_proyerta_construction_area", function () {
 
-        $("#proratata_construction_area").val($(this).val() * $("#total_house").val());
+        $("#proratata_construction_area").attr('value',$(this).val() * $("#total_house").val());
     });
 
     $(document).on("keyup", "#total_house", function () {
 
-        $("#proratata_construction_area").val($("#per_sq_km_proyerta_construction_area").val() * $(this).val());
+        $("#proratata_construction_area").attr('value',$("#per_sq_km_proyerta_construction_area").val() * $(this).val());
         $("#layout_approval_fee").val(1000 * $(this).val());
 
         var total_amount = 0;
         $(".total_amount").each(function () {
             total_amount += +$(this).val();
         });
-        $("#total_amount_in_rs").val(total_amount);
+        $("#total_amount_in_rs").attr('value',total_amount);
     });
 
 
@@ -1292,7 +1298,7 @@
 
         var total = parseFloat($("#permissible_construction_area").val()) + parseFloat($(
             "#proratata_construction_area").val()) + parseFloat($('#area_in_reserved_seats_for_vp_pio').val());
-        $("#total_permissible_construction_area").val(total);
+        $("#total_permissible_construction_area").attr('value',total);
     });
 
     $(document).on("keyup", ".remaining_area", function () {
@@ -1306,13 +1312,13 @@
 
         var sub = parseFloat($("#total_permissible_construction_area").val()) - parseFloat($(
             "#existing_construction_area").val());
-        $("#remaining_area").val(sub);
-        $("#remaining_residential_area").val(sub);
+        $("#remaining_area").attr('value',sub);
+        $("#remaining_residential_area").attr('value',sub);
 
         if ($('input[type=radio][name=dcr_rate_in_percentage]').is(':checked')) {
             var balance = $("#remaining_residential_area").val() * ($(
                 "input[type=radio][name=dcr_rate_in_percentage]").val() / 100);
-            $("#balance_of_remaining_area").val(balance.toFixed(2));
+            $("#balance_of_remaining_area").attr('value',balance.toFixed(2));
         }
 
     });
@@ -1322,10 +1328,10 @@
 
         if (parseFloat($("#redirekner_construction_rate").val()) === 0 || isNaN(parseFloat($(
                 "#redirekner_construction_rate").val()))) {
-            $("#redirekner_val").val(null);
+            $("#redirekner_val").attr('value',null);
         } else {
             var div = parseFloat($("#redirekner_value").val()) / parseFloat($("#redirekner_construction_rate").val());
-            $("#redirekner_val").val(div.toFixed(2));
+            $("#redirekner_val").attr('value',div.toFixed(2));
         }
 
 
@@ -1335,13 +1341,13 @@
     $(document).on("change", "input[type=radio][name=dcr_rate_in_percentage]", function () {
 
         var balance = $("#remaining_residential_area").val() * ($(this).val() / 100);
-        $("#balance_of_remaining_area").val(balance.toFixed(2));
+        $("#balance_of_remaining_area").attr('value',balance.toFixed(2));
 
         var total_amount = 0;
         $(".total_amount").each(function () {
             total_amount += +$(this).val();
         });
-        $("#total_amount_in_rs").val(total_amount);
+        $("#total_amount_in_rs").attr('value',total_amount);
 
     });
 
@@ -1349,16 +1355,16 @@
     $(document).on("keyup", "#redirekner_value", function () {
         var fee_amount = (parseFloat($("#remaining_area").val()) * parseFloat($("#redirekner_value").val()) * (
             7 / 100)).toFixed(2);
-        $("#infrastructure_fee_amount").val(fee_amount);
-        $("#amount_to_be_paid_to_municipal").val(5 / 7 * fee_amount);
-        $("#offsite_infrastructure_charges_to_municipal_corporation").val(5 / 7 * fee_amount);
-        $("#offsite_infrastructure_charge_to_mhada").val(2 / 7 * fee_amount);
+        $("#infrastructure_fee_amount").attr('value',fee_amount);
+        $("#amount_to_be_paid_to_municipal").attr('value',5 / 7 * fee_amount);
+        $("#offsite_infrastructure_charges_to_municipal_corporation").attr('value',5 / 7 * fee_amount);
+        $("#offsite_infrastructure_charge_to_mhada").attr('value',2 / 7 * fee_amount);
 
         var total_amount = 0;
         $(".total_amount").each(function () {
             total_amount += +$(this).val();
         });
-        $("#total_amount_in_rs").val(total_amount);
+        $("#total_amount_in_rs").attr('value',total_amount);
 
     });
 
@@ -1367,20 +1373,20 @@
         $(".total_amount").each(function () {
             total_amount += +$(this).val();
         });
-        $("#total_amount_in_rs").val(total_amount);
+        $("#total_amount_in_rs").attr('value',total_amount);
     });
 
     $(document).on("keyup", "#remaining_area_of_resident_area_balance", function () {
-        $("#non_profit_duty").val(1 / 4 * $(this).val());
-        $("#non_profit_duty_installment").val(1 / 4 * $(this).val());
+        $("#non_profit_duty").attr('value',1 / 4 * $(this).val());
+        $("#non_profit_duty_installment").attr('value',1 / 4 * $(this).val());
     });
 
 
     $(document).on("keyup", "#off_site_infrastructure_fee", function () {
 
-        $("#amount_to_be_paid_to_municipal1").val((5 / 7 * $(this).val()).toFixed(2));
-        $("#offsite_infrastructure_charge_to_mhada1").val((2 / 7 * $(this).val()).toFixed(2));
-        $("#offsite_infrastructure_charge_to_mhada1_installment").val((2 / 7 * $(this).val()).toFixed(2));
+        $("#amount_to_be_paid_to_municipal1").attr('value',(5 / 7 * $(this).val()).toFixed(2));
+        $("#offsite_infrastructure_charge_to_mhada1").attr('value',(2 / 7 * $(this).val()).toFixed(2));
+        $("#offsite_infrastructure_charge_to_mhada1_installment").attr('value',(2 / 7 * $(this).val()).toFixed(2));
     });
 
 
