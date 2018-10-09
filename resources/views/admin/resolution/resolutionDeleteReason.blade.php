@@ -11,7 +11,7 @@
                 <!-- <p>Some text in the modal.</p> -->
                 {{ method_field('DELETE') }}
                 @csrf
-                <div class="mb-0">
+                <div class="table--box-input  mb-0">
                     <!-- <label class="col-md-4 control-label">Board Name</label> -->
                     <div class="@if($errors->has('board_name')) has-error @endif">
                         <label for="comment">Reason:</label>
