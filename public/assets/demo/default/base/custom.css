@@ -1,11 +1,5 @@
 /* theme classes over ride starts here */
 
-.m-portlet.m-portlet--nav-tabs {
-    margin-top: 15px;
-    padding: 15px;
-    margin-bottom: 0;
-}
-
 .m-brand__logo-wrapper:focus {
     outline: none;
 }
@@ -165,7 +159,7 @@
 }
 
 .m-tabs-line .m-tabs__item {
-    margin-right: 20px;
+    margin-right: 0;
 }
 
 .m-portlet+.m-portlet {
@@ -180,24 +174,31 @@
     padding-top: 20px !important;
 }
 
+.m-tabs-line a.m-tabs__link, .m-tabs-line.nav.nav-tabs .nav-link {
+    padding-left: 15px;
+    padding-right: 15px;
+    background-color: #e8e8e8;
+    border: none !important;
+}
+
 .m-tabs-line.m-tabs-line--primary a.m-tabs__link.active,
 .m-tabs-line.m-tabs-line--primary a.m-tabs__link:hover,
 .m-tabs-line.m-tabs-line--primary.nav.nav-tabs .nav-link.active,
-.m-tabs-line.m-tabs-line--primary.nav.nav-tabs .nav-link:hover {
-    color: #f0791b !important;
-    border-bottom: 1px solid #f0791b;
-}
-
+.m-tabs-line.m-tabs-line--primary.nav.nav-tabs .nav-link:hover,
 .m-tabs-line.m-tabs-line--primary a.m-tabs__link.active>i,
 .m-tabs-line.m-tabs-line--primary a.m-tabs__link:hover>i,
 .m-tabs-line.m-tabs-line--primary.nav.nav-tabs .nav-link.active>i,
 .m-tabs-line.m-tabs-line--primary.nav.nav-tabs .nav-link:hover>i {
-    color: #f0791b !important;
-    border-bottom: 1px solid #f0791b;
+    color: #fff !important;
+    background: #ff764f;
 }
 
-.m-portlet.m-portlet--tabs .m-portlet__head .m-portlet__head-tools .m-tabs-line .m-tabs__link {
+.m-portlet.m-portlet--tabs .m-tabs-line .m-tabs__link {
     padding-top: 0;
+}
+
+.nav.nav-pills, .nav.nav-tabs {
+    margin-bottom: 0;
 }
 
 .m-portlet {
@@ -225,6 +226,7 @@
 }
 
 .nav-tabs--custom {
+    margin-top: 15px;
     border-bottom: none !important;
 }
 
