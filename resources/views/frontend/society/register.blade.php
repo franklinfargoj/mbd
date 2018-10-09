@@ -3,7 +3,7 @@
 <div class="m-grid__item m-grid__item--fluid m-grid m-grid--hor m-login--singin" id="m_login" style="position: relative;">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-sm-5 overlay overlay--signup h-100vh d-flex">
+            <div class="col-sm-5 overlay overlay--signup h-100vh d-flex justify-content-center">
                 <div class="mt-3">
                     <a href="{{ url('/') }}"></a>
                     <img src="{{ asset('/img/logo-short.png')}}">

@@ -11,7 +11,7 @@
 }
 
 .m-portlet + .tab-content {
-    margin-top: 50px;
+    margin-top: 30px;
 }
 
 .datepicker tbody tr>td.day.active,
@@ -2026,6 +2026,7 @@ label.site-visit-label {
 .m-aside-menu .m-menu__nav .m-menu__item.m-menu__item--submenu:focus,
 .m-aside-menu .m-menu__nav .m-menu__item.m-menu__item--submenu.m-menu__item--active {
     background-color: #fff;
+    box-shadow: inset 0 7px 9px -6px rgba(0,0,0,0.5);
 }
 
 .m-aside-menu .m-menu__nav .m-menu__item.m-menu__item--submenu:hover .m-menu__link,
