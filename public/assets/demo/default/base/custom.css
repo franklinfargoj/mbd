@@ -81,12 +81,37 @@
     width: 150px;
 }
 
+.signout-icon path,
+.signout-text {
+    transition: 0.3s all ease;
+}
+
+.signout-icon {
+    line-height: 1;
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+.signout-text {
+    display: inline-block;
+    padding-left: 23px !important;
+}
+
 .m-dropdown .m-nav__link-text,
 .m-dropdown .m-nav__link-text:hover,
 .m-dropdown .m-nav__link-text:focus,
-.m-dropdown .m-dropdown__toggle,
-.m-nav>.m-nav__item:hover>.m-nav__link .m-nav__link-text {
+.m-dropdown .m-dropdown__toggle {
     color: #f0791b;
+}
+
+.m-nav>.m-nav__item:hover .signout-text,
+.m-nav>.m-nav__item:focus .signout-text {
+    color: #f0791b !important;
+}
+
+.m-nav>.m-nav__item:hover .signout-icon path,
+.m-nav>.m-nav__item:focus .signout-icon path {
+    fill: #f0791b;
 }
 
 .m-dropdown .m-dropdown__wrapper .m-nav>.m-nav__item>.m-nav__link {
@@ -369,12 +394,32 @@ td.datatable-address span {
     display: inline-block;
 }
 
-td. span {
+td span {
     width: 150px;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
     display: inline-block;
+}
+
+#dataTableBuilder_filter {
+    max-width: 200px;
+    width: 100%;
+}
+
+#dataTableBuilder_filter input {
+    background-image: url('../../../../img/search-icon.svg');
+    background-repeat: no-repeat;
+    background-position: center right;
+    background-size: 24px;
+}
+
+#dataTableBuilder_filter input:focus {
+    background-image: url('../../../../img/search-focus-icon.svg');
+}
+
+#dataTableBuilder_filter label {
+    margin-bottom: 0;
 }
 
 .dataTables_wrapper .dataTables_paginate .pagination {
