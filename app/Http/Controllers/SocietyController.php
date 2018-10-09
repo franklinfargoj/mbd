@@ -166,15 +166,15 @@ class SocietyController extends Controller
                 });
             })->download('csv');
         }
-       
         if ($datatables->getRequest()->ajax()) {
 
             // DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
-             $society_data = SocietyDetail::all();
+             $society_data = SocietyDetail::orderBy('id', 'desc')->get();
             // $society_data = VillageDetail::with('Societies')->whereHas('Societies')->where('id',$id);
             //$society_data= array_get($society_data, 'Societies')!=null?array_get($society_data, 'Societies'):[];
 
             // $society_data = $society_data->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').',society_name, lm_society_detail.id as id, village_id, survey_number, society_address, surplus_charges');
+//            dd($society_data);
 
             return $datatables->of($society_data)
                 // ->editColumn('radio', function ($society_data) {
