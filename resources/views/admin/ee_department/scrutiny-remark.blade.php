@@ -402,30 +402,25 @@
                 </div>
 
                 <div class="panel section-2" id="checklist-scrunity">
-                    <div class="m-portlet">
-                        <div class="tab-pane--nested-tabs__inner">
-                            <div>
-                                <ul id="scrunity-tabs" class="nav nav-pills nav-justified" role="tablist">
-                                    <li class="nav-item">
-                                        <a class="nav-link active show nested_t" data-toggle="pill" href="#verification"
-                                            id="nested_tab_1">
-                                            Consent Verification</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link nested_t" data-toggle="pill" href="#demarcation" id="nested_tab_2">
-                                            Demarcation</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link nested_t" data-toggle="pill" href="#tit-bit" id="nested_tab_3">
-                                            Tit-Bit</a>
-                                    </li>
-                                    <li class="nav-item ">
-                                        <a class="nav-link nested_t" data-toggle="pill" href="#relocation" id="nested_tab_4">
-                                            R.G. Relocation</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
+                    <ul id="scrunity-tabs" class="nav nav-pills nav-justified" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active show nested_t" data-toggle="pill" href="#verification" id="nested_tab_1">
+                                Consent Verification</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nested_t" data-toggle="pill" href="#demarcation" id="nested_tab_2">
+                                Demarcation</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nested_t" data-toggle="pill" href="#tit-bit" id="nested_tab_3">
+                                Tit-Bit</a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link nested_t" data-toggle="pill" href="#relocation" id="nested_tab_4">
+                                R.G. Relocation</a>
+                        </li>
+                    </ul>
+                    <div class="m-portlet m-portlet--no-top-shadow">
                         <div class="tab-content">
                             <div class="tab-pane active nested_tab_1" id="verification">
                                 <form class="form--custom" action="{{ route('consent-verfication') }}" method="post">

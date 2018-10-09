@@ -250,28 +250,26 @@
                 </div>
 
                 <div class="panel" id="checklist-scrunity">
-                    <div class="m-portlet">
+                    <ul id="scrunity-tabs" class="nav nav-pills nav-justified" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active show" data-toggle="pill" href="#verification">
+                                Consent Verification</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="pill" href="#demarcation">
+                                Demarcation</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="pill" href="#tit-bit">
+                                Tit-Bit</a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link" data-toggle="pill" href="#relocation">
+                                R.G. Relocation</a>
+                        </li>
+                    </ul>
+                    <div class="m-portlet m-portlet--no-top-shadow">
                         <div class="tab-pane--nested-tabs__inner">
-                            <div>
-                                <ul id="scrunity-tabs" class="nav nav-pills nav-justified" role="tablist">
-                                    <li class="nav-item">
-                                        <a class="nav-link active show" data-toggle="pill" href="#verification">
-                                            Consent Verification</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" data-toggle="pill" href="#demarcation">
-                                            Demarcation</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" data-toggle="pill" href="#tit-bit">
-                                            Tit-Bit</a>
-                                    </li>
-                                    <li class="nav-item ">
-                                        <a class="nav-link" data-toggle="pill" href="#relocation">
-                                            R.G. Relocation</a>
-                                    </li>
-                                </ul>
-                            </div>
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group row">
