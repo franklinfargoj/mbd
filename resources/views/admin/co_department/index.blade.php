@@ -71,7 +71,7 @@
                             <div class="form-group m-form__group">
                                 <div class="btn-list">
                                     <button type="submit" class="btn btn-primary">Search</button>
-                                    <button type="reset" class="btn btn-metal">Reset</button>
+                                    <button type="reset" onclick="window.location.href='{{ url("/co") }}'" class="btn btn-metal">Reset</button>
                                 </div>
                             </div>
                         </div>
@@ -101,9 +101,9 @@
 {!! $html->scripts() !!}
 
 <script>
-    $("#update_status").on("change", function () {
+    /*$("#update_status").on("change", function () {
         $("#eeForm").submit();
-    });
+    });*/
 
     $(document).ready(function () {
         $(".display_msg").delay(5000).slideUp(300);
