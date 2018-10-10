@@ -413,10 +413,10 @@ Breadcrumbs::for('document-submitted', function ($trail,$id) {
     $trail->push('society documents', route('document-submitted',$id));
 });
 
-Breadcrumbs::for('ee_scrutiny_remark', function ($trail,$id,$societyId) {
+Breadcrumbs::for('scrutiny-remark', function ($trail,$id,$societyId) {
     $trail->parent('ee');
 
-$trail->push('scrutiny-remark', route('scrutiny-remark',['id'=>$id,'society_id'=>$society_id]));
+$trail->push('scrutiny-remark', route('scrutiny-remark',['id'=>$id,'society_id'=>$societyId]));
 
 });
 
