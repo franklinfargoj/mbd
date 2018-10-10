@@ -118,6 +118,13 @@ class CommonController extends Controller
         return  $applicationData;
     }
 
+    public function architect_layout_data()
+    {
+        $ArchitectLayout=ArchitectLayout::all();
+
+        return $ArchitectLayout;
+    }
+
     public function listApplicationData($request)
     {
         $applicationData = OlApplication::with(['applicationLayoutUser','ol_application_master', 'eeApplicationSociety', 'olApplicationStatusForLoginListing' => function($q){
