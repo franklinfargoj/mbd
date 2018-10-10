@@ -141,42 +141,29 @@
                                     <div class="remarks-section">
                                         <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container"
                                             data-scrollbar-shown="true" data-scrollable="true" data-max-height="200">
-                                            <!-- send to society -->
-                                            <div class="remarks-section__data">
-                                                <p class="remarks-section__data__row"><span>Date:</span><span>{{(isset($applicationData->eeRevertLog)
-                                                        && $applicationData->eeRevertLog->created_at != ''
-                                                        ? date("d-m-Y",
-                                                        strtotime($applicationData->eeRevertLog->created_at))
-                                                        : '')}}</span>
+                                            
+                                            <!-- EE logs -->
+                                            @foreach($eelogs as $log)
 
-                                                </p>
-                                                <p class="remarks-section__data__row"><span>Time:</span><span>{{(isset($applicationData->eeRevertLog)
-                                                        && $applicationData->eeRevertLog->created_at != ''
-                                                        ? date("H:i",
-                                                        strtotime($applicationData->eeRevertLog->created_at))
-                                                        : '')}}</span></p>
-                                                <p class="remarks-section__data__row"><span>Action:</span><span>Sent
-                                                        to Society</span></p>
-                                                <p class="remarks-section__data__row"><span>Description:</span><span>{{(isset($applicationData->eeRevertLog->remark)
-                                                        ? $applicationData->eeRevertLog->remark : '')}}</span></p>
-                                            </div>
-                                            <!-- Forward  to DyCE -->
-                                            <div class="remarks-section__data">
-                                                <p class="remarks-section__data__row"><span>Date:</span><span>{{(isset($applicationData->eeForwardLog)
-                                                        && $applicationData->eeForwardLog->created_at != ''
-                                                        ? date("d-m-Y",
-                                                        strtotime($applicationData->eeForwardLog->created_at))
-                                                        : '')}}</span></p>
-                                                <p class="remarks-section__data__row"><span>Time:</span><span>{{(isset($applicationData->eeForwardLog)
-                                                        && $applicationData->eeForwardLog->created_at != ''
-                                                        ? date("H:i",
-                                                        strtotime($applicationData->eeForwardLog->created_at))
-                                                        : '')}}</span></p>
-                                                <p class="remarks-section__data__row"><span>Action:</span><span>Forward 
-                                                        to DyCE</span></p>
-                                                <p class="remarks-section__data__row"><span>Description:</span><span>{{(isset($applicationData->eeForwardLog->remark)
-                                                        ? $applicationData->eeForwardLog->remark : '')}}</span></p>
-                                            </div>
+                                                @if($log->status_id == config('commanConfig.applicationStatus.forwarded'))
+                                                    @php $status = 'Forwarded'; @endphp
+                                                @elseif($log->status_id == config('commanConfig.applicationStatus.reverted'))
+                                                    @php $status = 'Reverted'; @endphp
+                                                @endif  
+
+                                                <div class="remarks-section__data">
+                                                    <p class="remarks-section__data__row"><span>Date:</span><span>{{(isset($log) && $log->created_at != '' ? date("d-m-Y",
+                                                    strtotime($log->created_at)) : '')}}</span>
+
+                                                    </p>
+                                                    <p class="remarks-section__data__row"><span>Time:</span><span>{{(isset($log) && $log->created_at != '' ? date("H:i",
+                                                    strtotime($log->created_at)) : '')}}</span></p>
+                                                    <p class="remarks-section__data__row"><span>Action:</span>
+
+                                                    <span>{{$status}} to {{isset($log->getRoleName->display_name) ? $log->getRoleName->display_name : ''}}</span></p>
+                                                    <p class="remarks-section__data__row"><span>Description:</span><span>{{(isset($log) ? $log->remark : '')}}</span></p>
+                                                </div>
+                                            @endforeach
                                         </div>
                                     </div>
                                 </div>
@@ -189,26 +176,29 @@
                                     <div class="remarks-section">
                                         <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container"
                                             data-scrollbar-shown="true" data-scrollable="true" data-max-height="200">
-                                            <div class="remarks-section__data">
-                                                <p class="remarks-section__data__row"><span>Date:</span><span>{{(isset($applicationData->dyceRevertLog)
-                                                        && $applicationData->dyceRevertLog->created_at !=
-                                                        '' ? date("d-m-Y",
-                                                        strtotime($applicationData->dyceRevertLog->created_at))
-                                                        : '')}}</span></p>
 
-                                                <p class="remarks-section__data__row"><span>Time:</span><span>{{(isset($applicationData->dyceRevertLog)
-                                                        && $applicationData->dyceRevertLog->created_at !=
-                                                        '' ? date("H:i",
-                                                        strtotime($applicationData->dyceRevertLog->created_at))
-                                                        : '')}}</span></p>
-                                                <p class="remarks-section__data__row"><span>Action:</span><span>Sent
-                                                        to EE</span></p>
-                                                <p class="remarks-section__data__row"><span>Description:</span><span>{{(isset($applicationData->dyceRevertLog->remark)
-                                                        ? $applicationData->dyceRevertLog->remark : '')}}</span></p>
+                                            @foreach($dyceLogs as $log)
 
-                                            </div>
+                                                @if($log->status_id == config('commanConfig.applicationStatus.forwarded'))
+                                                    @php $status = 'Forwarded'; @endphp
+                                                @elseif($log->status_id == config('commanConfig.applicationStatus.reverted'))
+                                                    @php $status = 'Reverted'; @endphp
+                                                @endif                       
+                                            <!-- DyCE Logs-->
+                                                <div class="remarks-section__data">
+                                                    <p class="remarks-section__data__row"><span>Date:</span><span>{{(isset($log) && $log->created_at != '' ? date("d-m-Y",
+                                                    strtotime($log->created_at)) : '')}}</span></p>
+                                                    <p class="remarks-section__data__row"><span>Time:</span><span>{{(isset($log) && $log->created_at != '' ? date("H:i",
+                                                    strtotime($log->created_at)) : '')}}</span></p>
+                                                    <p class="remarks-section__data__row"><span>Action:</span>
 
-                                            <div class="remarks-section__data">
+                                                    <span>{{$status}} to {{isset($log->getRoleName->display_name) ? $log->getRoleName->display_name : ''}}</span></p>
+                                                    <p class="remarks-section__data__row"><span>Description:</span>
+                                                    <span>{{(isset($log) ? $log->remark : '')}}</span></p>
+                                                </div>
+                                            @endforeach
+
+                                            <div class="remarks-section__data" style="display: none">
                                                 <p class="remarks-section__data__row"><span>Date:</span><span>{{(isset($applicationData->dyceForwardLog)
                                                         && $applicationData->dyceForwardLog->created_at !=
                                                         '' ? date("d-m-Y",

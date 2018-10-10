@@ -693,9 +693,9 @@
 
                             <div class="m-section__content mb-0 table-responsive">
                                 <div class="d-flex flex-column h-100">
-                                    <h5>Download Note</h5>
-                                    <span class="hint-text">Download EE Note uploaded
-                                        by EE</span>
+                                    <h5>Download EE Note</h5>
+<!--                                     <span class="hint-text">Download EE Note uploaded
+                                        by EE</span> -->
                                     <div class="mt-3">
                                         @if(isset($eeScrutinyData->eeNote->document_path))
                                         <a href="{{ config('commanConfig.storage_server').'/'.$eeScrutinyData->eeNote->document_path }}">

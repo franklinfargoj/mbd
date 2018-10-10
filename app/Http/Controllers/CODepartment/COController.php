@@ -139,8 +139,9 @@ class COController extends Controller
 
     // Forward Application page
     public function forwardApplication(Request $request, $applicationId){
-         $ol_application = $this->CommonController->getOlApplication($applicationId);
-         $ol_application->status = $this->CommonController->getCurrentStatus($applicationId);
+        
+        $ol_application = $this->CommonController->getOlApplication($applicationId);
+        $ol_application->status = $this->CommonController->getCurrentStatus($applicationId);
         $applicationData = $this->CommonController->getForwardApplication($applicationId);
 //        $arrData['application_status'] = $this->CommonController->getCurrentApplicationStatus($applicationId);
 
@@ -175,8 +176,14 @@ class COController extends Controller
         // remark and history
         $this->CommonController->getEEForwardRevertLog($applicationData,$applicationId);
         $this->CommonController->getDyceForwardRevertLog($applicationData,$applicationId);
-        $this->CommonController->getREEForwardRevertLog($applicationData,$applicationId);    
-        return view('admin.co_department.forward_application',compact('applicationData', 'arrData','ol_application'));
+        $this->CommonController->getREEForwardRevertLog($applicationData,$applicationId);  
+
+        //remark and history
+        $eelogs = $this->CommonController->getLogsOfEEDepartment($applicationId);
+        $dyceLogs = $this->CommonController->getLogsOfDYCEDepartment($applicationId);  
+        $reeLogs = $this->CommonController->getLogsOfREEDepartment($applicationId);  
+
+        return view('admin.co_department.forward_application',compact('applicationData', 'arrData','ol_application','eelogs','dyceLogs','reeLogs'));
     }
 
     public function sendForwardApplication(Request $request){

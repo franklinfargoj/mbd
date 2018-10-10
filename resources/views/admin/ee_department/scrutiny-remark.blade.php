@@ -1001,9 +1001,7 @@
                                         <div class="row">
                                             <div class="col-sm-6">
                                                 <div class="d-flex flex-column h-100 two-cols">
-                                                    <h5>Download Note</h5>
-                                                    <span class="hint-text">Download EE Note uploaded by
-                                                        EE</span>
+                                                    <h5>Download EE Note</h5>
                                                     <div class="mt-auto">
 
                                                         @if(isset($arrData['eeNote']->document_path))

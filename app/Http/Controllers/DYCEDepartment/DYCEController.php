@@ -140,7 +140,7 @@ class DYCEController extends Controller
         if ($request->file('document')){
             foreach ($request->file('document') as $file){
                 $extension = $file->getClientOriginalExtension();
-                $file_name = time().'site_documents'.'.'.$extension;
+                $file_name = time().$file->getClientoriginalName();
 
                 if($extension == "pdf"){
 
@@ -201,7 +201,11 @@ class DYCEController extends Controller
         $arrData['ree_role_name']   = strtoupper(str_replace('_', ' ', $ree_id->name));
 
         $this->CommonController->getEEForwardRevertLog($applicationData,$applicationId);
-        return view('admin.DYCE_department.forward_application',compact('applicationData', 'arrData','ol_application'));
+
+        //remark and history
+        $eelogs = $this->CommonController->getLogsOfEEDepartment($applicationId);
+
+        return view('admin.DYCE_department.forward_application',compact('applicationData', 'arrData','ol_application','eelogs'));
     }
 
     // forward or revert forward Application

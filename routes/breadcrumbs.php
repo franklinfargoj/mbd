@@ -372,7 +372,7 @@ Breadcrumbs::for('ee', function ($trail) {
 //offer letter
 Breadcrumbs::for('view_application_ee', function ($trail,$id) {
     $trail->parent('ee');
-    $trail->push('view-application', route('ee.view_application',$id));
+    $trail->push('view application', route('ee.view_application',$id));
 });
 
 Breadcrumbs::for('view_application_vp', function ($trail,$id) {
@@ -392,7 +392,7 @@ Breadcrumbs::for('view_application_co', function ($trail,$id) {
 
 Breadcrumbs::for('view_application_dyce', function ($trail,$id) {
     $trail->parent('dyce');
-    $trail->push('view-application', route('dyce.view_application',$id));
+    $trail->push('view application', route('dyce.view_application',$id));
 });
 
 Breadcrumbs::for('view_application', function ($trail,$id) {
@@ -405,19 +405,19 @@ Breadcrumbs::for('view_application', function ($trail,$id) {
 
 Breadcrumbs::for('document-submitted', function ($trail,$id) {
     $trail->parent('ee');
-    $trail->push('society-documents', route('document-submitted',$id));
+    $trail->push('society documents', route('document-submitted',$id));
 });
 
 Breadcrumbs::for('scrutiny-remark', function ($trail,$id,$societyId) {
     $trail->parent('ee');
 
-$trail->push('scrutiny-remark', route('scrutiny-remark',['id'=>$id,'society_id'=>$societyId]));
+$trail->push('scrutiny remark', route('scrutiny-remark',['id'=>$id,'society_id'=>$societyId]));
 
 });
 
 Breadcrumbs::for('Forward_Application_ee', function ($trail,$id) {
     $trail->parent('ee');
-    $trail->push('forward-application', route('get-forward-application',$id));
+    $trail->push('forward application', route('get-forward-application',$id));
 });
 
 //Dyce

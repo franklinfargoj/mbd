@@ -160,7 +160,12 @@ class CAPController extends Controller
 
         // dd($applicationData);
 
-        return view('admin.cap_department.forward_application',compact('applicationData', 'arrData','ol_application'));
+        //remark and history
+        $eelogs = $this->CommonController->getLogsOfEEDepartment($applicationId);
+        $dyceLogs = $this->CommonController->getLogsOfDYCEDepartment($applicationId);  
+        $reeLogs = $this->CommonController->getLogsOfREEDepartment($applicationId);          
+
+        return view('admin.cap_department.forward_application',compact('applicationData', 'arrData','ol_application','eelogs','dyceLogs','reeLogs'));
     }
 
     public function sendForwardApplication(Request $request){
