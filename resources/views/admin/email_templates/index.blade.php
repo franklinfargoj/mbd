@@ -12,7 +12,7 @@
  </div>
  <!-- END: Subheader -->           
  <div class="m-content"></div>
- <div class="m-portlet m-portlet--mobile">
+ <div class="m-portlet m-portlet--compact m-portlet--mobile">
     <div class="m-portlet__head">
        <div class="m-portlet__head-caption">
           <div class="m-portlet__head-title">
