@@ -739,6 +739,10 @@ td.datatable-address span {
     text-decoration: none;
 }
 
+.breadcrumb-item .fa-home {
+    font-size: 1.3rem;
+}
+
 /* breadcrumbs ends here */
 
 .m-body .m-wrapper {
