@@ -233,6 +233,11 @@ class EEController extends Controller
             }
             else
             {*/
+                if($request->society_flag == 1){
+                    $status_id = config('commanConfig.applicationStatus.reverted');
+                }else{
+                    $status_id = config('commanConfig.applicationStatus.in_process');
+                }
                 $revert_application = [
                     [
                         'application_id' => $request->application_id,
@@ -251,7 +256,7 @@ class EEController extends Controller
                         'user_id' => $request->to_child_id,
                         'role_id' => $request->to_role_id,
                         'society_flag' => $request->society_flag,
-                        'status_id' => config('commanConfig.applicationStatus.in_process'),
+                         'status_id' => $status_id,                         
                         'to_user_id' => NULL,
                         'to_role_id' => NULL,
                         'remark' => $request->remark,
@@ -259,7 +264,7 @@ class EEController extends Controller
                     ]
                 ];
 //            }
-
+                // dd($revert_application);
 //            echo "in revert";
 //            dd($revert_application);
             OlApplicationStatus::insert($revert_application);
@@ -417,8 +422,9 @@ class EEController extends Controller
             'EE_document_path' => '',
             'deleted_comment_by_EE' => $request->remark
         ];
-        unlink(public_path($request->fileName));
+        // unlink(public_path($request->fileName));
         $document_delete = OlSocietyDocumentsStatus::find($id);
+        Storage::disk('ftp')->delete($request->fileName);
 
         $document_delete->update($data);
 

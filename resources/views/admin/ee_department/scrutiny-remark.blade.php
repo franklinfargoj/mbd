@@ -19,7 +19,8 @@
     <div class="custom-wrapper">
         <div class="col-md-12">
             <div class="d-flex">
-                {{ Breadcrumbs::render('document-submitted',$ol_application->id,$arrData['society_detail']->id) }}
+            
+                {{ Breadcrumbs::render('document-submitted',$ol_application->id,$arrData['society_detail']->society_id) }}
                 <div class="ml-auto btn-list">
                     <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
                 </div>
