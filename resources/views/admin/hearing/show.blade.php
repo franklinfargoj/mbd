@@ -1,4 +1,7 @@
-@extends('admin.layouts.app')
+@extends('admin.layouts.sidebarAction')
+@section('actions')
+    @include('admin.hearing.actions',compact('hearing_data'))
+@endsection
 @section('content')
 <div class="col-md-12">
     <div class="m-subheader px-0 m-subheader--top">
@@ -151,4 +154,5 @@
         </div>
     </div>
 </div>
+@include('admin.hearing.delete_hearing')
 @endsection
