@@ -430,6 +430,53 @@ $(document).ready(function () {
             delete_message: "required",
         }
     });
+
+    // Insert Records
+
+    var dataRecords = document.getElementById("dataTableBuilder_length");
+    var dataRecordsLabel = document.querySelector("#dataTableBuilder_length label");
+    var dataPaginate = document.getElementById("dataTableBuilder_paginate");
+
+    if (dataRecords) {
+        dataRecords.parentElement.removeChild(dataRecords);
+        dataPaginate.parentElement.parentElement.classList.add("align-items-center")
+        dataPaginate.parentElement.classList.add("d-flex", "justify-content-end");
+        dataPaginate.parentElement.insertBefore(dataRecords, dataPaginate);
+
+        $(dataRecordsLabel).contents().filter(function() {
+            return this.nodeType === 3; 
+        }).remove();
+    }
+
+    // Insert SearchBox
+
+    var dataSearch = document.getElementById("dataTableBuilder_filter");
+    var dataSearchBoxPlacement = document.querySelector(".m-subheader.px-0.m-subheader--top .d-flex.align-items-center");
+
+    if (dataSearch) {
+        var dataSearchLabel = document.querySelector("#dataTableBuilder_filter label");
+        $('#dataTableBuilder_wrapper input[type="search"]').attr('placeholder', 'Search');
+        
+        dataSearchBoxPlacement.appendChild(dataSearch);
+
+        if(!dataSearch.previousElementSibling.classList.contains("btn-list")) {
+            dataSearch.classList.add("ml-auto");
+        }
+
+        $(dataSearchLabel).contents().filter(function() {
+            return this.nodeType === 3; 
+        }).remove();
+    }
+
+    // console.log("input", dataSearch.querySelector("label input"));
+    // dataSearch.querySelector("label input").addEventListener("keyup", function() {
+    //     console.log("search", dataPaginate.children[0]);
+    //     if(dataPaginate.children[0].getAttribute("style").indexOf("hidden") !== -1) {
+    //         dataPaginate.children[0].style.display = "none";
+    //     } else {
+    //         dataPaginate.children[0].style.display = "";
+    //     }
+    // });
 });
 
 
