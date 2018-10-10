@@ -19,9 +19,10 @@
 <div class="custom-wrapper">
     <div class="col-md-12">
         <div class="d-flex">
-            {{ Breadcrumbs::render('document-submitted',$ol_application->id,$arrData['society_detail']->id) }}
+            {{ Breadcrumbs::render('scrutiny-remark',$ol_application->id,$arrData['society_detail']->society_id) }}
             <div class="ml-auto btn-list">
                 <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+
             </div>
         </div>
         <div id="tabbed-content" class="">
@@ -1000,9 +1001,7 @@
                                         <div class="row">
                                             <div class="col-sm-6">
                                                 <div class="d-flex flex-column h-100 two-cols">
-                                                    <h5>Download Note</h5>
-                                                    <span class="hint-text">Download EE Note uploaded by
-                                                        EE</span>
+                                                    <h5>Download EE Note</h5>
                                                     <div class="mt-auto">
 
                                                         @if(isset($arrData['eeNote']->document_path))
@@ -1159,7 +1158,7 @@
         //nested tabs
         var nestedTab = Cookies.get('nestedTab');
 
-        if (id != undefined) {
+        if (nestedTab != undefined) {
             $(".nested_t").removeClass('active');
             $("#" + nestedTab).addClass('active');
             $(".tab-pane").removeClass('active');

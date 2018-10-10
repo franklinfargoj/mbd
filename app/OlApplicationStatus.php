@@ -17,4 +17,9 @@ class OlApplicationStatus extends Model
         'to_role_id',
         'remark'
     ];
+
+    public function getRoleName()
+    {
+        return $this->hasOne('App\Role', 'id','to_role_id');
+    }
 }

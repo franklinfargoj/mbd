@@ -10,12 +10,14 @@
 <div class="col-md-12">
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">
-        <div class="d-flex align-items-center">
+        <div class="d-flex align-items-center" id="search_box">
             <h3 class="m-subheader__title m-subheader__title--separator">Application for Offer Letter</h3>
             {{ Breadcrumbs::render('ee') }}
             <!-- <button type="button" class="btn btn-transparent ml-auto" data-toggle="collapse" data-target="#filter">
                 <img class="filter-icon" src="{{asset('/img/filter-icon.svg')}}">Filter
             </button> -->
+            {{--<div class="ml-auto"><input type="search" id="searchId" class="form-control input-sm input-small input-inline form-control--custom"
+                    placeholder="Search ..."></div>--}}
         </div>
         <div class="m-portlet m-portlet--compact filter-wrap">
             <div class="row align-items-center row--filter">
@@ -69,8 +71,8 @@
                             <div class="col">
                                 <div class="form-group m-form__group">
                                     <div class="btn-list">
-                                        <button type="submit" class="btn btn-primary">Search</button>
-                                        <button type="reset" onclick="window.location.href='{{ url("/ee") }}'" class="btn btn-metal">Reset</button>
+                                        <button type="submit" class="btn m-btn--pill m-btn--custom btn-primary">Search</button>
+                                        <button type="reset" onclick="window.location.href='{{ url("/ee") }}'" class="btn m-btn--pill m-btn--custom btn-metal">Reset</button>
                                     </div>
                                 </div>
                             </div>
@@ -81,7 +83,7 @@
         </div>
     </div>
     <!-- END: Subheader -->
-    <div class="m-portlet m-portlet--mobile">
+    <div class="m-portlet m-portlet--compact m-portlet--mobile">
         {{--<div class="m-portlet__head">--}}
             {{--<div class="m-portlet__head-caption">--}}
                 {{--<div class="m-portlet__head-title">--}}
@@ -119,6 +121,5 @@
     $(document).ready(function () {
         $(".display_msg").delay(5000).slideUp(300);
     });
-
 </script>
 @endsection

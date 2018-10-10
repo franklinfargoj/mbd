@@ -23,6 +23,12 @@ return [
     'dyce_branch_head' => 'dyce_engineer',
     'ree_branch_head'  => 'ree_engineer',
 
+    //deputy 
+    'ee_deputy_engineer' => 'ee_dy_engineer',
+    'dyce_deputy_engineer' => 'dyce_deputy_engineer',
+    'ree_deputy_engineer' =>    'REE deputy Engineer',
+    'ree_assistant_engineer' => 'REE Assistant Engineer',
+
     'junior_architect'=>'junior_architect',
     'senior_architect'=>'senior_architect',
     'architect'=>'architect',

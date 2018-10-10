@@ -22,10 +22,11 @@ class SendNoticeToAppellantController extends Controller
     public function create($id)
     {
         $header_data = $this->header_data;
-        $arrData['hearing'] = Hearing::with(['hearingBoard', 'hearingDepartment', 'hearingSchedule'])
+        $arrData['hearing'] = Hearing::with(['hearingBoard', 'hearingDepartment', 'hearingSchedule', 'hearingStatus', 'hearingApplicationType'])
                                         ->where('id', $id)->first();
+        $hearing_data = $arrData['hearing'];
 
-        return view('admin.send_notice_to_appellant.create', compact('header_data', 'arrData'));
+        return view('admin.send_notice_to_appellant.create', compact('header_data', 'arrData', 'hearing_data'));
     }
 
     public function store(Request $request)
@@ -92,7 +93,6 @@ class SendNoticeToAppellantController extends Controller
         $header_data = $this->header_data;
         $arrData['hearing'] = Hearing::with(['hearingBoard', 'hearingDepartment', 'hearingSchedule', 'hearingSendNoticeToAppellant'])
                                         ->where('id', $id)->first();
-
         return view('admin.send_notice_to_appellant.edit', compact('header_data', 'arrData'));
     }
 

@@ -182,8 +182,11 @@ class REEController extends Controller
             $arrData['co_role_name'] = strtoupper(str_replace('_', ' ', $co_id->name));
         }
 
+        //remark and history
+        $eelogs = $this->CommonController->getLogsOfEEDepartment($applicationId);
+        $dyceLogs = $this->CommonController->getLogsOfDYCEDepartment($applicationId);
 
-        return view('admin.REE_department.forward_application',compact('applicationData','arrData','ol_application'));  
+        return view('admin.REE_department.forward_application',compact('applicationData','arrData','ol_application','eelogs','dyceLogs'));  
     }             
 
     public function sendForwardApplication(Request $request){

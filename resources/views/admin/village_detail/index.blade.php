@@ -13,7 +13,7 @@
         </div>
     </div>
     <!-- END: Subheader -->
-    <div class="m-portlet m-portlet--mobile">
+    <div class="m-portlet m-portlet--compact m-portlet--mobile">
         @if(Session::has('success'))
         <div class="alert alert-success fade in alert-dismissible show" style="margin-top:18px;">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -91,24 +91,45 @@
     } );*/
 
     //function to detele village details
-    function deleteVillage(id) {
-        if (confirm("Are you sure to delete?")) {
-            $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                type: "POST",
-                data: {
-                    id: id
-                },
-                url: 'loadDeleteVillageUsingAjax',
-                success: function (res) {
-                    $("#myModal").html(res);
-                    $("#myModalBtn").click();
-                }
+    // function deleteVillage(id) {
+    //     if (confirm("Are you sure to delete?")) {
+    //         $.ajax({
+    //             headers: {
+    //                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    //             },
+    //             type: "POST",
+    //             data: {
+    //                 id: id
+    //             },
+    //             url: 'loadDeleteVillageUsingAjax',
+    //             success: function (res) {
+    //                 $("#myModal").html(res);
+    //                 $("#myModalBtn").click();
+    //             }
+    //         });
+    //     }
+    // }
+
+    $(document).ready(function () {
+            $(document).on("click", ".delete-village", function () {
+                var id = $(this).attr("data-id");
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    type:"POST",
+                    data:{
+                        id:id
+                    },
+                    url:"{{ route('loadDeleteVillageUsingAjax') }}",
+                    success:function(res)
+                    {
+                        $("#myModal").html(res);
+                        $("#myModalBtn").click();
+                    }
+                });
             });
-        }
-    }
+        });
 
 </script>
 @endsection

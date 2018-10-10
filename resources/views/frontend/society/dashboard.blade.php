@@ -9,7 +9,7 @@
         </div>
     </div>
     <!-- END: Subheader -->
-    <div class="m-portlet m-portlet--mobile">
+    <div class="m-portlet m-portlet--compact m-portlet--mobile">
         <div class="m-portlet__body">
             <!--end: Search Form -->
             <!--begin: Datatable -->

@@ -56,8 +56,8 @@
                         <div class="col">
                             <div class="form-group m-form__group">
                                 <div class="btn-list">
-                                    <button type="submit" class="btn btn-primary">Search</button>
-                                    <button type="reset" onclick="window.location.href='{{ url("/ree_applications") }}'" class="btn btn-metal">Reset</button>
+                                    <button type="submit" class="btn m-btn--pill m-btn--custom btn-primary">Search</button>
+                                    <button type="reset" onclick="window.location.href='{{ url("/ree_applications") }}'" class="btn m-btn--pill m-btn--custom btn-metal">Reset</button>
                                 </div>
                             </div>
                         </div>
@@ -67,7 +67,7 @@
         </div>
     </div>
     <!-- END: Subheader -->
-    <div class="m-portlet m-portlet--mobile">
+    <div class="m-portlet m-portlet--compact m-portlet--mobile">
         <div class="m-portlet__body">
             <!--begin: Datatable -->
             {!! $html->table() !!}

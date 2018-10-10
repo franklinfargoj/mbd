@@ -55,8 +55,8 @@
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="d-flex flex-column h-100 two-cols">
-                                            <h5>Download Note</h5>
-                                            <span class="hint-text">Download CAP Note uploaded by CAP</span>
+                                            <h5>Download CAP Note</h5>
+                                            <!-- <span class="hint-text">Download  Note uploaded by CAP</span> -->
                                             <div class="mt-auto">
                                                 @if(isset($capNote->document_path))
                                                 <a href="{{ config('commanConfig.storage_server').'/'.$capNote->document_path }}">
@@ -77,8 +77,8 @@
                                     @if($ol_application->status->status_id == config('commanConfig.applicationStatus.in_process'))
                                     <div class="col-sm-6 border-left">
                                         <div class="d-flex flex-column h-100 two-cols">
-                                            <h5>Upload Note</h5>
-                                            <span class="hint-text">Click on 'Upload' to upload CAP - Note
+                                            <h5>Upload CAP Note</h5>
+                                            <!-- <span class="hint-text">Click on 'Upload' to upload  - Note -->
                                                 -
                                                 Note</span>
                                             <!-- <form action="" method="post"> -->

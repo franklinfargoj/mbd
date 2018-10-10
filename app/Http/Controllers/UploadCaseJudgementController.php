@@ -38,8 +38,9 @@ class UploadCaseJudgementController extends Controller
     {
         $header_data = $this->header_data;
         $arrData['hearing_data'] = Hearing::where('id', $id)->first();
-
-        return view('admin.upload_case_judgement.add', compact('header_data', 'arrData'));
+        $hearing_data = $arrData['hearing_data'];
+//        dd($hearing_data);
+        return view('admin.upload_case_judgement.add', compact('header_data', 'arrData', 'hearing_data'));
     }
 
     /**
@@ -130,8 +131,9 @@ class UploadCaseJudgementController extends Controller
         $header_data = $this->header_data;
         $arrData['hearing_data'] = Hearing::with('hearingUploadCaseJudgement')->where('id', $id)->first();
         $arrData['hearing_status'] = HearingStatusLog::where('hearing_id', $id)->orderBy('id', 'desc')->first();
+        $hearing_data = $arrData['hearing_data'];
 
-        return view('admin.upload_case_judgement.edit', compact('header_data', 'arrData'));
+        return view('admin.upload_case_judgement.edit', compact('header_data', 'arrData', 'hearing_data'));
     }
 
     /**

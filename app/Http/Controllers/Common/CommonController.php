@@ -33,6 +33,7 @@ use Auth;
 use DB;
 use Carbon\Carbon;
 use Storage;
+use App\Layout\ArchitectLayout;
 
 class CommonController extends Controller
 {
@@ -116,6 +117,13 @@ class CommonController extends Controller
                 ->where('id',$applicationId)->orderBy('id','DESC')->first();         
                  
         return  $applicationData;
+    }
+
+    public function architect_layout_data($request)
+    {
+        $ArchitectLayout=ArchitectLayout::all();
+
+        return $ArchitectLayout;
     }
 
     public function listApplicationData($request)
@@ -438,13 +446,12 @@ class CommonController extends Controller
         
         $ee_branch_head = Role::where('name',config('commanConfig.ee_branch_head'))
         ->value('id');
-        $ee_jr_user = Role::where('name',config('commanConfig.ee_junior_engineer'))
-        ->value('id');
+        // $ee_jr_user = Role::where('name',config('commanConfig.ee_junior_engineer'))
+        // ->value('id');
         $applicationData->eeForwardLog = OlApplicationStatus::where('application_id',$applicationId)->where('role_id',$ee_branch_head)->where('status_id', config('commanConfig.applicationStatus.forwarded'))->orderBy('id', 'desc')->first();
 
-        // dd($applicationData->eeForwardLog);
 
-        $applicationData->eeRevertLog = OlApplicationStatus::where('application_id',$applicationId)->where('role_id',$ee_jr_user)->where('status_id', config('commanConfig.applicationStatus.reverted'))->where('society_flag',1)->orderBy('id', 'desc')->first();        
+        $applicationData->eeRevertLog = OlApplicationStatus::where('application_id',$applicationId)->where('role_id',$ee_branch_head)->where('status_id', config('commanConfig.applicationStatus.reverted'))->where('society_flag',1)->orderBy('id', 'desc')->first();       
 
        return $applicationData;       
     } 
@@ -499,7 +506,6 @@ class CommonController extends Controller
 
     public function ftpFileUpload($folderName,$file,$fileName){
         return Storage::disk('ftp')->putFileAs($folderName,$file,$fileName);
-
     }
 
     public function generateOfferLetterREE($request)
@@ -564,5 +570,41 @@ class CommonController extends Controller
         $ol_application = OlApplication::where('id', $applicationId)->with(['request_form', 'applicationMasterLayout','eeApplicationSociety','ol_application_master'])->first();
         
         return $ol_application;      
-    }   
+    } 
+
+    public function getLogsOfEEDepartment($applicationId){
+        
+        $roles = array(config('commanConfig.ee_junior_engineer'),config('commanConfig.ee_branch_head'),config('commanConfig.ee_deputy_engineer'),config('commanConfig.society_offer_letter'));
+
+        $status = array(config('commanConfig.applicationStatus.forwarded'), config('commanConfig.applicationStatus.reverted'));
+        
+        $eeRoles = Role::whereIn('name',$roles)->pluck('id'); 
+        $EElogs  = OlApplicationStatus::with('getRoleName')->where('application_id',$applicationId)->whereIn('role_id',$eeRoles)->whereIn('status_id',$status)->get();
+        
+        return $EElogs;
+    }  
+
+    public function getLogsOfDYCEDepartment($applicationId){
+        
+        $roles = array(config('commanConfig.dyce_branch_head'),config('commanConfig.dyce_jr_user'),config('commanConfig.dyce_deputy_engineer'));
+
+        $status = array(config('commanConfig.applicationStatus.forwarded'), config('commanConfig.applicationStatus.reverted'));
+        
+        $dyceRoles = Role::whereIn('name',$roles)->pluck('id'); 
+        $dycelogs  = OlApplicationStatus::with('getRoleName')->where('application_id',$applicationId)->whereIn('role_id',$dyceRoles)->whereIn('status_id',$status)->get();
+        
+        return $dycelogs;
+    }    
+
+    public function getLogsOfREEDepartment($applicationId){
+        
+        $roles = array(config('commanConfig.ree_junior'),config('commanConfig.ree_branch_head'),config('commanConfig.ree_deputy_engineer'),config('commanConfig.ree_assistant_engineer'));
+
+        $status = array(config('commanConfig.applicationStatus.forwarded'), config('commanConfig.applicationStatus.reverted'));
+        
+        $reeRoles = Role::whereIn('name',$roles)->pluck('id'); 
+        $reelogs  = OlApplicationStatus::with('getRoleName')->where('application_id',$applicationId)->whereIn('role_id',$reeRoles)->whereIn('status_id',$status)->get();
+        
+        return $reelogs;
+    }     
 }

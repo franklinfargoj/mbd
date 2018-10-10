@@ -8,7 +8,7 @@
             @if($i==0)
             <li class="breadcrumb-item">
                 <a href="{{ $breadcrumb->url }}" class="m-nav__link m-nav__link--icon">
-                    <i class="m-nav__link-icon la la-home"></i>
+                    <i class="m-nav__link-icon fa fa-home"></i>
                 </a>
             </li>
             @else

@@ -87,6 +87,7 @@ class ResolutionController extends Controller
                 $dataList['Reference Link'] = '';
                 $dataList['Published Date'] = '';
                 $dataList["Revision Log Message"] = '';
+                $dataListKeys = array_keys($dataList);
                 $dataListMaster[]=$dataList;
             }else{
                 $i=1;
@@ -113,7 +114,6 @@ class ResolutionController extends Controller
                 }
             }
 
-            // dd($dataListMaster);
             return view('admin.print_data',compact('dataListMaster', 'dataListKeys')); 
     }
     
@@ -336,9 +336,9 @@ class ResolutionController extends Controller
             'language' => $request->language,
             'reference_link' => $request->reference_link,
             'published_date' => date('Y-m-d',strtotime($request->published_date)),
-            'revision_log_message' => $request->revision_log_message
+            'revision_log_message' => $request->revision_log_message,
+            'keyword' => $request->keyword
         ];
-
 
         $uploadPath = 'resolutions';
         $destinationPath = public_path($uploadPath);
@@ -392,6 +392,7 @@ class ResolutionController extends Controller
         $resolution->reference_link       = $request->reference_link;
         $resolution->published_date       = date('Y-m-d',strtotime($request->published_date));
         $resolution->revision_log_message = $request->revision_log_message;
+        $resolution->keyword              = $request->keyword;
 
         if ($request->has('file')) {
             $resolution->filepath = '/'.$uploadPath.'/';
