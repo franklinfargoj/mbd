@@ -137,8 +137,8 @@ class EEUserSeeder extends Seeder
                 'name' => 'ee_dy_engineer',
                 'redirect_to' => '/ee',
                 'parent_id' => $ee_role_id,
-                'display_name' => 'EE Junior Engineer',
-                'description' => 'EE Junior Engineer'
+                'display_name' => 'EE Deputy Engineer',
+                'description' => 'EE Deputy Engineer'
             ]);
 
             $ee_dy_user_id = User::insertGetId([
