@@ -10,20 +10,6 @@
     </div>
     <!-- END: Subheader -->
     <div class="m-portlet m-portlet--mobile">
-        <div class="m-portlet__head px-0">
-            <div class="m-portlet__head-caption">
-                <div class="m-portlet__head-title">
-                    <h3 class="m-portlet__head-text">
-
-                    </h3>
-                </div>
-            </div>
-            @if(in_array('hearing.create', session()->get('permission')))
-                <div class="text-right">
-                    <a class="btn btn-primary" href="{{route('hearing.create')}}">Add Hearing</a>
-                </div>
-            @endif
-        </div>
         @if(Session::has('success'))
             <div class="alert alert-success fade in alert-dismissible show" style="margin-top:18px;">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -171,9 +157,9 @@
     </script>
 
     <script>
-    $("#hearing_status_id").on("change", function () {
-        $("#hearingForm").submit();
-    });
+    // $("#hearing_status_id").on("change", function () {
+    //     $("#hearingForm").submit();
+    // });
     </script>
 @endsection
 
