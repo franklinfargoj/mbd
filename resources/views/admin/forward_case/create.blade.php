@@ -1,4 +1,7 @@
 @extends('admin.layouts.app')
+@section('actions')
+    @include('admin.hearing.actions',compact('hearing_data'))
+@endsection
 @section('content')
 <div class="col-md-12">
     <div class="m-subheader px-0 m-subheader--top">
@@ -145,6 +148,7 @@
             </div>
         </form>
     </div>
+    @include('admin.hearing.delete_hearing')
 @endsection
 @section('js')
     <script>

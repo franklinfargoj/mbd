@@ -87,6 +87,7 @@ class ResolutionController extends Controller
                 $dataList['Reference Link'] = '';
                 $dataList['Published Date'] = '';
                 $dataList["Revision Log Message"] = '';
+                $dataListKeys = array_keys($dataList);
                 $dataListMaster[]=$dataList;
             }else{
                 $i=1;
@@ -113,7 +114,6 @@ class ResolutionController extends Controller
                 }
             }
 
-            // dd($dataListMaster);
             return view('admin.print_data',compact('dataListMaster', 'dataListKeys')); 
     }
     

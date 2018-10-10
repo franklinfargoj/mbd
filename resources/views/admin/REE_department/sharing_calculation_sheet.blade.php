@@ -1194,7 +1194,7 @@
                 "#mattress_area_for_construction_area").val()));
 
         var lr_cal = parseFloat(0.07 * $("#lr_val").val());
-        var substract = parseFloat($("#total_permissible_construction_area").val()) - parseFloat($(
+        var substract = parseFloat($("#permissible_proratata_area").val()) - parseFloat($(
             "#existing_construction_area").val());
         $("#off_site_infrastructure_fee").attr('value', (substract * lr_cal).toFixed(2));
 
@@ -1312,7 +1312,7 @@
 
     $(document).on("keyup", ".infra_fee", function () {
         var lr_cal = parseFloat(0.07 * $("#lr_val").val());
-        var substract = parseFloat($("#total_permissible_construction_area").val()) - parseFloat($(
+        var substract = parseFloat($("#permissible_proratata_area").val()) - parseFloat($(
             "#existing_construction_area").val());
         $("#off_site_infrastructure_fee").attr('value', (substract * lr_cal).toFixed(2));
 
