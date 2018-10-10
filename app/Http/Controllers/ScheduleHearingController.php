@@ -41,8 +41,8 @@ class ScheduleHearingController extends Controller
         $header_data = $this->header_data;
         $arrData['hearing'] = Hearing::FindOrFail($id);
         $arrData['status'] = HearingStatus::all();
-
-        return view('admin.schedule_hearing.add', compact('header_data', 'arrData'));
+        $hearing_data = $arrData['hearing'];
+        return view('admin.schedule_hearing.add', compact('header_data', 'arrData', 'hearing_data'));
     }
 
     /**

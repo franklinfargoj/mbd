@@ -25,8 +25,11 @@ class ForwardCaseController extends Controller
         $arrData['hearing'] = Hearing::with(['hearingBoard', 'hearingDepartment'])
                                         ->where('id', $id)->first();
         $arrData['board'] = Board::where('status', 1)->get();
+        $hearing_data = Hearing::with(['hearingStatus', 'hearingApplicationType'])
+        ->where('id', $id)
+        ->first();
 
-        return view('admin.forward_case.create', compact('header_data', 'arrData'));
+        return view('admin.forward_case.create', compact('header_data', 'arrData', 'hearing_data'));
     }
 
     public function store(Request $request)

@@ -68,7 +68,7 @@ class HearingController extends Controller
             ['data' => 'applicant_name', 'name' => 'applicant_name', 'title' => 'Applicant Name'],
 //            ['data' => 'hearingDepartment','name' => 'hearingDepartment.department_name','title' => 'Department'],
             ['data' => 'Status','name' => 'hearing_status_id','title' => 'Status'],
-            ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
+            // ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
         ];
 
         if($request->excel)
@@ -171,9 +171,9 @@ class HearingController extends Controller
                 ->editColumn('office_date', function ($hearing_data) {
                     return date(config('commanConfig.dateFormat'), strtotime($hearing_data->office_date));
                 })
-                ->editColumn('actions', function ($hearing_data) use($request){
-                    return view('admin.hearing.actions', compact('hearing_data', 'request'))->render();
-                })
+                // ->editColumn('actions', function ($hearing_data) use($request){
+                //     return view('admin.hearing.actions', compact('hearing_data', 'request'))->render();
+                // })
                 ->editColumn('Status', function ($listArray) use ($request) {
                     $status = $listArray->hearingStatusLog[0]->hearing_status_id;
 
@@ -191,14 +191,14 @@ class HearingController extends Controller
                     }
 
                 })
-                ->rawColumns(['radio', 'actions', 'office_date', 'Status'])
+                ->rawColumns(['radio', 'office_date', 'Status'])
                 ->make(true);
         }
 
 
         $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
 
-        return view('admin.hearing.index', compact('html','header_data','getData', 'hearing_status'));
+        return view('admin.hearing.index', compact('html','header_data','getData', 'hearing_status','hearing_data'));
     }
 
     protected function getParameters() {
@@ -206,7 +206,7 @@ class HearingController extends Controller
             'serverSide' => true,
             'processing' => true,
             'ordering'   =>'isSorted',
-            "order"=> [7, "desc" ],
+            "order"=> [6, "desc" ],
             "pageLength" => $this->list_num_of_records_per_page
         ];
     }
@@ -303,9 +303,12 @@ class HearingController extends Controller
         $header_data = $this->header_data;
         $arrData['hearing'] = Hearing::with(['hearingStatus', 'hearingApplicationType'])
                         ->where('id', $id)
-                        ->first()->toArray();
+                        ->first();
+        $hearing_data = $arrData['hearing'];
+        // dd($arrData['hearing']);
+        // dd($hearing_data);
 
-        return view('admin.hearing.show', compact('header_data', 'arrData'));
+        return view('admin.hearing.show', compact('header_data', 'arrData', 'hearing_data'));
     }
 
     /**
@@ -322,8 +325,9 @@ class HearingController extends Controller
         $arrData['department'] = Department::all();
         $arrData['board'] = Board::where('status', 1)->get();
         $arrData['status'] = HearingStatus::all();
-
-        return view('admin.hearing.edit', compact('header_data', 'arrData'));
+        $hearing_data = $arrData['hearing'];
+//         dd($hearing_data);
+        return view('admin.hearing.edit', compact('header_data', 'arrData', 'hearing_data'));
     }
 
     /**
