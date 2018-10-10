@@ -15,12 +15,22 @@ class ArchitectLayout extends Model
 
     public function ee_scrutiny_reports()
     {
-        return $this->hasMany(\App\Layout\ArchitectLayoutDetailScrutinyEEReport::class,'architect_layout_id','id');
+        return $this->hasMany(\App\Layout\ArchitectLayoutScrutinyEEReport::class,'architect_layout_id','id');
     }
 
     public function em_scrutiny_reports()
     {
-        return $this->hasMany(\App\Layout\ArchitectLayoutDetailEmReport::class,'architect_layout_id','id');
+        return $this->hasMany(\App\Layout\ArchitectLayoutScrutinyEMReport::class,'architect_layout_id','id');
+    }
+
+    public function land_scrutiny_reports()
+    {
+        return $this->hasMany(\App\Layout\ArchitectLayoutScrutinyLandReport::class,'architect_layout_id','id');
+    }
+
+    public function ree_scrutiny_reports()
+    {
+        return $this->hasMany(\App\Layout\ArchitectLayoutScrutinyREEReport::class,'architect_layout_id','id');
     }
     
 }

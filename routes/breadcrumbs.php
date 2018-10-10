@@ -415,7 +415,7 @@ Breadcrumbs::for('document-submitted', function ($trail,$id) {
 
 Breadcrumbs::for('scrutiny-remark', function ($trail,$id,$society_id) {
     $trail->parent('ee');
-    $trail->push('scrutiny-remark', route('scrutiny-remark',$id,$society_id));
+    $trail->push('scrutiny-remark', route('scrutiny-remark',['id'=>$id,'society_id'=>$society_id]));
 });
 
 //Dyce

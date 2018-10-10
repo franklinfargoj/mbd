@@ -7,5 +7,8 @@ use App\Http\Controllers\Controller;
 
 class LayoutArchitectController extends Controller
 {
-    
+    public function index()
+    {
+        
+    }
 }
