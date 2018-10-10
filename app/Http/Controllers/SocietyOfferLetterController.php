@@ -511,6 +511,8 @@ class SocietyOfferLetterController extends Controller
     public function addSocietyDocumentsRemark(Request $request){
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $application = OlApplication::where('society_id', $society->id)->first();
+        $user = OlApplicationStatus::where('application_id', $application->id)->first();
+
         if(!empty($request->input('remark'))){
             $remark = $request->input('remark');
         }else{
@@ -522,8 +524,8 @@ class SocietyOfferLetterController extends Controller
             'user_id' => Auth::user()->id,
             'role_id' => Auth::user()->role_id,
             'status_id' => config('commanConfig.applicationStatus.forwarded'),
-            'to_user_id' => $request->input('user_id'),
-            'to_role_id' => $request->input('role_id'),
+            'to_user_id' => $user->to_user_id,
+            'to_role_id' => $user->to_role_id,
             'remark' => $remark,
             'created_at' => date('Y-m-d H-i-s'),
             'updated_at' => date('Y-m-d H-i-s'),
@@ -531,8 +533,8 @@ class SocietyOfferLetterController extends Controller
         $input_in_process = array(
             'application_id' => $application->id,
             'society_flag' => 0,
-            'user_id' => $request->input('user_id'),
-            'role_id' => $request->input('role_id'),
+            'user_id' => $user->to_user_id,
+            'role_id' => $user->to_role_id,
             'status_id' => config('commanConfig.applicationStatus.in_process'),
             'to_user_id' => 0,
             'to_role_id' => 0,
