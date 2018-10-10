@@ -493,7 +493,7 @@ class SocietyOfferLetterController extends Controller
 
     public function addSocietyDocumentsComment(Request $request){
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
-        
+        $comments = '';
         if(!empty($request->input('society_documents_comment'))){
             $comments = $request->input('society_documents_comment');
         }else{
@@ -503,7 +503,8 @@ class SocietyOfferLetterController extends Controller
             'society_id' => $society->id,
             'society_documents_comment' => $comments,
         );
-        OlSocietyDocumentsComment::create($input);
+        
+        OlSocietyDocumentsComment::where('society_id', $society->id)->update($input);
         return redirect()->route('society_offer_letter_dashboard');
     }
 

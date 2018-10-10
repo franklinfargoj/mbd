@@ -6,6 +6,7 @@
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">Upload documents</h3>
             {{ Breadcrumbs::render('documents_upload') }}
+            <a href="{{ url()->previous() }}" class="btn btn-link ml-auto"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
         </div>
     </div>
     <!-- END: Subheader -->

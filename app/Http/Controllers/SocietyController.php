@@ -101,7 +101,7 @@ class SocietyController extends Controller
         $getData = $request->all();
 
         $columns = [
-            ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
+            // ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'society_name','name' => 'society_name','title' => 'Society Name'],
             ['data' => 'societyVillage', 'class'=> 'datatable-village', 'name' => 'societyVillage.village_name','title' => 'Village Name'],
@@ -166,21 +166,21 @@ class SocietyController extends Controller
                 });
             })->download('csv');
         }
-       
         if ($datatables->getRequest()->ajax()) {
 
             // DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
-             $society_data = SocietyDetail::all();
+             $society_data = SocietyDetail::orderBy('id', 'desc')->get();
             // $society_data = VillageDetail::with('Societies')->whereHas('Societies')->where('id',$id);
             //$society_data= array_get($society_data, 'Societies')!=null?array_get($society_data, 'Societies'):[];
 
             // $society_data = $society_data->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').',society_name, lm_society_detail.id as id, village_id, survey_number, society_address, surplus_charges');
+//            dd($society_data);
 
             return $datatables->of($society_data)
-                ->editColumn('radio', function ($society_data) {
-                    $url = route('society_detail.show', $society_data->id);
-                    return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
-                })
+                // ->editColumn('radio', function ($society_data) {
+                //     $url = route('society_detail.show', $society_data->id);
+                //     return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
+                // })
                 ->editColumn('rownum', function ($society_data) {
                     static $i = 0;
                     $i++;
@@ -200,7 +200,7 @@ class SocietyController extends Controller
                 ->editColumn('actions', function ($society_data) {
                     return view('admin.society_detail.actions', compact('society_data'))->render();
                 })
-                ->rawColumns(['radio', 'societyVillage', 'society_name', 'actions'])
+                ->rawColumns(['societyVillage', 'society_name', 'actions'])
                 ->make(true);
         }
 
@@ -214,7 +214,7 @@ class SocietyController extends Controller
             'serverSide' => true,
             'processing' => true,
             'ordering'   =>'isSorted',
-            "order"=> [7, "desc" ],
+            "order"=> [6, "desc" ],
             "pageLength" => $this->list_num_of_records_per_page
         ];
     }
