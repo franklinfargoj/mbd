@@ -9,7 +9,7 @@
         </div>
     </div>
     <!-- END: Subheader -->
-    <div class="m-portlet m-portlet--mobile">
+    <div class="m-portlet m-portlet--compact m-portlet--mobile">
         @if(Session::has('success'))
             <div class="alert alert-success fade in alert-dismissible show" style="margin-top:18px;">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -94,12 +94,18 @@
                     </div>
                 </div>
             </div>
-            <!--end: Search Form -->
-            <!--begin: Datatable -->
-        {!! $html->table() !!}
-        <!--end: Datatable -->
+
         </div>
+
     </div>
+</div>
+<div class="m-portlet m-portlet--mobile">
+    <div class="m-portlet__body">
+        <!--begin: Datatable -->
+    {!! $html->table() !!}
+    <!--end: Datatable -->
+    </div>
+</div>
     <input type="hidden" id="myModalBtn" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" />
 
     <!-- Modal -->
