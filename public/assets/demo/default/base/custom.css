@@ -728,12 +728,11 @@ td.datatable-address span {
 }
 
 .breadcrumb-item a {
-    color: #f0791b;
+    color: #646464;
 }
 
-.breadcrumb-item:hover {
-    color: #868e96;
-    /* color: #f0791b; */
+.breadcrumb-item.active {
+    color: #f0791b;
 }
 
 .breadcrumb-item:hover a {
@@ -1820,9 +1819,9 @@ label.site-visit-label {
     margin: 0;
 }
 
-.btn.m-btn--custom {
+/* .btn.m-btn--custom {
     font-size: 1.2rem;
-}
+} */
 
 .m-login.m-login--2 .m-login__wrapper .m-login__container .m-login__form .m-form__group .form-control {
     font-size: 1.2rem;
