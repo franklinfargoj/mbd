@@ -1,5 +1,9 @@
 /* theme classes over ride starts here */
 
+.m-scroll-top:hover>i {
+    color: #f0791b;
+}
+
 .nav-pills {
     background-color: #fff;
 }
@@ -539,13 +543,12 @@ td.datatable-address span {
     padding-right: 10px;
     border-bottom: none;
     vertical-align: middle;
-    text-align: center;
 }
 
 .dataTables_wrapper table.dataTable thead th {
     font-weight: 500;
     background-color: #c6c6c6;
-    color: #fff;
+    color: #4a4949;
     text-transform: capitalize;
 }
 
