@@ -33,6 +33,7 @@ use Auth;
 use DB;
 use Carbon\Carbon;
 use Storage;
+use App\Layout\ArchitectLayout;
 
 class CommonController extends Controller
 {
@@ -118,7 +119,7 @@ class CommonController extends Controller
         return  $applicationData;
     }
 
-    public function architect_layout_data()
+    public function architect_layout_data($request)
     {
         $ArchitectLayout=ArchitectLayout::all();
 
@@ -505,7 +506,6 @@ class CommonController extends Controller
 
     public function ftpFileUpload($folderName,$file,$fileName){
         return Storage::disk('ftp')->putFileAs($folderName,$file,$fileName);
-
     }
 
     public function generateOfferLetterREE($request)
