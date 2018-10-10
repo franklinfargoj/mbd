@@ -91,24 +91,45 @@
     } );*/
 
     //function to detele village details
-    function deleteVillage(id) {
-        if (confirm("Are you sure to delete?")) {
-            $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                type: "POST",
-                data: {
-                    id: id
-                },
-                url: 'loadDeleteVillageUsingAjax',
-                success: function (res) {
-                    $("#myModal").html(res);
-                    $("#myModalBtn").click();
-                }
+    // function deleteVillage(id) {
+    //     if (confirm("Are you sure to delete?")) {
+    //         $.ajax({
+    //             headers: {
+    //                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    //             },
+    //             type: "POST",
+    //             data: {
+    //                 id: id
+    //             },
+    //             url: 'loadDeleteVillageUsingAjax',
+    //             success: function (res) {
+    //                 $("#myModal").html(res);
+    //                 $("#myModalBtn").click();
+    //             }
+    //         });
+    //     }
+    // }
+
+    $(document).ready(function () {
+            $(document).on("click", ".delete-village", function () {
+                var id = $(this).attr("data-id");
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    type:"POST",
+                    data:{
+                        id:id
+                    },
+                    url:"{{ route('loadDeleteVillageUsingAjax') }}",
+                    success:function(res)
+                    {
+                        $("#myModal").html(res);
+                        $("#myModalBtn").click();
+                    }
+                });
             });
-        }
-    }
+        });
 
 </script>
 @endsection
