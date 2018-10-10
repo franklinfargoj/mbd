@@ -1160,7 +1160,7 @@
         //nested tabs
         var nestedTab = Cookies.get('nestedTab');
 
-        if (id != undefined) {
+        if (nestedTab != undefined) {
             $(".nested_t").removeClass('active');
             $("#" + nestedTab).addClass('active');
             $(".tab-pane").removeClass('active');

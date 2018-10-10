@@ -204,11 +204,6 @@ Breadcrumbs::for('EE_scrutiny_cap', function ($trail,$id) {
     $trail->push('EE_scrutiny', route('cap.EE_scrutiny_remark',$id));
 });
 
-Breadcrumbs::for('Forward_Application_ee', function ($trail,$id) {
-    $trail->parent('ee');
-    $trail->push('Forward_Application_ee', route('get-forward-application',$id));
-});
-
 Breadcrumbs::for('DYCE_scrutiny_cap', function ($trail,$id) {
     $trail->parent('cap');
     $trail->push('DYCE_scrutiny', route('cap.dyce_Scrutiny_Remark',$id));
@@ -377,40 +372,40 @@ Breadcrumbs::for('ee', function ($trail) {
 //offer letter
 Breadcrumbs::for('view_application_ee', function ($trail,$id) {
     $trail->parent('ee');
-    $trail->push('view_application', route('ee.view_application',$id));
+    $trail->push('view-application', route('ee.view_application',$id));
 });
 
 Breadcrumbs::for('view_application_vp', function ($trail,$id) {
     $trail->parent('vp');
-    $trail->push('view_application', route('vp.view_application',$id));
+    $trail->push('view-application', route('vp.view_application',$id));
 });
 
 Breadcrumbs::for('view_application_ree', function ($trail,$id) {
     $trail->parent('ree');
-    $trail->push('view application', route('ree.view_application',$id));
+    $trail->push('view-application', route('ree.view_application',$id));
 });
 
 Breadcrumbs::for('view_application_co', function ($trail,$id) {
     $trail->parent('co');
-    $trail->push('view_application', route('co.view_application',$id));
+    $trail->push('view-application', route('co.view_application',$id));
 });
 
 Breadcrumbs::for('view_application_dyce', function ($trail,$id) {
     $trail->parent('dyce');
-    $trail->push('view application', route('dyce.view_application',$id));
+    $trail->push('view-application', route('dyce.view_application',$id));
 });
 
 Breadcrumbs::for('view_application', function ($trail,$id) {
     $trail->parent('cap');
-    $trail->push('view_application', route('cap.view_application',$id));
+    $trail->push('view-application', route('cap.view_application',$id));
 });
 
 
-//offer letter
+//ee
 
 Breadcrumbs::for('document-submitted', function ($trail,$id) {
     $trail->parent('ee');
-    $trail->push('society documents', route('document-submitted',$id));
+    $trail->push('society-documents', route('document-submitted',$id));
 });
 
 Breadcrumbs::for('scrutiny-remark', function ($trail,$id,$societyId) {
@@ -420,10 +415,10 @@ $trail->push('scrutiny-remark', route('scrutiny-remark',['id'=>$id,'society_id'=
 
 });
 
-// Breadcrumbs::for('scrutiny-remark', function ($trail,$id,$society_id) {
-//     $trail->parent('ee');
-//     $trail->push('scrutiny remark', route('scrutiny-remark',$id,$society_id));
-// });
+Breadcrumbs::for('Forward_Application_ee', function ($trail,$id) {
+    $trail->parent('ee');
+    $trail->push('forward-application', route('get-forward-application',$id));
+});
 
 //Dyce
 
