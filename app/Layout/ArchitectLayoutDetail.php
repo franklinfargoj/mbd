@@ -32,4 +32,14 @@ class ArchitectLayoutDetail extends Model
     {
         return $this->hasMany(\App\Layout\ArchitectLayoutDetailEmReport::class,'architect_layout_detail_id','id');
     }
+
+    public function land_reports()
+    {
+        return $this->hasMany(\App\Layout\ArchitectLayoutDetailLandReport::class,'architect_layout_detail_id','id');
+    }
+
+    public function ree_reports()
+    {
+        return $this->hasMany(\App\Layout\ArchitectLayoutDetailREEReport::class,'architect_layout_detail_id','id');
+    }
 }
