@@ -34,6 +34,7 @@ class Resolution extends Model
         'reference_link',
         'published_date',
         'revision_log_message',
+        'keyword',
     ];
 
     public function board()

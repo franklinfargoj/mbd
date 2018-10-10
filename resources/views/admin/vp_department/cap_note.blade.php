@@ -30,10 +30,10 @@
             <div class="m-portlet__body main_panel">
                 <div class="d-flex align-items-center">
                     <h3 class="section-title section-title--small">
-                        Download Note
+                        Download CAP Note
                     </h3>
                 </div>
-                <span class="field-name"> Download CAP Note uploaded by CAP</span>
+                <!-- <span class="field-name"> Download  Note uploaded by CAP</span> -->
                 <div class="d-flex flex-wrap align-items-center mb-5 upload_doc_1">
                 </div>
                 @if(isset($capNote->document_path))

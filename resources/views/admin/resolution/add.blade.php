@@ -133,7 +133,15 @@
                             <span class="help-block text-danger">{{$errors->first('revision_log_message')}}</span>
                         </div>
                     </div>
-                </div>
+                    <div class="col-lg-6 form-group">
+                        <div class="@if($errors->has('revision_log_message')) has-error @endif">
+                            <label class="col-form-label">Keyword:</label>
+                            <textarea name="keyword" id="keyword" class="form-control form-control--custom form-control--fixed-height m-input"></textarea>
+                            <span class="help-block text-danger">{{$errors->first('keyword')}}</span>
+                        </div>
+                    </div>
+                </div>               
+
             </div>
             <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
                 <div class="m-form__actions px-0">
