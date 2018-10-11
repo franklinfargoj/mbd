@@ -273,6 +273,14 @@ $(document).ready(function () {
             preceding_time: "required",
             description: "required",
             update_status: "required",
+            file_case_template: {
+                required: true,
+                extension: "pdf"
+            },
+            file_update_supporting_documents: {
+                required: true,
+                extension: "pdf"
+            },
         }
     });
 
