@@ -8,6 +8,8 @@ class ArchitectLayout extends Model
 {
     protected $table="architect_layouts";
 
+    protected $fillable=['layout_no','layout_name','address','added_date'];
+
     public function layout_details()
     {
         return $this->hasMany(\App\Layout\ArchitectLayoutDetail::class,'architect_layout_id','id');

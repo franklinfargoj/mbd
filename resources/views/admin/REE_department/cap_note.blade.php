@@ -35,8 +35,8 @@
                     </h3>
                 </div>
                 <!-- <span class="field-name"> Download  Note uploaded by CAP</span> -->
-                <div class="d-flex flex-wrap align-items-center mb-5 upload_doc_1">
-                </div>
+<!--                 <div class="d-flex flex-wrap align-items-center mb-5 upload_doc_1">
+                </div> -->
                 @if(isset($capNote->document_path))
                 <a href="{{ config('commanConfig.storage_server').'/'.$capNote->document_path }}">
                     <Button type="button" class="s_btn btn btn-primary" id="submitBtn"> Download </Button>

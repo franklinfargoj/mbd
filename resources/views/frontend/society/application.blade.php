@@ -30,7 +30,7 @@
                   </div>
               </div>
               <div class="col-md-6 border-left">
-                <button type="button" class="btn btn-block btn-primary" id="redvlpBtn">Redevelopment Thorugh Developer</button>
+                <button type="button" class="btn btn-block btn-primary" id="redvlpBtn">Redevelopment Through Developer</button>
                 <div class="d-flex justify-content-center mt-4">                    
                   <button type="button" class="btn btn-metal m_btn re_dev flex-grow-1" id="devPremBtn">Premium</button>
                   <button type="button" class="btn btn-metal m_btn re_dev flex-grow-1" id="devSharingBtn">Sharing</button>              
@@ -62,7 +62,7 @@
           </div>
 
           <div class="col-xs-12 self_premium" id="dev_premium">
-            <span class="App_head"> List of Applications for Redevelopment - Redevelopment Thorugh Developer</span>
+            <span class="App_head"> List of Applications for Redevelopment - Redevelopment Through Developer</span>
             <div class="options">
               <p> <a href="{{ url('/offer_letter_application_form_dev/'. $dev_premium) }}"> New - Offer Letter </a></p>
               <p> Revalidation of offer Letter </p>
@@ -72,7 +72,7 @@
           </div>  
 
           <div class="col-xs-12 self_premium" id="dev_sharing">
-            <span class="App_head"> List of Applications for Redevelopment - Redevelopment Thorugh Developer</span>
+            <span class="App_head"> List of Applications for Redevelopment - Redevelopment Through Developer</span>
             <div class="options">
               <p> <a href="{{ url('/offer_letter_application_form_dev/'. $dev_sharing) }}"> New - Offer Letter </a></p>
               <p> Revalidation of offer Letter </p>
