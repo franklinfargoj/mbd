@@ -1,4 +1,7 @@
-@extends('admin.layouts.app')
+@extends('admin.layouts.sidebarAction')
+@section('actions')
+    @include('admin.crud_admin.role.actions')
+@endsection
 @section('content')
     <div class="col-md-12">
         <!-- BEGIN: Subheader -->
