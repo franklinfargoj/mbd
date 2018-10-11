@@ -45,6 +45,11 @@ Breadcrumbs::for('resolution_edit', function ($trail,$id) {
     $trail->push('resolution_edit/', route('resolution.edit',$id));
 });
 
+Breadcrumbs::for('resolution_view', function ($trail,$id) {
+    $trail->parent('resolution');
+    $trail->push('resolution_view/', route('resolution.view',$id));
+});
+
 //Land
 Breadcrumbs::for('village_detail', function ($trail) {
 	$trail->push('Land Detail', route('village_detail.index'));
