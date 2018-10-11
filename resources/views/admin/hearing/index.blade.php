@@ -94,7 +94,7 @@
         </div>
 
     </div>
-    <div class="m-portlet m-portlet--mobile">
+    <div class="m-portlet m-portlet--compact m-portlet--mobile">
         <div class="m-portlet__body">
             <!--begin: Datatable -->
             {!! $html->table() !!}
