@@ -852,9 +852,15 @@ td.datatable-address span {
     margin-bottom: -1rem;
 }
 
+
 /* theme classes over ride ends here */
 
 /* global classes starts here */
+
+.btn--add-delete {
+    color: #a51f1f !important;
+    cursor: pointer;
+}
 
 .block-title {
     color: #fff;

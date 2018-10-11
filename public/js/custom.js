@@ -47,8 +47,6 @@ $(document).ready(function () {
 
     $('.custom-file-input').change(function (e) {
         $(this).parents('.custom-file').find('.custom-file-label').text(e.target.files[0].name);
-        console.log(document.querySelector(".custom-file-label"));
-        console.log("file", e.target.files[0].name)
     });
 
     // store the currently selected tab in the hash value
