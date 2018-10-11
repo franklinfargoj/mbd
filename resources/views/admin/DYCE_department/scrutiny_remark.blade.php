@@ -306,6 +306,7 @@
             </div>
         </div>
         <input type="hidden" name="applicationId" value="{{(isset($applicationData->id) ? $applicationData->id : '')}}">
+        <input type="hidden" name="deletedDoc" id="deletedDoc" value="">
     </form>
 
     <input type="hidden" name="OfficiersCount" id="OfficiersCount" value="{{(isset($applicationData->SiteVisitorOfficers) ? count($applicationData->SiteVisitorOfficers)+2 : '')}}">
@@ -383,6 +384,7 @@ var isError = 0;
 
     function removeDocuments(data) {
         var id = data.substr(9, 2);
+        $('#deletedDoc').val($('#deletedDoc').val() + '#'+ $("#file_label_"+id).text());
         $(".upload_doc_" + id).css("visibility", "hidden");
         $(".upload_doc_" + id).css("position", "absolute");
         $(".upload_doc_" + id).attr("disabled", "disabled");
