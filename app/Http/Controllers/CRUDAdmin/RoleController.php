@@ -5,6 +5,7 @@ use App\Role;
 use App\Permission;
 use App\Http\Controllers\Controller;
 use Config;
+use App\DeletedRoles;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -181,6 +182,15 @@ class RoleController extends Controller
     {
         $roleDetails = Role::findOrfail($id);
         $roleDetails->delete();
+
+        DeletedRoles::create([
+        'role_details_id' => $id,
+        'role_name'          => $roleDetails->name,
+        'day'                => date('l'),
+        'date'               => date('Y-m-d'),
+        'time'               => date("h:i:s"),
+        'reason'             => $request->input('delete_message'),
+    ]);
 
         return redirect()->back()->with(['success'=> 'Role deleted succesfully']);
     }
