@@ -15,7 +15,7 @@
 <div class="col-md-12">
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
-            <h3 class="m-subheader__title m-subheader__title--separator">View CTS Plan Details -
+            <h3 class="m-subheader__title m-subheader__title--separator">PRC -
                 {{$ArchitectLayoutDetail->architect_layout->layout_name}}</h3>
         </div>
     </div>
@@ -35,7 +35,7 @@
                 <div class="m-subheader">
                     <div class="d-flex align-items-center">
                         <h3 class="section-title section-title--small">
-                            CTS plan
+                        Add PR Card
                         </h3>
                     </div>
                     <form enctype="multipart/form-data" method="post" action="{{route('post_cts_detail')}}">
@@ -96,4 +96,5 @@
         </div>
     </div>
 </div>
+
 @endsection
