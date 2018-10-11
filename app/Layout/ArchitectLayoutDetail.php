@@ -23,6 +23,11 @@ class ArchitectLayoutDetail extends Model
         return $this->hasMany(\App\Layout\ArchitectLayoutDetailCtsPlanDetail::class,'architect_layout_detail_id','id');
     }
 
+    public function pr_card_details()
+    {
+        return $this->hasMany(\App\Layout\ArchitectLayoutDetailPrCardDetail::class,'architect_layout_detail_id','id');
+    }
+
     public function ee_reports()
     {
         return $this->hasMany(\App\Layout\ArchitectLayoutDetailEEReport::class,'architect_layout_detail_id','id');
