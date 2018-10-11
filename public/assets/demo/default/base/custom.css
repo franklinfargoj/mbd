@@ -1,5 +1,12 @@
 /* theme classes over ride starts here */
 
+.m-subheader__title--hint {
+    font-size: 1.1rem;
+    color: #717171;
+    font-weight: normal;
+    margin-left: -20px;
+}
+
 .m-scroll-top:hover>i {
     color: #f0791b;
 }
@@ -434,6 +441,10 @@
 
 /* Data Table starts here */
 
+table.dataTable tbody tr:hover {
+    cursor: pointer;
+}
+
 td.datatable-address span {
     width: 200px;
     display: inline-block;
@@ -537,6 +548,16 @@ td.datatable-address span {
 
 .dataTables_wrapper table.dataTable tbody tr:nth-child(even) {
     background-color: #f3f3f3;
+}
+
+.dataTables_wrapper table.dataTable tbody tr:nth-child(odd):hover,
+.dataTables_wrapper table.dataTable tbody tr:nth-child(odd):focus {
+    background-color: #f8f8f8;
+}
+
+table.dataTable tbody tr:nth-child(even):hover,
+table.dataTable tbody tr:nth-child(even):focus {
+    background-color: #dedede;
 }
 
 .dataTables_wrapper table.dataTable a {
@@ -841,6 +862,10 @@ td.datatable-address span {
 
 .m-subheader {
     padding: 0;
+}
+
+.m-subheader--spaced {
+    padding-top: 30px;
 }
 
 .m-portlet--compact {
@@ -2249,3 +2274,24 @@ label.site-visit-label {
 }
 
 /* Icons ends here */
+
+/* EE Billing starts here */
+
+.app-card {
+    font-weight: 500;
+    height: 100%;
+    margin-bottom: 0;
+}
+
+.app-no {
+    font-size: 3.5rem;
+    color: #ff7750;
+    margin-bottom: 15px;
+}
+
+.app-title {
+    font-size: 1.2rem;
+    color: #8d8d8d;
+}
+
+/* EE Billing ends here */
