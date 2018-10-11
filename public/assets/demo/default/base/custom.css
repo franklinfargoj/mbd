@@ -884,6 +884,7 @@ table.dataTable tbody tr:nth-child(even):focus {
     margin-bottom: -1rem;
 }
 
+
 /* theme classes over ride ends here */
 
 /* Bootstrap classes starts here */
@@ -1137,6 +1138,11 @@ table.dataTable tbody tr:nth-child(even):focus {
 /* Bootstrap classes ends here */
 
 /* global classes starts here */
+
+.btn--add-delete {
+    color: #a51f1f !important;
+    cursor: pointer;
+}
 
 .block-title {
     color: #fff;
