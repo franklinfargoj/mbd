@@ -64,7 +64,7 @@ $route=\Request::route()->getName();
             @endphp
             {{-- @if(!empty(array_intersect($hearing_permission, session()->get('permission'))))--}}
             @if(in_array('hearing.index', session()->get('permission')))
-            <li class="m-menu__item">
+            <li class="m-menu__item {{($route=='hearing.index')?'m-menu__item--active':''}}">
                 <a href="{{ url('hearing') }}" class="m-menu__link m-menu__toggle">
                     <i class="m-menu__link-icon flaticon-line-graph"></i>
                     <span class="m-menu__link-title">
@@ -76,7 +76,7 @@ $route=\Request::route()->getName();
                     </span>
                 </a>
             </li>
-            <li class="m-menu__item">
+            <li class="m-menu__item {{($route=='hearing.create')?'m-menu__item--active':''}}">
                 <a href="{{route('hearing.create')}}" class="m-menu__link m-menu__toggle">
                     <i class="m-menu__link-icon flaticon-line-graph"></i>
                     <span class="m-menu__link-title">

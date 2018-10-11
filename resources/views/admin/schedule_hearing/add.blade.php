@@ -87,9 +87,9 @@
                     <div class="col-lg-6 form-group">
                         <label class="col-form-label" for="case_template">Case Template:</label>
                         <div class="custom-file">
-                            <input type="file" id="case_template" name="file[case_template]" class="custom-file-input">
+                            <input type="file" id="case_template" name="file_case_template" class="custom-file-input">
                             <label class="custom-file-label" for="case_template">Choose file...</label>
-                            <span class="help-block">@if (session('error')){{ session('error') }}@endif</span>
+                            <span id="file_case_template_error" class="text-danger">@if (session('error')){{ session('error') }}@endif</span>
                         </div>
                     </div>
 
@@ -117,10 +117,10 @@
                     <div class="col-lg-6 form-group">
                         <label class="col-form-label" for="update_supporting_documents">Update Supporting Documents:</label>
                         <div class="custom-file">
-                            <input type="file" id="update_supporting_documents" name="file[update_supporting_documents]"
+                            <input type="file" id="update_supporting_documents" name="file_update_supporting_documents"
                                 class="custom-file-input">
                             <label class="custom-file-label" for="update_supporting_documents">Choose file...</label>
-                            <span class="help-block">@if (session('error')){{ session('error') }}@endif</span>
+                            <span id="file_update_supporting_documents_error" class="text-danger">@if (session('error')){{ session('error') }}@endif</span>
                         </div>
                     </div>
                 </div>

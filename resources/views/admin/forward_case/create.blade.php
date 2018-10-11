@@ -150,7 +150,7 @@
     </div>
     @include('admin.hearing.delete_hearing')
 @endsection
-@section('js')
+@section('datatablejs')
     <script>
         loadDepartmentsOfBoard();
 
