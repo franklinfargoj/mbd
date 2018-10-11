@@ -129,7 +129,8 @@ $route=\Request::route()->getName();
         </li>
 
         @elseif($ol_application->status_offer_letter ==
-        config('commanConfig.applicationStatus.offer_letter_approved'))
+        config('commanConfig.applicationStatus.offer_letter_approved') || $ol_application->status_offer_letter ==
+        config('commanConfig.applicationStatus.sent_to_society'))
         <li class="m-menu__item m-menu__item--submenu {{($route=='ree.approved_offer_letter')?'m-menu__item--active':''}}"
             aria-haspopup="true">
             <a class="m-menu__link m-menu__toggle" title="Offer Letter" href="{{route('ree.approved_offer_letter',$ol_application->id)}}">

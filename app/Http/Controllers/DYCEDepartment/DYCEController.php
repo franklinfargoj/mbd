@@ -22,6 +22,7 @@ use App\User;
 use Config;
 use Auth;
 use DB;
+use Storage;
 use Carbon\Carbon;
 
 class DYCEController extends Controller
@@ -121,7 +122,15 @@ class DYCEController extends Controller
 
     // function used to update details and upload documents by DYCE 
     public function store(Request $request){
-       
+        
+        $folder_name = "dyceDocuments";
+        $deletedDoc = explode("#",$request->deletedDoc);
+        
+        foreach($deletedDoc as $doc){
+            if ($doc != "") {
+                $delete = Storage::disk('ftp')->delete($folder_name.'/'.$doc);
+            }
+        }
         $applicationId = $request->applicationId;
         if (isset($request->documentId))
             $removeDocument = olSiteVisitDocuments::where('application_id',$applicationId)->whereNotIn('id',$request->documentId)->delete();
@@ -139,23 +148,24 @@ class DYCEController extends Controller
 
         if ($request->file('document')){
             foreach ($request->file('document') as $file){
+
                 $extension = $file->getClientOriginalExtension();
-                $file_name = time().$file->getClientoriginalName();
+                $file_name = time()."_".$file->getClientoriginalName();
 
                 if($extension == "pdf"){
 
-                    $folder_name = "dyceDocuments";
                     $path = $folder_name."/".$file_name;  
                     $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$file,$file_name);      
 
                     $fileData[] = array('document_path' => $path, 
                         'application_id' => $applicationId,
                         'user_id' => Auth::Id());
-                    $data = olSiteVisitDocuments::insert($fileData);            
+                    //             
                 }else{
                     return back()->with('error','Invalid type of file uploaded (only pdf allowed)'); 
                 }
             }
+            $data = olSiteVisitDocuments::insert($fileData);
         }
         return back()->with('success','Data Submitted Successfully.'); 
     } 
