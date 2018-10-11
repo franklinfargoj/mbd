@@ -189,8 +189,8 @@
 }
 
 .m-tabs-line a.m-tabs__link, .m-tabs-line.nav.nav-tabs .nav-link {
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 5px;
+    padding-right: 5px;
     background-color: #e8e8e8;
     border: none !important;
 }
