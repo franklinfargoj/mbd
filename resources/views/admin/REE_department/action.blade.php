@@ -51,7 +51,7 @@ $route=\Request::route()->getName();
         </li>
 
         @if(session()->get('role_name') != config('commanConfig.ree_junior'))
-        <li class="m-menu__item m-menu__item--submenu {{($route=='ol_sharing_calculation_sheet.show')?'m-menu__item--active':''}}"
+        <li class="m-menu__item m-menu__item--submenu {{($route=='ol_sharing_calculation_sheet.show' || $route=='ol_calculation_sheet.show' || $route=='ree.show_calculation_sheet')?'m-menu__item--active':''}}"
             aria-haspopup="true">
             <a class="m-menu__link m-menu__toggle" title="View Calculation Sheet" href="{{url('calculation_sheet_ree',$ol_application->id)}}">
                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
@@ -61,7 +61,7 @@ $route=\Request::route()->getName();
                 <span class="m-menu__link-text">View Calculation Sheet</span></a>
         </li>
         @elseif($ol_application->model->ol_application_master->model == 'Premium')
-        <li class="m-menu__item m-menu__item--submenu {{($route=='ol_sharing_calculation_sheet.show')?'m-menu__item--active':''}}"
+        <li class="m-menu__item m-menu__item--submenu {{($route=='ol_calculation_sheet.show')?'m-menu__item--active':''}}"
             aria-haspopup="true">
             <a class="m-menu__link m-menu__toggle" title="Prepare Calculation Sheet" href="{{url('ol_calculation_sheet',$ol_application->id)}}">
                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">

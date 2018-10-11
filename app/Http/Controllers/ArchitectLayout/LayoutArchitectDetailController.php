@@ -14,7 +14,7 @@ class LayoutArchitectDetailController extends Controller
     public function add_detail($layout_id)
     {
         $layout_id=decrypt($layout_id);
-        $ArchitectLayoutDetail=ArchitectLayoutDetail::with(['architect_layout'])->where(['architect_layout_id'=> $layout_id])->first();
+        $ArchitectLayoutDetail=ArchitectLayoutDetail::with(['architect_layout'])->where(['id'=> $layout_id])->first();
         return view('admin.architect_layout_detail.add',compact('ArchitectLayoutDetail'));
     }
 
@@ -103,5 +103,12 @@ class LayoutArchitectDetailController extends Controller
         {
             return back()->withError('pdf file is required');
         }
+    }
+
+    public function add_prc_detail($layout_detail_id)
+    {
+        $layout_detail_id=decrypt($layout_detail_id);
+        $ArchitectLayoutDetail=ArchitectLayoutDetail::with(['architect_layout','cts_plan_details'])->where(['id'=> $layout_detail_id])->first();
+        return view('admin.architect_layout_detail.prc_detail',compact('ArchitectLayoutDetail'));
     }
 }

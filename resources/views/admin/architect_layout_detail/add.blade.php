@@ -250,6 +250,23 @@
                 </div>
             </div>
         </div>
+        <div class="m-portlet m-portlet--mobile m_panel">
+            <div class="portlet-body">
+                <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
+                    <div class="m-subheader">
+                        <div class="d-flex align-items-center">
+                            <h3 class="section-title section-title--small">
+                                PRC
+                            </h3>
+                        </div>
+                        <div class="mt-auto">
+                            <a href="{{route('architect_layout_detail_prc_detail',['layout_detail_id'=>encrypt($ArchitectLayoutDetail->id)])}}"
+                                class="btn btn-primary btn-custom upload_note" id="uploadBtn">Add PRC Detail</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </form>
 </div>
 
