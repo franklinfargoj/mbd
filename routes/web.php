@@ -307,6 +307,14 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     
     Route::post('finalise_architect_application','ArchitectApplicationController@finalise_architect_application')->name('finalise_architect_application');
     //architect module end
+
+
+//CRUD Routes
+
+    Route::group(['namespace' => 'CRUDAdmin','prefix' => 'crudadmin'], function() {
+        Route::post('loadDeleteRoleUsingAjax', 'RoleController@loadDeleteRoleUsingAjax')->name('loadDeleteRoleUsingAjax');
+        Route::resource('roles','RoleController');
+    });
     
 });
 
@@ -369,5 +377,6 @@ Route::get('calculation_sheet_ree/{id}','REEDepartment\REEController@showCalcula
 
 
 Route::resource('/ol_calculation_sheet', 'REEDepartment\OlApplicationCalculationSheetDetailsController');
+
 
 
