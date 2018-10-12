@@ -130,6 +130,7 @@ class ResolutionController extends Controller
         $boards = Board::where('status', 1)->get()->toArray();
         $resolutionTypes = ResolutionType::all()->toArray();
         
+        
         if($request->reset)
         {
             return redirect()->route('resolution.index');
@@ -218,7 +219,6 @@ class ResolutionController extends Controller
                 });
             })->download('csv');
         }
-
         $columns = [
             ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
@@ -263,10 +263,12 @@ class ResolutionController extends Controller
             {
                 $resolutions = $resolutions->whereDate('published_date', '<=', date('Y-m-d', strtotime($request->published_to_date)));
             }
-            
-            $resolutions = $resolutions->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').', resolutions.id as id, board_id, department_id, resolution_type_id, title, resolution_code, published_date, filepath, filename');
+            $resolutions = $resolutions->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').', resolutions.id as id, board_id, department_id, resolution_type_id, title, resolution_code, published_date, filepath, filename')->orderBy('id','DESC');
             
             return $datatables->of($resolutions)
+                ->editColumn('rownum', function ($resolutions) {
+                    static $i = 0; $i++; return $i;
+                })
                 ->editColumn('radio', function ($resolutions) {
                     $url = route('resolution.view', [$resolutions->id]);
                     return '<label class="m-radio m-radio--primary"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
