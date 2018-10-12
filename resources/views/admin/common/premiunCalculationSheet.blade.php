@@ -402,10 +402,14 @@
                                                 <td></td>
                                                 <td>
                                                     2. दर (DCR % of tb 1 pt 12)
+                                                    <input type="text" readonly class="form-control form-control--custom"
+                                                           name="dcr_rate_in_percentage" id="dcr_rate_in_percentage" value="{{ isset($calculationSheetDetails[0]->dcr_rate_in_percentage) ? $calculationSheetDetails[0]->dcr_rate_in_percentage.'%' : '0%' }}" />
+
                                                 </td>
                                                 <td class="text-center">
-                                                    <input type="text" readonly class="form-control form-control--custom"
-                                                        name="dcr_rate_in_percentage" id="dcr_rate_in_percentage" value="{{ isset($calculationSheetDetails[0]->dcr_rate_in_percentage) ? $calculationSheetDetails[0]->dcr_rate_in_percentage.'%' : '0%' }}" />
+                                                    <input type="text" readonly class="total_amount form-control form-control--custom"
+                                                           name="calculated_dcr_rate_val" id="calculated_dcr_rate_val"
+                                                           value="{{ isset($calculationSheetDetails[0]->calculated_dcr_rate_val) ? $calculationSheetDetails[0]->calculated_dcr_rate_val : 0 }}" />
 
                                                 </td>
                                             </tr>
@@ -1020,10 +1024,8 @@
                                                 </td>
                                                 <td class="text-center">
                                                     <input type="text" readonly class="form-control form-control--custom"
-                                                        name="off_site_infrastructure_fee" id="off_site_infrastructure_fee"
-                                                        value="{{ isset($calculationSheetDetails[0]->off_site_infrastructure_fee) ? $calculationSheetDetails[0]->off_site_infrastructure_fee : 0 }}" />
-
-
+                                                           name="non_profit_duty_val" id="non_profit_duty_val"
+                                                    />
                                                 </td>
                                             </tr>
                                             <tr>
@@ -1138,6 +1140,22 @@
 
                                             </td>
                                         </tr>
+                                        <tr>
+                                            <td>5.</td>
+                                            <td class="font-weight-bold">
+                                                एकूण
+                                            </td>
+                                            <td class="text-center">
+                                                @if(isset($calculationSheetDetails[0]->payment_of_remaining_installment) || isset($calculationSheetDetails[0]->payment_of_first_installment))
+
+                                                    {{ (3 * $calculationSheetDetails[0]->payment_of_remaining_installment ) + $calculationSheetDetails[0]->payment_of_first_installment }}
+                                                @else
+                                                    0
+                                                @endif
+
+                                                + Total interest
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -1234,38 +1252,66 @@
         // **End** Save tabs location on window refresh or submit
 
         $('input').on('keypress', function (event) {
-            var regex = new RegExp("^[0-9]+$");
-            var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
-            if (!regex.test(key)) {
+            /* var regex = new RegExp("^[0-9]\d+$");
+             var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+             if (!regex.test(key)) {
+                 event.preventDefault();
+                 return false;
+             }*/
+
+            /*  if ($(this).val().indexOf('.') > 0) {
+                  var CharAfterdot = ($(this).val().length + 1) - $(this).val().indexOf('.');
+                  if ( (($(this).val().length + 1) - $(this).val().indexOf('.')) > 3) {
+                      event.preventDefault();
+                      return false;
+                  }
+
+              }*/
+
+            var $this = $(this);
+            if ((event.which != 46 || $this.val().indexOf('.') != -1) &&
+                ((event.which < 48 || event.which > 57) &&
+                    (event.which != 0 && event.which != 8))) {
                 event.preventDefault();
-                return false;
             }
+
+            var text = $(this).val();
+            if ((event.which == 46) && (text.indexOf('.') == -1)) {
+                setTimeout(function() {
+                    if ($this.val().substring($this.val().indexOf('.')).length > 3) {
+                        $this.val($this.val().substring(0, $this.val().indexOf('.') + 3));
+                    }
+                }, 1);
+            }
+
+            if ((text.indexOf('.') != -1) &&
+                (text.substring(text.indexOf('.')).length > 2) &&
+                (event.which != 0 && event.which != 8) &&
+                ($(this)[0].selectionStart >= text.length - 2)) {
+                event.preventDefault();
+            }
+
+
         });
 
-        $('#amount_to_be_paid_to_municipal1').attr('value', (5 / 7 * $("#off_site_infrastructure_fee").val()).toFixed(
+        $("#amount_to_be_paid_to_municipal1").attr('value',(5 / 7 * $("#off_site_infrastructure_fee").val()).toFixed(2));
+        $("#offsite_infrastructure_charge_to_mhada1").attr('value',(2 / 7 * $("#off_site_infrastructure_fee").val()).toFixed(
             2));
-
-        $("#offsite_infrastructure_charge_to_mhada1").attr('value', (2 / 7 * $("#off_site_infrastructure_fee").val())
-            .toFixed(
-                2));
-
-
-        $("#offsite_infrastructure_charge_to_mhada1_installment").attr('value', (2 / 7 * $(
-                "#off_site_infrastructure_fee")
+        $("#offsite_infrastructure_charge_to_mhada1_installment").attr('value',(2 / 7 * $("#off_site_infrastructure_fee")
             .val()).toFixed(2));
 
         $("#non_profit_duty").attr('value', 1 / 4 * $("#remaining_area_of_resident_area_balance").val());
         $("#non_profit_duty_installment").attr('value', 1 / 4 * $("#remaining_area_of_resident_area_balance").val());
+        $("#non_profit_duty_val").attr('value', 1 / 4 * $("#remaining_area_of_resident_area_balance").val());
 
 
         var first_installment = 0;
         $(".first_installment").each(function () {
             first_installment += +$(this).val();
         });
-        $("#payment_of_first_installment").attr('value', first_installment);
+        $("#payment_of_first_installment").attr('value',first_installment);
 
-        $("#payment_of_remaining_installment").attr('value', $("#off_site_infrastructure_fee").val());
-
+        $("#payment_of_remaining_installment").attr('value',$("#non_profit_duty").val());
 
 
 
