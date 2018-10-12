@@ -8,6 +8,7 @@ use App\Layout\ArchitectLayout;
 use App\Layout\ArchitectLayoutDetail;
 use App\Layout\ArchitectLayoutDetailCtsPlanDetail;
 use App\Layout\ArchitectLayoutDetailPrCardDetail;
+use App\Layout\ArchitectLayoutDetailREEReport;
 use Illuminate\Http\Request;
 use Storage;
 use Validator;
@@ -61,6 +62,49 @@ class LayoutArchitectDetailController extends Controller
             );
         }
 
+        return response()->json($response_array);
+    }
+
+    public function architectLyoutDetailPostEEDetails(Request $request)
+    {
+        $file = $request->file('file');
+        if ($file->getClientMimeType() == 'application/pdf') {
+            $extension = $request->file('file')->getClientOriginalExtension();
+            $dir = 'architect_layout_details';
+            $filename = uniqid() . '_' . time() . '_' . date('Ymd') . '.' . $extension;
+            $storage = Storage::disk('ftp')->putFileAs($dir, $request->file('file'), $filename);
+            if ($storage) {
+                $ArchitectLayoutDetailREEReport=ArchitectLayoutDetailREEReport::where(['name_of_documents'=>$request->doc_name,'architect_layout_detail_id'=>$request->architect_layout_detail_id])->first();
+                if($ArchitectLayoutDetailREEReport)
+                {
+                    $ArchitectLayoutDetailREEReport->architect_layout_detail_id = $request->architect_layout_detail_id;
+                    $ArchitectLayoutDetailREEReport->name_of_documents = $request->doc_name;
+                    $ArchitectLayoutDetailREEReport->upload_file = $storage;
+                    $ArchitectLayoutDetailREEReport->save();
+                }else
+                {
+                    $ArchitectLayoutDetailREEReport = new ArchitectLayoutDetailREEReport;
+                    $ArchitectLayoutDetailREEReport->architect_layout_detail_id = $request->architect_layout_detail_id;
+                    $ArchitectLayoutDetailREEReport->name_of_documents = $request->doc_name;
+                    $ArchitectLayoutDetailREEReport->upload_file = $storage;
+                    $ArchitectLayoutDetailREEReport->save();
+                }
+                
+                $response_array = array(
+                    'status' => true,
+                    'file_path' => config('commanConfig.storage_server') . "/" . $storage,
+                );
+            } else {
+                $response_array = array(
+                    'status' => false,
+                );
+            }
+        } else {
+            $response_array = array(
+                'status' => false,
+                'message' => 'PDF file is required',
+            );
+        }
         return response()->json($response_array);
     }
 
