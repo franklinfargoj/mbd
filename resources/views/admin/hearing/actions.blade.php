@@ -43,6 +43,7 @@ $route=\Request::route()->getName();
     @if($hearing_data->hearingStatusLog[0]->hearing_status_id != config('commanConfig.hearingStatus.case_closed'))
 
         @if(in_array('hearing.edit', session()->get('permission')))
+            @if($hearing_data->hearingStatusLog[0]->hearing_status_id != config('commanConfig.hearingStatus.forwarded'))
             <li class="m-menu__item m-menu__item--submenu {{($route=='hearing.edit')?'m-menu__item--active':''}}">
                 <a href="{{ route('hearing.edit', $hearing_data->id) }}" class="m-menu__link m-menu__toggle">
                     <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
@@ -116,6 +117,7 @@ $route=\Request::route()->getName();
                         </a>
                     </li>
                 @endif
+                    @endif
             @endif
 
             {{--<a href=""></i>Update Status</a> |--}}
@@ -172,6 +174,7 @@ $route=\Request::route()->getName();
             </li>
         @endif
 
+        @if($hearing_data->hearingStatusLog[0]->hearing_status_id != config('commanConfig.hearingStatus.forwarded'))
         @if(in_array('send_notice_to_appellant.edit', session()->get('permission')))
             @if($hearing_data->hearingSchedule)
                 @if(count($hearing_data->hearingSendNoticeToAppellant))
@@ -223,6 +226,7 @@ $route=\Request::route()->getName();
                     </span>
                 </a>
             </li>
+        @endif
         @endif
         @endif
     </ul>

@@ -120,11 +120,16 @@ class ForwardCaseController extends Controller
     public function edit($id)
     {
         $header_data = $this->header_data;
-        $arrData['hearing'] = Hearing::with(['hearingBoard', 'hearingDepartment', 'hearingForwardCase'])
-                                        ->where('id', $id)->first();
+        $arrData['hearing'] = Hearing::with(['hearingStatus', 'hearingApplicationType', 'hearingStatusLog' => function($q){
+            $q->where('user_id', Auth::user()->id)
+                ->where('role_id', session()->get('role_id'));
+        }])
+            ->where('id', $id)
+            ->first();
         $arrData['board'] = Board::where('status', 1)->get();
-
-        return view('admin.forward_case.edit', compact('header_data', 'arrData'));
+        $hearing_data = $arrData['hearing'];
+//        dd($hearing_data);
+        return view('admin.forward_case.edit', compact('header_data', 'arrData', 'hearing_data'));
     }
 
     public function update(Request $request, $id)

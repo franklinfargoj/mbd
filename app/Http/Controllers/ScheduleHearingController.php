@@ -66,31 +66,31 @@ class ScheduleHearingController extends Controller
         {
             if(isset($request->file['file_case_template'])){
                 dd($request->file('file_case_template'));
-                $extension = $request->file['file_case_template']->getClientOriginalExtension();
+                $extension = $request->file('file_case_template')->getClientOriginalExtension();
                 if($extension != "pdf") {
                     return redirect()->back()->with('error','Invalid type of file uploaded (only pdf allowed)');
                 }
             }
 
             if(isset($request->file['file_update_supporting_documents'])){
-                $extension = $request->file['update_supporting_documents']->getClientOriginalExtension();
+                $extension = $request->file['file_update_supporting_documents']->getClientOriginalExtension();
                 if($extension != "pdf") {
                     return redirect()->back()->with('error','Invalid type of file uploaded (only pdf allowed)');
                 }
             }
 
-            $case_template_name = File::name($request->file['case_template']->getClientOriginalName()) . '_' . $time . '.' . $extension;
-            $case_template_path = Storage::putFileAs('/schedule_case_template', $request->file['case_template'], $case_template_name, 'public');
-            $input['case_template'] = $case_template_path;
-
-            $name = File::name($request->file['update_supporting_documents']->getClientOriginalName()) . '_' . $time . '.' . $extension;
-            $path = Storage::putFileAs('/schedule_supporting_document', $request->file['update_supporting_documents'], $name, 'public');
-            $input['update_supporting_documents'] = $path;
+//            $case_template_name = File::name($request->file['file_case_template']->getClientOriginalName()) . '_' . $time . '.' . $extension;
+//            $case_template_path = Storage::putFileAs('/schedule_case_template', $request->file['case_template'], $case_template_name, 'public');
+//            $input['case_template'] = $case_template_path;
+//
+//            $name = File::name($request->file['file_update_supporting_documents']->getClientOriginalName()) . '_' . $time . '.' . $extension;
+//            $path = Storage::putFileAs('/schedule_supporting_document', $request->file['file_update_supporting_documents'], $name, 'public');
+//            $input['file_update_supporting_documents'] = $path;
 
         }
         else
         {
-             dd("sadsad");
+//             dd("sadsad");
             return redirect()->back()->with('error','Please select file to upload');
         }
 

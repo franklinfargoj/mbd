@@ -37,7 +37,12 @@ class UploadCaseJudgementController extends Controller
     public function create($id)
     {
         $header_data = $this->header_data;
-        $arrData['hearing_data'] = Hearing::where('id', $id)->first();
+        $arrData['hearing_data'] = Hearing::with(['hearingStatus', 'hearingApplicationType', 'hearingStatusLog' => function($q){
+            $q->where('user_id', Auth::user()->id)
+                ->where('role_id', session()->get('role_id'));
+        }])
+            ->where('id', $id)
+            ->first();
         $hearing_data = $arrData['hearing_data'];
 //        dd($hearing_data);
         return view('admin.upload_case_judgement.add', compact('header_data', 'arrData', 'hearing_data'));
