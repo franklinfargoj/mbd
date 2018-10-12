@@ -90,6 +90,7 @@ $route=\Request::route()->getName();
                     </span>
                 </a>
             </li>
+            @if(Auth::user()->name == 'Joint CO PA' || Auth::user()->name == 'CO PA')
             <li class="m-menu__item {{($route=='hearing.create')?'m-menu__item--active':''}}">
                 <a href="{{route('hearing.create')}}" class="m-menu__link m-menu__toggle">
                     <i class="m-menu__link-icon flaticon-line-graph"></i>
@@ -102,6 +103,7 @@ $route=\Request::route()->getName();
             </span>
                 </a>
             </li>
+             @endif
             @endif
 
 
