@@ -483,6 +483,37 @@ $(document).ready(function () {
     //         dataPaginate.children[0].style.display = "";
     //     }
     // });
+
+    //role validations
+
+    $("#addrole").validate({
+        // errorElement: "span",
+        //errorClass : "text-red",
+        rules: {
+            name: "required",
+            display_name: "required",
+            description: "required",
+            redirect_to: "required",
+        }
+    });
+
+    $("#editrole").validate({
+        // errorElement: "span",
+        //errorClass : "text-red",
+        rules: {
+            name: "required",
+            display_name: "required",
+            description: "required",
+            redirect_to: "required",
+        }
+    });
+
+    $("#DeleteRoleReason").validate({
+        rules: {
+            delete_message: "required",
+        }
+    });
+
 });
 
 
@@ -550,3 +581,7 @@ function geturl(view_route){
        // var view_route = $(this).attr('data-value');
         window.location = view_route; 
     }
+
+    $(document).ready(function () {
+        $(".display_msg").delay(5000).slideUp(300);
+    });    

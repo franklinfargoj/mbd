@@ -7,8 +7,8 @@
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
-            <h3 class="m-subheader__title m-subheader__title--separator">Edit Resolution </h3>
-            {{ Breadcrumbs::render('resolution_edit',$resolution->id) }}
+            <h3 class="m-subheader__title m-subheader__title--separator">View Resolution </h3>
+            {{ Breadcrumbs::render('resolution_view',$resolution->id) }}
         </div>
     </div>
     <!-- END: Subheader -->
@@ -23,7 +23,7 @@
                     <div class="col-lg-6 form-group">
                         <div class="@if($errors->has('board')) has-error @endif">
                             <label class="col-form-label">Board:</label>
-                            <select name="board_id" id="board_id" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input">
+                            <select name="board_id" id="board_id" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" disabled>
                                 <option value="">Select Board</option>
                                 @foreach($boards as $boardVal)
                                 <option value="{{ $boardVal['id'] }}"
@@ -39,7 +39,7 @@
                         <div class="@if($errors->has('department')) has-error @endif">
                             <label class="col-form-label">Department:</label>
                             <select name="department" id="department_id" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input">
-                                <option value="{{$resolution->department_id}}" selected>{{old('department',$resolution->department_name)}}</option>
+                                <option value="{{$resolution->department_id}}" disabled selected >{{old('department',$resolution->department_name)}}</option>
                             </select>
                             <span class="help-block">{{$errors->first('department')}}</span>
                         </div>
@@ -50,7 +50,7 @@
                     <div class="col-lg-6 form-group">
                         <div class="@if($errors->has('resolution_type')) has-error @endif">
                             <label class="col-form-label">Resolution Type:</label>
-                            <select name="resolution_type" id="resolution_type_id" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input">
+                            <select name="resolution_type" id="resolution_type_id" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" disabled>
                                 <option value="">Select Resolution Type</option>
                                 @foreach($resolutionTypes as $resolutionTypeVal)
                                 <option value="{{ $resolutionTypeVal['id'] }}"
@@ -66,7 +66,7 @@
                         <div class="@if($errors->has('resolution_code')) has-error @endif">
                             <label class="col-form-label">Resolution Code:</label>
                             <input type="text" name="resolution_code" id="resolution_code" class="form-control form-control--custom m-input"
-                                value="{{old('resolution_code',$resolution->resolution_code)}}">
+                                value="{{old('resolution_code',$resolution->resolution_code)}}" readonly>
                             <span class="help-block">{{$errors->first('resolution_code')}}</span>
                         </div>
                     </div>
@@ -77,15 +77,15 @@
                         <div class="@if($errors->has('title')) has-error @endif">
                             <label class="col-form-label">Title:</label>
                             <input type="text" name="title" id="title" class="form-control form-control--custom m-input"
-                                value="{{old('title',$resolution->title)}}">
+                                value="{{old('title',$resolution->title)}}" readonly>
                             <span class="help-block">{{$errors->first('title')}}</span>
                         </div>
                     </div>
 
                     <div class="col-lg-6 form-group">
-                        <div class="@if($errors->has('keyword')) has-error @endif">
+                        <div class="@if($errors->has('revision_log_message')) has-error @endif">
                             <label class="col-form-label">Keyword:</label>
-                            <textarea name="keyword" id="keyword" class="form-control form-control--custom form-control--fixed-height m-input">{{old('keyword',$resolution->keyword)}}</textarea>
+                            <textarea name="keyword" id="keyword" class="form-control form-control--custom form-control--fixed-height m-input" readonly>{{old('keyword',$resolution->keyword)}}</textarea>
                             <span class="help-block text-danger">{{$errors->first('keyword')}}</span>
                         </div>
                     </div>
@@ -95,7 +95,7 @@
                     <div class="col-lg-6 form-group">
                         <div class="@if($errors->has('description')) has-error @endif">
                             <label class="col-form-label">Description:</label>
-                            <textarea name="description" id="description" class="form-control form-control--custom form-control--fixed-height m-input">{{old('description',$resolution->description)}}</textarea>
+                            <textarea name="description" id="description" class="form-control form-control--custom form-control--fixed-height m-input" readonly>{{old('description',$resolution->description)}}</textarea>
                             <span class="help-block">{{$errors->first('description')}}</span>
                         </div>
                     </div>
@@ -103,7 +103,7 @@
                         <div class="@if($errors->has('file')) has-error @endif">
                             <label class="col-form-label">File:</label>
                             <div class="custom-file">
-                                <input type="file" name="file" id="uploadedFile" class="custom-file-input">
+                                <input type="file" name="file" id="uploadedFile" class="custom-file-input" readonly disabled>
                                 <label class="custom-file-label" for="uploadedFile">{{old('description',$resolution->filename)}}</label>
                                 <a href="{{ config('commanConfig.storage_server').$resolution->filepath.$resolution->filename }}"">{{old('description',$resolution->filename)}}</a>
                                 <span class="help-block">{{$errors->first('file')}}</span>
@@ -117,7 +117,7 @@
                         <div class="@if($errors->has('language')) has-error @endif">
                             <label class="col-form-label">Language:</label>
                             <input type="text" name="language" id="language" class="form-control form-control--custom m-input"
-                                value="{{old('language',$resolution->language)}}">
+                                value="{{old('language',$resolution->language)}}" readonly>
                             <span class="help-block">{{$errors->first('language')}}</span>
                         </div>
                     </div>
@@ -125,10 +125,10 @@
                         <div class="@if($errors->has('reference_link')) has-error @endif">
                             <label class="col-form-label">Reference Link (if any):</label>
                             <input type="text" name="reference_link" id="reference_link" class="form-control form-control--custom m-input"
-                                value="{{old('reference_link',$resolution->reference_link)}}">
+                                value="{{old('reference_link',$resolution->reference_link)}}" readonly>
                             <span class="help-block">{{$errors->first('reference_link')}}</span>
                         </div>
-                    </div>>
+                    </div>
                 </div>
 
                 <div class="form-group m-form__group row">
@@ -136,14 +136,15 @@
                         <div class="@if($errors->has('published_date')) has-error @endif">
                             <label class="col-form-label">Published Date:</label>
                             <input type="text" name="published_date" id="published_date" class="form-control form-control--custom m-input m_datepicker"
-                                value="{{old('published_date',date(config('commanConfig.dateFormat'),strtotime($resolution->published_date)) )}}">
+                                value="{{old('published_date',date(config('commanConfig.dateFormat'),strtotime($resolution->published_date)) ) }}" readonly disabled>
                             <span class="help-block">{{$errors->first('published_date')}}</span>
                         </div>
                     </div>
+
                     <div class="col-lg-6 form-group">
                         <label class="col-form-label">Revision Log Message:</label>
                         <div class="@if($errors->has('revision_log_message')) has-error @endif">
-                            <textarea name="revision_log_message" id="revision_log_message" class="form-control form-control--custom form-control--fixed-height m-input">{{old('revision_log_message',$resolution->revision_log_message)}}</textarea>
+                            <textarea name="revision_log_message" id="revision_log_message" class="form-control form-control--custom form-control--fixed-height m-input" readonly>{{old('revision_log_message',$resolution->revision_log_message)}}</textarea>
                             <span class="help-block">{{$errors->first('revision_log_message')}}</span>
                         </div>
                     </div>
@@ -154,8 +155,7 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="btn-list">
-                                <button type="submit" class="btn btn-primary">Save</button>
-                                <a href="{{route('resolution.index')}}" class="btn btn-secondary">Cancel</a>
+                                <a href="{{url('/resolution')}}" class="btn btn-secondary">Cancel</a>
                             </div>
                         </div>
                     </div>

@@ -45,6 +45,11 @@ Breadcrumbs::for('resolution_edit', function ($trail,$id) {
     $trail->push('resolution_edit/', route('resolution.edit',$id));
 });
 
+Breadcrumbs::for('resolution_view', function ($trail,$id) {
+    $trail->parent('resolution');
+    $trail->push('resolution_view/', route('resolution.view',$id));
+});
+
 //Land
 Breadcrumbs::for('village_detail', function ($trail) {
 	$trail->push('Land Detail', route('village_detail.index'));
@@ -447,4 +452,26 @@ Breadcrumbs::for('forward_application-dyce', function ($trail,$id) {
     $trail->push('forward application', route('dyce.forward_application',$id));
 });
 
+//Role
+Breadcrumbs::for('role', function ($trail) {
+    $trail->push('Home', route('roles.index'));
+});
 
+Breadcrumbs::for('add_role', function ($trail) {
+    $trail->parent('role');
+    $trail->push('Create Role', route('roles.create'));
+});
+
+Breadcrumbs::for('role_detail', function ($trail) {
+    $trail->push('Role Detail', route('roles.index'));
+});
+
+Breadcrumbs::for('edit_role', function ($trail,$id) {
+    $trail->parent('role_detail');
+    $trail->push('Edit Role', route('roles.edit',$id));
+});
+
+Breadcrumbs::for('role_view', function ($trail,$id) {
+    $trail->parent('role');
+    $trail->push('View Role', route('roles.show',$id));
+});
