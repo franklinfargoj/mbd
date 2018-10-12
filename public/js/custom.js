@@ -550,3 +550,7 @@ function geturl(view_route){
        // var view_route = $(this).attr('data-value');
         window.location = view_route; 
     }
+
+    $(document).ready(function () {
+        $(".display_msg").delay(5000).slideUp(300);
+    });    

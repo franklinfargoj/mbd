@@ -26,13 +26,13 @@
         </div>
     </div>
     <!-- END: Subheader -->
-    <div class="m-portlet m-portlet--mobile">
+    <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
         <form id="addSocietyDetail" role="form" method="post" class="m-form m-form--rows m-form--label-align-right"
             action="{{route('society_detail.store')}}">
             @csrf
             <div class="m-portlet__body m-portlet__body--spaced">
                 <div class="form-group m-form__group row">
-                    <div class="col-lg-6 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="society_name">Society Name:</label>
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="society_name" name="society_name" class="form-control form-control--custom m-input"
@@ -41,7 +41,7 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-6 form-group">
+                    <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="district">District:</label>
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="district" name="district" class="form-control form-control--custom m-input"
@@ -52,7 +52,7 @@
                 </div>
 
                 <div class="form-group m-form__group row">
-                    <div class="col-lg-6 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="taluka">Taluka:</label>
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="taluka" name="taluka" class="form-control form-control--custom m-input"
@@ -61,7 +61,7 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-6 form-group">
+                    <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="survey_number">Survey Number:</label>
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="survey_number" name="survey_number" class="form-control form-control--custom m-input"
@@ -72,7 +72,7 @@
                 </div>
 
                 <div class="form-group m-form__group row">
-                    <div class="col-lg-6 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="cts_number">CTS Number:</label>
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="cts_number" name="cts_number" class="form-control form-control--custom m-input"
@@ -81,7 +81,7 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-6 form-group">
+                    <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="chairman">Chairman:</label>
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="chairman" name="chairman" class="form-control form-control--custom m-input"
@@ -92,7 +92,7 @@
                 </div>
 
                 <div class="form-group m-form__group row">
-                    <div class="col-lg-6 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="society_address">Society Address:</label>
                         <div class="m-input-icon m-input-icon--right">
                             <textarea id="society_address" name="society_address" class="form-control form-control--custom form-control--fixed-height m-input">{{ old('society_address') }}</textarea>
@@ -100,7 +100,7 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-6 form-group">
+                    <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="area">Area (sq. ft.):</label>
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="area" name="area" class="form-control form-control--custom m-input"
@@ -111,7 +111,7 @@
                 </div>
 
                 <div class="form-group m-form__group row">
-                    <div class="col-lg-6 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="date_on_service_tax">Date mentioned on service tax letters:</label>
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="date_on_service_tax" name="date_on_service_tax" class="form-control form-control--custom m-input m_datepicker"
@@ -120,7 +120,7 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-6 form-group">
+                    <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="surplus_charges">Surplus Charges:</label>
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="surplus_charges" name="surplus_charges" class="form-control form-control--custom m-input"
@@ -131,7 +131,7 @@
                 </div>
 
                 <div class="form-group m-form__group row">
-                    <div class="col-lg-6 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="surplus_charges_last_date">Last date of paying surplus
                             charges:</label>
                         <div class="m-input-icon m-input-icon--right">
@@ -141,7 +141,7 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-6 form-group">
+                    <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="other_land_id">Others:</label>
                         <div class="m-input-icon m-input-icon--right">
                             <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
@@ -155,7 +155,7 @@
                     </div>
                 </div>
                 <div class="form-group m-form__group row">
-                    <div class="col-lg-6 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="other_land_id">Villages:</label>
                         <div class="m-input-icon m-input-icon--right">
                             <select title="Select Village" data-live-search="true" id="villages-select" multiple class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
@@ -171,7 +171,7 @@
                 <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
                     <div class="m-form__actions px-0">
                         <div class="row">
-                            <div class="col-lg-6">
+                            <div class="col-sm-4">
                                 <div class="btn-list">
                                     <button type="submit" id="add_society" class="btn btn-primary">Save</button>
                                     <a href="{{url('/society_detail/')}}" class="btn btn-secondary">Cancel</a>
