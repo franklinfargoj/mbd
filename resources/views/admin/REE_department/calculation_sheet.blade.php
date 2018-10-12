@@ -388,6 +388,10 @@
                                                     2. दर
                                                 </td>
                                                 <td class="text-center">
+                                                    <input type="text" readonly class="total_amount form-control form-control--custom"
+                                                           name="calculated_dcr_rate_val" id="calculated_dcr_rate_val"
+                                                           value="{{ isset($calculationSheetDetails[0]->calculated_dcr_rate_val) ? $calculationSheetDetails[0]->calculated_dcr_rate_val : 0 }}" />
+
                                                     <span style="cursor: pointer" data-toggle="modal" data-target="#select-from-dcr">Select
                                                         from DCR</span>
                                                 </td>
@@ -1005,8 +1009,8 @@
                                                 </td>
                                                 <td class="text-center">
                                                     <input type="text" readonly class="form-control form-control--custom"
-                                                        name="off_site_infrastructure_fee" id="off_site_infrastructure_fee"
-                                                        value="{{ isset($calculationSheetDetails[0]->off_site_infrastructure_fee) ? $calculationSheetDetails[0]->off_site_infrastructure_fee : 0 }}" />
+                                                        name="non_profit_duty_val" id="non_profit_duty_val"
+                                                        />
 
 
                                                 </td>
@@ -1121,6 +1125,22 @@
                                                 ? $calculationSheetDetails[0]->payment_of_remaining_installment : 0 }}
                                                 + interest
 
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>5.</td>
+                                            <td class="font-weight-bold">
+                                                एकूण
+                                            </td>
+                                            <td class="text-center">
+                                                @if(isset($calculationSheetDetails[0]->payment_of_remaining_installment) || isset($calculationSheetDetails[0]->payment_of_first_installment))
+
+                                                  {{ (3 * $calculationSheetDetails[0]->payment_of_remaining_installment ) + $calculationSheetDetails[0]->payment_of_first_installment }}
+                                                @else
+                                                    0
+                                                @endif
+
+                                                    + Total interest
                                             </td>
                                         </tr>
                                     </tbody>
@@ -1241,14 +1261,22 @@
 
         // // **End** Save tabs location on window refresh or submit
 
-        $('input').on('keypress', function (event) {
-          /*  var regex = new RegExp("^[0-9]+$");
-            var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
-            if (!regex.test(key)) {
-                event.preventDefault();
-                return false;
-            }*/
+        $('input').on('keydown', function (event) {
+            /* var regex = new RegExp("^[0-9]\d+$");
+             var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+             if (!regex.test(key)) {
+                 event.preventDefault();
+                 return false;
+             }*/
 
+            /*  if ($(this).val().indexOf('.') > 0) {
+                  var CharAfterdot = ($(this).val().length + 1) - $(this).val().indexOf('.');
+                  if ( (($(this).val().length + 1) - $(this).val().indexOf('.')) > 3) {
+                      event.preventDefault();
+                      return false;
+                  }
+
+              }*/
 
             if (event.shiftKey == true) {
                 event.preventDefault();
@@ -1258,12 +1286,12 @@
                 (event.keyCode >= 96 && event.keyCode <= 105) ||
                 event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 37 ||
                 event.keyCode == 39 || event.keyCode == 46 || event.keyCode == 190) {
-
             } else {
                 event.preventDefault();
             }
 
-            if($(this).val().indexOf('.') !== -1 && event.keyCode == 190)
+
+            if($(this).val().indexOf('.') !== -1 && event.keyCode == 190 )
                 event.preventDefault();
             //if a decimal has been added, disable the "."-button
 
@@ -1277,6 +1305,7 @@
 
         $("#non_profit_duty").attr('value', 1 / 4 * $("#remaining_area_of_resident_area_balance").val());
         $("#non_profit_duty_installment").attr('value', 1 / 4 * $("#remaining_area_of_resident_area_balance").val());
+        $("#non_profit_duty_val").attr('value', 1 / 4 * $("#remaining_area_of_resident_area_balance").val());
 
 
         var first_installment = 0;
@@ -1285,7 +1314,7 @@
         });
         $("#payment_of_first_installment").attr('value',first_installment);
 
-        $("#payment_of_remaining_installment").attr('value',$("#off_site_infrastructure_fee").val());
+        $("#payment_of_remaining_installment").attr('value',$("#non_profit_duty").val());
 
     })
 
@@ -1362,8 +1391,12 @@
         $("#remaining_residential_area").attr('value',sub);
 
         if ($('input[type=radio][name=dcr_rate_in_percentage]').is(':checked')) {
-            var balance = $("#remaining_residential_area").val() * ($(
-                "input[type=radio][name=dcr_rate_in_percentage]").val() / 100);
+
+            var calculated_dcr = $("#redirekner_value").val() * ($("input[type=radio][name=dcr_rate_in_percentage]:checked").val() / 100);
+            $("#calculated_dcr_rate_val").attr('value',calculated_dcr.toFixed(2));
+
+            var balance = $("#remaining_residential_area").val() * calculated_dcr;
+
             $("#balance_of_remaining_area").attr('value',balance.toFixed(2));
         }
 
@@ -1380,14 +1413,26 @@
             $("#redirekner_val").attr('value',div.toFixed(2));
         }
 
+        var calculated_dcr = $("#redirekner_value").val() * ($("input[type=radio][name=dcr_rate_in_percentage]:checked").val() / 100);
+        $("#calculated_dcr_rate_val").attr('value',calculated_dcr.toFixed(2));
+
+        var balance = $("#remaining_residential_area").val() * calculated_dcr;
+
+        $("#balance_of_remaining_area").attr('value',balance.toFixed(2));
 
     });
 
 
     $(document).on("change", "input[type=radio][name=dcr_rate_in_percentage]", function () {
 
-        var balance = $("#remaining_residential_area").val() * ($(this).val() / 100);
+
+        var calculated_dcr = $("#redirekner_value").val() * ($("input[type=radio][name=dcr_rate_in_percentage]:checked").val() / 100);
+        $("#calculated_dcr_rate_val").attr('value',calculated_dcr.toFixed(2));
+
+        var balance = $("#remaining_residential_area").val() * calculated_dcr;
+
         $("#balance_of_remaining_area").attr('value',balance.toFixed(2));
+
 
         var total_amount = 0;
         $(".total_amount").each(function () {
@@ -1411,6 +1456,14 @@
             total_amount += +$(this).val();
         });
         $("#total_amount_in_rs").attr('value',total_amount);
+
+
+        var calculated_dcr = $("#redirekner_value").val() * ($("input[type=radio][name=dcr_rate_in_percentage]:checked").val() / 100);
+        $("#calculated_dcr_rate_val").attr('value',calculated_dcr.toFixed(2));
+
+        var balance = $("#remaining_residential_area").val() * calculated_dcr;
+
+        $("#balance_of_remaining_area").attr('value',balance.toFixed(2));
 
     });
 
