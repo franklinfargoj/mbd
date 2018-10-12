@@ -178,14 +178,15 @@
             '<div class="blockEE">'+
                 '<div class="form-group m-form__group row mb-0">'+
                     '<div class="col-lg-5 form-group">'+
-                        '<input placeholder="Document Name" type="text" name="ee_document_name[]" class="form-control form-control--custom"'+
+                        '<input placeholder="Document Name" type="text" id="ee_doc_name_'+count+'" name="ee_document_name[]" class="form-control form-control--custom"'+
                         '<span class="help-block"></span>'+
                     '</div>'+
                     '<div class="col-lg-5 form-group">'+
                         '<div class="custom-file">'+
-                            '<input type="file" id="extract_'+count+'" name="ee_report[]" class="custom-file-input">'+
-                            '<label title="" class="custom-file-label" for="extract_'+count+'">Choose file</label>'+
-                            '<span class="help-block"></span>'+
+                            '<input type="file" id="ee_extract_'+count+'" name="ee_report_'+count+'" class="custom-file-input" onchange="getReeReportData(this.id,\'ee_doc_name_'+count+'\',\'ee_doc_error_'+count+'\',\'ee_report_uploaded_file_'+count+'\')">'+
+                            '<label title="" class="custom-file-label" for="ee_extract_'+count+'">Choose file</label>'+
+                            '<a target="_blank" style="display:none;" id="ee_report_uploaded_file_'+count+'" href="">uploaded file</a>'+
+                            '<span class="help-block" id="ee_doc_error_'+count+'"></span>'+
                         '</div>'+
                     '</div>'+
                     '<div class="col-lg-2 form-group mt-2">'+
@@ -197,16 +198,71 @@
         showUploadedFileName();
     });
 
-    function showUploadedFileName() {
-        $('.custom-file-input').change(function (e) {
-            $(this).parents('.custom-file').find('.custom-file-label').text(e.target.files[0].name);
-        });
-    }
+    // function showUploadedFileName() {
+    //     $('.custom-file-input').change(function (e) {
+    //         $(this).parents('.custom-file').find('.custom-file-label').text(e.target.files[0].name);
+    //     });
+    // }
 
     $('.optionBoxEE').on('click', '.removeEE', function () {
         $(this).parent().parent().remove();
     });
+
+    
 });
+
+function getReeReportData(id, doc_name,doc_error,uploaded_file_id)
+{
+    $(".loader").show();
+    var doc_name=document.getElementById(doc_name).value;
+    var architect_layout_detail_id=$('#architect_layout_detail_id').val();
+    if(doc_name!="")
+    {
+        document.getElementById(doc_error).value = "";
+        var file_data = $('#'+id).prop('files')[0];
+        var form_data = new FormData();
+        form_data.append('file', file_data);
+        form_data.append('architect_layout_detail_id', architect_layout_detail_id);
+        form_data.append('doc_name', doc_name);
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-Token': '{{csrf_token()}}'
+            }
+        });
+        $.ajax({
+            url: "{{url('architect_layout_detail_post_ee_report')}}", // point to server-side PHP script
+            data: form_data,
+            type: 'POST',
+            contentType: false, // The content type used when sending data to the server.
+            cache: false, // To unable request pages to be cached
+            processData: false,
+            success: function(data) {
+                $(".loader").hide();
+                if(data.status==true)
+                {
+                    $("#"+uploaded_file_id).prop("href", data.file_path)
+                    $("#"+uploaded_file_id).css("display", "block");
+                    document.getElementById(doc_error).innerHTML = "";
+                }else
+                {
+                    document.getElementById(doc_error).innerHTML = data.message;
+                    // $("#survey_report_file_error").html(data.message);
+                    //console.log(data.status+" "+data.message)
+                }
+            }
+        });
+    }else
+    {
+        document.getElementById(doc_error).innerHTML = "Please Enter Document Name";
+    }
+    showUploadedFileName();
+}
+
+function showUploadedFileName() {
+        $('.custom-file-input').change(function (e) {
+            $(this).parents('.custom-file').find('.custom-file-label').text(e.target.files[0].name);
+        });
+    }
 </script>
 @endsection
 @section('content')
@@ -269,8 +325,8 @@
                                 style="display:{{$ArchitectLayoutDetail->old_approved_layout!=''?'block':'none'}};">uploaded
                                 file</a>
                         </div>
-                        <span class="text-danger" id="old_approved_layout_error"></span>
-                        <!-- <div class="mt-auto">
+                        <span class="text-danger" 0].name)approved_layout_error"></span>
+                        <!-- <div class="mt-auto">0].name)
                             <button type="submit" style="btn btn-primary" class="btn btn-primary btn-custom upload_note"
                                 id="uploadBtn">Upload</button>
                         </div> -->
@@ -367,8 +423,7 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="custom-file">
-                                    <input type="hidden" id="survey_report_field_name" id="survey_report_field_name"
-                                        value="survey_report">
+                                    <input type="hidden" id="survey_report_field_name" value="survey_report">
                                     <input class="custom-file-input" name="survey_report" type="file" id="survey_report"
                                         required="">
                                     <label class="custom-file-label" for="survey_report">Choose file...</label>
@@ -400,15 +455,18 @@
                             <div class="blockEE">
                                 <div class="form-group m-form__group row mb-0">
                                     <div class="col-lg-5 form-group">
-                                        <input type="hidden" class="ee_doc_name" name="document_name[]" value="Area certificate">
+                                        <input type="hidden" class="ee_doc_name" id="ee_doc_name" name="document_name[]"
+                                            value="Area certificate">
                                         <label>Area certificate</label>
-                                        <span class="help-block"></span>
                                     </div>
                                     <div class="col-lg-5 form-group">
                                         <div class="custom-file">
-                                            <input type="file" id="extract" name="ee_report[]" class="custom-file-input">
-                                            <label title="" class="custom-file-label" for="extract">Choose file</label>
-                                            <span class="help-block"></span>
+                                            <input type="file" id="ee_extract" name="ee_report" onchange="getReeReportData(this.id,'ee_doc_name','ee_doc_error','ee_report_uploaded_file')"
+                                                class="custom-file-input">
+                                            <label title="" class="custom-file-label" for="ee_extract">Choose file</label>
+                                            <a target="_blank" style="display:none;" id="ee_report_uploaded_file" href="">uploaded
+                                        file</a>
+                                            <span class="text-danger" id="ee_doc_error"></span>
                                         </div>
                                     </div>
                                     <!-- <div class="col-lg-2 form-group mt-2">
@@ -419,15 +477,17 @@
                             <div class="blockEE">
                                 <div class="form-group m-form__group row mb-0">
                                     <div class="col-lg-5 form-group">
-                                        <input type="hidden" class="ee_doc_name" name="document_name[]" value="Area of Encroachmente">
+                                        <input type="hidden" class="ee_doc_name" id="ee_doc_name_1" name="ee_document_name[]"
+                                            value="Area of Encroachmente">
                                         <label>Area of Encroachment</label>
-                                        <span class="help-block"></span>
                                     </div>
                                     <div class="col-lg-5 form-group">
                                         <div class="custom-file">
-                                            <input type="file" id="extract_1" name="ee_report[]" class="custom-file-input">
-                                            <label title="" class="custom-file-label" for="extract_1">Choose file</label>
-                                            <span class="help-block"></span>
+                                            <input type="file" id="ee_extract_1" name="ee_report_1" class="custom-file-input" onchange="getReeReportData(this.id,'ee_doc_name_1','ee_doc_error_1','ee_report_uploaded_file_1')">
+                                            <label title="" class="custom-file-label" for="ee_extract_1">Choose file</label>
+                                            <a target="_blank" style="display:none;" id="ee_report_uploaded_file_1" href="">uploaded
+                                        file</a>
+                                            <span class="text-danger" id="ee_doc_error_1"></span>
                                         </div>
                                     </div>
                                     <!-- <div class="col-lg-2 form-group mt-2">
@@ -438,15 +498,17 @@
                             <div class="blockEE">
                                 <div class="form-group m-form__group row mb-0">
                                     <div class="col-lg-5 form-group">
-                                        <input type="hidden" class="ee_doc_name" name="document_name[]" value="Heading Over reservation">
+                                        <input type="hidden" class="ee_doc_name" id="ee_doc_name_2" name="document_name[]"
+                                            value="Heading Over reservation">
                                         <label>Heading Over reservation</label>
-                                        <span class="help-block"></span>
                                     </div>
                                     <div class="col-lg-5 form-group">
                                         <div class="custom-file">
-                                            <input type="file" id="extract_2" name="ee_report[]" class="custom-file-input ee_doc_file">
-                                            <label title="" class="custom-file-label" for="extract_2">Choose file</label>
-                                            <span class="help-block"></span>
+                                            <input type="file" id="ee_extract_2" name="ee_report_2" class="custom-file-input ee_doc_file" onchange="getReeReportData(this.id,'ee_doc_name_2','ee_doc_name_2','ee_report_uploaded_file_2')">
+                                            <label title="" class="custom-file-label" for="ee_extract_2">Choose file</label>
+                                            <a target="_blank" style="display:none;" id="ee_report_uploaded_file_2" href="">uploaded
+                                        file</a>
+                                            <span class="text-danger" id="ee_doc_error_2"></span>
                                         </div>
                                     </div>
                                     <!-- <div class="col-lg-2 form-group mt-2">
