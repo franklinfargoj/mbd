@@ -18,7 +18,7 @@
                     <!-- <button type="button" class="btn btn-transparent ml-auto" data-toggle="collapse" data-target="#filter">
                         <img class="filter-icon" src="{{asset('/img/filter-icon.svg')}}">Filter
                     </button> -->
-                    <button type="submit" name="excel" value="excel" class="btn excel-icon"><img src="{{asset('/img/excel-icon.svg')}}"></button>
+                    <!-- <button type="submit" name="excel" value="excel" class="btn excel-icon"><img src="{{asset('/img/excel-icon.svg')}}"></button> -->
 <!--                     <a target="_blank" href="{{route('resolution.print',['published_from_date'=>app('request')->input('published_from_date'),'published_to_date'=>app('request')->input('published_to_date'),'resolution_type_id'=>app('request')->input('resolution_type_id'),'board_id'=>app('request')->input('board_id')])}}"
                         class="btn print-icon"><img src="{{asset('/img/print-icon.svg')}}"></a>
                     <a class="btn btn-primary" href="{{route('resolution.create')}}">Add Resolution</a> -->
@@ -30,12 +30,7 @@
                 <div class="col-md-12">
                     <!-- <div class="form-group m-form__group row align-items-center"> -->
                     <form class="row align-items-end mb-0" method="get" action="{{ url('/resolution') }}">
-                        <div class="col-md-2">
-                            <div class="form-group m-form__group">
-                                <input type="text" class="form-control form-control--custom m-input" placeholder="Search..."
-                                    id="m_form_search" name="title" value="{{ (!empty($getData) ? $getData['title'] : '') }}">
-                            </div>
-                        </div>
+
                         <div class="col-md-2">
                             <div class="form-group m-form__group">
                                 <input type="text" class="form-control form-control--custom m-input m_datepicker"
@@ -74,7 +69,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col">
+                        <div class="col-md-12">
                             <div class="form-group m-form__group">
                                 <div class="btn-list">
                                     <button type="submit" class="btn btn-primary">Search</button>
