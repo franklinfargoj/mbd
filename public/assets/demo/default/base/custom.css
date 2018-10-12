@@ -1568,6 +1568,17 @@ table.dataTable tbody tr:nth-child(even):focus {
     border-radius: 0 0.25rem 0.25rem 0;
 }
 
+input:disabled + label.custom-file-label {
+    background-color: #f7f8fa;
+    color: #575962;
+    opacity: .65;
+    font-weight: 600;
+}
+
+input:disabled + label:after {
+    display: none;
+}
+
 .btn-custom {
     cursor: pointer;
     background-color: #f0791b;

@@ -72,8 +72,8 @@
                         <div class="col-md-12">
                             <div class="form-group m-form__group">
                                 <div class="btn-list">
-                                    <button type="submit" class="btn btn-primary">Search</button>
-                                    <a href="{{route('resolution.index')}}" class="btn btn-secondary">Reset</a>
+                                    <button type="submit" class="btn m-btn--pill m-btn--custom btn-primary">Search</button>
+                                    <a href="{{route('resolution.index')}}" class="btn m-btn--pill m-btn--custom btn-metal">Reset</a>
                                 </div>
                             </div>
                         </div>
