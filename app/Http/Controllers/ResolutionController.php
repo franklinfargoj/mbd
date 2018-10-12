@@ -219,7 +219,6 @@ class ResolutionController extends Controller
                 });
             })->download('csv');
         }
-
         $columns = [
             ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
@@ -229,8 +228,8 @@ class ResolutionController extends Controller
             ['data' => 'title', 'name' => 'title', 'title' => 'Title/Subject'],
             ['data' => 'resolution_code','name' => 'resolution_code','title' => 'Resolution Code'],
             ['data' => 'published_date','name' => 'published_date','title' => 'Published Date','searchable' => false],
-            ['data' => 'file','name' => 'file','title' => 'File','searchable' => false, 'orderable'=>false],
-            ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
+            // ['data' => 'file','name' => 'file','title' => 'File','searchable' => false, 'orderable'=>false],
+            // ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
         ];
         
         if ($datatables->getRequest()->ajax()) {
@@ -264,13 +263,15 @@ class ResolutionController extends Controller
             {
                 $resolutions = $resolutions->whereDate('published_date', '<=', date('Y-m-d', strtotime($request->published_to_date)));
             }
-            
-            $resolutions = $resolutions->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').', resolutions.id as id, board_id, department_id, resolution_type_id, title, resolution_code, published_date, filepath, filename');
+            $resolutions = $resolutions->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').', resolutions.id as id, board_id, department_id, resolution_type_id, title, resolution_code, published_date, filepath, filename')->orderBy('id','DESC');
             
             return $datatables->of($resolutions)
+                ->editColumn('rownum', function ($resolutions) {
+                    static $i = 0; $i++; return $i;
+                })
                 ->editColumn('radio', function ($resolutions) {
-                    // $url = route('resolution.edit', [$resolutions->id]);
-                    // return '<label class="m-radio m-radio--primary"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
+                    $url = route('resolution.view', [$resolutions->id]);
+                    return '<label class="m-radio m-radio--primary"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
                 })
                 ->editColumn('board', function ($resolutions) {
                     return $resolutions->board->board_name;
@@ -281,17 +282,17 @@ class ResolutionController extends Controller
                 ->editColumn('resolutionType', function ($resolutions) {
                     return $resolutions->resolutionType->name;
                 })
-                ->editColumn('file', function ($resolutions) {
-                    return view('admin.resolution.downloads', compact('resolutions'))->render();
-                    // return $resolutions->filename;
-                })
+                // ->editColumn('file', function ($resolutions) {
+                //     return view('admin.resolution.downloads', compact('resolutions'))->render();
+                //     // return $resolutions->filename;
+                // })
                 ->editColumn('published_date', function ($resolutions) {
                     return date('d-m-Y',strtotime($resolutions->published_date));
                 })
-                ->editColumn('actions', function ($resolutions) {
-                   return view('admin.resolution.actions', compact('resolutions'))->render();
-                })
-                ->rawColumns(['radio', 'board','department','file','published_date','actions'])
+                // ->editColumn('actions', function ($resolutions) {
+                //    return view('admin.resolution.actions', compact('resolutions'))->render();
+                // })
+                ->rawColumns(['radio', 'board','department','published_date'])
                 ->make(true);
         }
         
@@ -305,7 +306,7 @@ class ResolutionController extends Controller
             'serverSide' => true,
             'processing' => true,
             'ordering'   =>'isSorted',
-            "order"=> [9, "desc" ],
+            "order"=> [5, "desc" ],
             "pageLength" => $this->list_num_of_records_per_page,
             // 'fixedHeader' => [
             //     'header' => true,
@@ -423,7 +424,7 @@ class ResolutionController extends Controller
     public function destroy(Request $request, $id)
     {
         $resolution = Resolution::findOrFail($id);
-        
+
         $resolution->delete();
         DeletedResolution::create([
             'resolution_id' => $resolution->id,
@@ -436,12 +437,25 @@ class ResolutionController extends Controller
             // 'created_at' => $date
         ]);
 
-        return redirect()->back()->with(['success'=> 'Record deleted succesfully']);
+        return redirect('/resolution')->with(['success'=> 'Record deleted succesfully']);
     }
 
     public function loadDeleteReasonOfResolutionUsingAjax(Request $request)
     {
         $id = $request->id;
         return view('admin.resolution.resolutionDeleteReason', compact('id'))->render();
+    }
+
+    public function view(Request $request, $id){
+
+        $resolution = Resolution::findOrFail($id);
+        $boards = Board::where('status', 1)->get()->toArray();
+        $resolutionTypes = ResolutionType::all()->toArray();
+
+        //display department name as per id
+        $resolution->department_name = Department::where('id',$resolution->department_id)
+                                                  ->value('department_name');
+        $header_data = $this->header_data;
+        return view('admin.resolution.view_resolution', compact('header_data', 'boards', 'resolutionTypes', 'resolution'));
     }
 }

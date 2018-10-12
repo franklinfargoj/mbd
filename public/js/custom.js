@@ -47,8 +47,6 @@ $(document).ready(function () {
 
     $('.custom-file-input').change(function (e) {
         $(this).parents('.custom-file').find('.custom-file-label').text(e.target.files[0].name);
-        console.log(document.querySelector(".custom-file-label"));
-        console.log("file", e.target.files[0].name)
     });
 
     // store the currently selected tab in the hash value
@@ -273,6 +271,14 @@ $(document).ready(function () {
             preceding_time: "required",
             description: "required",
             update_status: "required",
+            file_case_template: {
+                required: true,
+                extension: "pdf"
+            },
+            file_update_supporting_documents: {
+                required: true,
+                extension: "pdf"
+            },
         }
     });
 
@@ -477,6 +483,37 @@ $(document).ready(function () {
     //         dataPaginate.children[0].style.display = "";
     //     }
     // });
+
+    //role validations
+
+    $("#addrole").validate({
+        // errorElement: "span",
+        //errorClass : "text-red",
+        rules: {
+            name: "required",
+            display_name: "required",
+            description: "required",
+            redirect_to: "required",
+        }
+    });
+
+    $("#editrole").validate({
+        // errorElement: "span",
+        //errorClass : "text-red",
+        rules: {
+            name: "required",
+            display_name: "required",
+            description: "required",
+            redirect_to: "required",
+        }
+    });
+
+    $("#DeleteRoleReason").validate({
+        rules: {
+            delete_message: "required",
+        }
+    });
+
 });
 
 
@@ -544,3 +581,7 @@ function geturl(view_route){
        // var view_route = $(this).attr('data-value');
         window.location = view_route; 
     }
+
+    $(document).ready(function () {
+        $(".display_msg").delay(5000).slideUp(300);
+    });    

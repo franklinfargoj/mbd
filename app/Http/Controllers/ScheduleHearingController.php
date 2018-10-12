@@ -62,16 +62,17 @@ class ScheduleHearingController extends Controller
         $input['description'] = $request->description;
         $input['update_status'] = config('commanConfig.hearingStatus.scheduled_meeting');
 
-        if($request->hasFile('file'))
+        if($request->hasFile('file_case_template') && $request->hasFile('file_update_supporting_documents'))
         {
-            if(isset($request->file['case_template'])){
-                $extension = $request->file['case_template']->getClientOriginalExtension();
+            if(isset($request->file['file_case_template'])){
+                dd($request->file('file_case_template'));
+                $extension = $request->file['file_case_template']->getClientOriginalExtension();
                 if($extension != "pdf") {
                     return redirect()->back()->with('error','Invalid type of file uploaded (only pdf allowed)');
                 }
             }
 
-            if(isset($request->file['update_supporting_documents'])){
+            if(isset($request->file['file_update_supporting_documents'])){
                 $extension = $request->file['update_supporting_documents']->getClientOriginalExtension();
                 if($extension != "pdf") {
                     return redirect()->back()->with('error','Invalid type of file uploaded (only pdf allowed)');
@@ -89,7 +90,7 @@ class ScheduleHearingController extends Controller
         }
         else
         {
-            // dd($request->input());
+             dd("sadsad");
             return redirect()->back()->with('error','Please select file to upload');
         }
 

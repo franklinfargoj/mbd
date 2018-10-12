@@ -45,6 +45,11 @@ Breadcrumbs::for('resolution_edit', function ($trail,$id) {
     $trail->push('resolution_edit/', route('resolution.edit',$id));
 });
 
+Breadcrumbs::for('resolution_view', function ($trail,$id) {
+    $trail->parent('resolution');
+    $trail->push('resolution_view/', route('resolution.view',$id));
+});
+
 //Land
 Breadcrumbs::for('village_detail', function ($trail) {
 	$trail->push('Land Detail', route('village_detail.index'));
@@ -196,17 +201,17 @@ Breadcrumbs::for('cap', function ($trail) {
 
 Breadcrumbs::for('society_EE_documents_cap', function ($trail,$id) {
     $trail->parent('cap');
-    $trail->push('society_EE_documents', route('cap.society_EE_documents',$id));
+    $trail->push('society EE documents', route('cap.society_EE_documents',$id));
 });
 
 Breadcrumbs::for('EE_scrutiny_cap', function ($trail,$id) {
     $trail->parent('cap');
-    $trail->push('EE_scrutiny', route('cap.EE_scrutiny_remark',$id));
+    $trail->push('EE scrutiny', route('cap.EE_scrutiny_remark',$id));
 });
 
 Breadcrumbs::for('DYCE_scrutiny_cap', function ($trail,$id) {
     $trail->parent('cap');
-    $trail->push('DYCE_scrutiny', route('cap.dyce_Scrutiny_Remark',$id));
+    $trail->push('DYCE scrutiny', route('cap.dyce_Scrutiny_Remark',$id));
 });
 
 // Breadcrumbs::for('REE_calculation_cap', function ($trail,$id) {
@@ -215,17 +220,17 @@ Breadcrumbs::for('DYCE_scrutiny_cap', function ($trail,$id) {
 // });
 Breadcrumbs::for('calculation_sheet_cap', function ($trail,$id) {
     $trail->parent('cap');
-    $trail->push('calculation_sheet', route('cap.show_calculation_sheet',$id));
+    $trail->push('calculation sheet', route('cap.show_calculation_sheet',$id));
 });
 
 Breadcrumbs::for('Forward_Application_cap', function ($trail,$id) {
     $trail->parent('cap');
-    $trail->push('Forward_Application', route('cap.forward_application',$id));
+    $trail->push('forward application', route('cap.forward_application',$id));
 });
 
 Breadcrumbs::for('cap_note_cap', function ($trail,$id) {
     $trail->parent('cap');
-    $trail->push('cap_note', route('cap.cap_notes',$id));
+    $trail->push('cap note', route('cap.cap_notes',$id));
 });
 
 //vp Breadcrumbs
@@ -397,7 +402,7 @@ Breadcrumbs::for('view_application_dyce', function ($trail,$id) {
 
 Breadcrumbs::for('view_application', function ($trail,$id) {
     $trail->parent('cap');
-    $trail->push('view-application', route('cap.view_application',$id));
+    $trail->push('view application', route('cap.view_application',$id));
 });
 
 
@@ -447,4 +452,26 @@ Breadcrumbs::for('forward_application-dyce', function ($trail,$id) {
     $trail->push('forward application', route('dyce.forward_application',$id));
 });
 
+//Role
+Breadcrumbs::for('role', function ($trail) {
+    $trail->push('Home', route('roles.index'));
+});
 
+Breadcrumbs::for('add_role', function ($trail) {
+    $trail->parent('role');
+    $trail->push('Create Role', route('roles.create'));
+});
+
+Breadcrumbs::for('role_detail', function ($trail) {
+    $trail->push('Role Detail', route('roles.index'));
+});
+
+Breadcrumbs::for('edit_role', function ($trail,$id) {
+    $trail->parent('role_detail');
+    $trail->push('Edit Role', route('roles.edit',$id));
+});
+
+Breadcrumbs::for('role_view', function ($trail,$id) {
+    $trail->parent('role');
+    $trail->push('View Role', route('roles.show',$id));
+});

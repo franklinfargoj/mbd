@@ -19,18 +19,32 @@ $route=\Request::route()->getName();
         m-menu-scrollable="1" m-menu-dropdown-timeout="500" style="position: relative;">
         <ul class="m-menu__nav  m-menu__nav--dropdown-submenu-arrow">
             @if(in_array('resolution.index', session()->get('permission')))
-            <li class="m-menu__item m-menu__item--active" aria-haspopup="true">
+            <li class="m-menu__item {{ ($route == 'resolution.index' ? 'm-menu__item--active' : '') }}" aria-haspopup="true">
                 <a href="{{ url('/resolution') }}" class="m-menu__link ">
                     <i class="m-menu__link-icon flaticon-line-graph"></i>
                     <span class="m-menu__link-title">
                         <span class="m-menu__link-wrap">
                             <span class="m-menu__link-text">
-                                Resolution Listing
+                                Resolution Listing 
                             </span>
                         </span>
                     </span>
                 </a>
             </li>
+
+            
+            <li class="m-menu__item {{ ($route == 'resolution.create' ? 'm-menu__item--active' : '') }}" aria-haspopup="true">
+                <a href="{{route('resolution.create')}}" class="m-menu__link ">
+                    <i class="m-menu__link-icon flaticon-line-graph"></i>
+                    <span class="m-menu__link-title">
+                        <span class="m-menu__link-wrap">
+                            <span class="m-menu__link-text">
+                                Add Resolution
+                            </span>
+                        </span>
+                    </span>
+                </a>
+            </li>            
             @endif
 
 
@@ -64,7 +78,7 @@ $route=\Request::route()->getName();
             @endphp
             {{-- @if(!empty(array_intersect($hearing_permission, session()->get('permission'))))--}}
             @if(in_array('hearing.index', session()->get('permission')))
-            <li class="m-menu__item">
+            <li class="m-menu__item {{($route=='hearing.index')?'m-menu__item--active':''}}">
                 <a href="{{ url('hearing') }}" class="m-menu__link m-menu__toggle">
                     <i class="m-menu__link-icon flaticon-line-graph"></i>
                     <span class="m-menu__link-title">
@@ -76,6 +90,20 @@ $route=\Request::route()->getName();
                     </span>
                 </a>
             </li>
+            @if(Auth::user()->name == 'Joint CO PA' || Auth::user()->name == 'CO PA')
+            <li class="m-menu__item {{($route=='hearing.create')?'m-menu__item--active':''}}">
+                <a href="{{route('hearing.create')}}" class="m-menu__link m-menu__toggle">
+                    <i class="m-menu__link-icon flaticon-line-graph"></i>
+                    <span class="m-menu__link-title">
+                <span class="m-menu__link-wrap">
+                    <span class="m-menu__link-text">
+                        Add Hearing
+                    </span>
+                </span>
+            </span>
+                </a>
+            </li>
+             @endif
             @endif
 
 
@@ -251,7 +279,7 @@ $route=\Request::route()->getName();
                     <span class="m-menu__link-title">
                         <span class="m-menu__link-wrap">
                             <span class="m-menu__link-text">
-                                Listing
+                                Application for Offer Letter
                             </span>
                         </span>
                     </span>

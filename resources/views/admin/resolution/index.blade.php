@@ -1,5 +1,12 @@
 @extends('admin.layouts.app')
 @section('content')
+
+@if(session()->has('success'))
+<div class="alert alert-success display_msg">
+    {{ session()->get('success') }}
+</div>
+@endif
+
 <div class="col-md-12">
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">
@@ -12,9 +19,9 @@
                         <img class="filter-icon" src="{{asset('/img/filter-icon.svg')}}">Filter
                     </button> -->
                     <button type="submit" name="excel" value="excel" class="btn excel-icon"><img src="{{asset('/img/excel-icon.svg')}}"></button>
-                    <a target="_blank" href="{{route('resolution.print',['published_from_date'=>app('request')->input('published_from_date'),'published_to_date'=>app('request')->input('published_to_date'),'resolution_type_id'=>app('request')->input('resolution_type_id'),'board_id'=>app('request')->input('board_id')])}}"
+<!--                     <a target="_blank" href="{{route('resolution.print',['published_from_date'=>app('request')->input('published_from_date'),'published_to_date'=>app('request')->input('published_to_date'),'resolution_type_id'=>app('request')->input('resolution_type_id'),'board_id'=>app('request')->input('board_id')])}}"
                         class="btn print-icon"><img src="{{asset('/img/print-icon.svg')}}"></a>
-                    <a class="btn btn-primary" href="{{route('resolution.create')}}">Add Resolution</a>
+                    <a class="btn btn-primary" href="{{route('resolution.create')}}">Add Resolution</a> -->
                 </div>
             </div>
         </div>
@@ -71,7 +78,7 @@
                             <div class="form-group m-form__group">
                                 <div class="btn-list">
                                     <button type="submit" class="btn btn-primary">Search</button>
-                                    <button type="reset" class="btn btn-metal">Reset</button>
+                                    <a href="{{route('resolution.index')}}" class="btn btn-secondary">Reset</a>
                                 </div>
                             </div>
                         </div>

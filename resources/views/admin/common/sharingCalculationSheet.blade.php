@@ -1066,24 +1066,24 @@
                 <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
                     <div class="portlet-body">
                         <div class="m-portlet__body m-portlet__body--table">
-                            <div class="m-subheader">
+<!--                             <div class="m-subheader">
                                 <div class="d-flex align-items-center justify-content-center">
                                     <h3 class="section-title">
                                         Note
                                     </h3>
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="m-section__content mb-0 table-responsive">
                                 <div class="container">
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <div class="d-flex flex-column h-100 two-cols">
-                                                <h5>Download Note</h5>
-                                                <span class="hint-text">Download REE Note uploaded by REE</span>
+                                                <h5>Download REE Note</h5>
+                                                <!-- <span class="hint-text">Download  Note uploaded by REE</span> -->
                                                 <div class="mt-auto">
                                                     @if(isset($arrData['reeNote']->document_path))
                                                     <a href="{{ config('commanConfig.storage_server').'/'.$arrData['reeNote']->document_path }}">
-                                                        <button class="btn btn-primary">Download Note Format</button>
+                                                        <button class="btn btn-primary">Download</button>
                                                     </a>
                                                     @else
                                                     <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">

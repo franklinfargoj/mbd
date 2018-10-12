@@ -9,19 +9,19 @@
         </div>
     </div>
     <!-- END: Subheader -->
-    <div class="m-portlet m-portlet--mobile">
+    <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
 
         <form id="addHearingForm" role="form" method="post" class="m-form m-form--rows m-form--label-align-right" action="{{route('hearing.store')}}">
             @csrf
             <div class="m-portlet__body m-portlet__body--spaced">
                 <div class="form-group m-form__group row">
-                    <div class="col-lg-6 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="preceding_officer_name">Name of Preceding Officer:</label>
                             <input type="text" id="preceding_officer_name" name="preceding_officer_name" class="form-control form-control--custom m-input" value="{{ old('preceding_officer_name') }}">
                             <span class="help-block">{{$errors->first('preceding_officer_name')}}</span>
                     </div>
 
-                    <div class="col-lg-6 form-group">
+                    <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="case_number">Case Number:</label>
                             <input type="text" id="case_number" name="case_number" class="form-control form-control--custom m-input" value="{{ old('case_number') }}">
                             <span class="help-block">{{$errors->first('case_number')}}</span>
@@ -29,7 +29,7 @@
                 </div>
 
                 <div class="form-group m-form__group row">
-                    <div class="col-lg-6 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="case_year">Case Year:</label>
                             <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="case_year" name="case_year">
                                 @php
@@ -44,7 +44,7 @@
                             <span class="help-block">{{$errors->first('case_year')}}</span>
                     </div>
 
-                    <div class="col-lg-6 form-group">
+                    <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="application_type_id">Application Type:</label>
                             <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="application_type_id" name="application_type_id">
                                 @foreach($arrData['application_type'] as $application_type)
@@ -69,13 +69,13 @@
                 </div>
 
                 <div class="form-group m-form__group row">
-                    <div class="col-lg-6 form-group">
+                    <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="applicant_name">Name of Applicant:</label>
                             <input type="text" id="applicant_name" name="applicant_name" class="form-control form-control--custom m-input"  value="{{ old('applicant_name') }}">
                             <span class="help-block">{{$errors->first('applicant_name')}}</span>
                     </div>
 
-                    <div class="col-lg-6 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="applicant_mobile_no">Mobile Number:</label>
                             <input type="text" id="applicant_mobile_no" name="applicant_mobile_no" class="form-control form-control--custom m-input"  value="{{ old('applicant_mobile_no') }}">
                             <span class="help-block">{{$errors->first('applicant_mobile_no')}}</span>
@@ -83,7 +83,7 @@
                 </div>
 
                 <div class="form-group m-form__group row">
-                    <div class="col-lg-6 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="applicant_address">Address:</label>
                             <textarea id="applicant_address" name="applicant_address" class="form-control form-control--custom form-control--fixed-height m-input">{{ old('applicant_address') }}</textarea>
                             <span class="help-block">{{$errors->first('applicant_address')}}</span>
@@ -104,13 +104,13 @@
                 </div>
 
                 <div class="form-group m-form__group row">
-                    <div class="col-lg-6 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="respondent_name">Name of Respondent:</label>
                             <input type="text" id="respondent_name" name="respondent_name" class="form-control form-control--custom"  value="{{ old('respondent_name') }}">
                             <span class="help-block">{{$errors->first('respondent_name')}}</span>
                     </div>
 
-                    <div class="col-lg-6 form-group">
+                    <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="respondent_mobile_no">Mobile Number:</label>
                             <input type="text" id="respondent_mobile_no" name="respondent_mobile_no" class="form-control form-control--custom"  value="{{ old('respondent_mobile_no') }}">
                             <span class="help-block">{{$errors->first('respondent_mobile_no')}}</span>
@@ -118,7 +118,7 @@
                 </div>
 
                 <div class="form-group m-form__group row">
-                    <div class="col-lg-6 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="respondent_address">Address:</label>
                             <textarea id="respondent_address" name="respondent_address" class="form-control form-control--custom form-control--fixed-height m-input">{{ old('respondent_address') }}</textarea>
                             <span class="help-block">{{$errors->first('respondent_address')}}</span>
@@ -139,13 +139,13 @@
                 </div>
 
                 <div class="form-group m-form__group row">
-                    <div class="col-lg-6 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="case_type">Case Type:</label>
                             <input type="text" id="case_type" name="case_type" class="form-control form-control--custom m-input"  value="{{ old('case_type') }}">
                             <span class="help-block">{{$errors->first('case_type')}}</span>
                     </div>
 
-                    <div class="col-lg-6 form-group">
+                    <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="office_year">Year:</label>
                             <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="office_year" name="office_year">
                                 @php
@@ -162,14 +162,14 @@
                 </div>
 
                 <div class="form-group m-form__group row">
-                    <div class="col-lg-6 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="office_number">Phone Number:</label>
                             <input type="text" id="office_number" name="office_number" class="form-control form-control--custom m-input"  value="{{ old('office_number') }}">
 
                             <span class="help-block">{{$errors->first('office_number')}}</span>
                     </div>
 
-                    <div class="col-lg-6 form-group">
+                    <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="office_date">Date:</label>
                             <input type="text" id="office_date" name="office_date" class="form-control form-control--custom m-input m_datepicker"  value="{{ old('office_date') }}">
                             <span class="help-block">{{$errors->first('office_date')}}</span>
@@ -177,13 +177,13 @@
                 </div>
 
                 <div class="form-group m-form__group row">
-                    <div class="col-lg-6 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="office_tehsil">Tehsil:</label>
                             <input type="text" id="office_tehsil" name="office_tehsil" class="form-control form-control--custom m-input"  value="{{ old('office_tehsil') }}">
                             <span class="help-block">{{$errors->first('office_tehsil')}}</span>
                     </div>
 
-                    <div class="col-lg-6 form-group">
+                    <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="office_village">Village:</label>
                             <input type="text" id="office_village" name="office_village" class="form-control form-control--custom" value="{{ old('office_village') }}">
                             <span class="help-block">{{$errors->first('office_village')}}</span>
@@ -191,13 +191,13 @@
                 </div>
 
                 <div class="form-group m-form__group row">
-                    <div class="col-lg-6 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="office_remark">Remarks:</label>
                             <textarea id="office_remark" name="office_remark" class="form-control form-control--custom form-control--fixed-height m-input">{{ old('office_remark') }}</textarea>
                             <span class="help-block">{{$errors->first('office_remark')}}</span>
                     </div>
 
-                    {{--<div class="col-lg-6 form-group">
+                    {{--<div class="col-sm-4 form-group">
                         <label class="col-form-label" for="hearing_status_id">Status:</label>
                             <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="hearing_status_id" name="hearing_status_id">
                                 @foreach($arrData['status'] as $hearing_status)
@@ -209,7 +209,7 @@
                 </div>
 
                 {{--<div class="form-group m-form__group row">--}}
-                    {{--<div class="col-lg-6 form-group">--}}
+                    {{--<div class="col-sm-4 form-group">--}}
                         {{--<label class="col-form-label" for="board_id">Board:</label>--}}
                             {{--<select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="board_id" name="board_id">--}}
                                 {{--@foreach($arrData['board'] as $board_details)--}}
@@ -219,7 +219,7 @@
                             {{--<span class="help-block">{{$errors->first('board_id')}}</span>--}}
                     {{--</div>--}}
 
-                    {{--<div class="col-lg-6 form-group">--}}
+                    {{--<div class="col-sm-4 form-group">--}}
                         {{--<label class="col-form-label" for="department">Department:</label>--}}
                             {{--<select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="department" name="department">--}}
                                 {{--@foreach($arrData['department'] as $department_details)--}}
@@ -232,7 +232,7 @@
                 <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
                     <div class="m-form__actions px-0">
                         <div class="row">
-                            <div class="col-lg-6">
+                            <div class="col-sm-4">
                                 <div class="btn-list">
                                     <button type="submit"  class="btn btn-primary">Save</button>
                                     <a href="{{url('/hearing')}}" class="btn btn-secondary">Cancel</a>

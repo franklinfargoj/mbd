@@ -1146,13 +1146,13 @@
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <div class="d-flex flex-column h-100 two-cols">
-                                                <h5>Download Note</h5>
-                                                <span class="hint-text">Download REE Note uploaded by REE</span>
+                                                <h5>Download REE Note</h5>
+                                                <!-- <span class="hint-text">Download  Note uploaded by REE</span> -->
                                                 <div class="mt-auto">
                                                     @if(isset($arrData['reeNote']->document_path))
                                                     <a href="{{config('commanConfig.storage_server').'/'.$arrData['reeNote']->document_path}}">
 
-                                                        <button class="btn btn-primary">Download Note Format</button>
+                                                        <button class="btn btn-primary">Download </button>
                                                     </a>
                                                     @else
                                                     <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
@@ -1164,8 +1164,8 @@
                                         </div>
                                         <div class="col-sm-6 border-left">
                                             <div class="d-flex flex-column h-100 two-cols">
-                                                <h5>Upload Note</h5>
-                                                <span class="hint-text">Click on 'Upload' to upload REE - Note</span>
+                                                <h5>Upload REE Note</h5>
+                                                <!-- <span class="hint-text">Click on 'Upload' to upload  - Note</span> -->
                                                 <form action="{{ route('ree.upload_ree_note') }}" method="post" enctype="multipart/form-data">
                                                     @csrf
                                                     <input type="hidden" name="application_id" value="{{ $applicationId }}">
@@ -1242,12 +1242,31 @@
         // // **End** Save tabs location on window refresh or submit
 
         $('input').on('keypress', function (event) {
-            var regex = new RegExp("^[0-9]+$");
+          /*  var regex = new RegExp("^[0-9]+$");
             var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
             if (!regex.test(key)) {
                 event.preventDefault();
                 return false;
+            }*/
+
+
+            if (event.shiftKey == true) {
+                event.preventDefault();
             }
+
+            if ((event.keyCode >= 48 && event.keyCode <= 57) ||
+                (event.keyCode >= 96 && event.keyCode <= 105) ||
+                event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 37 ||
+                event.keyCode == 39 || event.keyCode == 46 || event.keyCode == 190) {
+
+            } else {
+                event.preventDefault();
+            }
+
+            if($(this).val().indexOf('.') !== -1 && event.keyCode == 190)
+                event.preventDefault();
+            //if a decimal has been added, disable the "."-button
+
         });
 
         $("#amount_to_be_paid_to_municipal1").attr('value',(5 / 7 * $("#off_site_infrastructure_fee").val()).toFixed(2));

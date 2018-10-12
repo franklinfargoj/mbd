@@ -109,6 +109,8 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     // Resolution routes
     
     Route::get('/resolution/delete/{id}', 'ResolutionController@destroy')->name('resolution.delete');
+
+
 //resolutions backend   
 //Route::get('/resolution/delete/{id}', 'ResolutionController@destroy')->name('resolution.delete');
     Route::resource('/resolution', 'ResolutionController');
@@ -307,6 +309,14 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     
     Route::post('finalise_architect_application','ArchitectApplicationController@finalise_architect_application')->name('finalise_architect_application');
     //architect module end
+
+
+//CRUD Routes
+
+    Route::group(['namespace' => 'CRUDAdmin','prefix' => 'crudadmin'], function() {
+        Route::post('loadDeleteRoleUsingAjax', 'RoleController@loadDeleteRoleUsingAjax')->name('loadDeleteRoleUsingAjax');
+        Route::resource('roles','RoleController');
+    });
     
 });
 
@@ -322,8 +332,17 @@ Route::get('add_architect_layout_detail/{layout_id}','ArchitectLayout\LayoutArch
 Route::post('post_architect_layout_detail','ArchitectLayout\LayoutArchitectDetailController@create_detail')->name('architect_layout_detail.create');
 Route::post('uploadLatestLayoutAjax','ArchitectLayout\LayoutArchitectDetailController@uploadLatestLayoutAjax')->name('uploadLatestLayoutAjax');
 
+//add cts
 Route::get('add_cts_detail/{layout_detail_id}','ArchitectLayout\LayoutArchitectDetailController@add_cts_detail')->name('architect_layout_detail_cts_plan');
 Route::post('post_cts_detail','ArchitectLayout\LayoutArchitectDetailController@post_cts_detail')->name('post_cts_detail');
+Route::post('delete_cts_detail','ArchitectLayout\LayoutArchitectDetailController@delete_cts_detail')->name('delete_cts_detail');
+//add PR card
+Route::get('add_prc_detail/{layout_detail_id}','ArchitectLayout\LayoutArchitectDetailController@add_prc_detail')->name('architect_layout_detail_prc_detail');
+Route::post('post_prc_detail','ArchitectLayout\LayoutArchitectDetailController@post_prc_detail')->name('post_prc_detail');
+Route::post('delete_prc_detail','ArchitectLayout\LayoutArchitectDetailController@delete_prc_detail')->name('delete_prc_detail');
+//dp crz remark
+Route::get('architect_layout_detail_dp_crz_remark_add/{layout_detail_id}','ArchitectLayout\LayoutArchitectDetailController@add_dp_crz_remark')->name('add_architect_detail_dp_crz_remark_add');
+Route::post('architect_layout_detail_dp_crz_remark_post','ArchitectLayout\LayoutArchitectDetailController@post_dp_crz_remark')->name('post_architect_detail_dp_crz_remark_add');
 //---------------------architect layout end---------------------------------------
 
 // Route::get('refresh_captcha','SocietyOfferLetterController@RefreshCaptcha')->name('refresh_captcha');
@@ -358,32 +377,40 @@ Route::get('generate_offer_letter/{id}', 'REEDepartment\REEController@GenerateOf
 Route::get('edit_offer_letter/{id}', 'REEDepartment\REEController@editOfferLetter')->name('ree.edit_offer_letter');
 Route::post('save_offer_letter', 'REEDepartment\REEController@saveOfferLetter')->name('ree.save_offer_letter');
 Route::post('upload_offer_letter/{id}', 'REEDepartment\REEController@uploadOfferLetter')->name('ree.upload_offer_letter');
+Route::post('send_for_approval','REEDepartment\REEController@sendForApproval')->name('ree.send_for_approval');
+Route::post('send_letter_society','REEDepartment\REEController@sendOfferLetterToSociety')->name('ree.send_letter_society');
+Route::get('view_application_ree/{id}','REEDepartment\REEController@viewApplication')->name('ree.view_application');
+Route::get('calculation_sheet_ree/{id}','REEDepartment\REEController@showCalculationSheet')->name('ree.show_calculation_sheet');
 
 Route::get('approve_offer_letter/{id}','CODepartment\COController@approveOfferLetter')->name('co.approve_offer_letter');
 Route::post('send_approved_offer_letter','CODepartment\COController@approvedOfferLetter')->name('co.send_approved_offer_letter');
-Route::post('send_for_approval','REEDepartment\REEController@sendForApproval')->name('ree.send_for_approval');
-Route::post('send_letter_society','REEDepartment\REEController@sendOfferLetterToSociety')->name('ree.send_letter_society');
+Route::get('view_application_co/{id}','CODepartment\COController@viewApplication')->name('co.view_application');
+Route::get('calculation_sheet_co/{id}','CODepartment\COController@showCalculationSheet')->name('co.show_calculation_sheet');
 
-Route::get('calculation_sheet/{id}','Common\CommonController@showCalculationSheet')->name('show_calculation_sheet');
+// Route::get('calculation_sheet/{id}','Common\CommonController@showCalculationSheet')->name('show_calculation_sheet');
 
 Route::get('view_application/{id}','CAPDepartment\CAPController@viewApplication')->name('cap.view_application');
+Route::get('calculation_sheet_cap/{id}','CAPDepartment\CAPController@showCalculationSheet')->name('cap.show_calculation_sheet');
 
 Route::get('view_application_dyce/{id}','DYCEDepartment\DYCEController@viewApplication')->name('dyce.view_application');
 
-Route::get('view_application_co/{id}','CODepartment\COController@viewApplication')->name('co.view_application');
-
 Route::get('view_application_ee/{id}','EEDepartment\EEController@viewApplication')->name('ee.view_application');
+
 Route::get('view_application_vp/{id}','VPDepartment\VPController@viewApplication')->name('vp.view_application');
-Route::get('view_application_ree/{id}','REEDepartment\REEController@viewApplication')->name('ree.view_application');
 Route::get('calculation_sheet_vp/{id}','VPDepartment\VPController@showCalculationSheet')->name('vp.show_calculation_sheet');
 
-Route::get('calculation_sheet_co/{id}','CODepartment\COController@showCalculationSheet')->name('co.show_calculation_sheet');
 
-Route::get('calculation_sheet_cap/{id}','CAPDepartment\CAPController@showCalculationSheet')->name('cap.show_calculation_sheet');
 
-Route::get('calculation_sheet_ree/{id}','REEDepartment\REEController@showCalculationSheet')->name('ree.show_calculation_sheet');
 
 
 Route::resource('/ol_calculation_sheet', 'REEDepartment\OlApplicationCalculationSheetDetailsController');
 
 
+// ee billing 
+
+ Route::get('view_resolution/{id}', 'ResolutionController@view')->name('resolution.view');
+
+
+Route::get('ee-billing-login', 'EEBillingController@Login');
+Route::get('ee-billing-dashboard', 'EEBillingController@Dashboard');
+Route::get('ee-billing-list-of-societies', 'EEBillingController@ListOfSocieties');

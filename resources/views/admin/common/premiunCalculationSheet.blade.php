@@ -1161,13 +1161,13 @@
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <div class="d-flex flex-column h-100 two-cols">
-                                                <h5>Download Note</h5>
-                                                <span class="hint-text">Download REE Note uploaded by REE</span>
+                                                <h5>Download REE Note</h5>
+                                                <!-- <span class="hint-text">Download  Note uploaded by REE</span> -->
                                                 <div class="mt-auto">
                                                     @if(isset($arrData['reeNote']->document_path))
                                                     <a href="{{config('commanConfig.storage_server').'/'.$arrData['reeNote']->document_path}}">
 
-                                                        <button class="btn btn-primary">Download Note Format</button>
+                                                        <button class="btn btn-primary">Download</button>
                                                     </a>
                                                     @else
                                                     <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
