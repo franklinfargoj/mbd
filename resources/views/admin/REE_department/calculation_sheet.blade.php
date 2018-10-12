@@ -1261,7 +1261,7 @@
 
         // // **End** Save tabs location on window refresh or submit
 
-        $('input').on('keydown', function (event) {
+        $('input').on('keypress', function (event) {
             /* var regex = new RegExp("^[0-9]\d+$");
              var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
              if (!regex.test(key)) {
@@ -1278,22 +1278,29 @@
 
               }*/
 
-            if (event.shiftKey == true) {
+            var $this = $(this);
+            if ((event.which != 46 || $this.val().indexOf('.') != -1) &&
+                ((event.which < 48 || event.which > 57) &&
+                    (event.which != 0 && event.which != 8))) {
                 event.preventDefault();
             }
 
-            if ((event.keyCode >= 48 && event.keyCode <= 57) ||
-                (event.keyCode >= 96 && event.keyCode <= 105) ||
-                event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 37 ||
-                event.keyCode == 39 || event.keyCode == 46 || event.keyCode == 190) {
-            } else {
+            var text = $(this).val();
+            if ((event.which == 46) && (text.indexOf('.') == -1)) {
+                setTimeout(function() {
+                    if ($this.val().substring($this.val().indexOf('.')).length > 3) {
+                        $this.val($this.val().substring(0, $this.val().indexOf('.') + 3));
+                    }
+                }, 1);
+            }
+
+            if ((text.indexOf('.') != -1) &&
+                (text.substring(text.indexOf('.')).length > 2) &&
+                (event.which != 0 && event.which != 8) &&
+                ($(this)[0].selectionStart >= text.length - 2)) {
                 event.preventDefault();
             }
 
-
-            if($(this).val().indexOf('.') !== -1 && event.keyCode == 190 )
-                event.preventDefault();
-            //if a decimal has been added, disable the "."-button
 
         });
 
