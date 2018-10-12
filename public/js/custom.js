@@ -483,6 +483,37 @@ $(document).ready(function () {
     //         dataPaginate.children[0].style.display = "";
     //     }
     // });
+
+    //role validations
+
+    $("#addrole").validate({
+        // errorElement: "span",
+        //errorClass : "text-red",
+        rules: {
+            name: "required",
+            display_name: "required",
+            description: "required",
+            redirect_to: "required",
+        }
+    });
+
+    $("#editrole").validate({
+        // errorElement: "span",
+        //errorClass : "text-red",
+        rules: {
+            name: "required",
+            display_name: "required",
+            description: "required",
+            redirect_to: "required",
+        }
+    });
+
+    $("#DeleteRoleReason").validate({
+        rules: {
+            delete_message: "required",
+        }
+    });
+
 });
 
 
