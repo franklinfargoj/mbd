@@ -83,15 +83,22 @@
                     </div>
 
                     <div class="col-lg-6 form-group">
+                        <div class="@if($errors->has('revision_log_message')) has-error @endif">
+                            <label class="col-form-label">Keyword:</label>
+                            <textarea name="keyword" id="keyword" class="form-control form-control--custom form-control--fixed-height m-input" readonly>{{old('keyword',$resolution->keyword)}}</textarea>
+                            <span class="help-block text-danger">{{$errors->first('keyword')}}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group m-form__group row">
+                    <div class="col-lg-6 form-group">
                         <div class="@if($errors->has('description')) has-error @endif">
                             <label class="col-form-label">Description:</label>
                             <textarea name="description" id="description" class="form-control form-control--custom form-control--fixed-height m-input" readonly>{{old('description',$resolution->description)}}</textarea>
                             <span class="help-block">{{$errors->first('description')}}</span>
                         </div>
                     </div>
-                </div>
-
-                <div class="form-group m-form__group row">
                     <div class="col-lg-6 form-group">
                         <div class="@if($errors->has('file')) has-error @endif">
                             <label class="col-form-label">File:</label>
@@ -103,7 +110,9 @@
                             </div>
                         </div>
                     </div>
+                </div>
 
+                <div class="form-group m-form__group row">
                     <div class="col-lg-6 form-group">
                         <div class="@if($errors->has('language')) has-error @endif">
                             <label class="col-form-label">Language:</label>
@@ -112,9 +121,6 @@
                             <span class="help-block">{{$errors->first('language')}}</span>
                         </div>
                     </div>
-                </div>
-
-                <div class="form-group m-form__group row">
                     <div class="col-lg-6 form-group">
                         <div class="@if($errors->has('reference_link')) has-error @endif">
                             <label class="col-form-label">Reference Link (if any):</label>
@@ -123,30 +129,23 @@
                             <span class="help-block">{{$errors->first('reference_link')}}</span>
                         </div>
                     </div>
+                </div>
 
+                <div class="form-group m-form__group row">
                     <div class="col-lg-6 form-group">
                         <div class="@if($errors->has('published_date')) has-error @endif">
                             <label class="col-form-label">Published Date:</label>
                             <input type="text" name="published_date" id="published_date" class="form-control form-control--custom m-input m_datepicker"
-                                value="{{old('published_date',$resolution->published_date)}}" readonly disabled>
+                                value="{{old('published_date',date(config('commanConfig.dateFormat'),strtotime($resolution->published_date)) ) }}" readonly disabled>
                             <span class="help-block">{{$errors->first('published_date')}}</span>
                         </div>
                     </div>
-                </div>
 
-                <div class="form-group m-form__group row">
                     <div class="col-lg-6 form-group">
                         <label class="col-form-label">Revision Log Message:</label>
                         <div class="@if($errors->has('revision_log_message')) has-error @endif">
                             <textarea name="revision_log_message" id="revision_log_message" class="form-control form-control--custom form-control--fixed-height m-input" readonly>{{old('revision_log_message',$resolution->revision_log_message)}}</textarea>
                             <span class="help-block">{{$errors->first('revision_log_message')}}</span>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 form-group">
-                        <div class="@if($errors->has('revision_log_message')) has-error @endif">
-                            <label class="col-form-label">Keyword:</label>
-                            <textarea name="keyword" id="keyword" class="form-control form-control--custom form-control--fixed-height m-input" readonly>{{old('keyword',$resolution->keyword)}}</textarea>
-                            <span class="help-block text-danger">{{$errors->first('keyword')}}</span>
                         </div>
                     </div>
                 </div>
@@ -156,7 +155,6 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="btn-list">
-                                <button type="submit" class="btn btn-primary">Save</button>
                                 <a href="{{url('/resolution')}}" class="btn btn-secondary">Cancel</a>
                             </div>
                         </div>

@@ -78,7 +78,7 @@
                             <div class="form-group m-form__group">
                                 <div class="btn-list">
                                     <button type="submit" class="btn btn-primary">Search</button>
-                                    <button type="reset" class="btn btn-metal">Reset</button>
+                                    <a href="{{route('resolution.index')}}" class="btn btn-secondary">Reset</a>
                                 </div>
                             </div>
                         </div>

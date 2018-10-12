@@ -136,7 +136,7 @@
                         <div class="@if($errors->has('published_date')) has-error @endif">
                             <label class="col-form-label">Published Date:</label>
                             <input type="text" name="published_date" id="published_date" class="form-control form-control--custom m-input m_datepicker"
-                                value="{{old('published_date',$resolution->published_date)}}">
+                                value="{{old('published_date',date(config('commanConfig.dateFormat'),strtotime($resolution->published_date)) )}}">
                             <span class="help-block">{{$errors->first('published_date')}}</span>
                         </div>
                     </div>
@@ -155,7 +155,7 @@
                         <div class="col-lg-6">
                             <div class="btn-list">
                                 <button type="submit" class="btn btn-primary">Save</button>
-                                <a href="{{url('/resolution')}}" class="btn btn-secondary">Cancel</a>
+                                <a href="{{route('resolution.index')}}" class="btn btn-secondary">Cancel</a>
                             </div>
                         </div>
                     </div>
