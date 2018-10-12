@@ -130,6 +130,82 @@
         });
     });
 
+    //survey report
+    $("#survey_report").change(function() {
+        $(".loader").show();
+        var file_data = $('#survey_report').prop('files')[0];
+        var form_data = new FormData();
+        var architect_layout_detail_id=$('#architect_layout_detail_id').val();
+        var field_name=$('#survey_report_field_name').val();
+        form_data.append('file', file_data);
+        form_data.append('architect_layout_detail_id', architect_layout_detail_id);
+        form_data.append('field_name', field_name);
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-Token': '{{csrf_token()}}'
+            }
+        });
+        $.ajax({
+            url: "{{url('uploadLatestLayoutAjax')}}", // point to server-side PHP script
+            data: form_data,
+            type: 'POST',
+            contentType: false, // The content type used when sending data to the server.
+            cache: false, // To unable request pages to be cached
+            processData: false,
+            success: function(data) {
+                $(".loader").hide();
+                if(data.status==true)
+                {
+                    $("#survey_report_file").prop("href", data.file_path)
+                    $("#survey_report_file").css("display", "block");
+                    $("#survey_report_file_error").html('');
+                }else
+                {
+                    $("#survey_report_file_error").html(data.message);
+                    //console.log(data.status+" "+data.message)
+                }
+            }
+        });
+    });
+
+});
+
+ $(document).ready(function () { 
+    $('.add_ee_report').click(function () {
+        var count=$(".optionBoxEE > div").length;
+        count++;
+        $('.blockEE:last').after(
+            '<div class="blockEE">'+
+                '<div class="form-group m-form__group row mb-0">'+
+                    '<div class="col-lg-5 form-group">'+
+                        '<input placeholder="Document Name" type="text" name="ee_document_name[]" class="form-control form-control--custom"'+
+                        '<span class="help-block"></span>'+
+                    '</div>'+
+                    '<div class="col-lg-5 form-group">'+
+                        '<div class="custom-file">'+
+                            '<input type="file" id="extract_'+count+'" name="ee_report[]" class="custom-file-input">'+
+                            '<label title="" class="custom-file-label" for="extract_'+count+'">Choose file</label>'+
+                            '<span class="help-block"></span>'+
+                        '</div>'+
+                    '</div>'+
+                    '<div class="col-lg-2 form-group mt-2">'+
+                    '<i class="fa fa-close btn--add-delete removeEE"></i>'+
+                    '</div>'+
+                '</div>'+
+            '</div>');
+        $('.m-bootstrap-select').selectpicker('refresh');
+        showUploadedFileName();
+    });
+
+    function showUploadedFileName() {
+        $('.custom-file-input').change(function (e) {
+            $(this).parents('.custom-file').find('.custom-file-label').text(e.target.files[0].name);
+        });
+    }
+
+    $('.optionBoxEE').on('click', '.removeEE', function () {
+        $(this).parent().parent().remove();
+    });
 });
 </script>
 @endsection
@@ -154,8 +230,6 @@
                                 Latest Layout:
                             </h3>
                         </div>
-                        @csrf
-                        <input type="hidden" name="application_id" value="">
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="custom-file">
@@ -182,7 +256,6 @@
                                 Old Approved Layout:
                             </h3>
                         </div>
-                        <input type="hidden" name="application_id" value="">
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="custom-file">
@@ -208,8 +281,6 @@
                                 Last submitted layout for approval:
                             </h3>
                         </div>
-
-                        <input type="hidden" name="application_id" value="">
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="custom-file">
@@ -273,12 +344,121 @@
                     <div class="m-subheader">
                         <div class="d-flex align-items-center">
                             <h3 class="section-title section-title--small">
-                            DP remark, CRZ remark and other
+                                DP remark, CRZ remark and other
                             </h3>
                         </div>
                         <div class="mt-auto">
                             <a href="{{route('add_architect_detail_dp_crz_remark_add',['layout_detail_id'=>encrypt($ArchitectLayoutDetail->id)])}}"
                                 class="btn btn-primary btn-custom upload_note" id="uploadBtn">Add Detail</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="m-portlet m-portlet--mobile m_panel">
+            <div class="portlet-body">
+                <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
+                    <div class="m-subheader">
+                        <div class="d-flex align-items-center">
+                            <h3 class="section-title section-title--small">
+                                Survey report:
+                            </h3>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="custom-file">
+                                    <input type="hidden" id="survey_report_field_name" id="survey_report_field_name"
+                                        value="survey_report">
+                                    <input class="custom-file-input" name="survey_report" type="file" id="survey_report"
+                                        required="">
+                                    <label class="custom-file-label" for="survey_report">Choose file...</label>
+                                </div>
+                            </div>
+                            <a target="_blank" id="survey_report_file" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->latest_layout}}"
+                                style="display:{{$ArchitectLayoutDetail->survey_report!=''?'block':'none'}};">uploaded
+                                file</a>
+                        </div>
+                        <span class="text-danger" id="survey_report_file_error"></span>
+                        <!-- <div class="mt-auto">
+                            <button type="submit" style="btn btn-primary" class="btn btn-primary btn-custom upload_note"
+                                id="uploadBtn">Upload</button>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="m-portlet m-portlet--mobile m_panel">
+            <div class="portlet-body">
+                <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
+                    <div class="m-subheader">
+                        <div class="d-flex align-items-center">
+                            <h3 class="section-title section-title--small">
+                                Executive Engineering report
+                            </h3>
+                        </div>
+                        <div class="optionBoxEE">
+                            <div class="blockEE">
+                                <div class="form-group m-form__group row mb-0">
+                                    <div class="col-lg-5 form-group">
+                                        <input type="hidden" class="ee_doc_name" name="document_name[]" value="Area certificate">
+                                        <label>Area certificate</label>
+                                        <span class="help-block"></span>
+                                    </div>
+                                    <div class="col-lg-5 form-group">
+                                        <div class="custom-file">
+                                            <input type="file" id="extract" name="ee_report[]" class="custom-file-input">
+                                            <label title="" class="custom-file-label" for="extract">Choose file</label>
+                                            <span class="help-block"></span>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="col-lg-2 form-group mt-2">
+                                    <i class="fa fa-close btn--add-delete" id=""></i>
+                                </div> -->
+                                </div>
+                            </div>
+                            <div class="blockEE">
+                                <div class="form-group m-form__group row mb-0">
+                                    <div class="col-lg-5 form-group">
+                                        <input type="hidden" class="ee_doc_name" name="document_name[]" value="Area of Encroachmente">
+                                        <label>Area of Encroachment</label>
+                                        <span class="help-block"></span>
+                                    </div>
+                                    <div class="col-lg-5 form-group">
+                                        <div class="custom-file">
+                                            <input type="file" id="extract_1" name="ee_report[]" class="custom-file-input">
+                                            <label title="" class="custom-file-label" for="extract_1">Choose file</label>
+                                            <span class="help-block"></span>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="col-lg-2 form-group mt-2">
+                                    <i class="fa fa-close btn--add-delete" id=""></i>
+                                </div> -->
+                                </div>
+                            </div>
+                            <div class="blockEE">
+                                <div class="form-group m-form__group row mb-0">
+                                    <div class="col-lg-5 form-group">
+                                        <input type="hidden" class="ee_doc_name" name="document_name[]" value="Heading Over reservation">
+                                        <label>Heading Over reservation</label>
+                                        <span class="help-block"></span>
+                                    </div>
+                                    <div class="col-lg-5 form-group">
+                                        <div class="custom-file">
+                                            <input type="file" id="extract_2" name="ee_report[]" class="custom-file-input ee_doc_file">
+                                            <label title="" class="custom-file-label" for="extract_2">Choose file</label>
+                                            <span class="help-block"></span>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="col-lg-2 form-group mt-2">
+                                    <i class="fa fa-close btn--add-delete" id=""></i>
+                                </div> -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <a class="btn--add-delete add_ee_report">add more </a>
+                            </div>
                         </div>
                     </div>
                 </div>

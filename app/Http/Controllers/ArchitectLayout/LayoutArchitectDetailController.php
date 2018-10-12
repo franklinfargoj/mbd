@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\ArchitectLayout;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ArchitectLayout\ArchitectLayoutDetailCrzDpRemark;
 use App\Layout\ArchitectLayout;
 use App\Layout\ArchitectLayoutDetail;
 use App\Layout\ArchitectLayoutDetailCtsPlanDetail;
 use App\Layout\ArchitectLayoutDetailPrCardDetail;
 use Illuminate\Http\Request;
 use Storage;
+use Validator;
 
 class LayoutArchitectDetailController extends Controller
 {
@@ -38,6 +40,9 @@ class LayoutArchitectDetailController extends Controller
                 }
                 if ($request->field_name == 'last_submitted_layout_for_approval') {
                     $ArchitectLayoutDetail->last_submitted_layout_for_approval = $storage;
+                }
+                if ($request->field_name == 'survey_report') {
+                    $ArchitectLayoutDetail->survey_report = $storage;
                 }
                 $ArchitectLayoutDetail->save();
                 $response_array = array(
@@ -123,7 +128,6 @@ class LayoutArchitectDetailController extends Controller
 
     public function post_prc_detail(Request $request)
     {
-        //dd($request->all());
         $request->validate([
             'cts_no' => 'required',
             '*.pr_cards' => 'mimes:pdf',
@@ -188,6 +192,81 @@ class LayoutArchitectDetailController extends Controller
 
     public function post_dp_crz_remark(Request $request)
     {
-        dd($request);
+        $validator = Validator::make($request->all(), (new ArchitectLayoutDetailCrzDpRemark)->rules());
+        $dp_letter = "";
+        $dp_plan = "";
+        $crz_letter = "";
+        $crz_plan = "";
+
+        $ArchitectLayoutDetail = ArchitectLayoutDetail::find($request->architect_layout_detail_id);
+        if ($ArchitectLayoutDetail->dp_letter == "" && !$request->hasFile('dp_remark_letter')) {
+            $validator->after(function ($validator) {
+                $validator->errors()->add('dp_remark_letter', 'Dp letter is required');
+            });
+        }
+        if ($ArchitectLayoutDetail->dp_plan == "" && !$request->hasFile('dp_remark_plan')) {
+            $validator->after(function ($validator) {
+                $validator->errors()->add('dp_remark_plan', 'DP Plan is required');
+            });
+        }
+        if ($ArchitectLayoutDetail->crz_letter == "" && !$request->hasFile('crz_remark_letter')) {
+            $validator->after(function ($validator) {
+
+                $validator->errors()->add('crz_remark_letter', 'CRZ letter is required');
+            });
+        }
+        if ($ArchitectLayoutDetail->crz_plan == "" && !$request->hasFile('crz_remark_plan')) {
+            $validator->after(function ($validator) {
+                $validator->errors()->add('crz_remark_plan', 'CRZ Plan is required');
+            });
+        }
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+        if ($request->hasFile('dp_remark_letter')) {
+            $extension = $request->file('dp_remark_letter')->getClientOriginalExtension();
+            $dir = 'architect_layout_details';
+            $filename = uniqid() . '_' . time() . '_' . date('Ymd') . '.' . $extension;
+            $dp_letter = Storage::disk('ftp')->putFileAs($dir, $request->file('dp_remark_letter'), $filename);
+        }
+        if ($request->hasFile('dp_remark_plan')) {
+            $extension = $request->file('dp_remark_plan')->getClientOriginalExtension();
+            $dir = 'architect_layout_details';
+            $filename = uniqid() . '_' . time() . '_' . date('Ymd') . '.' . $extension;
+            $dp_plan = Storage::disk('ftp')->putFileAs($dir, $request->file('dp_remark_plan'), $filename);
+        }
+        if ($request->hasFile('crz_remark_letter')) {
+            $extension = $request->file('crz_remark_letter')->getClientOriginalExtension();
+            $dir = 'architect_layout_details';
+            $filename = uniqid() . '_' . time() . '_' . date('Ymd') . '.' . $extension;
+            $crz_letter = Storage::disk('ftp')->putFileAs($dir, $request->file('crz_remark_letter'), $filename);
+        }
+        if ($request->hasFile('crz_remark_plan')) {
+            $extension = $request->file('crz_remark_plan')->getClientOriginalExtension();
+            $dir = 'architect_layout_details';
+            $filename = uniqid() . '_' . time() . '_' . date('Ymd') . '.' . $extension;
+            $crz_plan = Storage::disk('ftp')->putFileAs($dir, $request->file('crz_remark_plan'), $filename);
+        }
+        if ($dp_letter != "") {
+            $ArchitectLayoutDetail->dp_letter = $dp_letter;
+        }
+        if ($dp_plan != "") {
+            $ArchitectLayoutDetail->dp_plan = $dp_plan;
+        }
+        if ($crz_letter != "") {
+            $ArchitectLayoutDetail->crz_letter = $crz_letter;
+        }
+        if ($crz_plan != "") {
+            $ArchitectLayoutDetail->crz_plan = $crz_plan;
+        }
+        $ArchitectLayoutDetail->dp_comment = $request->dp_comment;
+        $ArchitectLayoutDetail->crz_comment = $request->crz_comment;
+        $ArchitectLayoutDetail->save();
+        if ($ArchitectLayoutDetail) {
+            return back()->withSuccess('data uploaded successfully!!');
+        } else {
+            return back()->withError('Something went wrong');
+        }
+
     }
 }
