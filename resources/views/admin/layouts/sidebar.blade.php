@@ -76,6 +76,7 @@ $route=\Request::route()->getName();
                     </span>
                 </a>
             </li>
+
             <li class="m-menu__item {{($route=='hearing.create')?'m-menu__item--active':''}}">
                 <a href="{{route('hearing.create')}}" class="m-menu__link m-menu__toggle">
                     <i class="m-menu__link-icon flaticon-line-graph"></i>
