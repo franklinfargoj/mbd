@@ -107,7 +107,7 @@ class LayoutArchitectController extends Controller
             $ArchitectLayoutDetail=new ArchitectLayoutDetail;
             $ArchitectLayoutDetail->architect_layout_id=$ArchitectLayout->id;
             $ArchitectLayoutDetail->save();
-            return redirect(route('architect_layout_detail.add',['layout_id'=>encrypt($ArchitectLayout->id)]));
+            return redirect(route('architect_layout_detail.add',['layout_id'=>encrypt($ArchitectLayoutDetail->id)]));
         }
         return back()->withError('something went wrong');
     }

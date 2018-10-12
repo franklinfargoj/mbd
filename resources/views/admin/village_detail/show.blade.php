@@ -14,10 +14,10 @@
         </div>
     </div>
     <!-- END: Subheader -->
-    <div class="m-portlet m-portlet--mobile">
+    <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
         <div class="m-portlet__body m-portlet__body--spaced">
             <div class="form-group m-form__group row">
-                <div class="col-lg-6 form-group">
+                <div class="col-sm-4 form-group">
                     <label class="col-form-label" for="board_id">Board:</label>
                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="board_id"
                         name="board_id" disabled>
@@ -30,7 +30,7 @@
                     <span class="help-block">{{$errors->first('board_id')}}</span>
                 </div>
 
-                <div class="col-lg-6 form-group">
+                <div class="col-sm-4 offset-sm-1 form-group">
                     <label class="col-form-label" for="sr_no">Land Survey No:</label>
                     <input type="text" id="sr_no" name="sr_no" class="form-control form-control--custom m-input"
                         disabled value="{{ $arrData['village_data']['sr_no'] }}">
@@ -39,7 +39,7 @@
             </div>
 
             <div class="form-group m-form__group row">
-                <div class="col-lg-6 form-group">
+                <div class="col-sm-4 form-group">
                     <label class="col-form-label" for="village_name">Village Name:</label>
                     <div class="m-input-icon m-input-icon--right">
                         <input type="text" id="village_name" name="village_name" disabled class="form-control form-control--custom m-input"
@@ -48,7 +48,7 @@
                     </div>
                 </div>
 
-                <div class="col-lg-6 form-group">
+                <div class="col-sm-4 offset-sm-1 form-group">
                     <label class="col-form-label" for="land_source_id">Land Source:</label>
                     <div class="m-input-icon m-input-icon--right">
                         <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
@@ -65,7 +65,7 @@
             </div>
 
             <div class="form-group m-form__group row">
-                <div class="col-lg-6 form-group">
+                <div class="col-sm-4 form-group">
                     <label class="col-form-label" for="land_address">Land Address:</label>
                     <div class="m-input-icon m-input-icon--right">
                         <input type="text" id="land_address" name="land_address" disabled class="form-control form-control--custom m-input"
@@ -74,7 +74,7 @@
                     </div>
                 </div>
 
-                <div class="col-lg-6 form-group">
+                <div class="col-sm-4 offset-sm-1 form-group">
                     <label class="col-form-label" for="district">District:</label>
                     <div class="m-input-icon m-input-icon--right">
                         <input type="text" id="district" name="district" disabled class="form-control form-control--custom m-input"
@@ -85,7 +85,7 @@
             </div>
 
             <div class="form-group m-form__group row">
-                <div class="col-lg-6 form-group">
+                <div class="col-sm-4 form-group">
                     <label class="col-form-label" for="taluka">Taluka:</label>
                     <div class="m-input-icon m-input-icon--right">
                         <input type="text" id="taluka" name="taluka" disabled class="form-control form-control--custom m-input"
@@ -94,7 +94,7 @@
                     </div>
                 </div>
 
-                <div class="col-lg-6 form-group">
+                <div class="col-sm-4 offset-sm-1 form-group">
                     <label class="col-form-label" for="total_area">Total Area (sq. ft.):</label>
                     <div class="m-input-icon m-input-icon--right">
                         <input type="text" id="total_area" name="total_area" disabled class="form-control form-control--custom m-input"
@@ -105,7 +105,7 @@
             </div>
 
             <div class="form-group m-form__group row">
-                <div class="col-lg-6 form-group">
+                <div class="col-sm-4 form-group">
                     <label class="col-form-label" for="possession_date">Possession Date:</label>
                     <div class="m-input-icon m-input-icon--right">
                         <input type="text" id="possession_date" name="possession_date" disabled class="form-control form-control--custom m_datepicker"
@@ -114,7 +114,7 @@
                     </div>
                 </div>
 
-                <div class="col-lg-6 form-group">
+                <div class="col-sm-4 offset-sm-1 form-group">
                     <label class="col-form-label" for="remark">Remark:</label>
                     <div class="m-input-icon m-input-icon--right">
                         <textarea id="remark" name="remark" disabled class="form-control form-control--custom form-control--fixed-height m-input">{{ $arrData['village_data']['remark'] }}</textarea>
@@ -124,7 +124,7 @@
             </div>
 
             <div class="form-group m-form__group row">
-                <div class="col-lg-6 form-group">
+                <div class="col-sm-4 form-group">
                     <label class="col-form-label" for="land_cost">Land Cost:</label>
                     <div class="m-input-icon m-input-icon--right">
                         <input type="text" id="land_cost" name="land_cost" disabled class="form-control form-control--custom"
@@ -133,7 +133,7 @@
                     </div>
                 </div>
 
-                <div class="col-lg-6 form-group">
+                <div class="col-sm-4 offset-sm-1 form-group">
                     <label class="col-form-label" for="remark">Is 7/12 on MHADA's Name:</label>
                     <div class="m-radio-inline">
                         <label class="m-radio m-radio--primary">
@@ -151,7 +151,7 @@
             </div>
 
             <div class="form-group m-form__group row align-items-center">
-                <div class="col-lg-6 form-group">
+                <div class="col-sm-4 form-group">
                     <label class="col-form-label" for="property_card">Property Card:</label>
                     <div class="m-input-icon m-input-icon--right">
                         <input type="text" id="property_card" name="property_card" class="form-control form-control--custom"
@@ -160,7 +160,7 @@
                     </div>
                 </div>
 
-                <div class="col-lg-6 form-group">
+                <div class="col-sm-4 offset-sm-1 form-group">
                     <label class="col-form-label" for="property_card_mhada_name">Is Property card (PR card) is on
                         MHADA’s name:</label>
                     <div class="m-radio-inline">
@@ -179,7 +179,7 @@
             </div>
 
             <div class="form-group m-form__group row">
-                <div class="col-lg-6 form-group">
+                <div class="col-sm-4 form-group">
                     <label class="col-form-label" for="file_upload">Is 7/12 extract available:</label>
                     <div class="m-radio-inline">
                         <label class="m-radio m-radio--primary">
@@ -195,7 +195,7 @@
                     </div>
                 </div>
 
-                <div class="col-lg-6 form-group extract_upload" style="display: none">
+                <div class="col-sm-4 offset-sm-1 form-group extract_upload" style="display: none">
                     <label class="col-form-label" for="extract">7/12 Extract:</label>
                     <div class="custom-file">
                         <div class="d-flex">

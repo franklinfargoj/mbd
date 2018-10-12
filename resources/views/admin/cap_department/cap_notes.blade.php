@@ -79,8 +79,8 @@
                                         <div class="d-flex flex-column h-100 two-cols">
                                             <h5>Upload CAP Note</h5>
                                             <!-- <span class="hint-text">Click on 'Upload' to upload  - Note -->
-                                                -
-                                                Note</span>
+                                                
+                                                <!-- Note</span> -->
                                             <!-- <form action="" method="post"> -->
                                                 <div class="custom-file">
                                                     <input class="custom-file-input cap_note" type="file" id="test-upload" name="cap_note"

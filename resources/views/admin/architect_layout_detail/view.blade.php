@@ -21,7 +21,7 @@
 </div>
 <div class="m-portlet m-portlet--mobile m_panel">
 <div class="portlet-body">
-        <table  border="1">
+        <table border="1">
             <tr>
                 <th>Date of update</th>
                 <th>Latest layout</th>
@@ -38,7 +38,11 @@
                 <th>Court matters or Disputes on land</th>
                 <th>Action</th>
             </tr>
+            @foreach($ArchitectLayout->layout_details as $layout_detail)
             <tr>
+                <td><a target="_blank" href="{{config('commanConfig.storage_server').'/'.$layout_detail->latest_layout}}">download</a></td>
+                <td><a target="_blank" href="{{config('commanConfig.storage_server').'/'.$layout_detail->old_approved_layout}}">download</a></td>
+                <td><a target="_blank" href="{{config('commanConfig.storage_server').'/'.$layout_detail->last_submitted_layout_for_approval}}">download</a></td>
                 <td>Dummy text</td>
                 <td>Dummy text</td>
                 <td>Dummy text</td>
@@ -49,11 +53,9 @@
                 <td>Dummy text</td>
                 <td>Dummy text</td>
                 <td>Dummy text</td>
-                <td>Dummy text</td>
-                <td>Dummy text</td>
-                <td>Dummy text</td>
-                <td>Edit</td>
+                <td><a href="{{route('architect_layout_detail.add',['layout_id'=>encrypt($layout_detail->id)])}}">Edit</a></td>
             </tr>
+            @endforeach
         </table>
     </div>
 </div>
