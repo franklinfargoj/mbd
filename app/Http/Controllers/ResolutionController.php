@@ -130,7 +130,6 @@ class ResolutionController extends Controller
         $boards = Board::where('status', 1)->get()->toArray();
         $resolutionTypes = ResolutionType::all()->toArray();
         
-        
         if($request->reset)
         {
             return redirect()->route('resolution.index');

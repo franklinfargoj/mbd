@@ -83,15 +83,22 @@
                     </div>
 
                     <div class="col-lg-6 form-group">
+                        <div class="@if($errors->has('keyword')) has-error @endif">
+                            <label class="col-form-label">Keyword:</label>
+                            <textarea name="keyword" id="keyword" class="form-control form-control--custom form-control--fixed-height m-input">{{old('keyword',$resolution->keyword)}}</textarea>
+                            <span class="help-block text-danger">{{$errors->first('keyword')}}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group m-form__group row">
+                    <div class="col-lg-6 form-group">
                         <div class="@if($errors->has('description')) has-error @endif">
                             <label class="col-form-label">Description:</label>
                             <textarea name="description" id="description" class="form-control form-control--custom form-control--fixed-height m-input">{{old('description',$resolution->description)}}</textarea>
                             <span class="help-block">{{$errors->first('description')}}</span>
                         </div>
                     </div>
-                </div>
-
-                <div class="form-group m-form__group row">
                     <div class="col-lg-6 form-group">
                         <div class="@if($errors->has('file')) has-error @endif">
                             <label class="col-form-label">File:</label>
@@ -103,7 +110,9 @@
                             </div>
                         </div>
                     </div>
+                </div>
 
+                <div class="form-group m-form__group row">
                     <div class="col-lg-6 form-group">
                         <div class="@if($errors->has('language')) has-error @endif">
                             <label class="col-form-label">Language:</label>
@@ -112,9 +121,6 @@
                             <span class="help-block">{{$errors->first('language')}}</span>
                         </div>
                     </div>
-                </div>
-
-                <div class="form-group m-form__group row">
                     <div class="col-lg-6 form-group">
                         <div class="@if($errors->has('reference_link')) has-error @endif">
                             <label class="col-form-label">Reference Link (if any):</label>
@@ -122,8 +128,10 @@
                                 value="{{old('reference_link',$resolution->reference_link)}}">
                             <span class="help-block">{{$errors->first('reference_link')}}</span>
                         </div>
-                    </div>
+                    </div>>
+                </div>
 
+                <div class="form-group m-form__group row">
                     <div class="col-lg-6 form-group">
                         <div class="@if($errors->has('published_date')) has-error @endif">
                             <label class="col-form-label">Published Date:</label>
@@ -132,21 +140,11 @@
                             <span class="help-block">{{$errors->first('published_date')}}</span>
                         </div>
                     </div>
-                </div>
-
-                <div class="form-group m-form__group row">
                     <div class="col-lg-6 form-group">
                         <label class="col-form-label">Revision Log Message:</label>
                         <div class="@if($errors->has('revision_log_message')) has-error @endif">
                             <textarea name="revision_log_message" id="revision_log_message" class="form-control form-control--custom form-control--fixed-height m-input">{{old('revision_log_message',$resolution->revision_log_message)}}</textarea>
                             <span class="help-block">{{$errors->first('revision_log_message')}}</span>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 form-group">
-                        <div class="@if($errors->has('revision_log_message')) has-error @endif">
-                            <label class="col-form-label">Keyword:</label>
-                            <textarea name="keyword" id="keyword" class="form-control form-control--custom form-control--fixed-height m-input">{{old('keyword',$resolution->keyword)}}</textarea>
-                            <span class="help-block text-danger">{{$errors->first('keyword')}}</span>
                         </div>
                     </div>
                 </div>
