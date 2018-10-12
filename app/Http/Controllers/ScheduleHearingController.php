@@ -13,15 +13,9 @@ use Illuminate\Http\Request;
 use File;
 use Illuminate\Support\Facades\Auth;
 use Storage;
-use App\Http\Controllers\Common\CommonController;
 
 class ScheduleHearingController extends Controller
 {
-    public function __construct()
-    {
-        $this->CommonController = new CommonController();
-    }
-
     public $header_data = array(
         'menu' => 'Hearing',
         'hearing_menu' => 'Schedule Hearing',

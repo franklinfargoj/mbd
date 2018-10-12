@@ -39,7 +39,7 @@
 
                 <div class="col-sm-4 offset-sm-1 form-group">
                     <label class="col-form-label">Application Type:</label>
-                    <input type="text" class="form-control form-control--custom m-input" value="{{ $arrData['hearing']['hearing_application_type']['application_type'] }}"
+                    <input type="text" class="form-control form-control--custom m-input" value="{{ $hearing_data->hearingApplicationType->application_type }}"
                         readonly>
                     <span class="help-block"></span>
                 </div>
@@ -135,7 +135,7 @@
 
                 <div class="col-sm-4 offset-sm-1 form-group">
                     <label class="col-form-label">Status:</label>
-                    <input type="text" class="form-control form-control--custom m-input" value="{{ $arrData['hearing']['hearing_status']['status_title'] }}"
+                    <input type="text" class="form-control form-control--custom m-input" value="{{ $status_value }}"
                         readonly>
                     <span class="help-block"></span>
                 </div>
