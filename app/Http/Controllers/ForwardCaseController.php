@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Board;
+use App\Department;
 use App\ForwardCase;
 use App\Hearing;
 use App\HearingStatusLog;
@@ -120,13 +121,16 @@ class ForwardCaseController extends Controller
     public function edit($id)
     {
         $header_data = $this->header_data;
-        $arrData['hearing'] = Hearing::with(['hearingStatus', 'hearingApplicationType', 'hearingStatusLog' => function($q){
+        $arrData['hearing'] = Hearing::with(['hearingStatus', 'hearingApplicationType', 'hearingForwardCase' => function($q){
+//            $q->orderBy('created_at', 'desc');
+        }, 'hearingStatusLog' => function($q){
             $q->where('user_id', Auth::user()->id)
                 ->where('role_id', session()->get('role_id'));
         }])
             ->where('id', $id)
             ->first();
         $arrData['board'] = Board::where('status', 1)->get();
+        $arrData['department'] = Department::where('status', 1)->get();
         $hearing_data = $arrData['hearing'];
 //        dd($hearing_data);
         return view('admin.forward_case.edit', compact('header_data', 'arrData', 'hearing_data'));
@@ -150,5 +154,22 @@ class ForwardCaseController extends Controller
         ForwardCase::create($data);
 
         return redirect('hearing')->with(['success'=> 'Record added succesfully']);
+    }
+
+    public function show($id){
+        $header_data = $this->header_data;
+        $arrData['hearing'] = Hearing::with(['hearingStatus', 'hearingApplicationType', 'hearingForwardCase' => function($q){
+//            $q->orderBy('created_at', 'desc');
+        }, 'hearingStatusLog' => function($q){
+            $q->where('user_id', Auth::user()->id)
+                ->where('role_id', session()->get('role_id'));
+        }])
+            ->where('id', $id)
+            ->first();
+        $arrData['board'] = Board::where('status', 1)->get();
+        $arrData['department'] = Department::where('status', 1)->get();
+        $hearing_data = $arrData['hearing'];
+//        dd($hearing_data);
+        return view('admin.forward_case.view', compact('header_data', 'arrData', 'hearing_data'));
     }
 }

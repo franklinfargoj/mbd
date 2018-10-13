@@ -41,7 +41,7 @@
                     <div class="col-lg-6 form-group">
                         <label class="col-form-label" for="case_number">Case Number:</label>
                         <input type="text" id="case_number" name="case_number" class="form-control form-control--custom m-input"
-                            value="{{ $arrData['hearing']->case_number }}" readonly>
+                            value="{{ $arrData['hearing']->id }}" readonly>
                         <span class="help-block">{{$errors->first('case_number')}}</span>
                     </div>
                 </div>

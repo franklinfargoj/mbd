@@ -7,6 +7,7 @@ use App\HearingSchedule;
 use App\HearingStatus;
 use App\HearingStatusLog;
 use App\Http\Requests\hearing_schedule\HearingScheduleRequest;
+use App\Http\Controllers\Common\CommonController;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -21,6 +22,11 @@ class ScheduleHearingController extends Controller
         'hearing_menu' => 'Schedule Hearing',
         'menu_url' => 'schedule_hearing'
     );
+
+    public function __construct()
+    {
+        $this->CommonController = new CommonController();
+    }
     /**
      * Display a listing of the resource.
      *
@@ -137,7 +143,16 @@ class ScheduleHearingController extends Controller
      */
     public function show($id)
     {
-        //
+
+        $arrData['hearing'] = Hearing::with(['hearingStatus', 'hearingApplicationType', 'hearingSchedule', 'hearingStatusLog' => function($q){
+            $q->where('user_id', Auth::user()->id)
+                ->where('role_id', session()->get('role_id'));
+        }])
+            ->where('id', $id)
+            ->first();
+        $hearing_data = $arrData['hearing'];
+//        dd($hearing_data);
+        return view('admin.schedule_hearing.show', compact('hearing_data', 'arrData'));
     }
 
     /**
