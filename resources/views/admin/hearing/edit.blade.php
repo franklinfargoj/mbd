@@ -217,47 +217,47 @@
                         <span class="help-block">{{$errors->first('office_remark')}}</span>
                     </div>
 
-                    <div class="col-sm-4 offset-sm-1 form-group">
-                        <label class="col-form-label" for="hearing_status_id">Status:</label>
-                        <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="hearing_status_id"
-                            name="hearing_status_id">
-                            @foreach($arrData['status'] as $hearing_status)
-                            <option value="{{ $hearing_status->id  }}"
-                                {{ ($arrData['hearing']->hearing_status_id == $hearing_status->id) ? "selected" : "" }}>{{
-                                $hearing_status->status_title}}</option>
-                            @endforeach
-                        </select>
-                        <span class="help-block">{{$errors->first('hearing_status_id')}}</span>
-                    </div>
+                    {{--<div class="col-sm-4 offset-sm-1 form-group">--}}
+                        {{--<label class="col-form-label" for="hearing_status_id">Status:</label>--}}
+                        {{--<select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="hearing_status_id"--}}
+                            {{--name="hearing_status_id">--}}
+                            {{--@foreach($arrData['status'] as $hearing_status)--}}
+                            {{--<option value="{{ $hearing_status->id  }}"--}}
+                                {{--{{ ($arrData['hearing']->hearing_status_id == $hearing_status->id) ? "selected" : "" }}>{{--}}
+                                {{--$hearing_status->status_title}}</option>--}}
+                            {{--@endforeach--}}
+                        {{--</select>--}}
+                        {{--<span class="help-block">{{$errors->first('hearing_status_id')}}</span>--}}
+                    {{--</div>--}}
                 </div>
 
-                <div class="form-group m-form__group row">
-                    <div class="col-sm-4 form-group">
-                        <label class="col-form-label" for="board_id">Board:</label>
-                        <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="board_id"
-                            name="board_id">
-                            @foreach($arrData['board'] as $board_details)
-                            <option value="{{ $board_details->id  }}"
-                                {{ ($arrData['hearing']->board_id == $board_details->id) ? "selected" : "" }}>{{
-                                $board_details->board_name }}</option>
-                            @endforeach
-                        </select>
-                        <span class="help-block">{{$errors->first('board_id')}}</span>
-                    </div>
+                {{--<div class="form-group m-form__group row">--}}
+                    {{--<div class="col-sm-4 form-group">--}}
+                        {{--<label class="col-form-label" for="board_id">Board:</label>--}}
+                        {{--<select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="board_id"--}}
+                            {{--name="board_id">--}}
+                            {{--@foreach($arrData['board'] as $board_details)--}}
+                            {{--<option value="{{ $board_details->id  }}"--}}
+                                {{--{{ ($arrData['hearing']->board_id == $board_details->id) ? "selected" : "" }}>{{--}}
+                                {{--$board_details->board_name }}</option>--}}
+                            {{--@endforeach--}}
+                        {{--</select>--}}
+                        {{--<span class="help-block">{{$errors->first('board_id')}}</span>--}}
+                    {{--</div>--}}
 
-                    <div class="col-sm-4 offset-sm-1 form-group">
-                        <label class="col-form-label" for="department">Department:</label>
-                        <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="department"
-                            name="department">
-                            @foreach($arrData['department'] as $department_details)
-                            <option value="{{ $department_details->id  }}"
-                                {{ ($arrData['hearing']->department_id == $department_details->id) ? "selected" : "" }}>{{
-                                $department_details->department_name }}</option>
-                            @endforeach
-                        </select>
-                        <span class="help-block">{{$errors->first('board_id')}}</span>
-                    </div>
-                </div>
+                    {{--<div class="col-sm-4 offset-sm-1 form-group">--}}
+                        {{--<label class="col-form-label" for="department">Department:</label>--}}
+                        {{--<select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="department"--}}
+                            {{--name="department">--}}
+                            {{--@foreach($arrData['department'] as $department_details)--}}
+                            {{--<option value="{{ $department_details->id  }}"--}}
+                                {{--{{ ($arrData['hearing']->department_id == $department_details->id) ? "selected" : "" }}>{{--}}
+                                {{--$department_details->department_name }}</option>--}}
+                            {{--@endforeach--}}
+                        {{--</select>--}}
+                        {{--<span class="help-block">{{$errors->first('board_id')}}</span>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
                 <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
                     <div class="m-form__actions px-0">
                         <div class="row">
