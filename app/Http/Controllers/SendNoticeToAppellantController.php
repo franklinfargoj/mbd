@@ -98,7 +98,7 @@ class SendNoticeToAppellantController extends Controller
     {
         $header_data = $this->header_data;
         $arrData['hearing'] = Hearing::with(['hearingStatus', 'hearingApplicationType', 'hearingForwardCase' => function($q){
-            $q->orderBy('created_at', 'desc');
+            $q->orderBy('created_at', 'desc')->first();
         }, 'hearingStatusLog' => function($q){
             $q->where('user_id', Auth::user()->id)
                 ->where('role_id', session()->get('role_id'));
@@ -106,6 +106,7 @@ class SendNoticeToAppellantController extends Controller
             ->where('id', $id)
             ->first();
         $hearing_data = $arrData['hearing'];
+//        dd($arrData['hearing']->hearingSendNoticeToAppellant);
         return view('admin.send_notice_to_appellant.edit', compact('header_data', 'arrData', 'hearing_data'));
     }
 

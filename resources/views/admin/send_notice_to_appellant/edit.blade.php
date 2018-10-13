@@ -114,10 +114,11 @@
                         <label class="col-form-label" for="upload_notice">Upload Notice:</label>
                         <div class="custom-file">
                             <input type="file" id="upload_notice" name="upload_notice" class="form-control form-control--custom"
-                                style="display: none">
+                            style="display: none">
                             <label title="{{$arrData['hearing']->hearingSendNoticeToAppellant[0]->upload_notice_filename }}" class="custom-file-label" for="upload_notice">{{$arrData['hearing']->hearingSendNoticeToAppellant[0]->upload_notice_filename }}</label>
                             <span class="help-block">{{$errors->first('upload_notice')}}</span>
                         </div>
+                        <span><a href="{{ config('commanConfig.storage_server').'/'. $hearing_data->hearingSendNoticeToAppellant[0]->upload_notice }}" target="_blank" rel="noopener">Download</a></span>
                     </div>
                     <div class="col-lg-6 form-group">
                         <label class="col-form-label" for="comment">Comment:</label>

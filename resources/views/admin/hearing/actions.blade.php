@@ -158,7 +158,7 @@ $route=\Request::route()->getName();
         @endif
 
         @if(count($hearing_data->hearingForwardCase))
-            @if($hearing_data->hearingStatusLog[0]->hearing_status_id != config('commanConfig.hearingStatus.forwarded'))
+            @if($hearing_data->hearingStatusLog[0]->hearing_status_id == config('commanConfig.hearingStatus.forwarded'))
                     <li class="m-menu__item m-menu__item--submenu {{($route=='forward_case.show')?'m-menu__item--active':''}}">
                         <a href="{{ route('forward_case.show', $hearing_data->id) }}" class="m-menu__link m-menu__toggle">
                             <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">

@@ -122,7 +122,7 @@ class ForwardCaseController extends Controller
     {
         $header_data = $this->header_data;
         $arrData['hearing'] = Hearing::with(['hearingStatus', 'hearingApplicationType', 'hearingForwardCase' => function($q){
-//            $q->orderBy('created_at', 'desc');
+            $q->orderBy('created_at', 'desc');
         }, 'hearingStatusLog' => function($q){
             $q->where('user_id', Auth::user()->id)
                 ->where('role_id', session()->get('role_id'));
@@ -159,7 +159,7 @@ class ForwardCaseController extends Controller
     public function show($id){
         $header_data = $this->header_data;
         $arrData['hearing'] = Hearing::with(['hearingStatus', 'hearingApplicationType', 'hearingForwardCase' => function($q){
-//            $q->orderBy('created_at', 'desc');
+            $q->orderBy('created_at', 'desc');
         }, 'hearingStatusLog' => function($q){
             $q->where('user_id', Auth::user()->id)
                 ->where('role_id', session()->get('role_id'));
