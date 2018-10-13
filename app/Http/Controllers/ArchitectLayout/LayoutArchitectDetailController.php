@@ -7,8 +7,11 @@ use App\Http\Requests\ArchitectLayout\ArchitectLayoutDetailCrzDpRemark;
 use App\Layout\ArchitectLayout;
 use App\Layout\ArchitectLayoutDetail;
 use App\Layout\ArchitectLayoutDetailCtsPlanDetail;
-use App\Layout\ArchitectLayoutDetailPrCardDetail;
 use App\Layout\ArchitectLayoutDetailEEReport;
+use App\Layout\ArchitectLayoutDetailEmReport;
+use App\Layout\ArchitectLayoutDetailLandReport;
+use App\Layout\ArchitectLayoutDetailPrCardDetail;
+use App\Layout\ArchitectLayoutDetailREEReport;
 use Illuminate\Http\Request;
 use Storage;
 use Validator;
@@ -18,7 +21,7 @@ class LayoutArchitectDetailController extends Controller
     public function add_detail($layout_id)
     {
         $layout_id = decrypt($layout_id);
-        $ArchitectLayoutDetail = ArchitectLayoutDetail::with(['architect_layout','ee_reports'])->where(['id' => $layout_id])->first();
+        $ArchitectLayoutDetail = ArchitectLayoutDetail::with(['architect_layout', 'ee_reports', 'em_reports', 'ree_reports', 'land_reports'])->where(['id' => $layout_id])->first();
         //dd();
         return view('admin.architect_layout_detail.add', compact('ArchitectLayoutDetail'));
     }
@@ -92,7 +95,7 @@ class LayoutArchitectDetailController extends Controller
                 $response_array = array(
                     'status' => true,
                     'file_path' => config('commanConfig.storage_server') . "/" . $storage,
-                    'doc_id'=>$ArchitectLayoutDetailEEReport->id
+                    'doc_id' => $ArchitectLayoutDetailEEReport->id,
                 );
             } else {
                 $response_array = array(
@@ -119,6 +122,158 @@ class LayoutArchitectDetailController extends Controller
             }
             $ArchitectLayoutDetailEEReport->delete();
         }
+    }
+
+    public function architectLyoutDetailPostEMDetails(Request $request)
+    {
+        $file = $request->file('file');
+        if ($file->getClientMimeType() == 'application/pdf') {
+            $extension = $request->file('file')->getClientOriginalExtension();
+            $dir = 'architect_layout_details';
+            $filename = uniqid() . '_' . time() . '_' . date('Ymd') . '.' . $extension;
+            $storage = Storage::disk('ftp')->putFileAs($dir, $request->file('file'), $filename);
+            if ($storage) {
+                $ArchitectLayoutDetailEMReport = ArchitectLayoutDetailEmReport::where(['name_of_documents' => $request->doc_name, 'architect_layout_detail_id' => $request->architect_layout_detail_id])->first();
+                if ($ArchitectLayoutDetailEMReport) {
+                    $ArchitectLayoutDetailEMReport->architect_layout_detail_id = $request->architect_layout_detail_id;
+                    $ArchitectLayoutDetailEMReport->name_of_documents = $request->doc_name;
+                    $ArchitectLayoutDetailEMReport->upload_file = $storage;
+                    $ArchitectLayoutDetailEMReport->save();
+                } else {
+                    $ArchitectLayoutDetailEMReport = new ArchitectLayoutDetailEmReport;
+                    $ArchitectLayoutDetailEMReport->architect_layout_detail_id = $request->architect_layout_detail_id;
+                    $ArchitectLayoutDetailEMReport->name_of_documents = $request->doc_name;
+                    $ArchitectLayoutDetailEMReport->upload_file = $storage;
+                    $ArchitectLayoutDetailEMReport->save();
+                }
+
+                $response_array = array(
+                    'status' => true,
+                    'file_path' => config('commanConfig.storage_server') . "/" . $storage,
+                    'doc_id' => $ArchitectLayoutDetailEMReport->id,
+                );
+            } else {
+                $response_array = array(
+                    'status' => false,
+                );
+            }
+        } else {
+            $response_array = array(
+                'status' => false,
+                'message' => 'PDF file is required',
+            );
+        }
+        return response()->json($response_array);
+    }
+
+    public function architectLyoutDetailDeleteEMDetail(Request $request)
+    {
+        //return $request->all();
+        $ArchitectLayoutDetailEMReport = ArchitectLayoutDetailEmReport::where('id', $request->em_doc_delete_id)->first();
+        if ($ArchitectLayoutDetailEMReport) {
+            $file = $ArchitectLayoutDetailEMReport->upload_file;
+            if (Storage::disk('ftp')->has($file)) {
+                Storage::disk('ftp')->delete($file);
+            }
+            $ArchitectLayoutDetailEMReport->delete();
+        }
+    }
+
+    public function architectLyoutDetailPostREEDetails(Request $request)
+    {
+        $file = $request->file('file');
+        if ($file->getClientMimeType() == 'application/pdf') {
+            $extension = $request->file('file')->getClientOriginalExtension();
+            $dir = 'architect_layout_details';
+            $filename = uniqid() . '_' . time() . '_' . date('Ymd') . '.' . $extension;
+            $storage = Storage::disk('ftp')->putFileAs($dir, $request->file('file'), $filename);
+            if ($storage) {
+                $ArchitectLayoutDetailREEReport = ArchitectLayoutDetailREEReport::where(['name_of_documents' => $request->doc_name, 'architect_layout_detail_id' => $request->architect_layout_detail_id])->first();
+                if ($ArchitectLayoutDetailREEReport) {
+                    $ArchitectLayoutDetailREEReport->architect_layout_detail_id = $request->architect_layout_detail_id;
+                    $ArchitectLayoutDetailREEReport->name_of_documents = $request->doc_name;
+                    $ArchitectLayoutDetailREEReport->upload_file = $storage;
+                    $ArchitectLayoutDetailREEReport->save();
+                } else {
+                    $ArchitectLayoutDetailREEReport = new ArchitectLayoutDetailREEReport;
+                    $ArchitectLayoutDetailREEReport->architect_layout_detail_id = $request->architect_layout_detail_id;
+                    $ArchitectLayoutDetailREEReport->name_of_documents = $request->doc_name;
+                    $ArchitectLayoutDetailREEReport->upload_file = $storage;
+                    $ArchitectLayoutDetailREEReport->save();
+                }
+
+                $response_array = array(
+                    'status' => true,
+                    'file_path' => config('commanConfig.storage_server') . "/" . $storage,
+                    'doc_id' => $ArchitectLayoutDetailREEReport->id,
+                );
+            } else {
+                $response_array = array(
+                    'status' => false,
+                );
+            }
+        } else {
+            $response_array = array(
+                'status' => false,
+                'message' => 'PDF file is required',
+            );
+        }
+        return response()->json($response_array);
+    }
+
+    public function architectLyoutDetailDeleteREEDetail(Request $request)
+    {
+        //return $request->all();
+        $ArchitectLayoutDetailREEReport = ArchitectLayoutDetailREEReport::where('id', $request->ree_doc_delete_id)->first();
+        if ($ArchitectLayoutDetailREEReport) {
+            $file = $ArchitectLayoutDetailREEReport->upload_file;
+            if (Storage::disk('ftp')->has($file)) {
+                Storage::disk('ftp')->delete($file);
+            }
+            $ArchitectLayoutDetailREEReport->delete();
+        }
+    }
+
+    public function architectLyoutDetailPostLandDetails(Request $request)
+    {
+        $file = $request->file('file');
+        if ($file->getClientMimeType() == 'application/pdf') {
+            $extension = $request->file('file')->getClientOriginalExtension();
+            $dir = 'architect_layout_details';
+            $filename = uniqid() . '_' . time() . '_' . date('Ymd') . '.' . $extension;
+            $storage = Storage::disk('ftp')->putFileAs($dir, $request->file('file'), $filename);
+            if ($storage) {
+                $ArchitectLayoutDetailLandReport = ArchitectLayoutDetailLandReport::where(['name_of_documents' => $request->doc_name, 'architect_layout_detail_id' => $request->architect_layout_detail_id])->first();
+                if ($ArchitectLayoutDetailLandReport) {
+                    $ArchitectLayoutDetailLandReport->architect_layout_detail_id = $request->architect_layout_detail_id;
+                    $ArchitectLayoutDetailLandReport->name_of_documents = $request->doc_name;
+                    $ArchitectLayoutDetailLandReport->upload_file = $storage;
+                    $ArchitectLayoutDetailLandReport->save();
+                } else {
+                    $ArchitectLayoutDetailLandReport = new ArchitectLayoutDetailLandReport;
+                    $ArchitectLayoutDetailLandReport->architect_layout_detail_id = $request->architect_layout_detail_id;
+                    $ArchitectLayoutDetailLandReport->name_of_documents = $request->doc_name;
+                    $ArchitectLayoutDetailLandReport->upload_file = $storage;
+                    $ArchitectLayoutDetailLandReport->save();
+                }
+
+                $response_array = array(
+                    'status' => true,
+                    'file_path' => config('commanConfig.storage_server') . "/" . $storage,
+                    'doc_id' => $ArchitectLayoutDetailLandReport->id,
+                );
+            } else {
+                $response_array = array(
+                    'status' => false,
+                );
+            }
+        } else {
+            $response_array = array(
+                'status' => false,
+                'message' => 'PDF file is required',
+            );
+        }
+        return response()->json($response_array);
     }
 
     public function add_cts_detail($layout_detail_id)

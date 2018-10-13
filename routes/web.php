@@ -343,9 +343,23 @@ Route::post('delete_prc_detail','ArchitectLayout\LayoutArchitectDetailController
 //dp crz remark
 Route::get('architect_layout_detail_dp_crz_remark_add/{layout_detail_id}','ArchitectLayout\LayoutArchitectDetailController@add_dp_crz_remark')->name('add_architect_detail_dp_crz_remark_add');
 Route::post('architect_layout_detail_dp_crz_remark_post','ArchitectLayout\LayoutArchitectDetailController@post_dp_crz_remark')->name('post_architect_detail_dp_crz_remark_add');
-//add EE report
+//add and delete EE report
 Route::post('architect_layout_detail_post_ee_report','ArchitectLayout\LayoutArchitectDetailController@architectLyoutDetailPostEEDetails')->name('architect_layout_detail_post_ee_report');
 Route::post('architect_layout_detail_delete_ee_report','ArchitectLayout\LayoutArchitectDetailController@architectLyoutDetailDeleteEEDetail')->name('architect_layout_detail_delete_ee_report');
+
+//add and delete EM report
+Route::post('architect_layout_detail_post_em_report','ArchitectLayout\LayoutArchitectDetailController@architectLyoutDetailPostEMDetails')->name('architect_layout_detail_post_em_report');
+Route::post('architect_layout_detail_delete_em_report','ArchitectLayout\LayoutArchitectDetailController@architectLyoutDetailDeleteEMDetail')->name('architect_layout_detail_delete_em_report');
+
+//add and delete REE report
+Route::post('architect_layout_detail_post_ree_report','ArchitectLayout\LayoutArchitectDetailController@architectLyoutDetailPostREEDetails')->name('architect_layout_detail_post_ree_report');
+Route::post('architect_layout_detail_delete_ree_report','ArchitectLayout\LayoutArchitectDetailController@architectLyoutDetailDeleteREEDetail')->name('architect_layout_detail_delete_ree_report');
+//add Land Report
+Route::post('architect_layout_detail_post_land_report','ArchitectLayout\LayoutArchitectDetailController@architectLyoutDetailPostLandDetails')->name('architect_layout_detail_post_land_report');
+
+//court case or dispute on land
+Route::resource('architect_layout_detail_court_case_or_dispute_on_land','ArchitectLayout\CourtCaseOrDisputeOnLandController');
+
 
 //---------------------architect layout end---------------------------------------
 
