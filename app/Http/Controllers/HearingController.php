@@ -302,13 +302,27 @@ class HearingController extends Controller
     public function show($id)
     {
 //        $header_data = $this->header_data;
-        $arrData['hearing'] = Hearing::with(['hearingStatus', 'hearingApplicationType', 'hearingStatusLog' => function($q){
-            $q->where('user_id', Auth::user()->id)
-                ->where('role_id', session()->get('role_id'));
-        }])
-                        ->where('id', $id)
-                        ->first();
+//        $arrData['hearing'] = Hearing::with(['hearingStatus', 'hearingApplicationType', 'hearingStatusLog' => function($q){
+//            $q->where('user_id', Auth::user()->id)
+//                ->where('role_id', session()->get('role_id'));
+//        }])
+//                        ->where('id', $id)
+//                        ->first();
+//        $hearing_data = $arrData['hearing'];
+////         dd($arrData['hearing']->hearingStatusLog[0]->hearing_status_id);
+////         dd($hearing_data->hearingApplicationType->application_type);
+//        $status = $arrData['hearing']->hearingStatusLog[0]->hearing_status_id;
+//        $config_array = array_flip(config('commanConfig.hearingStatus'));
+//        $status_value = ucwords(str_replace('_', ' ', $config_array[$status]));
+//        dd($value);
+        $header_data = $this->header_data;
+        $arrData['hearing'] = Hearing::FindOrFail($id);
+        $arrData['application_type'] = ApplicationType::all();
+        $arrData['department'] = Department::all();
+        $arrData['board'] = Board::where('status', 1)->get();
+        $arrData['status'] = HearingStatus::all();
         $hearing_data = $arrData['hearing'];
+//        dd($hearing_data);
         return view('admin.hearing.show', compact('header_data', 'arrData', 'hearing_data', 'status_value'));
     }
 

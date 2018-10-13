@@ -178,19 +178,20 @@
             '<div class="blockEE">'+
                 '<div class="form-group m-form__group row mb-0">'+
                     '<div class="col-lg-5 form-group">'+
-                        '<input placeholder="Document Name" type="text" id="ee_doc_name_'+count+'" name="ee_document_name[]" class="form-control form-control--custom"'+
+                        '<input placeholder="Document Name" type="text" id="ee_doc_name_'+count+'" name="ee_document_name[]" class="form-control form-control--custom">'+
+                        '<input type="hidden" id="ee_report_doc_id_'+count+'" value="">'+
                         '<span class="help-block"></span>'+
                     '</div>'+
                     '<div class="col-lg-5 form-group">'+
                         '<div class="custom-file">'+
-                            '<input type="file" id="ee_extract_'+count+'" name="ee_report_'+count+'" class="custom-file-input" onchange="getReeReportData(this.id,\'ee_doc_name_'+count+'\',\'ee_doc_error_'+count+'\',\'ee_report_uploaded_file_'+count+'\')">'+
+                            '<input type="file" id="ee_extract_'+count+'" name="ee_report_'+count+'" class="custom-file-input" onchange="getReeReportData(this.id,\'ee_doc_name_'+count+'\',\'ee_doc_error_'+count+'\',\'ee_report_uploaded_file_'+count+'\',\'ee_report_doc_id_'+count+'\')">'+
                             '<label title="" class="custom-file-label" for="ee_extract_'+count+'">Choose file</label>'+
                             '<a target="_blank" style="display:none;" id="ee_report_uploaded_file_'+count+'" href="">uploaded file</a>'+
                             '<span class="help-block" id="ee_doc_error_'+count+'"></span>'+
                         '</div>'+
                     '</div>'+
                     '<div class="col-lg-2 form-group mt-2">'+
-                    '<i class="fa fa-close btn--add-delete removeEE"></i>'+
+                    '<i class="fa fa-close btn--add-delete removeEE" id="delete_ee_doc_'+count+'" onclick="delete_ee_doc(\'ee_report_doc_id_'+count+'\',\'delete_ee_doc_'+count+'\')"></i>'+
                     '</div>'+
                 '</div>'+
             '</div>');
@@ -205,25 +206,25 @@
     // }
 
     $('.optionBoxEE').on('click', '.removeEE', function () {
-        $(this).parent().parent().remove();
+            $(this).parent().parent().remove();
     });
 
     
 });
 
-function getReeReportData(id, doc_name,doc_error,uploaded_file_id)
+function getReeReportData(id, doc_name,doc_error,uploaded_file_id,ee_report_doc_id)
 {
     $(".loader").show();
-    var doc_name=document.getElementById(doc_name).value;
+    var doc_name1=document.getElementById(doc_name).value;
     var architect_layout_detail_id=$('#architect_layout_detail_id').val();
-    if(doc_name!="")
+    if(doc_name1!="")
     {
         document.getElementById(doc_error).value = "";
         var file_data = $('#'+id).prop('files')[0];
         var form_data = new FormData();
         form_data.append('file', file_data);
         form_data.append('architect_layout_detail_id', architect_layout_detail_id);
-        form_data.append('doc_name', doc_name);
+        form_data.append('doc_name', doc_name1);
         $.ajaxSetup({
             headers: {
                 'X-CSRF-Token': '{{csrf_token()}}'
@@ -240,14 +241,14 @@ function getReeReportData(id, doc_name,doc_error,uploaded_file_id)
                 $(".loader").hide();
                 if(data.status==true)
                 {
+                    $("#"+doc_name).replaceWith("<label>" + doc_name1 + "</label>");
                     $("#"+uploaded_file_id).prop("href", data.file_path)
                     $("#"+uploaded_file_id).css("display", "block");
+                    document.getElementById(ee_report_doc_id).value=data.doc_id
                     document.getElementById(doc_error).innerHTML = "";
                 }else
                 {
                     document.getElementById(doc_error).innerHTML = data.message;
-                    // $("#survey_report_file_error").html(data.message);
-                    //console.log(data.status+" "+data.message)
                 }
             }
         });
@@ -256,6 +257,29 @@ function getReeReportData(id, doc_name,doc_error,uploaded_file_id)
         document.getElementById(doc_error).innerHTML = "Please Enter Document Name";
     }
     showUploadedFileName();
+}
+//architect_layout_detail_delete_ee_report
+function delete_ee_doc(id,doc_id)
+{
+    if(confirm('Are you sure?'))
+    {
+        var ee_doc_delete_id=document.getElementById(id).value;
+        $.ajaxSetup({
+                headers: {
+                    'X-CSRF-Token': '{{csrf_token()}}'
+                }
+            });
+            $.ajax({
+                url: "{{url('architect_layout_detail_delete_ee_report')}}", // point to server-side PHP script
+                data: {ee_doc_delete_id:ee_doc_delete_id},
+                type: 'POST',
+                success: function(data) {
+                    $(".loader").hide();
+                }
+            });
+            $("#"+doc_id).parent().parent().remove();
+    }
+   
 }
 
 function showUploadedFileName() {
@@ -458,13 +482,14 @@ function showUploadedFileName() {
                                         <input type="hidden" class="ee_doc_name" id="ee_doc_name" name="document_name[]"
                                             value="Area certificate">
                                         <label>Area certificate</label>
+                                        <input type="hidden" id="ee_report_doc_id" value="{{isset($ArchitectLayoutDetail->ee_reports[0])?$ArchitectLayoutDetail->ee_reports[0]->id:''}}">
                                     </div>
                                     <div class="col-lg-5 form-group">
                                         <div class="custom-file">
-                                            <input type="file" id="ee_extract" name="ee_report" onchange="getReeReportData(this.id,'ee_doc_name','ee_doc_error','ee_report_uploaded_file')"
+                                            <input type="file" id="ee_extract" name="ee_report" onchange="getReeReportData(this.id,'ee_doc_name','ee_doc_error','ee_report_uploaded_file','ee_report_doc_id')"
                                                 class="custom-file-input">
                                             <label title="" class="custom-file-label" for="ee_extract">Choose file</label>
-                                            <a target="_blank" style="display:none;" id="ee_report_uploaded_file" href="">uploaded
+                                        <a target="_blank" style="display:{{isset($ArchitectLayoutDetail->ee_reports[0])?'block':'none'}}" id="ee_report_uploaded_file" href="{{config('commanConfig.storage_server').'/'.(isset($ArchitectLayoutDetail->ee_reports[0])?$ArchitectLayoutDetail->ee_reports[0]->upload_file:'')}}">uploaded
                                         file</a>
                                             <span class="text-danger" id="ee_doc_error"></span>
                                         </div>
@@ -480,12 +505,13 @@ function showUploadedFileName() {
                                         <input type="hidden" class="ee_doc_name" id="ee_doc_name_1" name="ee_document_name[]"
                                             value="Area of Encroachmente">
                                         <label>Area of Encroachment</label>
+                                        <input type="hidden" id="ee_report_doc_id_1" value="{{isset($ArchitectLayoutDetail->ee_reports[1])?$ArchitectLayoutDetail->ee_reports[1]->id:''}}">
                                     </div>
                                     <div class="col-lg-5 form-group">
                                         <div class="custom-file">
-                                            <input type="file" id="ee_extract_1" name="ee_report_1" class="custom-file-input" onchange="getReeReportData(this.id,'ee_doc_name_1','ee_doc_error_1','ee_report_uploaded_file_1')">
+                                            <input type="file" id="ee_extract_1" name="ee_report_1" class="custom-file-input" onchange="getReeReportData(this.id,'ee_doc_name_1','ee_doc_error_1','ee_report_uploaded_file_1','ee_report_doc_id_1')">
                                             <label title="" class="custom-file-label" for="ee_extract_1">Choose file</label>
-                                            <a target="_blank" style="display:none;" id="ee_report_uploaded_file_1" href="">uploaded
+                                            <a target="_blank" style="display:{{isset($ArchitectLayoutDetail->ee_reports[1])?'block':'none'}}" id="ee_report_uploaded_file_1" href="{{config('commanConfig.storage_server').'/'.(isset($ArchitectLayoutDetail->ee_reports[1])?$ArchitectLayoutDetail->ee_reports[1]->upload_file:'')}}">uploaded
                                         file</a>
                                             <span class="text-danger" id="ee_doc_error_1"></span>
                                         </div>
@@ -501,12 +527,13 @@ function showUploadedFileName() {
                                         <input type="hidden" class="ee_doc_name" id="ee_doc_name_2" name="document_name[]"
                                             value="Heading Over reservation">
                                         <label>Heading Over reservation</label>
+                                        <input type="hidden" id="ee_report_doc_id_2" value="{{isset($ArchitectLayoutDetail->ee_reports[2])?$ArchitectLayoutDetail->ee_reports[2]->id:''}}">
                                     </div>
                                     <div class="col-lg-5 form-group">
                                         <div class="custom-file">
-                                            <input type="file" id="ee_extract_2" name="ee_report_2" class="custom-file-input ee_doc_file" onchange="getReeReportData(this.id,'ee_doc_name_2','ee_doc_name_2','ee_report_uploaded_file_2')">
+                                            <input type="file" id="ee_extract_2" name="ee_report_2" class="custom-file-input ee_doc_file" onchange="getReeReportData(this.id,'ee_doc_name_2','ee_doc_name_2','ee_report_uploaded_file_2','ee_report_doc_id_2')">
                                             <label title="" class="custom-file-label" for="ee_extract_2">Choose file</label>
-                                            <a target="_blank" style="display:none;" id="ee_report_uploaded_file_2" href="">uploaded
+                                            <a target="_blank" style="display:{{isset($ArchitectLayoutDetail->ee_reports[2])?'block':'none'}}" id="ee_report_uploaded_file_2" href="{{config('commanConfig.storage_server').'/'.(isset($ArchitectLayoutDetail->ee_reports[2])?$ArchitectLayoutDetail->ee_reports[2]->upload_file:'')}}">uploaded
                                         file</a>
                                             <span class="text-danger" id="ee_doc_error_2"></span>
                                         </div>
@@ -516,6 +543,34 @@ function showUploadedFileName() {
                                 </div> -->
                                 </div>
                             </div>
+                            @php $i=1;  @endphp
+                            @foreach ($ArchitectLayoutDetail->ee_reports as $ee_report)
+                            @if($i>3)
+                            <div class="blockEE">
+                                <div class="form-group m-form__group row mb-0">
+                                    <div class="col-lg-5 form-group">
+                                    <input type="hidden" class="ee_doc_name" id="ee_doc_name_{{$i}}" name="document_name[]"
+                                            value="Heading Over reservation">
+                                        <label>{{$ee_report->name_of_documents}}</label>
+                                    <input type="hidden" id="ee_report_doc_id_{{$i}}" value="{{isset($ee_report->id)?$ee_report->id:''}}">
+                                    </div>
+                                    <div class="col-lg-5 form-group">
+                                        <div class="custom-file">
+                                            <input type="file" id="ee_extract_{{$i}}" name="ee_report_{{$i}}" class="custom-file-input ee_doc_file" onchange="getReeReportData(this.id,'ee_doc_name_{{$i}}','ee_doc_name_{{$i}}','ee_report_uploaded_file_{{$i}}','ee_report_doc_id_{{$i}}')">
+                                            <label title="" class="custom-file-label" for="ee_extract_{{$i}}">Choose file</label>
+                                            <a target="_blank" style="display:{{isset($ee_report->upload_file)?'block':'none'}}" id="ee_report_uploaded_file_{{$i}}" href="{{config('commanConfig.storage_server').'/'.(isset($ee_report->upload_file)?$ee_report->upload_file:'')}}">uploaded
+                                        file</a>
+                                            <span class="text-danger" id="ee_doc_error_{{$i}}"></span>
+                                        </div>
+                                    </div>
+                                     <div class="col-lg-2 form-group mt-2">
+                                     <i class="fa fa-close btn--add-delete" id="delete_ee_doc_{{$i}}" onclick="delete_ee_doc('ee_report_doc_id_{{$i}}','delete_ee_doc_{{$i}}')"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            @endif
+                            @php $i++ @endphp
+                            @endforeach
                         </div>
                         <div class="row">
                             <div class="col-sm-12">
