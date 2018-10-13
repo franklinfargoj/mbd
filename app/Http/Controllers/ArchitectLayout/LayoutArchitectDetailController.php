@@ -8,7 +8,7 @@ use App\Layout\ArchitectLayout;
 use App\Layout\ArchitectLayoutDetail;
 use App\Layout\ArchitectLayoutDetailCtsPlanDetail;
 use App\Layout\ArchitectLayoutDetailPrCardDetail;
-use App\Layout\ArchitectLayoutDetailREEReport;
+use App\Layout\ArchitectLayoutDetailEEReport;
 use Illuminate\Http\Request;
 use Storage;
 use Validator;
@@ -18,7 +18,8 @@ class LayoutArchitectDetailController extends Controller
     public function add_detail($layout_id)
     {
         $layout_id = decrypt($layout_id);
-        $ArchitectLayoutDetail = ArchitectLayoutDetail::with(['architect_layout'])->where(['id' => $layout_id])->first();
+        $ArchitectLayoutDetail = ArchitectLayoutDetail::with(['architect_layout','ee_reports'])->where(['id' => $layout_id])->first();
+        //dd();
         return view('admin.architect_layout_detail.add', compact('ArchitectLayoutDetail'));
     }
 
@@ -74,25 +75,24 @@ class LayoutArchitectDetailController extends Controller
             $filename = uniqid() . '_' . time() . '_' . date('Ymd') . '.' . $extension;
             $storage = Storage::disk('ftp')->putFileAs($dir, $request->file('file'), $filename);
             if ($storage) {
-                $ArchitectLayoutDetailREEReport=ArchitectLayoutDetailREEReport::where(['name_of_documents'=>$request->doc_name,'architect_layout_detail_id'=>$request->architect_layout_detail_id])->first();
-                if($ArchitectLayoutDetailREEReport)
-                {
-                    $ArchitectLayoutDetailREEReport->architect_layout_detail_id = $request->architect_layout_detail_id;
-                    $ArchitectLayoutDetailREEReport->name_of_documents = $request->doc_name;
-                    $ArchitectLayoutDetailREEReport->upload_file = $storage;
-                    $ArchitectLayoutDetailREEReport->save();
-                }else
-                {
-                    $ArchitectLayoutDetailREEReport = new ArchitectLayoutDetailREEReport;
-                    $ArchitectLayoutDetailREEReport->architect_layout_detail_id = $request->architect_layout_detail_id;
-                    $ArchitectLayoutDetailREEReport->name_of_documents = $request->doc_name;
-                    $ArchitectLayoutDetailREEReport->upload_file = $storage;
-                    $ArchitectLayoutDetailREEReport->save();
+                $ArchitectLayoutDetailEEReport = ArchitectLayoutDetailEEReport::where(['name_of_documents' => $request->doc_name, 'architect_layout_detail_id' => $request->architect_layout_detail_id])->first();
+                if ($ArchitectLayoutDetailEEReport) {
+                    $ArchitectLayoutDetailEEReport->architect_layout_detail_id = $request->architect_layout_detail_id;
+                    $ArchitectLayoutDetailEEReport->name_of_documents = $request->doc_name;
+                    $ArchitectLayoutDetailEEReport->upload_file = $storage;
+                    $ArchitectLayoutDetailEEReport->save();
+                } else {
+                    $ArchitectLayoutDetailEEReport = new ArchitectLayoutDetailEEReport;
+                    $ArchitectLayoutDetailEEReport->architect_layout_detail_id = $request->architect_layout_detail_id;
+                    $ArchitectLayoutDetailEEReport->name_of_documents = $request->doc_name;
+                    $ArchitectLayoutDetailEEReport->upload_file = $storage;
+                    $ArchitectLayoutDetailEEReport->save();
                 }
-                
+
                 $response_array = array(
                     'status' => true,
                     'file_path' => config('commanConfig.storage_server') . "/" . $storage,
+                    'doc_id'=>$ArchitectLayoutDetailEEReport->id
                 );
             } else {
                 $response_array = array(
@@ -106,6 +106,19 @@ class LayoutArchitectDetailController extends Controller
             );
         }
         return response()->json($response_array);
+    }
+
+    public function architectLyoutDetailDeleteEEDetail(Request $request)
+    {
+        //return $request->all();
+        $ArchitectLayoutDetailEEReport = ArchitectLayoutDetailEEReport::where('id', $request->ee_doc_delete_id)->first();
+        if ($ArchitectLayoutDetailEEReport) {
+            $file = $ArchitectLayoutDetailEEReport->upload_file;
+            if (Storage::disk('ftp')->has($file)) {
+                Storage::disk('ftp')->delete($file);
+            }
+            $ArchitectLayoutDetailEEReport->delete();
+        }
     }
 
     public function add_cts_detail($layout_detail_id)
