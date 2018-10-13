@@ -137,6 +137,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::post('/forward_case/store', 'ForwardCaseController@store')->name('forward_case.store');
     Route::get('/forward_case/edit/{id}', 'ForwardCaseController@edit')->name('forward_case.edit');
     Route::post('/forward_case/update/{id}', 'ForwardCaseController@update')->name('forward_case.update');
+    Route::get('/forward_case/show/{id}', 'ForwardCaseController@show')->name('forward_case.show');
 
     Route::get('/send_notice_to_appellant/create/{id}', 'SendNoticeToAppellantController@create')->name('send_notice_to_appellant.create');
     Route::post('/send_notice_to_appellant/store', 'SendNoticeToAppellantController@store')->name('send_notice_to_appellant.store');

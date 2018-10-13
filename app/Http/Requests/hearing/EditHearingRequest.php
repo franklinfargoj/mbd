@@ -26,7 +26,7 @@ class EditHearingRequest extends FormRequest
         return [
             'preceding_officer_name' => 'required',
             'case_year' => 'required',
-            'case_number' => 'required',
+//            'case_number' => 'required',
             'application_type_id' => 'required',
             'applicant_name' => 'required',
             'applicant_mobile_no' => 'required',

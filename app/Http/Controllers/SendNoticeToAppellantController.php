@@ -22,8 +22,14 @@ class SendNoticeToAppellantController extends Controller
     public function create($id)
     {
         $header_data = $this->header_data;
-        $arrData['hearing'] = Hearing::with(['hearingBoard', 'hearingDepartment', 'hearingSchedule', 'hearingStatus', 'hearingApplicationType'])
-                                        ->where('id', $id)->first();
+        $arrData['hearing'] = Hearing::with(['hearingStatus', 'hearingApplicationType', 'hearingForwardCase' => function($q){
+            $q->orderBy('created_at', 'desc');
+        }, 'hearingStatusLog' => function($q){
+            $q->where('user_id', Auth::user()->id)
+                ->where('role_id', session()->get('role_id'));
+        }])
+            ->where('id', $id)
+            ->first();
         $hearing_data = $arrData['hearing'];
 
         return view('admin.send_notice_to_appellant.create', compact('header_data', 'arrData', 'hearing_data'));
@@ -91,9 +97,16 @@ class SendNoticeToAppellantController extends Controller
     public function edit($id)
     {
         $header_data = $this->header_data;
-        $arrData['hearing'] = Hearing::with(['hearingBoard', 'hearingDepartment', 'hearingSchedule', 'hearingSendNoticeToAppellant'])
-                                        ->where('id', $id)->first();
-        return view('admin.send_notice_to_appellant.edit', compact('header_data', 'arrData'));
+        $arrData['hearing'] = Hearing::with(['hearingStatus', 'hearingApplicationType', 'hearingForwardCase' => function($q){
+            $q->orderBy('created_at', 'desc');
+        }, 'hearingStatusLog' => function($q){
+            $q->where('user_id', Auth::user()->id)
+                ->where('role_id', session()->get('role_id'));
+        }])
+            ->where('id', $id)
+            ->first();
+        $hearing_data = $arrData['hearing'];
+        return view('admin.send_notice_to_appellant.edit', compact('header_data', 'arrData', 'hearing_data'));
     }
 
     public function update(Request $request, $id)

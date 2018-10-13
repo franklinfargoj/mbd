@@ -91,4 +91,9 @@ class Hearing extends Model
     {
         return $this->hasMany('App\HearingStatusLog','hearing_id', 'id')->orderBy('id', 'desc');
     }
+
+    public function hearingPrePostSchedule()
+    {
+        return $this->hasMany('App\PrePostSchedule','hearing_id', 'id')->orderBy('id', 'desc');
+    }
 }
