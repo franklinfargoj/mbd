@@ -21,29 +21,29 @@
                             <span class="help-block">{{$errors->first('preceding_officer_name')}}</span>
                     </div>
 
+                    {{--<div class="col-sm-4 offset-sm-1 form-group">--}}
+                        {{--<label class="col-form-label" for="case_number">Case Number:</label>--}}
+                            {{--<input type="text" id="case_number" name="case_number" class="form-control form-control--custom m-input" value="{{ old('case_number') }}">--}}
+                            {{--<span class="help-block">{{$errors->first('case_number')}}</span>--}}
+                    {{--</div>--}}
+
                     <div class="col-sm-4 offset-sm-1 form-group">
-                        <label class="col-form-label" for="case_number">Case Number:</label>
-                            <input type="text" id="case_number" name="case_number" class="form-control form-control--custom m-input" value="{{ old('case_number') }}">
-                            <span class="help-block">{{$errors->first('case_number')}}</span>
+                        <label class="col-form-label" for="case_year">Case Year:</label>
+                        <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="case_year" name="case_year">
+                            @php
+                                $start_year = date('Y', strtotime('-15 year'));
+                                $end_year = date('Y', strtotime('+15 year'));
+                            @endphp
+
+                            @for($start_year; $start_year <= $end_year; $start_year++)
+                                <option value="{{ $start_year }}" {{ ($start_year == date('Y')) ? "selected" : "" }}>{{ $start_year }}</option>
+                            @endfor
+                        </select>
+                        <span class="help-block">{{$errors->first('case_year')}}</span>
                     </div>
                 </div>
 
                 <div class="form-group m-form__group row">
-                    <div class="col-sm-4 form-group">
-                        <label class="col-form-label" for="case_year">Case Year:</label>
-                            <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="case_year" name="case_year">
-                                @php
-                                    $start_year = date('Y', strtotime('-15 year'));
-                                    $end_year = date('Y', strtotime('+15 year'));
-                                @endphp
-
-                                @for($start_year; $start_year <= $end_year; $start_year++)
-                                    <option value="{{ $start_year }}" {{ ($start_year == date('Y')) ? "selected" : "" }}>{{ $start_year }}</option>
-                                @endfor
-                            </select>
-                            <span class="help-block">{{$errors->first('case_year')}}</span>
-                    </div>
-
                     <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="application_type_id">Application Type:</label>
                             <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="application_type_id" name="application_type_id">

@@ -165,9 +165,9 @@ class HearingController extends Controller
                     $i++;
                     return $i;
                 })
-                /*->editColumn('hearingDepartment', function ($hearing_data) {
-                    return $hearing_data->hearingDepartment->department_name;
-                })*/
+                ->editColumn('case_number', function ($hearing_data) {
+                    return $hearing_data->id;
+                })
                 ->editColumn('office_date', function ($hearing_data) {
                     return date(config('commanConfig.dateFormat'), strtotime($hearing_data->office_date));
                 })
@@ -191,7 +191,7 @@ class HearingController extends Controller
                     }
 
                 })
-                ->rawColumns(['radio', 'office_date', 'Status'])
+                ->rawColumns(['radio', 'case_number', 'office_date', 'Status'])
                 ->make(true);
         }
 

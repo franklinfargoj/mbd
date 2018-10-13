@@ -32,7 +32,7 @@
             <div class="form-group m-form__group row">
                 <div class="col-sm-4 form-group">
                     <label class="col-form-label">Case Number:</label>
-                    <input type="text" class="form-control form-control--custom m-input" value="{{ $arrData['hearing']['case_number'] }}"
+                    <input type="text" class="form-control form-control--custom m-input" value="{{ $arrData['hearing']['id'] }}"
                         readonly>
                     <span class="help-block"></span>
                 </div>
