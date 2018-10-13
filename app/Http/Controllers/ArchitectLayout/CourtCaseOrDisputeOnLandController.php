@@ -7,9 +7,9 @@ use App\Http\Controllers\Controller;
 
 class CourtCaseOrDisputeOnLandController extends Controller
 {
-    public function index()
+    public function index($layout_detail_id)
     {
-
+        return view('admin.architect_layout_detail.court_case_or_dispute_on_land.index');
     }
 
     public function create()

@@ -359,7 +359,7 @@ Route::post('architect_layout_detail_delete_ree_report','ArchitectLayout\LayoutA
 Route::post('architect_layout_detail_post_land_report','ArchitectLayout\LayoutArchitectDetailController@architectLyoutDetailPostLandDetails')->name('architect_layout_detail_post_land_report');
 
 //court case or dispute on land
-Route::resource('architect_layout_detail_court_case_or_dispute_on_land','ArchitectLayout\CourtCaseOrDisputeOnLandController');
+Route::get('architect_layout_detail_court_case_or_dispute_on_land/{layout_detail_id}','ArchitectLayout\CourtCaseOrDisputeOnLandController@index')->name('architect_layout_detail_court_case_or_dispute_on_land.index');
 
 
 //---------------------architect layout end---------------------------------------

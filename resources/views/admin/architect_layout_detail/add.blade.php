@@ -1148,7 +1148,7 @@ function showUploadedFileName() {
                             </h3>
                         </div>
                         <div class="mt-auto">
-                            <a href="{{route('add_architect_detail_court_case_or_dispute_on_land',['layout_detail_id'=>encrypt($ArchitectLayoutDetail->id)])}}"
+                            <a href="{{route('architect_layout_detail_court_case_or_dispute_on_land.index',['layout_detail_id'=>encrypt($ArchitectLayoutDetail->id)])}}"
                                 class="btn btn-primary btn-custom upload_note" id="uploadBtn">Add Detail</a>
                         </div>
                     </div>
