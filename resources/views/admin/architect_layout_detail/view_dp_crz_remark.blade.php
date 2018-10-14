@@ -24,8 +24,6 @@
                 <p> {{ Session::get('error') }} </p>
             </div>
             @endif
-            <form enctype="multipart/form-data" method="post" action="{{route('post_architect_detail_dp_crz_remark_add')}}">
-                @csrf
                 <input type="hidden" name="architect_layout_detail_id" value="{{$ArchitectLayoutDetail->id}}">
                 <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
                     <div class="m-subheader">
@@ -41,8 +39,6 @@
                             <div class="col-lg-7 form-group">
 
                                 <div class="custom-file">
-                                    <input class="custom-file-input" name="dp_remark_letter" type="file" id="dp_remark_letter_file">
-                                    <label class="custom-file-label" for="dp_remark_letter_file">Choose file...</label>
                                     @if($ArchitectLayoutDetail->dp_letter!="")
                                     <a target="_blank" id="dp_remark_letter_uploaded_file" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->dp_letter}}">uploaded
                                         file</a>
@@ -59,8 +55,6 @@
                             </div>
                             <div class="col-lg-7 form-group">
                                 <div class="custom-file">
-                                    <input class="custom-file-input" name="dp_remark_plan" type="file" id="dp_remark_plan_file">
-                                    <label class="custom-file-label" for="dp_remark_plan_file">Choose file...</label>
                                     @if($ArchitectLayoutDetail->dp_plan!="")
                                     <a target="_blank" id="dp_remark_plan_uploaded_file" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->dp_plan}}">uploaded
                                         file</a>
@@ -77,7 +71,7 @@
                             </div>
                             <div class="col-lg-7 form-group">
                                 <div class="custom-file">
-                                    <textarea type="text" name="dp_comment" id="dp_comment" class="form-control form-control--custom form-control--fixed-height">{{old('dp_comment')?old('dp_comment'):$ArchitectLayoutDetail->dp_comment}}</textarea>
+                                    <textarea disabled type="text" name="dp_comment" id="dp_comment" class="form-control form-control--custom form-control--fixed-height">{{old('dp_comment')?old('dp_comment'):$ArchitectLayoutDetail->dp_comment}}</textarea>
                                     @if ($errors->has('dp_comment'))
                                     <span class="error">{{ $errors->first('dp_comment') }}</span>
                                     @endif
@@ -101,8 +95,6 @@
                             <div class="col-lg-7 form-group">
 
                                 <div class="custom-file">
-                                    <input class="custom-file-input" name="crz_remark_letter" type="file" id="crz_remark_letter_file">
-                                    <label class="custom-file-label" for="crz_remark_letter_file">Choose file...</label>
                                     @if($ArchitectLayoutDetail->crz_letter!="")
                                     <a target="_blank" id="crz_remark_letter_uploaded_file" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->crz_letter}}">uploaded
                                         file</a>
@@ -119,9 +111,7 @@
                             </div>
                             <div class="col-lg-7 form-group">
                                 <div class="custom-file">
-                                    <input class="custom-file-input" name="crz_remark_plan" type="file" id="crz_remark_plan_file">
-                                    <label class="custom-file-label" for="crz_remark_plan_file">Choose file...</label>
-                                    @if($ArchitectLayoutDetail->crz_plan!="")
+                                   @if($ArchitectLayoutDetail->crz_plan!="")
                                     <a target="_blank" id="crz_remark_plan_uploaded_file" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->crz_plan}}">uploaded
                                         file</a>
                                     @endif
@@ -137,7 +127,7 @@
                             </div>
                             <div class="col-lg-7 form-group">
                                 <div class="custom-file">
-                                    <textarea type="text" name="crz_comment" id="crz_comment" class="form-control form-control--custom form-control--fixed-height">{{old('crz_comment')?old('crz_comment'):$ArchitectLayoutDetail->crz_comment}}</textarea>
+                                    <textarea disabled type="text" name="crz_comment" id="crz_comment" class="form-control form-control--custom form-control--fixed-height">{{old('crz_comment')?old('crz_comment'):$ArchitectLayoutDetail->crz_comment}}</textarea>
                                     @if ($errors->has('crz_comment'))
                                     <span class="error">{{ $errors->first('crz_comment') }}</span>
                                     @endif
@@ -151,9 +141,8 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="btn-list">
-                                            <button type="submit" class="btn btn-primary"> Save </button>
-                                            <a href="{{route('architect_layout_detail.add',['layout_id'=>encrypt($ArchitectLayoutDetail->id)])}}"
-                                                role="button" class="btn btn-secondary">Back</a>
+                                        <a href="{{route('architect_layout_details.view',['layout_id'=>encrypt($ArchitectLayoutDetail->architect_layout_id)])}}"
+                                                        class="btn btn-primary btn-custom">Back</a>
                                         </div>
                                     </div>
                                 </div>
@@ -161,7 +150,6 @@
                         </div>
                     </div>
                 </div>
-            </form>
         </div>
     </div>
 </div>

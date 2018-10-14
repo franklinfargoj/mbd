@@ -271,7 +271,7 @@ class ResolutionController extends Controller
                 })
                 ->editColumn('radio', function ($resolutions) {
                     $url = route('resolution.view', [$resolutions->id]);
-                    return '<label class="m-radio m-radio--primary"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
+                    return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
                 })
                 ->editColumn('board', function ($resolutions) {
                     return $resolutions->board->board_name;

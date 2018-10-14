@@ -7,6 +7,7 @@ use App\HearingSchedule;
 use App\HearingStatus;
 use App\HearingStatusLog;
 use App\Http\Requests\hearing_schedule\HearingScheduleRequest;
+use App\Http\Controllers\Common\CommonController;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -21,6 +22,11 @@ class ScheduleHearingController extends Controller
         'hearing_menu' => 'Schedule Hearing',
         'menu_url' => 'schedule_hearing'
     );
+
+    public function __construct()
+    {
+        $this->CommonController = new CommonController();
+    }
     /**
      * Display a listing of the resource.
      *
@@ -53,6 +59,7 @@ class ScheduleHearingController extends Controller
      */
     public function store(HearingScheduleRequest $request)
     {
+//        dd($request->all());
         $time = time();
 
         $input['hearing_id'] = $request->hearing_id;
@@ -64,33 +71,34 @@ class ScheduleHearingController extends Controller
 
         if($request->hasFile('file_case_template') && $request->hasFile('file_update_supporting_documents'))
         {
-            if(isset($request->file['file_case_template'])){
-                dd($request->file('file_case_template'));
-                $extension = $request->file['file_case_template']->getClientOriginalExtension();
+            if(isset($request->file_case_template)){
+                $extension = $request->file_case_template->getClientOriginalExtension();
                 if($extension != "pdf") {
                     return redirect()->back()->with('error','Invalid type of file uploaded (only pdf allowed)');
                 }
             }
 
-            if(isset($request->file['file_update_supporting_documents'])){
-                $extension = $request->file['update_supporting_documents']->getClientOriginalExtension();
+            if(isset($request->file_update_supporting_documents)){
+                $extension = $request->file_update_supporting_documents->getClientOriginalExtension();
                 if($extension != "pdf") {
                     return redirect()->back()->with('error','Invalid type of file uploaded (only pdf allowed)');
                 }
             }
 
-            $case_template_name = File::name($request->file['case_template']->getClientOriginalName()) . '_' . $time . '.' . $extension;
-            $case_template_path = Storage::putFileAs('/schedule_case_template', $request->file['case_template'], $case_template_name, 'public');
-            $input['case_template'] = $case_template_path;
+//            dd("hello");
+            $case_template_name = 'file_case_template'.time().'.'. $extension;
+//            $case_template_path = Storage::putFileAs('/schedule_case_template', $request->file_case_template, $case_template_name, 'public');
+            $fileUpload = $this->CommonController->ftpFileUpload('schedule_case_template',$request->file_case_template,$case_template_name);
+            $input['case_template'] = config('commanConfig.storage_server').'/schedule_case_template/'.$case_template_name;
 
-            $name = File::name($request->file['update_supporting_documents']->getClientOriginalName()) . '_' . $time . '.' . $extension;
-            $path = Storage::putFileAs('/schedule_supporting_document', $request->file['update_supporting_documents'], $name, 'public');
-            $input['update_supporting_documents'] = $path;
+            $name = 'update_supporting_documents.'. $time . '.' . $extension;
+//            $path = Storage::putFileAs('/schedule_supporting_document', $request->file_update_supporting_documents, $name, 'public');
+            $fileUploadSupportingDocument = $this->CommonController->ftpFileUpload('schedule_supporting_document',$request->file_update_supporting_documents,$name);
+            $input['update_supporting_documents'] = config('commanConfig.storage_server').'/schedule_supporting_document/'.$name;
 
         }
         else
         {
-             dd("sadsad");
             return redirect()->back()->with('error','Please select file to upload');
         }
 
@@ -135,7 +143,16 @@ class ScheduleHearingController extends Controller
      */
     public function show($id)
     {
-        //
+
+        $arrData['hearing'] = Hearing::with(['hearingStatus', 'hearingApplicationType', 'hearingSchedule', 'hearingStatusLog' => function($q){
+            $q->where('user_id', Auth::user()->id)
+                ->where('role_id', session()->get('role_id'));
+        }])
+            ->where('id', $id)
+            ->first();
+        $hearing_data = $arrData['hearing'];
+//        dd($hearing_data);
+        return view('admin.schedule_hearing.show', compact('hearing_data', 'arrData'));
     }
 
     /**

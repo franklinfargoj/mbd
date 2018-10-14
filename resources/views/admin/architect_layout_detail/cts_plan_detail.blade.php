@@ -83,7 +83,7 @@
                             <div class="col-lg-6 form-group">
                                 <!-- <label class="col-form-label">List of CTS No</label> -->
                                 <div class="optionBox">
-                                    @if($ArchitectLayoutDetail->cts_plan_details)
+                                    @if(count($ArchitectLayoutDetail->cts_plan_details)>0)
                                     @php $j=1; @endphp
                                     @foreach($ArchitectLayoutDetail->cts_plan_details as $cts_plan_detail)
                                     <div class="block">
@@ -117,6 +117,7 @@
                                         class="btn btn-primary btn-custom">Back</a>
                                 </div>
                             </div>
+                        </div>
                     </form>
                 </div>
             </div>
