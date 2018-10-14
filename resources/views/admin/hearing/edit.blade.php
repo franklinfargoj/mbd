@@ -66,7 +66,7 @@
                         {{--<span class="help-block">{{$errors->first('case_year')}}</span>--}}
                     {{--</div>--}}
 
-                    <div class="col-sm-4 offset-sm-1 form-group">
+                    <div class="col-sm-4 offset-sm-0 form-group">
                         <label class="col-form-label" for="application_type_id">Application Type:</label>
                         <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="application_type_id"
                             name="application_type_id">
