@@ -1,4 +1,8 @@
-@extends('admin.layouts.app')
+@extends('admin.layouts.sidebarAction')
+@section('actions')
+@include('admin.architect_layout.actions',compact('ArchitectLayout'))
+@endsection
+{{-- @extends('admin.layouts.app') --}}
 @section('content')
 <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
