@@ -24,7 +24,7 @@
                     <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="case_number">Case Number:</label>
                         <input type="text" id="case_number" name="case_number" class="form-control form-control--custom m-input"
-                               value="{{ $arrData['hearing']->case_number }}" readonly>
+                               value="{{ $arrData['hearing']->id }}" readonly>
                         <span class="help-block">{{$errors->first('case_number')}}</span>
                     </div>
                 </div>
@@ -38,16 +38,13 @@
 
                     <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="application_type_id">Application Type:</label>
+                        @foreach($arrData['application_type'] as $application_type)
+                            @if($arrData['hearing']->application_type_id == $application_type->id)
+                                @php $application_name = $application_type->application_type; @endphp
+                            @endif
+                        @endforeach
                         <input type="text" id="application_type_id" name="application_type_id" class="form-control form-control--custom m-input"
-                               value="{{ $arrData['hearing']->case_year }}" readonly>
-                        <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="application_type_id"
-                                name="application_type_id" readonly>
-                            @foreach($arrData['application_type'] as $application_type)
-                                <option value="{{ $application_type->id  }}"
-                                        {{ ($arrData['hearing']->application_type_id == $application_type->id) ? "selected" : "" }}>{{
-                                $application_type->application_type }}</option>
-                            @endforeach
-                        </select>
+                               value="{{ $application_name }}" readonly>
                         <span class="help-block">{{$errors->first('application_type_id')}}</span>
                     </div>
                 </div>
