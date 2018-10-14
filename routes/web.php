@@ -334,14 +334,17 @@ Route::post('post_architect_layout_detail','ArchitectLayout\LayoutArchitectDetai
 Route::post('uploadLatestLayoutAjax','ArchitectLayout\LayoutArchitectDetailController@uploadLatestLayoutAjax')->name('uploadLatestLayoutAjax');
 
 //add cts
+Route::get('view_cts_detail/{layout_detail_id}','ArchitectLayout\LayoutArchitectDetailController@view_cts_detail')->name('architect_layout_detail_view_cts_plan');
 Route::get('add_cts_detail/{layout_detail_id}','ArchitectLayout\LayoutArchitectDetailController@add_cts_detail')->name('architect_layout_detail_cts_plan');
 Route::post('post_cts_detail','ArchitectLayout\LayoutArchitectDetailController@post_cts_detail')->name('post_cts_detail');
 Route::post('delete_cts_detail','ArchitectLayout\LayoutArchitectDetailController@delete_cts_detail')->name('delete_cts_detail');
 //add PR card
+Route::get('view_prc_detail/{layout_detail_id}','ArchitectLayout\LayoutArchitectDetailController@view_prc_detail')->name('architect_layout_detail_view_prc_detail');
 Route::get('add_prc_detail/{layout_detail_id}','ArchitectLayout\LayoutArchitectDetailController@add_prc_detail')->name('architect_layout_detail_prc_detail');
 Route::post('post_prc_detail','ArchitectLayout\LayoutArchitectDetailController@post_prc_detail')->name('post_prc_detail');
 Route::post('delete_prc_detail','ArchitectLayout\LayoutArchitectDetailController@delete_prc_detail')->name('delete_prc_detail');
 //dp crz remark
+Route::get('architect_layout_detail_dp_crz_remark_view/{layout_detail_id}','ArchitectLayout\LayoutArchitectDetailController@view_dp_crz_remark')->name('architect_detail_dp_crz_remark_view');
 Route::get('architect_layout_detail_dp_crz_remark_add/{layout_detail_id}','ArchitectLayout\LayoutArchitectDetailController@add_dp_crz_remark')->name('add_architect_detail_dp_crz_remark_add');
 Route::post('architect_layout_detail_dp_crz_remark_post','ArchitectLayout\LayoutArchitectDetailController@post_dp_crz_remark')->name('post_architect_detail_dp_crz_remark_add');
 //add and delete EE report
@@ -358,10 +361,16 @@ Route::post('architect_layout_detail_delete_ree_report','ArchitectLayout\LayoutA
 //add Land Report
 Route::post('architect_layout_detail_post_land_report','ArchitectLayout\LayoutArchitectDetailController@architectLyoutDetailPostLandDetails')->name('architect_layout_detail_post_land_report');
 
+
+Route::get('view_court_case_or_dispute_on_land/{layout_detail_id}','ArchitectLayout\LayoutArchitectDetailController@view_court_case_or_dispute_on_land')->name('view_court_case_or_dispute_on_land');
 //court case or dispute on land
 Route::get('architect_layout_detail_court_case_or_dispute_on_land/{layout_detail_id}','ArchitectLayout\CourtCaseOrDisputeOnLandController@index')->name('architect_layout_detail_court_case_or_dispute_on_land.index');
-
-
+Route::get('create_architect_layout_detail_court_case_or_dispute_on_land/{layout_detail_id}','ArchitectLayout\CourtCaseOrDisputeOnLandController@create')->name('architect_layout_detail_court_case_or_dispute_on_land.create');
+Route::post('store_architect_layout_detail_court_case_or_dispute_on_land','ArchitectLayout\CourtCaseOrDisputeOnLandController@store')->name('architect_layout_detail_court_case_or_dispute_on_land.store');
+Route::get('edit_architect_layout_detail_court_case_or_dispute_on_land/{id}','ArchitectLayout\CourtCaseOrDisputeOnLandController@edit')->name('architect_layout_detail_court_case_or_dispute_on_land.edit');
+Route::post('update_architect_layout_detail_court_case_or_dispute_on_land','ArchitectLayout\CourtCaseOrDisputeOnLandController@update')->name('architect_layout_detail_court_case_or_dispute_on_land.update');
+Route::get('show_architect_layout_detail_court_case_or_dispute_on_land/{id}','ArchitectLayout\CourtCaseOrDisputeOnLandController@show')->name('architect_layout_detail_court_case_or_dispute_on_land.view');
+Route::delete('destroy_architect_layout_detail_court_case_or_dispute_on_land/{id}','ArchitectLayout\CourtCaseOrDisputeOnLandController@destroy')->name('architect_layout_detail_court_case_or_dispute_on_land.destroy');
 //---------------------architect layout end---------------------------------------
 
 // Route::get('refresh_captcha','SocietyOfferLetterController@RefreshCaptcha')->name('refresh_captcha');

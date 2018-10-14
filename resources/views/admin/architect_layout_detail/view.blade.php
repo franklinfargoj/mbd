@@ -20,7 +20,7 @@
     </div>
 </div>
 <div class="m-portlet m-portlet--mobile m_panel">
-<div class="portlet-body">
+<div class="portlet-body" style="overflow-y: scroll">
         <table border="1">
             <tr>
                 <th>Date of update</th>
@@ -40,19 +40,44 @@
             </tr>
             @foreach($ArchitectLayout->layout_details as $layout_detail)
             <tr>
+                <td>{{ date('d/m/Y', strtotime($layout_detail->created_at)) }}</td>
                 <td><a target="_blank" href="{{config('commanConfig.storage_server').'/'.$layout_detail->latest_layout}}">download</a></td>
                 <td><a target="_blank" href="{{config('commanConfig.storage_server').'/'.$layout_detail->old_approved_layout}}">download</a></td>
                 <td><a target="_blank" href="{{config('commanConfig.storage_server').'/'.$layout_detail->last_submitted_layout_for_approval}}">download</a></td>
-                <td>Dummy text</td>
-                <td>Dummy text</td>
-                <td>Dummy text</td>
-                <td>Dummy text</td>
-                <td>Dummy text</td>
-                <td>Dummy text</td>
-                <td>Dummy text</td>
-                <td>Dummy text</td>
-                <td>Dummy text</td>
-                <td>Dummy text</td>
+                
+            <td><a href="{{route('architect_layout_detail_view_cts_plan',['layout_detail_id'=>encrypt($layout_detail->id)])}}">View Details</a></td>
+                <td><a href="{{route('architect_layout_detail_view_prc_detail',['layout_detail_id'=>encrypt($layout_detail->id)])}}">View Details</a></td>
+                <td><a href="{{route('architect_detail_dp_crz_remark_view',['layout_detail_id'=>encrypt($layout_detail->id)])}}">View Details</a></td>
+                <td><a target="_blank" href="{{config('commanConfig.storage_server').'/'.$layout_detail->survey_report}}">download</a></td>
+                <td>
+                    <ul>
+                    @foreach($layout_detail->ee_reports as $ee_report)
+                    <li><a target="_blank" href="{{config('commanConfig.storage_server').'/'.$ee_report->upload_file}}">{{$ee_report->name_of_documents}}</a></li>
+                    @endforeach
+                    </ul>
+                </td>
+                <td> 
+                    <ul>
+                        @foreach($layout_detail->em_reports as $em_report)
+                        <li><a target="_blank" href="{{config('commanConfig.storage_server').'/'.$em_report->upload_file}}">{{$em_report->name_of_documents}}</a></li>
+                        @endforeach
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        @foreach($layout_detail->land_reports as $land_report)
+                        <li><a target="_blank" href="{{config('commanConfig.storage_server').'/'.$land_report->upload_file}}">{{$land_report->name_of_documents}}</a></li>
+                        @endforeach
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        @foreach($layout_detail->ree_reports as $ree_report)
+                        <li><a target="_blank" href="{{config('commanConfig.storage_server').'/'.$ree_report->upload_file}}">{{$ree_report->name_of_documents}}</a></li>
+                        @endforeach
+                    </ul>
+                </td>
+                <td><a href="{{route('view_court_case_or_dispute_on_land',['layout_detail_id'=>encrypt($layout_detail->id)])}}">View Details</a></td>
                 <td><a href="{{route('architect_layout_detail.add',['layout_id'=>encrypt($layout_detail->id)])}}">Edit</a></td>
             </tr>
             @endforeach

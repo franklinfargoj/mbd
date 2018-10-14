@@ -1138,6 +1138,7 @@ function showUploadedFileName() {
                 </div>
             </div>
         </div>
+        <!-- Court case or dispute on land -->
         <div class="m-portlet m-portlet--mobile m_panel">
             <div class="portlet-body">
                 <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
@@ -1150,6 +1151,21 @@ function showUploadedFileName() {
                         <div class="mt-auto">
                             <a href="{{route('architect_layout_detail_court_case_or_dispute_on_land.index',['layout_detail_id'=>encrypt($ArchitectLayoutDetail->id)])}}"
                                 class="btn btn-primary btn-custom upload_note" id="uploadBtn">Add Detail</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="m-portlet m-portlet--mobile m_panel">
+            <div class="portlet-body">
+                <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
+                    <div class="m-subheader">
+                        <div class="mt-auto">
+                            {{-- <a href="{{route('architect_layout_details.view',['layout_id'=>encrypt($ArchitectLayoutDetail->architect_layout_id)])}}"
+                                class="btn btn-primary btn-custom upload_note" id="uploadBtn">Save</a> --}}
+                        <a href="{{route('architect_layout_details.view',['layout_id'=>encrypt($ArchitectLayoutDetail->architect_layout_id)])}}"
+                                class="btn btn-primary " id="uploadBtn">Back</a>
                         </div>
                     </div>
                 </div>

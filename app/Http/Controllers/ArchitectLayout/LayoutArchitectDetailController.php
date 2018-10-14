@@ -12,6 +12,7 @@ use App\Layout\ArchitectLayoutDetailEmReport;
 use App\Layout\ArchitectLayoutDetailLandReport;
 use App\Layout\ArchitectLayoutDetailPrCardDetail;
 use App\Layout\ArchitectLayoutDetailREEReport;
+use App\Layout\ArchitectLayoutCourtMatterDispute;
 use Illuminate\Http\Request;
 use Storage;
 use Validator;
@@ -276,6 +277,13 @@ class LayoutArchitectDetailController extends Controller
         return response()->json($response_array);
     }
 
+    public function view_cts_detail($layout_detail_id)
+    {
+        $layout_detail_id = decrypt($layout_detail_id);
+        $ArchitectLayoutDetail = ArchitectLayoutDetail::with(['architect_layout', 'cts_plan_details'])->where(['id' => $layout_detail_id])->first();
+        return view('admin.architect_layout_detail.view_cts_detail', compact('ArchitectLayoutDetail'));
+    }
+
     public function add_cts_detail($layout_detail_id)
     {
         $layout_detail_id = decrypt($layout_detail_id);
@@ -330,6 +338,13 @@ class LayoutArchitectDetailController extends Controller
         }
         return false;
     }
+
+    public function view_prc_detail($layout_detail_id)
+    {
+        $layout_detail_id = decrypt($layout_detail_id);
+        $ArchitectLayoutDetail = ArchitectLayoutDetail::with(['architect_layout', 'cts_plan_details', 'pr_card_details'])->where(['id' => $layout_detail_id])->first();
+        return view('admin.architect_layout_detail.view_prc_detail', compact('ArchitectLayoutDetail'));
+    } 
 
     public function add_prc_detail($layout_detail_id)
     {
@@ -393,6 +408,13 @@ class LayoutArchitectDetailController extends Controller
             }
             return $ArchitectLayoutDetailPrCardDetai->delete();
         }
+    }
+
+    public function view_dp_crz_remark($layout_detail_id)
+    {
+        $layout_detail_id = decrypt($layout_detail_id);
+        $ArchitectLayoutDetail = ArchitectLayoutDetail::where(['id' => $layout_detail_id])->first();
+        return view('admin.architect_layout_detail.view_dp_crz_remark', compact('ArchitectLayoutDetail'));
     }
 
     public function add_dp_crz_remark($layout_detail_id)
@@ -480,5 +502,13 @@ class LayoutArchitectDetailController extends Controller
             return back()->withError('Something went wrong');
         }
 
+    }
+
+    public function view_court_case_or_dispute_on_land($layout_detail_id)
+    {
+        $layout_detail_id = decrypt($layout_detail_id);
+        $ArchitectLayoutDetail = ArchitectLayoutDetail::find($layout_detail_id);
+        $courCassesOrDisputes = ArchitectLayoutCourtMatterDispute::all();
+        return view('admin.architect_layout_detail.view_court_case_or_dispute', compact('ArchitectLayoutDetail', 'courCassesOrDisputes'));
     }
 }

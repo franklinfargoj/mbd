@@ -27,11 +27,10 @@
                         </h3>
                     </div> --}}
                     <div class="mt-auto">
-                        <a href="{{route('architect_layout_detail_court_case_or_dispute_on_land.create',['layout_detail_id'=>encrypt($ArchitectLayoutDetail->id)])}}"
-                            class="btn btn-primary btn-custom" id="">Add New Details</a>
-                        <a href="{{route('architect_layout_detail.add',['layout_id'=>encrypt($ArchitectLayoutDetail->id)])}}"
-                            class="btn btn-primary btn-custom">Back</a>
-                    </div>
+                        
+                            <a href="{{route('architect_layout_details.view',['layout_id'=>encrypt($ArchitectLayoutDetail->architect_layout_id)])}}"
+                                class="btn btn-primary btn-custom">Back</a>
+                        </div>
                     <div class="row">
                         <div class="col-lg-12 form-group">
                             <table class="table">
@@ -40,7 +39,6 @@
                                     <th>Name of Document</th>
                                     <th>Description</th>
                                     <th>Supporting Document</th>
-                                    <th>Actions</th>
                                 </tr>
                                 @forelse ($courCassesOrDisputes as $courCassesOrDispute)
                                 <tr>
@@ -48,20 +46,6 @@
                                     <td>{{$courCassesOrDispute->document_name}}</td>
                                     <td>{{$courCassesOrDispute->description}}</td>
                                     <td><a target="_blank" href="{{config('commanConfig.storage_server').'/'.$courCassesOrDispute->document_file}}">Document</a></td>
-                                    <td>
-                                        <a href="{{route('architect_layout_detail_court_case_or_dispute_on_land.view',['id'=>encrypt($courCassesOrDispute->id)])}}">View</a>
-                                        <a href="{{route('architect_layout_detail_court_case_or_dispute_on_land.edit',['id'=>encrypt($courCassesOrDispute->id)])}}">Edit</a>
-                                        {{-- <a href="{{route('architect_layout_detail_court_case_or_dispute_on_land.destroy',['id'=>encrypt($courCassesOrDispute->id)])}}">Delete</a>
-                                        --}}
-                                        {!! Form::open([
-                                        'method' => 'DELETE',
-                                        'route' => ['architect_layout_detail_court_case_or_dispute_on_land.destroy',
-                                        encrypt($courCassesOrDispute->id)]
-                                        ]) !!}
-                                        {!! Form::submit('delete', ['class' => 'btn btn-link','onclick' => 'return
-                                        confirm(\'Are you sure?\')']) !!}
-                                        {!! Form::close() !!}
-                                    </td>
                                 </tr>
                                 @empty
                                 <tr>
