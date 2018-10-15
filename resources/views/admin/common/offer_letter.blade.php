@@ -45,16 +45,14 @@
                 <!-- BEGIN: Subheader -->
                 <div class="m-subheader letter-form-header">
                     <!-- <center><a href="#" target="_blank" class="btn btn-info" rel="noopener">Download Offer Letter Application</a></center> -->
-                    <center>
+                    <div class="text-center">
                         <h3 class="m-subheader__title ">
                             <label for="layouts">Layouts</label>
                         </h3>
                         <p><b>{{ $ol_application->applicationMasterLayout[0]->layout_name }}</b></p>
-                    </center>
+                    </div>
                     <div class="d-flex align-items-center justify-content-center">
-                        <h3 class="m-subheader__title ">
-                            अर्जाचा नमुना
-                        </h3>
+                        <h3 class="m-subheader__title ">अर्जाचा नमुना</h3>
                     </div>
                     <div class="letter-form-header-content">
                         <p>
