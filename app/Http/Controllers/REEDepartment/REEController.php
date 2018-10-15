@@ -26,7 +26,7 @@ use DB;
 use PDF;
 use File;
 use Storage;
-
+use Illuminate\Support\Facades\Session;
 
 class REEController extends Controller
 {
@@ -443,5 +443,80 @@ class REEController extends Controller
         // dd($blade);
         return view('admin.common.'.$blade,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application'));
 
+    }
+
+
+    public function revalidationApplicationList(Request $request, Datatables $datatables){
+
+        $getData = $request->all();
+        $columns = [
+            ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
+            ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
+            ['data' => 'application_no','name' => 'application_no','title' => 'Application Number'],
+            ['data' => 'date','name' => 'date','title' => 'Date', 'class' => 'datatable-date'],
+            ['data' => 'eeApplicationSociety.name','name' => 'eeApplicationSociety.name','title' => 'Society Name'],
+            ['data' => 'eeApplicationSociety.building_no','name' => 'eeApplicationSociety.building_no','title' => 'building No'],
+            ['data' => 'eeApplicationSociety.address','name' => 'eeApplicationSociety.address','title' => 'Address','class' => 'datatable-address', 'searchable' => false],
+            // ['data' => 'model','name' => 'model','title' => 'Model'],
+            ['data' => 'Status','name' => 'Status','title' => 'Status'],
+            // ['data' => 'Model','name' => 'Model','title' => 'Model'],
+            // ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
+        ];
+        if ($datatables->getRequest()->ajax()) {
+
+            //dd($request);
+            $ree_application_data = $this->CommonController->listApplicationData($request);
+            // dd($ree_application_data);
+            // $ol_application = $this->CommonController->getOlApplication($ree_application_data->id);
+
+            return $datatables->of($ree_application_data)
+                ->editColumn('rownum', function ($listArray) {
+                    static $i = 0; $i++; return $i;
+                })
+                ->editColumn('radio', function ($ree_application_data) {
+                    $url = route('ree.view_application', $ree_application_data->id);
+                    return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
+                })
+                ->editColumn('eeApplicationSociety.name', function ($ree_application_data) {
+                    return $ree_application_data->eeApplicationSociety->name;
+                })
+                ->editColumn('eeApplicationSociety.building_no', function ($ree_application_data) {
+                    return $ree_application_data->eeApplicationSociety->building_no;
+                })
+                ->editColumn('eeApplicationSociety.address', function ($ree_application_data) {
+                    return "<span>".$ree_application_data->eeApplicationSociety->address."</span>";
+                })
+                ->editColumn('date', function ($ree_application_data) {
+                    return date(config('commanConfig.dateFormat'), strtotime($ree_application_data->submitted_at));
+                })
+                // ->editColumn('actions', function ($ree_application_data) use($request){
+                //    return view('admin.REE_department.action', compact('ree_application_data', 'request'))->render();
+                // })
+                ->editColumn('Status', function ($listArray) use ($request) {
+                    $status = $listArray->olApplicationStatusForLoginListing[0]->status_id;
+
+                    if ($request->update_status)
+                    {
+                        if ($request->update_status == $status){
+                            $config_array = array_flip(config('commanConfig.applicationStatus'));
+                            $value = ucwords(str_replace('_', ' ', $config_array[$status]));
+                            return '<span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$status) .' m-badge--wide">'.$value.'</span>';
+                        }
+                    }else{
+                        $config_array = array_flip(config('commanConfig.applicationStatus'));
+                        $value = ucwords(str_replace('_', ' ', $config_array[$status]));
+                        return '<span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$status) .' m-badge--wide">'.$value.'</span>';
+                    }
+
+                })
+                // ->editColumn('Model', function ($ree_application_data) {
+                //          return $ree_application_data->ol_application_master->model;
+                //      })hya
+                ->rawColumns(['radio','society_name', 'building_name', 'society_address','date','Status','eeApplicationSociety.address'])
+                ->make(true);
+        }
+        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+
+        return view('admin.REE_department.reval_applications', compact('html','header_data','getData'));
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Common;
 
+use App\OlApplicationMaster;
 use App\OlConsentVerificationQuestionMaster;
 use App\OlDemarcationVerificationQuestionMaster;
 use App\OlRgRelocationVerificationQuestionMaster;
@@ -150,6 +151,11 @@ class CommonController extends Controller
         {
             $applicationData = $applicationData->whereDate('submitted_at', '<=', date('Y-m-d', strtotime($request->submitted_at_to)));
         }
+
+
+        /*$application_master_arr=OlApplicationMaster::Where('title', 'like', '%Revalidation Of Offer Letter%')->get()->toArray();
+        $applicationData = $applicationData->whereIn('application_master_id',$application_master_arr);*/
+
 
         $applicationDataDefine = $applicationData->orderBy('ol_applications.id', 'desc')
             ->select()->get();
