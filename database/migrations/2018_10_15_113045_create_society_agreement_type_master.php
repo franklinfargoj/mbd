@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSocietyBankDetails extends Migration
+class CreateSocietyAgreementTypeMaster extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,9 @@ class CreateSocietyBankDetails extends Migration
      */
     public function up()
     {
-       Schema::create('society_bank_details', function (Blueprint $table){
+       Schema::create('society_agrement_type_master', function (Blueprint $table){
             $table->increments('id');
-            $table->integer('society_id');
-            $table->string('account_no')->nullable();
-            $table->string('ifsc_code')->nullable();
-            $table->string('bank_name')->nullable();
+            $table->string('agreement_name')->nullable();
             $table->timestamps(); 
        });
     }
@@ -30,6 +27,6 @@ class CreateSocietyBankDetails extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('society_bank_details');
+        Schema::dropIfExists('society_agrement_type_master');
     }
 }

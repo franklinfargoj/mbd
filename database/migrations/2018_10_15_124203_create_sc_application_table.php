@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateScApplication extends Migration
+class CreateScApplicationTable extends Migration
 {
     /**
      * Run the migrations.
@@ -42,7 +42,7 @@ class CreateScApplication extends Migration
 
             //LA
             $table->string('riders')->nullable();
-            $table->string('noc_conveyance')->nullable();
+            $table->string('noc_conveyance')->nullable();            
             $table->timestamps();
         });
     }
