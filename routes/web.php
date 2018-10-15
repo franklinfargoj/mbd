@@ -451,3 +451,8 @@ Route::get('ee-billing-add-building', 'EEBillingController@AddBuilding');
 Route::get('ee-billing-edit-building', 'EEBillingController@EditBuilding');
 Route::get('ee-billing-manage-masters', 'EEBillingController@ManageMasters');
 Route::get('ee-billing-level', 'EEBillingController@BillingLevel');
+
+//estate and conveyance
+
+// Route::resource('conveyance', 'conveyance\DYCODepartment\DYCOController@showChecklist');
+Route::get('checklist', 'conveyance\DYCODepartment\DYCOController@showChecklist')->name('conveyance.checklist');
