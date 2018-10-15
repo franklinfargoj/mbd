@@ -39,6 +39,18 @@ class EEBillingController extends Controller
     }
 
     public function BillingLevel(){
-        return view('admin.ee_billing.manage-masters');
+        return view('admin.ee_billing.billing-level');
+    }
+
+    public function WardColony(){
+        return view('admin.ee_billing.ward-colony');
+    }
+
+    public function AddTenant(){
+        return view('admin.ee_billing.add-tenant');
+    }
+
+    public function BillGeneration(){
+        return view('admin.ee_billing.bill-generation');
     }
 }

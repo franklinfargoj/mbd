@@ -3,24 +3,27 @@
 <div class="container-fluid">
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
-            <h3 class="m-subheader__title">Billing Level</h3>
+            <h3 class="m-subheader__title">Ward & Colony</h3>
         </div>
     </div>
     <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
-        <form id="billing-level-society" role="form" method="post" class="m-form m-form--rows m-form--label-align-right"
-            action="">
-            @csrf
+        <form id="ward-colony" role="form" method="post" class="m-form m-form--rows m-form--label-align-right" action="">
             <div class="m-portlet__body m-portlet__body--spaced">
                 <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
-                        <label class="col-form-label" for="billing-level">Select Billing level for Society:</label>
-                        <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="billing-level"
-                            name="billing-level">
-                            <option value="">Select Layout</option>
-                            <option value="">Nahur, Mulund</option>
-                            <option value="">Mithagar Road, Mulund</option>
-                            <option value="">Tagornagar, Vikhroli</option>
-                            <option value="">Nehru Nagar, Kurla</option>
+                        <label class="col-form-label" for="ward">Ward:</label>
+                        <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="ward"
+                            name="ward">
+                            <option value="">Select Ward</option>
+                            <option value="">Ward 1</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-4 offset-sm-1 form-group">
+                        <label class="col-form-label" for="colony">Colony:</label>
+                        <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="colony"
+                            name="colony">
+                            <option value="">Select Colony</option>
+                            <option value="">Tagornagar</option>
                         </select>
                     </div>
                 </div>
