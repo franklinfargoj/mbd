@@ -33,4 +33,12 @@ class EEBillingController extends Controller
     public function EditBuilding(){
         return view('admin.ee_billing.edit-building');
     }
+
+    public function ManageMasters(){
+        return view('admin.ee_billing.manage-masters');
+    }
+
+    public function BillingLevel(){
+        return view('admin.ee_billing.manage-masters');
+    }
 }

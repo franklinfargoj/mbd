@@ -449,3 +449,5 @@ Route::get('ee-billing-add-rates', 'EEBillingController@AddRates');
 Route::get('ee-billing-arrears-charges', 'EEBillingController@ArrearsChargesRate');
 Route::get('ee-billing-add-building', 'EEBillingController@AddBuilding');
 Route::get('ee-billing-edit-building', 'EEBillingController@EditBuilding');
+Route::get('ee-billing-manage-masters', 'EEBillingController@ManageMasters');
+Route::get('ee-billing-level', 'EEBillingController@BillingLevel');
