@@ -19,7 +19,9 @@
                     </h3>
                 </div>
             </div>
-            <button class="btn btn-primary">Add Detail</button>
+            @if($check_layout_details_complete_status==0)
+        <a href="{{route('architect_layout_detail.add',['layout_id'=>encrypt($ArchitectLayout->id)])}}" class="btn btn-primary">Add Detail</a>
+            @endif
         </div>
     </div>
 </div>
@@ -42,7 +44,8 @@
                 <th>Court matters or Disputes on land</th>
                 <th>Action</th>
             </tr>
-            @foreach($ArchitectLayout->layout_details as $layout_detail)
+            @php  $i=1; @endphp 
+            @foreach($ArchitectLayoutDetail as $layout_detail)
             <tr>
                 <td>{{ date('d/m/Y', strtotime($layout_detail->created_at)) }}</td>
                 <td><a target="_blank" href="{{config('commanConfig.storage_server').'/'.$layout_detail->latest_layout}}">download</a></td>
@@ -82,8 +85,17 @@
                     </ul>
                 </td>
                 <td><a href="{{route('view_court_case_or_dispute_on_land',['layout_detail_id'=>encrypt($layout_detail->id)])}}">View Details</a></td>
-                <td><a href="{{route('architect_layout_detail.add',['layout_id'=>encrypt($layout_detail->id)])}}">Edit</a></td>
+                
+                <td>
+                    @if($i==1 && (session()->get('role_name') == config('commanConfig.junior_architect')))
+                    <a href="{{route('architect_layout_detail.edit',['layout_detail_id'=>encrypt($layout_detail->id)])}}">Edit</a>
+                    @else
+                    <center> - </center>
+                    @endif
+                </td>
             </tr>
+
+            @php $i++; @endphp
             @endforeach
         </table>
     </div>

@@ -6,7 +6,7 @@
     {{ session()->get('success') }}
 </div>
 @endif
-
+@php $route_name = Route::currentRouteName(); @endphp
 <div class="col-md-12">
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">
@@ -17,7 +17,7 @@
         <div class="m-portlet m-portlet--compact filter-wrap">
             <div class="row align-items-center row--filter">
                 <div class="col-md-12">
-                    <form role="form" id="eeForm" method="get" action="{{ route('architect_layout.index') }}">
+                    <form role="form" id="eeForm" method="get" action="{{ route($route_name) }}">
                         <div class="row align-items-center mb-0">
                             <div class="col-md-2">
                                 <div class="form-group m-form__group">
@@ -66,7 +66,18 @@
         </div>
     </div>
     <!-- END: Subheader -->
+
     <div class="m-portlet m-portlet--mobile">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <ul class="navbar-nav">
+                <li class="nav-item {{$route_name=='architect_layout.index'?'active':''}}">
+                <a class="nav-link" href="{{route('architect_layout.index')}}">Requests Revision</a>
+                </li>
+                <li class="nav-item {{$route_name=='architect_layouts_layout_details.index'?'active':''}}">
+                    <a class="nav-link" href="{{route('architect_layouts_layout_details.index')}}">Layout Details</a>
+                </li>
+                </ul>
+            </nav>
         <div class="m-portlet__body">
             <!--begin: Datatable -->
             {!! $html->table() !!}
