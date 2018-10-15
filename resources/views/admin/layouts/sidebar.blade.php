@@ -279,11 +279,23 @@ $route=\Request::route()->getName();
                     <span class="m-menu__link-title">
                         <span class="m-menu__link-wrap">
                             <span class="m-menu__link-text">
-                                Application for Offer Letter
+                                Applications for Offer Letter
                             </span>
                         </span>
                     </span>
                 </a>
+            </li>
+            <li class="m-menu__item {{($route=='ree_applications.reval')?'m-menu__item--active':'' }}">
+                        <a href="{{ route('ree_applications.reval') }}" class="m-menu__link m-menu__toggle">
+                            <i class="m-menu__link-icon flaticon-line-graph"></i>
+                            <span class="m-menu__link-title">
+                        <span class="m-menu__link-wrap">
+                            <span class="m-menu__link-text">
+                                Applications for Revalidation Of Offer Letter
+                            </span>
+                        </span>
+                    </span>
+                        </a>
             </li>
             @if(Session::all()['role_name'] == 'society')
             @if(isset($ol_application_count))
