@@ -254,6 +254,11 @@ class HearingPermissionSeeder extends Seeder
                     'name' => 'send_notice_to_appellant.update',
                     'display_name' => 'Update Send Notice data',
                     'description' => 'Update Send Notice data'
+                ],
+                [
+                    'name' => 'schedule_hearing.show',
+                    'display_name' => 'Shows scheduled hearing data',
+                    'description' => 'Shows scheduled hearing data'
                 ]
 
             ];
@@ -289,6 +294,11 @@ class HearingPermissionSeeder extends Seeder
                     'name' => 'forward_case.update',
                     'display_name' => 'Update Forward Case data',
                     'description' => 'Update Forward Case data'
+                ],
+                [
+                    'name' => 'forward_case.show',
+                    'display_name' => 'Shows Forwarded Case data',
+                    'description' => 'Shows Forwarded Case data'
                 ],
 
             ];

@@ -25,4 +25,12 @@ class EEBillingController extends Controller
     public function ArrearsChargesRate(){
         return view('admin.ee_billing.arrears-charges-rate');
     }
+    
+    public function AddBuilding(){
+        return view('admin.ee_billing.add-building');
+    }
+
+    public function EditBuilding(){
+        return view('admin.ee_billing.edit-building');
+    }
 }

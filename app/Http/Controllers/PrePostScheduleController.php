@@ -37,8 +37,16 @@ class PrePostScheduleController extends Controller
     public function create($id)
     {
         $header_data = $this->header_data;
-        $arrData['schedule_hearing_data'] = Hearing::with('hearingSchedule')->where('id', $id)->first();
-        return view('admin.prepost_schedule.add', compact('header_data', 'arrData'));
+//        $arrData['schedule_hearing_data'] = Hearing::with('hearingSchedule')->where('id', $id)->first();
+        $arrData['hearing_data'] = Hearing::with(['hearingStatus', 'hearingPrePostSchedule', 'hearingApplicationType', 'hearingStatusLog' => function($q){
+            $q->where('user_id', Auth::user()->id)
+                ->where('role_id', session()->get('role_id'));
+        }])
+            ->where('id', $id)
+            ->first();
+        $hearing_data = $arrData['hearing_data'];
+//        dd($hearing_data->id);
+        return view('admin.prepost_schedule.add', compact('header_data', 'arrData', 'hearing_data'));
     }
 
     /**
@@ -113,9 +121,12 @@ class PrePostScheduleController extends Controller
         $header_data = $this->header_data;
 //        $arrData['schedule_prepost_data'] = PrePostSchedule::FindOrFail($id);
         $arrData['schedule_prepost_data'] = Hearing::with(['hearingSchedule.prePostSchedule'])->where('id', $id)->first();
-        $hearing_data = Hearing::with(['hearingStatus', 'hearingApplicationType'])
-        ->where('id', $id)
-        ->first();
+        $hearing_data = Hearing::with(['hearingStatus', 'hearingPrePostSchedule', 'hearingApplicationType', 'hearingStatusLog' => function($q){
+            $q->where('user_id', Auth::user()->id)
+                ->where('role_id', session()->get('role_id'));
+        }])
+            ->where('id', $id)
+            ->first();
 //        dd($hearing_data);
         return view('admin.prepost_schedule.edit', compact('header_data', 'arrData', 'hearing_data'));
     }

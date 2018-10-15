@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use App\Http\Requests\ArchitectLayout\AddLayout;
 use App\Layout\ArchitectLayoutDetail;
 
+
 class LayoutArchitectController extends Controller
 {
     protected $architect_layouts;
@@ -117,6 +118,28 @@ class LayoutArchitectController extends Controller
         $layout_id=decrypt($layout_id);
         $ArchitectLayout=ArchitectLayout::with(['layout_details'])->find($layout_id);
         return view('admin.architect_layout_detail.view',compact('ArchitectLayout'));
+    }
+
+    public function forwardLayout(Request $request, $layout_id){
+
+        $layout_id=decrypt($layout_id);
+        $ArchitectLayout=ArchitectLayout::with(['layout_details'])->find($layout_id);
+        $parentData  = $this->architect_layouts->getForwardApplicationArchitectParentData();
+        $arrData['parentData'] = $parentData['parentData'];
+        $arrData['role_name'] = $parentData['role_name'];
+
+        if(session()->get('role_name') != config('commanConfig.junior_architect')) {
+            $status_user = ArchitectApplication::where(['id' => decrypt($encryptedId)])->pluck('id')->toArray();
+        }
+
+        if(session()->get('role_name') == config('commanConfig.selection_commitee')) {
+          $commitee_role_id = Role::where('name', '=', config('commanConfig.junior_architect'))->first();
+
+          $arrData['get_forward_commitee'] = User::where('role_id', $commitee_role_id->id)->get();
+
+          $arrData['commitee_role_name'] = strtoupper(str_replace('_', ' ', $commitee_role_id->name));
+        }
+        return view('admin.architect_layout.forward_architect_layout',compact('arrData','ArchitectLayout'));
     }
     
 }

@@ -27,6 +27,7 @@ class OlApplicationCalculationSheetDetails extends Model
         'redirekner_value',
         'redirekner_construction_rate',
         'dcr_rate_in_percentage',
+        'calculated_dcr_rate_val',
         'infrastructure_fee_amount',
         'remaining_residential_area',
         'rate_of_remaining_area',

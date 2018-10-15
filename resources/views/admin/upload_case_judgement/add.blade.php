@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('admin.layouts.sidebarAction')
 @section('actions')
     @include('admin.hearing.actions',compact('hearing_data'))
 @endsection
@@ -28,7 +28,7 @@
                     <div class="col-lg-6 form-group">
                         <label class="col-form-label" for="case_number">Case Number:</label>
                         <input type="text" id="case_number" name="case_number" class="form-control form-control--custom m-input"
-                            value="{{ $arrData['hearing_data']->case_number }}" readonly>
+                            value="{{ $arrData['hearing_data']->id }}" readonly>
                         <span class="help-block">{{$errors->first('case_number')}}</span>
                     </div>
                 </div>

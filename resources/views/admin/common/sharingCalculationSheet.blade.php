@@ -1078,7 +1078,7 @@
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <div class="d-flex flex-column h-100 two-cols">
-                                                <h5>Download REE Note</h5>
+                                            <h3 class="section-title section-title--small">Download REE Note</h3>
                                                 <!-- <span class="hint-text">Download  Note uploaded by REE</span> -->
                                                 <div class="mt-auto">
                                                     @if(isset($arrData['reeNote']->document_path))
@@ -1112,14 +1112,74 @@
 
 
         $('input').on('keypress', function (event) {
-            var regex = new RegExp("^[0-9]+$");
-            var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
-            if (!regex.test(key)) {
-                event.preventDefault();
-                return false;
-            }
-        });
+            /* var regex = new RegExp("^[0-9]\d+$");
+             var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+             if (!regex.test(key)) {
+                 event.preventDefault();
+                 return false;
+             }*/
 
+            /*  if ($(this).val().indexOf('.') > 0) {
+                  var CharAfterdot = ($(this).val().length + 1) - $(this).val().indexOf('.');
+                  if ( (($(this).val().length + 1) - $(this).val().indexOf('.')) > 3) {
+                      event.preventDefault();
+                      return false;
+                  }
+
+              }*/
+            /*   if (event.shiftKey == true) {
+                   event.preventDefault();
+               }
+
+               if ($(this).val().indexOf('.') > 0) {
+                   if ( (($(this).val().length + 1) - $(this).val().indexOf('.')) > 3) {
+                       event.preventDefault();
+                   }
+
+               }
+
+
+               if ((event.keyCode >= 48 && event.keyCode <= 57) ||
+                   (event.keyCode >= 96 && event.keyCode <= 105) ||
+                   event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 37 ||
+                   event.keyCode == 39 || event.keyCode == 46 || event.keyCode == 190) {
+               } else {
+                   event.preventDefault();
+               }
+
+
+               if($(this).val().indexOf('.') !== -1 && event.keyCode == 190 )
+                   event.preventDefault();
+                   //if a decimal has been added, disable the "."-button
+
+                   */
+
+            var $this = $(this);
+            if ((event.which != 46 || $this.val().indexOf('.') != -1) &&
+                ((event.which < 48 || event.which > 57) &&
+                    (event.which != 0 && event.which != 8))) {
+                event.preventDefault();
+            }
+
+            var text = $(this).val();
+            if ((event.which == 46) && (text.indexOf('.') == -1)) {
+                setTimeout(function() {
+                    if ($this.val().substring($this.val().indexOf('.')).length > 3) {
+                        $this.val($this.val().substring(0, $this.val().indexOf('.') + 3));
+                    }
+                }, 1);
+            }
+
+            if ((text.indexOf('.') != -1) &&
+                (text.substring(text.indexOf('.')).length > 2) &&
+                (event.which != 0 && event.which != 8) &&
+                ($(this)[0].selectionStart >= text.length - 2)) {
+                event.preventDefault();
+            }
+
+
+
+        });
         $("#total_permissible_construction_area").attr('value', parseFloat($("#permissible_construction_area").val()) +
             parseFloat($("#permissible_proratata_area").val()));
 

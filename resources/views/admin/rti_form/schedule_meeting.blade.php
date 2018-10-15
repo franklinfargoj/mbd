@@ -53,9 +53,9 @@
         <form id="rti_schedule_meeting" role="form" method="post" class="m-form m-form--rows m-form--label-align-right"
             action="{{ url('/rti_schedule_meeting/'.$rti_applicant->id) }}">
             @csrf
-            <div class="m-portlet__body m-portlet__body--spaced">
+            <div class="m-portlet__body m-portlet__body--spaced m-portlet--forms-view">
                 <div class="form-group m-form__group row">
-                    <div class="col-lg-6 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label">Meeting Scheduled Date:</label>
                         <div class="@if($errors->has('meeting_scheduled_date')) has-error @endif">
                             <input type="hidden" name="application_no" id="application_no" class="form-control" value="{{ $rti_applicant->unique_id }}">
@@ -64,7 +64,7 @@
                             <span class="help-block">{{$errors->first('meeting_scheduled_date')}}</span>
                         </div>
                     </div>
-                    <div class="col-lg-6 form-group">
+                    <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label">Meeting Time:</label>
                         <div class="@if($errors->has('meeting_time')) has-error @endif">
                             <input type="text" name="meeting_time" id="meeting_time" class="form-control form-control--custom m_timepicker m-input" value="{{ (!empty($rti_meetings_scheduled->meeting_time) ? $rti_meetings_scheduled->meeting_time : '' ) }}">
@@ -73,14 +73,14 @@
                     </div>
                 </div>
                 <div class="form-group m-form__group row">
-                    <div class="col-lg-6 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label">Meeting Venue:</label>
                         <div class="@if($errors->has('meeting_venue')) has-error @endif">
                             <input type="text" name="meeting_venue" id="meeting_venue" class="form-control form-control--custom m-input" value="{{ (!empty($rti_meetings_scheduled->meeting_venue) ? $rti_meetings_scheduled->meeting_venue : '') }}">
                             <span class="help-block">{{$errors->first('meeting_venue')}}</span>
                         </div>
                     </div>
-                    <div class="col-lg-6 form-group">
+                    <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label">Concern Person Name:</label>
                         <div class="@if($errors->has('contact_person_name')) has-error @endif">
                             <input type="text" name="contact_person_name" id="contact_person_name" class="form-control form-control--custom m-input"
@@ -93,7 +93,7 @@
             <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
                 <div class="m-form__actions px-0">
                     <div class="row">
-                        <div class="col-lg-6">
+                        <div class="col-sm-12">
                             <div class="btn-list">
                                 <button type="submit" class="btn btn-primary">Submit</button>
                                 <a href="{{url('rti_applicants')}}" role="button" class="btn btn-secondary">Cancel</a>

@@ -37,7 +37,12 @@ class UploadCaseJudgementController extends Controller
     public function create($id)
     {
         $header_data = $this->header_data;
-        $arrData['hearing_data'] = Hearing::where('id', $id)->first();
+        $arrData['hearing_data'] = Hearing::with(['hearingStatus', 'hearingPrePostSchedule', 'hearingApplicationType', 'hearingStatusLog' => function($q){
+            $q->where('user_id', Auth::user()->id)
+                ->where('role_id', session()->get('role_id'));
+        }])
+            ->where('id', $id)
+            ->first();
         $hearing_data = $arrData['hearing_data'];
 //        dd($hearing_data);
         return view('admin.upload_case_judgement.add', compact('header_data', 'arrData', 'hearing_data'));
@@ -129,7 +134,13 @@ class UploadCaseJudgementController extends Controller
     public function edit($id)
     {
         $header_data = $this->header_data;
-        $arrData['hearing_data'] = Hearing::with('hearingUploadCaseJudgement')->where('id', $id)->first();
+        $arrData['hearing_data'] = Hearing::with(['hearingStatus', 'hearingPrePostSchedule', 'hearingApplicationType', 'hearingStatusLog' => function($q){
+            $q->where('user_id', Auth::user()->id)
+                ->where('role_id', session()->get('role_id'));
+        }])
+            ->where('id', $id)
+            ->first();
+        $hearing_data = $arrData['hearing_data'];
         $arrData['hearing_status'] = HearingStatusLog::where('hearing_id', $id)->orderBy('id', 'desc')->first();
         $hearing_data = $arrData['hearing_data'];
 

@@ -121,7 +121,7 @@ class HearingController extends Controller
                     $q->where('user_id', Auth::user()->id)
                         ->where('role_id', session()->get('role_id'));
                 });
-
+//            dd($hearing_data);
 
             if($request->office_date_from)
             {
@@ -134,9 +134,9 @@ class HearingController extends Controller
                 $hearing_data = $hearing_data->whereDate('office_date', '<=', date('Y-m-d', strtotime($request->office_date_to)));
             }
 
-//            $hearing_data = $hearing_data->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').', case_year, hearing.id as id, case_number, department_id,  office_date, applicant_name');
+            $hearing_data = $hearing_data->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').', case_year, hearing.id as id, case_number, department_id,  office_date, applicant_name')->orderBy('id', 'desc');
 
-            $hearing_data = $hearing_data->select()->get();
+//            $hearing_data = $hearing_data->select()->get();
 
             $listArray = [];
             if($request->hearing_status_id)
@@ -165,9 +165,9 @@ class HearingController extends Controller
                     $i++;
                     return $i;
                 })
-                /*->editColumn('hearingDepartment', function ($hearing_data) {
-                    return $hearing_data->hearingDepartment->department_name;
-                })*/
+                ->editColumn('case_number', function ($hearing_data) {
+                    return $hearing_data->id;
+                })
                 ->editColumn('office_date', function ($hearing_data) {
                     return date(config('commanConfig.dateFormat'), strtotime($hearing_data->office_date));
                 })
@@ -191,7 +191,7 @@ class HearingController extends Controller
                     }
 
                 })
-                ->rawColumns(['radio', 'office_date', 'Status'])
+                ->rawColumns(['radio', 'case_number', 'office_date', 'Status'])
                 ->make(true);
         }
 
@@ -259,7 +259,7 @@ class HearingController extends Controller
             'role_id' => session()->get('role_id'),
             'user_id' => Auth::user()->id
         ];
-
+//        dd($data);
         $hearing_id = Hearing::create($data)->id;
 
         $parent_role_id = User::where('role_id', session()->get('parent'))->first();
@@ -287,6 +287,7 @@ class HearingController extends Controller
                 'updated_at' => Carbon::now()
             ]
         ];
+
         HearingStatusLog::insert($hearing_status_log);
 
         return redirect('hearing')->with(['success'=> 'Record added succesfully']);
@@ -300,15 +301,29 @@ class HearingController extends Controller
      */
     public function show($id)
     {
+//        $header_data = $this->header_data;
+//        $arrData['hearing'] = Hearing::with(['hearingStatus', 'hearingApplicationType', 'hearingStatusLog' => function($q){
+//            $q->where('user_id', Auth::user()->id)
+//                ->where('role_id', session()->get('role_id'));
+//        }])
+//                        ->where('id', $id)
+//                        ->first();
+//        $hearing_data = $arrData['hearing'];
+////         dd($arrData['hearing']->hearingStatusLog[0]->hearing_status_id);
+////         dd($hearing_data->hearingApplicationType->application_type);
+//        $status = $arrData['hearing']->hearingStatusLog[0]->hearing_status_id;
+//        $config_array = array_flip(config('commanConfig.hearingStatus'));
+//        $status_value = ucwords(str_replace('_', ' ', $config_array[$status]));
+//        dd($value);
         $header_data = $this->header_data;
-        $arrData['hearing'] = Hearing::with(['hearingStatus', 'hearingApplicationType'])
-                        ->where('id', $id)
-                        ->first();
+        $arrData['hearing'] = Hearing::FindOrFail($id);
+        $arrData['application_type'] = ApplicationType::all();
+        $arrData['department'] = Department::all();
+        $arrData['board'] = Board::where('status', 1)->get();
+        $arrData['status'] = HearingStatus::all();
         $hearing_data = $arrData['hearing'];
-        // dd($arrData['hearing']);
-        // dd($hearing_data);
-
-        return view('admin.hearing.show', compact('header_data', 'arrData', 'hearing_data'));
+//        dd($hearing_data);
+        return view('admin.hearing.show', compact('header_data', 'arrData', 'hearing_data', 'status_value'));
     }
 
     /**

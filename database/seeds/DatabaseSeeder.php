@@ -47,6 +47,8 @@ class DatabaseSeeder extends Seeder
         $this->call(VpPermission::class);
         $this->call(AddChildToReeModuleSeeder::class);
         $this->call(AddSuperAdminToRoleTableSeeder::class);
+        $this->call(ArchitectUserSeeder::class);
+        $this->call(SelectionCommiteeSeeder::class);
         // $this->call(RtiFormTableSeeder::class);
     }
 }
