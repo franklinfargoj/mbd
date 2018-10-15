@@ -34,5 +34,16 @@ class ArchitectLayout extends Model
     {
         return $this->hasMany(\App\Layout\ArchitectLayoutScrutinyREEReport::class,'architect_layout_id','id');
     }
+
+    public function ArchitectLayoutStatusLog()
+    {
+        return $this->hasMany(\App\Layout\ArchitectLayoutStatusLog::class,'architect_layout_id');
+    }
+
+    public function ArchitectLayoutStatusLogInLiosting()
+    {
+        return $this->hasMany(\App\Layout\ArchitectLayoutStatusLog::class,'architect_layout_id');
+    }
+
     
 }

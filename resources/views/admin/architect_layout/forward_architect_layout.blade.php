@@ -25,46 +25,50 @@
                     </a>
                 </li>
             </ul>
-       
+
             <div class="tab-content">
 
                 <div class="tab-pane active show" id="scrutiny-history-tab">
                     <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
-                        {{-- <div class="portlet-body">
+                        <div class="portlet-body">
                             <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
                                 <div class="border-bottom pb-2">
                                     <h3 class="section-title section-title--small mb-2">
                                         Remark History:
                                     </h3>
-                                    <span class="hint-text d-block">Remark by EE</span>
+                                    <span class="hint-text d-block">Remark by Architect</span>
                                 </div>
                                 <div class="remarks-section">
                                     <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container"
                                         data-scrollbar-shown="true" data-scrollable="true" data-max-height="200">
-                                    @foreach($eelogs as $log)
-                                        @if($log->status_id == config('commanConfig.applicationStatus.forwarded'))
-                                            @php $status = 'Forwarded'; @endphp
-                                        @elseif($log->status_id == config('commanConfig.applicationStatus.reverted'))
-                                            @php $status = 'Reverted'; @endphp
+                                        @foreach($architectlogs as $log)
+                                        @if($log->status_id == config('commanConfig.architect_layout_status.forward'))
+                                        @php $status = 'Forwarded'; @endphp
+                                        @elseif($log->status_id == config('commanConfig.architect_layout_status.reverted'))
+                                        @php $status = 'Reverted'; @endphp
                                         @endif
 
                                         <div class="remarks-section__data">
-                                            <p class="remarks-section__data__row"><span>Date:</span><span>{{(isset($log) && $log->created_at != '' ? date("d-m-Y",
+                                            <p class="remarks-section__data__row"><span>Date:</span><span>{{(isset($log)
+                                                    && $log->created_at != '' ? date("d-m-Y",
                                                     strtotime($log->created_at)) : '')}}</span>
 
                                             </p>
-                                            <p class="remarks-section__data__row"><span>Time:</span><span>{{(isset($log) && $log->created_at != '' ? date("H:i",
+                                            <p class="remarks-section__data__row"><span>Time:</span><span>{{(isset($log)
+                                                    && $log->created_at != '' ? date("H:i",
                                                     strtotime($log->created_at)) : '')}}</span></p>
                                             <p class="remarks-section__data__row"><span>Action:</span>
 
-                                            <span>{{$status}} to {{isset($log->getRoleName->display_name) ? $log->getRoleName->display_name : ''}}</span></p>
-                                            <p class="remarks-section__data__row"><span>Description:</span><span>{{(isset($log) ? $log->remark : '')}}</span></p>
+                                                <span>{{$status}} to {{isset($log->getRoleName->display_name) ?
+                                                    $log->getRoleName->display_name : ''}}</span></p>
+                                            <p class="remarks-section__data__row"><span>Description:</span><span>{{(isset($log)
+                                                    ? $log->remark : '')}}</span></p>
                                         </div>
-                                    @endforeach   
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
-                        </div> --}}
+                        </div>
                     </div>
                 </div>
 
@@ -78,7 +82,7 @@
                                     </h3>
                                 </div>
                                 <div class="remarks-suggestions">
-                                    <form action="" id="forwardApplication"
+                                    <form action="{{route('post_forward_architect_layout')}}" id="forwardApplication"
                                         method="post">
                                         @csrf
                                         <input type="hidden" name="to_role_id" id="to_role_id">
@@ -95,8 +99,8 @@
                                                 </label>
                                                 @if(session()->get('role_name') != config('commanConfig.dyce_jr_user'))
                                                 <label class="m-radio m-radio--primary">
-                                                    {{-- <input type="radio" name="remarks_suggestion" id="remark" class="forward-application"
-                                                        value="0"> Revert Application
+                                                    {{-- <input type="radio" name="remarks_suggestion" id="remark"
+                                                        class="forward-application" value="0"> Revert Application
                                                     <span></span>
                                                 </label> --}}
                                                 @endif
@@ -106,17 +110,30 @@
                                                     Forward To:
                                                 </label>
                                                 <div class="col-lg-4 col-md-9 col-sm-12">
-                                                    <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
+                                                    <select required class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
                                                         name="to_user_id" id="to_user_id">
+                                                        <option value="">Select</option>
                                                         @if($arrData['parentData'])
                                                         @foreach($arrData['parentData'] as $parent)
-                                                        <option value="{{ $parent->user_id }}" data-role="{{ $parent->role_id }}">{{
+                                                        <option value="{{ $parent->id }}" data-role="{{ $parent->role_id }}">{{
                                                             $parent->name }} ({{ $arrData['role_name'] }})</option>
                                                         @endforeach
                                                         @else
+                                                        @foreach($arrData['get_forward_lm'] as $parent)
+                                                        <option value="{{ $parent->id}}" data-role="{{ $parent->role_id }}">{{
+                                                            $parent->name }} ({{ $arrData['lm_role_name'] }})</option>
+                                                        @endforeach
                                                         @foreach($arrData['get_forward_ree'] as $parent)
-                                                        <option value="{{ $parent->user_id }}" data-role="{{ $parent->role_id }}">{{
+                                                        <option value="{{ $parent->id}}" data-role="{{ $parent->role_id }}">{{
                                                             $parent->name }} ({{ $arrData['ree_role_name'] }})</option>
+                                                        @endforeach
+                                                        @foreach($arrData['get_forward_ee'] as $parent)
+                                                        <option value="{{ $parent->id}}" data-role="{{ $parent->role_id }}">{{
+                                                            $parent->name }} ({{ $arrData['ee_role_name'] }})</option>
+                                                        @endforeach
+                                                        @foreach($arrData['get_forward_em'] as $parent)
+                                                        <option value="{{ $parent->id}}" data-role="{{ $parent->role_id }}">{{
+                                                            $parent->name }} ({{ $arrData['em_role_name'] }})</option>
                                                         @endforeach
                                                         @endif
                                                     </select>
@@ -138,7 +155,7 @@
                                                     class="btn btn-secondary">Cancel</button>
                                             </div>
                                         </div>
-                                        <input type="hidden" name="applicationId" value="{{$ArchitectLayout->id}}">
+                                        <input type="hidden" name="architect_layout_id" value="{{$ArchitectLayout->id}}">
                                     </form>
                                 </div>
                             </div>
