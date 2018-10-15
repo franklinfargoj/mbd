@@ -218,7 +218,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     
     Route::post('ree_forward_Application_data','REEDepartment\REEController@sendForwardApplication')->name('ree.forward_application_data');
 
-
+    Route::get('ree_reval_applications','REEDepartment\REEController@revalidationApplicationList')->name('ree_applications.reval');
 
     // Route::resource('/ol_calculation_sheet', 'REEDepartment\OlApplicationCalculationSheetDetailsController');
     Route::post('ol_calculation_sheet/save_details','REEDepartment\OlApplicationCalculationSheetDetailsController@saveCalculationDetails')->name('save_calculation_details');
@@ -318,6 +318,8 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
         Route::post('loadDeleteRoleUsingAjax', 'RoleController@loadDeleteRoleUsingAjax')->name('loadDeleteRoleUsingAjax');
         Route::resource('roles','RoleController');
     });
+
+    Route::resource('/society_conveyance','SocietyConveyanceController');
     
 });
 
@@ -449,6 +451,8 @@ Route::get('ee-billing-add-rates', 'EEBillingController@AddRates');
 Route::get('ee-billing-arrears-charges', 'EEBillingController@ArrearsChargesRate');
 Route::get('ee-billing-add-building', 'EEBillingController@AddBuilding');
 Route::get('ee-billing-edit-building', 'EEBillingController@EditBuilding');
+Route::get('ee-billing-manage-masters', 'EEBillingController@ManageMasters');
+Route::get('ee-billing-level', 'EEBillingController@BillingLevel');
 
 //estate and conveyance
 
