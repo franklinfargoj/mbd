@@ -445,3 +445,5 @@ Route::resource('/ol_calculation_sheet', 'REEDepartment\OlApplicationCalculation
 Route::get('ee-billing-login', 'EEBillingController@Login');
 Route::get('ee-billing-dashboard', 'EEBillingController@Dashboard');
 Route::get('ee-billing-list-of-societies', 'EEBillingController@ListOfSocieties');
+Route::get('ee-billing-add-building', 'EEBillingController@AddBuilding');
+Route::get('ee-billing-edit-building', 'EEBillingController@EditBuilding');

@@ -1078,7 +1078,7 @@
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <div class="d-flex flex-column h-100 two-cols">
-                                                <h5>Download REE Note</h5>
+                                            <h3 class="section-title section-title--small">Download REE Note</h3>
                                                 <!-- <span class="hint-text">Download  Note uploaded by REE</span> -->
                                                 <div class="mt-auto">
                                                     @if(isset($arrData['reeNote']->document_path))

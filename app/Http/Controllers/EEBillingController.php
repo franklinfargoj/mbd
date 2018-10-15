@@ -17,4 +17,12 @@ class EEBillingController extends Controller
     public function ListOfSocieties(){
         return view('admin.ee_billing.list-of-societies');
     }
+
+    public function AddBuilding(){
+        return view('admin.ee_billing.add-building');
+    }
+
+    public function EditBuilding(){
+        return view('admin.ee_billing.edit-building');
+    }
 }
