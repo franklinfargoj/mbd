@@ -11,7 +11,7 @@
         </div>
     </div>
     <!-- END: Subheader -->
-    <div class="m-portlet m-portlet--mobile">
+    <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
 
         <form id="editSendNoticeToAppellant" role="form" method="post" class="m-form m-form--rows m-form--label-align-right"
             action="{{route('send_notice_to_appellant.update', $arrData['hearing']->hearingSendNoticeToAppellant[0]->id)}}"
@@ -35,13 +35,13 @@
                     </div>
                 </div>
                 <div class="form-group m-form__group row">
-                    <div class="col-lg-6 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="case_year">Case Year:</label>
                         <input type="text" id="case_year" name="case_year" class="form-control form-control--custom m-input"
                             value="{{ $arrData['hearing']->case_year }}" readonly>
                         <span class="help-block">{{$errors->first('case_year')}}</span>
                     </div>
-                    <div class="col-lg-6 form-group">
+                    <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="case_number">Case Number:</label>
                         <input type="text" id="case_number" name="case_number" class="form-control form-control--custom m-input"
                             value="{{ $arrData['hearing']->id }}" readonly>
@@ -50,14 +50,14 @@
                 </div>
 
                 <div class="form-group m-form__group row">
-                    <div class="col-lg-6 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="appellant_name">Apellent Name:</label>
                         <input type="text" id="appellant_name" name="appellant_name" class="form-control form-control--custom m-input"
                             value="{{ $arrData['hearing']->applicant_name }}" readonly>
                         <span class="help-block">{{$errors->first('appellant_name')}}</span>
                     </div>
 
-                    <div class="col-lg-6 form-group">
+                    <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="respondent_name">Respondent Name:</label>
                         <input type="text" id="respondent_name" name="respondent_name" class="form-control form-control--custom m-input"
                             value="{{ $arrData['hearing']->respondent_name }}" readonly>
@@ -66,14 +66,14 @@
                 </div>
 
                 {{--<div class="form-group m-form__group row">
-                    <div class="col-lg-6 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label">Board:</label>
                         <input type="text" class="form-control form-control--custom m-input" value="{{ $arrData['hearing']->hearingBoard->board_name }}"
                             readonly>
                         <span class="help-block"></span>
                     </div>
 
-                    <div class="col-lg-6 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label">Department:</label>
                         <input type="text" class="form-control form-control--custom m-input" value="{{ $arrData['hearing']->hearingDepartment->department_name }}"
                             readonly>
@@ -95,13 +95,13 @@
                 </div>
 
                 <div class="form-group m-form__group row">
-                    <div class="col-lg-6 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label">Preceding Date:</label>
                         <input type="text" class="form-control form-control--custom m-input m_datepicker" value="{{ $arrData['hearing']->hearingSchedule->preceding_date }}"
                             readonly>
                         <span class="help-block"></span>
                     </div>
-                    <div class="col-lg-6 form-group">
+                    <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="preceding_time">Preceding Time:</label>
                         <input type="text" id="preceding_time" name="preceding_time" class="form-control form-control--custom m-input"
                             value="{{$arrData['hearing']->hearingSchedule->preceding_time }}" readonly />
@@ -110,7 +110,7 @@
                 </div>
 
                 <div class="form-group m-form__group row">
-                    <div class="col-lg-6 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="upload_notice">Upload Notice:</label>
                         <div class="custom-file">
                             <input type="file" id="upload_notice" name="upload_notice" class="form-control form-control--custom"
@@ -120,7 +120,7 @@
                         </div>
                         <span><a href="{{ config('commanConfig.storage_server').'/'. $hearing_data->hearingSendNoticeToAppellant[0]->upload_notice }}" target="_blank" rel="noopener">Download</a></span>
                     </div>
-                    <div class="col-lg-6 form-group">
+                    <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="comment">Comment:</label>
                         <textarea id="comment" name="comment" class="form-control form-control--custom form-control--fixed-height m-input">{{ $arrData['hearing']->hearingSendNoticeToAppellant[0]->comment }}</textarea>
                         <span class="help-block">{{$errors->first('comment')}}</span>
@@ -131,7 +131,7 @@
             <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
                 <div class="m-form__actions px-0">
                     <div class="row">
-                        <div class="col-lg-6">
+                        <div class="col-sm-4">
                             <div class="btn-list">
                                 <button type="submit" class="btn btn-primary">Save</button>
                                 <a href="{{url('/hearing')}}" class="btn btn-secondary">Cancel</a>

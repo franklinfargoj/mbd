@@ -10,7 +10,7 @@
         </div>
     </div>
     <!-- END: Subheader -->
-    <div class="m-portlet m-portlet--mobile">
+    <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
 
         <form id="forwardCase" role="form" method="post" class="m-form m-form--rows m-form--label-align-right" action="{{route('forward_case.update', $arrData['hearing']->hearingForwardCase[0]->id)}}">
             @csrf
@@ -30,13 +30,13 @@
                     </div>
                 </div>
                 <div class="form-group m-form__group row">
-                    <div class="col-lg-6 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="case_year">Case Year:</label>
                         <input type="text" id="case_year" name="case_year" class="form-control form-control--custom m-input"
                                value="{{ $arrData['hearing']->case_year }}" readonly>
                         <span class="help-block">{{$errors->first('case_year')}}</span>
                     </div>
-                    <div class="col-lg-6 form-group">
+                    <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="case_number">Case Number:</label>
                         <input type="text" id="case_number" name="case_number" class="form-control form-control--custom m-input"
                                value="{{ $arrData['hearing']->id }}" readonly>
@@ -45,14 +45,14 @@
                 </div>
 
                 <div class="form-group m-form__group row">
-                    <div class="col-lg-6 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="appellant_name">Apellent Name:</label>
                         <input type="text" id="appellant_name" name="appellant_name" class="form-control form-control--custom m-input"
                                value="{{ $arrData['hearing']->applicant_name }}" readonly>
                         <span class="help-block">{{$errors->first('appellant_name')}}</span>
                     </div>
 
-                    <div class="col-lg-6 form-group">
+                    <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="respondent_name">Respondent Name:</label>
                         <input type="text" id="respondent_name" name="respondent_name" class="form-control form-control--custom m-input"
                                value="{{ $arrData['hearing']->respondent_name }}" readonly>
@@ -61,14 +61,14 @@
                 </div>
 
                 {{--<div class="form-group m-form__group row">
-                    <div class="col-lg-6 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label">Board:</label>
                         <input type="text" class="form-control m-input" value="{{ $arrData['hearing']->hearingBoard->board_name }}"
                                readonly>
                         <span class="help-block"></span>
                     </div>
 
-                    <div class="col-lg-6 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label">Department:</label>
                         <input type="text" class="form-control form-control--custom m-input" value="{{ $arrData['hearing']->hearingDepartment->department_name }}"
                                readonly>
@@ -90,7 +90,7 @@
                 </div>
 
                 <div class="form-group m-form__group row">
-                    <div class="col-lg-6 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="board">Board:</label>
                         @foreach($arrData['board'] as $boardVal)
                         @if($boardVal->id == $arrData['hearing']->hearingForwardCase[0]->board_id)
@@ -102,7 +102,7 @@
                         <span class="help-block">{{$errors->first('board')}}</span>
                     </div>
 
-                    <div class="col-lg-6 form-group">
+                    <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="department">Department:</label>
                         {{--                        @php dd($arrData['hearing']->hearingForwardCase[0]->department_id); @endphp--}}
                         @foreach($arrData['department'] as $department)
@@ -117,7 +117,7 @@
                 </div>
 
                 <div class="form-group m-form__group row">
-                    <div class="col-lg-6 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="description">Description:</label>
                         <textarea id="description" name="description" class="form-control form-control--custom form-control--fixed-height m-input">{{ $arrData['hearing']->hearingForwardCase[0]->description }}</textarea>
                         <span class="help-block">{{$errors->first('description')}}</span>
@@ -128,7 +128,7 @@
             <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
                 <div class="m-form__actions px-0">
                     <div class="row">
-                        <div class="col-lg-6">
+                        <div class="col-sm-4">
                             <div class="btn-list">
                                 <a href="{{url('/hearing')}}" class="btn btn-primary">Back</a>
                             </div>

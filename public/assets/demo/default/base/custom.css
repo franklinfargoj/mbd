@@ -43,6 +43,7 @@
 .m-portlet .m-portlet__head {
     height: auto;
     padding-bottom: 20px;
+    border-bottom: none;
 }
 
 .m-brand.m-brand--skin-dark {

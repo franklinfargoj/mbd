@@ -44,7 +44,7 @@
                 </div>
 
                 <div class="form-group m-form__group row">
-                    <div class="col-sm-4 offset-sm-1 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="application_type_id">Application Type:</label>
                             <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="application_type_id" name="application_type_id">
                                 @foreach($arrData['application_type'] as $application_type)
@@ -69,13 +69,13 @@
                 </div>
 
                 <div class="form-group m-form__group row">
-                    <div class="col-sm-4 offset-sm-1 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="applicant_name">Name of Applicant:</label>
                             <input type="text" id="applicant_name" name="applicant_name" class="form-control form-control--custom m-input"  value="{{ old('applicant_name') }}">
                             <span class="help-block">{{$errors->first('applicant_name')}}</span>
                     </div>
 
-                    <div class="col-sm-4 form-group">
+                    <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="applicant_mobile_no">Mobile Number:</label>
                             <input type="text" id="applicant_mobile_no" name="applicant_mobile_no" class="form-control form-control--custom m-input"  value="{{ old('applicant_mobile_no') }}">
                             <span class="help-block">{{$errors->first('applicant_mobile_no')}}</span>
