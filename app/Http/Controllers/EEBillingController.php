@@ -17,4 +17,12 @@ class EEBillingController extends Controller
     public function ListOfSocieties(){
         return view('admin.ee_billing.list-of-societies');
     }
+
+    public function AddRates(){
+        return view('admin.ee_billing.add-rates');
+    }
+
+    public function ArrearsChargesRate(){
+        return view('admin.ee_billing.arrears-charges-rate');
+    }
 }

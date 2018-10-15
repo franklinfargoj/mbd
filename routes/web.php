@@ -406,11 +406,13 @@ Route::get('calculation_sheet_vp/{id}','VPDepartment\VPController@showCalculatio
 Route::resource('/ol_calculation_sheet', 'REEDepartment\OlApplicationCalculationSheetDetailsController');
 
 
+
+Route::get('view_resolution/{id}', 'ResolutionController@view')->name('resolution.view');
+
 // ee billing 
-
- Route::get('view_resolution/{id}', 'ResolutionController@view')->name('resolution.view');
-
 
 Route::get('ee-billing-login', 'EEBillingController@Login');
 Route::get('ee-billing-dashboard', 'EEBillingController@Dashboard');
 Route::get('ee-billing-list-of-societies', 'EEBillingController@ListOfSocieties');
+Route::get('ee-billing-add-rates', 'EEBillingController@AddRates');
+Route::get('ee-billing-arrears-charges', 'EEBillingController@ArrearsChargesRate');
