@@ -318,6 +318,8 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
         Route::post('loadDeleteRoleUsingAjax', 'RoleController@loadDeleteRoleUsingAjax')->name('loadDeleteRoleUsingAjax');
         Route::resource('roles','RoleController');
     });
+
+    Route::resource('/society_conveyance','SocietyConveyanceController');
     
 });
 
