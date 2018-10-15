@@ -455,6 +455,7 @@ Route::get('ee-billing-manage-masters', 'EEBillingController@ManageMasters');
 Route::get('ee-billing-level', 'EEBillingController@BillingLevel');
 
 //estate and conveyance
-
-// Route::resource('conveyance', 'conveyance\DYCODepartment\DYCOController@showChecklist');
-Route::get('checklist', 'conveyance\DYCODepartment\DYCOController@showChecklist')->name('conveyance.checklist');
+Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']], function(){
+    Route::resource('dyco', 'conveyance\DYCODepartment\DYCOController');
+    Route::get('checklist', 'conveyance\DYCODepartment\DYCOController@showChecklist')->name('dyco.checklist');
+});
