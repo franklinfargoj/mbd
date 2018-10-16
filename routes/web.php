@@ -311,21 +311,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::post('finalise_architect_application','ArchitectApplicationController@finalise_architect_application')->name('finalise_architect_application');
     //architect module end
 
-
-//CRUD Routes
-
-    Route::group(['namespace' => 'CRUDAdmin','prefix' => 'crudadmin'], function() {
-        Route::post('loadDeleteRoleUsingAjax', 'RoleController@loadDeleteRoleUsingAjax')->name('loadDeleteRoleUsingAjax');
-        Route::resource('roles','RoleController');
-    });
-
-    Route::resource('/society_conveyance','SocietyConveyanceController');
-    
-});
-
-
-
-//---------------------architect layout-------------------------------------------
+    //---------------------architect layout-------------------------------------------
 
 Route::get('architect_layouts','ArchitectLayout\LayoutArchitectController@index')->name('architect_layout.index');
 Route::get('architect_layouts_layout_details','ArchitectLayout\LayoutArchitectController@architect_layouts_layout_details')->name('architect_layouts_layout_details.index');
@@ -344,6 +330,12 @@ Route::post('uploadLatestLayoutAjax','ArchitectLayout\LayoutArchitectDetailContr
 //Architect Layout Forward Application
 Route::get('forward_architect_layout/{layout_id}','ArchitectLayout\LayoutArchitectController@forwardLayout')->name('forward_architect_layout');
 Route::post('post_forward_architect_layout','ArchitectLayout\LayoutArchitectController@post_forward_layout')->name('post_forward_architect_layout');
+
+//Architect Layout EM LM EE REE Scrutiny
+Route::get('get_scrutiny/{layout_id}','ArchitectLayout\LayoutArchitectController@get_scrutiny')->name('architect_layout_get_scrtiny');
+Route::get('add_scrutiny_report/{layout_id}','ArchitectLayout\LayoutArchitectController@add_scrutiny_report')->name('architect_layout_add_scrutiny_report');
+Route::post('post_scrutiny_report','ArchitectLayout\LayoutArchitectController@post_scrutiny_report')->name('architect_layout_post_scrutiny_report');
+
 
 //add cts
 Route::get('view_cts_detail/{layout_detail_id}','ArchitectLayout\LayoutArchitectDetailController@view_cts_detail')->name('architect_layout_detail_view_cts_plan');
@@ -384,6 +376,20 @@ Route::post('update_architect_layout_detail_court_case_or_dispute_on_land','Arch
 Route::get('show_architect_layout_detail_court_case_or_dispute_on_land/{id}','ArchitectLayout\CourtCaseOrDisputeOnLandController@show')->name('architect_layout_detail_court_case_or_dispute_on_land.view');
 Route::delete('destroy_architect_layout_detail_court_case_or_dispute_on_land/{id}','ArchitectLayout\CourtCaseOrDisputeOnLandController@destroy')->name('architect_layout_detail_court_case_or_dispute_on_land.destroy');
 //---------------------architect layout end---------------------------------------
+//CRUD Routes
+
+    Route::group(['namespace' => 'CRUDAdmin','prefix' => 'crudadmin'], function() {
+        Route::post('loadDeleteRoleUsingAjax', 'RoleController@loadDeleteRoleUsingAjax')->name('loadDeleteRoleUsingAjax');
+        Route::resource('roles','RoleController');
+    });
+
+    Route::resource('/society_conveyance','SocietyConveyanceController');
+    
+});
+
+
+
+
 
 // Route::get('refresh_captcha','SocietyOfferLetterController@RefreshCaptcha')->name('refresh_captcha');
 
