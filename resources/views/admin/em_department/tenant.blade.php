@@ -29,9 +29,9 @@
                     placeholder="Search ..."></div>     
                 </div>
             </div>
-            <a class="btn btn-danger" href="#" style="float: right;margin-top: 3%">Add
+            <a class="btn btn-danger" href="{{route('add_tenant', [$building_id])}}" style="float: right;margin-top: 3%">Add
                 Tenant</a>
-            </div>
+        </div>
         <div class="m-portlet__body">
             <!--begin: Datatable -->
         <table id="example" class="display table table-responsive table-bordered" style="width:100%">
@@ -62,8 +62,8 @@
                 <td>{{$value->carpet_area}}</td>
                 <td>{{$value->tenant_type}}</td>
                 <td>
-                    <a class="btn btn-info" href="{{route('get_tenants', [$value->id])}}">Edit</a>
-                    <a class="btn btn-danger" href="">Delete</a>
+                    <a class="btn btn-info" href="{{route('edit_tenant', [$value->id])}}">Edit</a>
+                    <a class="btn btn-danger" href="{{route('delete_tenant', [$value->id])}}">Delete</a>
                 </td>
             </tr>
         @endforeach

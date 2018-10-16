@@ -18,10 +18,12 @@ class CreateMasterTenantsTable extends Migration
             $table->integer('building_id')->unsigned();
             $table->foreign('building_id')->references('id')->on('master_buildings');
             $table->string('flat_no')->nullable();
-            $table->string('saluation')->nullable();
+            $table->string('salutation')->nullable();
             $table->string('full_name')->nullable();
             $table->string('middle_name')->nullable();
             $table->string('last_name')->nullable();
+            $table->string('mobile')->nullable();
+            $table->string('email_id')->nullable();
             $table->string('use')->nullable();
             $table->string('carpet_area')->nullable();
             $table->string('tenant_type')->nullable();
