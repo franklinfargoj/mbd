@@ -5,9 +5,12 @@ namespace App\Http\Controllers\conveyance\DYCODepartment;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\conveyance\conveyanceCommonController;
+use App\Http\Controllers\Common\CommonController;
 use App\conveyance\ConveyanceChecklistScrutiny;
+use App\conveyance\scApplication;
 use Config;
 use Yajra\DataTables\DataTables;
+use Storage;
 
 class DYCOController extends Controller
 {
@@ -15,6 +18,7 @@ class DYCOController extends Controller
     {
         $this->list_num_of_records_per_page = Config::get('commanConfig.list_num_of_records_per_page');
         $this->common = new conveyanceCommonController();
+        $this->CommonController = new CommonController();
     }	
 	public function index(Request $request, Datatables $datatables){
 
@@ -100,20 +104,61 @@ class DYCOController extends Controller
     //display checklist and office note page
     public function showChecklist(Request $request,$applicationId){
 
-        $data = $this->common->listApplicationData($request);
-        $data->id = $applicationId;
-    	return view('admin.conveyance.dyco_department.checklist_office_note',compact('data'));
+        $data = scApplication::where('id',$applicationId)->first();
+        $checklist = ConveyanceChecklistScrutiny::where('application_id',$applicationId)
+        ->first();
+    	return view('admin.conveyance.dyco_department.checklist_office_note',compact('data','checklist'));
     }
 
     // save/update checklist data
     public function storeChecklistData(Request $request){
-        $applicationId = $request->applicationId;
+
+        $applicationId = $request->application_id;
         $arrData = $request->all();
-        unset($arrData['_token']);
+        unset($arrData['_token'],$arrData['registration_date'], $arrData['date'], $arrData['first_flat_issue_date'], $arrData['hps_installement_date'], $arrData['last_date_of_rent'], $arrData['service_tax_date'],$arrData['contruction_competion_date'], $arrData['resolution_meeting_date']);
 
-        $checklistData = ConveyanceChecklistScrutiny::where('application_id',$applicationId)->updateOrCreate($arrData);
+            ConveyanceChecklistScrutiny::updateOrCreate(['application_id'=>$applicationId],$arrData);        
+            ConveyanceChecklistScrutiny::where('application_id',$applicationId)->update([
+                'registration_date'          => date('Y-m-d',strtotime($request->registration_date)),
+                'date'                       => date('Y-m-d',strtotime($request->date)),
+                'first_flat_issue_date'      => date('Y-m-d',strtotime($request->first_flat_issue_date)),
+                'hps_installement_date'      => date('Y-m-d',strtotime($request->hps_installement_date)),
+                'last_date_of_rent'          => date('Y-m-d',strtotime($request->last_date_of_rent)),
+                'service_tax_date'           => date('Y-m-d',strtotime($request->service_tax_date)),
+                'contruction_competion_date' => date('Y-m-d',strtotime($request->contruction_competion_date)),
+                'resolution_meeting_date'    => date('Y-m-d',strtotime($request->resolution_meeting_date)),
+            ]);
 
-        dd($checklistData);
+        return back()->with('success','data save Successfully.');
+    }
+
+    public function uploadNote(Request $request){
+    
+        $applicationId = $request->application_id;
+        if ($request->file('dycdo_note')){
+
+            $file = $request->file('dycdo_note');
+            $file_name = time().'_dycdo_note'.'.'.$file->getClientOriginalExtension();
+
+            $extension = $file->getClientOriginalExtension();
+            $folder_name = "conveyance_dycdo_note";
+
+            if ($extension == "pdf"){
+                $path = $folder_name.'/'.$file_name;
+                $delete = Storage::disk('ftp')->delete($request->old_file_name);
+                $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$request->file('dycdo_note'),$file_name);
+
+                $note = ConveyanceChecklistScrutiny::where('application_id',$applicationId)
+                ->update(['dyco_note' => $path]);
+                   
+                return back()->with('success','Note uploaded successfully.');                         
+            } else {
+                return back()->with('pdf_error', 'Invalid type of file uploaded (only pdf allowed).');
+            }
+        }         
+    }
+
+    public function displayForwardApplication(Request $request){
 
     }
 }

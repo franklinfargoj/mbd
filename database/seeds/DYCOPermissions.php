@@ -37,6 +37,11 @@ class DYCOPermissions extends Seeder
                 'name'         => 'dyco.storeChecklistData',
                 'display_name' => 'store Checklist Data',
                 'description'  => 'store Checklist Data'
+            ],            
+            [
+                'name'         => 'dyco.uploadDycoNote',
+                'display_name' => 'upload Dyco Note',
+                'description'  => 'upload Dyco Note'
             ],                                                                  
         ];
 

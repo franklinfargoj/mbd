@@ -221,7 +221,7 @@ class DYCEController extends Controller
 
         $this->CommonController->forwardApplicationForm($request);
 
-        return redirect('/dyce')->with('success','Application send Successfully.');;
+        return redirect('/dyce')->with('success','Application send Successfully.');
 
     } 
 
