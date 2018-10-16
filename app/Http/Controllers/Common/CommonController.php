@@ -2,23 +2,23 @@
 
 namespace App\Http\Controllers\Common;
 
-use App\OlApplicationMaster;
-use App\OlConsentVerificationQuestionMaster;
-use App\OlDemarcationVerificationQuestionMaster;
-use App\OlRgRelocationVerificationQuestionMaster;
-use App\OlTitBitVerificationQuestionMaster;
-use Illuminate\Http\Request;
 use App\EENote;
 use App\Http\Controllers\Controller;
 use App\Layout\ArchitectLayout;
+use App\Layout\ArchitectLayoutDetail;
+use App\Layout\ArchitectLayoutStatusLog;
 use App\MasterLayout;
 use App\OlApplication;
 use App\OlApplicationCalculationSheetDetails;
 use App\OlApplicationStatus;
 use App\OlCapNotes;
 use App\OlChecklistScrutiny;
+use App\OlConsentVerificationQuestionMaster;
 use App\OlDcrRateMaster;
+use App\OlDemarcationVerificationQuestionMaster;
+use App\OlRgRelocationVerificationQuestionMaster;
 use App\OlSharingCalculationSheetDetail;
+use App\OlTitBitVerificationQuestionMaster;
 use App\REENote;
 use App\Role;
 use App\SocietyOfferLetter;
@@ -27,9 +27,8 @@ use Auth;
 use Carbon\Carbon;
 use Config;
 use Storage;
-use App\Layout\ArchitectLayoutDetail;
-use App\Layout\ArchitectLayoutStatusLog;
-
+use App\Layout\ArchitectLayoutLmScrtinyQuestionMaster;
+use App\Layout\ArchitectLayoutLmScrtinyQuestionDetail;
 class CommonController extends Controller
 {
 
@@ -172,10 +171,8 @@ class CommonController extends Controller
             $applicationData = $applicationData->whereDate('submitted_at', '<=', date('Y-m-d', strtotime($request->submitted_at_to)));
         }
 
-
         /*$application_master_arr=OlApplicationMaster::Where('title', 'like', '%Revalidation Of Offer Letter%')->get()->toArray();
         $applicationData = $applicationData->whereIn('application_master_id',$application_master_arr);*/
-
 
         $applicationDataDefine = $applicationData->orderBy('ol_applications.id', 'desc')
             ->select()->get();
@@ -645,7 +642,7 @@ class CommonController extends Controller
         return $reelogs;
     }
 
-    //check if in layout detail all documents uploaded or not 
+    //check if in layout detail all documents uploaded or not
     public function check_layout_details_complete_status($layout_id)
     {
         $required_details = array();
@@ -713,5 +710,30 @@ class CommonController extends Controller
         }
 
         return $required_details;
+    }
+
+
+    public function get_lm_checklist_and_remarks($layout_id,$user_id)
+    {
+        $ArchitectLayoutLmScrtinyQuestionMaster=ArchitectLayoutLmScrtinyQuestionMaster::all();
+        foreach($ArchitectLayoutLmScrtinyQuestionMaster as $data)
+        {
+            $detail=ArchitectLayoutLmScrtinyQuestionDetail::where(['user_id'=>$user_id,'architect_layout_id'=>$layout_id,'architect_layout_lm_scrunity_question_master_id'=>$data->id])->first();
+            if($detail)
+            {
+
+            }else
+            {
+                $enter_detail=new ArchitectLayoutLmScrtinyQuestionDetail;
+                $enter_detail->user_id=$user_id;
+                $enter_detail->architect_layout_id=$layout_id;
+                $enter_detail->architect_layout_lm_scrunity_question_master_id=$data->id;
+                $enter_detail->save();
+            }
+        }
+        
+        $final_detail=ArchitectLayoutLmScrtinyQuestionDetail::with(['question'])->where(['user_id'=>$user_id,'architect_layout_id'=>$layout_id])->get();
+        return $final_detail;
+        
     }
 }

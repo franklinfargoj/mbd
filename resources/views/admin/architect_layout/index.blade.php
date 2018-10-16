@@ -11,10 +11,10 @@
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
-        <h3 class="m-subheader__title m-subheader__title--separator">Requests For revising layout</h3>
-        @if(session()->get('role_name')=='junior_architect')
-        <a href="{{route('architect_layout.add')}}" class="btn btn-primary ml-auto" >Add Layout</a>
-        @endif
+            <h3 class="m-subheader__title m-subheader__title--separator">Requests For revising layout</h3>
+            @if(session()->get('role_name')=='junior_architect')
+            <a href="{{route('architect_layout.add')}}" class="btn btn-primary ml-auto">Add Layout</a>
+            @endif
         </div>
         <div class="m-portlet m-portlet--compact filter-wrap">
             <div class="row align-items-center row--filter">
@@ -70,16 +70,16 @@
     <!-- END: Subheader -->
 
     <div class="m-portlet m-portlet--mobile">
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <ul class="navbar-nav">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <ul class="navbar-nav">
                 <li class="nav-item {{$route_name=='architect_layout.index'?'active':''}}">
-                <a class="nav-link" href="{{route('architect_layout.index')}}">Requests Revision</a>
+                    <a class="nav-link" href="{{route('architect_layout.index')}}">Requests Revision</a>
                 </li>
                 <li class="nav-item {{$route_name=='architect_layouts_layout_details.index'?'active':''}}">
                     <a class="nav-link" href="{{route('architect_layouts_layout_details.index')}}">Layout Details</a>
                 </li>
-                </ul>
-            </nav>
+            </ul>
+        </nav>
         <div class="m-portlet__body">
             <!--begin: Datatable -->
             {!! $html->table() !!}
