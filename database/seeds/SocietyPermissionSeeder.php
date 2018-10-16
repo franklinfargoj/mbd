@@ -158,6 +158,31 @@ class SocietyPermissionSeeder extends Seeder
                     'display_name' => 'Shows edit form for society conveyance application',
                     'description'  => 'Shows edit form for society conveyance application'
                 ],
+                [
+                    'name'         => 'show_form_self',
+                    'display_name' => 'Shows self redevelopment form',
+                    'description'  => 'Shows self redevelopment form'
+                ],
+                [
+                    'name'         => 'show_form_dev',
+                    'display_name' => 'Shows redevelopment through developer form',
+                    'description'  => 'Shows redevelopment through developer form'
+                ],
+                [
+                    'name'         => 'society_offer_letter_preview',
+                    'display_name' => 'Shows preview for society offer letter application form',
+                    'description'  => 'Shows preview for society offer letter application form'
+                ],
+                [
+                    'name'         => 'society_offer_letter_edit',
+                    'display_name' => 'Shows edit form for society offer letter application',
+                    'description'  => 'Shows edit form for society offer letter application'
+                ],
+                [
+                    'name'         => 'society_offer_letter_update',
+                    'display_name' => 'Updates society offer letter application form',
+                    'description'  => 'Updates society offer letter application form'
+                ],
         ];
 
         if(count($society)==0){
