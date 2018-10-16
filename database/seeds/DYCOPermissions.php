@@ -27,6 +27,16 @@ class DYCOPermissions extends Seeder
                 'name'         => 'dyco.checklist',
                 'display_name' => 'checklist',
                 'description'  => 'checklist'
+            ],            
+            [
+                'name'         => 'dyco.conveyance_application',
+                'display_name' => 'conveyance application',
+                'description'  => 'conveyance application'
+            ],             
+            [
+                'name'         => 'dyco.storeChecklistData',
+                'display_name' => 'store Checklist Data',
+                'description'  => 'store Checklist Data'
             ],                                                                  
         ];
 
@@ -90,7 +100,7 @@ class DYCOPermissions extends Seeder
         $layout_id = \App\MasterLayout::where("layout_name", '=', "Samata Nagar, Kandivali(E)")->first();
         $layout_user =  \App\LayoutUser::where('user_id',$user_id)->where('layout_id',$layout_id->id)->first();
         
-        if(count($layout_user) > 0){
+        if(count($layout_user) == 0){
         	\App\LayoutUser::insert(['user_id' => $user_id, 'layout_id' => $layout_id->id]);          
         }          
 
@@ -153,7 +163,7 @@ class DYCOPermissions extends Seeder
         $layout_id = \App\MasterLayout::where("layout_name", '=', "Samata Nagar, Kandivali(E)")->first();
         $layout_user =  \App\LayoutUser::where('user_id',$user_id1)->where('layout_id',$layout_id->id)->first();
         
-        if(count($layout_user) > 0){
+        if(count($layout_user) == 0){
         	\App\LayoutUser::insert(['user_id' => $user_id1, 'layout_id' => $layout_id->id]);          
         }                  
     }

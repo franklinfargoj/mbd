@@ -7,12 +7,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ArchitectLayout\AddLayout;
 use App\Layout\ArchitectLayout;
 use App\Layout\ArchitectLayoutDetail;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
-use Yajra\DataTables\DataTables;
 use App\Layout\ArchitectLayoutStatusLog;
 use App\Role;
 use App\User;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
+use App\Layout\ArchitectLayoutScrutinyEMReport;
 
 class LayoutArchitectController extends Controller
 {
@@ -175,43 +176,38 @@ class LayoutArchitectController extends Controller
     public function view_architect_layout_details($layout_id)
     {
         $layout_id = decrypt($layout_id);
-        $check_layout_details_complete_status=count($this->architect_layouts->check_layout_details_complete_status($layout_id));
+        $check_layout_details_complete_status = count($this->architect_layouts->check_layout_details_complete_status($layout_id));
         $ArchitectLayout = ArchitectLayout::with(['layout_details'])->find($layout_id);
-        $ArchitectLayoutDetail = ArchitectLayoutDetail::where(['architect_layout_id'=>$layout_id])->orderBy('id','desc')->get();
-        return view('admin.architect_layout_detail.view', compact('ArchitectLayout','ArchitectLayoutDetail','check_layout_details_complete_status'));
+        $ArchitectLayoutDetail = ArchitectLayoutDetail::where(['architect_layout_id' => $layout_id])->orderBy('id', 'desc')->get();
+        return view('admin.architect_layout_detail.view', compact('ArchitectLayout', 'ArchitectLayoutDetail', 'check_layout_details_complete_status'));
     }
 
     public function forwardLayout(Request $request, $layout_id)
     {
-
+        $architectlogs=array();
         $layout_id = decrypt($layout_id);
         $ArchitectLayout = ArchitectLayout::with(['layout_details'])->find($layout_id);
         $parentData = $this->architect_layouts->getForwardApplicationArchitectParentData();
         $arrData['parentData'] = $parentData['parentData'];
         $arrData['role_name'] = $parentData['role_name'];
-        if(session()->get('role_name') == config('commanConfig.architect'))
-        {
-            if(session()->get('role_name') != config('commanConfig.LM'))
-            {
+        if (session()->get('role_name') == config('commanConfig.architect')) {
+            if (session()->get('role_name') != config('commanConfig.LM')) {
                 $lm_role_id = Role::where('name', '=', config('commanConfig.land_manager'))->first();
                 $arrData['get_forward_lm'] = User::where('role_id', $lm_role_id->id)->get();
                 $arrData['lm_role_name'] = strtoupper(str_replace('_', ' ', $lm_role_id->name));
             }
 
-            if(session()->get('role_name') != config('commanConfig.ree_junior'))
-            {
+            if (session()->get('role_name') != config('commanConfig.ree_junior')) {
                 $ree_role_id = Role::where('name', '=', config('commanConfig.ree_junior'))->first();
                 $arrData['get_forward_ree'] = User::where('role_id', $ree_role_id->id)->get();
                 $arrData['ree_role_name'] = strtoupper(str_replace('_', ' ', $ree_role_id->name));
             }
-            if(session()->get('role_name') != config('commanConfig.ee_junior_engineer'))
-            {
+            if (session()->get('role_name') != config('commanConfig.ee_junior_engineer')) {
                 $ee_role_id = Role::where('name', '=', config('commanConfig.ee_junior_engineer'))->first();
                 $arrData['get_forward_ee'] = User::where('role_id', $ee_role_id->id)->get();
                 $arrData['ee_role_name'] = strtoupper(str_replace('_', ' ', $ee_role_id->name));
             }
-            if(session()->get('role_name') != config('commanConfig.estate_manager'))
-            {
+            if (session()->get('role_name') != config('commanConfig.estate_manager')) {
                 $em_role_id = Role::where('name', '=', config('commanConfig.estate_manager'))->first();
                 $arrData['get_forward_em'] = User::where('role_id', $em_role_id->id)->get();
                 $arrData['em_role_name'] = strtoupper(str_replace('_', ' ', $em_role_id->name));
@@ -219,9 +215,9 @@ class LayoutArchitectController extends Controller
 
             $architectlogs = $this->architect_layouts->getLogOfArchitectLayoutApplication($layout_id);
             //dd($architectlogs);
-            
+
         }
-        
+
         //dd($arrData);
         // if(session()->get('role_name') == config('commanConfig.selection_commitee')) {
         //   $commitee_role_id = Role::where('name', '=', config('commanConfig.junior_architect'))->first();
@@ -230,37 +226,68 @@ class LayoutArchitectController extends Controller
 
         //   $arrData['commitee_role_name'] = strtoupper(str_replace('_', ' ', $commitee_role_id->name));
         // }
-        return view('admin.architect_layout.forward_architect_layout', compact('arrData', 'ArchitectLayout','architectlogs'));
+        return view('admin.architect_layout.forward_architect_layout', compact('arrData', 'ArchitectLayout', 'architectlogs'));
     }
 
     public function post_forward_layout(Request $request)
     {
-        $forward_application = [[
-            'architect_layout_id' => $request->architect_layout_id,
-            'user_id' => auth()->user()->id,
-            'role_id' => session()->get('role_id'),
-            'status_id' => config('commanConfig.architect_layout_status.forward'),
-            'to_user_id' => $request->to_user_id,
-            'to_role_id' => $request->to_role_id,
-            'remark' => $request->remark,
-            'created_at' => Carbon::now(),
-            ],
+        foreach ($request->to_user_id as $user) {
+            $user_data = User::find($user);
+            if ($user_data) {
+                $forward_application[] = [
+                    'architect_layout_id' => $request->architect_layout_id,
+                    'user_id' => auth()->user()->id,
+                    'role_id' => session()->get('role_id'),
+                    'status_id' => config('commanConfig.architect_layout_status.forward'),
+                    'to_user_id' => $user,
+                    'to_role_id' => $user_data->role_id,
+                    'remark' => $request->remark,
+                    'created_at' => Carbon::now(),
+                ];
+                $forward_application[] = ['architect_layout_id' => $request->architect_layout_id,
+                    'user_id' => $user,
+                    'role_id' => $user_data->role_id,
+                    'status_id' => config('commanConfig.architect_layout_status.scrutiny_pending'),
+                    'to_user_id' => null,
+                    'to_role_id' => null,
+                    'remark' => $request->remark,
+                    'created_at' => Carbon::now()];
+            }
 
-            [
-                'architect_layout_id' => $request->architect_layout_id,
-                'user_id' => $request->to_user_id,
-                'role_id' => $request->to_role_id,
-                'status_id' => config('commanConfig.architect_layout_status.scrutiny_pending'),
-                'to_user_id' => null,
-                'to_role_id' => null,
-                'remark' => $request->remark,
-                'created_at' => Carbon::now(),
-            ],
-        ];
-
+        }
         ArchitectLayoutStatusLog::insert($forward_application);
 
         return redirect(route('architect_layout.index'));
+    }
+
+    public function get_scrutiny($layout_id)
+    {
+        $layout_id=decrypt($layout_id);
+        $ArchitectLayout=ArchitectLayout::find($layout_id);
+        return view('admin.architect_layout.scrutiny',compact('ArchitectLayout'));
+    }
+
+    public function add_scrutiny_report($layout_id)
+    {
+        $layout_id=decrypt($layout_id);
+        $ArchitectLayout=ArchitectLayout::find($layout_id);
+        return view('admin.architect_layout.add_scrutiny_report',compact('ArchitectLayout'));
+    }
+
+    public function post_scrutiny_report(Request $request)
+    {
+        if ($request->hasFile('doc_file'))
+        {
+            dd($request);
+        }
+        // $doc_file="";
+        // $ArchitectLayoutScrutinyEMReport=new ArchitectLayoutScrutinyEMReport;
+        // $ArchitectLayoutScrutinyEMReport->user_id=auth()->user()->id;
+        // $ArchitectLayoutScrutinyEMReport->architect_layout_id=$request->architect_layout_id;
+        // $ArchitectLayoutScrutinyEMReport->name_of_document=$request->document_name;
+        // $ArchitectLayoutScrutinyEMReport->file=$doc_file;
+        // $ArchitectLayoutScrutinyEMReport->save();
+        // return back()->withSuccess('report added successfully!!!');
     }
 
 }
