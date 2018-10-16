@@ -330,6 +330,10 @@ Breadcrumbs::for('ree', function ($trail) {
     $trail->push('Home', route('ree_applications.index'));
 });
 
+Breadcrumbs::for('ree_reval', function ($trail) {
+    $trail->push('Home', route('ree_applications.reval'));
+});
+
 Breadcrumbs::for('society_EE_documents_ree', function ($trail,$id) {
     $trail->parent('ree');
     $trail->push('society EE documents', route('ree.society_EE_documents',$id));
@@ -393,6 +397,11 @@ Breadcrumbs::for('view_application_vp', function ($trail,$id) {
 Breadcrumbs::for('view_application_ree', function ($trail,$id) {
     $trail->parent('ree');
     $trail->push('view-application', route('ree.view_application',$id));
+});
+
+Breadcrumbs::for('view_reval_application_ree', function ($trail,$id) {
+    $trail->parent('ree_reval');
+    $trail->push('view-reval-application', route('ree.view_reval_application',$id));
 });
 
 Breadcrumbs::for('view_application_co', function ($trail,$id) {

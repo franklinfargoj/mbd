@@ -287,6 +287,7 @@ $route=\Request::route()->getName();
                                 </span>
                             </span>
                         </a>
+
                     </li>
                     <li id="society-actions" class="collapse show">
                         <ul class="list-unstyled">
@@ -350,6 +351,18 @@ $route=\Request::route()->getName();
                                         Apply for Society Conveyance
                                     </span>
                                 </span>
+                            </span>
+                        </a>
+                    </li>
+
+                <li class="m-menu__item {{($route=='society_conveyance.index' )?'m-menu__item--active':''}}">
+                    <a href="{{ route('society_conveyance.index') }}" class="m-menu__link m-menu__toggle">
+                        <i class="m-menu__link-icon flaticon-line-graph"></i>
+                        <span class="m-menu__link-title">
+                        <span class="m-menu__link-wrap">
+                            <span class="m-menu__link-text">
+                                Application for Society Conveyance
+
                             </span>
                         </a>
                     </li>
