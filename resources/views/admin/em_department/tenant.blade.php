@@ -49,21 +49,25 @@
                 <th>Action</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="myTable">
         @foreach($buildings as $key => $value )
             <tr>
                 <td>{{$value->id}}</td>
                 <td>{{$value->flat_no}}</td>
-                <td>{{$value->saluation}}</td>
+                <td>{{$value->salutation}}</td>
                 <td>{{$value->first_name}}</td>
                 <td>{{$value->middle_name}}</td>
                 <td>{{$value->last_name}}</td>
                 <td>{{$value->use}}</td>
                 <td>{{$value->carpet_area}}</td>
-                <td>{{$value->tenant_type}}</td>
+                <td>
+                    @foreach($tenament as $key2 => $value2)
+                     {{ $value->tenant_type == $value2->id ? $value2->name : '' }} 
+                    @endforeach                   
+                </td>
                 <td>
                     <a class="btn btn-info" href="{{route('edit_tenant', [$value->id])}}">Edit</a>
-                    <a class="btn btn-danger" href="{{route('delete_tenant', [$value->id])}}">Delete</a>
+                    <a class="btn btn-danger" onclick="return confirm('Are you sure?')" href="{{route('delete_tenant', [$value->id])}}">Delete</a>
                 </td>
             </tr>
         @endforeach
@@ -83,7 +87,7 @@
             </tr>
         </tfoot>
         </table>
-
+        {!! $buildings->render() !!}
             <!--end: Datatable -->
         </div>
     </div>
@@ -106,6 +110,28 @@
 
     $(document).ready(function () {
         $(".display_msg").delay(5000).slideUp(300);
+
+        $("#searchId").on("keyup", function() {
+            var myLength = $(this).val().length;
+            if(myLength >= 0){
+
+            var value = $(this).val().toLowerCase();
+            if(myLength == 0) {
+                value = ' ';
+            }
+            $.ajax({
+                    url:"{{URL::route('get_tenants', [$building_id])}}",
+                    type: 'get',
+                    data: {search: value},
+                        success: function(response){
+                        console.log(response);
+                        $('.m-portlet__body').html(response);
+                        //$('#colony').selectpicker('refresh');
+                    }
+            });                
+            }
+        });
+
     });
 
 </script>

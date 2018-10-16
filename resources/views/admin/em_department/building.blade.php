@@ -44,13 +44,13 @@
                 <th>Action</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="myTable">
         @foreach($buildings as $key => $value )
             <tr>
                 <td>{{$value->id}}</td>
                 <td>{{$value->building_no}}</td>
                 <td>{{$value->name}}</td>
-                <td></td>
+                <td><?php echo isset($value->tenant_count[0]->count) ? $value->tenant_count[0]->count : '0'; ?></td>
                 <td>
                     <a class="btn btn-info" href="{{route('get_tenants', [$value->id])}}">Tenant Detail</a>
                     <a class="btn btn-info" href="{{route('edit_building', [$value->id])}}">Edit</a>
@@ -68,7 +68,7 @@
             </tr>
         </tfoot>
         </table>
-
+        {!! $buildings->render() !!}
             <!--end: Datatable -->
         </div>
     </div>
@@ -91,6 +91,28 @@
 
     $(document).ready(function () {
         $(".display_msg").delay(5000).slideUp(300);
+
+        $("#searchId").on("keyup", function() {
+            var myLength = $(this).val().length;
+            if(myLength >= 0){
+
+            var value = $(this).val().toLowerCase();
+            if(myLength == 0) {
+                value = ' ';
+            }
+            $.ajax({
+                    url:"{{URL::route('get_buildings', [$society_id])}}",
+                    type: 'get',
+                    data: {search: value},
+                        success: function(response){
+                        console.log(response);
+                        $('.m-portlet__body').html(response);
+                        //$('#colony').selectpicker('refresh');
+                    }
+            });                
+            }
+        });
+
     });
 
 </script>

@@ -13,6 +13,10 @@ class MasterBuilding extends Model
         return $this->hasMany('App\MasterTenant');
     }
 
+    public function tenant_count(){
+    	return $this->hasMany('App\MasterTenant', 'building_id')->selectRaw('building_id, count(*) as count')->groupBy('building_id');
+    }
+
     public function MasterSociety(){
 
     	return $this->belongsTo('App\MasterSociety');	

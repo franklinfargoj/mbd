@@ -25,10 +25,10 @@
                             <div class="col-md-9">
                                 <div class="form-group m-form__group">
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
-                                        id="update_status" name="update_status">
+                                        id="layout" name="layout">
                                         <option value="" style="font-weight: normal;">Select Layout</option>
                                         @foreach($layout_data as $key => $value)
-                                        <option value="{{ $value->layout_name }}">{{ $value->layout_name }}</option>
+                                        <option value="{{ $value->id }}">{{ $value->layout_name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -61,7 +61,7 @@
                 <th>Action</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="myTable">
         @foreach($societies as $key => $value )
             <tr>    
                 <td>{{$value->id}}</td>
@@ -82,8 +82,8 @@
             </tr>
         </tfoot>
         </table>
-
             <!--end: Datatable -->
+            {!!$societies->render()!!}
         </div>
     </div>
     <input type="hidden" id="myModalBtn" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" />
@@ -105,7 +105,46 @@
 
     $(document).ready(function () {
         $(".display_msg").delay(5000).slideUp(300);
+
+        $("#searchId").on("keyup", function() {
+            var myLength = $(this).val().length;
+            if(myLength >= 0){
+            var value = $(this).val().toLowerCase();
+            if(myLength == 0) {
+                value = ' ';
+            }
+            $.ajax({
+                    url:"{{URL::route('get_societies')}}",
+                    type: 'get',
+                    data: {search: value},
+                        success: function(response){
+                        //console.log(response);
+                        $('.m-portlet__body').html(response);
+                        //$('#colony').selectpicker('refresh');
+                    }
+            });                
+            }
+        });
     });
+
+    $(document).on('change', '#layout', function(){
+                var id = $(this).val();
+                //console.log(id);
+                if(id != ''){
+                  $.ajax({
+                    url:"{{URL::route('get_societies')}}",
+                    type: 'get',
+                    data: {id: id},
+                        success: function(response){
+                        //console.log(response);
+                        $('.m-portlet__body').html(response);
+                        //$('#colony').selectpicker('refresh');
+                    }
+                  });    
+                }            
+    });
+
+
 
 </script>
 @endsection

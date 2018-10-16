@@ -122,7 +122,34 @@ class EMController extends Controller
         return view('admin.em_department.index', compact('html','header_data','getData'));
     }
 
-    public function getsocieties(){
+    protected function getParameters() {
+        return [
+            'serverSide' => true,
+            'processing' => true,
+            'ordering'   =>'isSorted',
+            "order"=> [1, "asc" ],
+            "pageLength" => $this->list_num_of_records_per_page
+        ];
+    }
+
+    public function getsocieties(Request $request){
+        if($request->input('id')){            
+            $wards = MasterWard::where('layout_id', '=', $request->input('id'))->pluck('id');
+            $colonies = MasterColony::whereIn('ward_id', $wards)->pluck('id');
+            $societies = MasterSociety::whereIn('colony_id', $colonies)->paginate(10);
+            return view('admin.em_department.ajax_society', compact('societies'));
+
+        } elseif(!empty($request->input('search'))) {
+
+          $layouts = DB::table('layout_user')->where('user_id', '=', Auth::user()->id)->pluck('layout_id');
+          $layout_data = MasterLayout::whereIn('id', $layouts)->get();
+          $wards = MasterWard::whereIn('layout_id', $layouts)->pluck('id');
+          $colonies = MasterColony::whereIn('ward_id', $wards)->pluck('id');
+          $societies = MasterSociety::whereIn('colony_id', $colonies)->where('name','like', '%'.$request->input('search').'%')->paginate(10);
+          return view('admin.em_department.ajax_society', compact('societies'));
+        
+        } else {
+
         $layouts = DB::table('layout_user')->where('user_id', '=', Auth::user()->id)->pluck('layout_id');
         $layout_data = MasterLayout::whereIn('id', $layouts)->get();
        // dd($layout_data);
@@ -130,27 +157,66 @@ class EMController extends Controller
         //dd($wards);
         $colonies = MasterColony::whereIn('ward_id', $wards)->pluck('id');
         //dd($colonies);
-        $societies = MasterSociety::whereIn('colony_id', $colonies)->get();
+        $societies = MasterSociety::whereIn('colony_id', $colonies)->paginate(10);
         //dd($societies);
-        return view('admin.em_department.society', compact('layout_data','societies'));
+        if($request->has('search')) {
+            return view('admin.em_department.ajax_society', compact('societies'));  
+        } else {
+            return view('admin.em_department.society', compact('layout_data','societies'));
+        }
+      }
+        
     }
 
-    public function getbuildings($id){
+    public function getbuildings($id, Request $request){
         //$societies = MasterSociety::whereIn('colony_id', $colonies)->get();
        // dd($id);
-        $society_id = $id;
-        $buildings = MasterBuilding::where('society_id', '=', $id)->get();
-        //dd($buildings);
-        return view('admin.em_department.building', compact('buildings', 'society_id'));
+
+        if(!empty($request->input('search'))) {
+            $society_id = $id;
+            $buildings = MasterBuilding::with('tenant_count')->where('society_id', '=', $id)
+                ->where(function ($query) use ($request) {
+                  $query->orWhere('name', 'like', '%'.$request->input('search').'%')
+                       ->orWhere('building_no', 'like', '%'.$request->input('search').'%');
+                })
+                ->paginate(10);
+            //dd($buildings);
+            return view('admin.em_department.ajax_building', compact('buildings', 'society_id'));
+        } else {
+            $society_id = $id;
+            $buildings = MasterBuilding::with('tenant_count')->where('society_id', '=', $id)->paginate(10);
+            //dd($buildings);
+            if($request->has('search')) {
+                return view('admin.em_department.ajax_building', compact('buildings', 'society_id'));  
+            } else {
+                return view('admin.em_department.building', compact('buildings', 'society_id'));
+            }            
+        }
+        
     }
 
-    public function gettenants($id){
-        //$societies = MasterSociety::whereIn('colony_id', $colonies)->get();
-       // dd($id);
-        $building_id = $id;
-        $buildings = MasterTenant::where('building_id', '=', $id)->get();
-        //dd($buildings);
-        return view('admin.em_department.tenant', compact('buildings', 'building_id'));
+    public function gettenants($id, Request $request){
+         $tenament = DB::table('master_tenant_type')->get();
+        if(!empty($request->input('search'))) {
+            $building_id = $id;
+            $buildings = MasterTenant::where('building_id', '=', $id)
+                 ->where(function ($query) use ($request) {
+                   $query->orWhere('first_name', 'like', '%'.$request->input('search').'%')
+                        ->orWhere('middle_name', 'like', '%'.$request->input('search').'%')
+                        ->orWhere('flat_no', 'like', '%'.$request->input('search').'%')
+                        ->orWhere('last_name', 'like', '%'.$request->input('search').'%');
+                })->paginate(10);
+            return view('admin.em_department.ajax_tenant', compact('tenament','buildings', 'building_id'));
+        } else {
+            $building_id = $id;
+            $buildings = MasterTenant::where('building_id', '=', $id)->paginate(10);
+            if($request->has('search')) {
+                return view('admin.em_department.ajax_tenant', compact('tenament','buildings', 'building_id'));  
+            } else {
+                return view('admin.em_department.tenant', compact('tenament','buildings', 'building_id'));
+            }
+        }
+        
     }
 
     public function soc_bill_level($id){
