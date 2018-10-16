@@ -72,6 +72,10 @@ Route::group(['middleware' => ['check_society_offer_letter_permission']], functi
 Route::resource('/email_templates', 'EmailTemplateController');
 // EE Department Routes
 Route::resource('ee', 'EEDepartment\EEController');
+Route::get('society_list','EEDepartment\EEController@getSocietyDetailsWithBillingLevel')->name('society.billing_level');
+Route::get('society_details/{id}','EEDepartment\EEController@getSocietyDetails')->name('society.society_details');
+Route::get('arrears_charges/{society_id}/{building_id}','EEDepartment\ArrearsServiceController@arrersChargesRate')->name('arrears_charges');
+Route::get('service_charges/{society_id}/{building_id}','EEDepartment\ServiceChargesController@serviceChargesRate')->name('service_charges');
 
 Route::resource('received_application','DYCEDepartment\DYCEController');
 
@@ -472,3 +476,6 @@ Route::get('ee-billing-add-rates', 'EEBillingController@AddRates');
 Route::get('ee-billing-arrears-charges', 'EEBillingController@ArrearsChargesRate');
 Route::get('ee-billing-add-building', 'EEBillingController@AddBuilding');
 Route::get('ee-billing-edit-building', 'EEBillingController@EditBuilding');
+
+define('SOCIETY_LEVEL_BILLING' ,'1');
+define('TENANT_LEVEL_BILLING'  ,'2');
