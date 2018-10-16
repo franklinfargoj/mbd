@@ -17,4 +17,5 @@ yarn-error.log
 /storage/poverty_files/
 /storage/*
 config/database.php
+resources/lang/marathi_font/*
 .gitignore
