@@ -119,6 +119,7 @@ class SocietyConveyanceController extends Controller
      */
     public function create()
     {
+
         return view('frontend.society.conveyance.add');
     }
 

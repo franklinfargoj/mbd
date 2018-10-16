@@ -354,21 +354,9 @@ $route=\Request::route()->getName();
                             </span>
                         </a>
                     </li>
-
-                <li class="m-menu__item {{($route=='society_conveyance.index' )?'m-menu__item--active':''}}">
-                    <a href="{{ route('society_conveyance.index') }}" class="m-menu__link m-menu__toggle">
-                        <i class="m-menu__link-icon flaticon-line-graph"></i>
-                        <span class="m-menu__link-title">
-                        <span class="m-menu__link-wrap">
-                            <span class="m-menu__link-text">
-                                Application for Society Conveyance
-
-                            </span>
-                        </a>
-                    </li>
                     {{--@if(isset($ol_application_count))--}}
                         {{--@if($ol_application_count == 0)--}}
-                    <li class="m-menu__item {{($route=='society_conveyance.create' )?'m-menu__item--active':''}}">
+                    <li class="m-menu__item {{($route=='society_detail.application' )?'m-menu__item--active':''}}">
                         <a href="{{route('society_detail.application')}}" class="m-menu__link m-menu__toggle">
                             <i class="m-menu__link-icon flaticon-line-graph"></i>
                             <span class="m-menu__link-title">
