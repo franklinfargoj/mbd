@@ -4,14 +4,14 @@ namespace App\conveyance;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ScApplicationAgreements extends Model
+class ScAgreementComments extends Model
 {
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'sc_application_agreements';
+    protected $table = 'sc_agreement_comments';
 
     /**
      * The database primary key value.
@@ -27,16 +27,10 @@ class ScApplicationAgreements extends Model
      */
     protected $fillable = [
         'application_id',
-        'draft_sale_agreement',
-        'draft_lease_agreement',
-        'approve_sale_agreement',
-        'approve_lease_agreement',
-        'stamp_sale_agreement',
-        'stamp_lease_agreement',
-        'sign_sale_agreement',
-        'sign_lease_agreement',
-        'register_sale_agreement',
-        'register_lease_agreement',
+        'user_id',
+        'role_id',
+        'agreement_type_id',
+        'remark',
     ];
 
     /**
