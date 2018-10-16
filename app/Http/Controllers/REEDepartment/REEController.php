@@ -447,7 +447,6 @@ class REEController extends Controller
 
 
     public function revalidationApplicationList(Request $request, Datatables $datatables){
-
         $getData = $request->all();
         $columns = [
             ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
@@ -465,7 +464,7 @@ class REEController extends Controller
         if ($datatables->getRequest()->ajax()) {
 
             //dd($request);
-            $ree_application_data = $this->CommonController->listApplicationData($request);
+            $ree_application_data = $this->CommonController->listApplicationData($request,'reval');
             // dd($ree_application_data);
             // $ol_application = $this->CommonController->getOlApplication($ree_application_data->id);
 
@@ -474,7 +473,7 @@ class REEController extends Controller
                     static $i = 0; $i++; return $i;
                 })
                 ->editColumn('radio', function ($ree_application_data) {
-                    $url = route('ree.view_application', $ree_application_data->id);
+                    $url = route('ree.view_reval_application', $ree_application_data->id);
                     return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
                 })
                 ->editColumn('eeApplicationSociety.name', function ($ree_application_data) {
@@ -518,5 +517,15 @@ class REEController extends Controller
         $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
 
         return view('admin.REE_department.reval_applications', compact('html','header_data','getData'));
+    }
+
+    public function viewRevalApplication(Request $request, $applicationId){
+
+        $ol_application = $this->CommonController->downloadOfferLetter($applicationId);
+        $ol_application->folder = 'REE_department';
+
+        $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
+
+        return view('admin.common.reval_offer_letter', compact('ol_application'));
     }
 }

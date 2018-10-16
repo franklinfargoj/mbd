@@ -420,6 +420,7 @@ Route::post('upload_offer_letter/{id}', 'REEDepartment\REEController@uploadOffer
 Route::post('send_for_approval','REEDepartment\REEController@sendForApproval')->name('ree.send_for_approval');
 Route::post('send_letter_society','REEDepartment\REEController@sendOfferLetterToSociety')->name('ree.send_letter_society');
 Route::get('view_application_ree/{id}','REEDepartment\REEController@viewApplication')->name('ree.view_application');
+Route::get('view_reval_application_ree/{id}','REEDepartment\REEController@viewRevalApplication')->name('ree.view_reval_application');
 Route::get('calculation_sheet_ree/{id}','REEDepartment\REEController@showCalculationSheet')->name('ree.show_calculation_sheet');
 
 Route::get('approve_offer_letter/{id}','CODepartment\COController@approveOfferLetter')->name('co.approve_offer_letter');

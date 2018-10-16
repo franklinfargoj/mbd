@@ -315,6 +315,7 @@ $route=\Request::route()->getName();
             </li>
             @endif
             @endif
+
                 <li class="m-menu__item {{($route=='society_conveyance.index' )?'m-menu__item--active':''}}">
                     <a href="{{ route('society_conveyance.index') }}" class="m-menu__link m-menu__toggle">
                         <i class="m-menu__link-icon flaticon-line-graph"></i>

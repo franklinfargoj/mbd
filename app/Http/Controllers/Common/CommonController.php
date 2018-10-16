@@ -26,6 +26,7 @@ use App\User;
 use Auth;
 use Carbon\Carbon;
 use Config;
+use Illuminate\Support\Facades\DB;
 use Storage;
 use App\Layout\ArchitectLayoutDetail;
 use App\Layout\ArchitectLayoutStatusLog;
@@ -149,7 +150,7 @@ class CommonController extends Controller
         );
     }
 
-    public function listApplicationData($request)
+    public function listApplicationData($request,$application_type=Null)
     {
         $applicationData = OlApplication::with(['applicationLayoutUser', 'ol_application_master', 'eeApplicationSociety', 'olApplicationStatusForLoginListing' => function ($q) {
             $q->where('user_id', Auth::user()->id)
@@ -172,9 +173,12 @@ class CommonController extends Controller
             $applicationData = $applicationData->whereDate('submitted_at', '<=', date('Y-m-d', strtotime($request->submitted_at_to)));
         }
 
+        if($application_type!=Null && $application_type=="reval")
+        {
+            $application_master_arr=OlApplicationMaster::Where('title', 'like', '%Revalidation Of Offer Letter%')->pluck('id')->toArray();
+            $applicationData = $applicationData->whereIn('application_master_id',$application_master_arr);
+        }
 
-        /*$application_master_arr=OlApplicationMaster::Where('title', 'like', '%Revalidation Of Offer Letter%')->get()->toArray();
-        $applicationData = $applicationData->whereIn('application_master_id',$application_master_arr);*/
 
 
         $applicationDataDefine = $applicationData->orderBy('ol_applications.id', 'desc')

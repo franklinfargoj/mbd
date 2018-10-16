@@ -450,6 +450,41 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                 $society_documents = OlSocietyDocumentsMaster::create($rate3);
             }
         }
+
+
+        // Revalidation of offer letter - documents
+        $english_lang = LanguageMaster::select('id')->where(['language'=>'English'])->get();
+        $application4_arr=OlApplicationMaster::Where('title', 'like', '%Revalidation Of Offer Letter%')->pluck('id')->toArray();
+        foreach($application4_arr as $app)
+        {
+            $app_insertArr= [
+                [
+                    'application_id'   => $app,
+                    'language_id'   => $language3[0]['id'],
+                    'name' => "संस्थेचा अर्ज परिशिष्ट अ प्रमाणे"
+                ],
+                [
+                    'application_id'   => $app,
+                    'language_id'   => $english_lang[0]['id'],
+                    'name' => "Old Offer Letter"
+                ],
+                [
+                    'application_id'   => $app,
+                    'language_id'   => $english_lang[0]['id'],
+                    'name' => "Society Resolution"
+                ],
+                [
+                    'application_id'   => $app,
+                    'language_id'   => $english_lang[0]['id'],
+                    'name' => "Other"
+                ]
+                ];
+
+            OlSocietyDocumentsMaster::insert($app_insertArr);
+        }
+
+
+
     }
 
 }
