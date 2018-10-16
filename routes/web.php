@@ -456,6 +456,7 @@ Route::get('ee-billing-level', 'EEBillingController@BillingLevel');
 Route::get('ee-ward-colony', 'EEBillingController@WardColony');
 Route::get('ee-add-tenant', 'EEBillingController@AddTenant');
 Route::get('ee-billing-generation', 'EEBillingController@BillGeneration');
+Route::get('society-conveyance-application', 'EEBillingController@SocietyConveyanceApplication');
 
 //estate and conveyance
 

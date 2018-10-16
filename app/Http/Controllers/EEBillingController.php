@@ -53,4 +53,8 @@ class EEBillingController extends Controller
     public function BillGeneration(){
         return view('admin.ee_billing.bill-generation');
     }
+
+    public function SocietyConveyanceApplication(){
+        return view('admin.ee_billing.society-conveyance-application');
+    }
 }

@@ -1657,7 +1657,7 @@ input:disabled + label:after {
     padding-top: 30px;
 }
 
-.letter-form input {
+.letter-form-input {
     border: none;
     border-bottom: 1px solid #212529;
     background-color: transparent;
@@ -1686,6 +1686,10 @@ input:disabled + label:after {
 
 .letter-form-input--xl {
     max-width: 200px;
+}
+
+.letter-form-input--100 {
+    max-width: 100%;
 }
 
 .letter-form input:focus {
@@ -2574,3 +2578,46 @@ label.site-visit-label {
 .star{
     color: #f4516c;
 }
+
+
+/* Society Conveyance starts here */
+
+.application-fields-wrapper {
+    margin-top: 30px;
+    max-width: 800px;
+}
+
+.application-fields-wrapper .form-group {
+    margin-bottom: -30px;
+}
+
+.application-fields {
+    margin-bottom: 30px;
+}
+
+.application-fields .letter-form-input {
+    text-align: left;
+}
+
+.application-form-label {
+    margin-bottom: 15px;
+}
+
+.custom-file--letter {
+    margin-bottom: 0;
+}
+
+.custom-file--letter .custom-file-label {
+    top: auto;
+    bottom: 0;
+    border-color: #212529;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.custom-file--letter .custom-file-label::after {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+/* Society Conveyance ends here */
