@@ -44,7 +44,8 @@
                                         @foreach($architectlogs as $log)
                                         @if($log->status_id == config('commanConfig.architect_layout_status.forward'))
                                         @php $status = 'Forwarded'; @endphp
-                                        @elseif($log->status_id == config('commanConfig.architect_layout_status.reverted'))
+                                        @elseif($log->status_id ==
+                                        config('commanConfig.architect_layout_status.reverted'))
                                         @php $status = 'Reverted'; @endphp
                                         @endif
 
@@ -118,30 +119,35 @@
                                                             $parent->name }} ({{ $arrData['role_name'] }})</option>
                                                         @endforeach
                                                         @endif
+                                                        
                                                         @if(isset($arrData['get_forward_lm']))
                                                         @foreach($arrData['get_forward_lm'] as $parent)
                                                         <option value="{{ $parent->id}}" data-role="{{ $parent->role_id }}">{{
                                                             $parent->name }} ({{ $arrData['lm_role_name'] }})</option>
                                                         @endforeach
                                                         @endif
+
                                                         @if(isset($arrData['get_forward_ree']))
                                                         @foreach($arrData['get_forward_ree'] as $parent)
                                                         <option value="{{ $parent->id}}" data-role="{{ $parent->role_id }}">{{
                                                             $parent->name }} ({{ $arrData['ree_role_name'] }})</option>
                                                         @endforeach
                                                         @endif
+
                                                         @if(isset($arrData['get_forward_ee']))
                                                         @foreach($arrData['get_forward_ee'] as $parent)
                                                         <option value="{{ $parent->id}}" data-role="{{ $parent->role_id }}">{{
                                                             $parent->name }} ({{ $arrData['ee_role_name'] }})</option>
                                                         @endforeach
                                                         @endif
+
                                                         @if(isset($arrData['get_forward_em']))
                                                         @foreach($arrData['get_forward_em'] as $parent)
                                                         <option value="{{ $parent->id}}" data-role="{{ $parent->role_id }}">{{
                                                             $parent->name }} ({{ $arrData['em_role_name'] }})</option>
                                                         @endforeach
                                                         @endif
+                                                        
                                                     </select>
                                                 </div>
                                             </div>
@@ -157,8 +163,7 @@
                                                 {{--<button type="submit" id="sign" class="btn btn-primary forwrdBtn">Sign</button>
                                                 <button type="submit" class="btn btn-primary forwrdBtn">Sign & Forward</button>
                                                 <button type="submit" class="btn btn-primary forwrdBtn">Forward</button>--}}
-                                                <a type="button" href="{{ url()->previous() }}"
-                                                    class="btn btn-secondary">Cancel</a>
+                                                <a type="button" href="{{ url()->previous() }}" class="btn btn-secondary">Cancel</a>
                                             </div>
                                         </div>
                                         <input type="hidden" name="architect_layout_id" value="{{$ArchitectLayout->id}}">
