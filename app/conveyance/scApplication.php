@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class scApplication extends Model
 {
 	protected $table = 'sc_application';
+	public $timestamps = true;
 	protected $fillable = [
 		'society_id',
 	    'form_request_id',
@@ -30,4 +31,19 @@ class scApplication extends Model
 	    'riders',
 	    'noc_conveyance',
 	];
+
+    public function applicationLayoutUser()
+    {
+        return $this->hasMany('App\LayoutUser', 'layout_id','layout_id');
+    }
+
+    public function societyApplication()
+    {
+        return $this->hasOne('App\SocietyOfferLetter', 'id','society_id');
+    } 
+    
+    public function scApplicationLog()
+    {
+        return $this->hasOne('App\conveyance\scApplicationLog', 'application_id','id');
+    }        	
 }

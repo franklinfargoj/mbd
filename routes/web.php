@@ -477,5 +477,7 @@ Route::get('ee-billing-generation', 'EEBillingController@BillGeneration');
 //estate and conveyance
 Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']], function(){
     Route::resource('dyco', 'conveyance\DYCODepartment\DYCOController');
-    Route::get('checklist', 'conveyance\DYCODepartment\DYCOController@showChecklist')->name('dyco.checklist');
+    Route::get('sc_application/{id}', 'conveyance\DYCODepartment\DYCOController@ViewApplication')->name('dyco.conveyance_application');
+    Route::get('checklist/{id}', 'conveyance\DYCODepartment\DYCOController@showChecklist')->name('dyco.checklist');
+    Route::post('storeChecklistData', 'conveyance\DYCODepartment\DYCOController@storeChecklistData')->name('dyco.storeChecklistData');
 });
