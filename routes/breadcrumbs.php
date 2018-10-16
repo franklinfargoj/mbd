@@ -475,3 +475,15 @@ Breadcrumbs::for('role_view', function ($trail,$id) {
     $trail->parent('role');
     $trail->push('View Role', route('roles.show',$id));
 });
+
+Breadcrumbs::for('em', function ($trail) {
+    $trail->push('Home', route('em.index'));
+});
+
+Breadcrumbs::for('rc', function ($trail) {
+    $trail->push('Home', route('rc.index'));
+});
+
+Breadcrumbs::for('em_clerk', function ($trail) {
+    $trail->push('Home', route('em_clerk.index'));
+});

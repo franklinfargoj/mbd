@@ -14,7 +14,7 @@
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center" id="search_box">
-            <h3 class="m-subheader__title m-subheader__title--separator">Application for Offer Letter</h3>
+            <h3 class="m-subheader__title m-subheader__title--separator">Society Details | Building | Tenant </h3>
             {{ Breadcrumbs::render('em') }}
          </div>
 
@@ -22,19 +22,19 @@
     <!-- END: Subheader -->
     <div class="m-portlet m-portlet--compact m-portlet--mobile">
         <div class="m-portlet__head">
-            {{--<div class="m-portlet__head-caption">--}}
-                {{--<div class="m-portlet__head-title">--}}
-                    {{--<h3 class="m-portlet__head-text">--}}
-
-                        {{--</h3>--}}
-                    {{--</div>--}}
-                {{--</div>--}}
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-text">
+                    <h3 class="m-portlet__head-text"> List of tenants</h3>
+                    <div id="filter" class="ml-auto"><input type="search" id="searchId" class="form-control input-sm input-small input-inline form-control--custom"
+                    placeholder="Search ..."></div>     
+                </div>
+            </div>
             <a class="btn btn-danger" href="#" style="float: right;margin-top: 3%">Add
                 Tenant</a>
             </div>
         <div class="m-portlet__body">
             <!--begin: Datatable -->
-        <table id="example" class="display" style="width:100%">
+        <table id="example" class="display table table-responsive table-bordered" style="width:100%">
         <thead>
             <tr>
                 <th>Sr. No.</th>
@@ -53,17 +53,17 @@
         @foreach($buildings as $key => $value )
             <tr>
                 <td>{{$value->id}}</td>
-                <td></td>
-                <td></td>
-                <td data-search="{{$value->name}}">{{$value->name}}</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td>{{$value->flat_no}}</td>
+                <td>{{$value->saluation}}</td>
+                <td>{{$value->first_name}}</td>
+                <td>{{$value->middle_name}}</td>
+                <td>{{$value->last_name}}</td>
+                <td>{{$value->use}}</td>
+                <td>{{$value->carpet_area}}</td>
+                <td>{{$value->tenant_type}}</td>
                 <td>
-                    <a type="button" href="{{route('get_tenants', [$value->id])}}">Edit</a>
-                    <a class="button">Delete</a>
+                    <a class="btn btn-info" href="{{route('get_tenants', [$value->id])}}">Edit</a>
+                    <a class="btn btn-danger" href="">Delete</a>
                 </td>
             </tr>
         @endforeach

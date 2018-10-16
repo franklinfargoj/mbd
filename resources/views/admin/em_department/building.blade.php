@@ -22,19 +22,19 @@
     <!-- END: Subheader -->
     <div class="m-portlet m-portlet--compact m-portlet--mobile">
         <div class="m-portlet__head">
-            {{--<div class="m-portlet__head-caption">--}}
-                {{--<div class="m-portlet__head-title">--}}
-                    {{--<h3 class="m-portlet__head-text">--}}
-
-                        {{--</h3>--}}
-                    {{--</div>--}}
-                {{--</div>--}}
-            <a class="btn btn-danger" href="#" style="float: right;margin-top: 3%">Add
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-text">
+                    <h3 class="m-portlet__head-text"> List of buildings</h3>
+                    <div id="filter" class="ml-auto"><input type="search" id="searchId" class="form-control input-sm input-small input-inline form-control--custom"
+                    placeholder="Search ..."></div>    
+                </div>
+            </div>
+            <a class="btn btn-danger" href="{{route('add_building', [$society_id])}}" style="float: right;margin-top: 3%">Add
                 Building</a>
             </div>
         <div class="m-portlet__body">
             <!--begin: Datatable -->
-        <table id="example" class="display" style="width:100%">
+        <table id="example" class="display table table-responsive table-bordered" style="width:100%">
         <thead>
             <tr>
                 <th>Sr. No.</th>
@@ -48,12 +48,12 @@
         @foreach($buildings as $key => $value )
             <tr>
                 <td>{{$value->id}}</td>
-                <td></td>
-                <td data-search="{{$value->name}}">{{$value->name}}</td>
+                <td>{{$value->building_no}}</td>
+                <td>{{$value->name}}</td>
                 <td></td>
                 <td>
-                    <a type="button" href="{{route('get_tenants', [$value->id])}}">Tenant Detail</a>
-                    <a class="button">Edit</a>
+                    <a class="btn btn-info" href="{{route('get_tenants', [$value->id])}}">Tenant Detail</a>
+                    <a class="btn btn-info" href="{{route('edit_building', [$value->id])}}">Edit</a>
                 </td>
             </tr>
         @endforeach

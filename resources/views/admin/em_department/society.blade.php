@@ -40,20 +40,20 @@
     </div>
     <!-- END: Subheader -->
     <div class="m-portlet m-portlet--compact m-portlet--mobile">
-        {{--<div class="m-portlet__head">--}}
-            {{--<div class="m-portlet__head-caption">--}}
-                {{--<div class="m-portlet__head-title">--}}
-                    {{--<h3 class="m-portlet__head-text">--}}
-
-                        {{--</h3>--}}
-                    {{--</div>--}}
-                {{--</div>--}}
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+                <h3 class="m-portlet__head-text"> List of societies</h3>
+                <div class="m-portlet__head-text">
+                    <div id="filter" class="ml-auto"><input type="search" id="searchId" class="form-control input-lg input-large input-inline form-control--custom"
+                    placeholder="Search ..."></div>    
+                </div>
+            </div>
             {{--<a class="btn btn-danger" href="{{route('hearing.create')}}" style="float: right;margin-top: 3%">Add
                 Hearing</a>--}}
-            {{--</div>--}}
+        </div>
         <div class="m-portlet__body">
             <!--begin: Datatable -->
-        <table id="example" class="display" style="width:100%">
+        <table class="display table table-responsive table-bordered" style="width:100%">
         <thead>
             <tr>
                 <th>Sr. No.</th>
@@ -63,13 +63,13 @@
         </thead>
         <tbody>
         @foreach($societies as $key => $value )
-            <tr>
+            <tr>    
                 <td>{{$value->id}}</td>
                 <td data-search="{{$value->name}}">{{$value->name}}</td>
                <td>
-                    <a type="button" href="{{route('get_buildings', [$value->id])}}">Society Detail</a>
-                    <a class="button" >Bill Level</a>
-                    <a class="button" >Ward & colony</a>
+                    <a class="btn btn-info" href="{{route('get_buildings', [$value->id])}}">Society Detail</a>
+                    <a class="btn btn-info" href="{{route('soc_bill_level', [$value->id])}}" >Bill Level</a>
+                    <a class="btn btn-info"  href="{{route('soc_ward_colony', [$value->id])}}">Ward & colony</a>
                 </td>
             </tr>
         @endforeach

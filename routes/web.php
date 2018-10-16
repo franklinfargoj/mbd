@@ -69,7 +69,6 @@ Route::group(['middleware' => ['check_society_offer_letter_permission']], functi
 
 
 
-
 Route::resource('/email_templates', 'EmailTemplateController');
 // EE Department Routes
 Route::resource('ee', 'EEDepartment\EEController');
@@ -190,6 +189,30 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::post('/ee-demarcation', 'EEDepartment\EEController@eeDemarcation')->name('ee-demarcation');
     Route::post('/ee-tit-bit', 'EEDepartment\EEController@titBit')->name('ee-tit-bit');
     Route::post('/ee-rg-relocation', 'EEDepartment\EEController@rgRelocation')->name('ee-rg-relocation');    
+
+
+   // EM Department Routes
+    Route::resource('em', 'EMDepartment\EMController');
+    Route::get('get_societies', 'EMDepartment\EMController@getsocieties')->name('get_societies');
+    Route::get('get_buildings/{id}', 'EMDepartment\EMController@getbuildings')->name('get_buildings');
+    Route::get('get_tenants/{id}', 'EMDepartment\EMController@gettenants')->name('get_tenants');
+    Route::get('soc_bill_level/{id}', 'EMDepartment\EMController@soc_bill_level')->name('soc_bill_level');
+    Route::post('update_soc_bill_level', 'EMDepartment\EMController@update_soc_bill_level')->name('update_soc_bill_level');
+    Route::get('soc_ward_colony/{id}', 'EMDepartment\EMController@soc_ward_colony')->name('soc_ward_colony');
+    
+    Route::post('update_soc_ward_colony', 'EMDepartment\EMController@update_soc_ward_colony')->name('update_soc_ward_colony');
+
+    Route::get('get_colonies', 'EMDepartment\EMController@get_colonies')->name('get_colonies');
+
+    Route::get('add_building/{id}', 'EMDepartment\EMController@add_building')->name('add_building');
+    Route::get('edit_building/{id}', 'EMDepartment\EMController@edit_building')->name('edit_building');
+    Route::post('create_building', 'EMDepartment\EMController@create_building')->name('create_building');
+     Route::post('update_building', 'EMDepartment\EMController@update_building')->name('update_building');
+
+
+    Route::resource('em_clerk', 'EMDepartment\EMClerkController');
+
+    Route::resource('rc', 'RCDepartment\RCController');
 
 
 	//DYCE Department routes

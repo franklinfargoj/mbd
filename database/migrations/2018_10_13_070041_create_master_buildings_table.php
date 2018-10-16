@@ -17,6 +17,7 @@ class CreateMasterBuildingsTable extends Migration
             $table->increments('id');
             $table->integer('society_id')->unsigned();
             $table->foreign('society_id')->references('id')->on('master_societies');
+            $table->string('building_no')->nullable();
             $table->string('name')->nullable();
             $table->string('description')->nullable();
             $table->timestamps();

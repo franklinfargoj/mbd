@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMasterSocietiesTable extends Migration
+class CreateMasterSocietyBillLevelTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,10 @@ class CreateMasterSocietiesTable extends Migration
      */
     public function up()
     {
-        Schema::create('master_societies', function (Blueprint $table) {
+        Schema::create('master_society_bill_level', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('colony_id')->unsigned();
-            $table->foreign('colony_id')->references('id')->on('master_colonies');
             $table->string('name')->nullable();
             $table->string('description')->nullable();
-            $table->string('society_bill_level')->nullable();
             $table->timestamps();
         });
     }
@@ -31,6 +28,6 @@ class CreateMasterSocietiesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('master_societies');
+        Schema::dropIfExists('master_society_bill_level');
     }
 }
