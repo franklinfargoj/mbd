@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 // Rti Application
 Breadcrumbs::for('rti_applicants', function ($trail) {
@@ -191,6 +191,11 @@ Breadcrumbs::for('society_application', function ($trail) {
     $trail->push('Listing', route('society_offer_letter_dashboard'));
     $trail->push('Applications for Redevelopment
 ', route('society_detail.application'));
+});
+
+Breadcrumbs::for('society_offer_application_create', function ($trail, $id) {
+    $trail->parent('society_dashboard');
+    $trail->push('Applications for Redevelopment', route('show_form_dev', $id));
 });
 
 //cap Breadcrumbs
