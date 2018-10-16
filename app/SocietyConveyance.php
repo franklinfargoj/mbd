@@ -23,8 +23,7 @@ class SocietyConveyance extends Model
         'property_tax',
         'water_bil',
         'no_agricultural_tax',
-        'society_address',
-        'user_id'
+        'society_address'
     ];
 
 }
