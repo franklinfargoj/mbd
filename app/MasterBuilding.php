@@ -10,7 +10,7 @@ class MasterBuilding extends Model
 
      public function tenants()
     {
-        return $this->hasMany('App\MasterTenant');
+        return $this->hasMany('App\MasterTenant','building_id');
     }
 
     public function tenant_count(){

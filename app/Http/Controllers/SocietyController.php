@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\society_detail\SocietyDetailRequest;
 use App\OtherLand;
 use App\SocietyDetail;
+use App\MasterSociety;
 use App\VillageDetail;
 use App\VillageSociety;
 use Illuminate\Http\Request;
