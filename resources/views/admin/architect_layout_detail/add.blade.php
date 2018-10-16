@@ -1,4 +1,7 @@
-@extends('admin.layouts.app')
+@extends('admin.layouts.sidebarAction')
+@section('actions')
+@include('admin.architect_layout.actions',compact('ArchitectLayout'))
+@endsection
 @section('css')
 <style>
     .loader {

@@ -273,10 +273,15 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
      //Society Offer Letter
     Route::post('society_offer_letter/forgot_password','SocietyOfferLetterController@forgot_password')->name('society_offer_letter_forgot_password');
     Route::get('/society_offer_letter_dashboard', 'SocietyOfferLetterController@dashboard')->name('society_offer_letter_dashboard');
+
+    Route::get('/show_form_self/{id}', 'SocietyOfferLetterController@show_form_self')->name('show_form_self');
     Route::get('/offer_letter_application_form_self/{id}', 'SocietyOfferLetterController@show_offer_letter_application_self')->name('offer_letter_application_self');
     Route::post('/save_offer_letter_application_form_self', 'SocietyOfferLetterController@save_offer_letter_application_self')->name('save_offer_letter_application_self');
+
+    Route::get('/show_form_dev/{id}', 'SocietyOfferLetterController@show_form_dev')->name('show_form_dev');
     Route::get('/offer_letter_application_form_dev/{id}', 'SocietyOfferLetterController@show_offer_letter_application_dev')->name('offer_letter_application_dev');
     Route::post('/save_offer_letter_application_form_dev', 'SocietyOfferLetterController@save_offer_letter_application_dev')->name('save_offer_letter_application_dev');
+
     Route::get('documents_upload','SocietyOfferLetterController@displaySocietyDocuments')->name('documents_upload');
     Route::post('add_uploaded_documents_remark','SocietyOfferLetterController@addSocietyDocumentsRemark')->name('add_uploaded_documents_remark');
     Route::get('documents_uploaded','SocietyOfferLetterController@viewSocietyDocuments')->name('documents_uploaded');
@@ -284,6 +289,11 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('delete_uploaded_documents/{id}','SocietyOfferLetterController@deleteSocietyDocuments')->name('delete_uploaded_documents');
     Route::post('add_uploaded_documents_comment','SocietyOfferLetterController@addSocietyDocumentsComment')->name('add_documents_comment');
     Route::get('society_offer_letter_download','SocietyOfferLetterController@displayOfferLetterApplication')->name('society_offer_letter_download');
+
+    Route::get('society_offer_letter_preview','SocietyOfferLetterController@showOfferLetterApplication')->name('society_offer_letter_preview');
+    Route::get('society_offer_letter_edit','SocietyOfferLetterController@editOfferLetterApplication')->name('society_offer_letter_edit');
+    Route::post('society_offer_letter_update','SocietyOfferLetterController@updateOfferLetterApplication')->name('society_offer_letter_update');
+
     Route::get('society_offer_letter_application_download','SocietyOfferLetterController@generate_pdf')->name('society_offer_letter_application_download');
     Route::get('upload_society_offer_letter_application','SocietyOfferLetterController@showuploadOfferLetterAfterSign')->name('upload_society_offer_letter_application');
     Route::post('upload_society_offer_letter','SocietyOfferLetterController@uploadOfferLetterAfterSign')->name('upload_society_offer_letter');
@@ -311,32 +321,31 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::post('finalise_architect_application','ArchitectApplicationController@finalise_architect_application')->name('finalise_architect_application');
     //architect module end
 
-
-//CRUD Routes
-
-    Route::group(['namespace' => 'CRUDAdmin','prefix' => 'crudadmin'], function() {
-        Route::post('loadDeleteRoleUsingAjax', 'RoleController@loadDeleteRoleUsingAjax')->name('loadDeleteRoleUsingAjax');
-        Route::resource('roles','RoleController');
-    });
-
-    Route::resource('/society_conveyance','SocietyConveyanceController');
-    
-});
-
-
-
-//---------------------architect layout-------------------------------------------
+    //---------------------architect layout-------------------------------------------
 
 Route::get('architect_layouts','ArchitectLayout\LayoutArchitectController@index')->name('architect_layout.index');
+Route::get('architect_layouts_layout_details','ArchitectLayout\LayoutArchitectController@architect_layouts_layout_details')->name('architect_layouts_layout_details.index');
 Route::get('add_architect_layouts','ArchitectLayout\LayoutArchitectController@add_layout')->name('architect_layout.add');
+
+
+Route::get('check_layout_details_complete_status/{layout_detail_id}','ArchitectLayout\LayoutArchitectController@check_layout_details_complete_status')->name('check_layout_details_complete_status');
+
 Route::get('view_architect_layout_details/{layout_id}','ArchitectLayout\LayoutArchitectController@view_architect_layout_details')->name('architect_layout_details.view');
 Route::post('post_architect_layout','ArchitectLayout\LayoutArchitectController@store_layout')->name('architect_layout.store');
 Route::get('add_architect_layout_detail/{layout_id}','ArchitectLayout\LayoutArchitectDetailController@add_detail')->name('architect_layout_detail.add');
+Route::get('edit_architect_layout_detail/{layout_detail_id}','ArchitectLayout\LayoutArchitectDetailController@edit_detail')->name('architect_layout_detail.edit');
 Route::post('post_architect_layout_detail','ArchitectLayout\LayoutArchitectDetailController@create_detail')->name('architect_layout_detail.create');
 Route::post('uploadLatestLayoutAjax','ArchitectLayout\LayoutArchitectDetailController@uploadLatestLayoutAjax')->name('uploadLatestLayoutAjax');
 
 //Architect Layout Forward Application
 Route::get('forward_architect_layout/{layout_id}','ArchitectLayout\LayoutArchitectController@forwardLayout')->name('forward_architect_layout');
+Route::post('post_forward_architect_layout','ArchitectLayout\LayoutArchitectController@post_forward_layout')->name('post_forward_architect_layout');
+
+//Architect Layout EM LM EE REE Scrutiny
+Route::get('get_scrutiny/{layout_id}','ArchitectLayout\LayoutArchitectController@get_scrutiny')->name('architect_layout_get_scrtiny');
+Route::get('add_scrutiny_report/{layout_id}','ArchitectLayout\LayoutArchitectController@add_scrutiny_report')->name('architect_layout_add_scrutiny_report');
+Route::post('post_scrutiny_report','ArchitectLayout\LayoutArchitectController@post_scrutiny_report')->name('architect_layout_post_scrutiny_report');
+
 
 //add cts
 Route::get('view_cts_detail/{layout_detail_id}','ArchitectLayout\LayoutArchitectDetailController@view_cts_detail')->name('architect_layout_detail_view_cts_plan');
@@ -377,6 +386,20 @@ Route::post('update_architect_layout_detail_court_case_or_dispute_on_land','Arch
 Route::get('show_architect_layout_detail_court_case_or_dispute_on_land/{id}','ArchitectLayout\CourtCaseOrDisputeOnLandController@show')->name('architect_layout_detail_court_case_or_dispute_on_land.view');
 Route::delete('destroy_architect_layout_detail_court_case_or_dispute_on_land/{id}','ArchitectLayout\CourtCaseOrDisputeOnLandController@destroy')->name('architect_layout_detail_court_case_or_dispute_on_land.destroy');
 //---------------------architect layout end---------------------------------------
+//CRUD Routes
+
+    Route::group(['namespace' => 'CRUDAdmin','prefix' => 'crudadmin'], function() {
+        Route::post('loadDeleteRoleUsingAjax', 'RoleController@loadDeleteRoleUsingAjax')->name('loadDeleteRoleUsingAjax');
+        Route::resource('roles','RoleController');
+    });
+
+    Route::resource('/society_conveyance','SocietyConveyanceController');
+    
+});
+
+
+
+
 
 // Route::get('refresh_captcha','SocietyOfferLetterController@RefreshCaptcha')->name('refresh_captcha');
 
@@ -413,6 +436,7 @@ Route::post('upload_offer_letter/{id}', 'REEDepartment\REEController@uploadOffer
 Route::post('send_for_approval','REEDepartment\REEController@sendForApproval')->name('ree.send_for_approval');
 Route::post('send_letter_society','REEDepartment\REEController@sendOfferLetterToSociety')->name('ree.send_letter_society');
 Route::get('view_application_ree/{id}','REEDepartment\REEController@viewApplication')->name('ree.view_application');
+Route::get('view_reval_application_ree/{id}','REEDepartment\REEController@viewRevalApplication')->name('ree.view_reval_application');
 Route::get('calculation_sheet_ree/{id}','REEDepartment\REEController@showCalculationSheet')->name('ree.show_calculation_sheet');
 
 Route::get('approve_offer_letter/{id}','CODepartment\COController@approveOfferLetter')->name('co.approve_offer_letter');
@@ -459,6 +483,9 @@ Route::get('ee-billing-generation', 'EEBillingController@BillGeneration');
 Route::get('society-conveyance-application', 'EEBillingController@SocietyConveyanceApplication');
 
 //estate and conveyance
-
-// Route::resource('conveyance', 'conveyance\DYCODepartment\DYCOController@showChecklist');
-Route::get('checklist', 'conveyance\DYCODepartment\DYCOController@showChecklist')->name('conveyance.checklist');
+Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']], function(){
+    Route::resource('dyco', 'conveyance\DYCODepartment\DYCOController');
+    Route::get('sc_application/{id}', 'conveyance\DYCODepartment\DYCOController@ViewApplication')->name('dyco.conveyance_application');
+    Route::get('checklist/{id}', 'conveyance\DYCODepartment\DYCOController@showChecklist')->name('dyco.checklist');
+    Route::post('storeChecklistData', 'conveyance\DYCODepartment\DYCOController@storeChecklistData')->name('dyco.storeChecklistData');
+});

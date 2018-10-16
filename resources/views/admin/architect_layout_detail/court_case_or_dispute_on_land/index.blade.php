@@ -29,7 +29,7 @@
                     <div class="mt-auto">
                         <a href="{{route('architect_layout_detail_court_case_or_dispute_on_land.create',['layout_detail_id'=>encrypt($ArchitectLayoutDetail->id)])}}"
                             class="btn btn-primary btn-custom" id="">Add New Details</a>
-                        <a href="{{route('architect_layout_detail.add',['layout_id'=>encrypt($ArchitectLayoutDetail->id)])}}"
+                        <a href="{{route('architect_layout_detail.edit',['layout_detail_id'=>encrypt($ArchitectLayoutDetail->id)])}}"
                             class="btn btn-primary btn-custom">Back</a>
                     </div>
                     <div class="row">

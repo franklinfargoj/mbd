@@ -15,7 +15,7 @@ class CourtCaseOrDisputeOnLandController extends Controller
     {
         $layout_detail_id = decrypt($layout_detail_id);
         $ArchitectLayoutDetail = ArchitectLayoutDetail::find($layout_detail_id);
-        $courCassesOrDisputes = ArchitectLayoutCourtMatterDispute::all();
+        $courCassesOrDisputes = ArchitectLayoutCourtMatterDispute::where(['architect_layout_detail_id'=>$layout_detail_id])->get();
         return view('admin.architect_layout_detail.court_case_or_dispute_on_land.index', compact('ArchitectLayoutDetail', 'courCassesOrDisputes'));
     }
 

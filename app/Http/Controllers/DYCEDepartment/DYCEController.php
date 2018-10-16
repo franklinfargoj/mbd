@@ -35,7 +35,6 @@ class DYCEController extends Controller
     public function index(Request $request, Datatables $datatables){
 
             $dyce_application_data = $this->CommonController->listApplicationData($request);
-            // dd($dyce_application_data);
         $getData = $request->all();
 
         $columns = [
@@ -51,7 +50,6 @@ class DYCEController extends Controller
             // ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
         ];
         if ($datatables->getRequest()->ajax()) {
-
 
             return $datatables->of($dyce_application_data)
                 ->editColumn('rownum', function ($listArray) {
