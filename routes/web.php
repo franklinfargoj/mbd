@@ -197,6 +197,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
    // EM Department Routes
     Route::resource('em', 'EMDepartment\EMController');
+
     Route::get('get_societies', 'EMDepartment\EMController@getsocieties')->name('get_societies');
     Route::get('get_buildings/{id}', 'EMDepartment\EMController@getbuildings')->name('get_buildings');
     Route::get('get_tenants/{id}', 'EMDepartment\EMController@gettenants')->name('get_tenants');
@@ -211,11 +212,20 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('add_building/{id}', 'EMDepartment\EMController@add_building')->name('add_building');
     Route::get('edit_building/{id}', 'EMDepartment\EMController@edit_building')->name('edit_building');
     Route::post('create_building', 'EMDepartment\EMController@create_building')->name('create_building');
-     Route::post('update_building', 'EMDepartment\EMController@update_building')->name('update_building');
+    Route::post('update_building', 'EMDepartment\EMController@update_building')->name('update_building');
+
+    Route::get('add_tenant/{id}', 'EMDepartment\EMController@add_tenant')->name('add_tenant');
+    Route::get('edit_tenant/{id}', 'EMDepartment\EMController@edit_tenant')->name('edit_tenant');
+    Route::post('create_tenant', 'EMDepartment\EMController@create_tenant')->name('create_tenant');
+    Route::post('update_tenant', 'EMDepartment\EMController@update_tenant')->name('update_tenant');
+    Route::get('delete_tenant/{id}', 'EMDepartment\EMController@delete_tenant')->name('delete_tenant');
+    
 
 
+    //EM_Clerk Routes
     Route::resource('em_clerk', 'EMDepartment\EMClerkController');
 
+    // RC Dewpartment Routes
     Route::resource('rc', 'RCDepartment\RCController');
 
 

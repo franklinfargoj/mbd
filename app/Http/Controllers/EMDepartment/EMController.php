@@ -116,7 +116,7 @@ class EMController extends Controller
                 ->rawColumns(['radio','society_name', 'society_building_no', 'society_address', 'Status', 'submitted_at','eeApplicationSociety.address'])
                 ->make(true);
         }
- 
+        
         $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
 
         return view('admin.em_department.index', compact('html','header_data','getData'));
@@ -147,9 +147,10 @@ class EMController extends Controller
     public function gettenants($id){
         //$societies = MasterSociety::whereIn('colony_id', $colonies)->get();
        // dd($id);
+        $building_id = $id;
         $buildings = MasterTenant::where('building_id', '=', $id)->get();
         //dd($buildings);
-        return view('admin.em_department.tenant', compact('buildings'));
+        return view('admin.em_department.tenant', compact('buildings', 'building_id'));
     }
 
     public function soc_bill_level($id){
@@ -275,6 +276,115 @@ class EMController extends Controller
         $building->save();
 
         return redirect()->back()->with('success', 'Building Details Updated Successfully.');
+    }
+
+    /*
+    * Add Tenant 
+    * @ param    => Building ID 
+    * @ Response => Return View with Building ID.
+    */
+    public function add_tenant($id){
+        $tenament = DB::table('master_tenant_type')->get();
+        return view('admin.em_department.add_tenant')->with('building_id', $id)->with('tenament',$tenament);
+    }
+
+    /*
+    * Add Tenant 
+    * @ param    => Request Data. 
+    * @ Response => Return Success Message.
+    */
+    public function create_tenant(Request $request){
+        //return $request->all();
+         $temp = array(       
+        'building_id' => 'required',
+        'flat_no' => 'required',
+        'salutation' => 'required|alpha',
+        'first_name' => 'required|alpha',
+        'middle_name' => 'required|alpha',
+        'last_name' => 'required|alpha',
+        'mobile' => 'required',
+        'email_id' => 'required|email',
+        'use' => 'required',
+        'carpet_area' => 'required', 
+        'tenant_type' => 'required'
+        );
+        // validate the Grievances form data.
+        $this->validate($request, $temp);
+
+        $tenant =  new MasterTenant;
+        $tenant->building_id = $request->input('building_id');
+        $tenant->flat_no = $request->input('flat_no');
+        $tenant->salutation = $request->input('salutation');
+        $tenant->first_name = $request->input('first_name');
+        $tenant->middle_name = $request->input('middle_name');
+        $tenant->last_name = $request->input('last_name');
+        $tenant->mobile = $request->input('mobile');
+        $tenant->email_id = $request->input('email_id');
+        $tenant->use = $request->input('use');
+        $tenant->carpet_area = $request->input('carpet_area');
+        $tenant->tenant_type = $request->input('tenant_type');
+        $tenant->save();
+
+        return redirect()->back()->with('success', 'Tenant Added Successfully.');
+    }
+
+    /*
+    * Edit Tenant 
+    * @ param    => Request id. 
+    * @ Response => Return view with tenant details.
+    */
+    public function edit_tenant($id){
+        $tenant = MasterTenant::where('id', '=', $id)->first();
+         $tenament = DB::table('master_tenant_type')->get();
+        return view('admin.em_department.edit_tenant')->with('tenant', $tenant)->with('tenament',$tenament);
+        //return $building;
+    }
+
+    /*
+    * Update Tenant 
+    * @ param    => Request Data. 
+    * @ Response => Return view with Success Message.
+    */
+    public function update_tenant(Request $request){
+       // return $request->all();
+        $temp = array(       
+            'id' => 'required',
+        'building_id' => 'required',
+        'flat_no' => 'required',
+        'salutation' => 'required|alpha',
+        'first_name' => 'required|alpha',
+        'middle_name' => 'required|alpha',
+        'last_name' => 'required|alpha',
+        'mobile' => 'required',
+        'email_id' => 'required|email',
+        'use' => 'required',
+        'carpet_area' => 'required', 
+        'tenant_type' => 'required'
+        );
+        // validate the Grievances form data.
+        $this->validate($request, $temp);
+
+        $tenant = MasterTenant::find($request->input('id'));
+        $tenant->building_id = $request->input('building_id');
+        $tenant->flat_no = $request->input('flat_no');
+        $tenant->salutation = $request->input('salutation');
+        $tenant->first_name = $request->input('first_name');
+        $tenant->middle_name = $request->input('middle_name');
+        $tenant->last_name = $request->input('last_name');
+        $tenant->mobile = $request->input('mobile');
+        $tenant->email_id = $request->input('email_id');
+        $tenant->use = $request->input('use');
+        $tenant->carpet_area = $request->input('carpet_area');
+        $tenant->tenant_type = $request->input('tenant_type');
+        $tenant->save();
+
+        return redirect()->back()->with('success', 'Tenant Added Successfully.');
+    }
+
+    public function delete_tenant($id){
+        $tenant = MasterTenant::find($id);
+        $tenant->delete();
+        return redirect()->back()->with('success', 'Tenant Removed Successfully.');
     }
 
 }
