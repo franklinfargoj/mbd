@@ -46,7 +46,7 @@ class OlApplication extends Model
     }
 
     public function request_form(){
-       return $this->hasOne(OlRequestForm::class, 'id'); 
+       return $this->hasOne(OlRequestForm::class, 'id', 'request_form_id');
     }
 
     public function ol_application_master(){
