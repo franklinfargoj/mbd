@@ -314,21 +314,21 @@ $route=\Request::route()->getName();
                                 </a>
                             </li>
                             @if(Session::all()['role_name'] == 'society')
-                            @if(isset($ol_application_count))
-                            @if($ol_application_count == 0)
-                            <li class="m-menu__item m-menu__item--submenu">
-                                <a href="{{route('society_detail.application')}}" class="m-menu__link m-menu__toggle">
-                                    <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
-                                        <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
-                                              fill="#FFF" />
-                                    </svg>
-                                    <span class="m-menu__link-text">
-                                        Apply for Offer Letter
-                                    </span>
-                                </a>
-                            </li>
-                            @endif
-                            @endif
+                            {{--@if(isset($ol_application_count))--}}
+                            {{--@if($ol_application_count == 0)--}}
+                            {{--<li class="m-menu__item m-menu__item--submenu">--}}
+                                {{--<a href="{{route('society_detail.application')}}" class="m-menu__link m-menu__toggle">--}}
+                                    {{--<svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">--}}
+                                        {{--<path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"--}}
+                                              {{--fill="#FFF" />--}}
+                                    {{--</svg>--}}
+                                    {{--<span class="m-menu__link-text">--}}
+                                        {{--Apply for Offer Letter--}}
+                                    {{--</span>--}}
+                                {{--</a>--}}
+                            {{--</li>--}}
+                            {{--@endif--}}
+                            {{--@endif--}}
                             <li class="m-menu__item m-menu__item--submenu {{($route=='society_conveyance.index' )?'m-menu__item--active':''}}">
                                 <a href="{{ route('society_conveyance.index') }}" class="m-menu__link m-menu__toggle">
                                     <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
@@ -354,8 +354,8 @@ $route=\Request::route()->getName();
                             </span>
                         </a>
                     </li>
-                    {{--@if(isset($ol_application_count))--}}
-                        {{--@if($ol_application_count == 0)--}}
+                    @if(Session::has('application_count'))
+                        @if(Session::get('application_count') == 0)
                     <li class="m-menu__item {{($route=='society_detail.application' )?'m-menu__item--active':''}}">
                         <a href="{{route('society_detail.application')}}" class="m-menu__link m-menu__toggle">
                             <i class="m-menu__link-icon flaticon-line-graph"></i>
@@ -368,8 +368,8 @@ $route=\Request::route()->getName();
                             </span>
                         </a>
                     </li>
-                        {{--@endif--}}
-                    {{--@endif--}}
+                        @endif
+                    @endif
                 @endif
             @endif
 
