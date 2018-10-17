@@ -348,6 +348,8 @@ Route::post('post_scrutiny_report','ArchitectLayout\LayoutArchitectController@po
 Route::post('upload_lm_checklist_and_remark_report','ArchitectLayout\LayoutArchitectController@upload_lm_checklist_and_remark_report')->name('upload_lm_checklist_and_remark_report');
 Route::post('post_lm_checklist_and_remark_report','ArchitectLayout\LayoutArchitectController@post_lm_checklist_and_remark_report')->name('post_lm_checklist_and_remark_report');
 
+Route::post('upload_em_checklist_and_remark_report','ArchitectLayout\LayoutArchitectController@upload_em_checklist_and_remark_report')->name('upload_em_checklist_and_remark_report');
+Route::post('post_em_checklist_and_remark_report','ArchitectLayout\LayoutArchitectController@post_em_checklist_and_remark_report')->name('post_em_checklist_and_remark_report');
 //add cts
 Route::get('view_cts_detail/{layout_detail_id}','ArchitectLayout\LayoutArchitectDetailController@view_cts_detail')->name('architect_layout_detail_view_cts_plan');
 Route::get('add_cts_detail/{layout_detail_id}','ArchitectLayout\LayoutArchitectDetailController@add_cts_detail')->name('architect_layout_detail_cts_plan');

@@ -116,6 +116,16 @@ class EmPermissionSeeder extends Seeder
                 'display_name' => 'architect_layout_post_scrutiny_report',
                 'description' => 'architect_layout_post_scrutiny_report',
             ],
+            [
+                'name'=>'upload_em_checklist_and_remark_report',
+                'display_name'=>'upload_em_checklist_and_remark_report',
+                'description'=>'upload_em_checklist_and_remark_report'
+            ],
+            [
+                'name'=>'post_em_checklist_and_remark_report',
+                'display_name'=>'post_em_checklist_and_remark_report',
+                'description'=>'post_em_checklist_and_remark_report'
+            ]
             
         ];
         

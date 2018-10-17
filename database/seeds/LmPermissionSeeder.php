@@ -192,6 +192,11 @@ class LmPermissionSeeder extends Seeder
                 'name'=>'upload_lm_checklist_and_remark_report',
                 'display_name' => 'upload_lm_checklist_and_remark_report',
                 'description' => 'upload_lm_checklist_and_remark_report',
+            ],
+            [
+                'name'=>'post_lm_checklist_and_remark_report',
+                'display_name'=>'post_lm_checklist_and_remark_report',
+                'description'=>'post_lm_checklist_and_remark_report'
             ]
         ];
 
