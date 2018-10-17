@@ -339,7 +339,6 @@ class LayoutArchitectController extends Controller
 
     public function upload_lm_checklist_and_remark_report(Request $request)
     {
-
         $file = $request->file('file');
         if ($file->getClientMimeType() == 'application/pdf') {
             $extension = $request->file('file')->getClientOriginalExtension();
@@ -347,13 +346,12 @@ class LayoutArchitectController extends Controller
             $filename = uniqid() . '_' . time() . '_' . date('Ymd') . '.' . $extension;
             $storage = Storage::disk('ftp')->putFileAs($dir, $request->file('file'), $filename);
             if ($storage) {
-                $ArchitectLayoutLmScrtinyQuestionDetail = ArchitectLayoutLmScrtinyQuestionDetail::where(['architect_layout_id' => $request->architect_layout_id, 'architect_layout_lm_scrunity_question_master_id' => $request->report_id, 'user_id' => auth()->user()->id])->first();
-                if ($ArchitectLayoutLmScrtinyQuestionDetail) {
-                    $ArchitectLayoutLmScrtinyQuestionDetail->file = $storage;
-                    $ArchitectLayoutLmScrtinyQuestionDetail->save();
+                $enter_detail = ArchitectLayoutLmScrtinyQuestionDetail::where(['architect_layout_id' => $request->architect_layout_id, 'id' => $request->report_id, 'user_id' => auth()->user()->id])->first();
+                if ($enter_detail) {
+                    $enter_detail->file = $storage;
+                    $enter_detail->save();
 
                 } else {
-                    
                     $enter_detail = new ArchitectLayoutLmScrtinyQuestionDetail;
                     $enter_detail->user_id = auth()->user()->id;
                     $enter_detail->architect_layout_id = $request->architect_layout_id;
@@ -361,16 +359,11 @@ class LayoutArchitectController extends Controller
                     $enter_detail->file = $storage;
                     $enter_detail->save();
                 }
-
-                $ArchitectLayout = ArchitectLayout::find($request->architect_layout_id);
-                $check_list_and_remarks = array();
-                if (session()->get('role_name') == config('commanConfig.land_manager')) {
-                    $check_list_and_remarks['lm_scrtiny_questions'] = $this->architect_layouts->get_lm_checklist_and_remarks($request->architect_layout_id, auth()->user()->id);
-                }
-                return view('admin.architect_layout.scrutiny.lm_checklist_and_remark', compact('check_list_and_remarks', 'ArchitectLayout'));
+                
                 $response_array = array(
                     'status' => true,
                     'file_path' => config('commanConfig.storage_server') . "/" . $storage,
+                    'doc_id'=>$enter_detail->id
                 );
             } else {
                 $response_array = array(
@@ -388,5 +381,11 @@ class LayoutArchitectController extends Controller
 
         return response()->json($response_array);
     }
+
+    public function post_lm_checklist_and_remark_report(Request $request)
+    {
+        return $request->all();
+    }
+
 
 }

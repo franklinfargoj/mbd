@@ -1,5 +1,5 @@
 <div class="loader" style="display:none;"></div>
-<form action="{{route('post_forward_architect_layout')}}" id="forwardApplication" method="post">
+<form action="{{route('post_lm_checklist_and_remark_report')}}" id="forwardApplication" method="post">
     @csrf
     <input type="hidden" id="architect_layout_id" name="architect_layout_id" value="{{$ArchitectLayout->id}}">
     <div class="optionBox">
@@ -37,12 +37,11 @@
                 <div class="col-lg-7 form-group">
                     <div class="custom-file">
                         <input class="custom-file-input" name="lm_report[]" type="file" id="report_file_{{$j}}"
-                            onchange="upload_lm_report(this.id,'lm_report_id_{{$j}}')">
+                            onchange="upload_lm_report(this.id,'lm_report_id_{{$j}}','report_file_{{$j}}','report_file_link_{{$j}}')">
                         <label class="custom-file-label" for="report_file_{{$j}}">Choose file...</label>
-                        @if($item->file!="")
-                        <a target="_blank" id="uploaded_file" href="{{config('commanConfig.storage_server').'/'.$item->file}}">uploaded
+                        <input type="hidden" name="report_file_name[]" id="report_file_{{$j}}" value="">
+                    <a target="_blank" id="report_file_link_{{$j}}" href="{{config('commanConfig.storage_server').'/'.$item->file}}" style="display:{{$item->file!=''?'block':'none'}}">uploaded
                             file</a>
-                        @endif
                     </div>
                 </div>
             </div>
@@ -53,7 +52,7 @@
     </div>
     <div class="row">
         <div class="col-sm-12">
-            <a class="btn--add-delete add">add more </a>
+            <a class="btn--add-delete add_lm_report">add more </a>
         </div>
     </div>
 
