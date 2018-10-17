@@ -37,7 +37,6 @@ Route::get('frontend_register','FrontendRegisterController@showRegisterForm');
 Route::post('frontend_register','FrontendRegisterController@frontendRegister');
 
 
-
 //resolution print
 Route::get('resolution/print','ResolutionController@print_data')->name('resolution.print');
 Route::get('hearing/print','HearingController@print_data')->name('hearing.print');
@@ -64,7 +63,7 @@ Route::group(['middleware' => ['check_society_offer_letter_permission']], functi
     Route::get('refresh_captcha','SocietyOfferLetterController@RefreshCaptcha')->name('refresh_captcha');
     Route::post('UserAuthentication','SocietyOfferLetterController@UserAuthentication')->name('society_detail.UserAuthentication');
 
-    Route::resource('/society_offer_letter', 'SocietyOfferLetterController');
+   Route::resource('/society_offer_letter', 'SocietyOfferLetterController');
 
 
 
@@ -220,10 +219,12 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::post('update_tenant', 'EMDepartment\EMController@update_tenant')->name('update_tenant');
     Route::get('delete_tenant/{id}', 'EMDepartment\EMController@delete_tenant')->name('delete_tenant');
     
-
-
     //EM_Clerk Routes
     Route::resource('em_clerk', 'EMDepartment\EMClerkController');
+    Route::get('em_society_list', 'EMDepartment\EMClerkController@society_list')->name('em_society_list');
+    Route::get('em_building_list', 'EMDepartment\EMClerkController@building_list')->name('em_building_list');
+    Route::post('tenant_payment_list', 'EMDepartment\EMClerkController@tenant_payment_list')->name('tenant_payment_list');
+
 
     // RC Dewpartment Routes
     Route::resource('rc', 'RCDepartment\RCController');

@@ -13,4 +13,8 @@ class MasterTenant extends Model
     	return $this->belongsTo('App\MasterBuilding');	
     
     }
+
+    public function arrear(){
+    	return $this->hasMany('App\ArrearCalculation', 'tenant_id');
+    }
 }
