@@ -38,4 +38,8 @@ class User extends Authenticatable
         return $this->hasOne('App\BoardUser', 'user_id', 'id');
     }
 
+    public function LayoutUser()
+    {
+        return $this->hasOne('App\LayoutUser', 'user_id','id');
+    }
 }
