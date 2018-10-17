@@ -30,6 +30,8 @@ use Illuminate\Support\Facades\DB;
 use Storage;
 use App\Layout\ArchitectLayoutLmScrtinyQuestionMaster;
 use App\Layout\ArchitectLayoutLmScrtinyQuestionDetail;
+use App\OlApplicationMaster;
+
 class CommonController extends Controller
 {
 
@@ -177,7 +179,6 @@ class CommonController extends Controller
             $application_master_arr=OlApplicationMaster::Where('title', 'like', '%Revalidation Of Offer Letter%')->pluck('id')->toArray();
             $applicationData = $applicationData->whereIn('application_master_id',$application_master_arr);
         }
-
 
         $applicationDataDefine = $applicationData->orderBy('ol_applications.id', 'desc')
             ->select()->get();
