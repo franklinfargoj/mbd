@@ -479,8 +479,11 @@ Route::get('ee-billing-manage-masters', 'EEBillingController@ManageMasters');
 Route::get('ee-billing-level', 'EEBillingController@BillingLevel');
 Route::get('ee-ward-colony', 'EEBillingController@WardColony');
 Route::get('ee-add-tenant', 'EEBillingController@AddTenant');
-Route::get('ee-billing-generation', 'EEBillingController@BillGeneration');
+Route::get('ee-society-billing-generation', 'EEBillingController@SocietyBillGeneration');
+Route::get('ee-tenant-billing-generation', 'EEBillingController@SocietyBillGeneration');
 Route::get('society-conveyance-application', 'EEBillingController@SocietyConveyanceApplication');
+Route::get('ee-blling-arrears-calculation', 'EEBillingController@ArrearsCalculation');
+Route::get('ee-blling-view-bill-details', 'EEBillingController@ViewBillDetailsSociety');
 
 //estate and conveyance
 Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']], function(){

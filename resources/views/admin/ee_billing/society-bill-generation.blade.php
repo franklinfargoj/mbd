@@ -3,7 +3,7 @@
 <div class="container-fluid">
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
-            <h3 class="m-subheader__title">Manage Masters</h3>
+            <h3 class="m-subheader__title">Bill Generation</h3>
         </div>
     </div>
     <div class="m-portlet m-portlet--compact m-portlet--mobile">
