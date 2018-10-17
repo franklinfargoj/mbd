@@ -6,6 +6,7 @@ use App\Http\Controllers\Common\CommonController;
 use App\MasterBuilding;
 use App\MasterSociety;
 use App\ServiceChargesRate;
+use App\MasterTenantType;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -16,7 +17,7 @@ use Yajra\DataTables\DataTables;
 use Config;
 use DB;
 use File;
-use Storage;
+use Storage,Validator;
 
 class ServiceChargesController extends Controller
 {
@@ -69,5 +70,87 @@ class ServiceChargesController extends Controller
             "order"=> [1, "asc" ],
             "pageLength" => $this->list_num_of_records_per_page
         ];
+    }
+
+    public function create($society_id,$building_id) {
+    	$data['tenant_types'] = MasterTenantType::pluck('name','name')->toArray();
+    	$data['society'] = MasterSociety::find($society_id);
+        $data['building'] = MasterBuilding::where('society_id', $society_id)->find($building_id);
+    	return view('admin.service_charges.create',$data);
+    }
+
+    public function store($society_id,$building_id,Request $request) {
+    	$rules = [
+    		'year' => 'required',
+    		'tenant_type' => 'required',
+    	];
+    	$messages = [
+    		'tenant_type.required' => 'Select Tenant Type.'
+    	];
+    	$validator = Validator::make($request->all(),$rules,$messages);
+
+    	if ($validator->fails()) {
+            return redirect('service_charges/'.$society_id.'/'.$building_id.'/create')->withErrors($validator)->withInput();
+        }
+
+        $society = MasterSociety::find($society_id);
+        $building = MasterBuilding::where('society_id', $society_id)->find($building_id);
+
+        $service_charge = new ServiceChargesRate;
+        $service_charge->society_id = $society->id;
+        $service_charge->building_id = $building->id;
+        $service_charge->year = $request->year;
+        $service_charge->tenant_type = $request->tenant_type;
+        $service_charge->water_charges = $request->water_charges;
+        $service_charge->electric_city_charge = $request->electric_city_charge;
+        $service_charge->pump_man_and_repair_charges = $request->pump_man_and_repair_charges;
+        $service_charge->external_expender_charge = $request->external_expender_charge;
+        $service_charge->administrative_charge = $request->administrative_charge;
+        $service_charge->lease_rent = $request->lease_rent;
+        $service_charge->na_assessment = $request->na_assessment;
+        $service_charge->other = $request->other;
+        $service_charge->save();
+
+        $request->session()->flash('success', 'Service rate added successfully!');
+        return redirect('service_charges/'.$society_id.'/'.$building_id);
+    }
+
+    public function edit($id) {
+    	$data['tenant_types'] = MasterTenantType::pluck('name','name')->toArray();
+    	$data['service_charge'] = ServiceChargesRate::find($id);
+    	$data['society'] = MasterSociety::find($data['service_charge']->society_id);
+        $data['building'] = MasterBuilding::where('society_id', $data['service_charge']->society_id)->find($data['service_charge']->building_id);
+    	return view('admin.service_charges.edit',$data);
+    }
+
+    public function update($id, Request $request) {
+    	$rules = [
+    		'year' => 'required',
+    		'tenant_type' => 'required',
+    	];
+    	$messages = [
+    		'tenant_type.required' => 'Select Tenant Type.'
+    	];
+    	$validator = Validator::make($request->all(),$rules,$messages);
+
+    	if ($validator->fails()) {
+            return redirect('service_charges/'.$id.'/edit')->withErrors($validator)->withInput();
+        }
+
+        $service_charge = ServiceChargesRate::find($id);
+        $service_charge->year = $request->year;
+        $service_charge->tenant_type = $request->tenant_type;
+        $service_charge->water_charges = $request->water_charges;
+        $service_charge->electric_city_charge = $request->electric_city_charge;
+        $service_charge->pump_man_and_repair_charges = $request->pump_man_and_repair_charges;
+        $service_charge->external_expender_charge = $request->external_expender_charge;
+        $service_charge->administrative_charge = $request->administrative_charge;
+        $service_charge->lease_rent = $request->lease_rent;
+        $service_charge->na_assessment = $request->na_assessment;
+        $service_charge->other = $request->other;
+        $service_charge->save();
+
+        $request->session()->flash('success', 'Service rate updated successfully!');
+        return redirect('service_charges/'.$service_charge->society_id.'/'.$service_charge->building_id);
     }
 }
