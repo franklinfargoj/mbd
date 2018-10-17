@@ -55,6 +55,9 @@
                     Back
                 </a>
             @endif
+                <a href="{{ route('documents_upload') }}" class="btn btn-primary">
+                    Next
+                </a>
         </div>
     </form>
 @endsection
