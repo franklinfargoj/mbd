@@ -494,11 +494,18 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('sc_application/{id}', 'conveyance\DYCODepartment\DYCOController@ViewApplication')->name('dyco.conveyance_application');
 
     Route::get('checklist/{id}', 'conveyance\DYCODepartment\DYCOController@showChecklist')->name('dyco.checklist');
+
+    Route::get('sale_lease_agreement/{id}', 'conveyance\DYCODepartment\DYCOController@saleLeaseAgreement')->name('dyco.sale_lease_agreement');
+
     Route::get('forward_application/{id}', 'conveyance\DYCODepartment\DYCOController@displayForwardApplication')->name('dyco.forward_application');
 
     Route::post('storeChecklistData', 'conveyance\DYCODepartment\DYCOController@storeChecklistData')->name('dyco.storeChecklistData'); 
 
-    Route::post('upload_note', 'conveyance\DYCODepartment\DYCOController@uploadNote')->name('dyco.uploadDycoNote');
+    Route::post('upload_note', 'conveyance\DYCODepartment\DYCOController@uploadNote')->name('dyco.uploadDycoNote');    
+
+    Route::post('save_agreement', 'conveyance\DYCODepartment\DYCOController@saveAgreement')->name('dyco.save_agreement'); 
+
+    Route::post('forward_application_dyco', 'conveyance\DYCODepartment\DYCOController@saveForwardApplication')->name('dyco.forward_application_data');
 });
 
 Route::get('/calculation', function () {

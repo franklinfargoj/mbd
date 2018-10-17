@@ -1,7 +1,14 @@
-@extends('admin.layouts.app')
-@section('css')
-
+@extends('admin.layouts.sidebarAction')
+@section('actions')
+@include('admin.conveyance.dyco_department.action',compact('data'))
+@endsection
 @section('content')
+
+@if(session()->has('success'))
+<div class="alert alert-success display_msg">
+    {{ session()->get('success') }}
+</div>
+@endif
 
 <div class="col-md-12">
     <!-- BEGIN: Subheader -->
@@ -27,7 +34,10 @@
             </li>
         </ul>
     </div>
+<form class="nav-tabs-form" id ="agreementFRM" role="form" method="POST" action="{{ route('dyco.save_agreement')}}" enctype="multipart/form-data">
+@csrf
 
+<input type="hidden" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">
     <div class="tab-content">
         <div class="tab-pane active show" id="sale-deed-agreement" role="tabpanel">
             <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
@@ -47,26 +57,27 @@
                                         <div class="d-flex flex-column h-100 two-cols">
                                             <h5>Upload</h5>
                                             <span class="hint-text">Click on 'Upload' to upload Sale Deed Agreement</span>
-                                            <form action="" method="post">
                                                 <div class="custom-file">
-                                                    <input class="custom-file-input" name="" type="file" id="test-upload1"
-                                                        required="">
+                                                    <input class="custom-file-input" name="sale_agreement" type="file" id="test-upload1" required="">
                                                     <label class="custom-file-label" for="test-upload1">Choose
                                                         file...</label>
                                                 </div>
-                                                <div class="mt-auto">
-                                                    <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn1">Upload</button>
-                                                </div>
-                                            </form>
                                         </div>
                                     </div>
                                     <div class="col-sm-6 border-left">
                                         <div class="d-flex flex-column h-100 two-cols">
-                                            <h5>Download Note</h5>
-                                            <span class="hint-text">Click Download to download Sale Deed Agreement in
-                                                .doc format.</span>
+                                            <h5>Download</h5>
+                                            <span class="hint-text">Click Download to download Sale Deed Agreement </span>
                                             <div class="mt-auto">
-                                                <button class="btn btn-primary">Download Sale Deed Agreement</button>
+                                                @if(isset($data->scApplicationAgreement->draft_sale_agreement))
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->scApplicationAgreement->draft_sale_agreement }}">
+                                                <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
+                                                        Download </Button>
+                                                </a>
+                                                @else
+                                                <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
+                                                    *Note : Sale Deed Agreement is not available.</span>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
@@ -98,26 +109,27 @@
                                         <div class="d-flex flex-column h-100 two-cols">
                                             <h5>Upload</h5>
                                             <span class="hint-text">Click on 'Upload' to upload Lease Deed Agreement</span>
-                                            <form action="" method="post">
                                                 <div class="custom-file">
-                                                    <input class="custom-file-input" name="" type="file" id="test-upload2"
-                                                        required="">
+                                                    <input class="custom-file-input" name="lease_agreement" type="file" id="test-upload2" required="">
                                                     <label class="custom-file-label" for="test-upload2">Choose
                                                         file...</label>
                                                 </div>
-                                                <div class="mt-auto">
-                                                    <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn2">Upload</button>
-                                                </div>
-                                            </form>
                                         </div>
                                     </div>
                                     <div class="col-sm-6 border-left">
                                         <div class="d-flex flex-column h-100 two-cols">
                                             <h5>Download Note</h5>
-                                            <span class="hint-text">Click Download to download Lease Deed Agreement in
-                                                .doc format.</span>
+                                            <span class="hint-text">Click Download to download Lease Deed Agreement</span>
                                             <div class="mt-auto">
-                                                <button class="btn btn-primary">Download Lease Deed Agreement</button>
+                                                @if(isset($data->scApplicationAgreement->draft_lease_agreement))
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->scApplicationAgreement->draft_lease_agreement }}">
+                                                <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
+                                                        Download </Button>
+                                                </a>
+                                                @else
+                                                <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
+                                                    *Note : Lease Deed Agreement is not available.</span>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
@@ -129,5 +141,19 @@
             </div>
         </div>
     </div>
+    <div class="m-portlet m-portlet--mobile m_panel">
+        <div class="m-portlet__body">
+            <h3 class="section-title section-title--small">Sent to Jt CO</h3>
+            <div class="col-xs-12 row">
+                <div class="col-md-12">
+                    <p class="font-weight-semi-bold">Remark</p>
+                    <textarea rows="4" cols="63" name="remark"></textarea>
+                    <button type="submit" class="btn btn-primary mt-3">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+ </form>   
 </div>
+
 @endsection

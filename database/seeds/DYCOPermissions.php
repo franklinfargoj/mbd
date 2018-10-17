@@ -47,6 +47,21 @@ class DYCOPermissions extends Seeder
                 'name'         => 'dyco.forward_application',
                 'display_name' => 'forward application',
                 'description'  => 'forward application'
+            ],             
+            [
+                'name'         => 'dyco.sale_lease_agreement',
+                'display_name' => 'sale lease agreement',
+                'description'  => 'sale lease agreement'
+            ],            
+            [
+                'name'         => 'dyco.save_agreement',
+                'display_name' => 'save Agreement',
+                'description'  => 'save Agreement'
+            ],             
+            [
+                'name'         => 'dyco.forward_application_data',
+                'display_name' => 'forward application data',
+                'description'  => 'forward application data'
             ],                                                                  
         ];
 
