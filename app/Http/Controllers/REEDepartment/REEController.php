@@ -528,4 +528,14 @@ class REEController extends Controller
 
         return view('admin.common.reval_offer_letter', compact('ol_application'));
     }
+
+    public function societyRevalDocuments(Request $request,$applicationId){
+
+        $ol_application = $this->CommonController->getOlApplication($applicationId);
+        $societyDocument = $this->CommonController->getSocietyEEDocuments($applicationId);
+        $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
+
+        $ol_application->status = $this->CommonController->getCurrentStatus($applicationId);
+        return view('admin.REE_department.society_reval_documents', compact('societyDocument','ol_application'));
+    }
 }

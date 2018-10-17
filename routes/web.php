@@ -207,6 +207,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::resource('ree_applications', 'REEDepartment\REEController');
     Route::get('society_ee_document/{id}','REEDepartment\REEController@societyEEDocuments')->name('ree.society_EE_documents');
+    Route::get('society_reval_document/{id}','REEDepartment\REEController@societyRevalDocuments')->name('ree.society_reval_documents');
 
     Route::get('EE_scrutiny_remark/{id}','REEDepartment\REEController@eeScrutinyRemark')->name('ree.EE_Scrutiny_Remark');
 
