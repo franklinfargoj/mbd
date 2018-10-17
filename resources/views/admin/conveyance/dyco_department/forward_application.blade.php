@@ -17,7 +17,7 @@
                 <li class="nav-item m-tabs__item" data-target="#document-scrunity">
                     <a class="nav-link m-tabs__link active show" data-toggle="tab" href="#scrutiny-history-tab">
                         <i class="la la-cog"></i> Scrutiny History
-                    </a>
+                    </a>  
                 </li>
 
                 <li class="nav-item m-tabs__item">
@@ -241,9 +241,10 @@
                                                                         </h3>
                                                                     </div>
                                                                     <div class="remarks-suggestions">
-                                                                        <form action="{{ route('co.forward_application_data') }}"
+                                                                        <form action="{{ route('dyco.forward_application_data') }}"
                                                                             id="forwardApplication" method="post">
                                                                             @csrf
+
                                                                             <input type="hidden" name="to_role_id" id="to_role_id">
                                                                             <input type="hidden" name="check_status"
                                                                                 class="check_status" value="1">
@@ -278,20 +279,14 @@
                                                                                     <div class="col-lg-4 col-md-9 col-sm-12">
                                                                                         <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
                                                                                             name="to_user_id" id="to_user_id">
-    
-                                                                                            <option value=""
-                                                                                                data-role=""></option>
-             
-                                        
-                                                                                            <option value=""
-                                                                                                data-role=""></option>
-                                                                                  
+                                                                                            @foreach($parentData as $child)
+                                                                                            <option value="{{ isset($child->id) ? $child->id : '' }}"
+                                                                                                data-role="{{ isset($child->role_id) ? $child->role_id : '' }}">{{ isset($child->name) ? $child->name : '' }} ({{ isset($child->roles[0]->name) ? $child->roles[0]->name : '' }})</option>
+                                                                                            @endforeach
                                                                                         </select>
                                                                                     </div>
                                                                                 </div>
 
-
-                                                        
                                                                                 <div class="form-group m-form__group row mt-3 child-data"
                                                                                     style="display: none">
                                                                                     <label class="col-form-label col-lg-2 col-sm-12">
@@ -327,8 +322,9 @@
                                                                                 </div>
                                                                             </div>
                                                                             <input type="hidden" name="applicationId"
-                                                                                value="">
+                                                                                value="{{ isset($data->id) ? $data->id : '' }}">
                                                                         </form>
+
                                                                     </div>
                                                                 </div>
                                                             </div>

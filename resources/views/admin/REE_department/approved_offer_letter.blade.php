@@ -180,7 +180,7 @@
                     <div class="col-md-12">
                         <p class="font-weight-semi-bold">Remark</p>
                         <textarea rows="4" cols="63" name="remark"></textarea>
-                        <button type="submit" class="btn btn-primary">Send offer Letter </button>
+                        <button type="submit" class="btn btn-primary mt-3">Send offer Letter </button>
                     </div>
                 </div>
             </div>

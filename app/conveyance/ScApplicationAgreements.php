@@ -27,6 +27,7 @@ class ScApplicationAgreements extends Model
      */
     protected $fillable = [
         'application_id',
+        'user_id',
         'draft_sale_agreement',
         'draft_lease_agreement',
         'approve_sale_agreement',

@@ -38,7 +38,7 @@ class SelectionCommiteeSeeder extends Seeder
                 'description' => 'final_architect_application'
             ],
             [
-                'name' => 'post_forward_application',
+                'name' => 'architect.post_forward_application',
                 'display_name' => 'post_forward_application',
                 'description' => 'post_forward_application'
             ],
@@ -48,7 +48,7 @@ class SelectionCommiteeSeeder extends Seeder
                 'description' => 'evaluate_architect_application'
             ],
             [
-                'name' => 'forward_application',
+                'name' => 'architect.forward_application',
                 'display_name' => 'forward_application',
                 'description' => 'forward_application'
             ],

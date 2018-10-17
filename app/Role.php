@@ -39,4 +39,9 @@ class Role extends Model
     {
         return $this->hasMany('App\User', 'role_id', 'id');
     }
+
+    public function conveyance_child()
+    {
+        return $this->belongsTo('App\Role', 'conveyance_child_id', 'id');
+    }    
 }
