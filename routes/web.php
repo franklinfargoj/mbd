@@ -506,6 +506,7 @@ Route::get('/scrutiny_remark_em', function () {
     return view('admin.conveyance.em_department.scrutiny_remark');
 });
 
+
 Route::get('/sale_lease_agreement', function () {
     return view('admin.conveyance.dyco_department.sale_lease_agreement');
 });
