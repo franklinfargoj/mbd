@@ -195,7 +195,7 @@ Breadcrumbs::for('society_application', function ($trail) {
 
 Breadcrumbs::for('society_offer_application_create', function ($trail, $id) {
     $trail->parent('society_dashboard');
-    $trail->push('Applications for Redevelopment', route('show_form_dev', $id));
+    $trail->push('Application form for Redevelopment', route('show_form_dev', $id));
 });
 
 //cap Breadcrumbs
