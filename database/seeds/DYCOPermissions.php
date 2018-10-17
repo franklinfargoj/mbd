@@ -42,6 +42,11 @@ class DYCOPermissions extends Seeder
                 'name'         => 'dyco.uploadDycoNote',
                 'display_name' => 'upload Dyco Note',
                 'description'  => 'upload Dyco Note'
+            ],            
+            [
+                'name'         => 'dyco.forward_application',
+                'display_name' => 'forward application',
+                'description'  => 'forward application'
             ],                                                                  
         ];
 
