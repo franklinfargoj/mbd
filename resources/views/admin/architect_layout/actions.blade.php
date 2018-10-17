@@ -38,7 +38,7 @@ $route=\Request::route()->getName();
             </a>
         </li>
         @endif
-        @if(session()->get('role_name')==config('commanConfig.land_manager'))
+        @if(session()->get('role_name')==config('commanConfig.land_manager') || session()->get('role_name')==config('commanConfig.estate_manager'))
        <li class="m-menu__item m-menu__item--submenu {{($route=='architect_layout_get_scrtiny')?'m-menu__item--active':''}}">
             <a class="m-menu__link m-menu__toggle" title="Scrutiny & Remarks" href="{{route('architect_layout_get_scrtiny',encrypt($ArchitectLayout->id))}}">
                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">

@@ -1,19 +1,20 @@
 <div class="loader" style="display:none;"></div>
-<form action="{{route('post_lm_checklist_and_remark_report')}}" id="forwardApplication" method="post">
+<form action="{{$post_route_name}}" id="forwardApplication" method="post">
     @csrf
+    <input type="hidden" id="upload_file_route_name" name="upload_file_route_name" value="{{$upload_file_route_name}}">
     <input type="hidden" id="architect_layout_id" name="architect_layout_id" value="{{$ArchitectLayout->id}}">
     <div class="optionBox">
 
         @php $j=0; @endphp
-        @foreach ($check_list_and_remarks['lm_scrtiny_questions'] as $item)
+        @foreach ($check_list_and_remarks as $item)
         <div class="block">
-            <input type="hidden" name="report_id[]" id="lm_report_id_{{$j}}" value="{{$item->id}}">
+            <input type="hidden" name="report_id[]" id="report_id_{{$j}}" value="{{$item->id}}">
             @if($item->question!="")
             <p style="font-size: 16px">{{$item->question->title}}</p>
             @if($item->question->is_options==1)
             <p>
-            <input type="radio" name="lable[{{$j}}]"  value="1" {{$item->label1==1?'checked':''}}>{{$item->question->label1}}
-                <input type="radio" name="lable[{{$j}}]"  value="2" {{$item->label2==1?'checked':''}}>{{$item->question->label2}}
+                <input type="radio" name="lable[{{$j}}]" value="1" {{$item->label1==1?'checked':''}}>{{$item->question->label1}}
+                <input type="radio" name="lable[{{$j}}]" value="2" {{$item->label2==1?'checked':''}}>{{$item->question->label2}}
             </p>
             @endif
             @endif
@@ -36,11 +37,11 @@
                 </div>
                 <div class="col-lg-7 form-group">
                     <div class="custom-file">
-                        <input class="custom-file-input" name="lm_report[]" type="file" id="report_file_{{$j}}"
-                            onchange="upload_lm_report(this.id,'lm_report_id_{{$j}}','report_file_{{$j}}','report_file_link_{{$j}}')">
+                        <input class="custom-file-input" name="report[]" type="file" id="report_file_{{$j}}" onchange="upload_report(this.id,'report_id_{{$j}}','report_file_{{$j}}','report_file_link_{{$j}}')">
                         <label class="custom-file-label" for="report_file_{{$j}}">Choose file...</label>
                         <input type="hidden" name="report_file_name[]" id="report_file_{{$j}}" value="">
-                    <a target="_blank" id="report_file_link_{{$j}}" href="{{config('commanConfig.storage_server').'/'.$item->file}}" style="display:{{$item->file!=''?'block':'none'}}">uploaded
+                        <a target="_blank" id="report_file_link_{{$j}}" href="{{config('commanConfig.storage_server').'/'.$item->file}}"
+                            style="display:{{$item->file!=''?'block':'none'}}">uploaded
                             file</a>
                     </div>
                 </div>
@@ -52,7 +53,7 @@
     </div>
     <div class="row">
         <div class="col-sm-12">
-            <a class="btn--add-delete add_lm_report">add more </a>
+            <a class="btn--add-delete add_report">add more </a>
         </div>
     </div>
 
