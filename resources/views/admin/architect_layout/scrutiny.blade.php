@@ -56,7 +56,8 @@
                                             <td><a target="_blank" href="{{config('commanConfig.storage_server').'/'.$architect_layout_em_scrutiny_report->file}}">file</a></td>
                                         </tr>
                                         @endforeach
-                                        @foreach($architect_layout_land_scrutiny_reports as $architect_layout_land_scrutiny_report)
+                                        @foreach($architect_layout_land_scrutiny_reports as
+                                        $architect_layout_land_scrutiny_report)
                                         <tr>
                                             <td>{{
                                                 date('d/m/Y',strtotime($architect_layout_land_scrutiny_report->created_at))
@@ -81,8 +82,10 @@
                                         Checklist & Remarks
                                     </h3>
                                 </div>
-                                <div class="remarks-suggestions">
-                                    @include('admin.architect_layout.scrutiny.lm_checklist_and_remark',compact('check_list_and_remarks'))
+                                <div class="remarks-suggestions scrutiny-checklist_and_remarks">
+                                    <div id="wrapper">
+                                        @include('admin.architect_layout.scrutiny.lm_checklist_and_remark',compact('check_list_and_remarks'))
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -122,37 +125,40 @@
             $("#to_role_id").val(id);
         });
         $('.add').click(function () {
-            var count=$(".optionBox > div").length;
+            alert('ok')
+            var count = $(".optionBox > div").length;
             count++;
             $('.block:last').after(
-                '<input type="hidden" id="lm_report_id_'+count+'" value="">'+
-                '<div class="m-form__group row">'+
-                '<div class="col-lg-3 form-group">'+
-                    '<label for="Upload_Cts_Plan">Remark</label>'+
-                '</div>'+
-                '<div class="col-lg-7 form-group">'+
-                    '<div class="custom-file">'+
-                        '<textarea type="text" name="remark[]" id="remark" class="form-control form-control--custom form-control--fixed-height"></textarea>'+
-                        '<span class="error"></span>'+
-                    '</div>'+
-                '</div>'+
-            '</div>'+
-            '<div class="m-form__group row">'+
-                '<div class="col-lg-3 form-group">'+
-                    '<label for="Upload_Cts_Plan">Upload Report</label>'+
-                '</div>'+
-                '<div class="col-lg-7 form-group">'+
-                    '<div class="custom-file">'+
-                    '<input class="custom-file-input" name="crz_remark_plan[]" type="file" onchange="upload_lm_report(this.id,\'lm_report_id_'+count+'\')" id="report_file_'+count+'">'+
-                        '<label class="custom-file-label" for="report_file_'+count+'">Choose file...</label>'+
-                        '<a target="_blank" id="uploaded_file" href="">uploaded file</a>'+
-                    '</div>'+
-                '</div>'+
-            '</div>'
+                '<input type="hidden" id="lm_report_id_' + count + '" value="">' +
+                '<div class="m-form__group row">' +
+                '<div class="col-lg-3 form-group">' +
+                '<label for="Upload_Cts_Plan">Remark</label>' +
+                '</div>' +
+                '<div class="col-lg-7 form-group">' +
+                '<div class="custom-file">' +
+                '<textarea type="text" name="remark[]" id="remark" class="form-control form-control--custom form-control--fixed-height"></textarea>' +
+                '<span class="error"></span>' +
+                '</div>' +
+                '</div>' +
+                '</div>' +
+                '<div class="m-form__group row">' +
+                '<div class="col-lg-3 form-group">' +
+                '<label for="Upload_Cts_Plan">Upload Report</label>' +
+                '</div>' +
+                '<div class="col-lg-7 form-group">' +
+                '<div class="custom-file">' +
+                '<input class="custom-file-input" name="crz_remark_plan[]" type="file" onchange="upload_lm_report(this.id,\'lm_report_id_' +
+                count + '\')" id="report_file_' + count + '">' +
+                '<label class="custom-file-label" for="report_file_' + count +
+                '">Choose file...</label>' +
+                '</div>' +
+                '</div>' +
+                '</div>'
             );
             $('.m-bootstrap-select').selectpicker('refresh');
             showUploadedFileName();
         });
+
         function showUploadedFileName() {
             $('.custom-file-input').change(function (e) {
                 $(this).parents('.custom-file').find('.custom-file-label').text(e.target.files[0].name);
@@ -161,13 +167,11 @@
 
     });
 
-    function upload_lm_report(current_id,report_id)
-    {
+    function upload_lm_report(current_id, report_id) {
         $(".loader").show();
-        var architect_layout_id=$('#architect_layout_id').val();
-        var report_id=document.getElementById(report_id).value;
-        alert(report_id);
-        var file_data = $('#'+current_id).prop('files')[0];
+        var architect_layout_id = $('#architect_layout_id').val();
+        var report_id = document.getElementById(report_id).value;
+        var file_data = $('#' + current_id).prop('files')[0];
         var form_data = new FormData();
         form_data.append('file', file_data);
         form_data.append('architect_layout_id', architect_layout_id);
@@ -184,42 +188,44 @@
             contentType: false, // The content type used when sending data to the server.
             cache: false, // To unable request pages to be cached
             processData: false,
-            success: function(data) {
-            console.log(data)      
+            success: function (data) {
+                console.log(data)
                 $(".loader").hide();
-            //     if(data.status==true)
-            //     {
-            //         if(replace_hidden_to_label)
-            //         {
-            //         $("#"+doc_name).replaceWith("<label>" + doc_name1 + "</label>");
-            //         }
-            //         $("#"+uploaded_file_id).prop("href", data.file_path)
-            //         $("#"+uploaded_file_id).css("display", "block");
-            //         document.getElementById(ee_report_doc_id).value=data.doc_id
-            //         document.getElementById(doc_error).innerHTML = "";
-            //     }else
-            //     {
-            //         document.getElementById(id).value = null;
-            //         document.getElementById(doc_error).innerHTML = data.message;
-            //     }
-             }
+                $("#wrapper").html(data)
+                //     if(data.status==true)
+                //     {
+                //         if(replace_hidden_to_label)
+                //         {
+                //         $("#"+doc_name).replaceWith("<label>" + doc_name1 + "</label>");
+                //         }
+                //         $("#"+uploaded_file_id).prop("href", data.file_path)
+                //         $("#"+uploaded_file_id).css("display", "block");
+                //         document.getElementById(ee_report_doc_id).value=data.doc_id
+                //         document.getElementById(doc_error).innerHTML = "";
+                //     }else
+                //     {
+                //         document.getElementById(id).value = null;
+                //         document.getElementById(doc_error).innerHTML = data.message;
+                //     }
+            }
         });
     }
-    
+
 </script>
 
 @endsection
 @section('css')
 <style>
     .loader {
-    position: fixed;
-    left: 0px;
-    top: 0px;
-    width: 100%;
-    height: 100%;
-    z-index: 9999;
-    background: url('/img/loading-spinner-blue.gif') 50% 50% no-repeat rgb(249,249,249);
-    opacity: .8;
-}
+        position: fixed;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+        z-index: 9999;
+        background: url('/img/loading-spinner-blue.gif') 50% 50% no-repeat rgb(249, 249, 249);
+        opacity: .8;
+    }
+
 </style>
 @endsection
