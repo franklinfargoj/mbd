@@ -3,13 +3,25 @@
 namespace App\Http\Controllers;
 use App\SocietyConveyance;
 use App\SocietyOfferLetter;
+use App\OlApplication;
 use Yajra\DataTables\DataTables;
 use Auth;
+use App\Http\Controllers\Common\CommonController;
+use Config;
 
 use Illuminate\Http\Request;
 
 class SocietyConveyanceController extends Controller
 {
+
+    protected $list_num_of_records_per_page;
+
+    public function __construct()
+    {
+        $this->CommonController = new CommonController();
+        $this->list_num_of_records_per_page = Config::get('commanConfig.list_num_of_records_per_page');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -17,9 +29,9 @@ class SocietyConveyanceController extends Controller
      */
     public function index(DataTables $datatables, Request $request)
     {
-        $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
-        $sc = SocietyConveyance::where('society_id', $society_details->id)->first();
-        dd($sc);
+//        $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
+//        $sc = SocietyConveyance::where('society_id', $society_details->id)->first();
+//        dd($sc);
         $columns = [
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'application_no','name' => 'application_no','title' => 'Application No.'],
@@ -30,9 +42,9 @@ class SocietyConveyanceController extends Controller
         ];
         $getRequest = $request->all();
         $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
-        $ol_application_count = count(OlApplication::where('society_id', $society_details->id)->get());
+        $ol_application_count = count(SocietyConveyance::where('society_id', $society_details->id)->get());
         if ($datatables->getRequest()->ajax()) {
-            $ol_applications = OlApplication::where('society_id', $society_details->id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
+            $ol_applications = SocietyConveyance::where('society_id', $society_details->id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
                 $q->where('society_flag', '1')->orderBy('id', 'desc');
             } ]);
 
@@ -80,7 +92,24 @@ class SocietyConveyanceController extends Controller
         }
 
         $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
-        return view('frontend.society.conveyance.index');
+        return view('frontend.society.conveyance.index', compact('html'));
+    }
+
+    protected function getParameters() {
+        return [
+            'serverSide' => true,
+            'processing' => true,
+            'ordering'   =>'isSorted',
+            "order"=> [5, "desc" ],
+            "pageLength" => $this->list_num_of_records_per_page,
+            // 'fixedHeader' => [
+            //     'header' => true,
+            //     'footer' => true
+            // ]
+            "filter" => [
+                'class' => 'test_class'
+            ]
+        ];
     }
 
     /**
@@ -90,6 +119,7 @@ class SocietyConveyanceController extends Controller
      */
     public function create()
     {
+
         return view('frontend.society.conveyance.add');
     }
 

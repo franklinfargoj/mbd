@@ -345,6 +345,7 @@ Route::post('post_forward_architect_layout','ArchitectLayout\LayoutArchitectCont
 Route::get('get_scrutiny/{layout_id}','ArchitectLayout\LayoutArchitectController@get_scrutiny')->name('architect_layout_get_scrtiny');
 Route::get('add_scrutiny_report/{layout_id}','ArchitectLayout\LayoutArchitectController@add_scrutiny_report')->name('architect_layout_add_scrutiny_report');
 Route::post('post_scrutiny_report','ArchitectLayout\LayoutArchitectController@post_scrutiny_report')->name('architect_layout_post_scrutiny_report');
+Route::post('upload_lm_checklist_and_remark_report','ArchitectLayout\LayoutArchitectController@upload_lm_checklist_and_remark_report')->name('upload_lm_checklist_and_remark_report');
 
 
 //add cts
@@ -486,9 +487,28 @@ Route::get('ee-blling-arrears-calculation', 'EEBillingController@ArrearsCalculat
 Route::get('ee-blling-view-bill-details', 'EEBillingController@ViewBillDetailsSociety');
 
 //estate and conveyance
+
 Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']], function(){
     Route::resource('dyco', 'conveyance\DYCODepartment\DYCOController');
+
     Route::get('sc_application/{id}', 'conveyance\DYCODepartment\DYCOController@ViewApplication')->name('dyco.conveyance_application');
+
     Route::get('checklist/{id}', 'conveyance\DYCODepartment\DYCOController@showChecklist')->name('dyco.checklist');
-    Route::post('storeChecklistData', 'conveyance\DYCODepartment\DYCOController@storeChecklistData')->name('dyco.storeChecklistData');
+    Route::get('forward_application/{id}', 'conveyance\DYCODepartment\DYCOController@displayForwardApplication')->name('dyco.forward_application');
+
+    Route::post('storeChecklistData', 'conveyance\DYCODepartment\DYCOController@storeChecklistData')->name('dyco.storeChecklistData'); 
+
+    Route::post('upload_note', 'conveyance\DYCODepartment\DYCOController@uploadNote')->name('dyco.uploadDycoNote');
+});
+
+Route::get('/calculation', function () {
+    return view('admin.conveyance.ee_department.sale_price_calculation');
+});
+
+Route::get('/scrutiny_remark_em', function () {
+    return view('admin.conveyance.em_department.scrutiny_remark');
+});
+
+Route::get('/sale_lease_agreement', function () {
+    return view('admin.conveyance.dyco_department.sale_lease_agreement');
 });

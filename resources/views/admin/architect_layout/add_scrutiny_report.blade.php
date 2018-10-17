@@ -31,15 +31,25 @@
                 <div class="tab-pane active show" id="scrutiny-history-tab">
                     <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
                         <div class="portlet-body">
+                            @if(Session::has('success'))
+                            <div class="alert alert-success">
+                                <p> {{ Session::get('success') }} </p>
+                            </div>
+                            @endif
+                            @if(Session::has('error'))
+                            <div class="alert alert-danger">
+                                <p> {{ Session::get('error') }} </p>
+                            </div>
+                            @endif
                             <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
                                 <div class="">
                                     <h3 class="section-title section-title--small">
-                                        Upload  Report
+                                        Upload Report
                                     </h3>
                                 </div>
                                 <div class="remarks-suggestions">
-                                        <form action="{{route('architect_layout_post_scrutiny_report')}}" id="forwardApplication"
-                                        method="post">
+                                    <form action="{{route('architect_layout_post_scrutiny_report')}}" id="forwardApplication"
+                                        method="post" enctype="multipart/form-data">
                                         @csrf
                                         <input type="hidden" name="architect_layout_id" value="{{$ArchitectLayout->id}}">
                                         <div class="row">
@@ -48,9 +58,10 @@
                                             </div>
                                             <div class="col-lg-6 form-group">
                                                 <div class="custom-file">
-                                                <input type="text" name="document_name" class="form-control form-control--custom" value="{{old('document_name')}}">
+                                                    <input type="text" name="document_name" class="form-control form-control--custom"
+                                                        value="{{old('document_name')}}">
                                                     @if ($errors->has('document_name'))
-                                                        <span class="text-danger">{{ $errors->first('document_name') }}</span>
+                                                    <span class="text-danger">{{ $errors->first('document_name') }}</span>
                                                     @endif
                                                 </div>
                                             </div>
@@ -62,9 +73,10 @@
                                             <div class="col-lg-6 form-group">
                                                 <div class="custom-file">
                                                     <input type="file" id="doc_file" name="doc_file" class="custom-file-input">
-                                                    <label title="" class="custom-file-label" for="doc_file">Choose file</label>
+                                                    <label title="" class="custom-file-label" for="doc_file">Choose
+                                                        file</label>
                                                     @if ($errors->has('doc_file'))
-                                                        <span class="text-danger">{{ $errors->first('doc_file') }}</span>
+                                                    <span class="text-danger">{{ $errors->first('doc_file') }}</span>
                                                     @endif
                                                 </div>
                                             </div>
@@ -72,7 +84,7 @@
                                         <div class="mt-auto">
                                             <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Save</Button>
                                             <a href="{{route('architect_layout_get_scrtiny',['layout_id'=>encrypt($ArchitectLayout->id)])}}"
-                                                    class="btn btn-primary btn-custom">Back</a>
+                                                class="btn btn-primary btn-custom">Back</a>
                                         </div>
                                     </form>
                                 </div>

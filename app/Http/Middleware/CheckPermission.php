@@ -5,8 +5,8 @@ namespace App\Http\Middleware;
 use App\LayoutUser;
 use App\User;
 use Closure;
-use Session;
 use Illuminate\Support\Facades\Auth;
+use Session;
 
 class CheckPermission
 {
@@ -24,12 +24,11 @@ class CheckPermission
         $roles = array_get($user, 'roles');
         $parent = array_get($roles[0], 'parent');
         $child = array_get($roles[0], 'child');
-        $only_permissions =  array_flatten(array_pluck($roles, 'permission'));
-        $permissions =  array_pluck($only_permissions, 'name');
+        $only_permissions = array_flatten(array_pluck($roles, 'permission'));
+        $permissions = array_pluck($only_permissions, 'name');
         $layout = LayoutUser::where('user_id', Auth::user()->id)->first();
 
-        if(in_array($current_route, $permissions))
-        {
+        if (in_array($current_route, $permissions)) {
             session(['permission' => $permissions]);
             session(['redirect_to' => $roles->first()->redirect_to]);
             session(['role_name' => $roles->first()->name]);

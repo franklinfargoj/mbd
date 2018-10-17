@@ -256,6 +256,8 @@ class SocietyOfferLetterController extends Controller
         $getRequest = $request->all();
         $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $ol_application_count = count(OlApplication::where('society_id', $society_details->id)->get());
+        Session::put('application_count', $ol_application_count);
+//        dd(Session::get('application_count'));
         if ($datatables->getRequest()->ajax()) {
             $ol_applications = OlApplication::where('society_id', $society_details->id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
                 $q->where('society_flag', '1')->orderBy('id', 'desc');
