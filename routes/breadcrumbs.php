@@ -339,6 +339,11 @@ Breadcrumbs::for('society_EE_documents_ree', function ($trail,$id) {
     $trail->push('society EE documents', route('ree.society_EE_documents',$id));
 });
 
+Breadcrumbs::for('society_reval_documents_ree', function ($trail,$id) {
+    $trail->parent('ree_reval');
+    $trail->push('society reval documents', route('ree.society_reval_documents',$id));
+});
+
 Breadcrumbs::for('EE_scrutiny_ree', function ($trail,$id) {
     $trail->parent('ree');
     $trail->push('EE scrutiny', route('ree.EE_Scrutiny_Remark',$id));
