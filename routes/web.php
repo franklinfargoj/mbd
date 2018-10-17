@@ -309,8 +309,8 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('evaluate_architect_application/{id}','ArchitectApplicationController@evaluateApplication')->name('evaluate_architect_application');
     Route::post('save_evaluate_marks','ArchitectApplicationController@saveEvaluateMarks')->name('save_evaluate_marks');
     Route::get('generate_certificate/{id}','ArchitectApplicationController@getGenerateCertificate')->name('generate_certificate');
-    Route::get('forward_application/{id}','ArchitectApplicationController@getForwardApplication')->name('forward_application');
-    Route::post('post_forward_application','ArchitectApplicationController@forward_application')->name('post_forward_application');
+    Route::get('forward_application_architect/{id}','ArchitectApplicationController@getForwardApplication')->name('architect.forward_application');
+    Route::post('post_forward_application','ArchitectApplicationController@forward_application')->name('architect.post_forward_application');
     Route::get('finalCertificateGenerate/{id}','ArchitectApplicationController@getFinalCertificateGenerate')->name('finalCertificateGenerate');
     Route::get('tempCertificateGenerate/{id}','ArchitectApplicationController@getTempCertificateGenerate')->name('tempCertificateGenerate');
     Route::post('finalCertificateGenerate','ArchitectApplicationController@postFinalCertificateGenerate')->name('architect.post_final_signed_certificate');
@@ -346,7 +346,7 @@ Route::get('get_scrutiny/{layout_id}','ArchitectLayout\LayoutArchitectController
 Route::get('add_scrutiny_report/{layout_id}','ArchitectLayout\LayoutArchitectController@add_scrutiny_report')->name('architect_layout_add_scrutiny_report');
 Route::post('post_scrutiny_report','ArchitectLayout\LayoutArchitectController@post_scrutiny_report')->name('architect_layout_post_scrutiny_report');
 Route::post('upload_lm_checklist_and_remark_report','ArchitectLayout\LayoutArchitectController@upload_lm_checklist_and_remark_report')->name('upload_lm_checklist_and_remark_report');
-
+Route::post('post_lm_checklist_and_remark_report','ArchitectLayout\LayoutArchitectController@post_lm_checklist_and_remark_report')->name('post_lm_checklist_and_remark_report');
 
 //add cts
 Route::get('view_cts_detail/{layout_detail_id}','ArchitectLayout\LayoutArchitectDetailController@view_cts_detail')->name('architect_layout_detail_view_cts_plan');

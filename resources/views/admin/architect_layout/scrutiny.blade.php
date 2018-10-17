@@ -124,8 +124,10 @@
 
             $("#to_role_id").val(id);
         });
-        $('.add').click(function () {
-            alert('ok')
+
+        $('body').on('click', '.add_lm_report', function () {
+            //$('.add_lm_report').click(function () {
+            //   alert('ok')
             var count = $(".optionBox > div").length;
             count++;
             $('.block:last').after(
@@ -148,9 +150,14 @@
                 '<div class="col-lg-7 form-group">' +
                 '<div class="custom-file">' +
                 '<input class="custom-file-input" name="crz_remark_plan[]" type="file" onchange="upload_lm_report(this.id,\'lm_report_id_' +
-                count + '\')" id="report_file_' + count + '">' +
+                count + '\',\'report_file_' + count + '\',\'report_file_link_' + count +
+                '\')" id="report_file_' + count + '">' +
                 '<label class="custom-file-label" for="report_file_' + count +
                 '">Choose file...</label>' +
+                '<input type="hidden" name="report_file_name[]" id="report_file_' + count +
+                '" value="">' +
+                '<a target="_blank" id="report_file_link_' + count +
+                '" style="display:none">uploaded file</a>' +
                 '</div>' +
                 '</div>' +
                 '</div>'
@@ -167,48 +174,50 @@
 
     });
 
-    function upload_lm_report(current_id, report_id) {
+    function upload_lm_report(current_id, report_id, report_file_name, report_file_link) {
         $(".loader").show();
         var architect_layout_id = $('#architect_layout_id').val();
         var report_id = document.getElementById(report_id).value;
-        var file_data = $('#' + current_id).prop('files')[0];
-        var form_data = new FormData();
-        form_data.append('file', file_data);
-        form_data.append('architect_layout_id', architect_layout_id);
-        form_data.append('report_id', report_id);
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-Token': '{{csrf_token()}}'
-            }
-        });
-        $.ajax({
-            url: "{{route('upload_lm_checklist_and_remark_report')}}", // point to server-side PHP script
-            data: form_data,
-            type: 'POST',
-            contentType: false, // The content type used when sending data to the server.
-            cache: false, // To unable request pages to be cached
-            processData: false,
-            success: function (data) {
-                console.log(data)
-                $(".loader").hide();
-                $("#wrapper").html(data)
-                //     if(data.status==true)
-                //     {
-                //         if(replace_hidden_to_label)
-                //         {
-                //         $("#"+doc_name).replaceWith("<label>" + doc_name1 + "</label>");
-                //         }
-                //         $("#"+uploaded_file_id).prop("href", data.file_path)
-                //         $("#"+uploaded_file_id).css("display", "block");
-                //         document.getElementById(ee_report_doc_id).value=data.doc_id
-                //         document.getElementById(doc_error).innerHTML = "";
-                //     }else
-                //     {
-                //         document.getElementById(id).value = null;
-                //         document.getElementById(doc_error).innerHTML = data.message;
-                //     }
-            }
-        });
+        var filename = $("#" + current_id).val();
+        var extension = filename.replace(/^.*\./, '');
+        if (extension == 'pdf') {
+            var file_data = $('#' + current_id).prop('files')[0];
+            var form_data = new FormData();
+            form_data.append('file', file_data);
+            form_data.append('architect_layout_id', architect_layout_id);
+            form_data.append('report_id', report_id);
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-Token': '{{csrf_token()}}'
+                }
+            });
+            $.ajax({
+                url: "{{route('upload_lm_checklist_and_remark_report')}}", // point to server-side PHP script
+                data: form_data,
+                type: 'POST',
+                contentType: false, // The content type used when sending data to the server.
+                cache: false, // To unable request pages to be cached
+                processData: false,
+                success: function (data) {
+                    console.log(data)
+                    $(".loader").hide();
+                    if (data.status == true) {
+                        $("#" + report_file_link).prop("href", data.file_path)
+                        $("#" + report_file_link).css("display", "block");
+                        // document.getElementById(ee_report_doc_id).value = data.doc_id
+                        // document.getElementById(doc_error).innerHTML = "";
+                    } else {
+                        // document.getElementById(id).value = null;
+                        // document.getElementById(doc_error).innerHTML = data.message;
+                    }
+                }
+            });
+        } else {
+            var filename = $("#" + current_id).val('');
+            alert('please upload pdf file');
+            $(".loader").hide();
+        }
+
     }
 
 </script>

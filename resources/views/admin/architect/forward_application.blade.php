@@ -2,7 +2,7 @@
 @section('content')
 <div class="card">
   <div class="card-body">
-<form action="{{route('post_forward_application')}}" id="forwardApplication" method="post">
+<form action="{{route('architect.post_forward_application')}}" id="forwardApplication" method="post">
 @csrf
 <input type="hidden" name="application_id" value="{{ $arrData['architect_details']->id }}">
 <input type="hidden" name="to_role_id" id="to_role_id">
