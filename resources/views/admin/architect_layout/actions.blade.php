@@ -38,7 +38,7 @@ $route=\Request::route()->getName();
             </a>
         </li>
         @endif
-
+        @if(session()->get('role_name')==config('commanConfig.land_manager') || session()->get('role_name')==config('commanConfig.estate_manager'))
        <li class="m-menu__item m-menu__item--submenu {{($route=='architect_layout_get_scrtiny')?'m-menu__item--active':''}}">
             <a class="m-menu__link m-menu__toggle" title="Scrutiny & Remarks" href="{{route('architect_layout_get_scrtiny',encrypt($ArchitectLayout->id))}}">
                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
@@ -48,6 +48,7 @@ $route=\Request::route()->getName();
                 <span class="m-menu__link-text">Scrutiny & Remarks</span>
             </a>
         </li>
+        @endif
 
         {{-- <li class="m-menu__item m-menu__item--submenu {{($route=='cap.dyce_Scrutiny_Remark')?'m-menu__item--active':''}}">
             <a class="m-menu__link m-menu__toggle" title="DyCE Scrutiny & Remarks" href="{{route('cap.dyce_Scrutiny_Remark',$ol_application->id)}}">

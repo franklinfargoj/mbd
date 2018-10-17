@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ArchitectLayout\AddLayout;
 use App\Layout\ArchitectLayout;
 use App\Layout\ArchitectLayoutDetail;
+use App\Layout\ArchitectLayoutLmScrtinyQuestionDetail;
 use App\Layout\ArchitectLayoutScrutinyEMReport;
 use App\Layout\ArchitectLayoutScrutinyLandReport;
 use App\Layout\ArchitectLayoutStatusLog;
@@ -16,7 +17,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Storage;
 use Yajra\DataTables\DataTables;
-use App\Layout\ArchitectLayoutLmScrtinyQuestionDetail;
+use App\Layout\ArchitectLayoutEmScrtinyQuestionDetail;
 
 class LayoutArchitectController extends Controller
 {
@@ -263,30 +264,41 @@ class LayoutArchitectController extends Controller
         return redirect(route('architect_layout.index'));
     }
 
-
-   
-
     public function get_scrutiny($layout_id)
     {
-        $check_list_and_remarks=array();
+        $check_list_and_remarks = array();
+        $scrutiny_reports = array();
         $layout_id = decrypt($layout_id);
 
         //get reports uploaded by em
-        $architect_layout_em_scrutiny_reports = ArchitectLayoutScrutinyEMReport::where(['user_id' => auth()->user()->id, 'architect_layout_id' => $layout_id])->get();
+        if (session()->get('role_name') == config('commanConfig.estate_manager')) {
+            $scrutiny_reports['architect_layout_em_scrutiny_reports'] = ArchitectLayoutScrutinyEMReport::where(['user_id' => auth()->user()->id, 'architect_layout_id' => $layout_id])->get();
+            $check_list_and_remarks['em_scrtiny_questions'] = $this->architect_layouts->get_em_checklist_and_remarks($layout_id, auth()->user()->id);
+        }
+
 
         //get reports uploaded by lm
-        $architect_layout_land_scrutiny_reports = ArchitectLayoutScrutinyLandReport::where(['user_id' => auth()->user()->id, 'architect_layout_id' => $layout_id])->get();
-        
+        if (session()->get('role_name') == config('commanConfig.land_manager')) {
+            $check_list_and_remarks['lm_scrtiny_questions'] = $this->architect_layouts->get_lm_checklist_and_remarks($layout_id, auth()->user()->id);
+            $scrutiny_reports['architect_layout_land_scrutiny_reports'] = ArchitectLayoutScrutinyLandReport::where(['user_id' => auth()->user()->id, 'architect_layout_id' => $layout_id])->get();
+        }
+
         if(session()->get('role_name')==config('commanConfig.land_manager'))
         {
-            $check_list_and_remarks['lm_scrtiny_questions']=$this->architect_layouts->get_lm_checklist_and_remarks($layout_id,auth()->user()->id);
+            $post_route_name=route('post_lm_checklist_and_remark_report'); 
+            $upload_file_route_name=route('upload_lm_checklist_and_remark_report');
+            $check_list_and_remarks=$check_list_and_remarks['lm_scrtiny_questions'];
         }
-        //get lm checklist and remarks
+        if(session()->get('role_name')==config('commanConfig.estate_manager'))
+        {
+            $post_route_name=route('post_em_checklist_and_remark_report'); 
+            $upload_file_route_name=route('upload_em_checklist_and_remark_report');
+            $check_list_and_remarks=$check_list_and_remarks['em_scrtiny_questions'];
+        }
 
-        //get architect layout apllication
         $ArchitectLayout = ArchitectLayout::find($layout_id);
 
-        return view('admin.architect_layout.scrutiny', compact('ArchitectLayout', 'architect_layout_em_scrutiny_reports','architect_layout_land_scrutiny_reports','check_list_and_remarks'));
+        return view('admin.architect_layout.scrutiny', compact('ArchitectLayout', 'scrutiny_reports','check_list_and_remarks','post_route_name','upload_file_route_name'));
     }
 
     public function add_scrutiny_report($layout_id)
@@ -304,8 +316,7 @@ class LayoutArchitectController extends Controller
             'doc_file' => 'required|mimes:pdf',
         ]);
 
-        if(session()->get('role_name')==config('commanConfig.estate_manager'))
-        {
+        if (session()->get('role_name') == config('commanConfig.estate_manager')) {
             $extension = $request->file('doc_file')->getClientOriginalExtension();
             $dir = 'architect_layout_details';
             $filename = uniqid() . '_' . time() . '_' . date('Ymd') . '.' . $extension;
@@ -317,13 +328,12 @@ class LayoutArchitectController extends Controller
                 $ArchitectLayoutScrutinyEMReport->name_of_document = $request->document_name;
                 $ArchitectLayoutScrutinyEMReport->file = $storage;
                 $ArchitectLayoutScrutinyEMReport->save();
-                return redirect(route('architect_layout_get_scrtiny',['layout_id'=>encrypt($request->architect_layout_id)]));
+                return redirect(route('architect_layout_get_scrtiny', ['layout_id' => encrypt($request->architect_layout_id)]));
             }
             return back()->withError('file not able to upload');
         }
 
-        if(session()->get('role_name')==config('commanConfig.land_manager'))
-        {
+        if (session()->get('role_name') == config('commanConfig.land_manager')) {
             $extension = $request->file('doc_file')->getClientOriginalExtension();
             $dir = 'architect_layout_details';
             $filename = uniqid() . '_' . time() . '_' . date('Ymd') . '.' . $extension;
@@ -335,60 +345,183 @@ class LayoutArchitectController extends Controller
                 $ArchitectLayoutScrutinyLandReport->name_of_document = $request->document_name;
                 $ArchitectLayoutScrutinyLandReport->file = $storage;
                 $ArchitectLayoutScrutinyLandReport->save();
-                return redirect(route('architect_layout_get_scrtiny',['layout_id'=>encrypt($request->architect_layout_id)]));
+                return redirect(route('architect_layout_get_scrtiny', ['layout_id' => encrypt($request->architect_layout_id)]));
             }
             return back()->withError('file not able to upload');
         }
-        
+
         return back()->withError('something went wrong');
     }
 
+
+    //upload lm checklist and remark files
     public function upload_lm_checklist_and_remark_report(Request $request)
     {
         $file = $request->file('file');
         if ($file->getClientMimeType() == 'application/pdf') {
-        $extension = $request->file('file')->getClientOriginalExtension();
-        $dir = 'architect_layout_details';
-        $filename = uniqid() . '_' . time() . '_' . date('Ymd') . '.' . $extension;
-        $storage = Storage::disk('ftp')->putFileAs($dir, $request->file('file'), $filename);
-        if($storage)
-        {
-            $ArchitectLayoutLmScrtinyQuestionDetail=ArchitectLayoutLmScrtinyQuestionDetail::where(['architect_layout_id'=>$request->architect_layout_id,'architect_layout_lm_scrunity_question_master_id'=>$request->report_id,'user_id'=>auth()->user()->id])->first();
-            if($ArchitectLayoutLmScrtinyQuestionDetail)
-            {
-                $ArchitectLayoutLmScrtinyQuestionDetail->file=$storage;
-                $ArchitectLayoutLmScrtinyQuestionDetail->save();
+            $extension = $request->file('file')->getClientOriginalExtension();
+            $dir = 'architect_layout_details';
+            $filename = uniqid() . '_' . time() . '_' . date('Ymd') . '.' . $extension;
+            $storage = Storage::disk('ftp')->putFileAs($dir, $request->file('file'), $filename);
+            if ($storage) {
+                $enter_detail = ArchitectLayoutLmScrtinyQuestionDetail::where(['architect_layout_id' => $request->architect_layout_id, 'id' => $request->report_id, 'user_id' => auth()->user()->id])->first();
+                if ($enter_detail) {
+                    $enter_detail->file = $storage;
+                    $enter_detail->save();
+
+                } else {
+                    $enter_detail = new ArchitectLayoutLmScrtinyQuestionDetail;
+                    $enter_detail->user_id = auth()->user()->id;
+                    $enter_detail->architect_layout_id = $request->architect_layout_id;
+                    $enter_detail->architect_layout_lm_scrunity_question_master_id = 0;
+                    $enter_detail->file = $storage;
+                    $enter_detail->save();
+                }
                 
-            }else
-            {
-                $enter_detail=new ArchitectLayoutLmScrtinyQuestionDetail;
-                $enter_detail->user_id=auth()->user()->id;
-                $enter_detail->architect_layout_id=$request->architect_layout_id;
-                $enter_detail->architect_layout_lm_scrunity_question_master_id=0;
-                $enter_detail->file=$storage;
-                $enter_detail->save();
+                $response_array = array(
+                    'status' => true,
+                    'file_path' => config('commanConfig.storage_server') . "/" . $storage,
+                    'doc_id'=>$enter_detail->id
+                );
+            } else {
+                $response_array = array(
+                    'status' => false,
+                    'message' => 'file not uploaded',
+                );
             }
-            $response_array = array(
-                'status' => true,
-                'file_path' => config('commanConfig.storage_server') . "/" . $storage,
-            );
-        }else
-        {
+
+        } else {
             $response_array = array(
                 'status' => false,
-                'message' => 'file not uploaded',
+                'message' => 'PDF file is required',
             );
         }
-        
-    }else
-    {
-        $response_array = array(
-            'status' => false,
-            'message' => 'PDF file is required',
-        );
-    }
 
         return response()->json($response_array);
     }
+
+
+    //upload lm checklist and remark data
+    public function post_lm_checklist_and_remark_report(Request $request)
+    {
+        // echo "<pre>";
+        // print_r($request->lable);
+        // exit;
+        $lables=$request->lable;
+        $remarks=$request->remark;
+        $j=0;
+        foreach($request->report_id as $report_ids)
+        {
+            $detail=ArchitectLayoutLmScrtinyQuestionDetail::where(['id'=>$report_ids,'architect_layout_id'=>$request->architect_layout_id])->first();
+            if($detail)
+            {
+                if(isset($lables[$j]))
+                {
+                    if($lables[$j]==1)
+                    {
+                        $detail->label1=1;
+                        $detail->label2=0;
+                    }
+                    if($lables[$j]==2)
+                    {
+                        $detail->label1=0;
+                        $detail->label2=1;
+                    }
+                }
+                
+                $detail->remark=isset($remarks[$j])?$remarks[$j]:'';
+                $detail->save();
+                
+            }
+            $j++;
+        }
+        return back()->withSuccess('data added successfully!!!');
+    }
+
+     //upload em checklist and remark files
+     public function upload_em_checklist_and_remark_report(Request $request)
+     {
+         $file = $request->file('file');
+         if ($file->getClientMimeType() == 'application/pdf') {
+             $extension = $request->file('file')->getClientOriginalExtension();
+             $dir = 'architect_layout_details';
+             $filename = uniqid() . '_' . time() . '_' . date('Ymd') . '.' . $extension;
+             $storage = Storage::disk('ftp')->putFileAs($dir, $request->file('file'), $filename);
+             if ($storage) {
+                 $enter_detail = ArchitectLayoutEmScrtinyQuestionDetail::where(['architect_layout_id' => $request->architect_layout_id, 'id' => $request->report_id, 'user_id' => auth()->user()->id])->first();
+                 if ($enter_detail) {
+                     $enter_detail->file = $storage;
+                     $enter_detail->save();
+ 
+                 } else {
+                     $enter_detail = new ArchitectLayoutEmScrtinyQuestionDetail;
+                     $enter_detail->user_id = auth()->user()->id;
+                     $enter_detail->architect_layout_id = $request->architect_layout_id;
+                     $enter_detail->architect_layout_em_scrunity_question_master_id = 0;
+                     $enter_detail->file = $storage;
+                     $enter_detail->save();
+                 }
+                 
+                 $response_array = array(
+                     'status' => true,
+                     'file_path' => config('commanConfig.storage_server') . "/" . $storage,
+                     'doc_id'=>$enter_detail->id
+                 );
+             } else {
+                 $response_array = array(
+                     'status' => false,
+                     'message' => 'file not uploaded',
+                 );
+             }
+ 
+         } else {
+             $response_array = array(
+                 'status' => false,
+                 'message' => 'PDF file is required',
+             );
+         }
+ 
+         return response()->json($response_array);
+     }
+ 
+ 
+     //upload em checklist and remark data
+     public function post_em_checklist_and_remark_report(Request $request)
+     {
+         // echo "<pre>";
+         // print_r($request->lable);
+         // exit;
+         $lables=$request->lable;
+         $remarks=$request->remark;
+         $j=0;
+         foreach($request->report_id as $report_ids)
+         {
+             $detail=ArchitectLayoutEmScrtinyQuestionDetail::where(['id'=>$report_ids,'architect_layout_id'=>$request->architect_layout_id])->first();
+             if($detail)
+             {
+                 if(isset($lables[$j]))
+                 {
+                     if($lables[$j]==1)
+                     {
+                         $detail->label1=1;
+                         $detail->label2=0;
+                     }
+                     if($lables[$j]==2)
+                     {
+                         $detail->label1=0;
+                         $detail->label2=1;
+                     }
+                 }
+                 
+                 $detail->remark=isset($remarks[$j])?$remarks[$j]:'';
+                 $detail->save();
+                 
+             }
+             $j++;
+         }
+         return back()->withSuccess('data added successfully!!!');
+     }
+ 
+
 
 }

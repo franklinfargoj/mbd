@@ -207,6 +207,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::resource('ree_applications', 'REEDepartment\REEController');
     Route::get('society_ee_document/{id}','REEDepartment\REEController@societyEEDocuments')->name('ree.society_EE_documents');
+    Route::get('society_reval_document/{id}','REEDepartment\REEController@societyRevalDocuments')->name('ree.society_reval_documents');
 
     Route::get('EE_scrutiny_remark/{id}','REEDepartment\REEController@eeScrutinyRemark')->name('ree.EE_Scrutiny_Remark');
 
@@ -309,8 +310,8 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('evaluate_architect_application/{id}','ArchitectApplicationController@evaluateApplication')->name('evaluate_architect_application');
     Route::post('save_evaluate_marks','ArchitectApplicationController@saveEvaluateMarks')->name('save_evaluate_marks');
     Route::get('generate_certificate/{id}','ArchitectApplicationController@getGenerateCertificate')->name('generate_certificate');
-    Route::get('forward_application/{id}','ArchitectApplicationController@getForwardApplication')->name('forward_application');
-    Route::post('post_forward_application','ArchitectApplicationController@forward_application')->name('post_forward_application');
+    Route::get('forward_application_architect/{id}','ArchitectApplicationController@getForwardApplication')->name('architect.forward_application');
+    Route::post('post_forward_application','ArchitectApplicationController@forward_application')->name('architect.post_forward_application');
     Route::get('finalCertificateGenerate/{id}','ArchitectApplicationController@getFinalCertificateGenerate')->name('finalCertificateGenerate');
     Route::get('tempCertificateGenerate/{id}','ArchitectApplicationController@getTempCertificateGenerate')->name('tempCertificateGenerate');
     Route::post('finalCertificateGenerate','ArchitectApplicationController@postFinalCertificateGenerate')->name('architect.post_final_signed_certificate');
@@ -346,8 +347,10 @@ Route::get('get_scrutiny/{layout_id}','ArchitectLayout\LayoutArchitectController
 Route::get('add_scrutiny_report/{layout_id}','ArchitectLayout\LayoutArchitectController@add_scrutiny_report')->name('architect_layout_add_scrutiny_report');
 Route::post('post_scrutiny_report','ArchitectLayout\LayoutArchitectController@post_scrutiny_report')->name('architect_layout_post_scrutiny_report');
 Route::post('upload_lm_checklist_and_remark_report','ArchitectLayout\LayoutArchitectController@upload_lm_checklist_and_remark_report')->name('upload_lm_checklist_and_remark_report');
+Route::post('post_lm_checklist_and_remark_report','ArchitectLayout\LayoutArchitectController@post_lm_checklist_and_remark_report')->name('post_lm_checklist_and_remark_report');
 
-
+Route::post('upload_em_checklist_and_remark_report','ArchitectLayout\LayoutArchitectController@upload_em_checklist_and_remark_report')->name('upload_em_checklist_and_remark_report');
+Route::post('post_em_checklist_and_remark_report','ArchitectLayout\LayoutArchitectController@post_em_checklist_and_remark_report')->name('post_em_checklist_and_remark_report');
 //add cts
 Route::get('view_cts_detail/{layout_detail_id}','ArchitectLayout\LayoutArchitectDetailController@view_cts_detail')->name('architect_layout_detail_view_cts_plan');
 Route::get('add_cts_detail/{layout_detail_id}','ArchitectLayout\LayoutArchitectDetailController@add_cts_detail')->name('architect_layout_detail_cts_plan');
@@ -480,8 +483,11 @@ Route::get('ee-billing-manage-masters', 'EEBillingController@ManageMasters');
 Route::get('ee-billing-level', 'EEBillingController@BillingLevel');
 Route::get('ee-ward-colony', 'EEBillingController@WardColony');
 Route::get('ee-add-tenant', 'EEBillingController@AddTenant');
-Route::get('ee-billing-generation', 'EEBillingController@BillGeneration');
+Route::get('ee-society-billing-generation', 'EEBillingController@SocietyBillGeneration');
+Route::get('ee-tenant-billing-generation', 'EEBillingController@SocietyBillGeneration');
 Route::get('society-conveyance-application', 'EEBillingController@SocietyConveyanceApplication');
+Route::get('ee-blling-arrears-calculation', 'EEBillingController@ArrearsCalculation');
+Route::get('ee-blling-view-bill-details', 'EEBillingController@ViewBillDetailsSociety');
 
 //estate and conveyance
 
@@ -492,7 +498,28 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::get('checklist/{id}', 'conveyance\DYCODepartment\DYCOController@showChecklist')->name('dyco.checklist');
 
+    Route::get('sale_lease_agreement/{id}', 'conveyance\DYCODepartment\DYCOController@saleLeaseAgreement')->name('dyco.sale_lease_agreement');
+
+    Route::get('forward_application/{id}', 'conveyance\DYCODepartment\DYCOController@displayForwardApplication')->name('dyco.forward_application');
+
     Route::post('storeChecklistData', 'conveyance\DYCODepartment\DYCOController@storeChecklistData')->name('dyco.storeChecklistData'); 
 
-    Route::post('upload_note', 'conveyance\DYCODepartment\DYCOController@uploadNote')->name('dyco.uploadDycoNote');
+    Route::post('upload_note', 'conveyance\DYCODepartment\DYCOController@uploadNote')->name('dyco.uploadDycoNote');    
+
+    Route::post('save_agreement', 'conveyance\DYCODepartment\DYCOController@saveAgreement')->name('dyco.save_agreement'); 
+
+    Route::post('forward_application_dyco', 'conveyance\DYCODepartment\DYCOController@saveForwardApplication')->name('dyco.forward_application_data');
+});
+
+Route::get('/calculation', function () {
+    return view('admin.conveyance.ee_department.sale_price_calculation');
+});
+
+Route::get('/scrutiny_remark_em', function () {
+    return view('admin.conveyance.em_department.scrutiny_remark');
+});
+
+
+Route::get('/sale_lease_agreement', function () {
+    return view('admin.conveyance.dyco_department.sale_lease_agreement');
 });

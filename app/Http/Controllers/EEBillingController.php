@@ -50,11 +50,23 @@ class EEBillingController extends Controller
         return view('admin.ee_billing.add-tenant');
     }
 
-    public function BillGeneration(){
-        return view('admin.ee_billing.bill-generation');
+    public function SocietyBillGeneration(){
+        return view('admin.ee_billing.society-bill-generation');
+    }
+
+    public function TenantBillGeneration(){
+        return view('admin.ee_billing.tenant-bill-generation');
     }
 
     public function SocietyConveyanceApplication(){
         return view('admin.ee_billing.society-conveyance-application');
+    }
+
+    public function ArrearsCalculation(){
+        return view('admin.ee_billing.arrears-calculation');
+    }
+
+    public function ViewBillDetailsSociety(){
+        return view('admin.ee_billing.view-bill-details-society');
     }
 }

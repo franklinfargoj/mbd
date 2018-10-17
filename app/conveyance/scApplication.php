@@ -41,9 +41,20 @@ class scApplication extends Model
     {
         return $this->hasOne('App\SocietyOfferLetter', 'id','society_id');
     } 
+
+    public function societyApplicationFormRequest()
+    {
+        return $this->hasOne('App\SocietyConveyance', 'id','form_request_id');
+    }     
     
     public function scApplicationLog()
     {
         return $this->hasOne('App\conveyance\scApplicationLog', 'application_id','id');
-    }        	
+    }  
+
+    public function scApplicationAgreement()
+    {
+        return $this->hasOne('App\conveyance\ScApplicationAgreements', 'application_id','id');
+    }           	
 }
+

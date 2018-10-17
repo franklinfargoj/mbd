@@ -53,7 +53,7 @@ class ArchitectUserSeeder extends Seeder
                     'description' => 'generate_certificate'
                 ],
                 [
-                    'name' => 'forward_application',
+                    'name' => 'architect.forward_application',
                     'display_name' => 'forward_application',
                     'description' => 'forward_application'
                 ],
@@ -88,14 +88,74 @@ class ArchitectUserSeeder extends Seeder
                     'description' => 'architect.post_final_signed_certificate'
                 ],
                 [
-                    'name' => 'post_forward_application',
-                    'display_name' => 'post_forward_application',
-                    'description' => 'post_forward_application'
+                    'name' => 'architect.post_forward_application',
+                    'display_name' => 'post_forward_application.architect',
+                    'description' => 'post_forward_application.architect'
                 ],
                 [
                     'name' => 'shortlist_architect_application',
                     'display_name' => 'shortlist_architect_application',
                     'description' => 'shortlist_architect_application'
+                ],
+                [
+                    'name' => 'architect_layout.index',
+                    'display_name' => 'List layouts',
+                    'description' => 'Listing of architect layouts',
+                ],
+                [
+                    'name' => 'architect_layouts_layout_details.index',
+                    'display_name' => 'architect_layouts_layout_details.index',
+                    'description' => 'architect_layouts_layout_details.index',
+                ],
+                [
+                    'name' => 'architect_layout_details.view',
+                    'display_name' => 'architect_layout_details.view',
+                    'description' => 'architect_layout_details.view',
+                ],
+                [
+                    'name' => 'architect_layout_detail_view_cts_plan',
+                    'display_name' => 'architect_layout_detail_view_cts_plan',
+                    'description' => 'architect_layout_detail_view_cts_plan',
+                ],
+                [
+                    'name' => 'architect_layout_detail_view_prc_detail',
+                    'display_name' => 'architect_layout_detail_view_prc_detail',
+                    'description' => 'architect_layout_detail_view_prc_detail',
+                ],
+                [
+                    'name' => 'architect_detail_dp_crz_remark_view',
+                    'display_name' => 'architect_detail_dp_crz_remark_view',
+                    'description' => 'architect_detail_dp_crz_remark_view',
+                ],
+                [
+                    'name' => 'view_court_case_or_dispute_on_land',
+                    'display_name' => 'view_court_case_or_dispute_on_land',
+                    'description' => 'view_court_case_or_dispute_on_land',
+                ],
+                [
+                    'name' => 'forward_architect_layout',
+                    'display_name' => 'forward_architect_layout',
+                    'description' => 'forward_architect_layout',
+                ],
+                [
+                    'name' => 'post_forward_architect_layout',
+                    'display_name' => 'post_forward_architect_layout',
+                    'description' => 'post_forward_architect_layout',
+                ],
+                [
+                    'name' => 'architect_layout_get_scrtiny',
+                    'display_name' => 'architect_layout_get_scrtiny',
+                    'description' => 'architect_layout_get_scrtiny',
+                ],
+                [
+                    'name' => 'architect_layout_add_scrutiny_report',
+                    'display_name' => 'architect_layout_add_scrutiny_report',
+                    'description' => 'architect_layout_add_scrutiny_report',
+                ],
+                [
+                    'name' => 'architect_layout_post_scrutiny_report',
+                    'display_name' => 'architect_layout_post_scrutiny_report',
+                    'description' => 'architect_layout_post_scrutiny_report',
                 ]
                 
             ];
@@ -271,7 +331,140 @@ class ArchitectUserSeeder extends Seeder
                     'start_date' => \Carbon\Carbon::now()
                 ]);
             }
-
+            
+            $architect_permissions[]= [
+                'name'=>'architect_layout_detail.edit',
+                'display_name'=>'architect_layout_detail.edit',
+                'description'=>'architect_layout_detail.edit'
+            ];
+            $architect_permissions[]= [
+                'name'=>'architect_layout_detail.edit',
+                'display_name'=>'architect_layout_detail.edit',
+                'description'=>'architect_layout_detail.edit'
+            ];
+            $architect_permissions[]= [
+                'name'=>'architect_layout_detail_court_case_or_dispute_on_land.index',
+                'display_name'=>'architect_layout_detail_court_case_or_dispute_on_land.index',
+                'description'=>'architect_layout_detail_court_case_or_dispute_on_land.index'
+            ];
+            $architect_permissions[]= [
+                'name'=>'architect_layout_detail_court_case_or_dispute_on_land.create',
+                'display_name'=>'architect_layout_detail_court_case_or_dispute_on_land.create',
+                'description'=>'architect_layout_detail_court_case_or_dispute_on_land.create'
+            ];
+            $architect_permissions[]= [
+                'name'=>'architect_layout_detail_court_case_or_dispute_on_land.store',
+                'display_name'=>'architect_layout_detail_court_case_or_dispute_on_land.store',
+                'description'=>'architect_layout_detail_court_case_or_dispute_on_land.store'
+            ];
+            $architect_permissions[]= [
+                'name'=>'architect_layout_detail_court_case_or_dispute_on_land.edit',
+                'display_name'=>'architect_layout_detail_court_case_or_dispute_on_land.edit',
+                'description'=>'architect_layout_detail_court_case_or_dispute_on_land.edit'
+            ];
+            $architect_permissions[]= [
+                'name'=>'architect_layout_detail_court_case_or_dispute_on_land.view',
+                'display_name'=>'architect_layout_detail_court_case_or_dispute_on_land.view',
+                'description'=>'architect_layout_detail_court_case_or_dispute_on_land.view'
+            ];
+            $architect_permissions[]= [
+                'name'=>'view_court_case_or_dispute_on_land',
+                'display_name'=>'view_court_case_or_dispute_on_land',
+                'description'=>'view_court_case_or_dispute_on_land'
+            ];
+            $architect_permissions[]= [
+                'name'=>'architect_layout_detail_court_case_or_dispute_on_land.update',
+                'display_name'=>'architect_layout_detail_court_case_or_dispute_on_land.update',
+                'description'=>'architect_layout_detail_court_case_or_dispute_on_land.update'
+            ];
+            
+            $architect_permissions[]= [
+                'name'=>'architect_layout_detail_court_case_or_dispute_on_land.destroy',
+                'display_name'=>'architect_layout_detail_court_case_or_dispute_on_land.destroy',
+                'description'=>'architect_layout_detail_court_case_or_dispute_on_land.destroy'
+            ]; 
+            $architect_permissions[]= [
+                'name'=>'view_court_case_or_dispute_on_land',
+                'display_name'=>'view_court_case_or_dispute_on_land',
+                'description'=>'view_court_case_or_dispute_on_land'
+            ];
+            $architect_permissions[]= [
+                'name'=>'architect_layout_detail_post_land_report',
+                'display_name'=>'architect_layout_detail_post_land_report',
+                'description'=>'architect_layout_detail_post_land_report'
+            ];
+            $architect_permissions[]= [
+                'name'=>'architect_layout_detail_delete_ree_report',
+                'display_name'=>'architect_layout_detail_delete_ree_report',
+                'description'=>'architect_layout_detail_delete_ree_report'
+            ];
+            $architect_permissions[]= [
+                'name'=>'architect_layout_detail_post_ree_report',
+                'display_name'=>'architect_layout_detail_post_ree_report',
+                'description'=>'architect_layout_detail_post_ree_report'
+            ];
+            $architect_permissions[]= [
+                'name'=>'architect_layout_detail_delete_em_report',
+                'display_name'=>'architect_layout_detail_delete_em_report',
+                'description'=>'architect_layout_detail_delete_em_report'
+            ];
+            $architect_permissions[]= [
+                'name'=>'architect_layout_detail_post_em_report',
+                'display_name'=>'architect_layout_detail_post_em_report',
+                'description'=>'architect_layout_detail_post_em_report'
+            ];
+            $architect_permissions[]= [
+                'name'=>'architect_layout_detail_delete_ee_report',
+                'display_name'=>'architect_layout_detail_delete_ee_report',
+                'description'=>'architect_layout_detail_delete_ee_report'
+            ];
+            $architect_permissions[]= [
+                'name'=>'architect_layout_detail_post_ee_report',
+                'display_name'=>'architect_layout_detail_post_ee_report',
+                'description'=>'architect_layout_detail_post_ee_report'
+            ];
+            $architect_permissions[]= [
+                'name'=>'post_architect_detail_dp_crz_remark_add',
+                'display_name'=>'post_architect_detail_dp_crz_remark_add',
+                'description'=>'post_architect_detail_dp_crz_remark_add'
+            ];
+            $architect_permissions[]= [
+                'name'=>'add_architect_detail_dp_crz_remark_add',
+                'display_name'=>'add_architect_detail_dp_crz_remark_add',
+                'description'=>'add_architect_detail_dp_crz_remark_add'
+            ];
+            $architect_permissions[]= [
+                'name'=>'delete_prc_detail',
+                'display_name'=>'delete_prc_detail',
+                'description'=>'delete_prc_detail'
+            ];
+            $architect_permissions[]= [
+                'name'=>'post_prc_detail',
+                'display_name'=>'post_prc_detail',
+                'description'=>'post_prc_detail'
+            ];
+            $architect_permissions[]= [
+                'name'=>'architect_layout_detail_prc_detail',
+                'display_name'=>'architect_layout_detail_prc_detail',
+                'description'=>'architect_layout_detail_prc_detail'
+            ];
+            $architect_permissions[]= [
+                'name'=>'delete_cts_detail',
+                'display_name'=>'delete_cts_detail',
+                'description'=>'delete_cts_detail'
+            ];
+            $architect_permissions[]= [
+                'name'=>'post_cts_detail',
+                'display_name'=>'post_cts_detail',
+                'description'=>'post_cts_detail'
+            ];
+            $architect_permissions[]= [
+                'name'=>'architect_layout_detail_cts_plan',
+                'display_name'=>'architect_layout_detail_cts_plan',
+                'description'=>'architect_layout_detail_cts_plan'
+            ];        
+            
+            
             $architect_permission_role = [];
             foreach ($architect_permissions as $ee) {
                 $permission=Permission::where(['name'=>$ee['name']])->first();
