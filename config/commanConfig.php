@@ -6,11 +6,11 @@ return [
     |
     | List number of records per page while pagination
     |
-    */
+     */
 
     'list_num_of_records_per_page' => 10,
     'dateFormat' => 'd-m-Y',
-    
+
     'dyce_jr_user' => 'dyce_junior_engineer',
     'ee_junior_engineer' => 'ee_junior_engineer',
     'co_engineer' => 'co_engineer',
@@ -18,22 +18,26 @@ return [
     'vp_engineer' => 'vp_engineer',
     'ree_junior' => 'REE Junior Engineer',
 
-    //Branch Head 
-    'ee_branch_head'   => 'ee_engineer',
+    //Branch Head
+    'ee_branch_head' => 'ee_engineer',
     'dyce_branch_head' => 'dyce_engineer',
-    'ree_branch_head'  => 'ree_engineer',
+    'ree_branch_head' => 'ree_engineer',
 
-    //deputy 
+    //deputy
     'ee_deputy_engineer' => 'ee_dy_engineer',
     'dyce_deputy_engineer' => 'dyce_deputy_engineer',
-    'ree_deputy_engineer' =>    'REE deputy Engineer',
+    'ree_deputy_engineer' => 'REE deputy Engineer',
     'ree_assistant_engineer' => 'REE Assistant Engineer',
 
-    'junior_architect'=>'junior_architect',
-    'senior_architect'=>'senior_architect',
-    'architect'=>'architect',
+    'junior_architect' => 'junior_architect',
+    'senior_architect' => 'senior_architect',
+    'architect' => 'architect',
 
-    'selection_commitee'=>'selection_commitee',
+    'land_manager'=>'LM',
+
+    'estate_manager'=>'EM',
+
+    'selection_commitee' => 'selection_commitee',
 
     'applicationStatus' => [
         'in_process' => 1,
@@ -42,9 +46,9 @@ return [
         'pending' => 4,
         'offer_letter_generation' => 5,
         'offer_letter_approved' => 6,
-        'sent_to_society' => 7
+        'sent_to_society' => 7,
     ],
-    
+
     'applicationStatusColor' => [
         '1' => 'metal',
         '2' => 'info',
@@ -52,7 +56,7 @@ return [
         '4' => 'metal',
         '5' => 'purple',
         '6' => 'purple',
-        '7' => 'success'
+        '7' => 'success',
     ],
 
     'architect_applicationStatus' => [
@@ -62,10 +66,17 @@ return [
         // 'shortListed' => 4,
         // 'final' => 5
     ],
+    'architect_layout_status' => [
+        'new_application' => 1,
+        'scrutiny_pending' => 2,
+        'forward' => 3,
+        'sent_for_revision' => 4,
+        'reverted' => 5
+    ],
     'architect_application_status' => [
-        'none'=>0,
+        'none' => 0,
         'shortListed' => 1,
-        'final' => 2
+        'final' => 2,
     ],
 
     'ee_junior_engineer' => 'ee_junior_engineer',

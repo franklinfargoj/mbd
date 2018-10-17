@@ -188,7 +188,7 @@
                             <input type="hidden" name="extract_file_path" value="{{ $arrData['village_data']['extract_file_path'] }}">
                             <label title="{{$arrData['village_data']['extract_file_name'] }}" class="custom-file-label" for="extract">{{ (!empty($arrData['village_data']['extract_file_name'])) ? $arrData['village_data']['extract_file_name'] : "Choose File..." }}</label>
                             <span class="help-block">{{ (session('error'))? session('error') : '' }}{{$errors->first('extract')}}</span>
-                            <a href="{{ config('commanConfig.storage_server').$arrData['village_data']['extract_file_path'].$arrData['village_data']['extract_file_name'] }}">{{$arrData['village_data']['extract_file_name']}}</a>
+                            <a class="btn-link" href="{{ config('commanConfig.storage_server').$arrData['village_data']['extract_file_path'].$arrData['village_data']['extract_file_name'] }}">{{$arrData['village_data']['extract_file_name']}}</a>
                         </div>
                         
                     </div>

@@ -122,8 +122,68 @@ class SocietyPermissionSeeder extends Seeder
                     'name'         => 'upload_society_offer_letter_application',
                     'display_name' => 'upload_society_offer_letter_application',
                     'description'  => 'uploads society offer letter application'
-                ]
-            ];
+                ],
+                [
+                    'name'         => 'society_conveyance.index',
+                    'display_name' => 'Society conveyance application listing',
+                    'description'  => 'Society conveyance application listing'
+                ],
+                [
+                    'name'         => 'society_conveyance.store',
+                    'display_name' => 'Stores society conveyance application data',
+                    'description'  => 'Stores society conveyance application data'
+                ],
+                [
+                    'name'         => 'society_conveyance.create',
+                    'display_name' => 'Shows society conveyance application form',
+                    'description'  => 'Shows society conveyance application form'
+                ],
+                [
+                    'name'         => 'society_conveyance.show',
+                    'display_name' => 'Shows society conveyance application form',
+                    'description'  => 'Shows society conveyance application form'
+                ],
+                [
+                    'name'         => 'society_conveyance.destroy',
+                    'display_name' => 'Deletes society conveyance application',
+                    'description'  => 'Deletes society conveyance application'
+                ],
+                [
+                    'name'         => 'society_conveyance.update',
+                    'display_name' => 'Updates society conveyance application form data',
+                    'description'  => 'Updates society conveyance application form data'
+                ],
+                [
+                    'name'         => 'society_conveyance.edit',
+                    'display_name' => 'Shows edit form for society conveyance application',
+                    'description'  => 'Shows edit form for society conveyance application'
+                ],
+                [
+                    'name'         => 'show_form_self',
+                    'display_name' => 'Shows self redevelopment form',
+                    'description'  => 'Shows self redevelopment form'
+                ],
+                [
+                    'name'         => 'show_form_dev',
+                    'display_name' => 'Shows redevelopment through developer form',
+                    'description'  => 'Shows redevelopment through developer form'
+                ],
+                [
+                    'name'         => 'society_offer_letter_preview',
+                    'display_name' => 'Shows preview for society offer letter application form',
+                    'description'  => 'Shows preview for society offer letter application form'
+                ],
+                [
+                    'name'         => 'society_offer_letter_edit',
+                    'display_name' => 'Shows edit form for society offer letter application',
+                    'description'  => 'Shows edit form for society offer letter application'
+                ],
+                [
+                    'name'         => 'society_offer_letter_update',
+                    'display_name' => 'Updates society offer letter application form',
+                    'description'  => 'Updates society offer letter application form'
+                ],
+        ];
 
         if(count($society)==0){
             // Society Login

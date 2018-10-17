@@ -18,7 +18,8 @@ $route=\Request::route()->getName();
     <div id="m_ver_menu" class="m-aside-menu  m-aside-menu--skin-dark m-aside-menu--submenu-skin-dark " m-menu-vertical="1"
         m-menu-scrollable="1" m-menu-dropdown-timeout="500" style="position: relative;">
         <ul class="m-menu__nav  m-menu__nav--dropdown-submenu-arrow">
-            @if(in_array('resolution.index', session()->get('permission')))
+        
+            @if(session()->get('permission') != "" && in_array('resolution.index', session()->get('permission')))
             <li class="m-menu__item {{ ($route == 'resolution.index' ? 'm-menu__item--active' : '') }}" aria-haspopup="true">
                 <a href="{{ url('/resolution') }}" class="m-menu__link ">
                     <i class="m-menu__link-icon flaticon-line-graph"></i>
@@ -49,7 +50,7 @@ $route=\Request::route()->getName();
 
 
 
-            @if(in_array('rti_applicants', session()->get('permission')))
+            @if(session()->get('permission') && in_array('rti_applicants', session()->get('permission')))
             <li class="m-menu__item">
                 <a href="{{url('/rti_applicants')}}" class="m-menu__link m-menu__toggle">
                     <i class="m-menu__link-icon flaticon-line-graph"></i>
@@ -77,7 +78,7 @@ $route=\Request::route()->getName();
             ];
             @endphp
             {{-- @if(!empty(array_intersect($hearing_permission, session()->get('permission'))))--}}
-            @if(in_array('hearing.index', session()->get('permission')))
+            @if(session()->get('permission') && in_array('hearing.index', session()->get('permission')))
             <li class="m-menu__item {{($route=='hearing.index')?'m-menu__item--active':''}}">
                 <a href="{{ url('hearing') }}" class="m-menu__link m-menu__toggle">
                     <i class="m-menu__link-icon flaticon-line-graph"></i>
@@ -109,7 +110,7 @@ $route=\Request::route()->getName();
 
 
             {{-- @if(!empty(array_intersect($land_permission, session()->get('permission'))))--}}
-            @if(in_array('village_detail.index', session()->get('permission')))
+            @if(session()->get('permission') && in_array('village_detail.index', session()->get('permission')))
             <li class="m-menu__item" data-toggle="collapse" data-target="#village-actions">
                 <a href="{{url('/village_detail')}}" class="m-menu__link m-menu__toggle">
                     <i class="m-menu__link-icon flaticon-line-graph"></i>
@@ -268,45 +269,112 @@ $route=\Request::route()->getName();
                 </a>
             </li>--}}
 
-            @if(in_array('vp.index', session()->get('permission')) || in_array('ee.index',
+            @if(session()->get('permission') && (in_array('vp.index', session()->get('permission')) || in_array('ee.index',
             session()->get('permission')) || in_array('dyce.index', session()->get('permission')) ||
             in_array('ree_applications.index', session()->get('permission')) || in_array('co.index',
             session()->get('permission')) || in_array('cap.index', session()->get('permission')) ||
-            in_array('society_offer_letter.index', session()->get('permission')))
-            <li class="m-menu__item {{($route=='society_detail.index' || $route=='village_detail.index' || $route=='ee.index' || $route=='dyce.index' || $route=='ree_applications.index' || $route=='co.index' || $route=='cap.index' || $route=='vp.index' || $route=='society_offer_letter.index' || $route=='society_offer_letter_dashboard' || $route=='documents_uploaded' || $route=='documents_upload')?'m-menu__item--active':''}}">
-                <a href="{{ url(session()->get('redirect_to')) }}" class="m-menu__link m-menu__toggle">
-                    <i class="m-menu__link-icon flaticon-line-graph"></i>
-                    <span class="m-menu__link-title">
-                        <span class="m-menu__link-wrap">
-                            <span class="m-menu__link-text">
-                                Application for Offer Letter
+            in_array('society_offer_letter.index', session()->get('permission'))))
+
+                    <li class="m-menu__item" data-toggle="collapse" data-target="#society-actions">
+                        <a href="javascript:void(0);" class="m-menu__link m-menu__toggle">
+                            <i class="m-menu__link-icon flaticon-line-graph"></i>
+                            <span class="m-menu__link-title">
+                                <span class="m-menu__link-wrap">
+                                    <span class="m-menu__link-text">
+                                        Applications
+                                    </span>
+                                    <i class="m-menu__ver-arrow la la-angle-right"></i>
+                                </span>
                             </span>
-                        </span>
-                    </span>
-                </a>
-            </li>
-            @if(Session::all()['role_name'] == 'society')
-            @if(isset($ol_application_count))
-            @if($ol_application_count == 0)
-            <li class="m-menu__item">
-                <a href="{{route('society_detail.application')}}" class="m-menu__link m-menu__toggle">
-                    <i class="m-menu__link-icon flaticon-line-graph"></i>
-                    <span class="m-menu__link-title">
-                        <span class="m-menu__link-wrap">
-                            <span class="m-menu__link-text">
-                                Apply for Offer Letter
+                        </a>
+
+                    </li>
+                    <li id="society-actions" class="collapse show">
+                        <ul class="list-unstyled">
+                            <li class="m-menu__item m-menu__item--submenu {{($route=='society_detail.index' || $route=='village_detail.index' || $route=='ee.index' || $route=='dyce.index' || $route=='ree_applications.index' || $route=='co.index' || $route=='cap.index' || $route=='vp.index' || $route=='society_offer_letter.index' || $route=='society_offer_letter_dashboard' || $route=='documents_uploaded' || $route=='documents_upload')?'m-menu__item--active':''}}">
+                                <a href="{{ url(session()->get('redirect_to')) }}" class="m-menu__link m-menu__toggle">
+                                    <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
+                                        <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
+                                              fill="#FFF" />
+                                    </svg>
+                                    <span class="m-menu__link-text">
+                                        Offer Letter
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="m-menu__item m-menu__item--submenu {{($route=='ree_applications.reval')?'m-menu__item--active':'' }}">
+                                <a href="{{ route('ree_applications.reval') }}" class="m-menu__link m-menu__toggle">
+                                    <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
+                                        <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
+                                              fill="#FFF" />
+                                    </svg>
+                                    <span class="m-menu__link-text">
+                                        Revalidation Of Offer Letter
+                                    </span>
+                                </a>
+                            </li>
+                            @if(Session::all()['role_name'] == 'society')
+                            @if(isset($ol_application_count))
+                            @if($ol_application_count == 0)
+                            <li class="m-menu__item m-menu__item--submenu">
+                                <a href="{{route('society_detail.application')}}" class="m-menu__link m-menu__toggle">
+                                    <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
+                                        <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
+                                              fill="#FFF" />
+                                    </svg>
+                                    <span class="m-menu__link-text">
+                                        Apply for Offer Letter
+                                    </span>
+                                </a>
+                            </li>
+                            @endif
+                            @endif
+                            <li class="m-menu__item m-menu__item--submenu {{($route=='society_conveyance.index' )?'m-menu__item--active':''}}">
+                                <a href="{{ route('society_conveyance.index') }}" class="m-menu__link m-menu__toggle">
+                                    <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
+                                        <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
+                                              fill="#FFF" />
+                                    </svg>
+                                    <span class="m-menu__link-text">
+                                        Society Conveyance
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="m-menu__item {{($route=='society_conveyance.create' )?'m-menu__item--active':''}}">
+                        <a href="{{ route('society_conveyance.create') }}" class="m-menu__link m-menu__toggle">
+                            <i class="m-menu__link-icon flaticon-line-graph"></i>
+                            <span class="m-menu__link-title">
+                                <span class="m-menu__link-wrap">
+                                    <span class="m-menu__link-text">
+                                        Apply for Society Conveyance
+                                    </span>
+                                </span>
                             </span>
-                        </span>
-                    </span>
-                </a>
-            </li>
-            @endif
-            @endif
-            @endif
+                        </a>
+                    </li>
+                    {{--@if(isset($ol_application_count))--}}
+                        {{--@if($ol_application_count == 0)--}}
+                    <li class="m-menu__item {{($route=='society_detail.application' )?'m-menu__item--active':''}}">
+                        <a href="{{route('society_detail.application')}}" class="m-menu__link m-menu__toggle">
+                            <i class="m-menu__link-icon flaticon-line-graph"></i>
+                            <span class="m-menu__link-title">
+                                <span class="m-menu__link-wrap">
+                                    <span class="m-menu__link-text">
+                                        Apply for Offer Letter
+                                    </span>
+                                </span>
+                            </span>
+                        </a>
+                    </li>
+                        {{--@endif--}}
+                    {{--@endif--}}
+                @endif
             @endif
 
 
-            @if(in_array('architect_application', session()->get('permission')) ||
+            @if(session()->get('permission') && (in_array('architect_application', session()->get('permission')) ||
             in_array('view_architect_application',
             session()->get('permission')) || in_array('evaluate_architect_application', session()->get('permission'))
             ||
@@ -320,7 +388,7 @@ $route=\Request::route()->getName();
             in_array('postfinalCertificateGenerate', session()->get('permission')) ||
             in_array('architect.edit_certificate', session()->get('permission')) ||
             in_array('architect.update_certificate', session()->get('permission'))||
-            in_array('architect.post_final_signed_certificate', session()->get('permission')))
+            in_array('architect.post_final_signed_certificate', session()->get('permission'))))
             <li class="m-menu__item {{($route=='architect_application')?'m-menu__item--active':''}}" aria-haspopup="true">
                 <a href="{{ url(session()->get('redirect_to')) }}" class="m-menu__link ">
                     <i class="m-menu__link-icon flaticon-line-graph"></i>

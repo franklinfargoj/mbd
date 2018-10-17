@@ -23,6 +23,8 @@
             {{ Breadcrumbs::render('view_application_vp',$ol_application->id) }}
             @elseif($route_name=='ree.view_application')
             {{ Breadcrumbs::render('view_application_ree',$ol_application->id) }}
+            @elseif($route_name=='ree.view_reval_application')
+                {{ Breadcrumbs::render('view_reval_application_ree',$ol_application->id) }}
             @elseif($route_name=='co.view_application')
             {{ Breadcrumbs::render('view_application_co',$ol_application->id) }}
             @elseif($route_name=='dyce.view_application')
@@ -32,7 +34,7 @@
             @else
             @endif
             <div class="ml-auto btn-list">
-                <a href="{{ session()->get('redirect_to') }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+                <a  onclick="goBack()" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
                 <a href="#" target="_blank" id="download_application_form" class="btn print-icon"
                     rel="noopener" onclick="printContent('printdiv')"><img src="{{asset('/img/print-icon.svg')}}" title="print"></a>
             </div>
@@ -45,16 +47,14 @@
                 <!-- BEGIN: Subheader -->
                 <div class="m-subheader letter-form-header">
                     <!-- <center><a href="#" target="_blank" class="btn btn-info" rel="noopener">Download Offer Letter Application</a></center> -->
-                    <center>
+                    <div class="text-center">
                         <h3 class="m-subheader__title ">
                             <label for="layouts">Layouts</label>
                         </h3>
                         <p><b>{{ $ol_application->applicationMasterLayout[0]->layout_name }}</b></p>
-                    </center>
+                    </div>
                     <div class="d-flex align-items-center justify-content-center">
-                        <h3 class="m-subheader__title ">
-                            अर्जाचा नमुना
-                        </h3>
+                        <h3 class="m-subheader__title ">अर्जाचा नमुना</h3>
                     </div>
                     <div class="letter-form-header-content">
                         <p>
@@ -141,6 +141,8 @@
         window.print();
         document.body.innerHTML = restorepage;
     }
-
+    function goBack() {
+        window.history.back();
+    }
 </script>
 @endsection

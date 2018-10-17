@@ -21,13 +21,13 @@
 
             <div class="m-portlet__body m-portlet__body--spaced">
                 <div class="form-group m-form__group row">
-                    <div class="col-lg-6 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="case_year">Case Year:</label>
                         <input type="text" id="case_year" name="case_year" class="form-control form-control--custom m-input"
                             value="{{ $arrData['hearing_data']->case_year }}" readonly>
                         <span class="help-block">{{$errors->first('case_year')}}</span>
                     </div>
-                    <div class="col-lg-6 form-group">
+                    <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="case_number">Case Number:</label>
                         <input type="text" id="case_number" name="case_number" class="form-control form-control--custom m-input"
                             value="{{ $arrData['hearing_data']->id }}" readonly>
@@ -36,7 +36,7 @@
                 </div>
 
                 <div class="form-group m-form__group row">
-                    <div class="col-lg-6 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="upload_judgement_case">Case Template:</label>
                         <div class="custom-file">
                             <input type="file" id="upload_judgement_case" name="upload_judgement_case" class="custom-file-input" style="display: none">
@@ -47,15 +47,14 @@
                         <span class="help-block">{{$errors->first('upload_judgement_case')}}</span>
                     </div>
 
-                    <div class="col-lg-6 form-group">
+                    <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="description">Description:</label>
                         <textarea id="description" name="description" class="form-control form-control--custom form-control--fixed-height m-input">{{ $arrData['hearing_data']->hearingUploadCaseJudgement[0]->description }}</textarea>
                         <span class="help-block">{{$errors->first('description')}}</span>
                     </div>
 
-                    <div class="col-lg-6 form-group">
+                    <div class="col-sm-4 form-group">
                         <div class="m-checkbox-list">
-
                             <label class="m-checkbox m-checkbox--primary">
                                 <input type="checkbox" name="close_case" value="1" {{ ($arrData['hearing_status']->hearing_status_id == config('commanConfig.hearingStatus.case_close')) ? "checked" : "" }}> Close case
                                 <span></span>
@@ -68,7 +67,7 @@
             <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
                 <div class="m-form__actions px-0">
                     <div class="row">
-                        <div class="col-lg-6">
+                        <div class="col-sm-4">
                             <div class="btn-list">
                                 <button type="submit" class="btn btn-primary">Save</button>
                                 <a href="{{url('/hearing')}}" class="btn btn-secondary">Cancel</a>

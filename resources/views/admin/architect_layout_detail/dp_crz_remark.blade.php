@@ -152,7 +152,7 @@
                                     <div class="col-lg-6">
                                         <div class="btn-list">
                                             <button type="submit" class="btn btn-primary"> Save </button>
-                                            <a href="{{route('architect_layout_detail.add',['layout_id'=>encrypt($ArchitectLayoutDetail->id)])}}"
+                                            <a href="{{route('architect_layout_detail.edit',['layout_detail_id'=>encrypt($ArchitectLayoutDetail->id)])}}"
                                                 role="button" class="btn btn-secondary">Back</a>
                                         </div>
                                     </div>
