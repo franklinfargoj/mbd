@@ -73,7 +73,15 @@ Route::resource('/email_templates', 'EmailTemplateController');
 Route::resource('ee', 'EEDepartment\EEController');
 Route::get('society_list','EEDepartment\EEController@getSocietyDetailsWithBillingLevel')->name('society.billing_level');
 Route::get('society_details/{id}','EEDepartment\EEController@getSocietyDetails')->name('society.society_details');
+Route::get('arrears_charges/{society_id}/{building_id}/create','EEDepartment\ArrearsServiceController@create')->name('arrears_charges.create');
+Route::post('arrears_charges/{society_id}/{building_id}/store','EEDepartment\ArrearsServiceController@store')->name('arrears_charges.store');
+Route::get('arrears_charges/{id}/edit','EEDepartment\ArrearsServiceController@edit')->name('arrears_charges.edit');
+Route::post('arrears_charges/{id}/update','EEDepartment\ArrearsServiceController@update')->name('arrears_charges.update');
 Route::get('arrears_charges/{society_id}/{building_id}','EEDepartment\ArrearsServiceController@arrersChargesRate')->name('arrears_charges');
+Route::get('service_charges/{society_id}/{building_id}/create','EEDepartment\ServiceChargesController@create')->name('service_charges.create');
+Route::post('service_charges/{society_id}/{building_id}/store','EEDepartment\ServiceChargesController@store')->name('service_charges.store');
+Route::get('service_charges/{id}/edit','EEDepartment\ServiceChargesController@edit')->name('service_charges.edit');
+Route::post('service_charges/{id}/update','EEDepartment\ServiceChargesController@update')->name('service_charges.update');
 Route::get('service_charges/{society_id}/{building_id}','EEDepartment\ServiceChargesController@serviceChargesRate')->name('service_charges');
 
 Route::resource('received_application','DYCEDepartment\DYCEController');
