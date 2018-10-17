@@ -1,54 +1,31 @@
 @extends('admin.layouts.app')
 @section('content')
-<div class="page-bar">
-  <ul class="page-breadcrumb">
-    <li>
-      <a href="index.html">Home</a>
-      <i class="fa fa-circle"></i>
-    </li>
-    <li>
-      <span>Issue certificated to selected candidate</span>
-    </li>
-  </ul>
-  <div class="page-toolbar">
-
-  </div>
-</div>
-<!-- END PAGE BAR -->
-<!-- BEGIN PAGE TITLE-->
-<h1 class="page-title"> Issue certificated to selected candidate
-  <small>&nbsp;</small>
-</h1>
-<!-- END PAGE TITLE-->
-<!-- END PAGE HEADER-->
-<div class="row">
-  <div class="col-md-12">
-    @if(Session::has('success'))
-    <div class="note note-success">
-      <div class="caption">
-        <i class="fa fa-gift"></i> {{Session::get('success')}}
-      </div>
-      <div class="tools pull-right">
-        <a href="" class="remove" data-original-title="" title=""> </a>
-      </div>
+<div class="col-md-12">
+    <div class="m-subheader px-0 m-subheader--top">
+        <div class="d-flex align-items-center">
+            <h3 class="m-subheader__title m-subheader__title--separator">Issue certificated to selected candidate</h3>
+        </div>
+        @if(session('error'))
+        <div class="alert alert-danger">{{ session('error') }}</div>
+        @endif
+        @if(session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
     </div>
-    @endif
-
-    <div class="portlet box purple">
-      <div class="portlet-title">
-        <div class="caption">
-          <i class="fa fa-cogs"></i>Generate Certificate </div>
-          <div class="tools1 pull-right">
-          </div>
+    <div class="m-portlet">
+        @if(Session::has('success'))
+        <div class="note note-success">
+            <div class="caption">
+                <i class="fa fa-gift"></i> {{Session::get('success')}}
+            </div>
+            <div class="tools pull-right">
+                <a href="" class="remove" data-original-title="" title=""> </a>
+            </div>
         </div>
-        <div class="portlet-body">
-          <div class="table-responsive">
-            <h3>To generate draft certificate click on 'Generate' button</h3>
-            <a href="{{url('finalCertificateGenerate/'.$encryptedId)}}" class="btn btn-danger" role="button">Generate</a>
-          </div>
-        </div>
-      </div>
-      <!-- END SAMPLE TABLE PORTLET-->
+        @endif
+        <h3 class="section-title section-title--small">Generate Certificate</h3>
+        <span class="hint-text">To generate draft certificate click on 'Generate' button</span>
+        <a href="{{url('finalCertificateGenerate/'.$encryptedId)}}" class="btn btn-primary mt-3" role="button">Generate</a>
     </div>
 </div>
 
