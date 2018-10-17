@@ -17,9 +17,9 @@
             <div class="form-group m-form__group row">
                 <div class="col-lg-6 form-group">
                     <label class="col-form-label" for="year">Year:</label>
-                    <select  id="year" name="year" class="form-control form-control--custom m-input" >
+                    <select  id="year" name="year" class="form-control form-control--custom m-input" disabled="true">
                         <option value="">Select Year</option>
-                        <option value="{{$arrears_charge->year}}">{{$arrears_charge->year}}</option>
+                        <option value="{{$arrears_charge->year}}" selected="true">{{$arrears_charge->year}}</option>
                     </select>
                     <span class="help-block">{{$errors->first('year')}}</span>
                 </div>
