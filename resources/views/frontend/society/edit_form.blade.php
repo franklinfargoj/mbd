@@ -86,7 +86,7 @@
                             <div class="row">
                                 <div class="col-sm-4">
                                     <div class="btn-list">
-                                        <button type="submit"  class="btn btn-primary">Save</button>
+                                        <button type="submit"  class="btn btn-primary">Update</button>
                                         <a href="{{route('society_offer_letter_dashboard')}}" class="btn btn-secondary">Cancel</a>
                                     </div>
                                 </div>

@@ -1,48 +1,42 @@
-@extends('admin.layouts.sidebarAction')
+@extends('admin.layouts.app')
 @section('css')
-<!-- <style> -->
-<link href="{{asset('/frontend/css/dyce_scrutiny.css')}}" rel="stylesheet" type="text/css" />
 
-<!-- </style> -->
-@endsection
 @section('content')
 
-@if(session()->has('success'))
-  <div class="alert alert-success display_msg">
-      {{ session()->get('success') }}
-  </div>  
-  @endif
-  @if(session()->has('pdf_error')) 
-   <div class="alert alert-error display_msg">
-      {{ session()->get('pdf_error') }}
-  </div>
-@endif
-
-<!-- BEGIN: Subheader -->
 <div class="col-md-12">
     <!-- BEGIN: Subheader -->
-    <div class="m-subheader px-0 m-subheader--top">
-        <div class="d-flex align-items-center">
-            <h3 class="m-subheader__title m-subheader__title--separator">
-                CAP - Notes </h3>
-               
-                <a href="{{ url()->previous() }}" class="btn btn-link ml-auto"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+    <div class="m-subheader px-0">
+        <div class="d-flex">
+            {{-- {{ Breadcrumbs::render('calculation_sheet',$ol_application->id) }} --}}
+            <div class="ml-auto btn-list">
+                <a href="javascript:void(0);" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+            </div>
         </div>
+        <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom" role="tablist">
+            <li class="nav-item m-tabs__item">
+                <a class="nav-link m-tabs__link active show" data-toggle="tab" href="#sale-deed-agreement" role="tab"
+                    aria-selected="false">
+                    <i class="la la-cog"></i> Sale Deed Agreement
+                </a>
+            </li>
+            <li class="nav-item m-tabs__item">
+                <a class="nav-link m-tabs__link" data-toggle="tab" href="#lease-deed-agreement" role="tab"
+                    aria-selected="true">
+                    <i class="la la-bell-o"></i> Lease Deed Agreement
+                </a>
+            </li>
+        </ul>
     </div>
 
-    <!-- society and Appointed Architect details -->
-    <form role="form" id="CAPnotes" style="margin-top: 30px;" name="CAPnotes" class="form-horizontal" method="post"
-        action="{{ route('cap.upload_cap_note')}}" enctype="multipart/form-data">
-        @csrf
-
-        <div class="panel" id="ee-note">
+    <div class="tab-content">
+        <div class="tab-pane active show" id="sale-deed-agreement" role="tabpanel">
             <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
                 <div class="portlet-body">
                     <div class="m-portlet__body m-portlet__body--table">
                         <div class="m-subheader" style="padding: 0;">
                             <div class="d-flex align-items-center justify-content-center">
                                 <h3 class="section-title">
-                                    Note
+                                    Sale Deed Agreement
                                 </h3>
                             </div>
                         </div>
@@ -51,32 +45,80 @@
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="d-flex flex-column h-100 two-cols">
-                                            <h5>Download CAP Note</h5>
-                                            <!-- <span class="hint-text">Download  Note uploaded by CAP</span> -->
-                                            <div class="mt-auto">
-
-
-                                            </div>
+                                            <h5>Upload</h5>
+                                            <span class="hint-text">Click on 'Upload' to upload Sale Deed Agreement</span>
+                                            <form action="" method="post">
+                                                <div class="custom-file">
+                                                    <input class="custom-file-input" name="" type="file" id="test-upload1"
+                                                        required="">
+                                                    <label class="custom-file-label" for="test-upload1">Choose
+                                                        file...</label>
+                                                </div>
+                                                <div class="mt-auto">
+                                                    <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn1">Upload</button>
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
                                     <div class="col-sm-6 border-left">
                                         <div class="d-flex flex-column h-100 two-cols">
-                                            <h5>Upload CAP Note</h5>
-                                            <!-- <span class="hint-text">Click on 'Upload' to upload  - Note -->
-                                                
-                                                <!-- Note</span> -->
-                                            <!-- <form action="" method="post"> -->
+                                            <h5>Download Note</h5>
+                                            <span class="hint-text">Click Download to download Sale Deed Agreement in
+                                                .doc format.</span>
+                                            <div class="mt-auto">
+                                                <button class="btn btn-primary">Download Sale Deed Agreement</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add Send to JT CO here -->
+        </div>
+
+        <div class="tab-pane" id="lease-deed-agreement" role="tabpanel">
+            <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
+                <div class="portlet-body">
+                    <div class="m-portlet__body m-portlet__body--table">
+                        <div class="m-subheader" style="padding: 0;">
+                            <div class="d-flex align-items-center justify-content-center">
+                                <h3 class="section-title">
+                                    Lease Deed Agreement
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="m-section__content mb-0 table-responsive">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="d-flex flex-column h-100 two-cols">
+                                            <h5>Upload</h5>
+                                            <span class="hint-text">Click on 'Upload' to upload Lease Deed Agreement</span>
+                                            <form action="" method="post">
                                                 <div class="custom-file">
-                                                    <input class="custom-file-input cap_note" type="file" id="test-upload" name="cap_note"
+                                                    <input class="custom-file-input" name="" type="file" id="test-upload2"
                                                         required="">
-                                                    <label class="custom-file-label" for="test-upload">Choose
+                                                    <label class="custom-file-label" for="test-upload2">Choose
                                                         file...</label>
                                                 </div>
-                                                <span class="text-danger" id="file_error"></span>
                                                 <div class="mt-auto">
-                                                    <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
+                                                    <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn2">Upload</button>
                                                 </div>
-                                            <!-- </form> -->
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 border-left">
+                                        <div class="d-flex flex-column h-100 two-cols">
+                                            <h5>Download Note</h5>
+                                            <span class="hint-text">Click Download to download Lease Deed Agreement in
+                                                .doc format.</span>
+                                            <div class="mt-auto">
+                                                <button class="btn btn-primary">Download Lease Deed Agreement</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -86,15 +128,6 @@
                 </div>
             </div>
         </div>
-    </form>
+    </div>
 </div>
-@endsection   
-@section('js')
-  <script>
-    
-  </script>
 @endsection
-
-
-
-
