@@ -158,7 +158,9 @@ class DYCOController extends Controller
         }         
     }
 
-    public function displayForwardApplication(Request $request){
-
+    public function displayForwardApplication(Request $request,$applicationId){
+      
+      $data = scApplication::with(['societyApplication','scApplicationLog'])->where('id',$applicationId)->first();
+      return view('admin.conveyance.dyco_department.forward_application',compact('data'));          
     }
 }

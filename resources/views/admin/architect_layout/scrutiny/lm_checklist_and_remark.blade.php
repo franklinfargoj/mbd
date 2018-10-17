@@ -7,7 +7,7 @@
         @php $j=1; @endphp
         @foreach ($check_list_and_remarks['lm_scrtiny_questions'] as $item)
         <div class="block">
-        <input type="hidden" id="lm_report_id_{{$j}}" value="{{$item->id}}">
+            <input type="hidden" id="lm_report_id_{{$j}}" value="{{$item->id}}">
             @if($item->question!="")
             <p style="font-size: 16px">{{$item->question->title}}</p>
             @if($item->question->is_options==1)
@@ -15,6 +15,7 @@
                 <input type="radio" name="option[]" value="1" {{$item->question->label1==1?'selected':''}}>{{$item->question->label1}}
                 <input type="radio" name="option[]" value="1" {{$item->question->label2==1?'selected':''}}>{{$item->question->label2}}
             </p>
+            @endif
             @endif
             <div class="m-form__group row">
                 <div class="col-lg-3 form-group">
@@ -35,14 +36,17 @@
                 </div>
                 <div class="col-lg-7 form-group">
                     <div class="custom-file">
-                        <input class="custom-file-input" name="lm_report[]" type="file" id="report_file_{{$j}}" onchange="upload_lm_report(this.id,'lm_report_id_{{$j}}')">
+                        <input class="custom-file-input" name="lm_report[]" type="file" id="report_file_{{$j}}"
+                            onchange="upload_lm_report(this.id,'lm_report_id_{{$j}}')">
                         <label class="custom-file-label" for="report_file_{{$j}}">Choose file...</label>
-                        <a target="_blank" id="uploaded_file" href="">uploaded
+                        @if($item->file!="")
+                        <a target="_blank" id="uploaded_file" href="{{config('commanConfig.storage_server').'/'.$item->file}}">uploaded
                             file</a>
+                        @endif
                     </div>
                 </div>
             </div>
-            @endif
+
         </div>
         @php $j++; @endphp
         @endforeach

@@ -480,8 +480,11 @@ Route::get('ee-billing-manage-masters', 'EEBillingController@ManageMasters');
 Route::get('ee-billing-level', 'EEBillingController@BillingLevel');
 Route::get('ee-ward-colony', 'EEBillingController@WardColony');
 Route::get('ee-add-tenant', 'EEBillingController@AddTenant');
-Route::get('ee-billing-generation', 'EEBillingController@BillGeneration');
+Route::get('ee-society-billing-generation', 'EEBillingController@SocietyBillGeneration');
+Route::get('ee-tenant-billing-generation', 'EEBillingController@SocietyBillGeneration');
 Route::get('society-conveyance-application', 'EEBillingController@SocietyConveyanceApplication');
+Route::get('ee-blling-arrears-calculation', 'EEBillingController@ArrearsCalculation');
+Route::get('ee-blling-view-bill-details', 'EEBillingController@ViewBillDetailsSociety');
 
 //estate and conveyance
 
@@ -491,8 +494,21 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('sc_application/{id}', 'conveyance\DYCODepartment\DYCOController@ViewApplication')->name('dyco.conveyance_application');
 
     Route::get('checklist/{id}', 'conveyance\DYCODepartment\DYCOController@showChecklist')->name('dyco.checklist');
+    Route::get('forward_application/{id}', 'conveyance\DYCODepartment\DYCOController@displayForwardApplication')->name('dyco.forward_application');
 
     Route::post('storeChecklistData', 'conveyance\DYCODepartment\DYCOController@storeChecklistData')->name('dyco.storeChecklistData'); 
 
     Route::post('upload_note', 'conveyance\DYCODepartment\DYCOController@uploadNote')->name('dyco.uploadDycoNote');
+});
+
+Route::get('/calculation', function () {
+    return view('admin.conveyance.ee_department.sale_price_calculation');
+});
+
+Route::get('/scrutiny_remark_em', function () {
+    return view('admin.conveyance.em_department.scrutiny_remark');
+});
+
+Route::get('/sale_lease_agreement', function () {
+    return view('admin.conveyance.dyco_department.sale_lease_agreement');
 });
