@@ -89,18 +89,18 @@ class EEUserSeeder extends Seeder
                 'description' => 'EE RG Relocation data store'
             ],
             [
-                'name' => 'ee-abc-relocation',
-                'display_name' => 'EE RG Relocation data store',
-                'description' => 'EE RG Relocation data store'
+                'name' => 'test3',
+                'display_name' => 'EE test 3',
+                'description' => 'EE test3'
             ],
         ];
 
         // Role
 
         // EE Department Head
-        $ee_manager = Role::where('name', '=', 'ee_engineer')->select('id')->get();
+        $ee_role_id = Role::where('name', '=', 'ee_engineer')->value('id');
 
-        if (count($ee_manager) == 0)
+        if ($ee_role_id == NULL)
             $ee_role_id = Role::insertGetId([
                 'name' => 'ee_engineer',
                 'redirect_to' => '/ee',
@@ -108,13 +108,11 @@ class EEUserSeeder extends Seeder
                 'display_name' => 'EE Engineer',
                 'description' => 'EE Engineer'
             ]);
-        else
-            $ee_role_id = $ee_manager[0]['id'];
 
         // EE Deputy Engineer
-        $ee_deputy_engineer = Role::where('name','ee_dy_engineer')->select('id')->get();
+        $ee_dy_role_id = Role::where('name','ee_dy_engineer')->value('id');
 
-        if(count($ee_deputy_engineer) == 0)
+        if($ee_dy_role_id  == NULL)
             $ee_dy_role_id = Role::insertGetId([
                 'name' => 'ee_dy_engineer',
                 'redirect_to' => '/ee',
@@ -122,13 +120,11 @@ class EEUserSeeder extends Seeder
                 'display_name' => 'EE Deputy Engineer',
                 'description' => 'EE Deputy Engineer'
             ]);
-        else
-            $ee_dy_role_id = $ee_deputy_engineer[0]['id'];
 
         // EE Junior Engineer
-        $ee_junior_engineer = Role::where('name','ee_junior_engineer')->select('id')->get();
+        $ee_jr_role_id = Role::where('name','ee_junior_engineer')->value('id');
 
-        if(count($ee_junior_engineer) == 0)
+        if($ee_jr_role_id == NULL)
             $ee_jr_role_id = Role::insertGetId([
                 'name' => 'ee_junior_engineer',
                 'redirect_to' => '/ee',
@@ -136,16 +132,13 @@ class EEUserSeeder extends Seeder
                 'display_name' => 'EE Junior Engineer',
                 'description' => 'EE Junior Engineer'
             ]);
-        else
-            $ee_jr_role_id = $ee_junior_engineer[0]['id'];
-
 
         // User and Role Mapping
 
         // EE User
-        $ee_user = User::select('id')->where('email','user1@gmail.com')->get()->toArray();
+        $ee_user_id = User::where('email','user1@gmail.com')->value('id');
 
-        if(count($ee_user) == 0){
+        if($ee_user_id == NULL){
             $ee_user_id = User::insertGetId([
                 'name' => 'Nitin Gadkari',
                 'email' => 'user1@gmail.com',
@@ -156,21 +149,17 @@ class EEUserSeeder extends Seeder
                 'address' => 'Mumbai'
             ]);
 
-            $ee_role_user = RoleUser::insert([
+            RoleUser::insert([
                 'user_id' => $ee_user_id,
                 'role_id' => $ee_role_id,
                 'start_date' => \Carbon\Carbon::now()
             ]);
-        }else{
-            $ee_user_id = $ee_user[0]['id'];
         }
 
-
-
         // EE Deputy Engineer
-        $ee_dy_user = User::select('id')->where('email','user2@gmail.com')->get()->toArray();
+        $ee_dy_user_id = User::where('email','user2@gmail.com')->value('id');
 
-        if(count($ee_dy_user)){
+        if($ee_dy_user_id == NULL){
             $ee_dy_user_id = User::insertGetId([
                 'name' => 'Amit Kadam',
                 'email' => 'user2@gmail.com',
@@ -181,20 +170,17 @@ class EEUserSeeder extends Seeder
                 'address' => 'Mumbai'
             ]);
 
-            $role_user = RoleUser::insert([
+            RoleUser::insert([
                 'user_id' => $ee_dy_user_id,
                 'role_id' => $ee_dy_role_id,
                 'start_date' => \Carbon\Carbon::now()
             ]);
-        }else{
-            $ee_dy_user_id = $ee_dy_user[0]['id'];
         }
 
-
         // EE Junior Engineer
-        $ee_jr_user = User::select('id')->where('email','user3@gmail.com')->get()->toArray();
+        $ee_jr_user_id = User::where('email','user3@gmail.com')->value('id');
 
-        if(count($ee_jr_user)){
+        if($ee_jr_user_id == NULL){
             $ee_jr_user_id = User::insertGetId([
                 'name' => 'Suryakant Teli',
                 'email' => 'user3@gmail.com',
@@ -205,13 +191,11 @@ class EEUserSeeder extends Seeder
                 'address' => 'Mumbai'
             ]);
 
-            $role_user = RoleUser::insert([
+            RoleUser::insert([
                 'user_id' => $ee_jr_user_id,
                 'role_id' => $ee_jr_role_id,
                 'start_date' => \Carbon\Carbon::now()
             ]);
-        }else{
-            $ee_jr_user_id = $ee_jr_user;
         }
 
         // Permissions
@@ -251,7 +235,6 @@ class EEUserSeeder extends Seeder
                 ]);
 
                 // Layout User Mapping
-
                 LayoutUser::insert(['user_id' => $ee_user_id, 'layout_id' => $layout_id]);
                 LayoutUser::insert(['user_id' => $ee_dy_user_id, 'layout_id' => $layout_id]);
                 LayoutUser::insert(['user_id' => $ee_jr_user_id, 'layout_id' => $layout_id]);
