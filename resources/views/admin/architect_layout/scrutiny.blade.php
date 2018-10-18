@@ -46,25 +46,16 @@
                                             <th>Name Of Document</th>
                                             <th>File</th>
                                         </tr>
-                                        @foreach($architect_layout_em_scrutiny_reports as
-                                        $architect_layout_em_scrutiny_report)
+                                        @foreach($scrutiny_reports as $scrutiny_report)
+                                        @foreach($scrutiny_report as $report)
                                         <tr>
                                             <td>{{
-                                                date('d/m/Y',strtotime($architect_layout_em_scrutiny_report->created_at))
+                                                date('d/m/Y',strtotime($report->created_at))
                                                 }}</td>
-                                            <td>{{ $architect_layout_em_scrutiny_report->name_of_document }}</td>
-                                            <td><a target="_blank" href="{{config('commanConfig.storage_server').'/'.$architect_layout_em_scrutiny_report->file}}">file</a></td>
+                                            <td>{{ $report->name_of_document }}</td>
+                                            <td><a target="_blank" href="{{config('commanConfig.storage_server').'/'.$report->file}}">file</a></td>
                                         </tr>
                                         @endforeach
-                                        @foreach($architect_layout_land_scrutiny_reports as
-                                        $architect_layout_land_scrutiny_report)
-                                        <tr>
-                                            <td>{{
-                                                date('d/m/Y',strtotime($architect_layout_land_scrutiny_report->created_at))
-                                                }}</td>
-                                            <td>{{ $architect_layout_land_scrutiny_report->name_of_document }}</td>
-                                            <td><a target="_blank" href="{{config('commanConfig.storage_server').'/'.$architect_layout_land_scrutiny_report->file}}">file</a></td>
-                                        </tr>
                                         @endforeach
                                     </table>
                                 </div>
@@ -84,7 +75,14 @@
                                 </div>
                                 <div class="remarks-suggestions scrutiny-checklist_and_remarks">
                                     <div id="wrapper">
-                                        @include('admin.architect_layout.scrutiny.lm_checklist_and_remark',compact('check_list_and_remarks'))
+
+                                        @include('admin.architect_layout.scrutiny.checklist_and_remark',compact('check_list_and_remarks','post_route_name','upload_file_route_name'))
+                                        {{-- @if(session()->get('role_name')==config('commanConfig.land_manager'))
+                                        @include('admin.architect_layout.scrutiny.lm_checklist_and_remark',compact('check_list_and_remarks',''))
+                                        @endif
+                                        @if(session()->get('role_name')==config('commanConfig.estate_manager'))
+                                        @include('admin.architect_layout.scrutiny.em_checklist_and_remark',compact('check_list_and_remarks','post_route_name','upload_file_route_name'))
+                                        @endif --}}
                                     </div>
                                 </div>
                             </div>
@@ -124,12 +122,12 @@
 
             $("#to_role_id").val(id);
         });
-        $('.add').click(function () {
-            alert('ok')
+
+        $('body').on('click', '.add_report', function () {
             var count = $(".optionBox > div").length;
             count++;
             $('.block:last').after(
-                '<input type="hidden" id="lm_report_id_' + count + '" value="">' +
+                '<input type="hidden" name="report_id[]" id="report_id_' + count + '" value="">' +
                 '<div class="m-form__group row">' +
                 '<div class="col-lg-3 form-group">' +
                 '<label for="Upload_Cts_Plan">Remark</label>' +
@@ -147,10 +145,15 @@
                 '</div>' +
                 '<div class="col-lg-7 form-group">' +
                 '<div class="custom-file">' +
-                '<input class="custom-file-input" name="crz_remark_plan[]" type="file" onchange="upload_lm_report(this.id,\'lm_report_id_' +
-                count + '\')" id="report_file_' + count + '">' +
+                '<input class="custom-file-input" name="crz_remark_plan[]" type="file" onchange="upload_report(this.id,\'report_id_' +
+                count + '\',\'report_file_' + count + '\',\'report_file_link_' + count +
+                '\')" id="report_file_' + count + '">' +
                 '<label class="custom-file-label" for="report_file_' + count +
                 '">Choose file...</label>' +
+                '<input type="hidden" name="report_file_name[]" id="report_file_' + count +
+                '" value="">' +
+                '<a target="_blank" id="report_file_link_' + count +
+                '" style="display:none">uploaded file</a>' +
                 '</div>' +
                 '</div>' +
                 '</div>'
@@ -167,48 +170,50 @@
 
     });
 
-    function upload_lm_report(current_id, report_id) {
+    function upload_report(current_id, report_id, report_file_name, report_file_link) {
+        var upload_file_route_name = $("#upload_file_route_name").val();
         $(".loader").show();
         var architect_layout_id = $('#architect_layout_id').val();
         var report_id = document.getElementById(report_id).value;
-        var file_data = $('#' + current_id).prop('files')[0];
-        var form_data = new FormData();
-        form_data.append('file', file_data);
-        form_data.append('architect_layout_id', architect_layout_id);
-        form_data.append('report_id', report_id);
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-Token': '{{csrf_token()}}'
-            }
-        });
-        $.ajax({
-            url: "{{route('upload_lm_checklist_and_remark_report')}}", // point to server-side PHP script
-            data: form_data,
-            type: 'POST',
-            contentType: false, // The content type used when sending data to the server.
-            cache: false, // To unable request pages to be cached
-            processData: false,
-            success: function (data) {
-                console.log(data)
-                $(".loader").hide();
-                $("#wrapper").html(data)
-                //     if(data.status==true)
-                //     {
-                //         if(replace_hidden_to_label)
-                //         {
-                //         $("#"+doc_name).replaceWith("<label>" + doc_name1 + "</label>");
-                //         }
-                //         $("#"+uploaded_file_id).prop("href", data.file_path)
-                //         $("#"+uploaded_file_id).css("display", "block");
-                //         document.getElementById(ee_report_doc_id).value=data.doc_id
-                //         document.getElementById(doc_error).innerHTML = "";
-                //     }else
-                //     {
-                //         document.getElementById(id).value = null;
-                //         document.getElementById(doc_error).innerHTML = data.message;
-                //     }
-            }
-        });
+        var filename = $("#" + current_id).val();
+        var extension = filename.replace(/^.*\./, '');
+        if (extension == 'pdf') {
+            var file_data = $('#' + current_id).prop('files')[0];
+            var form_data = new FormData();
+            form_data.append('file', file_data);
+            form_data.append('architect_layout_id', architect_layout_id);
+            form_data.append('report_id', report_id);
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-Token': '{{csrf_token()}}'
+                }
+            });
+            $.ajax({
+                url: upload_file_route_name, // point to server-side PHP script
+                data: form_data,
+                type: 'POST',
+                contentType: false, // The content type used when sending data to the server.
+                cache: false, // To unable request pages to be cached
+                processData: false,
+                success: function (data) {
+                    console.log(data)
+                    $(".loader").hide();
+                    if (data.status == true) {
+
+                        $("#" + report_file_link).prop("href", data.file_path)
+                        $("#" + report_file_link).css("display", "block");
+                        var res = report_file_link.split("_");
+                        var report_id = res[res.length - 1]
+                        $('#report_id_' + report_id).val(data.doc_id)
+                    } else {}
+                }
+            });
+        } else {
+            var filename = $("#" + current_id).val('');
+            alert('please upload pdf file');
+            $(".loader").hide();
+        }
+
     }
 
 </script>

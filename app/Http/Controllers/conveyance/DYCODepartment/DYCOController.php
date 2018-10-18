@@ -8,9 +8,12 @@ use App\Http\Controllers\conveyance\conveyanceCommonController;
 use App\Http\Controllers\Common\CommonController;
 use App\conveyance\ConveyanceChecklistScrutiny;
 use App\conveyance\scApplication;
+use App\conveyance\ScApplicationAgreements;
+use App\conveyance\ScAgreementComments;
 use Config;
 use Yajra\DataTables\DataTables;
 use Storage;
+use Auth;
 
 class DYCOController extends Controller
 {
@@ -158,9 +161,69 @@ class DYCOController extends Controller
         }         
     }
 
+    public function saleLeaseAgreement(Request $request,$applicationId){
+
+        $data = scApplication::with(['scApplicationAgreement','scApplicationLog'])->where('id',$applicationId)->first();
+        // dd($data);
+        return view('admin.conveyance.dyco_department.sale_lease_agreement',compact('data'));
+    }
+
+    public function saveAgreement(Request $request){
+ 
+        $applicationId   = $request->applicationId;
+        $sale_agreement  = $request->file('sale_agreement');   
+        $lease_agreement = $request->file('lease_agreement'); 
+        
+        $sale_file_name  = time().'_sale_'.'.'.$sale_agreement->getClientOriginalExtension();  
+        $lease_file_name = time().'_lease_'.'.'.$lease_agreement->getClientOriginalExtension();
+        
+        $sale_extension  = $sale_agreement->getClientOriginalExtension(); 
+        $lease_extension = $lease_agreement->getClientOriginalExtension(); 
+        
+        $sale_folder_name  = "sale_deed_agreement";
+        $lease_folder_name = "lease_deed_agreement";
+        
+        $sale_file_path  = $sale_folder_name.'/'.$sale_file_name;
+        $lease_file_path = $lease_folder_name.'/'.$lease_file_name;
+
+        if ($sale_agreement && $lease_agreement) {
+            
+            if ($sale_extension = $lease_extension == "pdf"){
+
+                $sale_upload = $this->CommonController->ftpFileUpload($sale_folder_name,$request->file('sale_agreement'),$sale_file_name);    
+
+                $lease_upload = $this->CommonController->ftpFileUpload($lease_folder_name,$request->file('lease_agreement'),$lease_file_name);
+
+                    $fileData[] = array('draft_sale_agreement'  => $sale_file_path, 
+                                        'draft_lease_agreement' => $lease_file_path,
+                                        'application_id'        => $applicationId,
+                                        'user_id'               => Auth::Id()); 
+
+                    $comments[] = array('application_id' => $applicationId,
+                                        'user_id'        => Auth::Id(),
+                                        'role_id'        => session()->get('role_id'),
+                                        'remark'         => $request->remark);
+
+                    $data   = ScApplicationAgreements::insert($fileData); 
+                    $remark = ScAgreementComments::insert($comments);
+
+                    return back()->with('success', 'Agreements uploaded successfully.');         
+            }else{
+                return back()->with('error', 'Invalid type of file uploaded (only pdf allowed).');
+            }
+        }
+    }
+
     public function displayForwardApplication(Request $request,$applicationId){
       
       $data = scApplication::with(['societyApplication','scApplicationLog'])->where('id',$applicationId)->first();
-      return view('admin.conveyance.dyco_department.forward_application',compact('data'));          
+      $parentData = $this->common->getForwardApplicationChildData();
+      return view('admin.conveyance.dyco_department.forward_application',compact('data','parentData'));          
+    }
+
+    public function saveForwardApplication(Request $request){
+    
+        $forwardData = $this->common->forwardApplication($request); 
+        return redirect('/dyco')->with('success','Application send successfully..');
     }
 }

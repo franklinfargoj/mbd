@@ -29,6 +29,10 @@
     margin-top: 30px;
 }
 
+.tab-content + .m-portlet {
+    margin-top: 30px;
+}
+
 .datepicker tbody tr>td.day.active,
 .datepicker tbody tr>td.day.active:hover,
 .datepicker tbody tr>td.day.selected,
@@ -673,6 +677,7 @@ table.dataTable tbody tr:nth-child(even):focus {
 
 .form-control--fixed-height {
     height: 38px;
+    resize: none;
 }
 
 .modal .modal-content .modal-header .close {
@@ -2621,3 +2626,23 @@ label.site-visit-label {
 }
 
 /* Society Conveyance ends here */
+
+/* Architect Application starts here */
+
+.topnav .btn-link {
+    padding: 5px 8px;
+}
+
+.topnav .btn-link.active {
+    background: #f0791b;
+    color: white;
+    border-radius: 4px;
+}
+
+.topnav .btn-link.active:hover,
+.topnav .btn-link.active:focus {
+    text-decoration: none;
+    cursor: default;
+}
+
+/* Architect Application ends here */

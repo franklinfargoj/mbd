@@ -11,6 +11,6 @@
 @endif
 @if($status!==config('commanConfig.architect_applicationStatus')['forward'])
     @if(($architect_applications->application_status!='Final') || config('commanConfig.architect')!=session()->get('role_name'))
-    <a title="Forward" href="{{ url('forward_application/'. encrypt($architect_applications->id)) }}">Forward Application</a>
+    <a title="Forward" href="{{ route('architect.forward_application',['id'=>encrypt($architect_applications->id)]) }}">Forward Application</a>
     @endif
 @endif 

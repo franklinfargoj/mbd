@@ -30,6 +30,10 @@ use Illuminate\Support\Facades\DB;
 use Storage;
 use App\Layout\ArchitectLayoutLmScrtinyQuestionMaster;
 use App\Layout\ArchitectLayoutLmScrtinyQuestionDetail;
+use App\OlApplicationMaster;
+use App\Layout\ArchitectLayoutEmScrtinyQuestionMaster;
+use App\Layout\ArchitectLayoutEmScrtinyQuestionDetail;
+
 class CommonController extends Controller
 {
 
@@ -177,7 +181,6 @@ class CommonController extends Controller
             $application_master_arr=OlApplicationMaster::Where('title', 'like', '%Revalidation Of Offer Letter%')->pluck('id')->toArray();
             $applicationData = $applicationData->whereIn('application_master_id',$application_master_arr);
         }
-
 
         $applicationDataDefine = $applicationData->orderBy('ol_applications.id', 'desc')
             ->select()->get();
@@ -738,6 +741,30 @@ class CommonController extends Controller
         }
         
         $final_detail=ArchitectLayoutLmScrtinyQuestionDetail::with(['question'])->where(['user_id'=>$user_id,'architect_layout_id'=>$layout_id])->get();
+        return $final_detail;
+        
+    }
+
+    public function get_em_checklist_and_remarks($layout_id,$user_id)
+    {
+        $ArchitectLayoutLmScrtinyQuestionMaster=ArchitectLayoutEmScrtinyQuestionMaster::all();
+        foreach($ArchitectLayoutLmScrtinyQuestionMaster as $data)
+        {
+            $detail=ArchitectLayoutEmScrtinyQuestionDetail::where(['user_id'=>$user_id,'architect_layout_id'=>$layout_id,'architect_layout_em_scrunity_question_master_id'=>$data->id])->first();
+            if($detail)
+            {
+
+            }else
+            {
+                $enter_detail=new ArchitectLayoutEmScrtinyQuestionDetail;
+                $enter_detail->user_id=$user_id;
+                $enter_detail->architect_layout_id=$layout_id;
+                $enter_detail->architect_layout_em_scrunity_question_master_id=$data->id;
+                $enter_detail->save();
+            }
+        }
+        
+        $final_detail=ArchitectLayoutEmScrtinyQuestionDetail::with(['question'])->where(['user_id'=>$user_id,'architect_layout_id'=>$layout_id])->get();
         return $final_detail;
         
     }
