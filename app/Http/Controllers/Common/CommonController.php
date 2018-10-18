@@ -6,10 +6,17 @@ use App\EENote;
 use App\Http\Controllers\Controller;
 use App\Layout\ArchitectLayout;
 use App\Layout\ArchitectLayoutDetail;
+use App\Layout\ArchitectLayoutEEScrtinyQuestionDetail;
+use App\Layout\ArchitectLayoutEEScrtinyQuestionMaster;
+use App\Layout\ArchitectLayoutEmScrtinyQuestionDetail;
+use App\Layout\ArchitectLayoutEmScrtinyQuestionMaster;
+use App\Layout\ArchitectLayoutLmScrtinyQuestionDetail;
+use App\Layout\ArchitectLayoutLmScrtinyQuestionMaster;
 use App\Layout\ArchitectLayoutStatusLog;
 use App\MasterLayout;
 use App\OlApplication;
 use App\OlApplicationCalculationSheetDetails;
+use App\OlApplicationMaster;
 use App\OlApplicationStatus;
 use App\OlCapNotes;
 use App\OlChecklistScrutiny;
@@ -26,13 +33,9 @@ use App\User;
 use Auth;
 use Carbon\Carbon;
 use Config;
-use Illuminate\Support\Facades\DB;
 use Storage;
-use App\Layout\ArchitectLayoutLmScrtinyQuestionMaster;
-use App\Layout\ArchitectLayoutLmScrtinyQuestionDetail;
-use App\OlApplicationMaster;
-use App\Layout\ArchitectLayoutEmScrtinyQuestionMaster;
-use App\Layout\ArchitectLayoutEmScrtinyQuestionDetail;
+use App\Layout\ArchitectLayoutReeScrtinyQuestionDetail;
+use App\Layout\ArchitectLayoutReeScrtinyQuestionMaster;
 
 class CommonController extends Controller
 {
@@ -134,6 +137,7 @@ class CommonController extends Controller
         }])->whereHas('ArchitectLayoutStatusLogInLiosting', function ($q) {
             $q->where('user_id', Auth::user()->id)
                 ->where('role_id', session()->get('role_id'))
+                ->where('status_id', "!=", config('commanConfig.architect_layout_status.new_application'))
                 ->orderBy('id', 'desc');
         })->get();
 
@@ -153,7 +157,7 @@ class CommonController extends Controller
         );
     }
 
-    public function listApplicationData($request,$application_type=Null)
+    public function listApplicationData($request, $application_type = null)
     {
         $applicationData = OlApplication::with(['applicationLayoutUser', 'ol_application_master', 'eeApplicationSociety', 'olApplicationStatusForLoginListing' => function ($q) {
             $q->where('user_id', Auth::user()->id)
@@ -176,10 +180,9 @@ class CommonController extends Controller
             $applicationData = $applicationData->whereDate('submitted_at', '<=', date('Y-m-d', strtotime($request->submitted_at_to)));
         }
 
-        if($application_type!=Null && $application_type=="reval")
-        {
-            $application_master_arr=OlApplicationMaster::Where('title', 'like', '%Revalidation Of Offer Letter%')->pluck('id')->toArray();
-            $applicationData = $applicationData->whereIn('application_master_id',$application_master_arr);
+        if ($application_type != null && $application_type == "reval") {
+            $application_master_arr = OlApplicationMaster::Where('title', 'like', '%Revalidation Of Offer Letter%')->pluck('id')->toArray();
+            $applicationData = $applicationData->whereIn('application_master_id', $application_master_arr);
         }
 
         $applicationDataDefine = $applicationData->orderBy('ol_applications.id', 'desc')
@@ -720,52 +723,87 @@ class CommonController extends Controller
         return $required_details;
     }
 
-
-    public function get_lm_checklist_and_remarks($layout_id,$user_id)
+    public function get_lm_checklist_and_remarks($layout_id, $user_id)
     {
-        $ArchitectLayoutLmScrtinyQuestionMaster=ArchitectLayoutLmScrtinyQuestionMaster::all();
-        foreach($ArchitectLayoutLmScrtinyQuestionMaster as $data)
-        {
-            $detail=ArchitectLayoutLmScrtinyQuestionDetail::where(['user_id'=>$user_id,'architect_layout_id'=>$layout_id,'architect_layout_lm_scrunity_question_master_id'=>$data->id])->first();
-            if($detail)
-            {
+        $ArchitectLayoutLmScrtinyQuestionMaster = ArchitectLayoutLmScrtinyQuestionMaster::all();
+        foreach ($ArchitectLayoutLmScrtinyQuestionMaster as $data) {
+            $detail = ArchitectLayoutLmScrtinyQuestionDetail::where(['user_id' => $user_id, 'architect_layout_id' => $layout_id, 'architect_layout_lm_scrunity_question_master_id' => $data->id])->first();
+            if ($detail) {
 
-            }else
-            {
-                $enter_detail=new ArchitectLayoutLmScrtinyQuestionDetail;
-                $enter_detail->user_id=$user_id;
-                $enter_detail->architect_layout_id=$layout_id;
-                $enter_detail->architect_layout_lm_scrunity_question_master_id=$data->id;
+            } else {
+                $enter_detail = new ArchitectLayoutLmScrtinyQuestionDetail;
+                $enter_detail->user_id = $user_id;
+                $enter_detail->architect_layout_id = $layout_id;
+                $enter_detail->architect_layout_lm_scrunity_question_master_id = $data->id;
                 $enter_detail->save();
             }
         }
-        
-        $final_detail=ArchitectLayoutLmScrtinyQuestionDetail::with(['question'])->where(['user_id'=>$user_id,'architect_layout_id'=>$layout_id])->get();
+
+        $final_detail = ArchitectLayoutLmScrtinyQuestionDetail::with(['question'])->where(['user_id' => $user_id, 'architect_layout_id' => $layout_id])->get();
         return $final_detail;
-        
+
     }
 
-    public function get_em_checklist_and_remarks($layout_id,$user_id)
+    public function get_em_checklist_and_remarks($layout_id, $user_id)
     {
-        $ArchitectLayoutLmScrtinyQuestionMaster=ArchitectLayoutEmScrtinyQuestionMaster::all();
-        foreach($ArchitectLayoutLmScrtinyQuestionMaster as $data)
-        {
-            $detail=ArchitectLayoutEmScrtinyQuestionDetail::where(['user_id'=>$user_id,'architect_layout_id'=>$layout_id,'architect_layout_em_scrunity_question_master_id'=>$data->id])->first();
-            if($detail)
-            {
+        $ArchitectLayoutLmScrtinyQuestionMaster = ArchitectLayoutEmScrtinyQuestionMaster::all();
+        foreach ($ArchitectLayoutLmScrtinyQuestionMaster as $data) {
+            $detail = ArchitectLayoutEmScrtinyQuestionDetail::where(['user_id' => $user_id, 'architect_layout_id' => $layout_id, 'architect_layout_em_scrunity_question_master_id' => $data->id])->first();
+            if ($detail) {
 
-            }else
-            {
-                $enter_detail=new ArchitectLayoutEmScrtinyQuestionDetail;
-                $enter_detail->user_id=$user_id;
-                $enter_detail->architect_layout_id=$layout_id;
-                $enter_detail->architect_layout_em_scrunity_question_master_id=$data->id;
+            } else {
+                $enter_detail = new ArchitectLayoutEmScrtinyQuestionDetail;
+                $enter_detail->user_id = $user_id;
+                $enter_detail->architect_layout_id = $layout_id;
+                $enter_detail->architect_layout_em_scrunity_question_master_id = $data->id;
                 $enter_detail->save();
             }
         }
-        
-        $final_detail=ArchitectLayoutEmScrtinyQuestionDetail::with(['question'])->where(['user_id'=>$user_id,'architect_layout_id'=>$layout_id])->get();
+
+        $final_detail = ArchitectLayoutEmScrtinyQuestionDetail::with(['question'])->where(['user_id' => $user_id, 'architect_layout_id' => $layout_id])->get();
         return $final_detail;
-        
+
+    }
+
+    public function get_ee_checklist_and_remarks($layout_id, $user_id)
+    {
+        $ArchitectLayoutLmScrtinyQuestionMaster = ArchitectLayoutEEScrtinyQuestionMaster::all();
+        foreach ($ArchitectLayoutLmScrtinyQuestionMaster as $data) {
+            $detail = ArchitectLayoutEEScrtinyQuestionDetail::where(['user_id' => $user_id, 'architect_layout_id' => $layout_id, 'architect_layout_ee_scrunity_question_master_id' => $data->id])->first();
+            if ($detail) {
+
+            } else {
+                $enter_detail = new ArchitectLayoutEEScrtinyQuestionDetail;
+                $enter_detail->user_id = $user_id;
+                $enter_detail->architect_layout_id = $layout_id;
+                $enter_detail->architect_layout_ee_scrunity_question_master_id = $data->id;
+                $enter_detail->save();
+            }
+        }
+
+        $final_detail = ArchitectLayoutEEScrtinyQuestionDetail::with(['question'])->where(['user_id' => $user_id, 'architect_layout_id' => $layout_id])->get();
+        return $final_detail;
+
+    }
+
+    public function get_ree_checklist_and_remarks($layout_id, $user_id)
+    {
+        $ArchitectLayoutLmScrtinyQuestionMaster = ArchitectLayoutReeScrtinyQuestionMaster::all();
+        foreach ($ArchitectLayoutLmScrtinyQuestionMaster as $data) {
+            $detail = ArchitectLayoutReeScrtinyQuestionDetail::where(['user_id' => $user_id, 'architect_layout_id' => $layout_id, 'architect_layout_ree_scrunity_question_master_id' => $data->id])->first();
+            if ($detail) {
+
+            } else {
+                $enter_detail = new ArchitectLayoutReeScrtinyQuestionDetail;
+                $enter_detail->user_id = $user_id;
+                $enter_detail->architect_layout_id = $layout_id;
+                $enter_detail->architect_layout_ree_scrunity_question_master_id = $data->id;
+                $enter_detail->save();
+            }
+        }
+
+        $final_detail = ArchitectLayoutReeScrtinyQuestionDetail::with(['question'])->where(['user_id' => $user_id, 'architect_layout_id' => $layout_id])->get();
+        return $final_detail;
+
     }
 }
