@@ -29,7 +29,7 @@
     margin-top: 30px;
 }
 
-.tab-content + .m-portlet {
+.tab-content+.m-portlet {
     margin-top: 30px;
 }
 
@@ -1574,14 +1574,14 @@ table.dataTable tbody tr:nth-child(even):focus {
     border-radius: 0 0.25rem 0.25rem 0;
 }
 
-input:disabled + label.custom-file-label {
+input:disabled+label.custom-file-label {
     background-color: #f7f8fa;
     color: #575962;
     opacity: .65;
     font-weight: 600;
 }
 
-input:disabled + label:after {
+input:disabled+label:after {
     display: none;
 }
 
@@ -2411,6 +2411,11 @@ label.site-visit-label {
 
 /* Sidebar starts here */
 
+.m-aside-menu .mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar {
+    margin: 0 0 0 -1px;
+    opacity: .5;
+}
+
 .radio-icon {
     width: 16px;
     position: absolute;
@@ -2431,6 +2436,11 @@ label.site-visit-label {
 .m-aside-menu.m-aside-menu--skin-dark .m-menu__nav>.m-menu__item:hover>.m-menu__heading .m-menu__ver-arrow,
 .m-aside-menu.m-aside-menu--skin-dark .m-menu__nav>.m-menu__item:hover>.m-menu__link .m-menu__ver-arrow {
     color: #fff;
+}
+
+.m-aside-menu .m-menu__nav .m-menu__item>.m-menu__link .m-menu__ver-arrow {
+    position: relative;
+    right: -10px;
 }
 
 .m-menu__item--submenu+.m-menu__item--submenu {
@@ -2494,6 +2504,10 @@ label.site-visit-label {
 .m-aside-menu.m-aside-menu--skin-dark .m-menu__nav>.m-menu__item.m-menu__item--active:hover>.m-menu__link .m-menu__link-icon,
 .m-aside-menu.m-aside-menu--skin-dark .m-menu__nav>.m-menu__item.m-menu__item--active:focus>.m-menu__link .m-menu__link-icon {
     color: #f0791b;
+}
+
+.m-menu__item--submenu.collapsed .la-angle-right {
+    transform: rotate(0deg);
 }
 
 /* Sidebar ends here */
@@ -2580,7 +2594,7 @@ label.site-visit-label {
 
 /* EE Billing ends here */
 
-.star{
+.star {
     color: #f4516c;
 }
 
