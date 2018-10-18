@@ -37,6 +37,11 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                 [
                     'application_id'   => $application[0]['id'],
                     'language_id'   => $language[0]['id'],
+                    'name' => "संस्थेच्या सर्वसाधारण सभेच्या ठरावात विकासकाचे नाव व पत्ता नमुद केलेल्या ठरावाची साक्षांकित प्रत"
+                ],
+                [
+                    'application_id'   => $application[0]['id'],
+                    'language_id'   => $language[0]['id'],
                     'name' => "सर्वसाधारण सभेच्या ठरावात वास्तुशास्त्रज्ञाचे नाव व पत्ता नमुद केलेल्या ठरावाची साक्षांकित प्रत"
                 ],
                 [
@@ -48,6 +53,11 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                     'application_id'   => $application[0]['id'],
                     'language_id'   => $language[0]['id'],
                     'name' => "वास्तुशास्त्रज्ञाच्या परवाण्याची साक्षांकित प्रत"
+                ],
+                [
+                    'application_id'   => $application[0]['id'],
+                    'language_id'   => $language[0]['id'],
+                    'name' => "विकासकाबरोबर केलेल्या नोंदणीकृत करारनाम्याची साक्षांकित प्रत"
                 ],
                 [
                     'application_id'   => $application[0]['id'],
@@ -108,6 +118,11 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                     'application_id'   => $application[0]['id'],
                     'language_id'   => $language[0]['id'],
                     'name' => "डी.पी.रिमार्क"
+                ],
+                [
+                    'application_id'   => $application[0]['id'],
+                    'language_id'   => $language[0]['id'],
+                    'name' => "उपनिबंधक यांचेसमक्ष सर्वसाधारण सभेमध्ये विकासकाची नियुक्ती झाल्याबाबतचे पत्र"
                 ]
             ];
 
@@ -153,7 +168,7 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                 [
                     'application_id'   => $application1[0]['id'],
                     'language_id'   => $language1[0]['id'],
-                    'name' => "७० % सभासदांची पुनर्विकासाकरीता वैयक्तीक संमती पत्र"
+                    'name' => "५१ % सभासदांची पुनर्विकासाकरीता वैयक्तीक संमती पत्र"
                 ],
                 [
                     'application_id'   => $application1[0]['id'],
@@ -265,7 +280,7 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                 [
                     'application_id'   => $application2[0]['id'],
                     'language_id'   => $language2[0]['id'],
-                    'name' => "७० % सभासदांची पुनर्विकासाकरीता वैयक्तीक संमती पत्र"
+                    'name' => "५१ % सभासदांची पुनर्विकासाकरीता वैयक्तीक संमती पत्र"
                 ],
                 [
                     'application_id'   => $application2[0]['id'],
@@ -357,11 +372,6 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                 [
                     'application_id'   => $application3[0]['id'],
                     'language_id'   => $language3[0]['id'],
-                    'name' => "संस्थेच्या सर्वसाधारण सभेच्या ठरावात विकासकाचे नाव व पत्ता नमुद केलेल्या ठरावाची साक्षांकित प्रत"
-                ],
-                [
-                    'application_id'   => $application3[0]['id'],
-                    'language_id'   => $language3[0]['id'],
                     'name' => "सर्वसाधारण सभेच्या ठरावात वास्तुशास्त्रज्ञाचे नाव व पत्ता नमुद केलेल्या ठरावाची साक्षांकित प्रत"
                 ],
                 [
@@ -373,11 +383,6 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                     'application_id'   => $application3[0]['id'],
                     'language_id'   => $language3[0]['id'],
                     'name' => "वास्तुशास्त्रज्ञाच्या परवाण्याची साक्षांकित प्रत"
-                ],
-                [
-                    'application_id'   => $application3[0]['id'],
-                    'language_id'   => $language3[0]['id'],
-                    'name' => "विकासकाबरोबर केलेल्या नोंदणीकृत करारनाम्याची साक्षांकित प्रत"
                 ],
                 [
                     'application_id'   => $application3[0]['id'],
@@ -438,11 +443,6 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                     'application_id'   => $application3[0]['id'],
                     'language_id'   => $language3[0]['id'],
                     'name' => "डी.पी.रिमार्क"
-                ],
-                [
-                    'application_id'   => $application3[0]['id'],
-                    'language_id'   => $language3[0]['id'],
-                    'name' => "उपनिबंधक यांचेसमक्ष सर्वसाधारण सभेमध्ये विकासकाची नियुक्ती झाल्याबाबतचे पत्र"
                 ]
             ];
 

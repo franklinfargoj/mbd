@@ -514,6 +514,60 @@ $(document).ready(function () {
         }
     });
 
+    // $('#sign_up_form_society_offer_letters').validate({
+    //     rules:{
+    //         society_name:{
+    //             required:true
+    //         },
+    //         society_address:{
+    //             required:true
+    //         },
+    //         society_building_no:{
+    //             required:true,
+    //             alphanumeric:true
+    //         },
+    //         society_registration_no:{
+    //             required:true,
+    //             alphanumeric:true
+    //         },
+    //         society_username:{
+    //             required:true
+    //         },
+    //         society_email:{
+    //             required:true
+    //         },
+    //         society_contact_no:{
+    //             required:true,
+    //             number:true,
+    //             minlength:10,
+    //             maxlength:10
+    //         },
+    //         society_password:{
+    //             required:true,
+    //             minlength:6,
+    //             maxlength:10
+    //         },
+    //         society_architect_name:{
+    //             required:true
+    //         },
+    //         society_architect_mobile_no:{
+    //             required:true,
+    //             number:true,
+    //             minlength:10,
+    //             maxlength:10
+    //         },
+    //         society_architect_address:{
+    //             required:true
+    //         },
+    //         society_architect_telephone_no:{
+    //             required:true
+    //         },
+    //     }
+    // }),setTimeout(function() {
+    //     // $('#sign_up_form_society_offer_letter').submit();
+    //     console.log('hi');
+    // }, 500);
+
 });
 
 
