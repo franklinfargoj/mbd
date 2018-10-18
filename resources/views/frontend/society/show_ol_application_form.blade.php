@@ -1,4 +1,7 @@
-@extends('admin.layouts.app')
+@extends('frontend.layouts.sidebarAction')
+@section('actions')
+    @include('frontend.society.actions',compact('ol_applications'))
+@endsection
 @section('content')
     <form class="letter-form" action="{{ route('save_offer_letter_application_dev') }}" method="post" id="save_offer_letter_application_dev">
     @csrf
