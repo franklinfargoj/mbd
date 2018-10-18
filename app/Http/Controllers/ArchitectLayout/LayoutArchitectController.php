@@ -235,7 +235,17 @@ class LayoutArchitectController extends Controller
 
             $architectlogs = $this->architect_layouts->getLogOfArchitectLayoutApplication($layout_id);
             //dd($architectlogs);
-
+        }
+        if(session()->get('role_name') == config('commanConfig.land_manager') || 
+        session()->get('role_name') == config('commanConfig.estate_manager') ||
+        session()->get('role_name') == config('commanConfig.ree_branch_head') ||
+        session()->get('role_name') == config('commanConfig.ee_branch_head'))
+        {
+            if (session()->get('role_name') != config('commanConfig.junior_architect')) {
+                $lm_role_id = Role::where('name', '=', config('commanConfig.junior_architect'))->first();
+                $arrData['get_forward_lm'] = User::where('role_id', $lm_role_id->id)->get();
+                $arrData['lm_role_name'] = strtoupper(str_replace('_', ' ', $lm_role_id->name));
+            } 
         }
 
         //dd($arrData);
@@ -736,6 +746,13 @@ class LayoutArchitectController extends Controller
             $j++;
         }
         return back()->withSuccess('data added successfully!!!');
+    }
+
+    public function get_scrutiny_of_ee_em_lm_ree($layout_id)
+    {
+        $layout_id=decrypt($layout_id);
+        $ArchitectLayout = ArchitectLayout::with(['layout_details'])->find($layout_id);
+        return view('admin.architect_layout.scrutiny_of_ee_em_lm_ree',compact('ArchitectLayout'));
     }
 
 }

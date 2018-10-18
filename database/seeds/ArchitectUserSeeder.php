@@ -156,6 +156,11 @@ class ArchitectUserSeeder extends Seeder
                     'name' => 'architect_layout_post_scrutiny_report',
                     'display_name' => 'architect_layout_post_scrutiny_report',
                     'description' => 'architect_layout_post_scrutiny_report',
+                ],
+                [
+                    'name'=>'architect_Layout_scrutiny_of_ee_em_lm_ree',
+                    'display_name'=>'architect_Layout_scrutiny_of_ee_em_lm_ree',
+                    'description'=>'architect_Layout_scrutiny_of_ee_em_lm_ree'
                 ]
                 
             ];
