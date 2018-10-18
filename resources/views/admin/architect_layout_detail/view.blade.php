@@ -19,7 +19,7 @@
                     </h3>
                 </div>
             </div>
-            @if($check_layout_details_complete_status==0)
+            @if($check_layout_details_complete_status==0 && (session()->get('role_name')==config('commanConfig.junior_architect')))
             <a href="{{route('architect_layout_detail.add',['layout_id'=>encrypt($ArchitectLayout->id)])}}" class="btn btn-primary">Add
                 Detail</a>
             @endif

@@ -117,19 +117,18 @@ class EmPermissionSeeder extends Seeder
                 'description' => 'architect_layout_post_scrutiny_report',
             ],
             [
-                'name'=>'upload_em_checklist_and_remark_report',
-                'display_name'=>'upload_em_checklist_and_remark_report',
-                'description'=>'upload_em_checklist_and_remark_report'
+                'name' => 'upload_em_checklist_and_remark_report',
+                'display_name' => 'upload_em_checklist_and_remark_report',
+                'description' => 'upload_em_checklist_and_remark_report',
             ],
             [
-                'name'=>'post_em_checklist_and_remark_report',
-                'display_name'=>'post_em_checklist_and_remark_report',
-                'description'=>'post_em_checklist_and_remark_report'
-            ]
-            
+                'name' => 'post_em_checklist_and_remark_report',
+                'display_name' => 'post_em_checklist_and_remark_report',
+                'description' => 'post_em_checklist_and_remark_report',
+            ],
+
         ];
-        
-        
+
         $permission_role = [];
 
         foreach ($permissions as $lm_per) {

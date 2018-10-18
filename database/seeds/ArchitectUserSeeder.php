@@ -215,7 +215,10 @@ class ArchitectUserSeeder extends Seeder
                     $ee_permission_id = Permission::insertGetId($ee);
                 }
                
-                if(!PermissionRole::where(['permission_id'=>$ee_permission_id,'role_id'=>$architect_id])->first())
+                if(PermissionRole::where(['permission_id'=>$ee_permission_id,'role_id'=>$architect_id])->first())
+                {
+                   
+                }else
                 {
                     $architect_permission_role[] = [
                         'permission_id' => $ee_permission_id,
@@ -278,7 +281,10 @@ class ArchitectUserSeeder extends Seeder
                 {
                     $ee_permission_id = Permission::insertGetId($ee);
                 }
-                if(!PermissionRole::where(['permission_id'=>$ee_permission_id,'role_id'=>$senior_architect_id])->first())
+                if(PermissionRole::where(['permission_id'=>$ee_permission_id,'role_id'=>$senior_architect_id])->first())
+                {
+                    
+                }else
                 {
                     $architect_permission_role[] = [
                         'permission_id' => $ee_permission_id,
@@ -332,6 +338,26 @@ class ArchitectUserSeeder extends Seeder
                 ]);
             }
             
+            $architect_permissions[]=[
+                'name'=>'architect_layout_detail.add',
+                'display_name'=>'architect_layout_detail.add',
+                'description'=>'architect_layout_detail.add'
+            ];
+            $architect_permissions[]=[
+                'name'=>'architect_layout.add',
+                'display_name'=>'architect_layout.add',
+                'description'=>'architect_layout.add'
+            ];
+            $architect_permissions[]=[
+                'name'=>'uploadLatestLayoutAjax',
+                'display_name'=>'uploadLatestLayoutAjax',
+                'description'=>'uploadLatestLayoutAjax'
+            ];
+            $architect_permissions[]=[
+                'name'=>'architect_layout.store',
+                'display_name'=>'architect_layout.store',
+                'description'=>'architect_layout.store'
+            ];
             $architect_permissions[]= [
                 'name'=>'architect_layout_detail.edit',
                 'display_name'=>'architect_layout_detail.edit',
@@ -465,7 +491,7 @@ class ArchitectUserSeeder extends Seeder
             ];        
             
             
-            $architect_permission_role = [];
+            //$architect_permission_role = [];
             foreach ($architect_permissions as $ee) {
                 $permission=Permission::where(['name'=>$ee['name']])->first();
                 if($permission)
@@ -475,17 +501,25 @@ class ArchitectUserSeeder extends Seeder
                 {
                     $ee_permission_id = Permission::insertGetId($ee);
                 }
-                if(!PermissionRole::where(['permission_id'=>$ee_permission_id,'role_id'=>$junior_architect_id])->first())
+                if(PermissionRole::where(['permission_id'=>$ee_permission_id,'role_id'=>$junior_architect_id])->first())
+                {
+                    //dd('ok');
+                }else
                 {
                     $architect_permission_role[] = [
                         'permission_id' => $ee_permission_id,
                         'role_id' => $junior_architect_id,
                     ];
+                    PermissionRole::insert([
+                        'permission_id' => $ee_permission_id,
+                        'role_id' => $junior_architect_id,
+                    ]);
                 }
             }
             if(count($architect_permission_role)>0)
             {
-                PermissionRole::insert($architect_permission_role);
+               // dd($architect_permission_role);
+                //PermissionRole::insert($architect_permission_role);
             }
 
             //dd('ok');
