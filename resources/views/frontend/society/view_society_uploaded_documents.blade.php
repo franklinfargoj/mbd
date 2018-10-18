@@ -1,4 +1,7 @@
-@extends('admin.layouts.app')
+@extends('frontend.layouts.sidebarAction')
+@section('actions')
+    @include('frontend.society.actions',compact('ol_applications'))
+@endsection
 @section('content')
 <div class="col-md-12">
     <!-- BEGIN: Subheader -->
@@ -83,7 +86,7 @@
             </div>
         </div>
     </div>
-    @if(count($documents) == count($documents_uploaded))
+    @if($docs_count == $docs_uploaded_count)
     <div class="m-portlet m-portlet--bordered-semi mb-0">
         <div class="">
             <h3 class="section-title section-title--small">Submit Application:</h3>
@@ -91,7 +94,7 @@
         <div class="m-portlet__body m-portlet__body--table">
             <div class="remarks-suggestions">
                 <div class="mt-3">
-                    <label for="society_documents_comment">Comment:</label>
+                    <label for="society_documents_comment">Additional Information:</label>
                 </div>
                 <p>{{ ($documents_comment->society_documents_comment != 'N.A.') ?
                     $documents_comment->society_documents_comment : '-' }}</p>
