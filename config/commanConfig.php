@@ -105,5 +105,13 @@ return [
         'Sr No', 'Tenament No', 'Tenament Name'
     ],
 
+    'optional_docs_premium' => [
+        '8', '13', '15', '19'
+    ],
+
+    'optional_docs_sharing' => [
+        '11', '13', '17'
+    ],
+
     'storage_server' => 'http://storage.mhada.php-dev.in',
 ];

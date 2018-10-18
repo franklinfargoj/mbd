@@ -255,11 +255,11 @@ var SnippetLogin = function() {
                         },
                         society_building_no:{
                             required:true,
-                            alphanumeric:true
+                            // alphanumeric:true
                         },
                         society_registration_no:{
                             required:true,
-                            alphanumeric:true
+                            // alphanumeric:true
                         },
                         society_username:{
                             required:true
@@ -274,7 +274,9 @@ var SnippetLogin = function() {
                             maxlength:10
                         },
                         society_password:{
-                            required:true
+                            required:true,
+                            minlength:6,
+                            maxlength:10
                         },
                         society_architect_name:{
                             required:true

@@ -51,7 +51,7 @@
                                                     <input class="form-control form-control--custom m-input" type="text"
                                                         placeholder="Society Building No" name="society_building_no"
                                                         value="{{ old('society_building_no') }}">
-                                                    <span class="text-danger">{{$errors->first('society_building_no')}}</span>
+                                                    <span id="society_building_no" class="text-danger">{{$errors->first('society_building_no')}}</span>
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">
@@ -60,7 +60,7 @@
                                                     <input class="form-control form-control--custom m-input" type="text"
                                                         placeholder="Society Registration No" name="society_registration_no"
                                                         value="{{ old('society_registration_no') }}">
-                                                    <span class="text-danger">{{$errors->first('society_registration_no')}}</span>
+                                                    <span id="society_registration_no" class="text-danger">{{$errors->first('society_registration_no')}}</span>
                                                 </div>
                                             </div>
                                             <div class="col-sm-12">
@@ -98,12 +98,12 @@
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">
-                                                <div class="form-group m-form__group @if($errors->has('society_email')) has-error @endif">
+                                                <div class="form-group m-form__group @if($errors->has('optional_society_email')) has-error @endif">
                                                     <!-- <label for="" class="col-form-label">Confirm Password</label> -->
                                                     <input class="form-control form-control--custom m-input" type="email"
                                                         placeholder="Optional Email Address" name="optional_society_email"
                                                         value="{{ old('society_email') }}">
-                                                    <span class="help-block">{{$errors->first('society_email')}}</span>
+                                                    <span class="text-danger">{{$errors->first('optional_society_email')}}</span>
                                                 </div>
                                             </div>
                                             <div class="col-sm-12">
@@ -153,4 +153,24 @@
         </div>
     </div>
 </div>
+@endsection
+@section('js')
+    <script>
+        $('input[name=society_building_no]').keyup(function(){
+            var society_building_no = $('input[name=society_building_no]').val();
+            if(society_building_no.match(',|-|/') == null){
+                $('#society_building_no').text('Society building no. is in incorrect format.');
+            }else{
+                $('#society_building_no').text('');
+            }
+        });
+        $('input[name=society_registration_no]').keyup(function(){
+            var society_registration_no = $('input[name=society_registration_no]').val();
+            if(society_registration_no.match(',|-|/') == null){
+                $('#society_registration_no').text('Society registration no. is in incorrect format.');
+            }else{
+                $('#society_registration_no').text('');
+            }
+        });
+    </script>
 @endsection

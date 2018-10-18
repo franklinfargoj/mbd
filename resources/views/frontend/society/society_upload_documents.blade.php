@@ -52,8 +52,8 @@
                             <tr>
                                 <td>{{ $i }}</td>
                                 <td>
-                                    {{ $document->name }}<span class="compulsory-text"><small>(Compulsory
-                                            Document)</small></span>
+                                    {{ $document->name }}<span class="compulsory-text">@if(in_array($i, $optional_docs))<small>(Optional
+                                            Document)</small> @else <small>(Compulsory Document)</small> @endif</span>
                                 </td>
                                 <td class="text-center">
                                     <h2 class="m--font-danger">
@@ -133,8 +133,8 @@
             </div>
         </div>
     </div>
-    @if(!empty($documents) && !empty($documents_uploaded))
-    @if(count($documents) == count($documents_uploaded))
+    @if(!empty($docs_count) && !empty($docs_uploaded_count))
+    @if($docs_count == $docs_uploaded_count)
     <div class="m-portlet">
         <div>
             @if($application->olApplicationStatus[0]->status_id == 3)
@@ -211,7 +211,7 @@
                             @csrf
                             <div class="remarks-suggestions table--box-input">
                                 <div class="mt-3">
-                                    <label for="society_documents_comment">Comment</label>
+                                    <label for="society_documents_comment">Additional Information:</label>
                                     <div class="@if($errors->has('society_documents_comment')) has-error @endif">
                                         <textarea name="society_documents_comment" rows="5" cols="30" id="society_documents_comment" class="form-control form-control--custom">{{old('society_documents_comment')}}</textarea>
                                         <span class="help-block">{{$errors->first('society_documents_comment')}}</span>
