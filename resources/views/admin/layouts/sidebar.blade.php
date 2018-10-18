@@ -401,6 +401,19 @@ $route=\Request::route()->getName();
                     </span>
                 </a>
             </li>
+            @endif
+            @if(session()->get('permission') && (in_array('architect_layout.index', session()->get('permission')) ||
+            in_array('architect_layouts_layout_details.index',
+            session()->get('permission')) || in_array('architect_layout_details.view', session()->get('permission'))
+            ||
+            in_array('forward_architect_layout', session()->get('permission')) ||
+            in_array('architect_layout_get_scrtiny',
+            session()->get('permission')) || in_array('architect_layout_add_scrutiny_report', session()->get('permission')) ||
+            in_array('architect_layout_detail_view_cts_plan', session()->get('permission')) ||
+            in_array('architect_layout_detail_view_prc_detail', session()->get('permission')) ||
+            in_array('architect_detail_dp_crz_remark_view', session()->get('permission')) ||
+            in_array('view_court_case_or_dispute_on_land', session()->get('permission')) ||
+            in_array('architect_layout_add_scrutiny_report', session()->get('permission')) ))
             <li class="m-menu__item {{($route=='architect_layout.index')?'m-menu__item--active':''}}" aria-haspopup="true">
                 <a href="{{ route('architect_layout.index') }}" class="m-menu__link ">
                     <i class="m-menu__link-icon flaticon-line-graph"></i>
@@ -415,7 +428,7 @@ $route=\Request::route()->getName();
             </li>
             @endif
 
-            <!-- <li class="m-menu__item m-menu__item--active m-menu__item--submenu" id="sub-menu" aria-haspopup="true"
+             {{-- <li class="m-menu__item m-menu__item--active m-menu__item--submenu" id="sub-menu" aria-haspopup="true"
                 m-menu-submenu-toggle="hover">
                 <a href="javascript:void(0);" class="m-menu__link m-menu__toggle">
                     <i class="m-menu__link-icon flaticon-line-graph"></i>
@@ -433,7 +446,7 @@ $route=\Request::route()->getName();
                         @yield('actions')       
                     </ul>
                 </div>
-            </li> -->
+            </li>  --}}
 
             @yield('actions')
 
