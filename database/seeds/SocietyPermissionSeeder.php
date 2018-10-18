@@ -183,6 +183,11 @@ class SocietyPermissionSeeder extends Seeder
                     'display_name' => 'Updates society offer letter application form',
                     'description'  => 'Updates society offer letter application form'
                 ],
+                [
+                    'name'         => 'sc_download',
+                    'display_name' => 'Downloads template in excel format',
+                    'description'  => 'Downloads template in excel format'
+                ],
         ];
 
         if(count($society)==0){

@@ -253,11 +253,26 @@ class SocietyOfferLetterController extends Controller
             ['data' => 'status','name' => 'status','title' => 'Status'],
             ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
         ];
+        $self_premium = OlApplicationMaster::where('title', 'New - Offer Letter')->where('model', 'Premium')->where('parent_id', '1')->select('id')->get();
+        $self_premium = $self_premium[0]->id;
+        $self_sharing = OlApplicationMaster::where('title', 'New - Offer Letter')->where('model', 'Sharing')->where('parent_id', '1')->select('id')->get();
+        $self_sharing = $self_sharing[0]->id;
+        $dev_premium = OlApplicationMaster::where('title', 'New - Offer Letter')->where('model', 'Sharing')->where('parent_id', '12')->select('id')->get();
+        $dev_premium = $dev_premium[0]->id;
+        $dev_sharing = OlApplicationMaster::where('title', 'New - Offer Letter')->where('model', 'Premium')->where('parent_id', '12')->select('id')->get();
+        $dev_sharing = $dev_sharing[0]->id;
         $getRequest = $request->all();
+        $applications_tab = array(
+            'self_premium' => $self_premium,
+            'self_sharing' => $self_sharing,
+            'dev_premium' => $dev_premium,
+            'dev_sharing' => $dev_sharing
+        );
+        Session::put('applications_tab', $applications_tab);
         $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $ol_application_count = count(OlApplication::where('society_id', $society_details->id)->get());
         Session::put('application_count', $ol_application_count);
-//        dd(Session::get('application_count'));
+//        dd(Session::get('applications_tab')['self_premium']);
         if ($datatables->getRequest()->ajax()) {
             $ol_applications = OlApplication::where('society_id', $society_details->id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
                 $q->where('society_flag', '1')->orderBy('id', 'desc');

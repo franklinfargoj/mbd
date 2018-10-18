@@ -101,5 +101,9 @@ return [
 
     'rti_form_status' => 'Send RTI Officer',
 
+    'sc_excel_headers' => [
+        'Sr No', 'Tenament No', 'Tenament Name'
+    ],
+
     'storage_server' => 'http://storage.mhada.php-dev.in',
 ];
