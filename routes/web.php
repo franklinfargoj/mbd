@@ -358,6 +358,9 @@ Route::post('post_ee_checklist_and_remark_report','ArchitectLayout\LayoutArchite
 Route::post('upload_ree_checklist_and_remark_report','ArchitectLayout\LayoutArchitectController@upload_ree_checklist_and_remark_report')->name('upload_ree_checklist_and_remark_report');
 Route::post('post_ree_checklist_and_remark_report','ArchitectLayout\LayoutArchitectController@post_ree_checklist_and_remark_report')->name('post_ree_checklist_and_remark_report');
 
+//scrutiny report of ee em ree and lm
+Route::get('scrutiny_of_ee_em_lm_ree/{layout_id}','ArchitectLayout\LayoutArchitectController@get_scrutiny_of_ee_em_lm_ree')->name('architect_Layout_scrutiny_of_ee_em_lm_ree');
+
 //add cts
 Route::get('view_cts_detail/{layout_detail_id}','ArchitectLayout\LayoutArchitectDetailController@view_cts_detail')->name('architect_layout_detail_view_cts_plan');
 Route::get('add_cts_detail/{layout_detail_id}','ArchitectLayout\LayoutArchitectDetailController@add_cts_detail')->name('architect_layout_detail_cts_plan');
