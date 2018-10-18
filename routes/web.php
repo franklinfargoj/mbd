@@ -495,6 +495,7 @@ Route::get('ee-tenant-billing-generation', 'EEBillingController@SocietyBillGener
 Route::get('society-conveyance-application', 'EEBillingController@SocietyConveyanceApplication');
 Route::get('ee-blling-arrears-calculation', 'EEBillingController@ArrearsCalculation');
 Route::get('ee-blling-view-bill-details', 'EEBillingController@ViewBillDetailsSociety');
+Route::get('generate-receipt', 'EEBillingController@GenerateReceipt');
 
 //estate and conveyance
 
