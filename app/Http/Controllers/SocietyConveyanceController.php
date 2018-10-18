@@ -8,6 +8,7 @@ use Yajra\DataTables\DataTables;
 use Auth;
 use App\Http\Controllers\Common\CommonController;
 use Config;
+use Maatwebsite\Excel\Facades\Excel;
 
 use Illuminate\Http\Request;
 
@@ -119,8 +120,9 @@ class SocietyConveyanceController extends Controller
      */
     public function create()
     {
-
-        return view('frontend.society.conveyance.add');
+        $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
+//        dd($society_details);
+        return view('frontend.society.conveyance.add', compact('society_details'));
     }
 
     /**
@@ -177,5 +179,22 @@ class SocietyConveyanceController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Download excel.
+     *
+     * @param  void
+     * @return \Illuminate\Http\Response
+     */
+    public function download_excel()
+    {
+        $headers = config('commanConfig.sc_excel_headers');
+        Excel::create('society_details', function($excel) use ($headers){
+            $excel->sheet('Sheet 1', function($sheet) use($headers) {
+                $sheet->fromArray($headers);
+            });
+        })->export('xls');
+        return redirect()->route('society_conveyance.create');
     }
 }
