@@ -77,7 +77,8 @@ return [
         'scrutiny_pending' => 2,
         'forward' => 3,
         'sent_for_revision' => 4,
-        'reverted' => 5
+        'reverted' => 5,
+        'approved'=> 6
     ],
     'architect_application_status' => [
         'none' => 0,
