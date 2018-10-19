@@ -19,90 +19,9 @@ class DYCOController extends Controller
 {
     public function __construct()
     {
-        $this->list_num_of_records_per_page = Config::get('commanConfig.list_num_of_records_per_page');
         $this->common = new conveyanceCommonController();
         $this->CommonController = new CommonController();
     }	
-	public function index(Request $request, Datatables $datatables){
-
-        $data = $this->common->listApplicationData($request);
-
-        $columns = [
-            ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
-            ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
-            ['data' => 'application_no','name' => 'application_no','title' => 'Application Number'],
-            ['data' => 'date','name' => 'date','title' => 'Date', 'class' => 'datatable-date'],
-            ['data' => 'societyApplication.name','name' => 'societyApplication.name','title' => 'Society Name'],
-            ['data' => 'societyApplication.building_no','name' => 'societyApplication.building_no','title' => 'building No'],
-            ['data' => 'societyApplication.address','name' => 'societyApplication.address','title' => 'Address', 'class' => 'datatable-address'],
-             ['data' => 'Status','name' => 'Status','title' => 'Status'],
-        ];
-
-        if ($datatables->getRequest()->ajax()) {
-            return $datatables->of($data)
-                ->editColumn('rownum', function ($data) {
-                    static $i = 0; $i++; return $i;
-                })
-                ->editColumn('radio', function ($data) {
-                    $url = route('dyco.conveyance_application', $data->id);
-                    return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" name="application_id" onclick="geturl(this.value);" value="'.$url.'" ><span></span></label>';
-                })                              
-                ->editColumn('societyApplication.name', function ($data) {
-                    return $data->societyApplication->name;
-                })
-                ->editColumn('societyApplication.building_no', function ($data) {
-                    return $data->societyApplication->building_no;
-                })
-                ->editColumn('societyApplication.address', function ($data) {
-                    return '<span>'.$data->societyApplication->address.'</span>';
-                })                
-                ->editColumn('date', function ($data) {
-                    return date(config('commanConfig.dateFormat'), strtotime($data->created_at));
-                })
-
-                ->editColumn('Status', function ($data) use ($request) {
-                    $status = $data->scApplicationLog->status_id;
-
-                    if($request->update_status)
-                    {
-                        if($request->update_status == $status){
-                            $config_array = array_flip(config('commanConfig.applicationStatus'));
-                            $value = ucwords(str_replace('_', ' ', $config_array[$status]));
-                            return '<span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$status) .' m-badge--wide">'.$value.'</span>';
-                        }
-                    }else{
-                        $config_array = array_flip(config('commanConfig.applicationStatus'));
-                        $value = ucwords(str_replace('_', ' ', $config_array[$status]));
-                        return '<span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$status) .' m-badge--wide">'.$value.'</span>';
-                    }
-
-                })
-                ->rawColumns(['radio','society_name', 'Status', 'building_name', 'society_address','date','eeApplicationSociety.address'])
-                ->make(true);
-        }                                    
-
-        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());    
-        return view('admin.conveyance.dyco_department.index', compact('html','header_data','getData'));    		
-
-	}
-
-    protected function getParameters() {
-        return [
-            'serverSide' => true,
-            'processing' => true,
-            'ordering'   =>'isSorted',
-            "order"      => [1, "asc" ],
-            "pageLength" => $this->list_num_of_records_per_page
-        ];
-    }
-
-    public function ViewApplication(Request $request,$applicationId){
-        
-        $data = $this->common->listApplicationData($request);
-        $data->folder = 'dyco_department';
-        $data->id = $applicationId;
-        return view('admin.conveyance.dyco_department.view_application',compact('data'));
-    } 
 
     //display checklist and office note page
     public function showChecklist(Request $request,$applicationId){
@@ -163,7 +82,7 @@ class DYCOController extends Controller
 
     public function saleLeaseAgreement(Request $request,$applicationId){
 
-        $data = scApplication::with(['scApplicationAgreement','scApplicationLog'])->where('id',$applicationId)->first();
+        $data = scApplication::with(['scApplicationAgreement','ScAgreementComments','ScAgreementComments.Roles','scApplicationLog'])->where('id',$applicationId)->first();
         // dd($data);
         return view('admin.conveyance.dyco_department.sale_lease_agreement',compact('data'));
     }
@@ -214,6 +133,35 @@ class DYCOController extends Controller
         }
     }
 
+    public function ApprovedSaleLeaseAgreement(Request $request,$applicationId){
+    
+        $data = scApplication::with(['scApplicationAgreement','ScAgreementComments','ScAgreementComments.Roles','scApplicationLog'])->where('id',$applicationId)->first();
+
+        return view('admin.conveyance.dyco_department.approved_sale_lease_agreement',compact('data'));      
+    }    
+
+    public function StampedSaleLeaseAgreement(Request $request,$applicationId){
+    
+        $data = scApplication::with(['scApplicationAgreement','ScAgreementComments','ScAgreementComments.Roles','scApplicationLog'])->where('id',$applicationId)->first();
+
+        dd($data);
+        // return view('admin.conveyance.dyco_department.approved_sale_lease_agreement',compact('data'));      
+    }
+
+    public function SignedSaleLeaseAgreement(Request $request,$applicationId){
+    
+        $data = scApplication::with(['scApplicationAgreement','ScAgreementComments','ScAgreementComments.Roles','scApplicationLog'])->where('id',$applicationId)->first();
+
+        return view('admin.conveyance.dyco_department.stamp_sign_agreements',compact('data'));      
+    }  
+
+    public function RegisterSaleLeaseAgreement(Request $request,$applicationId){
+    
+        $data = scApplication::with(['scApplicationAgreement','ScAgreementComments','ScAgreementComments.Roles','scApplicationLog'])->where('id',$applicationId)->first();
+
+        return view('admin.conveyance.dyco_department.register_sale_lease_agreements',compact('data'));      
+    }       
+
     public function displayForwardApplication(Request $request,$applicationId){
       
       $data = scApplication::with(['societyApplication','scApplicationLog'])->where('id',$applicationId)->first();
@@ -227,3 +175,4 @@ class DYCOController extends Controller
         return redirect('/dyco')->with('success','Application send successfully..');
     }
 }
+
