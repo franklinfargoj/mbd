@@ -58,9 +58,11 @@
                     Back
                 </a>
             @endif
-                <a href="{{ route('documents_upload') }}" class="btn btn-primary">
-                    Next
-                </a>
+                <span style="float:right;margin-right: 20px">
+                    <a href="{{ route('documents_upload') }}" class="btn btn-primary">
+                        Next
+                    </a>
+                </span>
         </div>
     </form>
 @endsection

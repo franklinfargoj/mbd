@@ -120,17 +120,17 @@
                                                     <!-- <label for="" class="col-form-label">Password</label> -->
                                                     <input class="form-control form-control--custom m-input" type="password"
                                                         placeholder="Password" name="society_password" id="password"
-                                                        value="{{ old('society_password') }}">
+                                                        value="{{ old('society_password') }}" title="Password should be minimum 6 & maximum 10 characters.">
                                                     <span class="help-block">{{$errors->first('society_password')}}</span>
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">
-                                                <div class="form-group m-form__group @if($errors->has('society_password')) has-error @endif">
+                                                <div class="form-group m-form__group @if($errors->has('conf_society_password')) has-error @endif">
                                                     <!-- <label for="" class="col-form-label">Password</label> -->
                                                     <input class="form-control form-control--custom m-input" type="password"
                                                         placeholder="Confirm Password" name="conf_society_password"
-                                                        value="{{ old('conf_society_password') }}">
-                                                    <span class="help-block">{{$errors->first('society_password')}}</span>
+                                                        value="{{ old('conf_society_password') }}" title="Password should be minimum 6 & maximum 10 characters.">
+                                                    <span class="help-block">{{$errors->first('conf_society_password')}}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -156,21 +156,21 @@
 @endsection
 @section('js')
     <script>
-        $('input[name=society_building_no]').keyup(function(){
-            var society_building_no = $('input[name=society_building_no]').val();
-            if(society_building_no.match(',|-|/') == null){
-                $('#society_building_no').text('Society building no. is in incorrect format.');
-            }else{
-                $('#society_building_no').text('');
-            }
-        });
-        $('input[name=society_registration_no]').keyup(function(){
-            var society_registration_no = $('input[name=society_registration_no]').val();
-            if(society_registration_no.match(',|-|/') == null){
-                $('#society_registration_no').text('Society registration no. is in incorrect format.');
-            }else{
-                $('#society_registration_no').text('');
-            }
-        });
+        // $('input[name=society_building_no]').keyup(function(){
+        //     var society_building_no = $('input[name=society_building_no]').val();
+        //     if(society_building_no.match(',|-|/') == null){
+        //         $('#society_building_no').text('Society building no. is in incorrect format.');
+        //     }else{
+        //         $('#society_building_no').text('');
+        //     }
+        // });
+        // $('input[name=society_registration_no]').keyup(function(){
+        //     var society_registration_no = $('input[name=society_registration_no]').val();
+        //     if(society_registration_no.match(',|-|/') == null){
+        //         $('#society_registration_no').text('Society registration no. is in incorrect format.');
+        //     }else{
+        //         $('#society_registration_no').text('');
+        //     }
+        // });
     </script>
 @endsection

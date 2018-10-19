@@ -55,8 +55,8 @@
                             <tr>
                                 <td>{{ $i }}</td>
                                 <td>
-                                    {{ $document->name }}<span class="compulsory-text">@if(in_array($i, $optional_docs))<small>(Optional
-                                            Document)</small> @else <small>(Compulsory Document)</small> @endif</span>
+                                    {{ $document->name }}<span class="compulsory-text">@if(in_array($i, $optional_docs))<small><span style="color: green;">(Optional
+                                            Document)</span></small> @else <small>(Compulsory Document)</small> @endif</span>
                                 </td>
                                 <td class="text-center">
                                     <h2 class="m--font-danger">

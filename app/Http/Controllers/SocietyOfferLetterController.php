@@ -541,10 +541,9 @@ class SocietyOfferLetterController extends Controller
         $docs_uploaded_count = 0;
         $docs_count = 0;
         foreach($documents as $documents_key => $documents_val){
-//            dd($documents_key+1);
                 if(in_array($documents_key+1, $optional_docs) == false){
                     $docs_count++;
-                    if(!empty($documents_val->documents_uploaded)){
+                    if(count($documents_val->documents_uploaded) > 0){
                         $docs_uploaded_count++;
                     }
                 }
@@ -633,10 +632,9 @@ class SocietyOfferLetterController extends Controller
         $docs_uploaded_count = 0;
         $docs_count = 0;
         foreach($documents as $documents_key => $documents_val) {
-//            dd($documents_key+1);
             if (in_array($documents_key + 1, $optional_docs) == false) {
                 $docs_count++;
-                if (!empty($documents_val->documents_uploaded)) {
+                if (count($documents_val->documents_uploaded) > 0) {
                     $docs_uploaded_count++;
                 }
             }
