@@ -157,7 +157,16 @@ class ReePermissionSeeder extends Seeder
                 'display_name' => 'post_ree_checklist_and_remark_report',
                 'description' => 'post_ree_checklist_and_remark_report',
             ],
-
+            [
+                'name'=>'architect_Layout_scrutiny_of_ee_em_lm_ree',
+                'display_name'=>'architect_Layout_scrutiny_of_ee_em_lm_ree',
+                'description'=>'architect_Layout_scrutiny_of_ee_em_lm_ree'
+            ],
+            [
+                'name'=>'architect_layout_prepare_layout_excel',
+                'display_name'=>'architect_layout_prepare_layout_excel',
+                'description'=>'architect_layout_prepare_layout_excel'
+            ]
         ];
 
         // Role

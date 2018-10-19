@@ -1,13 +1,13 @@
 <?php
 
-use App\Permission;
-use App\PermissionRole;
+use Illuminate\Database\Seeder;
 use App\Role;
 use App\RoleUser;
 use App\User;
-use Illuminate\Database\Seeder;
+use App\PermissionRole;
+use App\Permission;
 
-class CoPermissionSeeder extends Seeder
+class SapPermissionSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -17,41 +17,6 @@ class CoPermissionSeeder extends Seeder
     public function run()
     {
         $permissions = [
-            [
-                'name' => 'co.index',
-                'display_name' => 'index',
-                'description' => 'index',
-            ],
-            [
-                'name' => 'co.society_EE_documents',
-                'display_name' => 'society_EE_documents',
-                'description' => 'society_EE_documents',
-            ],
-            [
-                'name' => 'co.EE_Scrutiny_Remark',
-                'display_name' => 'EE_Scrutiny_Remark',
-                'description' => 'EE_Scrutiny_Remark',
-            ],
-            [
-                'name' => 'co.scrutiny_remark',
-                'display_name' => 'scrutiny_remark',
-                'description' => 'scrutiny_remark',
-            ],
-            [
-                'name' => 'co.forward_application',
-                'display_name' => 'forward_application',
-                'description' => 'forward_application',
-            ],
-            [
-                'name' => 'co.forward_application_data',
-                'display_name' => 'forward_application_data',
-                'description' => 'forward_application_data',
-            ],
-            [
-                'name' => 'co.download_cap_note',
-                'display_name' => 'download_cap_note',
-                'description' => 'download_cap_note',
-            ],
             [
                 'name' => 'architect_Layout_scrutiny_of_ee_em_lm_ree',
                 'display_name' => 'architect_Layout_scrutiny_of_ee_em_lm_ree',
@@ -108,37 +73,27 @@ class CoPermissionSeeder extends Seeder
                 'description' => 'post_forward_architect_layout',
             ],
         ];
-        $ree_role_id = Role::where('name', 'ree_engineer')->value('id');
-        if ($ree_role_id == null) {
-            $ree_role_id = Role::insertGetId([
-                'name' => 'ree_engineer',
-                'redirect_to' => '/ree_applications',
-                'parent_id' => null,
-                'display_name' => 'Residential Executive Engineer',
-                'description' => 'Login as Residential Executive Engineer',
-            ]);
-        }
-
-        $co_manager = Role::where('name', '=', 'co_engineer')->first();
-        if ($co_manager) {
-            $role_id = $co_manager->id;
+    
+        $sap = Role::where('name', '=', 'senior_architect_planner')->first();
+        if ($sap) {
+            $role_id = $sap->id;
         } else {
             $role_id = Role::insertGetId([
-                'name' => 'co_engineer',
-                'redirect_to' => '/co',
+                'name' => 'senior_architect_planner',
+                'redirect_to' => '/architect_layouts',
                 'parent_id' => null,
-                'display_name' => 'Co_Engineer',
-                'description' => 'Login as CO Engineer',
+                'display_name' => 'SAP',
+                'description' => 'Login as SAP',
             ]);
         }
 
-        $co_user = User::where(['email' => 'co@gmail.com'])->first();
-        if ($co_user) {
-            $user_id = $co_user->id;
+        $sap_user = User::where(['email' => 'sap@gmail.com'])->first();
+        if ($sap_user) {
+            $user_id = $sap_user->id;
         } else {
             $user_id = User::insertGetId([
-                'name' => 'CO',
-                'email' => 'co@gmail.com',
+                'name' => 'SAP',
+                'email' => 'sap@gmail.com',
                 'password' => bcrypt('1234'),
                 'role_id' => $role_id,
                 'uploaded_note_path' => 'Test',
@@ -179,15 +134,15 @@ class CoPermissionSeeder extends Seeder
             PermissionRole::insert($permission_role);
         }
 
-        $layout_id = \App\MasterLayout::where("layout_name", '=', "Samata Nagar, Kandivali(E)")->first();
-        if ($layout_id) {
-            if (\App\LayoutUser::where(['user_id' => $user_id, 'layout_id' => $layout_id->id])->first()) {
+        // $layout_id = \App\MasterLayout::where("layout_name", '=', "Samata Nagar, Kandivali(E)")->first();
+        // if ($layout_id) {
+        //     if (\App\LayoutUser::where(['user_id' => $user_id, 'layout_id' => $layout_id->id])->first()) {
 
-            } else {
-                \App\LayoutUser::insert(['user_id' => $user_id, 'layout_id' => $layout_id->id]);
-            }
+        //     } else {
+        //         \App\LayoutUser::insert(['user_id' => $user_id, 'layout_id' => $layout_id->id]);
+        //     }
 
-        }
+        // }
 
     }
 }

@@ -619,8 +619,7 @@ function showUploadedFileName() {
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="custom-file">
-                                    <input type="hidden" id="latest_layout_field_name" id="latest_layout_field_name"
-                                        value="latest_layout">
+                                    <input type="hidden" id="latest_layout_field_name" value="latest_layout">
                                     <input class="custom-file-input" name="latest_layout" type="file" id="latest_layout"
                                         required="">
                                     <label class="custom-file-label" for="latest_layout">Choose file...</label>
@@ -655,7 +654,7 @@ function showUploadedFileName() {
                                 style="display:{{$ArchitectLayoutDetail->old_approved_layout!=''?'block':'none'}};">uploaded
                                 file</a>
                         </div>
-                        <span class="text-danger" 0].name)approved_layout_error"></span>
+                        <span class="text-danger" id="old_approved_layout_error"></span>
                         <!-- <div class="mt-auto">0].name)
                             <button type="submit" style="btn btn-primary" class="btn btn-primary btn-custom upload_note"
                                 id="uploadBtn">Upload</button>

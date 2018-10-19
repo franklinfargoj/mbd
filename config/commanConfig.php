@@ -20,6 +20,8 @@ return [
     'dycdo_engineer' => 'dycdo_engineer',
     'dyco_engineer' => 'dyco_engineer',
 
+    'senior_architect_planner'=>'senior_architect_planner',
+
     //Branch Head
     'ee_branch_head' => 'ee_engineer',
     'dyce_branch_head' => 'dyce_engineer',
@@ -36,6 +38,8 @@ return [
     'architect' => 'architect',
 
     'land_manager'=>'LM',
+
+    'legal_advisor'=>'la_engineer',
 
     'estate_manager'=>'EM',
 
