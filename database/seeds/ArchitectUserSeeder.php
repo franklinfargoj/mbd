@@ -161,6 +161,11 @@ class ArchitectUserSeeder extends Seeder
                     'name'=>'architect_Layout_scrutiny_of_ee_em_lm_ree',
                     'display_name'=>'architect_Layout_scrutiny_of_ee_em_lm_ree',
                     'description'=>'architect_Layout_scrutiny_of_ee_em_lm_ree'
+                ],
+                [
+                    'name'=>'architect_layout_prepare_layout_excel',
+                    'display_name'=>'architect_layout_prepare_layout_excel',
+                    'description'=>'architect_layout_prepare_layout_excel'
                 ]
                 
             ];
@@ -495,6 +500,11 @@ class ArchitectUserSeeder extends Seeder
                 'description'=>'architect_layout_detail_cts_plan'
             ];        
             
+            $architect_permissions[]=[
+                'name'=>'uploadLayoutandExcelAjax',
+                'display_name'=>'uploadLayoutandExcelAjax',
+                'description'=>'uploadLayoutandExcelAjax'
+            ];
             
             //$architect_permission_role = [];
             foreach ($architect_permissions as $ee) {

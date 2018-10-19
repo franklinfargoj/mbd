@@ -50,7 +50,59 @@
                                     </h3>
                                 </div>
                                 <div class="remarks-suggestions">
-                                    
+                                    <table class="table">
+                                        <tr>
+                                            <th colspan="3">Report</th>
+                                        </tr>
+                                        @foreach($ArchitectLayout->ee_scrutiny_reports as $ee_scrutiny_report)
+                                        <tr>
+                                            <td>Name of the Document</td>
+                                            <td>{{$ee_scrutiny_report->name_of_document}}</td>
+                                            <td><a target="_blank" href="{{ config('commanConfig.storage_server')."/".$ee_scrutiny_report->file}}">Download</a></td>
+                                        </tr>
+                                        @endforeach
+                                    </table>
+                                </div>
+                                <div class="remarks-suggestions">
+                                    @foreach ($ArchitectLayout->em_scrutiny_checklist_and_remarks as $item)
+                                    <div class="block">
+                                        <input type="hidden" name="report_id[]" value="{{$item->id}}">
+                                        @if($item->question!="")
+                                        <p style="font-size: 16px">{{$item->question->title}}</p>
+                                        @if($item->question->is_options==1)
+                                        <p>
+                                            <input type="radio" value="1" {{$item->label1==1?'checked':''}}>{{$item->question->label1}}
+                                            <input type="radio" value="2" {{$item->label2==1?'checked':''}}>{{$item->question->label2}}
+                                        </p>
+                                        @endif
+                                        @endif
+                                        <div class="m-form__group row">
+                                            <div class="col-lg-3 form-group">
+                                                <label for="Upload_Cts_Plan">Remark</label>
+                                            </div>
+                                            <div class="col-lg-7 form-group">
+                                                <div class="custom-file">
+                                                    <textarea type="text" disabled name="remark[]" id="remark" class="form-control form-control--custom form-control--fixed-height">{{$item->remark }}</textarea>
+                                                    @if ($errors->has('remark'))
+                                                    <span class="error">{{ $errors->first('remark') }}</span>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="m-form__group row">
+                                            <div class="col-lg-3 form-group">
+                                                <label for="Upload_Cts_Plan">Upload Report</label>
+                                            </div>
+                                            <div class="col-lg-7 form-group">
+                                                <div class="custom-file">
+                                                    <a target="_blank" href="{{config('commanConfig.storage_server').'/'.$item->file}}"
+                                                        style="display:{{$item->file!=''?'block':'none'}}">uploaded
+                                                        file</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
@@ -68,8 +120,60 @@
                                 </div>
                                 <div class="remarks-suggestions scrutiny-checklist_and_remarks">
                                     <div id="wrapper">
-                                        
+                                        <table class="table">
+                                            <tr>
+                                                <th colspan="3">Report</th>
+                                            </tr>
+                                            @foreach($ArchitectLayout->land_scrutiny_reports as $lm_scrutiny_report)
+                                            <tr>
+                                                <td>Name of the Document</td>
+                                                <td>{{$lm_scrutiny_report->name_of_document}}</td>
+                                                <td><a target="_blank" href="{{ config('commanConfig.storage_server')."/".$lm_scrutiny_report->file}}">Download</a></td>
+                                            </tr>
+                                            @endforeach
+                                        </table>
                                     </div>
+                                </div>
+                                <div class="remarks-suggestions">
+                                    @foreach ($ArchitectLayout->land_scrutiny_checklist_and_remarks as $item)
+                                    <div class="block">
+                                        <input type="hidden" name="report_id[]" value="{{$item->id}}">
+                                        @if($item->question!="")
+                                        <p style="font-size: 16px">{{$item->question->title}}</p>
+                                        @if($item->question->is_options==1)
+                                        <p>
+                                            <input type="radio" disabled value="1" {{$item->label1==1?'checked':''}}>{{$item->question->label1}}
+                                            <input type="radio" disabled value="2" {{$item->label2==1?'checked':''}}>{{$item->question->label2}}
+                                        </p>
+                                        @endif
+                                        @endif
+                                        <div class="m-form__group row">
+                                            <div class="col-lg-3 form-group">
+                                                <label for="Upload_Cts_Plan">Remark</label>
+                                            </div>
+                                            <div class="col-lg-7 form-group">
+                                                <div class="custom-file">
+                                                    <textarea type="text" disabled name="remark[]" id="remark" class="form-control form-control--custom form-control--fixed-height">{{$item->remark }}</textarea>
+                                                    @if ($errors->has('remark'))
+                                                    <span class="error">{{ $errors->first('remark') }}</span>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="m-form__group row">
+                                            <div class="col-lg-3 form-group">
+                                                <label for="Upload_Cts_Plan">Upload Report</label>
+                                            </div>
+                                            <div class="col-lg-7 form-group">
+                                                <div class="custom-file">
+                                                    <a target="_blank" href="{{config('commanConfig.storage_server').'/'.$item->file}}"
+                                                        style="display:{{$item->file!=''?'block':'none'}}">uploaded
+                                                        file</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
@@ -87,9 +191,61 @@
                                 </div>
                                 <div class="remarks-suggestions scrutiny-checklist_and_remarks">
                                     <div id="wrapper">
-                                        
+                                        <table class="table">
+                                            <tr>
+                                                <th colspan="3">Report</th>
+                                            </tr>
+                                            @foreach($ArchitectLayout->em_scrutiny_reports as $em_scrutiny_report)
+                                            <tr>
+                                                <td>Name of the Document</td>
+                                                <td>{{$em_scrutiny_report->name_of_document}}</td>
+                                                <td><a target="_blank" href="{{ config('commanConfig.storage_server')."/".$em_scrutiny_report->file}}">Download</a></td>
+                                            </tr>
+                                            @endforeach
+                                        </table>
                                     </div>
                                 </div>
+                                <div class="remarks-suggestions">
+                                        @foreach ($ArchitectLayout->em_scrutiny_checklist_and_remarks as $item)
+                                        <div class="block">
+                                            <input type="hidden" name="report_id[]" value="{{$item->id}}">
+                                            @if($item->question!="")
+                                            <p style="font-size: 16px">{{$item->question->title}}</p>
+                                            @if($item->question->is_options==1)
+                                            <p>
+                                                <input type="radio" disabled value="1" {{$item->label1==1?'checked':''}}>{{$item->question->label1}}
+                                                <input type="radio" disabled value="2" {{$item->label2==1?'checked':''}}>{{$item->question->label2}}
+                                            </p>
+                                            @endif
+                                            @endif
+                                            <div class="m-form__group row">
+                                                <div class="col-lg-3 form-group">
+                                                    <label for="Upload_Cts_Plan">Remark</label>
+                                                </div>
+                                                <div class="col-lg-7 form-group">
+                                                    <div class="custom-file">
+                                                        <textarea type="text" disabled name="remark[]" id="remark" class="form-control form-control--custom form-control--fixed-height">{{$item->remark }}</textarea>
+                                                        @if ($errors->has('remark'))
+                                                        <span class="error">{{ $errors->first('remark') }}</span>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="m-form__group row">
+                                                <div class="col-lg-3 form-group">
+                                                    <label for="Upload_Cts_Plan">Upload Report</label>
+                                                </div>
+                                                <div class="col-lg-7 form-group">
+                                                    <div class="custom-file">
+                                                        <a target="_blank" href="{{config('commanConfig.storage_server').'/'.$item->file}}"
+                                                            style="display:{{$item->file!=''?'block':'none'}}">uploaded
+                                                            file</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @endforeach
+                                    </div>
                             </div>
                         </div>
                     </div>
@@ -106,9 +262,61 @@
                                 </div>
                                 <div class="remarks-suggestions scrutiny-checklist_and_remarks">
                                     <div id="wrapper">
-                                        
+                                        <table class="table">
+                                            <tr>
+                                                <th colspan="3">Report</th>
+                                            </tr>
+                                            @foreach($ArchitectLayout->ree_scrutiny_reports as $ree_scrutiny_report)
+                                            <tr>
+                                                <td>Name of the Document</td>
+                                                <td>{{$ree_scrutiny_report->name_of_document}}</td>
+                                                <td><a target="_blank" href="{{ config('commanConfig.storage_server')."/".$ree_scrutiny_report->file}}">Download</a></td>
+                                            </tr>
+                                            @endforeach
+                                        </table>
                                     </div>
                                 </div>
+                                <div class="remarks-suggestions">
+                                        @foreach ($ArchitectLayout->land_scrutiny_checklist_and_remarks as $item)
+                                        <div class="block">
+                                            <input type="hidden" name="report_id[]" value="{{$item->id}}">
+                                            @if($item->question!="")
+                                            <p style="font-size: 16px">{{$item->question->title}}</p>
+                                            @if($item->question->is_options==1)
+                                            <p>
+                                                <input type="radio" disabled value="1" {{$item->label1==1?'checked':''}}>{{$item->question->label1}}
+                                                <input type="radio" disabled value="2" {{$item->label2==1?'checked':''}}>{{$item->question->label2}}
+                                            </p>
+                                            @endif
+                                            @endif
+                                            <div class="m-form__group row">
+                                                <div class="col-lg-3 form-group">
+                                                    <label for="Upload_Cts_Plan">Remark</label>
+                                                </div>
+                                                <div class="col-lg-7 form-group">
+                                                    <div class="custom-file">
+                                                        <textarea type="text" disabled name="remark[]" id="remark" class="form-control form-control--custom form-control--fixed-height">{{$item->remark }}</textarea>
+                                                        @if ($errors->has('remark'))
+                                                        <span class="error">{{ $errors->first('remark') }}</span>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="m-form__group row">
+                                                <div class="col-lg-3 form-group">
+                                                    <label for="Upload_Cts_Plan">Upload Report</label>
+                                                </div>
+                                                <div class="col-lg-7 form-group">
+                                                    <div class="custom-file">
+                                                        <a target="_blank" href="{{config('commanConfig.storage_server').'/'.$item->file}}"
+                                                            style="display:{{$item->file!=''?'block':'none'}}">uploaded
+                                                            file</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @endforeach
+                                    </div>
                             </div>
                         </div>
                     </div>
