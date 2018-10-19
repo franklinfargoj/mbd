@@ -162,6 +162,21 @@ class EEUserSeeder extends Seeder
                 'name'=>'post_ee_checklist_and_remark_report',
                 'display_name'=>'post_ee_checklist_and_remark_report',
                 'description'=>'post_ee_checklist_and_remark_report'
+            ],            
+            [
+                'name'=>'conveyance.index',
+                'display_name'=>'conveyance',
+                'description'=>'conveyance'
+            ],           
+            [
+                'name'=>'conveyance.view_application',
+                'display_name'=>'view application',
+                'description'=>'view application'
+            ],            
+            [
+                'name'=>'ee.sale_price_calculation',
+                'display_name'=>'ee sale price calculation',
+                'description'=>'ee sale price calculation'
             ]
         ];
 

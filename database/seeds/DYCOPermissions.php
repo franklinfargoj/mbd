@@ -19,9 +19,9 @@ class DYCOPermissions extends Seeder
     {
         $permissions = [
             [
-                'name'         => 'dyco.index',
-                'display_name' => 'index',
-                'description'  => 'index'
+                'name'         => 'conveyance.index',
+                'display_name' => 'conveyance',
+                'description'  => 'conveyance'
             ],
             [
                 'name'         => 'dyco.checklist',
@@ -29,7 +29,7 @@ class DYCOPermissions extends Seeder
                 'description'  => 'checklist'
             ],            
             [
-                'name'         => 'dyco.conveyance_application',
+                'name'         => 'conveyance.view_application',
                 'display_name' => 'conveyance application',
                 'description'  => 'conveyance application'
             ],             
@@ -54,6 +54,31 @@ class DYCOPermissions extends Seeder
                 'description'  => 'sale lease agreement'
             ],            
             [
+                'name'         => 'dyco.approved_sale_lease_agreement',
+                'display_name' => 'approved sale lease agreement',
+                'description'  => 'approved sale lease agreement'
+            ],            
+            [
+                'name'         => 'dyco.stamp_duty_agreement',
+                'display_name' => 'stamp duty agreement',
+                'description'  => 'stamp duty agreement'
+            ],            
+            [
+                'name'         => 'dyco.stamp_signed_duty_agreement',
+                'display_name' => 'stamp signed duty agreement',
+                'description'  => 'stamp signed duty agreement'
+            ],            
+            [
+                'name'         => 'dyco.register_sale_lease_agreement',
+                'display_name' => 'register sale lease agreement',
+                'description'  => 'register sale lease agreement'
+            ],            
+            [
+                'name'         => 'dyco.conveyance_noc',
+                'display_name' => 'conveyance noc',
+                'description'  => 'conveyance noc'
+            ],            
+            [
                 'name'         => 'dyco.save_agreement',
                 'display_name' => 'save Agreement',
                 'description'  => 'save Agreement'
@@ -72,7 +97,7 @@ class DYCOPermissions extends Seeder
         if (count($role_id) == 0) {
             $role_id = Role::insertGetId([
                 'name'         => 'dycdo_engineer',
-                'redirect_to'  => '/dyco',
+                'redirect_to'  => '/conveyance',
                 'parent_id'    => NULL,
                 'display_name' => 'dycdo engineer',
                 'description'  => 'Login as dycdo Engineer'
@@ -136,7 +161,7 @@ class DYCOPermissions extends Seeder
         if (count($role_id1) == 0) {
             $role_id1 = Role::insertGetId([
                 'name'         => 'dyco_engineer',
-                'redirect_to'  => '/dyco',
+                'redirect_to'  => '/conveyance',
                 'parent_id'    => NULL,
                 'display_name' => 'dyco engineer',
                 'description'  => 'Login as dyco Engineer'

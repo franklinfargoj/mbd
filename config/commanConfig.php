@@ -17,6 +17,8 @@ return [
     'cap_engineer' => 'cap_engineer',
     'vp_engineer' => 'vp_engineer',
     'ree_junior' => 'REE Junior Engineer',
+    'dycdo_engineer' => 'dycdo_engineer',
+    'dyco_engineer' => 'dyco_engineer',
 
     //Branch Head
     'ee_branch_head' => 'ee_engineer',
