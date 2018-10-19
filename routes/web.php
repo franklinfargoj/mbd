@@ -407,7 +407,7 @@ Route::delete('destroy_architect_layout_detail_court_case_or_dispute_on_land/{id
         Route::resource('roles','RoleController');
     });
 
-    Route::resource('/society_conveyance','SocmietyConveyanceController');
+    Route::resource('/society_conveyance','SocietyConveyanceController');
     
 });
 
