@@ -121,10 +121,12 @@
         <!-- END: Header -->
         <!-- begin::Body -->
         <div class="m-grid__item m-grid__item--fluid m-grid m-grid--ver-desktop m-grid--desktop m-body">
-            @if(Session::all()['role_name'] == 'society')
-                @include('frontend.layouts.sidebar')
-            @else
-                @include('admin.layouts.sidebar')
+            @if(Session::has('role_name') == true)
+                @if(Session::all()['role_name'] == 'society')
+                    @include('frontend.layouts.sidebar')
+                @else
+                    @include('admin.layouts.sidebar')
+                @endif
             @endif
             <div class="col-md-12">
                 <div class="m-grid__item m-grid__item--fluid m-wrapper">

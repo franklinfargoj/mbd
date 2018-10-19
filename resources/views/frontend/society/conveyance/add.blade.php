@@ -35,8 +35,8 @@
                     <div class="m-content letter-form-content">
                         <div class="letter-form-subject">
                             <p><span class="font-weight-semi-bold">विषय :- </span> <input class="letter-form-input letter-form-input--md"
-                                                                                          type="text" id="" name="" value=""> येथील <input class="letter-form-input letter-form-input--md"
-                                                                                                                                           type="text" id="" name="" value=""> इमारतीचे अभिहस्तांतरण करणेबाबत गृहनिर्माण
+                                                                                          type="text" id="" name="layout_name" value=""> येथील <input class="letter-form-input letter-form-input--md"
+                                                                                                                                           type="text" id="" name="society_name" value=""> इमारतीचे अभिहस्तांतरण करणेबाबत गृहनिर्माण
                                 संस्थेच्या स्वयंपुनर्विकासाच्या प्रस्तावास मंजूरी मिळण्याबाबतचा अर्ज.</p>
                             <p class="font-weight-semi-bold">महोदय,</p>
                             <p>उपुक्त विषयांकित इमारतीचे अभिहस्तांतरण करणेसाठी खालील माहिती व कागदपत्रे सादर करण्यात येत
@@ -45,21 +45,21 @@
                                 <div class="form-group m-form__group row align-items-start">
                                     <div class="col-sm-4 application-fields">
                                         <label class="application-form-label" for="">१. वसाहितीचे नाव:</label>
-                                        <input type="text" id="" name="" class="letter-form-input letter-form-input--100">
+                                        <input type="text" id="" name="society_name" class="letter-form-input letter-form-input--100">
                                     </div>
                                     <div class="col-sm-4 application-fields">
                                         <label class="application-form-label" for="">२. इमारत क्र:</label>
-                                        <input class="letter-form-input letter-form-input--100" type="text" id="" name=""
+                                        <input class="letter-form-input letter-form-input--100" type="text" id="" name="society_no"
                                                value="">
                                     </div>
                                     <div class="col-sm-4 application-fields">
                                         <label class="application-form-label" for="">३. योजनेचे नाव:</label>
-                                        <input class="letter-form-input letter-form-input--100" type="text" id="" name=""
+                                        <input class="letter-form-input letter-form-input--100" type="text" id="" name="scheme_name"
                                                value="">
                                     </div>
                                     <div class="col-sm-4 application-fields">
                                         <label class="application-form-label" for="">४. प्रथम सदनिका वितरणाचा दिनांक:</label>
-                                        <input class="letter-form-input letter-form-input--100" type="text" id="" name=""
+                                        <input class="letter-form-input letter-form-input--100 m_datepicker" type="text" id="" name="first_flat_issue_date"
                                                value="">
                                     </div>
                                 </div>
@@ -67,42 +67,66 @@
                                     <label class="col-12 mb-4">६. एकूण सदनिका</label>
                                     <div class="col-sm-4 application-fields">
                                         <label class="d-block" for="">A. निवासी:</label>
-                                        <input class="letter-form-input letter-form-input--100" type="text" id="" name=""
+                                        <input class="letter-form-input letter-form-input--100" type="text" id="" name="residential_flat"
                                                value="">
                                     </div>
                                     <div class="col-sm-4 application-fields">
                                         <label class="d-block" for="">B. अनिवासी:</label>
-                                        <input class="letter-form-input letter-form-input--100" type="text" id="" name=""
+                                        <input class="letter-form-input letter-form-input--100" type="text" id="" name="non_residential_flat"
                                                value="">
                                     </div>
                                     <div class="col-sm-4 application-fields">
                                         <label class="d-block" for="">C. एकूण:</label>
-                                        <input class="letter-form-input letter-form-input--100" type="text" id="" name=""
+                                        <input class="letter-form-input letter-form-input--100" type="text" id="" name="total_flat"
                                                value="">
                                     </div>
                                 </div>
                                 <div class="form-group m-form__group row">
+                                    <label class="col-12 mb-4">७. </label>
                                     <div class="col-sm-4 application-fields">
-                                        <label class="application-form-label" for="">७. संस्था नोंदणी क्र व दिनांक:</label>
+                                        <label class="application-form-label" for="">A. संस्था नोंदणी क्र:</label>
+                                        <input class="letter-form-input letter-form-input--100" type="text" id=""
+                                               name="society_registration_no" value="">
+                                    </div>
+                                    <div class="col-sm-4 application-fields">
+                                        <label class="application-form-label" for="">B. संस्था नोंदणी दिनांक:</label>
                                         <input class="letter-form-input letter-form-input--100 m_datepicker" type="text" id=""
-                                               name="" value="">
+                                               name="society_registration_date" value="">
+                                    </div>
+                                </div>
+                                <div class="form-group m-form__group row">
+                                    <div class="col-sm-6 application-fields">
+                                        <label class="application-form-label" for="">८. अधिकृत सभासदांची यादी (पती व पत्नी संयुक्त नावे):</label>
+                                        <p><a href="{{ route('sc_download') }}" class="btn btn-primary" target="_blank" rel="noopener">Download Template</a> </p>
+                                        {{----}}
+                                        {{--<input class="letter-form-input letter-form-input--100 m_datepicker" type="text" id=""--}}
+                                               {{--name="" value="">--}}
+                                    </div>
+                                    <div class="col-sm-6 application-fields">
+                                        <label class="application-form-label" for="">Upload File:</label>
+                                        <p>
+                                            <input class="custom-file-input" name="" type="file"
+                                                   id="test-upload" required>
+                                            <label class="custom-file-label" for="test-upload">Choose
+                                                file ...</label>
+                                        </p>
                                     </div>
                                 </div>
                                 <div class="form-group m-form__group row">
                                     <label class="col-12 mb-4">९. सेवा हस्तांकरण झाल्याचा दिनांक:</label>
                                     <div class="col-sm-4 application-fields">
                                         <label class="d-block" for="">१. मालमत्ता कर:</label>
-                                        <input class="letter-form-input letter-form-input--100" type="text" id="" name=""
+                                        <input class="letter-form-input letter-form-input--100" type="text" id="" name="property_tax"
                                                value="">
                                     </div>
                                     <div class="col-sm-4 application-fields">
                                         <label class="d-block" for="">२. पाणी बिल:</label>
-                                        <input class="letter-form-input letter-form-input--100" type="text" id="" name=""
+                                        <input class="letter-form-input letter-form-input--100" type="text" id="" name="water_bil"
                                                value="">
                                     </div>
                                     <div class="col-sm-4 application-fields">
                                         <label class="d-block" for="">३. अकृषिक कर:</label>
-                                        <input class="letter-form-input letter-form-input--100" type="text" id="" name=""
+                                        <input class="letter-form-input letter-form-input--100" type="text" id="" name="no_agricultural_tax"
                                                value="">
                                     </div>
                                 </div>
@@ -110,7 +134,7 @@
                                     <div class="col-sm-4 application-fields">
                                         <label class="application-form-label" for="">१०. कार्यकारणी यादी</label>
                                         <input class="letter-form-input letter-form-input--100 m_datepicker" type="text" id=""
-                                               name="" value="">
+                                               name="society_address" value="">
                                     </div>
                                 </div>
                                 <div class="form-group m-form__group row">

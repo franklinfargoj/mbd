@@ -60,7 +60,7 @@ Route::group(['middleware' => ['check_society_offer_letter_permission']], functi
        
 });
 
- Route::get('/application','SocietyOfferLetterController@ViewApplications')->name('society_detail.application');
+ Route::get('/application/{id}','SocietyOfferLetterController@ViewApplications')->name('society_detail.application');
     Route::get('refresh_captcha','SocietyOfferLetterController@RefreshCaptcha')->name('refresh_captcha');
     Route::post('UserAuthentication','SocietyOfferLetterController@UserAuthentication')->name('society_detail.UserAuthentication');
 
@@ -407,6 +407,7 @@ Route::delete('destroy_architect_layout_detail_court_case_or_dispute_on_land/{id
         Route::resource('roles','RoleController');
     });
 
+    Route::get('download_template', 'SocietyConveyanceController@download_excel')->name('sc_download');
     Route::resource('/society_conveyance','SocietyConveyanceController');
     
 });
