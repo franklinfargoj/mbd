@@ -177,6 +177,11 @@ class EEUserSeeder extends Seeder
                 'name'=>'ee.sale_price_calculation',
                 'display_name'=>'ee sale price calculation',
                 'description'=>'ee sale price calculation'
+            ],            
+            [
+                'name'=>'ee.save_calculation_data',
+                'display_name'=>'save calculation data',
+                'description'=>'save calculation data'
             ]
         ];
 

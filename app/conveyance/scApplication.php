@@ -60,5 +60,10 @@ class scApplication extends Model
     public function ScAgreementComments()
     {
         return $this->hasOne('App\conveyance\ScAgreementComments', 'application_id','id');
-    }              	
+    }      
+    public function ConveyanceSalePriceCalculation()
+    {
+        return $this->hasOne('App\conveyance\ConveyanceSalePriceCalculation', 'application_id','id');
+    }   
+               	
 }

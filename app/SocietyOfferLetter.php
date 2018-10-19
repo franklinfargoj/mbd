@@ -61,4 +61,8 @@ class SocietyOfferLetter extends Authenticatable
     {
         return $this->belongsToMany('App\Role', 'role_user', 'user_id', 'role_id')->withPivot('start_date', 'end_date');
     }
+    public function documentComments(){
+
+        return $this->hasOne(OlSocietyDocumentsComment::class, 'society_id', 'id');   
+    }    
 }

@@ -43,15 +43,23 @@
                                     Statement
                                 </h3>
                             </div>
-                            <p>Building/Chawl No. <input class="letter-form-input letter-form-input--md" type="text" id=""
-                                    name="" value=""> Consisting <input class="letter-form-input letter-form-input--md"
-                                    type="text" id="" name="" value=""> T/S Out of Project of <input class="letter-form-input letter-form-input--md"
-                                    type="text" id="" name="" value=""> T/S Under <input class="letter-form-input letter-form-input--md"
-                                    type="text" id="" name="" value=""> Income Group at <input class="letter-form-input letter-form-input--md"
-                                    type="text" id="" name="" value=""></p>
+                            <p>Building/Chawl No. <input class="letter-form-input letter-form-input--md" type="text" name="chawl_no" value=""> Consisting 
+                            <input class="letter-form-input letter-form-input--md"
+                                    type="text"  name="consisting" value="">
+                             T/S Out of Project of 
+                             <input class="letter-form-input letter-form-input--md"
+                                    type="text" name="project_of" value="">
+                            T/S Under 
+                            <input class="letter-form-input letter-form-input--md"
+                                    type="text" name="ts_under" value=""> 
+                            Income Group at
+                            <input class="letter-form-input letter-form-input--md"
+                                    type="text" name="income_group" value=""></p>
                         </div>
                         <div class="m-section__content mb-0 table-responsive">
-                            <form class="nav-tabs-form" role="form" method="POST" action="">
+                            <form class="nav-tabs-form" role="form" method="POST" action="{{ route('ee.save_calculation_data') }}">
+                            @csrf
+                            <input type="hidden" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">
                                 <table id="one" class="table mb-0 table--box-input" style="padding-top: 10px;">
                                     <div class="d-flex justify-content-between align-items-center mb-4">
                                         <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
@@ -78,33 +86,105 @@
                                                 service with reference to the common service with reference to the
                                                 common service being rendered by the board</td>
                                             <td class="text-center">
+                                                <input type="text" class="form-control form-control--custom" name="common_service_rate" value="" />
+                                            </td>
+                                        </tr>                                        
+                                        <tr>
+                                            <td>2.</td>
+                                            <td>Date of Handling over Pump House & Under Ground Tank to Society</td>
+                                            <td class="text-center">
+                                                <input type="text" class="form-control form-control--custom" name="pump_house" value="" />
+                                            </td>
+                                        </tr>                                       
+                                         <tr>
+                                            <td>3.</td>
+                                            <td>The Plinith area of each tenement in Sq.Ft And Sq.Mtrs.</td>
+                                            <td class="text-center">
+                                                <input type="text" class="form-control form-control--custom" name="tenement_plinth_area" value="" />
+                                            </td>
+                                        </tr>                                        
+                                        <tr>
+                                            <td>4.</td>
+                                            <td>The Carpet Area of each tenement in Sq.Ft.and Sq.Mtrs.</td>
+                                            <td class="text-center">
+                                                <input type="text" class="form-control form-control--custom" name="tenement_carpet_area" value="" />
+                                            </td>
+                                        </tr>                                        
+                                        <tr>
+                                            <td>5.</td>
+                                            <td>The Plinth area of Building Sq.Ft and Sq.Mtrs</td>
+                                            <td class="text-center">
+                                                <input type="text" class="form-control form-control--custom" name="building_plinth_area" value="" />
+                                            </td>
+                                        </tr>                                        
+                                        <tr>
+                                            <td>6.</td>
+                                            <td>The Carpet Area of Building in Sq.FT and Sq.Mtrs.</td>
+                                            <td class="text-center">
+                                                <input type="text" class="form-control form-control--custom" name="building_carpet_area" value="" />
+                                            </td>
+                                        </tr>                                        
+                                        <tr>
+                                            <td>7.1.</td>
+                                            <td>Cost of Construction</td>
+                                            <td class="text-center">
                                                 <input type="text" class="form-control form-control--custom" name="" id=""
                                                     value="" />
+                                            </td>
+                                        </tr>                                       
+                                         <tr>
+                                            <td>7.2</td>
+                                            <td>Premium of Land With Infrastructure (I.e Cost of land and Fillings) Lease Rent (Per Annum)</td>
+                                            <td class="text-center">
+                                                <input type="text" class="form-control form-control--custom" name="" id=""
+                                                    value="" />
+                                            </td>
+                                        </tr>                                        
+                                         <tr>
+                                            <td></td>
+                                            <td>The Final Sale price of the tenement</td>
+                                            <td class="text-center">
+                                                <input type="text" class="form-control form-control--custom" name="final_sale_price_tenement" value="" />
+                                            </td>
+                                        </tr>                                        
+                                         <tr>
+                                            <td>8</td>
+                                            <td>The Date of Completion of the above Building/Chawl</td>
+                                            <td class="text-center">
+                                    
+                                                <input type="text" class="txtbox v_text form-control form-control--custom m-input m_datepicker" name="completion_date" id="registration_date" value="" aria-describedby="visit_date-error" aria-invalid="false" readonly>
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
                                 <div class="mt-3">
                                     <p>The Schedule of the Property</p>
-                                    <p>All the Piece or Parcel of land bearing Plot/ Building No <input class="letter-form-input letter-form-input--md"
-                                            type="text" id="" name="" value=""> Admeasuring <input class="letter-form-input letter-form-input--md"
-                                            type="text" id="" name="" value=""> Sq.mtrs. There about being S.No <input
-                                            class="letter-form-input letter-form-input--md" type="text" id="" name=""
-                                            value=""> and C.T.S No <input class="letter-form-input letter-form-input--md"
-                                            type="text" id="" name="" value="">
-                                        Situated at <input class="letter-form-input letter-form-input--md" type="text"
-                                            id="" name="" value=""> In the registrations district of <input class="letter-form-input letter-form-input--md"
-                                            type="text" id="" name="" value=""> District and Bounded that is to say.
+                                    <p>All the Piece or Parcel of land bearing Plot/ Building No 
+                                    <input class="letter-form-input letter-form-input--md" type="text" name="building_no" value="">
+                                     Admeasuring 
+                                    <input class="letter-form-input letter-form-input--md" type="text" name="admeasure" value="">
+                                    Sq.mtrs. There about being S.No
+                                     <input class="letter-form-input letter-form-input--md" type="text" name="s_no"
+                                            value=""> 
+                                    and C.T.S No <input class="letter-form-input letter-form-input--md"
+                                            type="text" name="CTS_no" value="">
+                                    Situated at <input class="letter-form-input letter-form-input--md" type="text" name="situated_at" value=""> 
+                                    In the registrations district of 
+                                    <input class="letter-form-input letter-form-input--md" type="text" name="district" value=""> District and Bounded that is to say.
                                     </p>
                                     <p>On or towards the North By: <input class="letter-form-input letter-form-input--md"
-                                            type="text" id="" name="" value=""></p>
+                                            type="text" name="north_dimension" value=""></p>
                                     <p>On or towards the South By: <input class="letter-form-input letter-form-input--md"
-                                            type="text" id="" name="" value=""></p>
+                                            type="text" name="south_dimension" value=""></p>
                                     <p>On or towards the West By: <input class="letter-form-input letter-form-input--md"
-                                            type="text" id="" name="" value=""></p>
+                                            type="text" name="west_dimension" value=""></p>
                                     <p>On or towards the East By: <input class="letter-form-input letter-form-input--md"
-                                            type="text" id="" name="" value=""></p>
+                                            type="text" name="east_dimension" value=""></p>
                                 </div>
+                                <div class="mt-auto">
+                                    <button type="submit" class="btn btn-primary btn-custom">
+                                    Submit</button>
+                                </div>                                
                             </form>
                         </div>
                     </div>
