@@ -504,16 +504,12 @@ Route::get('ee-blling-arrears-calculation', 'EEBillingController@ArrearsCalculat
 Route::get('ee-blling-view-bill-details', 'EEBillingController@ViewBillDetailsSociety');
 Route::get('generate-receipt', 'EEBillingController@GenerateReceipt');
 
-//estate and conveyance
+//conveyance
 
 Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']], function(){
  
     Route::resource('conveyance', 'conveyance\conveyanceCommonController');    
     Route::get('conveyance_application/{id}', 'conveyance\conveyanceCommonController@ViewApplication')->name('conveyance.view_application');
-    // Route::resource('dyco', 'conveyance\DYCODepartment\DYCOController');
-
-    // Route::get('sc_application/{id}', 'conveyance\DYCODepartment\DYCOController@ViewApplication')->name('dyco.conveyance_application');    
-
 
     Route::get('checklist/{id}', 'conveyance\DYCODepartment\DYCOController@showChecklist')->name('dyco.checklist');
 
@@ -537,12 +533,14 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::post('save_agreement', 'conveyance\DYCODepartment\DYCOController@saveAgreement')->name('dyco.save_agreement'); 
 
-    Route::post('forward_application_dyco', 'conveyance\DYCODepartment\DYCOController@saveForwardApplication')->name('dyco.forward_application_data');
+    Route::post('forward_application_dyco', 'conveyance\DYCODepartment\DYCOController@saveForwardApplication')->name('dyco.forward_application_data');  
+
 
      Route::get('scrutiny_remark_em/{id}', 'conveyance\EMDepartment\EMController@ScrutinyReamrk')->name('em.scrutiny_remark'); 
 
      Route::get('sale_price_calculation/{id}', 'conveyance\EEDepartment\EEController@SalePriceCalculation')->name('ee.sale_price_calculation');
 
+    Route::post('save_calculation_data', 'conveyance\EEDepartment\EEController@SaveCalculationData')->name('ee.save_calculation_data');
 });
 
 Route::get('/calculation', function () {
