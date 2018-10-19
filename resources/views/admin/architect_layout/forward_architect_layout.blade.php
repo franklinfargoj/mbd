@@ -201,13 +201,13 @@
                                                     cols="30" rows="5"></textarea>
                                             </div>
                                             <div class="mt-3 btn-list">
-                                                @if (session()->get('role_name') == config('commanConfig.vp_engineer'))
+                                                {{-- @if (session()->get('role_name') == config('commanConfig.vp_engineer'))
                                                 <button type="submit" id="sign" class="btn btn-primary forwrdBtn">Sign</button>
                                                 <button type="submit" class="btn btn-primary forwrdBtn">Sign & Forward</button>
                                                 <button type="submit" class="btn btn-primary forwrdBtn">Forward</button>
-                                                @else
+                                                @else --}}
                                                 <button type="submit" class="btn btn-primary">Forward</button>
-                                                @endif
+                                                {{-- @endif --}}
                                                 <a type="button" href="{{ url()->previous() }}" class="btn btn-secondary">Cancel</a>
                                             </div>
                                         </div>
