@@ -120,7 +120,8 @@
                                                     <!-- <label for="" class="col-form-label">Password</label> -->
                                                     <input class="form-control form-control--custom m-input" type="password"
                                                         placeholder="Password" name="society_password" id="password"
-                                                        value="{{ old('society_password') }}" title="Password should be minimum 6 & maximum 10 characters.">
+                                                        value="{{ old('society_password') }}" title="">
+                                                    <a href="#" data-toggle="tooltip" data-placement="top" title="Password should be minimum 6 & maximum 10 characters."><i class="fa fa-info-circle" style="color: orange;float: right;"></i></a>
                                                     <span class="help-block">{{$errors->first('society_password')}}</span>
                                                 </div>
                                             </div>
@@ -129,7 +130,8 @@
                                                     <!-- <label for="" class="col-form-label">Password</label> -->
                                                     <input class="form-control form-control--custom m-input" type="password"
                                                         placeholder="Confirm Password" name="conf_society_password"
-                                                        value="{{ old('conf_society_password') }}" title="Password should be minimum 6 & maximum 10 characters.">
+                                                        value="{{ old('conf_society_password') }}" title="">
+                                                    <a href="#" data-toggle="tooltip" data-placement="top" title="Password should be minimum 6 & maximum 10 characters."><i class="fa fa-info-circle" style="color: orange;float: right;"></i></a>
                                                     <span class="help-block">{{$errors->first('conf_society_password')}}</span>
                                                 </div>
                                             </div>
