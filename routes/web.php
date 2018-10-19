@@ -231,7 +231,9 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::resource('em_clerk', 'EMDepartment\EMClerkController');
     Route::get('em_society_list', 'EMDepartment\EMClerkController@society_list')->name('em_society_list');
     Route::get('em_building_list', 'EMDepartment\EMClerkController@building_list')->name('em_building_list');
-    Route::post('tenant_payment_list', 'EMDepartment\EMClerkController@tenant_payment_list')->name('tenant_payment_list');
+    Route::get('tenant_payment_list', 'EMDepartment\EMClerkController@tenant_payment_list')->name('tenant_payment_list');
+    Route::get('tenant_arrear_calculation/{id}', 'EMDepartment\EMClerkController@tenant_arrear_calculation')->name('tenant_arrear_calculation');
+
 
 
     // RC Dewpartment Routes

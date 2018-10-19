@@ -106,40 +106,67 @@ class EMClerkController extends Controller
     }
 
     public function tenant_payment_list(Request $request, Datatables $datatables){
-        //dd($request->all());               
-            $columns = [
+        //dd($request->all());     
+        $getData = $request->all();  
+
+           $columns = [
             ['data' => 'id','name' => 'id','title' => 'Sr No.','searchable' => false],
             ['data' => 'flat_no','name' => 'flat_no','title' => 'Room No'],
             ['data' => 'first_name', 'name' => 'first_name','title' => 'Tenant First Name'],
             ['data' => 'last_name', 'name' => 'last_name','title' => 'Tenant Last Name'],
             ['data' => 'payment_status', 'name' => 'payment_status','title' => 'Payment Status'],
             ['data' => 'final_amount', 'name' => 'final_amount','title' => 'Final Rent Amount'],
-            ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
+            ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false, 'orderable' => false, 'exportable' => false, 'printable' => false]
             ];
 
-        if ($datatables->getRequest()->ajax()) {
+        if ($datatables->getRequest()->ajax()) {            
             
-            $tenant = MasterTenant::with('arrear')->where('building_id', '=', $request->input('building'))->get();
-            return $datatables->of($tenant)
-            ->editColumn('actions', function ($tenant){
-                return "<a href='".url('tenant_arrear_charges/'.$tenant->id)."' class='btn m-btn--pill m-btn--custom btn-primary'>edit</a>";                
-            })
-            ->rawColumns(['actions'])
-            ->make(true);
-        } else {
-            $tenant = MasterTenant::with('arrear')->where('building_id', '=', $request->input('building'))->get();
+            $tenant = MasterTenant::leftJoin('arrear_calculation', 'master_tenants.id', '=', 'arrear_calculation.tenant_id')->where('building_id', '=', $request->input('building'))->select('*','master_tenants.id as id')->get();
+
             //dd($tenant);
-            $datatables->of($tenant)
+
+            return $datatables->of($tenant)
+            ->editColumn('payment_status', function ($tenant){
+                if($tenant->payment_status == null){
+                     return 'Not Calculated';
+                } elseif ($tenant->payment_status == 0) {
+                     return 'Not Paid';
+                } elseif ($tenant->payment_status == 1) {
+                    return 'Paid';
+                }                               
+            })
+            ->editColumn('final_amount', function ($tenant){
+                if($tenant->final_amount == null){
+                     return 'Not Calculated';
+                } else {
+                    return $tenant->final_amount;
+                }                               
+            })
             ->editColumn('actions', function ($tenant){
-                return "<a href='".url('tenant_arrear_charges/'.$tenant->id)."' class='btn m-btn--pill m-btn--custom btn-primary'>edit</a>";                
+                return "<a href='".url('tenant_arrear_calculation/'.$tenant->id)."' class='btn m-btn--pill m-btn--custom btn-primary'>edit</a>";                
             })
             ->rawColumns(['actions'])
             ->make(true);
-        }
+        } 
+
+        //dd($datatables);
+
         $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
         //dd($html);
         return view('admin.em_clerk_department.tenant_list', compact('html'));
        
+    }
+
+    public function tenant_arrear_calculation($id, Request $request){
+        // return $id;
+        $tenant = MasterTenant::leftJoin('arrear_calculation', 'master_tenants.id', '=', 'arrear_calculation.tenant_id')->where('master_tenants.id', '=', $id)->select('*','master_tenants.id as id')->get();
+ 
+        $rate_card = ArrearsChargesRate::where('building_id', '=', $tenant[0]->building_id)
+                                ->where('year', '=', date("Y"))
+                                 ->get();
+        
+        return view('admin.em_clerk_department.arrear_calculation', compact('tenant', 'rate_card'));
+
     }
 
 
@@ -149,8 +176,21 @@ class EMClerkController extends Controller
             'processing' => true,
             'ordering'   =>'isSorted',
             "order"=> [1, "asc" ],
+            'dom' => 'Bfrtip',
+            'buttons' => ['copy', 'csv', 'excel', 'pdf', 'print'],
             "pageLength" => $this->list_num_of_records_per_page
         ];
     }
 
+    /**
+     * Get filename for export.
+     *
+     * @return string
+     */
+    protected function filename()
+    {
+        return 'Tenant_data_' . date('YmdHis');
+    }
+
 }
+

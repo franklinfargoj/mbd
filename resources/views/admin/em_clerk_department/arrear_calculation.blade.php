@@ -28,9 +28,7 @@
                                 <div class="form-group m-form__group">
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="layout" name="layout" required>
                                         <option value="" style="font-weight: normal;">Select Layout</option>
-                                        @foreach($layout_data as $key => $value)
-                                        <option value="{{ $value->id }}">{{ $value->layout_name }}</option>
-                                        @endforeach
+
                                     </select>
                                 </div>
                             </div>                          
@@ -40,10 +38,7 @@
                             <div class="col-md-9">
                                 <div class="form-group m-form__group society_list">
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="society" name="society" required>
-                                        <option value="" style="font-weight: normal;">Select Society</option>
-                                        @foreach($societies_data as $key => $value)
-                                        <option value="{{ $value->id }}">{{ $value->name }}</option>
-                                        @endforeach
+                                        <option value="" style="font-weight: normal;">society</option>
                                     </select>
                                 </div>
                             </div>                          
@@ -53,10 +48,8 @@
                             <div class="col-md-9">
                                 <div class="form-group m-form__group building_list">
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="building" name="building" required>
-                                        <option value="" style="font-weight: normal;">Select Building</option>
-                                        @foreach($building_data as $key => $value)
-                                        <option value="{{ $value->id }}">{{ $value->name }}</option>
-                                        @endforeach
+                                        <option value="" style="font-weight: normal;">
+                                        Yes</option>
                                     </select>
                                 </div>
                             </div>                          
@@ -96,43 +89,8 @@
     /*$("#update_status").on("change", function () {
         $("#eeForm").submit();
     });*/
-
     $(document).ready(function () {
         $(".display_msg").delay(5000).slideUp(300);
     });
-
-    $(document).on('change', '#layout', function(){
-                var id = $(this).val();
-                if(id != ''){
-                  $.ajax({
-                    url:"{{URL::route('em_society_list')}}",
-                    type: 'get',
-                    data: {id: id},
-                        success: function(response){
-                        //console.log(response);
-                        $('.society_list').html(response);
-                        $('#society').selectpicker('refresh');
-                    }
-                  });    
-                }            
-    });
-
-    $(document).on('change', '#society', function(){
-                var id = $(this).val();
-                //console.log(id);
-                if(id != ''){
-                  $.ajax({
-                    url:"{{URL::route('em_building_list')}}",
-                    type: 'get',
-                    data: {id: id},
-                        success: function(response){
-                        //console.log(response);
-                        $('.building_list').html(response);
-                        $('#building').selectpicker('refresh');
-                    }
-                  });    
-                }            
-    });
-
 </script>
 @endsection
