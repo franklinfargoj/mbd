@@ -26,7 +26,7 @@ class RenewalApplicationFormRequest extends Migration
             $table->string('society_registration_no')->nullable();
             $table->datetime('society_registration_date')->nullable();
             $table->string('property_tax')->nullable();
-            $table->string('water_bil')->nullable();
+            $table->string('water_bill')->nullable();
             $table->string('no_agricultural_tax')->nullable();
             $table->string('society_address')->nullable();
             $table->string('prev_lease_agreement_no')->nullable();
@@ -41,6 +41,6 @@ class RenewalApplicationFormRequest extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sc_application_form_request');
+        Schema::dropIfExists('renewal_application_form_request');
     }
 }
