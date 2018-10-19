@@ -158,7 +158,7 @@
                                                     Total भूखंडाचे क्षेत्रफळ
                                                 </td>
                                                 <td class="text-center">
-                                                    <input class="form-control form-control--custom" readonly type="text"
+                                                    <input class="min_val_for_calculation form-control form-control--custom" readonly type="text"
                                                         name="area_of_total_plot" id="area_of_total_plot" value="{{ isset($calculationSheetDetails[0]->area_of_total_plot) ? $calculationSheetDetails[0]->area_of_total_plot : 0 }}" /></td>
                                             </tr>
                                             <tr>
@@ -167,17 +167,17 @@
                                                     अभिनण्यानुसार भूखंडाचे क्षेत्रफळ
                                                 </td>
                                                 <td class="text-center">
-                                                    <input type="text" class="form-control form-control--custom" name="area_as_per_introduction"
+                                                    <input type="text" class="min_val_for_calculation form-control form-control--custom" name="area_as_per_introduction"
                                                         id="area_as_per_introduction" value="{{ isset($calculationSheetDetails[0]->area_as_per_introduction) ? $calculationSheetDetails[0]->area_as_per_introduction : 0 }}" />
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>3.</td>
                                                 <td>
-                                                    परिगणनाकरिता ग्राह्य भूखंडाचे क्षेत्रफळ (Min of 1 & 2)
+                                                    परिगणनाकरिता ग्राह्य भूखंडाचे क्षेत्रफळ (किमान क्षेत्र)
                                                 </td>
                                                 <td class="text-center">
-                                                    <input type="text" class="permissible_area total_permissible form-control form-control--custom"
+                                                    <input type="text" readonly class="permissible_area total_permissible form-control form-control--custom"
                                                         name="area_of_​​subsistence_to_calculate" id="area_of_​​subsistence_to_calculate"
                                                         value="{{ isset($calculationSheetDetails[0]->area_of_​​subsistence_to_calculate) ? $calculationSheetDetails[0]->area_of_​​subsistence_to_calculate : 0 }}" />
                                                 </td>
@@ -388,7 +388,7 @@
                                                     2. दर
                                                 </td>
                                                 <td class="text-center">
-                                                    <input type="text" readonly class="total_amount form-control form-control--custom"
+                                                    <input type="text" readonly class="form-control form-control--custom"
                                                            name="calculated_dcr_rate_val" id="calculated_dcr_rate_val"
                                                            value="{{ isset($calculationSheetDetails[0]->calculated_dcr_rate_val) ? $calculationSheetDetails[0]->calculated_dcr_rate_val : 0 }}" />
 
@@ -451,11 +451,11 @@
                                             <tr>
                                                 <td>19.</td>
                                                 <td>
-                                                    छाननी शुल्क
+                                                    छाननी शुल्क रु.६०००/- [for 1 building]
                                                 </td>
                                                 <td class="text-center">
                                                     <input type="text" readonly class="total_amount form-control form-control--custom"
-                                                        name="scrutiny_fee" id="scrutiny_fee" value="6000" />
+                                                        name="scrutiny_fee" id="scrutiny_fee" value="{{ isset($calculationSheetDetails[0]->scrutiny_fee) ? $calculationSheetDetails[0]->scrutiny_fee : 0 }}" />
 
                                                 </td>
                                             </tr>
@@ -743,8 +743,8 @@
                                                     उर्वरितच क्षे निरहिवासी वापर क्षेत्र
                                                 </td>
                                                 <td class="text-center">
-                                                    <input type="text" class="form-control form-control--custom" name="remaining_area_of_resident_area"
-                                                        id="remaining_area_of_resident_area" value="{{ isset($calculationSheetDetails[0]->remaining_area_of_resident_area) ? $calculationSheetDetails[0]->remaining_area_of_resident_area : 0 }}" />
+                                                    <input type="text" readonly class="form-control form-control--custom" name="remaining_residential_area"
+                                                        id="remaining_residential_area" value="{{ isset($calculationSheetDetails[0]->remaining_residential_area) ? $calculationSheetDetails[0]->remaining_residential_area : 0 }}" />
 
                                                 </td>
                                             </tr>
@@ -754,8 +754,8 @@
                                                     दर रु
                                                 </td>
                                                 <td class="text-center">
-                                                    <input type="text" class="form-control form-control--custom" name="remaining_area_of_resident_area_rate"
-                                                        id="remaining_area_of_resident_area_rate" value="{{ isset($calculationSheetDetails[0]->remaining_area_of_resident_area_rate) ? $calculationSheetDetails[0]->remaining_area_of_resident_area_rate : 0 }}" />
+                                                    <input type="text" readonly class="form-control form-control--custom" name="calculated_dcr_rate_val"
+                                                        id="calculated_dcr_rate_val" value="{{ isset($calculationSheetDetails[0]->calculated_dcr_rate_val) ? $calculationSheetDetails[0]->calculated_dcr_rate_val : 0 }}" />
 
                                                 </td>
                                             </tr>
@@ -765,8 +765,8 @@
                                                     अधिमूल्य
                                                 </td>
                                                 <td class="text-center">
-                                                    <input type="text" class="form-control form-control--custom" name="remaining_area_of_resident_area_balance"
-                                                        id="remaining_area_of_resident_area_balance" value="{{ isset($calculationSheetDetails[0]->remaining_area_of_resident_area_balance) ? $calculationSheetDetails[0]->remaining_area_of_resident_area_balance : 0 }}" />
+                                                    <input type="text" readonly class="form-control form-control--custom" name="remaining_area_of_resident_area_balance"
+                                                        id="remaining_area_of_resident_area_balance" value="{{ isset($calculationSheetDetails[0]->balance_of_remaining_area) ? $calculationSheetDetails[0]->balance_of_remaining_area : 0 }}" />
 
                                                 </td>
                                             </tr>
@@ -780,8 +780,8 @@
                                                     pt 9]) }
                                                 </td>
                                                 <td class="text-center">
-                                                    <input type="text" class="form-control form-control--custom" name="off_site_infrastructure_fee"
-                                                        id="off_site_infrastructure_fee" value="{{ isset($calculationSheetDetails[0]->off_site_infrastructure_fee) ? $calculationSheetDetails[0]->off_site_infrastructure_fee : 0 }}" />
+                                                    <input type="text" readonly class="form-control form-control--custom" name="off_site_infrastructure_fee"
+                                                        id="off_site_infrastructure_fee" value="{{ isset($calculationSheetDetails[0]->infrastructure_fee_amount) ? $calculationSheetDetails[0]->infrastructure_fee_amount : 0 }}" />
 
                                                 </td>
                                             </tr>
@@ -971,7 +971,7 @@
                             <div class="m-subheader">
                                 <div class="d-flex align-items-center justify-content-center">
                                     <h3 class="section-title">
-                                        मंडळाकडे एकूण भरणा करावयाच्या रकमेचा गोषवारा
+                                        दुसऱ्या, तिसऱ्या आणि चौथ्या हप्त्याची रक्कम
                                     </h3>
                                 </div>
                             </div>
@@ -1319,9 +1319,9 @@
         $(".first_installment").each(function () {
             first_installment += +$(this).val();
         });
-        $("#payment_of_first_installment").attr('value',first_installment);
+        $("#payment_of_first_installment").attr('value',Math.ceil(first_installment));
 
-        $("#payment_of_remaining_installment").attr('value',$("#non_profit_duty").val());
+        $("#payment_of_remaining_installment").attr('value',Math.ceil($("#non_profit_duty").val()));
 
     })
 
@@ -1330,12 +1330,13 @@
     $(document).on("keyup", "#total_no_of_buildings", function () {
         $("#debraj_removal_fee").attr('value',6600 * $("#total_no_of_buildings").val());
         $("#water_usage_charges").attr('value',100000 * $("#total_no_of_buildings").val());
+        $("#scrutiny_fee").attr('value',6000 * $("#total_no_of_buildings").val());
 
         var total_amount = 0;
         $(".total_amount").each(function () {
             total_amount += +$(this).val();
         });
-        $("#total_amount_in_rs").attr('value',total_amount);
+        $("#total_amount_in_rs").attr('value',Math.ceil(total_amount));
     });
 
     $(document).on("keyup", ".total_area", function () {
@@ -1344,7 +1345,32 @@
             sum += +$(this).val();
         });
         $("#area_of_total_plot").attr('value',sum);
+
+
+        var sorted = $(".min_val_for_calculation").sort(
+
+            function(a, b) {
+                return a.value - b.value
+            });
+        var lowest = sorted[0].value;
+
+        $("#area_of_​​subsistence_to_calculate").attr('value',lowest);
+
+
     });
+
+    $(document).on("keyup", "#area_as_per_introduction", function () {
+
+        var sorted = $(".min_val_for_calculation").sort(
+
+            function(a, b) {
+                return a.value - b.value
+            });
+        var lowest = sorted[0].value;
+
+        $("#area_of_​​subsistence_to_calculate").attr('value',lowest);
+    });
+
 
     $(document).on("keyup", ".permissible_area", function () {
 
@@ -1372,7 +1398,7 @@
         $(".total_amount").each(function () {
             total_amount += +$(this).val();
         });
-        $("#total_amount_in_rs").attr('value',total_amount);
+        $("#total_amount_in_rs").attr('value',Math.ceil(total_amount));
     });
 
 
@@ -1445,7 +1471,7 @@
         $(".total_amount").each(function () {
             total_amount += +$(this).val();
         });
-        $("#total_amount_in_rs").attr('value',total_amount);
+        $("#total_amount_in_rs").attr('value',Math.ceil(total_amount));
 
     });
 
@@ -1455,14 +1481,14 @@
             7 / 100)).toFixed(2);
         $("#infrastructure_fee_amount").attr('value',fee_amount);
         $("#amount_to_be_paid_to_municipal").attr('value',5 / 7 * fee_amount);
-        $("#offsite_infrastructure_charges_to_municipal_corporation").attr('value',5 / 7 * fee_amount);
+        $("#offsite_infrastructure_charges_to_municipal_corporation").attr('value',Math.ceil(5 / 7 * fee_amount));
         $("#offsite_infrastructure_charge_to_mhada").attr('value',2 / 7 * fee_amount);
 
         var total_amount = 0;
         $(".total_amount").each(function () {
             total_amount += +$(this).val();
         });
-        $("#total_amount_in_rs").attr('value',total_amount);
+        $("#total_amount_in_rs").attr('value',Math.ceil(total_amount));
 
 
         var calculated_dcr = $("#redirekner_value").val() * ($("input[type=radio][name=dcr_rate_in_percentage]:checked").val() / 100);
@@ -1479,7 +1505,7 @@
         $(".total_amount").each(function () {
             total_amount += +$(this).val();
         });
-        $("#total_amount_in_rs").attr('value',total_amount);
+        $("#total_amount_in_rs").attr('value',Math.ceil(total_amount));
     });
 
     $(document).on("keyup", "#remaining_area_of_resident_area_balance", function () {
