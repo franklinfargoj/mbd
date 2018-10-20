@@ -48,6 +48,7 @@ class SocietyOfferLetter extends Authenticatable
             'society_architect_mobile_no' => 'required|numeric',
             'society_architect_address' => 'required',
             'society_password' => 'required',
+            'optional_society_email' => 'required|unique:ol_societies,email|unique:ol_societies,optional_email|unique:users,email',
         ]);
 
         return $validatedata;

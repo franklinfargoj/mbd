@@ -81,7 +81,8 @@ class SocietyOfferLetterController extends Controller
         if($validated_fields->fails()){
             $errors = $validated_fields->errors();
             $request->flash();
-            return redirect()->route('society_offer_letter.create')->withErrors($errors)->withInput();
+            return $errors;
+//            return redirect()->route('society_offer_letter.create')->withErrors($errors)->withInput();
         }else{
             // dd('clear');
             $role_id = Role::where('name', config('commanConfig.society_offer_letter'))->first();

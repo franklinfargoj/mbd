@@ -85,7 +85,7 @@
                                                     <!-- <label for="" class="col-form-label">Confirm Password</label> -->
                                                     <input class="form-control form-control--custom m-input" type="email"
                                                         placeholder="Email Address" name="society_email" value="{{ old('society_email') }}">
-                                                    <span class="text-danger">{{$errors->first('society_email')}}</span>
+                                                    <span id="society_email" class="text-danger">{{$errors->first('society_email')}}</span>
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">
@@ -103,7 +103,7 @@
                                                     <input class="form-control form-control--custom m-input" type="email"
                                                         placeholder="Optional Email Address" name="optional_society_email"
                                                         value="{{ old('society_email') }}">
-                                                    <span class="text-danger">{{$errors->first('optional_society_email')}}</span>
+                                                    <span id="optional_society_email" class="text-danger">{{$errors->first('optional_society_email')}}</span>
                                                 </div>
                                             </div>
                                             <div class="col-sm-12">
@@ -158,14 +158,54 @@
 @endsection
 @section('js')
     <script>
-        // $('input[name=society_building_no]').keyup(function(){
-        //     var society_building_no = $('input[name=society_building_no]').val();
-        //     if(society_building_no.match(',|-|/') == null){
-        //         $('#society_building_no').text('Society building no. is in incorrect format.');
-        //     }else{
-        //         $('#society_building_no').text('');
-        //     }
-        // });
+        $('input[name=society_email]').keyup(function(){
+            var society_email = $('input[name=society_email]').val();
+            var url = "{{ route('society_offer_letter.store') }}";
+            if(society_email != null){
+                console.log(society_email);
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    url: '{{ route('society_offer_letter.store') }}',
+                    method: 'post',
+                    data: {
+                        society_email: society_email
+                    },
+                    success: function(res){
+                        if(res.society_email != undefined){
+                            $('#society_email').text(res.society_email[0]);
+                        }
+                    }
+                });
+            }
+        });
+        $('input[name=optional_society_email]').keyup(function(){
+            var optional_society_email = $('input[name=optional_society_email]').val();
+            var url = "{{ route('society_offer_letter.store') }}";
+            if(optional_society_email != null){
+                console.log(optional_society_email);
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    url: '{{ route('society_offer_letter.store') }}',
+                    method: 'post',
+                    data: {
+                        optional_society_email: optional_society_email
+                    },
+                    success: function(res){
+                        if(res.optional_society_email != undefined){
+                            $('#optional_society_email').text(res.optional_society_email[0]);
+                        }
+                    }
+                });
+            }
+        });
         // $('input[name=society_registration_no]').keyup(function(){
         //     var society_registration_no = $('input[name=society_registration_no]').val();
         //     if(society_registration_no.match(',|-|/') == null){
