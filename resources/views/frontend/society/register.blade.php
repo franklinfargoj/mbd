@@ -162,7 +162,6 @@
             var society_email = $('input[name=society_email]').val();
             var url = "{{ route('society_offer_letter.store') }}";
             if(society_email != null){
-                console.log(society_email);
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -186,7 +185,6 @@
             var optional_society_email = $('input[name=optional_society_email]').val();
             var url = "{{ route('society_offer_letter.store') }}";
             if(optional_society_email != null){
-                console.log(optional_society_email);
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
