@@ -176,6 +176,8 @@
                     success: function(res){
                         if(res.society_email != undefined){
                             $('#society_email').text(res.society_email[0]);
+                        }else{
+                            $('#society_email').text('');
                         }
                     }
                 });
@@ -199,6 +201,8 @@
                     success: function(res){
                         if(res.optional_society_email != undefined){
                             $('#optional_society_email').text(res.optional_society_email[0]);
+                        }else{
+                            $('#optional_society_email').text('');
                         }
                     }
                 });
