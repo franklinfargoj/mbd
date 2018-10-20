@@ -918,7 +918,7 @@ class SocietyOfferLetterController extends Controller
     public function uploadOfferLetterAfterSign(Request $request){
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $application_name = OlApplication::where('society_id', $society->id)->with('ol_application_master')->get();
-//         dd($application_name);
+        $society_remark = OlSocietyDocumentsComment::where('society_id', $society->id)->orderBy('id', 'desc')->first();
         if($request->file('offer_letter_application_form'))
         {
             $file = $request->file('offer_letter_application_form');
@@ -956,7 +956,7 @@ class SocietyOfferLetterController extends Controller
                         $insert_application_log_forwarded[$key]['status_id'] = config('commanConfig.applicationStatus.forwarded');
                         $insert_application_log_forwarded[$key]['to_user_id'] = $user->id;
                         $insert_application_log_forwarded[$key]['to_role_id'] = $user->role_id;
-                        $insert_application_log_forwarded[$key]['remark'] = '';
+                        $insert_application_log_forwarded[$key]['remark'] = isset($society_remark->society_documents_comment) ? $society_remark->society_documents_comment : '' ;
                         $insert_application_log_forwarded[$key]['created_at'] = date('Y-m-d H-i-s');
                         $insert_application_log_forwarded[$key]['updated_at'] = date('Y-m-d H-i-s');
 
@@ -967,7 +967,7 @@ class SocietyOfferLetterController extends Controller
                         $insert_application_log_in_process[$key]['status_id'] = config('commanConfig.applicationStatus.in_process');
                         $insert_application_log_in_process[$key]['to_user_id'] = 0;
                         $insert_application_log_in_process[$key]['to_role_id'] = 0;
-                        $insert_application_log_in_process[$key]['remark'] = '';
+                        $insert_application_log_in_process[$key]['remark'] = isset($society_remark->society_documents_comment) ? $society_remark->society_documents_comment : '' ;
                         $insert_application_log_in_process[$key]['created_at'] = date('Y-m-d H-i-s');
                         $insert_application_log_in_process[$key]['updated_at'] = date('Y-m-d H-i-s');
                         $i++;
