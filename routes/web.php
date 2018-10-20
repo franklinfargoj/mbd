@@ -556,3 +556,9 @@ Route::get('/scrutiny_remark_em', function () {
 Route::get('/sale_lease_agreement', function () {
     return view('admin.conveyance.dyco_department.sale_lease_agreement');
 });
+
+
+
+Route::prefix('appointing_architect')->group(function () {
+    Route::get('index', 'EmploymentOfArchitectController@index')->name('appointing_architect.index');
+});
