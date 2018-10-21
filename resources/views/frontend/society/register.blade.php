@@ -183,31 +183,31 @@
                 });
             }
         });
-        $('input[name=optional_society_email]').keyup(function(){
-            var optional_society_email = $('input[name=optional_society_email]').val();
-            var url = "{{ route('society_offer_letter.store') }}";
-            if(optional_society_email != null){
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-                $.ajax({
-                    url: '{{ route('society_offer_letter.store') }}',
-                    method: 'post',
-                    data: {
-                        optional_society_email: optional_society_email
-                    },
-                    success: function(res){
-                        if(res.optional_society_email != undefined){
-                            $('#optional_society_email').text(res.optional_society_email[0]);
-                        }else{
-                            $('#optional_society_email').text('');
-                        }
-                    }
-                });
-            }
-        });
+        {{--$('input[name=optional_society_email]').keyup(function(){--}}
+            {{--var optional_society_email = $('input[name=optional_society_email]').val();--}}
+            {{--var url = "{{ route('society_offer_letter.store') }}";--}}
+            {{--if(optional_society_email != null){--}}
+                {{--$.ajaxSetup({--}}
+                    {{--headers: {--}}
+                        {{--'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')--}}
+                    {{--}--}}
+                {{--});--}}
+                {{--$.ajax({--}}
+                    {{--url: '{{ route('society_offer_letter.store') }}',--}}
+                    {{--method: 'post',--}}
+                    {{--data: {--}}
+                        {{--optional_society_email: optional_society_email--}}
+                    {{--},--}}
+                    {{--success: function(res){--}}
+                        {{--if(res.optional_society_email != undefined){--}}
+                            {{--$('#optional_society_email').text(res.optional_society_email[0]);--}}
+                        {{--}else{--}}
+                            {{--$('#optional_society_email').text('');--}}
+                        {{--}--}}
+                    {{--}--}}
+                {{--});--}}
+            {{--}--}}
+        {{--});--}}
         // $('input[name=society_registration_no]').keyup(function(){
         //     var society_registration_no = $('input[name=society_registration_no]').val();
         //     if(society_registration_no.match(',|-|/') == null){
