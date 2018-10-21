@@ -6,6 +6,8 @@ use App\Role;
 use App\RoleUser;
 use App\Permission;
 use App\PermissionRole;
+use App\MasterLayout;
+use App\LayoutUser;
 
 class DYCEPermissionSeeder extends Seeder
 {
@@ -16,10 +18,58 @@ class DYCEPermissionSeeder extends Seeder
      */
     public function run()
     {
-        $dyce_manager = Role::where('name', '=', 'dyce_engineer')->select('id')->get();
+        $permissions = [
+            [
+                'name'         => 'dyce.index',
+                'display_name' => 'index',
+                'description'  => 'index'
+            ],
+            [
+                'name'         => 'dyce.store',
+                'display_name' => 'store dyce uploaded files',
+                'description'  => 'store dyce uploaded files'
+            ],
+            [
+                'name'         => 'dyce.scrutiny_remark',
+                'display_name' => 'scrutiny_remark',
+                'description'  => 'scrutiny_remark'
+            ],
+            [
+                'name'         => 'dyce.society_EE_documents',
+                'display_name' => 'society_EE_documents',
+                'description'  => 'society_EE_documents'
+            ],
+            [
+                'name'         => 'dyce.EE_Scrutiny_Remark',
+                'display_name' => 'EE_Scrutiny_Remark',
+                'description'  => 'EE_Scrutiny_Remark'
+            ],
+            [
+                'name'         => 'dyce.forward_application',
+                'display_name' => 'forward_application',
+                'description'  => 'forward_application'
+            ],
+            [
+                'name'         => 'dyce.forward_application_data',
+                'display_name' => 'forward_application_data',
+                'description'  => 'forward_application_data'
+            ],
+            [
+                'name'         => 'dyce.test',
+                'display_name' => 'dyce test',
+                'description'  => 'dyce test'
+            ],
+            [
+                'name'         => 'dyce.test',
+                'display_name' => 'dyce test',
+                'description'  => 'dyce test'
+            ],
+        ];
 
-        if (count($dyce_manager) == 0) {
-            // DYCE branch head
+        // DYCE branch head
+        $role_id = Role::where('name', '=', 'dyce_engineer')->value('id');
+
+        if ($role_id == NULL)
             $role_id = Role::insertGetId([
                 'name'         => 'dyce_engineer',
                 'redirect_to'  => '/dyce',
@@ -28,6 +78,37 @@ class DYCEPermissionSeeder extends Seeder
                 'description'  => 'Login as DYCE Engineer'
             ]);
 
+
+        // DYCE deputy Engineer
+        $dyce_deputy_role_id = Role::where('name', '=', 'dyce_deputy_engineer')->value('id');
+
+        if($dyce_deputy_role_id == NULL)
+            $dyce_deputy_role_id = Role::insertGetId([
+                'name'         => 'dyce_deputy_engineer',
+                'redirect_to'  => '/dyce',
+                'parent_id'    => $role_id,
+                'display_name' => 'DYCE_deputy_Engineer',
+                'description'  => 'Login as DYCE deputy Engineer'
+            ]);
+
+        // DYCE Junior Engineer
+        $dyce_Jr_role_id = Role::where('name', '=', 'dyce_junior_engineer')->value('id');
+
+        if($dyce_Jr_role_id == NULL)
+            $dyce_Jr_role_id = Role::insertGetId([
+                'name'         => 'dyce_junior_engineer',
+                'redirect_to'  => '/dyce',
+                'parent_id'    => $dyce_deputy_role_id,
+                'display_name' => 'DYCE_junior_Engineer',
+                'description'  => 'Login as DYCE junior Engineer'
+            ]);
+
+        // User and Role Mapping
+
+        // DYCE branch head
+        $user_id = User::where('email','bhavnasalunkhe@neosofttech.com')->value('id');
+
+        if($user_id == NULL){
             $user_id = User::insertGetId([
                 'name'     => 'Bhavana.Salunkhe',
                 'email'    => 'bhavnasalunkhe@neosofttech.com',
@@ -38,73 +119,17 @@ class DYCEPermissionSeeder extends Seeder
                 'address'   => 'Mumbai'
             ]);
 
-            $role_user = RoleUser::insert([
+            RoleUser::insert([
                 'user_id'    => $user_id,
                 'role_id'    => $role_id,
                 'start_date' => \Carbon\Carbon::now()
             ]);
+        }
 
-            $permissions = [
-                [
-                    'name'         => 'dyce.index',
-                    'display_name' => 'index',
-                    'description'  => 'index'
-                ],
-                [
-                    'name'         => 'dyce.store',
-                    'display_name' => 'store dyce uploaded files',
-                    'description'  => 'store dyce uploaded files'
-                ],
-                [
-                    'name'         => 'dyce.scrutiny_remark',
-                    'display_name' => 'scrutiny_remark',
-                    'description'  => 'scrutiny_remark'
-                ],
-                [
-                    'name'         => 'dyce.society_EE_documents',
-                    'display_name' => 'society_EE_documents',
-                    'description'  => 'society_EE_documents'
-                ],
-                [
-                    'name'         => 'dyce.EE_Scrutiny_Remark',
-                    'display_name' => 'EE_Scrutiny_Remark',
-                    'description'  => 'EE_Scrutiny_Remark'
-                ],
-                [
-                    'name'         => 'dyce.forward_application',
-                    'display_name' => 'forward_application',
-                    'description'  => 'forward_application'
-                ],
-                [
-                    'name'         => 'dyce.forward_application_data',
-                    'display_name' => 'forward_application_data',
-                    'description'  => 'forward_application_data'
-                ]
-            ];
+        // DYCE deputy Engineer
+        $dyce_deputy_user_id = User::where('email','dyce1@gmail.com')->value('id');
 
-            $permission_role = [];
-
-            foreach ($permissions as $per) {
-                $permission_id = Permission::insertGetId($per);
-
-                $permission_role[] = [
-                    'permission_id' => $permission_id,
-                    'role_id'       => $role_id,
-                ];
-            }
-
-            PermissionRole::insert($permission_role);
-
-            // DYCE deputy Engineer
-
-            $dyce_deputy_role_id = Role::insertGetId([
-                'name'         => 'dyce_deputy_engineer',
-                'redirect_to'  => '/dyce',
-                'parent_id'    => $role_id,
-                'display_name' => 'DYCE_deputy_Engineer',
-                'description'  => 'Login as DYCE deputy Engineer'
-            ]);
-
+        if($dyce_deputy_user_id == NULL){
             $dyce_deputy_user_id = User::insertGetId([
                 'name'     => 'dyce_deputy',
                 'email'    => 'dyce1@gmail.com',
@@ -115,34 +140,17 @@ class DYCEPermissionSeeder extends Seeder
                 'address'   => 'Mumbai'
             ]);
 
-            $role_user1 = RoleUser::insert([
+            RoleUser::insert([
                 'user_id'    => $dyce_deputy_user_id,
                 'role_id'    => $dyce_deputy_role_id,
                 'start_date' => \Carbon\Carbon::now()
             ]);
+        }
 
-            $permission_role1 = [];
+        // DYCE Junior Engineer
+        $dyce_Jr_user_id = User::where('email','dyce2@gmail.com')->value('id');
 
-            foreach ($permissions as $per1) {
-                $permission_id1 = Permission::insertGetId($per1);
-
-                $permission_role1[] = [
-                    'permission_id' => $permission_id1,
-                    'role_id'       => $dyce_deputy_role_id,
-                ];
-            }
-            PermissionRole::insert($permission_role1);
-
-            // DYCE Junior Engineer
-
-            $dyce_Jr_role_id = Role::insertGetId([
-                'name'         => 'dyce_junior_engineer',
-                'redirect_to'  => '/dyce',
-                'parent_id'    => $dyce_deputy_role_id,
-                'display_name' => 'DYCE_junior_Engineer',
-                'description'  => 'Login as DYCE junior Engineer'
-            ]);
-
+        if($dyce_Jr_user_id == NULL){
             $dyce_Jr_user_id = User::insertGetId([
                 'name'      => 'dyce_JR',
                 'email'     => 'dyce2@gmail.com',
@@ -153,30 +161,108 @@ class DYCEPermissionSeeder extends Seeder
                 'address'   => 'Mumbai'
             ]);
 
-            $role_user2 = RoleUser::insert([
+            RoleUser::insert([
                 'user_id'    => $dyce_Jr_user_id,
                 'role_id'    => $dyce_Jr_role_id,
                 'start_date' => \Carbon\Carbon::now()
             ]);
+        }
 
-            $permission_role2 = [];
+        // Permission
 
-            foreach ($permissions as $per2) {
-                $permission_id2 = Permission::insertGetId($per2);
+        foreach ($permissions as $permission) {
 
-                $permission_role2[] = [
-                    'permission_id' => $permission_id2,
-                    'role_id'       => $dyce_Jr_role_id,
-                ];
+            $per = Permission::where('name', $permission['name'])->first();
+            if ($per) {
+                $permission_id=$per->id;
+                //continue;
+            } else {
+                $permission_id = Permission::insertGetId($permission);
             }
-            PermissionRole::insert($permission_role2);
+
+
+            $dyce_role_permission = [[
+                'permission_id' => $permission_id,
+                'role_id' => $role_id,
+            ]];
+
+            if(PermissionRole::where(['permission_id' => $permission_id,'role_id' => $role_id])->first())
+            {
+
+            }else
+            {
+                PermissionRole::insert($dyce_role_permission);
+            }
+
+            $dyce_deputy_role_permission = [[
+                'permission_id' => $permission_id,
+                'role_id' => $dyce_deputy_role_id,
+            ]];
+            if(PermissionRole::where(['permission_id' => $permission_id,'role_id' => $dyce_deputy_role_id])->first())
+            {
+
+            }else
+            {
+                PermissionRole::insert($dyce_deputy_role_permission);
+            }
+
+            $dyce_jr_role_permission = [[
+                'permission_id' => $permission_id,
+                'role_id' => $dyce_Jr_role_id,
+            ]];
+
+            if(PermissionRole::where(['permission_id' => $permission_id,'role_id' => $dyce_Jr_role_id])->first())
+            {
+
+            }else
+            {
+                PermissionRole::insert($dyce_jr_role_permission);
+            }
+
+            // Layout Table entry
+            $master_layout=MasterLayout::where([
+                'layout_name' => 'Samata Nagar, Kandivali(E)',
+                'Board' => 'Mumbai',
+                'division' => 'Borivali',
+            ])->first();
+            if($master_layout)
+            {
+                $layout_id=$master_layout->id;
+            }else
+            {
+                $layout_id = MasterLayout::insertGetId([
+                    'layout_name' => 'Samata Nagar, Kandivali(E)',
+                    'Board' => 'Mumbai',
+                    'division' => 'Borivali',
+                ]);
+            }
+
 
             // Layout User Mapping
-            $layout_id = \App\MasterLayout::where("layout_name", '=', "Samata Nagar, Kandivali(E)")->first();
+            if(LayoutUser::where(['user_id' => $user_id, 'layout_id' => $layout_id])->first())
+            {
 
-            \App\LayoutUser::insert(['user_id' => $user_id, 'layout_id' => $layout_id->id]);
-            \App\LayoutUser::insert(['user_id' => $dyce_deputy_user_id, 'layout_id' => $layout_id->id]);
-            \App\LayoutUser::insert(['user_id' => $dyce_Jr_user_id, 'layout_id' => $layout_id->id]);
+            }else
+            {
+                LayoutUser::insert(['user_id' => $user_id, 'layout_id' => $layout_id]);
+            }
+
+            if(LayoutUser::where(['user_id' => $dyce_deputy_user_id, 'layout_id' => $layout_id])->first())
+            {
+
+            }else
+            {
+                LayoutUser::insert(['user_id' => $dyce_deputy_user_id, 'layout_id' => $layout_id]);
+            }
+
+            if(LayoutUser::where(['user_id' => $dyce_Jr_user_id, 'layout_id' => $layout_id])->first())
+            {
+
+            }else
+            {
+                LayoutUser::insert(['user_id' => $dyce_Jr_user_id, 'layout_id' => $layout_id]);
+            }
+
         }
     }
 }

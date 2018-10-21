@@ -27,19 +27,22 @@ $route=\Request::route()->getName();
             </a>
         </li>
         @php $status=getLastStatusIdArchitectLayout($ArchitectLayout->id); @endphp
-        @if($status->status_id!=config('commanConfig.architect_layout_status.forward'))
-         <li class="m-menu__item m-menu__item--submenu {{($route=='forward_architect_layout')?'m-menu__item--active':''}}">
+        @if($status!="")
+        @if($status->status_id!=config('commanConfig.architect_layout_status.forward') && ($status->status_id!=config('commanConfig.architect_layout_status.approved')))
+        <li class="m-menu__item m-menu__item--submenu {{($route=='forward_architect_layout')?'m-menu__item--active':''}}">
             <a class="m-menu__link" title="Society & EE Documents" href="{{route('forward_architect_layout',encrypt($ArchitectLayout->id))}}">
                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
                     <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
                         fill="#FFF" />
                 </svg>
-            <span class="m-menu__link-text">Forward Application</span>
+                <span class="m-menu__link-text">Forward Application</span>
             </a>
         </li>
         @endif
-        @if(session()->get('role_name')==config('commanConfig.land_manager') || session()->get('role_name')==config('commanConfig.estate_manager'))
-       <li class="m-menu__item m-menu__item--submenu {{($route=='architect_layout_get_scrtiny')?'m-menu__item--active':''}}">
+        @endif 
+        @if(session()->get('role_name')==config('commanConfig.land_manager') ||
+        session()->get('role_name')==config('commanConfig.estate_manager') || session()->get('role_name')==config('commanConfig.ee_junior_engineer') || session()->get('role_name')==config('commanConfig.ree_junior'))
+        <li class="m-menu__item m-menu__item--submenu {{($route=='architect_layout_get_scrtiny')?'m-menu__item--active':''}}">
             <a class="m-menu__link m-menu__toggle" title="Scrutiny & Remarks" href="{{route('architect_layout_get_scrtiny',encrypt($ArchitectLayout->id))}}">
                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
                     <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
@@ -48,7 +51,44 @@ $route=\Request::route()->getName();
                 <span class="m-menu__link-text">Scrutiny & Remarks</span>
             </a>
         </li>
+        @endif 
+        @if(session()->get('role_name')==config('commanConfig.junior_architect') || 
+        session()->get('role_name')==config('commanConfig.land_manager') ||
+        session()->get('role_name')==config('commanConfig.estate_manager') || 
+        session()->get('role_name')==config('commanConfig.ee_junior_engineer') || 
+        session()->get('role_name')==config('commanConfig.ree_junior') || 
+        session()->get('role_name')==config('commanConfig.ree_assistant_engineer') || 
+        session()->get('role_name')==config('commanConfig.ree_deputy_engineer') || 
+        session()->get('role_name')==config('commanConfig.ree_branch_head') || 
+        session()->get('role_name')==config('commanConfig.senior_architect') || 
+        session()->get('role_name')==config('commanConfig.architect') || 
+        session()->get('role_name')==config('commanConfig.co_engineer') ||
+        session()->get('role_name')==config('commanConfig.senior_architect_planner') ||
+        session()->get('role_name')==config('commanConfig.cap_engineer') ||
+        session()->get('role_name')==config('commanConfig.legal_advisor') ||
+        session()->get('role_name')==config('commanConfig.vp_engineer'))
+        <li class="m-menu__item m-menu__item--submenu {{($route=='architect_Layout_scrutiny_of_ee_em_lm_ree')?'m-menu__item--active':''}}">
+            <a class="m-menu__link m-menu__toggle" title="Scrutiny & Remarks" href="{{route('architect_Layout_scrutiny_of_ee_em_lm_ree',encrypt($ArchitectLayout->id))}}">
+                <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
+                    <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
+                        fill="#FFF" />
+                </svg>
+                <span class="m-menu__link-text">Scrutiny of EE EM LM REE </span>
+            </a>
+        </li>
+
+        <li class="m-menu__item m-menu__item--submenu {{($route=='architect_layout_prepare_layout_excel')?'m-menu__item--active':''}}">
+                <a class="m-menu__link m-menu__toggle" title="Scrutiny & Remarks" href="{{route('architect_layout_prepare_layout_excel',encrypt($ArchitectLayout->id))}}">
+                    <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
+                        <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
+                            fill="#FFF" />
+                    </svg>
+                    <span class="m-menu__link-text">Layout & Excel</span>
+                </a>
+            </li>
+        
         @endif
+
 
         {{-- <li class="m-menu__item m-menu__item--submenu {{($route=='cap.dyce_Scrutiny_Remark')?'m-menu__item--active':''}}">
             <a class="m-menu__link m-menu__toggle" title="DyCE Scrutiny & Remarks" href="{{route('cap.dyce_Scrutiny_Remark',$ol_application->id)}}">

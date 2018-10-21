@@ -166,7 +166,10 @@ class EEController extends Controller
 
         $arrData['dyce_role_name'] = strtoupper(str_replace('_', ' ', $dyce_role_id->name));
 
-        return view('admin.ee_department.forward-application', compact('arrData', 'society_role_id','ol_application'));
+        $eelogs = $this->comman->getLogsOfEEDepartment($application_id);
+        // dd($eelogs);
+
+        return view('admin.ee_department.forward-application', compact('arrData', 'society_role_id','ol_application','eelogs'));
     }
 
     public function forwardApplication(Request $request)

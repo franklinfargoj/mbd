@@ -11,7 +11,7 @@ class ConveyanceSalePriceCalculation extends Model
      *
      * @var string
      */
-    protected $table = '';
+    protected $table = 'conveyance_sale_price_calculation';
 
     /**
      * The database primary key value.

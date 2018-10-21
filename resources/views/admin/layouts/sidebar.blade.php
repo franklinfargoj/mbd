@@ -302,6 +302,7 @@ $route=\Request::route()->getName();
                                     </span>
                                 </a>
                             </li>
+
                             <li class="m-menu__item m-menu__item--submenu {{($route=='ree_applications.reval')?'m-menu__item--active':'' }}">
                                 <a href="{{ route('ree_applications.reval') }}" class="m-menu__link m-menu__toggle">
                                     <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
@@ -313,6 +314,21 @@ $route=\Request::route()->getName();
                                     </span>
                                 </a>
                             </li>
+                            @if(session()->get('permission') && (in_array('ee.index',
+                                        session()->get('permission'))))
+                                        
+                            <li class="m-menu__item m-menu__item--submenu {{($route=='ee.index')?'m-menu__item--active':''}}">
+                                <a href="{{ route('conveyance.index') }}" class="m-menu__link m-menu__toggle">
+                                    <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
+                                        <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
+                                              fill="#FFF" />
+                                    </svg>
+                                    <span class="m-menu__link-text">
+                                        Applications for Society Conveyance
+                                    </span>
+                                </a>
+                            </li>
+                            @endif
                             @if(Session::all()['role_name'] == 'society')
                             {{--@if(isset($ol_application_count))--}}
                             {{--@if($ol_application_count == 0)--}}
@@ -401,6 +417,19 @@ $route=\Request::route()->getName();
                     </span>
                 </a>
             </li>
+            @endif
+            @if(session()->get('permission') && (in_array('architect_layout.index', session()->get('permission')) ||
+            in_array('architect_layouts_layout_details.index',
+            session()->get('permission')) || in_array('architect_layout_details.view', session()->get('permission'))
+            ||
+            in_array('forward_architect_layout', session()->get('permission')) ||
+            in_array('architect_layout_get_scrtiny',
+            session()->get('permission')) || in_array('architect_layout_add_scrutiny_report', session()->get('permission')) ||
+            in_array('architect_layout_detail_view_cts_plan', session()->get('permission')) ||
+            in_array('architect_layout_detail_view_prc_detail', session()->get('permission')) ||
+            in_array('architect_detail_dp_crz_remark_view', session()->get('permission')) ||
+            in_array('view_court_case_or_dispute_on_land', session()->get('permission')) ||
+            in_array('architect_layout_add_scrutiny_report', session()->get('permission')) ))
             <li class="m-menu__item {{($route=='architect_layout.index')?'m-menu__item--active':''}}" aria-haspopup="true">
                 <a href="{{ route('architect_layout.index') }}" class="m-menu__link ">
                     <i class="m-menu__link-icon flaticon-line-graph"></i>
@@ -415,7 +444,7 @@ $route=\Request::route()->getName();
             </li>
             @endif
 
-            <!-- <li class="m-menu__item m-menu__item--active m-menu__item--submenu" id="sub-menu" aria-haspopup="true"
+             {{-- <li class="m-menu__item m-menu__item--active m-menu__item--submenu" id="sub-menu" aria-haspopup="true"
                 m-menu-submenu-toggle="hover">
                 <a href="javascript:void(0);" class="m-menu__link m-menu__toggle">
                     <i class="m-menu__link-icon flaticon-line-graph"></i>
@@ -433,7 +462,7 @@ $route=\Request::route()->getName();
                         @yield('actions')       
                     </ul>
                 </div>
-            </li> -->
+            </li>  --}}
 
             @yield('actions')
 

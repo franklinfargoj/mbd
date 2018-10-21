@@ -33,6 +33,11 @@ class ScAgreementComments extends Model
         'remark',
     ];
 
+    public function Roles()
+    {
+        return $this->hasOne('App\Role', 'id', 'role_id');
+    }    
+
     /**
      * Indicates if the model has update and creation timestamps.
      *

@@ -17,6 +17,10 @@ return [
     'cap_engineer' => 'cap_engineer',
     'vp_engineer' => 'vp_engineer',
     'ree_junior' => 'REE Junior Engineer',
+    'dycdo_engineer' => 'dycdo_engineer',
+    'dyco_engineer' => 'dyco_engineer',
+
+    'senior_architect_planner'=>'senior_architect_planner',
 
     //Branch Head
     'ee_branch_head' => 'ee_engineer',
@@ -34,6 +38,8 @@ return [
     'architect' => 'architect',
 
     'land_manager'=>'LM',
+
+    'legal_advisor'=>'la_engineer',
 
     'estate_manager'=>'EM',
 
@@ -71,7 +77,8 @@ return [
         'scrutiny_pending' => 2,
         'forward' => 3,
         'sent_for_revision' => 4,
-        'reverted' => 5
+        'reverted' => 5,
+        'approved'=> 6
     ],
     'architect_application_status' => [
         'none' => 0,
@@ -100,6 +107,18 @@ return [
     ],
 
     'rti_form_status' => 'Send RTI Officer',
+
+    'sc_excel_headers' => [
+        'Sr No', 'Tenament No', 'Tenament Name', 'Residential/Non-Residential'
+    ],
+
+    'optional_docs_premium' => [
+        '8', '13', '15', '19'
+    ],
+
+    'optional_docs_sharing' => [
+        '11', '13', '17'
+    ],
 
     'storage_server' => 'http://storage.mhada.php-dev.in',
 ];

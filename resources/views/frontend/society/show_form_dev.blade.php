@@ -68,7 +68,7 @@
                     <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="architect_name">Architect Name:</label>
-                            <input type="text" id="architect_name" name="architect_name" class="form-control form-control--custom m-input" value="{{ old('architect_name') }}">
+                            <input type="text" id="architect_name" name="architect_name" class="form-control form-control--custom m-input" value="{{ $society_details->name_of_architect }}">
                             <span class="help-block">{{$errors->first('architect_name')}}</span>
                         </div>
                         <div class="col-sm-4 offset-sm-1 form-group">
@@ -83,8 +83,8 @@
                             <div class="row">
                                 <div class="col-sm-4">
                                     <div class="btn-list">
-                                        <button type="submit"  class="btn btn-primary">Save</button>
                                         <a href="{{url('/hearing')}}" class="btn btn-secondary">Cancel</a>
+                                        <button type="submit"  class="btn btn-primary">Save</button>
                                     </div>
                                 </div>
                             </div>

@@ -20,22 +20,18 @@ class ArchitectLayoutEmScrtinyQuestionMasterSeeder extends Seeder
             ['language_id' => 1,
                 'title' => 'Excel sheet with details; category of tenants, carpet area mensioned in sale deed, no of bldgs., Total no of t/s '],
         ];
-        foreach($questions as $question)
-        {
-            $ArchitectLayoutEmScrtinyQuestionMaster =ArchitectLayoutEmScrtinyQuestionMaster::where(['title'=>$question['title']])->first();
-            if($ArchitectLayoutEmScrtinyQuestionMaster)
-            {
+        foreach ($questions as $question) {
+            $ArchitectLayoutEmScrtinyQuestionMaster = ArchitectLayoutEmScrtinyQuestionMaster::where(['title' => $question['title']])->first();
+            if ($ArchitectLayoutEmScrtinyQuestionMaster) {
 
-            }else
-            {
+            } else {
                 $ArchitectLayoutEmScrtinyQuestionMaster = new ArchitectLayoutEmScrtinyQuestionMaster;
-                $ArchitectLayoutEmScrtinyQuestionMaster->language_id=$question['language_id'];
-                $ArchitectLayoutEmScrtinyQuestionMaster->title=$question['title'];
+                $ArchitectLayoutEmScrtinyQuestionMaster->language_id = $question['language_id'];
+                $ArchitectLayoutEmScrtinyQuestionMaster->title = $question['title'];
                 $ArchitectLayoutEmScrtinyQuestionMaster->save();
             }
-            
+
         }
-        
-        
+
     }
 }

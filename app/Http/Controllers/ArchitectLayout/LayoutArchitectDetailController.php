@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\ArchitectLayout;
 
+use App\Http\Controllers\Common\CommonController;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ArchitectLayout\ArchitectLayoutDetailCrzDpRemark;
 use App\Layout\ArchitectLayout;
+use App\Layout\ArchitectLayoutCourtMatterDispute;
 use App\Layout\ArchitectLayoutDetail;
 use App\Layout\ArchitectLayoutDetailCtsPlanDetail;
 use App\Layout\ArchitectLayoutDetailEEReport;
@@ -12,59 +14,52 @@ use App\Layout\ArchitectLayoutDetailEmReport;
 use App\Layout\ArchitectLayoutDetailLandReport;
 use App\Layout\ArchitectLayoutDetailPrCardDetail;
 use App\Layout\ArchitectLayoutDetailREEReport;
-use App\Layout\ArchitectLayoutCourtMatterDispute;
+use App\Layout\ArchitectLayoutStatusLog;
 use Illuminate\Http\Request;
 use Storage;
 use Validator;
-use App\Layout\ArchitectLayoutStatusLog;
-use Carbon\Carbon;
-use App\Http\Controllers\Common\CommonController;
 
 class LayoutArchitectDetailController extends Controller
 {
     protected $common;
-    
+
     public function __construct(CommonController $CommonController)
     {
         $this->common = $CommonController;
     }
-    
+
     public function add_detail($layout_id)
     {
         $layout_id = decrypt($layout_id);
-        $forward_application = [
-            [
-                'architect_layout_id' => $layout_id,
-                'user_id' => auth()->user()->id,
-                'role_id' => session()->get('role_id'),
-                'status_id' => config('commanConfig.architect_layout_status.sent_for_revision'),
-                'to_user_id' => null,
-                'to_role_id' => null,
-                'remark' => null,
-                'changed_at' => Carbon::now(),
-            ],
-        ];
 
-        ArchitectLayoutStatusLog::insert($forward_application);
-        
-        if(count($this->common->check_layout_details_complete_status($layout_id))==0)
-        {
+        if (count($this->common->check_layout_details_complete_status($layout_id)) == 0) {
             $ArchitectLayoutDetail = new ArchitectLayoutDetail;
-            $ArchitectLayoutDetail->architect_layout_id=$layout_id;
+            $ArchitectLayoutDetail->architect_layout_id = $layout_id;
             $ArchitectLayoutDetail->save();
-        }else
-        {
-            $ArchitectLayoutDetail = ArchitectLayoutDetail::where(['id' => $layout_id])->orderBy('id','desc')->first();
+            $forward_application = [
+                [
+                    'architect_layout_id' => $layout_id,
+                    'user_id' => auth()->user()->id,
+                    'role_id' => session()->get('role_id'),
+                    'status_id' => config('commanConfig.architect_layout_status.sent_for_revision'),
+                    'to_user_id' => null,
+                    'to_role_id' => null,
+                    'remark' => null,
+                ],
+            ];
+            ArchitectLayoutStatusLog::insert($forward_application);
+        } else {
+            $ArchitectLayoutDetail = ArchitectLayoutDetail::where(['id' => $layout_id])->orderBy('id', 'desc')->first();
         }
-        return redirect(route('architect_layout_detail.edit',['layout_detail_id'=>encrypt($ArchitectLayoutDetail->id)]));
+        return redirect(route('architect_layout_detail.edit', ['layout_detail_id' => encrypt($ArchitectLayoutDetail->id)]));
     }
 
     public function edit_detail($layout_detail_id)
     {
         $layout_detail_id = decrypt($layout_detail_id);
         $ArchitectLayoutDetail = ArchitectLayoutDetail::with(['architect_layout', 'ee_reports', 'em_reports', 'ree_reports', 'land_reports'])->where(['id' => $layout_detail_id])->first();
-        $ArchitectLayout=ArchitectLayout::where(['id'=>$ArchitectLayoutDetail->architect_layout_id])->first();
-        return view('admin.architect_layout_detail.add', compact('ArchitectLayoutDetail','ArchitectLayout'));
+        $ArchitectLayout = ArchitectLayout::where(['id' => $ArchitectLayoutDetail->architect_layout_id])->first();
+        return view('admin.architect_layout_detail.add', compact('ArchitectLayoutDetail', 'ArchitectLayout'));
     }
 
     public function uploadLatestLayoutAjax(Request $request)
@@ -384,7 +379,7 @@ class LayoutArchitectDetailController extends Controller
         $layout_detail_id = decrypt($layout_detail_id);
         $ArchitectLayoutDetail = ArchitectLayoutDetail::with(['architect_layout', 'cts_plan_details', 'pr_card_details'])->where(['id' => $layout_detail_id])->first();
         return view('admin.architect_layout_detail.view_prc_detail', compact('ArchitectLayoutDetail'));
-    } 
+    }
 
     public function add_prc_detail($layout_detail_id)
     {

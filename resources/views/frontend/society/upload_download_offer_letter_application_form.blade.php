@@ -1,4 +1,7 @@
-@extends('admin.layouts.app')
+@extends('frontend.layouts.sidebarAction')
+@section('actions')
+    @include('frontend.society.actions',compact('ol_applications'))
+@endsection
 @section('content')
 <div class="panel" id="ee-note">
     <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
@@ -7,7 +10,7 @@
                 <div class="m-subheader" style="padding: 0;">
                     <div class="d-flex align-items-center justify-content-center">
                         <h4 class="section-title">
-                            Application for {{ $application_details[0]->ol_application_master->title }}
+                            Application for {{ $application_details->ol_application_master->title }}
                         </h4>
                     </div>
                 </div>
@@ -39,7 +42,7 @@
                                                 {{session('error_uploaded_file')}}
                                                 @endif
                                             </span>
-                                            <input type="hidden" name="id" value="{{ $application_details[0]->id }}">
+                                            <input type="hidden" name="id" value="{{ $application_details->id }}">
                                         </div>
                                         <div class="mt-auto">
                                             <button type="submit" class="btn btn-primary btn-custom"

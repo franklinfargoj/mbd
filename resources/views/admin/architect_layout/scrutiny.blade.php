@@ -75,8 +75,9 @@
                                 </div>
                                 <div class="remarks-suggestions scrutiny-checklist_and_remarks">
                                     <div id="wrapper">
-
+                                        @if(isset($post_route_name) && isset($upload_file_route_name))
                                         @include('admin.architect_layout.scrutiny.checklist_and_remark',compact('check_list_and_remarks','post_route_name','upload_file_route_name'))
+                                        @endif
                                         {{-- @if(session()->get('role_name')==config('commanConfig.land_manager'))
                                         @include('admin.architect_layout.scrutiny.lm_checklist_and_remark',compact('check_list_and_remarks',''))
                                         @endif

@@ -69,4 +69,8 @@ class EEBillingController extends Controller
     public function ViewBillDetailsSociety(){
         return view('admin.ee_billing.view-bill-details-society');
     }
+
+    public function GenerateReceipt(){
+        return view('admin.ee_billing.generate-receipt');
+    }
 }

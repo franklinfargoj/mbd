@@ -93,6 +93,96 @@ class EEUserSeeder extends Seeder
                 'display_name' => 'EE test 3',
                 'description' => 'EE test3'
             ],
+            [
+                'name' => 'architect_layout.index',
+                'display_name' => 'List layouts',
+                'description' => 'Listing of architect layouts',
+            ],
+            [
+                'name' => 'architect_layouts_layout_details.index',
+                'display_name' => 'architect_layouts_layout_details.index',
+                'description' => 'architect_layouts_layout_details.index',
+            ],
+            [
+                'name' => 'architect_layout_details.view',
+                'display_name' => 'architect_layout_details.view',
+                'description' => 'architect_layout_details.view',
+            ],
+            [
+                'name' => 'architect_layout_detail_view_cts_plan',
+                'display_name' => 'architect_layout_detail_view_cts_plan',
+                'description' => 'architect_layout_detail_view_cts_plan',
+            ],
+            [
+                'name' => 'architect_layout_detail_view_prc_detail',
+                'display_name' => 'architect_layout_detail_view_prc_detail',
+                'description' => 'architect_layout_detail_view_prc_detail',
+            ],
+            [
+                'name' => 'architect_detail_dp_crz_remark_view',
+                'display_name' => 'architect_detail_dp_crz_remark_view',
+                'description' => 'architect_detail_dp_crz_remark_view',
+            ],
+            [
+                'name' => 'view_court_case_or_dispute_on_land',
+                'display_name' => 'view_court_case_or_dispute_on_land',
+                'description' => 'view_court_case_or_dispute_on_land',
+            ],
+            [
+                'name' => 'forward_architect_layout',
+                'display_name' => 'forward_architect_layout',
+                'description' => 'forward_architect_layout',
+            ],
+            [
+                'name' => 'post_forward_architect_layout',
+                'display_name' => 'post_forward_architect_layout',
+                'description' => 'post_forward_architect_layout',
+            ],
+            [
+                'name' => 'architect_layout_get_scrtiny',
+                'display_name' => 'architect_layout_get_scrtiny',
+                'description' => 'architect_layout_get_scrtiny',
+            ],
+            [
+                'name' => 'architect_layout_add_scrutiny_report',
+                'display_name' => 'architect_layout_add_scrutiny_report',
+                'description' => 'architect_layout_add_scrutiny_report',
+            ],
+            [
+                'name' => 'architect_layout_post_scrutiny_report',
+                'display_name' => 'architect_layout_post_scrutiny_report',
+                'description' => 'architect_layout_post_scrutiny_report',
+            ],
+            [
+                'name'=>'upload_ee_checklist_and_remark_report',
+                'display_name'=>'upload_ee_checklist_and_remark_report',
+                'description'=>'upload_ee_checklist_and_remark_report'
+            ],
+            [
+                'name'=>'post_ee_checklist_and_remark_report',
+                'display_name'=>'post_ee_checklist_and_remark_report',
+                'description'=>'post_ee_checklist_and_remark_report'
+            ],            
+            [
+                'name'=>'conveyance.index',
+                'display_name'=>'conveyance',
+                'description'=>'conveyance'
+            ],           
+            [
+                'name'=>'conveyance.view_application',
+                'display_name'=>'view application',
+                'description'=>'view application'
+            ],            
+            [
+                'name'=>'ee.sale_price_calculation',
+                'display_name'=>'ee sale price calculation',
+                'description'=>'ee sale price calculation'
+            ],            
+            [
+                'name'=>'ee.save_calculation_data',
+                'display_name'=>'save calculation data',
+                'description'=>'save calculation data'
+            ]
         ];
 
         // Role
@@ -203,42 +293,103 @@ class EEUserSeeder extends Seeder
 
             $per = Permission::where('name', $permission['name'])->first();
             if ($per) {
-                continue;
+                $permission_id=$per->id;
+                //continue;
             } else {
-
                 $permission_id = Permission::insertGetId($permission);
+            }
 
-                $ee_permission_role[] = [
+                
+                $ee_permission_role = [[
                     'permission_id' => $permission_id,
                     'role_id' => $ee_role_id,
-                ];
+                ]];
 
-                $ee_dy_permission_role[] = [
+                if(PermissionRole::where(['permission_id' => $permission_id,'role_id' => $ee_role_id])->first())
+                {
+
+                }else
+                {
+                    PermissionRole::insert($ee_permission_role);
+                }
+
+                $ee_dy_permission_role = [[
                     'permission_id' => $permission_id,
                     'role_id' => $ee_dy_role_id,
-                ];
+                ]];
+                if(PermissionRole::where(['permission_id' => $permission_id,'role_id' => $ee_dy_role_id])->first())
+                {
 
-                $ee_jr_permission_role[] = [
+                }else
+                {
+                    PermissionRole::insert($ee_dy_permission_role);
+                }
+
+                $ee_jr_permission_role = [[
                     'permission_id' => $permission_id,
                     'role_id' => $ee_jr_role_id,
-                ];
+                ]];
+                
+                if(PermissionRole::where(['permission_id' => $permission_id,'role_id' => $ee_jr_role_id])->first())
+                {
 
-                PermissionRole::insert($ee_permission_role);
-                PermissionRole::insert($ee_dy_permission_role);
-                PermissionRole::insert($ee_jr_permission_role);
+                }else
+                {
+                    PermissionRole::insert($ee_jr_permission_role);
+                }
+
+                
+                
+                
+                
 
                 // Layout Table entry
-                $layout_id = MasterLayout::insertGetId([
+                $master_layout=MasterLayout::where([
                     'layout_name' => 'Samata Nagar, Kandivali(E)',
                     'Board' => 'Mumbai',
                     'division' => 'Borivali',
-                ]);
+                ])->first();
+                if($master_layout)
+                {
+                    $layout_id=$master_layout->id;
+                }else
+                {
+                    $layout_id = MasterLayout::insertGetId([
+                        'layout_name' => 'Samata Nagar, Kandivali(E)',
+                        'Board' => 'Mumbai',
+                        'division' => 'Borivali',
+                    ]);
+                }
+                
 
                 // Layout User Mapping
-                LayoutUser::insert(['user_id' => $ee_user_id, 'layout_id' => $layout_id]);
-                LayoutUser::insert(['user_id' => $ee_dy_user_id, 'layout_id' => $layout_id]);
-                LayoutUser::insert(['user_id' => $ee_jr_user_id, 'layout_id' => $layout_id]);
-            }
+                if(LayoutUser::where(['user_id' => $ee_user_id, 'layout_id' => $layout_id])->first())
+                {
+
+                }else
+                {
+                    LayoutUser::insert(['user_id' => $ee_user_id, 'layout_id' => $layout_id]);
+                }
+
+                if(LayoutUser::where(['user_id' => $ee_dy_user_id, 'layout_id' => $layout_id])->first())
+                {
+
+                }else
+                {
+                    LayoutUser::insert(['user_id' => $ee_dy_user_id, 'layout_id' => $layout_id]);
+                }
+
+                if(LayoutUser::where(['user_id' => $ee_jr_user_id, 'layout_id' => $layout_id])->first())
+                {
+
+                }else
+                {
+                    LayoutUser::insert(['user_id' => $ee_jr_user_id, 'layout_id' => $layout_id]);
+                }
+                
+                
+                
+            
         }
     }
 }

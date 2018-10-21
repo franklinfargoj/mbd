@@ -110,16 +110,23 @@
                                                 <label class="col-form-label col-lg-2 col-sm-12">
                                                     Forward To:
                                                 </label>
+                                                @php  
+                                                    $multiple="multiple";
+                                                    if(session()->get('role_name')==config('commanConfig.cap_engineer'))
+                                                    {
+                                                        $multiple="";
+                                                    }
+                                                @endphp
                                                 <div class="col-lg-4 col-md-9 col-sm-12">
                                                     <select required class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
-                                                        name="to_user_id[]" id="to_user_id" multiple>
+                                                        name="to_user_id[]" id="to_user_id" {{$multiple}}>
                                                         @if($arrData['parentData'])
                                                         @foreach($arrData['parentData'] as $parent)
                                                         <option value="{{ $parent->id }}" data-role="{{ $parent->role_id }}">{{
                                                             $parent->name }} ({{ $arrData['role_name'] }})</option>
                                                         @endforeach
                                                         @endif
-                                                        
+
                                                         @if(isset($arrData['get_forward_lm']))
                                                         @foreach($arrData['get_forward_lm'] as $parent)
                                                         <option value="{{ $parent->id}}" data-role="{{ $parent->role_id }}">{{
@@ -147,7 +154,42 @@
                                                             $parent->name }} ({{ $arrData['em_role_name'] }})</option>
                                                         @endforeach
                                                         @endif
-                                                        
+
+                                                        @if(isset($arrData['get_forward_co']))
+                                                        @foreach($arrData['get_forward_co'] as $parent)
+                                                        <option value="{{ $parent->id}}" data-role="{{ $parent->role_id }}">{{
+                                                            $parent->name }} ({{ $arrData['co_role_name'] }})</option>
+                                                        @endforeach
+                                                        @endif
+
+                                                        @if(isset($arrData['get_forward_sap']))
+                                                        @foreach($arrData['get_forward_sap'] as $parent)
+                                                        <option value="{{ $parent->id}}" data-role="{{ $parent->role_id }}">{{
+                                                            $parent->name }} ({{ $arrData['sap_role_name'] }})</option>
+                                                        @endforeach
+                                                        @endif
+
+                                                        @if(isset($arrData['get_forward_cap']))
+                                                        @foreach($arrData['get_forward_cap'] as $parent)
+                                                        <option value="{{ $parent->id}}" data-role="{{ $parent->role_id }}">{{
+                                                            $parent->name }} ({{ $arrData['cap_role_name'] }})</option>
+                                                        @endforeach
+                                                        @endif
+
+                                                        @if(isset($arrData['get_forward_vp']))
+                                                        @foreach($arrData['get_forward_vp'] as $parent)
+                                                        <option value="{{ $parent->id}}" data-role="{{ $parent->role_id }}">{{
+                                                            $parent->name }} ({{ $arrData['vp_role_name'] }})</option>
+                                                        @endforeach
+                                                        @endif
+
+                                                        @if(isset($arrData['get_forward_la']))
+                                                        @foreach($arrData['get_forward_la'] as $parent)
+                                                        <option value="{{ $parent->id}}" data-role="{{ $parent->role_id }}">{{
+                                                            $parent->name }} ({{ $arrData['la_role_name'] }})</option>
+                                                        @endforeach
+                                                        @endif
+
                                                     </select>
                                                 </div>
                                             </div>
@@ -159,10 +201,13 @@
                                                     cols="30" rows="5"></textarea>
                                             </div>
                                             <div class="mt-3 btn-list">
-                                                <button type="submit" class="btn btn-primary">Save</button>
-                                                {{--<button type="submit" id="sign" class="btn btn-primary forwrdBtn">Sign</button>
+                                                {{-- @if (session()->get('role_name') == config('commanConfig.vp_engineer'))
+                                                <button type="submit" id="sign" class="btn btn-primary forwrdBtn">Sign</button>
                                                 <button type="submit" class="btn btn-primary forwrdBtn">Sign & Forward</button>
-                                                <button type="submit" class="btn btn-primary forwrdBtn">Forward</button>--}}
+                                                <button type="submit" class="btn btn-primary forwrdBtn">Forward</button>
+                                                @else --}}
+                                                <button type="submit" class="btn btn-primary">Forward</button>
+                                                {{-- @endif --}}
                                                 <a type="button" href="{{ url()->previous() }}" class="btn btn-secondary">Cancel</a>
                                             </div>
                                         </div>

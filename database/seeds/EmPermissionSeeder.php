@@ -21,7 +21,7 @@ class EmPermissionSeeder extends Seeder
         if (!$em_manager) {
             $role_id = Role::insertGetId([
                 'name' => 'EM',
-                'redirect_to' => '/em',
+                'redirect_to' => '/conveyance',
                 'display_name' => 'estate_manager',
                 'description' => 'Login as Estae Manger',
             ]);
@@ -117,19 +117,33 @@ class EmPermissionSeeder extends Seeder
                 'description' => 'architect_layout_post_scrutiny_report',
             ],
             [
-                'name'=>'upload_em_checklist_and_remark_report',
-                'display_name'=>'upload_em_checklist_and_remark_report',
-                'description'=>'upload_em_checklist_and_remark_report'
+                'name' => 'upload_em_checklist_and_remark_report',
+                'display_name' => 'upload_em_checklist_and_remark_report',
+                'description' => 'upload_em_checklist_and_remark_report',
             ],
             [
-                'name'=>'post_em_checklist_and_remark_report',
-                'display_name'=>'post_em_checklist_and_remark_report',
-                'description'=>'post_em_checklist_and_remark_report'
-            ]
-            
+                'name' => 'post_em_checklist_and_remark_report',
+                'display_name' => 'post_em_checklist_and_remark_report',
+                'description' => 'post_em_checklist_and_remark_report',
+            ],
+            [
+                'name'         => 'conveyance.index',
+                'display_name' => 'conveyance',
+                'description'  => 'conveyance'
+            ],
+            [
+                'name'         => 'conveyance.view_application',
+                'display_name' => 'conveyance application',
+                'description'  => 'conveyance application'
+            ],              
+            [
+                'name'         => 'em.scrutiny_remark',
+                'display_name' => 'em scrutiny remark',
+                'description'  => 'em scrutiny remark'
+            ]                        
+
         ];
-        
-        
+
         $permission_role = [];
 
         foreach ($permissions as $lm_per) {
