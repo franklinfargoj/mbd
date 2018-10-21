@@ -9,6 +9,7 @@ use Auth;
 use App\Http\Controllers\Common\CommonController;
 use Config;
 use Maatwebsite\Excel\Facades\Excel;
+use File;
 
 use Illuminate\Http\Request;
 
@@ -133,7 +134,18 @@ class SocietyConveyanceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if($request->file('template')) {
+            $file = $request->file('template');
+            $file_name = time() . $file->getFileName() . '.' . $file->getClientOriginalExtension();
+            $extension = $request->file('template')->getClientOriginalExtension();
+            if ($extension == "xls") {
+                $time = time();
+                $name = File::name(str_replace(' ', '_',$request->file('template')->getClientOriginalName())) . '_' . $time . '.' . $extension;
+                $folder_name = "society_conveyance_documents";
+                $path = config('commanConfig.storage_server') . '/' . $folder_name . '/' . $name;
+                $fileUpload = $this->CommonController->ftpFileUpload($folder_name, $request->file('template'), $name);
+            }
+        }
     }
 
     /**
