@@ -76,18 +76,20 @@ class SocietyOfferLetterController extends Controller
      */
     public function store(Request $request, MessageBag $message_bag)
     {
-//         dd($request->input());
         $validated_fields = SocietyOfferLetter::validate($request);
+//        dd($validated_fields->errors());
         if($validated_fields->fails()){
             $errors = $validated_fields->errors();
+//            dd($errors->first('society_name'));
             $request->flash();
-            if($errors->first('society_name')!=null || $errors->first('optional_society_email') != null){
+//            if($errors->first('society_name')!=null || $errors->first('optional_society_email') != null){
                 return $errors;
-            }else{
-                return redirect()->route('society_offer_letter.create')->withErrors($errors)->withInput();
-            }
+//            }
+//            else{
+//                return redirect()->route('society_offer_letter.create')->withErrors($errors)->withInput();
+//            }
         }else{
-            // dd('clear');
+//             dd('clear');
             $role_id = Role::where('name', config('commanConfig.society_offer_letter'))->first();
             // dd(config('commanConfig.society_offer_letter'));
             $society_offer_letter_users = array(
