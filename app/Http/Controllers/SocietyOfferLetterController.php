@@ -256,7 +256,7 @@ class SocietyOfferLetterController extends Controller
             ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'application_no','name' => 'application_no','title' => 'Application No.'],
-            ['data' => 'application_master_id','name' => 'application_master_id','title' => 'Application Type'],
+            ['data' => 'application_master_id','name' => 'application_master_id','title' => 'Model'],
             ['data' => 'created_at','name' => 'created_date','title' => 'Submission Date', 'class' => 'datatable-date'],
             ['data' => 'status','name' => 'status','title' => 'Status'],
 //            ['data' => 'model','name' => 'model','title' => 'Model','searchable' => false,'orderable'=>false],
@@ -307,7 +307,7 @@ class SocietyOfferLetterController extends Controller
                     return $ol_applications->application_no;
                 })
                 ->editColumn('application_master_id', function ($ol_applications) {
-                    return $ol_applications->ol_application_master->title;
+                    return $ol_applications->ol_application_master->model;
                 })
                 ->editColumn('created_at', function ($ol_applications) {
                     return date(config('commanConfig.dateFormat'), strtotime($ol_applications->created_at));
@@ -381,7 +381,7 @@ class SocietyOfferLetterController extends Controller
     }
 
     public function save_offer_letter_application_self(Request $request){
-//        dd($request->input());
+        dd(time());
         $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $input = array(
             'society_id' => $society_details->id,
@@ -400,7 +400,7 @@ class SocietyOfferLetterController extends Controller
             'layout_id' => $request->input('layout_id'),
             'request_form_id' => $last_inserted_id->id,
             'application_master_id' => $request->input('application_master_id'),
-            'application_no' => rand().time(),
+            'application_no' => mt_rand(10,100).time(),
             'application_path' => 'test',
             'submitted_at' => date('Y-m-d'),
             'current_status_id' => '1',

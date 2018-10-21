@@ -3,7 +3,13 @@
     $route=\Request::route()->getName();
 $status = $ol_applications->olApplicationStatus[0]->status_id;
 @endphp
-<li class="m-menu__item" data-toggle="collapse" data-target="#ree-actions">
+<li class="m-menu__item">
+	<a class="m-menu__link m-menu__toggle" title="List of Applications" href="{{ route('society_offer_letter_dashboard') }}">
+		<i class="m-menu__link-icon flaticon-line-graph"></i>
+		<span class="m-menu__link-text">List of Applications</span>
+	</a>
+</li>
+<li class="m-menu__item" data-toggle="collapse" onload="action_dropmenu()" data-target="#ree-actions">
 	<a href="javascript:void(0);" class="m-menu__link m-menu__toggle">
 		<i class="m-menu__link-icon flaticon-line-graph"></i>
 		<span class="m-menu__link-title">
@@ -103,3 +109,15 @@ $status = $ol_applications->olApplicationStatus[0]->status_id;
 	    {{--target="_blank" rel="noopener"><span class="btn-icon btn-icon--delete"><img src="{{ asset('/img/download-icon.svg')}}"></span>Offer Letter Download</a>--}}
     {{--@endif--}}
 {{--</div>--}}
+@section('js')
+<script>
+	$(document).ready(function(){
+		$('#society_ol_sidebar').hide();
+        $('#conveyance').hide();
+        $('#renewal').hide();
+        $('#architect').hide();
+        $('#revalidation').hide();
+        $('#apply_sc').hide();
+    });
+</script>
+@endsection
