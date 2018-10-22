@@ -1309,6 +1309,10 @@ table.dataTable tbody tr:nth-child(even):focus {
 
 /* global classes starts here */
 
+.primary-color {
+    color: #f0791b !important;
+}
+
 .btn--add-delete {
     color: #a51f1f !important;
     cursor: pointer;
