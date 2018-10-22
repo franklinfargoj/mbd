@@ -36,6 +36,7 @@ use Config;
 use Storage;
 use App\Layout\ArchitectLayoutReeScrtinyQuestionDetail;
 use App\Layout\ArchitectLayoutReeScrtinyQuestionMaster;
+use DB;
 
 class CommonController extends Controller
 {
@@ -134,22 +135,27 @@ class CommonController extends Controller
 
     public function architect_layout_data($request)
     {
-        $ArchitectLayoutRevisionRequests = ArchitectLayout::with(['layout_details', 'ArchitectLayoutStatusLogInLiosting' => function ($q) {
+        $ArchitectLayoutRevisionRequests = ArchitectLayout::with(['layout_details', 'ArchitectLayoutStatusLogInListing' => function ($q) {
             $q->where('user_id', Auth::user()->id)
                 ->where('role_id', session()->get('role_id'))
                 ->orderBy('id', 'desc');
-        }])->whereHas('ArchitectLayoutStatusLogInLiosting', function ($q) {
-            $q->where('user_id', Auth::user()->id)
-                ->where('role_id', session()->get('role_id'))
-                ->where('status_id', "!=", config('commanConfig.architect_layout_status.new_application'))
-                ->orderBy('id', 'desc');
+        }])
+        // ->whereHas('ArchitectLayoutStatusLogInListing', function ($q) {
+        //     $q->where('user_id', Auth::user()->id)
+        //         ->where('role_id', session()->get('role_id'))
+        //         ->where('status_id', "!=", config('commanConfig.architect_layout_status.new_application'))
+        //         ->orderBy('id', 'desc');
+        // })
+        ->where(DB::raw(config('commanConfig.architect_layout_status.new_application')),'!=',function($q){
+            $q->from('architect_layout_status_logs')->select('status_id')->where('architect_layout_id','=',DB::raw('architect_layouts.id'))->limit(1)->orderBy('id','desc');
+        })->where(DB::raw(config('commanConfig.architect_layout_status.approved')),'!=',function($q){
+            $q->from('architect_layout_status_logs')->select('status_id')->where('architect_layout_id','=',DB::raw('architect_layouts.id'))->limit(1)->orderBy('id','desc');
         })->get();
-
-        $ArchitectLayoutLayoutdetails = ArchitectLayout::with(['layout_details', 'ArchitectLayoutStatusLogInLiosting' => function ($q) {
+        $ArchitectLayoutLayoutdetails = ArchitectLayout::with(['layout_details', 'ArchitectLayoutStatusLogInListing' => function ($q) {
             $q->where('user_id', Auth::user()->id)
                 ->where('role_id', session()->get('role_id'))
                 ->orderBy('id', 'desc');
-        }])->whereHas('ArchitectLayoutStatusLogInLiosting', function ($q) {
+        }])->whereHas('ArchitectLayoutStatusLogInListing', function ($q) {
             $q->where('user_id', Auth::user()->id)
                 ->where('role_id', session()->get('role_id'))
                 ->orderBy('id', 'desc');

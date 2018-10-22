@@ -44,7 +44,7 @@ class LayoutArchitectController extends Controller
             ['data' => 'address', 'name' => 'address', 'title' => 'Society Name'],
             ['data' => 'Status', 'name' => 'Status', 'title' => 'Status'],
         ];
-
+        $this->architect_layouts->architect_layout_data($request);
         if ($datatables->getRequest()->ajax()) {
 
             $architect_layout_data = $this->architect_layouts->architect_layout_data($request);
@@ -67,7 +67,7 @@ class LayoutArchitectController extends Controller
                     return $listArray->address;
                 })
                 ->editColumn('Status', function ($listArray) use ($request) {
-                    $status = $listArray->ArchitectLayoutStatusLogInLiosting[0]->status_id;
+                    $status = $listArray->ArchitectLayoutStatusLogInListing[0]->status_id;
                     $config_array = array_flip(config('commanConfig.architect_layout_status'));
                     return $value = ucwords(str_replace('_', ' ', $config_array[$status]));
 
@@ -122,7 +122,7 @@ class LayoutArchitectController extends Controller
                     return $listArray->address;
                 })
                 ->editColumn('Status', function ($listArray) use ($request) {
-                    $status = $listArray->ArchitectLayoutStatusLogInLiosting[0]->status_id;
+                    $status = $listArray->ArchitectLayoutStatusLogInListing[0]->status_id;
                     $config_array = array_flip(config('commanConfig.architect_layout_status'));
                     return $value = ucwords(str_replace('_', ' ', $config_array[$status]));
 
