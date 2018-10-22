@@ -214,7 +214,13 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     
     Route::post('update_soc_ward_colony', 'EMDepartment\EMController@update_soc_ward_colony')->name('update_soc_ward_colony');
 
+    Route::get('get_wards', 'EMDepartment\EMController@get_wards')->name('get_wards');
+
     Route::get('get_colonies', 'EMDepartment\EMController@get_colonies')->name('get_colonies');
+    Route::get('get_society_select', 'EMDepartment\EMController@get_society_select')->name('get_society_select');
+    Route::get('get_building_ajax', 'EMDepartment\EMController@get_building_ajax')->name('get_building_ajax');
+    Route::get('get_building_select', 'EMDepartment\EMController@get_building_select')->name('get_building_select');
+
 
     Route::get('add_building/{id}', 'EMDepartment\EMController@add_building')->name('add_building');
     Route::get('edit_building/{id}', 'EMDepartment\EMController@edit_building')->name('edit_building');
@@ -226,6 +232,9 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::post('create_tenant', 'EMDepartment\EMController@create_tenant')->name('create_tenant');
     Route::post('update_tenant', 'EMDepartment\EMController@update_tenant')->name('update_tenant');
     Route::get('delete_tenant/{id}', 'EMDepartment\EMController@delete_tenant')->name('delete_tenant');
+    Route::get('generate_soc_bill', 'EMDepartment\EMController@generate_soc_bill')->name('generate_soc_bill');
+    Route::get('generate_tenant_bill', 'EMDepartment\EMController@generate_tenant_bill')->name('generate_tenant_bill');
+
     
     //EM_Clerk Routes
     Route::resource('em_clerk', 'EMDepartment\EMClerkController');
@@ -233,7 +242,6 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('em_building_list', 'EMDepartment\EMClerkController@building_list')->name('em_building_list');
     Route::get('tenant_payment_list', 'EMDepartment\EMClerkController@tenant_payment_list')->name('tenant_payment_list');
     Route::get('tenant_arrear_calculation/{id}', 'EMDepartment\EMClerkController@tenant_arrear_calculation')->name('tenant_arrear_calculation');
-
 
 
     // RC Dewpartment Routes

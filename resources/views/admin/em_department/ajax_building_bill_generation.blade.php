@@ -16,8 +16,10 @@
                 <td>{{$value->name}}</td>
                 <td><?php echo isset($value->tenant_count[0]->count) ? $value->tenant_count[0]->count : '0'; ?></td>
                 <td>
-                    <a class="btn btn-info" href="{{route('get_tenants', [$value->id])}}">Tenant Detail</a>
-                    <a class="btn btn-info" href="{{route('edit_building', [$value->id])}}">Edit</a>
+                    <a class="btn btn-info" href="{{route('get_tenants', [$value->id])}}"> Generate Bill</a>
+                    <a class="btn btn-info" href="{{route('edit_building', [$value->id])}}">View Billing Details</a>
+                    <a class="btn btn-info" href="{{route('edit_building', [$value->id])}}">View Arrear Calculation</a>
+                    <a class="btn btn-info" href="{{route('edit_building', [$value->id])}}">Regenerate Bill</a>
                 </td>
             </tr>
         @endforeach
@@ -32,4 +34,4 @@
             </tr>
         </tfoot>
         </table>
-        {!! $buildings->render() !!}
+       
