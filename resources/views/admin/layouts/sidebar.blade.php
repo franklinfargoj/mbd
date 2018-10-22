@@ -572,22 +572,29 @@ $route=\Request::route()->getName();
 @section('js')
 
 <script>
-    var dropdown = Array.from(document.querySelectorAll(".m-menu__item"));
-    var subMenuLink = Array.from(document.querySelectorAll(".m-menu__item--submenu"));
-
-    subMenuLink.forEach(function (sublink) {
-        dropdown.forEach(function (dropdownLink) {
-            if (sublink.classList.contains("m-menu__item--active") && dropdownLink.hasAttribute("data-target")) {
-                var linkParent = sublink.parentElement.parentElement;
-                console.log("id", linkParent.getAttribute("id"));
-                if (dropdownLink.dataset.target.indexOf(linkParent.getAttribute("id")) >= 0) {
-                    dropdownLink.dataset.target = "";
-                    dropdownLink.children[0].style.cursor = "default";
-                }
-            }
-
-        })
+function end_lease_notifications(count){
+    console.log(count);
+    var end_lease_date_count = count;
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
     });
+    $.ajax({
+        url: '{{ route('society_detail.index') }}',
+        method: 'get',
+        data: {
+            end_lease_date_count: count
+        },
+        success: function(res){
+            if(res.society_email != undefined){
+                $('#society_email').text(res.society_email[0]);
+            }else{
+                $('#society_email').text('');
+            }
+        }
+    });
+}
 
 </script>
 

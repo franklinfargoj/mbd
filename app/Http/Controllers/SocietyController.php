@@ -12,6 +12,7 @@ use Yajra\DataTables\DataTables;
 use Config;
 use DB;
 use Excel;
+use Session;
 
 class SocietyController extends Controller
 {
@@ -99,7 +100,12 @@ class SocietyController extends Controller
     {
         $header_data = $this->header_data;
         $getData = $request->all();
-
+        if($request->end_lease_date_count != null){
+            Session::put('is_lease_notification_click', 1);
+        }else{
+            Session::forget('is_lease_notification_click');
+        }
+//        dd(Session::has('is_lease_notification_click'));
         $columns = [
             // ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
