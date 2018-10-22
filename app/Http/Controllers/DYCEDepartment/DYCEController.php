@@ -212,8 +212,9 @@ class DYCEController extends Controller
 
         //remark and history
         $eelogs = $this->CommonController->getLogsOfEEDepartment($applicationId);
+        $dyceLogs = $this->CommonController->getLogsOfDYCEDepartment($applicationId);
 
-        return view('admin.DYCE_department.forward_application',compact('applicationData', 'arrData','ol_application','eelogs'));
+        return view('admin.DYCE_department.forward_application',compact('applicationData', 'arrData','ol_application','eelogs','dyceLogs'));
     }
 
     // forward or revert forward Application

@@ -142,6 +142,7 @@ class EEController extends Controller
         $arrData['parentData'] = $parentData['parentData'];
         $arrData['role_name'] = $parentData['role_name'];
 //        $arrData['application_status'] = $this->comman->getCurrentApplicationStatus($application_id);
+        $arrData['get_current_status'] = $this->comman->getCurrentStatus($application_id);
 
 
         $society_role_id = Role::where('name', config('commanConfig.society_offer_letter'))->first();

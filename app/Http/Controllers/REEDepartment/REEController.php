@@ -185,8 +185,9 @@ class REEController extends Controller
         //remark and history
         $eelogs = $this->CommonController->getLogsOfEEDepartment($applicationId);
         $dyceLogs = $this->CommonController->getLogsOfDYCEDepartment($applicationId);
+        $reeLogs = $this->CommonController->getLogsOfREEDepartment($applicationId); 
 
-        return view('admin.REE_department.forward_application',compact('applicationData','arrData','ol_application','eelogs','dyceLogs'));  
+        return view('admin.REE_department.forward_application',compact('applicationData','arrData','ol_application','eelogs','dyceLogs','reeLogs'));  
     }             
 
     public function sendForwardApplication(Request $request){
