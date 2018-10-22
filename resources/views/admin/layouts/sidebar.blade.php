@@ -171,7 +171,7 @@ $route=\Request::route()->getName();
                     <span class="m-menu__link-title">
                         <span class="m-menu__link-wrap">
                             <span class="m-menu__link-text">
-                                Land
+                                Land Details
                             </span>
                             <i class="m-menu__ver-arrow la la-angle-right"></i>
                         </span>
@@ -193,47 +193,144 @@ $route=\Request::route()->getName();
                     </ul>
                 </div> -->
             </li>
+                    <li id="village-actions" class="collapse show">
+                        <ul class="list-unstyled">
+                            <li class="m-menu__item m-menu__item--submenu {{($route=='village_detail.index' || $route=='village_detail.edit'|| $route=='village_detail.show')?'m-menu__item--active':''}}">
+                                <a class="m-menu__link m-menu__toggle" href="{{url('/village_detail')}}" class="m-menu__link m-menu__toggle">
+                                    <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
+                                        <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
+                                              fill="#FFF" />
+                                    </svg>
+                                    <span class="m-menu__link-text">List of Lands</span></a>
+                            </li>
+                            <li class="m-menu__item m-menu__item--submenu {{($route=='village_detail.create' || $route=='society_detail.show' || $route=='society_detail.edit')?'m-menu__item--active':''}}">
+                                <a class="m-menu__link m-menu__toggle" href="{{route('village_detail.create')}}" class="m-menu__link m-menu__toggle">
+                                    <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
+                                        <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
+                                              fill="#FFF" />
+                                    </svg>
+                                    <span class="m-menu__link-text">Add Land</span></a>
+                            </li>
+                        </ul>
+                    </li>
+            <li class="m-menu__item" data-toggle="collapse" data-target="#society-actions">
+                <a href="{{url('/village_detail')}}" class="m-menu__link m-menu__toggle">
+                        <i class="m-menu__link-icon flaticon-line-graph"></i>
+                        <span class="m-menu__link-title">
+                            <span class="m-menu__link-wrap">
+                                <span class="m-menu__link-text">
+                                    Society Details
+                                </span>
+                                <i class="m-menu__ver-arrow la la-angle-right"></i>
+                            </span>
+                        </span>
+                </a>
+                <!-- <div class="m-menu__submenu" m-hidden-height="160" style=""><span class="m-menu__arrow"></span>
+                <ul class="m-menu__subnav">
 
-            <li id="village-actions" class="collapse show">
+                    <li class="m-menu__item m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover">
+                        <a href="{{url('/village_detail')}}" class="m-menu__link m-menu__toggle"><img class="radio-icon"
+                                src="{{ asset('/img/radio-icon.svg')}}"><span class="m-menu__link-text">Land Detail
+                                {{$route}}</span></i></a>
+                    </li>
+                    <li class="m-menu__item m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover">
+                        <a href="{{route('society_detail.index')}}" class="m-menu__link m-menu__toggle"><img class="radio-icon"
+                                src="{{ asset('/img/radio-icon.svg')}}"><span class="m-menu__link-text">Society
+                                Detail</span></i></a>
+                    </li>
+                </ul>
+            </div> -->
+            </li>
+                <li id="society-actions" class="collapse show">
+                    <ul class="list-unstyled">
+                        <li class="m-menu__item m-menu__item--submenu {{($route=='society_detail.index' || $route=='village_detail.edit'|| $route=='village_detail.show')?'m-menu__item--active':''}}">
+                            <a class="m-menu__link m-menu__toggle" href="{{url('/society_detail')}}" class="m-menu__link m-menu__toggle">
+                                <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
+                                    <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
+                                          fill="#FFF" />
+                                </svg>
+                                <span class="m-menu__link-text">List of Societies</span></a>
+                        </li>
+                        <li class="m-menu__item m-menu__item--submenu {{($route=='society_detail.create' || $route=='society_detail.show' || $route=='society_detail.edit')?'m-menu__item--active':''}}">
+                            <a class="m-menu__link m-menu__toggle" href="{{route('society_detail.create')}}" class="m-menu__link m-menu__toggle">
+                                <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
+                                    <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
+                                          fill="#FFF" />
+                                </svg>
+                                <span class="m-menu__link-text">Add Society</span></a>
+                        </li>
+                    </ul>
+                </li>
+                @if(\Illuminate\Support\Facades\Request::is('lease_detail/*'))
+                    <li class="m-menu__item" data-toggle="collapse" data-target="#lease-actions">
+                        <a href="{{url('/village_detail')}}" class="m-menu__link m-menu__toggle">
+                            <i class="m-menu__link-icon flaticon-line-graph"></i>
+                            <span class="m-menu__link-title">
+                            <span class="m-menu__link-wrap">
+                                <span class="m-menu__link-text">
+                                    Lease Details
+                                </span>
+                                <i class="m-menu__ver-arrow la la-angle-right"></i>
+                            </span>
+                        </span>
+                        </a>
+                        <!-- <div class="m-menu__submenu" m-hidden-height="160" style=""><span class="m-menu__arrow"></span>
+                                    <ul class="m-menu__subnav">
+
+                                        <li class="m-menu__item m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover">
+                                            <a href="{{url('/village_detail')}}" class="m-menu__link m-menu__toggle"><img class="radio-icon"
+                                                    src="{{ asset('/img/radio-icon.svg')}}"><span class="m-menu__link-text">Land Detail
+                                                    {{$route}}</span></i></a>
+                                        </li>
+                                        <li class="m-menu__item m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover">
+                                            <a href="{{route('society_detail.index')}}" class="m-menu__link m-menu__toggle"><img class="radio-icon"
+                                                    src="{{ asset('/img/radio-icon.svg')}}"><span class="m-menu__link-text">Society
+                                                    Detail</span></i></a>
+                                        </li>
+                                    </ul>
+                                </div> -->
+                        </li>
+                    @endif
+            <li id="lease-actions" class="collapse show">
                 <ul class="list-unstyled">
 
-                    <li class="m-menu__item m-menu__item--submenu {{($route=='village_detail.index' || $route=='village_detail.edit'|| $route=='village_detail.show')?'m-menu__item--active':''}}">
-                        <a class="m-menu__link m-menu__toggle" href="{{url('/village_detail')}}" class="m-menu__link m-menu__toggle">
-                            <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
-                                <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
-                                    fill="#FFF" />
-                            </svg>
-                            <span class="m-menu__link-text">Land Detail</span></i></a>
-                    </li>
-                    <li class="m-menu__item m-menu__item--submenu {{($route=='society_detail.index' || $route=='society_detail.show' || $route=='society_detail.edit')?'m-menu__item--active':''}}">
-                        <a class="m-menu__link m-menu__toggle" href="{{route('society_detail.index')}}" class="m-menu__link m-menu__toggle">
-                            <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
-                                <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
-                                    fill="#FFF" />
-                            </svg>
-                            <span class="m-menu__link-text">Society Detail</span></i></a>
-                    </li>
+                    {{--<li class="m-menu__item m-menu__item--submenu {{($route=='village_detail.index' || $route=='village_detail.edit'|| $route=='village_detail.show')?'m-menu__item--active':''}}">--}}
+                        {{--<a class="m-menu__link m-menu__toggle" href="{{url('/village_detail')}}" class="m-menu__link m-menu__toggle">--}}
+                            {{--<svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">--}}
+                                {{--<path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"--}}
+                                    {{--fill="#FFF" />--}}
+                            {{--</svg>--}}
+                            {{--<span class="m-menu__link-text">Land Detail</span></a>--}}
+                    {{--</li>--}}
+                    {{--<li class="m-menu__item m-menu__item--submenu {{($route=='society_detail.index' || $route=='society_detail.show' || $route=='society_detail.edit')?'m-menu__item--active':''}}">--}}
+                        {{--<a class="m-menu__link m-menu__toggle" href="{{route('society_detail.index')}}" class="m-menu__link m-menu__toggle">--}}
+                            {{--<svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">--}}
+                                {{--<path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"--}}
+                                    {{--fill="#FFF" />--}}
+                            {{--</svg>--}}
+                            {{--<span class="m-menu__link-text">Society Detail</span></a>--}}
+                    {{--</li>--}}
                     @if(\Illuminate\Support\Facades\Request::is('village_detail') ||
                     \Illuminate\Support\Facades\Request::is('village_detail/*'))
-                    <li class="m-menu__item m-menu__item--submenu {{$route=='village_detail.create'?'m-menu__item--active':''}}">
-                        <a class="m-menu__link m-menu__toggle" href="{{route('village_detail.create')}}" class="m-menu__link m-menu__toggle">
-                            <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
-                                <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
-                                    fill="#FFF" />
-                            </svg>
-                            <span class="m-menu__link-text">Add Land</span></i></a>
-                    </li>
+                    {{--<li class="m-menu__item m-menu__item--submenu {{$route=='village_detail.create'?'m-menu__item--active':''}}">--}}
+                        {{--<a class="m-menu__link m-menu__toggle" href="{{route('village_detail.create')}}" class="m-menu__link m-menu__toggle">--}}
+                            {{--<svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">--}}
+                                {{--<path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"--}}
+                                    {{--fill="#FFF" />--}}
+                            {{--</svg>--}}
+                            {{--<span class="m-menu__link-text">Add Land</span></a>--}}
+                    {{--</li>--}}
                     @endif
                     @if(\Illuminate\Support\Facades\Request::is('society_detail') ||
                     \Illuminate\Support\Facades\Request::is('society_detail/*'))
-                    <li class="m-menu__item m-menu__item--submenu {{$route=='society_detail.create'?'m-menu__item--active':''}}">
-                        <a class="m-menu__link m-menu__toggle" href="{{route('society_detail.create')}}" class="m-menu__link m-menu__toggle">
-                            <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
-                                <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
-                                    fill="#FFF" />
-                            </svg>
-                            <span class="m-menu__link-text">Add Society</span></i></a>
-                    </li>
+                    {{--<li class="m-menu__item m-menu__item--submenu {{$route=='society_detail.create'?'m-menu__item--active':''}}">--}}
+                        {{--<a class="m-menu__link m-menu__toggle" href="{{route('society_detail.create')}}" class="m-menu__link m-menu__toggle">--}}
+                            {{--<svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">--}}
+                                {{--<path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"--}}
+                                    {{--fill="#FFF" />--}}
+                            {{--</svg>--}}
+                            {{--<span class="m-menu__link-text">Add Society</span></i></a>--}}
+                    {{--</li>--}}
                     @endif
                     @if((\Illuminate\Support\Facades\Request::is('society_detail/*') ||
                     \Illuminate\Support\Facades\Request::is('lease_detail/*') ||
@@ -249,7 +346,7 @@ $route=\Request::route()->getName();
                                 <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
                                     fill="#FFF" />
                             </svg>
-                            <span class="m-menu__link-text">Lease Details</span></i></a>
+                            <span class="m-menu__link-text">List of Lease</span></a>
                     </li>
 
                     <li class="m-menu__item m-menu__item--submenu {{$route=='lease_detail.create'?'m-menu__item--active':''}}">
@@ -258,7 +355,7 @@ $route=\Request::route()->getName();
                                 <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
                                     fill="#FFF" />
                             </svg>
-                            <span class="m-menu__link-text">Add Lease</span></i></a>
+                            <span class="m-menu__link-text">Add/Renew Lease</span></a>
                     </li>
                     @else
                     @php $id = collect(request()->segments())->last(); @endphp
@@ -276,7 +373,7 @@ $route=\Request::route()->getName();
                                 <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
                                     fill="#FFF" />
                             </svg>
-                            <span class="m-menu__link-text">Renew Lease</span></i></a>
+                            <span class="m-menu__link-text">Renew Lease</span></a>
                     </li>
                     @endif
                     @endif

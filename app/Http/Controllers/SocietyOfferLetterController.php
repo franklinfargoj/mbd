@@ -381,7 +381,6 @@ class SocietyOfferLetterController extends Controller
     }
 
     public function save_offer_letter_application_self(Request $request){
-        dd(time());
         $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $input = array(
             'society_id' => $society_details->id,

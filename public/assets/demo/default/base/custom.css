@@ -3005,3 +3005,9 @@ label.site-visit-label {
 }
 
 /* Architect Application ends here */
+
+.remark {
+    font-weight: 500;
+    border-top: 1px solid #ccc;
+    padding-top: 15px;
+}

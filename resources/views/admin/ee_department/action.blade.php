@@ -46,8 +46,6 @@ $route=\Request::route()->getName();
                 <span class="m-menu__link-text">Scrutiny & Remarks</span>
             </a>
         </li>
-        @if($ol_application->status->status_id ==
-        config('commanConfig.applicationStatus.in_process'))
         <li class="m-menu__item m-menu__item--submenu {{($route=='get-forward-application')?'m-menu__item--active':''}}">
             <a class="m-menu__link m-menu__toggle" href="{{ route('get-forward-application', $ol_application->id) }}">
                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
@@ -57,7 +55,5 @@ $route=\Request::route()->getName();
                 <span class="m-menu__link-text">Forward Application</span>
             </a>
         </li>
-        @endif
-
     </ul>
 </li>

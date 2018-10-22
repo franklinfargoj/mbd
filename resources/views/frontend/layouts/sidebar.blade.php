@@ -589,18 +589,18 @@ $route=\Request::route()->getName();
 
                 @if(Session::has('application_count'))
                 @if(Session::get('application_count') == 0)
-                <li class="m-menu__item {{($route=='society_detail.application' )?'m-menu__item--active':''}}">
-                    <a href="{{route('society_detail.application')}}" class="m-menu__link m-menu__toggle">
-                        <i class="m-menu__link-icon flaticon-line-graph"></i>
-                        <span class="m-menu__link-title">
-                            <span class="m-menu__link-wrap">
-                                <span class="m-menu__link-text">
-                                    Apply for Offer Letter
-                                </span>
-                            </span>
-                        </span>
-                    </a>
-                </li>
+                {{--<li class="m-menu__item {{($route=='society_detail.application' )?'m-menu__item--active':''}}">--}}
+                    {{--<a href="{{route('society_detail.application')}}" class="m-menu__link m-menu__toggle">--}}
+                        {{--<i class="m-menu__link-icon flaticon-line-graph"></i>--}}
+                        {{--<span class="m-menu__link-title">--}}
+                            {{--<span class="m-menu__link-wrap">--}}
+                                {{--<span class="m-menu__link-text">--}}
+                                    {{--Apply for Offer Letter--}}
+                                {{--</span>--}}
+                            {{--</span>--}}
+                        {{--</span>--}}
+                    {{--</a>--}}
+                {{--</li>--}}
                 @endif
                 @endif
                 @endif
