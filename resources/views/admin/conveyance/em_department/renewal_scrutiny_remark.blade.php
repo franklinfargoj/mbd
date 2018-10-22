@@ -110,7 +110,59 @@ Co-op. Housing Society Ltd. Have paid all the dues in respect of above bldg./bld
                 </div>
             </div>
                 <div class="tab-pane" id="covering-letter" role="tabpanel">
-            </div>
+                    <div class="panel" id="ee-note">
+                        <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
+                            <div class="portlet-body">
+                                <div class="m-portlet__body m-portlet__body--table">
+                                    <div class="m-section__content mb-0 table-responsive">
+                                        <div class="container">
+                                            <div>
+                                                <span><h5>Covering Letter</h5></span>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="d-flex flex-column h-100 two-cols">
+                                                        <h5>Upload letter</h5>
+                                                        <span class="hint-text">Click on 'Upload' to upload covering letter.</span>
+                                                        <form action="{{ route('em.upload_covering_letter') }}" method="post" enctype="multipart/form-data">
+                                                            @csrf
+                                                            <div class="custom-file">
+                                                                <input class="custom-file-input" name="covering_letter" type="file"
+                                                                       id="test-upload" required="">
+                                                                <label class="custom-file-label" for="test-upload">Choose
+                                                                    file...</label>
+                                                                <span class="help-block">
+                                                @if(session('error_uploaded_file'))
+                                                                        {{session('error_uploaded_file')}}
+                                                                    @endif
+                                            </span>
+                                                                {{--<input type="hidden" name="id" value="{{ $application_details->id }}">--}}
+                                                            </div>
+                                                            <div class="mt-auto">
+                                                                <button type="submit" class="btn btn-primary btn-custom"
+                                                                        id="uploadBtn">Upload</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-6 border-left">
+                                                    <div class="d-flex flex-column h-100 two-cols">
+                                                        <h5>Download Note</h5>
+                                                        <span class="hint-text">Download covering letter in .doc format</span>
+                                                        <div class="mt-auto">
+                                                            <a title="Donwload Offer Letter Application" href="{{ route('society_offer_letter_application_download') }}" target="_blank" class="btn btn-primary" rel="noopener"><i class="icon-pencil"></i>Donwload Offer Letter Application</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
         </div>
     </div>
 @endsection

@@ -146,6 +146,12 @@ class EmPermissionSeeder extends Seeder
                 'display_name' => 'em save renewal no dues certificate',
                 'description'  => 'em save renewal no dues certificate'
             ],
+            [
+                'name'         => 'em.upload_covering_letter',
+                'display_name' => 'em upload covering letter',
+                'description'  => 'em upload covering letter'
+            ],
+
         ];
 
         $permission_role = [];

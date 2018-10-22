@@ -545,6 +545,8 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('renewal_scrutiny_remark_em/{id}', 'conveyance\EMDepartment\EMController@RenewalScrutinyReamrk')->name('em.scrutiny_remark');
     Route::post('save_renewal_letter', 'conveyance\EMDepartment\EMController@saveRenewalNoDuesCertificate')->name('em.save_renewal_no_dues_certificate');
 
+    Route::post('upload_covering_letter','conveyance\EMDepartment\EMController@uploadCoveringLetter')->name('em.upload_covering_letter');
+
 
 
     Route::post('save_calculation_data', 'conveyance\EEDepartment\EEController@SaveCalculationData')->name('ee.save_calculation_data');

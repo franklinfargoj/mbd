@@ -9,6 +9,7 @@ use App\Http\Controllers\Common\CommonController;
 use App\conveyance\scApplication;
 use App\conveyance\ScApplicationAgreements;
 use Illuminate\Support\Facades\Storage;
+use File;
 
 
 class EMController extends Controller
@@ -63,10 +64,37 @@ class EMController extends Controller
 
         Storage::disk('ftp')->put($filePath1, $content);
 
-//        OlApplication::where('id',$request->applicationId)->update(["drafted_offer_letter" => $filePath, "text_offer_letter" => $filePath1]);
+//        OlApplication::where('id',$request-> )->update(["drafted_offer_letter" => $filePath, "text_offer_letter" => $filePath1]);
 
 //        return redirect('generate_offer_letter/'.$request->applicationId);
     }
+
+    public function uploadCoveringLetter(Request $request){
+//        die('here');
+        if($request->file('covering_letter'))
+        {
+            $file = $request->file('covering_letter');
+            $file_name = time().$file->getFileName().'.'.$file->getClientOriginalExtension();
+            $extension = $request->file('covering_letter')->getClientOriginalExtension();
+            if ($extension == "pdf") {
+                $time = time();
+                $name = File::name($request->file('covering_letter')->getClientOriginalName()) . '_' . $time . '.' . $extension;
+                $folder_name = "covering_letter_documents";
+                $path = config('commanConfig.storage_server').'/'.$folder_name.'/'.$name;
+                $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$request->file('covering_letter'),$name);
+                $input = array(
+                    'application_path' => $path,
+                    'submitted_at' => date('Y-m-d H-i-s')
+                );
+                die('uploaded');
+            }else{
+                return redirect()->back()->with('error_uploaded_file', 'Invalid type of file uploaded (only pdf allowed)');
+            }
+        }
+        return redirect()->route('renewal_scrutiny_remark_em/1');
+    }
+
+
 
 
 }
