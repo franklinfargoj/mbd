@@ -2741,7 +2741,7 @@ label.site-visit-label {
     > .m-menu__item
     > .m-menu__heading
     .m-menu__link-icon,
-.m-aside-menu .m-menu__nav > .m-menu__item > .m-menu__link .m-menu__link-icon {
+.m-aside-menu .m-menu__nav .m-menu__item > .m-menu__link .m-menu__link-icon {
     width: 25px;
 }
 

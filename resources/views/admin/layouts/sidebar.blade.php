@@ -18,6 +18,60 @@ $route=\Request::route()->getName();
     <div id="m_ver_menu" class="m-aside-menu  m-aside-menu--skin-dark m-aside-menu--submenu-skin-dark " m-menu-vertical="1"
         m-menu-scrollable="1" m-menu-dropdown-timeout="500" style="position: relative;">
         <ul class="m-menu__nav  m-menu__nav--dropdown-submenu-arrow">
+
+        @if(session()->get('permission') && (in_array('architect_application', session()->get('permission')) ||
+            in_array('view_architect_application',
+            session()->get('permission')) || in_array('evaluate_architect_application', session()->get('permission'))
+            ||
+            in_array('shortlisted_architect_application', session()->get('permission')) ||
+            in_array('final_architect_application',
+            session()->get('permission')) || in_array('save_evaluate_marks', session()->get('permission')) ||
+            in_array('generate_certificate', session()->get('permission')) ||
+            in_array('forward_application', session()->get('permission')) ||
+            in_array('finalCertificateGenerate', session()->get('permission')) ||
+            in_array('tempCertificateGenerate', session()->get('permission')) ||
+            in_array('postfinalCertificateGenerate', session()->get('permission')) ||
+            in_array('architect.edit_certificate', session()->get('permission')) ||
+            in_array('architect.update_certificate', session()->get('permission'))||
+            in_array('architect.post_final_signed_certificate', session()->get('permission'))))
+            <li class="m-menu__item {{($route=='architect_application')?'m-menu__item--active':''}}" aria-haspopup="true">
+                <a href="{{ url(session()->get('redirect_to')) }}" class="m-menu__link ">
+                    <i class="m-menu__link-icon flaticon-line-graph"></i>
+                    <span class="m-menu__link-title">
+                        <span class="m-menu__link-wrap">
+                            <span class="m-menu__link-text">
+                                Architect Applications 
+                            </span>
+                        </span>
+                    </span>
+                </a>
+            </li>
+            @endif
+            @if(session()->get('permission') && (in_array('architect_layout.index', session()->get('permission')) ||
+            in_array('architect_layouts_layout_details.index',
+            session()->get('permission')) || in_array('architect_layout_details.view', session()->get('permission'))
+            ||
+            in_array('forward_architect_layout', session()->get('permission')) ||
+            in_array('architect_layout_get_scrtiny',
+            session()->get('permission')) || in_array('architect_layout_add_scrutiny_report', session()->get('permission')) ||
+            in_array('architect_layout_detail_view_cts_plan', session()->get('permission')) ||
+            in_array('architect_layout_detail_view_prc_detail', session()->get('permission')) ||
+            in_array('architect_detail_dp_crz_remark_view', session()->get('permission')) ||
+            in_array('view_court_case_or_dispute_on_land', session()->get('permission')) ||
+            in_array('architect_layout_add_scrutiny_report', session()->get('permission')) ))
+            <li class="m-menu__item {{($route=='architect_layout.index')?'m-menu__item--active':''}}" aria-haspopup="true">
+                <a href="{{ route('architect_layout.index') }}" class="m-menu__link ">
+                    <i class="m-menu__link-icon flaticon-line-graph"></i>
+                    <span class="m-menu__link-title">
+                        <span class="m-menu__link-wrap">
+                            <span class="m-menu__link-text">
+                                Architect Layouts
+                            </span>
+                        </span>
+                    </span>
+                </a>
+            </li>
+            @endif
         
             @if(session()->get('permission') != "" && in_array('resolution.index', session()->get('permission')))
             <li class="m-menu__item {{ ($route == 'resolution.index' ? 'm-menu__item--active' : '') }}" aria-haspopup="true">
@@ -358,6 +412,7 @@ $route=\Request::route()->getName();
                             {{--</li>--}}
                         </ul>
                     </li>
+                    
                     <li class="m-menu__item {{($route=='society_conveyance.create' )?'m-menu__item--active':''}}">
                         <a href="{{ route('society_conveyance.create') }}" class="m-menu__link m-menu__toggle">
                             <i class="m-menu__link-icon flaticon-line-graph"></i>
@@ -387,61 +442,6 @@ $route=\Request::route()->getName();
                         @endif
                     @endif
                 @endif
-            @endif
-
-
-            @if(session()->get('permission') && (in_array('architect_application', session()->get('permission')) ||
-            in_array('view_architect_application',
-            session()->get('permission')) || in_array('evaluate_architect_application', session()->get('permission'))
-            ||
-            in_array('shortlisted_architect_application', session()->get('permission')) ||
-            in_array('final_architect_application',
-            session()->get('permission')) || in_array('save_evaluate_marks', session()->get('permission')) ||
-            in_array('generate_certificate', session()->get('permission')) ||
-            in_array('forward_application', session()->get('permission')) ||
-            in_array('finalCertificateGenerate', session()->get('permission')) ||
-            in_array('tempCertificateGenerate', session()->get('permission')) ||
-            in_array('postfinalCertificateGenerate', session()->get('permission')) ||
-            in_array('architect.edit_certificate', session()->get('permission')) ||
-            in_array('architect.update_certificate', session()->get('permission'))||
-            in_array('architect.post_final_signed_certificate', session()->get('permission'))))
-            <li class="m-menu__item {{($route=='architect_application')?'m-menu__item--active':''}}" aria-haspopup="true">
-                <a href="{{ url(session()->get('redirect_to')) }}" class="m-menu__link ">
-                    <i class="m-menu__link-icon flaticon-line-graph"></i>
-                    <span class="m-menu__link-title">
-                        <span class="m-menu__link-wrap">
-                            <span class="m-menu__link-text">
-                                Architect Applications 
-                            </span>
-                        </span>
-                    </span>
-                </a>
-            </li>
-            @endif
-            @if(session()->get('permission') && (in_array('architect_layout.index', session()->get('permission')) ||
-            in_array('architect_layouts_layout_details.index',
-            session()->get('permission')) || in_array('architect_layout_details.view', session()->get('permission'))
-            ||
-            in_array('forward_architect_layout', session()->get('permission')) ||
-            in_array('architect_layout_get_scrtiny',
-            session()->get('permission')) || in_array('architect_layout_add_scrutiny_report', session()->get('permission')) ||
-            in_array('architect_layout_detail_view_cts_plan', session()->get('permission')) ||
-            in_array('architect_layout_detail_view_prc_detail', session()->get('permission')) ||
-            in_array('architect_detail_dp_crz_remark_view', session()->get('permission')) ||
-            in_array('view_court_case_or_dispute_on_land', session()->get('permission')) ||
-            in_array('architect_layout_add_scrutiny_report', session()->get('permission')) ))
-            <li class="m-menu__item {{($route=='architect_layout.index')?'m-menu__item--active':''}}" aria-haspopup="true">
-                <a href="{{ route('architect_layout.index') }}" class="m-menu__link ">
-                    <i class="m-menu__link-icon flaticon-line-graph"></i>
-                    <span class="m-menu__link-title">
-                        <span class="m-menu__link-wrap">
-                            <span class="m-menu__link-text">
-                                Architect Layouts
-                            </span>
-                        </span>
-                    </span>
-                </a>
-            </li>
             @endif
 
              {{-- <li class="m-menu__item m-menu__item--active m-menu__item--submenu" id="sub-menu" aria-haspopup="true"
