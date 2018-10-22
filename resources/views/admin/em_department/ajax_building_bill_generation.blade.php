@@ -19,14 +19,12 @@
                     <a class="btn btn-info" href="{{route('get_tenants', [$value->id])}}"> Generate Bill</a>
                    
                     {!! Form::open(['method' => 'Post', 'route' => 'arrears_calculations']) !!}
-                    @csrf
-                    {{ Form::hidden('id', $value->id) }}
+                    {{ Form::hidden('building_id', $value->id) }}
                     {{ Form::hidden('society_id', $value->society_id) }}
                     {!! Form::submit(trans('View Billing Details'), array('class' => 'btn btn-info')) !!}
                     {!! Form::close() !!}
                     
                     {!! Form::open(['method' => 'Post', 'route' => 'arrears_calculations']) !!}
-                    @csrf
                     {{ Form::hidden('id', $value->id) }}
                     {{ Form::hidden('society_id', $value->society_id) }}
                     {!! Form::submit(trans('View Arrear Calculation'), array('class' => 'btn btn-info')) !!}
