@@ -113,7 +113,7 @@
                 <div class="col-md-12" style="margin-top:10px;margin-bottom: 10px;">
                     <div class="row align-items-center mb-0">                            
                             <div class="col-md-12">
-                                <div class="form-group m-form__group building-list">
+                                <div class="form-group m-form__group tenant-list">
                                    
                                 </div>
                             </div>                          
@@ -214,16 +214,16 @@
 
     $(document).on('change', '#building', function(){
                 var id = $(this).val();
-                //console.log(id);
+                console.log(id);
                 //return false;
                 $.ajax({
-                    url:"{{URL::route('')}}",
+                    url:"{{URL::route('get_tenant_ajax')}}",
                     type: 'get',
                     data: {id: id},
                         success: function(response){
                         //console.log(response);
-                        $('.building_select').html(response);
-                        $('#building').selectpicker('refresh');
+                        $('.tenant-list').html(response);
+                        //$('#building').selectpicker('refresh');
                     }
                 });             
     });

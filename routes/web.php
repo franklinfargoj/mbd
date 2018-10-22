@@ -220,6 +220,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('get_society_select', 'EMDepartment\EMController@get_society_select')->name('get_society_select');
     Route::get('get_building_ajax', 'EMDepartment\EMController@get_building_ajax')->name('get_building_ajax');
     Route::get('get_building_select', 'EMDepartment\EMController@get_building_select')->name('get_building_select');
+    Route::get('get_tenant_ajax', 'EMDepartment\EMController@get_tenant_ajax')->name('get_tenant_ajax');
 
 
     Route::get('add_building/{id}', 'EMDepartment\EMController@add_building')->name('add_building');

@@ -24,14 +24,17 @@
                 <td>{{$value->last_name}}</td>
                 <td>{{$value->use}}</td>
                 <td>{{$value->carpet_area}}</td>
-                <td>                    
+                <td>
                     @foreach($tenament as $key2 => $value2)
                      {{ $value->tenant_type == $value2->id ? $value2->name : '' }} 
                     @endforeach 
                 </td>
                 <td>
-                    <a class="btn btn-info" href="{{route('edit_tenant', [$value->id])}}">Edit</a>
-                    <a class="btn btn-danger" onclick="return confirm('Are you sure?')" href="{{route('delete_tenant', [$value->id])}}">Delete</a>
+                    <a class="btn btn-info" href="{{route('edit_tenant', [$value->id])}}">View Bill</a>
+                    <a class="btn btn-info" href="{{route('edit_tenant', [$value->id])}}">Generate Bill</a>
+                    <a class="btn btn-info" href="{{route('edit_tenant', [$value->id])}}">Arrear Calculation</a>
+                    <a class="btn btn-info" href="{{route('edit_tenant', [$value->id])}}">Regenerate Bill</a>
+                    
                 </td>
             </tr>
         @endforeach
@@ -51,4 +54,4 @@
             </tr>
         </tfoot>
         </table>
-        {!! $buildings->render() !!}
+      
