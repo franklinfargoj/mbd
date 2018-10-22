@@ -197,7 +197,12 @@ class LmPermissionSeeder extends Seeder
                 'name'=>'post_lm_checklist_and_remark_report',
                 'display_name'=>'post_lm_checklist_and_remark_report',
                 'description'=>'post_lm_checklist_and_remark_report'
-            ]
+            ],
+            [
+                'name' => 'society_detail.show_end_date_lease',
+                'display_name' => 'Shows society data with 3 days before end date for lease',
+                'description' => 'Shows society data with 3 days before end date for lease'
+            ],
         ];
 
         $land_manager = Role::where('name', '=', 'LM')->select('id')->first();

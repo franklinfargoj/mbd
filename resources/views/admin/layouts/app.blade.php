@@ -74,7 +74,7 @@
                             <!-- END: Topbar -->
                             <div class="d-flex align-items-center justify-content-end">
                                 @if(Request::segment(1) == 'village_detail' || Request::segment(1) == 'society_detail' || Request::segment(1) == 'lease_detail')
-                                    <a href="#" class="m-portlet__nav-link m-dropdown__toggle primary-color mr-4" onclick="end_lease_notifications({{ session()->get('lease_end_date_count') }});">
+                                    <a href="{{ route('society_detail.show_end_date_lease') }}" class="m-portlet__nav-link m-dropdown__toggle primary-color mr-4">
                                         <i class="m-nav__link-icon fa fa-bell" style="padding-right: 3px"></i>
                                         <span>({{ session()->get('lease_end_date_count') }})</span>
                                         Notifications
