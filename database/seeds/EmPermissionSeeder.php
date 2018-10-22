@@ -140,8 +140,12 @@ class EmPermissionSeeder extends Seeder
                 'name'         => 'em.scrutiny_remark',
                 'display_name' => 'em scrutiny remark',
                 'description'  => 'em scrutiny remark'
-            ]                        
-
+            ],
+            [
+                'name'         => 'em.save_renewal_no_dues_certificate',
+                'display_name' => 'em save renewal no dues certificate',
+                'description'  => 'em save renewal no dues certificate'
+            ],
         ];
 
         $permission_role = [];
