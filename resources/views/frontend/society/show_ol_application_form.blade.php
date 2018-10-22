@@ -49,15 +49,9 @@
             </div>
         </div>
         <div class="m-login__form-action mt-4 mb-4">
-            @if($ol_application->request_form->created_at == $ol_application->request_form->updated_at)
-                <a href="{{ route('society_offer_letter_edit') }}" class="btn btn-primary">
-                    Back
-                </a>
-            @else
                 <a href="{{ route('society_offer_letter_dashboard') }}" class="btn btn-primary">
                     Back
                 </a>
-            @endif
                 <span style="float:right;margin-right: 20px">
                     <a href="{{ route('documents_upload') }}" class="btn btn-primary">
                         Next

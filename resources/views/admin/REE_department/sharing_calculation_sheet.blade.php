@@ -99,10 +99,20 @@
                                             <tr>
                                                 <td></td>
                                                 <td>
-                                                    1. टिट बिट भूखंडाचे क्षेत्र
+                                                    1. भाडेपट्टा करारनाम्यानुसार क्षेत्रफळ
                                                 </td>
                                                 <td class="text-center">
-                                                    <input type="text" class="total_area remaining_area infra_fee  form-control form-control--custom"
+                                                    <input type="text" class="total_area form-control form-control--custom"
+                                                           name="area_as_per_lease_agreement" id="area_as_per_lease_agreement" value="{{ isset($calculationSheetDetails[0]->area_as_per_lease_agreement) ? $calculationSheetDetails[0]->area_as_per_lease_agreement : 0 }}" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td>
+                                                    2. टिट बिट भूखंडाचे क्षेत्र
+                                                </td>
+                                                <td class="text-center">
+                                                    <input type="text" class="total_area form-control form-control--custom"
                                                         name="area_of_tit_bit_plot" id="area_of_tit_bit_plot" value="{{ isset($calculationSheetDetails[0]->area_of_tit_bit_plot) ? $calculationSheetDetails[0]->area_of_tit_bit_plot : 0 }}" />
                                                 </td>
                                             </tr>
@@ -112,12 +122,62 @@
                                                     Total भूखंडाचे क्षेत्रफळ
                                                 </td>
                                                 <td class="text-center">
-                                                    <input class="form-control form-control--custom" readonly type="text"
+                                                    <input class="min_val_for_calculation form-control form-control--custom" readonly type="text"
                                                         name="area_of_total_plot" id="area_of_total_plot" value="{{ isset($calculationSheetDetails[0]->area_of_total_plot) ? $calculationSheetDetails[0]->area_of_total_plot : 0 }}" />
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>2.</td>
+                                                <td>
+                                                    अभिन्यासानुसार भूखंडाचे क्षेत्रफळ
+                                                </td>
+                                                <td class="text-center">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td>
+                                                    1. भाडेपट्टा करारनाम्यानुसार क्षेत्रफळ
+                                                </td>
+                                                <td class="text-center">
+                                                    <input type="text" class="abhinyas_total_area  form-control form-control--custom"
+                                                           name="abhinyas_area_as_per_lease_agreement" id="abhinyas_area_as_per_lease_agreement" value="{{ isset($calculationSheetDetails[0]->abhinyas_area_as_per_lease_agreement) ? $calculationSheetDetails[0]->abhinyas_area_as_per_lease_agreement : 0 }}" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td>
+                                                    2. टिट बिट भूखंडाचे क्षेत्र
+                                                </td>
+                                                <td class="text-center">
+                                                    <input type="text" class="abhinyas_total_area form-control form-control--custom"
+                                                           name="abhinyas_area_of_tit_bit_plot" id="abhinyas_area_of_tit_bit_plot" value="{{ isset($calculationSheetDetails[0]->abhinyas_area_of_tit_bit_plot) ? $calculationSheetDetails[0]->abhinyas_area_of_tit_bit_plot : 0 }}" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td class="font-weight-bold">
+                                                    Total भूखंडाचे क्षेत्रफळ
+                                                </td>
+                                                <td class="text-center">
+                                                    <input class="min_val_for_calculation form-control form-control--custom" readonly type="text"
+                                                           name="abhinyas_area_of_total_plot" id="abhinyas_area_of_total_plot" value="{{ isset($calculationSheetDetails[0]->abhinyas_area_of_total_plot) ? $calculationSheetDetails[0]->abhinyas_area_of_total_plot : 0 }}" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.</td>
+                                                <td>
+                                                    परिगणनाकरिता ग्राह्य भूखंडाचे क्षेत्रफळ (किमान क्षेत्र)
+                                                </td>
+                                                <td class="text-center">
+                                                    <input readonly class=" form-control form-control--custom"
+                                                           type="text" name="area_of_​​subsistence_to_calculate" id="area_of_​​subsistence_to_calculate"
+                                                           value="{{ isset($calculationSheetDetails[0]->area_of_​​subsistence_to_calculate) ? $calculationSheetDetails[0]->area_of_​​subsistence_to_calculate : 0 }}" />
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>4.</td>
                                                 <td>
                                                     अनुज्ञेय चटई क्षेत्र निर्देशांक
                                                 </td>
@@ -129,7 +189,7 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>3.</td>
+                                                <td>5.</td>
                                                 <td>
                                                     अनुज्ञेय बांधकाम क्षेत्रफळ
                                                 </td>
@@ -141,7 +201,7 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>4.</td>
+                                                <td>6.</td>
                                                 <td>
                                                     म.न.पा .कडून ल. ओ. आय. पत्रानुसार अनुज्ञेय प्रोरेटा क्षेत्रफळ
                                                 </td>
@@ -177,14 +237,14 @@
                                                     Total
                                                 </td>
                                                 <td class="text-center">
-                                                    <input class="remianing_area form-control form-control--custom"
+                                                    <input class="remaining_area form-control form-control--custom"
                                                         readonly type="text" name="permissible_proratata_area" id="permissible_proratata_area"
                                                         value="{{ isset($calculationSheetDetails[0]->permissible_proratata_area) ? $calculationSheetDetails[0]->permissible_proratata_area : 0 }}" />
 
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>5.</td>
+                                                <td>7.</td>
                                                 <td>
                                                     अनुज्ञेय बांधकाम क्षेत्रफळ
                                                 </td>
@@ -196,19 +256,19 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>6.</td>
+                                                <td>8.</td>
                                                 <td>
                                                     अनुज्ञेय चटई क्षेत्रफळ प्रतिगाळा
                                                 </td>
                                                 <td class="text-center">
-                                                    <input class="remianing_area form-control form-control--custom"
+                                                    <input class="remaining_area form-control form-control--custom"
                                                         type="text" name="permissible_mattress_area" id="permissible_mattress_area"
                                                         value="{{ isset($calculationSheetDetails[0]->permissible_mattress_area) ? $calculationSheetDetails[0]->permissible_mattress_area : 0 }}" />
 
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>7.</td>
+                                                <td>9.</td>
                                                 <td>
                                                     सुधारित वि नि नि ३३(५) प्रमाणे अनुज्ञेय चटई क्षेत्रफळ वर ३५%
                                                     प्रतिगाळा
@@ -221,7 +281,7 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>8.</td>
+                                                <td>10.</td>
                                                 <td>
                                                     सुधारित वि नि नि ३३(५) दि ३.७.२०१७ रोजीच्या फ्रबदलाच्या अधिसूचने
                                                     नुसार निवासी वापर करिता वाढीव क्षेत्रफळ ३५% मिळून किमान ३५ चौमी
@@ -229,14 +289,14 @@
                                                     गृहीत धरण्यात येत आहे
                                                 </td>
                                                 <td class="text-center">
-                                                    <input class="remianing_area form-control form-control--custom"
+                                                    <input class="remaining_area form-control form-control--custom"
                                                         type="text" name="revised_increased_area_for_residential_use"
                                                         id="revised_increased_area_for_residential_use" value="{{ isset($calculationSheetDetails[0]->revised_increased_area_for_residential_use) ? $calculationSheetDetails[0]->revised_increased_area_for_residential_use : 0 }}" />
 
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>9.</td>
+                                                <td>11.</td>
                                                 <td>
                                                     एकूण पुनर्वसन चटई क्षेत्रफळ
                                                 </td>
@@ -248,7 +308,7 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>10.</td>
+                                                <td>12.</td>
                                                 <td>
                                                     सादर प्रकरणामध्ये भूखंड हा ४००० चौ मी पेक्षा कमी असल्याने DCR टेबल
                                                     अ नुसार अतिरिक्त हक्क
@@ -283,7 +343,7 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>11.</td>
+                                                <td>13.</td>
                                                 <td>
                                                     एकूण पुनर्वसन चटई क्षेत्र फळ
 
@@ -297,7 +357,7 @@
                                             </tr>
 
                                             <tr>
-                                                <td>12.</td>
+                                                <td>14.</td>
                                                 <td>
                                                     एकूण पुनर्वसन बांधकाम क्षेत्रफळ
                                                 </td>
@@ -1133,6 +1193,7 @@
 <script>
     $(document).ready(function () {
 
+
         // **Start** Save tabs location on window refresh or submit
 
         // Set first tab to active if user visits page for the first time
@@ -1174,6 +1235,14 @@
         });
 
         // // **End** Save tabs location on window refresh or submit
+
+     /*   $('input.form-control').each(function (key,elem) {
+           var value= $(elem).val();
+            value = value.replace(/,/g,'');
+            $(this).attr('value', numberWithCommas(value));
+        })
+*/
+
 
 
         $('input').on('keypress', function (event) {
@@ -1243,21 +1312,46 @@
             }
 
 
+            // ============================== format no with comma
+            /*
+            // skip for arrow keys
+            if(event.which >= 37 && event.which <= 40) return;
+
+            // format number
+            $(this).val(function(index, value) {
+                //return value
+                  //  .replace(/\D/g, "")
+                  //  .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+         //           ;
+
+                value = value.replace(/,/g,'');
+                return numberWithCommas(value);
+*/
+            });
+
 
         });
+        function numberWithCommas(x) {
+            var parts = x.toString().split(".");
+            parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            return parts.join(".");
+        }
 
         $("#total_permissible_construction_area").attr('value', parseFloat($("#permissible_construction_area").val()) +
             parseFloat($("#permissible_proratata_area").val()));
 
-        $("#remaining_area").attr('value', parseFloat($("#total_permissible_construction_area").val()) -
-            parseFloat($(
-                "#total_rehabilitation_construction_area").val()) - parseFloat($(
-                "#mattress_area_for_construction_area").val()));
+        $("#remaining_area").attr('value', parseFloat($("#total_permissible_construction_area").val()) - parseFloat($("#total_rehabilitation_construction_area").val()) - parseFloat($("#mattress_area_for_construction_area").val()));
 
         var lr_cal = parseFloat(0.07 * $("#lr_val").val());
-        var substract = parseFloat($("#permissible_proratata_area").val()) - parseFloat($(
+        var substract = parseFloat($("#total_permissible_construction_area").val()) - parseFloat($(
             "#existing_construction_area").val());
-        $("#off_site_infrastructure_fee").attr('value', (substract * lr_cal).toFixed(2));
+        var off_site_infra_fee = Math.ceil(substract * lr_cal);
+        $("#off_site_infrastructure_fee").attr('value',off_site_infra_fee );
+
+        $("#amount_to_be_paid_to_municipal").attr('value', Math.ceil(5 / 7 * off_site_infra_fee));
+        $("#offsite_infrastructure_charge_to_mhada").attr('value', Math.ceil(2 / 7 * off_site_infra_fee ));
+        $("#amount_to_b_paid_to_municipal_corporation").attr('value', Math.ceil(5 / 7 * off_site_infra_fee));
+
 
         $("#layout_approval_fee").attr('value', 1000 * $("#total_house").val());
 
@@ -1266,7 +1360,7 @@
         $(".total_amount_in_rs").each(function () {
             total_amount_in_rs += +$(this).val();
         });
-        $("#total_amount_in_rs").attr('value', total_amount_in_rs);
+        $("#total_amount_in_rs").attr('value', Math.ceil(total_amount_in_rs));
 
 
 
@@ -1283,11 +1377,41 @@
             sum += +$(this).val();
         });
         $("#area_of_total_plot").attr('value', sum);
+
+        var sorted = $(".min_val_for_calculation").sort(
+
+            function(a, b) {
+                return a.value - b.value
+            });
+        var lowest = sorted[0].value;
+
+        $("#area_of_​​subsistence_to_calculate").attr('value',lowest);
+
     });
 
-    $(document).on("keyup", ".total_area , #permissible_carpet_area_coordinates", function () {
+    $(document).on("keyup", ".abhinyas_total_area", function () {
+        var sum = 0;
+        $(".abhinyas_total_area").each(function () {
+            sum += +$(this).val();
+        });
+        $("#abhinyas_area_of_total_plot").attr('value', sum);
 
-        $("#permissible_construction_area").attr('value', $("#area_of_total_plot").val() * $(
+        var sorted = $(".min_val_for_calculation").sort(
+
+            function(a, b) {
+                return a.value - b.value
+            });
+        var lowest = sorted[0].value;
+
+        $("#area_of_​​subsistence_to_calculate").attr('value',lowest);
+
+    });
+
+
+
+    $(document).on("keyup", ".total_area , .abhinyas_total_area , #permissible_carpet_area_coordinates", function () {
+
+        $("#permissible_construction_area").attr('value', $("#area_of_​​subsistence_to_calculate").val() * $(
             "#permissible_carpet_area_coordinates").val());
 
         $("#total_permissible_construction_area").attr('value', parseFloat($("#permissible_construction_area").val()) +
@@ -1373,18 +1497,23 @@
 
     $(document).on("keyup", ".infra_fee", function () {
         var lr_cal = parseFloat(0.07 * $("#lr_val").val());
-        var substract = parseFloat($("#permissible_proratata_area").val()) - parseFloat($(
+        var substract = parseFloat($("#total_permissible_construction_area").val()) - parseFloat($(
             "#existing_construction_area").val());
-        $("#off_site_infrastructure_fee").attr('value', (substract * lr_cal).toFixed(2));
+        var off_site_infra_fee = Math.ceil(substract * lr_cal);
+        $("#off_site_infrastructure_fee").attr('value', off_site_infra_fee);
+
+        $("#amount_to_be_paid_to_municipal").attr('value', Math.ceil(5 / 7 * off_site_infra_fee));
+        $("#offsite_infrastructure_charge_to_mhada").attr('value', Math.ceil(2 / 7 * off_site_infra_fee ));
+        $("#amount_to_b_paid_to_municipal_corporation").attr('value', Math.ceil(5 / 7 * off_site_infra_fee));
 
     });
 
 
-    $(document).on("keyup", "#existing_construction_area", function () {
-        $("#amount_to_be_paid_to_municipal").attr('value', (5 / 7 * $(this).val()).toFixed(2));
-        $("#offsite_infrastructure_charge_to_mhada").attr('value', (2 / 7 * $(this).val()).toFixed(2));
-        $("#amount_to_b_paid_to_municipal_corporation").attr('value', (5 / 7 * $(this).val()).toFixed(2));
-    });
+  /*  $(document).on("keyup", "#existing_construction_area", function () {
+        $("#amount_to_be_paid_to_municipal").attr('value', Math.ceil(5 / 7 * $(this).val()));
+        $("#offsite_infrastructure_charge_to_mhada").attr('value', Math.ceil(2 / 7 * $(this).val()));
+        $("#amount_to_b_paid_to_municipal_corporation").attr('value', Math.ceil(5 / 7 * $(this).val()));
+    }); */
 
 
     $(document).on("keyup", "#total_house", function () {
@@ -1399,7 +1528,7 @@
         $(".total_amount_in_rs").each(function () {
             total_amount_in_rs += +$(this).val();
         });
-        $("#total_amount_in_rs").attr('value', total_amount_in_rs);
+        $("#total_amount_in_rs").attr('value', Math.ceil(total_amount_in_rs));
     });
 
     $(document).on("change", "input[type=radio][name=dcr_a_val]", function () {

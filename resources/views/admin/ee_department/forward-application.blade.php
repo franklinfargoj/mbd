@@ -14,16 +14,18 @@
         </div>
         <div class="">
             <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom">
-                {{--<li class="nav-item m-tabs__item" data-target="#document-scrunity">
+                <li class="nav-item m-tabs__item" data-target="#document-scrunity">
                     <a class="nav-link m-tabs__link active show" data-toggle="tab" href="#scrutiny-history-tab">
                         <i class="la la-cog"></i> Scrutiny History
                     </a>
-                </li>--}}
+                </li>
+                @if($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.in_process'))
                 <li class="nav-item m-tabs__item">
-                    <a class="nav-link m-tabs__link active show" data-toggle="tab" href="#forward-application-tab">
+                    <a class="nav-link m-tabs__link show" data-toggle="tab" href="#forward-application-tab">
                         <i class="la la-cog"></i> Forward Application
                     </a>
                 </li>
+                @endif
             </ul>
             <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
                 <div class="portlet-body">
@@ -113,7 +115,7 @@
             </div>
             <div class="tab-content">
 
-                {{--<div class="tab-pane active show" id="scrutiny-history-tab">
+                <div class="tab-pane active show" id="scrutiny-history-tab">
                     <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
                         <div class="portlet-body">
                             <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
@@ -121,23 +123,28 @@
                                     <h3 class="section-title section-title--small mb-2">
                                         Remark History:
                                     </h3>
-                                    <span class="hint-text d-block">Remark by EE</span>
+                                    <!-- <span class="hint-text d-block">Remark by EE</span> -->
                                 </div>
                                 <div class="remarks-section">
                                     <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container"
                                         data-scrollbar-shown="true" data-scrollable="true" data-max-height="200">
+                                        @foreach($eelogs as $log)
+
+                                        @if($log->status_id == config('commanConfig.applicationStatus.forwarded'))
+                                            @php $status = 'Forwarded'; @endphp
+                                        @elseif($log->status_id == config('commanConfig.applicationStatus.reverted'))
+                                            @php $status = 'Reverted'; @endphp
+                                        @endif    
                                         <div class="remarks-section__data">
-                                            <p class="remarks-section__data__row"><span>Date:</span><span>12/09/2018</span></p>
-                                            <p class="remarks-section__data__row"><span>Time:</span><span>11:09
-                                                    am</span></p>
-                                            <p class="remarks-section__data__row"><span>Action:</span><span>Sent
-                                                    to Society</span></p>
-                                            <p class="remarks-section__data__row"><span>Description:</span><span>Lorem
-                                                    ipsum dolor sit amet consectetur adipisicing elit.
-                                                    Error, tempore facere! Ipsa nisi repudiandae
-                                                    architecto!</span></p>
+                                            <p class="remarks-section__data__row"><span>Date:</span><span>{{(isset($log) && $log->created_at != '' ? date("d-m-Y",strtotime($log->created_at)) : '')}}
+                                            </span></p>
+                                            <p class="remarks-section__data__row"><span>Time:</span><span>{{(isset($log) && $log->created_at != '' ? date("H:i",
+                                                    strtotime($log->created_at)) : '')}}</span></p>
+                                            <p class="remarks-section__data__row"><span>Action:</span><span>{{$status}} to {{isset($log->getRoleName->display_name) ? $log->getRoleName->display_name : ''}}</span></p>
+                                            <p class="remarks-section__data__row"><span>Description:</span><span>{{(isset($log) ? $log->remark : '')}}</span></p>
                                         </div>
-                                        <div class="remarks-section__data">
+                                        @endforeach 
+<!--                                         <div class="remarks-section__data">
                                             <p class="remarks-section__data__row"><span>Date:</span><span>12-09-2018</span></p>
                                             <p class="remarks-section__data__row"><span>Time:</span><span>11:09 am</span></p>
                                             <p class="remarks-section__data__row"><span>Action:</span><span>Sent to
@@ -145,15 +152,15 @@
                                             <p class="remarks-section__data__row"><span>Description:</span><span>Lorem
                                                     ipsum dolor sit amet consectetur adipisicing elit. Error, tempore
                                                     facere! Ipsa nisi repudiandae architecto!</span></p>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>--}}
+                </div>
 
-                <div class="tab-pane active show" id="forward-application-tab">
+                <div class="tab-pane show" id="forward-application-tab">
                     <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
                         <div class="portlet-body">
                             <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">

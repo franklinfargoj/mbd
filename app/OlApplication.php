@@ -80,5 +80,5 @@ class OlApplication extends Model
     public function sharingCalculationSheet(){
 
         return $this->hasOne(OlSharingCalculationSheetDetail::class, 'application_id', 'id');   
-    }    
+    }        
 }

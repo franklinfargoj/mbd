@@ -222,6 +222,7 @@
                                 </div>
                                 <div class="mt-3 btn-list">
                                     <button class="btn btn-primary" type="submit" id="uploadBtn">Submit</button>
+                                    <a href="{{route('society_offer_letter_dashboard')}}" class="btn btn-secondary">Cancel</a>
                                 </div>
                             </div>
                             <!-- <a href="{{ route('society_offer_letter_dashboard') }}" class="btn btn-primary btn-custom" id="">Cancel</a> -->

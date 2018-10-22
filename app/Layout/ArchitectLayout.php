@@ -44,6 +44,25 @@ class ArchitectLayout extends Model
     {
         return $this->hasMany(\App\Layout\ArchitectLayoutStatusLog::class,'architect_layout_id');
     }
+    
+    public function ee_scrutiny_checklist_and_remarks()
+    {
+        return $this->hasMany(\App\Layout\ArchitectLayoutEEScrtinyQuestionDetail::class,'architect_layout_id','id');
+    }
 
+    public function land_scrutiny_checklist_and_remarks()
+    {
+        return $this->hasMany(\App\Layout\ArchitectLayoutLmScrtinyQuestionDetail::class,'architect_layout_id','id');
+    }
+
+    public function em_scrutiny_checklist_and_remarks()
+    {
+        return $this->hasMany(\App\Layout\ArchitectLayoutEmScrtinyQuestionDetail::class,'architect_layout_id','id');
+    }
+
+    public function ree_scrutiny_checklist_and_remarks()
+    {
+        return $this->hasMany(\App\Layout\ArchitectLayoutReeScrtinyQuestionDetail::class,'architect_layout_id','id');
+    }
     
 }

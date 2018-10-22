@@ -44,8 +44,12 @@ class CommonController extends Controller
     public function getSocietyEEDocuments($applicationId)
     {
 
+
         $societyId = OlApplication::where('id', $applicationId)->value('society_id');
-        $societyDocuments = SocietyOfferLetter::with(['societyDocuments.documents_Name'])->where('id', $societyId)->get();
+        $societyDocuments = SocietyOfferLetter::with(['societyDocuments.documents_Name'
+            ,'documentComments' => function ($q) { 
+            $q->orderBy('id', 'desc');
+        }])->where('id', $societyId)->get();
 
         return $societyDocuments;
     }

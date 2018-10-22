@@ -78,8 +78,8 @@
                             <div class="row">
                                 <div class="col-sm-4">
                                     <div class="btn-list">
-                                        <button type="submit"  class="btn btn-primary">Save</button>
                                         <a href="{{url('/hearing')}}" class="btn btn-secondary">Cancel</a>
+                                        <button type="submit"  class="btn btn-primary">Save</button>
                                     </div>
                                 </div>
                             </div>

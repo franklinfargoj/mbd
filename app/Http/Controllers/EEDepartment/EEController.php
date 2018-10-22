@@ -142,6 +142,7 @@ class EEController extends Controller
         $arrData['parentData'] = $parentData['parentData'];
         $arrData['role_name'] = $parentData['role_name'];
 //        $arrData['application_status'] = $this->comman->getCurrentApplicationStatus($application_id);
+        $arrData['get_current_status'] = $this->comman->getCurrentStatus($application_id);
 
 
         $society_role_id = Role::where('name', config('commanConfig.society_offer_letter'))->first();
@@ -166,7 +167,10 @@ class EEController extends Controller
 
         $arrData['dyce_role_name'] = strtoupper(str_replace('_', ' ', $dyce_role_id->name));
 
-        return view('admin.ee_department.forward-application', compact('arrData', 'society_role_id','ol_application'));
+        $eelogs = $this->comman->getLogsOfEEDepartment($application_id);
+        // dd($eelogs);
+
+        return view('admin.ee_department.forward-application', compact('arrData', 'society_role_id','ol_application','eelogs'));
     }
 
     public function forwardApplication(Request $request)

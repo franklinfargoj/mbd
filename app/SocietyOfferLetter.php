@@ -48,6 +48,7 @@ class SocietyOfferLetter extends Authenticatable
             'society_architect_mobile_no' => 'required|numeric',
             'society_architect_address' => 'required',
             'society_password' => 'required',
+//            'optional_society_email' => 'unique:ol_societies,email|unique:ol_societies,optional_email|unique:users,email',
         ]);
 
         return $validatedata;
@@ -61,4 +62,8 @@ class SocietyOfferLetter extends Authenticatable
     {
         return $this->belongsToMany('App\Role', 'role_user', 'user_id', 'role_id')->withPivot('start_date', 'end_date');
     }
+    public function documentComments(){
+
+        return $this->hasOne(OlSocietyDocumentsComment::class, 'society_id', 'id');   
+    }    
 }
