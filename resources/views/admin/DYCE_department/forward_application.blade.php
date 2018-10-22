@@ -19,7 +19,7 @@
                         <i class="la la-cog"></i> Scrutiny History
                     </a>
                 </li>
-     
+       
                 @if($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.in_process'))
                 <li class="nav-item m-tabs__item">
                     <a class="nav-link m-tabs__link show" data-toggle="tab" href="#forward-application-tab">
@@ -126,7 +126,7 @@
                                     <h3 class="section-title section-title--small mb-2">
                                         Remark History:
                                     </h3>
-                                    <span class="hint-text d-block">Remark by EE</span>
+                                    <span class="hint-text d-block" style="font-weight:500">Remark by EE Department</span>
                                 </div>
                                 <div class="remarks-section">
                                     <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container"
@@ -151,21 +151,37 @@
                                             <p class="remarks-section__data__row"><span>Description:</span><span>{{(isset($log) ? $log->remark : '')}}</span></p>
                                         </div>
                                     @endforeach    
-
-<!--                                         <div class="remarks-section__data">
-                                            <p class="remarks-section__data__row"><span>Date:</span><span>{{(isset($applicationData->eeForwardLog)
-                                                    && $applicationData->eeForwardLog->created_at != '' ? date("d-m-Y",
-                                                    strtotime($applicationData->eeForwardLog->created_at)) : '')}}</span></p>
-                                            <p class="remarks-section__data__row"><span>Time:</span><span>{{(isset($applicationData->eeForwardLog)
-                                                    && $applicationData->eeForwardLog->created_at != '' ? date("H:i",
-                                                    strtotime($applicationData->eeForwardLog->created_at)) : '')}}</span></p>
-                                            <p class="remarks-section__data__row"><span>Action:</span><span>Forward  to
-                                                    DyCE</span></p>
-                                            <p class="remarks-section__data__row"><span>Description:</span><span>{{(isset($applicationData->eeForwardLog->remark)
-                                                    ? $applicationData->eeForwardLog->remark : '')}}</span></p>
-                                        </div> -->
                                     </div>
                                 </div>
+
+                                @if(count($dyceLogs) > 0)
+                                <span class="hint-text d-block remark">Remark by DYCE Department</span>
+                                <div class="remarks-section">
+                                    <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container"
+                                        data-scrollbar-shown="true" data-scrollable="true" data-max-height="200">    
+                                    @foreach($dyceLogs as $log)
+                                        @if($log->status_id == config('commanConfig.applicationStatus.forwarded'))
+                                            @php $status = 'Forwarded'; @endphp
+                                        @elseif($log->status_id == config('commanConfig.applicationStatus.reverted'))
+                                            @php $status = 'Reverted'; @endphp
+                                        @endif
+
+                                        <div class="remarks-section__data">
+                                            <p class="remarks-section__data__row"><span>Date:</span><span>{{(isset($log) && $log->created_at != '' ? date("d-m-Y",
+                                                    strtotime($log->created_at)) : '')}}</span>
+
+                                            </p>
+                                            <p class="remarks-section__data__row"><span>Time:</span><span>{{(isset($log) && $log->created_at != '' ? date("H:i",
+                                                    strtotime($log->created_at)) : '')}}</span></p>
+                                            <p class="remarks-section__data__row"><span>Action:</span>
+
+                                            <span>{{$status}} to {{isset($log->getRoleName->display_name) ? $log->getRoleName->display_name : ''}}</span></p>
+                                            <p class="remarks-section__data__row"><span>Description:</span><span>{{(isset($log) ? $log->remark : '')}}</span></p>
+                                        </div>
+                                    @endforeach    
+                                    </div>
+                                </div> 
+                                @endif                               
                             </div>
                         </div>
                     </div>

@@ -57,6 +57,9 @@
             });
         }
     }
+    $(document).ready(function(){
+        console.log($('#dataTableBuilder').innerHTML);
+    });
 
 </script>
 @endsection

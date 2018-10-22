@@ -19,11 +19,13 @@
                         <i class="la la-cog"></i> Scrutiny History
                     </a>
                 </li>
+                @if($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.in_process'))
                 <li class="nav-item m-tabs__item">
                     <a class="nav-link m-tabs__link show" data-toggle="tab" href="#forward-application-tab">
                         <i class="la la-cog"></i> Forward Application
                     </a>
                 </li>
+                @endif
             </ul>
             <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
                 <div class="portlet-body">
