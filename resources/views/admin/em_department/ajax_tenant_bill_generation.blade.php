@@ -24,14 +24,30 @@
                 <td>{{$value->last_name}}</td>
                 <td>{{$value->use}}</td>
                 <td>{{$value->carpet_area}}</td>
-                <td>                    
+                <td>
                     @foreach($tenament as $key2 => $value2)
                      {{ $value->tenant_type == $value2->id ? $value2->name : '' }} 
                     @endforeach 
                 </td>
                 <td>
-                    <a class="btn btn-info" href="{{route('edit_tenant', [$value->id])}}">Edit</a>
-                    <a class="btn btn-danger" onclick="return confirm('Are you sure?')" href="{{route('delete_tenant', [$value->id])}}">Delete</a>
+                    <a class="btn btn-info" href="{{route('edit_tenant', [$value->id])}}">View Bill</a>
+
+                    {!! Form::open(['method' => 'Post', 'route' => 'arrears_calculations']) !!}
+                    @csrf
+                    {{ Form::hidden('id', $value->id) }}
+                    {{ Form::hidden('building_id', $value->building_id) }}
+                    {!! Form::submit(trans('Generate Bill'), array('class' => 'btn btn-info')) !!}
+                    {!! Form::close() !!}
+                    
+                    {!! Form::open(['method' => 'Post', 'route' => 'arrears_calculations']) !!}
+                    @csrf
+                    {{ Form::hidden('id', $value->id) }}
+                    {{ Form::hidden('building_id', $value->building_id) }}
+                    {!! Form::submit(trans('Arrear Calculation'), array('class' => 'btn btn-info')) !!}
+                    {!! Form::close() !!}
+
+                    <a class="btn btn-info" href="{{route('edit_tenant', [$value->id])}}">Regenerate Bill</a>
+                    
                 </td>
             </tr>
         @endforeach
@@ -51,4 +67,4 @@
             </tr>
         </tfoot>
         </table>
-        {!! $buildings->render() !!}
+      

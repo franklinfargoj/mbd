@@ -321,6 +321,14 @@ class EMController extends Controller
         }
     }
 
+    public function get_tenant_ajax(Request $request){
+         $tenament = DB::table('master_tenant_type')->get();
+         $building_id = $request->input('id');
+            $buildings = MasterTenant::where('building_id', '=', $request->input('id'))
+                 ->get();
+            return view('admin.em_department.ajax_tenant_bill_generation', compact('tenament','buildings', 'building_id'));
+    }
+
     public function update_soc_ward_colony(Request $request){
 
         $temp = array(       
@@ -527,7 +535,7 @@ class EMController extends Controller
         $colonies_data = MasterColony::whereIn('ward_id', $wards)->get();
 
         //dd($colonies);
-        $societies_data = MasterSociety::whereIn('colony_id', $colonies)->get();
+        $societies_data = MasterSociety::where('society_bill_level', '=', '1')->whereIn('colony_id', $colonies)->get();
 
         //return $rate_card;
         return view('admin.em_department.generate_bill', compact('layout_data', 'wards_data', 'colonies_data','societies_data'));
@@ -549,7 +557,7 @@ class EMController extends Controller
 
         //dd($colonies);
         $societies = MasterSociety::whereIn('colony_id', $colonies)->pluck('id');
-        $societies_data = MasterSociety::whereIn('colony_id', $colonies)->get();
+        $societies_data = MasterSociety::where('society_bill_level', '=', '2')->whereIn('colony_id', $colonies)->get();
 
         $building_data = MasterBuilding::whereIn('society_id', $societies)->get();
 
