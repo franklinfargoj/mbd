@@ -18,7 +18,7 @@
             <tr>
                 <td>{{$value->id}}</td>
                 <td>{{$value->flat_no}}</td>
-                <td>{{$value->saluation}}</td>
+                <td>{{$value->salutation}}</td>
                 <td>{{$value->first_name}}</td>
                 <td>{{$value->middle_name}}</td>
                 <td>{{$value->last_name}}</td>
@@ -27,7 +27,7 @@
                 <td>                    
                     @foreach($tenament as $key2 => $value2)
                      {{ $value->tenant_type == $value2->id ? $value2->name : '' }} 
-                    @endforeach 
+                    @endforeach
                 </td>
                 <td>
                     <a class="btn btn-info" href="{{route('edit_tenant', [$value->id])}}">Edit</a>

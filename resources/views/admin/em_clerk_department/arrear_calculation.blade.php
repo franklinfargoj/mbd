@@ -26,7 +26,7 @@
                     <div class="row align-items-center" style="margin-bottom: 1rem;">                          
                             <div class="col-md-4">
                                 <div class="form-group m-form__group">
-                                    <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="year" name="year" required>
+                                    <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="bill_year" name="bill_year" required>
                                         <option value="" style="font-weight: normal;">Select Year</option>
                                         <option value="<?php echo  date('Y');?>" style="font-weight: normal;"><?php echo  date('Y'); ?></option>
                                         <option value="<?php echo date("Y",strtotime("-1 year")); ?>" style="font-weight: normal;"><?php echo date("Y",strtotime("-1 year")); ?></option>
@@ -35,7 +35,7 @@
                             </div>       
                             <div class="col-md-4">
                                 <div class="form-group m-form__group">
-                                    <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="month" name="month" required>
+                                    <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="bill_month" name="bill_month" required>
                                         <option value="" style="font-weight: normal;">Select Month</option>
                                         <option value="1" style="font-weight: normal;">Jan</option>
                                         <option value="2" style="font-weight: normal;">Feb</option>
@@ -86,7 +86,7 @@
                     <div class="row align-items-center" style="margin-bottom: 1rem;">                            
                             <div class="col-md-4">
                                 <div class="form-group m-form__group">
-                                    <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="layout" name="layout" required>
+                                    <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input ior" id="ior_year" name="oir_year" required>
                                         <option value="" style="font-weight: normal;">Select Year</option>
                                         <option value="<?php echo  date('Y');?>" style="font-weight: normal;"><?php echo  date('Y'); ?></option>
                                         <option value="<?php echo date("Y",strtotime("-1 year")); ?>" style="font-weight: normal;"><?php echo date("Y",strtotime("-1 year")); ?></option>
@@ -95,7 +95,7 @@
                             </div>       
                             <div class="col-md-4">
                                 <div class="form-group m-form__group">
-                                    <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="layout" name="layout" required>
+                                    <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input ior" id="ior_month" name="oir_month" required>
                                         <option value="" style="font-weight: normal;">Select Month</option>
                                         <option value="1" style="font-weight: normal;">Jan</option>
                                         <option value="2" style="font-weight: normal;">Feb</option>
@@ -114,13 +114,13 @@
                             </div>    
                               <div class="col-md-4">
                                 <div class="form-group m-form__group">
-                                    <label>Old Interest Amount : - XXXX/-</label>
+                                    <label>Old Interest Amount : - <span id="oia"></span>/-</label>
                                 </div>
                             </div>                  
                     </div>
 
                     <div class="row align-items-center" style="margin-bottom: 1rem;">
-                         <div class="col-md-4">Diffrence: {{$rate_card[0]->revise_rate - $rate_card[0]-> old_rate}}/-</div>
+                         <div class="col-md-4">Diffrence: {{$rate_card[0]->revise_rate - $rate_card[0]->old_rate}}/-</div>
                          <div class="col-md-4">Formula = Revise Rate - Old Rate</div>
                     </div>
 
@@ -131,7 +131,7 @@
                     <div class="row align-items-center" style="margin-bottom: 1rem;">                          
                             <div class="col-md-4">
                                 <div class="form-group m-form__group">
-                                    <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="layout" name="layout" required>
+                                    <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input ida" id="ida_year" name="ida_year" required>
                                         <option value="" style="font-weight: normal;">Select Year</option>
                                         <option value="<?php echo  date('Y');?>" style="font-weight: normal;"><?php echo  date('Y'); ?></option>
                                         <option value="<?php echo date("Y",strtotime("-1 year")); ?>" style="font-weight: normal;"><?php echo date("Y",strtotime("-1 year")); ?></option>
@@ -140,7 +140,7 @@
                             </div>       
                             <div class="col-md-4">
                                 <div class="form-group m-form__group">
-                                    <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="layout" name="layout" required>
+                                    <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input ida" id="ida_month" name="ida_month" required>
                                         <option value="" style="font-weight: normal;">Select Month</option>
                                         <option value="1" style="font-weight: normal;">Jan</option>
                                         <option value="2" style="font-weight: normal;">Feb</option>
@@ -159,7 +159,7 @@
                             </div>    
                               <div class="col-md-4">
                                 <div class="form-group m-form__group">
-                                    <label>Diffrence Interest Amount : - XXXX/-</label>
+                                    <label>Diffrence Interest Amount : - <span id="dia"></span>/-</label>
                                 </div>
                             </div>                  
                     </div>
@@ -177,7 +177,7 @@
             
                     <div class="row align-items-center" style="margin-bottom: 1rem;">
                          <div class="col-md-4">Amount to be paid = {{$rate_card[0]->old_rate}}/-</div>
-                         <div class="col-md-8">Formula = old Amount + old Intrest amount + Diffrence Amount + Diffrence Intrest amount</div>
+                         <div class="col-md-8">Formula = old rate + old Intrest amount + Diffrence Amount + Diffrence Intrest amount</div>
                     </div>
 
                 <div class="row align-items-center mb-0">           
@@ -225,5 +225,67 @@
     $(document).ready(function () {
         $(".display_msg").delay(5000).slideUp(300);
     });
+
+    $(document).on('change', '.ior', function(){
+                var ior = "<?php echo $rate_card[0]->interest_on_old_rate ?>";
+                var old_rate = "<?php echo $rate_card[0]->old_rate ?>";
+                var bill_year = $('#bill_year').val();
+                var bill_month = $('#bill_month').val();
+                var ior_year = $('#ior_year').val();
+                var ior_month = $('#ior_month').val();
+
+                if(bill_year == '' || bill_month == ''){
+                    alert('select Year and month for arrear Calculation.');
+                    return false;
+                } else if(ior_year == '' || ior_month == ''){
+                  alert('select Year and month of arrear Calculation.');
+                    return false;
+                }
+
+                var months = monthDiff(
+                                new Date(ior_year, ior_month, 1),
+                                new Date(bill_year, bill_month, 1)  
+                             );
+                var old_intrest_amount = (old_rate * ior * months) / 100;
+
+                $('#oia').html(old_intrest_amount);
+
+    });
+
+    $(document).on('change', '.ida', function(){
+                var ior = "<?php echo $rate_card[0]->interest_on_differance ?>";
+                var rate_diff = "<?php echo $rate_card[0]->revise_rate - $rate_card[0]->old_rate ?>";
+                var bill_year = $('#bill_year').val();
+                var bill_month = $('#bill_month').val();
+                var ida_year = $('#ida_year').val();
+                var ida_month = $('#ida_month').val();
+
+                if(bill_year == '' || bill_month == ''){
+                    alert('select Year and month for arrear Calculation.');
+                    return false;
+                } else if(ida_year == '' || ida_month == ''){
+                  alert('select Year and month of arrear Calculation.');
+                    return false;
+                }
+
+                var months = monthDiff(
+                                new Date(ida_year, ida_month, 1),
+                                new Date(bill_year, bill_month, 1)  
+                             );
+                var old_intrest_amount = (rate_diff * ior * months) / 100;
+
+                $('#dia').html(old_intrest_amount);
+   
+    });
+
+function monthDiff(d1, d2) {
+    var months;
+    months = (d2.getFullYear() - d1.getFullYear()) * 12;
+    months -= d1.getMonth() + 1;
+    months += d2.getMonth();
+    return months <= 0 ? 0 : months;
+}
+
+
 </script>
 @endsection

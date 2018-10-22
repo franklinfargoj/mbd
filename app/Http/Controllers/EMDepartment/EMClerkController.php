@@ -160,12 +160,10 @@ class EMClerkController extends Controller
     public function tenant_arrear_calculation($id, Request $request){
         // return $id;
         $tenant = MasterTenant::leftJoin('arrear_calculation', 'master_tenants.id', '=', 'arrear_calculation.tenant_id')->where('master_tenants.id', '=', $id)->select('*','master_tenants.id as id')->get();
-        //return $tenant;
-        $society = MasterSociety::where('id', '=', $tenant[0]->society_id)->get();
-        //return $society;
         $rate_card = ArrearsChargesRate::where('building_id', '=', $tenant[0]->building_id)
-                                ->where('year', '=', date("Y"))
-                                 ->get();
+                        ->where('year', '=', date("Y"))
+                        ->get();
+        $society = MasterSociety::where('id', '=', $rate_card[0]->society_id)->get();
         //return $rate_card;
         return view('admin.em_clerk_department.arrear_calculation', compact('tenant', 'rate_card', 'society'));
 
