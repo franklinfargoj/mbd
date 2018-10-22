@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{ config('app.locale') }}">
 <!-- begin::Head -->
+
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -72,6 +73,10 @@
                             <!-- BEGIN: Horizontal Menu -->
                             <!-- END: Topbar -->
                             <div class="d-flex align-items-center justify-content-end">
+                                <a href="#" class="m-portlet__nav-link m-dropdown__toggle primary-color mr-4">
+                                    <i class="m-nav__link-icon fa fa-bell"></i>
+                                    Notifications
+                                </a>
                                 <div class="m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push"
                                     data-dropdown-toggle="hover" aria-expanded="true">
                                     <a href="#" class="m-portlet__nav-link m-dropdown__toggle">
@@ -122,11 +127,11 @@
         <!-- begin::Body -->
         <div class="m-grid__item m-grid__item--fluid m-grid m-grid--ver-desktop m-grid--desktop m-body">
             @if(Session::has('role_name') == true)
-                @if(Session::all()['role_name'] == 'society')
-                    @include('frontend.layouts.sidebar')
-                @else
-                    @include('admin.layouts.sidebar')
-                @endif
+            @if(Session::all()['role_name'] == 'society')
+            @include('frontend.layouts.sidebar')
+            @else
+            @include('admin.layouts.sidebar')
+            @endif
             @endif
             <div class="col-md-12">
                 <div class="m-grid__item m-grid__item--fluid m-wrapper">

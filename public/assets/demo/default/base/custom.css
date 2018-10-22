@@ -380,6 +380,40 @@
     display: none;
 }
 
+.m-radio--row,
+.m-radio--row .m-radio--row__span {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    padding-left: 0;
+    border: none;
+    border-radius: 0 !important;
+}
+
+.m-radio--row .m-radio--row__span span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: none;
+}
+
+.m-radio--row > input:checked ~ .m-radio--row__span {
+    border: none;
+}
+
+.m-radio--row > input:checked ~ .m-radio--row__span::after {
+    display: none;
+}
+
+.m-radio--row > input:checked ~ .m-radio--row__span {
+    background-color: #f0791b;
+    color: white;
+}
+
 .form-control--custom .btn-default {
     border: none;
 }
@@ -1308,6 +1342,10 @@ table.dataTable tbody tr:nth-child(even):focus {
 /* Bootstrap classes ends here */
 
 /* global classes starts here */
+
+.primary-color {
+    color: #f0791b !important;
+}
 
 .btn--add-delete {
     color: #a51f1f !important;
@@ -2741,7 +2779,7 @@ label.site-visit-label {
     > .m-menu__item
     > .m-menu__heading
     .m-menu__link-icon,
-.m-aside-menu .m-menu__nav > .m-menu__item > .m-menu__link .m-menu__link-icon {
+.m-aside-menu .m-menu__nav .m-menu__item > .m-menu__link .m-menu__link-icon {
     width: 25px;
 }
 
