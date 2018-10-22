@@ -175,9 +175,9 @@
                                                     परिगणनाकरिता ग्राह्य भूखंडाचे क्षेत्रफळ (किमान क्षेत्र)
                                                 </td>
                                                 <td class="text-center">
-                                                    <input readonly class=" form-control form-control--custom" type="text"
-                                                        name="area_of_​​subsistence_to_calculate" id="area_of_​​subsistence_to_calculate"
-                                                        value="{{ isset($calculationSheetDetails[0]->area_of_​​subsistence_to_calculate) ? $calculationSheetDetails[0]->area_of_​​subsistence_to_calculate : 0 }}" />
+                                                    <input readonly class="infra_fee form-control form-control--custom"
+                                                           type="text" name="area_of_​​subsistence_to_calculate" id="area_of_​​subsistence_to_calculate"
+                                                           value="{{ isset($calculationSheetDetails[0]->area_of_​​subsistence_to_calculate) ? $calculationSheetDetails[0]->area_of_​​subsistence_to_calculate : 0 }}" />
 
                                                 </td>
                                             </tr>
@@ -251,10 +251,10 @@
                                             <tr>
                                                 <td>7.</td>
                                                 <td>
-                                                    अनुज्ञेय बांधकाम क्षेत्रफळ
+                                                    एकूण अनुज्ञेय बांधकाम क्षेत्रफळ
                                                 </td>
                                                 <td class="text-center">
-                                                    <input class="form-control form-control--custom" readonly type="text"
+                                                    <input class="remaining_area form-control form-control--custom" readonly type="text"
                                                         name="total_permissible_construction_area" id="total_permissible_construction_area"
                                                         value="{{ isset($calculationSheetDetails[0]->total_permissible_construction_area) ? $calculationSheetDetails[0]->total_permissible_construction_area : 0 }}" />
 
@@ -1305,7 +1305,7 @@
 
 
             // ============================== format no with comma
-            /*
+/*
             // skip for arrow keys
             if(event.which >= 37 && event.which <= 40) return;
 
@@ -1318,9 +1318,14 @@
 
                 value = value.replace(/,/g,'');
                 return numberWithCommas(value);
+<<<<<<< HEAD
 */
         });
+=======
+>>>>>>> 8f19a484f8f40af0615b90b0dbcee841d128cc2f
 
+            });
+*/
 
     });
 
@@ -1369,7 +1374,7 @@
     $(document).on("keyup", ".total_area", function () {
         var sum = 0;
         $(".total_area").each(function () {
-            sum += +$(this).val();
+            sum += +parseFloat($(this).val());
         });
         $("#area_of_total_plot").attr('value', sum);
 
@@ -1406,8 +1411,8 @@
 
     $(document).on("keyup", ".total_area , .abhinyas_total_area , #permissible_carpet_area_coordinates", function () {
 
-        $("#permissible_construction_area").attr('value', $("#area_of_​​subsistence_to_calculate").val() * $(
-            "#permissible_carpet_area_coordinates").val());
+        $("#permissible_construction_area").attr('value', parseFloat($("#area_of_​​subsistence_to_calculate").val()) * parseFloat($(
+            "#permissible_carpet_area_coordinates").val()));
 
         $("#total_permissible_construction_area").attr('value', parseFloat($("#permissible_construction_area").val()) +
             parseFloat($("#permissible_proratata_area").val()));
@@ -1444,6 +1449,9 @@
 
         $("#total_rehabilitation_construction_area").attr('value', parseFloat($(
             "#total_rehabilitation_mattress_area_with_dcr").val()) * 1.2);
+
+        $("#mattress_area_for_construction_area").attr('value', (($("input[type=radio][name=dcr_b_val]:checked").val() /
+            100) * $("#total_rehabilitation_construction_area").val()).toFixed(2));
     });
     $(document).on("keyup", "#lr_val , #rc_val", function () {
 
@@ -1455,7 +1463,7 @@
 
     $(document).on("keyup", "#total_rehabilitation_construction_area", function () {
 
-        $("#mattress_area_for_construction_area").attr('value', (($("input[type=radio][name=dcr_b_val]").val() /
+        $("#mattress_area_for_construction_area").attr('value', (($("input[type=radio][name=dcr_b_val]:checked").val() /
             100) * $(
             this).val()).toFixed(2));
 
@@ -1543,6 +1551,10 @@
 
         $("#total_rehabilitation_construction_area").attr('value', parseFloat($(
             "#total_rehabilitation_mattress_area_with_dcr").val()) * 1.2);
+
+        $("#mattress_area_for_construction_area").attr('value', (($("input[type=radio][name=dcr_b_val]:checked").val() /
+            100) * $("#total_rehabilitation_construction_area").val()).toFixed(2));
+
     });
     $(document).on("keyup", "#total_house, #permissible_mattress_area", function () {
 
@@ -1555,12 +1567,19 @@
         var total_claims = (dcr_a_val / 100) * permissible_mattress_area * total_house;
         $("#total_additional_claims").attr('value', total_claims.toFixed(2));
 
+
+        $("#total_rehabilitation_mattress_area").attr('value', $("#total_house").val() * $("#revised_increased_area_for_residential_use").val());
+
         $("#total_rehabilitation_mattress_area_with_dcr").attr('value', parseFloat($("#total_additional_claims")
                 .val()) +
             parseFloat($("#total_rehabilitation_mattress_area").val()));
 
         $("#total_rehabilitation_construction_area").attr('value', parseFloat($(
             "#total_rehabilitation_mattress_area_with_dcr").val()) * 1.2);
+
+
+        $("#mattress_area_for_construction_area").attr('value', (($("input[type=radio][name=dcr_b_val]:checked").val() /
+            100) * $("#total_rehabilitation_construction_area").val()).toFixed(2));
 
     });
 
