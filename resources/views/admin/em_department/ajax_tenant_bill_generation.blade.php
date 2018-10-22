@@ -31,8 +31,21 @@
                 </td>
                 <td>
                     <a class="btn btn-info" href="{{route('edit_tenant', [$value->id])}}">View Bill</a>
-                    <a class="btn btn-info" href="{{route('edit_tenant', [$value->id])}}">Generate Bill</a>
-                    <a class="btn btn-info" href="{{route('edit_tenant', [$value->id])}}">Arrear Calculation</a>
+
+                    {!! Form::open(['method' => 'Post', 'route' => 'arrears_calculations']) !!}
+                    @csrf
+                    {{ Form::hidden('id', $value->id) }}
+                    {{ Form::hidden('building_id', $value->building_id) }}
+                    {!! Form::submit(trans('Generate Bill'), array('class' => 'btn btn-info')) !!}
+                    {!! Form::close() !!}
+                    
+                    {!! Form::open(['method' => 'Post', 'route' => 'arrears_calculations']) !!}
+                    @csrf
+                    {{ Form::hidden('id', $value->id) }}
+                    {{ Form::hidden('building_id', $value->building_id) }}
+                    {!! Form::submit(trans('Arrear Calculation'), array('class' => 'btn btn-info')) !!}
+                    {!! Form::close() !!}
+
                     <a class="btn btn-info" href="{{route('edit_tenant', [$value->id])}}">Regenerate Bill</a>
                     
                 </td>
