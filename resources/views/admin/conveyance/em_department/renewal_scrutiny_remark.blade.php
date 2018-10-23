@@ -163,10 +163,10 @@ Co-op. Housing Society Ltd. Have paid all the dues in respect of above bldg./bld
 
                                                 <div class="col-sm-6 border-left">
                                                     <div class="d-flex flex-column h-100 two-cols">
-                                                        <h5>Download Note</h5>
-                                                        <span class="hint-text">Download covering letter in .doc format</span>
+                                                        <h5>Download Covering Letter</h5>
+                                                        {{--<span class="hint-text">Download covering letter in .doc format</span>--}}
                                                         <div class="mt-auto">
-                                                            <a title="Donwload Offer Letter Application" href="{{ route('society_offer_letter_application_download') }}" target="_blank" class="btn btn-primary" rel="noopener"><i class="icon-pencil"></i>Donwload Offer Letter Application</a>
+                                                            <a title="Donwload" href="{{ route('society_offer_letter_application_download') }}" target="_blank" class="btn btn-primary" rel="noopener"><i class="icon-pencil"></i>Donwload Offer Letter Application</a>
                                                         </div>
                                                     </div>
                                                 </div>
