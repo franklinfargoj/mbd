@@ -1,5 +1,9 @@
 /* theme classes over ride starts here */
 
+.lease-icon {
+    font-size: 1rem;
+}
+
 .m-subheader__title--hint {
     font-size: 1.1rem;
     color: #717171;
