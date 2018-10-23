@@ -38,6 +38,7 @@ use App\MasterBuilding;
 use App\MasterTenant;
 use App\ArrearsChargesRate;
 use App\ArrearTenantPayment;
+use App\ArrearCalculation;
 
 class EMClerkController extends Controller
 {
@@ -115,7 +116,7 @@ class EMClerkController extends Controller
             ['data' => 'first_name', 'name' => 'first_name','title' => 'Tenant First Name'],
             ['data' => 'last_name', 'name' => 'last_name','title' => 'Tenant Last Name'],
             ['data' => 'payment_status', 'name' => 'payment_status','title' => 'Payment Status'],
-            ['data' => 'final_amount', 'name' => 'final_amount','title' => 'Final Rent Amount'],
+            ['data' => 'total_amount', 'name' => 'total_amount','title' => 'Final Rent Amount'],
             ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false, 'orderable' => false, 'exportable' => false, 'printable' => false]
             ];
 
@@ -135,15 +136,19 @@ class EMClerkController extends Controller
                     return 'Paid';
                 }                               
             })
-            ->editColumn('final_amount', function ($tenant){
-                if($tenant->final_amount == null){
+            ->editColumn('total_amount', function ($tenant){
+                if($tenant->total_amount == null){
                      return 'Not Calculated';
                 } else {
-                    return $tenant->final_amount;
+                    return $tenant->total_amount;
                 }                               
             })
             ->editColumn('actions', function ($tenant){
-                return "<a href='".url('tenant_arrear_calculation/'.$tenant->id)."' class='btn m-btn--pill m-btn--custom btn-primary'>edit</a>";                
+                if($tenant->total_amount == null || $tenant->payment_status == null || $tenant->payment_status == 0 ){
+                    return "<a href='".url('tenant_arrear_calculation/'.$tenant->id)."' class='btn m-btn--pill m-btn--custom btn-primary'>edit</a>"; 
+                } else {
+                    return '';
+                } 
             })
             ->rawColumns(['actions'])
             ->make(true);
@@ -159,13 +164,62 @@ class EMClerkController extends Controller
 
     public function tenant_arrear_calculation($id, Request $request){
         // return $id;
-        $tenant = MasterTenant::leftJoin('arrear_calculation', 'master_tenants.id', '=', 'arrear_calculation.tenant_id')->where('master_tenants.id', '=', $id)->select('*','master_tenants.id as id')->get();
+        $tenant = MasterTenant::leftJoin('arrear_calculation', 'master_tenants.id', '=', 'arrear_calculation.tenant_id')->where('master_tenants.id', '=', $id)
+            ->select('*','master_tenants.id as id')->get();
+
         $rate_card = ArrearsChargesRate::where('building_id', '=', $tenant[0]->building_id)
                         ->where('year', '=', date("Y"))
                         ->get();
+
         $society = MasterSociety::where('id', '=', $rate_card[0]->society_id)->get();
-        //return $rate_card;
+
+        $arrear = ArrearCalculation::where('tenant_id', '=', $tenant[0]->id)->get();
+        //return $arrear;
         return view('admin.em_clerk_department.arrear_calculation', compact('tenant', 'rate_card', 'society'));
+    }
+
+    public function create_arrear_calculation(Request $request){
+
+        $temp = array(
+        'tenant_id' => 'required',
+        'society_id' => 'required',
+        'year' => 'required',
+        'month' => 'required',
+        'oir_year' => 'required',
+        'oir_month' => 'required',
+        'old_intrest_amount' => 'required',
+        'difference_amount' => 'required',
+        'ida_year' => 'required',
+        'ida_month' => 'required',
+        'difference_intrest_amount' => 'required',
+        'payment_status' => 'required',
+        'total_amount' => 'required'
+        );
+        // validate the job application form data.
+        $this->validate($request, $temp);
+
+        // return $request->all();
+
+        $arrear_calculation = new ArrearCalculation;
+        $arrear_calculation->tenant_id = $request->input('tenant_id');
+        $arrear_calculation->society_id = $request->input('society_id');
+        $arrear_calculation->year = $request->input('year');
+        $arrear_calculation->month = $request->input('month');
+        $arrear_calculation->oir_year = $request->input('oir_year');
+        $arrear_calculation->oir_month = $request->input('oir_month');
+        $arrear_calculation->old_intrest_amount = $request->input('old_intrest_amount');
+        $arrear_calculation->difference_amount = $request->input('difference_amount');
+        $arrear_calculation->ida_year = $request->input('ida_year');
+        $arrear_calculation->ida_month = $request->input('ida_month');
+        $arrear_calculation->difference_intrest_amount = $request->input('difference_intrest_amount');
+        $arrear_calculation->payment_status = $request->input('payment_status');
+        $arrear_calculation->total_amount = $request->input('total_amount');
+        $arrear_calculation->save();       
+        
+        //return $request->all();
+
+        return redirect()->back()->with('message', 'Submitted Successfully.');
+       
 
     }
 
