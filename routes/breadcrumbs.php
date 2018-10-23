@@ -57,7 +57,7 @@ Breadcrumbs::for('village_detail', function ($trail) {
 
 Breadcrumbs::for('village_create', function ($trail) {
 	$trail->parent('village_detail');
-	$trail->push('Create Land', route('village_detail.create'));
+	$trail->push('Add Land', route('village_detail.create'));
 });
 
 Breadcrumbs::for('village_view', function ($trail,$id) {

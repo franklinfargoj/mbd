@@ -134,18 +134,39 @@ class SocietyConveyanceController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->input());
+//        dd($request->file('template'));
         if($request->file('template')) {
             $file = $request->file('template');
             $file_name = time() . $file->getFileName() . '.' . $file->getClientOriginalExtension();
             $extension = $request->file('template')->getClientOriginalExtension();
             if ($extension == "xls") {
-                $time = time();
-                $name = File::name(str_replace(' ', '_',$request->file('template')->getClientOriginalName())) . '_' . $time . '.' . $extension;
-                $folder_name = "society_conveyance_documents";
-                $path = config('commanConfig.storage_server') . '/' . $folder_name . '/' . $name;
-                $fileUpload = $this->CommonController->ftpFileUpload($folder_name, $request->file('template'), $name);
+//                $time = time();
+//                $name = File::name(str_replace(' ', '_',$request->file('template')->getClientOriginalName())) . '_' . $time . '.' . $extension;
+//                $folder_name = "society_conveyance_documents";
+//                $path = config('commanConfig.storage_server') . '/' . $folder_name . '/' . $name;
+//                $fileUpload = $this->CommonController->ftpFileUpload($folder_name, $request->file('template'), $name);
+                Excel::load($request->file('template')->getRealPath(), function ($reader) {
+                    $count = 0;
+                    $excel_headers = $reader->first()->keys()->toArray();
+                    $sc_excel_headers = config('commanConfig.sc_excel_headers');
+//                    dd($excel_headers);
+                    foreach($excel_headers as $excel_headers_key => $excel_headers_val){
+//                        $excel_headers_value = explode(' ', $sc_excel_headers[$excel_headers_key]);
+                        $excel_headers_value = strtolower(str_replace(str_split('\\/- '), '_', $sc_excel_headers[$excel_headers_key]));
+                        if($excel_headers_value == $excel_headers_val){
+                            $count++;
+                        }else{
+                            dd($excel_headers_val);
+//                            if(){
+//
+//                            }
+                        }
+                    }
+                    dd($count);
+                });
             }
+        }else{
+            dd('ohh no!!!!!');
         }
     }
 

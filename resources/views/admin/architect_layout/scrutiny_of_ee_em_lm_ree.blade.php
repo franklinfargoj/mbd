@@ -277,7 +277,7 @@
                                     </div>
                                 </div>
                                 <div class="remarks-suggestions">
-                                        @foreach ($ArchitectLayout->land_scrutiny_checklist_and_remarks as $item)
+                                        @foreach ($ArchitectLayout->ree_scrutiny_checklist_and_remarks as $item)
                                         <div class="block">
                                             <input type="hidden" name="report_id[]" value="{{$item->id}}">
                                             @if($item->question!="")

@@ -80,14 +80,14 @@ class SocietyOfferLetterController extends Controller
 //        dd($validated_fields->errors());
         if($validated_fields->fails()){
             $errors = $validated_fields->errors();
-//            dd($errors->first('society_name'));
+//            dd($request->is_email_check);
             $request->flash();
-//            if($errors->first('society_name')!=null || $errors->first('optional_society_email') != null){
+            if($request->is_email_check!=null){
                 return $errors;
-//            }
-//            else{
-//                return redirect()->route('society_offer_letter.create')->withErrors($errors)->withInput();
-//            }
+            }
+            else{
+                return redirect()->route('society_offer_letter.create')->withErrors($errors)->withInput();
+            }
         }else{
 //             dd('clear');
             $role_id = Role::where('name', config('commanConfig.society_offer_letter'))->first();
