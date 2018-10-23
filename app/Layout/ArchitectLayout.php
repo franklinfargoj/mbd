@@ -40,7 +40,7 @@ class ArchitectLayout extends Model
         return $this->hasMany(\App\Layout\ArchitectLayoutStatusLog::class,'architect_layout_id');
     }
 
-    public function ArchitectLayoutStatusLogInLiosting()
+    public function ArchitectLayoutStatusLogInListing()
     {
         return $this->hasMany(\App\Layout\ArchitectLayoutStatusLog::class,'architect_layout_id');
     }

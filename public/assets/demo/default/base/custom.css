@@ -2729,6 +2729,9 @@ label.site-visit-label {
     padding-top: 15px;
 }
 
+.t-remark{
+    font-weight: 500;
+}
 
 @media (min-width: 576px) {
     .modal-dialog {
