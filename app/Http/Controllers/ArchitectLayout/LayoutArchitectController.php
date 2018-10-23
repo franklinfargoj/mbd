@@ -40,15 +40,16 @@ class LayoutArchitectController extends Controller
             ['data' => 'radio', 'name' => 'radio', 'title' => '', 'searchable' => false],
             ['data' => 'rownum', 'name' => 'rownum', 'title' => 'Sr No.', 'searchable' => false],
             ['data' => 'layout_no', 'name' => 'layout_no', 'title' => 'Layout No'],
+            ['data' => 'date', 'name' => 'date', 'title' => 'Date'],
             ['data' => 'layout_name', 'name' => 'layout_name', 'title' => 'Layout Name', 'class' => 'datatable-date'],
             ['data' => 'address', 'name' => 'address', 'title' => 'Society Name'],
             ['data' => 'Status', 'name' => 'Status', 'title' => 'Status'],
         ];
-
+        // $this->architect_layouts->architect_layout_request_revision($request);
         if ($datatables->getRequest()->ajax()) {
 
-            $architect_layout_data = $this->architect_layouts->architect_layout_data($request);
-            $revision_requests = $architect_layout_data['revision_requests'];
+            $architect_layout_data = $this->architect_layouts->architect_layout_request_revision($request);
+            $revision_requests = $architect_layout_data;
             return $datatables->of($revision_requests)
                 ->editColumn('radio', function ($listArray) {
                     $url = route('architect_layout_details.view', encrypt($listArray->id));
@@ -60,6 +61,9 @@ class LayoutArchitectController extends Controller
                 ->editColumn('layout_no', function ($listArray) {
                     return $listArray->layout_no;
                 })
+                ->editColumn('date', function ($listArray) {
+                    return date('d/m/Y', strtotime($listArray->added_date));
+                })
                 ->editColumn('layout_name', function ($listArray) {
                     return $listArray->layout_name;
                 })
@@ -67,7 +71,7 @@ class LayoutArchitectController extends Controller
                     return $listArray->address;
                 })
                 ->editColumn('Status', function ($listArray) use ($request) {
-                    $status = $listArray->ArchitectLayoutStatusLogInLiosting[0]->status_id;
+                    $status = $listArray->ArchitectLayoutStatusLogInListing[0]->status_id;
                     $config_array = array_flip(config('commanConfig.architect_layout_status'));
                     return $value = ucwords(str_replace('_', ' ', $config_array[$status]));
 
@@ -78,7 +82,7 @@ class LayoutArchitectController extends Controller
             // ->editColumn('actions', function ($ee_application_data) use($request) {
             //     return view('admin.ee_department.actions', compact('ee_application_data', 'request'))->render();
             // })
-                ->rawColumns(['radio', 'layout_no', 'layout_name', 'address', 'Status', 'added_date'])
+                ->rawColumns(['radio', 'layout_no', 'added_date', 'layout_name', 'address', 'Status', 'added_date'])
                 ->make(true);
         }
 
@@ -95,6 +99,7 @@ class LayoutArchitectController extends Controller
             ['data' => 'radio', 'name' => 'radio', 'title' => '', 'searchable' => false],
             ['data' => 'rownum', 'name' => 'rownum', 'title' => 'Sr No.', 'searchable' => false],
             ['data' => 'layout_no', 'name' => 'layout_no', 'title' => 'Layout No'],
+            ['data' => 'date', 'name' => 'date', 'title' => 'Date'],
             ['data' => 'layout_name', 'name' => 'layout_name', 'title' => 'Layout Name', 'class' => 'datatable-date'],
             ['data' => 'address', 'name' => 'address', 'title' => 'Society Name'],
             ['data' => 'Status', 'name' => 'Status', 'title' => 'Status'],
@@ -102,8 +107,8 @@ class LayoutArchitectController extends Controller
 
         if ($datatables->getRequest()->ajax()) {
 
-            $architect_layout_data = $this->architect_layouts->architect_layout_data($request);
-            $layout_details = $architect_layout_data['layout_details'];
+            $architect_layout_data = $this->architect_layouts->architect_layout_details($request);
+            $layout_details = $architect_layout_data;
             return $datatables->of($layout_details)
                 ->editColumn('radio', function ($listArray) {
                     $url = route('architect_layout_details.view', encrypt($listArray->id));
@@ -115,6 +120,9 @@ class LayoutArchitectController extends Controller
                 ->editColumn('layout_no', function ($listArray) {
                     return $listArray->layout_no;
                 })
+                ->editColumn('date', function ($listArray) {
+                    return date('d/m/Y', strtotime($listArray->added_date));
+                })
                 ->editColumn('layout_name', function ($listArray) {
                     return $listArray->layout_name;
                 })
@@ -122,7 +130,7 @@ class LayoutArchitectController extends Controller
                     return $listArray->address;
                 })
                 ->editColumn('Status', function ($listArray) use ($request) {
-                    $status = $listArray->ArchitectLayoutStatusLogInLiosting[0]->status_id;
+                    $status = $listArray->ArchitectLayoutStatusLogInListing[0]->status_id;
                     $config_array = array_flip(config('commanConfig.architect_layout_status'));
                     return $value = ucwords(str_replace('_', ' ', $config_array[$status]));
 
@@ -133,7 +141,7 @@ class LayoutArchitectController extends Controller
             // ->editColumn('actions', function ($ee_application_data) use($request) {
             //     return view('admin.ee_department.actions', compact('ee_application_data', 'request'))->render();
             // })
-                ->rawColumns(['radio', 'layout_no', 'layout_name', 'address', 'Status', 'added_date'])
+                ->rawColumns(['radio', 'layout_no', 'added_date', 'layout_name', 'address', 'Status', 'added_date'])
                 ->make(true);
         }
 
@@ -211,10 +219,12 @@ class LayoutArchitectController extends Controller
         $arrData['parentData'] = $parentData['parentData'];
         $arrData['role_name'] = $parentData['role_name'];
         if (session()->get('role_name') == config('commanConfig.architect')) {
-            if (session()->get('role_name') != config('commanConfig.LM')) {
-                $lm_role_id = Role::where('name', '=', config('commanConfig.land_manager'))->first();
-                $arrData['get_forward_lm'] = User::where('role_id', $lm_role_id->id)->get();
-                $arrData['lm_role_name'] = strtoupper(str_replace('_', ' ', $lm_role_id->name));
+            if (!$ArchitectLayout->land_scrutiny_checklist_and_remarks) {
+                if (session()->get('role_name') != config('commanConfig.LM')) {
+                    $lm_role_id = Role::where('name', '=', config('commanConfig.land_manager'))->first();
+                    $arrData['get_forward_lm'] = User::where('role_id', $lm_role_id->id)->get();
+                    $arrData['lm_role_name'] = strtoupper(str_replace('_', ' ', $lm_role_id->name));
+                }
             }
 
             if (session()->get('role_name') != config('commanConfig.ree_junior')) {
@@ -222,15 +232,19 @@ class LayoutArchitectController extends Controller
                 $arrData['get_forward_ree'] = User::where('role_id', $ree_role_id->id)->get();
                 $arrData['ree_role_name'] = strtoupper(str_replace('_', ' ', $ree_role_id->name));
             }
-            if (session()->get('role_name') != config('commanConfig.ee_junior_engineer')) {
-                $ee_role_id = Role::where('name', '=', config('commanConfig.ee_junior_engineer'))->first();
-                $arrData['get_forward_ee'] = User::where('role_id', $ee_role_id->id)->get();
-                $arrData['ee_role_name'] = strtoupper(str_replace('_', ' ', $ee_role_id->name));
+            if (!$ArchitectLayout->ee_scrutiny_checklist_and_remarks) {
+                if (session()->get('role_name') != config('commanConfig.ee_junior_engineer')) {
+                    $ee_role_id = Role::where('name', '=', config('commanConfig.ee_junior_engineer'))->first();
+                    $arrData['get_forward_ee'] = User::where('role_id', $ee_role_id->id)->get();
+                    $arrData['ee_role_name'] = strtoupper(str_replace('_', ' ', $ee_role_id->name));
+                }
             }
-            if (session()->get('role_name') != config('commanConfig.estate_manager')) {
-                $em_role_id = Role::where('name', '=', config('commanConfig.estate_manager'))->first();
-                $arrData['get_forward_em'] = User::where('role_id', $em_role_id->id)->get();
-                $arrData['em_role_name'] = strtoupper(str_replace('_', ' ', $em_role_id->name));
+            if (!$ArchitectLayout->em_scrutiny_checklist_and_remarks) {
+                if (session()->get('role_name') != config('commanConfig.estate_manager')) {
+                    $em_role_id = Role::where('name', '=', config('commanConfig.estate_manager'))->first();
+                    $arrData['get_forward_em'] = User::where('role_id', $em_role_id->id)->get();
+                    $arrData['em_role_name'] = strtoupper(str_replace('_', ' ', $em_role_id->name));
+                }
             }
 
             $architectlogs = $this->architect_layouts->getLogOfArchitectLayoutApplication($layout_id);
@@ -245,14 +259,25 @@ class LayoutArchitectController extends Controller
                     $arrData['get_forward_co'] = User::where('role_id', $co_role_id->id)->get();
                     $arrData['co_role_name'] = strtoupper(str_replace('_', ' ', $co_role_id->name));
                 }
+                if($ArchitectLayout->upload_layout_in_pdf_format=="" && $ArchitectLayout->upload_layout_in_excel_format=="" && $ArchitectLayout->upload_architect_note=="")
+                {
+                    if (session()->get('role_name') != config('commanConfig.junior_architect')) {
+                        $lm_role_id = Role::where('name', '=', config('commanConfig.junior_architect'))->first();
+                        $arrData['get_forward_lm'] = User::where('role_id', $lm_role_id->id)->get();
+                        $arrData['lm_role_name'] = strtoupper(str_replace('_', ' ', $lm_role_id->name));
+                    }
+                }
+                
+            }else{
+                if (session()->get('role_name') != config('commanConfig.junior_architect')) {
+                    $lm_role_id = Role::where('name', '=', config('commanConfig.junior_architect'))->first();
+                    $arrData['get_forward_lm'] = User::where('role_id', $lm_role_id->id)->get();
+                    $arrData['lm_role_name'] = strtoupper(str_replace('_', ' ', $lm_role_id->name));
+                }
             }
-            if (session()->get('role_name') != config('commanConfig.junior_architect')) {
-                $lm_role_id = Role::where('name', '=', config('commanConfig.junior_architect'))->first();
-                $arrData['get_forward_lm'] = User::where('role_id', $lm_role_id->id)->get();
-                $arrData['lm_role_name'] = strtoupper(str_replace('_', ' ', $lm_role_id->name));
-            }
+            
         }
-        
+
         if (session()->get('role_name') == config('commanConfig.co_engineer')) {
             if (session()->get('role_name') != config('commanConfig.senior_architect_planner')) {
                 $sap_role_id = Role::where('name', '=', config('commanConfig.senior_architect_planner'))->first();
@@ -309,7 +334,7 @@ class LayoutArchitectController extends Controller
                     'architect_layout_id' => $request->architect_layout_id,
                     'user_id' => auth()->user()->id,
                     'role_id' => session()->get('role_id'),
-                    'status_id' => (session()->get('role_name') == config('commanConfig.vp_engineer'))?config('commanConfig.architect_layout_status.approved'):config('commanConfig.architect_layout_status.forward'),
+                    'status_id' => (session()->get('role_name') == config('commanConfig.vp_engineer')) ? config('commanConfig.architect_layout_status.approved') : config('commanConfig.architect_layout_status.forward'),
                     'to_user_id' => $user,
                     'to_role_id' => $user_data->role_id,
                     'remark' => $request->remark,
@@ -318,10 +343,10 @@ class LayoutArchitectController extends Controller
                 $forward_application[] = ['architect_layout_id' => $request->architect_layout_id,
                     'user_id' => $user,
                     'role_id' => $user_data->role_id,
-                    'status_id' => (session()->get('role_name') == config('commanConfig.vp_engineer'))?config('commanConfig.architect_layout_status.approved'):config('commanConfig.architect_layout_status.forward'),
+                    'status_id' => (session()->get('role_name') == config('commanConfig.vp_engineer')) ? config('commanConfig.architect_layout_status.approved') : config('commanConfig.architect_layout_status.scrutiny_pending'),
                     'to_user_id' => null,
                     'to_role_id' => null,
-                    'remark' => $request->remark,
+                    'remark' => '',
                     'created_at' => Carbon::now()];
             }
 

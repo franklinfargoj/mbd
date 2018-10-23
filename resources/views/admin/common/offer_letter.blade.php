@@ -75,7 +75,13 @@
                                 readonly>, <input class="letter-form-input letter-form-input--xl" type="text" id=""
                                 name="name" value="{{ $ol_application->eeApplicationSociety->name }}" readonly> सहकारी
                             गृहनिर्माण
-                            संस्थेच्या स्वयंपुनर्विकासाच्या प्रस्तावास मंजूरी मिळण्याबाबतचा अर्ज.</p>
+                            संस्थेच्या 
+
+                            @if(isset($ol_application->application_master_id) && ($ol_application->application_master_id == 2 || $ol_application->application_master_id == 6))
+                            स्वयं
+                            @endif
+
+                            पुनर्विकासाच्या प्रस्तावास मंजूरी मिळण्याबाबतचा अर्ज.</p>
                         <p class="font-weight-semi-bold">महोदय,</p>
                         <p>आम्ही <input class="letter-form-input letter-form-input--lg" type="text" id="" name="name"
                                 value="{{ $ol_application->eeApplicationSociety->name }}" readonly> सहकारी गृहनिर्माण
@@ -84,25 +90,55 @@
                                 readonly> पत्ता - <input class="letter-form-input letter-form-input--xl" type="text" id=""
                                 name="address" value="{{ $ol_application->eeApplicationSociety->address }}" readonly>)
                             आपणांस विनंती करतो की,
-                            आम्ही रहात असलेल्या सदरहू इमारतीचा स्वयंपुनर्विकास विकास नियंत्रण नियमावली ३३ (५) अंतर्गत
-                            अधिमुल्य
+                            आम्ही रहात असलेल्या सदरहू इमारतीचा 
+                            @if(isset($ol_application->application_master_id) && ($ol_application->application_master_id == 2 || $ol_application->application_master_id == 6))
+                            स्वयं
+                            @endif
+
+                            पुनर्विकास विकास नियंत्रण नियमावली ३३ (५)  अंतर्गत 
+
+                            @if(isset($ol_application->application_master_id) && ($ol_application->application_master_id == 2 || $ol_application->application_master_id == 13))
+
+                            अधिमुल्य 
+
+                            @elseif(isset($ol_application->application_master_id) && ($ol_application->application_master_id == 6 || $ol_application->application_master_id == 17))
+                            गृहसत्ता हिस्सेदारी
+                             @endif
+
                             आधारित तत्वावर करु इच्छितो. आमच्या गृहनिर्माण संस्थेने दिनांक <input class="letter-form-input letter-form-input--md"
                                 type="text" id="m_datepicker" name="date_of_meeting" value="{{ $ol_application->request_form->date_of_meeting }}"
-                                readonly disabled> रोजी स्वयंपुनर्विकासासंदर्भात सर्वसाधारण सभेचा ठराव क्र. <input
+                                readonly disabled> रोजी 
+                                @if(isset($ol_application->application_master_id) && ($ol_application->application_master_id == 2 || $ol_application->application_master_id == 6))
+                                स्वयं
+                                @endif
+                                पुनर्विकासासंदर्भात सर्वसाधारण सभेचा ठराव क्र. <input
                                 class="letter-form-input letter-form-input--md" type="text" id="" name="resolution_no"
                                 value="{{ $ol_application->request_form->resolution_no }}" readonly> अन्वये निर्णय
                             घेतला आहे.</p>
-                        <p>आम्ही सहकारी गृहनिर्माण संस्थेच्या स्वयंपुनर्विकासाच्या कामांसाठी वि.नि.नि ३३ (५) मधील
+                        <p>आम्ही सहकारी गृहनिर्माण संस्थेच्या 
+                        @if(isset($ol_application->application_master_id) && ($ol_application->application_master_id == 2 || $ol_application->application_master_id == 6))
+                        स्वयं
+                        @endif
+
+                        पुनर्विकासाच्या कामांसाठी वि.नि.नि ३३ (५) मधील
                             तरतूदींच्या
                             अधिन राहून याबाबतचे सविस्तर आराखडे / नकाशे व पुनर्विकासाच्या कामावर देखरेख करण्यासाठी
                             <input class="letter-form-input letter-form-input--md" type="text" id="" name="architect_name"
                                 value="{{ $ol_application->request_form->architect_name }}" readonly> या
                             वास्तुशास्त्रज्ञाची नियुक्ती केली
-                            आहे.@if(!empty($ol_application->request_form->developer_name))आमच्या संस्थेच्या इमारतीच्या
-                            पुनर्विकासाचे काम करणेकरीता <input class="letter-form-input letter-form-input--md" type="text"
+                            आहे.
+
+                            @if(!empty($ol_application->request_form->developer_name) && ($ol_application->application_master_id == 13 || $ol_application->application_master_id == 17))
+
+                            आमच्या संस्थेच्या इमारतीच्या पुनर्विकासाचे काम करणेकरीता 
+
+                            <input class="letter-form-input letter-form-input--md" type="text"
                                 id="" name="developer_name" value="{{ $ol_application->request_form->developer_name }}"
                                 readonly> या
-                            विकासकाची निवड केली आहे.@endif</p>
+                            विकासकाची निवड केली आहे.
+                            @endif
+
+                            </p>
                         <p>यानुसार आपणांस विनंती करण्यात येते की, अभिन्यासातील अनुज्ञेय प्रोराटा क्षेत्रफळाचे वितरण
                             संस्थेस
                             करावे व संस्थेस वितरण करण्यात येणाÅया अतिरिक्त बांधकाम क्षेत्रफळाकरीता भरणा करावे लागणारे

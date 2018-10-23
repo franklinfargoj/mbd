@@ -95,7 +95,6 @@
 .m-aside-menu.m-aside-menu--skin-dark .m-menu__nav>.m-menu__item>.m-menu__heading .m-menu__link-icon,
 .m-aside-menu.m-aside-menu--skin-dark .m-menu__nav>.m-menu__item>.m-menu__link .m-menu__link-icon {
     color: #f7f8fa;
-    font-size: 1rem;
 }
 
 .m-subheader--top {
@@ -352,6 +351,7 @@
     padding-left: 0;
     border: none;
     border-radius: 0 !important;
+    margin-bottom: 0;
 }
 
 .m-radio--row .m-radio--row__span span {
@@ -360,6 +360,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     border: none;
+    width: 100%;
 }
 
 .m-radio--row>input:checked~.m-radio--row__span {
@@ -368,11 +369,6 @@
 
 .m-radio--row>input:checked~.m-radio--row__span::after {
     display: none;
-}
-
-.m-radio--row>input:checked~.m-radio--row__span {
-    background-color: #f0791b;
-    color: white;
 }
 
 .form-control--custom .btn-default {
@@ -615,6 +611,7 @@ table.dataTable tbody tr:nth-child(even):focus {
     color: #e5731a;
     padding-left: 5px;
     padding-right: 5px;
+    display: block;
 }
 
 .dataTables_wrapper table.dataTable a:hover,
@@ -1838,6 +1835,19 @@ input:disabled+label:after {
     text-align: center;
 }
 
+.table--dark.table--dark--rows tr td:first-child {
+    background-color: transparent;
+}
+
+.table-c-modal tr.active {
+    background-color: #f0791b;
+    color: white;
+}
+
+.table-c-modal tr.active .m-radio--row .m-radio--row__span span {
+    color: #fff;
+}
+
 /* calculation sheets ends here */
 
 /* EE scrunity remarks starts here */
@@ -2474,7 +2484,58 @@ label.site-visit-label {
 .m-aside-menu .m-menu__nav .m-menu__item .m-menu__link {
     color: #fff;
     font-size: 1.07rem;
-    padding: 9px 30px !important;
+    padding: 9px 30px 9px 60px !important;
+    display: flex;
+    justify-content: space-between;
+}
+
+.m-aside-menu .m-menu__nav .m-menu__item>.m-menu__link .m-menu__link-title {
+    flex-grow: 1;
+}
+
+.m-aside-menu .m-menu__nav>.m-menu__item>.m-menu__link .m-menu__link-text {
+    font-size: inherit;
+}
+
+.m-aside-menu.m-aside-menu--skin-dark .m-menu__nav .m-menu__item .m-menu__link .m-menu__link-icon {
+    position: absolute;
+    top: 50%;
+    left: 30px;
+    transform: translateY(-50%);
+    height: auto;
+}
+
+.m-aside-menu .m-menu__nav .m-menu__item .m-menu__link .m-menu__ver-arrow {
+    position: relative;
+    right: -10px;
+    font-size: 1.3rem !important;
+}
+
+.m-menu__item--submenu+.m-menu__item--submenu {
+    margin-top: 3px;
+}
+
+.m-aside-menu.m-aside-menu--skin-dark .m-menu__nav .m-menu__item--level-2 .m-menu__link .m-menu__link-icon,
+.m-aside-menu.m-aside-menu--skin-dark .m-menu__nav .m-menu__item--level-2 .m-menu__link .radio-icon {
+    left: 50px;
+}     
+
+.m-aside-menu .m-menu__nav .m-menu__item.m-menu__item--level-2 .m-menu__link {
+    padding-left: 75px !important;
+}
+
+.m-aside-menu.m-aside-menu--skin-dark .m-menu__nav .m-menu__item--level-3 .m-menu__link .m-menu__link-icon,
+.m-aside-menu.m-aside-menu--skin-dark .m-menu__nav .m-menu__item--level-3 .m-menu__link .radio-icon {
+    left: 65px;
+}
+
+.m-aside-menu .m-menu__nav .m-menu__item--level-3 .m-menu__link {
+    padding-left: 90px !important;
+}
+
+.m-aside-menu .m-menu__nav>.m-menu__item>.m-menu__heading .m-menu__link-icon,
+.m-aside-menu .m-menu__nav .m-menu__item>.m-menu__link .m-menu__link-icon {
+    width: 25px;
 }
 
 .m-aside-menu.m-aside-menu--skin-dark .m-menu__nav>.m-menu__item:hover>.m-menu__heading .m-menu__link-icon,
@@ -2484,25 +2545,6 @@ label.site-visit-label {
 .m-aside-menu.m-aside-menu--skin-dark .m-menu__nav>.m-menu__item:hover>.m-menu__heading .m-menu__ver-arrow,
 .m-aside-menu.m-aside-menu--skin-dark .m-menu__nav>.m-menu__item:hover>.m-menu__link .m-menu__ver-arrow {
     color: #fff;
-}
-
-.m-aside-menu .m-menu__nav .m-menu__item>.m-menu__link .m-menu__ver-arrow {
-    position: relative;
-    right: -10px;
-}
-
-.m-menu__item--submenu+.m-menu__item--submenu {
-    margin-top: 3px;
-}
-
-.m-aside-menu .m-menu__nav .m-menu__item.m-menu__item--submenu .m-menu__link {
-    padding: 9px 30px 9px 75px !important;
-    font-size: 1rem;
-}
-
-.m-aside-menu .m-menu__nav>.m-menu__item>.m-menu__heading .m-menu__link-icon,
-.m-aside-menu .m-menu__nav .m-menu__item>.m-menu__link .m-menu__link-icon {
-    width: 25px;
 }
 
 .m-aside-menu.m-aside-menu--skin-dark .m-menu__nav>.m-menu__item:hover {
@@ -2721,4 +2763,11 @@ label.site-visit-label {
 
 .t-remark{
     font-weight: 500;
+}
+
+@media (min-width: 576px) {
+    .modal-dialog {
+        max-width: 550px;
+        margin: 30px auto;
+    }
 }

@@ -278,6 +278,12 @@ var SnippetLogin = function() {
                             minlength:6,
                             maxlength:10
                         },
+                        conf_society_password:{
+                            required:true,
+                            minlength:6,
+                            maxlength:10,
+                            equalTo: "#password",
+                        },
                         society_architect_name:{
                             required:true
                         },
@@ -293,6 +299,11 @@ var SnippetLogin = function() {
                         society_architect_telephone_no:{
                             required:true
                         },
+                    },
+                    messages:{
+                        conf_society_password:{
+                            equalTo:"Password doesn't match."
+                        }
                     }
                 }), t.valid() && (a.addClass("m-loader m-loader--right m-loader--light").attr("disabled", !0), setTimeout(function() {
                     $('#sign_up_form_society_offer_letter').submit();
