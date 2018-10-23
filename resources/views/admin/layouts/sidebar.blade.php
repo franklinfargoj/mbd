@@ -192,7 +192,7 @@ $route=\Request::route()->getName();
                     </li>
                     <li id="land-module-actions" class="collapse show">
                         <ul class="list-unstyled">
-            <li class="m-menu__item m-menu__item--submenu" data-toggle="collapse" data-target="#village-actions">
+            <li class="m-menu__item" data-toggle="collapse" data-target="#village-actions">
                 <a href="{{url('/village_detail')}}" class="m-menu__link m-menu__toggle">
                     <i class="m-menu__link-icon flaticon-line-graph"></i>
                     {{--<svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">--}}
@@ -244,7 +244,7 @@ $route=\Request::route()->getName();
                     </li>
                 </ul>
             </li>
-            <li class="m-menu__item m-menu__item--submenu" data-toggle="collapse" data-target="#society-actions">
+            <li class="m-menu__item" data-toggle="collapse" data-target="#society-actions">
                 <a href="{{url('/village_detail')}}" class="m-menu__link m-menu__toggle">
                     <i class="m-menu__link-icon flaticon-line-graph"></i>
                     <span class="m-menu__link-title">
