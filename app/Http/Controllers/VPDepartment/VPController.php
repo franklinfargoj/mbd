@@ -164,11 +164,14 @@ class VPController extends Controller
         $this->CommonController->getREEForwardRevertLog($applicationData,$applicationId);
 
         //remark and history
-        $eelogs = $this->CommonController->getLogsOfEEDepartment($applicationId);
-        $dyceLogs = $this->CommonController->getLogsOfDYCEDepartment($applicationId);  
-        $reeLogs = $this->CommonController->getLogsOfREEDepartment($applicationId);          
+        $eelogs   = $this->CommonController->getLogsOfEEDepartment($applicationId);
+        $dyceLogs = $this->CommonController->getLogsOfDYCEDepartment($applicationId);
+        $reeLogs  = $this->CommonController->getLogsOfREEDepartment($applicationId); 
+        $coLogs   = $this->CommonController->getLogsOfCODepartment($applicationId); 
+        $capLogs  = $this->CommonController->getLogsOfCAPDepartment($applicationId); 
+        $vpLogs   = $this->CommonController->getLogsOfVPDepartment($applicationId);            
 
-        return view('admin.vp_department.forward_application',compact('applicationData', 'arrData','ol_application','eelogs','dyceLogs','reeLogs'));
+        return view('admin.vp_department.forward_application',compact('applicationData', 'arrData','ol_application','eelogs','dyceLogs','reeLogs','coLogs','capLogs','vpLogs'));
     } 
 
     public function sendForwardApplication(Request $request){

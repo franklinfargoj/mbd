@@ -158,9 +158,6 @@ class REEController extends Controller
         $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
         $applicationData = $this->CommonController->getForwardApplication($applicationId);
 
-        $this->CommonController->getEEForwardRevertLog($applicationData,$applicationId);
-        $this->CommonController->getDyceForwardRevertLog($applicationData,$applicationId);
-
         $parentData = $this->CommonController->getForwardApplicationParentData();
         $arrData['parentData'] = $parentData['parentData'];
         $arrData['role_name'] = $parentData['role_name'];
@@ -183,11 +180,14 @@ class REEController extends Controller
         }
 
         //remark and history
-        $eelogs = $this->CommonController->getLogsOfEEDepartment($applicationId);
+        $eelogs   = $this->CommonController->getLogsOfEEDepartment($applicationId);
         $dyceLogs = $this->CommonController->getLogsOfDYCEDepartment($applicationId);
-        $reeLogs = $this->CommonController->getLogsOfREEDepartment($applicationId); 
+        $reeLogs  = $this->CommonController->getLogsOfREEDepartment($applicationId); 
+        $coLogs   = $this->CommonController->getLogsOfCODepartment($applicationId); 
+        $capLogs  = $this->CommonController->getLogsOfCAPDepartment($applicationId); 
+        $vpLogs   = $this->CommonController->getLogsOfVPDepartment($applicationId); 
 
-        return view('admin.REE_department.forward_application',compact('applicationData','arrData','ol_application','eelogs','dyceLogs','reeLogs'));  
+        return view('admin.REE_department.forward_application',compact('applicationData','arrData','ol_application','eelogs','dyceLogs','reeLogs','coLogs','capLogs','vpLogs'));  
     }             
 
     public function sendForwardApplication(Request $request){

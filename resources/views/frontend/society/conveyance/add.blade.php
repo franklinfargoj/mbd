@@ -13,7 +13,8 @@
         </div>
         <div class="m-portlet">
             <div id="printdiv">
-                <form class="letter-form m-form" action="" method="post" id="society-conveyance-application">
+                <form class="letter-form m-form" action="{{ route('society_conveyance.store') }}" method="post" id="society-conveyance-application" enctype="multipart/form-data">
+                    @csrf
                     <!-- BEGIN: Subheader -->
                     <div class="m-subheader letter-form-header">
                         <div class="d-flex align-items-center justify-content-center">
@@ -105,7 +106,7 @@
                                     <div class="col-sm-6 application-fields">
                                         <label class="application-form-label" for="">Upload File:</label>
                                         <p>
-                                            <input class="custom-file-input" name="" type="file"
+                                            <input class="custom-file-input" name="template" type="file"
                                                    id="test-upload" required>
                                             <label class="custom-file-label" for="test-upload">Choose
                                                 file ...</label>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\society_detail\SocietyDetailRequest;
+use App\LeaseDetail;
 use App\OtherLand;
 use App\SocietyDetail;
 use App\VillageDetail;
@@ -12,6 +13,7 @@ use Yajra\DataTables\DataTables;
 use Config;
 use DB;
 use Excel;
+use Session;
 
 class SocietyController extends Controller
 {
@@ -99,7 +101,6 @@ class SocietyController extends Controller
     {
         $header_data = $this->header_data;
         $getData = $request->all();
-
         $columns = [
             // ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
@@ -135,7 +136,7 @@ class SocietyController extends Controller
             }else{
                 $i=1;
                 foreach ($society_data as $dataList_key => $dataList_value) {
-                    
+
                     $dataList = [];
                     $dataList['id'] = $i;
                     $dataList['Society Name'] = $dataList_value['society_name'];
@@ -151,7 +152,7 @@ class SocietyController extends Controller
                     $dataList['Surplus Charges'] = $dataList_value['surplus_charges'];
                     $dataList['Last date of paying surplus charges'] = $dataList_value['surplus_charges_last_date'];
                     $dataList['Land Name'] = $dataList_value['land_name'];
-        
+
                     $dataListKeys = array_keys($dataList);
                     $dataListMaster[]=$dataList;
                     $i++;
@@ -169,13 +170,14 @@ class SocietyController extends Controller
         if ($datatables->getRequest()->ajax()) {
 
             // DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
-             $society_data = SocietyDetail::orderBy('id', 'desc')->get();
+            $society_data = SocietyDetail::orderBy('id', 'desc')->get();
             // $society_data = VillageDetail::with('Societies')->whereHas('Societies')->where('id',$id);
             //$society_data= array_get($society_data, 'Societies')!=null?array_get($society_data, 'Societies'):[];
 
             // $society_data = $society_data->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').',society_name, lm_society_detail.id as id, village_id, survey_number, society_address, surplus_charges');
 //            dd($society_data);
 
+//            dd($society_data);
             return $datatables->of($society_data)
                 // ->editColumn('radio', function ($society_data) {
                 //     $url = route('society_detail.show', $society_data->id);
@@ -191,7 +193,7 @@ class SocietyController extends Controller
                     foreach($society_data->Villages as $viilage)
                      {
                         $village_string.= $viilage->village_name.",";
-                     }   
+                     }
                     return "<span>".trim($village_string,',')."</span>";
                 })
                 ->editColumn('society_name', function ($society_data) {
@@ -355,5 +357,133 @@ class SocietyController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function show_end_date_lease(Request $request, Datatables $datatables){
+        $header_data = $this->header_data;
+        $getData = $request->all();
+        $columns = [
+            // ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
+            ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
+            ['data' => 'society_name','name' => 'society_name','title' => 'Society Name'],
+            ['data' => 'societyVillage', 'class'=> 'datatable-village', 'name' => 'societyVillage.village_name','title' => 'Village Name'],
+            ['data' => 'survey_number','name' => 'survey_number','title' => 'Survey Number'],
+            ['data' => 'society_address','name' => 'society_address','title' => 'Society Address'],
+            ['data' => 'surplus_charges', 'name' => 'surplus_charges', 'title' => 'Surplus Charges'],
+            ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
+        ];
+        if($request->excel)
+        {
+            $society_data = SocietyDetail::join('other_land','lm_society_detail.other_land_id', '=', 'other_land.id')
+                ->join('village_societies','village_societies.society_id','=','lm_society_detail.id');
+            $society_data = $society_data->selectRaw( DB::raw('lm_society_detail.id,lm_society_detail.society_name,lm_society_detail.district,lm_society_detail.taluka,lm_society_detail.village,lm_society_detail.survey_number,lm_society_detail.cts_number,lm_society_detail.chairman,lm_society_detail.society_address,lm_society_detail.area,lm_society_detail.date_on_service_tax,lm_society_detail.surplus_charges,lm_society_detail.surplus_charges_last_date,other_land.land_name'))->distinct('id')->get();
+            if(count($society_data) == 0){
+                $dataListMaster = [];
+                $dataList = [];
+                $dataList['id'] = '';
+                $dataList['Society Name'] = '';
+                $dataList['District'] = '';
+                $dataList['Taluka'] = '';
+                $dataList['Survey Number'] = '';
+                $dataList['CTS Number'] = '';
+                $dataList['Chairman'] = '';
+                $dataList['Society Address'] = '';
+                $dataList['Area'] = '';
+                $dataList['Date mentioned on service tax letters'] = '';
+                $dataList['Surplus Charges'] = '';
+                $dataList['Last date of paying surplus charges'] = '';
+                $dataList['Land Name'] = '';
+                $dataListMaster[]=$dataList;
+            }else{
+                $i=1;
+                foreach ($society_data as $dataList_key => $dataList_value) {
+
+                    $dataList = [];
+                    $dataList['id'] = $i;
+                    $dataList['Society Name'] = $dataList_value['society_name'];
+                    $dataList['District'] = $dataList_value['district'];
+                    $dataList['Taluka'] = $dataList_value['taluka'];
+                    $dataList['Village'] = $this->getVillages($dataList_value['id']);
+                    $dataList['Survey Number'] = $dataList_value['survey_number'];
+                    $dataList['CTS Number'] = $dataList_value['cts_number'];
+                    $dataList['Chairman'] = $dataList_value['chairman'];
+                    $dataList['Society Address'] = $dataList_value['society_address'];
+                    $dataList['Area'] = $dataList_value['area'];
+                    $dataList['Date mentioned on service tax letters'] = $dataList_value['date_on_service_tax'];
+                    $dataList['Surplus Charges'] = $dataList_value['surplus_charges'];
+                    $dataList['Last date of paying surplus charges'] = $dataList_value['surplus_charges_last_date'];
+                    $dataList['Land Name'] = $dataList_value['land_name'];
+
+                    $dataListKeys = array_keys($dataList);
+                    $dataListMaster[]=$dataList;
+                    $i++;
+                }
+            }
+            // dd($dataListMaster);
+            return Excel::create('society_details_'.date('Y_m_d_H_i_s'), function($excel) use($dataListMaster){
+
+                $excel->sheet('mySheet', function($sheet) use($dataListMaster)
+                {
+                    $sheet->fromArray($dataListMaster);
+                });
+            })->download('csv');
+        }
+        $society_datas = SocietyDetail::orderBy('id', 'desc')->get();
+        $lease_detail = LeaseDetail::with('leaseSociety')->get();
+        $society_data = [];
+        $lease_count = 0;
+        foreach($society_datas as $society_datas_key => $society_datas_val){
+            foreach($lease_detail as $lease_detail_key => $lease_detail_val){
+                $lease_start_date = $lease_detail_val->lease_start_date;
+                $lease_end_date = date('Y-m-d', strtotime('+5 years', strtotime($lease_detail_val->lease_start_date)));
+                $current_date = date('Y-m-d', strtotime('+3 days'));
+                if(($society_datas_val->id == $lease_detail_val->society_id) && ($current_date == $lease_end_date)){
+                    $society_data[] = $society_datas_val;
+                    $lease_count++;
+                }
+            }
+        }
+        session()->put('lease_end_date_count', $lease_count);
+//        dd($society_data);
+        if ($datatables->getRequest()->ajax()) {
+
+            // DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
+            // $society_data = VillageDetail::with('Societies')->whereHas('Societies')->where('id',$id);
+            //$society_data= array_get($society_data, 'Societies')!=null?array_get($society_data, 'Societies'):[];
+
+            // $society_data = $society_data->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').',society_name, lm_society_detail.id as id, village_id, survey_number, society_address, surplus_charges');
+
+//            dd($society_data);
+            return $datatables->of($society_data)
+                // ->editColumn('radio', function ($society_data) {
+                //     $url = route('society_detail.show', $society_data->id);
+                //     return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
+                // })
+                ->editColumn('rownum', function ($society_data) {
+                    static $i = 0;
+                    $i++;
+                    return $i;
+                })
+                ->editColumn('societyVillage', function ($society_data) {
+                    $village_string="";
+                    foreach($society_data->Villages as $viilage)
+                    {
+                        $village_string.= $viilage->village_name.",";
+                    }
+                    return "<span>".trim($village_string,',')."</span>";
+                })
+                ->editColumn('society_name', function ($society_data) {
+                    return "<a href='".route('lease_detail.index', [$society_data->id])."'>$society_data->society_name</a>";
+                })
+                ->editColumn('actions', function ($society_data) {
+                    return view('admin.society_detail.actions', compact('society_data'))->render();
+                })
+                ->rawColumns(['societyVillage', 'society_name', 'actions'])
+                ->make(true);
+        }
+
+        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+
+        return view('admin.society_detail.index', compact('html','header_data','getData', 'id'));
     }
 }

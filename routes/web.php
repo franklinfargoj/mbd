@@ -155,6 +155,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('/society_detail/edit/{id}', 'SocietyController@edit')->name("society_detail.edit");
     Route::get('/society_detail/show/{id}', 'SocietyController@show')->name("society_detail.show");
     Route::post('/society_detail/update/{id}', 'SocietyController@update')->name("society_detail.update");
+    Route::get('/society_detail/show_end_date_lease', 'SocietyController@show_end_date_lease')->name("society_detail.show_end_date_lease");
 
     Route::get('/lease_detail/create/{id}', 'LeaseDetailController@create')->name("lease_detail.create");
     Route::get('/lease_detail/{id}', 'LeaseDetailController@index')->name("lease_detail.index");

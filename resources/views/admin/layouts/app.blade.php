@@ -73,10 +73,13 @@
                             <!-- BEGIN: Horizontal Menu -->
                             <!-- END: Topbar -->
                             <div class="d-flex align-items-center justify-content-end">
-                                <a href="#" class="m-portlet__nav-link m-dropdown__toggle primary-color mr-4">
-                                    <i class="m-nav__link-icon fa fa-bell"></i>
-                                    Notifications
-                                </a>
+                                @if(Request::segment(1) == 'village_detail' || Request::segment(1) == 'society_detail' || Request::segment(1) == 'lease_detail')
+                                    <a href="{{ route('society_detail.show_end_date_lease') }}" class="m-portlet__nav-link m-dropdown__toggle primary-color mr-4">
+                                        <i class="m-nav__link-icon fa fa-bell" style="padding-right: 3px"></i>
+                                        <span>({{ session()->get('lease_end_date_count') }})</span>
+                                        Notifications
+                                    </a>
+                                @endif
                                 <div class="m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push"
                                     data-dropdown-toggle="hover" aria-expanded="true">
                                     <a href="#" class="m-portlet__nav-link m-dropdown__toggle">
