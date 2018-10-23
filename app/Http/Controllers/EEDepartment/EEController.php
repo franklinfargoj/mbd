@@ -129,6 +129,7 @@ class EEController extends Controller
         $ol_application = $this->comman->getOlApplication($applicationId);    
         $societyDocument = $this->comman->getSocietyEEDocuments($applicationId);
         $ol_application->status = $this->comman->getCurrentStatus($applicationId);
+
         return view('admin.ee_department.documentSubmitted', compact('societyDocument','ol_application'));
     }
 
@@ -342,7 +343,9 @@ class EEController extends Controller
                 'role_id' => session()->get('role_id')
             ])->orderBy('id', 'desc')->first();
 
-        return view('admin.ee_department.scrutiny-remark', compact('arrData','ol_application'));
+         $societyDocuments = $this->comman->getSocietyEEDocuments($application_id);
+         // dd($societyDocuments);
+        return view('admin.ee_department.scrutiny-remark', compact('arrData','ol_application','societyDocuments'));
     }
 
     public function addDocumentScrutiny(Request $request)
