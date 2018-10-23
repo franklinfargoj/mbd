@@ -8,12 +8,14 @@ use App\Http\Requests\village_detail\VillageDetailRequest;
 use App\LandSource;
 use App\VillageDetail;
 use App\DeletedVillages;
+use App\LeaseDetail;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Common\CommonController;
 use DB;
 use File;
 use Illuminate\Support\Facades\Auth;
 use Storage;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Yajra\DataTables\DataTables;
 use Config;
 use Excel;
@@ -119,7 +121,18 @@ lm_village_detail.updated_at'))->get();
     {
         $header_data = $this->header_data;
         $getData = $request->all();
+        $lease_detail = LeaseDetail::with('leaseSociety')->select('id', 'lease_start_date', 'lease_period')->get();
 
+        $lease_count = 0;
+        foreach($lease_detail as $lease_detail_val){
+            $lease_start_date = $lease_detail_val->lease_start_date;
+            $lease_end_date = date('Y-m-d', strtotime('+5 years', strtotime($lease_detail_val->lease_start_date)));
+            $current_date = date('Y-m-d', strtotime('+3 days'));
+            if($current_date == $lease_end_date){
+                $lease_count++;
+            }
+        }
+        session()->put('lease_end_date_count', $lease_count);
         $columns = [
             // ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],

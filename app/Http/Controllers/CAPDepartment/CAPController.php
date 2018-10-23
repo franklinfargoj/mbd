@@ -158,14 +158,15 @@ class CAPController extends Controller
         $this->CommonController->getDyceForwardRevertLog($applicationData,$applicationId);
         $this->CommonController->getREEForwardRevertLog($applicationData,$applicationId);
 
-        // dd($applicationData);
-
         //remark and history
-        $eelogs = $this->CommonController->getLogsOfEEDepartment($applicationId);
-        $dyceLogs = $this->CommonController->getLogsOfDYCEDepartment($applicationId);  
-        $reeLogs = $this->CommonController->getLogsOfREEDepartment($applicationId);          
+        $eelogs   = $this->CommonController->getLogsOfEEDepartment($applicationId);
+        $dyceLogs = $this->CommonController->getLogsOfDYCEDepartment($applicationId);
+        $reeLogs  = $this->CommonController->getLogsOfREEDepartment($applicationId); 
+        $coLogs   = $this->CommonController->getLogsOfCODepartment($applicationId); 
+        $capLogs  = $this->CommonController->getLogsOfCAPDepartment($applicationId); 
+        $vpLogs   = $this->CommonController->getLogsOfVPDepartment($applicationId);           
 
-        return view('admin.cap_department.forward_application',compact('applicationData', 'arrData','ol_application','eelogs','dyceLogs','reeLogs'));
+        return view('admin.cap_department.forward_application',compact('applicationData', 'arrData','ol_application','eelogs','dyceLogs','reeLogs','coLogs','capLogs','vpLogs'));
     }
 
     public function sendForwardApplication(Request $request){
