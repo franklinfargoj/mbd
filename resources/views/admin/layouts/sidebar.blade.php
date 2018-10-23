@@ -224,7 +224,7 @@ $route=\Request::route()->getName();
                     </ul>
                 </div> -->
             </li>
-            <li id="village-actions" class="collapse show">
+            <li id="village-actions" class="collapse {{($route=='village_detail.index' || $route=='village_detail.edit'|| $route=='village_detail.show' || $route=='village_detail.create')?  'show' :''}}">
                 <ul class="list-unstyled">
                     <li class="m-menu__item m-menu__item--submenu {{($route=='village_detail.index' || $route=='village_detail.edit'|| $route=='village_detail.show')?'m-menu__item--active':''}}">
                         <a class="m-menu__link m-menu__toggle" href="{{url('/village_detail')}}" class="m-menu__link m-menu__toggle">
@@ -272,7 +272,7 @@ $route=\Request::route()->getName();
                 </ul>
             </div> -->
             </li>
-            <li id="society-actions" class="collapse show">
+            <li id="society-actions" class="collapse {{ ($route=='society_detail.index' || $route=='society_detail.show' || $route=='society_detail.edit' || $route=='society_detail.show_end_date_lease' || $route=='society_detail.create')? 'show':'' }}">
                 <ul class="list-unstyled">
                     <li class="m-menu__item m-menu__item--submenu {{($route=='society_detail.index' || $route=='society_detail.show' || $route=='society_detail.edit' || $route=='society_detail.show_end_date_lease' )?'m-menu__item--active':''}}">
                         <a class="m-menu__link m-menu__toggle" href="{{url('/society_detail')}}" class="m-menu__link m-menu__toggle">
@@ -322,7 +322,7 @@ $route=\Request::route()->getName();
                                 </div> -->
             </li>
             @endif
-            <li id="lease-actions" class="collapse show">
+            <li id="lease-actions" class="collapse {{($route=='lease_detail.index' || $route=='view-lease.view' || $route=='edit-lease.edit' || $route=='lease_detail.create')? 'show' : ''}}">
                 <ul class="list-unstyled">
 
                     {{--<li class="m-menu__item m-menu__item--submenu {{($route=='village_detail.index' || $route=='village_detail.edit'|| $route=='village_detail.show')?'m-menu__item--active':''}}">--}}
