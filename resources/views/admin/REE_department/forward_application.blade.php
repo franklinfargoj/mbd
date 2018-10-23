@@ -136,7 +136,7 @@
                                         <h3 class="section-title section-title--small mb-4">
                                             Remark History:
                                         </h3>
-                                        <span class="hint-text d-block font-weight-semi-bold">Remark by EE</span>
+                                        <span class="hint-text d-block font-weight-semi-bold">Remark by EE Department</span>
                                     </div>
                                     <div class="remarks-section">
                                         <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container"
@@ -170,7 +170,7 @@
                                 @if(count($dyceLogs) > 0)
                                 <div class="remark-body">
                                     <div class="border-bottom pb-2">
-                                        <span class="hint-text d-block font-weight-semi-bold">Remark by DYCE</span>
+                                        <span class="hint-text d-block font-weight-semi-bold">Remark by DYCE Department</span>
                                     </div>
                                     <div class="remarks-section">
                                         <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container"
@@ -206,7 +206,7 @@
                                 @if(count($reeLogs) > 0)
                                 <div class="remark-body">
                                     <div class="border-bottom pb-2">
-                                        <span class="hint-text d-block font-weight-semi-bold">Remark by REE</span>
+                                        <span class="hint-text d-block font-weight-semi-bold">Remark by REE Department</span>
                                     </div>
                                     <div class="remarks-section">
                                         <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container"
@@ -242,106 +242,103 @@
                                 @if(count($coLogs) > 0)
                                 <div class="remark-body">
                                     <div class="border-bottom pb-2">
-                                        <span class="hint-text d-block font-weight-semi-bold">Remark by CO</span>
+                                        <span class="hint-text d-block t-remark">Remark by CO Department</span>
                                     </div>
                                     <div class="remarks-section">
                                         <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container"
-                                            data-scrollbar-shown="true" data-scrollable="true">
-                                            
-                                            <!-- CO logs -->
-                                            @foreach($coLogs as $log)
+                                            data-scrollbar-shown="true" data-scrollable="true" data-max-height="130">
 
-                                                @if($log->status_id == config('commanConfig.applicationStatus.forwarded'))
-                                                    @php $status = 'Forwarded'; @endphp
-                                                @elseif($log->status_id == config('commanConfig.applicationStatus.reverted'))
-                                                    @php $status = 'Reverted'; @endphp
-                                                @endif  
+                                        @foreach($coLogs as $log)
 
-                                                <div class="remarks-section__data">
-                                                    <p class="remarks-section__data__row"><span>Date:</span><span>{{(isset($log) && $log->created_at != '' ? date("d-m-Y",
-                                                    strtotime($log->created_at)) : '')}}</span>
+                                            @if($log->status_id == config('commanConfig.applicationStatus.forwarded'))
+                                                @php $status = 'Forwarded'; @endphp
+                                            @elseif($log->status_id == config('commanConfig.applicationStatus.reverted'))
+                                                @php $status = 'Reverted'; @endphp
+                                            @endif
 
-                                                    </p>
-                                                    <p class="remarks-section__data__row"><span>Time:</span><span>{{(isset($log) && $log->created_at != '' ? date("H:i",
-                                                    strtotime($log->created_at)) : '')}}</span></p>
-                                                    <p class="remarks-section__data__row"><span>Action:</span>
+                                            <div class="remarks-section__data">
+                                                <p class="remarks-section__data__row"><span>Date:</span><span>{{(isset($log) && $log->created_at != '' ? date("d-m-Y",
+                                                        strtotime($log->created_at)) : '')}}</span>
 
-                                                    <span>{{$status}} to {{isset($log->getRoleName->display_name) ? $log->getRoleName->display_name : ''}} From {{isset($log->getRole->display_name) ? $log->getRole->display_name : ''}}</span></p>
-                                                    <p class="remarks-section__data__row"><span>Description:</span><span>{{(isset($log) ? $log->remark : '')}}</span></p>
-                                                </div>
-                                            @endforeach
+                                                </p>
+                                                <p class="remarks-section__data__row"><span>Time:</span><span>{{(isset($log) && $log->created_at != '' ? date("H:i",
+                                                        strtotime($log->created_at)) : '')}}</span></p>
+                                                <p class="remarks-section__data__row"><span>Action:</span>
+
+                                                <span>{{$status}} to {{isset($log->getRoleName->display_name) ? $log->getRoleName->display_name : ''}} From {{isset($log->getRole->display_name) ? $log->getRole->display_name : ''}}</span></p>
+                                                <p class="remarks-section__data__row"><span>Description:</span><span>{{(isset($log) ? $log->remark : '')}}</span></p>
+                                            </div>
+                                        @endforeach                                         
                                         </div>
                                     </div>
                                 </div> 
-                                @endif
-
+                                @endif     
+                                
                                 @if(count($capLogs) > 0)
                                 <div class="remark-body">
                                     <div class="border-bottom pb-2">
-                                        <span class="hint-text d-block font-weight-semi-bold">Remark by CAP</span>
+                                        <span class="hint-text d-block t-remark">Remark by CAP Department</span>
                                     </div>
                                     <div class="remarks-section">
                                         <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container"
-                                            data-scrollbar-shown="true" data-scrollable="true">
-                                            
-                                            <!-- CAP logs -->
-                                            @foreach($capLogs as $log)
+                                            data-scrollbar-shown="true" data-scrollable="true" data-max-height="130">
 
-                                                @if($log->status_id == config('commanConfig.applicationStatus.forwarded'))
-                                                    @php $status = 'Forwarded'; @endphp
-                                                @elseif($log->status_id == config('commanConfig.applicationStatus.reverted'))
-                                                    @php $status = 'Reverted'; @endphp
-                                                @endif  
+                                        @foreach($capLogs as $log)
 
-                                                <div class="remarks-section__data">
-                                                    <p class="remarks-section__data__row"><span>Date:</span><span>{{(isset($log) && $log->created_at != '' ? date("d-m-Y",
-                                                    strtotime($log->created_at)) : '')}}</span>
+                                            @if($log->status_id == config('commanConfig.applicationStatus.forwarded'))
+                                                @php $status = 'Forwarded'; @endphp
+                                            @elseif($log->status_id == config('commanConfig.applicationStatus.reverted'))
+                                                @php $status = 'Reverted'; @endphp
+                                            @endif
 
-                                                    </p>
-                                                    <p class="remarks-section__data__row"><span>Time:</span><span>{{(isset($log) && $log->created_at != '' ? date("H:i",
-                                                    strtotime($log->created_at)) : '')}}</span></p>
-                                                    <p class="remarks-section__data__row"><span>Action:</span>
+                                            <div class="remarks-section__data">
+                                                <p class="remarks-section__data__row"><span>Date:</span><span>{{(isset($log) && $log->created_at != '' ? date("d-m-Y",
+                                                        strtotime($log->created_at)) : '')}}</span>
 
-                                                    <span>{{$status}} to {{isset($log->getRoleName->display_name) ? $log->getRoleName->display_name : ''}} From {{isset($log->getRole->display_name) ? $log->getRole->display_name : ''}}</span></p>
-                                                    <p class="remarks-section__data__row"><span>Description:</span><span>{{(isset($log) ? $log->remark : '')}}</span></p>
-                                                </div>
-                                            @endforeach
+                                                </p>
+                                                <p class="remarks-section__data__row"><span>Time:</span><span>{{(isset($log) && $log->created_at != '' ? date("H:i",
+                                                        strtotime($log->created_at)) : '')}}</span></p>
+                                                <p class="remarks-section__data__row"><span>Action:</span>
+
+                                                <span>{{$status}} to {{isset($log->getRoleName->display_name) ? $log->getRoleName->display_name : ''}} From {{isset($log->getRole->display_name) ? $log->getRole->display_name : ''}}</span></p>
+                                                <p class="remarks-section__data__row"><span>Description:</span><span>{{(isset($log) ? $log->remark : '')}}</span></p>
+                                            </div>
+                                        @endforeach                                         
                                         </div>
                                     </div>
                                 </div> 
-                                @endif                                 
-
+                                @endif    
+                                
                                 @if(count($vpLogs) > 0)
                                 <div class="remark-body">
                                     <div class="border-bottom pb-2">
-                                        <span class="hint-text d-block font-weight-semi-bold">Remark by VP</span>
+                                        <span class="hint-text d-block t-remark">Remark by VP Department</span>
                                     </div>
                                     <div class="remarks-section">
                                         <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container"
-                                            data-scrollbar-shown="true" data-scrollable="true">
-                                            
-                                            <!-- CO logs -->
-                                            @foreach($vpLogs as $log)
+                                            data-scrollbar-shown="true" data-scrollable="true" data-max-height="130">
 
-                                                @if($log->status_id == config('commanConfig.applicationStatus.forwarded'))
-                                                    @php $status = 'Forwarded'; @endphp
-                                                @elseif($log->status_id == config('commanConfig.applicationStatus.reverted'))
-                                                    @php $status = 'Reverted'; @endphp
-                                                @endif  
+                                        @foreach($vpLogs as $log)
 
-                                                <div class="remarks-section__data">
-                                                    <p class="remarks-section__data__row"><span>Date:</span><span>{{(isset($log) && $log->created_at != '' ? date("d-m-Y",
-                                                    strtotime($log->created_at)) : '')}}</span>
+                                            @if($log->status_id == config('commanConfig.applicationStatus.forwarded'))
+                                                @php $status = 'Forwarded'; @endphp
+                                            @elseif($log->status_id == config('commanConfig.applicationStatus.reverted'))
+                                                @php $status = 'Reverted'; @endphp
+                                            @endif
 
-                                                    </p>
-                                                    <p class="remarks-section__data__row"><span>Time:</span><span>{{(isset($log) && $log->created_at != '' ? date("H:i",
-                                                    strtotime($log->created_at)) : '')}}</span></p>
-                                                    <p class="remarks-section__data__row"><span>Action:</span>
+                                            <div class="remarks-section__data">
+                                                <p class="remarks-section__data__row"><span>Date:</span><span>{{(isset($log) && $log->created_at != '' ? date("d-m-Y",
+                                                        strtotime($log->created_at)) : '')}}</span>
 
-                                                    <span>{{$status}} to {{isset($log->getRoleName->display_name) ? $log->getRoleName->display_name : ''}} From {{isset($log->getRole->display_name) ? $log->getRole->display_name : ''}}</span></p>
-                                                    <p class="remarks-section__data__row"><span>Description:</span><span>{{(isset($log) ? $log->remark : '')}}</span></p>
-                                                </div>
-                                            @endforeach
+                                                </p>
+                                                <p class="remarks-section__data__row"><span>Time:</span><span>{{(isset($log) && $log->created_at != '' ? date("H:i",
+                                                        strtotime($log->created_at)) : '')}}</span></p>
+                                                <p class="remarks-section__data__row"><span>Action:</span>
+
+                                                <span>{{$status}} to {{isset($log->getRoleName->display_name) ? $log->getRoleName->display_name : ''}} From {{isset($log->getRole->display_name) ? $log->getRole->display_name : ''}}</span></p>
+                                                <p class="remarks-section__data__row"><span>Description:</span><span>{{(isset($log) ? $log->remark : '')}}</span></p>
+                                            </div>
+                                        @endforeach                                         
                                         </div>
                                     </div>
                                 </div> 
