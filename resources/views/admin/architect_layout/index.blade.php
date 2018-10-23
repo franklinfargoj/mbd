@@ -23,6 +23,12 @@
                         <div class="row align-items-center mb-0">
                             <div class="col-md-2">
                                 <div class="form-group m-form__group">
+                                    <input type="text" id="title" name="title" class="form-control form-control--custom m-input"
+                                        placeholder="Layout No" value="{{ isset($getData['title'])? $getData['title'] : '' }}">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group m-form__group">
                                     <input type="text" id="submitted_at_from" name="submitted_at_from" class="form-control form-control--custom m-input m_datepicker"
                                         placeholder="From Date" value="{{ isset($getData['submitted_at_from'])? $getData['submitted_at_from'] : '' }}">
                                 </div>
@@ -57,7 +63,8 @@
                                 <div class="form-group m-form__group">
                                     <div class="btn-list">
                                         <button type="submit" class="btn btn-primary">Search</button>
-                                        <button type="reset" onclick="window.location.href='{{ url("/ee") }}'" class="btn btn-metal">Reset</button>
+                                        <button type="reset" onclick="window.location.href='{{ route("architect_layout.index") }}'"
+                                            class="btn btn-metal">Reset</button>
                                     </div>
                                 </div>
                             </div>
