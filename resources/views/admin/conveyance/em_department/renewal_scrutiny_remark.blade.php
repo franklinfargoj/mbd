@@ -13,18 +13,18 @@
                 </div>
             </div>
             <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom" role="tablist">
-                <li class="nav-item m-tabs__item">
+                <li class="nav-item m-tabs__item em_tabs" id="section-1">
                     <a class="nav-link m-tabs__link active show" data-toggle="tab" href="#no-dues-certificate" role="tab"
                        aria-selected="false">
                         <i class="la la-cog"></i> No Dues Certificate
                     </a>
                 </li>
-                <li class="nav-item m-tabs__item">
+                <li class="nav-item m-tabs__item em_tabs" id="section-2">
                     <a class="nav-link m-tabs__link" data-toggle="tab" href="#list-of-bonafide_allottes" role="tab" aria-selected="true">
-                        <i class="la la-bell-o"></i> List of Bonafide Allottes
+                        <i class="la la-bell-o"></i> List of Bonafide Allottees
                     </a>
                 </li>
-                <li class="nav-item m-tabs__item">
+                <li class="nav-item m-tabs__item em_tabs" id="section-3">
                     <a class="nav-link m-tabs__link" data-toggle="tab" href="#covering-letter" role="tab" aria-selected="true">
                         <i class="la la-bell-o"></i> Covering Letter
                     </a>
@@ -33,7 +33,7 @@
         </div>
 
         <div class="tab-content">
-                <div class="tab-pane active show" id="no-dues-certificate" role="tabpanel">
+                <div class="tab-pane section-1 active show" id="no-dues-certificate" role="tabpanel">
                 <!-- society details div here -->
                 <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
                     <div class="portlet-body">
@@ -69,13 +69,13 @@ Co-op. Housing Society Ltd. Have paid all the dues in respect of above bldg./bld
                     </div>
                 </div>
             </div>
-                <div class="tab-pane" id="list-of-bonafide_allottes" role="tabpanel">
+                <div class="tab-pane section-2" id="list-of-bonafide_allottes" role="tabpanel">
                 <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
                     <div class="portlet-body">
                         <div class="m-portlet__body m-portlet__body--table">
                             <div class="m-subheader">
                                 <div class="d-flex align-items-center justify-content-center">
-                                    <h3 class="section-title text-uppercase">List of Allotte</h3>
+                                    <h3 class="section-title text-uppercase">List of Allottees</h3>
                                 </div>
                             </div>
                             <div class="m-section__content mb-0 table-responsive">
@@ -109,7 +109,7 @@ Co-op. Housing Society Ltd. Have paid all the dues in respect of above bldg./bld
                     </div>
                 </div>
             </div>
-                <div class="tab-pane" id="covering-letter" role="tabpanel">
+                <div class="tab-pane section-3" id="covering-letter" role="tabpanel">
                     <div class="panel" id="ee-note">
                         <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
                             <div class="portlet-body">
@@ -131,11 +131,26 @@ Co-op. Housing Society Ltd. Have paid all the dues in respect of above bldg./bld
                                                                        id="test-upload" required="">
                                                                 <label class="custom-file-label" for="test-upload">Choose
                                                                     file...</label>
-                                                                <span class="help-block">
-                                                @if(session('error_uploaded_file'))
-                                                                        {{session('error_uploaded_file')}}
-                                                                    @endif
-                                            </span>
+
+                                                                <span class="text-danger" id="file_error">
+
+                                                                    <span class="help-block">
+                                                                        @if(session()->has('success'))
+                                                                            <div class="alert alert-success display_msg">
+                                                                                {{ session()->get('success') }}
+                                                                            </div>
+                                                                        @endif
+
+                                                                        @if(session()->has('error_uploaded_file'))
+                                                                            <div class="alert alert-danger display_msg">
+                                                                                {{ session()->get('error_uploaded_file') }}
+                                                                            </div>
+                                                                        @endif
+                                                                    </span>
+                                                                    {{--@if(session('error_uploaded_file'))--}}
+                                                                        {{--{{session('error_uploaded_file')}}--}}
+                                                                    {{--@endif--}}
+                                                                </span>
                                                                 {{--<input type="hidden" name="id" value="{{ $application_details->id }}">--}}
                                                             </div>
                                                             <div class="mt-auto">
@@ -163,6 +178,7 @@ Co-op. Housing Society Ltd. Have paid all the dues in respect of above bldg./bld
                         </div>
                     </div>
                 </div>
+            </div>
         </div>
     </div>
 @endsection
@@ -176,4 +192,55 @@ Co-op. Housing Society Ltd. Have paid all the dues in respect of above bldg./bld
     });
 
 </script>
-    @endsection
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // pdf validation
+        $("#uploadBtn").click(function () {
+
+            myfile = $("#test-upload").val();
+            var ext = myfile.split('.').pop();
+            if (myfile != '') {
+
+                if (ext != "pdf") {
+                    $("#file_error").text("Invalid type of file uploaded (only pdf allowed).");
+                    return false;
+                } else {
+                    $("#file_error").text("");
+                    return true;
+                }
+            } else {
+                $("#file_error").text("This field required");
+                return false;
+            }
+        });
+
+        //cookies setting for tabs
+        $(".display_msg").delay("slow").slideUp("slow");
+
+        var id = Cookies.get('sectionId');
+        if (id != undefined) {
+            //alert(id);
+
+
+            $(".tab-pane").removeClass('active');
+            $(".nav-link").removeClass('active');
+            $(".m-tabs__item").removeClass('active');
+            $("#" + id+ " a").addClass('active');
+
+            $("." + id).addClass('active');
+        }
+
+        $(".em_tabs").on('click', function () {
+            $(".nav-link").removeClass('active');
+            Cookies.set('sectionId', this.id);
+        });
+
+
+    });
+
+
+</script>
+
+
+@endsection
