@@ -121,4 +121,16 @@ return [
     ],
 
     'storage_server' => 'http://storage.mhada.php-dev.in',
+
+    'eoa_imp_senior_professionals_category'=>[
+        'AR'=>'ARCHITECT',
+        'EN'=>'ENGINEER',
+        'OT'=>'OTHER'
+    ],
+    'eoa_imp_senior_professionals_qualifications'=>[
+        'DIP'=>'DIPLOMA',
+        'DEG'=>'DEGREE',
+        'PG'=>'POST GRADUATE',
+        'DR'=>'DOCTORATE'
+    ]
 ];
