@@ -37,6 +37,7 @@ use Carbon\Carbon;
 use Config;
 use DB;
 use Storage;
+use App\ArchitectApplication;
 
 class CommonController extends Controller
 {
@@ -132,6 +133,48 @@ class CommonController extends Controller
         return $applicationData;
     }
 
+    public function architect_applications($request)
+    {
+        $architect_applications = ArchitectApplication::with(['ArchitectApplicationStatusForLoginListing' => function ($query) {
+            return $query->where(['user_id' => auth()->user()->id, 'role_id' => session()->get('role_id')])->orderBy('id', 'desc');
+        }]);
+
+        if ($request->keyword) {
+            $architect_applications->where(function ($query) use ($request) {
+                $query->orWhere('application_number', 'like', '%' . $request->keyword . '%');
+                $query->orWhere('candidate_name', 'like', '%' . $request->keyword . '%');
+                $query->orWhere('candidate_email', 'like', '%' . $request->keyword . '%');
+                $query->orWhere('candidate_mobile_no', 'like', '%' . $request->keyword . '%');
+            });
+        }
+        if ($request->application_status) {
+            $architect_applications->where('application_status', '=', $request->application_status);
+        }
+
+        if ($request->from) {
+            $architect_applications->whereDate('application_date', '>=', date('Y-m-d', strtotime($request->from)));
+        }
+
+        if ($request->status) {
+            $architect_applications->where(DB::raw($request->status), '=', function ($q) {
+                $q->from('architect_application_status_logs')
+                ->select('status_id')
+                ->where('user_id', auth()->user()->id)
+                ->where('role_id', session()->get('role_id'))
+                ->where('architect_application_id', '=', DB::raw('architect_application.id'))
+                ->limit(1)
+                ->orderBy('id', 'desc');
+            });
+        }
+
+        if ($request->to) {
+            $architect_applications->whereDate('application_date', '<=', date('Y-m-d', strtotime($request->to)));
+        }
+        $architect_application = $architect_applications->get();
+
+        return $architect_application;
+    }
+
     public function architect_layout_details($request)
     {
         $ArchitectLayoutLayoutdetailsQuery = ArchitectLayout::with(['layout_details', 'ArchitectLayoutStatusLogInListing' => function ($q) {
@@ -145,12 +188,17 @@ class CommonController extends Controller
         });
         if ($request->update_status) {
             $ArchitectLayoutLayoutdetailsQuery->where(DB::raw($request->update_status), '=', function ($q) {
-                $q->from('architect_layout_status_logs')->select('status_id')->where('architect_layout_id', '=', DB::raw('architect_layouts.id'))->limit(1)->orderBy('id', 'desc');
+                $q->from('architect_layout_status_logs')
+                ->select('status_id')
+                ->where('architect_layout_id', '=', DB::raw('architect_layouts.id'))
+                ->where('user_id', Auth::user()->id)
+                ->where('role_id', session()->get('role_id'))
+                ->limit(1)->orderBy('id', 'desc');
             });
         }
 
         if ($request->title) {
-            $ArchitectLayoutLayoutdetailsQuery->where('layout_no',$request->title);
+            $ArchitectLayoutLayoutdetailsQuery->where('layout_no', $request->title);
         }
 
         if ($request->submitted_at_from && $request->submitted_at_to) {
@@ -167,10 +215,20 @@ class CommonController extends Controller
             $q->where('user_id', Auth::user()->id)
                 ->where('role_id', session()->get('role_id'))
                 ->orderBy('id', 'desc');
-        }]);
+        }])->whereHas('ArchitectLayoutStatusLogInListing', function ($q) {
+            $q->where('user_id', Auth::user()->id)
+                ->where('role_id', session()->get('role_id'))
+                ->orderBy('id', 'desc');
+        });
         if ($request->update_status) {
             $ArchitectLayoutRevisionRequestsQuery->where(DB::raw($request->update_status), '=', function ($q) {
-                $q->from('architect_layout_status_logs')->select('status_id')->where('architect_layout_id', '=', DB::raw('architect_layouts.id'))->limit(1)->orderBy('id', 'desc');
+                $q->from('architect_layout_status_logs')
+                ->select('status_id')
+                ->where('architect_layout_id', '=', DB::raw('architect_layouts.id'))
+                ->where('user_id', Auth::user()->id)
+                ->where('role_id', session()->get('role_id'))
+                ->limit(1)
+                ->orderBy('id', 'desc');
             });
         }
         if ($request->submitted_at_from && $request->submitted_at_to) {
@@ -178,7 +236,7 @@ class CommonController extends Controller
         }
         if ($request->title) {
             //dd($request->title);
-            $ArchitectLayoutRevisionRequestsQuery->where('layout_no',$request->title);
+            $ArchitectLayoutRevisionRequestsQuery->where('layout_no', $request->title);
         }
         $ArchitectLayoutRevisionRequests = $ArchitectLayoutRevisionRequestsQuery->where(DB::raw(config('commanConfig.architect_layout_status.new_application')), '!=', function ($q) {
             $q->from('architect_layout_status_logs')->select('status_id')->where('architect_layout_id', '=', DB::raw('architect_layouts.id'))->limit(1)->orderBy('id', 'desc');
