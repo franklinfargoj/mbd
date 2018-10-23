@@ -2718,3 +2718,7 @@ label.site-visit-label {
     border-top: 1px solid #ccc;
     padding-top: 15px;
 }
+
+.t-remark{
+    font-weight: 500;
+}
