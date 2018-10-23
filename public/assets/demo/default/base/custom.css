@@ -352,6 +352,7 @@
     padding-left: 0;
     border: none;
     border-radius: 0 !important;
+    margin-bottom: 0;
 }
 
 .m-radio--row .m-radio--row__span span {
@@ -360,6 +361,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     border: none;
+    width: 100%;
 }
 
 .m-radio--row>input:checked~.m-radio--row__span {
@@ -368,11 +370,6 @@
 
 .m-radio--row>input:checked~.m-radio--row__span::after {
     display: none;
-}
-
-.m-radio--row>input:checked~.m-radio--row__span {
-    background-color: #f0791b;
-    color: white;
 }
 
 .form-control--custom .btn-default {
@@ -867,7 +864,7 @@ table.dataTable tbody tr:nth-child(even):focus {
     transition: 0.3s all ease;
 }
 
-.m-aside-menu.m-aside-menu--skin-dark .m-menu__nav>.m-menu__item.collapsed .la-angle-right {
+.m-aside-menu.m-aside-menu--skin-dark .m-menu__nav .m-menu__item.collapsed .la-angle-right {
     transform: rotate(0deg);
 }
 
@@ -1838,6 +1835,19 @@ input:disabled+label:after {
     text-align: center;
 }
 
+.table--dark.table--dark--rows tr td:first-child {
+    background-color: transparent;
+}
+
+.table-c-modal tr.active {
+    background-color: #f0791b;
+    color: white;
+}
+
+.table-c-modal tr.active .m-radio--row .m-radio--row__span span {
+    color: #fff;
+}
+
 /* calculation sheets ends here */
 
 /* EE scrunity remarks starts here */
@@ -2717,4 +2727,12 @@ label.site-visit-label {
     font-weight: 500;
     border-top: 1px solid #ccc;
     padding-top: 15px;
+}
+
+
+@media (min-width: 576px) {
+    .modal-dialog {
+        max-width: 550px;
+        margin: 30px auto;
+    }
 }
