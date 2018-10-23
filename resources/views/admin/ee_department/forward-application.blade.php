@@ -124,7 +124,7 @@
                                     <h3 class="section-title section-title--small mb-2">
                                         Remark History:
                                     </h3>
-                                    <span class="hint-text d-block">Remark by EE</span>
+                                    <span class="hint-text d-block t-remark">Remark by EE Department</span>
                                 </div>
                                 <div class="remarks-section">
                                     <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container"
@@ -152,7 +152,7 @@
                                 @if(count($dyceLogs) > 0)
                                 <div class="remark-body">
                                     <div class="border-bottom pb-2">
-                                        <span class="hint-text d-block t-remark">Remark by DYCE</span>
+                                        <span class="hint-text d-block t-remark">Remark by DYCE Department</span>
                                     </div>
                                     <div class="remarks-section">
                                         <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container"
@@ -187,7 +187,7 @@
                                 @if(count($reeLogs) > 0)
                                 <div class="remark-body">
                                     <div class="border-bottom pb-2">
-                                        <span class="hint-text d-block t-remark">Remark by REE</span>
+                                        <span class="hint-text d-block t-remark">Remark by REE Department</span>
                                     </div>
                                     <div class="remarks-section">
                                         <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container"
@@ -222,11 +222,11 @@
                                 @if(count($coLogs) > 0)
                                 <div class="remark-body">
                                     <div class="border-bottom pb-2">
-                                        <span class="hint-text d-block t-remark">Remark by CO</span>
+                                        <span class="hint-text d-block t-remark">Remark by CO Department</span>
                                     </div>
                                     <div class="remarks-section">
                                         <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container"
-                                            data-scrollbar-shown="true" data-scrollable="true">
+                                            data-scrollbar-shown="true" data-scrollable="true" data-max-height="130">
 
                                         @foreach($coLogs as $log)
 
@@ -257,11 +257,11 @@
                                 @if(count($capLogs) > 0)
                                 <div class="remark-body">
                                     <div class="border-bottom pb-2">
-                                        <span class="hint-text d-block t-remark">Remark by CAP</span>
+                                        <span class="hint-text d-block t-remark">Remark by CAP Department</span>
                                     </div>
                                     <div class="remarks-section">
                                         <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container"
-                                            data-scrollbar-shown="true" data-scrollable="true">
+                                            data-scrollbar-shown="true" data-scrollable="true" data-max-height="130">
 
                                         @foreach($capLogs as $log)
 
@@ -292,11 +292,11 @@
                                 @if(count($vpLogs) > 0)
                                 <div class="remark-body">
                                     <div class="border-bottom pb-2">
-                                        <span class="hint-text d-block t-remark">Remark by VP</span>
+                                        <span class="hint-text d-block t-remark">Remark by VP Department</span>
                                     </div>
                                     <div class="remarks-section">
                                         <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container"
-                                            data-scrollbar-shown="true" data-scrollable="true">
+                                            data-scrollbar-shown="true" data-scrollable="true" data-max-height="150">
 
                                         @foreach($vpLogs as $log)
 
