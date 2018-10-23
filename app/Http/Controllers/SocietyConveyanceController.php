@@ -134,6 +134,7 @@ class SocietyConveyanceController extends Controller
      */
     public function store(Request $request)
     {
+        dd($request->input());
         if($request->file('template')) {
             $file = $request->file('template');
             $file_name = time() . $file->getFileName() . '.' . $file->getClientOriginalExtension();

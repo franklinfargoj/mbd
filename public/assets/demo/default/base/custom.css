@@ -867,7 +867,7 @@ table.dataTable tbody tr:nth-child(even):focus {
     transition: 0.3s all ease;
 }
 
-.m-aside-menu.m-aside-menu--skin-dark .m-menu__nav>.m-menu__item.collapsed .la-angle-right {
+.m-aside-menu.m-aside-menu--skin-dark .m-menu__nav .m-menu__item.collapsed .la-angle-right {
     transform: rotate(0deg);
 }
 
