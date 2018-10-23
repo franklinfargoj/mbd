@@ -4,6 +4,7 @@ namespace App\Http\Controllers\EMDepartment;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Common\CommonController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 use Yajra\DataTables\DataTables;
@@ -20,7 +21,7 @@ use App\MasterTenant;
 use App\ArrearsChargesRate;
 use App\ArrearTenantPayment;
 
-class ArreasCalculationController extends Controller
+class ArrearsCalculationController extends Controller
 {
     public function __construct()
     {
@@ -29,12 +30,17 @@ class ArreasCalculationController extends Controller
     }
 
     public function index(Request $request, Datatables $datatables) {
+
     	if($request->has('society_id') && $request->has('building_id') && !empty($request->society_id) && !empty($request->building_id)) {
 
-    		$society = MasterSociety::find($request->society_id);
+    		$society  = MasterSociety::find($request->society_id);
 	        $building = MasterBuilding::where('society_id', $request->society_id)->find($request->building_id);
-	        $years = ArrearsChargesRate::selectRaw('Distinct(year) as years')->where('society_id',$request->society_i)->where('building_id',$request->building_id)->pluck('years','years')->toArray();
+	        $years 	  = ArrearsChargesRate::selectRaw('Distinct(year) as years')->where('society_id',$request->society_id)->where('building_id',$request->building_id)->pluck('years','years')->toArray();
 
+	        $select_year = '';
+	        if($request->has('year') && '' != $request->year) {
+	        	$select_year = $request->year;
+	        }
 	        $columns = [
 	            ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
 	            ['data' => 'year','name' => 'year','title' => 'Years'],
@@ -55,24 +61,27 @@ class ArreasCalculationController extends Controller
 	            //     return "<a href='".url('arrears_charges/'.$arrears_charges->id.'/edit')."' class='btn m-btn--pill m-btn--custom btn-primary'>Update</a>";
 	                
 	            // })
-	            if ($request->has('year') && '' != $request->get('year')) {
-					$query->where('year',$request->year);
-				}
+	            ->filter(function ($query) use ($request) {
+		            if ($request->has('year') && '' != $request->get('year')) {
+						$query->where('year',$request->year);
+					}
+				})
 	            // ->rawColumns(['actions'])
 	            ->make(true);
 	        }
 	        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
 
-	        return view('admin.em_department.arrears_calculations', compact('html','society','building'));
+	        return view('admin.em_department.arrears_calculations', compact('html','society','building','years','select_year'));
     	}
     }
 
     protected function getParameters() {
         return [
+        	'searching'  => false,
             'serverSide' => true,
             'processing' => true,
             'ordering'   =>'isSorted',
-            "order"=> [1, "asc" ],
+            "order"      => [1, "asc" ],
             "pageLength" => $this->list_num_of_records_per_page
         ];
     }

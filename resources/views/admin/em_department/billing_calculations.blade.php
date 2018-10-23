@@ -13,17 +13,12 @@
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
-            <h3 class="m-subheader__title m-subheader__title--separator">Arrears Calculation</h3>
+            <h3 class="m-subheader__title m-subheader__title--separator">Society Billing details - {{$society->name}} {{$building->name}}</h3>
             {{-- {{ Breadcrumbs::render('society_detail') }} --}}
         </div>
     </div>
     <!-- END: Subheader -->
     <div class="m-portlet m-portlet--compact m-portlet--mobile">
-        <div class="row align-items-center row--filter">
-            <div class="col-md-12">
-                <h4 class="m-subheader__title">Calculation Of Society - {{$society->name}} {{$building->name}}</h4>
-            </div>
-        </div>
         @if(Session::has('success'))
         <div class="alert alert-success fade in alert-dismissible show" style="margin-top:18px;">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -31,7 +26,7 @@
             </button> {{ Session::get('success') }}
         </div>
         @endif
-        <form role="form" id="Form" method="get" action="{{ route('arrears_calculations') }}">
+        <form role="form" id="Form" method="get" action="{{ route('billing_calculations') }}">
             <input type="hidden" name="society_id" value="{{$society->id}}">
             <input type="hidden" name="building_id" value="{{$building->id}}">
             <div class="row align-items-center mb-0">
