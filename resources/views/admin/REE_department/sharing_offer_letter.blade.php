@@ -115,8 +115,8 @@
                 <table style="width: 100%; text-align: center; border-collapse: collapse; table-layout: fixed;">
                     <thead style="text-align: center;">
                         <tr>
-                            <th style="width: 4%; border: 1px solid #000; padding: 5px 10px">Sr.No</th>
-                            <th style="width: 75%; border: 1px solid #000; padding: 5px 10px">Particular</th>
+                            <th style="width: 7%; border: 1px solid #000; padding: 5px 10px">Sr.No</th>
+                            <th style="width: 74%; border: 1px solid #000; padding: 5px 10px">Particular</th>
                             <th style="width: 21%; border: 1px solid #000; padding: 5px 10px;">Area in m <sup>2</sup></th>
                         </tr>
                     </thead>
@@ -265,8 +265,8 @@
                 <table style="width: 100%; text-align: center; border-collapse: collapse; table-layout: fixed;">
                     <thead style="text-align: center;">
                         <tr>
-                            <th style="width: 4%; border: 1px solid #000; padding: 5px 10px">Sr.No</th>
-                            <th style="width: 75%; border: 1px solid #000; padding: 5px 10px">Particular</th>
+                            <th style="width: 7%; border: 1px solid #000; padding: 5px 10px">Sr.No</th>
+                            <th style="width: 74%; border: 1px solid #000; padding: 5px 10px">Particular</th>
                             <th style="width: 21%; border: 1px solid #000; padding: 5px 10px">Area in m <sup>2</sup></th>
                         </tr>
                     </thead>
