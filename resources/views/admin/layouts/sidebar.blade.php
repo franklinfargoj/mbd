@@ -40,14 +40,14 @@ $route=\Request::route()->getName();
                     <span class="m-menu__link-title">
                         <span class="m-menu__link-wrap">
                             <span class="m-menu__link-text">
-                                Architect Applications
+                                Appointing Architect
                             </span>
                         </span>
                     </span>
                 </a>
             </li>
             @endif
-            {{-- @if(session()->get('permission') && (in_array('architect_layout.index', session()->get('permission')) ||
+            @if(session()->get('permission') && (in_array('architect_layout.index', session()->get('permission')) ||
             in_array('architect_layouts_layout_details.index',
             session()->get('permission')) || in_array('architect_layout_details.view', session()->get('permission'))
             ||
@@ -72,7 +72,7 @@ $route=\Request::route()->getName();
                     </span>
                 </a>
             </li>
-            @endif --}}
+            @endif
 
             @if(session()->get('permission') != "" && in_array('resolution.index', session()->get('permission')))
             <li class="m-menu__item {{ ($route == 'resolution.index' ? 'm-menu__item--active' : '') }}" aria-haspopup="true">
