@@ -104,7 +104,7 @@
                                                {{--name="" value="">--}}
                                     </div>
                                     <div class="col-sm-6 application-fields">
-                                        <label class="application-form-label" for="">Upload File:</label>
+                                        {{-- <label class="application-form-label" for="">Upload File:</label> --}}
                                         <p>
                                             <input class="custom-file-input" name="template" type="file"
                                                    id="test-upload" required>

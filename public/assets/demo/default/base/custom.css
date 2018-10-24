@@ -1714,6 +1714,15 @@ input:disabled+label:after {
     text-align: center;
 }
 
+.letter-form-input--xs,
+.letter-form-input--sm,
+.letter-form-input--md,
+.letter-form-input--lg,
+.letter-form-input--xl,
+.letter-form-input--100 {
+    width: 100% !important;
+}
+
 .letter-form-input--xs {
     max-width: 50px;
 }
