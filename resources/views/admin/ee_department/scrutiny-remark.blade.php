@@ -211,7 +211,7 @@
                                                     @endphp
                                                     <p class="mb-2">{{ $comment_by_EE }}</p>
                                                     <div class="d-flex btn-list-inline-wrap">
-                                                        @if($comment_by_EE && $ee_document)
+                                                        @if($comment_by_EE)
 
                                                         <button class="btn btn-link btn-list-inline editDocumentStatus"
                                                             style="cursor: pointer; {{$style}}" data-toggle="modal"
@@ -268,8 +268,7 @@
                                                                             </div>
                                                                             <div class="custom-file">
                                                                                 <input class="custom-file-input" name="EE_document_path"
-                                                                                    type="file" id="EE_document_path_{{ $i }}"
-                                                                                    required="">
+                                                                                    type="file" id="EE_document_path_{{ $i }}">
                                                                                 <label class="custom-file-label" for="EE_document_path_{{ $i }}">Choose
                                                                                     file...</label>
                                                                             </div>
@@ -318,8 +317,7 @@
 
                                                                             <div class="custom-file">
                                                                                 <input class="custom-file-input" name="EE_document"
-                                                                                    type="file" id="EE_document_{{ $i }}"
-                                                                                    required="">
+                                                                                    type="file" id="EE_document_{{ $i }}">
                                                                                 <label class="custom-file-label" for="EE_document_{{ $i }}">Choose
                                                                                     file...</label>
                                                                             </div>
@@ -1100,15 +1098,15 @@
                 $("#file_error_" + id).text("");
                 return true;
             }
-        } else {
-            $("#file_error_" + id).text("This field required");
-            return false;
-        }
+        } 
+        // else {
+        //     $("#file_error_" + id).text("This field required");
+        //     return false;
+        // }
     });
 
     $(".edit_btn").click(function () {
         var id = this.id.substr(8, 2);
-        console.log(id);
         myfile = $("#EE_document_" + id).val();
         var ext = myfile.split('.').pop();
 
@@ -1120,10 +1118,11 @@
                 $("#edit_file_error_" + id).text("");
                 return true;
             }
-        } else {
-            $("#edit_file_error_" + id).text("This field required");
-            return false;
-        }
+         } 
+         // else {
+        //     $("#edit_file_error_" + id).text("This field required");
+        //     return false;
+        // }
     });
 
     $(".upload_note").click(function () {

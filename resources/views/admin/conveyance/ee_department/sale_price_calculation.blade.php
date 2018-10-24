@@ -59,6 +59,7 @@
                         <div class="m-section__content mb-0 table-responsive">
                             <form class="nav-tabs-form" role="form" method="POST" action="{{ route('ee.save_calculation_data') }}">
                             @csrf
+
                             <input type="hidden" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">
                                 <table id="one" class="table mb-0 table--box-input" style="padding-top: 10px;">
                                     <div class="d-flex justify-content-between align-items-center mb-4">
@@ -93,7 +94,7 @@
                                             <td>2.</td>
                                             <td>Date of Handling over Pump House & Under Ground Tank to Society</td>
                                             <td class="text-center">
-                                                <input type="text" class="form-control form-control--custom" name="pump_house" value="" />
+                                                <input type="text" class="txtbox v_text form-control form-control--custom m-input m_datepicker" name="pump_house" id="pump_house" value="" aria-describedby="visit_date-error" aria-invalid="false" readonly>
                                             </td>
                                         </tr>                                       
                                          <tr>

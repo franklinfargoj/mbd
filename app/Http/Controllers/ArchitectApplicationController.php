@@ -13,7 +13,6 @@ use App\Role;
 use App\User;
 use Carbon\Carbon;
 use Config;
-use DB;
 use File;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
@@ -60,58 +59,16 @@ class ArchitectApplicationController extends Controller
             ['data' => 'actions', 'name' => 'actions', 'title' => 'Actions', 'searchable' => false, 'orderable' => false],
         ];
 
+        //dd($this->CommonController->architect_applications($request));
         if ($datatables->getRequest()->ajax()) {
 
-            DB::statement(DB::raw('set @rownum=' . (isset($request->start) ? $request->start : 0)));
-            if (config('commanConfig.junior_architect') == session()->get('role_name')) {
-                $architect_applications = ArchitectApplication::with(['ArchitectApplicationStatusForLoginListing' => function ($query) {
-                    return $query->where(['user_id' => auth()->user()->id, 'role_id' => session()->get('role_id')])->orderBy('id', 'desc');
-                }]);
-            } else {
-                $architect_applications = ArchitectApplication::with(['ArchitectApplicationStatusForLoginListing' => function ($query) {
-                    return $query->where(['user_id' => auth()->user()->id, 'role_id' => session()->get('role_id')])->orderBy('id', 'desc');
-                }])->whereHas('ArchitectApplicationStatusForLoginListing', function ($query) {
-                    return $query->where(['user_id' => auth()->user()->id, 'role_id' => session()->get('role_id')]);
-                });
-            }
-
-            //dd($architect_applications->get()->toArray());
-            if ($application_status != "") {
-                $architect_applications = $architect_applications->where('application_status', '>=', $application_status);
-            }
-            if ($request->status) {
-                $status = $request->status;
-                $architect_applications = $architect_applications->whereHas('ArchitectApplicationStatusForLoginListing', function ($query) use ($status) {
-                    $query->where('status_id', '=', $status);
-                });
-
-                //dd($architect_applications->get()->toArray());
-            }
-            if ($request->keyword) {
-                $architect_applications = $architect_applications->where(function ($query) use ($request) {
-                    $query->orWhere('application_number', 'like', '%' . $request->keyword . '%');
-                    $query->orWhere('candidate_name', 'like', '%' . $request->keyword . '%');
-                    $query->orWhere('candidate_email', 'like', '%' . $request->keyword . '%');
-                    $query->orWhere('candidate_mobile_no', 'like', '%' . $request->keyword . '%');
-                });
-            }
-            if ($request->application_status) {
-                $architect_applications = $architect_applications->where('application_status', '=', $request->application_status);
-            }
-
-            if ($request->from) {
-                $architect_applications = $architect_applications->whereDate('application_date', '>=', date('Y-m-d', strtotime($request->from)));
-            }
-
-            if ($request->to) {
-                $architect_applications = $architect_applications->whereDate('application_date', '<=', date('Y-m-d', strtotime($request->to)));
-            }
-
-            $architect_applications = $architect_applications->selectRaw(DB::raw('@rownum  := @rownum  + 1 AS rownum') . ',(SELECT SUM(marks) FROM architect_application_marks WHERE architect_application_marks.architect_application_id = architect_application.id) as marks,id, application_number, application_date, candidate_name, candidate_email,candidate_mobile_no,application_status');
-
+            $architect_applications = $this->CommonController->architect_applications($request);
             return $datatables->of($architect_applications)
                 ->editColumn('select', function ($architect_applications) {
                     return view('admin.architect.checkbox', compact('architect_applications'))->render();
+                })
+                ->editColumn('rownum', function ($listArray) {
+                    static $i = 0; $i++;return $i;
                 })
                 ->editColumn('application_number', function ($architect_applications) {
                     return $architect_applications->application_number;
@@ -126,6 +83,8 @@ class ArchitectApplicationController extends Controller
                     return $architect_applications->candidate_email . "<br>" . $architect_applications->candidate_mobile_no;
                 })
                 ->editColumn('status', function ($architect_applications) {
+
+                    //return isset($architect_applications->ArchitectApplicationStatusForLoginListing[0])?$architect_applications->ArchitectApplicationStatusForLoginListing[0]->status_id:config('commanConfig.architect_applicationStatus.new_application');
                     $status = isset($architect_applications->ArchitectApplicationStatusForLoginListing[0]) ? $architect_applications->ArchitectApplicationStatusForLoginListing[0]->status_id : '1';
                     $config_array = array_flip(config('commanConfig.architect_applicationStatus'));
                     $value = ucwords(str_replace('_', ' ', $config_array[$status]));

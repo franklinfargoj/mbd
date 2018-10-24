@@ -131,7 +131,7 @@
                                                     <input class="form-control form-control--custom m-input" type="password"
                                                         placeholder="Confirm Password" name="conf_society_password"
                                                         value="{{ old('conf_society_password') }}" title="">
-                                                    <a class="input-hint" href="#" data-toggle="tooltip" data-placement="top" title="Password should be minimum 6 & maximum 10 characters."><i class="fa fa-info-circle" style="color: orange;float: right;"></i></a>
+                                                    {{--<a class="input-hint" href="#" data-toggle="tooltip" data-placement="top" title="Password should be minimum 6 & maximum 10 characters."><i class="fa fa-info-circle" style="color: orange;float: right;"></i></a>--}}
                                                     <span class="help-block">{{$errors->first('conf_society_password')}}</span>
                                                 </div>
                                             </div>
@@ -171,7 +171,8 @@
                     url: '{{ route('society_offer_letter.store') }}',
                     method: 'post',
                     data: {
-                        society_email: society_email
+                        society_email: society_email,
+                        is_email_check: '1'
                     },
                     success: function(res){
                         if(res.society_email != undefined){

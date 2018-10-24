@@ -619,9 +619,9 @@ class EEController extends Controller
     public function viewApplication(Request $request, $applicationId){
 
         $ol_application = $this->comman->downloadOfferLetter($applicationId);
+        // dd($ol_application->application_master_id);
         $ol_application->folder = 'ee_department';
         $ol_application->status = $this->comman->getCurrentStatus($applicationId);
-        // dd();
         return view('admin.common.offer_letter', compact('ol_application'));
     }    
 }
