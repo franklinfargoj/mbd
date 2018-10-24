@@ -1,7 +1,13 @@
 <?php
 
 use Illuminate\Database\Seeder;
-
+use App\MasterLayout;
+use App\LayoutUser;
+use App\Role;
+use App\RoleUser;
+use App\User;
+use App\Permission;
+use App\PermissionRole;
 class EMUserSeeder extends Seeder
 {
     /**
