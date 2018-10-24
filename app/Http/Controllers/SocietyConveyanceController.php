@@ -156,7 +156,9 @@ class SocietyConveyanceController extends Controller
                         if($excel_headers_value == $excel_headers_val){
                             $count++;
                         }else{
+                            print_r();
                             dd($excel_headers_val);
+
 //                            if(){
 //
 //                            }
