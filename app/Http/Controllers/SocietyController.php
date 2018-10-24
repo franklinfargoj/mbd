@@ -6,6 +6,7 @@ use App\Http\Requests\society_detail\SocietyDetailRequest;
 use App\LeaseDetail;
 use App\OtherLand;
 use App\SocietyDetail;
+use App\MasterSociety;
 use App\VillageDetail;
 use App\VillageSociety;
 use Illuminate\Http\Request;

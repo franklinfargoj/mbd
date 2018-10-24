@@ -31,7 +31,7 @@
                     </div>
                     <div style="clear: both;"></div>
                 </div>
-                <h3 style="text-decoration: underline; text-align: center;">OfferLetter</h3>
+                <h3 style="text-decoration: underline; text-align: center;">Offer Letter</h3>
                     <p > </p>
                 <div style="margin-top: -15px;">
                     <p style="margin-bottom:0; line-height:0.25;">To,</p>
@@ -110,14 +110,14 @@
 
             <!-- Table 1 starts here -->
 
-            <div>
+            <div style="width: 100%;">
                 <h3 style="text-transform: uppercase; font-weight: bold; text-decoration: underline; text-align: center;">Statement A (Particulars of Area Sharing)</h3>
-                <table style="width: 100%; text-align: center; border-collapse: collapse;">
+                <table style="width: 100%; text-align: center; border-collapse: collapse; table-layout: fixed;">
                     <thead style="text-align: center;">
                         <tr>
-                            <th style="width: 4%; border: 1px solid #000; padding: 5px 10px">Sr.No</th>
-                            <th style="width: 80%; border: 1px solid #000; padding: 5px 10px">Particular</th>
-                            <th style="width: 16%; border: 1px solid #000; padding: 5px 10px">Area in m <sup>2</sup></th>
+                            <th style="width: 7%; border: 1px solid #000; padding: 5px 10px">Sr.No</th>
+                            <th style="width: 74%; border: 1px solid #000; padding: 5px 10px">Particular</th>
+                            <th style="width: 21%; border: 1px solid #000; padding: 5px 10px;">Area in m <sup>2</sup></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -262,12 +262,12 @@
                     <h3 style="text-transform: uppercase; font-weight: bold; text-decoration: underline;">Statement B (Particulars of Payment)</h3>
                 </div>
 
-                <table style="width: 100%; text-align: center; border-collapse: collapse;">
+                <table style="width: 100%; text-align: center; border-collapse: collapse; table-layout: fixed;">
                     <thead style="text-align: center;">
                         <tr>
-                            <th style="width: 4%; border: 1px solid #000; padding: 5px 10px">Sr.No</th>
-                            <th style="width: 80%; border: 1px solid #000; padding: 5px 10px">Particular</th>
-                            <th style="width: 16%; border: 1px solid #000; padding: 5px 10px">Area in m <sup>2</sup></th>
+                            <th style="width: 7%; border: 1px solid #000; padding: 5px 10px">Sr.No</th>
+                            <th style="width: 74%; border: 1px solid #000; padding: 5px 10px">Particular</th>
+                            <th style="width: 21%; border: 1px solid #000; padding: 5px 10px">Area in m <sup>2</sup></th>
                         </tr>
                     </thead>
                     <tbody>

@@ -37,7 +37,6 @@ Route::get('frontend_register','FrontendRegisterController@showRegisterForm');
 Route::post('frontend_register','FrontendRegisterController@frontendRegister');
 
 
-
 //resolution print
 Route::get('resolution/print','ResolutionController@print_data')->name('resolution.print');
 Route::get('hearing/print','HearingController@print_data')->name('hearing.print');
@@ -64,8 +63,7 @@ Route::group(['middleware' => ['check_society_offer_letter_permission']], functi
     Route::get('refresh_captcha','SocietyOfferLetterController@RefreshCaptcha')->name('refresh_captcha');
     Route::post('UserAuthentication','SocietyOfferLetterController@UserAuthentication')->name('society_detail.UserAuthentication');
 
-    Route::resource('/society_offer_letter', 'SocietyOfferLetterController');
-
+   Route::resource('/society_offer_letter', 'SocietyOfferLetterController');
 
 
 
@@ -73,6 +71,18 @@ Route::group(['middleware' => ['check_society_offer_letter_permission']], functi
 Route::resource('/email_templates', 'EmailTemplateController');
 // EE Department Routes
 Route::resource('ee', 'EEDepartment\EEController');
+Route::get('society_list','EEDepartment\EEController@getSocietyDetailsWithBillingLevel')->name('society.billing_level');
+Route::get('society_details/{id}','EEDepartment\EEController@getSocietyDetails')->name('society.society_details');
+Route::get('arrears_charges/{society_id}/{building_id}/create','EEDepartment\ArrearsServiceController@create')->name('arrears_charges.create');
+Route::post('arrears_charges/{society_id}/{building_id}/store','EEDepartment\ArrearsServiceController@store')->name('arrears_charges.store');
+Route::get('arrears_charges/{id}/edit','EEDepartment\ArrearsServiceController@edit')->name('arrears_charges.edit');
+Route::post('arrears_charges/{id}/update','EEDepartment\ArrearsServiceController@update')->name('arrears_charges.update');
+Route::get('arrears_charges/{society_id}/{building_id}','EEDepartment\ArrearsServiceController@arrersChargesRate')->name('arrears_charges');
+Route::get('service_charges/{society_id}/{building_id}/create','EEDepartment\ServiceChargesController@create')->name('service_charges.create');
+Route::post('service_charges/{society_id}/{building_id}/store','EEDepartment\ServiceChargesController@store')->name('service_charges.store');
+Route::get('service_charges/{id}/edit','EEDepartment\ServiceChargesController@edit')->name('service_charges.edit');
+Route::post('service_charges/{id}/update','EEDepartment\ServiceChargesController@update')->name('service_charges.update');
+Route::get('service_charges/{society_id}/{building_id}','EEDepartment\ServiceChargesController@serviceChargesRate')->name('service_charges');
 
 Route::resource('received_application','DYCEDepartment\DYCEController');
 
@@ -191,6 +201,60 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::post('/ee-demarcation', 'EEDepartment\EEController@eeDemarcation')->name('ee-demarcation');
     Route::post('/ee-tit-bit', 'EEDepartment\EEController@titBit')->name('ee-tit-bit');
     Route::post('/ee-rg-relocation', 'EEDepartment\EEController@rgRelocation')->name('ee-rg-relocation');    
+
+
+   // EM Department Routes
+    Route::resource('em', 'EMDepartment\EMController');
+
+    Route::get('get_societies', 'EMDepartment\EMController@getsocieties')->name('get_societies');
+    Route::get('get_buildings/{id}', 'EMDepartment\EMController@getbuildings')->name('get_buildings');
+    Route::get('get_tenants/{id}', 'EMDepartment\EMController@gettenants')->name('get_tenants');
+    Route::get('soc_bill_level/{id}', 'EMDepartment\EMController@soc_bill_level')->name('soc_bill_level');
+    Route::post('update_soc_bill_level', 'EMDepartment\EMController@update_soc_bill_level')->name('update_soc_bill_level');
+    Route::get('soc_ward_colony/{id}', 'EMDepartment\EMController@soc_ward_colony')->name('soc_ward_colony');
+    
+    Route::post('update_soc_ward_colony', 'EMDepartment\EMController@update_soc_ward_colony')->name('update_soc_ward_colony');
+
+    Route::get('get_wards', 'EMDepartment\EMController@get_wards')->name('get_wards');
+
+    Route::get('get_colonies', 'EMDepartment\EMController@get_colonies')->name('get_colonies');
+    Route::get('get_society_select', 'EMDepartment\EMController@get_society_select')->name('get_society_select');
+    Route::get('get_building_ajax', 'EMDepartment\EMController@get_building_ajax')->name('get_building_ajax');
+    Route::get('get_building_select', 'EMDepartment\EMController@get_building_select')->name('get_building_select');
+    Route::get('get_tenant_ajax', 'EMDepartment\EMController@get_tenant_ajax')->name('get_tenant_ajax');
+
+
+    Route::get('add_building/{id}', 'EMDepartment\EMController@add_building')->name('add_building');
+    Route::get('edit_building/{id}', 'EMDepartment\EMController@edit_building')->name('edit_building');
+    Route::post('create_building', 'EMDepartment\EMController@create_building')->name('create_building');
+    Route::post('update_building', 'EMDepartment\EMController@update_building')->name('update_building');
+
+    Route::get('add_tenant/{id}', 'EMDepartment\EMController@add_tenant')->name('add_tenant');
+    Route::get('edit_tenant/{id}', 'EMDepartment\EMController@edit_tenant')->name('edit_tenant');
+    Route::post('create_tenant', 'EMDepartment\EMController@create_tenant')->name('create_tenant');
+    Route::post('update_tenant', 'EMDepartment\EMController@update_tenant')->name('update_tenant');
+    Route::get('delete_tenant/{id}', 'EMDepartment\EMController@delete_tenant')->name('delete_tenant');
+    Route::get('generate_soc_bill', 'EMDepartment\EMController@generate_soc_bill')->name('generate_soc_bill');
+    Route::get('generate_tenant_bill', 'EMDepartment\EMController@generate_tenant_bill')->name('generate_tenant_bill');
+
+    Route::get('arrears_calculations','EMDepartment\ArrearsCalculationController@index')->name('arrears_calculations');
+    Route::get('billing_calculations','EMDepartment\BillingDetailController@index')->name('billing_calculations');
+
+    //EM_Clerk Routes
+    Route::resource('em_clerk', 'EMDepartment\EMClerkController');
+    Route::get('em_society_list', 'EMDepartment\EMClerkController@society_list')->name('em_society_list');
+    Route::get('em_building_list', 'EMDepartment\EMClerkController@building_list')->name('em_building_list');
+    Route::get('tenant_payment_list', 'EMDepartment\EMClerkController@tenant_payment_list')->name('tenant_payment_list');
+    Route::get('tenant_arrear_calculation/{id}', 'EMDepartment\EMClerkController@tenant_arrear_calculation')->name('tenant_arrear_calculation');
+    Route::post('create_arrear_calculation', 'EMDepartment\EMClerkController@create_arrear_calculation')->name('create_arrear_calculation');
+
+
+    // RC Dewpartment Routes
+    Route::resource('rc', 'RCDepartment\RCController');
+    Route::get('bill_collection_society', 'RCDepartment\RCController@bill_collection_society')->name('bill_collection_society');
+    Route::get('bill_collection_tenant', 'RCDepartment\RCController@bill_collection_tenant')->name('bill_collection_tenant');
+    Route::get('get_building_bill_collection', 'RCDepartment\RCController@get_building_bill_collection')->name('get_building_bill_collection');
+    Route::get('get_tenant_bill_collection', 'RCDepartment\RCController@get_tenant_bill_collection')->name('get_tenant_bill_collection');
 
 
 	//DYCE Department routes
@@ -563,3 +627,9 @@ Route::get('/sale_lease_agreement', function () {
 Route::prefix('appointing_architect')->group(function () {
     Route::get('index', 'EmploymentOfArchitectController@index')->name('appointing_architect.index');
 });
+
+define('SOCIETY_LEVEL_BILLING'  ,'1');
+define('TENANT_LEVEL_BILLING'   ,'2');
+define('PAYMENT_STATUS_NOT_PAID','0');
+define('PAYMENT_STATUS_PAID'    ,'1');
+
