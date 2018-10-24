@@ -526,6 +526,32 @@ $route=\Request::route()->getName();
                             </span>
                         </a>
                     </li>
+                    <li class="m-menu__item {{($route=='society_detail.billing_level')?'m-menu__item--active':''}}">
+                        <a href="#" class="m-menu__link m-menu__toggle">
+                            <i class="m-menu__link-icon flaticon-line-graph"></i>
+                            <span class="m-menu__link-title">
+                                <span class="m-menu__link-wrap">
+                                    <span class="m-menu__link-text">
+                                        Service Tax Rates
+                                    </span>
+                                </span>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li class="m-menu__item m-menu__item--submenu">
+                                <i class="m-menu__link-icon flaticon-line-graph"></i>
+                                <a href="{{ route('society.billing_level') }}">
+                                    <span class="m-menu__link-title">
+                                        <span class="m-menu__link-wrap">
+                                            <span class="m-menu__link-text">
+                                                Society Master
+                                            </span>
+                                        </span>
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                     @endif
                     
                     @if(Session::all()['role_name'] == 'society')

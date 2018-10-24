@@ -2697,6 +2697,7 @@ label.site-visit-label {
     color: #f4516c;
 }
 
+<<<<<<< HEAD
 /* Society Conveyance starts here */
 
 .application-fields-wrapper {
@@ -2774,4 +2775,8 @@ label.site-visit-label {
         max-width: 550px;
         margin: 30px auto;
     }
+=======
+.mb-10 {
+    margin-bottom: 10px;
+>>>>>>> rent_billing
 }
