@@ -18,7 +18,7 @@ $(document).ready(function () {
 
     // var dropdown = Array.from(document.querySelectorAll(".m-menu__item"));
     // var subMenuLink = Array.from(document.querySelectorAll(".m-menu__item--submenu"));
-
+    //
     // subMenuLink.forEach(function (sublink) {
     //     dropdown.forEach(function (dropdownLink) {
     //         if (sublink.classList.contains("m-menu__item--active") && dropdownLink.hasAttribute("data-target")) {
@@ -29,21 +29,11 @@ $(document).ready(function () {
     //                 dropdownLink.children[0].style.cursor = "default";
     //             }
     //         }
-
+    //
     //     })
     // });
 
-    // calculate input width dynamically
-
-    var formInputs = document.querySelectorAll('.letter-form-input');
-    formInputs.forEach(function(input, index) {
-        var width = input.scrollWidth;
-        console.log(index, input, width);
-        input.style.setProperty('width', width + 20 + 'px');
-    });
-
     //toggle password
-
     $(".toggle-password").click(function () {
 
         $(this).toggleClass("fa-eye fa-eye-slash");
