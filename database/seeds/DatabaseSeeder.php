@@ -36,6 +36,7 @@ class DatabaseSeeder extends Seeder
         $this->call(SocietyPermissionSeeder::class);
         
         $this->call(EEUserSeeder::class);
+        $this->call(EMUserSeeder::class);
         $this->call(DYCEPermissionSeeder::class);
         $this->call(LmPermissionSeeder::class);
         $this->call(HearingPermissionSeeder::class);

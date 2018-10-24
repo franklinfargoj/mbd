@@ -19,6 +19,7 @@ use App\MasterSociety;
 use App\MasterBuilding;
 use App\MasterTenant;
 use App\ArrearsChargesRate;
+use App\ArrearCalculation;
 use App\ArrearTenantPayment;
 
 class ArrearsCalculationController extends Controller
@@ -37,12 +38,13 @@ class ArrearsCalculationController extends Controller
 	        $building = MasterBuilding::where('society_id', $request->society_id)->find($request->building_id);
 	        $years 	  = ArrearsChargesRate::selectRaw('Distinct(year) as years')->where('society_id',$request->society_id)->where('building_id',$request->building_id)->pluck('years','years')->toArray();
 
-	        $select_year = '';
+	        $select_year = date('Y') . '-' . (date('y') + 1);
 	        if($request->has('year') && '' != $request->year) {
 	        	$select_year = $request->year;
 	        }
 	        $columns = [
 	            ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
+	            ['data' => 'month','name' => 'month','title' => 'Month'],
 	            ['data' => 'year','name' => 'year','title' => 'Years'],
 	            ['data' => 'tenant_type', 'name' => 'tenant_type','title' => 'Tenant Type'],
 	            ['data' => 'old_rate', 'name' => 'old_rate','title' => 'Old Rate'],
@@ -50,17 +52,56 @@ class ArrearsCalculationController extends Controller
 	            ['data' => 'interest_on_old_rate', 'name' => 'interest_on_old_rate','title' => 'Interest On Old Rate'],
 	            ['data' => 'interest_on_differance', 'name' => 'interest_on_differance','title' => 'Interest On Difference'],
 	            ['data' => 'payment_status', 'name' => 'payment_status','title' => 'Payment Status'],
-            	['data' => 'final_rent_amount', 'name' => 'final_rent_amount','title' => 'Final Rent Amount'],
+            	['data' => 'total_amount', 'name' => 'final_rent_amount','title' => 'Final Rent Amount'],
 	        ];
 
 	        if ($datatables->getRequest()->ajax()) {
 	            DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
-	            $arrears_charges = ArrearsChargesRate::selectRaw('@rownum  := @rownum  + 1 AS rownum,arrears_charges_rates.*')->where('society_id',$request->society_id)->where('building_id',$request->building_id);
-	            return $datatables->of($arrears_charges)
-	            // ->editColumn('actions', function ($arrears_charges){
-	            //     return "<a href='".url('arrears_charges/'.$arrears_charges->id.'/edit')."' class='btn m-btn--pill m-btn--custom btn-primary'>Update</a>";
+	            $arrear_calculations = ArrearCalculation::selectRaw('@rownum  := @rownum  + 1 AS rownum,arrear_calculation.*')->where('society_id',$request->society_id)->where('building_id',$request->building_id);
+
+	            $arrear_charges = ArrearsChargesRate::Where('year',$select_year)->where('society_id',$request->society_id)->where('building_id',$request->building_id)->first();
+
+	            return $datatables->of($arrear_calculations)
+	            ->editColumn('tenant_type', function ($arrear_calculations) use ($arrear_charges){
+	                return $arrear_charges->tenant_type;
 	                
-	            // })
+	            })
+	            ->editColumn('old_rate', function ($arrear_calculations) use ($arrear_charges){
+	                return $arrear_charges->old_rate;
+	                
+	            })
+	            ->editColumn('revise_rate', function ($arrear_calculations) use ($arrear_charges){
+	                return $arrear_charges->revise_rate;
+	                
+	            })
+	            ->editColumn('interest_on_old_rate', function ($arrear_calculations) use ($arrear_charges){
+	                return $arrear_charges->interest_on_old_rate;
+	                
+	            })
+	            ->editColumn('interest_on_differance', function ($arrear_calculations) use ($arrear_charges){
+	                return $arrear_charges->interest_on_differance;
+	                
+	            })
+	            ->editColumn('month', function ($arrear_calculations){
+	                return date("F", strtotime("2001-" . $arrear_calculations->month . "-01"));
+	                
+	            })
+	            ->editColumn('payment_status', function ($arrear_calculations){
+	                switch ($arrear_calculations->payment_status) {
+	                	case PAYMENT_STATUS_NOT_PAID:
+	                		return 'Not Paid';
+	                		break;
+	                	
+	                	case PAYMENT_STATUS_PAID:
+	                		return 'Paid';
+	                		break;
+
+	                	default:
+	                		return 'Not Paid';
+	                		break;
+	                }
+	                
+	            })
 	            ->filter(function ($query) use ($request) {
 		            if ($request->has('year') && '' != $request->get('year')) {
 						$query->where('year',$request->year);
