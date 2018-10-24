@@ -191,7 +191,7 @@
                         '<div class="custom-file">'+
                             '<input type="file" id="ee_extract_'+count+'" name="ee_report_'+count+'" class="custom-file-input" onchange="getEEReportData(this.id,\'ee_doc_name_'+count+'\',\'ee_doc_error_'+count+'\',\'ee_report_uploaded_file_'+count+'\',\'ee_report_doc_id_'+count+'\',true)">'+
                             '<label title="" class="custom-file-label" for="ee_extract_'+count+'">Choose file</label>'+
-                            '<a target="_blank" style="display:none;" id="ee_report_uploaded_file_'+count+'" href="">uploaded file</a>'+
+                            '<a class="btn-link" target="_blank" style="display:none;" id="ee_report_uploaded_file_'+count+'" href="">uploaded file</a>'+
                             '<span class="text-danger" id="ee_doc_error_'+count+'"></span>'+
                         '</div>'+
                     '</div>'+
@@ -230,7 +230,7 @@ $('.add_em_report').click(function () {
                         '<div class="custom-file">'+
                             '<input type="file" id="em_extract_'+count+'" name="em_report_'+count+'" class="custom-file-input" onchange="getEMReportData(this.id,\'em_doc_name_'+count+'\',\'em_doc_error_'+count+'\',\'em_report_uploaded_file_'+count+'\',\'em_report_doc_id_'+count+'\',true)">'+
                             '<label title="" class="custom-file-label" for="em_extract_'+count+'">Choose file</label>'+
-                            '<a target="_blank" style="display:none;" id="em_report_uploaded_file_'+count+'" href="">uploaded file</a>'+
+                            '<a class="btn-link" target="_blank" style="display:none;" id="em_report_uploaded_file_'+count+'" href="">uploaded file</a>'+
                             '<span class="text-danger" id="em_doc_error_'+count+'"></span>'+
                         '</div>'+
                     '</div>'+
@@ -269,7 +269,7 @@ $('.add_ree_report').click(function () {
                         '<div class="custom-file">'+
                             '<input type="file" id="ree_extract_'+count+'" name="ree_report_'+count+'" class="custom-file-input" onchange="getREEReportData(this.id,\'ree_doc_name_'+count+'\',\'ree_doc_error_'+count+'\',\'ree_report_uploaded_file_'+count+'\',\'ree_report_doc_id_'+count+'\',true)">'+
                             '<label title="" class="custom-file-label" for="ree_extract_'+count+'">Choose file</label>'+
-                            '<a target="_blank" style="display:none;" id="ree_report_uploaded_file_'+count+'" href="">uploaded file</a>'+
+                            '<a class="btn-link" target="_blank" style="display:none;" id="ree_report_uploaded_file_'+count+'" href="">uploaded file</a>'+
                             '<span class="text-danger" id="ree_doc_error_'+count+'"></span>'+
                         '</div>'+
                     '</div>'+
@@ -625,7 +625,7 @@ function showUploadedFileName() {
                                     <label class="custom-file-label" for="latest_layout">Choose file...</label>
                                 </div>
                             </div>
-                            <a target="_blank" id="latest_layout_file" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->latest_layout}}"
+                            <a class="btn-link" target="_blank" id="latest_layout_file" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->latest_layout}}"
                                 style="display:{{$ArchitectLayoutDetail->latest_layout!=''?'block':'none'}};">uploaded
                                 file</a>
                         </div>
@@ -650,7 +650,7 @@ function showUploadedFileName() {
                                     <label class="custom-file-label" for="old_approved_layout">Choose file...</label>
                                 </div>
                             </div>
-                            <a target="_blank" id="old_approved_layout_file" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->old_approved_layout}}"
+                            <a class="btn-link" target="_blank" id="old_approved_layout_file" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->old_approved_layout}}"
                                 style="display:{{$ArchitectLayoutDetail->old_approved_layout!=''?'block':'none'}};">uploaded
                                 file</a>
                         </div>
@@ -676,7 +676,7 @@ function showUploadedFileName() {
                                     <label class="custom-file-label" for="last_submitted_layout">Choose file...</label>
                                 </div>
                             </div>
-                            <a target="_blank" id="last_submitted_layout_file" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->last_submitted_layout_for_approval}}"
+                            <a class="btn-link" target="_blank" id="last_submitted_layout_file" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->last_submitted_layout_for_approval}}"
                                 style="display:{{$ArchitectLayoutDetail->last_submitted_layout_for_approval!=''?'block':'none'}};">uploaded
                                 file</a>
                         </div>
@@ -758,7 +758,7 @@ function showUploadedFileName() {
                                     <label class="custom-file-label" for="survey_report">Choose file...</label>
                                 </div>
                             </div>
-                            <a target="_blank" id="survey_report_file" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->latest_layout}}"
+                            <a class="btn-link" target="_blank" id="survey_report_file" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->latest_layout}}"
                                 style="display:{{$ArchitectLayoutDetail->survey_report!=''?'block':'none'}};">uploaded
                                 file</a>
                         </div>
@@ -795,7 +795,7 @@ function showUploadedFileName() {
                                             <input type="file" id="ee_extract" name="ee_report" onchange="getEEReportData(this.id,'ee_doc_name','ee_doc_error','ee_report_uploaded_file','ee_report_doc_id')"
                                                 class="custom-file-input">
                                             <label title="" class="custom-file-label" for="ee_extract">Choose file</label>
-                                            <a target="_blank" style="display:{{isset($ArchitectLayoutDetail->ee_reports[0])?'block':'none'}}"
+                                            <a class="btn-link" target="_blank" style="display:{{isset($ArchitectLayoutDetail->ee_reports[0])?'block':'none'}}"
                                                 id="ee_report_uploaded_file" href="{{config('commanConfig.storage_server').'/'.(isset($ArchitectLayoutDetail->ee_reports[0])?$ArchitectLayoutDetail->ee_reports[0]->upload_file:'')}}">uploaded
                                                 file</a>
                                             <span class="text-danger" id="ee_doc_error"></span>
@@ -819,7 +819,7 @@ function showUploadedFileName() {
                                             <input type="file" id="ee_extract_1" name="ee_report_1" class="custom-file-input"
                                                 onchange="getEEReportData(this.id,'ee_doc_name_1','ee_doc_error_1','ee_report_uploaded_file_1','ee_report_doc_id_1')">
                                             <label title="" class="custom-file-label" for="ee_extract_1">Choose file</label>
-                                            <a target="_blank" style="display:{{isset($ArchitectLayoutDetail->ee_reports[1])?'block':'none'}}"
+                                            <a class="btn-link" target="_blank" style="display:{{isset($ArchitectLayoutDetail->ee_reports[1])?'block':'none'}}"
                                                 id="ee_report_uploaded_file_1" href="{{config('commanConfig.storage_server').'/'.(isset($ArchitectLayoutDetail->ee_reports[1])?$ArchitectLayoutDetail->ee_reports[1]->upload_file:'')}}">uploaded
                                                 file</a>
                                             <span class="text-danger" id="ee_doc_error_1"></span>
@@ -843,7 +843,7 @@ function showUploadedFileName() {
                                             <input type="file" id="ee_extract_2" name="ee_report_2" class="custom-file-input ee_doc_file"
                                                 onchange="getEEReportData(this.id,'ee_doc_name_2','ee_doc_error_2','ee_report_uploaded_file_2','ee_report_doc_id_2')">
                                             <label title="" class="custom-file-label" for="ee_extract_2">Choose file</label>
-                                            <a target="_blank" style="display:{{isset($ArchitectLayoutDetail->ee_reports[2])?'block':'none'}}"
+                                            <a class="btn-link" target="_blank" style="display:{{isset($ArchitectLayoutDetail->ee_reports[2])?'block':'none'}}"
                                                 id="ee_report_uploaded_file_2" href="{{config('commanConfig.storage_server').'/'.(isset($ArchitectLayoutDetail->ee_reports[2])?$ArchitectLayoutDetail->ee_reports[2]->upload_file:'')}}">uploaded
                                                 file</a>
                                             <span class="text-danger" id="ee_doc_error_2"></span>
@@ -871,7 +871,7 @@ function showUploadedFileName() {
                                                 onchange="getEEReportData(this.id,'ee_doc_name_{{$i}}','ee_doc_error_{{$i}}','ee_report_uploaded_file_{{$i}}','ee_report_doc_id_{{$i}}')">
                                             <label title="" class="custom-file-label" for="ee_extract_{{$i}}">Choose
                                                 file</label>
-                                            <a target="_blank" style="display:{{isset($ee_report->upload_file)?'block':'none'}}"
+                                            <a class="btn-link" target="_blank" style="display:{{isset($ee_report->upload_file)?'block':'none'}}"
                                                 id="ee_report_uploaded_file_{{$i}}" href="{{config('commanConfig.storage_server').'/'.(isset($ee_report->upload_file)?$ee_report->upload_file:'')}}">uploaded
                                                 file</a>
                                             <span class="text-danger" id="ee_doc_error_{{$i}}"></span>
@@ -919,7 +919,7 @@ function showUploadedFileName() {
                                             <input type="file" id="em_extract" name="em_report" onchange="getEMReportData(this.id,'em_doc_name','em_doc_error','em_report_uploaded_file','em_report_doc_id')"
                                                 class="custom-file-input">
                                             <label title="" class="custom-file-label" for="em_extract">Choose file</label>
-                                            <a target="_blank" style="display:{{isset($ArchitectLayoutDetail->em_reports[0])?'block':'none'}}"
+                                            <a class="btn-link" target="_blank" style="display:{{isset($ArchitectLayoutDetail->em_reports[0])?'block':'none'}}"
                                                 id="em_report_uploaded_file" href="{{config('commanConfig.storage_server').'/'.(isset($ArchitectLayoutDetail->em_reports[0])?$ArchitectLayoutDetail->em_reports[0]->upload_file:'')}}">uploaded
                                                 file</a>
                                             <span class="text-danger" id="em_doc_error"></span>
@@ -943,7 +943,7 @@ function showUploadedFileName() {
                                             <input type="file" id="em_extract_1" name="em_report_1" class="custom-file-input"
                                                 onchange="getEMReportData(this.id,'em_doc_name_1','em_doc_error_1','em_report_uploaded_file_1','em_report_doc_id_1')">
                                             <label title="" class="custom-file-label" for="em_extract_1">Choose file</label>
-                                            <a target="_blank" style="display:{{isset($ArchitectLayoutDetail->em_reports[1])?'block':'none'}}"
+                                            <a class="btn-link" target="_blank" style="display:{{isset($ArchitectLayoutDetail->em_reports[1])?'block':'none'}}"
                                                 id="em_report_uploaded_file_1" href="{{config('commanConfig.storage_server').'/'.(isset($ArchitectLayoutDetail->em_reports[1])?$ArchitectLayoutDetail->em_reports[1]->upload_file:'')}}">uploaded
                                                 file</a>
                                             <span class="text-danger" id="em_doc_error_1"></span>
@@ -971,7 +971,7 @@ function showUploadedFileName() {
                                                 onchange="getEMReportData(this.id,'em_doc_name_{{$i}}','em_doc_error_{{$i}}','em_report_uploaded_file_{{$i}}','em_report_doc_id_{{$i}}')">
                                             <label title="" class="custom-file-label" for="em_extract_{{$i}}">Choose
                                                 file</label>
-                                            <a target="_blank" style="display:{{isset($em_report->upload_file)?'block':'none'}}"
+                                            <a class="btn-link" target="_blank" style="display:{{isset($em_report->upload_file)?'block':'none'}}"
                                                 id="em_report_uploaded_file_{{$i}}" href="{{config('commanConfig.storage_server').'/'.(isset($em_report->upload_file)?$em_report->upload_file:'')}}">uploaded
                                                 file</a>
                                             <span class="text-danger" id="em_doc_error_{{$i}}"></span>
@@ -1019,7 +1019,7 @@ function showUploadedFileName() {
                                             <input type="file" id="ree_extract" name="ree_report" onchange="getREEReportData(this.id,'ree_doc_name','ree_doc_error','ree_report_uploaded_file','ree_report_doc_id')"
                                                 class="custom-file-input">
                                             <label title="" class="custom-file-label" for="ree_extract">Choose file</label>
-                                            <a target="_blank" style="display:{{isset($ArchitectLayoutDetail->ree_reports[0])?'block':'none'}}"
+                                            <a class="btn-link" target="_blank" style="display:{{isset($ArchitectLayoutDetail->ree_reports[0])?'block':'none'}}"
                                                 id="ree_report_uploaded_file" href="{{config('commanConfig.storage_server').'/'.(isset($ArchitectLayoutDetail->ree_reports[0])?$ArchitectLayoutDetail->ree_reports[0]->upload_file:'')}}">uploaded
                                                 file</a>
                                             <span class="text-danger" id="ree_doc_error"></span>
@@ -1043,7 +1043,7 @@ function showUploadedFileName() {
                                             <input type="file" id="ree_extract_1" name="ree_report_1" class="custom-file-input"
                                                 onchange="getREEReportData(this.id,'ree_doc_name_1','ree_doc_error_1','ree_report_uploaded_file_1','ree_report_doc_id_1')">
                                             <label title="" class="custom-file-label" for="ree_extract_1">Choose file</label>
-                                            <a target="_blank" style="display:{{isset($ArchitectLayoutDetail->ree_reports[1])?'block':'none'}}"
+                                            <a class="btn-link" target="_blank" style="display:{{isset($ArchitectLayoutDetail->ree_reports[1])?'block':'none'}}"
                                                 id="ree_report_uploaded_file_1" href="{{config('commanConfig.storage_server').'/'.(isset($ArchitectLayoutDetail->ree_reports[1])?$ArchitectLayoutDetail->ree_reports[1]->upload_file:'')}}">uploaded
                                                 file</a>
                                             <span class="text-danger" id="ree_doc_error_1"></span>
@@ -1071,7 +1071,7 @@ function showUploadedFileName() {
                                                 onchange="getREEReportData(this.id,'ree_doc_name_{{$i}}','ree_doc_error_{{$i}}','ree_report_uploaded_file_{{$i}}','ree_report_doc_id_{{$i}}')">
                                             <label title="" class="custom-file-label" for="ree_extract_{{$i}}">Choose
                                                 file</label>
-                                            <a target="_blank" style="display:{{isset($ree_report->upload_file)?'block':'none'}}"
+                                            <a class="btn-link" target="_blank" style="display:{{isset($ree_report->upload_file)?'block':'none'}}"
                                                 id="ree_report_uploaded_file_{{$i}}" href="{{config('commanConfig.storage_server').'/'.(isset($ree_report->upload_file)?$ree_report->upload_file:'')}}">uploaded
                                                 file</a>
                                             <span class="text-danger" id="ree_doc_error_{{$i}}"></span>
@@ -1119,7 +1119,7 @@ function showUploadedFileName() {
                                             <input type="file" id="land_extract" name="land_report" onchange="getLandReportData(this.id,'land_doc_name','land_doc_error','land_report_uploaded_file','land_report_doc_id')"
                                                 class="custom-file-input">
                                             <label title="" class="custom-file-label" for="land_extract">Choose file</label>
-                                            <a target="_blank" style="display:{{isset($ArchitectLayoutDetail->land_reports[0])?'block':'none'}}"
+                                            <a class="btn-link" target="_blank" style="display:{{isset($ArchitectLayoutDetail->land_reports[0])?'block':'none'}}"
                                                 id="land_report_uploaded_file" href="{{config('commanConfig.storage_server').'/'.(isset($ArchitectLayoutDetail->land_reports[0])?$ArchitectLayoutDetail->land_reports[0]->upload_file:'')}}">uploaded
                                                 file</a>
                                             <span class="text-danger" id="land_doc_error"></span>

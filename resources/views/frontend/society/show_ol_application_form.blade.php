@@ -12,16 +12,16 @@
                     अर्जाचा नमुना
                 </h3>
             </div>
-            <center>
+            <div class="text-center">
                 <h3 class="m-subheader__title ">
                     <label for="layouts">Layouts</label>
                     <p>{{ $ol_application->applicationMasterLayout[0]->layout_name }}</p>
                 </h3>
-            </center>
+            </div>
             <div class="letter-form-header-content">
                 <p>
                     <span class="d-block font-weight-semi-bold">प्रति,</span>
-                    <span class="d-block">कार्यकारी अभियंता, <input class="letter-form-input letter-form-input--md" type="text" id="" name="department_name" value="EE" required> विभाग,</span>
+                    <span class="d-block">कार्यकारी अभियंता, <input class="letter-form-input" type="text" id="" name="department_name" value="EE" required> विभाग,</span>
                     <span class="d-block">मुंबई गृहनिर्माण व क्षेत्रविकास मंडळ,</span>
                     <span class="d-block">गृहनिर्माण भवन, वांद्रे (पुर्व),</span>
                     <span class="d-block">मुंबई -४०००५१.</span>
