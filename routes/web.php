@@ -510,5 +510,7 @@ Route::get('ee-billing-arrears-charges', 'EEBillingController@ArrearsChargesRate
 Route::get('ee-billing-add-building', 'EEBillingController@AddBuilding');
 Route::get('ee-billing-edit-building', 'EEBillingController@EditBuilding');
 
-define('SOCIETY_LEVEL_BILLING' ,'1');
-define('TENANT_LEVEL_BILLING'  ,'2');
+define('SOCIETY_LEVEL_BILLING'  ,'1');
+define('TENANT_LEVEL_BILLING'   ,'2');
+define('PAYMENT_STATUS_NOT_PAID','0');
+define('PAYMENT_STATUS_PAID'    ,'1');
