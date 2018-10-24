@@ -13,7 +13,6 @@ use App\Role;
 use App\User;
 use Carbon\Carbon;
 use Config;
-use DB;
 use File;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
@@ -63,7 +62,7 @@ class ArchitectApplicationController extends Controller
         //dd($this->CommonController->architect_applications($request));
         if ($datatables->getRequest()->ajax()) {
 
-            $architect_applications= $this->CommonController->architect_applications($request);
+            $architect_applications = $this->CommonController->architect_applications($request);
             return $datatables->of($architect_applications)
                 ->editColumn('select', function ($architect_applications) {
                     return view('admin.architect.checkbox', compact('architect_applications'))->render();
@@ -84,7 +83,7 @@ class ArchitectApplicationController extends Controller
                     return $architect_applications->candidate_email . "<br>" . $architect_applications->candidate_mobile_no;
                 })
                 ->editColumn('status', function ($architect_applications) {
-                    
+
                     //return isset($architect_applications->ArchitectApplicationStatusForLoginListing[0])?$architect_applications->ArchitectApplicationStatusForLoginListing[0]->status_id:config('commanConfig.architect_applicationStatus.new_application');
                     $status = isset($architect_applications->ArchitectApplicationStatusForLoginListing[0]) ? $architect_applications->ArchitectApplicationStatusForLoginListing[0]->status_id : '1';
                     $config_array = array_flip(config('commanConfig.architect_applicationStatus'));
