@@ -16,22 +16,22 @@ $(document).ready(function () {
 
     // disable collapse on active menu
 
-    var dropdown = Array.from(document.querySelectorAll(".m-menu__item"));
-    var subMenuLink = Array.from(document.querySelectorAll(".m-menu__item--submenu"));
-
-    subMenuLink.forEach(function (sublink) {
-        dropdown.forEach(function (dropdownLink) {
-            if (sublink.classList.contains("m-menu__item--active") && dropdownLink.hasAttribute("data-target")) {
-                var linkParent = sublink.parentElement.parentElement;
-                console.log("id", linkParent.getAttribute("id"));
-                if (dropdownLink.dataset.target.indexOf(linkParent.getAttribute("id")) >= 0) {
-                    dropdownLink.dataset.target = "";
-                    dropdownLink.children[0].style.cursor = "default";
-                }
-            }
-
-        })
-    });
+    // var dropdown = Array.from(document.querySelectorAll(".m-menu__item"));
+    // var subMenuLink = Array.from(document.querySelectorAll(".m-menu__item--submenu"));
+    //
+    // subMenuLink.forEach(function (sublink) {
+    //     dropdown.forEach(function (dropdownLink) {
+    //         if (sublink.classList.contains("m-menu__item--active") && dropdownLink.hasAttribute("data-target")) {
+    //             var linkParent = sublink.parentElement.parentElement;
+    //             console.log("id", linkParent.getAttribute("id"));
+    //             if (dropdownLink.dataset.target.indexOf(linkParent.getAttribute("id")) >= 0) {
+    //                 dropdownLink.dataset.target = "";
+    //                 dropdownLink.children[0].style.cursor = "default";
+    //             }
+    //         }
+    //
+    //     })
+    // });
 
     //toggle password
     $(".toggle-password").click(function () {
