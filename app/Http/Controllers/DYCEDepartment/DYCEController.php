@@ -114,7 +114,8 @@ class DYCEController extends Controller
         $ol_application = $this->CommonController->getOlApplication($applicationId);
         $ol_application->log = $this->CommonController->getCurrentStatus($applicationId);
         $is_view = session()->get('role_name') == config('commanConfig.dyce_jr_user'); 
-        $applicationData = $this->CommonController->getDyceScrutinyRemark($applicationId);       
+        $applicationData = $this->CommonController->getDyceScrutinyRemark($applicationId);  
+
         return view('admin.DYCE_department.scrutiny_remark',compact('applicationData','is_view','ol_application'));
     } 
 
@@ -139,7 +140,7 @@ class DYCEController extends Controller
         $olApplication->update([
             'demarkation_verification_comment' => $request->demarkation_comments,
             'date_of_site_visit'               => date('Y-m-d',strtotime($request->visit_date)),
-            'site_visit_officers'              => implode(",",$request->officer_name),
+            'site_visit_officers'              => implode(",",array_filter($request->officer_name)),
             'is_encrochment'                   => $request->encrochment,
             'encrochment_verification_comment' => $request->encrochment_comments
             ]);

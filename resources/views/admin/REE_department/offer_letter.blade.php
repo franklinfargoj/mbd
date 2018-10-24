@@ -139,19 +139,19 @@
 
         <!-- Demarkation verification -->
         <div class="m-portlet m-portlet--mobile m_panel">
-            <div class="m-portlet__body">
+            <div class="m-portlet__body table--box-input">
                 <h3 class="section-title section-title--small mb-0">Remark on Offer Letter:</h3>
                 <p class="heading"> </p>
                 <div class="col-xs-12 row row-list">
                     <div class="col-md-12">
                         <p class="font-weight-semi-bold">Remark by REE</p>
-                        <textarea rows="4" cols="63" name="demarkation_comments" readonly>{{(isset($applicationData->demarkation_verification_comment) ? $applicationData->demarkation_verification_comment : '')}}</textarea>
+                        <textarea rows="4" cols="63" name="demarkation_comments" class="form-control form-control--custom" readonly>{{(isset($applicationData->demarkation_verification_comment) ? $applicationData->demarkation_verification_comment : '')}}</textarea>
                     </div>
                 </div>
                 <div class="col-xs-12 row row-list border-0">
                     <div class="col-md-12">
                         <p class="font-weight-semi-bold">Remark by CO</p>
-                        <textarea rows="4" cols="63" name="demarkation_comments" readonly>{{(isset($applicationData->demarkation_verification_comment) ? $applicationData->demarkation_verification_comment : '')}}</textarea>
+                        <textarea rows="4" cols="63" name="demarkation_comments" class="form-control form-control--custom" readonly>{{(isset($applicationData->demarkation_verification_comment) ? $applicationData->demarkation_verification_comment : '')}}</textarea>
                     </div>
                 </div>
             </div>
@@ -160,12 +160,12 @@
 
         <!-- Encrochment verification -->
         <div class="m-portlet m-portlet--mobile m_panel">
-            <div class="m-portlet__body">
+            <div class="m-portlet__body table--box-input">
                 <h3 class="section-title section-title--small">Send to Society:</h3>
                 <div class="col-xs-12 row">
                     <div class="col-md-12">
                         <p class="font-weight-semi-bold">Remark</p>
-                        <textarea rows="4" cols="63" name="demarkation_comments" readonly>{{(isset($applicationData->demarkation_verification_comment) ? $applicationData->demarkation_verification_comment : '')}}</textarea>
+                        <textarea rows="4" cols="63" name="demarkation_comments" class="form-control form-control--custom" readonly>{{(isset($applicationData->demarkation_verification_comment) ? $applicationData->demarkation_verification_comment : '')}}</textarea>
                     </div>
                 </div>
             </div>

@@ -126,7 +126,8 @@ lm_village_detail.updated_at'))->get();
         $lease_count = 0;
         foreach($lease_detail as $lease_detail_val){
             $lease_start_date = $lease_detail_val->lease_start_date;
-            $lease_end_date = date('Y-m-d', strtotime('+5 years', strtotime($lease_detail_val->lease_start_date)));
+            $lease_period = '+'.$lease_detail_val->lease_period.' years';
+            $lease_end_date = date('Y-m-d', strtotime($lease_period, strtotime($lease_detail_val->lease_start_date)));
             $current_date = date('Y-m-d', strtotime('+3 days'));
             if($current_date == $lease_end_date){
                 $lease_count++;

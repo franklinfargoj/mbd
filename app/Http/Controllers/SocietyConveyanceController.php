@@ -139,34 +139,55 @@ class SocietyConveyanceController extends Controller
             $file = $request->file('template');
             $file_name = time() . $file->getFileName() . '.' . $file->getClientOriginalExtension();
             $extension = $request->file('template')->getClientOriginalExtension();
+            $request->flash();
             if ($extension == "xls") {
 //                $time = time();
 //                $name = File::name(str_replace(' ', '_',$request->file('template')->getClientOriginalName())) . '_' . $time . '.' . $extension;
 //                $folder_name = "society_conveyance_documents";
 //                $path = config('commanConfig.storage_server') . '/' . $folder_name . '/' . $name;
 //                $fileUpload = $this->CommonController->ftpFileUpload($folder_name, $request->file('template'), $name);
-                Excel::load($request->file('template')->getRealPath(), function ($reader) {
-                    $count = 0;
+                $count = 0;
+                $sc_excel_headers = [];
+                Excel::load($request->file('template')->getRealPath(), function ($reader)use($count) {
                     $excel_headers = $reader->first()->keys()->toArray();
                     $sc_excel_headers = config('commanConfig.sc_excel_headers');
-//                    dd($excel_headers);
                     foreach($excel_headers as $excel_headers_key => $excel_headers_val){
-//                        $excel_headers_value = explode(' ', $sc_excel_headers[$excel_headers_key]);
                         $excel_headers_value = strtolower(str_replace(str_split('\\/- '), '_', $sc_excel_headers[$excel_headers_key]));
                         if($excel_headers_value == $excel_headers_val){
                             $count++;
                         }else{
-                            dd($excel_headers_val);
-//                            if(){
-//
-//                            }
+                            $exploded = explode('_', $excel_headers_value);
+                            foreach($exploded as $exploded_key => $exploded_value){
+                                if(!empty(strpos($excel_headers_val, $exploded_value))){
+                                    $count++;
+                                }
+                            }
                         }
                     }
-                    dd($count);
                 });
+                if($count == count($sc_excel_headers)){
+                    $input = array(
+                        'society_name' => $request->society_name,
+                        'society_no' => $request->society_no,
+                        'scheme_name' => $request->scheme_name,
+                        'first_flat_issue_date' => $request->first_flat_issue_date,
+                        'residential_flat' => $request->residential_flat,
+                        'non_residential_flat' => $request->non_residential_flat,
+                        'total_flat' => $request->total_flat,
+                        'society_registration_no' => $request->society_registration_no,
+                        'society_registration_date' => $request->society_registration_date,
+                        'property_tax' => $request->property_tax,
+                        'water_bil' => $request->water_bil,
+                        'no_agricultural_tax' => $request->no_agricultural_tax,
+                        'society_address' => $request->society_address,
+                    );
+//                    dd($input);
+                }else{
+                    return redirect()->route('society_conveyance.index')->withErrors('error', "Excel file headers doesn't match")->withInput();
+                }
             }
         }else{
-            dd('ohh no!!!!!');
+            return redirect()->route('society_conveyance.index')->withErrors('error', "Excel file headers doesn't match")->withInput();
         }
     }
 

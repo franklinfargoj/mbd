@@ -22,6 +22,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Storage;
 use Yajra\DataTables\DataTables;
+use DB;
 
 class LayoutArchitectController extends Controller
 {
@@ -45,7 +46,7 @@ class LayoutArchitectController extends Controller
             ['data' => 'address', 'name' => 'address', 'title' => 'Society Name'],
             ['data' => 'Status', 'name' => 'Status', 'title' => 'Status'],
         ];
-        // $this->architect_layouts->architect_layout_request_revision($request);
+         //$this->architect_layouts->architect_layout_request_revision($request);
         if ($datatables->getRequest()->ajax()) {
 
             $architect_layout_data = $this->architect_layouts->architect_layout_request_revision($request);
@@ -104,7 +105,7 @@ class LayoutArchitectController extends Controller
             ['data' => 'address', 'name' => 'address', 'title' => 'Society Name'],
             ['data' => 'Status', 'name' => 'Status', 'title' => 'Status'],
         ];
-
+        //$this->architect_layouts->architect_layout_details($request);
         if ($datatables->getRequest()->ajax()) {
 
             $architect_layout_data = $this->architect_layouts->architect_layout_details($request);
@@ -192,10 +193,11 @@ class LayoutArchitectController extends Controller
                     'status_id' => config('commanConfig.architect_layout_status.new_application'),
                     'to_user_id' => null,
                     'to_role_id' => null,
+                    'open'=>1,
                     'remark' => null,
                 ],
             ];
-            ArchitectLayoutStatusLog::insert($forward_application);
+            $this->architect_layouts->forward_architect_layout($ArchitectLayout->id,$forward_application);
             return redirect(route('architect_layout_detail.edit', ['layout_detail_id' => encrypt($ArchitectLayoutDetail->id)]));
         }
         return back()->withError('something went wrong');
@@ -259,23 +261,22 @@ class LayoutArchitectController extends Controller
                     $arrData['get_forward_co'] = User::where('role_id', $co_role_id->id)->get();
                     $arrData['co_role_name'] = strtoupper(str_replace('_', ' ', $co_role_id->name));
                 }
-                if($ArchitectLayout->upload_layout_in_pdf_format=="" && $ArchitectLayout->upload_layout_in_excel_format=="" && $ArchitectLayout->upload_architect_note=="")
-                {
+                if ($ArchitectLayout->upload_layout_in_pdf_format == "" && $ArchitectLayout->upload_layout_in_excel_format == "" && $ArchitectLayout->upload_architect_note == "") {
                     if (session()->get('role_name') != config('commanConfig.junior_architect')) {
                         $lm_role_id = Role::where('name', '=', config('commanConfig.junior_architect'))->first();
                         $arrData['get_forward_lm'] = User::where('role_id', $lm_role_id->id)->get();
                         $arrData['lm_role_name'] = strtoupper(str_replace('_', ' ', $lm_role_id->name));
                     }
                 }
-                
-            }else{
+
+            } else {
                 if (session()->get('role_name') != config('commanConfig.junior_architect')) {
                     $lm_role_id = Role::where('name', '=', config('commanConfig.junior_architect'))->first();
                     $arrData['get_forward_lm'] = User::where('role_id', $lm_role_id->id)->get();
                     $arrData['lm_role_name'] = strtoupper(str_replace('_', ' ', $lm_role_id->name));
                 }
             }
-            
+
         }
 
         if (session()->get('role_name') == config('commanConfig.co_engineer')) {
@@ -338,6 +339,7 @@ class LayoutArchitectController extends Controller
                     'to_user_id' => $user,
                     'to_role_id' => $user_data->role_id,
                     'remark' => $request->remark,
+                    'open'=>0,
                     'created_at' => Carbon::now(),
                 ];
                 $forward_application[] = ['architect_layout_id' => $request->architect_layout_id,
@@ -347,11 +349,12 @@ class LayoutArchitectController extends Controller
                     'to_user_id' => null,
                     'to_role_id' => null,
                     'remark' => '',
+                    'open'=>1,
                     'created_at' => Carbon::now()];
             }
-
         }
-        ArchitectLayoutStatusLog::insert($forward_application);
+        $this->architect_layouts->forward_architect_layout($request->architect_layout_id,$forward_application);
+        //ArchitectLayoutStatusLog::insert($forward_application);
 
         return redirect(route('architect_layout.index'));
     }

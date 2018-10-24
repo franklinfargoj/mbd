@@ -6,6 +6,7 @@ use App\Http\Requests\society_detail\SocietyDetailRequest;
 use App\LeaseDetail;
 use App\OtherLand;
 use App\SocietyDetail;
+use App\MasterSociety;
 use App\VillageDetail;
 use App\VillageSociety;
 use Illuminate\Http\Request;
@@ -435,7 +436,8 @@ class SocietyController extends Controller
         foreach($society_datas as $society_datas_key => $society_datas_val){
             foreach($lease_detail as $lease_detail_key => $lease_detail_val){
                 $lease_start_date = $lease_detail_val->lease_start_date;
-                $lease_end_date = date('Y-m-d', strtotime('+5 years', strtotime($lease_detail_val->lease_start_date)));
+                $lease_period = '+'.$lease_detail_val->lease_period.' years';
+                $lease_end_date = date('Y-m-d', strtotime($lease_period, strtotime($lease_detail_val->lease_start_date)));
                 $current_date = date('Y-m-d', strtotime('+3 days'));
                 if(($society_datas_val->id == $lease_detail_val->society_id) && ($current_date == $lease_end_date)){
                     $society_data[] = $society_datas_val;

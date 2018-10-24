@@ -53,7 +53,7 @@
                                                 date('d/m/Y',strtotime($report->created_at))
                                                 }}</td>
                                             <td>{{ $report->name_of_document }}</td>
-                                            <td><a target="_blank" href="{{config('commanConfig.storage_server').'/'.$report->file}}">file</a></td>
+                                            <td><a class="btn-link" target="_blank" href="{{config('commanConfig.storage_server').'/'.$report->file}}">file</a></td>
                                         </tr>
                                         @endforeach
                                         @endforeach
@@ -153,7 +153,7 @@
                 '">Choose file...</label>' +
                 '<input type="hidden" name="report_file_name[]" id="report_file_' + count +
                 '" value="">' +
-                '<a target="_blank" id="report_file_link_' + count +
+                '<a class="btn-link" target="_blank" id="report_file_link_' + count +
                 '" style="display:none">uploaded file</a>' +
                 '</div>' +
                 '</div>' +

@@ -142,8 +142,9 @@
 									<input type="text" class="txtbox form-control form-control--custom m_input" name="society_name" id="society_name" value="{{(isset($applicationData->eeApplicationSociety->name) ? $applicationData->eeApplicationSociety->name : '')}}"
 										readonly>
 								</div>
+                              
                                 @if($is_view)
-                                    <?php $i=2;?>
+                                    <?php $i=1;?>
                                     @if(isset($applicationData->SiteVisitorOfficers))
                                         @foreach($applicationData->SiteVisitorOfficers as $officerName)
                                             @if(!empty($officerName))
@@ -152,24 +153,27 @@
             										<label class="site-visit-label">Name of Officer:</label>
             										<input type="text" class="txtbox form-control form-control--custom m_input" name="officer_name[]" id="officer_name"
             											value="{{$officerName}}">
-            										<i class="fa fa-close icon2" id="icon_{{$i}}" onclick="removeOfficerName(this.id)"></i>
+            										<i class="fa fa-close icon2 d-icon" id="icon_{{$i}}" onclick="removeOfficerName(this.id)"></i>
             									</div>
                                             </div>
                                             @endif
                                             <?php $i++;?>
                                         @endforeach
-                                    @endif
-
-                                    <div class="officer_name_1">
+                                    @else
+                                    <div class="officer_name_0">
     									<div class="d-flex align-items-center mb-5">
     										<label class="site-visit-label">Name of Officer:</label>
-    										<div class="position-relative">
-    											<input type="text" class="txtbox form-control form-control--custom m_input" name="officer_name[]" id="officer_name">
-    											<a class="add_more" onclick="addMoreText(this);">add more </a>
-    											<i class="fa fa-close icon close-icon" id="icon_1" onclick="removeOfficerName(this.id)"></i>
+    										<div class="position-relative" >
+    											<input type="text" class="txtbox form-control form-control--custom m_input" name="officer_name[]" id="officer_name" >
+                                                
+                                                <i class="fa fa-close icon d-icon close-icon" id="icon_0" onclick="removeOfficerName(this.id)" style="visibility: hidden"></i>
     										</div>									
     									</div>
-                                    </div>
+                                    </div> 
+                                        
+                                    @endif
+                                    @if(isset($applicationData->SiteVisitorOfficers) && count($applicationData->SiteVisitorOfficers) < 3)
+                                    @endif
                                 @else
                                     <div class="officer_name">
                                         <div class="d-flex align-items-center mb-5">
@@ -180,6 +184,11 @@
                                         </div>
                                     </div>                                
                                 @endif
+                                
+                                    <div class="col-md-6 add_more_div" style="left: 173px;top: -40px;">
+                                        <a class="add_more" id="add_more_text" onclick="addMoreText(this);" style="{{ 
+                                            (isset($applicationData->SiteVisitorOfficers) && count($applicationData->SiteVisitorOfficers) >= 3) ? 'display: none' : '' }}">add more </a>
+                                    </div>
                             </div>
 
                             <div class="col-md-6">
@@ -190,8 +199,10 @@
 								</div>
 								<div class="d-flex align-items-center mb-5">
 									<label class="site-visit-label">Date of site visit:</label>
+                                    <div class="position-relative">
 									<input type="text" class="txtbox v_text form-control form-control--custom m-input {{($is_view ? 'm_datepicker' : '' )}}"
 										name="visit_date" id="visit_date" value="{{(isset($applicationData->date_of_site_visit) ? date('d-m-Y',strtotime($applicationData->date_of_site_visit)) : '')}}" {{(!($is_view) ? 'readonly' : '' )}}>
+                                    </div>    
 								</div>
                             </div>
                             <div class="col-md-12 all_documents">
@@ -245,7 +256,7 @@
                 </div>
             </div>
         </div>
-        <!-- end  -->
+        <!-- end 
 
         <!-- Demarkation verification -->
         <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
@@ -308,9 +319,13 @@
         <input type="hidden" name="applicationId" value="{{(isset($applicationData->id) ? $applicationData->id : '')}}">
         <input type="hidden" name="deletedDoc" id="deletedDoc" value="">
     </form>
+    
+    <input type="hidden" name="OfficiersCount" id="OfficiersCount" value="{{(isset($applicationData->SiteVisitorOfficers) && count($applicationData->SiteVisitorOfficers) > 0 ? count($applicationData->SiteVisitorOfficers) : '1')}}">
 
-    <input type="hidden" name="OfficiersCount" id="OfficiersCount" value="{{(isset($applicationData->SiteVisitorOfficers) ? count($applicationData->SiteVisitorOfficers)+2 : '')}}">
+     <input type="hidden" name="officier" id="officier" value="{{(isset($applicationData->SiteVisitorOfficers) && count($applicationData->SiteVisitorOfficers) > 0 ? count($applicationData->SiteVisitorOfficers)+1 : '1')}}">
+
     <input type="hidden" name="documentCount" id="documentCount" value="{{(isset($applicationData->visitDocuments) ? count($applicationData->visitDocuments)+2 : '')}}">
+
 </div>
 @endsection
 @section('js')
@@ -329,20 +344,45 @@ var isError = 0;
 
     function removeOfficerName(data) {
         var id = data.substr(5, 2);
+        var id1 = $("#OfficiersCount").val();
+        if(id1 == 2){
+           $('.d-icon').css("visibility", "hidden"); 
+        }
+        $("#add_more_text").css("display", "block");       
         $(".officer_name_" + id).css("display", "none");
+        // $("#add_more_text").css("display", "block");
         $(".officer_name_" + id + " input").attr("disabled", "disabled");
+        id1--;
+        $("#OfficiersCount").val(id1);         
     }
 
     function addMoreText(text) {
 
-        var id = $("#OfficiersCount").val();
-        $(text).css("display", "none");
-        $('.icon').css("visibility", "visible");
-        $(".site_v").append("<div class='officer_name_" + id +
-            "'><div class='d-flex align-items-center mb-5'><label class='site-visit-label'>Name of Officer:</label><div class='position-relative'><input type='text' class='txtbox form-control form-control--custom m_input' name='officer_name[]' id='officer_name'><a class='add_more' onclick='addMoreText(this);'>add more </a><i class='fa fa-close icon close-icon' id='icon_" +
-            id + "' onclick='removeOfficerName(this.id)'></i></div></div></div>");
-        id++;
-        $("#OfficiersCount").val(id);
+        var id = $("#officier").val();
+        var id1 = $("#OfficiersCount").val();
+        if(id1 == 2){
+           $(text).css("display", "none"); 
+        }
+        // if(id1 == 1){
+        //    $('.icon').css("visibility", "hidden"); 
+        // }
+        if(id1 < 3){
+        $('.d-icon').css("visibility", "visible");
+            // $(".site_v").append("<div class='officer_name_" + id +
+            //     "'><div class='d-flex align-items-center mb-5'><label class='site-visit-label'>Name of Officer:</label><div class='position-relative'><input type='text' class='txtbox form-control form-control--custom m_input' name='officer_name[]' id='officer_name'><i class='fa fa-close icon close-icon' id='icon_" +
+            //     id + "' onclick='removeOfficerName(this.id)'></i></div></div></div>");            
+
+            $("<div class='officer_name_" + id +
+                "'><div class='d-flex align-items-center mb-5'><label class='site-visit-label'>Name of Officer:</label><div class='position-relative'><input type='text' class='txtbox form-control form-control--custom m_input' name='officer_name[]' id='officer_name'><i class='fa fa-close icon d-icon close-icon' id='icon_" +
+                id + "' onclick='removeOfficerName(this.id)'></i></div></div></div>").insertBefore('.add_more_div');
+            
+            id1++;
+            id++;
+            $("#OfficiersCount").val(id1);           
+            $("#officier").val(id);           
+        }else{
+             
+        }
     }
 
     function selectFile() {

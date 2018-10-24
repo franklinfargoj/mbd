@@ -1,5 +1,9 @@
 /* theme classes over ride starts here */
 
+.lease-icon {
+    font-size: 1rem;
+}
+
 .m-subheader__title--hint {
     font-size: 1.1rem;
     color: #717171;
@@ -437,7 +441,7 @@
 
 .btn-link {
     padding: 0 5px;
-    color: #f0791b;
+    color: #f0791b !important;
 }
 
 .btn-link:focus,
@@ -1706,8 +1710,17 @@ input:disabled+label:after {
     padding: 2px 0;
     height: 16px;
     margin: 0 5px;
-    width: 100%;
+    width: 0;
     text-align: center;
+}
+
+.letter-form-input--xs,
+.letter-form-input--sm,
+.letter-form-input--md,
+.letter-form-input--lg,
+.letter-form-input--xl,
+.letter-form-input--100 {
+    width: 100% !important;
 }
 
 .letter-form-input--xs {
@@ -2470,7 +2483,7 @@ label.site-visit-label {
 
 .m-aside-menu .mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar {
     margin: 0 0 0 -1px;
-    opacity: 0.5;
+    opacity: 0.3;
 }
 
 .radio-icon {
@@ -2693,6 +2706,7 @@ label.site-visit-label {
     color: #f4516c;
 }
 
+<<<<<<< HEAD
 /* Society Conveyance starts here */
 
 .application-fields-wrapper {
@@ -2770,4 +2784,8 @@ label.site-visit-label {
         max-width: 550px;
         margin: 30px auto;
     }
+=======
+.mb-10 {
+    margin-bottom: 10px;
+>>>>>>> rent_billing
 }
