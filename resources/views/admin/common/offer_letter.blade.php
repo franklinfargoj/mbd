@@ -13,7 +13,7 @@
 <div class="col-md-12">
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
-            <h3 class="m-subheader__title m-subheader__title--separator">Application</h3>
+            <h3 class="m-subheader__title m-subheader__title--separator">Applications</h3>
             @php
             $route_name=\Request::route()->getName();
             @endphp
