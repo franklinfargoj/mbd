@@ -48,15 +48,17 @@
                 </div>
             </div>
         </div>
-        <div class="m-login__form-action mt-4 mb-4">
-                <a href="{{ route('society_offer_letter_dashboard') }}" class="btn btn-primary">
-                    Back
-                </a>
-                <span style="float:right;margin-right: 20px">
-                    <a href="{{ route('documents_upload') }}" class="btn btn-primary">
-                        Next
+        @if($ol_application->olApplicationStatus[0]->status_id == '3' || $ol_application->olApplicationStatus[0]->status_id == '4')
+            <div class="m-login__form-action mt-4 mb-4">
+                    <a href="{{ route('society_offer_letter_dashboard') }}" class="btn btn-primary">
+                        Back
                     </a>
-                </span>
-        </div>
+                    <span style="float:right;margin-right: 20px">
+                        <a href="{{ route('documents_upload') }}" class="btn btn-primary">
+                            Next
+                        </a>
+                    </span>
+            </div>
+        @endif
     </form>
 @endsection
