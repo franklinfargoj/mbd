@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Common;
 
+use App\ArchitectApplication;
 use App\EENote;
 use App\Http\Controllers\Controller;
 use App\Layout\ArchitectLayout;
@@ -37,7 +38,6 @@ use Carbon\Carbon;
 use Config;
 use DB;
 use Storage;
-use App\ArchitectApplication;
 
 class CommonController extends Controller
 {
@@ -158,12 +158,12 @@ class CommonController extends Controller
         if ($request->status) {
             $architect_applications->where(DB::raw($request->status), '=', function ($q) {
                 $q->from('architect_application_status_logs')
-                ->select('status_id')
-                ->where('user_id', auth()->user()->id)
-                ->where('role_id', session()->get('role_id'))
-                ->where('architect_application_id', '=', DB::raw('architect_application.id'))
-                ->limit(1)
-                ->orderBy('id', 'desc');
+                    ->select('status_id')
+                    ->where('user_id', auth()->user()->id)
+                    ->where('role_id', session()->get('role_id'))
+                    ->where('architect_application_id', '=', DB::raw('architect_application.id'))
+                    ->limit(1)
+                    ->orderBy('id', 'desc');
             });
         }
 
@@ -189,11 +189,11 @@ class CommonController extends Controller
         if ($request->update_status) {
             $ArchitectLayoutLayoutdetailsQuery->where(DB::raw($request->update_status), '=', function ($q) {
                 $q->from('architect_layout_status_logs')
-                ->select('status_id')
-                ->where('architect_layout_id', '=', DB::raw('architect_layouts.id'))
-                ->where('user_id', Auth::user()->id)
-                ->where('role_id', session()->get('role_id'))
-                ->limit(1)->orderBy('id', 'desc');
+                    ->select('status_id')
+                    ->where('architect_layout_id', '=', DB::raw('architect_layouts.id'))
+                    ->where('user_id', Auth::user()->id)
+                    ->where('role_id', session()->get('role_id'))
+                    ->limit(1)->orderBy('id', 'desc');
             });
         }
 
@@ -223,12 +223,12 @@ class CommonController extends Controller
         if ($request->update_status) {
             $ArchitectLayoutRevisionRequestsQuery->where(DB::raw($request->update_status), '=', function ($q) {
                 $q->from('architect_layout_status_logs')
-                ->select('status_id')
-                ->where('architect_layout_id', '=', DB::raw('architect_layouts.id'))
-                ->where('user_id', Auth::user()->id)
-                ->where('role_id', session()->get('role_id'))
-                ->limit(1)
-                ->orderBy('id', 'desc');
+                    ->select('status_id')
+                    ->where('architect_layout_id', '=', DB::raw('architect_layouts.id'))
+                    ->where('user_id', Auth::user()->id)
+                    ->where('role_id', session()->get('role_id'))
+                    ->limit(1)
+                    ->orderBy('id', 'desc');
             });
         }
         if ($request->submitted_at_from && $request->submitted_at_to) {
@@ -712,7 +712,7 @@ class CommonController extends Controller
         $status = array(config('commanConfig.applicationStatus.forwarded'), config('commanConfig.applicationStatus.reverted'));
 
         $eeRoles = Role::whereIn('name', $roles)->pluck('id');
-        $EElogs = OlApplicationStatus::with(['getRoleName','getRole'])->where('application_id', $applicationId)->whereIn('role_id', $eeRoles)->whereIn('status_id', $status)->get();
+        $EElogs = OlApplicationStatus::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->whereIn('role_id', $eeRoles)->whereIn('status_id', $status)->get();
 
         return $EElogs;
     }
@@ -725,7 +725,7 @@ class CommonController extends Controller
         $status = array(config('commanConfig.applicationStatus.forwarded'), config('commanConfig.applicationStatus.reverted'));
 
         $dyceRoles = Role::whereIn('name', $roles)->pluck('id');
-        $dycelogs = OlApplicationStatus::with(['getRoleName','getRole'])->where('application_id', $applicationId)->whereIn('role_id', $dyceRoles)->whereIn('status_id', $status)->get();
+        $dycelogs = OlApplicationStatus::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->whereIn('role_id', $dyceRoles)->whereIn('status_id', $status)->get();
 
         return $dycelogs;
     }
@@ -735,10 +735,10 @@ class CommonController extends Controller
 
         $roles = array(config('commanConfig.ree_junior'), config('commanConfig.ree_branch_head'), config('commanConfig.ree_deputy_engineer'), config('commanConfig.ree_assistant_engineer'));
 
-       $status = array(config('commanConfig.applicationStatus.forwarded'), config('commanConfig.applicationStatus.reverted'));
+        $status = array(config('commanConfig.applicationStatus.forwarded'), config('commanConfig.applicationStatus.reverted'));
 
         $reeRoles = Role::whereIn('name', $roles)->pluck('id');
-        $reelogs = OlApplicationStatus::with(['getRoleName','getRole'])->where('application_id', $applicationId)->whereIn('role_id', $reeRoles)->whereIn('status_id', $status)->get();
+        $reelogs = OlApplicationStatus::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->whereIn('role_id', $reeRoles)->whereIn('status_id', $status)->get();
 
         return $reelogs;
     }
@@ -751,10 +751,10 @@ class CommonController extends Controller
         $status = array(config('commanConfig.applicationStatus.forwarded'), config('commanConfig.applicationStatus.reverted'));
 
         $coRoles = Role::where('name', $roles)->value('id');
-        $cologs = OlApplicationStatus::with(['getRoleName','getRole'])->where('application_id', $applicationId)->where('role_id', $coRoles)->whereIn('status_id', $status)->get();
+        $cologs = OlApplicationStatus::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->where('role_id', $coRoles)->whereIn('status_id', $status)->get();
 
         return $cologs;
-    } 
+    }
 
     public function getLogsOfCAPDepartment($applicationId)
     {
@@ -764,10 +764,10 @@ class CommonController extends Controller
         $status = array(config('commanConfig.applicationStatus.forwarded'), config('commanConfig.applicationStatus.reverted'));
 
         $capRoles = Role::where('name', $roles)->value('id');
-        $caplogs = OlApplicationStatus::with(['getRoleName','getRole'])->where('application_id', $applicationId)->where('role_id', $capRoles)->whereIn('status_id', $status)->get();
+        $caplogs = OlApplicationStatus::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->where('role_id', $capRoles)->whereIn('status_id', $status)->get();
 
         return $caplogs;
-    }  
+    }
 
     public function getLogsOfVPDepartment($applicationId)
     {
@@ -777,10 +777,10 @@ class CommonController extends Controller
         $status = array(config('commanConfig.applicationStatus.forwarded'), config('commanConfig.applicationStatus.reverted'));
 
         $vpRoles = Role::where('name', $roles)->value('id');
-        $vplogs = OlApplicationStatus::with(['getRoleName','getRole'])->where('application_id', $applicationId)->where('role_id', $vpRoles)->whereIn('status_id', $status)->get();
+        $vplogs = OlApplicationStatus::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->where('role_id', $vpRoles)->whereIn('status_id', $status)->get();
 
         return $vplogs;
-    }            
+    }
 
     //check if in layout detail all documents uploaded or not
     public function check_layout_details_complete_status($layout_id)
