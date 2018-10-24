@@ -116,7 +116,7 @@ class CommonController extends Controller
         $applicationData = OlApplication::with(['eeApplicationSociety', 'visitDocuments'])
             ->where('id', $applicationId)->first();
 
-        if (isset($applicationData)) {
+        if (isset($applicationData) && isset($applicationData->site_visit_officers)) {
             $applicationData->SiteVisitorOfficers = explode(",", $applicationData->site_visit_officers);
         }
 

@@ -13,10 +13,15 @@ class EEController extends Controller
 	
 		$data = scApplication::with('ConveyanceSalePriceCalculation')->where('id',$applicationId)->first();
 
-		return view('admin.conveyance.ee_department.sale_price_calculation', compact('html','header_data','getData','folder_name'));
+		return view('admin.conveyance.ee_department.sale_price_calculation', compact('html','header_data','getData','folder_name','data'));
 	}
 
 	public function SaveCalculationData(Request $request){
-		dd($request);
+
+		$applicationId = $request->application_id;
+		$arrData = $request->all();
+		unset($arrData['_token'],$arrData['pump_house'],$arrData['completion_date']);
+		ConveyanceSalePriceCalculation::updateOrCreate(['application_id'=>$applicationId],$arrData);
+		dd($arrData);
 	}
 }
