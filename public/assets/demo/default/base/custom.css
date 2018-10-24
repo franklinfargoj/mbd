@@ -441,7 +441,7 @@
 
 .btn-link {
     padding: 0 5px;
-    color: #f0791b;
+    color: #f0791b !important;
 }
 
 .btn-link:focus,

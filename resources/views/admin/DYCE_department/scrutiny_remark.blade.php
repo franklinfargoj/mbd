@@ -199,8 +199,10 @@
 								</div>
 								<div class="d-flex align-items-center mb-5">
 									<label class="site-visit-label">Date of site visit:</label>
+                                    <div class="position-relative">
 									<input type="text" class="txtbox v_text form-control form-control--custom m-input {{($is_view ? 'm_datepicker' : '' )}}"
 										name="visit_date" id="visit_date" value="{{(isset($applicationData->date_of_site_visit) ? date('d-m-Y',strtotime($applicationData->date_of_site_visit)) : '')}}" {{(!($is_view) ? 'readonly' : '' )}}>
+                                    </div>    
 								</div>
                             </div>
                             <div class="col-md-12 all_documents">
