@@ -174,8 +174,8 @@ class LeaseDetailController extends Controller
 //                $lease_end_date = date('Y-m-d', strtotime($lease_period, strtotime($lease_detail_val->lease_start_date)));
 //                $current_date = date('Y-m-d', strtotime('+3 days'));
 //            }
-//            dd($lease_count);
-            $lease_data = $lease_data->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').',lease_rule_16_other, lm_lease_detail.id as id, lm_lease_detail.area as area, society_id, lease_period, lease_start_date, lease_renewal_date, lease_status');
+//            dd($id);
+            $lease_data = $lease_data->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').',lease_rule_16_other, lm_lease_detail.id as id, lm_lease_detail.area as area, society_id, lease_period, lease_renewed_period, lease_start_date, lease_renewal_date, lease_status');
 
             return $datatables->of($lease_data)
                 // ->editColumn('radio', function ($lease_data) {
@@ -188,11 +188,22 @@ class LeaseDetailController extends Controller
                         return $i;
                     })
                 ->editColumn('lease_start_date', function ($lease_data) {
-                    return date(config('commanConfig.dateFormat'), strtotime($lease_data->lease_start_date));
+                    if($lease_data->lease_renewed_period != null){
+                        $lease_start_date = $lease_data->lease_renewal_date;
+                    }else{
+//                        dd($lease_data->lease_renewed_period);
+                        $lease_start_date = $lease_data->lease_start_date;
+                    }
+                    return date(config('commanConfig.dateFormat'), strtotime($lease_start_date));
                 })
                 ->editColumn('lease_renewal_date', function ($lease_data) {
-                    $lease_start_date = $lease_data->lease_start_date;
-                    $lease_period = '+'.$lease_data->lease_period.' years';
+                    if($lease_data->lease_renewed_period != null){
+                        $lease_start_date = $lease_data->lease_renewal_date;
+                        $lease_period = '+'.$lease_data->lease_renewed_period.' years';
+                    }else{
+                        $lease_start_date = $lease_data->lease_start_date;
+                        $lease_period = '+'.$lease_data->lease_period.' years';
+                    }
                     $lease_end_date = date('Y-m-d', strtotime($lease_period, strtotime($lease_start_date)));
                     return date(config('commanConfig.dateFormat'), strtotime($lease_end_date));
                 })
