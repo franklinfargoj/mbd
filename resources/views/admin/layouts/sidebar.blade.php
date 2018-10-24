@@ -16,6 +16,7 @@ $route=\Request::route()->getName();
     @endphp
 
     <div id="m_ver_menu" class="m-aside-menu  m-aside-menu--skin-dark m-aside-menu--submenu-skin-dark " style="position: relative;">
+        <div class="m-scrollable m-scroller ps ps--active-y" data-scrollbar-shown="true" data-scrollable="true" data-max-height="100vh">
         <ul class="m-menu__nav  m-menu__nav--dropdown-submenu-arrow">
 
             @if(session()->get('permission') && (in_array('architect_application', session()->get('permission')) ||
@@ -601,6 +602,7 @@ $route=\Request::route()->getName();
                     </a>
                 </li> -->
                 </ul>
+            </div>
     </div>
     <!-- END: Aside Menu -->
 </div>
