@@ -173,8 +173,24 @@ class EMClerkController extends Controller
 
         $society = MasterSociety::where('id', '=', $rate_card[0]->society_id)->get();
 
-        $arrear = ArrearCalculation::where('tenant_id', '=', $tenant[0]->id)->get();
-        //return $arrear;
+        for ($i = 1; $i <= 12; $i++) {
+            $months[] = date("n", strtotime( date( 'Y-m-01' )." -$i months"));
+            $years[] = date("Y", strtotime( date( 'Y-m-01' )." -$i months"));
+        }
+        $years = array_unique($years);        
+        // return $months;
+        $arrear = ArrearCalculation::leftjoin('arrears_charges_rates', function($join) use ($tenant){
+                                        $join->on('arrears_charges_rates.year', '=', 'arrear_calculation.year')
+                                            ->where('arrears_charges_rates.building_id', '=', $tenant[0]->building_id);
+                                    })
+                                    ->where('tenant_id', '=', $tenant[0]->id)
+                                    ->whereIn('arrear_calculation.month', $months)
+                                    ->whereIn('arrear_calculation.year', $years)
+                                    ->get();
+        // return $arrear;
+
+        
+
         return view('admin.em_clerk_department.arrear_calculation', compact('tenant', 'rate_card', 'society'));
     }
 

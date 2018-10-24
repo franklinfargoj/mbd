@@ -17,6 +17,8 @@ class CreateArrearCalculationTable extends Migration
             $table->increments('id');
             $table->integer('tenant_id')->unsigned();
             $table->foreign('tenant_id')->references('id')->on('master_tenants');
+            $table->integer('building_id')->unsigned();
+            $table->foreign('building_id')->references('id')->on('master_buildings');
             $table->integer('society_id')->unsigned();
             $table->foreign('society_id')->references('id')->on('master_societies');
             $table->string('month')->nullable();    

@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 @section('actions')
-    @include('admin.em_department.action',compact('ol_application'))
+    @include('admin.rc_department.action')
 @endsection
 @section('content')
 

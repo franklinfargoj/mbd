@@ -30,6 +30,15 @@ use Config;
 use DB;
 use File;
 use Storage;
+use App\MasterLayout;
+use App\MasterWard;
+use App\MasterColony;
+use App\MasterSociety;
+use App\MasterBuilding;
+use App\MasterTenant;
+use App\ArrearsChargesRate;
+use App\ArrearTenantPayment;
+use App\ArrearCalculation;
 
 class RCController extends Controller
 {
@@ -124,492 +133,66 @@ class RCController extends Controller
         ];
     }
 
-    public function documentSubmittedBySociety($applicationId)
-    {
-        $ol_application = $this->comman->getOlApplication($applicationId);    
-        $societyDocument = $this->comman->getSocietyEEDocuments($applicationId);
-        $ol_application->status = $this->comman->getCurrentStatus($applicationId);
-        return view('admin.ee_department.documentSubmitted', compact('societyDocument','ol_application'));
+    public function bill_collection_society(Request $request){
+       $layouts = DB::table('layout_user')->where('user_id', '=', Auth::user()->id)->pluck('layout_id');
+        $layout_data = MasterLayout::whereIn('id', $layouts)->get();
+       // dd($layout_data);
+        $wards = MasterWard::whereIn('layout_id', $layouts)->pluck('id');
+        $wards_data = MasterWard::whereIn('layout_id', $layouts)->get();
+
+        //dd($wards);
+        $colonies = MasterColony::whereIn('ward_id', $wards)->pluck('id');
+
+        $colonies_data = MasterColony::whereIn('ward_id', $wards)->get();
+
+        //dd($colonies);
+        $societies_data = MasterSociety::where('society_bill_level', '=', '1')->whereIn('colony_id', $colonies)->get();
+
+        //return $rate_card;
+        return view('admin.rc_department.collect_bill_society', compact('layout_data', 'wards_data', 'colonies_data','societies_data'));
+  
     }
 
-    public function getForwardApplicationForm($application_id){
+    public function bill_collection_tenant(Request $request){
+        
+        $layouts = DB::table('layout_user')->where('user_id', '=', Auth::user()->id)->pluck('layout_id');
+        $layout_data = MasterLayout::whereIn('id', $layouts)->get();
+       // dd($layout_data);
+        $wards = MasterWard::whereIn('layout_id', $layouts)->pluck('id');
+        $wards_data = MasterWard::whereIn('layout_id', $layouts)->get();
 
-        $ol_application = $this->comman->getOlApplication($application_id);
-        $ol_application->status = $this->comman->getCurrentStatus($application_id);
-        $arrData['society_detail'] = OlApplication::with('eeApplicationSociety')->where('id', $application_id)->first();
+        //dd($wards);
+        $colonies = MasterColony::whereIn('ward_id', $wards)->pluck('id');
 
-        $parentData = $this->comman->getForwardApplicationParentData();
-        $arrData['parentData'] = $parentData['parentData'];
-        $arrData['role_name'] = $parentData['role_name'];
-//        $arrData['application_status'] = $this->comman->getCurrentApplicationStatus($application_id);
+        $colonies_data = MasterColony::whereIn('ward_id', $wards)->get();
 
+        //dd($colonies);
+        $societies = MasterSociety::whereIn('colony_id', $colonies)->pluck('id');
+        $societies_data = MasterSociety::where('society_bill_level', '=', '2')->whereIn('colony_id', $colonies)->get();
 
-        $society_role_id = Role::where('name', config('commanConfig.society_offer_letter'))->first();
+        $building_data = MasterBuilding::whereIn('society_id', $societies)->get();
 
-        if(session()->get('role_name') != config('commanConfig.ee_junior_engineer')) {
-            $child_role_id = Role::where('id', session()->get('role_id'))->get(['child_id']);
-            $result = json_decode($child_role_id[0]->child_id);
-            $status_user = OlApplicationStatus::where(['application_id' => $application_id])->pluck('user_id')->toArray();
+        //return $rate_card;
+        return view('admin.rc_department.collect_bill_tenant', compact('layout_data', 'wards_data', 'colonies_data','societies_data', 'building_data'));
 
-            $final_child = User::with('roles')->whereIn('id', array_unique($status_user))->whereIn('role_id', $result)->get();
-
-            $arrData['application_status'] = $final_child;
-        }
-
-        // DyCE Junior Forward Application
-        $dyce_role_id = Role::where('name', '=', config('commanConfig.dyce_jr_user'))->first();
-
-        $arrData['get_forward_dyce'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
-
-                                                ->where('lu.layout_id', session()->get('layout_id'))
-                                                ->where('role_id', $dyce_role_id->id)->get();
-
-        $arrData['dyce_role_name'] = strtoupper(str_replace('_', ' ', $dyce_role_id->name));
-
-        return view('admin.ee_department.forward-application', compact('arrData', 'society_role_id','ol_application'));
     }
 
-    public function forwardApplication(Request $request)
-    {
-        if($request->check_status == 1) {
-            $forward_application = [[
-                'application_id' => $request->application_id,
-                'user_id' => Auth::user()->id,
-                'role_id' => session()->get('role_id'),
-                'status_id' => config('commanConfig.applicationStatus.forwarded'),
-                'to_user_id' => $request->to_user_id,
-                'to_role_id' => $request->to_role_id,
-                'remark' => $request->remark,
-                'created_at' => Carbon::now()
-            ],
+     public function get_building_bill_collection(Request $request){
 
-            [
-                'application_id' => $request->application_id,
-                'user_id' => $request->to_user_id,
-                'role_id' => $request->to_role_id,
-                'status_id' => config('commanConfig.applicationStatus.in_process'),
-                'to_user_id' => NULL,
-                'to_role_id' => NULL,
-                'remark' => $request->remark,
-                'created_at' => Carbon::now()
-            ]
-            ];
-
-//            echo "in forward";
-//            dd($forward_application);
-            OlApplicationStatus::insert($forward_application);
-        }
-        else{
-            /*if(session()->get('role_name') == config('commanConfig.ee_junior_engineer'))
-            {
-                $society_user_data = OlApplicationStatus::where('application_id', $request->application_id)
-                                                        ->where('society_flag', 1)
-                                                        ->orderBy('id', 'desc')->get();                                     
-                $revert_application = [
-                    [
-                        'application_id' => $request->application_id,
-                        'society_flag' => 0,
-                        'user_id' => Auth::user()->id,
-                        'role_id' => session()->get('role_id'),
-                        'status_id' => config('commanConfig.applicationStatus.reverted'),
-                        'to_user_id' => $society_user_data[0]->user_id,
-                        'to_role_id' => $society_user_data[0]->role_id,
-                        'remark' => $request->remark,
-                        'created_at' => Carbon::now()
-                    ],
-
-                    [
-                        'application_id' => $request->application_id,
-                        'society_flag' => 1,
-                        'user_id' => $society_user_data[0]->user_id,
-                        'role_id' => $society_user_data[0]->role_id,
-                        'status_id' => config('commanConfig.applicationStatus.reverted'),
-                        'to_user_id' => NULL,
-                        'to_role_id' => NULL,
-                        'remark' => $request->remark,
-                        'created_at' => Carbon::now()
-                    ]
-                ];
-            }
-            else
-            {*/
-                if($request->society_flag == 1){
-                    $status_id = config('commanConfig.applicationStatus.reverted');
-                }else{
-                    $status_id = config('commanConfig.applicationStatus.in_process');
-                }
-                $revert_application = [
-                    [
-                        'application_id' => $request->application_id,
-                        'user_id' => Auth::user()->id,
-                        'role_id' => session()->get('role_id'),
-                        'society_flag' => 0,
-                        'status_id' => config('commanConfig.applicationStatus.reverted'),
-                        'to_user_id' => $request->to_child_id,
-                        'to_role_id' => $request->to_role_id,
-                        'remark' => $request->remark,
-                        'created_at' => Carbon::now()
-                    ],
-
-                    [
-                        'application_id' => $request->application_id,
-                        'user_id' => $request->to_child_id,
-                        'role_id' => $request->to_role_id,
-                        'society_flag' => $request->society_flag,
-                         'status_id' => $status_id,                         
-                        'to_user_id' => NULL,
-                        'to_role_id' => NULL,
-                        'remark' => $request->remark,
-                        'created_at' => Carbon::now()
-                    ]
-                ];
-//            }
-                // dd($revert_application);
-//            echo "in revert";
-//            dd($revert_application);
-            OlApplicationStatus::insert($revert_application);
-        }
-
-        return redirect('/ee')->with('success','Application send successfully.');
-
-        // insert into ol_application_status_log table
+            $society_id = $request->input('id');
+            $buildings = MasterBuilding::with('tenant_count')->where('society_id', '=', $request->input('id'))
+                        ->get();
+            //return $buildings;
+            return view('admin.rc_department.ajax_building_bill_collection', compact('buildings', 'society_id'));
     }
 
-    public function scrutinyRemarkByEE($application_id, $society_id)
-    {
-        $ol_application = $this->comman->getOlApplication($application_id);
-        $ol_application->status = $this->comman->getCurrentStatus($application_id);
-        $application_master_id = OlApplication::where('society_id', $society_id)->value('application_master_id');
-        $arrData['society_document'] = OlSocietyDocumentsMaster::where('application_id', $application_master_id)->get();       
-        // Document Scrutiny
-        $arrData['society_detail'] = OlApplication::with('eeApplicationSociety')->where('id', $application_id)->first();
-        // $arrData['society_document'] = OlSocietyDocumentsMaster::get();
-        $document_status_data = SocietyOfferLetter::with('societyDocuments')->where('id', $society_id)->first();
-        $arrData['society_document_data'] = array_get($document_status_data,'societyDocuments')->keyBy('document_id')->toArray();
-//        dd($arrData['society_document_data']);
-
-        // Consent Scrutiny
-
-        $arrData['consent_verification_question'] = OlConsentVerificationQuestionMaster::all();
-        $arrData['consent_verification_checkist_data'] = OlChecklistScrutiny::where('application_id', $application_id)
-                                                                                ->where('verification_type', 'CONSENT VERIFICATION')
-                                                                                ->first();
-        $arrData['consent_verification_details_data'] = OlConsentVerificationDetails::where('application_id', $application_id)->get()->keyBy('question_id')->toArray();
-
-        // Demarcation Scrutiny
-
-        $arrData['demarcation_question'] = OlDemarcationVerificationQuestionMaster::all();
-        $arrData['demarcation_checkist_data'] = OlChecklistScrutiny::where('application_id', $application_id)
-                                                                        ->where('verification_type', 'DEMARCATION')
-                                                                        ->first();
-        $arrData['demarcation_details_data'] = OlDemarcationVerificationDetails::where('application_id', $application_id)->get()->keyBy('question_id')->toArray();
-
-        // Tit-Bit Scrutiny
-
-        $arrData['tit_bit_question'] = OlTitBitVerificationQuestionMaster::all();
-        $arrData['tit_bit_checkist_data'] = OlChecklistScrutiny::where('application_id', $application_id)
-                                                                        ->where('verification_type', 'TIT BIT')
-                                                                        ->first();
-        $arrData['tit_bit_details_data'] = OlTitBitVerificationDetails::where('application_id', $application_id)->get()->keyBy('question_id')->toArray();
-
-
-        // R.G Relocation
-
-        $arrData['rg_question'] = OlRgRelocationVerificationQuestionMaster::all();
-        $arrData['rg_checkist_data'] = OlChecklistScrutiny::where('application_id', $application_id)
-            ->where('verification_type', 'RG RELOCATION')
-            ->first();
-        $arrData['rg_details_data'] = OlRelocationVerificationDetails::where('application_id', $application_id)->get()->keyBy('question_id')->toArray();
-
-        // EE Note download
-
-        $arrData['eeNote'] = EENote::where('application_id', $application_id)->orderBy('id', 'desc')->first();
-
-        // Get Application last Status
-        // dd($arrData);
-        $arrData['get_last_status'] = OlApplicationStatus::where([
-                'application_id' =>  $application_id,
-                'user_id' => Auth::user()->id,
-                'role_id' => session()->get('role_id')
-            ])->orderBy('id', 'desc')->first();
-
-        return view('admin.ee_department.scrutiny-remark', compact('arrData','ol_application'));
+    public function get_tenant_bill_collection(Request $request){
+         $tenament = DB::table('master_tenant_type')->get();
+         $building_id = $request->input('id');
+         $buildings = MasterTenant::where('building_id', '=', $request->input('id'))
+                 ->get();
+        // return $buildings;
+        return view('admin.rc_department.ajax_tenant_bill_collection', compact('tenament','buildings', 'building_id'));
     }
 
-    public function addDocumentScrutiny(Request $request)
-    {
-        $document_status = OlSocietyDocumentsStatus::find($request->document_status_id);
-        $ee_document_scrutiny = [
-            'comment_by_EE' => $request->remark,
-        ];
-
-        $time = time();
-        if($request->hasFile('EE_document_path')) {
-            $extension = $request->file('EE_document_path')->getClientOriginalExtension();
-            $file = $request->file('EE_document_path');
-
-            if ($extension == "pdf") {
-
-                $folder_name = "EE_document_path";
-                $name = 'ee_note_' . $time . '.' . $extension;
-                $path = $folder_name."/".$name;
-
-                $fileUpload = $this->comman->ftpFileUpload($folder_name,$request->file('EE_document_path'),$name);
-                $ee_document_scrutiny['EE_document_path'] = $path;
-            } else {
-                return redirect()->back()->with('error','Invalid type of file uploaded (only pdf allowed)');
-            }
-
-        }
-
-        $document_status->update($ee_document_scrutiny);
-
-        return redirect()->back();
-        //insert into ol_society_document_status table
-    }
-
-    public function getDocumentScrutinyData(Request $request)
-    {
-        $documentStatusData = OlSocietyDocumentsStatus::find($request->documentStatusId);
-
-        return $documentStatusData;
-    }
-
-    public function editDocumentScrutiny(Request $request, $id)
-    {
-        $document_status = OlSocietyDocumentsStatus::find($id);
-
-        $ee_document_scrutiny = [
-            'comment_by_EE' => $request->comment_by_EE,
-        ];
-
-        $time = time();
-
-        if($request->hasFile('EE_document')) {
-            $extension = $request->file('EE_document')->getClientOriginalExtension();
-            $file = $request->file('EE_document');
-
-            if ($extension == "pdf") {
-                Storage::disk('ftp')->delete($request->oldFileName);
-                $name = 'ee_note_' . $time . '.' . $extension;
-                $folder_name = "EE_document_path";
-                $Filepath = $folder_name."/".$name;
-
-                $fileUpload1 = $this->comman->ftpFileUpload($folder_name,$request->file('EE_document'),$name);                
-                $fileUpload = $ee_document_scrutiny['EE_document_path'] = $Filepath;
-            } else {
-                return redirect()->back()->with('error','Invalid type of file uploaded (only pdf allowed)');
-            }
-
-        }
-        else
-        {
-            $ee_document_scrutiny['EE_document_path'] = $request->oldFileName;
-        }
-
-        $document_status->update($ee_document_scrutiny);
-
-        return redirect()->back();
-
-        //insert into ol_society_document_status table
-    }
-
-
-    public function deleteDocumentScrutiny(Request $request, $id)
-    {
-        $data = [
-            'comment_by_EE' => '',
-            'EE_document_path' => '',
-            'deleted_comment_by_EE' => $request->remark
-        ];
-        // unlink(public_path($request->fileName));
-        $document_delete = OlSocietyDocumentsStatus::find($id);
-        Storage::disk('ftp')->delete($request->fileName);
-
-        $document_delete->update($data);
-
-        return redirect()->back();
-    }
-
-
-    // Consent Verification
-
-    public function consentVerification(Request $request)
-    {
-        OlChecklistScrutiny::where('application_id', $request->application_id)
-                                ->where('verification_type', 'CONSENT VERIFICATION')
-                                ->delete();
-        OlConsentVerificationDetails::where('application_id', $request->application_id)->delete();
-        $ee_checklist_scrutiny = [
-            'application_id' => $request->application_id,
-            'user_id' => Auth::user()->id,
-            'verification_type' => 'CONSENT VERIFICATION',
-            'layout' => $request->layout,
-            'details_of_notice' => $request->details_of_notice,
-            'investigation_officer_name' => $request->investigation_officer_name,
-            'date_of_investigation' => date('Y-m-d H:i:s', strtotime($request->date_of_investigation))
-        ];
-
-        // insert into ol_application_checklist_scrunity_details table
-
-        OlChecklistScrutiny::insert($ee_checklist_scrutiny);
-
-        foreach($request->question_id as $key => $consent_data) {
-            $ee_consent_verification[] = [
-                'application_id' => $request->application_id,
-                'user_id' => Auth::user()->id,
-                'question_id' => isset($request->question_id[$key]) ? $request->question_id[$key] : NULL,
-                'answer' => isset($request->answer[$key]) ? $request->answer[$key] : NULL,
-                'remark' => isset($request->remark[$key]) ? $request->remark[$key] : NULL
-            ];
-        }
-        // insert into ol_consent_verification_details table
-
-        OlConsentVerificationDetails::insert($ee_consent_verification);
-
-        return redirect()->back();
-    }
-
-    public function eeDemarcation(Request $request)
-    {
-        OlChecklistScrutiny::where('application_id', $request->application_id)
-                                ->where('verification_type', 'DEMARCATION')
-                                ->delete();
-        OlDemarcationVerificationDetails::where('application_id', $request->application_id)->delete();
-
-        $ee_checklist_scrutiny = [
-            'application_id' => $request->application_id,
-            'user_id' => Auth::user()->id,
-            'verification_type' => 'DEMARCATION',
-            'layout' => $request->layout,
-            'details_of_notice' => $request->details_of_notice,
-            'investigation_officer_name' => $request->investigation_officer_name,
-            'date_of_investigation' => date('Y-m-d H:i:s', strtotime($request->date_of_investigation))
-        ];
-
-        OlChecklistScrutiny::insert($ee_checklist_scrutiny);
-
-        foreach($request->question_id as $key => $consent_data) {
-            $ee_demarcation[] = [
-                'application_id' => $request->application_id,
-                'user_id' => Auth::user()->id,
-                'question_id' => isset($request->question_id[$key]) ? $request->question_id[$key] : NULL,
-                'answer' => isset($request->answer[$key]) ? $request->answer[$key] : NULL,
-                'remark' => isset($request->remark[$key]) ? $request->remark[$key] : NULL
-            ];
-        }
-
-        OlDemarcationVerificationDetails::insert($ee_demarcation);
-
-        return redirect()->back();
-    }
-
-    public function titBit(Request $request)
-    {
-        OlChecklistScrutiny::where('application_id', $request->application_id)
-            ->where('verification_type', 'TIT BIT')
-            ->delete();
-        OlTitBitVerificationDetails::where('application_id', $request->application_id)->delete();
-
-        $ee_checklist_scrutiny = [
-            'application_id' => $request->application_id,
-            'user_id' => Auth::user()->id,
-            'verification_type' => 'TIT BIT',
-            'layout' => $request->layout,
-            'details_of_notice' => $request->details_of_notice,
-            'investigation_officer_name' => $request->investigation_officer_name,
-            'date_of_investigation' => date('Y-m-d H:i:s', strtotime($request->date_of_investigation))
-        ];
-
-        OlChecklistScrutiny::insert($ee_checklist_scrutiny);
-
-        foreach($request->question_id as $key => $consent_data) {
-            $ee_tit_bit[] = [
-                'application_id' => $request->application_id,
-                'user_id' => Auth::user()->id,
-                'question_id' => isset($request->question_id[$key]) ? $request->question_id[$key] : NULL,
-                'answer' => isset($request->answer[$key]) ? $request->answer[$key] : NULL,
-                'remark' => isset($request->remark[$key]) ? $request->remark[$key] : NULL
-            ];
-        }
-
-        OlTitBitVerificationDetails::insert($ee_tit_bit);
-
-        return redirect()->back();
-    }
-
-    public function rgRelocation(Request $request)
-    {
-        OlChecklistScrutiny::where('application_id', $request->application_id)
-            ->where('verification_type', 'RG RELOCATION')
-            ->delete();
-        OlRelocationVerificationDetails::where('application_id', $request->application_id)->delete();
-
-        $ee_checklist_scrutiny = [
-            'application_id' => $request->application_id,
-            'user_id' => Auth::user()->id,
-            'verification_type' => 'RG RELOCATION',
-            'layout' => $request->layout,
-            'details_of_notice' => $request->details_of_notice,
-            'investigation_officer_name' => 'TEST',
-            'date_of_investigation' => date('Y-m-d H:i:s')
-        ];
-
-        OlChecklistScrutiny::insert($ee_checklist_scrutiny);
-
-        foreach($request->question_id as $key => $consent_data) {
-            $rg_relocation[] = [
-                'application_id' => $request->application_id,
-                'user_id' => Auth::user()->id,
-                'question_id' => isset($request->question_id[$key]) ? $request->question_id[$key] : NULL,
-                'answer' => isset($request->answer[$key]) ? $request->answer[$key] : NULL,
-                'remark' => isset($request->remark[$key]) ? $request->remark[$key] : NULL
-            ];
-        }
-
-        OlRelocationVerificationDetails::insert($rg_relocation);
-
-        return redirect()->back();
-    }
-
-    public function uploadEENote(Request $request){
-        $applicationId   = $request->application_id;
-        $uploadPath      = '/uploads/ee_note';
-        $destinationPath = public_path($uploadPath);
-
-        if ($request->file('ee_note')){
-
-            $file = $request->file('ee_note');
-            $extension = $file->getClientOriginalExtension();
-            $file_name = time().'ee_note.'.$extension;
-            $folder_name = "ee_note";
-            $path = $folder_name."/".$file_name;
-
-            if($extension == "pdf") {
-
-                $fileUpload = $this->comman->ftpFileUpload($folder_name,$request->file('ee_note'),$file_name);
-
-                    $fileData[] = array('document_path' => $path,
-                        'application_id' => $applicationId,
-                        'user_id' => Auth::user()->id,
-                        'role_id' => session()->get('role_id'));
-
-                $data = EENote::insert($fileData);
-                return back()->with('success', 'EE Note uploaded successfully');
-            }
-            else
-            {
-                return back()->with('error', 'Invalid type of file uploaded (only pdf allowed).');
-            }
-        }
-    }
-
-    public function viewApplication(Request $request, $applicationId){
-
-        $ol_application = $this->comman->downloadOfferLetter($applicationId);
-        $ol_application->folder = 'ee_department';
-        $ol_application->status = $this->comman->getCurrentStatus($applicationId);
-        // dd();
-        return view('admin.common.offer_letter', compact('ol_application'));
-    }    
 }
