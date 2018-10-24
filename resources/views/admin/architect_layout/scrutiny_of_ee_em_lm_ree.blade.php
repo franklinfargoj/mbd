@@ -58,7 +58,7 @@
                                         <tr>
                                             <td>Name of the Document</td>
                                             <td>{{$ee_scrutiny_report->name_of_document}}</td>
-                                            <td><a target="_blank" href="{{ config('commanConfig.storage_server')."/".$ee_scrutiny_report->file}}">Download</a></td>
+                                            <td><a target="_blank" class="btn-link" href="{{ config('commanConfig.storage_server')."/".$ee_scrutiny_report->file}}">Download</a></td>
                                         </tr>
                                         @endforeach
                                     </table>
@@ -95,7 +95,7 @@
                                             </div>
                                             <div class="col-lg-7 form-group">
                                                 <div class="custom-file">
-                                                    <a target="_blank" href="{{config('commanConfig.storage_server').'/'.$item->file}}"
+                                                    <a target="_blank" class="btn-link" href="{{config('commanConfig.storage_server').'/'.$item->file}}"
                                                         style="display:{{$item->file!=''?'block':'none'}}">uploaded
                                                         file</a>
                                                 </div>
@@ -128,7 +128,7 @@
                                             <tr>
                                                 <td>Name of the Document</td>
                                                 <td>{{$lm_scrutiny_report->name_of_document}}</td>
-                                                <td><a target="_blank" href="{{ config('commanConfig.storage_server')."/".$lm_scrutiny_report->file}}">Download</a></td>
+                                                <td><a target="_blank" class="btn-link" href="{{ config('commanConfig.storage_server')."/".$lm_scrutiny_report->file}}">Download</a></td>
                                             </tr>
                                             @endforeach
                                         </table>
@@ -166,7 +166,7 @@
                                             </div>
                                             <div class="col-lg-7 form-group">
                                                 <div class="custom-file">
-                                                    <a target="_blank" href="{{config('commanConfig.storage_server').'/'.$item->file}}"
+                                                    <a target="_blank" class="btn-link" href="{{config('commanConfig.storage_server').'/'.$item->file}}"
                                                         style="display:{{$item->file!=''?'block':'none'}}">uploaded
                                                         file</a>
                                                 </div>
@@ -199,7 +199,7 @@
                                             <tr>
                                                 <td>Name of the Document</td>
                                                 <td>{{$em_scrutiny_report->name_of_document}}</td>
-                                                <td><a target="_blank" href="{{ config('commanConfig.storage_server')."/".$em_scrutiny_report->file}}">Download</a></td>
+                                                <td><a target="_blank" class="btn-link" href="{{ config('commanConfig.storage_server')."/".$em_scrutiny_report->file}}">Download</a></td>
                                             </tr>
                                             @endforeach
                                         </table>
@@ -237,7 +237,7 @@
                                                 </div>
                                                 <div class="col-lg-7 form-group">
                                                     <div class="custom-file">
-                                                        <a target="_blank" href="{{config('commanConfig.storage_server').'/'.$item->file}}"
+                                                        <a target="_blank" class="btn-link" href="{{config('commanConfig.storage_server').'/'.$item->file}}"
                                                             style="display:{{$item->file!=''?'block':'none'}}">uploaded
                                                             file</a>
                                                     </div>
@@ -270,7 +270,7 @@
                                             <tr>
                                                 <td>Name of the Document</td>
                                                 <td>{{$ree_scrutiny_report->name_of_document}}</td>
-                                                <td><a target="_blank" href="{{ config('commanConfig.storage_server')."/".$ree_scrutiny_report->file}}">Download</a></td>
+                                                <td><a target="_blank" class="btn-link" href="{{ config('commanConfig.storage_server')."/".$ree_scrutiny_report->file}}">Download</a></td>
                                             </tr>
                                             @endforeach
                                         </table>
@@ -308,7 +308,7 @@
                                                 </div>
                                                 <div class="col-lg-7 form-group">
                                                     <div class="custom-file">
-                                                        <a target="_blank" href="{{config('commanConfig.storage_server').'/'.$item->file}}"
+                                                        <a target="_blank" class="btn-link" href="{{config('commanConfig.storage_server').'/'.$item->file}}"
                                                             style="display:{{$item->file!=''?'block':'none'}}">uploaded
                                                             file</a>
                                                     </div>
