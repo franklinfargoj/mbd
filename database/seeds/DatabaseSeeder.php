@@ -50,11 +50,15 @@ class DatabaseSeeder extends Seeder
         $this->call(AddSuperAdminToRoleTableSeeder::class);
         $this->call(ArchitectUserSeeder::class);
         $this->call(SelectionCommiteeSeeder::class);
+
         $this->call(EmPermissionSeeder::class);
         $this->call(ArchitectLayoutLmScrtinyQuestionMasterSeeder::class);
         $this->call(ArchitectLayoutEmScrtinyQuestionMasterSeeder::class);
         $this->call(ArchitectLayoutReeScrtinyQuestionMasterSeeder::class);
         $this->call(ArchitectLayoutEEScrtinyQuestionMasterSeeder::class);
         // $this->call(RtiFormTableSeeder::class);
+
+        $this->call(MasterTables::class);
+         // $this->call(RtiFormTableSeeder::class);
     }
 }
