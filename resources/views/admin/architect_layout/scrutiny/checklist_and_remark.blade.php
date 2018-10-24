@@ -40,7 +40,7 @@
                         <input class="custom-file-input" name="report[]" type="file" id="report_file_{{$j}}" onchange="upload_report(this.id,'report_id_{{$j}}','report_file_{{$j}}','report_file_link_{{$j}}')">
                         <label class="custom-file-label" for="report_file_{{$j}}">Choose file...</label>
                         <input type="hidden" name="report_file_name[]" id="report_file_{{$j}}" value="">
-                        <a target="_blank" id="report_file_link_{{$j}}" href="{{config('commanConfig.storage_server').'/'.$item->file}}"
+                        <a target="_blank" class="btn-link" id="report_file_link_{{$j}}" href="{{config('commanConfig.storage_server').'/'.$item->file}}"
                             style="display:{{$item->file!=''?'block':'none'}}">uploaded
                             file</a>
                     </div>

@@ -45,7 +45,7 @@
                                     <td>{{date('d/m/Y',strtotime($courCassesOrDispute->created_at))}}</td>
                                     <td>{{$courCassesOrDispute->document_name}}</td>
                                     <td>{{$courCassesOrDispute->description}}</td>
-                                    <td><a target="_blank" href="{{config('commanConfig.storage_server').'/'.$courCassesOrDispute->document_file}}">Document</a></td>
+                                    <td><a class="btn-link" target="_blank" href="{{config('commanConfig.storage_server').'/'.$courCassesOrDispute->document_file}}">Document</a></td>
                                 </tr>
                                 @empty
                                 <tr>

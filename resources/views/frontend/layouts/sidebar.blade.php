@@ -300,7 +300,7 @@ $route=\Request::route()->getName();
                         </li>
                         <li id="redevelopment" class="collapse">
                             <ul class="list-unstyled">
-                                <li class="m-menu__item m-menu__item--submenu collapsed" data-toggle="collapse"
+                                <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 collapsed" data-toggle="collapse"
                                     data-target="#self-redevelopment">
                                     <a href="{{ url(session()->get('redirect_to')) }}" class="m-menu__link m-menu__toggle">
                                         <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -318,7 +318,7 @@ $route=\Request::route()->getName();
                                 </li>
                                 <li id="self-redevelopment" class="collapse">
                                     <ul class="list-unstyled">
-                                        <li class="m-menu__item m-menu__item--submenu collapsed {{ (Request::segment(1)=='application' && Request::segment(2) == '2')?'m-menu__item--active':''}}">
+                                        <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 collapsed {{ (Request::segment(1)=='application' && Request::segment(2) == '2')?'m-menu__item--active':''}}">
                                             <a href="{{ route('society_detail.application', Session::get('applications_tab')['self_premium']) }}"
                                                class="m-menu__link m-menu__toggle">
                                                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg"
@@ -333,7 +333,7 @@ $route=\Request::route()->getName();
                                             </span>
                                             </a>
                                         </li>
-                                        <li class="m-menu__item m-menu__item--submenu collapsed {{(Request::segment(1)=='application' && Request::segment(2) == '6')?'m-menu__item--active':''}}">
+                                        <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 collapsed {{(Request::segment(1)=='application' && Request::segment(2) == '6')?'m-menu__item--active':''}}">
                                             <a href="{{ route('society_detail.application', Session::get('applications_tab')['self_sharing']) }}" class="m-menu__link m-menu__toggle">
                                                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16"
                                                      height="16" viewBox="0 0 510 510">
@@ -349,7 +349,7 @@ $route=\Request::route()->getName();
                                         </li>
                                     </ul>
                                 </li>
-                                <li class="m-menu__item m-menu__item--submenu collapsed" data-toggle="collapse"
+                                <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 collapsed" data-toggle="collapse"
                                     data-target="#dev-redevelopment">
                                     <a href="{{ url(session()->get('redirect_to')) }}" class="m-menu__link m-menu__toggle">
                                         <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -367,7 +367,7 @@ $route=\Request::route()->getName();
                                 </li>
                                 <li id="dev-redevelopment" class="collapse">
                                     <ul class="list-unstyled">
-                                        <li class="m-menu__item m-menu__item--submenu collapsed {{(Request::segment(1)=='application' && Request::segment(2) == '13')?'m-menu__item--active':''}}">
+                                        <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 collapsed {{(Request::segment(1)=='application' && Request::segment(2) == '13')?'m-menu__item--active':''}}">
                                             <a href="{{ route('society_detail.application', Session::get('applications_tab')['dev_premium']) }}"
                                                class="m-menu__link m-menu__toggle">
                                                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg"
@@ -382,7 +382,7 @@ $route=\Request::route()->getName();
                                             </span>
                                             </a>
                                         </li>
-                                        <li class="m-menu__item m-menu__item--submenu collapsed {{(Request::segment(1)=='application' && Request::segment(2) == '17')?'m-menu__item--active':''}}">
+                                        <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 collapsed {{(Request::segment(1)=='application' && Request::segment(2) == '17')?'m-menu__item--active':''}}">
                                             <a href="{{ route('society_detail.application', Session::get('applications_tab')['dev_sharing']) }}" class="m-menu__link m-menu__toggle">
                                                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16"
                                                      height="16" viewBox="0 0 510 510">
@@ -539,7 +539,7 @@ $route=\Request::route()->getName();
 
 
 
-                        <li  id="revalidation" class="m-menu__item m-menu__item--submenu {{($route=='ree_applications.reval')?'m-menu__item--active':'' }}">
+                        <li  id="revalidation" class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='ree_applications.reval')?'m-menu__item--active':'' }}">
                             <a href="{{ route('ree_applications.reval') }}" class="m-menu__link m-menu__toggle">
                                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                      viewBox="0 0 510 510">
