@@ -272,11 +272,7 @@ class EMUserSeeder extends Seeder
 
             PermissionRole::insert($em_clerk_permission_role);
 
-            $layout_id = MasterLayout::insertGetId([
-                'layout_name' => 'Samata Nagar, Kandivali(E)',
-                'Board' => 'Mumbai',
-                'division' => 'Borivali',
-            ]);
+            $layout_id = MasterLayout::first()->id;
 
             // Layout User Mapping
 
@@ -353,13 +349,8 @@ class EMUserSeeder extends Seeder
             }
 
             PermissionRole::insert($rc_permission_role);
-
-            $layout_id = MasterLayout::insertGetId([
-                'layout_name' => 'Samata Nagar, Kandivali(E)',
-                'Board' => 'Mumbai',
-                'division' => 'Borivali',
-            ]);
-
+            
+            $layout_id = MasterLayout::first()->id;
             // Layout User Mapping
 
             LayoutUser::insert(['user_id' => $rc_user_id, 'layout_id' => $layout_id]);
