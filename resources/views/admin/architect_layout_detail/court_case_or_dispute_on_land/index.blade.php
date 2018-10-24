@@ -47,10 +47,10 @@
                                     <td>{{date('d/m/Y',strtotime($courCassesOrDispute->created_at))}}</td>
                                     <td>{{$courCassesOrDispute->document_name}}</td>
                                     <td>{{$courCassesOrDispute->description}}</td>
-                                    <td><a target="_blank" href="{{config('commanConfig.storage_server').'/'.$courCassesOrDispute->document_file}}">Document</a></td>
+                                    <td><a class="btn-link" target="_blank" href="{{config('commanConfig.storage_server').'/'.$courCassesOrDispute->document_file}}">Document</a></td>
                                     <td>
-                                        <a href="{{route('architect_layout_detail_court_case_or_dispute_on_land.view',['id'=>encrypt($courCassesOrDispute->id)])}}">View</a>
-                                        <a href="{{route('architect_layout_detail_court_case_or_dispute_on_land.edit',['id'=>encrypt($courCassesOrDispute->id)])}}">Edit</a>
+                                        <a class="btn-link" href="{{route('architect_layout_detail_court_case_or_dispute_on_land.view',['id'=>encrypt($courCassesOrDispute->id)])}}">View</a>
+                                        <a class="btn-link" href="{{route('architect_layout_detail_court_case_or_dispute_on_land.edit',['id'=>encrypt($courCassesOrDispute->id)])}}">Edit</a>
                                         {{-- <a href="{{route('architect_layout_detail_court_case_or_dispute_on_land.destroy',['id'=>encrypt($courCassesOrDispute->id)])}}">Delete</a>
                                         --}}
                                         {!! Form::open([
