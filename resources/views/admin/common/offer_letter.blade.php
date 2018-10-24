@@ -59,7 +59,7 @@
                     <div class="letter-form-header-content">
                         <p>
                             <span class="d-block font-weight-semi-bold">प्रति,</span>
-                            <span class="d-block">कार्यकारी अभियंता, <input class="letter-form-input letter-form-input--md"
+                            <span class="d-block">कार्यकारी अभियंता, <input class="letter-form-input"
                                     type="text" id="" name="department_name" value="EE" readonly> विभाग,</span>
                             <span class="d-block">मुंबई गृहनिर्माण व क्षेत्रविकास मंडळ,</span>
                             <span class="d-block">गृहनिर्माण भवन, वांद्रे (पुर्व),</span>
@@ -70,9 +70,9 @@
                 <!-- END: Subheader -->
                 <div class="m-content letter-form-content">
                     <div class="letter-form-subject">
-                        <p><span class="font-weight-semi-bold">विषय :- </span>इमारत क्र. <input class="letter-form-input letter-form-input--xs"
+                        <p><span class="font-weight-semi-bold">विषय :- </span>इमारत क्र. <input class="letter-form-input"
                                 type="text" id="" name="building_no" value="{{ $ol_application->eeApplicationSociety->building_no }}"
-                                readonly>, <input class="letter-form-input letter-form-input--xl" type="text" id=""
+                                readonly>, <input class="letter-form-input" type="text" id=""
                                 name="name" value="{{ $ol_application->eeApplicationSociety->name }}" readonly> सहकारी
                             गृहनिर्माण
                             संस्थेच्या 
@@ -83,11 +83,11 @@
 
                             पुनर्विकासाच्या प्रस्तावास मंजूरी मिळण्याबाबतचा अर्ज.</p>
                         <p class="font-weight-semi-bold">महोदय,</p>
-                        <p>आम्ही <input class="letter-form-input letter-form-input--lg" type="text" id="" name="name"
+                        <p>आम्ही <input class="letter-form-input" type="text" id="" name="name"
                                 value="{{ $ol_application->eeApplicationSociety->name }}" readonly> सहकारी गृहनिर्माण
-                            संस्थेचे पदाधिकारी ( इमारत क्र. <input class="letter-form-input letter-form-input--xs" type="text"
+                            संस्थेचे पदाधिकारी ( इमारत क्र. <input class="letter-form-input" type="text"
                                 id="" name="building_no" value="{{ $ol_application->eeApplicationSociety->building_no }}"
-                                readonly> पत्ता - <input class="letter-form-input letter-form-input--xl" type="text" id=""
+                                readonly> पत्ता - <input class="letter-form-input" type="text" id=""
                                 name="address" value="{{ $ol_application->eeApplicationSociety->address }}" readonly>)
                             आपणांस विनंती करतो की,
                             आम्ही रहात असलेल्या सदरहू इमारतीचा 
@@ -105,14 +105,14 @@
                             गृहसत्ता हिस्सेदारी
                              @endif
 
-                            आधारित तत्वावर करु इच्छितो. आमच्या गृहनिर्माण संस्थेने दिनांक <input class="letter-form-input letter-form-input--md"
+                            आधारित तत्वावर करु इच्छितो. आमच्या गृहनिर्माण संस्थेने दिनांक <input class="letter-form-input"
                                 type="text" id="m_datepicker" name="date_of_meeting" value="{{ $ol_application->request_form->date_of_meeting }}"
                                 readonly disabled> रोजी 
                                 @if(isset($ol_application->application_master_id) && ($ol_application->application_master_id == 2 || $ol_application->application_master_id == 6))
                                 स्वयं
                                 @endif
                                 पुनर्विकासासंदर्भात सर्वसाधारण सभेचा ठराव क्र. <input
-                                class="letter-form-input letter-form-input--md" type="text" id="" name="resolution_no"
+                                class="letter-form-input" type="text" id="" name="resolution_no"
                                 value="{{ $ol_application->request_form->resolution_no }}" readonly> अन्वये निर्णय
                             घेतला आहे.</p>
                         <p>आम्ही सहकारी गृहनिर्माण संस्थेच्या 
@@ -123,7 +123,7 @@
                         पुनर्विकासाच्या कामांसाठी वि.नि.नि ३३ (५) मधील
                             तरतूदींच्या
                             अधिन राहून याबाबतचे सविस्तर आराखडे / नकाशे व पुनर्विकासाच्या कामावर देखरेख करण्यासाठी
-                            <input class="letter-form-input letter-form-input--md" type="text" id="" name="architect_name"
+                            <input class="letter-form-input" type="text" id="" name="architect_name"
                                 value="{{ $ol_application->request_form->architect_name }}" readonly> या
                             वास्तुशास्त्रज्ञाची नियुक्ती केली
                             आहे.
@@ -132,7 +132,7 @@
 
                             आमच्या संस्थेच्या इमारतीच्या पुनर्विकासाचे काम करणेकरीता 
 
-                            <input class="letter-form-input letter-form-input--md" type="text"
+                            <input class="letter-form-input" type="text"
                                 id="" name="developer_name" value="{{ $ol_application->request_form->developer_name }}"
                                 readonly> या
                             विकासकाची निवड केली आहे.
