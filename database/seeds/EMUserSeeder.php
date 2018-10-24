@@ -197,7 +197,7 @@ class EMUserSeeder extends Seeder
                 ];
             }
 
-            PermissionRole::insert($ee_permission_role);
+            PermissionRole::insert($em_permission_role);
 
 
             //EM Clerk
