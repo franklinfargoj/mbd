@@ -21,8 +21,15 @@ class CreateArrearCalculationTable extends Migration
             $table->foreign('society_id')->references('id')->on('master_societies');
             $table->string('month')->nullable();    
             $table->string('year')->nullable();
+            $table->string('oir_year')->nullable();
+            $table->string('oir_month')->nullable();
+            $table->string('old_intrest_amount')->nullable();
+            $table->string('difference_amount')->nullable();
+            $table->string('ida_year')->nullable();
+            $table->string('ida_month')->nullable();
+            $table->string('difference_intrest_amount')->nullable();
             $table->string('payment_status')->nullable();
-            $table->string('final_amount')->nullable();
+            $table->string('total_amount')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

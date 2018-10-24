@@ -238,12 +238,14 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::get('arrears_calculations','EMDepartment\ArrearsCalculationController@index')->name('arrears_calculations');
     Route::get('billing_calculations','EMDepartment\BillingDetailController@index')->name('billing_calculations');
+
     //EM_Clerk Routes
     Route::resource('em_clerk', 'EMDepartment\EMClerkController');
     Route::get('em_society_list', 'EMDepartment\EMClerkController@society_list')->name('em_society_list');
     Route::get('em_building_list', 'EMDepartment\EMClerkController@building_list')->name('em_building_list');
     Route::get('tenant_payment_list', 'EMDepartment\EMClerkController@tenant_payment_list')->name('tenant_payment_list');
     Route::get('tenant_arrear_calculation/{id}', 'EMDepartment\EMClerkController@tenant_arrear_calculation')->name('tenant_arrear_calculation');
+    Route::post('create_arrear_calculation', 'EMDepartment\EMClerkController@create_arrear_calculation')->name('create_arrear_calculation');
 
 
     // RC Dewpartment Routes

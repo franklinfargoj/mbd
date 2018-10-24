@@ -2573,3 +2573,7 @@ label.site-visit-label {
 .star{
     color: #f4516c;
 }
+
+.mb-10 {
+    margin-bottom: 10px;
+}
