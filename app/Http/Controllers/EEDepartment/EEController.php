@@ -290,7 +290,8 @@ class EEController extends Controller
         $ol_application = $this->comman->getOlApplication($application_id);
         $ol_application->status = $this->comman->getCurrentStatus($application_id);
         $application_master_id = OlApplication::where('society_id', $society_id)->value('application_master_id');
-        $arrData['society_document'] = OlSocietyDocumentsMaster::where('application_id', $application_master_id)->get();       
+        // $arrData['society_document'] = OlSocietyDocumentsMaster::where('application_id', $application_master_id)->get();       
+        $societyEEdocument = $this->comman->getSocietyEEDocuments($application_id);       
         // Document Scrutiny
         $arrData['society_detail'] = OlApplication::with('eeApplicationSociety')->where('id', $application_id)->first();
         // $arrData['society_document'] = OlSocietyDocumentsMaster::get();
@@ -343,9 +344,7 @@ class EEController extends Controller
                 'role_id' => session()->get('role_id')
             ])->orderBy('id', 'desc')->first();
 
-         $societyDocuments = $this->comman->getSocietyEEDocuments($application_id);
-         // dd($societyDocuments);
-        return view('admin.ee_department.scrutiny-remark', compact('arrData','ol_application','societyDocuments'));
+        return view('admin.ee_department.scrutiny-remark', compact('arrData','ol_application','societyDocuments','societyEEdocument'));
     }
 
     public function addDocumentScrutiny(Request $request)
