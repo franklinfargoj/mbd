@@ -177,7 +177,7 @@ class CommonController extends Controller
 
     public function architect_layout_details($request)
     {
-        $ArchitectLayoutLayoutdetailsQuery = ArchitectLayout::with(['layout_details', 'ArchitectLayoutStatusLogInListing' => function ($q) {
+        $ArchitectLayoutLayoutdetailsQuery = ArchitectLayout::with(['ArchitectLayoutStatusLogInListing' => function ($q) {
             $q->where('user_id', Auth::user()->id)
                 ->where('role_id', session()->get('role_id'))
                 ->orderBy('id', 'desc');
@@ -211,15 +211,18 @@ class CommonController extends Controller
     }
     public function architect_layout_request_revision($request)
     {
-        $ArchitectLayoutRevisionRequestsQuery = ArchitectLayout::with(['layout_details', 'ArchitectLayoutStatusLogInListing' => function ($q) {
+        $ArchitectLayoutRevisionRequestsQuery = ArchitectLayout::with(['ArchitectLayoutStatusLogInListing' => function ($q) {
             $q->where('user_id', Auth::user()->id)
                 ->where('role_id', session()->get('role_id'))
+                ->limit(1)
                 ->orderBy('id', 'desc');
         }])->whereHas('ArchitectLayoutStatusLogInListing', function ($q) {
             $q->where('user_id', Auth::user()->id)
                 ->where('role_id', session()->get('role_id'))
+                ->limit(1)
                 ->orderBy('id', 'desc');
         });
+        //dd($ArchitectLayoutRevisionRequestsQuery->get());
         if ($request->update_status) {
             $ArchitectLayoutRevisionRequestsQuery->where(DB::raw($request->update_status), '=', function ($q) {
                 $q->from('architect_layout_status_logs')
@@ -238,13 +241,29 @@ class CommonController extends Controller
             //dd($request->title);
             $ArchitectLayoutRevisionRequestsQuery->where('layout_no', $request->title);
         }
+
+        /** query replaced for optimization
+        *$ArchitectLayoutRevisionRequests = $ArchitectLayoutRevisionRequestsQuery->where(DB::raw(config('commanConfig.architect_layout_status.new_application')), '!=', function ($q) {
+        *    $q->from('architect_layout_status_logs')->select('status_id')->where('architect_layout_id', '=', DB::raw('architect_layouts.id'))->limit(1)->orderBy('id', 'desc');
+        *})->where(DB::raw(config('commanConfig.architect_layout_status.approved')), '!=', function ($q) {
+        *    $q->from('architect_layout_status_logs')->select('status_id')->where('architect_layout_id', '=', DB::raw('architect_layouts.id'))->limit(1)->orderBy('id', 'desc');
+        *})->get();
+        **/
         $ArchitectLayoutRevisionRequests = $ArchitectLayoutRevisionRequestsQuery->where(DB::raw(config('commanConfig.architect_layout_status.new_application')), '!=', function ($q) {
-            $q->from('architect_layout_status_logs')->select('status_id')->where('architect_layout_id', '=', DB::raw('architect_layouts.id'))->limit(1)->orderBy('id', 'desc');
+            $q->from('architect_layout_status_logs')->select('status_id')->where('architect_layout_id', '=', DB::raw('architect_layouts.id'))->where('open',1);
         })->where(DB::raw(config('commanConfig.architect_layout_status.approved')), '!=', function ($q) {
-            $q->from('architect_layout_status_logs')->select('status_id')->where('architect_layout_id', '=', DB::raw('architect_layouts.id'))->limit(1)->orderBy('id', 'desc');
+            $q->from('architect_layout_status_logs')->select('status_id')->where('architect_layout_id', '=', DB::raw('architect_layouts.id'))->where('open',1);
         })->get();
 
         return $ArchitectLayoutRevisionRequests;
+    }
+
+    public function forward_architect_layout($architect_layout_id,$forward_application)
+    {
+      DB::transaction(function () use($architect_layout_id,$forward_application){
+        ArchitectLayoutStatusLog::where(['architect_layout_id'=>$architect_layout_id,'open'=>1])->update(['open'=>0]);
+        ArchitectLayoutStatusLog::insert($forward_application);
+      });
     }
 
     public function listApplicationData($request, $application_type = null)

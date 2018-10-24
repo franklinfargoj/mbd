@@ -8,7 +8,7 @@ class ArchitectLayout extends Model
 {
     protected $table="architect_layouts";
 
-    protected $fillable=['layout_no','layout_name','address','added_date'];
+    protected $fillable=['layout_no','layout_name','address','open','added_date'];
 
     public function layout_details()
     {
@@ -44,7 +44,7 @@ class ArchitectLayout extends Model
     {
         return $this->hasMany(\App\Layout\ArchitectLayoutStatusLog::class,'architect_layout_id');
     }
-    
+
     public function ee_scrutiny_checklist_and_remarks()
     {
         return $this->hasMany(\App\Layout\ArchitectLayoutEEScrtinyQuestionDetail::class,'architect_layout_id','id');
@@ -64,5 +64,5 @@ class ArchitectLayout extends Model
     {
         return $this->hasMany(\App\Layout\ArchitectLayoutReeScrtinyQuestionDetail::class,'architect_layout_id','id');
     }
-    
+
 }
