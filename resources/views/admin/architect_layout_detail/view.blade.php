@@ -49,9 +49,9 @@
             @foreach($ArchitectLayoutDetail as $layout_detail)
             <tr>
                 <td>{{ date('d/m/Y', strtotime($layout_detail->created_at)) }}</td>
-                <td><a class="btn-link" target="_blank" href="{{config('commanConfig.storage_server').'/'.$layout_detail->latest_layout}}">download</a></td>
-                <td><a class="btn-link" target="_blank" href="{{config('commanConfig.storage_server').'/'.$layout_detail->old_approved_layout}}">download</a></td>
-                <td><a class="btn-link" target="_blank" href="{{config('commanConfig.storage_server').'/'.$layout_detail->last_submitted_layout_for_approval}}">download</a></td>
+                <td><a class="btn-link" target="_blank" href="{{config('commanConfig.storage_server').'/'.$layout_detail->latest_layout}}">{{$layout_detail->latest_layout!=""?'download':'-'}}</a></td>
+                <td><a class="btn-link" target="_blank" href="{{config('commanConfig.storage_server').'/'.$layout_detail->old_approved_layout}}">{{$layout_detail->old_approved_layout!=""?'download':'-'}}</a></td>
+                <td><a class="btn-link" target="_blank" href="{{config('commanConfig.storage_server').'/'.$layout_detail->last_submitted_layout_for_approval}}">{{$layout_detail->last_submitted_layout_for_approval!=""?'download':'-'}}</a></td>
 
                 <td><a class="btn-link" href="{{route('architect_layout_detail_view_cts_plan',['layout_detail_id'=>encrypt($layout_detail->id)])}}">View
                         Details</a></td>
@@ -59,7 +59,7 @@
                         Details</a></td>
                 <td><a class="btn-link" href="{{route('architect_detail_dp_crz_remark_view',['layout_detail_id'=>encrypt($layout_detail->id)])}}">View
                         Details</a></td>
-                <td><a class="btn-link" target="_blank" href="{{config('commanConfig.storage_server').'/'.$layout_detail->survey_report}}">download</a></td>
+                <td><a class="btn-link" target="_blank" href="{{config('commanConfig.storage_server').'/'.$layout_detail->survey_report}}">{{$layout_detail->survey_report!=""?'download':'-'}}</a></td>
                 <td>
                     <ul>
                         @foreach($layout_detail->ee_reports as $ee_report)
