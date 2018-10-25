@@ -118,14 +118,14 @@ Breadcrumbs::for('Hearing', function ($trail) {
     $trail->push('Hearing', route('hearing.index'));
 });
 
-Breadcrumbs::for('Hearing Create', function ($trail) {
+Breadcrumbs::for('Add Hearing', function ($trail) {
     $trail->parent('Hearing');
-    $trail->push('Hearing Create', route('hearing.create'));
+    $trail->push('Add Hearing', route('hearing.create'));
 });
 
-Breadcrumbs::for('Hearing Edit', function ($trail, $id) {
+Breadcrumbs::for('Edit Hearing', function ($trail, $id) {
     $trail->parent('Hearing');
-    $trail->push('Hearing Edit', route('hearing.edit', $id));
+    $trail->push('Edit Hearing', route('hearing.edit', $id));
 });
 
 Breadcrumbs::for('View Hearing', function ($trail, $hearing_id) {

@@ -247,6 +247,21 @@ class EEUserSeeder extends Seeder
                 'name' => 'ee.upload_ee_note',
                 'display_name' => 'Upload EE Note',
                 'description' => 'Upload EE Note'
+            ],            
+            [
+                'name'          => 'ee.save_demarcation_plan',
+                'display_name'  => 'save demarcation plan',
+                'description'   => 'save demarcation plan'
+            ],            
+            [
+                'name'          => 'ee.save_covering_letter',
+                'display_name'  => 'save covering letter',
+                'description'   => 'save covering letter'
+            ],            
+            [
+                'name'          => 'ee.forward_application_sc',
+                'display_name'  => 'forward application sc',
+                'description'   => 'forward application sc'
             ],
         ];
 

@@ -62,9 +62,9 @@
                             <div class="col">
                                 <div class="form-group m-form__group">
                                     <div class="btn-list">
-                                        <button type="submit" class="btn btn-primary">Search</button>
+                                        <button type="submit" class="btn m-btn--pill m-btn--custom btn-primary">Search</button>
                                         <button type="reset" onclick="window.location.href='{{ route("architect_layout.index") }}'"
-                                            class="btn btn-metal">Reset</button>
+                                            class="btn m-btn--pill m-btn--custom btn-metal">Reset</button>
                                     </div>
                                 </div>
                             </div>
@@ -77,7 +77,11 @@
     <!-- END: Subheader -->
 
     <div class="m-portlet m-portlet--mobile">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="btn-list mb-2">
+            <a class="btn btn-primary" href="{{route('architect_layout.index')}}">Requests Revision</a>
+            <a class="btn btn-primary" href="{{route('architect_layouts_layout_details.index')}}">Layout Details</a>
+        </div>
+        {{-- <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <ul class="navbar-nav">
                 <li class="nav-item {{$route_name=='architect_layout.index'?'active':''}}">
                     <a class="nav-link" href="{{route('architect_layout.index')}}">Requests Revision</a>
@@ -86,7 +90,7 @@
                     <a class="nav-link" href="{{route('architect_layouts_layout_details.index')}}">Layout Details</a>
                 </li>
             </ul>
-        </nav>
+        </nav> --}}
         <div class="m-portlet__body">
             <!--begin: Datatable -->
             {!! $html->table() !!}

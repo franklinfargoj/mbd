@@ -930,6 +930,10 @@ table.dataTable tbody tr:nth-child(even):focus {
     margin-bottom: -1rem;
 }
 
+.m-aside-menu .m-menu__nav>.m-menu__item>.m-menu__heading, .m-aside-menu .m-menu__nav>.m-menu__item>.m-menu__link {
+    height: auto;
+}
+
 /* theme classes over ride ends here */
 
 /* Bootstrap classes starts here */
@@ -2757,7 +2761,7 @@ label.site-visit-label {
 
 .topnav .btn-link.active {
     background: #f0791b;
-    color: white;
+    color: white !important;
     border-radius: 4px;
 }
 
@@ -2779,13 +2783,13 @@ label.site-visit-label {
     font-weight: 500;
 }
 
+.mb-10 {
+    margin-bottom: 10px;
+}
+
 @media (min-width: 576px) {
     .modal-dialog {
         max-width: 550px;
         margin: 30px auto;
     }
-=======
-.mb-10 {
-    margin-bottom: 10px;
->>>>>>> rent_billing
 }

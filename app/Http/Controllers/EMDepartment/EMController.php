@@ -324,9 +324,10 @@ class EMController extends Controller
     public function get_tenant_ajax(Request $request){
          $tenament = DB::table('master_tenant_type')->get();
          $building_id = $request->input('id');
-            $buildings = MasterTenant::where('building_id', '=', $request->input('id'))
+         $society_id = MasterBuilding::where('id', '=', $request->input('id'))->first()->society_id;
+         $buildings = MasterTenant::where('building_id', '=', $request->input('id'))
                  ->get();
-            return view('admin.em_department.ajax_tenant_bill_generation', compact('tenament','buildings', 'building_id'));
+            return view('admin.em_department.ajax_tenant_bill_generation', compact('tenament','buildings', 'building_id', 'society_id'));
     }
 
     public function update_soc_ward_colony(Request $request){

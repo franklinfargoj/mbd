@@ -99,13 +99,13 @@
 
                             @if(isset($ol_application->application_master_id) && ($ol_application->application_master_id == 2 || $ol_application->application_master_id == 13))
 
-                            अधिमुल्य 
+                            अधिमुल्य आधारित
 
                             @elseif(isset($ol_application->application_master_id) && ($ol_application->application_master_id == 6 || $ol_application->application_master_id == 17))
                             गृहसत्ता हिस्सेदारी
                              @endif
 
-                            आधारित तत्वावर करु इच्छितो. आमच्या गृहनिर्माण संस्थेने दिनांक <input class="letter-form-input"
+                             तत्वावर करु इच्छितो. आमच्या गृहनिर्माण संस्थेने दिनांक <input class="letter-form-input"
                                 type="text" id="m_datepicker" name="date_of_meeting" value="{{ $ol_application->request_form->date_of_meeting }}"
                                 readonly disabled> रोजी 
                                 @if(isset($ol_application->application_master_id) && ($ol_application->application_master_id == 2 || $ol_application->application_master_id == 6))

@@ -14,7 +14,7 @@
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center" id="search_box">
-            <h3 class="m-subheader__title">Calculation - {{$society[0]->name}} / {{$tenant[0]->first_name}} / {{$tenant[0]->flat_no}}</h3>
+            <h3 class="m-subheader__title">Calculation - {{$society->name}} / {{$tenant->first_name}} / {{$tenant->flat_no}}</h3>
            
          </div>
 
@@ -24,9 +24,9 @@
                 <form method="post" enctype='multipart/form-data' action="{{route('create_arrear_calculation')}}">
                     {{ csrf_field() }}
 
-                    <input type="text" name="tenant_id" value="{{$tenant[0]->id}}" hidden>
-
-                    <input type="text" name="society_id" value="{{$society[0]->id}}" hidden>
+                    <input type="text" name="tenant_id" value="{{$tenant->id}}" hidden>
+                    <input type="text" name="building_id" value="{{$tenant->building_id}}" hidden>
+                    <input type="text" name="society_id" value="{{$society->id}}" hidden>
 
                     <div class="row align-items-center" style="margin-bottom: 1rem;">                          
                             <div class="col-md-4">
@@ -89,7 +89,7 @@
                     </div>
 
                     <div class="row align-items-center" style="margin-bottom: 1rem;">
-                        Old  Intrest Rate - {{$rate_card[0]->interest_on_old_rate}} % :
+                        Old  Intrest Rate : {{$rate_card->interest_on_old_rate}} % 
                     </div>
 
                     <div class="row align-items-center" style="margin-bottom: 1rem;">                            
@@ -123,7 +123,7 @@
                             </div>    
                               <div class="col-md-4">
                                 <div class="form-group m-form__group">
-                                    <label>Old Interest Amount : - <span id="oia"></span>/-</label>         
+                                    <label>Old Interest Amount : <span id="oia">0.00</span> /-</label>         
                                     <input type="text" id="old_intrest_amount" name="old_intrest_amount" hidden required>
                                 </div>
                             </div>                  
@@ -134,15 +134,15 @@
                     </div>
 
                     <div class="row align-items-center" style="margin-bottom: 1rem;">
-                         <div class="col-md-4">Diffrence: {{$rate_card[0]->revise_rate - $rate_card[0]->old_rate}} /-</div>
+                         <div class="col-md-4">Diffrence: {{$rate_card->revise_rate - $rate_card->old_rate}} /-</div>
 
-                        <input type="text" id="difference_amount" name="difference_amount" value="<?php echo $rate_card[0]->revise_rate - $rate_card[0]->old_rate; ?>" hidden required>
+                        <input type="text" id="difference_amount" name="difference_amount" value="<?php echo $rate_card->revise_rate - $rate_card->old_rate; ?>" hidden required>
 
-                         <div class="col-md-4">Formula = Revise Rate - Old Rate</div>
+                         <div class="col-md-4"><!-- Formula = Revise Rate - Old Rate --></div>
                     </div>
 
                     <div class="row align-items-center" style="margin-bottom: 1rem;">
-                       Interest on Diffrence Amount - {{$rate_card[0]->interest_on_differance}}  % :   
+                       Interest on Diffrence Amount : {{$rate_card->interest_on_differance}}  %    
                     </div>
 
                     <div class="row align-items-center" style="margin-bottom: 1rem;">                          
@@ -176,7 +176,7 @@
                             </div>    
                               <div class="col-md-4">
                                 <div class="form-group m-form__group">
-                                    <label>Diffrence Interest Amount : - <span id="dia"></span>/-</label>
+                                    <label>Diffrence Interest Amount : <span id="dia">0.00</span> /-</label>
                                     <input type="text" id="difference_intrest_amount" name="difference_intrest_amount" hidden required>
                                 </div>
                             </div>                  
@@ -197,9 +197,9 @@
                     </div>
             
                     <div class="row align-items-center" style="margin-bottom: 1rem;">
-                         <div class="col-md-4">Amount to be paid = <span id="total_amount"></span> /-</div>
+                         <div class="col-md-4">Amount to be paid : <span id="total_amount">0.00</span> /-</div>
                          <input type="text" id="total_amount_val" name="total_amount" hidden required>
-                         <div class="col-md-8">Formula = old rate + old Intrest amount + Diffrence Amount + Diffrence Intrest amount</div>
+                         <div class="col-md-8"><!-- Formula = old rate + old Intrest amount + Diffrence Amount + Diffrence Intrest amount --></div>
                     </div>
 
                 <div class="row align-items-center mb-0">           
@@ -218,12 +218,17 @@
         </div>
 
         <div class="m-portlet m-portlet--compact filter-wrap">
-         <div class="row align-items-center row--filter">
-                <div class="col-md-12">
-                   <h4>Monthly details of - {{$tenant[0]->first_name}} - {{$tenant[0]->flat_no}}</h4>
+            <div class="portlet-title">
+            <div class="caption">
+                <div class="tools">
+                  <h4>Monthly details of - {{$tenant->first_name}} - {{$tenant->flat_no}}</h4>
                 </div>
-
-         </div>   
+            </div>
+         <div class="m-portlet__body">
+            <!--begin: Datatable -->
+            {!! $html->table() !!}
+            <!--end: Datatable -->
+         </div> 
         </div>
 
     </div>
@@ -240,6 +245,7 @@
 @endsection
 
 @section('datatablejs')
+ {!! $html->scripts() !!}
 <script>
     /*$("#update_status").on("change", function () {
         $("#eeForm").submit();
@@ -258,11 +264,11 @@
 
     function total_amount(){
 
-                var ior = "<?php echo $rate_card[0]->interest_on_old_rate ?>";
-                var old_rate = "<?php echo $rate_card[0]->old_rate ?>";
+                var ior = "<?php echo $rate_card->interest_on_old_rate ?>";
+                var old_rate = "<?php echo $rate_card->old_rate ?>";
                 
-                var iod = "<?php echo $rate_card[0]->interest_on_differance ?>";
-                var rate_diff = "<?php echo $rate_card[0]->revise_rate - $rate_card[0]->old_rate ?>";
+                var iod = "<?php echo $rate_card->interest_on_differance ?>";
+                var rate_diff = "<?php echo $rate_card->revise_rate - $rate_card->old_rate ?>";
                 
                 var bill_year = $('#bill_year').val();
                 var bill_month = $('#bill_month').val();
