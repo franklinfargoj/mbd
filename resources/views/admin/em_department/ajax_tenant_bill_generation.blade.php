@@ -31,11 +31,10 @@
                 </td>
                 <td>
 
-                    {!! Form::open(['method' => 'get', 'route' => 'arrears_calculations']) !!}
+                    {!! Form::open(['method' => 'get', 'route' => 'billing_calculations']) !!}
                     {{ Form::hidden('tenant_id', $value->id) }}
                     {{ Form::hidden('building_id', $value->building_id) }}
-                    {{ Form::hidden('society_id', $society_id) }}
-                    
+                    {{ Form::hidden('society_id', $society_id) }}                    
                     {!! Form::submit(trans('View Bill Details'), array('class' => 'btn btn-info mb-10')) !!}
                     {!! Form::close() !!}
                     
