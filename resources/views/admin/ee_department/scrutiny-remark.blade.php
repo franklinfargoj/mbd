@@ -196,13 +196,11 @@
 
                                                         <button class="btn btn-link btn-list-inline editDocumentStatus"
                                                             style="cursor: pointer; {{$style}}" data-toggle="modal"
-                                                            data-id="{{ $i }}" data-documentStatusId="{{ $document->id }}
-                                                            data-target="#edit-remark-{{$i}}">Edit</button>
+                                                            data-id="{{ $i }}" data-documentStatusId="{{ $document->id }}" data-target="#edit-remark-{{$i}}">Edit</button>
 
                                                         <button class="btn btn-link btn-list-inline deleteDocumentStatus"
                                                             style="cursor: pointer; {{$style}}" data-toggle="modal"
-                                                            data-id="{{ $i }}" data-documentStatusId={{ $document->id }}
-                                                            data-target="#delete-remark-{{$i}}">Delete</button>
+                                                            data-id="{{ $i }}" data-documentStatusId="{{ $document->id }}" data-target="#delete-remark-{{$i}}">Delete</button>
                                                         @else
                                                         <button class="btn btn-link btn-list-inline" style="cursor: pointer;{{$style}}"
                                                             data-toggle="modal" data-target="#add-remark-{{$i}}">Add</button>
