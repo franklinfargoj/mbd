@@ -36,7 +36,15 @@
                     @foreach($societyDocuments[0]->societyDocuments as $data)
                     <tr>
                         <td>{{$i+1}}</td>
-                        <td>{{(isset($data->documents_Name[0]->name) ? $data->documents_Name[0]->name : '')}}</td>
+                        <td>{{(isset($data->documents_Name[0]->name) ? $data->documents_Name[0]->name : '')}}
+                            
+                            @if(isset($data->documents_Name[0]->is_optional) && $data->documents_Name[0]->is_optional == 1)
+                                <span style="color: green;display:block"><small>(Optional Document)</small></span>
+                            @else
+                                <span class="compulsory-text"><small>(Compulsory Document)</small></span>
+                            @endif
+
+                        </td>
                         <td class="text-center">
                             @if(isset($data->society_document_path))
                             <a href="{{ asset($data->society_document_path) }}">
