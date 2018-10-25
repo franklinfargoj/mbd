@@ -105,7 +105,14 @@ class BillingDetailController extends Controller
 	        	->where('society_id',$request->society_id)
 	        	->where('building_id',$request->building_id)
 	        	->where('year',$data['select_year'])
-	        	->whereIn('month',$data['select_month'])->groupBy('year','month')->get();
+	        	->whereIn('month',$data['select_month']);
+
+        	if($request->has('tenant_id') && !empty($request->tenant_id)) {
+            	$data['arreas_calculations'] =  $data['arreas_calculations']->where('tenant_id', $request->tenant_id)->groupBy('tenant_id','year','month');
+            }  else {
+            	$data['arreas_calculations'] = $data['arreas_calculations']->groupBy('year','month');
+            }
+            $data['arreas_calculations'] = $data['arreas_calculations']->get()
     	}
         return view('admin.em_department.billing_calculations', $data);
     }

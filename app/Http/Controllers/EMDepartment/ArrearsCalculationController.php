@@ -61,6 +61,10 @@ class ArrearsCalculationController extends Controller
 
 	            $arrear_charges = ArrearsChargesRate::Where('year',$select_year)->where('society_id',$request->society_id)->where('building_id',$request->building_id)->first();
 
+	            if($request->has('tenant_id') && !empty($request->tenant_id)) {
+	            	$arrear_calculations = $arrear_calculations->where('tenant_id', $request->tenant_id);
+	            }  
+
 	            return $datatables->of($arrear_calculations)
 	            ->editColumn('tenant_type', function ($arrear_calculations) use ($arrear_charges){
 	                return $arrear_charges->tenant_type;
