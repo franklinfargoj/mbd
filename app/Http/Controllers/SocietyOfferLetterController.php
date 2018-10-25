@@ -280,7 +280,7 @@ class SocietyOfferLetterController extends Controller
         Session::put('applications_tab', $applications_tab);
         $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $ol_application_count = count(OlApplication::where('society_id', $society_details->id)->get());
-        Session::put('application_count', $ol_application_count);
+        Session::put('ol_application_count', $ol_application_count);
 //        dd(Session::get('applications_tab')['self_premium']);
         if ($datatables->getRequest()->ajax()) {
             $ol_applications = OlApplication::where('society_id', $society_details->id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
@@ -649,7 +649,7 @@ class SocietyOfferLetterController extends Controller
         $documents_uploaded = OlSocietyDocumentsStatus::where('society_id', $society->id)->whereIn('document_id', $document_ids)->get();
         $documents_comment = OlSocietyDocumentsComment::where('society_id', $society->id)->first();
         
-        return view('frontend.society.view_society_uploaded_documents', compact('documents', 'docs_uploaded_count','docs_count', 'ol_applications','documents_uploaded', 'documents_comment', 'society'));
+        return view('frontend.society.view_society_uploaded_documents', compact('documents', 'optional_docs', 'docs_uploaded_count','docs_count', 'ol_applications','documents_uploaded', 'documents_comment', 'society'));
     }
 
     public function uploadSocietyDocuments(Request $request){
