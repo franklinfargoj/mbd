@@ -90,6 +90,8 @@ return [
 
     'society_offer_letter' => 'society',
 
+    'appointing_architect' => 'appointing_architect',
+
     // Hearing Statuses
 
     'joint_co' => 'Joint CO',

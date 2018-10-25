@@ -139,4 +139,9 @@ class LoginController extends Controller
     {
         return view('frontend.society.index');
     }
+
+    public function getAppointingArchitectLoginForm()
+    {
+        return view('admin.architect.login');
+    }
 }

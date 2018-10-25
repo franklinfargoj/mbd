@@ -96,8 +96,7 @@
                                             <div class="col-lg-7 form-group">
                                                 <div class="custom-file">
                                                     <a target="_blank" class="btn-link" href="{{config('commanConfig.storage_server').'/'.$item->file}}"
-                                                        style="display:{{$item->file!=''?'block':'none'}}">uploaded
-                                                        file</a>
+                                                        style="display:{{$item->file!=''?'block':'none'}}">Download</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -167,8 +166,7 @@
                                             <div class="col-lg-7 form-group">
                                                 <div class="custom-file">
                                                     <a target="_blank" class="btn-link" href="{{config('commanConfig.storage_server').'/'.$item->file}}"
-                                                        style="display:{{$item->file!=''?'block':'none'}}">uploaded
-                                                        file</a>
+                                                        style="display:{{$item->file!=''?'block':'none'}}">Download</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -238,8 +236,7 @@
                                                 <div class="col-lg-7 form-group">
                                                     <div class="custom-file">
                                                         <a target="_blank" class="btn-link" href="{{config('commanConfig.storage_server').'/'.$item->file}}"
-                                                            style="display:{{$item->file!=''?'block':'none'}}">uploaded
-                                                            file</a>
+                                                            style="display:{{$item->file!=''?'block':'none'}}">Download</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -309,8 +306,7 @@
                                                 <div class="col-lg-7 form-group">
                                                     <div class="custom-file">
                                                         <a target="_blank" class="btn-link" href="{{config('commanConfig.storage_server').'/'.$item->file}}"
-                                                            style="display:{{$item->file!=''?'block':'none'}}">uploaded
-                                                            file</a>
+                                                            style="display:{{$item->file!=''?'block':'none'}}">Download</a>
                                                     </div>
                                                 </div>
                                             </div>
