@@ -83,7 +83,7 @@ class ArrearsCalculationController extends Controller
 	                
 	            })
 	            ->editColumn('month', function ($arrear_calculations){
-	                return date("F", strtotime("2001-" . $arrear_calculations->month . "-01"));
+	                return date("M", strtotime("2001-" . $arrear_calculations->month . "-01"));
 	                
 	            })
 	            ->editColumn('payment_status', function ($arrear_calculations){
