@@ -13,6 +13,7 @@ class CreateMasterWardsTable extends Migration
      */
     public function up()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::create('master_wards', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('layout_id')->unsigned();
@@ -21,6 +22,7 @@ class CreateMasterWardsTable extends Migration
             $table->string('description')->nullable();
             $table->timestamps();
         });
+        Schema::enableForeignKeyConstraints();
     }
 
     /**

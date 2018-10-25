@@ -182,12 +182,12 @@
         $('.blockEE:last').after(
             '<div class="blockEE">'+
                 '<div class="form-group m-form__group row mb-0">'+
-                    '<div class="col-lg-5 form-group">'+
+                    '<div class="col-lg-4 form-group">'+
                         '<input placeholder="Document Name" type="text" id="ee_doc_name_'+count+'" name="ee_document_name[]" class="form-control form-control--custom">'+
                         '<input type="hidden" id="ee_report_doc_id_'+count+'" value="">'+
                         '<span class="help-block"></span>'+
                     '</div>'+
-                    '<div class="col-lg-5 form-group">'+
+                    '<div class="col-lg-4 form-group">'+
                         '<div class="custom-file">'+
                             '<input type="file" id="ee_extract_'+count+'" name="ee_report_'+count+'" class="custom-file-input" onchange="getEEReportData(this.id,\'ee_doc_name_'+count+'\',\'ee_doc_error_'+count+'\',\'ee_report_uploaded_file_'+count+'\',\'ee_report_doc_id_'+count+'\',true)">'+
                             '<label title="" class="custom-file-label" for="ee_extract_'+count+'">Choose file</label>'+
@@ -221,12 +221,12 @@ $('.add_em_report').click(function () {
         $('.blockEM:last').after(
             '<div class="blockEM">'+
                 '<div class="form-group m-form__group row mb-0">'+
-                    '<div class="col-lg-5 form-group">'+
+                    '<div class="col-lg-4 form-group">'+
                         '<input placeholder="Document Name" type="text" id="em_doc_name_'+count+'" name="em_document_name[]" class="form-control form-control--custom">'+
                         '<input type="hidden" id="em_report_doc_id_'+count+'" value="">'+
                         '<span class="help-block"></span>'+
                     '</div>'+
-                    '<div class="col-lg-5 form-group">'+
+                    '<div class="col-lg-4 form-group">'+
                         '<div class="custom-file">'+
                             '<input type="file" id="em_extract_'+count+'" name="em_report_'+count+'" class="custom-file-input" onchange="getEMReportData(this.id,\'em_doc_name_'+count+'\',\'em_doc_error_'+count+'\',\'em_report_uploaded_file_'+count+'\',\'em_report_doc_id_'+count+'\',true)">'+
                             '<label title="" class="custom-file-label" for="em_extract_'+count+'">Choose file</label>'+
@@ -260,12 +260,12 @@ $('.add_ree_report').click(function () {
         $('.blockREE:last').after(
             '<div class="blockREE">'+
                 '<div class="form-group m-form__group row mb-0">'+
-                    '<div class="col-lg-5 form-group">'+
+                    '<div class="col-lg-4 form-group">'+
                         '<input placeholder="Document Name" type="text" id="ree_doc_name_'+count+'" name="ree_document_name[]" class="form-control form-control--custom">'+
                         '<input type="hidden" id="ree_report_doc_id_'+count+'" value="">'+
                         '<span class="help-block"></span>'+
                     '</div>'+
-                    '<div class="col-lg-5 form-group">'+
+                    '<div class="col-lg-4 form-group">'+
                         '<div class="custom-file">'+
                             '<input type="file" id="ree_extract_'+count+'" name="ree_report_'+count+'" class="custom-file-input" onchange="getREEReportData(this.id,\'ree_doc_name_'+count+'\',\'ree_doc_error_'+count+'\',\'ree_report_uploaded_file_'+count+'\',\'ree_report_doc_id_'+count+'\',true)">'+
                             '<label title="" class="custom-file-label" for="ree_extract_'+count+'">Choose file</label>'+
@@ -617,7 +617,7 @@ function showUploadedFileName() {
                             </h3>
                         </div>
                         <div class="row">
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <div class="custom-file">
                                     <input type="hidden" id="latest_layout_field_name" value="latest_layout">
                                     <input class="custom-file-input" name="latest_layout" type="file" id="latest_layout"
@@ -642,7 +642,7 @@ function showUploadedFileName() {
                             </h3>
                         </div>
                         <div class="row">
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <div class="custom-file">
                                     <input type="hidden" id="old_approved_layout_field_name" id="old_approved_layout_field_name"
                                         value="old_approved_layout">
@@ -667,7 +667,7 @@ function showUploadedFileName() {
                             </h3>
                         </div>
                         <div class="row">
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <div class="custom-file">
                                     <input type="hidden" id="last_submitted_layout_field_name" id="last_submitted_layout_field_name"
                                         value="last_submitted_layout_for_approval">
@@ -750,7 +750,7 @@ function showUploadedFileName() {
                             </h3>
                         </div>
                         <div class="row">
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <div class="custom-file">
                                     <input type="hidden" id="survey_report_field_name" value="survey_report">
                                     <input class="custom-file-input" name="survey_report" type="file" id="survey_report"
@@ -784,13 +784,13 @@ function showUploadedFileName() {
                         <div class="optionBoxEE">
                             <div class="blockEE">
                                 <div class="form-group m-form__group row mb-0">
-                                    <div class="col-lg-5 form-group">
+                                    <div class="col-lg-4 form-group">
                                         <input type="hidden" class="ee_doc_name" id="ee_doc_name" name="document_name[]"
                                             value="Area certificate">
                                         <label>Area certificate</label>
                                         <input type="hidden" id="ee_report_doc_id" value="{{isset($ArchitectLayoutDetail->ee_reports[0])?$ArchitectLayoutDetail->ee_reports[0]->id:''}}">
                                     </div>
-                                    <div class="col-lg-5 form-group">
+                                    <div class="col-lg-4 form-group">
                                         <div class="custom-file">
                                             <input type="file" id="ee_extract" name="ee_report" onchange="getEEReportData(this.id,'ee_doc_name','ee_doc_error','ee_report_uploaded_file','ee_report_doc_id')"
                                                 class="custom-file-input">
@@ -808,13 +808,13 @@ function showUploadedFileName() {
                             </div>
                             <div class="blockEE">
                                 <div class="form-group m-form__group row mb-0">
-                                    <div class="col-lg-5 form-group">
+                                    <div class="col-lg-4 form-group">
                                         <input type="hidden" class="ee_doc_name" id="ee_doc_name_1" name="ee_document_name[]"
                                             value="Area of Encroachmente">
                                         <label>Area of Encroachment</label>
                                         <input type="hidden" id="ee_report_doc_id_1" value="{{isset($ArchitectLayoutDetail->ee_reports[1])?$ArchitectLayoutDetail->ee_reports[1]->id:''}}">
                                     </div>
-                                    <div class="col-lg-5 form-group">
+                                    <div class="col-lg-4 form-group">
                                         <div class="custom-file">
                                             <input type="file" id="ee_extract_1" name="ee_report_1" class="custom-file-input"
                                                 onchange="getEEReportData(this.id,'ee_doc_name_1','ee_doc_error_1','ee_report_uploaded_file_1','ee_report_doc_id_1')">
@@ -832,13 +832,13 @@ function showUploadedFileName() {
                             </div>
                             <div class="blockEE">
                                 <div class="form-group m-form__group row mb-0">
-                                    <div class="col-lg-5 form-group">
+                                    <div class="col-lg-4 form-group">
                                         <input type="hidden" class="ee_doc_name" id="ee_doc_name_2" name="document_name[]"
                                             value="Heading Over reservation">
                                         <label>Heading Over reservation</label>
                                         <input type="hidden" id="ee_report_doc_id_2" value="{{isset($ArchitectLayoutDetail->ee_reports[2])?$ArchitectLayoutDetail->ee_reports[2]->id:''}}">
                                     </div>
-                                    <div class="col-lg-5 form-group">
+                                    <div class="col-lg-4 form-group">
                                         <div class="custom-file">
                                             <input type="file" id="ee_extract_2" name="ee_report_2" class="custom-file-input ee_doc_file"
                                                 onchange="getEEReportData(this.id,'ee_doc_name_2','ee_doc_error_2','ee_report_uploaded_file_2','ee_report_doc_id_2')">
@@ -859,13 +859,13 @@ function showUploadedFileName() {
                             @if($i>3)
                             <div class="blockEE">
                                 <div class="form-group m-form__group row mb-0">
-                                    <div class="col-lg-5 form-group">
+                                    <div class="col-lg-4 form-group">
                                         <input type="hidden" class="ee_doc_name" id="ee_doc_name_{{$i}}" name="document_name[]"
                                             value="Heading Over reservation">
                                         <label>{{$ee_report->name_of_documents}}</label>
                                         <input type="hidden" id="ee_report_doc_id_{{$i}}" value="{{isset($ee_report->id)?$ee_report->id:''}}">
                                     </div>
-                                    <div class="col-lg-5 form-group">
+                                    <div class="col-lg-4 form-group">
                                         <div class="custom-file">
                                             <input type="file" id="ee_extract_{{$i}}" name="ee_report_{{$i}}" class="custom-file-input ee_doc_file"
                                                 onchange="getEEReportData(this.id,'ee_doc_name_{{$i}}','ee_doc_error_{{$i}}','ee_report_uploaded_file_{{$i}}','ee_report_doc_id_{{$i}}')">
@@ -908,13 +908,13 @@ function showUploadedFileName() {
                         <div class="optionBoxEM">
                             <div class="blockEM">
                                 <div class="form-group m-form__group row mb-0">
-                                    <div class="col-lg-5 form-group">
+                                    <div class="col-lg-4 form-group">
                                         <input type="hidden" class="em_doc_name" id="em_doc_name" name="document_name[]"
                                             value="Number of tenants">
                                         <label>Number of tenants</label>
                                         <input type="hidden" id="em_report_doc_id" value="{{isset($ArchitectLayoutDetail->em_reports[0])?$ArchitectLayoutDetail->em_reports[0]->id:''}}">
                                     </div>
-                                    <div class="col-lg-5 form-group">
+                                    <div class="col-lg-4 form-group">
                                         <div class="custom-file">
                                             <input type="file" id="em_extract" name="em_report" onchange="getEMReportData(this.id,'em_doc_name','em_doc_error','em_report_uploaded_file','em_report_doc_id')"
                                                 class="custom-file-input">
@@ -932,13 +932,13 @@ function showUploadedFileName() {
                             </div>
                             <div class="blockEM">
                                 <div class="form-group m-form__group row mb-0">
-                                    <div class="col-lg-5 form-group">
+                                    <div class="col-lg-4 form-group">
                                         <input type="hidden" class="em_doc_name" id="em_doc_name_1" name="em_document_name[]"
                                             value="Category">
                                         <label>Category</label>
                                         <input type="hidden" id="em_report_doc_id_1" value="{{isset($ArchitectLayoutDetail->em_reports[1])?$ArchitectLayoutDetail->em_reports[1]->id:''}}">
                                     </div>
-                                    <div class="col-lg-5 form-group">
+                                    <div class="col-lg-4 form-group">
                                         <div class="custom-file">
                                             <input type="file" id="em_extract_1" name="em_report_1" class="custom-file-input"
                                                 onchange="getEMReportData(this.id,'em_doc_name_1','em_doc_error_1','em_report_uploaded_file_1','em_report_doc_id_1')">
@@ -959,13 +959,13 @@ function showUploadedFileName() {
                             @if($i>2)
                             <div class="blockEM">
                                 <div class="form-group m-form__group row mb-0">
-                                    <div class="col-lg-5 form-group">
+                                    <div class="col-lg-4 form-group">
                                         <input type="hidden" class="em_doc_name" id="em_doc_name_{{$i}}" name="document_name[]"
                                             value="{{isset($em_report->name_of_documents)?$em_report->name_of_documents:''}}">
                                         <label>{{$em_report->name_of_documents}}</label>
                                         <input type="hidden" id="em_report_doc_id_{{$i}}" value="{{isset($em_report->id)?$em_report->id:''}}">
                                     </div>
-                                    <div class="col-lg-5 form-group">
+                                    <div class="col-lg-4 form-group">
                                         <div class="custom-file">
                                             <input type="file" id="em_extract_{{$i}}" name="em_report_{{$i}}" class="custom-file-input em_doc_file"
                                                 onchange="getEMReportData(this.id,'em_doc_name_{{$i}}','em_doc_error_{{$i}}','em_report_uploaded_file_{{$i}}','em_report_doc_id_{{$i}}')">
@@ -1008,13 +1008,13 @@ function showUploadedFileName() {
                         <div class="optionBoxREE">
                             <div class="blockREE">
                                 <div class="form-group m-form__group row mb-0">
-                                    <div class="col-lg-5 form-group">
+                                    <div class="col-lg-4 form-group">
                                         <input type="hidden" class="ree_doc_name" id="ree_doc_name" name="document_name[]"
                                             value="NOC given for redevelopment">
                                         <label>NOC given for redevelopment</label>
                                         <input type="hidden" id="ree_report_doc_id" value="{{isset($ArchitectLayoutDetail->ree_reports[0])?$ArchitectLayoutDetail->ree_reports[0]->id:''}}">
                                     </div>
-                                    <div class="col-lg-5 form-group">
+                                    <div class="col-lg-4 form-group">
                                         <div class="custom-file">
                                             <input type="file" id="ree_extract" name="ree_report" onchange="getREEReportData(this.id,'ree_doc_name','ree_doc_error','ree_report_uploaded_file','ree_report_doc_id')"
                                                 class="custom-file-input">
@@ -1032,13 +1032,13 @@ function showUploadedFileName() {
                             </div>
                             <div class="blockREE">
                                 <div class="form-group m-form__group row mb-0">
-                                    <div class="col-lg-5 form-group">
+                                    <div class="col-lg-4 form-group">
                                         <input type="hidden" class="ree_doc_name" id="ree_doc_name_1" name="ree_document_name[]"
                                             value="Proposal distribution">
                                         <label>Proposal distribution</label>
                                         <input type="hidden" id="ree_report_doc_id_1" value="{{isset($ArchitectLayoutDetail->ree_reports[1])?$ArchitectLayoutDetail->ree_reports[1]->id:''}}">
                                     </div>
-                                    <div class="col-lg-5 form-group">
+                                    <div class="col-lg-4 form-group">
                                         <div class="custom-file">
                                             <input type="file" id="ree_extract_1" name="ree_report_1" class="custom-file-input"
                                                 onchange="getREEReportData(this.id,'ree_doc_name_1','ree_doc_error_1','ree_report_uploaded_file_1','ree_report_doc_id_1')">
@@ -1059,13 +1059,13 @@ function showUploadedFileName() {
                             @if($i>2)
                             <div class="blockREE">
                                 <div class="form-group m-form__group row mb-0">
-                                    <div class="col-lg-5 form-group">
+                                    <div class="col-lg-4 form-group">
                                         <input type="hidden" class="ree_doc_name" id="ree_doc_name_{{$i}}" name="document_name[]"
                                             value="{{isset($ree_report->name_of_documents)?$ree_report->name_of_documents:''}}">
                                         <label>{{$ree_report->name_of_documents}}</label>
                                         <input type="hidden" id="ree_report_doc_id_{{$i}}" value="{{isset($ree_report->id)?$ree_report->id:''}}">
                                     </div>
-                                    <div class="col-lg-5 form-group">
+                                    <div class="col-lg-4 form-group">
                                         <div class="custom-file">
                                             <input type="file" id="ree_extract_{{$i}}" name="ree_report_{{$i}}" class="custom-file-input ree_doc_file"
                                                 onchange="getREEReportData(this.id,'ree_doc_name_{{$i}}','ree_doc_error_{{$i}}','ree_report_uploaded_file_{{$i}}','ree_report_doc_id_{{$i}}')">
@@ -1108,13 +1108,13 @@ function showUploadedFileName() {
                         <div class="optionBoxLand">
                             <div class="blockLand">
                                 <div class="form-group m-form__group row mb-0">
-                                    <div class="col-lg-5 form-group">
+                                    <div class="col-lg-4 form-group">
                                         <input type="hidden" class="land_doc_name" id="land_doc_name" name="document_name[]"
                                             value="Total area">
                                         <label>Total area</label>
                                         <input type="hidden" id="land_report_doc_id" value="{{isset($ArchitectLayoutDetail->land_reports[0])?$ArchitectLayoutDetail->land_reports[0]->id:''}}">
                                     </div>
-                                    <div class="col-lg-5 form-group">
+                                    <div class="col-lg-4 form-group">
                                         <div class="custom-file">
                                             <input type="file" id="land_extract" name="land_report" onchange="getLandReportData(this.id,'land_doc_name','land_doc_error','land_report_uploaded_file','land_report_doc_id')"
                                                 class="custom-file-input">

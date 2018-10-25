@@ -4,25 +4,29 @@
 @endsection
 {{-- @extends('admin.layouts.app') --}}
 @section('content')
-<div class="m-subheader px-0 m-subheader--top">
-    <div class="d-flex align-items-center">
-        <h3 class="m-subheader__title m-subheader__title--separator">View Detail - {{$ArchitectLayout->layout_name}}</h3>
+<div class="col-md-12">
+    <div class="m-subheader px-0 m-subheader--top">
+        <div class="d-flex align-items-center">
+            <h3 class="m-subheader__title m-subheader__title--separator">View Detail -
+                {{$ArchitectLayout->layout_name}}</h3>
+        </div>
     </div>
-</div>
-<div class="m-portlet m-portlet--mobile m_panel">
-    <div class="portlet-body">
-        <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
-            <div class="m-subheader">
-                <div class="d-flex align-items-center">
-                    <h3 class="section-title section-title--small">
-                        View Detail - {{$ArchitectLayout->layout_name}}
-                    </h3>
+    <div class="m-portlet m-portlet--mobile m_panel">
+        <div class="portlet-body">
+            <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
+                <div class="m-subheader">
+                    <div class="d-flex align-items-center">
+                        <h3 class="section-title section-title--small">
+                            View Detail - {{$ArchitectLayout->layout_name}}
+                        </h3>
+                    </div>
                 </div>
+                @if($check_layout_details_complete_status==0 &&
+                (session()->get('role_name')==config('commanConfig.junior_architect')))
+                <a href="{{route('architect_layout_detail.add',['layout_id'=>encrypt($ArchitectLayout->id)])}}" class="btn btn-primary">Add
+                    Detail</a>
+                @endif
             </div>
-            @if($check_layout_details_complete_status==0 && (session()->get('role_name')==config('commanConfig.junior_architect')))
-            <a href="{{route('architect_layout_detail.add',['layout_id'=>encrypt($ArchitectLayout->id)])}}" class="btn btn-primary">Add
-                Detail</a>
-            @endif
         </div>
     </div>
 </div>
@@ -49,9 +53,9 @@
             @foreach($ArchitectLayoutDetail as $layout_detail)
             <tr>
                 <td>{{ date('d/m/Y', strtotime($layout_detail->created_at)) }}</td>
-                <td><a class="btn-link" target="_blank" href="{{config('commanConfig.storage_server').'/'.$layout_detail->latest_layout}}">download</a></td>
-                <td><a class="btn-link" target="_blank" href="{{config('commanConfig.storage_server').'/'.$layout_detail->old_approved_layout}}">download</a></td>
-                <td><a class="btn-link" target="_blank" href="{{config('commanConfig.storage_server').'/'.$layout_detail->last_submitted_layout_for_approval}}">download</a></td>
+                <td><a class="btn-link" target="_blank" href="{{config('commanConfig.storage_server').'/'.$layout_detail->latest_layout}}">{{$layout_detail->latest_layout!=""?'download':'-'}}</a></td>
+                <td><a class="btn-link" target="_blank" href="{{config('commanConfig.storage_server').'/'.$layout_detail->old_approved_layout}}">{{$layout_detail->old_approved_layout!=""?'download':'-'}}</a></td>
+                <td><a class="btn-link" target="_blank" href="{{config('commanConfig.storage_server').'/'.$layout_detail->last_submitted_layout_for_approval}}">{{$layout_detail->last_submitted_layout_for_approval!=""?'download':'-'}}</a></td>
 
                 <td><a class="btn-link" href="{{route('architect_layout_detail_view_cts_plan',['layout_detail_id'=>encrypt($layout_detail->id)])}}">View
                         Details</a></td>
@@ -59,7 +63,7 @@
                         Details</a></td>
                 <td><a class="btn-link" href="{{route('architect_detail_dp_crz_remark_view',['layout_detail_id'=>encrypt($layout_detail->id)])}}">View
                         Details</a></td>
-                <td><a class="btn-link" target="_blank" href="{{config('commanConfig.storage_server').'/'.$layout_detail->survey_report}}">download</a></td>
+                <td><a class="btn-link" target="_blank" href="{{config('commanConfig.storage_server').'/'.$layout_detail->survey_report}}">{{$layout_detail->survey_report!=""?'download':'-'}}</a></td>
                 <td>
                     <ul>
                         @foreach($layout_detail->ee_reports as $ee_report)
@@ -91,18 +95,19 @@
                 <td><a class="btn-link" href="{{route('view_court_case_or_dispute_on_land',['layout_detail_id'=>encrypt($layout_detail->id)])}}">View
                         Details</a></td>
 
-                <td>
-                    @if($i==1 && (session()->get('role_name') == config('commanConfig.junior_architect')))
-                    <a class="btn-link" href="{{route('architect_layout_detail.edit',['layout_detail_id'=>encrypt($layout_detail->id)])}}">Edit</a>
-                    @else
-                    <center> - </center>
-                    @endif
-                </td>
-            </tr>
+                    <td>
+                        @if($i==1 && (session()->get('role_name') == config('commanConfig.junior_architect')))
+                        <a class="btn-link" href="{{route('architect_layout_detail.edit',['layout_detail_id'=>encrypt($layout_detail->id)])}}">Edit</a>
+                        @else
+                        <center> - </center>
+                        @endif
+                    </td>
+                </tr>
 
-            @php $i++; @endphp
-            @endforeach
-        </table>
+                @php $i++; @endphp
+                @endforeach
+            </table>
+        </div>
     </div>
 </div>
 @endsection
