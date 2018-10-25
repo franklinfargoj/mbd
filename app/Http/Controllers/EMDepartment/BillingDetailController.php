@@ -51,6 +51,7 @@ class BillingDetailController extends Controller
     	$data['real_select_month'] = date('m');
     	$data['society']  = '';
     	$data['building'] = '';
+    	$data['tenant'] = '';
     	$data['service_charges']     = '';
     	$data['arreas_calculations'] = '';
     	if($request->has('month') && '' != $request->month) {
@@ -108,12 +109,14 @@ class BillingDetailController extends Controller
 	        	->whereIn('month',$data['select_month']);
 
         	if($request->has('tenant_id') && !empty($request->tenant_id)) {
+        		$data['tenant'] = MasterTenant::find($request->tenant_id);
             	$data['arreas_calculations'] =  $data['arreas_calculations']->where('tenant_id', $request->tenant_id)->groupBy('tenant_id','year','month');
             }  else {
             	$data['arreas_calculations'] = $data['arreas_calculations']->groupBy('year','month');
             }
             $data['arreas_calculations'] = $data['arreas_calculations']->get()
     	}
+    	print_r($data['tenant']);exit;
         return view('admin.em_department.billing_calculations', $data);
     }
 

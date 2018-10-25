@@ -42,6 +42,7 @@ class ArrearsCalculationController extends Controller
 	        if($request->has('year') && '' != $request->year) {
 	        	$select_year = $request->year;
 	        }
+	        $tenant = '';
 	        $columns = [
 	            ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
 	            ['data' => 'month','name' => 'month','title' => 'Month'],
@@ -55,6 +56,9 @@ class ArrearsCalculationController extends Controller
             	['data' => 'total_amount', 'name' => 'final_rent_amount','title' => 'Final Rent Amount'],
 	        ];
 
+	        if($request->has('tenant_id') && !empty($request->tenant_id)) {
+	            $tenant = MasterTenant::find($request->tenant_id);
+	        }  
 	        if ($datatables->getRequest()->ajax()) {
 	            DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
 	            $arrear_calculations = ArrearCalculation::selectRaw('@rownum  := @rownum  + 1 AS rownum,arrear_calculation.*')->where('society_id',$request->society_id)->where('building_id',$request->building_id);
@@ -114,9 +118,10 @@ class ArrearsCalculationController extends Controller
 	            // ->rawColumns(['actions'])
 	            ->make(true);
 	        }
+	        
 	        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
 
-	        return view('admin.em_department.arrears_calculations', compact('html','society','building','years','select_year'));
+	        return view('admin.em_department.arrears_calculations', compact('html','society','building','years','select_year','tenant'));
     	}
     }
 
