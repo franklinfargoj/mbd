@@ -65,7 +65,7 @@ class HearingController extends Controller
             ['data' => 'case_number','name' => 'case_number','title' => 'Case Number'],
             ['data' => 'case_year','name' => 'case_year','title' => 'Case Year'],
             ['data' => 'office_date','name' => 'office_date','title' => 'Case Reg Date'],
-            ['data' => 'applicant_name', 'name' => 'applicant_name', 'title' => 'Applicant Name'],
+            ['data' => 'applicant_name', 'name' => 'applicant_name', 'title' => 'Apellent Name'],
 //            ['data' => 'hearingDepartment','name' => 'hearingDepartment.department_name','title' => 'Department'],
             ['data' => 'Status','name' => 'hearing_status_id','title' => 'Status'],
             // ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
