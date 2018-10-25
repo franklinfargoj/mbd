@@ -26,7 +26,7 @@
                         </div>
                         <div class="col-sm-4 offset-sm-1 form-group">
                             <label class="col-form-label" for="preceding_officer_name">Society Name:</label>
-                            <input type="text" id="society_name" name="society_name" class="form-control form-control--custom m-input" readonly>
+                            <input type="text" id="society_name" name="society_name" class="form-control form-control--custom m-input" value="{{ $society_details->name }}" readonly>
                             {{--<input type="hidden" name="application_master_id" value="{{ $id }}">--}}
                             <span class="help-block">{{$errors->first('society_name')}}</span>
                         </div>
@@ -34,12 +34,12 @@
                     <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="case_year">Society No:</label>
-                            <input type="text" id="society_no" name="society_no" class="form-control form-control--custom m-input">
+                            <input type="text" id="society_no" name="society_no" class="form-control form-control--custom m-input" value="{{ $society_details->building_no }}" readonly>
                             <span class="help-block">{{$errors->first('society_no')}}</span>
                         </div>
                         <div class="col-sm-4 offset-sm-1 form-group">
                             <label class="col-form-label" for="society_address">Society Address:</label>
-                            <textarea id="society_address" name="society_address" class="form-control form-control--custom form-control--fixed-height m-input"></textarea>
+                            <textarea id="society_address" name="society_address" class="form-control form-control--custom form-control--fixed-height m-input" readonly>{{ $society_details->address }}</textarea>
                             <span class="help-block">{{$errors->first('society_address')}}</span>
                         </div>
                     </div>
@@ -47,7 +47,7 @@
                     <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="society_registration_no">Society Registration No:</label>
-                            <input type="text" id="society_registration_no" name="society_registration_no" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ old('society_registration_no') }}">
+                            <input type="text" id="society_registration_no" name="society_registration_no" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ $society_details->registration_no }}" readonly>
                             <span class="help-block">{{$errors->first('society_registration_no')}}</span>
                         </div>
                         <div class="col-sm-4 offset-sm-1 form-group">
@@ -105,6 +105,22 @@
                         <div class="col-sm-4 offset-sm-1 form-group">
                             <label class="col-form-label" for="water_bil">Water Bill:</label>
                             <input type="text" id="water_bil" name="water_bil" class="form-control form-control--custom m-input" value="{{ old('society_registration_date') }}">
+                            <span class="help-block">{{$errors->first('water_bil')}}</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group m-form__group row">
+                        <div class="col-sm-4 form-group">
+                            <label class="col-form-label" for="no_agricultural_tax">Download Template:</label>
+                            <p><a href="{{ route('sc_download') }}" class="btn btn-primary" target="_blank" rel="noopener">Download Template</a> </p>
+                            <span class="help-block">{{$errors->first('no_agricultural_tax')}}</span>
+                        </div>
+                        <div class="col-sm-4 offset-sm-1 form-group">
+                            <label class="col-form-label" for="water_bil">Upload File:</label>
+                            <input class="custom-file-input" name="template" type="file"
+                                   id="test-upload" required>
+                            <label class="custom-file-label" for="test-upload">Choose
+                                file ...</label>
                             <span class="help-block">{{$errors->first('water_bil')}}</span>
                         </div>
                     </div>
