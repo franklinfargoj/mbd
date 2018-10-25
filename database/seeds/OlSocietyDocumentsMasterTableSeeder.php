@@ -57,7 +57,8 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                 [
                     'application_id'   => $application[0]['id'],
                     'language_id'   => $language[0]['id'],
-                    'name' => "विकासकाबरोबर केलेल्या नोंदणीकृत करारनाम्याची साक्षांकित प्रत"
+                    'name' => "विकासकाबरोबर केलेल्या नोंदणीकृत करारनाम्याची साक्षांकित प्रत",
+                    'is_optional' => '1'
                 ],
                 [
                     'application_id'   => $application[0]['id'],
@@ -82,7 +83,8 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                 [
                     'application_id'   => $application[0]['id'],
                     'language_id'   => $language[0]['id'],
-                    'name' => "कार्यकारी अभियंता / कुर्ला विभाग / मुंबई मंडळ यांचेकडुन इमारतीचा व सलग्न भूखंडाचा सिमांकन नकाशा"
+                    'name' => "कार्यकारी अभियंता / कुर्ला विभाग / मुंबई मंडळ यांचेकडुन इमारतीचा व सलग्न भूखंडाचा सिमांकन नकाशा",
+                    'is_optional' => '1'
                 ],
                 [
                     'application_id'   => $application[0]['id'],
@@ -92,7 +94,8 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                 [
                     'application_id'   => $application[0]['id'],
                     'language_id'   => $language[0]['id'],
-                    'name' => "मिळकत व्यवस्थापक यांचे ना देय प्रमाणपत्र"
+                    'name' => "मिळकत व्यवस्थापक यांचे ना देय प्रमाणपत्र",
+                    'is_optional' => '1'
                 ],
                 [
                     'application_id'   => $application[0]['id'],
@@ -102,7 +105,7 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                 [
                     'application_id'   => $application[0]['id'],
                     'language_id'   => $language[0]['id'],
-                    'name' => "मिळकत पत्रिका (PR कार्ड )"
+                    'name' => "मिळकत पत्रिका (PR कार्ड )",
                 ],
                 [
                     'application_id'   => $application[0]['id'],
@@ -112,7 +115,8 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                 [
                     'application_id'   => $application[0]['id'],
                     'language_id'   => $language[0]['id'],
-                    'name' => "प्रस्तावीत इमारतीचा नकाशा"
+                    'name' => "प्रस्तावीत इमारतीचा नकाशा",
+                    'is_optional' => '1'
                 ],
                 [
                     'application_id'   => $application[0]['id'],
@@ -188,7 +192,8 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                 [
                     'application_id'   => $application1[0]['id'],
                     'language_id'   => $language1[0]['id'],
-                    'name' => "कार्यकारी अभियंता / कुर्ला विभाग / मुंबई मंडळ यांचेकडुन इमारतीचा व सलग्न भूखंडाचा सिमांकन नकाशा"
+                    'name' => "कार्यकारी अभियंता / कुर्ला विभाग / मुंबई मंडळ यांचेकडुन इमारतीचा व सलग्न भूखंडाचा सिमांकन नकाशा",
+                    'is_optional' => '1'
                 ],
                 [
                     'application_id'   => $application1[0]['id'],
@@ -198,7 +203,8 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                 [
                     'application_id'   => $application1[0]['id'],
                     'language_id'   => $language1[0]['id'],
-                    'name' => "मिळकत व्यवस्थापक यांचे ना देय प्रमाणपत्र"
+                    'name' => "मिळकत व्यवस्थापक यांचे ना देय प्रमाणपत्र",
+                    'is_optional' => '1'
                 ],
                 [
                     'application_id'   => $application1[0]['id'],
@@ -218,7 +224,8 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                 [
                     'application_id'   => $application1[0]['id'],
                     'language_id'   => $language1[0]['id'],
-                    'name' => "प्रस्तावीत इमारतीचा नकाशा"
+                    'name' => "प्रस्तावीत इमारतीचा नकाशा",
+                    'is_optional' => '1'
                 ],
                 [
                     'application_id'   => $application1[0]['id'],
@@ -275,7 +282,9 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                 [
                     'application_id'   => $application2[0]['id'],
                     'language_id'   => $language2[0]['id'],
-                    'name' => "विकासकाबरोबर केलेल्या नोंदणीकृत करारनाम्याची साक्षांकित प्रत"
+                    'name' => "विकासकाबरोबर केलेल्या नोंदणीकृत करारनाम्याची साक्षांकित प्रत",
+                    'is_optional' => '1'
+
                 ],
                 [
                     'application_id'   => $application2[0]['id'],
@@ -300,7 +309,8 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                 [
                     'application_id'   => $application2[0]['id'],
                     'language_id'   => $language2[0]['id'],
-                    'name' => "कार्यकारी अभियंता / कुर्ला विभाग / मुंबई मंडळ यांचेकडुन इमारतीचा व सलग्न भूखंडाचा सिमांकन नकाशा"
+                    'name' => "कार्यकारी अभियंता / कुर्ला विभाग / मुंबई मंडळ यांचेकडुन इमारतीचा व सलग्न भूखंडाचा सिमांकन नकाशा",
+                    'is_optional' => '1'
                 ],
                 [
                     'application_id'   => $application2[0]['id'],
@@ -310,7 +320,8 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                 [
                     'application_id'   => $application2[0]['id'],
                     'language_id'   => $language2[0]['id'],
-                    'name' => "मिळकत व्यवस्थापक यांचे ना देय प्रमाणपत्र"
+                    'name' => "मिळकत व्यवस्थापक यांचे ना देय प्रमाणपत्र",
+                    'is_optional' => '1'
                 ],
                 [
                     'application_id'   => $application2[0]['id'],
@@ -330,7 +341,8 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                 [
                     'application_id'   => $application2[0]['id'],
                     'language_id'   => $language2[0]['id'],
-                    'name' => "प्रस्तावीत इमारतीचा नकाशा"
+                    'name' => "प्रस्तावीत इमारतीचा नकाशा",
+                    'is_optional' => '1'
                 ],
                 [
                     'application_id'   => $application2[0]['id'],
@@ -407,7 +419,8 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                 [
                     'application_id'   => $application3[0]['id'],
                     'language_id'   => $language3[0]['id'],
-                    'name' => "कार्यकारी अभियंता / कुर्ला विभाग / मुंबई मंडळ यांचेकडुन इमारतीचा व सलग्न भूखंडाचा सिमांकन नकाशा"
+                    'name' => "कार्यकारी अभियंता / कुर्ला विभाग / मुंबई मंडळ यांचेकडुन इमारतीचा व सलग्न भूखंडाचा सिमांकन नकाशा",
+                    'is_optional' => '1'
                 ],
                 [
                     'application_id'   => $application3[0]['id'],
@@ -417,7 +430,8 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                 [
                     'application_id'   => $application3[0]['id'],
                     'language_id'   => $language3[0]['id'],
-                    'name' => "मिळकत व्यवस्थापक यांचे ना देय प्रमाणपत्र"
+                    'name' => "मिळकत व्यवस्थापक यांचे ना देय प्रमाणपत्र",
+                    'is_optional' => '1'
                 ],
                 [
                     'application_id'   => $application3[0]['id'],
@@ -437,7 +451,8 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                 [
                     'application_id'   => $application3[0]['id'],
                     'language_id'   => $language3[0]['id'],
-                    'name' => "प्रस्तावीत इमारतीचा नकाशा"
+                    'name' => "प्रस्तावीत इमारतीचा नकाशा",
+                    'is_optional' => '1'
                 ],
                 [
                     'application_id'   => $application3[0]['id'],

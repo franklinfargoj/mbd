@@ -11,8 +11,8 @@ class isOptionalDocumentMaster extends Seeder
      */
     public function run()
     {
-        $documentId = ['8','13','15','29','31','35','44','49','51','55','68','70','74'];
+        // $documentId = ['8','13','15','29','31','35','44','49','51','55','68','70','74'];
 
-        $documentMaster = OlSocietyDocumentsMaster::whereIn('id',$documentId)->update(['is_optional' => '1']);
+        // $documentMaster = OlSocietyDocumentsMaster::whereIn('id',$documentId)->update(['is_optional' => '1']);
     }
 }

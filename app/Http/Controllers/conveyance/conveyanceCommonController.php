@@ -144,16 +144,19 @@ class conveyanceCommonController extends Controller
     }
 
     public function getForwardApplicationChildData(){
-
+        
         $role_id = Role::where('id',Auth::user()->role_id)->first();
         $result = json_decode($role_id->conveyance_child_id);
-        $child = User::with(['roles','LayoutUser' => function($q){
-            $q->where('layout_id', session('layout_id'));
-        }])
-        ->whereHas('LayoutUser' ,function($q){
-            $q->where('layout_id', session('layout_id'));
-        })
-        ->whereIn('role_id',$result)->get();
+        $child = "";
+        if ($result){
+            $child = User::with(['roles','LayoutUser' => function($q){
+                $q->where('layout_id', session('layout_id'));
+            }])
+            ->whereHas('LayoutUser' ,function($q){
+                $q->where('layout_id', session('layout_id'));
+            })
+            ->whereIn('role_id',$result)->get();            
+        }
         return $child;
     }
 
@@ -188,5 +191,12 @@ class conveyanceCommonController extends Controller
             ];
 
             scApplicationLog::insert($application);      
+    }
+
+    public function getForwardApplicationData($applicationId){
+
+        $data = scApplication::with('societyApplication')->where('id',$applicationId)->first();
+        $data->child = $this->getForwardApplicationChildData();
+        return $data;        
     }
 }
