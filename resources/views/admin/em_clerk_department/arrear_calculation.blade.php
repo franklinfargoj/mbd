@@ -25,7 +25,7 @@
                     {{ csrf_field() }}
 
                     <input type="text" name="tenant_id" value="{{$tenant[0]->id}}" hidden>
-
+                    <input type="text" name="building_id" value="{{$tenant[0]->building_id}}" hidden>
                     <input type="text" name="society_id" value="{{$society[0]->id}}" hidden>
 
                     <div class="row align-items-center" style="margin-bottom: 1rem;">                          

@@ -122,7 +122,7 @@ class EMClerkController extends Controller
 
         if ($datatables->getRequest()->ajax()) {            
             
-            $tenant = MasterTenant::leftJoin('arrear_calculation', 'master_tenants.id', '=', 'arrear_calculation.tenant_id')->where('building_id', '=', $request->input('building'))->select('*','master_tenants.id as id')->get();
+            $tenant = MasterTenant::leftJoin('arrear_calculation', 'master_tenants.id', '=', 'arrear_calculation.tenant_id')->where('master_tenants.building_id', '=', $request->input('building'))->select('*','master_tenants.id as id')->get();
 
             //dd($tenant);
 
@@ -165,10 +165,12 @@ class EMClerkController extends Controller
     public function tenant_arrear_calculation($id, Request $request){
         // return $id;
         $tenant = MasterTenant::leftJoin('arrear_calculation', 'master_tenants.id', '=', 'arrear_calculation.tenant_id')->where('master_tenants.id', '=', $id)
-            ->select('*','master_tenants.id as id')->get();
+            ->select('*','master_tenants.id as id','master_tenants.building_id as building_id')->get();
+        //dd($tenant);
+        $year = date('Y').'-'.(date('y') + 1);
 
         $rate_card = ArrearsChargesRate::where('building_id', '=', $tenant[0]->building_id)
-                        ->where('year', '=', date("Y"))
+                        ->where('year', '=', $year)
                         ->get();
 
         $society = MasterSociety::where('id', '=', $rate_card[0]->society_id)->get();
@@ -189,8 +191,6 @@ class EMClerkController extends Controller
                                     ->get();
         // return $arrear;
 
-        
-
         return view('admin.em_clerk_department.arrear_calculation', compact('tenant', 'rate_card', 'society'));
     }
 
@@ -198,6 +198,7 @@ class EMClerkController extends Controller
 
         $temp = array(
         'tenant_id' => 'required',
+        'building_id' => 'required',
         'society_id' => 'required',
         'year' => 'required',
         'month' => 'required',
@@ -218,6 +219,7 @@ class EMClerkController extends Controller
 
         $arrear_calculation = new ArrearCalculation;
         $arrear_calculation->tenant_id = $request->input('tenant_id');
+        $arrear_calculation->building_id = $request->input('building_id');
         $arrear_calculation->society_id = $request->input('society_id');
         $arrear_calculation->year = $request->input('year');
         $arrear_calculation->month = $request->input('month');
