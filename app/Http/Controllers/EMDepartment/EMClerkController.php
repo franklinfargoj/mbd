@@ -122,7 +122,7 @@ class EMClerkController extends Controller
 
         if ($datatables->getRequest()->ajax()) {            
             
-            $tenant = MasterTenant::leftJoin('arrear_calculation', 'master_tenants.id', '=', 'arrear_calculation.tenant_id')->where('building_id', '=', $request->input('building'))->select('*','master_tenants.id as id')->get();
+            $tenant = MasterTenant::leftJoin('arrear_calculation', 'master_tenants.id', '=', 'arrear_calculation.tenant_id')->where('master_tenants.building_id', '=', $request->input('building'))->select('*','master_tenants.id as id')->get();
 
             //dd($tenant);
 
@@ -145,7 +145,11 @@ class EMClerkController extends Controller
             })
             ->editColumn('actions', function ($tenant){
                 if($tenant->total_amount == null || $tenant->payment_status == null || $tenant->payment_status == 0 ){
-                    return "<a href='".url('tenant_arrear_calculation/'.$tenant->id)."' class='btn m-btn--pill m-btn--custom btn-primary'>edit</a>"; 
+/*
+                    return "<a href='".url('tenant_arrear_calculation?id='.$tenant->id)."' class='btn m-btn--pill m-btn--custom btn-primary'>edit</a>";*/
+
+                    return "<form method='get' action='".route('tenant_arrear_calculation')."'> <input type='hidden' name='id' value='".$tenant->id."' /> <input type='submit' value='edit' /></form>";
+
                 } else {
                     return '';
                 } 
@@ -162,16 +166,19 @@ class EMClerkController extends Controller
        
     }
 
-    public function tenant_arrear_calculation($id, Request $request){
-        // return $id;
-        $tenant = MasterTenant::leftJoin('arrear_calculation', 'master_tenants.id', '=', 'arrear_calculation.tenant_id')->where('master_tenants.id', '=', $id)
-            ->select('*','master_tenants.id as id')->get();
+    public function tenant_arrear_calculation(Request $request, Datatables $datatables){
+        
+        
+        $tenant = MasterTenant::leftJoin('arrear_calculation', 'master_tenants.id', '=', 'arrear_calculation.tenant_id')->where('master_tenants.id', '=', $request->id)
+            ->select('*','master_tenants.id as id','master_tenants.building_id as building_id')->first();
+        //dd($tenant);
+        $year = date('Y').'-'.(date('y') + 1);
 
-        $rate_card = ArrearsChargesRate::where('building_id', '=', $tenant[0]->building_id)
-                        ->where('year', '=', date("Y"))
-                        ->get();
+        $rate_card = ArrearsChargesRate::where('building_id', '=', $tenant->building_id)
+                        ->where('year', '=', $year)
+                        ->first();
 
-        $society = MasterSociety::where('id', '=', $rate_card[0]->society_id)->get();
+        $society = MasterSociety::where('id', '=', $rate_card->society_id)->first();
 
         for ($i = 1; $i <= 12; $i++) {
             $months[] = date("n", strtotime( date( 'Y-m-01' )." -$i months"));
@@ -179,25 +186,85 @@ class EMClerkController extends Controller
         }
         $years = array_unique($years);        
         // return $months;
-        $arrear = ArrearCalculation::leftjoin('arrears_charges_rates', function($join) use ($tenant){
-                                        $join->on('arrears_charges_rates.year', '=', 'arrear_calculation.year')
-                                            ->where('arrears_charges_rates.building_id', '=', $tenant[0]->building_id);
+
+
+        if($request->row_id){
+            $arrear_row = ArrearCalculation::find($request->row_id);
+            //dd($arrear_row);
+        } else {
+            $arrear_row = (array) '';
+        }
+
+        $columns = [
+            ['data' => 'id','name' => 'id','title' => 'Sr No.','searchable' => false],
+            ['data' => 'month','name' => 'month','title' => 'Month'],
+            ['data' => 'year','name' => 'year','title' => 'Year'],
+            ['data' => 'old_rate', 'name' => 'old_rate','title' => 'Old Rate'],
+            ['data' => 'interest_on_old_rate', 'name' => 'interest_on_old_rate','title' => 'Intrest on Old Rate'],
+            ['data' => 'revise_rate', 'name' => 'revise_rate','title' => 'Revised Rate'],
+            ['data' => 'interest_on_differance', 'name' => 'interest_on_differance','title' => 'Interest On Differance'],
+            ['data' => 'payment_status', 'name' => 'payment_status','title' => 'Payment Status'],
+            ['data' => 'total_amount', 'name' => 'total_amount','title' => 'Final Rent Amount'],
+            ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false, 'orderable' => false, 'exportable' => false, 'printable' => false]
+            ];
+
+        if ($datatables->getRequest()->ajax()) {    
+
+            DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
+          
+            $arrear = ArrearCalculation::leftjoin('arrears_charges_rates', function($join) use ($tenant){
+                                        $join->on('arrears_charges_rates.building_id', '=', 'arrear_calculation.building_id')
+                                            ->where('arrears_charges_rates.year', '=', '2018-19');
                                     })
-                                    ->where('tenant_id', '=', $tenant[0]->id)
+                                    ->where('tenant_id', '=', $tenant->id)
                                     ->whereIn('arrear_calculation.month', $months)
                                     ->whereIn('arrear_calculation.year', $years)
-                                    ->get();
-        // return $arrear;
+                                    ->selectRaw('@rownum  := @rownum  + 1 AS rownum,arrears_charges_rates.*,arrear_calculation.*,arrear_calculation.year as year');
+            return $datatables->of($arrear)
+            ->editColumn('payment_status', function ($arrear){
+                if($arrear->payment_status == null){
+                     return 'Not Calculated';
+                } elseif ($arrear->payment_status == 0) {
+                     return 'Not Paid';
+                } elseif ($arrear->payment_status == 1) {
+                    return 'Paid';
+                }                               
+            })
+            ->editColumn('total_amount', function ($arrear){
+                if($arrear->total_amount == null){
+                     return 'Not Calculated';
+                } else {
+                    return $arrear->total_amount;
+                }                               
+            })
+            ->editColumn('actions', function ($arrear){
+                if($arrear->total_amount == null || $arrear->payment_status == null || $arrear->payment_status == 0 ){
+                    return "<a href='".url('tenant_arrear_calculation?id='.$arrear->tenant_id.'&row_id='.$arrear->id)."' class='btn m-btn--pill m-btn--custom btn-primary'>edit</a>"; 
+                } else {
+                    return '';
+                } 
+            })
+            ->rawColumns(['actions'])
+            ->make(true);
+        }         
 
-        
+        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
 
-        return view('admin.em_clerk_department.arrear_calculation', compact('tenant', 'rate_card', 'society'));
+        //dd($html->table());
+
+        if($request->row_id){            
+            return view('admin.em_clerk_department.edit_arrear_calculation', compact('tenant', 'rate_card', 'society', 'html', 'arrear_row'));
+        } else {           
+            return view('admin.em_clerk_department.arrear_calculation', compact('tenant', 'rate_card', 'society', 'html'));
+        }
     }
 
     public function create_arrear_calculation(Request $request){
 
+        
         $temp = array(
         'tenant_id' => 'required',
+        'building_id' => 'required',
         'society_id' => 'required',
         'year' => 'required',
         'month' => 'required',
@@ -216,8 +283,17 @@ class EMClerkController extends Controller
 
         // return $request->all();
 
-        $arrear_calculation = new ArrearCalculation;
+        if($request->row_id && !empty($request->row_id)) {  
+            $arrear_calculation = ArrearCalculation::find($request->row_id);
+            //return $arrear_calculation;die;
+        } else {            
+            $arrear_calculation = new ArrearCalculation;
+            //return 'hi hello';die;
+        } 
+
+        
         $arrear_calculation->tenant_id = $request->input('tenant_id');
+        $arrear_calculation->building_id = $request->input('building_id');
         $arrear_calculation->society_id = $request->input('society_id');
         $arrear_calculation->year = $request->input('year');
         $arrear_calculation->month = $request->input('month');
