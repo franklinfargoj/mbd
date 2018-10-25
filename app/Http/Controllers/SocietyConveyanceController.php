@@ -10,6 +10,8 @@ use App\Http\Controllers\Common\CommonController;
 use Config;
 use Maatwebsite\Excel\Facades\Excel;
 use File;
+use App\LayoutUser;
+use App\MasterLayout;
 
 use Illuminate\Http\Request;
 
@@ -122,8 +124,9 @@ class SocietyConveyanceController extends Controller
     public function create()
     {
         $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
-//        dd($society_details);
-        return view('frontend.society.conveyance.add', compact('society_details'));
+        $layouts = MasterLayout::all();
+//        dd($layouts);
+        return view('frontend.society.conveyance.add', compact('layouts', 'society_details'));
     }
 
     /**
@@ -141,11 +144,11 @@ class SocietyConveyanceController extends Controller
             $extension = $request->file('template')->getClientOriginalExtension();
             $request->flash();
             if ($extension == "xls") {
-//                $time = time();
-//                $name = File::name(str_replace(' ', '_',$request->file('template')->getClientOriginalName())) . '_' . $time . '.' . $extension;
-//                $folder_name = "society_conveyance_documents";
-//                $path = config('commanConfig.storage_server') . '/' . $folder_name . '/' . $name;
-//                $fileUpload = $this->CommonController->ftpFileUpload($folder_name, $request->file('template'), $name);
+                $time = time();
+                $name = File::name(str_replace(' ', '_',$request->file('template')->getClientOriginalName())) . '_' . $time . '.' . $extension;
+                $folder_name = "society_conveyance_documents";
+                $path = config('commanConfig.storage_server') . '/' . $folder_name . '/' . $name;
+                $fileUpload = $this->CommonController->ftpFileUpload($folder_name, $request->file('template'), $name);
                 $count = 0;
                 $sc_excel_headers = [];
                 Excel::load($request->file('template')->getRealPath(), function ($reader)use($count) {
@@ -181,13 +184,13 @@ class SocietyConveyanceController extends Controller
                         'no_agricultural_tax' => $request->no_agricultural_tax,
                         'society_address' => $request->society_address,
                     );
-//                    dd($input);
+                    return redirect()->route('society_conveyance.index');
                 }else{
-                    return redirect()->route('society_conveyance.index')->withErrors('error', "Excel file headers doesn't match")->withInput();
+                    return redirect()->route('society_conveyance.create')->withErrors('error', "Excel file headers doesn't match")->withInput();
                 }
             }
         }else{
-            return redirect()->route('society_conveyance.index')->withErrors('error', "Excel file headers doesn't match")->withInput();
+            return redirect()->route('society_conveyance.create')->withErrors('error', "Excel file headers doesn't match")->withInput();
         }
     }
 
