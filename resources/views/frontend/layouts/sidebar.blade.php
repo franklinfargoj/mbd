@@ -298,7 +298,7 @@ $route=\Request::route()->getName();
                         </span>
                             </a>
                         </li>
-                        <li id="redevelopment" class="collapse">
+                        <li id="redevelopment" class="collapse {{ ((Request::segment(1)=='application' && Request::segment(2) == '2') || (Request::segment(1)=='application' && Request::segment(2) == '6') || (Request::segment(1)=='application' && Request::segment(2) == '13') || (Request::segment(1)=='application' && Request::segment(2) == '17'))? 'show':'' }}">
                             <ul class="list-unstyled">
                                 <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{ ((Request::segment(1)=='application' && Request::segment(2) == '2') || (Request::segment(1)=='application' && Request::segment(2) == '6'))? '':'collapsed' }}" data-toggle="collapse"
                                     data-target="#self-redevelopment">
@@ -316,7 +316,7 @@ $route=\Request::route()->getName();
                                     </span>
                                     </a>
                                 </li>
-                                <li id="self-redevelopment" class="collapse">
+                                <li id="self-redevelopment" class="collapse {{ ((Request::segment(1)=='application' && Request::segment(2) == '2') || (Request::segment(1)=='application' && Request::segment(2) == '6'))? 'show':'' }}">
                                     <ul class="list-unstyled">
                                         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{ (Request::segment(1)=='application' && Request::segment(2) == '2')?'m-menu__item--active':''}}">
                                             <a href="{{ route('society_detail.application', Session::get('applications_tab')['self_premium']) }}"
@@ -365,7 +365,7 @@ $route=\Request::route()->getName();
                                     </span>
                                     </a>
                                 </li>
-                                <li id="dev-redevelopment" class="collapse">
+                                <li id="dev-redevelopment" class="collapse {{ ((Request::segment(1)=='application' && Request::segment(2) == '13') || (Request::segment(1)=='application' && Request::segment(2) == '17'))? 'show':'' }}">
                                     <ul class="list-unstyled">
                                         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{ (Request::segment(1)=='application' && Request::segment(2) == '13')? '':'collapsed' }} {{(Request::segment(1)=='application' && Request::segment(2) == '13')?'m-menu__item--active':''}}">
                                             <a href="{{ route('society_detail.application', Session::get('applications_tab')['dev_premium']) }}"

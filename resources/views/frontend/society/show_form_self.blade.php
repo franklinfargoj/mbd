@@ -54,7 +54,7 @@
 
                     <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="date_of_meeting">Date of meeting:</label>
+                            <label class="col-form-label" for="date_of_meeting">Date of Resolution:</label>
                             <input type="text" id="m_datepicker" name="date_of_meeting" class="form-control form-control--custom m-input m_datepicker" value="{{ old('date_of_meeting') }}" required>
                             <span class="help-block">{{$errors->first('date_of_meeting')}}</span>
                         </div>
