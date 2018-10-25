@@ -19,7 +19,7 @@ $(document).ready(function () {
     var formInputs = document.querySelectorAll('.letter-form-input');
     formInputs.forEach(function(input, index) {
         var width = input.scrollWidth;
-        console.log(index, input, width);
+        // console.log(index, input, width);
         input.style.setProperty('width', width + 20 + 'px');
     });
 
