@@ -42,7 +42,7 @@
           <div class="col-xs-12 self_premium" id="">
             <span class="App_head"> List of Applications for Redevelopment - Self Redevelopment </span>
             <div class="options">
-              <p> <a href="@if($id == '2') {{  route('show_form_self', $id) }}@endif @if($id == '13') {{  route('show_form_dev', $id) }}@endif"> New - Offer Letter </a></p>
+              <p> @if(Session::all()['ol_application_count'] == 1) New - Offer Letter @else <a href="@if($id == '2') {{  route('show_form_self', $id) }}@endif @if($id == '13') {{  route('show_form_dev', $id) }}@endif"> New - Offer Letter </a> @endif</p>
               <p> Revalidation of offer Letter </p>
               <p> Application for NOC </p>
               <p> Consent for OC </p>
@@ -54,7 +54,7 @@
           <div class="col-xs-12 self_premium" id="">
             <span class="App_head"> List of Applications for Redevelopment - Self Redevelopment</span>
             <div class="options">
-              <p> <a href="@if($id == '6') {{  route('show_form_self', $id) }}@endif @if($id == '17') {{  route('show_form_dev', $id) }}@endif"> New - Offer Letter </a></p>
+              <p> @if(Session::all()['ol_application_count'] == 1) New - Offer Letter @else <a href="@if($id == '6') {{  route('show_form_self', $id) }}@endif @if($id == '17') {{  route('show_form_dev', $id) }}@endif"> New - Offer Letter </a> @endif</p>
               <p> Revalidation of offer Letter </p>
               <p> Application for NOC - IOD </p>
               <p> Tripartite Agreement </p>

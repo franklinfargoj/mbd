@@ -207,7 +207,7 @@ class LayoutArchitectController extends Controller
     {
         $layout_id = decrypt($layout_id);
         $check_layout_details_complete_status = count($this->architect_layouts->check_layout_details_complete_status($layout_id));
-        $ArchitectLayout = ArchitectLayout::with(['layout_details'])->find($layout_id);
+        $ArchitectLayout = ArchitectLayout::find($layout_id);
         $ArchitectLayoutDetail = ArchitectLayoutDetail::where(['architect_layout_id' => $layout_id])->orderBy('id', 'desc')->get();
         return view('admin.architect_layout_detail.view', compact('ArchitectLayout', 'ArchitectLayoutDetail', 'check_layout_details_complete_status'));
     }

@@ -1310,9 +1310,9 @@
         $("#offsite_infrastructure_charge_to_mhada1_installment").attr('value',(2 / 7 * $("#off_site_infrastructure_fee")
             .val()).toFixed(2));
 
-        $("#non_profit_duty").attr('value', 1 / 4 * $("#remaining_area_of_resident_area_balance").val());
-        $("#non_profit_duty_installment").attr('value', 1 / 4 * $("#remaining_area_of_resident_area_balance").val());
-        $("#non_profit_duty_val").attr('value', 1 / 4 * $("#remaining_area_of_resident_area_balance").val());
+        $("#non_profit_duty").attr('value', Math.ceil(1 / 4 * $("#remaining_area_of_resident_area_balance").val()));
+        $("#non_profit_duty_installment").attr('value',  Math.ceil(1 / 4 * $("#remaining_area_of_resident_area_balance").val()));
+        $("#non_profit_duty_val").attr('value', Math.ceil(1 / 4 * $("#remaining_area_of_resident_area_balance").val()));
 
 
         var first_installment = 0;
@@ -1509,8 +1509,8 @@
     });
 
     $(document).on("keyup", "#remaining_area_of_resident_area_balance", function () {
-        $("#non_profit_duty").attr('value',1 / 4 * $(this).val());
-        $("#non_profit_duty_installment").attr('value',1 / 4 * $(this).val());
+        $("#non_profit_duty").attr('value',Math.ceil(1 / 4 * $(this).val()));
+        $("#non_profit_duty_installment").attr('value',Math.ceil(1 / 4 * $(this).val()));
     });
 
 
