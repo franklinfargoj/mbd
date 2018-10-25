@@ -285,7 +285,7 @@ $route=\Request::route()->getName();
                 @if(session()->get('permission') && (in_array('society_offer_letter.index',
                 session()->get('permission'))))
                 {{--<ul id="society_ol_sidebar">--}}
-                        <li class="m-menu__item" data-toggle="collapse" id="society_ol_sidebar" data-target="#redevelopment">
+                        <li class="m-menu__item {{ ((Request::segment(1)=='application' && Request::segment(2) == '2') || (Request::segment(1)=='application' && Request::segment(2) == '6') || (Request::segment(1)=='application' && Request::segment(2) == '13') || (Request::segment(1)=='application' && Request::segment(2) == '17'))? '':'collapsed' }}" data-toggle="collapse" id="society_ol_sidebar" data-target="#redevelopment">
                             <a href="javascript:void(0);" class="m-menu__link m-menu__toggle">
                                 <i class="m-menu__link-icon flaticon-line-graph"></i>
                                 <span class="m-menu__link-title">
