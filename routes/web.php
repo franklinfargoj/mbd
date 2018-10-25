@@ -624,6 +624,9 @@ Route::get('/sale_lease_agreement', function () {
 
 
 Route::prefix('appointing_architect')->group(function () {
+    Route::get('login','Auth\LoginController@getAppointingArchitectLoginForm')->name('appointing_architect.login');
+    Route::get('signup','EmploymentOfArchitectController@signup')->name('appointing_architect.signup');
+    Route::post('post_signup','EmploymentOfArchitectController@create_user')->name('appointing_architect.post_signup');
     Route::get('index', 'EmploymentOfArchitectController@index')->name('appointing_architect.index');
 });
 
