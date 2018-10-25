@@ -13,7 +13,7 @@
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
-            <h3 class="m-subheader__title m-subheader__title--separator">Society Billing details - @if(!empty($society)){{$society->name}}@endif |@if(!empty($building)){{$building->number . '|' .$building->name}}@endif | @if(!empty($tenant)) {{$tenant->first_name.' '.$tenant->last_name}} @endif</h3>
+            <h3 class="m-subheader__title m-subheader__title--separator">Society Billing details - @if(!empty($society)){{$society->name}}@endif |@if(!empty($building)){{$building->building_no . '|' .$building->name}}@endif | @if(!empty($tenant)) {{$tenant->first_name.' '.$tenant->last_name}} @endif</h3>
             {{-- {{ Breadcrumbs::render('society_detail') }} --}}
         </div>
     </div>
