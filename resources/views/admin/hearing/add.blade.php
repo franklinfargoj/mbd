@@ -4,7 +4,7 @@
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">Add Hearing</h3>
-            {{ Breadcrumbs::render('Hearing Create') }}
+            {{ Breadcrumbs::render('Add Hearing') }}
 
         </div>
     </div>

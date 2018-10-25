@@ -118,9 +118,9 @@ Breadcrumbs::for('Hearing', function ($trail) {
     $trail->push('Hearing', route('hearing.index'));
 });
 
-Breadcrumbs::for('Hearing Create', function ($trail) {
+Breadcrumbs::for('Add Hearing', function ($trail) {
     $trail->parent('Hearing');
-    $trail->push('Hearing Create', route('hearing.create'));
+    $trail->push('Add Hearing', route('hearing.create'));
 });
 
 Breadcrumbs::for('Hearing Edit', function ($trail, $id) {
