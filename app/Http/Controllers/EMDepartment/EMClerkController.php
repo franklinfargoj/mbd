@@ -188,10 +188,10 @@ class EMClerkController extends Controller
                                     ->where('tenant_id', '=', $tenant[0]->id)
                                     ->whereIn('arrear_calculation.month', $months)
                                     ->whereIn('arrear_calculation.year', $years)
-                                    ->get();
+                                    ->select('*');
         return $arrear;
 
-        
+
 
         return view('admin.em_clerk_department.arrear_calculation', compact('tenant', 'rate_card', 'society'));
     }
