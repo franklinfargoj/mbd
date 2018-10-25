@@ -62,10 +62,10 @@
                     <form enctype="multipart/form-data" method="post" action="{{route('post_cts_detail')}}">
                         @csrf
                         <div class="row">
-                            <div class="col-sm-3">
+                            <div class="col-sm-4">
                                 <label for="Upload_Cts_Plan">Upload CTS Plan</label>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <input type="hidden" name="architect_layout_detail_id" value="{{$ArchitectLayoutDetail->id}}">
                                 <div class="custom-file">
                                     <input class="custom-file-input" name="cts_plan_file" type="file" id="cts_plan_file">
@@ -77,10 +77,10 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-3">
+                            <div class="col-sm-4">
                                 <label for="Upload_Cts_Plan">List of CTS No</label>
                             </div>
-                            <div class="col-lg-6 form-group">
+                            <div class="col-sm-4 form-group">
                                 <!-- <label class="col-form-label">List of CTS No</label> -->
                                 <div class="optionBox">
                                     @if(count($ArchitectLayoutDetail->cts_plan_details)>0)
@@ -107,7 +107,7 @@
 
                                 </div>
                                 <div class="row">
-                                    <div class="col-lg-7 form-group">
+                                    <div class="col-12 form-group">
                                         <a class="btn--add-delete add" href="javascript:void">add more<a>
                                     </div>
                                 </div>
