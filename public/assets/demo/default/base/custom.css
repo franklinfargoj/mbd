@@ -930,6 +930,10 @@ table.dataTable tbody tr:nth-child(even):focus {
     margin-bottom: -1rem;
 }
 
+.m-aside-menu .m-menu__nav>.m-menu__item>.m-menu__heading, .m-aside-menu .m-menu__nav>.m-menu__item>.m-menu__link {
+    height: auto;
+}
+
 /* theme classes over ride ends here */
 
 /* Bootstrap classes starts here */

@@ -24,79 +24,79 @@
                             </select>
                             <span class="help-block">{{$errors->first('application_type_id')}}</span>
                         </div>
-                    </div>
-                    <div class="form-group m-form__group row">
-                        <div class="col-sm-4 form-group">
+                        <div class="col-sm-4 offset-sm-1 form-group">
                             <label class="col-form-label" for="preceding_officer_name">Society Name:</label>
                             <input type="text" id="society_name" name="society_name" class="form-control form-control--custom m-input" readonly>
                             {{--<input type="hidden" name="application_master_id" value="{{ $id }}">--}}
                             <span class="help-block">{{$errors->first('society_name')}}</span>
                         </div>
-                        <div class="col-sm-4 offset-sm-1 form-group">
+                    </div>
+                    <div class="form-group m-form__group row">
+                        <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="case_year">Society No:</label>
                             <input type="text" id="society_no" name="society_no" class="form-control form-control--custom m-input">
                             <span class="help-block">{{$errors->first('society_no')}}</span>
                         </div>
-                    </div>
-
-                    <div class="form-group m-form__group row">
-                        <div class="col-sm-4 form-group">
+                        <div class="col-sm-4 offset-sm-1 form-group">
                             <label class="col-form-label" for="society_address">Society Address:</label>
                             <textarea id="society_address" name="society_address" class="form-control form-control--custom form-control--fixed-height m-input"></textarea>
                             <span class="help-block">{{$errors->first('society_address')}}</span>
                         </div>
-                        <div class="col-sm-4 offset-sm-1 form-group">
+                    </div>
+
+                    <div class="form-group m-form__group row">
+                        <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="society_registration_no">Society Registration No:</label>
                             <input type="text" id="society_registration_no" name="society_registration_no" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ old('society_registration_no') }}">
                             <span class="help-block">{{$errors->first('society_registration_no')}}</span>
                         </div>
-                    </div>
-
-                    <div class="form-group m-form__group row">
-                        <div class="col-sm-4 form-group">
+                        <div class="col-sm-4 offset-sm-1 form-group">
                             <label class="col-form-label" for="society_registration_date">Society Registration Date:</label>
                             <input type="text" id="society_registration_date" name="society_registration_date" class="form-control form-control--custom m-input m_datepicker" value="{{ old('society_registration_date') }}">
                             <span class="help-block">{{$errors->first('society_registration_date')}}</span>
                         </div>
-                        <div class="col-sm-4 offset-sm-1 form-group">
+                    </div>
+
+                    <div class="form-group m-form__group row">
+                        <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="name">Scheme Name:</label>
                             <input type="text" id="scheme_name" name="scheme_name" class="form-control form-control--custom m-input">
                             <span class="help-block">{{$errors->first('scheme_name')}}</span>
                         </div>
-                    </div>
-
-                    <div class="form-group m-form__group row">
-                        <div class="col-sm-4 form-group">
+                        <div class="col-sm-4 offset-sm-1 form-group">
                             <label class="col-form-label" for="first_flat_issue_date">First Flat Issue Date:</label>
                             <input type="text" id="m_datepicker" name="first_flat_issue_date" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ old('first_flat_issue_date') }}">
                             <span class="help-block">{{$errors->first('first_flat_issue_date')}}</span>
                         </div>
-                        <div class="col-sm-4 offset-sm-1 form-group">
+                    </div>
+
+                    <div class="form-group m-form__group row">
+                        <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="residential_flat">Residential Flat:</label>
                             <input type="text" id="residential_flat" name="residential_flat" class="form-control form-control--custom m-input" value="{{ old('residential_flat') }}">
                             <span class="help-block">{{$errors->first('residential_flat')}}</span>
                         </div>
-                    </div>
-
-                    <div class="form-group m-form__group row">
-                        <div class="col-sm-4 form-group">
+                        <div class="col-sm-4 offset-sm-1 form-group">
                             <label class="col-form-label" for="non_residential_flat">Non-Residential Flat:</label>
                             <input type="text" id="non_residential_flat" name="non_residential_flat" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ old('resolution_no') }}">
                             <span class="help-block">{{$errors->first('non_residential_flat')}}</span>
                         </div>
-                        <div class="col-sm-4 offset-sm-1 form-group">
-                            <label class="col-form-label" for="total_flat">Total Flat:</label>
-                            <input type="text" id="total_flat" name="total_flat" class="form-control form-control--custom m-input" value="{{ old('total_flat') }}">
-                            <span class="help-block">{{$errors->first('total_flat')}}</span>
-                        </div>
                     </div>
 
                     <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group">
+                            <label class="col-form-label" for="total_flat">Total Flat:</label>
+                            <input type="text" id="total_flat" name="total_flat" class="form-control form-control--custom m-input" value="{{ old('total_flat') }}">
+                            <span class="help-block">{{$errors->first('total_flat')}}</span>
+                        </div>
+                        <div class="col-sm-4 offset-sm-1 form-group">
                             <label class="col-form-label" for="property_tax">Property Tax:</label>
                             <input type="text" id="property_tax" name="property_tax" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ old('property_tax') }}">
                             <span class="help-block">{{$errors->first('property_tax')}}</span>
                         </div>
+                    </div>
+
+                    <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="no_agricultural_tax">Non-Agricultural Tax:</label>
                             <input type="text" id="no_agricultural_tax" name="no_agricultural_tax" class="form-control form-control--custom m-input" value="{{ old('society_registration_date') }}">
