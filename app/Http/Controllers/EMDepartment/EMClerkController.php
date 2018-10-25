@@ -189,7 +189,9 @@ class EMClerkController extends Controller
                                     ->whereIn('arrear_calculation.month', $months)
                                     ->whereIn('arrear_calculation.year', $years)
                                     ->get();
-        // return $arrear;
+        return $arrear;
+
+        
 
         return view('admin.em_clerk_department.arrear_calculation', compact('tenant', 'rate_card', 'society'));
     }

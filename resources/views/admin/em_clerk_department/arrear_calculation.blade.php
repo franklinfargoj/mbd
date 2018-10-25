@@ -123,7 +123,7 @@
                             </div>    
                               <div class="col-md-4">
                                 <div class="form-group m-form__group">
-                                    <label>Old Interest Amount : - <span id="oia"></span>/-</label>         
+                                    <label>Old Interest Amount : <span id="oia">0</span> /-</label>         
                                     <input type="text" id="old_intrest_amount" name="old_intrest_amount" hidden required>
                                 </div>
                             </div>                  
@@ -138,7 +138,7 @@
 
                         <input type="text" id="difference_amount" name="difference_amount" value="<?php echo $rate_card[0]->revise_rate - $rate_card[0]->old_rate; ?>" hidden required>
 
-                         <div class="col-md-4">Formula = Revise Rate - Old Rate</div>
+                         <div class="col-md-4"><!-- Formula = Revise Rate - Old Rate --></div>
                     </div>
 
                     <div class="row align-items-center" style="margin-bottom: 1rem;">
@@ -176,7 +176,7 @@
                             </div>    
                               <div class="col-md-4">
                                 <div class="form-group m-form__group">
-                                    <label>Diffrence Interest Amount : - <span id="dia"></span>/-</label>
+                                    <label>Diffrence Interest Amount : <span id="dia">0</span> /-</label>
                                     <input type="text" id="difference_intrest_amount" name="difference_intrest_amount" hidden required>
                                 </div>
                             </div>                  
@@ -199,7 +199,7 @@
                     <div class="row align-items-center" style="margin-bottom: 1rem;">
                          <div class="col-md-4">Amount to be paid = <span id="total_amount"></span> /-</div>
                          <input type="text" id="total_amount_val" name="total_amount" hidden required>
-                         <div class="col-md-8">Formula = old rate + old Intrest amount + Diffrence Amount + Diffrence Intrest amount</div>
+                         <div class="col-md-8"><!-- Formula = old rate + old Intrest amount + Diffrence Amount + Diffrence Intrest amount --></div>
                     </div>
 
                 <div class="row align-items-center mb-0">           
@@ -222,7 +222,10 @@
                 <div class="col-md-12">
                    <h4>Monthly details of - {{$tenant[0]->first_name}} - {{$tenant[0]->flat_no}}</h4>
                 </div>
-
+                    
+                <div class="col-md-12">
+                    
+                </div>
          </div>   
         </div>
 

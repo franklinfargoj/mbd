@@ -32,15 +32,18 @@
                 <td>
                     <a class="btn btn-info mb-10" href="{{route('edit_tenant', [$value->id])}}">View Bill</a>
 
-                    {!! Form::open(['method' => 'Post', 'route' => 'arrears_calculations']) !!}
+                    {!! Form::open(['method' => 'get', 'route' => 'arrears_calculations']) !!}
                     {{ Form::hidden('tenant_id', $value->id) }}
                     {{ Form::hidden('building_id', $value->building_id) }}
+                    {{ Form::hidden('society_id', $society_id) }}
+                    
                     {!! Form::submit(trans('Generate Bill'), array('class' => 'btn btn-info mb-10')) !!}
                     {!! Form::close() !!}
                     
-                    {!! Form::open(['method' => 'Post', 'route' => 'arrears_calculations']) !!}
+                    {!! Form::open(['method' => 'get', 'route' => 'arrears_calculations']) !!}
                     {{ Form::hidden('tenant_id', $value->id) }}
                     {{ Form::hidden('building_id', $value->building_id) }}
+                    {{ Form::hidden('society_id', $society_id) }}
                     {!! Form::submit(trans('Arrear Calculation'), array('class' => 'btn btn-info mb-10')) !!}
                     {!! Form::close() !!}
 
