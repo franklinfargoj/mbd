@@ -67,9 +67,17 @@
                     <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="district">District:</label>
                         <div class="m-input-icon m-input-icon--right">
-                            <input type="text" id="district" name="district" class="form-control form-control--custom m-input"  value="{{ old('district') }}">
+                            <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="district" name="district">
+                                <option value="Andheri">Andheri</option>
+                                <option value="Bandra">Bandra</option>
+                                <option value="Dadar">Dadar</option>
+                            </select>
                             <span class="help-block">{{$errors->first('district')}}</span>
                         </div>
+                        {{--<div class="m-input-icon m-input-icon--right">--}}
+                            {{--<input type="text" id="district" name="district" class="form-control form-control--custom m-input"  value="{{ old('district') }}">--}}
+                            {{--<span class="help-block">{{$errors->first('district')}}</span>--}}
+                        {{--</div>--}}
                     </div>
                 </div>
 
@@ -77,13 +85,21 @@
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="taluka">Taluka:</label>
                         <div class="m-input-icon m-input-icon--right">
-                            <input type="text" id="taluka" name="taluka" class="form-control form-control--custom" class="form-control form-control--custom m-input"  value="{{ old('taluka') }}">
+                            <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="taluka" name="taluka">
+                                <option value="Kurla">Kurla</option>
+                                <option value="Andheri">Andheri</option>
+                                <option value="Santacruz">Santacruz</option>
+                            </select>
                             <span class="help-block">{{$errors->first('taluka')}}</span>
                         </div>
+                        {{--<div class="m-input-icon m-input-icon--right">--}}
+                            {{--<input type="text" id="taluka" name="taluka" class="form-control form-control--custom" class="form-control form-control--custom m-input"  value="{{ old('taluka') }}">--}}
+                            {{--<span class="help-block">{{$errors->first('taluka')}}</span>--}}
+                        {{--</div>--}}
                     </div>
 
                     <div class="col-sm-4 offset-sm-1 form-group">
-                        <label class="col-form-label" for="total_area">Total Area (sq. ft.):</label>
+                        <label class="col-form-label" for="total_area">Total Area (sq. m.):</label>
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="total_area" name="total_area" class="form-control form-control--custom m-input"  value="{{ old('total_area') }}">
                             <span class="help-block">{{$errors->first('total_area')}}</span>
@@ -103,8 +119,24 @@
                     <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="remark">Remark:</label>
                         <div class="m-input-icon m-input-icon--right">
-                            <textarea id="remark" name="remark" class="form-control form-control--custom form-control--fixed-height m-input">{{ old('remark') }}</textarea>
+                            <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="remark" name="remark">
+                                <option value="Test 1">Test 1</option>
+                                <option value="Test 2">Test 2</option>
+                                <option value="1">Other</option>
+                            </select>
                             <span class="help-block">{{$errors->first('remark')}}</span>
+                            {{--<textarea id="remark" name="remark" class="form-control form-control--custom form-control--fixed-height m-input">{{ old('remark') }}</textarea>--}}
+                            {{--<span class="help-block">{{$errors->first('remark')}}</span>--}}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group m-form__group row" id="other" style="display: none">
+                    <div class="col-sm-4 form-group">
+                    </div>
+                    <div class="col-sm-4 offset-sm-1 form-group">
+                        <div class="m-input-icon m-input-icon--right">
+                            <textarea id="other_remark" name="other_remark" class="form-control form-control--custom form-control--fixed-height m-input">{{ old('other_remark') }}</textarea>
+                            {{--<span class="help-block">{{$errors->first('remark')}}</span>--}}
                         </div>
                     </div>
                 </div>
@@ -119,6 +151,78 @@
                     </div>
 
                     <div class="col-sm-4 offset-sm-1 form-group">
+                        <label class="col-form-label" for="property_card">Property Card No:</label>
+                        <input type="text" id="property_card" name="property_card" class="form-control form-control--custom" class="form-control form-control--custom m-input"  value="{{ old('property_card') }}">
+                        <span class="help-block">{{$errors->first('property_card')}}</span>
+
+                    </div>
+                </div>
+
+                <div class="form-group m-form__group row align-items-center">
+                    <div class="col-sm-4 form-group">
+                        <label class="col-form-label" for="property_card_area">Property Card Area:</label>
+                            <input type="text" id="property_card_area" name="property_card_area" class="form-control form-control--custom" class="form-control form-control--custom m-input"  value="{{ old('property_card_area') }}">
+                            <span class="help-block">{{$errors->first('property_card_area')}}</span>
+                    </div>
+
+                    <div class="col-sm-4 offset-sm-1 form-group">
+
+                        <label class="col-form-label" for="property_card_mhada_name">Is MHADA's Name On Property Card ?</label>
+                        <div class="m-radio-inline">
+                            <label class="m-radio m-radio--primary">
+                                <input type="radio" name="property_card_mhada_name" value="1"> Yes
+                                <span></span>
+                            </label>
+                            <label class="m-radio m-radio--primary">
+                                <input type="radio" name="property_card_mhada_name" value="0" checked=""> No
+                                <span class="help-block"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    {{--<div class="col-sm-4 offset-sm-1 form-group">--}}
+                        {{--<label class="col-form-label" for="property_card_mhada_name">Is Property card (PR card) is on MHADA’s name:</label>--}}
+                        {{--<div class="m-radio-inline">--}}
+                            {{--<label class="m-radio m-radio--primary">--}}
+                                {{--<input type="radio" name="property_card_mhada_name" value="1"> Yes--}}
+                                {{--<span></span>--}}
+                            {{--</label>--}}
+                            {{--<label class="m-radio m-radio--primary">--}}
+                                {{--<input type="radio" name="property_card_mhada_name" value="0" checked=""> No--}}
+                                {{--<span class="help-block"></span>--}}
+                            {{--</label>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                </div>
+
+                <div class="form-group m-form__group row">
+                    <div class="col-sm-4 form-group">
+                        <label class="col-form-label" for="file_upload">Is 7/12 extract available ?</label>
+                        <div class="m-radio-inline">
+                            <label class="m-radio m-radio--primary">
+                                <input type="radio" class="file_upload" name="file_upload" value="1"> Yes
+                                <span class="help-block"></span>
+                            </label>
+                            <label class="m-radio m-radio--primary">
+                                <input type="radio" class="file_upload" name="file_upload" value="0" checked> No
+                                <span class="help-block"></span>
+                            </label>
+                        </div>
+                        {{--<label class="col-form-label" for="file_upload">Is 7/12 extract available ?</label>
+                        <div class="m-radio-inline">
+                            <label class="m-radio m-radio--primary">
+                                <input type="radio" class="file_upload" name="file_upload" value="1" checked> Yes
+                                <span class="help-block"></span>
+                            </label>
+                            <label class="m-radio m-radio--primary">
+                                <input type="radio" class="file_upload" name="file_upload" value="0"> No
+                                <span class="help-block"></span>
+                            </label>
+                        </div>--}}
+
+                    </div>
+
+                    <div class="col-sm-4 offset-sm-1 form-group extract_upload">
                         <label class="col-form-label" for="mhada_name">Is 7/12 on MHADA's Name:</label>
                         <div class="m-radio-inline">
                             <label class="m-radio m-radio--primary">
@@ -133,49 +237,12 @@
                     </div>
                 </div>
 
-                <div class="form-group m-form__group row align-items-center">
+                <div class="form-group m-form__group row extract_upload">
                     <div class="col-sm-4 form-group">
-                        <label class="col-form-label" for="property_card">Property Card:</label>
-                            <input type="text" id="property_card" name="property_card" class="form-control form-control--custom" class="form-control form-control--custom m-input"  value="{{ old('property_card') }}">
-                            <span class="help-block">{{$errors->first('property_card')}}</span>
-                    </div>
-
-                    <div class="col-sm-4 offset-sm-1 form-group">
-                        <label class="col-form-label" for="property_card_mhada_name">Is Property card (PR card) is on MHADA’s name:</label>
-                        <div class="m-radio-inline">
-                            <label class="m-radio m-radio--primary">
-                                <input type="radio" name="property_card_mhada_name" value="1"> Yes
-                                <span></span>
-                            </label>
-                            <label class="m-radio m-radio--primary">
-                                <input type="radio" name="property_card_mhada_name" value="0" checked=""> No
-                                <span class="help-block"></span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group m-form__group row">
-                    <div class="col-sm-4 form-group">
-                        <label class="col-form-label" for="file_upload">Is 7/12 extract available:</label>
-                        <div class="m-radio-inline">
-                            <label class="m-radio m-radio--primary">
-                                <input type="radio" class="file_upload" name="file_upload" value="1" checked> Yes
-                                <span class="help-block"></span>
-                            </label>
-                            <label class="m-radio m-radio--primary">
-                                <input type="radio" class="file_upload" name="file_upload" value="0"> No
-                                <span class="help-block"></span>
-                            </label>
-                        </div>
-
-                    </div>
-
-                    <div class="col-sm-4 offset-sm-1 form-group extract_upload" style="display: none">
-                        <label class="col-form-label" for="extract">7/12 Extract:</label>                        
+                        <label class="col-form-label" for="extract">7/12 Extract:</label>
                         <div class="custom-file">
                             <input class="custom-file-input" name="extract" type="file"
-                                id="extract" value="{{ old('extract') }}">
+                                   id="extract" value="{{ old('extract') }}">
                             <label class="custom-file-label" for="extract">Choose
                                 file...</label>
                             <span class="help-block">{{$errors->first('extract')}}</span>
@@ -203,7 +270,7 @@
 
 @section('js')
     <script>
-        if($(".file_upload").val() == 1)
+        if($(".file_upload").val() == 0)
         {
             $(".extract_upload").show();
         }
@@ -219,5 +286,12 @@
                $(".extract_upload").hide();
            }
         });
+
+//        alert($("#other_remark").val());
+//        if($("#other").val() == 1) //I'm supposing the "Other" option value is 1.
+//                alert('sdad');
+//                $("#other").show();
+
+
     </script>
 @endsection
