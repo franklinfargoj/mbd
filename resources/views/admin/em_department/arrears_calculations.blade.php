@@ -47,9 +47,9 @@
                             @endif
                         </select>
                     </div>
-                    <div class="col-md-3 col-sm-3 search-filter clearfix">
-                        <input class="btn btn-primary Search" type="submit" value="Search" id="Search"/>
-                    </div>
+                </div>
+                <div class="col-md-3 col-sm-3 search-filter clearfix">
+                    <input class="btn btn-primary Search" type="submit" value="Search" id="Search"/>
                 </div>
             </div>
         </form>

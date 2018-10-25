@@ -63,7 +63,7 @@
         </form>
         <div class="m-portlet m-portlet--compact m-portlet--mobile">
             <div class="m-portlet__body">
-                <table id="example" class="display table table-responsive table-bordered" style="width:100%">
+                <table id="billing_calculations" class="display table table-responsive table-bordered" style="width:100%">
                     <thead>
                         <tr>
                             <th>Month,Year</th>

@@ -132,7 +132,9 @@ class ArrearsCalculationController extends Controller
             'processing' => true,
             'ordering'   =>'isSorted',
             "order"      => [1, "asc" ],
-            "pageLength" => $this->list_num_of_records_per_page
+            "pageLength" => $this->list_num_of_records_per_page,
+            "dom" => 'Bfrtip',
+            "buttons" => ['csv', 'excel', 'pdf', 'print'],
         ];
     }
 }

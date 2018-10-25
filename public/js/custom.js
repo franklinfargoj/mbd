@@ -585,3 +585,5 @@ function geturl(view_route){
     $(document).ready(function () {
         $(".display_msg").delay(5000).slideUp(300);
     });    
+
+$('#billing_calculations').DataTable( { searching:false,dom: 'Bfrtip', buttons: [ 'excel', 'print' ] } );
