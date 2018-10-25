@@ -114,9 +114,9 @@ class BillingDetailController extends Controller
             }  else {
             	$data['arreas_calculations'] = $data['arreas_calculations']->groupBy('year','month');
             }
-            $data['arreas_calculations'] = $data['arreas_calculations']->get()
+            $data['arreas_calculations'] = $data['arreas_calculations']->get();
     	}
-    	print_r($data['tenant']);exit;
+
         return view('admin.em_department.billing_calculations', $data);
     }
 

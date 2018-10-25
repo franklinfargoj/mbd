@@ -21,7 +21,7 @@
     <div class="m-portlet m-portlet--compact m-portlet--mobile">
         <div class="row align-items-center row--filter">
             <div class="col-md-12">
-                <h4 class="m-subheader__title">Calculation Of Society - {{$society->name}}| {{$building->number . '|' .$building->name}} | @if(!empty($tenant)) {{$tenant->first_name.' '.$tenant->last_name}} @endif</h4>
+                <h4 class="m-subheader__title">Calculation Of Society - {{$society->name}}| {{$building->building_no . '|' .$building->name}} | @if(!empty($tenant)) {{$tenant->first_name.' '.$tenant->last_name}} @endif</h4>
             </div>
         </div>
         @if(Session::has('success'))
@@ -47,9 +47,9 @@
                             @endif
                         </select>
                     </div>
-                    <div class="col-md-3 col-sm-3 search-filter clearfix">
-                        <input class="btn btn-primary Search" type="submit" value="Search" id="Search"/>
-                    </div>
+                </div>
+                <div class="col-md-3 col-sm-3 search-filter clearfix">
+                    <input class="btn btn-primary Search" type="submit" value="Search" id="Search"/>
                 </div>
             </div>
         </form>
