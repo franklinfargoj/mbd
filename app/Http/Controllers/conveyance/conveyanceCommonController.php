@@ -98,18 +98,8 @@ class conveyanceCommonController extends Controller
     public function ViewApplication(Request $request,$applicationId){
         
         $data = $this->listApplicationData($request); 
-
-        if (session()->get('role_name') == config('commanConfig.ee_junior_engineer') || config('commanConfig.ee_deputy_engineer') || config('commanConfig.ee_branch_head')){
-            $data->folder = 'ee_department';
-        }        
-        if (session()->get('role_name') == config('commanConfig.dycdo_engineer') || session()->get('role_name') == config('commanConfig.dyco_engineer')){
-            $data->folder = 'dyco_department';
-        }        
-        if (session()->get('role_name') == config('commanConfig.estate_manager')){
-            $data->folder = 'em_department';
-        }
-
-        $data->id = $applicationId;
+        $data->folder = $this->getCurrentRoleFolderName();
+        $data->id     = $applicationId;
         return view('admin.conveyance.common.view_application',compact('data'));
     }             
 
@@ -219,8 +209,9 @@ class conveyanceCommonController extends Controller
 
         $data = scApplication::with('societyApplication')->where('id',$applicationId)->first();
         $data->society_role_id = Role::where('name', config('commanConfig.society_offer_letter'))->value('id');
-        $data->parent     = $this->getForwardApplicationParentData();
-        $data->child      = $this->getRevertApplicationChildData();
+         $data->status         = $this->getCurrentStatus($applicationId);
+        $data->parent          = $this->getForwardApplicationParentData();
+        $data->child           = $this->getRevertApplicationChildData();
         return $data;        
     }
 
@@ -237,11 +228,13 @@ class conveyanceCommonController extends Controller
 
     //view ee documents in readonly format
     public function ViewEEDocuments($applicationId){
-
+        
         $data = scApplication::with('ConveyanceSalePriceCalculation')->where('id',$applicationId)->first();
+        $data->folder = $this->getCurrentRoleFolderName();
         return view('admin.conveyance.common.view_ee_sale_price_calculation', compact('data'));
     }  
 
+    //get folder name to display action blade as per role id
     public function getCurrentRoleFolderName(){
 
         if (session()->get('role_name') == config('commanConfig.ee_junior_engineer') || config('commanConfig.ee_deputy_engineer') || config('commanConfig.ee_branch_head')){
@@ -253,7 +246,6 @@ class conveyanceCommonController extends Controller
         if (session()->get('role_name') == config('commanConfig.estate_manager')){
             $folder = 'em_department';
         } 
-
-        // dd($folder);       
+        return $folder;       
     }  
 }
