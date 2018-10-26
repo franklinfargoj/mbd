@@ -72,6 +72,20 @@ $route=\Request::route()->getName();
                     </span>
                 </a>
             </li>
+            @if(session()->get('role_name')=='junior_architect')
+            <li class="m-menu__item {{($route=='architect_layout.add')?'m-menu__item--active':''}}" aria-haspopup="true">
+                <a href="{{ route('architect_layout.add') }}" class="m-menu__link ">
+                    <i class="m-menu__link-icon flaticon-line-graph"></i>
+                    <span class="m-menu__link-title">
+                        <span class="m-menu__link-wrap">
+                            <span class="m-menu__link-text">
+                                Add Layout
+                            </span>
+                        </span>
+                    </span>
+                </a>
+            </li>
+            @endif
             @endif
 
             @if(session()->get('permission') != "" && in_array('resolution.index', session()->get('permission')))

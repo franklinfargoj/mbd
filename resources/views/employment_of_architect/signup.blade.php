@@ -30,6 +30,14 @@
 
         </tr>
         <tr>
+            <th>Address</th>
+            <td><textarea name="address">{{old('address')}}</textarea>
+                @if ($errors->has('address'))
+                <span class="text-danger">{{ $errors->first('address') }}</span>
+                @endif</td>
+
+        </tr>
+        <tr>
             <th>Password</th>
             <td><input type="password" name="password">
                 @if ($errors->has('password'))

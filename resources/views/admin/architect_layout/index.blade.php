@@ -10,12 +10,12 @@
 <div class="col-md-12">
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">
-        <div class="d-flex align-items-center">
+        {{-- <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">Requests For revising layout</h3>
             @if(session()->get('role_name')=='junior_architect')
             <a href="{{route('architect_layout.add')}}" class="btn btn-primary ml-auto">Add Layout</a>
             @endif
-        </div>
+        </div> --}}
         <div class="m-portlet m-portlet--compact filter-wrap">
             <div class="row align-items-center row--filter">
                 <div class="col-md-12">
