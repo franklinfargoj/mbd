@@ -14,6 +14,10 @@
 
 $(document).ready(function () {
 
+    $("#dataTableBuilder tr").click(function(){
+        $(this).find("input[type='radio']").first()[0].click()
+      })
+
     // disable collapse on active menu
 
     // var dropdown = Array.from(document.querySelectorAll(".m-menu__item"));
