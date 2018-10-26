@@ -13,7 +13,9 @@ class DropLmSocietyDetail extends Migration
      */
     public function up()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::drop('lm_society_detail');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 
     /**
