@@ -574,8 +574,11 @@ Route::get('generate-receipt', 'EEBillingController@GenerateReceipt');
 
 Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']], function(){
  
+ //common in conveyance
     Route::resource('conveyance', 'conveyance\conveyanceCommonController');    
     Route::get('conveyance_application/{id}', 'conveyance\conveyanceCommonController@ViewApplication')->name('conveyance.view_application');
+
+    Route::get('view_ee_documents/{id}', 'conveyance\conveyanceCommonController@ViewEEDocuments')->name('conveyance.view_ee_documents');
 
     //dyco
     Route::get('checklist/{id}', 'conveyance\DYCODepartment\DYCOController@showChecklist')->name('dyco.checklist');
@@ -605,11 +608,13 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::post('save_calculation_data', 'conveyance\EEDepartment\EEController@SaveCalculationData')->name('ee.save_calculation_data');
     Route::post('save_demarcation_plan', 'conveyance\EEDepartment\EEController@SaveDemarcationPlan')->name('ee.save_demarcation_plan');
     Route::post('save_covering_letter', 'conveyance\EEDepartment\EEController@SaveCoveringLetter')->name('ee.save_covering_letter');
-    Route::get('forward_application_ee/{id}', 'conveyance\EEDepartment\EEController@forwardApplication')->name('ee.forward_application_sc');
+    Route::get('forward_application_ee/{id}', 'conveyance\EEDepartment\EEController@forwardApplication')->name('ee.forward_application_sc'); 
+
+    Route::post('send_forward_application', 'conveyance\EEDepartment\EEController@sendForwardApplication')->name('ee.send_forward_application');    
 });
 
 Route::get('/calculation', function () {
-    return view('admin.conveyance.ee_department.sale_price_calculation');
+    return view('admin.conveyance.common.sale_price_calculation');
 });
 
 Route::get('/scrutiny_remark_em', function () {
@@ -627,8 +632,16 @@ Route::prefix('appointing_architect')->group(function () {
     Route::get('login','Auth\LoginController@getAppointingArchitectLoginForm')->name('appointing_architect.login');
     Route::get('signup','EmploymentOfArchitectController@signup')->name('appointing_architect.signup');
     Route::post('post_signup','EmploymentOfArchitectController@create_user')->name('appointing_architect.post_signup');
+    Route::get('index', 'EmploymentOfArchitectController@index')->name('appointing_architect.index');
+    Route::get('step2', 'EmploymentOfArchitectController@step2')->name('appointing_architect.index');
+    Route::get('step3', 'EmploymentOfArchitectController@step3')->name('appointing_architect.index');
+    Route::get('step4', 'EmploymentOfArchitectController@step4')->name('appointing_architect.index');
+    Route::get('step5', 'EmploymentOfArchitectController@step5')->name('appointing_architect.index');
+    Route::get('step6', 'EmploymentOfArchitectController@step6')->name('appointing_architect.index');
+    Route::get('step7', 'EmploymentOfArchitectController@step7')->name('appointing_architect.index');
+    Route::get('step8', 'EmploymentOfArchitectController@step8')->name('appointing_architect.index');
     Route::middleware(['check-permission', 'auth', 'disablepreventback'])->group(function(){
-        Route::get('index', 'EmploymentOfArchitectController@index')->name('appointing_architect.index');
+       
     });
     
 });

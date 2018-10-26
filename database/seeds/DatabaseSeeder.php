@@ -63,5 +63,6 @@ class DatabaseSeeder extends Seeder
 
         $this->call(SocietyConveyanceDocumentMasterSeeder::class);
         // $this->call(SocietyConveyanceDocumentMasterSeeder::class);
+        $this->call(AppointingArchitectPermissionSeeder::class);
     }
 }

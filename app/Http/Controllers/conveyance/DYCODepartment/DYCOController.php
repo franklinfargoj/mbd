@@ -29,7 +29,16 @@ class DYCOController extends Controller
         $data = scApplication::where('id',$applicationId)->first();
         $checklist = ConveyanceChecklistScrutiny::where('application_id',$applicationId)
         ->first();
-    	return view('admin.conveyance.dyco_department.checklist_office_note',compact('data','checklist'));
+        $is_view = session()->get('role_name') == config('commanConfig.dycdo_engineer');
+        $status = $this->common->getCurrentStatus($applicationId);
+        
+        if ($is_view && $status->status_id == config('commanConfig.applicationStatus.in_process')) {
+            $route = 'admin.conveyance.dyco_department.checklist_office_note';
+        }else{
+            $route = 'admin.conveyance.common.view_checklist_office_note';
+        }
+        
+    	return view($route,compact('data','checklist'));
     }
 
     // save/update checklist data
@@ -39,7 +48,8 @@ class DYCOController extends Controller
         $arrData = $request->all();
         unset($arrData['_token'],$arrData['registration_date'], $arrData['date'], $arrData['first_flat_issue_date'], $arrData['hps_installement_date'], $arrData['last_date_of_rent'], $arrData['service_tax_date'],$arrData['contruction_competion_date'], $arrData['resolution_meeting_date']);
 
-            ConveyanceChecklistScrutiny::updateOrCreate(['application_id'=>$applicationId],$arrData);        
+            ConveyanceChecklistScrutiny::updateOrCreate(['application_id'=>$applicationId],$arrData);
+                    
             ConveyanceChecklistScrutiny::where('application_id',$applicationId)->update([
                 'registration_date'          => date('Y-m-d',strtotime($request->registration_date)),
                 'date'                       => date('Y-m-d',strtotime($request->date)),
@@ -146,7 +156,7 @@ class DYCOController extends Controller
 
         dd($data);
         // return view('admin.conveyance.dyco_department.approved_sale_lease_agreement',compact('data'));      
-    }
+    } 
 
     public function SignedSaleLeaseAgreement(Request $request,$applicationId){
     
@@ -164,15 +174,14 @@ class DYCOController extends Controller
 
     public function displayForwardApplication(Request $request,$applicationId){
       
-      $data = scApplication::with(['societyApplication','scApplicationLog'])->where('id',$applicationId)->first();
-      $parentData = $this->common->getForwardApplicationChildData();
-      return view('admin.conveyance.dyco_department.forward_application',compact('data','parentData'));          
+      $data = $this->common->getForwardApplicationData($applicationId);
+      return view('admin.conveyance.dyco_department.forward_application',compact('data'));          
     }
-
+ 
     public function saveForwardApplication(Request $request){
     
         $forwardData = $this->common->forwardApplication($request); 
-        return redirect('/dyco')->with('success','Application send successfully..');
+        return redirect('/conveyance')->with('success','Application send successfully..');
     }
 }
 

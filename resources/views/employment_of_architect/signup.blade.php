@@ -81,7 +81,7 @@
                                         </div>
                                         <div class="m-login__form-action d-flex justify-content-center btn-list">
                                             <button id="" class="btn btn-primary m-btn m-btn--pill m-btn--custom m-login__btn">Sign Up</button>
-                                            <a href="javascript:void(0);" id="" class="btn btn-primary m-btn m-btn--pill m-btn--custom m-login__btn">Cancel</a>
+                                        <a href="{{route('appointing_architect.login')}}" id="" class="btn btn-primary m-btn m-btn--pill m-btn--custom m-login__btn">Cancel</a>
                                         </div>
                                     </form>
                                 </div>

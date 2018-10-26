@@ -87,6 +87,11 @@ class DYCOPermissions extends Seeder
                 'name'         => 'dyco.forward_application_data',
                 'display_name' => 'forward application data',
                 'description'  => 'forward application data'
+            ],            
+            [
+                'name'         => 'conveyance.view_ee_documents',
+                'display_name' => 'view ee documents',
+                'description'  => 'view ee documents'
             ],                                                                  
         ];
 
