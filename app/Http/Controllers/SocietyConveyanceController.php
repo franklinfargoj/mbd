@@ -124,9 +124,20 @@ class SocietyConveyanceController extends Controller
     public function create()
     {
         $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
+        $sc = new SocietyConveyance;
+        $fillable_field_names = $sc->getFillable();
+        if(in_array('language_id', $fillable_field_names) == true || in_array('society_id', $fillable_field_names) == true){
+            $field_name = array_flip($fillable_field_names);
+            unset($field_name['language_id'], $field_name['society_id']);
+            $fields_names = array_flip($field_name);
+            $field_names = array_values($fields_names);
+        }
+//        $field_names = array_chunk($sc->getFillable(), ceil(count($sc->getFillable()) / 2));
+//        $field_names_left = $field_names[0];
+//        $field_names_right = $field_names[1];
         $layouts = MasterLayout::all();
 //        dd($society_details);
-        return view('frontend.society.conveyance.add', compact('layouts', 'society_details'));
+        return view('frontend.society.conveyance.add', compact('layouts', 'field_names', 'society_details'));
     }
 
     /**
@@ -137,8 +148,8 @@ class SocietyConveyanceController extends Controller
      */
     public function store(Request $request)
     {
-//        dd($request->file('template'));
         if($request->file('template')) {
+//            dd($request->file('template'));
             $file = $request->file('template');
             $file_name = time() . $file->getFileName() . '.' . $file->getClientOriginalExtension();
             $extension = $request->file('template')->getClientOriginalExtension();
@@ -151,43 +162,40 @@ class SocietyConveyanceController extends Controller
                 $fileUpload = $this->CommonController->ftpFileUpload($folder_name, $request->file('template'), $name);
                 $count = 0;
                 $sc_excel_headers = [];
-                Excel::load($request->file('template')->getRealPath(), function ($reader)use($count) {
-                    $excel_headers = $reader->first()->keys()->toArray();
-                    $sc_excel_headers = config('commanConfig.sc_excel_headers');
-                    foreach($excel_headers as $excel_headers_key => $excel_headers_val){
-                        $excel_headers_value = strtolower(str_replace(str_split('\\/- '), '_', $sc_excel_headers[$excel_headers_key]));
-                        if($excel_headers_value == $excel_headers_val){
-                            $count++;
-                        }else{
-                            $exploded = explode('_', $excel_headers_value);
-                            foreach($exploded as $exploded_key => $exploded_value){
-                                if(!empty(strpos($excel_headers_val, $exploded_value))){
-                                    $count++;
+                Excel::load($request->file('template')->getRealPath(), function ($reader)use(&$count, &$sc_excel_headers) {
+                    if(count($reader->toArray()) > 0){
+                        $excel_headers = $reader->first()->keys()->toArray();
+                        $sc_excel_headers = config('commanConfig.sc_excel_headers');
+
+                        foreach($excel_headers as $excel_headers_key => $excel_headers_val){
+                            $excel_headers_value = strtolower(str_replace(str_split('\\/- '), '_', $sc_excel_headers[$excel_headers_key]));
+                            if($excel_headers_value == $excel_headers_val){
+                                $count++;
+                            }else{
+                                $exploded = explode('_', $excel_headers_value);
+                                foreach($exploded as $exploded_key => $exploded_value){
+                                    if(!empty(strpos($excel_headers_val, $exploded_value))){
+                                        $count++;
+                                    }
                                 }
                             }
                         }
                     }
                 });
-                if($count == count($sc_excel_headers)){
-                    $input = array(
-                        'society_name' => $request->society_name,
-                        'society_no' => $request->society_no,
-                        'scheme_name' => $request->scheme_name,
-                        'first_flat_issue_date' => $request->first_flat_issue_date,
-                        'residential_flat' => $request->residential_flat,
-                        'non_residential_flat' => $request->non_residential_flat,
-                        'total_flat' => $request->total_flat,
-                        'society_registration_no' => $request->society_registration_no,
-                        'society_registration_date' => $request->society_registration_date,
-                        'property_tax' => $request->property_tax,
-                        'water_bil' => $request->water_bil,
-                        'no_agricultural_tax' => $request->no_agricultural_tax,
-                        'society_address' => $request->society_address,
-                    );
-                    dd($input);
-                    return redirect()->route('society_conveyance.index');
+
+                if($count != 0){
+                    if($count == count($sc_excel_headers)){
+                        $input = $request->all();
+                        unset($input['layout_id'], $input['template'], $input['_token']);
+                        $sc_id = SocietyConveyance::updateOrCreate($input);
+
+                        return redirect()->route('society_conveyance.index');
+                    }else{
+                        return redirect()->route('society_conveyance.create')->withErrors('error', "Excel file headers doesn't match")->withInput();
+                    }
                 }else{
-                    return redirect()->route('society_conveyance.create')->withErrors('error', "Excel file headers doesn't match")->withInput();
+                    dd('empty');
+                    return redirect()->route('society_conveyance.create')->withErrors('error', "Excel file is empty.")->withInput();
                 }
             }
         }else{
