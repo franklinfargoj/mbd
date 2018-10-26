@@ -10,7 +10,7 @@ class MasterColony extends Model
 
      public function societies()
     {
-        return $this->hasMany('App\MasterSociety');
+        return $this->hasMany('App\SocietyDetail');
     }
 
     public function MasterWard(){

@@ -24,7 +24,7 @@
         <div class="m-portlet m-portlet--compact filter-wrap">
             <div class="row align-items-center row--filter">
                 <div class="col-md-12">
-                    <h4 class="m-subheader__title">Ward & Coloney - {{$society[0]->name}}</h4>
+                    <h4 class="m-subheader__title">Ward & Coloney - {{$society[0]->society_name}}</h4>
                 </div>
             
                 <div class="col-md-12" style="margin-top:40px;margin-bottom: 40px;">

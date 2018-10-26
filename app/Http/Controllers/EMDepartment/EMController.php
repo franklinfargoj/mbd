@@ -33,9 +33,9 @@ use Storage;
 use App\MasterLayout;
 use App\MasterWard;
 use App\MasterColony;
-use App\MasterSociety;
 use App\MasterBuilding;
 use App\MasterTenant;
+use App\SocietyDetail;
 
 class EMController extends Controller
 {
@@ -136,7 +136,7 @@ class EMController extends Controller
         if($request->input('id')){            
             $wards = MasterWard::where('layout_id', '=', $request->input('id'))->pluck('id');
             $colonies = MasterColony::whereIn('ward_id', $wards)->pluck('id');
-            $societies = MasterSociety::whereIn('colony_id', $colonies)->paginate(10);
+            $societies = SocietyDetail::whereIn('colony_id', $colonies)->paginate(10);
             return view('admin.em_department.ajax_society', compact('societies'));
 
         } elseif(!empty($request->input('search'))) {
@@ -145,7 +145,7 @@ class EMController extends Controller
           $layout_data = MasterLayout::whereIn('id', $layouts)->get();
           $wards = MasterWard::whereIn('layout_id', $layouts)->pluck('id');
           $colonies = MasterColony::whereIn('ward_id', $wards)->pluck('id');
-          $societies = MasterSociety::whereIn('colony_id', $colonies)->where('name','like', '%'.$request->input('search').'%')->paginate(10);
+          $societies = SocietyDetail::whereIn('colony_id', $colonies)->where('name','like', '%'.$request->input('search').'%')->paginate(10);
           return view('admin.em_department.ajax_society', compact('societies'));
         
         } else {
@@ -157,7 +157,7 @@ class EMController extends Controller
         //dd($wards);
         $colonies = MasterColony::whereIn('ward_id', $wards)->pluck('id');
         //dd($colonies);
-        $societies = MasterSociety::whereIn('colony_id', $colonies)->paginate(10);
+        $societies = SocietyDetail::whereIn('colony_id', $colonies)->paginate(10);
         //dd($societies);
         if($request->has('search')) {
             return view('admin.em_department.ajax_society', compact('societies'));  
@@ -169,7 +169,7 @@ class EMController extends Controller
     }
 
     public function getbuildings($id, Request $request){
-        //$societies = MasterSociety::whereIn('colony_id', $colonies)->get();
+        //$societies = SocietyDetail::whereIn('colony_id', $colonies)->get();
        // dd($id);
 
         if(!empty($request->input('search'))) {
@@ -220,7 +220,7 @@ class EMController extends Controller
     }
 
     public function soc_bill_level($id){
-        $society = MasterSociety::where('id','=',$id)->get();
+        $society = SocietyDetail::where('id','=',$id)->get();
         //dd($society);
         $soc_bill_level = DB::table('master_society_bill_level')->get();
        // dd($soc_bill_level);
@@ -228,7 +228,7 @@ class EMController extends Controller
     }
 
     public function soc_ward_colony($id){
-        $society = MasterSociety::where('id','=',$id)->get();
+        $society = SocietyDetail::where('id','=',$id)->get();
         //dd($society);
         $soc_colony = MasterColony::where('id', '=', $society[0]->colony_id)->first();
         //dd($soc_colony);
@@ -281,13 +281,13 @@ class EMController extends Controller
     public function get_society_select(Request $request){
     
         if($request->input('id')){
-        $society = MasterSociety::where('colony_id', '=', $request->input('id'))->get();
+        $society = SocietyDetail::where('colony_id', '=', $request->input('id'))->get();
 
         $html = '<select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="society" name="society">';
         $html .= '<option value="" style="font-weight: normal;">Select Society</option>';
 
             foreach($society as $key => $value){
-                $html .= '<option value="'.$value->id.'">'.$value->name.'</option>';
+                $html .= '<option value="'.$value->id.'">'.$value->society_name.'</option>';
             }   
         $html .= '</select>';         
 
@@ -339,7 +339,7 @@ class EMController extends Controller
 
         $this->validate($request, $temp);
         
-        $society = MasterSociety::find($request->input('id'));
+        $society = SocietyDetail::find($request->input('id'));
         $society->colony_id = $request->input('colony');
         $society->save();
 
@@ -355,7 +355,7 @@ class EMController extends Controller
         // validate the Grievances form data.
         $this->validate($request, $temp);
 
-        $society = MasterSociety::find($request->input('id'));
+        $society = SocietyDetail::find($request->input('id'));
         $society->society_bill_level = $request->input('soc_bill_level');
         $society->save();
 
@@ -383,7 +383,9 @@ class EMController extends Controller
         $building->description = $request->input('name');
         $building->save();
 
-        return redirect()->back()->with('success', 'Building added Successfully.');
+        //return redirect()->back()->with('success', 'Building Added Successfully.');
+
+        return redirect()->route('get_buildings', [$building->society_id])->with('success', 'Building Added Successfully.');
     }
 
     public function edit_building($id){
@@ -410,7 +412,8 @@ class EMController extends Controller
         $building->description = $request->input('name');
         $building->save();
 
-        return redirect()->back()->with('success', 'Building Details Updated Successfully.');
+       // return redirect()->back()->with('success', 'Building Details Updated Successfully.');
+        return redirect()->route('get_buildings', [$building->society_id])->with('success', 'Building Details Updated Successfully.');
     }
 
     /*
@@ -460,7 +463,8 @@ class EMController extends Controller
         $tenant->tenant_type = $request->input('tenant_type');
         $tenant->save();
 
-        return redirect()->back()->with('success', 'Tenant Added Successfully.');
+        //return redirect()->back()->with('success', 'Tenant Added Successfully.');
+        return redirect()->route('get_tenants', [$tenant->building_id])->with('success', 'Tenant Added Successfully.');
     }
 
     /*
@@ -513,7 +517,8 @@ class EMController extends Controller
         $tenant->tenant_type = $request->input('tenant_type');
         $tenant->save();
 
-        return redirect()->back()->with('success', 'Tenant Added Successfully.');
+        //return redirect()->back()->with('success', 'Tenant Added Successfully.');
+        return redirect()->route('get_tenants', [$tenant->building_id])->with('success', 'Tenant Updated Successfully.');
     }
 
     public function delete_tenant($id){
@@ -536,7 +541,7 @@ class EMController extends Controller
         $colonies_data = MasterColony::whereIn('ward_id', $wards)->get();
 
         //dd($colonies);
-        $societies_data = MasterSociety::where('society_bill_level', '=', '1')->whereIn('colony_id', $colonies)->get();
+        $societies_data = SocietyDetail::where('society_bill_level', '=', '1')->whereIn('colony_id', $colonies)->get();
 
         //return $rate_card;
         return view('admin.em_department.generate_bill', compact('layout_data', 'wards_data', 'colonies_data','societies_data'));
@@ -557,8 +562,8 @@ class EMController extends Controller
         $colonies_data = MasterColony::whereIn('ward_id', $wards)->get();
 
         //dd($colonies);
-        $societies = MasterSociety::whereIn('colony_id', $colonies)->pluck('id');
-        $societies_data = MasterSociety::where('society_bill_level', '=', '2')->whereIn('colony_id', $colonies)->get();
+        $societies = SocietyDetail::whereIn('colony_id', $colonies)->pluck('id');
+        $societies_data = SocietyDetail::where('society_bill_level', '=', '2')->whereIn('colony_id', $colonies)->get();
 
         $building_data = MasterBuilding::whereIn('society_id', $societies)->get();
 

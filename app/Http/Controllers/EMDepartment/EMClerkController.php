@@ -30,15 +30,18 @@ use Config;
 use DB;
 use File;
 use Storage;
+use Session;
 use App\MasterLayout;
 use App\MasterWard;
 use App\MasterColony;
-use App\MasterSociety;
+/*use App\MasterSociety;
+*/
 use App\MasterBuilding;
 use App\MasterTenant;
 use App\ArrearsChargesRate;
 use App\ArrearTenantPayment;
 use App\ArrearCalculation;
+use App\SocietyDetail;
 
 class EMClerkController extends Controller
 {
@@ -62,9 +65,10 @@ class EMClerkController extends Controller
         //dd($wards);
         $colonies = MasterColony::whereIn('ward_id', $wards)->pluck('id');
         //dd($colonies);
-        $societies = MasterSociety::whereIn('colony_id', $colonies)->pluck('id');
+        
+        $societies = SocietyDetail::whereIn('colony_id', $colonies)->pluck('id');
 
-        $societies_data = MasterSociety::whereIn('colony_id', $colonies)->get();
+        $societies_data = SocietyDetail::whereIn('colony_id', $colonies)->get();
 
         $building_data = MasterBuilding::whereIn('society_id', $societies)->get();
 
@@ -75,12 +79,13 @@ class EMClerkController extends Controller
         if($request->input('id')){            
             $wards = MasterWard::where('layout_id', '=', $request->input('id'))->pluck('id');
             $colonies = MasterColony::whereIn('ward_id', $wards)->pluck('id');
-            $societies = MasterSociety::whereIn('colony_id', $colonies)->get();
+
+            $societies = SocietyDetail::whereIn('colony_id', $colonies)->get();
 
             $html = '<select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="society" name="society" required>
                                         <option value="" style="font-weight: normal;">Select Society</option>';
                                         foreach($societies as $key => $value){
-                                        $html .= '<option value="'.$value->id.'">'.$value->name.'</option>';
+                                        $html .= '<option value="'.$value->id.'">'.$value->society_name.'</option>';
                                         }
                                     $html .= '</select>';
             return $html;
@@ -111,7 +116,7 @@ class EMClerkController extends Controller
         $getData = $request->all();  
 
            $columns = [
-            ['data' => 'id','name' => 'id','title' => 'Sr No.','searchable' => false],
+            ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'flat_no','name' => 'flat_no','title' => 'Room No'],
             ['data' => 'first_name', 'name' => 'first_name','title' => 'Tenant First Name'],
             ['data' => 'last_name', 'name' => 'last_name','title' => 'Tenant Last Name'],
@@ -121,8 +126,10 @@ class EMClerkController extends Controller
             ];
 
         if ($datatables->getRequest()->ajax()) {            
-            
-            $tenant = MasterTenant::leftJoin('arrear_calculation', 'master_tenants.id', '=', 'arrear_calculation.tenant_id')->where('master_tenants.building_id', '=', $request->input('building'))->select('*','master_tenants.id as id')->get();
+          
+            DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
+          
+            $tenant = MasterTenant::leftJoin('arrear_calculation', 'master_tenants.id', '=', 'arrear_calculation.tenant_id')->where('master_tenants.building_id', '=', $request->input('building'))->selectRaw('@rownum  := @rownum  + 1 AS rownum, master_tenants.*, arrear_calculation.* ,master_tenants.id as id');
 
             //dd($tenant);
 
@@ -166,19 +173,29 @@ class EMClerkController extends Controller
        
     }
 
-    public function tenant_arrear_calculation(Request $request, Datatables $datatables){
-        
+    public function tenant_arrear_calculation(Request $request, Datatables $datatables){        
         
         $tenant = MasterTenant::leftJoin('arrear_calculation', 'master_tenants.id', '=', 'arrear_calculation.tenant_id')->where('master_tenants.id', '=', $request->id)
             ->select('*','master_tenants.id as id','master_tenants.building_id as building_id')->first();
         //dd($tenant);
         $year = date('Y').'-'.(date('y') + 1);
+        if(empty($tenant) || is_null($tenant)){
+           return redirect()->back()->with('warning', 'Arrear Calculation is not done for user.');
+        }
 
         $rate_card = ArrearsChargesRate::where('building_id', '=', $tenant->building_id)
                         ->where('year', '=', $year)
                         ->first();
+        
+        if(empty($rate_card) || is_null($rate_card)){          
+           return redirect()->back()->with('warning', 'Arrear Calculation rate is not present for user building.');
+        }
 
-        $society = MasterSociety::where('id', '=', $rate_card->society_id)->first();
+        $society = SocietyDetail::where('id', '=', $rate_card->society_id)->first();
+
+        if(empty($society) || is_null($society)){          
+           return redirect()->back()->with('warning', 'Society is not defined for building.');
+        }
 
         for ($i = 1; $i <= 12; $i++) {
             $months[] = date("n", strtotime( date( 'Y-m-01' )." -$i months"));
@@ -186,7 +203,6 @@ class EMClerkController extends Controller
         }
         $years = array_unique($years);        
         // return $months;
-
 
         if($request->row_id){
             $arrear_row = ArrearCalculation::find($request->row_id);
@@ -196,13 +212,13 @@ class EMClerkController extends Controller
         }
 
         $columns = [
-            ['data' => 'id','name' => 'id','title' => 'Sr No.','searchable' => false],
+            ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'month','name' => 'month','title' => 'Month'],
             ['data' => 'year','name' => 'year','title' => 'Year'],
-            ['data' => 'old_rate', 'name' => 'old_rate','title' => 'Old Rate'],
-            ['data' => 'interest_on_old_rate', 'name' => 'interest_on_old_rate','title' => 'Intrest on Old Rate'],
-            ['data' => 'revise_rate', 'name' => 'revise_rate','title' => 'Revised Rate'],
-            ['data' => 'interest_on_differance', 'name' => 'interest_on_differance','title' => 'Interest On Differance'],
+            ['data' => 'old_rate', 'name' => 'old_rate','title' => 'Old Rate','searchable' => false],
+            ['data' => 'interest_on_old_rate', 'name' => 'interest_on_old_rate','title' => 'Intrest on Old Rate','searchable' => false],
+            ['data' => 'revise_rate', 'name' => 'revise_rate','title' => 'Revised Rate','searchable' => false],
+            ['data' => 'interest_on_differance', 'name' => 'interest_on_differance','title' => 'Interest On Differance','searchable' => false],
             ['data' => 'payment_status', 'name' => 'payment_status','title' => 'Payment Status'],
             ['data' => 'total_amount', 'name' => 'total_amount','title' => 'Final Rent Amount'],
             ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false, 'orderable' => false, 'exportable' => false, 'printable' => false]
@@ -221,6 +237,9 @@ class EMClerkController extends Controller
                                     ->whereIn('arrear_calculation.year', $years)
                                     ->selectRaw('@rownum  := @rownum  + 1 AS rownum,arrears_charges_rates.*,arrear_calculation.*,arrear_calculation.year as year');
             return $datatables->of($arrear)
+            ->editColumn('month', function ($arrear){
+                return date('M', mktime(0, 0, 0, $arrear->month, 10));
+            })
             ->editColumn('payment_status', function ($arrear){
                 if($arrear->payment_status == null){
                      return 'Not Calculated';
@@ -290,7 +309,6 @@ class EMClerkController extends Controller
             $arrear_calculation = new ArrearCalculation;
             //return 'hi hello';die;
         } 
-
         
         $arrear_calculation->tenant_id = $request->input('tenant_id');
         $arrear_calculation->building_id = $request->input('building_id');
