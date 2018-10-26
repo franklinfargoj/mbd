@@ -4,12 +4,13 @@
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
-            <h3 class="m-subheader__title m-subheader__title--separator">Arrears Charges Rate - {{$society->name}} {{$building->name}}</h3>
+            <h3 class="m-subheader__title m-subheader__title--separator">Arrears Charges Rate</h3>
             {{-- {{ Breadcrumbs::render('society_detail') }} --}}
         </div>
     </div>
     <!-- END: Subheader -->
     <div class="m-portlet m-portlet--compact m-portlet--mobile">
+        <h4 class="box-subheading">{{$society->name}} {{$building->name}}</h4>
         <div class="tools">
             <a href="{{url('arrears_charges/'.$society->id.'/'.$building->id.'/create')}}" class='btn m-btn--pill m-btn--custom btn-primary' id="arrears_charges">Add Arrears Charge </a>
         </div>

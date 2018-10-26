@@ -647,7 +647,7 @@ class EEController extends Controller
                 }
             })
             ->editColumn('actions', function ($societies) {
-                return "<a href='".url('society_details/'.$societies->id)."' class='btn m-btn--pill m-btn--custom btn-primary'>Society Details</a>";
+                return "<div class='d-flex btn-icon-list'><a href='".url('society_details/'.$societies->id)."' class='d-flex flex-column align-items-center'><span class='btn-icon btn-icon--view'><img src='".asset('/img/view-icon.svg')."'></span>Society Details</a></div>";
                 
             })
             ->rawColumns(['actions','society_bill_level'])
@@ -674,7 +674,7 @@ class EEController extends Controller
             $societieDetails = MasterBuilding::selectRaw('@rownum  := @rownum  + 1 AS rownum, name,building_no,id,society_id')->withCount('tenants')->where('society_id',$id);
             return $datatables->of($societieDetails)
             ->editColumn('actions', function ($societieDetails) use($society){
-                return "<div class='button_list'><a href='".url('arrears_charges/'.$society->id.'/'.$societieDetails->id)."' class='btn m-btn--pill m-btn--custom btn-primary'>Define Arrears Charges</a><a href='".url('service_charges/'.$society->id.'/'.$societieDetails->id)."' class='btn m-btn--pill m-btn--custom btn-primary'>Define Service Charges</a></div>";
+                return "<div class='d-flex btn-icon-list'><a href='".url('arrears_charges/'.$society->id.'/'.$societieDetails->id)."' class='d-flex flex-column align-items-center'><span class='btn-icon btn-icon--view'><img src='".asset('/img/view-icon.svg')."'></span>Define Arrears Charges</a><a href='".url('service_charges/'.$society->id.'/'.$societieDetails->id)."' class='d-flex flex-column align-items-center'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/edit-icon.svg')."'></span>Define Service Charges</a></div>";
                 
             })
             ->rawColumns(['actions'])

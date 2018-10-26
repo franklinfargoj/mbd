@@ -1186,6 +1186,12 @@ table.dataTable tbody tr:nth-child(even):focus {
 
 /* global classes starts here */
 
+.box-subheading {
+    font-size: 1.1rem;
+    color: #b7b7b7;
+    margin-left: -20px;
+}
+
 .primary-color {
     color: #f0791b !important;
 }

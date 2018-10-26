@@ -66,6 +66,8 @@ class LayoutArchitectDetailController extends Controller
 
     public function uploadLatestLayoutAjax(Request $request)
     {
+        $file = $request->file('file');
+        dd($file->getClientMimeType());
         $response_array = array();
         $file = $request->file('file');
         if ($file->getClientMimeType() == 'application/pdf') {

@@ -7,15 +7,17 @@ use App\Repositories\Repository;
 use Illuminate\Http\Request;
 use Validator;
 use App\Role;
+use App\User;
+use App\RoleUser;
 
 class EmploymentOfArchitectController extends Controller
 {
     protected $model, $user;
 
-    public function __construct(EoaApplication $EoaApplication)
+    public function __construct(EoaApplication $EoaApplication, User $user)
     {
         // set the model
-        $this->user = new Repository($EoaApplication);
+        $this->user = new Repository($user);
         $this->model = new Repository($EoaApplication);
     }
 
@@ -31,6 +33,7 @@ class EmploymentOfArchitectController extends Controller
             'email' => 'required|email|unique:users|max:255',
             'mobile_no' => 'required|unique:users|max:255',
             'password' => 'required|same:confirm_password',
+            'address' => 'required',
             'confirm_password'=>'required'
         ]);
         if ($validator->fails()) {
@@ -46,23 +49,41 @@ class EmploymentOfArchitectController extends Controller
             {
                 $role_id = Role::insertGetId([
                     'name'         => 'appointing_architect',
-                    'redirect_to'  => '/appointing_architect',
+                    'redirect_to'  => '/appointing_architect/index',
                     'parent_id'    => NULL,
                     'display_name' => 'appointing_architect',
                     'description'  => 'appointing_architect'
                 ]);
-            }
+            }            
             
             $user_data = [
                 'name' => $request->name,
                 'email' => $request->email,
                 'mobile_no' => $request->mobile_no,
                 'role_id' => $role_id,
-                'password' => bcrypt('password'),
+                'password' => bcrypt($request->password),
+                'address'=>$request->address,
+                'uploaded_note_path'=>'Test'
             ];
-            //dd('ok');
-           if($this->user->create($user_data))
+            //dd($this->user->create($user_data));
+            $user=$this->user->create($user_data);
+           if($user)
            {
+            $role_user = array(
+                'user_id'    => $user->id,
+                'role_id'    => $role_id,
+                'start_date' => \Carbon\Carbon::now(),
+                'end_date' => ''
+            );
+            // dd($role_user);
+            if(RoleUser::where(['user_id'=> $user->id,'role_id'=> $role_id])->first())
+            {
+                
+            }else
+            {
+                RoleUser::create($role_user);
+            }
+            
             return redirect()->route('appointing_architect.login')->with('registered', 'Registered successfully!');
            }
            return redirect()->route('appointing_architect.login')->with('error', 'Something went wrong!');
@@ -74,7 +95,7 @@ class EmploymentOfArchitectController extends Controller
 
     public function index(Request $request)
     {
-
+            //dd(session()->all());
         //return $this->model->all();
         return view('employment_of_architect.form1');
     }
