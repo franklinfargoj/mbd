@@ -19,13 +19,14 @@
                         <i class="la la-cog"></i> Scrutiny History
                     </a>
                 </li>
-       
+                
+                @if($data->status->status_id == config('commanConfig.applicationStatus.in_process'))
                 <li class="nav-item m-tabs__item">
                     <a class="nav-link m-tabs__link show" data-toggle="tab" href="#forward-application-tab">
                         <i class="la la-cog"></i> Forward Application
                     </a>
                 </li>
-
+                @endif
             </ul>
             <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
                 <div class="portlet-body">
@@ -59,7 +60,7 @@
                                             ? $data->societyApplication->name : '')}}</span>
                                     </div>
                                 </div>
-                                <div class="col-sm-6 field-col">
+                                <div class="col-sm-6 field-col"> 
                                     <div class="d-flex">
                                         <span class="field-name">Society Address:</span>
                                         <span class="field-value">{{(isset($data->societyApplication->address)
@@ -149,17 +150,16 @@
                                     </h3>
                                 </div>
                                 <div class="remarks-suggestions">
-                                    <form action="" id="forwardApplication"
-                                        method="post">
+                                    <form action="{{ route('ee.send_forward_application') }}" id="forwardApplication" method="post">
                                         @csrf
+                                        <input type="hidden" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">
                                         <input type="hidden" name="to_role_id" id="to_role_id">
+                                        <input type="hidden" name="to_user_id" id="to_user_id">
                                         <input type="hidden" name="check_status" class="check_status" value="1">
 
                                         <div class="m-form__group form-group">
                                             <div class="m-radio-inline">
                                                 <label class="m-radio m-radio--primary">
-                                                    <input type="hidden" name="user_id">
-                                                    <input type="hidden" name="role_id">
                                                     <input type="radio" name="remarks_suggestion" id="forward" class="forward-application"
                                                         value="1" checked> Forward Application
                                                     <span></span>
@@ -169,41 +169,41 @@
                                                     <input type="radio" name="remarks_suggestion" id="remark" class="forward-application"
                                                         value="0"> Revert Application
                                                     <span></span>
-                                                </label>
-                                                
+                                                </label>                                                
                                             </div>
+
                                             <div class="form-group m-form__group row mt-3 parent-data" id="select_dropdown">
                                                 <label class="col-form-label col-lg-2 col-sm-12">
                                                     Forward To:
                                                 </label>
-                                                        @if ($data)
-                                                        {{dd($data)}}
-                                                            @foreach($data->child as $child)
-                                                            
-                                                                <option value="" data-role=""></option>
-                                                           
-                                                            @endforeach
-                                                        @endif    
                                                 <div class="col-lg-4 col-md-9 col-sm-12">
-                                                    <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
-                                                        name="to_user_id" id="to_user_id">
+                                                    <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="to_user">
+                                                        
+                                                        @if($data->parent)
+                                                            @foreach($data->parent as $parent)
+                                                                <option value="{{ $parent->id}}" data-role="{{ $parent->role_id }}">{{ $parent->name }} ({{ $parent->roles[0]->display_name }})</option>
+                                                            @endforeach
+                                                        @endif
                                                     </select>
-                                                </div>
+                                                </div>                                                 
                                             </div>
-
+                                             @if($data->child)
                                             <div class="form-group m-form__group row mt-3 child-data" style="display: none">
                                                 <label class="col-form-label col-lg-2 col-sm-12">
                                                     Revert To:
                                                 </label>
                                                 <div class="col-lg-4 col-md-9 col-sm-12">
-                                                    <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
-                                                        name="to_child_id" id="to_child_id">
-                                                  
-                                                        <option value="" data-role=""></option>
+                                                    <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="to_child_id">
+                                                       
+                                                            @foreach($data->child as $child)
+                                                                <option value="{{ $child->id }}" data-society="{{ ($child->role_id == $data->society_role_id) ? 1 : 0 }}"
+                                                                data-role="{{ $child->role_id }}">{{ $child->name }} ({{ $child->roles[0]->display_name }}) </option>
+                                                            @endforeach
+                                                        
                                                     </select>
                                                 </div>
                                             </div>
-
+                                            @endif
                                             <div class="mt-3 table--box-input">
                                                 <label for="remark">Remark:</label>
                                                 <textarea class="form-control form-control--custom" name="remark" id="remark"
@@ -251,12 +251,15 @@
         $("#forwardApplication").on("submit", function () {
             var data = $(".check_status").val();
             if (data == 1) {
-                var id = $("#to_user_id").find('option:selected').attr("data-role");
+                var id = $("#to_user").find('option:selected').attr("data-role");
+                var user_id = $("#to_user").find('option:selected').attr("value");
             } else {
                 var id = $("#to_child_id").find('option:selected').attr("data-role");
+                var user_id = $("#to_child_id").find('option:selected').attr("value");
             }
 
             $("#to_role_id").val(id);
+            $("#to_user_id").val(user_id);
         });
     });
 

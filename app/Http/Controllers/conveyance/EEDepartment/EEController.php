@@ -21,7 +21,15 @@ class EEController extends Controller
 	public function SalePriceCalculation(Request $request,$applicationId){
 	
 		$data = scApplication::with('ConveyanceSalePriceCalculation')->where('id',$applicationId)->first();
-		return view('admin.conveyance.ee_department.sale_price_calculation', compact('data'));
+        $data->status = $this->conveyance->getCurrentStatus($applicationId);
+        $is_view = session()->get('role_name') == config('commanConfig.ee_junior_engineer');
+        
+        if ($is_view && $data->status->status_id == config('commanConfig.applicationStatus.in_process')){
+            $route = 'admin.conveyance.ee_department.sale_price_calculation';
+        }else{
+            $route = 'admin.conveyance.common.view_ee_sale_price_calculation';   
+        }
+		return view($route, compact('data'));
 	}
 
 	public function SaveCalculationData(Request $request){
@@ -102,4 +110,10 @@ class EEController extends Controller
 		$data = $this->conveyance->getForwardApplicationData($applicationId);
 		return view('admin.conveyance.ee_department.forward_application', compact('data'));
 	}
+
+    public function sendForwardApplication(Request $request){
+
+        $data = $this->conveyance->forwardApplication($request);   
+        return redirect('/conveyance')->with('success','Application send successfully.');
+    }
 }
