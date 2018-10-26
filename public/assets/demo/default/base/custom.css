@@ -1186,6 +1186,18 @@ table.dataTable tbody tr:nth-child(even):focus {
 
 /* global classes starts here */
 
+.btn--unstyled {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    -webkit-appearance: none;
+}
+
+.btn--unstyled:hover,
+.btn--unstyled:focus {
+    outline: none;
+}
+
 .box-subheading {
     font-size: 1.1rem;
     color: #b7b7b7;
@@ -2778,6 +2790,26 @@ label.site-visit-label {
 }
 
 /* Architect Application ends here */
+
+/* Appointing Architect starts here */
+
+.form-steps-wrap {
+    border-radius: 4px;
+    border: 2px solid #8c8c8c;
+}
+
+.form-step-tab {
+    background-color: #f1f2f6;
+    color: #767678;
+    padding: 20px 0;
+}
+
+.form-step-tab.active {
+    background-color: #ff754e;
+    color: #fff;
+}
+
+/* Appointing Architect ends here */
 
 .remark {
     font-weight: 500;
