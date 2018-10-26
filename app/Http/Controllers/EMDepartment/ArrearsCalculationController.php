@@ -42,6 +42,7 @@ class ArrearsCalculationController extends Controller
 	        if($request->has('year') && '' != $request->year) {
 	        	$select_year = $request->year;
 	        }
+	        $tenant = '';
 	        $columns = [
 	            ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
 	            ['data' => 'month','name' => 'month','title' => 'Month'],
@@ -55,11 +56,18 @@ class ArrearsCalculationController extends Controller
             	['data' => 'total_amount', 'name' => 'final_rent_amount','title' => 'Final Rent Amount'],
 	        ];
 
+	        if($request->has('tenant_id') && !empty($request->tenant_id)) {
+	            $tenant = MasterTenant::find($request->tenant_id);
+	        }  
 	        if ($datatables->getRequest()->ajax()) {
 	            DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
 	            $arrear_calculations = ArrearCalculation::selectRaw('@rownum  := @rownum  + 1 AS rownum,arrear_calculation.*')->where('society_id',$request->society_id)->where('building_id',$request->building_id);
 
 	            $arrear_charges = ArrearsChargesRate::Where('year',$select_year)->where('society_id',$request->society_id)->where('building_id',$request->building_id)->first();
+
+	            if($request->has('tenant_id') && !empty($request->tenant_id)) {
+	            	$arrear_calculations = $arrear_calculations->where('tenant_id', $request->tenant_id);
+	            }  
 
 	            return $datatables->of($arrear_calculations)
 	            ->editColumn('tenant_type', function ($arrear_calculations) use ($arrear_charges){
@@ -83,7 +91,7 @@ class ArrearsCalculationController extends Controller
 	                
 	            })
 	            ->editColumn('month', function ($arrear_calculations){
-	                return date("F", strtotime("2001-" . $arrear_calculations->month . "-01"));
+	                return date("M", strtotime("2001-" . $arrear_calculations->month . "-01"));
 	                
 	            })
 	            ->editColumn('payment_status', function ($arrear_calculations){
@@ -110,9 +118,10 @@ class ArrearsCalculationController extends Controller
 	            // ->rawColumns(['actions'])
 	            ->make(true);
 	        }
+	        
 	        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
 
-	        return view('admin.em_department.arrears_calculations', compact('html','society','building','years','select_year'));
+	        return view('admin.em_department.arrears_calculations', compact('html','society','building','years','select_year','tenant'));
     	}
     }
 
@@ -123,7 +132,9 @@ class ArrearsCalculationController extends Controller
             'processing' => true,
             'ordering'   =>'isSorted',
             "order"      => [1, "asc" ],
-            "pageLength" => $this->list_num_of_records_per_page
+            "pageLength" => $this->list_num_of_records_per_page,
+            "dom" => 'Bfrtip',
+            "buttons" => ['csv', 'excel', 'pdf', 'print'],
         ];
     }
 }

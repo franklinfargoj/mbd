@@ -15,10 +15,10 @@ use Faker\Generator as Faker;
 
 $factory->define(App\MasterTenant::class, function (Faker $faker) {
     return [
-        'building_id' => $faker->numberBetween(1, 20),
+        'building_id' => $faker->numberBetween(1, 90),
         'flat_no' => $faker->numberBetween(113, 9895),
-        'salutation' => 'mr.',
-        'full_name' => $faker->firstName(),
+        'salutation' => 'Shri',
+        'first_name' => $faker->firstName(),
         'middle_name' => $faker->firstName(),
         'last_name' => $faker->firstName(),
         'mobile' => $faker->phoneNumber,

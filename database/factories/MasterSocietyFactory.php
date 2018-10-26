@@ -15,7 +15,7 @@ use Faker\Generator as Faker;
 
 $factory->define(App\MasterSociety::class, function (Faker $faker) {
     return [
-        'colony_id' => $faker->numberBetween(1, 10),
+        'colony_id' => $faker->numberBetween(1, 30),
         'name' => $faker->name,
         'description' =>  $faker->name,
     ];

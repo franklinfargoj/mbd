@@ -103,8 +103,32 @@
 
                     <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="remark">Remark:</label>
-                        <textarea id="remark" name="remark" class="form-control form-control--custom form-control--fixed-height m-input">{{ $arrData['village_data']['remark'] }}</textarea>
-                        <span class="help-block">{{$errors->first('remark')}}</span>
+                        <div class="m-input-icon m-input-icon--right">
+                            <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="remark" name="remark">
+                                <option value="Test 1">Test 1</option>
+                                <option value="Test 2">Test 2</option>
+                                <option value="1" selected>Other</option>
+                            </select>
+                            <span class="help-block">{{$errors->first('remark')}}</span>
+                        </div>
+                    </div>
+
+                    {{--<div class="col-sm-4 offset-sm-1 form-group">--}}
+                        {{--<label class="col-form-label" for="remark">Remark:</label>--}}
+                        {{--<textarea id="remark" name="remark" class="form-control form-control--custom form-control--fixed-height m-input">{{ $arrData['village_data']['remark'] }}</textarea>--}}
+                        {{--<span class="help-block">{{$errors->first('remark')}}</span>--}}
+                    {{--</div>--}}
+                </div>
+
+                <div class="form-group m-form__group row" id="other" style="display: none">
+                    <div class="col-sm-4 form-group">
+                    </div>
+                    <div class="col-sm-4 offset-sm-1 form-group">
+                        <div class="m-input-icon m-input-icon--right">
+                            <label class="col-form-label" for="other_remark">Enter Remark:</label>
+                            <textarea id="other_remark" name="other_remark" class="form-control form-control--custom form-control--fixed-height m-input">qwertyuiioop</textarea>
+                            <span class="help-block">{{$errors->first('other_remark')}}</span>
+                        </div>
                     </div>
                 </div>
 
@@ -117,45 +141,37 @@
                     </div>
 
                     <div class="col-sm-4 offset-sm-1 form-group">
-                        <label class="col-form-label" for="remark">Is 7/12 on MHADA's Name:</label>
-                        <div class="m-radio-inline">
-                            <label class="m-radio m-radio--primary">
-                                <input type="radio" name="mhada_name" value="1"
-                                    {{ ($arrData['village_data']['7_12_mhada_name'] == 1) ? "checked" : "" }}> Yes
-                                <span class="help-block"></span>
-                            </label>
-                            <label class="m-radio m-radio--primary">
-                                <input type="radio" name="mhada_name" value="0"
-                                    {{ ($arrData['village_data']['7_12_mhada_name'] == 0) ? "checked" : "" }}> No
-                                <span class="help-block"></span>
-                            </label>
+                        <label class="col-form-label" for="property_card">Property Card No:</label>
+                        <div class="m-input-icon m-input-icon--right">
+                            <input type="text" id="property_card" name="property_card" class="form-control form-control--custom"
+                                   class="form-control form-control--custom m-input" value="{{ $arrData['village_data']['property_card'] }}">
+                            <span class="help-block">{{$errors->first('property_card')}}</span>
                         </div>
                     </div>
                 </div>
 
                 <div class="form-group m-form__group row align-items-center">
+
                     <div class="col-sm-4 form-group">
-                        <label class="col-form-label" for="property_card">Property Card:</label>
-                        <div class="m-input-icon m-input-icon--right">
-                            <input type="text" id="property_card" name="property_card" class="form-control form-control--custom"
-                                class="form-control form-control--custom m-input" value="{{ $arrData['village_data']['property_card'] }}">
-                            <span class="help-block">{{$errors->first('property_card')}}</span>
-                        </div>
+                        <label class="col-form-label" for="property_card_area">Property Card Area:</label>
+                        <input type="text" id="property_card_area" name="property_card_area" class="form-control form-control--custom" class="form-control form-control--custom m-input"  value="{{ old('property_card_area') }}">
+                        <span class="help-block">{{$errors->first('property_card_area')}}</span>
                     </div>
 
                     <div class="col-sm-4 offset-sm-1 form-group">
+
                         <label class="col-form-label" for="property_card_mhada_name">Is Property card (PR card) is on
                             MHADA’s name:</label>
                         <div class="m-radio-inline">
                             <label class="m-radio m-radio--primary">
                                 <input type="radio" name="property_card_mhada_name" value="1"
-                                    {{ ($arrData['village_data']['property_card_mhada_name'] == 1) ? "checked" : "" }}>
+                                        {{ ($arrData['village_data']['property_card_mhada_name'] == 1) ? "checked" : "" }}>
                                 Yes
                                 <span class="help-block"></span>
                             </label>
                             <label class="m-radio m-radio--primary">
                                 <input type="radio" name="property_card_mhada_name" value="0"
-                                    {{ ($arrData['village_data']['property_card_mhada_name'] == 0) ? "checked" : "" }}>
+                                        {{ ($arrData['village_data']['property_card_mhada_name'] == 0) ? "checked" : "" }}>
                                 No
                                 <span class="help-block"></span>
                             </label>
@@ -165,22 +181,40 @@
 
                 <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
-                        <label class="col-form-label" for="file_upload">Is 7/12 extract available:</label>
+                        <label class="col-form-label" for="file_upload">Is 7/12 extract available ?</label>
                         <div class="m-radio-inline">
                             <label class="m-radio m-radio--primary">
-                                <input type="radio" class="file_upload" name="file_upload" value="1" id="file_upload" 
-                                    {{ ($arrData['village_data']['7_12_extract'] == 1) ? "checked" : "" }}> Yes
+                                <input type="radio" class="file_upload" name="file_upload" value="1" id="file_upload"
+                                        {{ ($arrData['village_data']['7_12_extract'] == 1) ? "checked" : "" }}> Yes
                                 <span class="help-block"></span>
                             </label>
                             <label class="m-radio m-radio--primary">
                                 <input type="radio" class="file_upload" name="file_upload" value="0" id="file_upload"
-                                    {{ ($arrData['village_data']['7_12_extract'] == 0) ? "checked" : "" }}> No
+                                        {{ ($arrData['village_data']['7_12_extract'] == 0) ? "checked" : "" }}> No
                                 <span class="help-block"></span>
                             </label>
                         </div>
                     </div>
 
-                    <div class="col-sm-4 offset-sm-1 form-group extract_upload" style="display: none">
+                    <div class="col-sm-4 offset-sm-1 form-group extract_upload">
+                        <label class="col-form-label" for="mhada_name">Is 7/12 on MHADA's Name:</label>
+                        <div class="m-radio-inline">
+                            <label class="m-radio m-radio--primary">
+                                <input type="radio" name="mhada_name" value="1"
+                                        {{ ($arrData['village_data']['7_12_mhada_name'] == 1) ? "checked" : "" }}> Yes
+                                <span class="help-block"></span>
+                            </label>
+                            <label class="m-radio m-radio--primary">
+                                <input type="radio" name="mhada_name" value="0"
+                                        {{ ($arrData['village_data']['7_12_mhada_name'] == 0) ? "checked" : "" }}> No
+                                <span class="help-block"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group m-form__group row extract_upload">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="extract">7/12 Extract:</label>
                         <div class="custom-file">
                             <input type="file" id="extract" name="extract" class="custom-file-input">
@@ -190,7 +224,6 @@
                             <span class="help-block">{{ (session('error'))? session('error') : '' }}{{$errors->first('extract')}}</span>
                             <a class="btn-link" href="{{ config('commanConfig.storage_server').$arrData['village_data']['extract_file_path'].$arrData['village_data']['extract_file_name'] }}">{{$arrData['village_data']['extract_file_name']}}</a>
                         </div>
-                        
                     </div>
                 </div>
 
@@ -216,17 +249,20 @@
 <script>
     var file = "{{ $arrData['village_data']['7_12_extract'] }}";
 
-    if (file == 1) {
-        $(".extract_upload").show();
-    } else {
-        $(".extract_upload").hide();
-    }
+    if (file == 1) $(".extract_upload").show();
+    else $(".extract_upload").hide();
+
     $(".file_upload").on("change", function () {
-        if ($(this).val() == 1) {
-            $(".extract_upload").show();
-        } else {
-            $(".extract_upload").hide();
-        }
+        if ($(this).val() == 1) $(".extract_upload").show();
+        else $(".extract_upload").hide();
+    });
+
+    if($('#remark').val() == 1) $("#other").show();
+    else $("#other").hide();
+
+    $("#remark").on("change", function () {
+        if($(this).val() == 1) $("#other").show();
+        else $("#other").hide();
     });
 
 </script>

@@ -23,7 +23,7 @@
                 <div class="col-md-12">
                 <form method="post" enctype='multipart/form-data' action="{{route('create_arrear_calculation')}}">
                     {{ csrf_field() }}
-
+                    <input type="text" name="row_id" value="{{old('month', $arrear_row->id)}}" hidden>
                     <input type="text" name="tenant_id" value="{{$tenant->id}}" hidden>
                     <input type="text" name="building_id" value="{{$tenant->building_id}}" hidden>
                     <input type="text" name="society_id" value="{{$society->id}}" hidden>
@@ -33,8 +33,8 @@
                                 <div class="form-group m-form__group">
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="bill_year" name="year" required>
                                         <option value="" style="font-weight: normal;">Select Year</option>
-                                        <option value="<?php echo  date('Y');?>" style="font-weight: normal;"><?php echo  date('Y'); ?></option>
-                                        <option value="<?php echo date("Y",strtotime("-1 year")); ?>" style="font-weight: normal;"><?php echo date("Y",strtotime("-1 year")); ?></option>
+                                        <option value="<?php echo  date('Y');?>" {{ old("year", $arrear_row->year) == date('Y') ? 'selected' : '' }} style="font-weight: normal;"><?php echo  date('Y'); ?></option>
+                                        <option value="<?php echo date("Y",strtotime("-1 year")); ?>"  {{ old("year", $arrear_row->year) == date("Y",strtotime("-1 year")) ? 'selected' : '' }} style="font-weight: normal;"><?php echo date("Y",strtotime("-1 year")); ?></option>
                                     </select>
                                 </div>
                             </div>       
@@ -42,18 +42,18 @@
                                 <div class="form-group m-form__group">
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="bill_month" name="month" required>
                                         <option value="" style="font-weight: normal;">Select Month</option>
-                                        <option value="1" style="font-weight: normal;">Jan</option>
-                                        <option value="2" style="font-weight: normal;">Feb</option>
-                                        <option value="3" style="font-weight: normal;">Mar</option>
-                                        <option value="4" style="font-weight: normal;">Apr</option>
-                                        <option value="5" style="font-weight: normal;">May</option>
-                                        <option value="6" style="font-weight: normal;">June</option>
-                                        <option value="7" style="font-weight: normal;">July</option>
-                                        <option value="8" style="font-weight: normal;">Aug</option>
-                                        <option value="9" style="font-weight: normal;">Sep</option>
-                                        <option value="10" style="font-weight: normal;">Oct</option>
-                                        <option value="11" style="font-weight: normal;">Nov</option>
-                                        <option value="12" style="font-weight: normal;">Dec</option>
+                                        <option value="1" {{ old("month", $arrear_row->month) == '1' ? 'selected' : '' }} style="font-weight: normal;">Jan</option>
+                                        <option value="2" {{ old("month", $arrear_row->month) == '2' ? 'selected' : '' }} style="font-weight: normal;">Feb</option>
+                                        <option value="3" {{ old("month", $arrear_row->month) == '3' ? 'selected' : '' }} style="font-weight: normal;">Mar</option>
+                                        <option value="4" {{ old("month", $arrear_row->month) == '4' ? 'selected' : '' }} style="font-weight: normal;">Apr</option>
+                                        <option value="5" {{ old("month", $arrear_row->month) == '5' ? 'selected' : '' }} style="font-weight: normal;">May</option>
+                                        <option value="6" {{ old("month", $arrear_row->month) == '6' ? 'selected' : '' }} style="font-weight: normal;">June</option>
+                                        <option value="7" {{ old("month", $arrear_row->month) == '7' ? 'selected' : '' }} style="font-weight: normal;">July</option>
+                                        <option value="8" {{ old("month", $arrear_row->month) == '8' ? 'selected' : '' }} style="font-weight: normal;">Aug</option>
+                                        <option value="9" {{ old("month", $arrear_row->month) == '9' ? 'selected' : '' }} style="font-weight: normal;">Sep</option>
+                                        <option value="10" {{ old("month", $arrear_row->month) == '10' ? 'selected' : '' }} style="font-weight: normal;">Oct</option>
+                                        <option value="11" {{ old("month", $arrear_row->month) == '11' ? 'selected' : '' }} style="font-weight: normal;">Nov</option>
+                                        <option value="12" {{ old("month", $arrear_row->month) == '12' ? 'selected' : '' }} style="font-weight: normal;">Dec</option>
                                     </select>
                                 </div>
                             </div>                     
@@ -68,10 +68,10 @@
                                 <div class="form-group m-form__group">
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="layout" name="layout" required>
                                         <option value="" style="font-weight: normal;">Select old rate</option>
-                                        <option value="EWS" style="font-weight: normal;" >EWS</option>
-                                        <option value="LIG" style="font-weight: normal;" >LIG</option>
-                                        <option value="MIG" style="font-weight: normal;" >MIG</option>
-                                        <option value="HIG" style="font-weight: normal;" >HIG</option>
+                                        <option value="EWS" {{ old("layout", $arrear_row->layout) == '12' ? 'selected' : '' }} style="font-weight: normal;" >EWS</option>
+                                        <option value="LIG" {{ old("layout", $arrear_row->layout) == '12' ? 'selected' : '' }} style="font-weight: normal;" >LIG</option>
+                                        <option value="MIG" {{ old("layout", $arrear_row->layout) == '12' ? 'selected' : '' }} style="font-weight: normal;" >MIG</option>
+                                        <option value="HIG" {{ old("layout", $arrear_row->layout) == '12' ? 'selected' : '' }} style="font-weight: normal;" >HIG</option>
                                     </select>
                                 </div>
                             </div> 
@@ -79,10 +79,10 @@
                                 <div class="form-group m-form__group">
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="layout" name="layout" required>
                                         <option value="" style="font-weight: normal;">Select revised rate</option>
-                                        <option value="EWS" style="font-weight: normal;">EWS</option>
-                                        <option value="LIG" style="font-weight: normal;">LIG</option>
-                                        <option value="MIG" style="font-weight: normal;">MIG</option>
-                                        <option value="HIG" style="font-weight: normal;">HIG</option>
+                                        <option value="EWS" {{ old("layout", $arrear_row->layout) == '12' ? 'selected' : '' }} style="font-weight: normal;">EWS</option>
+                                        <option value="LIG"  {{ old("layout", $arrear_row->layout) == '12' ? 'selected' : '' }} style="font-weight: normal;">LIG</option>
+                                        <option value="MIG" {{ old("layout", $arrear_row->layout) == '12' ? 'selected' : '' }} style="font-weight: normal;">MIG</option>
+                                        <option value="HIG" {{ old("layout", $arrear_row->layout) == '12' ? 'selected' : '' }} style="font-weight: normal;">HIG</option>
                                     </select>
                                 </div>
                             </div>                        
@@ -97,8 +97,8 @@
                                 <div class="form-group m-form__group">
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input ior" id="ior_year" name="oir_year" required>
                                         <option value="" style="font-weight: normal;">Select Year</option>
-                                        <option value="<?php echo  date('Y');?>" style="font-weight: normal;"><?php echo  date('Y'); ?></option>
-                                        <option value="<?php echo date("Y",strtotime("-1 year")); ?>" style="font-weight: normal;"><?php echo date("Y",strtotime("-1 year")); ?></option>
+                                        <option value="<?php echo  date('Y');?>" {{ old("oir_year", $arrear_row->oir_year) == date('Y') ? 'selected' : '' }}  style="font-weight: normal;"><?php echo  date('Y'); ?></option>
+                                        <option value="<?php echo date("Y",strtotime("-1 year")); ?>" {{ old("oir_year", $arrear_row->oir_year) == date("Y",strtotime("-1 year")) ? 'selected' : '' }} style="font-weight: normal;"><?php echo date("Y",strtotime("-1 year")); ?></option>
                                     </select>
                                 </div>
                             </div>       
@@ -106,25 +106,25 @@
                                 <div class="form-group m-form__group">
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input ior" id="ior_month" name="oir_month" required>
                                         <option value="" style="font-weight: normal;">Select Month</option>
-                                        <option value="1" style="font-weight: normal;">Jan</option>
-                                        <option value="2" style="font-weight: normal;">Feb</option>
-                                        <option value="3" style="font-weight: normal;">Mar</option>
-                                        <option value="4" style="font-weight: normal;">Apr</option>
-                                        <option value="5" style="font-weight: normal;">May</option>
-                                        <option value="6" style="font-weight: normal;">June</option>
-                                        <option value="7" style="font-weight: normal;">July</option>
-                                        <option value="8" style="font-weight: normal;">Aug</option>
-                                        <option value="9" style="font-weight: normal;">Sep</option>
-                                        <option value="10" style="font-weight: normal;">Oct</option>
-                                        <option value="11" style="font-weight: normal;">Nov</option>
-                                        <option value="12" style="font-weight: normal;">Dec</option>               
+                                        <option value="1" {{ old("oir_month", $arrear_row->oir_month) == '1' ? 'selected' : '' }} style="font-weight: normal;">Jan</option>
+                                        <option value="2" {{ old("oir_month", $arrear_row->oir_month) == '2' ? 'selected' : '' }} style="font-weight: normal;">Feb</option>
+                                        <option value="3" {{ old("oir_month", $arrear_row->oir_month) == '3' ? 'selected' : '' }} style="font-weight: normal;">Mar</option>
+                                        <option value="4" {{ old("oir_month", $arrear_row->oir_month) == '4' ? 'selected' : '' }} style="font-weight: normal;">Apr</option>
+                                        <option value="5" {{ old("oir_month", $arrear_row->oir_month) == '5' ? 'selected' : '' }} style="font-weight: normal;">May</option>
+                                        <option value="6" {{ old("oir_month", $arrear_row->oir_month) == '6' ? 'selected' : '' }} style="font-weight: normal;">June</option>
+                                        <option value="7" {{ old("oir_month", $arrear_row->oir_month) == '7' ? 'selected' : '' }} style="font-weight: normal;">July</option>
+                                        <option value="8" {{ old("oir_month", $arrear_row->oir_month) == '8' ? 'selected' : '' }} style="font-weight: normal;">Aug</option>
+                                        <option value="9" {{ old("oir_month", $arrear_row->oir_month) == '9' ? 'selected' : '' }} style="font-weight: normal;">Sep</option>
+                                        <option value="10" {{ old("oir_month", $arrear_row->oir_month) == '10' ? 'selected' : '' }} style="font-weight: normal;">Oct</option>
+                                        <option value="11" {{ old("oir_month", $arrear_row->oir_month) == '11' ? 'selected' : '' }} style="font-weight: normal;">Nov</option>
+                                        <option value="12" {{ old("oir_month", $arrear_row->oir_month) == '12' ? 'selected' : '' }} style="font-weight: normal;">Dec</option>               
                                     </select>
                                 </div>
                             </div>    
                               <div class="col-md-4">
                                 <div class="form-group m-form__group">
-                                    <label>Old Interest Amount : <span id="oia">0.00</span> /-</label>         
-                                    <input type="text" id="old_intrest_amount" name="old_intrest_amount" hidden required>
+                                    <label>Old Interest Amount : <span id="oia">{{ old('old_intrest_amount', $arrear_row->old_intrest_amount) != null ? old('old_intrest_amount', $arrear_row->old_intrest_amount) : 0.00 }}</span> /-</label>         
+                                    <input type="text" id="old_intrest_amount" name="old_intrest_amount" value="{{ old('old_intrest_amount', $arrear_row->old_intrest_amount)}}"  hidden required>
                                 </div>
                             </div>                  
                     </div>
@@ -150,8 +150,8 @@
                                 <div class="form-group m-form__group">
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input ida" id="ida_year" name="ida_year" required>
                                         <option value="" style="font-weight: normal;">Select Year</option>
-                                        <option value="<?php echo  date('Y');?>" style="font-weight: normal;"><?php echo  date('Y'); ?></option>
-                                        <option value="<?php echo date("Y",strtotime("-1 year")); ?>" style="font-weight: normal;"><?php echo date("Y",strtotime("-1 year")); ?></option>
+                                        <option value="<?php echo  date('Y');?>" {{ old("ida_year", $arrear_row->ida_year) == date('Y') ? 'selected' : '' }} style="font-weight: normal;"><?php echo  date('Y'); ?></option>
+                                        <option value="<?php echo date("Y",strtotime("-1 year")); ?>" {{ old("ida_year", $arrear_row->ida_year) == date("Y",strtotime("-1 year")) ? 'selected' : '' }} style="font-weight: normal;"><?php echo date("Y",strtotime("-1 year")); ?></option>
                                     </select>
                                 </div>
                             </div>       
@@ -159,25 +159,25 @@
                                 <div class="form-group m-form__group">
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input ida" id="ida_month" name="ida_month" required>
                                         <option value="" style="font-weight: normal;">Select Month</option>
-                                        <option value="1" style="font-weight: normal;">Jan</option>
-                                        <option value="2" style="font-weight: normal;">Feb</option>
-                                        <option value="3" style="font-weight: normal;">Mar</option>
-                                        <option value="4" style="font-weight: normal;">Apr</option>
-                                        <option value="5" style="font-weight: normal;">May</option>
-                                        <option value="6" style="font-weight: normal;">June</option>
-                                        <option value="7" style="font-weight: normal;">July</option>
-                                        <option value="8" style="font-weight: normal;">Aug</option>
-                                        <option value="9" style="font-weight: normal;">Sep</option>
-                                        <option value="10" style="font-weight: normal;">Oct</option>
-                                        <option value="11" style="font-weight: normal;">Nov</option>
-                                        <option value="12" style="font-weight: normal;">Dec</option>           
+                                        <option value="1" {{ old("ida_month", $arrear_row->ida_month) == '1' ? 'selected' : '' }} style="font-weight: normal;">Jan</option>
+                                        <option value="2" {{ old("ida_month", $arrear_row->ida_month) == '2' ? 'selected' : '' }} style="font-weight: normal;">Feb</option>
+                                        <option value="3" {{ old("ida_month", $arrear_row->ida_month) == '3' ? 'selected' : '' }} style="font-weight: normal;">Mar</option>
+                                        <option value="4" {{ old("ida_month", $arrear_row->ida_month) == '4' ? 'selected' : '' }} style="font-weight: normal;">Apr</option>
+                                        <option value="5" {{ old("ida_month", $arrear_row->ida_month) == '5' ? 'selected' : '' }} style="font-weight: normal;">May</option>
+                                        <option value="6" {{ old("ida_month", $arrear_row->ida_month) == '6' ? 'selected' : '' }} style="font-weight: normal;">June</option>
+                                        <option value="7" {{ old("ida_month", $arrear_row->ida_month) == '7' ? 'selected' : '' }} style="font-weight: normal;">July</option>
+                                        <option value="8" {{ old("ida_month", $arrear_row->ida_month) == '8' ? 'selected' : '' }} style="font-weight: normal;">Aug</option>
+                                        <option value="9" {{ old("ida_month", $arrear_row->ida_month) == '9' ? 'selected' : '' }} style="font-weight: normal;">Sep</option>
+                                        <option value="10" {{ old("ida_month", $arrear_row->ida_month) == '10' ? 'selected' : '' }} style="font-weight: normal;">Oct</option>
+                                        <option value="11" {{ old("ida_month", $arrear_row->ida_month) == '11' ? 'selected' : '' }} style="font-weight: normal;">Nov</option>
+                                        <option value="12" {{ old("ida_month", $arrear_row->ida_month) == '12' ? 'selected' : '' }} style="font-weight: normal;">Dec</option>           
                                     </select>
                                 </div>
                             </div>    
                               <div class="col-md-4">
                                 <div class="form-group m-form__group">
-                                    <label>Diffrence Interest Amount : <span id="dia">0.00</span> /-</label>
-                                    <input type="text" id="difference_intrest_amount" name="difference_intrest_amount" hidden required>
+                                    <label>Diffrence Interest Amount : <span id="dia">{{ old('difference_intrest_amount', $arrear_row->difference_intrest_amount) != null ? old('difference_intrest_amount', $arrear_row->difference_intrest_amount) : 0.00 }}</span> /-</label>
+                                    <input type="text" id="difference_intrest_amount" name="difference_intrest_amount" value="{{ old('difference_intrest_amount', $arrear_row->difference_intrest_amount)}}" hidden required>
                                 </div>
                             </div>                  
                     </div>
@@ -190,15 +190,15 @@
                             <div class="col-md-9">
                                 <div class="form-group m-form__group building_list">
                                     <label class="radio-inline" style="margin-right: 1rem;">Paid</label>
-                                    <label class="radio-inline" style="margin-right: 1rem;"> <input type="radio" name="payment_status" value="1" required> Yes </label>
-                                    <label class="radio-inline" style="margin-right: 1rem;"> <input type="radio" name="payment_status" value="0" required> No </label>
+                                    <label class="radio-inline" style="margin-right: 1rem;"> <input type="radio" name="payment_status" value="1" {{ old("payment_status", $arrear_row->payment_status) == '1' ? 'checked' : '' }}  required> Yes </label>
+                                    <label class="radio-inline" style="margin-right: 1rem;"> <input type="radio" name="payment_status" value="0" {{ old("payment_status", $arrear_row->payment_status) == '0' ? 'checked' : '' }} required> No </label>
                                 </div>  
                             </div>                          
                     </div>
             
                     <div class="row align-items-center" style="margin-bottom: 1rem;">
-                         <div class="col-md-4">Amount to be paid : <span id="total_amount">0.00</span> /-</div>
-                         <input type="text" id="total_amount_val" name="total_amount" hidden required>
+                         <div class="col-md-4">Amount to be paid : <span id="total_amount"> {{ old('total_amount', $arrear_row->total_amount) != null ? old('total_amount', $arrear_row->total_amount) : 0.00 }}</span> /-</div>
+                         <input type="text" id="total_amount_val" name="total_amount" value="{{ old('total_amount', $arrear_row->total_amount)}}" hidden required>
                          <div class="col-md-8"><!-- Formula = old rate + old Intrest amount + Diffrence Amount + Diffrence Intrest amount --></div>
                     </div>
 
@@ -282,13 +282,13 @@
                 if(bill_year == '' || bill_month == ''){
                     $('#bill_error').html('select Year and month for arrear Calculation.');
                     return false;
-                } else if(ior_year == '' || ior_month == '') {
-                    $('#bill_error').html(''); 
-                    $('#ior_error').html('select Year and month of arrear Calculation.');
+                } else if(ior_year == '' || ior_month == ''){
+                  $('#bill_error').html(''); 
+                  $('#ior_error').html('select Year and month of arrear Calculation.');
                     return false;
-                } else if(ida_year == '' || ida_month == '') {
-                    $('#ior_error').html('');
-                    $('#ida_error').html('select Year and month of arrear Calculation.');
+                } else if(ida_year == '' || ida_month == ''){
+                  $('#ior_error').html('');
+                  $('#ida_error').html('select Year and month of arrear Calculation.');
                     return false;
                 } else {
                     $('#ida_error').html('');
@@ -303,7 +303,6 @@
                                 new Date(ida_year, ida_month, 1),
                                 new Date(bill_year, bill_month, 30)  
                              );
-
                 var iod_per = iod / 100;
                 var ior_per = ior / 100;
 
@@ -321,8 +320,7 @@
 
                  $('#total_amount').html(total);
                  $('#total_amount_val').val(total);
-
-                /*
+/*
                  console.log(old_rate);
                  console.log(months1);
                  console.log(ior_per);

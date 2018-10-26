@@ -125,7 +125,7 @@ class SocietyConveyanceController extends Controller
     {
         $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $layouts = MasterLayout::all();
-//        dd($layouts);
+//        dd($society_details);
         return view('frontend.society.conveyance.add', compact('layouts', 'society_details'));
     }
 
@@ -184,6 +184,7 @@ class SocietyConveyanceController extends Controller
                         'no_agricultural_tax' => $request->no_agricultural_tax,
                         'society_address' => $request->society_address,
                     );
+                    dd($input);
                     return redirect()->route('society_conveyance.index');
                 }else{
                     return redirect()->route('society_conveyance.create')->withErrors('error', "Excel file headers doesn't match")->withInput();
