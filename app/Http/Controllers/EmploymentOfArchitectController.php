@@ -38,7 +38,7 @@ class EmploymentOfArchitectController extends Controller
         ]);
         if ($validator->fails()) {
             $errors=$validator->errors();
-            return back()->withErrors($errors);
+            return back()->withErrors($errors)->withInput();
         } else {
             
             $role = Role::where('name', config('commanConfig.appointing_architect'))->first();

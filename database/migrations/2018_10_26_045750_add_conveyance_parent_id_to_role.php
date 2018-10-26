@@ -14,7 +14,8 @@ class AddConveyanceParentIdToRole extends Migration
     public function up()
     {
         Schema::table('roles', function (Blueprint $table) {
-            $table->string('conveyance_parent_id')->after('conveyance_child_id')->nullable();
+            $table->string('conveyance_child_id')->nullable();
+            $table->string('conveyance_parent_id')->nullable();
         });
     }
 
@@ -26,6 +27,7 @@ class AddConveyanceParentIdToRole extends Migration
     public function down()
     {
         Schema::table('roles', function (Blueprint $table) {
+            $table->dropColumn('conveyance_child_id');
             $table->dropColumn('conveyance_parent_id');
         });
     }
