@@ -135,8 +135,9 @@
                     </div>
                     <div class="col-sm-4 offset-sm-1 form-group">
                         <div class="m-input-icon m-input-icon--right">
+                            <label class="col-form-label" for="other_remark">Enter Remark:</label>
                             <textarea id="other_remark" name="other_remark" class="form-control form-control--custom form-control--fixed-height m-input">{{ old('other_remark') }}</textarea>
-                            {{--<span class="help-block">{{$errors->first('remark')}}</span>--}}
+                            <span class="help-block">{{$errors->first('other_remark')}}</span>
                         </div>
                     </div>
                 </div>
@@ -226,7 +227,7 @@
                         <label class="col-form-label" for="mhada_name">Is 7/12 on MHADA's Name:</label>
                         <div class="m-radio-inline">
                             <label class="m-radio m-radio--primary">
-                                <input type="radio" name="mhada_name" checked="" value="1"> Yes
+                                <input type="radio" name="mhada_name" value="1"> Yes
                                 <span></span>
                             </label>
                             <label class="m-radio m-radio--primary">
@@ -270,28 +271,17 @@
 
 @section('js')
     <script>
-        if($(".file_upload").val() == 0)
-        {
-            $(".extract_upload").show();
-        }
-        else{
-            $(".extract_upload").hide();
-        }
+        if($(".file_upload").val() == 0) $(".extract_upload").show();
+        else $(".extract_upload").hide();
+
         $(".file_upload").on("change", function () {
-           if($(this).val() == 1)
-           {
-               $(".extract_upload").show();
-           }
-           else{
-               $(".extract_upload").hide();
-           }
+           if($(this).val() == 1) $(".extract_upload").show();
+           else $(".extract_upload").hide();
         });
 
-//        alert($("#other_remark").val());
-//        if($("#other").val() == 1) //I'm supposing the "Other" option value is 1.
-//                alert('sdad');
-//                $("#other").show();
-
-
+        $("#remark").on("change", function () {
+            if($(this).val() == 1) $("#other").show();
+            else $("#other").hide();
+        });
     </script>
 @endsection
