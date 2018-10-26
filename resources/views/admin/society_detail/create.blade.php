@@ -33,7 +33,7 @@
             <div class="m-portlet__body m-portlet__body--spaced">
                 <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
-                        <label class="col-form-label" for="other_land_id">Villages:</label>
+                        <label class="col-form-label" for="villages-select">Villages:</label>
                         <div class="m-input-icon m-input-icon--right">
                             <select title="Select Village" data-live-search="true" id="villages-select" multiple class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
                                     name="villages[]">
@@ -45,14 +45,14 @@
                         </div>
                     </div>
                     <div class="col-sm-4 offset-sm-1 form-group">
-                        <label class="col-form-label" for="district">Layouts:</label>
+                        <label class="col-form-label" for="layout">Layouts:</label>
                         <div class="m-input-icon m-input-icon--right">
-                            <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="district" name="district">
+                            <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="layout" name="layout">
                                 <option value="a">a</option>
                                 <option value="b">b</option>
                                 <option value="c">c</option>
                             </select>
-                            <span class="help-block">{{$errors->first('layouts')}}</span>
+                            <span class="help-block">{{$errors->first('layout')}}</span>
                         </div>
                     </div>
 
@@ -269,13 +269,21 @@
                         <span class="help-block">{{$errors->first('date_of_conveyance')}}</span>
                     </div>
                 </div>
-                <div class="form-group m-form__group row hide">
-                    <div class="col-sm-4 form-group">
+                <div class="form-group m-form__group row">
+                    <div class="col-sm-4 form-group hide">
                         <label class="col-form-label" for="area_of_conveyance">Area of Conveyance (sq. ft.):</label>
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="area_of_conveyance" name="area_of_conveyance" class="form-control form-control--custom m-input"
                                    value="{{ old('area_of_conveyance') }}">
                             <span class="help-block">{{$errors->first('area_of_conveyance')}}</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 offset-sm-1 form-group">
+                        <label class="col-form-label" for="society_reg_no">Society Reg. No.:</label>
+                        <div class="m-input-icon m-input-icon--right">
+                            <input type="text" id="society_reg_no" name="society_reg_no" class="form-control form-control--custom m-input"
+                                   value="{{ old('society_reg_no') }}">
+                            <span class="help-block">{{$errors->first('society_reg_no')}}</span>
                         </div>
                     </div>
                 </div>
