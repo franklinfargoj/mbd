@@ -136,11 +136,10 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="m-login__form-action d-flex justify-content-center">
+                                        <div class="m-login__form-action d-flex justify-content-center btn-list">
                                             <button id="m_login_signup_submit_society_offer_letter" class="btn btn-primary m-btn m-btn--pill m-btn--custom m-login__btn">
                                                 Sign Up
                                             </button>
-                                            &nbsp;&nbsp;
                                             <a href="{{ route('society_offer_letter.index') }}" id="" class="btn btn-primary m-btn m-btn--pill m-btn--custom m-login__btn">
                                                 <!-- <i class="la la-close"></i> -->Cancel
                                             </a>

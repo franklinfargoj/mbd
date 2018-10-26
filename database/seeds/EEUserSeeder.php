@@ -262,6 +262,11 @@ class EEUserSeeder extends Seeder
                 'name'          => 'ee.forward_application_sc',
                 'display_name'  => 'forward application sc',
                 'description'   => 'forward application sc'
+            ],            
+            [
+                'name'          => 'ee.send_forward_application',
+                'display_name'  => 'send forward application',
+                'description'   => 'send forward application'
             ],
         ];
 

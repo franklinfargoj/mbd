@@ -11,7 +11,7 @@
                 {{$ArchitectLayout->layout_name}}</h3>
         </div>
     </div>
-    <div class="m-portlet m-portlet--mobile m_panel">
+    {{-- <div class="m-portlet m-portlet--mobile m_panel">
         <div class="portlet-body">
             <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
                 <div class="m-subheader">
@@ -28,7 +28,7 @@
                 @endif
             </div>
         </div>
-    </div>
+    </div> --}}
 </div>
 <div class="m-portlet m-portlet--mobile m_panel">
     <div class="portlet-body" style="overflow-y: scroll">
