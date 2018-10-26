@@ -1,5 +1,10 @@
 /* theme classes over ride starts here */
 
+.m-checkbox.m-checkbox--primary>input:checked~span,
+.m-checkbox.m-checkbox--primary>span:after {
+    border-color: #f0791b;
+}
+
 .lease-icon {
     font-size: 1rem;
 }
@@ -29,11 +34,9 @@
     outline: none;
 }
 
-.m-portlet+.tab-content {
-    margin-top: 30px;
-}
-
-.tab-content+.m-portlet {
+.m-portlet + .tab-content,
+.tab-content + .m-portlet,
+.form-steps-wrap + .m-portlet {
     margin-top: 30px;
 }
 
@@ -2807,6 +2810,10 @@ label.site-visit-label {
 .form-step-tab.active {
     background-color: #ff754e;
     color: #fff;
+}
+
+.input-row-list + .input-row-list {
+    margin-top: 15px;
 }
 
 /* Appointing Architect ends here */

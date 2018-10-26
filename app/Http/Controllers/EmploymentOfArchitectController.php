@@ -100,6 +100,55 @@ class EmploymentOfArchitectController extends Controller
         return view('employment_of_architect.form1');
     }
 
+    public function step2(Request $request)
+    {
+            //dd(session()->all());
+        //return $this->model->all();
+        return view('employment_of_architect.form2');
+    }
+
+    public function step3(Request $request)
+    {
+            //dd(session()->all());
+        //return $this->model->all();
+        return view('employment_of_architect.form3');
+    }
+
+    public function step4(Request $request)
+    {
+            //dd(session()->all());
+        //return $this->model->all();
+        return view('employment_of_architect.form4');
+    }
+
+    public function step5(Request $request)
+    {
+            //dd(session()->all());
+        //return $this->model->all();
+        return view('employment_of_architect.form5');
+    }
+
+    public function step6(Request $request)
+    {
+            //dd(session()->all());
+        //return $this->model->all();
+        return view('employment_of_architect.form6');
+    }
+
+    public function step7(Request $request)
+    {
+            //dd(session()->all());
+        //return $this->model->all();
+        return view('employment_of_architect.form7');
+    }
+
+    public function step8(Request $request)
+    {
+            //dd(session()->all());
+        //return $this->model->all();
+        return view('employment_of_architect.form8');
+    }
+
     public function post_form1(Request $request)
     {
         $form1_data = [
