@@ -257,7 +257,7 @@ class EMUserSeeder extends Seeder
                     'display_name' => 'Create Arrear Calculation',
                     'description' => 'Create Arrear Calculation'
                 ],
-            ];
+            ]; 
 
             $permission_role = [];
 
@@ -321,9 +321,34 @@ class EMUserSeeder extends Seeder
                     'description' => 'Bill Collection Society'
                 ],
                 [
-                    'name' => 'bill_collection_tenant',
+                    'name' => 'bill_collection_tenant', 
                     'display_name' => 'Bill Collection Tenant',
                     'description' => 'Bill Collection Tenant'
+                ],
+                [
+                    'name' => 'get_wards', 
+                    'display_name' => 'Get Wards Select Data',
+                    'description' => 'Get Wards Select Data'
+                ],
+                [
+                    'name' => 'get_colonies', 
+                    'display_name' => 'Get Colonies Select Data',
+                    'description' => 'Get Colonies Select Data'
+                ],
+                [
+                    'name' => 'get_society_select', 
+                    'display_name' => 'Get Societies Select Data',
+                    'description' => 'Get Societies Select Data'
+                ],
+                [
+                    'name' => 'get_building_bill_collection', 
+                    'display_name' => 'Get Buildings Bill Collection List Data',
+                    'description' => 'Get Buildings Bill Collection List Data'
+                ],
+                [
+                    'name' => 'get_tenant_bill_collection', 
+                    'display_name' => 'Get Tenant Bill Collection List Data',
+                    'description' => 'Get Tenant Bill Collection List Data'
                 ],
                 [
                     'name' => 'get_building_bill_collection',
@@ -339,9 +364,10 @@ class EMUserSeeder extends Seeder
 
             $permission_role = [];
 
-            foreach ($rc_permissions as $rc) {
-                $rc_permission_id = Permission::insertGetId($rc);
-
+            foreach ($rc_permissions as $rc ) {
+                                 
+                $rc_permission_id = Permission::insertGetId($rc);   
+                               
                 $rc_permission_role[] = [
                     'permission_id' => $rc_permission_id,
                     'role_id' => $rc_role_id,

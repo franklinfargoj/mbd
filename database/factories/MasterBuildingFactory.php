@@ -15,7 +15,7 @@ use Faker\Generator as Faker;
 
 $factory->define(App\MasterBuilding::class, function (Faker $faker) {
     return [
-        'society_id' => $faker->numberBetween(1, 10),
+        'society_id' => $faker->numberBetween(1, 60),
         'building_no' => $faker->numberBetween(300, 34585),
         'name' => $faker->name,
         'description' =>  $faker->name,

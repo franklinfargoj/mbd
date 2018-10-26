@@ -3,174 +3,142 @@
     <div class="col-md-12">
         <div class="m-subheader px-0 m-subheader--top">
             <div class="d-flex align-items-center">
-                <h3 class="m-subheader__title m-subheader__title--separator">Application</h3>
-                <div class="ml-auto btn-list">
-                    <a href="" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
-                    <a href="#" target="_blank" id="download_application_form" class="btn print-icon" rel="noopener"
-                       onclick="printContent('printdiv')"><img src="{{asset('/img/print-icon.svg')}}" title="print"></a>
-                </div>
+                <h3 class="m-subheader__title m-subheader__title--separator">Redevelopment Through Developer</h3>
+{{--                {{ Breadcrumbs::render('society_offer_application_create', $id) }}--}}
+
             </div>
         </div>
-        <div class="m-portlet">
-            <div id="printdiv">
-                <form class="letter-form m-form" action="{{ route('society_conveyance.store') }}" method="post" id="society-conveyance-application" enctype="multipart/form-data">
-                    @csrf
-                    <!-- BEGIN: Subheader -->
-                    <div class="m-subheader letter-form-header">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <h3 class="m-subheader__title ">अर्जाचा नमुना</h3>
+        <!-- END: Subheader -->
+        <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
+
+            <form id="save_sc_application" role="form" method="post" class="m-form m-form--rows m-form--label-align-right" action="{{ route('society_conveyance.store') }}">
+                @csrf
+                <div class="m-portlet__body m-portlet__body--spaced">
+                    <div class="form-group m-form__group row">
+                        <div class="col-sm-4 form-group">
+                            <label class="col-form-label" for="application_type_id">Layout:</label>
+                            <select data-live-search="true" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="layouts" name="layout_id" required>
+                                @foreach($layouts as $layout)
+                                    <option value="{{ $layout['id'] }}">{{ $layout['layout_name'] }}</option>
+                                @endforeach
+                            </select>
+                            <span class="help-block">{{$errors->first('application_type_id')}}</span>
                         </div>
-                        <div class="d-flex align-items-center justify-content-end mt-2">
-                            <h6 class="font-weight-semibold">सह गृह संस्थेच्या लेटरहेडवर</h6>
-                        </div>
-                        <div class="letter-form-header-content">
-                            <p>
-                                <span class="d-block font-weight-semi-bold">प्रति,</span>
-                                <span class="d-block">उपमुख्य अधिकारी/ पूर्व / पश्चिम,</span>
-                                <span class="d-block">मुंबई गृहनिर्माण व क्षेत्रविकास मंडळ,</span>
-                                <span class="d-block">गृहनिर्माण भवन, बांद्रा (पूर्व), मुंबई - ५१.</span>
-                            </p>
+                        <div class="col-sm-4 offset-sm-1 form-group">
+                            <label class="col-form-label" for="preceding_officer_name">Society Name:</label>
+                            <input type="text" id="society_name" name="society_name" class="form-control form-control--custom m-input" value="{{ $society_details->name }}" readonly>
+                            {{--<input type="hidden" name="application_master_id" value="{{ $id }}">--}}
+                            <span class="help-block">{{$errors->first('society_name')}}</span>
                         </div>
                     </div>
-                    <!-- END: Subheader -->
-                    <div class="m-content letter-form-content">
-                        <div class="letter-form-subject">
-                            <p><span class="font-weight-semi-bold">विषय :- </span> <input class="letter-form-input letter-form-input--md" type="text" id="" name="layout_name" value=""> येथील <input class="letter-form-input letter-form-input--md" type="text" id="" name="society_name" value=""> इमारतीचे अभिहस्तांतरण करणेबाबत गृहनिर्माण
-                                संस्थेच्या स्वयंपुनर्विकासाच्या प्रस्तावास मंजूरी मिळण्याबाबतचा अर्ज.</p>
-                            <p class="font-weight-semi-bold">महोदय,</p>
-                            <p>उपुक्त विषयांकित इमारतीचे अभिहस्तांतरण करणेसाठी खालील माहिती व कागदपत्रे सादर करण्यात येत
-                                आहे.</p>
-                            <div class="application-fields-wrapper">
-                                <div class="form-group m-form__group row align-items-start">
-                                    <div class="col-sm-4 application-fields">
-                                        <label class="application-form-label" for="">१. वसाहितीचे नाव:</label>
-                                        <input type="text" id="" name="society_name" class="letter-form-input letter-form-input--100">
-                                    </div>
-                                    <div class="col-sm-4 application-fields">
-                                        <label class="application-form-label" for="">२. इमारत क्र:</label>
-                                        <input class="letter-form-input letter-form-input--100" type="text" id="" name="society_no"
-                                               value="">
-                                    </div>
-                                    <div class="col-sm-4 application-fields">
-                                        <label class="application-form-label" for="">३. योजनेचे नाव:</label>
-                                        <input class="letter-form-input letter-form-input--100" type="text" id="" name="scheme_name"
-                                               value="">
-                                    </div>
-                                    <div class="col-sm-4 application-fields">
-                                        <label class="application-form-label" for="">४. प्रथम सदनिका वितरणाचा दिनांक:</label>
-                                        <input class="letter-form-input letter-form-input--100 m_datepicker" type="text" id="" name="first_flat_issue_date"
-                                               value="">
-                                    </div>
-                                </div>
-                                <div class="form-group m-form__group row align-items-start">
-                                    <label class="col-12 mb-4">६. एकूण सदनिका</label>
-                                    <div class="col-sm-4 application-fields">
-                                        <label class="d-block" for="">A. निवासी:</label>
-                                        <input class="letter-form-input letter-form-input--100" type="text" id="" name="residential_flat"
-                                               value="">
-                                    </div>
-                                    <div class="col-sm-4 application-fields">
-                                        <label class="d-block" for="">B. अनिवासी:</label>
-                                        <input class="letter-form-input letter-form-input--100" type="text" id="" name="non_residential_flat"
-                                               value="">
-                                    </div>
-                                    <div class="col-sm-4 application-fields">
-                                        <label class="d-block" for="">C. एकूण:</label>
-                                        <input class="letter-form-input letter-form-input--100" type="text" id="" name="total_flat"
-                                               value="">
-                                    </div>
-                                </div>
-                                <div class="form-group m-form__group row">
-                                    <label class="col-12 mb-4">७. </label>
-                                    <div class="col-sm-4 application-fields">
-                                        <label class="application-form-label" for="">A. संस्था नोंदणी क्र:</label>
-                                        <input class="letter-form-input letter-form-input--100" type="text" id=""
-                                               name="society_registration_no" value="">
-                                    </div>
-                                    <div class="col-sm-4 application-fields">
-                                        <label class="application-form-label" for="">B. संस्था नोंदणी दिनांक:</label>
-                                        <input class="letter-form-input letter-form-input--100 m_datepicker" type="text" id=""
-                                               name="society_registration_date" value="">
-                                    </div>
-                                </div>
-                                <div class="form-group m-form__group row">
-                                    <div class="col-sm-6 application-fields">
-                                        <label class="application-form-label" for="">८. अधिकृत सभासदांची यादी (पती व पत्नी संयुक्त नावे):</label>
-                                        <p><a href="{{ route('sc_download') }}" class="btn btn-primary" target="_blank" rel="noopener">Download Template</a> </p>
-                                        {{----}}
-                                        {{--<input class="letter-form-input letter-form-input--100 m_datepicker" type="text" id=""--}}
-                                               {{--name="" value="">--}}
-                                    </div>
-                                    <div class="col-sm-6 application-fields">
-                                        {{-- <label class="application-form-label" for="">Upload File:</label> --}}
-                                        <p>
-                                            <input class="custom-file-input" name="template" type="file"
-                                                   id="test-upload" required>
-                                            <label class="custom-file-label" for="test-upload">Choose
-                                                file ...</label>
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="form-group m-form__group row">
-                                    <label class="col-12 mb-4">९. सेवा हस्तांकरण झाल्याचा दिनांक:</label>
-                                    <div class="col-sm-4 application-fields">
-                                        <label class="d-block" for="">१. मालमत्ता कर:</label>
-                                        <input class="letter-form-input letter-form-input--100" type="text" id="" name="property_tax"
-                                               value="">
-                                    </div>
-                                    <div class="col-sm-4 application-fields">
-                                        <label class="d-block" for="">२. पाणी बिल:</label>
-                                        <input class="letter-form-input letter-form-input--100" type="text" id="" name="water_bil"
-                                               value="">
-                                    </div>
-                                    <div class="col-sm-4 application-fields">
-                                        <label class="d-block" for="">३. अकृषिक कर:</label>
-                                        <input class="letter-form-input letter-form-input--100" type="text" id="" name="no_agricultural_tax"
-                                               value="">
-                                    </div>
-                                </div>
-                                <div class="form-group m-form__group row">
-                                    <div class="col-sm-4 application-fields">
-                                        <label class="application-form-label" for="">१०. कार्यकारणी यादी</label>
-                                        <input class="letter-form-input letter-form-input--100 m_datepicker" type="text" id=""
-                                               name="society_address" value="">
-                                    </div>
-                                </div>
-                                <div class="form-group m-form__group row">
-                                    <div class="col-sm-12 application-fields">
-                                        <label class="application-form-label" for="">११. संस्थेचा अधिकृत पत्ता</label>
-                                        <input class="letter-form-input letter-form-input--100" type="text" id="" name=""
-                                               value="">
-                                    </div>
-                                </div>
-                            </div>
+                    <div class="form-group m-form__group row">
+                        <div class="col-sm-4 form-group">
+                            <label class="col-form-label" for="case_year">Society No:</label>
+                            <input type="text" id="society_no" name="society_no" class="form-control form-control--custom m-input" value="{{ $society_details->building_no }}" readonly>
+                            <span class="help-block">{{$errors->first('society_no')}}</span>
                         </div>
-                        <div class="letter-form-footer d-flex font-weight-semi-bold mt-5">
-                            <div class="ml-auto text-right">
-                                <p class="mb-5">आपला विश्वासू,</p>
-                                <p>
-                                <span class="d-flex">अध्यक्ष <input class="letter-form-input letter-form-input--xl"
-                                                                    type="text" id="" name="" value=""></span>
-                                    <span class="d-flex mt-3">सचिव <input class="letter-form-input letter-form-input--xl"
-                                                                          type="text" id="" name="" value=""></span>
-                                </p>
-                            </div>
+                        <div class="col-sm-4 offset-sm-1 form-group">
+                            <label class="col-form-label" for="society_address">Society Address:</label>
+                            <textarea id="society_address" name="society_address" class="form-control form-control--custom form-control--fixed-height m-input" readonly>{{ $society_details->address }}</textarea>
+                            <span class="help-block">{{$errors->first('society_address')}}</span>
                         </div>
-                        <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
-                            <div class="m-form__actions px-0">
-                                <div class="row">
-                                    <div class="col-sm-4">
-                                        <div class="btn-list">
-                                            <button type="submit" class="btn btn-primary">Submit & Next</button>
-                                            <a href="" class="btn btn-secondary">Cancel</a>
-                                        </div>
+                    </div>
+
+                    <div class="form-group m-form__group row">
+                        <div class="col-sm-4 form-group">
+                            <label class="col-form-label" for="society_registration_no">Society Registration No:</label>
+                            <input type="text" id="society_registration_no" name="society_registration_no" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ $society_details->registration_no }}" readonly>
+                            <span class="help-block">{{$errors->first('society_registration_no')}}</span>
+                        </div>
+                        <div class="col-sm-4 offset-sm-1 form-group">
+                            <label class="col-form-label" for="society_registration_date">Society Registration Date:</label>
+                            <input type="text" id="society_registration_date" name="society_registration_date" class="form-control form-control--custom m-input m_datepicker" value="{{ old('society_registration_date') }}">
+                            <span class="help-block">{{$errors->first('society_registration_date')}}</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group m-form__group row">
+                        <div class="col-sm-4 form-group">
+                            <label class="col-form-label" for="name">Scheme Name:</label>
+                            <input type="text" id="scheme_name" name="scheme_name" class="form-control form-control--custom m-input">
+                            <span class="help-block">{{$errors->first('scheme_name')}}</span>
+                        </div>
+                        <div class="col-sm-4 offset-sm-1 form-group">
+                            <label class="col-form-label" for="first_flat_issue_date">First Flat Issue Date:</label>
+                            <input type="text" id="m_datepicker" name="first_flat_issue_date" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ old('first_flat_issue_date') }}">
+                            <span class="help-block">{{$errors->first('first_flat_issue_date')}}</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group m-form__group row">
+                        <div class="col-sm-4 form-group">
+                            <label class="col-form-label" for="residential_flat">Residential Flat:</label>
+                            <input type="text" id="residential_flat" name="residential_flat" class="form-control form-control--custom m-input" value="{{ old('residential_flat') }}">
+                            <span class="help-block">{{$errors->first('residential_flat')}}</span>
+                        </div>
+                        <div class="col-sm-4 offset-sm-1 form-group">
+                            <label class="col-form-label" for="non_residential_flat">Non-Residential Flat:</label>
+                            <input type="text" id="non_residential_flat" name="non_residential_flat" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ old('resolution_no') }}">
+                            <span class="help-block">{{$errors->first('non_residential_flat')}}</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group m-form__group row">
+                        <div class="col-sm-4 form-group">
+                            <label class="col-form-label" for="total_flat">Total Flat:</label>
+                            <input type="text" id="total_flat" name="total_flat" class="form-control form-control--custom m-input" value="{{ old('total_flat') }}">
+                            <span class="help-block">{{$errors->first('total_flat')}}</span>
+                        </div>
+                        <div class="col-sm-4 offset-sm-1 form-group">
+                            <label class="col-form-label" for="property_tax">Property Tax:</label>
+                            <input type="text" id="property_tax" name="property_tax" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ old('property_tax') }}">
+                            <span class="help-block">{{$errors->first('property_tax')}}</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group m-form__group row">
+                        <div class="col-sm-4 form-group">
+                            <label class="col-form-label" for="no_agricultural_tax">Non-Agricultural Tax:</label>
+                            <input type="text" id="no_agricultural_tax" name="no_agricultural_tax" class="form-control form-control--custom m-input" value="{{ old('society_registration_date') }}">
+                            <span class="help-block">{{$errors->first('no_agricultural_tax')}}</span>
+                        </div>
+                        <div class="col-sm-4 offset-sm-1 form-group">
+                            <label class="col-form-label" for="water_bil">Water Bill:</label>
+                            <input type="text" id="water_bil" name="water_bil" class="form-control form-control--custom m-input" value="{{ old('society_registration_date') }}">
+                            <span class="help-block">{{$errors->first('water_bil')}}</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group m-form__group row">
+                        <div class="col-sm-4 form-group">
+                            <label class="col-form-label" for="no_agricultural_tax">Download Template:</label>
+                            <p><a href="{{ route('sc_download') }}" class="btn btn-primary" target="_blank" rel="noopener">Download Template</a> </p>
+                            <span class="help-block">{{$errors->first('no_agricultural_tax')}}</span>
+                        </div>
+                        <div class="col-sm-4 offset-sm-1 form-group">
+                            <label class="col-form-label" for="water_bil">Upload File:</label>
+                            <input class="custom-file-input" name="template" type="file"
+                                   id="test-upload" required>
+                            <label class="custom-file-label" for="test-upload">Choose
+                                file ...</label>
+                            <span class="help-block">{{$errors->first('water_bil')}}</span>
+                        </div>
+                    </div>
+
+                    <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+                        <div class="m-form__actions px-0">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="btn-list">
+                                        <a href="{{url('/hearing')}}" class="btn btn-secondary">Cancel</a>
+                                        <button type="submit"  class="btn btn-primary">Save</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
     </div>
 @endsection

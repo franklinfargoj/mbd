@@ -60,5 +60,8 @@ class DatabaseSeeder extends Seeder
 
         $this->call(MasterTables::class);
          // $this->call(RtiFormTableSeeder::class);
+
+        $this->call(SocietyConveyanceDocumentMasterSeeder::class);
+        // $this->call(SocietyConveyanceDocumentMasterSeeder::class);
     }
 }
