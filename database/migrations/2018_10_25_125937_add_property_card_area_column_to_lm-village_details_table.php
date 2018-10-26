@@ -15,6 +15,7 @@ class AddPropertyCardAreaColumnToLmVillageDetailsTable extends Migration
     {
         Schema::table('lm_village_detail', function (Blueprint $table) {
             $table->string('property_card_area')->after('property_card')->nullable();
+            $table->longText('other_remark')->after('remark')->nullable();
 
         });
     }
@@ -28,6 +29,8 @@ class AddPropertyCardAreaColumnToLmVillageDetailsTable extends Migration
     {
         Schema::table('lm_village_detail', function (Blueprint $table) {
             $table->dropColumn('property_card_area');
+            $table->dropColumn('other_remark');
+
         });
     }
 }
