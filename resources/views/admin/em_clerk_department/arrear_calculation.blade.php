@@ -282,13 +282,13 @@
                 if(bill_year == '' || bill_month == ''){
                     $('#bill_error').html('select Year and month for arrear Calculation.');
                     return false;
-                } else if(ior_year == '' || ior_month == ''){
-                  $('#bill_error').html(''); 
-                  $('#ior_error').html('select Year and month of arrear Calculation.');
+                } else if(ior_year == '' || ior_month == '') {
+                    $('#bill_error').html(''); 
+                    $('#ior_error').html('select Year and month of arrear Calculation.');
                     return false;
-                } else if(ida_year == '' || ida_month == ''){
-                  $('#ior_error').html('');
-                  $('#ida_error').html('select Year and month of arrear Calculation.');
+                } else if(ida_year == '' || ida_month == '') {
+                    $('#ior_error').html('');
+                    $('#ida_error').html('select Year and month of arrear Calculation.');
                     return false;
                 } else {
                     $('#ida_error').html('');
@@ -303,12 +303,13 @@
                                 new Date(ida_year, ida_month, 1),
                                 new Date(bill_year, bill_month, 30)  
                              );
+
                 var iod_per = iod / 100;
                 var ior_per = ior / 100;
 
-                var old_intrest_amount = (old_rate * iod_per * months1).toFixed(2);
+                var old_intrest_amount = (old_rate * ior_per * months1).toFixed(2);
 
-                var intrest_on_difference = (rate_diff * ior_per * months2).toFixed(2);
+                var intrest_on_difference = (rate_diff * iod_per * months2).toFixed(2);
 
                 $('#oia').html(old_intrest_amount);
                 $('#old_intrest_amount').val(old_intrest_amount);                
@@ -321,9 +322,15 @@
                  $('#total_amount').html(total);
                  $('#total_amount_val').val(total);
 
-                 /*console.log(old_rate);
-                 console.log(old_intrest_amount);
-                 console.log(rate_diff);
+                /*
+                 console.log(old_rate);
+                 console.log(months1);
+                 console.log(ior_per);
+            console.log(old_intrest_amount);
+                
+                 console.log(rate_diff)
+                 console.log(months2);
+                 console.log(iod_per);
                  console.log(intrest_on_difference);*/
     }
 

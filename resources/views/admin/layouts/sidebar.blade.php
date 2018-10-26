@@ -72,6 +72,20 @@ $route=\Request::route()->getName();
                     </span>
                 </a>
             </li>
+            @if(session()->get('role_name')=='junior_architect')
+            <li class="m-menu__item {{($route=='architect_layout.add')?'m-menu__item--active':''}}" aria-haspopup="true">
+                <a href="{{ route('architect_layout.add') }}" class="m-menu__link ">
+                    <i class="m-menu__link-icon flaticon-line-graph"></i>
+                    <span class="m-menu__link-title">
+                        <span class="m-menu__link-wrap">
+                            <span class="m-menu__link-text">
+                                Add Layout
+                            </span>
+                        </span>
+                    </span>
+                </a>
+            </li>
+            @endif
             @endif
 
             @if(session()->get('permission') != "" && in_array('resolution.index', session()->get('permission')))
@@ -537,20 +551,18 @@ $route=\Request::route()->getName();
                                 </span>
                             </span>
                         </a>
-                        <ul class="treeview-menu">
-                            <li class="m-menu__item m-menu__item--submenu">
-                                <i class="m-menu__link-icon flaticon-line-graph"></i>
-                                <a href="{{ route('society.billing_level') }}">
-                                    <span class="m-menu__link-title">
-                                        <span class="m-menu__link-wrap">
-                                            <span class="m-menu__link-text">
-                                                Society Master
-                                            </span>
-                                        </span>
+                    </li>
+                    <li class="m-menu__item">
+                        <a href="{{ route('society.billing_level') }}" class="m-menu__link m-menu__toggle">
+                        <i class="m-menu__link-icon flaticon-line-graph"></i>
+                            <span class="m-menu__link-title">
+                                <span class="m-menu__link-wrap">
+                                    <span class="m-menu__link-text">
+                                        Society Master
                                     </span>
-                                </a>
-                            </li>
-                        </ul>
+                                </span>
+                            </span>
+                        </a>
                     </li>
                     @endif
                     

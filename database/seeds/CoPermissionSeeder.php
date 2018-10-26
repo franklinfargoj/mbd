@@ -160,9 +160,9 @@ class CoPermissionSeeder extends Seeder
         $permission_role = [];
 
         foreach ($permissions as $per) {
-            $per = Permission::where(['name' => $per['name']])->first();
-            if ($per) {
-                $permission_id = $per->id;
+            $per1 = Permission::where(['name' => $per['name']])->first();
+            if ($per1) {
+                $permission_id = $per1->id;
             } else {
                 $permission_id = Permission::insertGetId($per);
             }
