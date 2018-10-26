@@ -206,6 +206,7 @@
 
     </script>
     <script type="text/javascript" src="{{ asset('/js/custom.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/js/cookie.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('/js/bootstrap-select.js') }}"></script>
     <script type="text/javascript" src="{{ asset('/assets/demo/default/custom/components/forms/validation/form-widgets.js') }}"></script>
     @yield('add_resolution_js');

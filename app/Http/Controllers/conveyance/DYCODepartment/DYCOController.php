@@ -39,7 +39,8 @@ class DYCOController extends Controller
         $arrData = $request->all();
         unset($arrData['_token'],$arrData['registration_date'], $arrData['date'], $arrData['first_flat_issue_date'], $arrData['hps_installement_date'], $arrData['last_date_of_rent'], $arrData['service_tax_date'],$arrData['contruction_competion_date'], $arrData['resolution_meeting_date']);
 
-            ConveyanceChecklistScrutiny::updateOrCreate(['application_id'=>$applicationId],$arrData);        
+            ConveyanceChecklistScrutiny::updateOrCreate(['application_id'=>$applicationId],$arrData);
+                    
             ConveyanceChecklistScrutiny::where('application_id',$applicationId)->update([
                 'registration_date'          => date('Y-m-d',strtotime($request->registration_date)),
                 'date'                       => date('Y-m-d',strtotime($request->date)),
