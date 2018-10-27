@@ -42,6 +42,6 @@ class EoaApplication extends Model
 
     public function fee_payment_details()
     {
-        return $this->hasMany(\App\EmploymentOfArchitect\EoaApplicationFeePaymentDetail::class,'eoa_application_id','id');
+        return $this->hasOne(\App\EmploymentOfArchitect\EoaApplicationFeePaymentDetail::class,'eoa_application_id','id');
     }
 }

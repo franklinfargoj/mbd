@@ -33,6 +33,12 @@ class Repository implements RepositoryInterface
         return $record->update($data);
     }
 
+    // update where record in the database
+    public function updateWhere(array $data, array $conditions)
+    {
+        return $this->model->where($conditions)->update($data);
+    }
+
     // remove record from the database
     public function delete($id)
     {
@@ -50,7 +56,7 @@ class Repository implements RepositoryInterface
     {
         return $this->model;
     }
-
+    
     // Set the associated model
     public function setModel($model)
     {
@@ -58,9 +64,15 @@ class Repository implements RepositoryInterface
         return $this;
     }
 
-    // Eager load database relationships
-    public function with($relations)
+    // Where condition
+    public function whereFirst($where)
     {
-        return $this->model->with($relations);
+       return $this->model->where($where)->first();
+    }
+
+    // Eager load database relationships
+    public function whereWithFirst($relations,$conditions)
+    {
+        return $this->model->with($relations)->first();
     }
 }
