@@ -134,5 +134,7 @@ return [
         'DEG'=>'DEGREE',
         'PG'=>'POST GRADUATE',
         'DR'=>'DOCTORATE'
-    ]
+    ],
+
+    'mhada_code' => 'MHD'
 ];

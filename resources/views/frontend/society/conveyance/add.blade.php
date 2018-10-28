@@ -22,9 +22,11 @@
                                     <option value="{{ $layout['id'] }}">{{ $layout['layout_name'] }}</option>
                                 @endforeach
                             </select>
+                            <input type="hidden" name="society_id" value="{{ $society_details->id }}">
                             <span class="help-block">{{$errors->first('layout_id')}}</span>
                         </div>
                     </div>
+                    {{--@php dd($comm_func->form_fields('sc_name', 'text','' , '', 'test')); @endphp--}}
                         @for($i=0; $i < count($field_names); $i++)
                             @if($i != 0) @php $i++; @endphp @endif
                                 <div class="form-group m-form__group row">
@@ -32,9 +34,19 @@
                                         <div class="col-sm-4 form-group">
                                             <label class="col-form-label" for="{{ $field_names[$i] }}">@php $labels = implode(' ', explode('_', $field_names[$i])); echo ucwords($labels); @endphp:</label>
                                             @if($field_names[$i] == 'society_address')
-                                                <textarea id="society_address" name="society_address" class="form-control form-control--custom form-control--fixed-height m-input" readonly>{{ $society_details->address }}</textarea>
+                                                @php echo $comm_func->form_fields($field_names[$i], 'textarea','' , '', $society_details->address) @endphp
+                                                {{--<textarea id="society_address" name="society_address" class="form-control form-control--custom form-control--fixed-height m-input" readonly>{{ $society_details->address }}</textarea>--}}
+                                            @elseif(strpos($field_names[$i], 'date') != null)
+                                                @php echo $comm_func->form_fields($field_names[$i], 'date') @endphp
+                                            @elseif($field_names[$i] == 'society_name' || $field_names[$i] == 'society_no')
+                                                @if($field_names[$i] == 'society_name')
+                                                    @php echo $comm_func->form_fields($field_names[$i], 'text', '', '', $society_details->name); @endphp
+                                                @else
+                                                @php echo $comm_func->form_fields($field_names[$i], 'text', '', '', $society_details->building_no) @endphp
+                                                @endif
                                             @else
-                                                <input type="text" id="{{ $field_names[$i] }}" name="{{ $field_names[$i] }}" class="form-control form-control--custom m-input @if(strpos($field_names[$i], 'date') != null) m_datepicker @endif" @if($field_names[$i] == 'society_name' || $field_names[$i] == 'society_no') value="@if($field_names[$i] == 'society_name') {{ $society_details->name }} @else {{ $society_details->building_no }} @endif" readonly @endif>
+                                                @php echo $comm_func->form_fields($field_names[$i], 'text') @endphp
+                                                {{--<input type="text" id="{{ $field_names[$i+1] }}" name="{{ $field_names[$i+1] }}" class="form-control form-control--custom m-input @if(strpos($field_names[$i+1], 'date') != null) m_datepicker @endif" @if($field_names[$i+1] == 'society_name' || $field_names[$i+1] == 'society_no') value="@if($field_names[$i+1] == 'society_name') {{ $society_details->name }} @else {{ $society_details->building_no }} @endif" readonly @endif>--}}
                                             @endif
                                             <span class="help-block">{{$errors->first($field_names[$i])}}</span>
                                         </div>
@@ -43,11 +55,19 @@
                                         <div class="col-sm-4 offset-sm-1 form-group">
                                             <label class="col-form-label" for="{{ $field_names[$i+1] }}">@php $labels = implode(' ', explode('_', $field_names[$i+1])); echo ucwords($labels); @endphp:</label>
                                             @if($field_names[$i+1] == 'society_address')
-                                                <textarea id="society_address" name="society_address" class="form-control form-control--custom form-control--fixed-height m-input" readonly>{{ $society_details->address }}</textarea>
-                                            @elseif($field_names[$i+1] == 'society_address')
-
+                                                @php echo  $comm_func->form_fields($field_names[$i+1], 'textarea','' , '', $society_details->address) @endphp
+                                                {{--<textarea id="society_address" name="society_address" class="form-control form-control--custom form-control--fixed-height m-input" readonly>{{ $society_details->address }}</textarea>--}}
+                                            @elseif(strpos($field_names[$i+1], 'date') != null)
+                                                @php echo $comm_func->form_fields($field_names[$i+1], 'date') @endphp
+                                            @elseif($field_names[$i+1] == 'society_name' || $field_names[$i+1] == 'society_no')
+                                                @if($field_names[$i+1] == 'society_name')
+                                                    @php echo $comm_func->form_fields($field_names[$i+1], 'text', '', '', $society_details->name) @endphp
+                                                @else
+                                                    @php echo $comm_func->form_fields($field_names[$i+1], 'text', '', '', $society_details->building_no) @endphp
+                                                @endif
                                             @else
-                                                <input type="text" id="{{ $field_names[$i+1] }}" name="{{ $field_names[$i+1] }}" class="form-control form-control--custom m-input @if(strpos($field_names[$i+1], 'date') != null) m_datepicker @endif" @if($field_names[$i+1] == 'society_name' || $field_names[$i+1] == 'society_no') value="@if($field_names[$i+1] == 'society_name') {{ $society_details->name }} @else {{ $society_details->building_no }} @endif" readonly @endif>
+                                                @php echo $comm_func->form_fields($field_names[$i+1], 'text') @endphp
+                                                {{--<input type="text" id="{{ $field_names[$i+1] }}" name="{{ $field_names[$i+1] }}" class="form-control form-control--custom m-input @if(strpos($field_names[$i+1], 'date') != null) m_datepicker @endif" @if($field_names[$i+1] == 'society_name' || $field_names[$i+1] == 'society_no') value="@if($field_names[$i+1] == 'society_name') {{ $society_details->name }} @else {{ $society_details->building_no }} @endif" readonly @endif>--}}
                                             @endif
                                             {{--<input type="hidden" name="application_master_id" value="{{ $id }}">--}}
                                             <span class="help-block">{{$errors->first($field_names[$i+1])}}</span>
@@ -62,12 +82,12 @@
                             <span class="help-block">{{$errors->first('no_agricultural_tax')}}</span>
                         </div>
                         <div class="col-sm-4 offset-sm-1 form-group">
-                            <label class="col-form-label" for="water_bil">Upload File:</label>
+                            <label class="col-form-label" for="template">Upload File:</label>
                             <input class="custom-file-input" name="template" type="file"
                                    id="test-upload" required>
                             <label class="custom-file-label" for="test-upload">Choose
                                 file ...</label>
-                            <span class="help-block">{{$errors->first('water_bil')}}</span>
+                            <span class="help-block">@if(session('error')) {{ session('error') }} @endif {{$errors->first('template')}}</span>
                         </div>
                     </div>
 

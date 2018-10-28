@@ -9,9 +9,10 @@ class scApplication extends Model
 	protected $table = 'sc_application';
 	public $timestamps = true;
 	protected $fillable = [
+	    'application_no',
 		'society_id',
 	    'form_request_id',
-	    'board_id',
+	    'layout_id',
 	    'draft_conveyance_application',
 	    'stamp_conveyance_application',
 	    'resolution',
@@ -42,7 +43,7 @@ class scApplication extends Model
         return $this->hasOne('App\SocietyOfferLetter', 'id','society_id');
     } 
 
-    public function societyApplicationFormRequest()
+    public function sc_form_request()
     {
         return $this->hasOne('App\SocietyConveyance', 'id','form_request_id');
     }     
