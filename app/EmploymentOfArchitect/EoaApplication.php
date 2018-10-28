@@ -49,4 +49,24 @@ class EoaApplication extends Model
     {
         return $this->hasMany(\App\EmploymentOfArchitect\EoaApplicationEnclosure::class,'eoa_application_id','id');
     }
+
+    public function imp_projects()
+    {
+        return $this->hasMany(\App\EmploymentOfArchitect\EoaApplicationImportantProjectDetail::class,'eoa_application_id','id');
+    }
+
+    public function imp_project_work_handled()
+    {
+        return $this->hasMany(\App\EmploymentOfArchitect\EoaApplicationImportantProjectWorkHandledDetail::class,'eoa_application_id','id');
+    }
+
+    public function imp_senior_professionals()
+    {
+        return $this->hasMany(\App\EmploymentOfArchitect\EoaApplicationImportantSeniorProfessionalDetail::class,'eoa_application_id','id');
+    }
+
+    public function project_sheets()
+    {
+        return $this->hasMany(\App\EmploymentOfArchitect\EoaApplicationProjectSheetDetail::class,'eoa_application_id','id');
+    }
 }
