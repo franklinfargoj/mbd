@@ -39,9 +39,14 @@ class EoaApplication extends Model
         'other_information',
         'application_info_and_its_enclosures_verify'
     ];
-
+    
     public function fee_payment_details()
     {
         return $this->hasOne(\App\EmploymentOfArchitect\EoaApplicationFeePaymentDetail::class,'eoa_application_id','id');
+    }
+
+    public function enclosures()
+    {
+        return $this->hasMany(\App\EmploymentOfArchitect\EoaApplicationEnclosure::class,'eoa_application_id','id');
     }
 }

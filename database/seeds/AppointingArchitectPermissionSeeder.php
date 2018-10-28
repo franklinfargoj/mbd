@@ -38,9 +38,19 @@ class AppointingArchitectPermissionSeeder extends Seeder
                 'description'  => 'step2'
             ],
             [
+                'name'         => 'appointing_architect.step2_post',
+                'display_name' => 'step2_post',
+                'description'  => 'step2_post'
+            ],
+            [
                 'name'         => 'appointing_architect.step3',
                 'display_name' => 'step3',
                 'description'  => 'step3'
+            ],
+            [
+                'name'         => 'appointing_architect.step3_post',
+                'display_name' => 'step3_post',
+                'description'  => 'step3_post'
             ],
             [
                 'name'         => 'appointing_architect.step4',
@@ -48,9 +58,19 @@ class AppointingArchitectPermissionSeeder extends Seeder
                 'description'  => 'step4'
             ],
             [
+                'name'         => 'appointing_architect.step4_post',
+                'display_name' => 'step4_post',
+                'description'  => 'step4_post'
+            ],
+            [
                 'name'         => 'appointing_architect.step5',
                 'display_name' => 'step5',
                 'description'  => 'step5'
+            ],
+            [
+                'name'         => 'appointing_architect.step5_post',
+                'display_name' => 'step5_post',
+                'description'  => 'step5_post'
             ],
             [
                 'name'         => 'appointing_architect.step6',
@@ -58,14 +78,29 @@ class AppointingArchitectPermissionSeeder extends Seeder
                 'description'  => 'step6'
             ],
             [
+                'name'         => 'appointing_architect.step6_post',
+                'display_name' => 'step6_post',
+                'description'  => 'step6_post'
+            ],
+            [
                 'name'         => 'appointing_architect.step7',
                 'display_name' => 'step7',
                 'description'  => 'step7'
             ],
             [
+                'name'         => 'appointing_architect.step7_post',
+                'display_name' => 'step7_post',
+                'description'  => 'step7_post'
+            ],
+            [
                 'name'         => 'appointing_architect.step8',
                 'display_name' => 'step8',
                 'description'  => 'step8'
+            ],
+            [
+                'name'         => 'appointing_architect.step8_post',
+                'display_name' => 'step8_post',
+                'description'  => 'step8_post'
             ]
         ];
         $appointing_architect = Role::where('name', '=', 'appointing_architect')->select('id')->first();

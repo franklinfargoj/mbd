@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\EmploymentOfArchitect\EoaApplication;
 use App\EmploymentOfArchitect\EoaApplicationFeePaymentDetail;
+use App\EmploymentOfArchitect\EoaApplicationEnclosure;
 use App\Repositories\Repository;
 use App\Role;
 use App\RoleUser;
@@ -11,16 +12,27 @@ use App\User;
 use Illuminate\Http\Request;
 use Validator;
 
+use Yajra\DataTables\DataTables;
+
 class EmploymentOfArchitectController extends Controller
 {
-    protected $model, $user;
+    protected $model, $user, $fee_payment,$enclosures,$list_num_of_records_per_page;
 
-    public function __construct(EoaApplication $EoaApplication, User $user,EoaApplicationFeePaymentDetail $EoaApplicationFeePaymentDetail)
+    public $header_data = array(
+        'menu' => 'Architect Application',
+        'menu_url' => 'architect_application',
+        'page' => '',
+        'side_menu' => 'architect_application',
+    );
+
+    public function __construct(EoaApplication $EoaApplication, User $user,EoaApplicationFeePaymentDetail $EoaApplicationFeePaymentDetail,EoaApplicationEnclosure $EoaApplicationEnclosure)
     {
         // set the model
         $this->user = new Repository($user);
         $this->model = new Repository($EoaApplication);
         $this->fee_payment=new Repository($EoaApplicationFeePaymentDetail);
+        $this->enclosures=new Repository($EoaApplicationEnclosure);
+        $this->list_num_of_records_per_page = config('commanConfig.list_num_of_records_per_page');
     }
 
     public function signup()
@@ -89,11 +101,62 @@ class EmploymentOfArchitectController extends Controller
 
     }
 
-    public function index(Request $request)
+    public function index(Request $request, Datatables $datatables)
     {
+        $header_data = $this->header_data;
+        $columns = [
+            ['data' => 'rownum', 'name' => 'rownum', 'title' => 'Sr No.', 'searchable' => false],
+            ['data' => 'application_number', 'name' => 'application_number', 'title' => 'Application Number'],
+            ['data' => 'application', 'name' => 'application', 'title' => 'Application'],
+            ['data' => 'application_date', 'name' => 'application_date', 'title' => 'Application Date'],
+            ['data' => 'actions', 'name' => 'actions', 'title' => 'Actions', 'searchable' => false, 'orderable' => false],
+        ];
+
+       
+        if ($datatables->getRequest()->ajax()) {
+
+            $architect_applications = $this->model->all();
+            return $datatables->of($architect_applications)
+                ->editColumn('rownum', function ($listArray) {
+                    static $i = 0; $i++;return $i;
+                })
+                ->editColumn('application_number', function ($architect_applications) {
+                    return $architect_applications->id;
+                })
+                ->editColumn('application', function ($architect_applications) {
+                    return "application";
+                })
+                ->editColumn('application_date', function ($architect_applications) {
+                    return date('d-m-Y', strtotime($architect_applications->created_at));
+                })
+                ->editColumn('actions', function ($architect_applications) {
+                    return "<a href='".route('appointing_architect.step1', ['id' => $architect_applications->id])."'>edit</a>";
+                })
+                ->rawColumns(['select', 'application_number','application', 'application_date', 'actions'])
+                ->make(true);
+        }
+
+        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+
+        //return view('admin.architect.index', compact('html', 'header_data', 'shortlisted', 'finalSelected', 'getData', 'is_view', 'is_commitee'));
         //dd(session()->all());
         //return $this->model->all();
-        return view('employment_of_architect.index');
+        return view('employment_of_architect.index',compact('html', 'header_data'));
+    }
+
+    protected function getParameters()
+    {
+        return [
+            'serverSide' => true,
+            'processing' => true,
+            'ordering' => 'isSorted',
+            "order" => [4, "desc"],
+            "pageLength" => $this->list_num_of_records_per_page,
+            // 'fixedHeader' => [
+            //     'header' => true,
+            //     'footer' => true
+            // ]
+        ];
     }
 
     public function step1($id)
@@ -157,18 +220,49 @@ class EmploymentOfArchitectController extends Controller
 
     }
 
-    public function step2(Request $request)
+    public function step2($id)
     {
-        //dd(session()->all());
-        //return $this->model->all();
-        return view('employment_of_architect.form2');
+        $application = $this->model->whereWithFirst(['fee_payment_details','enclosures'],['id' => $id, 'user_id' => auth()->user()->id]);
+        //dd($application->enclosures[0]);
+        return view('employment_of_architect.form2', compact('application'));
     }
 
-    public function step3(Request $request)
+    public function step2_post(Request $request)
     {
-        //dd(session()->all());
-        //return $this->model->all();
-        return view('employment_of_architect.form3');
+        $v = Validator::make($request->all(), [
+            'application_info_and_its_enclosures_verify'=>'required'
+        ],[
+            'application_info_and_its_enclosures_verify.required'=>'The application info and its enclosures acceptance is required'
+        ]);
+        $application_id = $request->application_id;
+        if ($v->fails()) {
+            return redirect()->back()->withErrors($v->errors());
+        } else {
+            
+            $enclosure_id=$request->enclosure_id;
+            $j=0;
+            foreach($request->enclosures as $enclosure){
+                $enclosures_array=array();
+                if(isset($enclosure_id[$j]))
+                {
+                    $enclosures_array=array('eoa_application_id'=>$application_id,'enclosure'=>$enclosure);
+                    $this->enclosures->updateWhere($enclosures_array, ['id'=>$enclosure_id[$j],'eoa_application_id' => $application_id]);
+                }else
+                {
+                    $enclosures_array=array('eoa_application_id'=>$application_id,'enclosure'=>$enclosure);
+                    $this->enclosures->create($enclosures_array);
+                }
+                $j++;
+            }
+            $this->model->updateWhere(['application_info_and_its_enclosures_verify'=>$request->application_info_and_its_enclosures_verify], ['id' => $application_id]);
+            return redirect()->route('appointing_architect.step3', ['id' => $application_id]);
+        }
+    }
+
+    public function step3($id)
+    {
+        $application = $this->model->whereWithFirst(['fee_payment_details','enclosures'],['id' => $id, 'user_id' => auth()->user()->id]);
+        return view('employment_of_architect.form3', compact('application'));
     }
 
     public function step4(Request $request)

@@ -16,56 +16,7 @@
         <h3 class="section-title section-title--small">Form 3:</h3>
         <form id="" role="form" method="post" class="m-form m-form--rows m-form--label-align-right" action="" enctype="multipart/form-data">
             @csrf
-            <div class="m-portlet__body m-portlet__body--spaced">
-                <div class="form-group m-form__group row">
-                    <div class="col-sm-4 form-group">
-                        <label class="col-form-label" for="">Name of Application:</label>
-                        <input type="text" id="" name="" class="form-control form-control--custom m-input" value="">
-                        <span class="help-block"></span>
-                    </div>
-                    <div class="col-sm-4 offset-sm-1 form-group">
-                        <label class="col-form-label" for="">Address:</label>
-                        <input type="text" id="" name="" class="form-control form-control--custom m-input" value="">
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-                <div class="form-group m-form__group row">
-                    <div class="col-sm-4 form-group">
-                        <label class="col-form-label" for="">City:</label>
-                        <input type="text" id="" name="" class="form-control form-control--custom m-input" value="">
-                        <span class="help-block"></span>
-                    </div>
-                    <div class="col-sm-4 offset-sm-1 form-group">
-                        <label class="col-form-label" for="">PIN:</label>
-                        <input type="text" id="" name="" class="form-control form-control--custom m-input" value="">
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-                <div class="form-group m-form__group row">
-                    <div class="col-sm-4 form-group">
-                        <label class="col-form-label" for="">Office No:</label>
-                        <input type="text" id="" name="" class="form-control form-control--custom m-input" value="">
-                        <span class="help-block"></span>
-                    </div>
-                    <div class="col-sm-4 offset-sm-1 form-group">
-                        <label class="col-form-label" for="">Telephone No:</label>
-                        <input type="text" id="" name="" class="form-control form-control--custom m-input" value="">
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-                <div class="form-group m-form__group row">
-                    <div class="col-sm-4 form-group">
-                        <label class="col-form-label" for="">Mobile No:</label>
-                        <input type="text" id="" name="" class="form-control form-control--custom m-input" value="">
-                        <span class="help-block"></span>
-                    </div>
-                    <div class="col-sm-4 offset-sm-1 form-group">
-                        <label class="col-form-label" for="">Fax No:</label>
-                        <input type="text" id="" name="" class="form-control form-control--custom m-input" value="">
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-            </div>
+            @include('employment_of_architect.partial_personal_details',compact('application'))
             <div class="form-group m-form__group row">
                 <div class="col-sm-4 form-group">
                     <label class="col-form-label" for="">Details of Establishment:</label>

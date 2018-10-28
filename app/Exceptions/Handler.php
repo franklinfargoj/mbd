@@ -46,10 +46,10 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        if(\Request::segment(1)=='appointing_architect')
-        {
-            return redirect(route('appointing_architect.login'));
-        }
+        // if(\Request::segment(1)=='appointing_architect')
+        // {
+        //     return redirect(route('appointing_architect.login'));
+        // }
         return parent::render($request, $exception);
     }
 }
