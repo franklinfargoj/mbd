@@ -47,7 +47,7 @@
 
             <div class="m-checkbox-list mt-5">
                 <label class="m-checkbox m-checkbox--primary">
-                    <input type="checkbox" name="application_info_and_its_enclosures_verify" value="1"> Is verified by me and the same is correct by my knowledge
+                    <input {{$application->application_info_and_its_enclosures_verify==1?"checked":""}} type="checkbox" name="application_info_and_its_enclosures_verify" value="1"> Is verified by me and the same is correct by my knowledge
                     <span class=""></span>
                 </label>
                 @if ($errors->has('application_info_and_its_enclosures_verify'))

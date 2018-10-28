@@ -3,20 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\EmploymentOfArchitect\EoaApplication;
-use App\EmploymentOfArchitect\EoaApplicationFeePaymentDetail;
 use App\EmploymentOfArchitect\EoaApplicationEnclosure;
+use App\EmploymentOfArchitect\EoaApplicationFeePaymentDetail;
 use App\Repositories\Repository;
 use App\Role;
 use App\RoleUser;
 use App\User;
 use Illuminate\Http\Request;
 use Validator;
-
 use Yajra\DataTables\DataTables;
 
 class EmploymentOfArchitectController extends Controller
 {
-    protected $model, $user, $fee_payment,$enclosures,$list_num_of_records_per_page;
+    protected $model, $user, $fee_payment, $enclosures, $list_num_of_records_per_page;
 
     public $header_data = array(
         'menu' => 'Architect Application',
@@ -25,13 +24,13 @@ class EmploymentOfArchitectController extends Controller
         'side_menu' => 'architect_application',
     );
 
-    public function __construct(EoaApplication $EoaApplication, User $user,EoaApplicationFeePaymentDetail $EoaApplicationFeePaymentDetail,EoaApplicationEnclosure $EoaApplicationEnclosure)
+    public function __construct(EoaApplication $EoaApplication, User $user, EoaApplicationFeePaymentDetail $EoaApplicationFeePaymentDetail, EoaApplicationEnclosure $EoaApplicationEnclosure)
     {
         // set the model
         $this->user = new Repository($user);
         $this->model = new Repository($EoaApplication);
-        $this->fee_payment=new Repository($EoaApplicationFeePaymentDetail);
-        $this->enclosures=new Repository($EoaApplicationEnclosure);
+        $this->fee_payment = new Repository($EoaApplicationFeePaymentDetail);
+        $this->enclosures = new Repository($EoaApplicationEnclosure);
         $this->list_num_of_records_per_page = config('commanConfig.list_num_of_records_per_page');
     }
 
@@ -112,7 +111,6 @@ class EmploymentOfArchitectController extends Controller
             ['data' => 'actions', 'name' => 'actions', 'title' => 'Actions', 'searchable' => false, 'orderable' => false],
         ];
 
-       
         if ($datatables->getRequest()->ajax()) {
 
             $architect_applications = $this->model->all();
@@ -130,9 +128,9 @@ class EmploymentOfArchitectController extends Controller
                     return date('d-m-Y', strtotime($architect_applications->created_at));
                 })
                 ->editColumn('actions', function ($architect_applications) {
-                    return "<a href='".route('appointing_architect.step1', ['id' => $architect_applications->id])."'>edit</a>";
+                    return "<a href='" . route('appointing_architect.step1', ['id' => $architect_applications->id]) . "'>edit</a>";
                 })
-                ->rawColumns(['select', 'application_number','application', 'application_date', 'actions'])
+                ->rawColumns(['select', 'application_number', 'application', 'application_date', 'actions'])
                 ->make(true);
         }
 
@@ -141,7 +139,7 @@ class EmploymentOfArchitectController extends Controller
         //return view('admin.architect.index', compact('html', 'header_data', 'shortlisted', 'finalSelected', 'getData', 'is_view', 'is_commitee'));
         //dd(session()->all());
         //return $this->model->all();
-        return view('employment_of_architect.index',compact('html', 'header_data'));
+        return view('employment_of_architect.index', compact('html', 'header_data'));
     }
 
     protected function getParameters()
@@ -161,7 +159,7 @@ class EmploymentOfArchitectController extends Controller
 
     public function step1($id)
     {
-        $application = $this->model->whereWithFirst(['fee_payment_details'],['id' => $id, 'user_id' => auth()->user()->id]);
+        $application = $this->model->whereWithFirst(['fee_payment_details'], ['id' => $id, 'user_id' => auth()->user()->id]);
         return view('employment_of_architect.form1', compact('application'));
     }
 
@@ -182,7 +180,7 @@ class EmploymentOfArchitectController extends Controller
         if ($v->fails()) {
             return redirect()->back()->withErrors($v->errors());
         } else {
-            
+
             $form1_data = [
                 'category_of_panel' => $request->category_of_panel,
                 'name_of_applicant' => $request->name_of_applicant,
@@ -193,25 +191,23 @@ class EmploymentOfArchitectController extends Controller
                 'off' => $request->off,
                 'fax' => $request->fax,
                 'res' => $request->res,
-                'user_id'=>auth()->user()->id
+                'user_id' => auth()->user()->id,
             ];
             $data = $this->model->updateWhere($form1_data, ['id' => $application_id, 'user_id' => auth()->user()->id]);
             if ($data) {
-                $payment_data=[
-                    'eoa_application_id'=>$application_id,
-                    'receipt_no'=>$request->receipt_no,
-                    'cash'=>$request->cash,
-                    'pay_order_no'=>$request->pay_order_no,
-                    'bank'=>$request->bank,
-                    'branch'=>$request->branch,
-                    'date_of_payment'=>$request->date_of_payment,
-                    'receipt_date'=>$request->receipt_date
+                $payment_data = [
+                    'eoa_application_id' => $application_id,
+                    'receipt_no' => $request->receipt_no,
+                    'cash' => $request->cash,
+                    'pay_order_no' => $request->pay_order_no,
+                    'bank' => $request->bank,
+                    'branch' => $request->branch,
+                    'date_of_payment' => $request->date_of_payment,
+                    'receipt_date' => $request->receipt_date,
                 ];
-                if($this->fee_payment->whereFirst(['eoa_application_id'=>$application_id]))
-                {
+                if ($this->fee_payment->whereFirst(['eoa_application_id' => $application_id])) {
                     $this->fee_payment->updateWhere($payment_data, ['eoa_application_id' => $application_id]);
-                }else
-                {
+                } else {
                     $this->fee_payment->create($payment_data);
                 }
                 return redirect()->route('appointing_architect.step2', ['id' => $application_id]);
@@ -222,7 +218,7 @@ class EmploymentOfArchitectController extends Controller
 
     public function step2($id)
     {
-        $application = $this->model->whereWithFirst(['fee_payment_details','enclosures'],['id' => $id, 'user_id' => auth()->user()->id]);
+        $application = $this->model->whereWithFirst(['fee_payment_details', 'enclosures'], ['id' => $id, 'user_id' => auth()->user()->id]);
         //dd($application->enclosures[0]);
         return view('employment_of_architect.form2', compact('application'));
     }
@@ -230,42 +226,95 @@ class EmploymentOfArchitectController extends Controller
     public function step2_post(Request $request)
     {
         $v = Validator::make($request->all(), [
-            'application_info_and_its_enclosures_verify'=>'required'
-        ],[
-            'application_info_and_its_enclosures_verify.required'=>'The application info and its enclosures acceptance is required'
+            'application_info_and_its_enclosures_verify' => 'required',
+        ], [
+            'application_info_and_its_enclosures_verify.required' => 'The application info and its enclosures acceptance is required',
         ]);
         $application_id = $request->application_id;
         if ($v->fails()) {
             return redirect()->back()->withErrors($v->errors());
         } else {
-            
-            $enclosure_id=$request->enclosure_id;
-            $j=0;
-            foreach($request->enclosures as $enclosure){
-                $enclosures_array=array();
-                if(isset($enclosure_id[$j]))
-                {
-                    $enclosures_array=array('eoa_application_id'=>$application_id,'enclosure'=>$enclosure);
-                    $this->enclosures->updateWhere($enclosures_array, ['id'=>$enclosure_id[$j],'eoa_application_id' => $application_id]);
-                }else
-                {
-                    $enclosures_array=array('eoa_application_id'=>$application_id,'enclosure'=>$enclosure);
+
+            $enclosure_id = $request->enclosure_id;
+            $j = 0;
+            foreach ($request->enclosures as $enclosure) {
+                $enclosures_array = array();
+                if (isset($enclosure_id[$j])) {
+                    $enclosures_array = array('eoa_application_id' => $application_id, 'enclosure' => $enclosure);
+                    $this->enclosures->updateWhere($enclosures_array, ['id' => $enclosure_id[$j], 'eoa_application_id' => $application_id]);
+                } else {
+                    $enclosures_array = array('eoa_application_id' => $application_id, 'enclosure' => $enclosure);
                     $this->enclosures->create($enclosures_array);
                 }
                 $j++;
             }
-            $this->model->updateWhere(['application_info_and_its_enclosures_verify'=>$request->application_info_and_its_enclosures_verify], ['id' => $application_id]);
+            $this->model->updateWhere(['application_info_and_its_enclosures_verify' => $request->application_info_and_its_enclosures_verify], ['id' => $application_id]);
             return redirect()->route('appointing_architect.step3', ['id' => $application_id]);
         }
     }
 
     public function step3($id)
     {
-        $application = $this->model->whereWithFirst(['fee_payment_details','enclosures'],['id' => $id, 'user_id' => auth()->user()->id]);
+        $application = $this->model->whereWithFirst(['fee_payment_details', 'enclosures'], ['id' => $id, 'user_id' => auth()->user()->id]);
         return view('employment_of_architect.form3', compact('application'));
     }
 
-    public function step4(Request $request)
+    public function step3_post(Request $request)
+    {
+        $v = Validator::make($request->all(), [
+            'details_of_establishment' => 'required',
+            'branch_office_details' => 'required',
+            'staff_architects' => 'required',
+            'staff_engineers' => 'required',
+            'staff_supporting_tech' => 'required',
+            'staff_supporting_nontech' => 'required',
+            'staff_others' => 'required',
+            'staff_total' => 'required',
+            'is_cad_facility' => 'required',
+            'cad_facility_no_of_computers' => 'required',
+            'cad_facility_no_of_printers' => 'required',
+            'cad_facility_no_of_plotters' => 'required',
+            'reg_with_council_of_architecture_principle' => 'required',
+            'reg_with_council_of_architecture_associate' => 'required',
+            'reg_with_council_of_architecture_partner' => 'required',
+            'reg_with_council_of_architecture_total_registered_persons' => 'required',
+            'award_prizes_etc' => 'required',
+            'other_information' => 'required',
+        ]);
+
+        if ($v->fails()) {
+            return redirect()->back()->withErrors($v->errors());
+        } else {
+            $application_id = $request->application_id;
+            $step3_data = [
+                'details_of_establishment' => $request->details_of_establishment,
+                'branch_office_details' => $request->branch_office_details,
+                'staff_architects' => $request->staff_architects,
+                'staff_engineers' => $request->staff_engineers,
+                'staff_supporting_tech' => $request->staff_supporting_tech,
+                'staff_supporting_nontech' => $request->staff_supporting_nontech,
+                'staff_others' => $request->staff_others,
+                'staff_total' => $request->staff_total,
+                'is_cad_facility' => $request->is_cad_facility,
+                'cad_facility_no_of_computers' => $request->cad_facility_no_of_computers,
+                'cad_facility_no_of_printers' => $request->cad_facility_no_of_printers,
+                'cad_facility_no_of_plotters' => $request->cad_facility_no_of_plotters,
+                'reg_with_council_of_architecture_principle' => $request->reg_with_council_of_architecture_principle,
+                'reg_with_council_of_architecture_associate' => $request->reg_with_council_of_architecture_associate,
+                'reg_with_council_of_architecture_partner' => $request->reg_with_council_of_architecture_partner,
+                'reg_with_council_of_architecture_total_registered_persons' => $request->reg_with_council_of_architecture_total_registered_persons,
+                'award_prizes_etc' => $request->award_prizes_etc,
+                'other_information' => $request->other_information,
+            ];
+            if ($this->model->updateWhere($step3_data, ['id' => $application_id])) {
+                return redirect()->route('appointing_architect.step4', ['id' => $application_id]);
+            } else {
+                return back()->withError('Something went wrong');
+            }
+        }
+    }
+
+    public function step4($id)
     {
         //dd(session()->all());
         //return $this->model->all();
