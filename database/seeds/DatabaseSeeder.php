@@ -63,6 +63,10 @@ class DatabaseSeeder extends Seeder
 
         $this->call(SocietyConveyanceDocumentMasterSeeder::class);
         // $this->call(SocietyConveyanceDocumentMasterSeeder::class);
+        $this->call(DYCOPermissions::class);
         $this->call(AppointingArchitectPermissionSeeder::class);
+        $this->call(AddChildParentToConveyanceModule::class);
+        $this->call(LAPermission::class);
+        $this->call(sc_checklist_master::class);
     }
 }
