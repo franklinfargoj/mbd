@@ -1191,6 +1191,10 @@ table.dataTable tbody tr:nth-child(even):focus {
 
 /* global classes starts here */
 
+.select-box-list + .select-box-list {
+    margin-left: 15px;
+}
+
 .btn--unstyled {
     background-color: transparent;
     border: none;

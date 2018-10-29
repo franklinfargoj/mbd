@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\society_detail\SocietyDetailRequest;
 use App\LeaseDetail;
+use App\MasterLayout;
 use App\OtherLand;
 use App\SocietyDetail;
 use App\MasterSociety;
@@ -232,7 +233,8 @@ class SocietyController extends Controller
         $header_data = $this->header_data;
         $arrData['other_land'] = OtherLand::where('status', 1)->get();
         $arrData['villages'] = VillageDetail::get();
-
+        $arrData['layouts'] = MasterLayout::get();
+        //dd($arrData);
         return view('admin.society_detail.create', compact('header_data', 'arrData'));
     }
 
@@ -244,25 +246,37 @@ class SocietyController extends Controller
      */
     public function store(SocietyDetailRequest $request)
     {
-        //dd($request->all());
         $request->validate([
             'villages'=>'required|array|min:1'
         ]); 
         $society_data = [
             'society_name' => $request->society_name,
+            'society_reg_no' => $request->society_reg_no,
             'district' => $request->district,
             'taluka' => $request->taluka,
             'survey_number' => $request->survey_number,
             'cts_number' => $request->cts_number,
-            'chairman' => $request->chairman,
             'society_address' => $request->society_address,
             'area' => $request->area,
             'date_on_service_tax' => $request->date_on_service_tax,
             'surplus_charges' => $request->surplus_charges,
             'surplus_charges_last_date' => $request->surplus_charges_last_date,
-            //'village_id' => $request->village_id,
-            'other_land_id' => $request->other_land_id
+//            'village' => $request->village_id,
+            'other_land_id' => $request->other_land_id,
+            'layout_id' => $request->layout,
+            'society_conveyed' => $request->society_conveyed,
+            'chairman' => $request->chairman,
+            'chairman_mob_no' => $request->chairman_mob_no,
+            'secretary' => $request->secretary,
+            'secretary_mob_no' => $request->secretary_mob_no,
+            'society_email_id' => $request->society_email_id
         ];
+        if($request->society_conveyed){
+            $society_data += [
+                'area_of_conveyance' => $request->area_of_conveyance,
+                'date_of_conveyance' => $request->date_of_conveyance
+            ];
+        }
 
         $society_detail=SocietyDetail::create($society_data);
         $society_detail->Villages()->attach($request->villages);
@@ -288,6 +302,7 @@ class SocietyController extends Controller
         {
             $villages_belongs[]=$has_village->village_id;
         }
+        $arrData['layouts'] = MasterLayout::get();
 
         return view('admin.society_detail.show', compact('header_data', 'arrData', 'id','villages_belongs'));
     }
@@ -310,6 +325,9 @@ class SocietyController extends Controller
             $villages_belongs[]=$has_village->village_id;
         }
         $arrData['villages'] = VillageDetail::get();
+        $arrData['layouts'] = MasterLayout::get();
+
+
         return view('admin.society_detail.edit', compact('header_data', 'arrData', 'id','villages_belongs'));
     }
 
@@ -322,7 +340,6 @@ class SocietyController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //dd($request->all());
         $request->validate([
             'villages'=>'required|array|min:1'
         ]);
@@ -330,18 +347,38 @@ class SocietyController extends Controller
 
         $society_data = [
             'society_name' => $request->society_name,
+            'society_reg_no' => $request->society_reg_no,
             'district' => $request->district,
             'taluka' => $request->taluka,
             'survey_number' => $request->survey_number,
             'cts_number' => $request->cts_number,
-            'chairman' => $request->chairman,
             'society_address' => $request->society_address,
             'area' => $request->area,
             'date_on_service_tax' => $request->date_on_service_tax,
             'surplus_charges' => $request->surplus_charges,
             'surplus_charges_last_date' => $request->surplus_charges_last_date,
-            'other_land_id' => $request->other_land_id
+            //'village_id' => $request->village_id,
+            'other_land_id' => $request->other_land_id,
+            'layout_id' => $request->layout,
+            'society_conveyed' => $request->society_conveyed,
+            'chairman' => $request->chairman,
+            'chairman_mob_no' => $request->chairman_mob_no,
+            'secretary' => $request->secretary,
+            'secretary_mob_no' => $request->secretary_mob_no,
+            'society_email_id' => $request->society_email_id
         ];
+
+        if($request->society_conveyed){
+            $society_data += [
+                'area_of_conveyance' => $request->area_of_conveyance,
+                'date_of_conveyance' => $request->date_of_conveyance
+            ];
+        }else{
+            $society_data += [
+                'area_of_conveyance' => NULL,
+                'date_of_conveyance' => NULL
+            ];
+        }
 
         $society->update($society_data);
         $society->Villages()->sync($request->villages);

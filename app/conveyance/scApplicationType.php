@@ -4,14 +4,14 @@ namespace App\conveyance;
 
 use Illuminate\Database\Eloquent\Model;
 
-class SocietyApplicationDocumentType extends Model
+class scApplicationType extends Model
 {
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'society_application_document_type';
+    protected $table = 'sc_application_master';
 
     /**
      * The database primary key value.

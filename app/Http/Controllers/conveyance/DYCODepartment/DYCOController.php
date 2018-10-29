@@ -12,6 +12,8 @@ use App\conveyance\ScApplicationAgreements;
 use App\conveyance\ScAgreementComments;
 use App\conveyance\ScChecklistMaster;
 use App\conveyance\ScChecklistScrutinyStatus;
+use App\conveyance\ScAgreementTypeMasterModel;
+use App\conveyance\ScAgreementTypeStatus;
 use Config;
 use Yajra\DataTables\DataTables;
 use Storage;
@@ -23,7 +25,7 @@ class DYCOController extends Controller
     {
         $this->common = new conveyanceCommonController();
         $this->CommonController = new CommonController();
-    }	
+    }   
 
     //display checklist and office note page
     public function showChecklist(Request $request,$applicationId){
@@ -44,7 +46,7 @@ class DYCOController extends Controller
             $route = 'admin.conveyance.common.view_checklist_office_note';
         }
         
-    	return view($route,compact('data','checklist'));
+        return view($route,compact('data','checklist'));
     }
 
     // save/update checklist data
@@ -101,55 +103,75 @@ class DYCOController extends Controller
 
     public function saleLeaseAgreement(Request $request,$applicationId){
 
-        $data = scApplication::with(['scApplicationAgreement','ScAgreementComments','ScAgreementComments.Roles','scApplicationLog'])->where('id',$applicationId)->first();
-        // dd($data);
+        $data = scApplication::with(['ScAgreementComments','ScAgreementComments.Roles','scApplicationLog'])
+        ->where('id',$applicationId)->first();
+        $draftSaleId  = $this->common->getScAgreementId(config('commanConfig.scAgreements.draft_sale_agreement'));       
+        $draftLeaseId  = $this->common->getScAgreementId(config('commanConfig.scAgreements.draft_lease_agreement'));
+
+        $data->DraftSaleAgreement  = $this->common->getScAgreement($draftSaleId,$applicationId);
+        $data->DraftLeaseAgreement = $this->common->getScAgreement($draftLeaseId,$applicationId);
+
         return view('admin.conveyance.dyco_department.sale_lease_agreement',compact('data'));
     }
 
     public function saveAgreement(Request $request){
- 
+
         $applicationId   = $request->applicationId;
         $sale_agreement  = $request->file('sale_agreement');   
         $lease_agreement = $request->file('lease_agreement'); 
-        
-        $sale_file_name  = time().'_sale_'.'.'.$sale_agreement->getClientOriginalExtension();  
-        $lease_file_name = time().'_lease_'.'.'.$lease_agreement->getClientOriginalExtension();
-        
-        $sale_extension  = $sale_agreement->getClientOriginalExtension(); 
-        $lease_extension = $lease_agreement->getClientOriginalExtension(); 
+
         
         $sale_folder_name  = "sale_deed_agreement";
         $lease_folder_name = "lease_deed_agreement";
         
-        $sale_file_path  = $sale_folder_name.'/'.$sale_file_name;
-        $lease_file_path = $lease_folder_name.'/'.$lease_file_name;
+        if ($sale_agreement) {
+            $sale_extension  = $sale_agreement->getClientOriginalExtension(); 
+            $sale_file_name  = time().'_sale_'.$applicationId.'.'.$sale_extension; 
+            $sale_file_path  = $sale_folder_name.'/'.$sale_file_name; 
+            $draftSaleId     = $this->common->getScAgreementId(config('commanConfig.scAgreements.draft_sale_agreement'));
 
-        if ($sale_agreement && $lease_agreement) {
+            if ($sale_extension == "pdf"){
+                
+                $sale_upload = $this->CommonController->ftpFileUpload($sale_folder_name,$request->file('sale_agreement'),$sale_file_name); 
+                $saleData = $this->common->getScAgreement($draftSaleId,$applicationId);
+
+                if ($saleData){
+                    $this->common->updateScAgreement($applicationId,$draftSaleId,$sale_file_path);
+                }else{
+                    $this->common->createScAgreement($applicationId,$draftSaleId,$sale_file_path);               
+                }
+                $status = 'success';
+            }            
+        } 
+        if ($lease_agreement) {
+
+            $lease_extension = $lease_agreement->getClientOriginalExtension(); 
+            $lease_file_name = time().'_lease_'.$applicationId.'.'.$lease_extension;
+            $lease_file_path = $lease_folder_name.'/'.$lease_file_name;
+            $draftLeaseId = $this->common->getScAgreementId(config('commanConfig.scAgreements.draft_lease_agreement'));
             
-            if ($sale_extension = $lease_extension == "pdf"){
-
-                $sale_upload = $this->CommonController->ftpFileUpload($sale_folder_name,$request->file('sale_agreement'),$sale_file_name);    
+            if ($lease_extension == "pdf") {
 
                 $lease_upload = $this->CommonController->ftpFileUpload($lease_folder_name,$request->file('lease_agreement'),$lease_file_name);
-
-                    $fileData[] = array('draft_sale_agreement'  => $sale_file_path, 
-                                        'draft_lease_agreement' => $lease_file_path,
-                                        'application_id'        => $applicationId,
-                                        'user_id'               => Auth::Id()); 
-
-                    $comments[] = array('application_id' => $applicationId,
-                                        'user_id'        => Auth::Id(),
-                                        'role_id'        => session()->get('role_id'),
-                                        'remark'         => $request->remark);
-
-                    $data   = ScApplicationAgreements::insert($fileData); 
-                    $remark = ScAgreementComments::insert($comments);
-
-                    return back()->with('success', 'Agreements uploaded successfully.');         
-            }else{
-                return back()->with('error', 'Invalid type of file uploaded (only pdf allowed).');
-            }
+                $leaseData = $this->common->getScAgreement($draftLeaseId,$applicationId);
+                if ($leaseData){
+                    $this->common->updateScAgreement($applicationId,$draftLeaseId,$lease_file_path);                    
+                }else{
+                    $this->common->createScAgreement($applicationId,$draftLeaseId,$lease_file_path);
+                }
+                $status = 'success';                
+            }            
         }
+
+        if ($request->remark){
+          $this->common->ScAgreementComment($applicationId,$request->remark);  
+        }
+        
+        if (isset($status) && $status == 'success'){
+            return back()->with('success', 'Agreements uploaded successfully.'); 
+        } else{
+            return back()->with('error', 'Invalid type of file uploaded (only pdf allowed).');
+        }        
     }
 
     public function ApprovedSaleLeaseAgreement(Request $request,$applicationId){

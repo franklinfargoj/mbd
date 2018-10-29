@@ -14,8 +14,11 @@ use Faker\Generator as Faker;
 */
 
 $factory->define(App\MasterColony::class, function (Faker $faker) {
-    return [
-        'ward_id' => $faker->numberBetween(1, 10),
+
+	$users = App\MasterWard::all()->pluck('id')->toArray();
+
+	return [
+        'ward_id' => $faker->randomElement($users),
         'name' => $faker->name,
         'description' =>  $faker->name,
     ];

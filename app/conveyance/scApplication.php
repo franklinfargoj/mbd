@@ -9,6 +9,7 @@ class scApplication extends Model
 	protected $table = 'sc_application';
 	public $timestamps = true;
 	protected $fillable = [
+	    'sc_application_master_id',
 	    'application_no',
 		'society_id',
 	    'form_request_id',
@@ -32,10 +33,15 @@ class scApplication extends Model
 	    'riders',
 	    'noc_conveyance',
 	];
-
+ 
     public function applicationLayoutUser()
     {
-        return $this->hasMany('App\LayoutUser', 'layout_id','layout_id');
+        return $this->hasMany('App\LayoutUser', 'id','layout_id');
+    }
+
+    public function applicationLayout()
+    {
+        return $this->hasMany('App\MasterLayout', 'id','layout_id');
     }
 
     public function societyApplication()
@@ -53,9 +59,9 @@ class scApplication extends Model
         return $this->hasOne('App\conveyance\scApplicationLog', 'application_id','id');
     }  
 
-    public function scApplicationAgreement()
+    public function scAgreementStatus()
     {
-        return $this->hasOne('App\conveyance\ScApplicationAgreements', 'application_id','id');
+        return $this->hasOne('App\conveyance\ScAgreementTypeStatus', 'application_id','id');
     }  
 
     public function ScAgreementComments()

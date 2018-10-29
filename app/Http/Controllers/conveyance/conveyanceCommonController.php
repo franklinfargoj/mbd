@@ -7,6 +7,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\Common\CommonController;
 use App\conveyance\scApplication;
 use App\conveyance\scApplicationLog;
+use App\conveyance\ScAgreementTypeMasterModel;
+use App\conveyance\ScAgreementTypeStatus;
+use App\conveyance\ScAgreementComments;
 use Yajra\DataTables\DataTables;
 use App\Role;
 use Carbon\Carbon;
@@ -261,5 +264,52 @@ class conveyanceCommonController extends Controller
         $dycologs = scApplicationLog::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->whereIn('role_id', $dycoRoles)->whereIn('status_id', $status)->get();
 
         return $dycologs;
-    }    
+    } 
+
+    // get agreement as per agreement type id
+    public function getScAgreement($typeId,$applicationId){
+
+        $agreement = ScAgreementTypeStatus::with('scAgreementName')->where('agreement_type_id',$typeId)->where('application_id',$applicationId)->first();
+        return $agreement;
+    } 
+
+    // get agreement id as per agreement name
+    public function getScAgreementId($documentName){
+
+        $typeId = ScAgreementTypeMasterModel::where('agreement_name',$documentName)->value('id');
+        return $typeId;
+    } 
+
+    // insert sc agreements as per type
+    public function createScAgreement($applicationId,$typeId,$filePath){
+        
+        $ArrData[] = array('application_id'       => $applicationId,
+                            'agreement_type_id'   => $typeId, 
+                            'agreement_path'      => $filePath,
+                            'user_id'             => Auth::Id());   
+
+        $data = ScAgreementTypeStatus::insert($ArrData); 
+        return $data;          
+    }
+
+    // update sc agreements
+    public function updateScAgreement($applicationId,$typeId,$filePath){
+
+        $data = ScAgreementTypeStatus::where('application_id',$applicationId)->where('agreement_type_id',$typeId)
+        ->update(['agreement_path' => $filePath]);
+
+        return $data;
+    } 
+
+    //insert comment for agreement
+    public function ScAgreementComment($applicationId,$remark){
+
+        $comments[] = array('application_id' => $applicationId,
+                            'user_id'        => Auth::Id(),
+                            'role_id'        => session()->get('role_id'),
+                            'remark'         => $remark);
+        
+        $remark  = ScAgreementComments::insert($comments);
+        return $remark;
+    }
 }
