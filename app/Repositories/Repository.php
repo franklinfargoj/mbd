@@ -65,14 +65,14 @@ class Repository implements RepositoryInterface
     }
 
     // Where condition
-    public function whereFirst($where)
+    public function whereFirst(array $where)
     {
        return $this->model->where($where)->first();
     }
 
     // Eager load database relationships
-    public function whereWithFirst($relations,$conditions)
+    public function whereWithFirst(array $relations,array $conditions)
     {
-        return $this->model->with($relations)->first();
+        return $this->model->with($relations)->where($conditions)->first();
     }
 }
