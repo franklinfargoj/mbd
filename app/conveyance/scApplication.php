@@ -71,6 +71,11 @@ class scApplication extends Model
     public function ConveyanceSalePriceCalculation()
     {
         return $this->hasOne('App\conveyance\ConveyanceSalePriceCalculation', 'application_id','id');
-    }   
-               	
+    }
+
+    public function scApplicationType()
+    {
+        return $this->hasOne('App\conveyance\scApplicationType', 'id','sc_application_master_id');
+    }
+
 }
