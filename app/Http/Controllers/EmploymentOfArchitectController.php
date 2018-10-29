@@ -8,6 +8,7 @@ use App\EmploymentOfArchitect\EoaApplicationFeePaymentDetail;
 use App\EmploymentOfArchitect\EoaApplicationImportantProjectDetail;
 use App\EmploymentOfArchitect\EoaApplicationImportantProjectWorkHandledDetail;
 use App\EmploymentOfArchitect\EoaApplicationImportantSeniorProfessionalDetail;
+use App\EmploymentOfArchitect\EoaApplicationProjectSheetDetail;
 use App\Repositories\Repository;
 use App\Role;
 use App\RoleUser;
@@ -27,7 +28,7 @@ class EmploymentOfArchitectController extends Controller
         'side_menu' => 'architect_application',
     );
 
-    public function __construct(EoaApplication $EoaApplication, User $user, EoaApplicationFeePaymentDetail $EoaApplicationFeePaymentDetail, EoaApplicationEnclosure $EoaApplicationEnclosure, EoaApplicationImportantProjectDetail $EoaApplicationImportantProjectDetail,EoaApplicationImportantProjectWorkHandledDetail $EoaApplicationImportantProjectWorkHandledDetail,EoaApplicationImportantSeniorProfessionalDetail $EoaApplicationImportantSeniorProfessionalDetail)
+    public function __construct(EoaApplication $EoaApplication, User $user, EoaApplicationFeePaymentDetail $EoaApplicationFeePaymentDetail, EoaApplicationEnclosure $EoaApplicationEnclosure, EoaApplicationImportantProjectDetail $EoaApplicationImportantProjectDetail,EoaApplicationImportantProjectWorkHandledDetail $EoaApplicationImportantProjectWorkHandledDetail,EoaApplicationImportantSeniorProfessionalDetail $EoaApplicationImportantSeniorProfessionalDetail,EoaApplicationProjectSheetDetail $EoaApplicationProjectSheetDetail)
     {
         // set the model
         $this->user = new Repository($user);
@@ -37,6 +38,7 @@ class EmploymentOfArchitectController extends Controller
         $this->imp_projects = new Repository($EoaApplicationImportantProjectDetail);
         $this->imp_projects_work_handled = new Repository($EoaApplicationImportantProjectWorkHandledDetail);
         $this->imp_senior_professional=new Repository($EoaApplicationImportantSeniorProfessionalDetail);
+        $this->project_sheet=new Repository($EoaApplicationProjectSheetDetail);
         $this->list_num_of_records_per_page = config('commanConfig.list_num_of_records_per_page');
     }
 
@@ -495,18 +497,124 @@ class EmploymentOfArchitectController extends Controller
         }
     }
 
-    public function step7(Request $request)
+    public function step7($id)
     {
-        //dd(session()->all());
-        //return $this->model->all();
-        return view('employment_of_architect.form7');
+        $application = $this->model->whereWithFirst(['project_sheets'], ['id' => $id, 'user_id' => auth()->user()->id]);
+        return view('employment_of_architect.form7',compact('application'));
+    }
+
+    public function step7_post(Request $request)
+    {
+        $v = Validator::make($request->all(), [
+            'name_of_project' => 'required',
+            'location' => 'required',
+            'name_of_client' => 'required',
+            'address'=>'required',
+            'tel_no'=>'required',
+            'built_up_area_in_sq_m'=>'required',
+            'land_area_in_sq_m' => 'required',
+            'estimated_value_of_project' => 'required',
+            'completed_value_of_project' => 'required',
+            'date_of_start'=>'required',
+            'date_of_completion'=>'required',
+            'whether_service_terminated_by_client'=>'required',
+            'salient_features_of_project'=>'required',
+            'reason_for_delay_if_any'=>'required'
+        ]);
+            
+        if ($v->fails()) {
+            return redirect()->back()->withErrors($v->errors());
+        } else {
+            $application_id = $request->application_id;
+            $project_sheet_detail_id=$request->project_sheet_detail_id;
+            $data_array=[
+                'eoa_application_id'=>$application_id,
+                'name_of_project' => $request->name_of_project,
+                'location' => $request->location,
+                'name_of_client' => $request->name_of_client,
+                'address'=>$request->address,
+                'tel_no'=>$request->tel_no,
+                'built_up_area_in_sq_m'=>$request->built_up_area_in_sq_m,
+                'land_area_in_sq_m' => $request->land_area_in_sq_m,
+                'estimated_value_of_project' => $request->estimated_value_of_project,
+                'completed_value_of_project' => $request->completed_value_of_project,
+                'date_of_start'=>$request->date_of_start,
+                'date_of_completion'=>$request->date_of_completion,
+                'whether_service_terminated_by_client'=>$request->whether_service_terminated_by_client,
+                'salient_features_of_project'=>$request->salient_features_of_project,
+                'reason_for_delay_if_any'=>$request->reason_for_delay_if_any,
+                'work_completed'=>0
+            ];
+            if($project_sheet_detail_id!="")
+            {
+                $this->project_sheet->updateWhere($data_array, ['id' => $project_sheet_detail_id, 'eoa_application_id' => $application_id]);
+            }else
+            {
+                $this->project_sheet->create($data_array);
+            }
+            
+            return back()->withSuccess('data saved successfully!!!');
+        }
     }
 
     public function step8(Request $request)
     {
-        //dd(session()->all());
-        //return $this->model->all();
-        return view('employment_of_architect.form8');
+        $application = $this->model->whereWithFirst(['project_sheets'], ['id' => $id, 'user_id' => auth()->user()->id]);
+        return view('employment_of_architect.form8',compact('application'));
+    }
+
+    public function step8_post(Request $request)
+    {
+        $v = Validator::make($request->all(), [
+            'name_of_project' => 'required',
+            'location' => 'required',
+            'name_of_client' => 'required',
+            'address'=>'required',
+            'tel_no'=>'required',
+            'built_up_area_in_sq_m'=>'required',
+            'land_area_in_sq_m' => 'required',
+            'estimated_value_of_project' => 'required',
+            'completed_value_of_project' => 'required',
+            'date_of_start'=>'required',
+            'date_of_completion'=>'required',
+            'whether_service_terminated_by_client'=>'required',
+            'salient_features_of_project'=>'required',
+            'reason_for_delay_if_any'=>'required'
+        ]);
+            
+        if ($v->fails()) {
+            return redirect()->back()->withErrors($v->errors());
+        } else {
+            $application_id = $request->application_id;
+            $project_sheet_detail_id=$request->project_sheet_detail_id;
+            $data_array=[
+                'eoa_application_id'=>$application_id,
+                'name_of_project' => $request->name_of_project,
+                'location' => $request->location,
+                'name_of_client' => $request->name_of_client,
+                'address'=>$request->address,
+                'tel_no'=>$request->tel_no,
+                'built_up_area_in_sq_m'=>$request->built_up_area_in_sq_m,
+                'land_area_in_sq_m' => $request->land_area_in_sq_m,
+                'estimated_value_of_project' => $request->estimated_value_of_project,
+                'completed_value_of_project' => $request->completed_value_of_project,
+                'date_of_start'=>$request->date_of_start,
+                'date_of_completion'=>$request->date_of_completion,
+                'whether_service_terminated_by_client'=>$request->whether_service_terminated_by_client,
+                'salient_features_of_project'=>$request->salient_features_of_project,
+                'reason_for_delay_if_any'=>$request->reason_for_delay_if_any,
+                'work_completed'=>1
+            ];
+            if($project_sheet_detail_id!="")
+            {
+                $this->project_sheet->updateWhere($data_array, ['id' => $project_sheet_detail_id, 'eoa_application_id' => $application_id]);
+            }else
+            {
+                $this->project_sheet->create($data_array);
+            }
+            
+            return back()->withSuccess('data saved successfully!!!');
+        }
     }
 
 }
