@@ -55,6 +55,20 @@ return [
         'sent_to_society' => 7,
     ],
 
+    // sc application agreements
+     'scAgreements' => [
+        'draft_sale_agreement'       => 'draft_sale_agreement',
+        'draft_lease_agreement'      => 'draft_lease_agreement',
+        'approve_sale_agreement'     => 'approve_sale_agreement',
+        'approve_lease_agreement'    => 'approve_lease_agreement',
+        'stamp_sale_agreement'       => 'stamp_sale_agreement',
+        'stamp_lease_agreement'      => 'stamp_lease_agreement',
+        'stamp_sign_sale_agreement'  => 'stamp_sign_sale_agreement',
+        'stamp_sign_lease_agreement' => 'stamp_sign_lease_agreement',
+        'register_sale_agreement'    => 'register_sale_agreement',
+        'register_lease_agreement'   => 'register_lease_agreement',
+    ],   
+
     'applicationStatusColor' => [
         '1' => 'metal',
         '2' => 'info',
