@@ -550,7 +550,7 @@
                                                                                 <button type="button" onclick="window.location.href='{{ url("/ree_applications") }}'"
                                                                                     class="btn btn-secondary">Cancel</button>
                                                                             </div>
-                                                                            @elseif($ol_application->status_offer_letter == 1 && isset($ol_application->offer_letter_document_path))
+                                                                            @elseif($ol_application->status_offer_letter != 0 && isset($ol_application->offer_letter_document_path))
                                                                             <div class="mt-3 btn-list">
                                                                                 <button type="submit" class="btn btn-primary">Save</button>
                                                                                 {{--<button type="submit" id="sign"
