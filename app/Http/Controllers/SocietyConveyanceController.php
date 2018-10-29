@@ -16,6 +16,7 @@ use App\Role;
 use App\RoleUser;
 use App\User;
 use App\conveyance\scApplication;
+use App\conveyance\SocietyConveyanceDocumentMaster;
 
 use Illuminate\Http\Request;
 
@@ -396,7 +397,12 @@ class SocietyConveyanceController extends Controller
      */
     public function sc_upload_docs()
     {
-
-        return view('frontend.society.conveyance.');
+        $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
+        $sc_application = scApplication::where('society_id', $society->id)->with(['scApplicationType', 'scApplicationLog' => function($q){
+            $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
+        } ])->orderBy('id', 'desc')->first();
+        $documents = SocietyConveyanceDocumentMaster::where('application_type_id', $sc_application->sc_application_master_id)->get();
+//        dd($documents);
+        return view('frontend.society.conveyance.show_doc_bank_details', compact('documents', 'sc_application'));
     }
 }
