@@ -195,13 +195,22 @@ class RCController extends Controller
         return view('admin.rc_department.ajax_tenant_bill_collection', compact('tenament','buildings', 'building_id'));
     }
 
-    public function Society_view_bill(Request $request){
-         $tenament = DB::table('master_tenant_type')->get();
+    public function generate_receipt_society(Request $request){
+        /* $tenament = DB::table('master_tenant_type')->get();
          $building_id = $request->input('id');
          $buildings = MasterTenant::where('building_id', '=', $request->input('id'))
                  ->get();
-        // return $buildings;
-        return view('admin.rc_department.ajax_tenant_bill_collection', compact('tenament','buildings', 'building_id'));
+        // return $buildings;*/
+        return view('admin.rc_department.generate_receipt_society', compact('tenament','buildings', 'building_id'));
+    }
+
+    public function generate_receipt_tenant(Request $request){
+        /* $tenament = DB::table('master_tenant_type')->get();
+         $building_id = $request->input('id');
+         $buildings = MasterTenant::where('building_id', '=', $request->input('id'))
+                 ->get();
+        // return $buildings;*/
+        return view('admin.rc_department.generate_receipt_tenant', compact('tenament','buildings', 'building_id'));
     }
 
 }
