@@ -66,4 +66,5 @@ class SocietyOfferLetter extends Authenticatable
 
         return $this->hasOne(OlSocietyDocumentsComment::class, 'society_id', 'id');   
     }    
+
 }

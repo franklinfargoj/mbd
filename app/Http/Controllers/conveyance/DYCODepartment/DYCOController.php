@@ -6,10 +6,12 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\conveyance\conveyanceCommonController;
 use App\Http\Controllers\Common\CommonController;
-use App\conveyance\ConveyanceChecklistScrutiny;
+// use App\conveyance\ConveyanceChecklistScrutiny;
 use App\conveyance\scApplication;
 use App\conveyance\ScApplicationAgreements;
 use App\conveyance\ScAgreementComments;
+use App\conveyance\ScChecklistMaster;
+use App\conveyance\ScChecklistScrutinyStatus;
 use Config;
 use Yajra\DataTables\DataTables;
 use Storage;
@@ -27,8 +29,12 @@ class DYCOController extends Controller
     public function showChecklist(Request $request,$applicationId){
 
         $data = scApplication::where('id',$applicationId)->first();
-        $checklist = ConveyanceChecklistScrutiny::where('application_id',$applicationId)
-        ->first();
+        $type = '1';
+        $language_id = '2';
+        $checklist = ScChecklistMaster::with(['checklistStatus' => function ($q) use ($applicationId) {
+            $q->where('application_id', $applicationId);
+        }])->where('type_id',$type)->where('language_id',$language_id)->get();
+
         $is_view = session()->get('role_name') == config('commanConfig.dycdo_engineer');
         $status = $this->common->getCurrentStatus($applicationId);
         
@@ -46,26 +52,29 @@ class DYCOController extends Controller
 
         $applicationId = $request->application_id;
         $arrData = $request->all();
-        unset($arrData['_token'],$arrData['registration_date'], $arrData['date'], $arrData['first_flat_issue_date'], $arrData['hps_installement_date'], $arrData['last_date_of_rent'], $arrData['service_tax_date'],$arrData['contruction_competion_date'], $arrData['resolution_meeting_date']);
+        unset($arrData['_token'],$arrData['application_id']);
+        foreach($arrData as $key => $value){
+            $exist = ScChecklistScrutinyStatus::where('application_id',$applicationId)->where('user_id',Auth::Id())
+            ->where('checklist_id',$key)->first();
+            if ($exist){
+               $checklist = ScChecklistScrutinyStatus::where('application_id',$applicationId)->where('user_id',Auth::Id())
+            ->where('checklist_id',$key)->update(['value' => $value]); 
+            } else {
+                $data = ['application_id' => $applicationId,
+                'user_id' => Auth::Id(),
+                'checklist_id' => $key,
+                'value' => $value
+                ];
 
-            ConveyanceChecklistScrutiny::updateOrCreate(['application_id'=>$applicationId],$arrData);
-                    
-            ConveyanceChecklistScrutiny::where('application_id',$applicationId)->update([
-                'registration_date'          => date('Y-m-d',strtotime($request->registration_date)),
-                'date'                       => date('Y-m-d',strtotime($request->date)),
-                'first_flat_issue_date'      => date('Y-m-d',strtotime($request->first_flat_issue_date)),
-                'hps_installement_date'      => date('Y-m-d',strtotime($request->hps_installement_date)),
-                'last_date_of_rent'          => date('Y-m-d',strtotime($request->last_date_of_rent)),
-                'service_tax_date'           => date('Y-m-d',strtotime($request->service_tax_date)),
-                'contruction_competion_date' => date('Y-m-d',strtotime($request->contruction_competion_date)),
-                'resolution_meeting_date'    => date('Y-m-d',strtotime($request->resolution_meeting_date)),
-            ]);
+                ScChecklistScrutinyStatus::Create($data);
+            }
+        }
 
         return back()->with('success','data save Successfully.');
     }
 
     public function uploadNote(Request $request){
-    
+      
         $applicationId = $request->application_id;
         if ($request->file('dycdo_note')){
 
@@ -174,8 +183,9 @@ class DYCOController extends Controller
 
     public function displayForwardApplication(Request $request,$applicationId){
       
-      $data = $this->common->getForwardApplicationData($applicationId);
-      return view('admin.conveyance.dyco_department.forward_application',compact('data'));          
+      $data     = $this->common->getForwardApplicationData($applicationId);
+      $dycoLogs = $this->common->getLogsOfDYCODepartment($applicationId);
+      return view('admin.conveyance.dyco_department.forward_application',compact('data','dycoLogs'));          
     }
  
     public function saveForwardApplication(Request $request){

@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\conveyance;
-
+ 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Common\CommonController;
@@ -248,4 +248,18 @@ class conveyanceCommonController extends Controller
         } 
         return $folder;       
     }  
+
+    // get logs of DYCO dept
+    public function getLogsOfDYCODepartment($applicationId)
+    {
+
+        $roles = array(config('commanConfig.dycdo_engineer'), config('commanConfig.dyco_engineer'));
+
+        $status = array(config('commanConfig.applicationStatus.forwarded'), config('commanConfig.applicationStatus.reverted'));
+
+        $dycoRoles = Role::whereIn('name', $roles)->pluck('id');
+        $dycologs = scApplicationLog::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->whereIn('role_id', $dycoRoles)->whereIn('status_id', $status)->get();
+
+        return $dycologs;
+    }    
 }

@@ -9,9 +9,11 @@
             </tr>
         </thead>
         <tbody id="myTable">
+        <?php $row_no = 0; ?>
+        
         @foreach($buildings as $key => $value )
             <tr>
-                <td>{{$value->id}}</td>
+                <td>{{$row_no++}}</td>
                 <td>{{$value->building_no}}</td>
                 <td>{{$value->name}}</td>
                 <td><?php echo isset($value->tenant_count[0]->count) ? $value->tenant_count[0]->count : '0'; ?></td>

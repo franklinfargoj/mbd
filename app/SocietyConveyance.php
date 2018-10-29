@@ -21,9 +21,10 @@ class SocietyConveyance extends Model
         'society_registration_no',
         'society_registration_date',
         'property_tax',
-        'water_bil',
-        'no_agricultural_tax',
-        'society_address'
+        'water_bill',
+        'non_agricultural_tax',
+        'society_address',
+        'template_file'
     ];
 
 }

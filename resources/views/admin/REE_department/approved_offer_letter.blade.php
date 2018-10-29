@@ -139,8 +139,7 @@
                     <!-- <div class="row field-row"> -->
                     <div class="col-md-12 row-list">
                         <p class="font-weight-semi-bold">Download Offer letter</p>
-                        <p>Want to make changes in offer letter, click on below button to download offer letter in .doc
-                            format</p>
+                        <p>Click on below button to download offer letter.</p>
 
                         @if($applicationData->offer_letter_document_path)   
                             <a href=" {{config('commanConfig.storage_server').'/'.$applicationData->offer_letter_document_path}}" class="btn btn-primary" download> Download</a>

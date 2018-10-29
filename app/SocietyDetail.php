@@ -19,6 +19,8 @@ class SocietyDetail extends Model
     protected $table = "lm_society_detail";
     protected $primaryKey = 'id';
     protected $fillable = [
+        'colony_id',
+        'society_bill_level',
         'society_name',
         'district',
         'taluka',
@@ -53,5 +55,16 @@ class SocietyDetail extends Model
     public function Villages()
     {
         return $this->belongsToMany('App\VillageDetail', 'village_societies', 'society_id', 'village_id');
+    }
+
+    public function building()
+    {
+        return $this->hasMany('App\MasterBuilding');
+    }
+
+    public function MasterColony(){
+
+        return $this->belongsTo('App\MasterColony');    
+    
     }
 }

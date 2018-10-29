@@ -296,6 +296,8 @@
     background-color: transparent !important;
     border: none !important;
     border-bottom: 1px solid #f0791b !important;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 .form--custom label {
@@ -2795,6 +2797,10 @@ label.site-visit-label {
 /* Architect Application ends here */
 
 /* Appointing Architect starts here */
+
+.form-steps-wrap + .form-steps-box {
+    margin-top: 30px;
+}
 
 .form-steps-wrap {
     border-radius: 4px;

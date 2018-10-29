@@ -10,6 +10,11 @@
 </div>
 @endif
 
+@if(session()->has('warning'))
+    <div class="alert alert-danger display_msg">
+        {{ session()->get('warning') }}
+    </div>  
+@endif
 <div class="col-md-12">
     
     <div class="m-portlet m-portlet--compact m-portlet--mobile">
