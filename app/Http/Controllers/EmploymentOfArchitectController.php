@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\EmploymentOfArchitect\EoaApplication;
 use App\EmploymentOfArchitect\EoaApplicationEnclosure;
 use App\EmploymentOfArchitect\EoaApplicationFeePaymentDetail;
+use App\EmploymentOfArchitect\EoaApplicationImportantProjectDetail;
 use App\Repositories\Repository;
 use App\Role;
 use App\RoleUser;
@@ -24,13 +25,14 @@ class EmploymentOfArchitectController extends Controller
         'side_menu' => 'architect_application',
     );
 
-    public function __construct(EoaApplication $EoaApplication, User $user, EoaApplicationFeePaymentDetail $EoaApplicationFeePaymentDetail, EoaApplicationEnclosure $EoaApplicationEnclosure)
+    public function __construct(EoaApplication $EoaApplication, User $user, EoaApplicationFeePaymentDetail $EoaApplicationFeePaymentDetail, EoaApplicationEnclosure $EoaApplicationEnclosure, EoaApplicationImportantProjectDetail $EoaApplicationImportantProjectDetail)
     {
         // set the model
         $this->user = new Repository($user);
         $this->model = new Repository($EoaApplication);
         $this->fee_payment = new Repository($EoaApplicationFeePaymentDetail);
         $this->enclosures = new Repository($EoaApplicationEnclosure);
+        $this->imp_projects = new Repository($EoaApplicationImportantProjectDetail);
         $this->list_num_of_records_per_page = config('commanConfig.list_num_of_records_per_page');
     }
 
@@ -202,16 +204,16 @@ class EmploymentOfArchitectController extends Controller
                     'pay_order_no' => $request->pay_order_no,
                     'bank' => $request->bank,
                     'branch' => $request->branch,
-                    'date_of_payment' => date('Y-m-d',strtotime($request->date_of_payment)),
-                    'receipt_date' => date('Y-m-d',strtotime($request->receipt_date))
+                    'date_of_payment' => date('Y-m-d', strtotime($request->date_of_payment)),
+                    'receipt_date' => date('Y-m-d', strtotime($request->receipt_date)),
                 ];
-               
+
                 if ($this->fee_payment->whereFirst(['eoa_application_id' => $application_id])) {
                     $this->fee_payment->updateWhere($payment_data, ['eoa_application_id' => $application_id]);
                 } else {
                     $this->fee_payment->create($payment_data);
                 }
-                
+
                 return redirect()->route('appointing_architect.step2', ['id' => $application_id]);
             }
         }
@@ -318,9 +320,54 @@ class EmploymentOfArchitectController extends Controller
 
     public function step4($id)
     {
-        //dd(session()->all());
-        //return $this->model->all();
-        return view('employment_of_architect.form4');
+        $application = $this->model->whereWithFirst(['imp_projects'], ['id' => $id, 'user_id' => auth()->user()->id]);
+        //dd($this->imp_projects);
+        return view('employment_of_architect.form4',compact('application'));
+    }
+
+    public function step4_post(Request $request)
+    {
+        $v = Validator::make($request->all(), [
+            'name_of_client.*' => 'required',
+            'location.*' => 'required',
+            'category_of_client.*' => 'required',
+        ]);
+
+        if ($v->fails()) {
+            return redirect()->back()->withErrors($v->errors());
+        } else {
+            
+            $imp_project_id = $request->imp_project_id;
+            $name_of_clients = $request->name_of_client;
+            $locations = $request->location;
+            $category_of_clients = $request->category_of_client;
+            $i = 0;
+            $application_id = $request->application_id;
+            foreach ($name_of_clients as $name_of_client) {
+                $imp_project_data_array = array();
+                if (isset($imp_project_id[$i])) {
+                    $imp_project_data_array = [
+                        'eoa_application_id' => $application_id,
+                        'name_of_client' => $name_of_client,
+                        'location' => $locations[$i],
+                        'category_of_client' => $category_of_clients[$i],
+                    ];
+                    $this->imp_projects->updateWhere($imp_project_data_array, ['id' => $imp_project_id[$i], 'eoa_application_id' => $application_id]);
+                } else {
+                    $imp_project_data_array = [
+                        'eoa_application_id' => $application_id,
+                        'name_of_client' => $name_of_client,
+                        'location' => $locations[$i],
+                        'category_of_client' => $name_of_clients[$i],
+                    ];
+                    $this->imp_projects->create($imp_project_data_array);
+                }
+
+                $i++;
+            }
+            return redirect()->route('appointing_architect.step5', ['id' => $application_id]);
+            //$this->imp_projects->create($imp_project_data_array_without_id);
+        }
     }
 
     public function step5(Request $request)

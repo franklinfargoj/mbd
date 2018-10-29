@@ -73,8 +73,8 @@
                                 <form class="nav-tabs-form" role="form" method="POST" action="{{ route('save_calculation_details') }}">
                                     <div class="d-flex justify-content-start align-items-center mb-4">
                                         <span class="flex-shrink-0 text-nowrap">Total Number of buildings:</span>
-                                        <input type="text" class="form-control form-control--xs form-control--custom flex-grow-0 ml-3"
-                                            name="total_no_of_buildings" id="total_no_of_buildings" value="{{ isset($calculationSheetDetails[0]->total_no_of_buildings) ? $calculationSheetDetails[0]->total_no_of_buildings : 0 }}" />
+                                        <input type="text" class="form-control form-control--xs form-control--custom flex-grow-0 ml-3" placeholder="0"
+                                            name="total_no_of_buildings" id="total_no_of_buildings" value="<?php if(isset($calculationSheetDetails[0]->total_no_of_buildings)) { echo $calculationSheetDetails[0]->total_no_of_buildings; }  ?>" />
                                     </div>
                                     <table id="one" class="table mb-0 table--box-input" style="padding-top: 10px;">
                                         <input name="_token" type="hidden" value="{!! csrf_token() !!}" />
@@ -1135,7 +1135,7 @@
                                             <td class="text-center">
                                                 @if(isset($calculationSheetDetails[0]->payment_of_remaining_installment) || isset($calculationSheetDetails[0]->payment_of_first_installment))
 
-                                                  {{ (3 * $calculationSheetDetails[0]->payment_of_remaining_installment ) + $calculationSheetDetails[0]->payment_of_first_installment }}
+                                                  {{ (3 * (float)(str_replace( ',', '',$calculationSheetDetails[0]->payment_of_remaining_installment)) ) + (float)(str_replace( ',', '',$calculationSheetDetails[0]->payment_of_first_installment)) }}
                                                 @else
                                                     0
                                                 @endif
@@ -1410,6 +1410,7 @@
         $("#non_profit_duty_installment").attr('value',  numberWithCommas(Math.ceil(1 / 4 * remaining_area_of_resident_area_balance)));
         $("#non_profit_duty_val").attr('value', numberWithCommas(Math.ceil(1 / 4 * remaining_area_of_resident_area_balance)));
 
+        $("#payment_of_remaining_installment").attr('value',numberWithCommas((Math.ceil(1 / 4 * remaining_area_of_resident_area_balance)).toFixed(2)));
     }
 
     function calculateAmountForMhadaMuncipal()
@@ -1571,6 +1572,16 @@
     });
 
 
+    $(document).on("keyup", ".first_installment", function () {
+
+        var first_installment = 0;
+        $(".first_installment").each(function () {
+            var installmentVal = (!cleanNumber($(this).val()) || isNaN(cleanNumber($(this).val()))) ? 0 : cleanNumber($(this).val());
+            first_installment += +parseFloat(installmentVal);
+        });
+        $("#payment_of_first_installment").attr('value',numberWithCommas(Math.ceil(first_installment)));
+    });
+
     function PrintElem(elem) {
 
         var printable = document.getElementById(elem).innerHTML;
@@ -1624,7 +1635,7 @@
         });
         $("#payment_of_first_installment").attr('value',numberWithCommas(Math.ceil(first_installment)));
 
-        $("#payment_of_remaining_installment").attr('value',numberWithCommas(Math.ceil($("#non_profit_duty").val())));
+       // $("#payment_of_remaining_installment").attr('value',numberWithCommas(Math.ceil($("#non_profit_duty").val())));
 
 
     });

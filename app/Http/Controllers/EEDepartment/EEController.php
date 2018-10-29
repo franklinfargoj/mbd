@@ -19,7 +19,7 @@ use App\OlTitBitVerificationDetails;
 use App\OlTitBitVerificationQuestionMaster;
 use App\Role;
 use App\SocietyOfferLetter;
-use App\MasterSociety;
+use App\SocietyDetail;
 use App\MasterBuilding;
 use App\User;
 use Carbon\Carbon;
@@ -637,7 +637,7 @@ class EEController extends Controller
 
         if ($datatables->getRequest()->ajax()) {
             DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
-            $societies = MasterSociety::selectRaw('@rownum  := @rownum  + 1 AS rownum, name,society_bill_level,id');
+            $societies = SocietyDetail::selectRaw('@rownum  := @rownum  + 1 AS rownum, name,society_bill_level,id');
             return $datatables->of($societies)
             ->editColumn('society_bill_level', function ($societies) {
                 if(SOCIETY_LEVEL_BILLING == $societies->society_bill_level) {
@@ -660,7 +660,7 @@ class EEController extends Controller
     }
 
     public function getSocietyDetails($id, Request $request,Datatables $datatables) {
-        $society = MasterSociety::find($id);
+        $society = SocietyDetail::find($id);
         $columns = [
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'building_no','name' => 'building_no','title' => 'Building/Chawl Number'],

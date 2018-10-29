@@ -35,7 +35,12 @@ class scApplication extends Model
  
     public function applicationLayoutUser()
     {
-        return $this->hasMany('App\LayoutUser', 'layout_id','layout_id');
+        return $this->hasMany('App\LayoutUser', 'id','layout_id');
+    }
+
+    public function applicationLayout()
+    {
+        return $this->hasMany('App\MasterLayout', 'id','layout_id');
     }
 
     public function societyApplication()

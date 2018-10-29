@@ -14,6 +14,8 @@ interface RepositoryInterface
 
     public function whereFirst(array $data);
 
+    public function whereWithFirst(array $relations,array $conditions);
+
     public function delete($id);
 
     public function show($id);

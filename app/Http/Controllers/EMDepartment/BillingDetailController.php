@@ -15,7 +15,7 @@ use Storage;
 use App\MasterLayout;
 use App\MasterWard;
 use App\MasterColony;
-use App\MasterSociety;
+use App\SocietyDetail;
 use App\MasterBuilding;
 use App\MasterTenant;
 use App\ArrearCalculation;
@@ -86,7 +86,7 @@ class BillingDetailController extends Controller
         		break;
         }
     	if($request->has('building_id') && $request->has('society_id') && '' != $request->building_id && '' != $request->society_id) {
-    		$data['society'] = MasterSociety::find($request->society_id);
+    		$data['society'] = SocietyDetail::find($request->society_id);
     		$data['building'] = MasterBuilding::find($request->building_id);
 
 	    	$data['years'] = ServiceChargesRate::selectRaw('Distinct(year) as years')->where('society_id',$request->society_id)->where('building_id',$request->building_id)->pluck('years','years')->toArray();

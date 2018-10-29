@@ -12,14 +12,21 @@
         <button class="btn--unstyled flex-grow-1 form-step-tab">Step 7</button>
         <button class="btn--unstyled flex-grow-1 form-step-tab">Step 8</button>
     </div>
-    <form id="" role="form" method="post" class="m-form m-form--rows m-form--label-align-right form-steps-box" action="" enctype="multipart/form-data">
+    @if ($errors->any())
+    @foreach ($errors->all() as $error)
+    <div>{{$error}}</div>
+    @endforeach
+    @endif
+    <form id="" role="form" method="post" class="m-form m-form--rows m-form--label-align-right form-steps-box" action="{{route('appointing_architect.step4_post')}}"
+        enctype="multipart/form-data">
         <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
             <h3 class="section-title section-title--small">Form 4:</h3>
             @csrf
+            <input type="hidden" name="application_id" value="{{$application->id}}">
             <div class="m-portlet__body m-portlet__body--table">
                 <div class="">
                     <div class="table-responsive">
-                        <table id="table-form-4" class="table table--box-input">
+                        <table id="table-form-4" class="table table--box-input imp_projects">
                             <thead class="thead-default">
                                 <tr>
                                     <th>Name of Client</th>
@@ -28,31 +35,31 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td><input placeholder="Name of Client" type="text" class="form-control form-control--custom"></td>
-                                    <td><input placeholder="Location" type="text" class="form-control form-control--custom"></td>
-                                    <td><input placeholder="Category of Client" type="text" class="form-control form-control--custom"></td>
-                                </tr>
-                                <tr>
-                                    <td><input placeholder="Name of Client" type="text" class="form-control form-control--custom"></td>
-                                    <td><input placeholder="Location" type="text" class="form-control form-control--custom"></td>
-                                    <td><input placeholder="Category of Client" type="text" class="form-control form-control--custom"></td>
-                                </tr>
-                                <tr>
-                                    <td><input placeholder="Name of Client" type="text" class="form-control form-control--custom"></td>
-                                    <td><input placeholder="Location" type="text" class="form-control form-control--custom"></td>
-                                    <td><input placeholder="Category of Client" type="text" class="form-control form-control--custom"></td>
-                                </tr>
-                                <tr>
-                                    <td><input placeholder="Name of Client" type="text" class="form-control form-control--custom"></td>
-                                    <td><input placeholder="Location" type="text" class="form-control form-control--custom"></td>
-                                    <td><input placeholder="Category of Client" type="text" class="form-control form-control--custom"></td>
-                                </tr>
-                                <tr>
-                                    <td><input placeholder="Name of Client" type="text" class="form-control form-control--custom"></td>
-                                    <td><input placeholder="Location" type="text" class="form-control form-control--custom"></td>
-                                    <td><input placeholder="Category of Client" type="text" class="form-control form-control--custom"></td>
-                                </tr>
+                                @php
+                                $project_count=$application->imp_projects->count();
+                                @endphp
+                                @if($project_count>5)
+                                @php $k=($project_count-5); @endphp
+                                @else
+                                @php $k=0; @endphp
+                                @endif
+                                @for($j=0;$j<(5+$k);$j++) 
+                                <tr class="cloneme">
+                                    <td>
+                                        <input type="hidden" name="imp_project_id[]" value="{{$application->imp_projects!=''?(isset($application->imp_projects[$j])?$application->imp_projects[$j]->id:''):''}}">
+                                        <input name="name_of_client[]" value="{{$application->imp_projects!=''?(isset($application->imp_projects[$j])?$application->imp_projects[$j]->name_of_client:''):''}}"
+                                            placeholder="Name of Client" type="text" class="form-control form-control--custom">
+                                    </td>
+                                    <td>
+                                        <input name="location[]" value="{{$application->imp_projects!=''?(isset($application->imp_projects[$j])?$application->imp_projects[$j]->location:''):''}}"
+                                            placeholder="Location" type="text" class="form-control form-control--custom">
+                                    </td>
+                                    <td>
+                                        <input name="category_of_client[]" value="{{$application->imp_projects!=''?(isset($application->imp_projects[$j])?$application->imp_projects[$j]->category_of_client:''):''}}"
+                                            placeholder="Category of Client" type="text" class="form-control form-control--custom">
+                                    </td>
+                                    </tr>
+                                    @endfor
                             </tbody>
                         </table>
                     </div>
@@ -82,8 +89,13 @@
 <script>
     $('#add-more').click(function (e) {
         e.preventDefault();
-        $("#table-form-4 tbody tr:last").clone().find('input').val('').end().insertAfter(
-            "#table-form-4 tbody tr:last");
+        var clone = $('table.imp_projects tr.cloneme:first').clone().find('input').val('').end();
+        clone.append("<h2 class='m--font-danger remove-row'><i class='fa fa-remove'></i></h2>");
+        $('table.imp_projects').append(clone);
+    });
+
+    $('.imp_projects').on('click', '.fa-remove', function () {
+        $(this).closest('tr').remove();
     });
 
 </script>
