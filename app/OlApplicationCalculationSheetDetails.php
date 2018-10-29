@@ -15,7 +15,7 @@ class OlApplicationCalculationSheetDetails extends Model
         'area_of_rg_plot',
         'area_of_ntbnib_plot',
         'area_as_per_introduction',
-        'area_of_​​subsistence_to_calculate',
+        'area_of_subsistence_to_calculate',
         'permissible_carpet_area_coordinates',
         'permissible_construction_area',
         'sqm_area_per_slot',
