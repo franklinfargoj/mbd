@@ -320,17 +320,17 @@ class EmploymentOfArchitectController extends Controller
 
     public function step4($id)
     {
-        $application = $this->model->whereWithFirst(['fee_payment_details', 'enclosures'], ['id' => $id, 'user_id' => auth()->user()->id]);
-        dd($this->imp_projects);
-        return view('employment_of_architect.form4');
+        $application = $this->model->whereWithFirst(['imp_projects'], ['id' => $id, 'user_id' => auth()->user()->id]);
+        //dd($this->imp_projects);
+        return view('employment_of_architect.form4',compact('application'));
     }
 
     public function step4_post(Request $request)
     {
         $v = Validator::make($request->all(), [
-            '*.name_of_client' => 'required',
-            '*.location' => 'required',
-            '*.category_of_client' => 'required',
+            'name_of_client.*' => 'required',
+            'location.*' => 'required',
+            'category_of_client.*' => 'required',
         ]);
 
         if ($v->fails()) {
@@ -346,21 +346,21 @@ class EmploymentOfArchitectController extends Controller
             foreach ($name_of_clients as $name_of_client) {
                 $imp_project_data_array = array();
                 if (isset($imp_project_id[$i])) {
-                    $imp_project_data_array_with_id[] = [
+                    $imp_project_data_array = [
                         'eoa_application_id' => $application_id,
                         'name_of_client' => $name_of_client,
                         'location' => $locations[$i],
-                        'category_of_client' => $name_of_clients[$i],
+                        'category_of_client' => $category_of_clients[$i],
                     ];
-                    $this->imp_projects->updateWhere($imp_project_data_array_with_id, ['id' => $imp_project_id[$i], 'eoa_application_id' => $application_id]);
+                    $this->imp_projects->updateWhere($imp_project_data_array, ['id' => $imp_project_id[$i], 'eoa_application_id' => $application_id]);
                 } else {
-                    $imp_project_data_array_without_id[] = [
+                    $imp_project_data_array = [
                         'eoa_application_id' => $application_id,
                         'name_of_client' => $name_of_client,
                         'location' => $locations[$i],
                         'category_of_client' => $name_of_clients[$i],
                     ];
-                    $this->imp_projects->create($imp_project_data_array_without_id);
+                    $this->imp_projects->create($imp_project_data_array);
                 }
 
                 $i++;
