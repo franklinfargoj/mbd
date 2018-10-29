@@ -25,7 +25,7 @@ class DYCOController extends Controller
     {
         $this->common = new conveyanceCommonController();
         $this->CommonController = new CommonController();
-    }	
+    }   
 
     //display checklist and office note page
     public function showChecklist(Request $request,$applicationId){
@@ -46,7 +46,7 @@ class DYCOController extends Controller
             $route = 'admin.conveyance.common.view_checklist_office_note';
         }
         
-    	return view($route,compact('data','checklist'));
+        return view($route,compact('data','checklist'));
     }
 
     // save/update checklist data
@@ -115,10 +115,11 @@ class DYCOController extends Controller
     }
 
     public function saveAgreement(Request $request){
-        
+
         $applicationId   = $request->applicationId;
         $sale_agreement  = $request->file('sale_agreement');   
         $lease_agreement = $request->file('lease_agreement'); 
+
         
         $sale_folder_name  = "sale_deed_agreement";
         $lease_folder_name = "lease_deed_agreement";
@@ -141,15 +142,14 @@ class DYCOController extends Controller
                 }
                 $status = 'success';
             }            
-        }
-
+        } 
         if ($lease_agreement) {
 
             $lease_extension = $lease_agreement->getClientOriginalExtension(); 
             $lease_file_name = time().'_lease_'.$applicationId.'.'.$lease_extension;
             $lease_file_path = $lease_folder_name.'/'.$lease_file_name;
             $draftLeaseId = $this->common->getScAgreementId(config('commanConfig.scAgreements.draft_lease_agreement'));
-
+            
             if ($lease_extension == "pdf") {
 
                 $lease_upload = $this->CommonController->ftpFileUpload($lease_folder_name,$request->file('lease_agreement'),$lease_file_name);
@@ -167,7 +167,7 @@ class DYCOController extends Controller
           $this->common->ScAgreementComment($applicationId,$request->remark);  
         }
         
-        if ($status == 'success'){
+        if (isset($status) && $status == 'success'){
             return back()->with('success', 'Agreements uploaded successfully.'); 
         } else{
             return back()->with('error', 'Invalid type of file uploaded (only pdf allowed).');

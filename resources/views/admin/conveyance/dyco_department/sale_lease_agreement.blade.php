@@ -59,12 +59,9 @@
                                             <span class="hint-text">Click on 'Upload' to upload Sale Deed Agreement</span>
                                                 <div class="custom-file">
                                                     <input class="custom-file-input" name="sale_agreement" type="file" id="test-upload1">
-                                                    @if(isset($data->DraftSaleAgreement->agreement_path))
-                                                        <label class="custom-file-label" for="test-upload1">{{ explode("/", $data->DraftSaleAgreement->agreement_path)[1] }}</label>
-                                                    @else
+                                                
                                                         <label class="custom-file-label" for="test-upload1">Choose
-                                                        file...</label>
-                                                    @endif    
+                                                        file...</label>   
                                                 </div>
                                         </div>
                                     </div>
@@ -114,13 +111,13 @@
                                             <h5>Upload</h5>
                                             <span class="hint-text">Click on 'Upload' to upload Lease Deed Agreement</span>
                                                 <div class="custom-file">
+                                                    <!-- <input class="custom-file-input" name="lease_agreement" type="file" id="test-upload2"> -->
+                                                    
                                                     <input class="custom-file-input" name="lease_agreement" type="file" id="test-upload2">
-                                                    @if(isset($data->DraftLeaseAgreement->agreement_path))
-                                                        <label class="custom-file-label" for="test-upload1">{{ explode("/", $data->DraftLeaseAgreement->agreement_path)[1] }}</label>
-                                                    @else    
+   
                                                     <label class="custom-file-label" for="test-upload2">Choose
                                                         file...</label>
-                                                    @endif    
+                                                      
                                                 </div>
                                         </div>
                                     </div>
