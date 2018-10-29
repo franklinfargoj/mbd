@@ -574,8 +574,11 @@ Route::get('generate-receipt', 'EEBillingController@GenerateReceipt');
 
 Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']], function(){
  
+ //common in conveyance
     Route::resource('conveyance', 'conveyance\conveyanceCommonController');    
     Route::get('conveyance_application/{id}', 'conveyance\conveyanceCommonController@ViewApplication')->name('conveyance.view_application');
+
+    Route::get('view_ee_documents/{id}', 'conveyance\conveyanceCommonController@ViewEEDocuments')->name('conveyance.view_ee_documents');
 
     //dyco
     Route::get('checklist/{id}', 'conveyance\DYCODepartment\DYCOController@showChecklist')->name('dyco.checklist');
@@ -605,11 +608,13 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::post('save_calculation_data', 'conveyance\EEDepartment\EEController@SaveCalculationData')->name('ee.save_calculation_data');
     Route::post('save_demarcation_plan', 'conveyance\EEDepartment\EEController@SaveDemarcationPlan')->name('ee.save_demarcation_plan');
     Route::post('save_covering_letter', 'conveyance\EEDepartment\EEController@SaveCoveringLetter')->name('ee.save_covering_letter');
-    Route::get('forward_application_ee/{id}', 'conveyance\EEDepartment\EEController@forwardApplication')->name('ee.forward_application_sc');
+    Route::get('forward_application_ee/{id}', 'conveyance\EEDepartment\EEController@forwardApplication')->name('ee.forward_application_sc'); 
+
+    Route::post('send_forward_application', 'conveyance\EEDepartment\EEController@sendForwardApplication')->name('ee.send_forward_application');    
 });
 
 Route::get('/calculation', function () {
-    return view('admin.conveyance.ee_department.sale_price_calculation');
+    return view('admin.conveyance.common.sale_price_calculation');
 });
 
 Route::get('/scrutiny_remark_em', function () {
@@ -629,6 +634,22 @@ Route::prefix('appointing_architect')->group(function () {
     Route::post('post_signup','EmploymentOfArchitectController@create_user')->name('appointing_architect.post_signup');
     Route::middleware(['check-permission', 'auth', 'disablepreventback'])->group(function(){
         Route::get('index', 'EmploymentOfArchitectController@index')->name('appointing_architect.index');
+        Route::get('step1/{id}', 'EmploymentOfArchitectController@step1')->name('appointing_architect.step1');
+        Route::post('step1_post', 'EmploymentOfArchitectController@step1_post')->name('appointing_architect.step1_post');
+        Route::get('step2/{id}', 'EmploymentOfArchitectController@step2')->name('appointing_architect.step2');
+        Route::post('step2_post', 'EmploymentOfArchitectController@step2_post')->name('appointing_architect.step2_post');
+        Route::get('step3/{id}', 'EmploymentOfArchitectController@step3')->name('appointing_architect.step3');
+        Route::post('step3_post', 'EmploymentOfArchitectController@step3_post')->name('appointing_architect.step3_post');
+        Route::get('step4/{id}', 'EmploymentOfArchitectController@step4')->name('appointing_architect.step4');
+        Route::post('step4_post', 'EmploymentOfArchitectController@step4_post')->name('appointing_architect.step4_post');
+        Route::get('step5/{id}', 'EmploymentOfArchitectController@step5')->name('appointing_architect.step5');
+        Route::post('step5_post', 'EmploymentOfArchitectController@step5_post')->name('appointing_architect.step5_post');
+        Route::get('step6/{id}', 'EmploymentOfArchitectController@step6')->name('appointing_architect.step6');
+        Route::post('step6_post', 'EmploymentOfArchitectController@step6_post')->name('appointing_architect.step6_post');
+        Route::get('step7/{id}', 'EmploymentOfArchitectController@step7')->name('appointing_architect.step7');
+        Route::post('step7_post', 'EmploymentOfArchitectController@step7_post')->name('appointing_architect.step7_post');
+        Route::get('step8/{id}', 'EmploymentOfArchitectController@step8')->name('appointing_architect.step8');
+        Route::post('step8_post', 'EmploymentOfArchitectController@step8_post')->name('appointing_architect.step8_post');
     });
     
 });
@@ -637,4 +658,3 @@ define('SOCIETY_LEVEL_BILLING'  ,'1');
 define('TENANT_LEVEL_BILLING'   ,'2');
 define('PAYMENT_STATUS_NOT_PAID','0');
 define('PAYMENT_STATUS_PAID'    ,'1');
-

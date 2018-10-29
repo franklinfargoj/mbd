@@ -15,7 +15,7 @@ use Storage;
 use App\MasterLayout;
 use App\MasterWard;
 use App\MasterColony;
-use App\MasterSociety;
+use App\SocietyDetail;
 use App\MasterBuilding;
 use App\MasterTenant;
 use App\ArrearsChargesRate;
@@ -34,7 +34,7 @@ class ArrearsCalculationController extends Controller
 
     	if($request->has('society_id') && $request->has('building_id') && !empty($request->society_id) && !empty($request->building_id)) {
 
-    		$society  = MasterSociety::find($request->society_id);
+    		$society  = SocietyDetail::find($request->society_id);
 	        $building = MasterBuilding::where('society_id', $request->society_id)->find($request->building_id);
 	        $years 	  = ArrearsChargesRate::selectRaw('Distinct(year) as years')->where('society_id',$request->society_id)->where('building_id',$request->building_id)->pluck('years','years')->toArray();
 

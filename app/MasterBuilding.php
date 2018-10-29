@@ -19,7 +19,7 @@ class MasterBuilding extends Model
 
     public function MasterSociety(){
 
-    	return $this->belongsTo('App\MasterSociety');	
+    	return $this->belongsTo('App\SocietyDetail');	
     
     }
 }

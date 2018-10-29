@@ -42,7 +42,7 @@
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="society" name="society" required>
                                         <option value="" style="font-weight: normal;">Select Society</option>
                                         @foreach($societies_data as $key => $value)
-                                        <option value="{{ $value->id }}">{{ $value->name }}</option>
+                                        <option value="{{ $value->id }}">{{ $value->society_name }}</option>
                                         @endforeach
                                     </select>
                                 </div>

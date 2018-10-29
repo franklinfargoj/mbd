@@ -15,6 +15,7 @@ class EoaApplicationFeePaymentDetail extends Model
         'pay_order_no',
         'bank',
         'branch',
-        'date_of_payment'
+        'date_of_payment',
+        'receipt_date'
     ];
 }

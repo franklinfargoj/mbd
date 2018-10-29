@@ -143,12 +143,12 @@
     </div>
     <div class="m-portlet m-portlet--mobile m_panel">
         <div class="m-portlet__body">
-            <h3 class="section-title section-title--small">Sent to Jt CO</h3>
+            <h3 class="section-title section-title--small">Remark</h3>
             <div class="col-xs-12 row">
                 <div class="col-md-12">
-                    <p class="font-weight-semi-bold">Remark</p>
+                    <!-- <p class="font-weight-semi-bold">Remark</p> -->
                     <textarea rows="4" cols="63" name="remark"></textarea>
-                    <button type="submit" class="btn btn-primary mt-3">Submit</button>
+                    <button type="submit" class="btn btn-primary mt-3" style="display:block">Save</button>
                 </div>
             </div>
         </div>

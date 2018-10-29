@@ -65,7 +65,7 @@
         @foreach($societies as $key => $value )
             <tr>    
                 <td>{{$value->id}}</td>
-                <td data-search="{{$value->name}}">{{$value->name}}</td>
+                <td data-search="{{$value->society_name}}">{{$value->society_name}}</td>
                <td>
                     <a class="btn btn-info" href="{{route('get_buildings', [$value->id])}}">Society Detail</a>
                     <a class="btn btn-info" href="{{route('soc_bill_level', [$value->id])}}" >Bill Level</a>

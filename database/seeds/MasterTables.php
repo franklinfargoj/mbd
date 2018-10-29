@@ -4,9 +4,9 @@ use Illuminate\Database\Seeder;
 use App\MasterLayout;
 use App\MasterWard;
 use App\MasterColony;
-use App\MasterSociety;
 use App\MasterBuilding;
 use App\MasterTenant;
+use App\MasterTenantType;
 
 class MasterTables extends Seeder
 {
@@ -17,13 +17,27 @@ class MasterTables extends Seeder
      */
     public function run()
     {
+        $wards = MasterWard::select('id')->get();
+        if(count($wards)==0) {
           $master_ward = factory(App\MasterWard::class, 10)->create();
+        }
+        
+        $colony = MasterColony::select('id')->get();
+        if(count($colony)==0) {
           $master_colony = factory(App\MasterColony::class, 30)->create();
-          $master_society = factory(App\MasterSociety::class, 60)->create();
+        }
+        
+        $building = MasterBuilding::select('id')->get();
+        if(count($building)==0) {
           $master_building = factory(App\MasterBuilding::class, 90)->create();
-          $master_tenant = factory(App\MasterTenant::class, 100)->create();
+        }
 
-           $tenant_type = [
+        $tenant = MasterTenant::select('id')->get();
+        if(count($tenant)==0) {
+          $master_tenant = factory(App\MasterTenant::class, 100)->create(); 
+        }
+
+        $tenant = [
                 [
                     'name' => 'LIG',
                     'description' => 'LIG'
@@ -40,19 +54,34 @@ class MasterTables extends Seeder
                     'name' => 'HIG',
                     'description' => 'HIG'
                 ]
-            ];
+        ];
 
-           App\MasterTenantType::insert($tenant_type);
+        $tenant_type = MasterTenantType::select('id')->get();
 
-          DB::table('master_society_bill_level')->insert([
-            'name' => 'Society Level Billing',
-            'description' => 'Society Level Billing'
-          ]);
+        if(count($tenant_type)==0) {
+           App\MasterTenantType::insert($tenant);
+        }
 
-          DB::table('master_society_bill_level')->insert([
-            'name' => 'Tenant Level Billing',
-            'description' => 'Tenant Level Billing'
-          ]);
-          
+
+        $billing_type = [
+                [
+                   'name' => 'Society Level Billing',
+                   'description' => 'Society Level Billing'
+                ],
+                [
+                    'name' => 'Tenant Level Billing',
+                    'description' => 'Tenant Level Billing'
+                ]
+        ];
+
+        $master_society_bill_level = DB::table('master_society_bill_level')->get();
+
+        if(count($master_society_bill_level) == 0){ 
+
+          DB::table('master_society_bill_level')->insert($billing_type);
+
+        }
+
     }
+    
 }
