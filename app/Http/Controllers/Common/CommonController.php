@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Common;
 
 use App\ArchitectApplication;
+use App\conveyance\scApplicationLog;
 use App\EENote;
 use App\Http\Controllers\Controller;
 use App\Layout\ArchitectLayout;
@@ -954,4 +955,56 @@ class CommonController extends Controller
         return $final_detail;
 
     }
+    public function form_fields($name, $type, $select_arr = NULL, $select_arr_key = NULL, $value = NULL, $readonly = NULL){
+        if($type == 'select'){
+            foreach($select_arr as $select_arr_key => $select_arr_value){
+                $select_arr .= '<option value="'.$select_arr_value->id.'">'.$select_arr_value->$select_arr_key.'</option>';
+            }
+            $fields = array(
+                'select' => '<select data-live-search="true" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="'.$name.'" name="'.$name.'" required>'.$select_arr.'</select>',
+            );
+        }
+
+        $fields = array(
+            'text' => '<input type="text" id="'.$name.'" name="'.$name.'" class="form-control form-control--custom m-input" value="'.$value.'" '.$readonly.'>',
+            'date' => '<input type="text" id="'.$name.'" name="'.$name.'" class="form-control form-control--custom m-input m_datepicker" value="'.$value.'" '.$readonly.'>',
+            'textarea' => '<textarea id="'.$name.'" name="'.$name.'" class="form-control form-control--custom form-control--fixed-height m-input"'.$readonly.'>'.$value.'</textarea>',
+        );
+
+        return $fields[$type];
+    }
+
+    public function sc_application_status_society($insert_arr, $status, $sc_application_id){
+        $status_in_words = array_flip(config('commanConfig.applicationStatus'))[$status];
+        $sc_application_last_id = $sc_application_id;
+        foreach($insert_arr['users'] as $key => $user){
+            $i = 0;
+            $insert_application_log[$status_in_words][$key]['application_id'] = $sc_application_last_id;
+            $insert_application_log[$status_in_words][$key]['society_flag'] = 1;
+            $insert_application_log[$status_in_words][$key]['user_id'] = Auth::user()->id;
+            $insert_application_log[$status_in_words][$key]['role_id'] = Auth::user()->role_id;
+            $insert_application_log[$status_in_words][$key]['status_id'] = $status;
+            $insert_application_log[$status_in_words][$key]['to_user_id'] = $user->id;
+            $insert_application_log[$status_in_words][$key]['to_role_id'] = $user->role_id;
+            $insert_application_log[$status_in_words][$key]['remark'] = '';
+            $application_log_status = $insert_application_log[$status_in_words];
+
+            if($status == 2){
+                $status_in_words_1 = array_flip(config('commanConfig.applicationStatus'))[1];
+                $insert_application_log[$status_in_words_1][$key]['application_id'] = $sc_application_last_id;
+                $insert_application_log[$status_in_words_1][$key]['society_flag'] = 1;
+                $insert_application_log[$status_in_words_1][$key]['user_id'] = $user->id;
+                $insert_application_log[$status_in_words_1][$key]['role_id'] = $user->role_id;
+                $insert_application_log[$status_in_words_1][$key]['status_id'] = $status;
+                $insert_application_log[$status_in_words_1][$key]['to_user_id'] = 0;
+                $insert_application_log[$status_in_words_1][$key]['to_role_id'] = 0;
+                $insert_application_log[$status_in_words_1][$key]['remark'] = '';
+                $application_log_status = array_merge($insert_application_log[$status_in_words], $insert_application_log[$status_in_words_1]);
+            }
+            $i++;
+        }
+        $inserted_application_log = scApplicationLog::insert($application_log_status);
+        return $inserted_application_log;
+    }
+
 }

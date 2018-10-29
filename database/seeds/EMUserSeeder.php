@@ -28,15 +28,20 @@ class EMUserSeeder extends Seeder
                 'description' => 'EM Manager'
             ]);
 
-        	$em_user_id = User::insertGetId([
-                'name' => 'EM Manager',
-                'email' => 'em@gmail.com',
-                'password' => bcrypt('user123'),
-                'role_id' => $em_role_id,
-                'uploaded_note_path' => 'Test',
-                'mobile_no' => '7412589635',
-                'address' => 'Mumbai'
-            ]);
+            $em_user=User::where('email', 'em@gmail.com')->first();
+            if($em_user) {
+                $em_user_id=$em_user->id;
+            }else{
+                $em_user_id = User::insertGetId([
+                    'name' => 'EM Manager',
+                    'email' => 'em@gmail.com',
+                    'password' => bcrypt('user123'),
+                    'role_id' => $em_role_id,
+                    'uploaded_note_path' => 'Test',
+                    'mobile_no' => '7412589635',
+                    'address' => 'Mumbai'
+                ]);
+            }
 
             $em_role_user = RoleUser::insert([
                 'user_id' => $em_user_id,

@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 @section('content')
 
-<div class="col-md-12">dsaasdsdadas
+<div class="col-md-12">
     <div class="d-flex form-steps-wrap">
         <button class="btn--unstyled flex-grow-1 form-step-tab active">Step 1</button>
         <button class="btn--unstyled flex-grow-1 form-step-tab active">Step 2</button>
@@ -12,281 +12,61 @@
         <button class="btn--unstyled flex-grow-1 form-step-tab">Step 7</button>
         <button class="btn--unstyled flex-grow-1 form-step-tab">Step 8</button>
     </div>
-    <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
-        <h3 class="section-title section-title--small">Form 5:</h3>
-        <form id="" role="form" method="post" class="m-form m-form--rows m-form--label-align-right"
-            action="" enctype="multipart/form-data">
+    <form id="" role="form" method="post" class="m-form m-form--rows m-form--label-align-right form-steps-box" action="" enctype="multipart/form-data">
+        <div class="m-portlet m-portlet--mobile">
+            <h3 class="section-title section-title--small">Form 5:</h3>
             @csrf
-            <div class="m-portlet__body m-portlet__body--spaced">
-                <div class="form-group m-form__group row">
-                    <div class="col-sm-4 form-group">
-                        <label class="col-form-label" for="">Name of Application:</label>
-                        <input type="text" id="" name="" class="form-control form-control--custom m-input"
-                            value="">
-                        <span class="help-block"></span>
-                    </div>
-                    <div class="col-sm-4 offset-sm-1 form-group">
-                        <label class="col-form-label" for="">Address:</label>
-                        <input type="text" id="" name="" class="form-control form-control--custom m-input"
-                            value="">
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-                <div class="form-group m-form__group row">
-                    <div class="col-sm-4 form-group">
-                        <label class="col-form-label" for="">City:</label>
-                        <input type="text" id="" name="" class="form-control form-control--custom m-input"
-                            value="">
-                        <span class="help-block"></span>
-                    </div>
-                    <div class="col-sm-4 offset-sm-1 form-group">
-                        <label class="col-form-label" for="">PIN:</label>
-                        <input type="text" id="" name="" class="form-control form-control--custom m-input"
-                            value="">
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-                <div class="form-group m-form__group row">
-                    <div class="col-sm-4 form-group">
-                        <label class="col-form-label" for="">Office No:</label>
-                        <input type="text" id="" name="" class="form-control form-control--custom m-input"
-                            value="">
-                        <span class="help-block"></span>
-                    </div>
-                    <div class="col-sm-4 offset-sm-1 form-group">
-                        <label class="col-form-label" for="">Telephone No:</label>
-                        <input type="text" id="" name="" class="form-control form-control--custom m-input"
-                            value="">
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-                <div class="form-group m-form__group row">
-                    <div class="col-sm-4 form-group">
-                        <label class="col-form-label" for="">Mobile No:</label>
-                        <input type="text" id="" name="" class="form-control form-control--custom m-input"
-                            value="">
-                        <span class="help-block"></span>
-                    </div>
-                    <div class="col-sm-4 offset-sm-1 form-group">
-                        <label class="col-form-label" for="">Fax No:</label>
-                        <input type="text" id="" name="" class="form-control form-control--custom m-input"
-                            value="">
-                        <span class="help-block"></span>
+            <div class="m-portlet__body m-portlet__body--table">
+                <div class="">
+                    <div class="table-responsive">
+                        <table id="table-form-4" class="table table--box-input">
+                            <thead class="thead-default">
+                                <tr>
+                                    <th>Name of Client</th>
+                                    <th>No. of Dwelling Units / Flats</th>
+                                    <th>Land Area in Sq. mt</th>
+                                    <th>Built Up Area in Sq. mt</th>
+                                    <th>Value of Works in Rs. (Lakhs)</th>
+                                    <th>Year of Completion / Start</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id=""
+                                            name="">
+                                            <option value="">one</option>
+                                            <option value="">two</option>
+                                            <option value="">three</option>
+                                        </select>
+                                    </td>
+                                    <td><input placeholder="No. of Dwelling" type="text" class="form-control form-control--custom"></td>
+                                    <td><input placeholder="Land Area" type="text" class="form-control form-control--custom"></td>
+                                    <td><input placeholder="Built Up Area" type="text" class="form-control form-control--custom"></td>
+                                    <td><input placeholder="Value of Works" type="text" class="form-control form-control--custom"></td>
+                                    <td><input placeholder="Year" type="text" class="form-control form-control--custom"></td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
-            <div class="m-portlet__head px-0 m-portlet__head--top">
-                <div class="m-portlet__head-caption">
-                    <div class="m-portlet__head-title">
-                        <span class="m-portlet__head-icon m--hide">
-                            <i class="la la-gear"></i>
-                        </span>
-                        <h3 class="m-portlet__head-text">
-                            Payment Details:-
-                        </h3>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group m-form__group row">
-                <div class="col-sm-4 form-group">
-                    <label class="col-form-label" for="">Cash Paid:</label>
-                    <input type="text" id="" name="" class="form-control form-control--custom m-input"
-                        value="">
-                    <span class="help-block"></span>
-                </div>
-                <div class="col-sm-4 offset-sm-1 form-group">
-                    <label class="col-form-label" for="">Pay Order No:</label>
-                    <input type="text" id="" name="" class="form-control form-control--custom m-input"
-                        value="">
-                    <span class="help-block"></span>
-                </div>
-            </div>
-            <div class="form-group m-form__group row">
-                <div class="col-sm-4 form-group">
-                    <label class="col-form-label" for="">Bank Name:</label>
-                    <input type="text" id="" name="" class="form-control form-control--custom m-input"
-                        value="">
-                    <span class="help-block"></span>
-                </div>
-                <div class="col-sm-4 offset-sm-1 form-group">
-                    <label class="col-form-label" for="">Branch Name:</label>
-                    <input type="text" id="" name="" class="form-control form-control--custom m-input"
-                        value="">
-                    <span class="help-block"></span>
-                </div>
-            </div>
-            <div class="form-group m-form__group row">
-                <div class="col-sm-4 form-group">
-                    <label class="col-form-label" for="">Payment Date:</label>
-                    <input type="text" id="" name="" class="form-control form-control--custom m-input"
-                        value="">
-                    <span class="help-block"></span>
-                </div>
-            </div>
-            <div class="m-portlet__head px-0 m-portlet__head--top">
-                <div class="m-portlet__head-caption">
-                    <div class="m-portlet__head-title">
-                        <span class="m-portlet__head-icon m--hide">
-                            <i class="la la-gear"></i>
-                        </span>
-                        <h3 class="m-portlet__head-text">
-                            Receipt Details:-
-                        </h3>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group m-form__group row">
-                <div class="col-sm-4 form-group">
-                    <label class="col-form-label" for="">Receipt No:</label>
-                    <input type="text" id="" name="" class="form-control form-control--custom m-input"
-                        value="">
-                    <span class="help-block"></span>
-                </div>
-                <div class="col-sm-4 offset-sm-1 form-group">
-                    <label class="col-form-label" for="">Receipt Date:</label>
-                    <input type="text" id="" name="" class="form-control form-control--custom m-input"
-                        value="">
-                    <span class="help-block"></span>
-                </div>
-            </div>
-            <div class="m-portlet__head px-0 m-portlet__head--top">
-                <div class="m-portlet__head-caption">
-                    <div class="m-portlet__head-title">
-                        <span class="m-portlet__head-icon m--hide">
-                            <i class="la la-gear"></i>
-                        </span>
-                        <h3 class="m-portlet__head-text">
-                            Enclosures:-
-                        </h3>
-                    </div>
-                </div>
-            </div>
-            <div class="input-row-list">
-                <div class="d-flex align-items-end">
-                    <label class="mb-0 mr-4 font-weight-semi-bold" for="">1.</label>
-                    <input type="text" id="" name="" class="form-control form-control--custom m-input w-100" value="">
-                </div>
-                <span class="help-block"></span>
-            </div>
-            <div class="input-row-list">
-                <div class="d-flex align-items-end">
-                    <label class="mb-0 mr-4 font-weight-semi-bold" for="">2.</label>
-                    <input type="text" id="" name="" class="form-control form-control--custom m-input w-100" value="">
-                </div>
-                <span class="help-block"></span>
-            </div>
-            <div class="input-row-list">
-                <div class="d-flex align-items-end">
-                    <label class="mb-0 mr-4 font-weight-semi-bold" for="">3.</label>
-                    <input type="text" id="" name="" class="form-control form-control--custom m-input w-100" value="">
-                </div>
-                <span class="help-block"></span>
-            </div>
-            <div class="input-row-list">
-                <div class="d-flex align-items-end">
-                    <label class="mb-0 mr-4 font-weight-semi-bold" for="">4.</label>
-                    <input type="text" id="" name="" class="form-control form-control--custom m-input w-100" value="">
-                </div>
-                <span class="help-block"></span>
-            </div>
-            <div class="input-row-list">
-                <div class="d-flex align-items-end">
-                    <label class="mb-0 mr-4 font-weight-semi-bold" for="">5.</label>
-                    <input type="text" id="" name="" class="form-control form-control--custom m-input w-100" value="">
-                </div>
-                <span class="help-block"></span>
-            </div>
-            <div class="input-row-list">
-                <div class="d-flex align-items-end">
-                    <label class="mb-0 mr-4 font-weight-semi-bold" for="">6.</label>
-                    <input type="text" id="" name="" class="form-control form-control--custom m-input w-100" value="">
-                </div>
-                <span class="help-block"></span>
-            </div>
-            <div class="input-row-list">
-                <div class="d-flex align-items-end">
-                    <label class="mb-0 mr-4 font-weight-semi-bold" for="">7.</label>
-                    <input type="text" id="" name="" class="form-control form-control--custom m-input w-100" value="">
-                </div>
-                <span class="help-block"></span>
-            </div>
-            <div class="input-row-list">
-                <div class="d-flex align-items-end">
-                    <label class="mb-0 mr-4 font-weight-semi-bold" for="">8.</label>
-                    <input type="text" id="" name="" class="form-control form-control--custom m-input w-100" value="">
-                </div>
-                <span class="help-block"></span>
-            </div>
-            <div class="input-row-list">
-                <div class="d-flex align-items-end">
-                    <label class="mb-0 mr-4 font-weight-semi-bold" for="">9.</label>
-                    <input type="text" id="" name="" class="form-control form-control--custom m-input w-100" value="">
-                </div>
-                <span class="help-block"></span>
-            </div>
-            <div class="input-row-list">
-                <div class="d-flex align-items-end">
-                    <label class="mb-0 mr-4 font-weight-semi-bold" for="">10.</label>
-                    <input type="text" id="" name="" class="form-control form-control--custom m-input w-100" value="">
-                </div>
-                <span class="help-block"></span>
-            </div>
-            <div class="input-row-list">
-                <div class="d-flex align-items-end">
-                    <label class="mb-0 mr-4 font-weight-semi-bold" for="">11.</label>
-                    <input type="text" id="" name="" class="form-control form-control--custom m-input w-100" value="">
-                </div>
-                <span class="help-block"></span>
-            </div>
-            <div class="input-row-list">
-                <div class="d-flex align-items-end">
-                    <label class="mb-0 mr-4 font-weight-semi-bold" for="">12.</label>
-                    <input type="text" id="" name="" class="form-control form-control--custom m-input w-100" value="">
-                </div>
-                <span class="help-block"></span>
-            </div>
-            <div class="input-row-list">
-                <div class="d-flex align-items-end">
-                    <label class="mb-0 mr-4 font-weight-semi-bold" for="">13.</label>
-                    <input type="text" id="" name="" class="form-control form-control--custom m-input w-100" value="">
-                </div>
-                <span class="help-block"></span>
-            </div>
-            <div class="input-row-list">
-                <div class="d-flex align-items-end">
-                    <label class="mb-0 mr-4 font-weight-semi-bold" for="">14.</label>
-                    <input type="text" id="" name="" class="form-control form-control--custom m-input w-100" value="">
-                </div>
-                <span class="help-block"></span>
-            </div>
-            <div class="input-row-list">
-                <div class="d-flex align-items-end">
-                    <label class="mb-0 mr-4 font-weight-semi-bold" for="">15.</label>
-                    <input type="text" id="" name="" class="form-control form-control--custom m-input w-100" value="">
-                </div>
-                <span class="help-block"></span>
-            </div>
-
-            <div class="m-checkbox-list mt-5">
-                <label class="m-checkbox m-checkbox--primary">
-                    <input type="checkbox"> Is verified by me and the same is correct by my knowledge
-                    <span></span>
-                </label>
-            </div>
-            <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
-                <div class="m-form__actions px-0">
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <div class="btn-list">
-                                <button type="submit" id="" class="btn btn-primary">Save</button>
-                                <a href="" class="btn btn-secondary">Cancel</a>
-                            </div>
+        </div>
+        <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+            <div class="m-form__actions p-0">
+                <div class="row">
+                    <div class="col">
+                        <div class="btn-list d-flex justify-content-end">
+                            <button type="submit" id="" class="btn btn-primary">Next</button>
                         </div>
                     </div>
                 </div>
             </div>
-        </form>
-    </div>
+        </div>
+    </form>
 </div>
 
+@endsection
+
+@section('js')
 @endsection

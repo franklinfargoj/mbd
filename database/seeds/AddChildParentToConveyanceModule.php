@@ -19,7 +19,7 @@ class AddChildParentToConveyanceModule extends Seeder
         $ee_head_id 	   = Role::where('name', '=', 'ee_engineer')->value('id');
         $ee_deputy_id 	   = Role::where('name', '=', 'ee_dy_engineer')->value('id');
         $ee_jr_id 		   = Role::where('name', '=', 'ee_junior_engineer')->value('id');
-        $em_role_id 	   = Role::where('name', '=', 'EM')->value('id');
+        $em_role_id 	   = Role::where('name', '=', 'em_manager')->value('id');
         $architect_jr_id   = Role::where('name', '=', 'junior_architect')->value('id');
         $architect_as_id   = Role::where('name', '=', 'senior_architect')->value('id');
         $architect_head_id = Role::where('name', '=', 'architect')->value('id');
