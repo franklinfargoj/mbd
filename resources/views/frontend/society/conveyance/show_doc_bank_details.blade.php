@@ -1,6 +1,6 @@
 @extends('frontend.layouts.sidebarAction')
 @section('actions')
-@include('frontend.society.actions',compact('ol_applications'))
+@include('frontend.society.conveyance.actions',compact('sc_application'))
 @endsection
 @section('content')
 <div class="col-md-12">
@@ -55,8 +55,7 @@
                         <tr>
                             <td>{{ $i }}</td>
                             <td>
-                                {{ $document->name }}<span class="compulsory-text">@if(in_array($i, $optional_docs))<small><span style="color: green;">(Optional
-                                            Document)</span></small> @else <small>(Compulsory Document)</small> @endif</span>
+                                {{ $document->document_name }}<span class="compulsory-text">(Compulsory Document)</span>
                             </td>
                             <td class="text-center">
                                 <h2 class="m--font-danger">
@@ -163,26 +162,26 @@
                                     <p class="remarks-section__data__row"><span>Description:</span><span>{{$application->olApplicationStatus[0]->remark}}</span></p>
                                 </div>
 
-                                <div class="remarks-section__data">
-                                    <form action="{{ route('add_uploaded_documents_remark') }}" method="post" enctype='multipart/form-data'>
-                                        @csrf
-                                        <div class="form-group">
-                                            <label class="col-form-label">Remark</label>
-                                            <div class="col-md-8 @if($errors->has('society_documents_comment')) has-error @endif">
-                                                <div class="input-icon right">
-                                                    <textarea name="remark" id="remark" class="form-control m-input">{{old('remark')}}</textarea>
-                                                    <span class="help-block">{{$errors->first('remark')}}</span>
-                                                    <input type="hidden" name="user_id" id="user_id" class="form-control m-input"
-                                                           value="{{ $application->olApplicationStatus[0]->user_id }}">
-                                                    <input type="hidden" name="role_id" id="role_id" class="form-control m-input"
-                                                           value="{{ $application->olApplicationStatus[0]->role_id }}">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <br>
-                                        <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Submit</button>
-                                    </form>
-                                </div>
+                                {{--<div class="remarks-section__data">--}}
+                                    {{--<form action="{{ route('add_uploaded_documents_remark') }}" method="post" enctype='multipart/form-data'>--}}
+                                        {{--@csrf--}}
+                                        {{--<div class="form-group">--}}
+                                            {{--<label class="col-form-label">Remark</label>--}}
+                                            {{--<div class="col-md-8 @if($errors->has('society_documents_comment')) has-error @endif">--}}
+                                                {{--<div class="input-icon right">--}}
+                                                    {{--<textarea name="remark" id="remark" class="form-control m-input">{{old('remark')}}</textarea>--}}
+                                                    {{--<span class="help-block">{{$errors->first('remark')}}</span>--}}
+                                                    {{--<input type="hidden" name="user_id" id="user_id" class="form-control m-input"--}}
+                                                           {{--value="{{ $application->olApplicationStatus[0]->user_id }}">--}}
+                                                    {{--<input type="hidden" name="role_id" id="role_id" class="form-control m-input"--}}
+                                                           {{--value="{{ $application->olApplicationStatus[0]->role_id }}">--}}
+                                                {{--</div>--}}
+                                            {{--</div>--}}
+                                        {{--</div>--}}
+                                        {{--<br>--}}
+                                        {{--<button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Submit</button>--}}
+                                    {{--</form>--}}
+                                {{--</div>--}}
                             </div>
                         </div>
                     </div>
