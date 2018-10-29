@@ -1,19 +1,23 @@
 <div class="m-portlet__body m-portlet__body--spaced">
     <div class="form-group m-form__group row">
-        <div class="col-sm-4 form-group">
+        <div class="col-sm-12 form-group">
             <label class="col-form-label" for="">Category of panel applied for</label>
         </div>
-        <div class="col-sm-2 offset-sm-1 form-group">
-            <input
-                {{config('commanConfig.eoa_panel_categories.HOUSING')==$application->category_of_panel?'checked':''}}
-                type="radio" id="" name="category_of_panel" class="form-control" value="{{config('commanConfig.eoa_panel_categories.HOUSING')}}">
-            <label class="col-form-label" for="">HOUSING</label>
+        <div class="col-sm-2 form-group">
+            <label class="m-radio m-radio--primary">
+                <input
+                    {{config('commanConfig.eoa_panel_categories.HOUSING')==$application->category_of_panel?'checked':''}}
+                    type="radio" id="" name="category_of_panel" class="form-control" value="{{config('commanConfig.eoa_panel_categories.HOUSING')}}">Housing
+                <span></span>
+            </label>
         </div>
-        <div class="col-sm-2 offset-sm-1 form-group">
-            <input
-                {{config('commanConfig.eoa_panel_categories.LANDSCAPE')==$application->category_of_panel?'checked':''}}
-                type="radio" id="" name="category_of_panel" class="form-control" value="{{config('commanConfig.eoa_panel_categories.LANDSCAPE')}}">
-            <label class="col-form-label" for="">LANDSCAPE</label>
+        <div class="col-sm-2 form-group">
+            <label class="m-radio m-radio--primary">
+                <input
+                    {{config('commanConfig.eoa_panel_categories.LANDSCAPE')==$application->category_of_panel?'checked':''}}
+                    type="radio" id="" name="category_of_panel" class="form-control" value="{{config('commanConfig.eoa_panel_categories.LANDSCAPE')}}">Landscape
+                <span></span>
+            </label>
             @if ($errors->has('category_of_panel'))
             <span class="text-danger">{{ $errors->first('category_of_panel') }}</span>
             @endif
