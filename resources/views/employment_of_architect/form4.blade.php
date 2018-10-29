@@ -12,11 +12,11 @@
         <button class="btn--unstyled flex-grow-1 form-step-tab">Step 7</button>
         <button class="btn--unstyled flex-grow-1 form-step-tab">Step 8</button>
     </div>
-    @if ($errors->any())
+    {{-- @if ($errors->any())
     @foreach ($errors->all() as $error)
     <div>{{$error}}</div>
     @endforeach
-    @endif
+    @endif --}}
     <form id="" role="form" method="post" class="m-form m-form--rows m-form--label-align-right form-steps-box" action="{{route('appointing_architect.step4_post')}}"
         enctype="multipart/form-data">
         <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
