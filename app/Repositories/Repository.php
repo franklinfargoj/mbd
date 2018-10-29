@@ -65,7 +65,7 @@ class Repository implements RepositoryInterface
     }
 
     // Where condition
-    public function whereFirst($where)
+    public function whereFirst(array $where)
     {
        return $this->model->where($where)->first();
     }

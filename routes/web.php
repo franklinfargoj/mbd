@@ -658,4 +658,3 @@ define('SOCIETY_LEVEL_BILLING'  ,'1');
 define('TENANT_LEVEL_BILLING'   ,'2');
 define('PAYMENT_STATUS_NOT_PAID','0');
 define('PAYMENT_STATUS_PAID'    ,'1');
-
