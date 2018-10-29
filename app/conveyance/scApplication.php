@@ -9,6 +9,7 @@ class scApplication extends Model
 	protected $table = 'sc_application';
 	public $timestamps = true;
 	protected $fillable = [
+	    'sc_application_master_id',
 	    'application_no',
 		'society_id',
 	    'form_request_id',

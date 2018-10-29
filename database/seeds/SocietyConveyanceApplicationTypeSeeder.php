@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\SocietyConveyanceApplicationType;
+use App\scApplicationType;
 
 class SocietyConveyanceApplicationTypeSeeder extends Seeder
 {
@@ -12,7 +12,7 @@ class SocietyConveyanceApplicationTypeSeeder extends Seeder
      */
     public function run()
     {
-        $society = SocietyConveyanceApplicationType::all();
+        $society = scApplicationType::all();
 
         $sc_applications = [
             [
