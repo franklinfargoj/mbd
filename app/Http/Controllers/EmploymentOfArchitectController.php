@@ -202,14 +202,16 @@ class EmploymentOfArchitectController extends Controller
                     'pay_order_no' => $request->pay_order_no,
                     'bank' => $request->bank,
                     'branch' => $request->branch,
-                    'date_of_payment' => $request->date_of_payment,
-                    'receipt_date' => $request->receipt_date,
+                    'date_of_payment' => date('Y-m-d',strtotime($request->date_of_payment)),
+                    'receipt_date' => date('Y-m-d',strtotime($request->receipt_date))
                 ];
+               
                 if ($this->fee_payment->whereFirst(['eoa_application_id' => $application_id])) {
                     $this->fee_payment->updateWhere($payment_data, ['eoa_application_id' => $application_id]);
                 } else {
                     $this->fee_payment->create($payment_data);
                 }
+                
                 return redirect()->route('appointing_architect.step2', ['id' => $application_id]);
             }
         }
