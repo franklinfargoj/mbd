@@ -632,16 +632,24 @@ Route::prefix('appointing_architect')->group(function () {
     Route::get('login','Auth\LoginController@getAppointingArchitectLoginForm')->name('appointing_architect.login');
     Route::get('signup','EmploymentOfArchitectController@signup')->name('appointing_architect.signup');
     Route::post('post_signup','EmploymentOfArchitectController@create_user')->name('appointing_architect.post_signup');
-    Route::get('index', 'EmploymentOfArchitectController@index')->name('appointing_architect.index');
-    Route::get('step2', 'EmploymentOfArchitectController@step2')->name('appointing_architect.index');
-    Route::get('step3', 'EmploymentOfArchitectController@step3')->name('appointing_architect.index');
-    Route::get('step4', 'EmploymentOfArchitectController@step4')->name('appointing_architect.index');
-    Route::get('step5', 'EmploymentOfArchitectController@step5')->name('appointing_architect.index');
-    Route::get('step6', 'EmploymentOfArchitectController@step6')->name('appointing_architect.index');
-    Route::get('step7', 'EmploymentOfArchitectController@step7')->name('appointing_architect.index');
-    Route::get('step8', 'EmploymentOfArchitectController@step8')->name('appointing_architect.index');
     Route::middleware(['check-permission', 'auth', 'disablepreventback'])->group(function(){
-       
+        Route::get('index', 'EmploymentOfArchitectController@index')->name('appointing_architect.index');
+        Route::get('step1/{id}', 'EmploymentOfArchitectController@step1')->name('appointing_architect.step1');
+        Route::post('step1_post', 'EmploymentOfArchitectController@step1_post')->name('appointing_architect.step1_post');
+        Route::get('step2/{id}', 'EmploymentOfArchitectController@step2')->name('appointing_architect.step2');
+        Route::post('step2_post', 'EmploymentOfArchitectController@step2_post')->name('appointing_architect.step2_post');
+        Route::get('step3/{id}', 'EmploymentOfArchitectController@step3')->name('appointing_architect.step3');
+        Route::post('step3_post', 'EmploymentOfArchitectController@step3_post')->name('appointing_architect.step3_post');
+        Route::get('step4/{id}', 'EmploymentOfArchitectController@step4')->name('appointing_architect.step4');
+        Route::post('step4_post', 'EmploymentOfArchitectController@step4_post')->name('appointing_architect.step4_post');
+        Route::get('step5/{id}', 'EmploymentOfArchitectController@step5')->name('appointing_architect.step5');
+        Route::post('step5_post', 'EmploymentOfArchitectController@step5_post')->name('appointing_architect.step5_post');
+        Route::get('step6/{id}', 'EmploymentOfArchitectController@step6')->name('appointing_architect.step6');
+        Route::post('step6_post', 'EmploymentOfArchitectController@step6_post')->name('appointing_architect.step6_post');
+        Route::get('step7/{id}', 'EmploymentOfArchitectController@step7')->name('appointing_architect.step7');
+        Route::post('step7_post', 'EmploymentOfArchitectController@step7_post')->name('appointing_architect.step7_post');
+        Route::get('step8/{id}', 'EmploymentOfArchitectController@step8')->name('appointing_architect.step8');
+        Route::post('step8_post', 'EmploymentOfArchitectController@step8_post')->name('appointing_architect.step8_post');
     });
     
 });

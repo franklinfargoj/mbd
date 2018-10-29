@@ -124,6 +124,11 @@ return [
 
     'storage_server' => 'http://storage.mhada.php-dev.in',
 
+
+    'eoa_panel_categories'=>[
+        'HOUSING'=>1,
+        'LANDSCAPE'=>2
+    ],
     'eoa_imp_senior_professionals_category'=>[
         'AR'=>'ARCHITECT',
         'EN'=>'ENGINEER',
