@@ -327,9 +327,10 @@ lm_village_detail.updated_at'))->get();
             'land_address' => $request->land_address,
             'district' => $request->district,
             'taluka' => $request->taluka,
-            'total_area' => $request->total_area,
-            'possession_date' => $request->possession_date,
             'remark' => $request->remark,
+            'total_area' => $request->total_area,
+            'property_card_area' => $request->property_card_area,
+            'possession_date' => $request->possession_date,
             '7_12_mhada_name' => $request->mhada_name,
             'property_card' => $request->property_card,
             'property_card_mhada_name' => $request->property_card_mhada_name,
@@ -337,7 +338,11 @@ lm_village_detail.updated_at'))->get();
             'user_id' => Auth::user()->id,
             'role_id' => session()->get('role_id')
         ];
-        
+
+        if($request->remark == 'other')
+            $village_data += [
+                'other_remark' =>$request->other_remark
+            ];
         $time = time();
 
         if($request->file_upload == 1) {
@@ -361,7 +366,10 @@ lm_village_detail.updated_at'))->get();
         }
         else
         {
+            $village_data['extract_file_path'] = '';
+            $village_data['extract_file_name'] = '';
             $village_data['7_12_extract'] = 0;
+            $village_data['property_card_mhada_name'] = 0;
         }
         
         VillageDetail::create($village_data);
@@ -412,6 +420,7 @@ lm_village_detail.updated_at'))->get();
      */
     public function update(EditVillageDetailRequest $request, $id)
     {
+//        dd($request->all());
         $village = VillageDetail::find($id);
         $village_data = [
             'board_id' => $request->board_id,
@@ -426,11 +435,19 @@ lm_village_detail.updated_at'))->get();
             'remark' => $request->remark,
             '7_12_mhada_name' => $request->mhada_name,
             'property_card' => $request->property_card,
+            'property_card_area' => $request->property_card_area,
             'property_card_mhada_name' => $request->property_card_mhada_name,
             'land_cost' => $request->land_cost,
             'user_id' => Auth::user()->id,
             'role_id' => session()->get('role_id')
         ];
+
+        if($request->remark == 'other')
+            $village_data += [
+                'other_remark' =>$request->other_remark
+            ];
+
+//        dd($request->all());
 
         $time = time();
 
@@ -458,6 +475,8 @@ lm_village_detail.updated_at'))->get();
             $village_data['extract_file_path'] = '';
             $village_data['extract_file_name'] = '';
             $village_data['7_12_extract'] = 0;
+            $village_data['property_card_mhada_name'] = 0;
+
         }
 
         $village->update($village_data);

@@ -360,15 +360,23 @@ var SnippetLogin = function() {
                         property_card: {
                             required: !0
                         },
+                        property_card_area: {
+                            required: true
+                        },
                         property_card_mhada_name: {
                             required: !0
                         },
-                        mhada_name: {
-                            required: !0
-                        },
+                        // mhada_name: {
+                        //     required: !0
+                        // },
                         extract: {
                             required: '.file_upload[value="1"]:checked',
                             accept: "pdf"
+                        },
+                        other_remark: {
+                            required:function(element) {
+                                return ($('#remark').val() == 'other');
+                            }
                         }
                     },
                     messages: {
@@ -432,18 +440,33 @@ var SnippetLogin = function() {
                         property_card: {
                             required: !0
                         },
+                        property_card_area: {
+                            required: true
+                        },
                         property_card_mhada_name: {
                             required: !0
                         },
-                        mhada_name: {
-                            required: !0
-                        }
-                        // extract: {
-                        //     required: function(element) {
-                        //         return $('#file_upload').is(':checked')
-                        //     }
+                        // mhada_name: {
+                        //     required: !0
                         // }
+                        extract: {
+                            required: function(element) {
+                                alert($('#extract').val() != 'NULL'  && $('#file_upload').is(':checked'));
+                                return ($('#file_upload').is(':checked') && ($('#extract').val() == 'NULL' ) )
+                            },
+                            accept: "pdf",
+                        },
+                        other_remark: {
+                            required:function(element) {
+                                return ($('#remark').val() == 'other');
+                            }
+                        }
                     },
+                    messages: {
+                        extract:{
+                            accept: "Only pdf allowed",
+                        }
+                    }
                 }), t.valid() && (a.addClass("m-loader m-loader--right m-loader--light").attr("disabled", !0), setTimeout(function() {
                     $('#editVillageDetail').submit();
                 }, 500))
@@ -474,9 +497,6 @@ var SnippetLogin = function() {
                             required: !0,
                             number: true
                         },
-                        chairman: {
-                            required: !0
-                        },
                         society_address: {
                             required: !0
                         },
@@ -497,7 +517,32 @@ var SnippetLogin = function() {
                         other_land_id: {
                             required: !0
                         },
-                    }
+                        society_reg_no: {
+                            required: !0
+                        },
+                        society_conveyed: {
+                            required: !0
+                        },
+                        date_of_conveyance: {
+                            required: '.society_conveyed[value="1"]:checked',
+                        },
+                        area_of_conveyance: {
+                            required: '.society_conveyed[value="1"]:checked',
+                        },
+                        village: {
+                            required: !0
+                        },
+                        chairman_mob_no: {
+                            minlength: 10,
+                            maxlength: 10,
+                            number: true
+                        },
+                        secretary_mob_no: {
+                            minlength: 10,
+                            maxlength: 10,
+                            number: true
+                        }
+                    },
                 }), t.valid() && (a.addClass("m-loader m-loader--right m-loader--light").attr("disabled", !0), setTimeout(function() {
                     $('#addSocietyDetail').submit();
                 }, 500))
@@ -551,6 +596,31 @@ var SnippetLogin = function() {
                         other_land_id: {
                             required: !0
                         },
+                        society_reg_no: {
+                            required: !0
+                        },
+                        society_conveyed: {
+                            required: !0
+                        },
+                        date_of_conveyance: {
+                            required: '.society_conveyed[value="1"]:checked',
+                        },
+                        area_of_conveyance: {
+                            required: '.society_conveyed[value="1"]:checked',
+                        },
+                        village: {
+                            required: !0
+                        },
+                        chairman_mob_no: {
+                            minlength: 10,
+                            maxlength: 10,
+                            number: true
+                        },
+                        secretary_mob_no: {
+                            minlength: 10,
+                            maxlength: 10,
+                            number: true
+                        }
                     }
                 }), t.valid() && (a.addClass("m-loader m-loader--right m-loader--light").attr("disabled", !0), setTimeout(function() {
                     $('#editSocietyDetail').submit();
