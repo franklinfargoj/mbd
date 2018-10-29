@@ -4,10 +4,9 @@ use Illuminate\Database\Seeder;
 use App\MasterLayout;
 use App\MasterWard;
 use App\MasterColony;
-use App\MasterSociety;
 use App\MasterBuilding;
 use App\MasterTenant;
-use DB;
+use App\MasterTenantType;
 
 class MasterTables extends Seeder
 {
@@ -35,10 +34,10 @@ class MasterTables extends Seeder
 
         $tenant = MasterTenant::select('id')->get();
         if(count($tenant)==0) {
-          $master_tenant = factory(App\MasterTenant::class, 100)->create();
+          $master_tenant = factory(App\MasterTenant::class, 100)->create(); 
         }
 
-        $tenant_type = [
+        $tenant = [
                 [
                     'name' => 'LIG',
                     'description' => 'LIG'
@@ -60,20 +59,27 @@ class MasterTables extends Seeder
         $tenant_type = MasterTenantType::select('id')->get();
 
         if(count($tenant_type)==0) {
-           App\MasterTenantType::insert($tenant_type);
+           App\MasterTenantType::insert($tenant);
         }
 
-        $master_society_bill_level = DB::table('master_society_bill_level')->get();
-        if(count($master_society_bill_level) == 0){ 
-          DB::table('master_society_bill_level')->insert([
-            'name' => 'Society Level Billing',
-            'description' => 'Society Level Billing'
-          ]);
 
-          DB::table('master_society_bill_level')->insert([
-            'name' => 'Tenant Level Billing',
-            'description' => 'Tenant Level Billing'
-          ]);
+        $billing_type = [
+                [
+                   'name' => 'Society Level Billing',
+                   'description' => 'Society Level Billing'
+                ],
+                [
+                    'name' => 'Tenant Level Billing',
+                    'description' => 'Tenant Level Billing'
+                ]
+        ];
+
+        $master_society_bill_level = DB::table('master_society_bill_level')->get();
+
+        if(count($master_society_bill_level) == 0){ 
+
+          DB::table('master_society_bill_level')->insert($billing_type);
+
         }
 
     }

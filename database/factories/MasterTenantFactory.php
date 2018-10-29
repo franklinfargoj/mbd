@@ -14,8 +14,11 @@ use Faker\Generator as Faker;
 */
 
 $factory->define(App\MasterTenant::class, function (Faker $faker) {
+    
+    $users = App\MasterBuilding::all()->pluck('id')->toArray();
+
     return [
-        'building_id' => $faker->numberBetween(1, 90),
+        'building_id' => $faker->randomElement($users),
         'flat_no' => $faker->numberBetween(113, 9895),
         'salutation' => 'Shri',
         'first_name' => $faker->firstName(),

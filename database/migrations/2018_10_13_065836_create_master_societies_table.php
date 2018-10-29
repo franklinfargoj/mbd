@@ -19,7 +19,6 @@ class CreateMasterSocietiesTable extends Migration
             $table->foreign('colony_id')->references('id')->on('master_colonies');
             $table->string('name')->nullable();
             $table->string('description')->nullable();
-            $table->string('society_bill_level')->nullable();
             $table->timestamps();
         });
     }

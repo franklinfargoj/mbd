@@ -341,6 +341,21 @@ class EMUserSeeder extends Seeder
                     'description' => 'Get Societies Select Data'
                 ],
                 [
+                    'name' => 'get_building_select',
+                    'display_name' => 'Selected Building',
+                    'description' => 'Selected Building'
+                ],
+                [
+                    'name' => 'arrears_calculations',
+                    'display_name' => 'Arrears Calculations',
+                    'description' => 'Arrears Calculations'
+                ],
+                [
+                    'name' => 'billing_calculations',
+                    'display_name' => 'Billing Calculations',
+                    'description' => 'Billing Calculations'
+                ],
+                [
                     'name' => 'get_building_bill_collection', 
                     'display_name' => 'Get Buildings Bill Collection List Data',
                     'description' => 'Get Buildings Bill Collection List Data'

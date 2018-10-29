@@ -34,14 +34,12 @@ use Session;
 use App\MasterLayout;
 use App\MasterWard;
 use App\MasterColony;
-/*use App\MasterSociety;
-*/
+use App\SocietyDetail;
 use App\MasterBuilding;
 use App\MasterTenant;
 use App\ArrearsChargesRate;
 use App\ArrearTenantPayment;
 use App\ArrearCalculation;
-use App\SocietyDetail;
 
 class EMClerkController extends Controller
 {

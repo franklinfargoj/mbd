@@ -4,7 +4,7 @@ namespace App\Http\Controllers\EEDepartment;
 
 use App\Http\Controllers\Common\CommonController;
 use App\MasterBuilding;
-use App\MasterSociety;
+use App\SocietyDetail;
 use App\ArrearsChargesRate;
 use App\MasterTenantType;
 use App\User;
@@ -28,7 +28,7 @@ class ArrearsServiceController extends Controller
     }
 
     public function arrersChargesRate($society_id,$building_id,Request $request,Datatables $datatables) {
-        $society = MasterSociety::find($society_id);
+        $society = SocietyDetail::find($society_id);
         $building = MasterBuilding::where('society_id', $society_id)->find($building_id);
 
         $columns = [
@@ -70,7 +70,7 @@ class ArrearsServiceController extends Controller
 
     public function create($society_id,$building_id) {
     	$data['tenant_types'] = MasterTenantType::pluck('name','name')->toArray();
-    	$data['society'] = MasterSociety::find($society_id);
+    	$data['society'] = SocietyDetail::find($society_id);
         $data['building'] = MasterBuilding::where('society_id', $society_id)->find($building_id);
     	return view('admin.arrears_charges.create',$data);
     }
@@ -89,7 +89,7 @@ class ArrearsServiceController extends Controller
             return redirect('arrears_charges/'.$society_id.'/'.$building_id.'/create')->withErrors($validator)->withInput();
         }
 
-        $society = MasterSociety::find($society_id);
+        $society = SocietyDetail::find($society_id);
         $building = MasterBuilding::where('society_id', $society_id)->find($building_id);
 
         $arrears_charge = new ArrearsChargesRate;
@@ -110,7 +110,7 @@ class ArrearsServiceController extends Controller
     public function edit($id) {
     	$data['tenant_types'] = MasterTenantType::pluck('name','name')->toArray();
     	$data['arrears_charge'] = ArrearsChargesRate::find($id);
-    	$data['society'] = MasterSociety::find($data['arrears_charge']->society_id);
+    	$data['society'] = SocietyDetail::find($data['arrears_charge']->society_id);
         $data['building'] = MasterBuilding::where('society_id', $data['arrears_charge']->society_id)->find($data['arrears_charge']->building_id);
     	return view('admin.arrears_charges.edit',$data);
     }
