@@ -67,7 +67,12 @@ return [
         'stamp_sign_lease_agreement' => 'stamp_sign_lease_agreement',
         'register_sale_agreement'    => 'register_sale_agreement',
         'register_lease_agreement'   => 'register_lease_agreement',
-    ],   
+    ], 
+
+    // sc Application types 
+    //  'scApplication' => [
+    //     'draft_sale_agreement'       => 'draft_sale_agreement',
+    // ],      
 
     'applicationStatusColor' => [
         '1' => 'metal',
