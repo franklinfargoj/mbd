@@ -141,6 +141,46 @@
             </div> -->
         </div>
     </div>
+
+    @if(count($data->AgreementComments) > 0)       
+        <div class="m-portlet m-portlet--mobile m_panel">
+            <div class="m-portlet__body">
+            <h3 class="section-title section-title--small">Remark History </h3>
+                <div class="remark-body">
+                    <div class="remarks-section">
+                        <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container"
+                            data-scrollbar-shown="true" data-scrollable="true" data-max-height="200">
+                            @foreach($data->AgreementComments as $comment)
+                                <div class="remarks-section__data">
+                                    <p class="remarks-section__data__row"><span>Remark By {{ isset($comment->Roles->display_name) ?  $comment->Roles->display_name : '' }}</p>
+                                    <p class="remarks-section__data__row"><span>Remark:</span><span>{{ isset($comment->remark) ? $comment->remark : '' }}</span></p>
+                                </div>
+                            @endforeach                                         
+                        </div>
+                    </div>
+                </div>               
+            </div>    
+        </div> 
+    @endif   
+
+    @if($status->status_id == config('commanConfig.applicationStatus.in_process'))
+
+        <form class="nav-tabs-form" id ="CommentFRM" role="form" method="POST" action="{{ route('conveyance.save_agreement_comments')}}">
+            @csrf   
+             <input type="hidden" name="application_id" value="{{ isset($data->id) ? $data->id : '' }}">
+            <div class="m-portlet m-portlet--mobile m_panel">  
+                <div class="m-portlet__body">   
+                    <div class="col-xs-12 row">
+                        <div class="col-md-12">
+                            <h3 class="section-title section-title--small">Remark</h3>
+                                <textarea rows="4" cols="63" name="remark"></textarea>
+                                <button type="submit" class="btn btn-primary mt-3" style="display:block">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    @endif     
  </form>   
 </div>
 

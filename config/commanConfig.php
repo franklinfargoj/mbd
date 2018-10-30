@@ -22,7 +22,7 @@ return [
 
     'senior_architect_planner'=>'senior_architect_planner',
 
-    //Branch Head
+    //Branch Head 
     'ee_branch_head' => 'ee_engineer',
     'dyce_branch_head' => 'dyce_engineer',
     'ree_branch_head' => 'ree_engineer',
