@@ -281,6 +281,16 @@ class EmPermissionSeeder extends Seeder
                 'display_name' => 'Biiling Calculations',
                 'description' => 'Biiling Calculations'
             ],
+            [
+                'name' => 'generateTenantBill',
+                'display_name' => 'Generate Tenant Bill',
+                'description' => 'Generate Tenant Bill'
+            ],
+            [
+                'name' => 'generateBuildingBill',
+                'display_name' => 'Generate Building Bill',
+                'description' => 'Generate Building Bill'
+            ],
         ];
 
         $permission_role = [];

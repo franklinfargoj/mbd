@@ -44,7 +44,7 @@
                 </div>
                 <div class="form-group m-form__group row">
                     <table class="display table table-responsive table-bordered" style="width:100%">
-                        <tr><th class="text-centert">Bill Title - {{date("M", strtotime("2001-" . $month . "-01"))}} </th><th>Amount in Rs.</th></tr>
+                        <tr><th class="text-center">Bill Title - {{date("M", strtotime("2001-" . $month . "-01"))}} </th><th>Amount in Rs.</th></tr>
                         <tr>
                             <td>Water Charges  </td>
                             <td>{{$serviceChargesRate->water_charges}}</td>
@@ -101,18 +101,18 @@
                 <div class="form-group m-form__group row">
                     <table class="display table table-responsive table-bordered" style="width:100%">
                         <tr>
-                            <th class="text-centert">Year</th>
-                            <th class="text-centert">Month</th>
-                            <th class="text-centert">Amount In Rs.</th>
-                            <th class="text-centert">Penalty in Rs</th>
+                            <th class="text-center">Year</th>
+                            <th class="text-center">Month</th>
+                            <th class="text-center">Amount In Rs.</th>
+                            <th class="text-center">Penalty in Rs</th>
                         </tr>
                         @foreach($arreasCalculation as $calculation)
                             @php $total = $total + $calculation->total_amount; @endphp
                             <tr>
-                                <td class="text-centert">{{$calculation->year}}</td>
-                                <td class="text-centert">{{date("M", strtotime("2001-" . $calculation->month . "-01"))}}</td>
-                                <td class="text-centert">{{$calculation->total_amount}}</td>
-                                <td class="text-centert">{{$calculation->year}}</td>
+                                <td class="text-center">{{$calculation->year}}</td>
+                                <td class="text-center">{{date("M", strtotime("2001-" . $calculation->month . "-01"))}}</td>
+                                <td class="text-center">{{$calculation->total_amount}}</td>
+                                <td class="text-center">{{$calculation->year}}</td>
                             </tr>
                         @endforeach
                         <tr>
@@ -129,16 +129,16 @@
                 <div class="form-group m-form__group row">
                     <table class="display table table-responsive table-bordered" style="width:100%">
                         <tr>
-                            <th class="text-centert">Perticulars</th>
-                            <th class="text-centert">Amount In Rs.</th>
+                            <th class="text-center">Perticulars</th>
+                            <th class="text-center">Amount In Rs.</th>
                         </tr>
                         <tr>
                             <td>Balance Amount</td>
-                            <td class="text-centert"></td>
+                            <td class="text-center"></td>
                         </tr>
                         <tr>
                             <td>Current month Bill amount before due date</td>
-                            <td class="text-centert"></td>
+                            <td class="text-center"></td>
                         </tr>
                         <tr>
                             <td><p class="pull-right">Total</p></td><td></td>
