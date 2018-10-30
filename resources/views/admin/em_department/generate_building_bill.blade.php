@@ -3,7 +3,7 @@
 <div class="container-fluid">
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
-            <h3 class="m-subheader__title">Generate Receipt</h3>
+            <h3 class="m-subheader__title">Generate Society Bill</h3>
         </div>
     </div>
     <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
@@ -145,7 +145,7 @@
                         <div class="row">
                             <div class="col-sm-4">
                                 <div class="btn-list">
-                                    <button type="submit" id="" class="btn btn-primary">Generate Bill</button>
+                                    <button type="submit" id="" class="btn btn-primary">Generate Society Bill</button>
                                     <a href="javascript:void(0);" class="btn btn-secondary">Cancel</a>
                                 </div>
                             </div>
