@@ -36,6 +36,9 @@ use App\MasterColony;
 use App\MasterBuilding;
 use App\MasterTenant;
 use App\SocietyDetail;
+use App\ServiceChargesRate;
+use App\ArrearCalculation;
+
 
 class EMController extends Controller
 {
@@ -570,6 +573,23 @@ class EMController extends Controller
         //return $rate_card;
         return view('admin.em_department.generate_bill_tenant_level', compact('layout_data', 'wards_data', 'colonies_data','societies_data', 'building_data'));
 
+    }
+
+    public function generateBuildingBill(Request $request) {
+
+        if($request->has('building_id') && '' != $request->building_id) {
+            $data['building'] = MasterBuilding::find($request->building_id);
+            $data['society'] = SocietyDetail::find($data['building']->society_id);
+            $data['serviceChargesRate'] = ServiceChargesRate::selectRaw('Sum(water_charges) as water_charges,sum(electric_city_charge) as electric_city_charge,sum(pump_man_and_repair_charges) as  pump_man_and_repair_charges,sum(external_expender_charge) as external_expender_charge,sum(administrative_charge) as administrative_charge, sum(lease_rent) as lease_rent,sum(na_assessment) as na_assessment, sum(other) as other')->where('building_id',$request->building_id)->where('year',date('Y') . '-' . (date('y') + 1))->first();
+            $data['arreasCalculation'] = ArrearCalculation::where('building_id',$request->building_id)->where('year',date('Y') . '-' . (date('y') + 1))->where('payment_status','0')->get();
+            
+            $data['number_of_tenants'] = MasterBuilding::with('tenant_count')->where('id',$request->building_id)->first();
+            $data['month'] = date('m');
+            $data['year'] = date('Y') . '-' . (date('y') + 1);
+            $data['consumer_number'] = substr(sprintf('%08d', $data['building']->society_id),0,8).'|'.substr(sprintf('%08d', $data['building']->id),0,8);
+            
+            return view('admin.em_department.generate_building_bill',$data);
+        }
     }
 
 }
