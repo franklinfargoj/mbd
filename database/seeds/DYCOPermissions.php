@@ -156,7 +156,7 @@ class DYCOPermissions extends Seeder
 
                 $permission_roles1 = PermissionRole::where('permission_id',$permission_id)->where('role_id',$role_id)->first();
 
-                if(count($permission_roles1) == 0){
+                if(!$permission_roles1){
 	                $permission_role[] = [
 	                    'permission_id' => $permission_id,
 	                    'role_id'       => $role_id,
@@ -219,7 +219,7 @@ class DYCOPermissions extends Seeder
                 $permission_roles = PermissionRole::where('permission_id',$permission_id)->where('role_id',$role_id1)->first();
                 
                 
-                if(count($permission_roles) == 0) {
+                if(!$permission_roles) {
 	                $permission_role[] = [
 	                    'permission_id' => $permission_id,
 	                    'role_id'       => $role_id1,
