@@ -133,6 +133,15 @@
                 </div>
                 <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
+                        <label class="col-form-label" for="society_address">Society Address:<span class="star">*</span></label>
+                        <div class="m-input-icon m-input-icon--right">
+                            <textarea id="society_address" name="society_address" class="form-control form-control--custom form-control--fixed-height"
+                                      class="form-control m-input">{{ $arrData['society_data']->society_address }}</textarea>
+                            <span class="help-block">{{$errors->first('society_address')}}</span>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="area">Area (sq. m.):<span class="star">*</span></label>
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="area" name="area" class="form-control form-control--custom m-input"
@@ -140,8 +149,9 @@
                             <span class="help-block">{{$errors->first('area')}}</span>
                         </div>
                     </div>
-
-                    <div class="col-sm-4 offset-sm-1 form-group">
+                </div>
+                <div class="form-group m-form__group row">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="chairman">Name of Chairman:</label>
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="chairman" name="chairman" class="form-control form-control--custom m-input"
@@ -149,9 +159,8 @@
                             <span class="help-block">{{$errors->first('chairman')}}</span>
                         </div>
                     </div>
-                </div>
-                <div class="form-group m-form__group row">
-                    <div class="col-sm-4 form-group">
+
+                    <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="chairman_mob_no">Chairman's Mobile No:</label>
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="chairman_mob_no" name="chairman_mob_no" class="form-control form-control--custom m-input"
@@ -159,8 +168,9 @@
                             <span class="help-block">{{$errors->first('chairman_mob_no')}}</span>
                         </div>
                     </div>
-
-                    <div class="col-sm-4 offset-sm-1 form-group">
+                </div>
+                <div class="form-group m-form__group row">
+                    <div class="col-sm-4 form-group">
 
                         <label class="col-form-label" for="secretary">Name of Secretary:</label>
                         <div class="m-input-icon m-input-icon--right">
@@ -169,13 +179,8 @@
                             <span class="help-block">{{$errors->first('secretary')}}</span>
                         </div>
                     </div>
-                </div>
 
-
-
-
-                <div class="form-group m-form__group row">
-                    <div class="col-sm-4 form-group">
+                    <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="secretary_mob_no">Secretary's Mobile No:</label>
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="secretary_mob_no" name="secretary_mob_no" class="form-control form-control--custom m-input"
@@ -183,17 +188,8 @@
                             <span class="help-block">{{$errors->first('secretary_mob_no')}}</span>
                         </div>
                     </div>
-
-                    <div class="col-sm-4 offset-sm-1 form-group">
-                        <label class="col-form-label" for="society_address">Society Address:<span class="star">*</span></label>
-                        <div class="m-input-icon m-input-icon--right">
-                            <textarea id="society_address" name="society_address" class="form-control form-control--custom form-control--fixed-height"
-                                      class="form-control m-input">{{ $arrData['society_data']->society_address }}</textarea>
-                            <span class="help-block">{{$errors->first('society_address')}}</span>
-                        </div>
-                    </div>
                     {{--<div class="col-sm-4 offset-sm-1 form-group">--}}
-                        {{--<label class="col-form-label" for="area">Area (sq. ft.):</label>--}}
+                        {{--<label class="col-form-label" for="area">Area (sq. m.):</label>--}}
                         {{--<div class="m-input-icon m-input-icon--right">--}}
                             {{--<input type="text" id="area" name="area" class="form-control form-control--custom m-input"--}}
                                 {{--value="{{ $arrData['society_data']->area }}">--}}
@@ -284,7 +280,7 @@
                     </div>
 
                     <div class="col-sm-4 offset-sm-1 form-group">
-                        <label class="col-form-label" for="area_of_conveyance">Area of Conveyance (sq. ft.):<span class="star">*</span></label>
+                        <label class="col-form-label" for="area_of_conveyance">Area of Conveyance (sq. m.):<span class="star">*</span></label>
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="area_of_conveyance" name="area_of_conveyance"
                                    class="form-control form-control--custom m-input"

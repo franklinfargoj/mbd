@@ -9,6 +9,7 @@ class EoaApplicationProjectSheetDetail extends Model
     protected $table = "eoa_application_project_sheet_details";
 
     protected $fillable = [
+        'eoa_application_id',
         'name_of_project',
         'location',
         'name_of_client',

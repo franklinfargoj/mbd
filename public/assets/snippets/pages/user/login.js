@@ -446,13 +446,17 @@ var SnippetLogin = function() {
                         property_card_mhada_name: {
                             required: !0
                         },
-                        // mhada_name: {
-                        //     required: !0
-                        // }
                         extract: {
                             required: function(element) {
-                                alert($('#extract').val() != 'NULL'  && $('#file_upload').is(':checked'));
-                                return ($('#file_upload').is(':checked') && ($('#extract').val() == 'NULL' ) )
+                                console.log($('#extract').data('value'));
+
+                                if($('#file_upload').is(':checked')){
+                                    if($('#extract').data('value') != ''){
+                                        return false;
+                                    }
+                                }else{
+                                    return false;
+                                }
                             },
                             accept: "pdf",
                         },
