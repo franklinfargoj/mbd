@@ -37,4 +37,10 @@ class SocietyConveyanceDocumentMaster extends Model
      * @var bool
      */
     public $timestamps = true;
+
+    public function sc_document_status()
+    {
+        return $this->hasOne('App\conveyance\SocietyConveyanceDocumentStatus', 'conveyance_document_id','id');
+    }
+
 }

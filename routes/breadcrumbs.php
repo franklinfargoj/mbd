@@ -198,6 +198,11 @@ Breadcrumbs::for('society_offer_application_create', function ($trail, $id) {
     $trail->push('Application form for Redevelopment', route('show_form_dev', $id));
 });
 
+Breadcrumbs::for('society_offer_letter_edit', function ($trail) {
+    $trail->parent('society_dashboard');
+    $trail->push('Redevelopment Application Form', route('society_offer_letter_edit'));
+});
+
 //cap Breadcrumbs
 
 Breadcrumbs::for('cap', function ($trail) {

@@ -193,6 +193,11 @@ class SocietyPermissionSeeder extends Seeder
                     'display_name' => 'Upload Documents',
                     'description'  => 'Shows society conveyance docuemnts list'
                 ],
+                [
+                    'name'         => 'delete_sc_upload_docs',
+                    'display_name' => 'Deletes Uploaded Documents',
+                    'description'  => 'Deletes Uploaded Documents'
+                ],
         ];
 
         if(count($society)==0){
