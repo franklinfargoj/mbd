@@ -24,6 +24,7 @@ class EoaApplicationProjectSheetDetail extends Model
         'whether_service_terminated_by_client',
         'salient_features_of_project',
         'reason_for_delay_if_any',
-        'copy_of_agreement'
+        'copy_of_agreement',
+        'work_completed'
     ];
 }

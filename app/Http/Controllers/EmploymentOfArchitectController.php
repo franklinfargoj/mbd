@@ -22,8 +22,8 @@ use App\Role;
 use App\RoleUser;
 use App\User;
 use Illuminate\Http\Request;
-use Validator;
 use Storage;
+use Validator;
 use Yajra\DataTables\DataTables;
 
 class EmploymentOfArchitectController extends Controller
@@ -119,6 +119,14 @@ class EmploymentOfArchitectController extends Controller
 
     public function index(Request $request, Datatables $datatables)
     {
+        
+        if(!$this->model->all())
+        {
+            $app=$this->model->getModel();
+            $app->user_id=auth()->user()->id;
+            $app->save();
+            return redirect()->route('appointing_architect.step1',['id'=>$app->id]);
+        }
         $header_data = $this->header_data;
         $columns = [
             ['data' => 'rownum', 'name' => 'rownum', 'title' => 'Sr No.', 'searchable' => false],
@@ -438,8 +446,9 @@ class EmploymentOfArchitectController extends Controller
 
     public function step7($id)
     {
-        $application = $this->model->whereWithFirst(['project_sheets'], ['id' => $id, 'user_id' => auth()->user()->id]);
-        //dd($application);
+        $application = $this->model->whereWithFirst(['project_sheets' => function ($q) {
+            return $q->where('work_completed', 0);
+        }], ['id' => $id, 'user_id' => auth()->user()->id]);
         return view('employment_of_architect.form7', compact('application'));
     }
 
@@ -471,9 +480,13 @@ class EmploymentOfArchitectController extends Controller
             'whether_service_terminated_by_client' => $request->whether_service_terminated_by_client,
             'salient_features_of_project' => $request->salient_features_of_project,
             'reason_for_delay_if_any' => $request->reason_for_delay_if_any,
-            'copy_of_agreement' => $storage,
             'work_completed' => 0,
         ];
+
+        if ($storage != "") {
+            $data_array['copy_of_agreement'] = $storage;
+        }
+
         if ($project_sheet_detail_id != "") {
 
             $this->project_sheet->updateWhere($data_array, ['id' => $project_sheet_detail_id, 'eoa_application_id' => $application_id]);
@@ -484,14 +497,24 @@ class EmploymentOfArchitectController extends Controller
         return back()->withSuccess('data saved successfully!!!');
     }
 
-    public function step8(Request $request)
+    public function step8($id)
     {
-        $application = $this->model->whereWithFirst(['project_sheets'], ['id' => $id, 'user_id' => auth()->user()->id]);
+        $application = $this->model->whereWithFirst(['project_sheets' => function ($q) {
+            return $q->where('work_completed', 1);
+        }], ['id' => $id, 'user_id' => auth()->user()->id]);
         return view('employment_of_architect.form8', compact('application'));
     }
 
     public function step8_post(StepSevenRequest $request)
     {
+        $storage = "";
+        if ($request->hasFile('copy_of_agreement')) {
+            $file = $request->file('copy_of_agreement');
+            $extension = $request->file('copy_of_agreement')->getClientOriginalExtension();
+            $dir = 'appointing_architect_application';
+            $filename = uniqid() . '_' . time() . '_' . date('Ymd') . '.' . $extension;
+            $storage = Storage::disk('ftp')->putFileAs($dir, $request->file('copy_of_agreement'), $filename);
+        }
         $application_id = $request->application_id;
         $project_sheet_detail_id = $request->project_sheet_detail_id;
         $data_array = [
@@ -505,14 +528,18 @@ class EmploymentOfArchitectController extends Controller
             'land_area_in_sq_m' => $request->land_area_in_sq_m,
             'estimated_value_of_project' => $request->estimated_value_of_project,
             'completed_value_of_project' => $request->completed_value_of_project,
-            'date_of_start' => $request->date_of_start,
-            'date_of_completion' => $request->date_of_completion,
+            'date_of_start' => date('Y-m-d', strtotime($request->date_of_start)),
+            'date_of_completion' => date('Y-m-d', strtotime($request->date_of_completion)),
             'whether_service_terminated_by_client' => $request->whether_service_terminated_by_client,
             'salient_features_of_project' => $request->salient_features_of_project,
             'reason_for_delay_if_any' => $request->reason_for_delay_if_any,
-            'work_completed' => 1,
+            'work_completed' => 1
         ];
+        if ($storage != "") {
+            $data_array['copy_of_agreement'] = $storage;
+        }
         if ($project_sheet_detail_id != "") {
+
             $this->project_sheet->updateWhere($data_array, ['id' => $project_sheet_detail_id, 'eoa_application_id' => $application_id]);
         } else {
             $this->project_sheet->create($data_array);
