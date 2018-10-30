@@ -34,17 +34,13 @@
             </li>
         </ul>
     </div>
-<form class="nav-tabs-form" id ="agreementFRM" role="form" method="POST" action="{{ route('dyco.save_agreement')}}" enctype="multipart/form-data">
-@csrf
-
-<input type="hidden" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">
     <div class="tab-content">
         <div class="tab-pane active show" id="sale-deed-agreement" role="tabpanel">
             <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
                 <div class="portlet-body">
                     <div class="m-portlet__body m-portlet__body--table">
                         <div class="m-subheader" style="padding: 0;">
-                            <div class="d-flex align-items-center justify-content-center">
+                            <div class="d-flex align-items-center">
                                 <h4 class="section-title">
                                     Sale Deed Agreement
                                 </h4>
@@ -54,18 +50,6 @@
                             <div class="container">
                                 <div class="row">
                                     <div class="col-sm-6">
-                                        <div class="d-flex flex-column h-100 two-cols">
-                                            <h5>Upload</h5>
-                                            <span class="hint-text">Click on 'Upload' to upload Sale Deed Agreement</span>
-                                                <div class="custom-file">
-                                                    <input class="custom-file-input" name="sale_agreement" type="file" id="test-upload1">
-                                                
-                                                        <label class="custom-file-label" for="test-upload1">Choose
-                                                        file...</label>   
-                                                </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6 border-left">
                                         <div class="d-flex flex-column h-100 two-cols">
                                             <h5>Download</h5>
                                             <span class="hint-text">Click to download Sale Deed Agreement </span>
@@ -97,7 +81,7 @@
                 <div class="portlet-body">
                     <div class="m-portlet__body m-portlet__body--table">
                         <div class="m-subheader" style="padding: 0;">
-                            <div class="d-flex align-items-center justify-content-center">
+                            <div class="d-flex align-items-center">
                                 <h4 class="section-title">
                                     Lease Deed Agreement
                                 </h4>
@@ -107,21 +91,6 @@
                             <div class="container">
                                 <div class="row">
                                     <div class="col-sm-6">
-                                        <div class="d-flex flex-column h-100 two-cols">
-                                            <h5>Upload</h5>
-                                            <span class="hint-text">Click on 'Upload' to upload Lease Deed Agreement</span>
-                                                <div class="custom-file">
-                                                    <!-- <input class="custom-file-input" name="lease_agreement" type="file" id="test-upload2"> -->
-                                                    
-                                                    <input class="custom-file-input" name="lease_agreement" type="file" id="test-upload2">
-   
-                                                    <label class="custom-file-label" for="test-upload2">Choose
-                                                        file...</label>
-                                                      
-                                                </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6 border-left">
                                         <div class="d-flex flex-column h-100 two-cols">
                                             <h5>Download Note</h5>
                                             <span class="hint-text">Click to download Lease Deed Agreement</span>
@@ -165,19 +134,24 @@
                 </div>               
             </div>    
         </div> 
-    @endif      
-    <div class="m-portlet m-portlet--mobile m_panel">
-        <div class="m-portlet__body">
-            <h3 class="section-title section-title--small">Remark</h3>
-            <div class="col-xs-12 row">
-                <div class="col-md-12">
-                    <textarea rows="4" cols="63" name="remark"></textarea>
-                    <button type="submit" class="btn btn-primary mt-3" style="display:block">Save</button>
+    @endif   
+
+    @if($status->status_id == config('commanConfig.applicationStatus.in_process'))
+
+        <form class="nav-tabs-form" id ="CommentFRM" role="form" method="POST" action="{{ route('conveyance.save_agreement_comments')}}">
+            @csrf   
+             <input type="hidden" name="application_id" value="{{ isset($data->id) ? $data->id : '' }}">
+            <div class="m-portlet m-portlet--mobile m_panel">  
+                <div class="m-portlet__body">   
+                    <div class="col-xs-12 row">
+                        <div class="col-md-12">
+                            <h3 class="section-title section-title--small">Remark</h3>
+                                <textarea rows="4" cols="63" name="remark"></textarea>
+                                <button type="submit" class="btn btn-primary mt-3" style="display:block">Save</button>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
- </form>   
-</div>
-
+        </form>
+    @endif   
 @endsection

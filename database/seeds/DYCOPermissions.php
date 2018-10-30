@@ -92,6 +92,21 @@ class DYCOPermissions extends Seeder
                 'name'         => 'conveyance.view_ee_documents',
                 'display_name' => 'view ee documents',
                 'description'  => 'view ee documents'
+            ],            
+            [
+                'name'         => 'dyco.save_stamp_sign_agreement',
+                'display_name' => 'save stamp sign agreement',
+                'description'  => 'save stamp sign agreement'
+            ],            
+            [
+                'name'         => 'dyco.conveyance_noc',
+                'display_name' => 'conveyance noc',
+                'description'  => 'conveyance noc'
+            ],            
+            [
+                'name'         => 'conveyance.save_agreement_comments',
+                'display_name' => 'save agreement comments',
+                'description'  => 'save agreement comments'
             ],                                                                  
         ];
 
