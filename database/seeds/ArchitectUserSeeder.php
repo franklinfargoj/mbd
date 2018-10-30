@@ -244,7 +244,7 @@ class ArchitectUserSeeder extends Seeder
             $layout_id = \App\MasterLayout::where("layout_name", '=', "Samata Nagar, Kandivali(E)")->first();
             $layout_user =  \App\LayoutUser::where('user_id',$architect_user_id)->where('layout_id',$layout_id->id)->first();
 
-            if(count($layout_user) == 0){
+            if(!$layout_user){
                 \App\LayoutUser::insert(['user_id' => $architect_user_id, 'layout_id' => $layout_id->id]);          
             }              
             //senior architect
@@ -316,7 +316,7 @@ class ArchitectUserSeeder extends Seeder
             $layout_id = \App\MasterLayout::where("layout_name", '=', "Samata Nagar, Kandivali(E)")->first();
             $layout_user =  \App\LayoutUser::where('user_id',$senior_architect_user_id)->where('layout_id',$layout_id->id)->first();
 
-            if(count($layout_user) == 0){
+            if(!$layout_user){
                 \App\LayoutUser::insert(['user_id' => $senior_architect_user_id, 'layout_id' => $layout_id->id]);          
             }            
             
@@ -553,7 +553,7 @@ class ArchitectUserSeeder extends Seeder
             $layout_id = \App\MasterLayout::where("layout_name", '=', "Samata Nagar, Kandivali(E)")->first();
             $layout_user =  \App\LayoutUser::where('user_id',$junior_architect_user_id)->where('layout_id',$layout_id->id)->first();
 
-            if(count($layout_user) == 0){
+            if(!$layout_user){
                 \App\LayoutUser::insert(['user_id' => $junior_architect_user_id, 'layout_id' => $layout_id->id]);          
             }            
 
