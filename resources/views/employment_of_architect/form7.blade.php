@@ -13,7 +13,7 @@
         <button class="btn--unstyled flex-grow-1 form-step-tab">Step 8</button>
     </div>
     <div id="accordion" class="mt-4">
-    <h3 class="section-title section-title--small mb-4">Name of Applicant: {{$application->name_of_applicant}}</h3>
+        <h3 class="section-title section-title--small mb-4">Name of Applicant: {{$application->name_of_applicant}}</h3>
         @php
         $project_count=$application->project_sheets->count();
         @endphp
@@ -22,15 +22,14 @@
         @else
         @php $k=0; @endphp
         @endif
-        @for($j=0;$j<(1+$k);$j++) 
-        <div class="m-portlet m-portlet--mobile form-accordion">
+        @for($j=0;$j<(1+$k);$j++) <div class="m-portlet m-portlet--compact form-accordion">
             <a class="btn--unstyled section-title section-title--small form-count-title" data-toggle="collapse" href="#form_{{$j+1}}">Form
-                    {{$j+1}}:</a>
+                {{$j+1}}:</a>
             <form role="form" method="post" class="m-form m-form--rows m-form--label-align-right form-steps-box" action="{{route('appointing_architect.step7_post')}}"
                 enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="application_id" value="{{$application->id}}" class="one">
-            <input type="hidden" name="project_sheet_detail_id" value="{{$application->project_sheets[$j]->id}}">
+                <input type="hidden" name="project_sheet_detail_id" value="{{$application->project_sheets[$j]->id}}">
                 <div class="m-portlet__body m-portlet__body--spaced collapse form-count" id="form_{{$j+1}}" data-parent="#accordion">
                     <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group">
@@ -43,14 +42,14 @@
                             @endif
                         </div>
                         <div class="col-sm-4 offset-sm-1 form-group">
-                                <label class="col-form-label" for="">Location:</label>
-                                <input type="text" id="" name="location" class="form-control form-control--custom m-input"
-                                    value="{{$application->project_sheets[$j]->location}}">
-                                @if ($errors->has('location'))
-                                <span class="text-danger">{{ $errors->first('location')
-                                    }}</span>
-                                @endif
-                            </div>
+                            <label class="col-form-label" for="">Location:</label>
+                            <input type="text" id="" name="location" class="form-control form-control--custom m-input"
+                                value="{{$application->project_sheets[$j]->location}}">
+                            @if ($errors->has('location'))
+                            <span class="text-danger">{{ $errors->first('location')
+                                }}</span>
+                            @endif
+                        </div>
                     </div>
                     <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group">
@@ -197,17 +196,17 @@
                     </div>
                 </div>
             </form>
-        </div>
-        @endfor
     </div>
-    <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
-        <div class="m-form__actions p-0">
-            <div class="btn-list d-flex justify-content-between align-items-center">
-                <a id="add-more" class="btn--add-delete add">add more<a>
-                        <button type="submit" id="" class="btn btn-primary">Next</button>
-            </div>
+    @endfor
+</div>
+<div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+    <div class="m-form__actions p-0">
+        <div class="btn-list d-flex justify-content-between align-items-center">
+            <a id="add-more" class="btn--add-delete add">add more<a>
+                    <button type="submit" id="" class="btn btn-primary">Next</button>
         </div>
     </div>
+</div>
 </div>
 
 @endsection
@@ -216,13 +215,15 @@
 @section('js')
 <script>
     $(document).ready(function () {
+        document.querySelector(".m-portlet__body").classList.add("show");
         $('#add-more').click(function (e) {
             e.preventDefault();
-            var formAccordionInputHidden = $('#accordion .form-accordion:first').find("input").filter(function(index ,item) {
-                if(item.name !== 'application_id' && item.name !== '_token') {
-                    item.value = '';
-                }
-            });
+            var formAccordionInputHidden = $('#accordion .form-accordion:first').find("input").filter(
+                function (index, item) {
+                    if (item.name !== 'application_id' && item.name !== '_token') {
+                        item.value = '';
+                    }
+                });
 
             var formAccordion = $("#accordion .form-accordion:first").clone();
             var formAccordionCount = $("#accordion").find('.form-accordion').length + 1;
