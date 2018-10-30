@@ -13,19 +13,20 @@ class AddChildParentToConveyanceModule extends Seeder
     public function run()
     {
         //get role id of all Roles
-        $society_role_id   = Role::where('name', '=', 'society')->value('id');
-        $dycdo_role_id 	   = Role::where('name', '=', 'dycdo_engineer')->value('id');
-        $dyco_role_id 	   = Role::where('name', '=', 'dyco_engineer')->value('id');
-        $ee_head_id 	   = Role::where('name', '=', 'ee_engineer')->value('id');
-        $ee_deputy_id 	   = Role::where('name', '=', 'ee_dy_engineer')->value('id');
-        $ee_jr_id 		   = Role::where('name', '=', 'ee_junior_engineer')->value('id');
-        $em_role_id 	   = Role::where('name', '=', 'em_manager')->value('id');
-        $architect_jr_id   = Role::where('name', '=', 'junior_architect')->value('id');
-        $architect_as_id   = Role::where('name', '=', 'senior_architect')->value('id');
-        $architect_head_id = Role::where('name', '=', 'architect')->value('id');
-        $Jtco_role_id 	   = Role::where('name', '=', 'Joint CO')->value('id');
-        $co_role_id 	   = Role::where('name', '=', 'co_engineer')->value('id');        
-        $LA_role_id 	   = Role::where('name', '=', 'la_engineer')->value('id');
+        
+        $society_role_id   = Role::where('name', '=', config('commanConfig.society_offer_letter'))->value('id');
+        $dycdo_role_id 	   = Role::where('name', '=', config('commanConfig.dycdo_engineer'))->value('id');
+        $dyco_role_id 	   = Role::where('name', '=', config('commanConfig.dyco_engineer'))->value('id');
+        $ee_head_id 	   = Role::where('name', '=', config('commanConfig.ee_branch_head'))->value('id');
+        $ee_deputy_id 	   = Role::where('name', '=', config('commanConfig.ee_deputy_engineer'))->value('id');
+        $ee_jr_id 		   = Role::where('name', '=', config('commanConfig.ee_junior_engineer'))->value('id');
+        $em_role_id 	   = Role::where('name', '=', config('commanConfig.estate_manager'))->value('id');
+        $architect_jr_id   = Role::where('name', '=', config('commanConfig.junior_architect'))->value('id');
+        $architect_as_id   = Role::where('name', '=', config('commanConfig.senior_architect'))->value('id');
+        $architect_head_id = Role::where('name', '=', config('commanConfig.architect'))->value('id');
+        $Jtco_role_id 	   = Role::where('name', '=', config('commanConfig.joint_co'))->value('id');
+        $co_role_id 	   = Role::where('name', '=', config('commanConfig.co_engineer'))->value('id');        
+        $LA_role_id 	   = Role::where('name', '=', config('commanConfig.legal_advisor'))->value('id');
 
         //update conveyance parent Id(Forward)
 

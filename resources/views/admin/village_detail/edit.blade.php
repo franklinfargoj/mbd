@@ -235,7 +235,7 @@
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="extract">7/12 Extract:<span class="star">*</span></label>
                         <div class="custom-file">
-                            <input type="file" id="extract" name="extract" class="custom-file-input">
+                            <input type="file" id="extract" data-value="{{$arrData['village_data']['extract_file_name'] }}" name="extract" class="custom-file-input">
                             <input type="hidden" name="extract_file_name" value="{{ $arrData['village_data']['extract_file_name'] }}">
                             <input type="hidden" name="extract_file_path" value="{{ $arrData['village_data']['extract_file_path'] }}">
                             <label title="{{$arrData['village_data']['extract_file_name'] }}" class="custom-file-label" for="extract">{{ (!empty($arrData['village_data']['extract_file_name'])) ? $arrData['village_data']['extract_file_name'] : "Choose File..." }}</label>

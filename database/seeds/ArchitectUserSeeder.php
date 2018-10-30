@@ -240,7 +240,13 @@ class ArchitectUserSeeder extends Seeder
             {
                 PermissionRole::insert($architect_permission_role);
             }
-            
+
+            $layout_id = \App\MasterLayout::where("layout_name", '=', "Samata Nagar, Kandivali(E)")->first();
+            $layout_user =  \App\LayoutUser::where('user_id',$architect_user_id)->where('layout_id',$layout_id->id)->first();
+
+            if(!$layout_user){
+                \App\LayoutUser::insert(['user_id' => $architect_user_id, 'layout_id' => $layout_id->id]);          
+            }              
             //senior architect
             if(Role::where(['name'=>'senior_architect'])->first())
             {
@@ -306,6 +312,13 @@ class ArchitectUserSeeder extends Seeder
             {
                 PermissionRole::insert($architect_permission_role);
             }
+
+            $layout_id = \App\MasterLayout::where("layout_name", '=', "Samata Nagar, Kandivali(E)")->first();
+            $layout_user =  \App\LayoutUser::where('user_id',$senior_architect_user_id)->where('layout_id',$layout_id->id)->first();
+
+            if(!$layout_user){
+                \App\LayoutUser::insert(['user_id' => $senior_architect_user_id, 'layout_id' => $layout_id->id]);          
+            }            
             
             //junior architect
             if(Role::where(['name'=>'junior_architect'])->first())
@@ -536,6 +549,13 @@ class ArchitectUserSeeder extends Seeder
                // dd($architect_permission_role);
                 //PermissionRole::insert($architect_permission_role);
             }
+
+            $layout_id = \App\MasterLayout::where("layout_name", '=', "Samata Nagar, Kandivali(E)")->first();
+            $layout_user =  \App\LayoutUser::where('user_id',$junior_architect_user_id)->where('layout_id',$layout_id->id)->first();
+
+            if(!$layout_user){
+                \App\LayoutUser::insert(['user_id' => $junior_architect_user_id, 'layout_id' => $layout_id->id]);          
+            }            
 
             //dd('ok');
         //}

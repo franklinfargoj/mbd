@@ -312,4 +312,12 @@ class conveyanceCommonController extends Controller
         $remark  = ScAgreementComments::insert($comments);
         return $remark;
     }
+
+    public function SaveAgreementComments(Request $request){
+        
+        $applicationId = $request->application_id;
+        $remark        = $request->remark;
+        $result        = $this->ScAgreementComment($applicationId,$remark);
+        return back()->with('success','data save Successfully.');
+    }   
 }
