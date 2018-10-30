@@ -12,14 +12,16 @@
         <button class="btn--unstyled flex-grow-1 form-step-tab">Step 7</button>
         <button class="btn--unstyled flex-grow-1 form-step-tab">Step 8</button>
     </div>
-    <form id="" role="form" method="post" class="m-form m-form--rows m-form--label-align-right form-steps-box" action="" enctype="multipart/form-data">
+    <form id="" role="form" method="post" class="m-form m-form--rows m-form--label-align-right form-steps-box" action="{{route('appointing_architect.step5_post')}}"
+        enctype="multipart/form-data">
         <div class="m-portlet m-portlet--mobile">
             <h3 class="section-title section-title--small">Form 5:</h3>
             @csrf
+            <input type="hidden" name="application_id" value="{{$application->id}}">
             <div class="m-portlet__body m-portlet__body--table">
                 <div class="">
                     <div class="table-responsive">
-                        <table id="table-form-4" class="table table--box-input">
+                        <table id="table-form-4" class="table table--box-input imp_projects">
                             <thead class="thead-default">
                                 <tr>
                                     <th>Name of Client</th>
@@ -31,24 +33,44 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
+                                @php
+                                $project_count=$application->imp_project_work_handled->count();
+                                @endphp
+                                @if($project_count>1)
+                                @php $k=($project_count-1); @endphp
+                                @else
+                                @php $k=0; @endphp
+                                @endif
+                                @for($j=0;$j<(1+$k);$j++) <tr class="cloneme">
                                     <td>
-                                        <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id=""
-                                            name="">
-                                            <option value="">one</option>
-                                            <option value="">two</option>
-                                            <option value="">three</option>
+                                        <input type="hidden" name="imp_project_work_handled_id[]" value="{{$application->imp_project_work_handled!=''?(isset($application->imp_project_work_handled[$j])?$application->imp_project_work_handled[$j]->id:''):''}}">
+                                        <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
+                                            id="" name="eoa_application_imp_project_detail_id[]">
+                                            @foreach($application->imp_projects as $imp_projects)
+                                            <option
+                                                {{$application->imp_project_work_handled!=''?(isset($application->imp_project_work_handled[$j])?($application->imp_project_work_handled[$j]->eoa_application_imp_project_detail_id==$imp_projects->id?'selected':''):''):''}}
+                                                value="{{$imp_projects->id}}">{{$imp_projects->name_of_client}}</option>
+                                            @endforeach
                                         </select>
                                     </td>
-                                    <td><input placeholder="No. of Dwelling" type="text" class="form-control form-control--custom"></td>
-                                    <td><input placeholder="Land Area" type="text" class="form-control form-control--custom"></td>
-                                    <td><input placeholder="Built Up Area" type="text" class="form-control form-control--custom"></td>
-                                    <td><input placeholder="Value of Works" type="text" class="form-control form-control--custom"></td>
-                                    <td><input placeholder="Year" type="text" class="form-control form-control--custom"></td>
-                                </tr>
+                                    <td><input name="no_of_dwelling[]" placeholder="No. of Dwelling" value="{{$application->imp_project_work_handled!=''?(isset($application->imp_project_work_handled[$j])?$application->imp_project_work_handled[$j]->no_of_dwelling:''):''}}"
+                                            type="text" class="form-control form-control--custom"></td>
+                                    <td><input name="land_area_in_sq_mt[]" placeholder="Land Area" value="{{$application->imp_project_work_handled!=''?(isset($application->imp_project_work_handled[$j])?$application->imp_project_work_handled[$j]->land_area_in_sq_mt:''):''}}"
+                                            type="text" class="form-control form-control--custom"></td>
+                                    <td><input name="built_up_area_in_sq_mt[]" placeholder="Built Up Area" value="{{$application->imp_project_work_handled!=''?(isset($application->imp_project_work_handled[$j])?$application->imp_project_work_handled[$j]->built_up_area_in_sq_mt:''):''}}"
+                                            type="text" class="form-control form-control--custom"></td>
+                                    <td><input name="value_of_work_in_rs[]" placeholder="Value of Works" value="{{$application->imp_project_work_handled!=''?(isset($application->imp_project_work_handled[$j])?$application->imp_project_work_handled[$j]->value_of_work_in_rs:''):''}}"
+                                            type="text" class="form-control form-control--custom"></td>
+                                    <td><input name="year_of_completion_start[]" placeholder="Year" value="{{$application->imp_project_work_handled!=''?(isset($application->imp_project_work_handled[$j])?$application->imp_project_work_handled[$j]->year_of_completion_start:''):''}}"
+                                            type="text" class="form-control form-control--custom"></td>
+                                    </tr>
+                                    @endfor
                             </tbody>
                         </table>
                     </div>
+                </div>
+                <div class="form-group">
+                    <a id="add-more" class="btn--add-delete add">add more<a>
                 </div>
             </div>
         </div>
@@ -69,4 +91,17 @@
 @endsection
 
 @section('js')
+<script>
+    $('#add-more').click(function (e) {
+        e.preventDefault();
+        var clone = $('table.imp_projects tr.cloneme:first').clone().find('input').val('').end();
+        clone.append("<h2 class='m--font-danger remove-row'><i class='fa fa-remove'></i></h2>");
+        $('table.imp_projects').append(clone);
+    });
+
+    $('.imp_projects').on('click', '.fa-remove', function () {
+        $(this).closest('tr').remove();
+    });
+
+</script>
 @endsection

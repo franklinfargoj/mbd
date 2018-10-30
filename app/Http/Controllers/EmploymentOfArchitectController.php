@@ -6,6 +6,9 @@ use App\EmploymentOfArchitect\EoaApplication;
 use App\EmploymentOfArchitect\EoaApplicationEnclosure;
 use App\EmploymentOfArchitect\EoaApplicationFeePaymentDetail;
 use App\EmploymentOfArchitect\EoaApplicationImportantProjectDetail;
+use App\EmploymentOfArchitect\EoaApplicationImportantProjectWorkHandledDetail;
+use App\EmploymentOfArchitect\EoaApplicationImportantSeniorProfessionalDetail;
+use App\EmploymentOfArchitect\EoaApplicationProjectSheetDetail;
 use App\Repositories\Repository;
 use App\Role;
 use App\RoleUser;
@@ -25,7 +28,7 @@ class EmploymentOfArchitectController extends Controller
         'side_menu' => 'architect_application',
     );
 
-    public function __construct(EoaApplication $EoaApplication, User $user, EoaApplicationFeePaymentDetail $EoaApplicationFeePaymentDetail, EoaApplicationEnclosure $EoaApplicationEnclosure, EoaApplicationImportantProjectDetail $EoaApplicationImportantProjectDetail)
+    public function __construct(EoaApplication $EoaApplication, User $user, EoaApplicationFeePaymentDetail $EoaApplicationFeePaymentDetail, EoaApplicationEnclosure $EoaApplicationEnclosure, EoaApplicationImportantProjectDetail $EoaApplicationImportantProjectDetail,EoaApplicationImportantProjectWorkHandledDetail $EoaApplicationImportantProjectWorkHandledDetail,EoaApplicationImportantSeniorProfessionalDetail $EoaApplicationImportantSeniorProfessionalDetail,EoaApplicationProjectSheetDetail $EoaApplicationProjectSheetDetail)
     {
         // set the model
         $this->user = new Repository($user);
@@ -33,6 +36,9 @@ class EmploymentOfArchitectController extends Controller
         $this->fee_payment = new Repository($EoaApplicationFeePaymentDetail);
         $this->enclosures = new Repository($EoaApplicationEnclosure);
         $this->imp_projects = new Repository($EoaApplicationImportantProjectDetail);
+        $this->imp_projects_work_handled = new Repository($EoaApplicationImportantProjectWorkHandledDetail);
+        $this->imp_senior_professional=new Repository($EoaApplicationImportantSeniorProfessionalDetail);
+        $this->project_sheet=new Repository($EoaApplicationProjectSheetDetail);
         $this->list_num_of_records_per_page = config('commanConfig.list_num_of_records_per_page');
     }
 
@@ -366,36 +372,249 @@ class EmploymentOfArchitectController extends Controller
                 $i++;
             }
             return redirect()->route('appointing_architect.step5', ['id' => $application_id]);
-            //$this->imp_projects->create($imp_project_data_array_without_id);
         }
     }
 
-    public function step5(Request $request)
+    public function step5($id)
     {
-        //dd(session()->all());
-        //return $this->model->all();
-        return view('employment_of_architect.form5');
+        $application = $this->model->whereWithFirst(['imp_project_work_handled','imp_projects'], ['id' => $id, 'user_id' => auth()->user()->id]);
+        return view('employment_of_architect.form5',compact('application'));
     }
 
-    public function step6(Request $request)
+    public function step5_post(Request $request)
     {
-        //dd(session()->all());
-        //return $this->model->all();
-        return view('employment_of_architect.form6');
+        $v = Validator::make($request->all(), [
+            'eoa_application_imp_project_detail_id.*' => 'required',
+            'no_of_dwelling.*' => 'required',
+            'land_area_in_sq_mt.*' => 'required',
+            'built_up_area_in_sq_mt.*'=>'required',
+            'value_of_work_in_rs.*'=>'required',
+            'year_of_completion_start.*'=>'required'
+        ]);
+
+        if ($v->fails()) {
+            return redirect()->back()->withErrors($v->errors());
+        } else {
+            $imp_project_work_handled_id=$request->imp_project_work_handled_id;
+            $eoa_application_imp_project_detail_id = $request->eoa_application_imp_project_detail_id;
+            $no_of_dwelling = $request->no_of_dwelling;
+            $land_area_in_sq_mt = $request->land_area_in_sq_mt;
+            $built_up_area_in_sq_mt = $request->built_up_area_in_sq_mt;
+            $value_of_work_in_rs = $request->value_of_work_in_rs;
+            $year_of_completion_start = $request->year_of_completion_start;
+            $i = 0;
+            $application_id = $request->application_id;
+            foreach ($eoa_application_imp_project_detail_id as $name_of_client) {
+                $imp_project_data_array = array();
+                if (isset($imp_project_work_handled_id[$i])) {
+                    $imp_project_data_array = [
+                        'eoa_application_id' => $application_id,
+                        'eoa_application_imp_project_detail_id'=>$request->eoa_application_imp_project_detail_id[$i],
+                        'no_of_dwelling' => $no_of_dwelling[$i],
+                        'land_area_in_sq_mt' => $land_area_in_sq_mt[$i],
+                        'built_up_area_in_sq_mt' => $built_up_area_in_sq_mt[$i],
+                        'value_of_work_in_rs' => $value_of_work_in_rs[$i],
+                        'year_of_completion_start' => $year_of_completion_start[$i]
+                    ];
+                    $this->imp_projects_work_handled->updateWhere($imp_project_data_array, ['id' => $imp_project_work_handled_id[$i], 'eoa_application_id' => $application_id]);
+                } else {
+                    $imp_project_data_array = [
+                        'eoa_application_id' => $application_id,
+                        'eoa_application_imp_project_detail_id'=>$request->eoa_application_imp_project_detail_id[$i],
+                        'no_of_dwelling' => $no_of_dwelling[$i],
+                        'land_area_in_sq_mt' => $land_area_in_sq_mt[$i],
+                        'built_up_area_in_sq_mt' => $built_up_area_in_sq_mt[$i],
+                        'value_of_work_in_rs' => $value_of_work_in_rs[$i],
+                        'year_of_completion_start' => $year_of_completion_start[$i]
+                    ];
+                    $this->imp_projects_work_handled->create($imp_project_data_array);
+                }
+
+                $i++;
+            }
+            return redirect()->route('appointing_architect.step6', ['id' => $application_id]);
+        }
     }
 
-    public function step7(Request $request)
+    public function step6($id)
     {
-        //dd(session()->all());
-        //return $this->model->all();
-        return view('employment_of_architect.form7');
+        $application = $this->model->whereWithFirst(['imp_senior_professionals'], ['id' => $id, 'user_id' => auth()->user()->id]);
+        return view('employment_of_architect.form6',compact('application'));
+    }
+
+    public function step6_post(Request $request)
+    {
+        $v = Validator::make($request->all(), [
+            'category.*' => 'required',
+            'name.*' => 'required',
+            'qualifications.*' => 'required',
+            'year_of_qualification.*'=>'required',
+            'len_of_service_with_firm_in_year.*'=>'required',
+            'len_of_service_with_firm_in_month.*'=>'required'
+        ]);
+
+        if ($v->fails()) {
+            return redirect()->back()->withErrors($v->errors());
+        } else {
+            $imp_senior_professional_id=$request->imp_senior_professional_id;
+            $category = $request->category;
+            $name = $request->name;
+            $qualifications = $request->qualifications;
+            $year_of_qualification=$request->year_of_qualification;
+            $len_of_service_with_firm_in_year = $request->len_of_service_with_firm_in_year;
+            $len_of_service_with_firm_in_month = $request->len_of_service_with_firm_in_month;
+            $i = 0;
+            $application_id = $request->application_id;
+            foreach ($category as $category) {
+                $imp_project_data_array = array();
+                if (isset($imp_senior_professional_id[$i])) {
+                    $imp_project_data_array = [
+                        'eoa_application_id' => $application_id,
+                        'category'=>$category,
+                        'name' => $name[$i],
+                        'qualifications' => $qualifications[$i],
+                        'year_of_qualification'=>$year_of_qualification[$i],
+                        'len_of_service_with_firm_in_year' => $len_of_service_with_firm_in_year[$i],
+                        'len_of_service_with_firm_in_month' => $len_of_service_with_firm_in_month[$i],
+                    ];
+                    $this->imp_senior_professional->updateWhere($imp_project_data_array, ['id' => $imp_senior_professional_id[$i], 'eoa_application_id' => $application_id]);
+                } else {
+                    $imp_project_data_array = [
+                        'eoa_application_id' => $application_id,
+                        'category'=>$category,
+                        'name' => $name[$i],
+                        'qualifications' => $qualifications[$i],
+                        'year_of_qualification'=>$year_of_qualification[$i],
+                        'len_of_service_with_firm_in_year' => $len_of_service_with_firm_in_year[$i],
+                        'len_of_service_with_firm_in_month' => $len_of_service_with_firm_in_month[$i],
+                    ];
+                    $this->imp_senior_professional->create($imp_project_data_array);
+                }
+
+                $i++;
+            }
+            return redirect()->route('appointing_architect.step7', ['id' => $application_id]);
+        }
+    }
+
+    public function step7($id)
+    {
+        $application = $this->model->whereWithFirst(['project_sheets'], ['id' => $id, 'user_id' => auth()->user()->id]);
+        return view('employment_of_architect.form7',compact('application'));
+    }
+
+    public function step7_post(Request $request)
+    {
+        $v = Validator::make($request->all(), [
+            'name_of_project' => 'required',
+            'location' => 'required',
+            'name_of_client' => 'required',
+            'address'=>'required',
+            'tel_no'=>'required',
+            'built_up_area_in_sq_m'=>'required',
+            'land_area_in_sq_m' => 'required',
+            'estimated_value_of_project' => 'required',
+            'completed_value_of_project' => 'required',
+            'date_of_start'=>'required',
+            'date_of_completion'=>'required',
+            'whether_service_terminated_by_client'=>'required',
+            'salient_features_of_project'=>'required',
+            'reason_for_delay_if_any'=>'required'
+        ]);
+            
+        if ($v->fails()) {
+            return redirect()->back()->withErrors($v->errors());
+        } else {
+            $application_id = $request->application_id;
+            $project_sheet_detail_id=$request->project_sheet_detail_id;
+            $data_array=[
+                'eoa_application_id'=>$application_id,
+                'name_of_project' => $request->name_of_project,
+                'location' => $request->location,
+                'name_of_client' => $request->name_of_client,
+                'address'=>$request->address,
+                'tel_no'=>$request->tel_no,
+                'built_up_area_in_sq_m'=>$request->built_up_area_in_sq_m,
+                'land_area_in_sq_m' => $request->land_area_in_sq_m,
+                'estimated_value_of_project' => $request->estimated_value_of_project,
+                'completed_value_of_project' => $request->completed_value_of_project,
+                'date_of_start'=>$request->date_of_start,
+                'date_of_completion'=>$request->date_of_completion,
+                'whether_service_terminated_by_client'=>$request->whether_service_terminated_by_client,
+                'salient_features_of_project'=>$request->salient_features_of_project,
+                'reason_for_delay_if_any'=>$request->reason_for_delay_if_any,
+                'work_completed'=>0
+            ];
+            if($project_sheet_detail_id!="")
+            {
+                $this->project_sheet->updateWhere($data_array, ['id' => $project_sheet_detail_id, 'eoa_application_id' => $application_id]);
+            }else
+            {
+                $this->project_sheet->create($data_array);
+            }
+            
+            return back()->withSuccess('data saved successfully!!!');
+        }
     }
 
     public function step8(Request $request)
     {
-        //dd(session()->all());
-        //return $this->model->all();
-        return view('employment_of_architect.form8');
+        $application = $this->model->whereWithFirst(['project_sheets'], ['id' => $id, 'user_id' => auth()->user()->id]);
+        return view('employment_of_architect.form8',compact('application'));
+    }
+
+    public function step8_post(Request $request)
+    {
+        $v = Validator::make($request->all(), [
+            'name_of_project' => 'required',
+            'location' => 'required',
+            'name_of_client' => 'required',
+            'address'=>'required',
+            'tel_no'=>'required',
+            'built_up_area_in_sq_m'=>'required',
+            'land_area_in_sq_m' => 'required',
+            'estimated_value_of_project' => 'required',
+            'completed_value_of_project' => 'required',
+            'date_of_start'=>'required',
+            'date_of_completion'=>'required',
+            'whether_service_terminated_by_client'=>'required',
+            'salient_features_of_project'=>'required',
+            'reason_for_delay_if_any'=>'required'
+        ]);
+            
+        if ($v->fails()) {
+            return redirect()->back()->withErrors($v->errors());
+        } else {
+            $application_id = $request->application_id;
+            $project_sheet_detail_id=$request->project_sheet_detail_id;
+            $data_array=[
+                'eoa_application_id'=>$application_id,
+                'name_of_project' => $request->name_of_project,
+                'location' => $request->location,
+                'name_of_client' => $request->name_of_client,
+                'address'=>$request->address,
+                'tel_no'=>$request->tel_no,
+                'built_up_area_in_sq_m'=>$request->built_up_area_in_sq_m,
+                'land_area_in_sq_m' => $request->land_area_in_sq_m,
+                'estimated_value_of_project' => $request->estimated_value_of_project,
+                'completed_value_of_project' => $request->completed_value_of_project,
+                'date_of_start'=>$request->date_of_start,
+                'date_of_completion'=>$request->date_of_completion,
+                'whether_service_terminated_by_client'=>$request->whether_service_terminated_by_client,
+                'salient_features_of_project'=>$request->salient_features_of_project,
+                'reason_for_delay_if_any'=>$request->reason_for_delay_if_any,
+                'work_completed'=>1
+            ];
+            if($project_sheet_detail_id!="")
+            {
+                $this->project_sheet->updateWhere($data_array, ['id' => $project_sheet_detail_id, 'eoa_application_id' => $application_id]);
+            }else
+            {
+                $this->project_sheet->create($data_array);
+            }
+            
+            return back()->withSuccess('data saved successfully!!!');
+        }
     }
 
 }

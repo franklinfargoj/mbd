@@ -171,7 +171,7 @@
                                     Back
                                 </a>
                                 <span style="float:right;margin-right: 20px">
-                                    <a href="{{ route('documents_upload') }}" class="btn btn-primary">
+                                    <a href="{{ route('sc_upload_docs') }}" class="btn btn-primary">
                                         Next
                                     </a>
                                 </span>

@@ -1045,7 +1045,7 @@
                                                 <td class="text-center">
                                                     <input class="total_amount_in_rs form-control form-control--custom" placeholder="0"
                                                         readonly type="text" name="water_usage_charges" id="water_usage_charges"
-                                                        value="<?php if(isset($calculationSheetDetails[0]->water_usage_charges)) { echo $calculationSheetDetails[0]->water_usage_charges; } else { echo '100000'; } ?>" />
+                                                        value="<?php if(isset($calculationSheetDetails[0]->water_usage_charges)) { echo $calculationSheetDetails[0]->water_usage_charges; } else { echo '1,00,000'; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -1494,7 +1494,7 @@
     {
         var total_house = (!cleanNumber($("#total_house").val()) || isNaN(cleanNumber($("#total_house").val()))) ? 0 : cleanNumber($("#total_house").val());
 
-        $("#layout_approval_fee").attr('value', 1000 * numberWithCommas(total_house));
+        $("#layout_approval_fee").attr('value', numberWithCommas(1000 * total_house));
     }
 
     function totalAmountInRs()
@@ -1545,7 +1545,9 @@
 
     $(document).on("keyup blur", "#permissible_mattress_area", function () {
 
-        $("#revised_permissible_mattress_area").attr('value', (1.35 * $(this).val()).toFixed(2));
+        var permissible_mattress_area = (!cleanNumber($(this).val()) || isNaN(cleanNumber($(this).val()))) ? 0 : cleanNumber($(this).val());
+
+        $("#revised_permissible_mattress_area").attr('value', numberWithCommas((1.35 * permissible_mattress_area).toFixed(2)));
 
     });
 

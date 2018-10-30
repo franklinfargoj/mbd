@@ -14,9 +14,18 @@
 
 $(document).ready(function () {
 
+    //trigger radio on table row click
+
     $("#dataTableBuilder tr").click(function(){
         $(this).find("input[type='radio']").first()[0].click()
-      })
+    })
+
+    //trigger accordion link on parent click
+
+    // $("#accordion .form-accordion").click(function(e){
+    //     console.log("click",  $(this).find('.form-count-title'));
+    //     $(this).find('.form-count-title').first()[0].click()
+    // })
 
     // disable collapse on active menu
 

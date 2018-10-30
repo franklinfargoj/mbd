@@ -58,19 +58,20 @@
                                             <h5>Upload</h5>
                                             <span class="hint-text">Click on 'Upload' to upload Sale Deed Agreement</span>
                                                 <div class="custom-file">
-                                                    <input class="custom-file-input" name="sale_agreement" type="file" id="test-upload1" required="">
-                                                    <label class="custom-file-label" for="test-upload1">Choose
-                                                        file...</label>
+                                                    <input class="custom-file-input" name="sale_agreement" type="file" id="test-upload1">
+                                                
+                                                        <label class="custom-file-label" for="test-upload1">Choose
+                                                        file...</label>   
                                                 </div>
                                         </div>
                                     </div>
                                     <div class="col-sm-6 border-left">
                                         <div class="d-flex flex-column h-100 two-cols">
                                             <h5>Download</h5>
-                                            <span class="hint-text">Click Download to download Sale Deed Agreement </span>
+                                            <span class="hint-text">Click to download Sale Deed Agreement </span>
                                             <div class="mt-auto">
-                                                @if(isset($data->scApplicationAgreement->draft_sale_agreement))
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->scApplicationAgreement->draft_sale_agreement }}">
+                                                @if(isset($data->DraftSaleAgreement->agreement_path))
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->DraftSaleAgreement->agreement_path }}">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>
@@ -110,19 +111,23 @@
                                             <h5>Upload</h5>
                                             <span class="hint-text">Click on 'Upload' to upload Lease Deed Agreement</span>
                                                 <div class="custom-file">
-                                                    <input class="custom-file-input" name="lease_agreement" type="file" id="test-upload2" required="">
+                                                    <!-- <input class="custom-file-input" name="lease_agreement" type="file" id="test-upload2"> -->
+                                                    
+                                                    <input class="custom-file-input" name="lease_agreement" type="file" id="test-upload2">
+   
                                                     <label class="custom-file-label" for="test-upload2">Choose
                                                         file...</label>
+                                                      
                                                 </div>
                                         </div>
                                     </div>
                                     <div class="col-sm-6 border-left">
                                         <div class="d-flex flex-column h-100 two-cols">
                                             <h5>Download Note</h5>
-                                            <span class="hint-text">Click Download to download Lease Deed Agreement</span>
+                                            <span class="hint-text">Click to download Lease Deed Agreement</span>
                                             <div class="mt-auto">
-                                                @if(isset($data->scApplicationAgreement->draft_lease_agreement))
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->scApplicationAgreement->draft_lease_agreement }}">
+                                                @if(isset($data->DraftLeaseAgreement->agreement_path))
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->DraftLeaseAgreement->agreement_path }}">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>

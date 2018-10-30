@@ -16,6 +16,7 @@ use App\Role;
 use App\RoleUser;
 use App\User;
 use App\conveyance\scApplication;
+use App\conveyance\SocietyConveyanceDocumentMaster;
 
 use Illuminate\Http\Request;
 
@@ -189,16 +190,17 @@ class SocietyConveyanceController extends Controller
                         $input['first_flat_issue_date'] = date('Y-m-d', strtotime($request->first_flat_issue_date));
                         $input['society_registration_date'] = date('Y-m-d', strtotime($request->society_registration_date));
                         $input['template_file'] = $path;
-                        unset($input['layout_id'], $input['template'], $input['_token']);
+                        unset($input['layout_id'], $input['template'], $input['_token'], $input['sc_application_master_id']);
 
                         $sc = new SocietyConveyance;
                         $sc_application_form =  $sc->getFillable();
 
                         $sc_form_last_id = '';
                         $sc_appn = new scApplication;
-                        $sc_application = array_slice($sc_appn->getFillable(), 0, 4);
+                        $sc_application = array_slice($sc_appn->getFillable(), 0, 5);
 
                         $input_sc_application = array(
+                            "sc_application_master_id" => $request->sc_application_master_id,
                             "application_no" => str_pad($sc_form_last_id, 5, '0', STR_PAD_LEFT),
                             "society_id" => $request->society_id,
                             "form_request_id" => $sc_form_last_id,
@@ -213,6 +215,7 @@ class SocietyConveyanceController extends Controller
                             $select_user_ids[] = $value['user_id'];
                         }
                         $users = User::whereIn('id', $select_user_ids)->get();
+
                         if(count($sc_application_form) > count($input) && count($sc_application) == count($input_sc_application) && count($users) > 0){
                             $insert_arr = array(
                                 'users' => $users
@@ -394,7 +397,12 @@ class SocietyConveyanceController extends Controller
      */
     public function sc_upload_docs()
     {
-
-        return view('frontend.society.conveyance.');
+        $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
+        $sc_application = scApplication::where('society_id', $society->id)->with(['scApplicationType', 'scApplicationLog' => function($q){
+            $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
+        } ])->orderBy('id', 'desc')->first();
+        $documents = SocietyConveyanceDocumentMaster::where('application_type_id', $sc_application->sc_application_master_id)->get();
+//        dd($documents);
+        return view('frontend.society.conveyance.show_doc_bank_details', compact('documents', 'sc_application'));
     }
 }
