@@ -9,6 +9,15 @@ use App\EmploymentOfArchitect\EoaApplicationImportantProjectDetail;
 use App\EmploymentOfArchitect\EoaApplicationImportantProjectWorkHandledDetail;
 use App\EmploymentOfArchitect\EoaApplicationImportantSeniorProfessionalDetail;
 use App\EmploymentOfArchitect\EoaApplicationProjectSheetDetail;
+
+use App\Http\Requests\AppointingArchitect\StepOneRequest;
+use App\Http\Requests\AppointingArchitect\StepTwoRequest;
+use App\Http\Requests\AppointingArchitect\StepThreeRequest;
+use App\Http\Requests\AppointingArchitect\StepFourRequest;
+use App\Http\Requests\AppointingArchitect\StepFiveRequest;
+use App\Http\Requests\AppointingArchitect\StepSixRequest;
+use App\Http\Requests\AppointingArchitect\StepSevenRequest;
+use App\Http\Requests\AppointingArchitect\RegisterUserRequest;
 use App\Repositories\Repository;
 use App\Role;
 use App\RoleUser;
@@ -16,6 +25,10 @@ use App\User;
 use Illuminate\Http\Request;
 use Validator;
 use Yajra\DataTables\DataTables;
+
+
+
+
 
 class EmploymentOfArchitectController extends Controller
 {
@@ -47,7 +60,7 @@ class EmploymentOfArchitectController extends Controller
         return view('employment_of_architect.signup');
     }
 
-    public function create_user(Request $request)
+    public function create_user(RegisterUserRequest $request)
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
@@ -171,7 +184,7 @@ class EmploymentOfArchitectController extends Controller
         return view('employment_of_architect.form1', compact('application'));
     }
 
-    public function step1_post(Request $request)
+    public function step1_post(StepOneRequest $request)
     {
         $v = Validator::make($request->all(), [
             'category_of_panel' => 'required',
@@ -233,18 +246,10 @@ class EmploymentOfArchitectController extends Controller
         return view('employment_of_architect.form2', compact('application'));
     }
 
-    public function step2_post(Request $request)
+    public function step2_post(StepTwoRequest $request)
     {
-        $v = Validator::make($request->all(), [
-            'application_info_and_its_enclosures_verify' => 'required',
-        ], [
-            'application_info_and_its_enclosures_verify.required' => 'The application info and its enclosures acceptance is required',
-        ]);
-        $application_id = $request->application_id;
-        if ($v->fails()) {
-            return redirect()->back()->withErrors($v->errors());
-        } else {
-
+        
+            $application_id = $request->application_id;
             $enclosure_id = $request->enclosure_id;
             $j = 0;
             foreach ($request->enclosures as $enclosure) {
@@ -260,7 +265,6 @@ class EmploymentOfArchitectController extends Controller
             }
             $this->model->updateWhere(['application_info_and_its_enclosures_verify' => $request->application_info_and_its_enclosures_verify], ['id' => $application_id]);
             return redirect()->route('appointing_architect.step3', ['id' => $application_id]);
-        }
     }
 
     public function step3($id)
@@ -269,32 +273,8 @@ class EmploymentOfArchitectController extends Controller
         return view('employment_of_architect.form3', compact('application'));
     }
 
-    public function step3_post(Request $request)
+    public function step3_post(StepThreeRequest $request)
     {
-        $v = Validator::make($request->all(), [
-            'details_of_establishment' => 'required',
-            'branch_office_details' => 'required',
-            'staff_architects' => 'required',
-            'staff_engineers' => 'required',
-            'staff_supporting_tech' => 'required',
-            'staff_supporting_nontech' => 'required',
-            'staff_others' => 'required',
-            'staff_total' => 'required',
-            'is_cad_facility' => 'required',
-            'cad_facility_no_of_computers' => 'required',
-            'cad_facility_no_of_printers' => 'required',
-            'cad_facility_no_of_plotters' => 'required',
-            'reg_with_council_of_architecture_principle' => 'required',
-            'reg_with_council_of_architecture_associate' => 'required',
-            'reg_with_council_of_architecture_partner' => 'required',
-            'reg_with_council_of_architecture_total_registered_persons' => 'required',
-            'award_prizes_etc' => 'required',
-            'other_information' => 'required',
-        ]);
-
-        if ($v->fails()) {
-            return redirect()->back()->withErrors($v->errors());
-        } else {
             $application_id = $request->application_id;
             $step3_data = [
                 'details_of_establishment' => $request->details_of_establishment,
@@ -321,7 +301,6 @@ class EmploymentOfArchitectController extends Controller
             } else {
                 return back()->withError('Something went wrong');
             }
-        }
     }
 
     public function step4($id)
@@ -331,18 +310,8 @@ class EmploymentOfArchitectController extends Controller
         return view('employment_of_architect.form4',compact('application'));
     }
 
-    public function step4_post(Request $request)
+    public function step4_post(StepFourRequest $request)
     {
-        $v = Validator::make($request->all(), [
-            'name_of_client.*' => 'required',
-            'location.*' => 'required',
-            'category_of_client.*' => 'required',
-        ]);
-
-        if ($v->fails()) {
-            return redirect()->back()->withErrors($v->errors());
-        } else {
-            
             $imp_project_id = $request->imp_project_id;
             $name_of_clients = $request->name_of_client;
             $locations = $request->location;
@@ -372,7 +341,6 @@ class EmploymentOfArchitectController extends Controller
                 $i++;
             }
             return redirect()->route('appointing_architect.step5', ['id' => $application_id]);
-        }
     }
 
     public function step5($id)
@@ -381,20 +349,8 @@ class EmploymentOfArchitectController extends Controller
         return view('employment_of_architect.form5',compact('application'));
     }
 
-    public function step5_post(Request $request)
+    public function step5_post(StepFiveRequest $request)
     {
-        $v = Validator::make($request->all(), [
-            'eoa_application_imp_project_detail_id.*' => 'required',
-            'no_of_dwelling.*' => 'required',
-            'land_area_in_sq_mt.*' => 'required',
-            'built_up_area_in_sq_mt.*'=>'required',
-            'value_of_work_in_rs.*'=>'required',
-            'year_of_completion_start.*'=>'required'
-        ]);
-
-        if ($v->fails()) {
-            return redirect()->back()->withErrors($v->errors());
-        } else {
             $imp_project_work_handled_id=$request->imp_project_work_handled_id;
             $eoa_application_imp_project_detail_id = $request->eoa_application_imp_project_detail_id;
             $no_of_dwelling = $request->no_of_dwelling;
@@ -433,7 +389,7 @@ class EmploymentOfArchitectController extends Controller
                 $i++;
             }
             return redirect()->route('appointing_architect.step6', ['id' => $application_id]);
-        }
+    
     }
 
     public function step6($id)
@@ -442,20 +398,8 @@ class EmploymentOfArchitectController extends Controller
         return view('employment_of_architect.form6',compact('application'));
     }
 
-    public function step6_post(Request $request)
+    public function step6_post(StepSixRequest $request)
     {
-        $v = Validator::make($request->all(), [
-            'category.*' => 'required',
-            'name.*' => 'required',
-            'qualifications.*' => 'required',
-            'year_of_qualification.*'=>'required',
-            'len_of_service_with_firm_in_year.*'=>'required',
-            'len_of_service_with_firm_in_month.*'=>'required'
-        ]);
-
-        if ($v->fails()) {
-            return redirect()->back()->withErrors($v->errors());
-        } else {
             $imp_senior_professional_id=$request->imp_senior_professional_id;
             $category = $request->category;
             $name = $request->name;
@@ -494,37 +438,17 @@ class EmploymentOfArchitectController extends Controller
                 $i++;
             }
             return redirect()->route('appointing_architect.step7', ['id' => $application_id]);
-        }
     }
 
     public function step7($id)
     {
         $application = $this->model->whereWithFirst(['project_sheets'], ['id' => $id, 'user_id' => auth()->user()->id]);
+        //dd($application);
         return view('employment_of_architect.form7',compact('application'));
     }
 
-    public function step7_post(Request $request)
+    public function step7_post(StepSevenRequest $request)
     {
-        $v = Validator::make($request->all(), [
-            'name_of_project' => 'required',
-            'location' => 'required',
-            'name_of_client' => 'required',
-            'address'=>'required',
-            'tel_no'=>'required',
-            'built_up_area_in_sq_m'=>'required',
-            'land_area_in_sq_m' => 'required',
-            'estimated_value_of_project' => 'required',
-            'completed_value_of_project' => 'required',
-            'date_of_start'=>'required',
-            'date_of_completion'=>'required',
-            'whether_service_terminated_by_client'=>'required',
-            'salient_features_of_project'=>'required',
-            'reason_for_delay_if_any'=>'required'
-        ]);
-            
-        if ($v->fails()) {
-            return redirect()->back()->withErrors($v->errors());
-        } else {
             $application_id = $request->application_id;
             $project_sheet_detail_id=$request->project_sheet_detail_id;
             $data_array=[
@@ -538,8 +462,8 @@ class EmploymentOfArchitectController extends Controller
                 'land_area_in_sq_m' => $request->land_area_in_sq_m,
                 'estimated_value_of_project' => $request->estimated_value_of_project,
                 'completed_value_of_project' => $request->completed_value_of_project,
-                'date_of_start'=>$request->date_of_start,
-                'date_of_completion'=>$request->date_of_completion,
+                'date_of_start'=>date('Y-m-d',strtotime($request->date_of_start)),
+                'date_of_completion'=>date('Y-m-d',strtotime($request->date_of_completion)),
                 'whether_service_terminated_by_client'=>$request->whether_service_terminated_by_client,
                 'salient_features_of_project'=>$request->salient_features_of_project,
                 'reason_for_delay_if_any'=>$request->reason_for_delay_if_any,
@@ -554,7 +478,6 @@ class EmploymentOfArchitectController extends Controller
             }
             
             return back()->withSuccess('data saved successfully!!!');
-        }
     }
 
     public function step8(Request $request)
@@ -563,28 +486,8 @@ class EmploymentOfArchitectController extends Controller
         return view('employment_of_architect.form8',compact('application'));
     }
 
-    public function step8_post(Request $request)
+    public function step8_post(StepSevenRequest $request)
     {
-        $v = Validator::make($request->all(), [
-            'name_of_project' => 'required',
-            'location' => 'required',
-            'name_of_client' => 'required',
-            'address'=>'required',
-            'tel_no'=>'required',
-            'built_up_area_in_sq_m'=>'required',
-            'land_area_in_sq_m' => 'required',
-            'estimated_value_of_project' => 'required',
-            'completed_value_of_project' => 'required',
-            'date_of_start'=>'required',
-            'date_of_completion'=>'required',
-            'whether_service_terminated_by_client'=>'required',
-            'salient_features_of_project'=>'required',
-            'reason_for_delay_if_any'=>'required'
-        ]);
-            
-        if ($v->fails()) {
-            return redirect()->back()->withErrors($v->errors());
-        } else {
             $application_id = $request->application_id;
             $project_sheet_detail_id=$request->project_sheet_detail_id;
             $data_array=[
@@ -614,7 +517,6 @@ class EmploymentOfArchitectController extends Controller
             }
             
             return back()->withSuccess('data saved successfully!!!');
-        }
     }
 
 }
