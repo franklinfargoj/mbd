@@ -169,7 +169,7 @@ class EmPermissionSeeder extends Seeder
         $layout_id = \App\MasterLayout::where("layout_name", '=', "Samata Nagar, Kandivali(E)")->value('id');
         $layout_user =  \App\LayoutUser::where('user_id',$user_id)->where('layout_id',$layout_id)->first();
         
-        if(count($layout_user) == 0){
+        if(!$layout_user){
             \App\LayoutUser::insert(['user_id' => $user_id, 'layout_id' => $layout_id]);          
         }    
     }
