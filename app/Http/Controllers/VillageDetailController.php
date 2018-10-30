@@ -349,7 +349,7 @@ lm_village_detail.updated_at'))->get();
             if ($request->hasFile('extract')) {
                 $extension = $request->file('extract')->getClientOriginalExtension();
                 if ($extension == "pdf") {
-                    $name = File::name($request->file('extract')->getClientOriginalName()) . '_' . $time . '.' . $extension;
+                    $name = File::name(str_replace(' ','_',($request->file('extract')->getClientOriginalName()))) . '_' . $time . '.' . $extension;
                     $folder_name = "7_12_extract_document";
                     $path = '/'.$folder_name.'/';
                     $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$request->file('extract'),$name);
@@ -459,7 +459,7 @@ lm_village_detail.updated_at'))->get();
                     $previous_file = VillageDetail::where('id',$id)->value('extract_file_name');
                     if($previous_file) Storage::disk('ftp')->delete('7_12_extract_document/'.$previous_file);
                     // Uploading new file
-                    $name = File::name($request->file('extract')->getClientOriginalName()) . '_' . $time . '.' . $extension;
+                    $name = File::name(str_replace(' ','_',($request->file('extract')->getClientOriginalName()))) . '_' . $time . '.' . $extension;
                     $folder_name = '7_12_extract_document';
                     $path='/'.$folder_name.'/';
                     $this->CommonController->ftpFileUpload($folder_name,$request->file('extract'),$name);
