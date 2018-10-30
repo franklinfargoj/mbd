@@ -2826,6 +2826,23 @@ label.site-visit-label {
     margin-top: 15px;
 }
 
+.cloneme td {
+    position: relative;
+}
+
+.remove-row {
+
+    position: absolute;
+    top: 50%;
+    left: 105%;
+    transform: translateY(-55%);
+}
+
+.remove-row .fa {
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+
 /* Appointing Architect ends here */
 
 .remark {
