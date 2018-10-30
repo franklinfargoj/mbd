@@ -240,6 +240,8 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('arrears_calculations','EMDepartment\ArrearsCalculationController@index')->name('arrears_calculations');
     Route::get('billing_calculations','EMDepartment\BillingDetailController@index')->name('billing_calculations');
 
+    Route::get('generateBuildingBill','EMDepartment\EMController@generateBuildingBill')->name('generateBuildingBill');
+    Route::get('generateTenantBill','EMDepartment\EMController@generateTenantBill')->name('generateTenantBill');
     //EM_Clerk Routes
     Route::resource('em_clerk', 'EMDepartment\EMClerkController');
     Route::get('em_society_list', 'EMDepartment\EMClerkController@society_list')->name('em_society_list');
