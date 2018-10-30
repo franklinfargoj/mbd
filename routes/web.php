@@ -478,6 +478,7 @@ Route::delete('destroy_architect_layout_detail_court_case_or_dispute_on_land/{id
 
     Route::get('download_template', 'SocietyConveyanceController@download_excel')->name('sc_download');
     Route::get('sc_upload_docs', 'SocietyConveyanceController@sc_upload_docs')->name('sc_upload_docs');
+    Route::get('delete_sc_upload_docs/{id}', 'SocietyConveyanceController@delete_sc_upload_docs')->name('delete_sc_upload_docs');
     Route::resource('/society_conveyance','SocietyConveyanceController');
     
 });
@@ -647,10 +648,13 @@ Route::prefix('appointing_architect')->group(function () {
         Route::post('step3_post', 'EmploymentOfArchitectController@step3_post')->name('appointing_architect.step3_post');
         Route::get('step4/{id}', 'EmploymentOfArchitectController@step4')->name('appointing_architect.step4');
         Route::post('step4_post', 'EmploymentOfArchitectController@step4_post')->name('appointing_architect.step4_post');
+        Route::post('ajaxDeleteImpProject', 'EmploymentOfArchitectController@delete_imp_project')->name('appointing_architect.delete_imp_project');
         Route::get('step5/{id}', 'EmploymentOfArchitectController@step5')->name('appointing_architect.step5');
         Route::post('step5_post', 'EmploymentOfArchitectController@step5_post')->name('appointing_architect.step5_post');
+        Route::post('ajaxDeleteImpProjectWorkHandled', 'EmploymentOfArchitectController@delete_imp_project_work_handled')->name('appointing_architect.delete_imp_project_work_handled');
         Route::get('step6/{id}', 'EmploymentOfArchitectController@step6')->name('appointing_architect.step6');
         Route::post('step6_post', 'EmploymentOfArchitectController@step6_post')->name('appointing_architect.step6_post');
+        Route::post('ajaxDeleteImpSeniorProfessional', 'EmploymentOfArchitectController@delete_imp_senior_professional')->name('appointing_architect.delete_imp_senior_professional');
         Route::get('step7/{id}', 'EmploymentOfArchitectController@step7')->name('appointing_architect.step7');
         Route::post('step7_post', 'EmploymentOfArchitectController@step7_post')->name('appointing_architect.step7_post');
         Route::get('step8/{id}', 'EmploymentOfArchitectController@step8')->name('appointing_architect.step8');

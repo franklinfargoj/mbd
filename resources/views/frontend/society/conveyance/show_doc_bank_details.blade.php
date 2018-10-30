@@ -59,34 +59,34 @@
                             </td>
                             <td class="text-center">
                                 <h2 class="m--font-danger">
-                                    @if(count($document->documents_uploaded) > 0 )
-                                    @foreach($document->documents_uploaded as $document_uploaded)
-                                    @if($document_uploaded['society_id'] == $society->id)
+                                    @if($document->sc_document_status != null)
+                                        @php $document_uploaded = $document->sc_document_status; @endphp
+                                    @if($document_uploaded['application_id'] == $sc_application->id)
                                     <i class="fa fa-check"></i>
                                     @else
                                     <i class="fa fa-remove"></i>
                                     @endif
-                                    @endforeach
                                     @else
                                     <i class="fa fa-remove"></i>
                                     @endif
                                 </h2>
                             </td>
                             <td>
-                                @if(count($document->documents_uploaded) > 0 )
-                                @foreach($document->documents_uploaded as $document_uploaded)
-                                @if($document_uploaded['society_id'] == $society->id)
+                                @if($document->sc_document_status != null)
+                                    @php $document_uploaded = $document->sc_document_status; @endphp
+                                {{--@foreach($document->sc_document_status as $document_uploaded)--}}
+                                @if($document_uploaded['application_id'] == $sc_application->id)
                                 <span>
-                                        <a href="{{ asset($document_uploaded['society_document_path']) }}" data-value='{{ $document->id }}'
+                                        <a href="{{ config('commanConfig.storage_server').'/'.$document_uploaded['document_path'] }}" data-value='{{ $document->id }}'
                                            class="upload_documents" target="_blank" rel="noopener" download><button type="submit" class="btn btn-primary btn-custom">
                                                 Download</button></a>
-                                        <a href="{{ url('/delete_uploaded_documents/'.$document->id) }}" data-value='{{ $document->id }}'
+                                        <a href="{{ route('delete_sc_upload_docs', $document->id) }}" data-value='{{ $document->id }}'
                                            class="upload_documents"><button type="submit" class="btn btn-primary btn-custom">
                                                 <i class="fa fa-trash"></i></button></a>
                                     </span>
                                 @else
-                                <form action="{{ route('uploaded_documents') }}" method="post" enctype='multipart/form-data'
-                                      id="upload_documents_form_{{ $document->id }}">
+                                <form action="{{ route('uploaded_documents') }}" method="post" enctype='multipart/form-data' class="sc_upload_documents_form"
+                                      id="sc_upload_documents_form_{{ $document->id }}">
                                     @csrf
                                     <div class="custom-file">
                                         <input class="custom-file-input" name="document_name" type="file" class=""
@@ -104,10 +104,10 @@
                                     <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
                                 </form>
                                 @endif
-                                @endforeach
+                                {{--@endforeach--}}
                                 @else
-                                <form action="{{ route('uploaded_documents') }}" method="post" enctype='multipart/form-data'
-                                      id="upload_documents_form_{{ $document->id }}">
+                                <form action="{{ route('uploaded_documents') }}" method="post" enctype='multipart/form-data' class="sc_upload_documents_form"
+                                      id="sc_upload_documents_form_{{ $document->id }}">
                                     @csrf
                                     <div class="custom-file @if(session('error_'.$document->id)) has-error @endif">
                                         <input class="custom-file-input" name="document_name" type="file" id="test-upload_{{ $document->id }}"
@@ -236,4 +236,42 @@
 @endif
 @endif
 @endif
+@endsection
+@section('datatablejs')
+    <script>
+        $(document).ready(function(){
+            $('.sc_upload_documents_form').on('change', function(){
+                var id = $(this).closest('tr').find("input[name='document_id']")[0].value;
+
+                if(id == 1){
+                    $(this).validate({
+                        rules:{
+                            document_name : {
+                                extension: 'xls'
+                            }
+                        },
+                        messages: {
+                            document_name : {
+                                extension: 'Only .xls required for this document.'
+                            }
+                        }
+                    });
+                }else{
+                    $(this).validate({
+                        rules:{
+                            document_name : {
+                                extension: 'pdf'
+                            }
+                        },
+                        messages: {
+                            document_name : {
+                                extension: 'Only .pdf required for this document.'
+                            }
+                        }
+                    });
+                }
+
+            });
+        });
+    </script>
 @endsection
