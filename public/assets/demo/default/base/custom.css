@@ -2809,17 +2809,51 @@ label.site-visit-label {
 .form-steps-wrap {
     border-radius: 4px;
     border: 2px solid #8c8c8c;
+    overflow: hidden;
 }
 
 .form-step-tab {
-    background-color: #f1f2f6;
+    background-color: #fff;
     color: #767678;
     padding: 20px 0;
+    position: relative;
+    cursor: default;
 }
 
 .form-step-tab.active {
     background-color: #ff754e;
     color: #fff;
+    cursor: pointer;
+}
+
+.form-step-tab.active::before,
+.form-step-tab.active::after {
+    content: "";
+    display: block;
+    position: absolute;
+    border-style: solid;
+    border-color: transparent;
+    width: 0;
+    height: 0;
+    z-index: 1;
+}
+
+.form-step-tab.active::before {
+    border-width: 35px;
+    top: -4px;
+    left: 101%;
+    border-left-color: #fff;
+}
+
+.form-step-tab.active::after {
+    border-width: 31px;
+    top: 0;
+    left: 100%;
+    border-left-color: #ff754e;
+}
+
+.form-step-tab:last-child.active::after {
+    display: none;
 }
 
 .input-row-list + .input-row-list {
@@ -2831,7 +2865,6 @@ label.site-visit-label {
 }
 
 .remove-row {
-
     position: absolute;
     top: 50%;
     left: 105%;

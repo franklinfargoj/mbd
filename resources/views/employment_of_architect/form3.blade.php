@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 @section('content')
 
-<div class="col-md-12">dsaasdsdadas
+<div class="col-md-12">
     <div class="d-flex form-steps-wrap">
         <button class="btn--unstyled flex-grow-1 form-step-tab active">Step 1</button>
         <button class="btn--unstyled flex-grow-1 form-step-tab active">Step 2</button>
