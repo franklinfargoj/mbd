@@ -1,7 +1,8 @@
-@extends('admin.layouts.sidebarAction')
-@section('actions')
-@include('admin.society_detail.action',compact('arrData'))
-@endsection
+@extends('admin.layouts.app')
+{{--@extends('admin.layouts.sidebarAction')--}}
+{{--@section('actions')--}}
+{{--@include('admin.society_detail.action',compact('arrData'))--}}
+{{--@endsection--}}
 @section('content')
 <div class="col-md-12">
     <div class="m-subheader px-0 m-subheader--top">
