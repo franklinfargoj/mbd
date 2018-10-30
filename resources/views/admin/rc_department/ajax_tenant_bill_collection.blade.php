@@ -29,15 +29,20 @@
                      {{ $value->tenant_type == $value2->id ? $value2->name : '' }} 
                     @endforeach 
                 </td>
-                <td>
-                    <a class="btn btn-info mb-10" href="{{route('edit_tenant', [$value->id])}}">View Billing Details</a>
+                <td>                 
+                    
+                    {!! Form::open(['method' => 'get', 'route' => 'billing_calculations']) !!}
+                    {{ Form::hidden('tenant_id', $value->id) }}
+                    {{ Form::hidden('building_id', $value->building_id) }}
+                    {!! Form::submit(trans('View Billing Details'), array('class' => 'btn btn-info mb-10')) !!}
+                    {!! Form::close() !!}
 
-                    {!! Form::open(['method' => 'Post', 'route' => 'arrears_calculations']) !!}
+                    {!! Form::open(['method' => 'get', 'route' => 'generate_receipt_tenant']) !!}
                     {{ Form::hidden('tenant_id', $value->id) }}
                     {{ Form::hidden('building_id', $value->building_id) }}
                     {!! Form::submit(trans('Generate Reciept'), array('class' => 'btn btn-info mb-10')) !!}
-                    {!! Form::close() !!}
-                    
+                    {!! Form::close() !!}  
+
                     {!! Form::open(['method' => 'Post', 'route' => 'arrears_calculations']) !!}
                     {{ Form::hidden('tenant_id', $value->id) }}
                     {{ Form::hidden('building_id', $value->building_id) }}

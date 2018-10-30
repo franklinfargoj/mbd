@@ -1,7 +1,15 @@
 @extends('admin.layouts.app')
+
 @section('actions')
-    @include('admin.em_department.action',compact('ol_application'))
+    
+@if(Auth::user()->role_id == 7)         
+      @include('admin.rc_department.action',compact('ol_application'))        
+@else
+     @include('admin.em_department.action',compact('ol_application'))     
+@endif
+
 @endsection
+
 @section('content')
 
 @if(session()->has('success'))
@@ -62,7 +70,7 @@
             </div>
         </form>
         <div class="m-portlet m-portlet--compact m-portlet--mobile">
-            <div class="m-portlet__body">
+            <div class="m-portlet__body table-responsive" style="overflow-x:auto;" >
                 <table id="billing_calculations" class="display table table-responsive table-bordered" style="width:100%">
                     <thead>
                         <tr>

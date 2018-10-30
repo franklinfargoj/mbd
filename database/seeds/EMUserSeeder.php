@@ -380,6 +380,16 @@ class EMUserSeeder extends Seeder
                     'display_name' => 'Tenant Bill Collection',
                     'description' => 'Tenant Bill Collection'
                 ],
+                [
+                    'name' => 'generate_receipt_society',
+                    'display_name' => 'Generate Receipt Society',
+                    'description' => 'Generate Receipt Society'
+                ],
+                [
+                    'name' => 'generate_receipt_tenant',
+                    'display_name' => 'Generate Receipt Tenant',
+                    'description' => 'Generate Receipt Tenant'
+                ]
             ];
 
             $permission_role = [];
