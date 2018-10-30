@@ -369,7 +369,7 @@ class SocietyConveyanceController extends Controller
             $sc_document_status_arr['application_id'] = $sc_application->id;
             $sc_document_status_arr['conveyance_document_id'] = 1;
             $sc_document_status_arr['document_path'] = $path;
-            dd($sc_document_status_arr);
+//            dd($sc_document_status_arr);
             SocietyConveyanceDocumentStatus::where('conveyance_document_id', '1')->update($sc_document_status_arr);
 
             if(count($input) < count($sc_application_form)){

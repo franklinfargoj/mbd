@@ -85,7 +85,7 @@
                                                 <i class="fa fa-trash"></i></button></a>
                                     </span>
                                 @else
-                                <form action="{{ route('uploaded_documents') }}" method="post" enctype='multipart/form-data'
+                                <form action="{{ route('uploaded_documents') }}" method="post" enctype='multipart/form-data' class="sc_upload_documents_form"
                                       id="sc_upload_documents_form_{{ $document->id }}">
                                     @csrf
                                     <div class="custom-file">
@@ -106,7 +106,7 @@
                                 @endif
                                 {{--@endforeach--}}
                                 @else
-                                <form action="{{ route('uploaded_documents') }}" method="post" enctype='multipart/form-data'
+                                <form action="{{ route('uploaded_documents') }}" method="post" enctype='multipart/form-data' class="sc_upload_documents_form"
                                       id="sc_upload_documents_form_{{ $document->id }}">
                                     @csrf
                                     <div class="custom-file @if(session('error_'.$document->id)) has-error @endif">
@@ -237,17 +237,41 @@
 @endif
 @endif
 @endsection
-@section('js')
+@section('datatablejs')
     <script>
         $(document).ready(function(){
-           $('#sc_upload_documents_form_1').validate({
-               rules:{
-                   document_name : {
-                       required: true,
-                       extension: 'xls'
-                   }
-               }
-           });
+            $('.sc_upload_documents_form').on('change', function(){
+                var id = $(this).closest('tr').find("input[name='document_id']")[0].value;
+
+                if(id == 1){
+                    $(this).validate({
+                        rules:{
+                            document_name : {
+                                extension: 'xls'
+                            }
+                        },
+                        messages: {
+                            document_name : {
+                                extension: 'Only .xls required for this document.'
+                            }
+                        }
+                    });
+                }else{
+                    $(this).validate({
+                        rules:{
+                            document_name : {
+                                extension: 'pdf'
+                            }
+                        },
+                        messages: {
+                            document_name : {
+                                extension: 'Only .pdf required for this document.'
+                            }
+                        }
+                    });
+                }
+
+            });
         });
     </script>
 @endsection
