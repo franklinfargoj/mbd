@@ -44,7 +44,6 @@ class SocietyDetail extends Model
         'society_conveyed',
         'date_of_conveyance',
         'area_of_conveyance',
-        'society_email_id',
     ];
 
     public function societyVillage()
