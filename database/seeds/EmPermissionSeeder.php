@@ -140,8 +140,147 @@ class EmPermissionSeeder extends Seeder
                 'name'         => 'em.scrutiny_remark',
                 'display_name' => 'em scrutiny remark',
                 'description'  => 'em scrutiny remark'
-            ]                        
-
+            ],                  
+            [
+                'name' => 'em.index',
+                'display_name' => 'List EM Application',
+                'description' => 'Listing EM Application'
+            ],
+            [
+                'name' => 'get_societies',
+                'display_name' => 'List Societies',
+                'description' => 'Listing Societies'
+            ],
+            [
+                'name' => 'get_buildings',
+                'display_name' => 'List Buildings',
+                'description' => 'Listing Buildings'
+            ],
+            [
+                'name' => 'get_tenants',
+                'display_name' => 'List Tenants',
+                'description' => 'Listing Tenants'
+            ],
+            [
+                'name' => 'soc_bill_level',
+                'display_name' => 'Society bill level',
+                'description' => 'Society bill level'
+            ],
+            [
+                'name' => 'update_soc_bill_level',
+                'display_name' => 'Update Society Bill Level',
+                'description' => 'Update Society Bill Level'
+            ],
+            [
+                'name' => 'soc_ward_colony',
+                'display_name' => 'Society Ward Colony',
+                'description' => 'Society Ward Colony'
+            ],
+            [
+                'name' => 'update_soc_ward_colony',
+                'display_name' => 'Update Society Ward Colony',
+                'description' => 'Update Society Ward Colony'
+            ],
+            [
+                'name' => 'get_wards',
+                'display_name' => 'Get Wards',
+                'description' => 'Get Wards'
+            ],
+            [
+                'name' => 'get_colonies',
+                'display_name' => 'Get Colonies',
+                'description' => 'Get Colonies'
+            ],
+            [
+                'name' => 'get_society_select',
+                'display_name' => 'Selected Society',
+                'description' => 'Selected Society'
+            ],
+            [
+                'name' => 'get_building_ajax',
+                'display_name' => 'Ajax building',
+                'description' => 'Ajax building'
+            ],
+            [
+                'name' => 'get_building_select',
+                'display_name' => 'Selected Building',
+                'description' => 'Selected Building'
+            ],
+            [
+                'name' => 'get_tenant_ajax',
+                'display_name' => 'Ajax Tenant',
+                'description' => 'Ajax Tenant'
+            ],
+            [
+                'name' => 'add_building',
+                'display_name' => 'Add Building',
+                'description' => 'Add Building'
+            ],
+            [
+                'name' => 'edit_building',
+                'display_name' => 'Edir Building Data',
+                'description' => 'Edir Building Data'
+            ],
+            [
+                'name' => 'create_building',
+                'display_name' => 'Create Building',
+                'description' => 'Create Building'
+            ],
+            [
+                'name' => 'update_building',
+                'display_name' => 'Update Building',
+                'description' => 'Update Building'
+            ],
+            [
+                'name' => 'add_tenant',
+                'display_name' => 'Add Tenant',
+                'description' => 'Add Tenant'
+            ],
+            [
+                'name' => 'edit_tenant',
+                'display_name' => 'Edit Tenant',
+                'description' => 'Edit Tenant'
+            ],
+            [
+                'name' => 'add_tenant',
+                'display_name' => 'Add Tenant',
+                'description' => 'Add Tenant'
+            ],
+            [
+                'name' => 'create_tenant',
+                'display_name' => 'Create Tenant',
+                'description' => 'Create Tenant'
+            ],
+            [
+                'name' => 'update_tenant',
+                'display_name' => 'Update Tenant',
+                'description' => 'Update Tenant'
+            ],
+            [
+                'name' => 'delete_tenant',
+                'display_name' => 'Delete Tenant',
+                'description' => 'Delete Tenant'
+            ],
+            [
+                'name' => 'generate_soc_bill',
+                'display_name' => 'Generate Society Bill',
+                'description' => 'Generate Society Bill'
+            ],
+            [
+                'name' => 'generate_tenant_bill',
+                'display_name' => 'Generate Tenant Bill',
+                'description' => 'Generate Tenant Bill'
+            ],
+            [
+                'name' => 'arrears_calculations',
+                'display_name' => 'Arrears Calculations',
+                'description' => 'Arrears Calculationst'
+            ],
+            [
+                'name' => 'billing_calculations',
+                'display_name' => 'Biiling Calculations',
+                'description' => 'Biiling Calculations'
+            ],
         ];
 
         $permission_role = [];
