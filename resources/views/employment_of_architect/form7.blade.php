@@ -35,8 +35,11 @@
 
 
         @for($j=0;$j<(1+$k);$j++) <div class="m-portlet m-portlet--compact form-accordion">
-            <a class="btn--unstyled section-title section-title--small form-count-title" data-toggle="collapse" href="#form_{{$j+1}}">Form
-                {{$j+1}}:</a>
+            <div class="d-flex justify-content-between align-items-center form-steps-toplinks">
+                <a class="btn--unstyled section-title section-title--small form-count-title" data-toggle="collapse"
+                    href="#form_{{$j+1}}">Form
+                    {{$j+1}}:</a>
+            </div>
             <form role="form" method="post" class="m-form m-form--rows m-form--label-align-right form-steps-box" action="{{route('appointing_architect.step7_post')}}"
                 enctype="multipart/form-data">
                 @csrf
@@ -222,7 +225,7 @@
     <div class="m-form__actions p-0">
         <div class="btn-list d-flex justify-content-between align-items-center">
             <a id="add-more" class="btn--add-delete add">add more<a>
-            <a href="{{route('appointing_architect.step8',['id'=>$application->id])}}" id="" class="btn btn-primary">Next</a>
+                    <a href="{{route('appointing_architect.step8',['id'=>$application->id])}}" id="" class="btn btn-primary">Next</a>
         </div>
     </div>
 </div>
@@ -235,7 +238,7 @@
 <script>
     $(document).ready(function () {
         //document.querySelector(".m-portlet__body").classList.add("show");
-        
+
         function showUploadedFile() {
             $('.custom-file-input').change(function (e) {
                 $(this).parents('.custom-file').find('.custom-file-label').text(e.target.files[0].name);
@@ -253,6 +256,8 @@
                     }
                 });
 
+            formAccordion.find(".form-steps-toplinks").append("<h2 class='m--font-danger remove-row'><i title='Delete' class='fa fa-remove'></i></h2>");
+
             var formAccordionCount = $("#accordion").find('.form-accordion').length + 1;
             var newID = 'form_' + formAccordionCount;
 
@@ -263,9 +268,9 @@
             formAccordionNumber.textContent = "Form " + formAccordionCount + ":";
 
             var file_input = formAccordion.find('.custom-file-input')[0];
-            file_input.setAttribute('id', 'extract_'+formAccordionCount)
+            file_input.setAttribute('id', 'extract_' + formAccordionCount)
             var file_label = formAccordion.find('.custom-file-label')[0];
-            file_label.setAttribute('for', 'extract_'+formAccordionCount);
+            file_label.setAttribute('for', 'extract_' + formAccordionCount);
             var download_link = formAccordion.find('.btn-link')[0];
             download_link.setAttribute('style', 'display:none;');
 
@@ -288,8 +293,22 @@
                 },
                 autoclose: true,
                 format: 'dd-mm-yyyy'
-            })
+            });
+
+            // removeAccordion();
         });
+
+        // function removeAccordion() {
+        //     console.log("one");
+        //     if($('.form-steps-toplinks')) {
+        //         console.log("two");
+        //         $('.form-steps-toplinks').click(function() {
+        //             $(this)[0].closest('.form-accordion').remove();
+        //         });
+        //     }
+        // }
+
+        // removeAccordion();
     });
 
 </script>

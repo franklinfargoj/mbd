@@ -2840,6 +2840,7 @@ label.site-visit-label {
 
 .form-step-tab.active::before {
     border-width: 35px;
+    border-left-width: 12px;
     top: -4px;
     left: 101%;
     border-left-color: #fff;
@@ -2847,6 +2848,7 @@ label.site-visit-label {
 
 .form-step-tab.active::after {
     border-width: 31px;
+    border-left-width: 15px;
     top: 0;
     left: 100%;
     border-left-color: #ff754e;
@@ -2854,6 +2856,14 @@ label.site-visit-label {
 
 .form-step-tab:last-child.active::after {
     display: none;
+}
+
+.remove-accordion {
+    font-size: 1.3rem;
+}
+
+.form-count-title {
+    margin-bottom: 0;
 }
 
 .input-row-list + .input-row-list {
