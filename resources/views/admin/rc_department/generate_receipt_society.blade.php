@@ -1,5 +1,9 @@
 @extends('admin.layouts.app')
 
+@section('css')
+ <link href="{{asset('/css/jquery.dropdown.min.css')}}" rel="stylesheet" type="text/css" />
+@endsection
+
 @section('actions')
     @include('admin.rc_department.action',compact('ol_application'))
 @endsection
@@ -91,6 +95,26 @@
                         <span></span>
                     </div>
                 </div>
+
+                <div class="form-group m-form__group row">
+                    <div class="col-sm-6 form-group">
+                        <label class="col-form-label" for="">Receipt generation except following tenaments :</label>
+                        <div class="dropdown-sin-2">
+                            <select style="display:none" multiple placeholder="Select" name="except_tenaments"></select>
+                        </div>
+                        <span class="help-block"></span>
+                    </div>
+
+                    <div class="col-sm-6 form-group">
+                        <label class="col-form-label" for="">Tenaments Having Credit Amount :</label>
+                        <input type="text" id="" name="" class="form-control form-control--custom m-input" value="">
+                        <span class="help-block"></span>
+                    </div>
+
+                </div>
+
+
+
                 <div class="form-group m-form__group row">
                     <label class="col-form-label col-sm-12" for="">Payment Made for months:</label>
                     <div class="col-sm-4 form-group">
@@ -133,4 +157,23 @@
         </form>
     </div>
 </div>
+@endsection
+
+@section('js')
+
+<script type="text/javascript" src="{{ asset('/js/jquery.dropdown.min.js') }}"></script>
+
+ <script>
+    $(document).ready(function () {
+        
+        var json2 = JSON.parse('<?php echo $buildings; ?>');
+
+        //console.log(json2);
+
+        $('.dropdown-sin-2').dropdown({
+          data: json2,
+          input: '<input type="text" maxLength="20" placeholder="Search">'
+        });
+    });    
+  </script>
 @endsection

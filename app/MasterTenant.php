@@ -17,4 +17,8 @@ class MasterTenant extends Model
     public function arrear(){
     	return $this->hasMany('App\ArrearCalculation', 'tenant_id');
     }
+
+    public function fullName() {
+    	return $this->first_name . ' ' . $this->last_name;
+	}
 }

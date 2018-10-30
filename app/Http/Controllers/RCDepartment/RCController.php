@@ -196,11 +196,20 @@ class RCController extends Controller
     }
 
     public function generate_receipt_society(Request $request){
-        /* $tenament = DB::table('master_tenant_type')->get();
-         $building_id = $request->input('id');
-         $buildings = MasterTenant::where('building_id', '=', $request->input('id'))
-                 ->get();
-        // return $buildings;*/
+
+        //dd($request->building_id);
+       // dd($request->society_id);
+
+        $tenament = DB::table('master_tenant_type')->get();
+        $building_id = $request->input('building_id');
+        
+        $buildings = MasterTenant::where('building_id', '=', $request->input('building_id'))
+                 ->select("id", DB::raw("CONCAT(first_name,' ',last_name)  AS name"))->get()->toArray();
+
+        $buildings = json_encode($buildings);
+                 
+        //return $buildings;
+
         return view('admin.rc_department.generate_receipt_society', compact('tenament','buildings', 'building_id'));
     }
 
