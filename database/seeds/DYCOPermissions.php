@@ -114,7 +114,7 @@ class DYCOPermissions extends Seeder
         
         $role_id = Role::where('name', '=', 'dycdo_engineer')->value('id');
 
-        if (count($role_id) == 0) {
+        if (!$role_id) {
             $role_id = Role::insertGetId([
                 'name'         => 'dycdo_engineer',
                 'redirect_to'  => '/conveyance',
@@ -126,7 +126,7 @@ class DYCOPermissions extends Seeder
 
         $user_id = User::where('email', '=', 'dycdo@gmail.com')->value('id'); 
 
-        if (count($user_id) == 0){
+        if (!$user_id){
 
             $user_id = User::insertGetId([
                 'name'      => 'dycdo user',
@@ -148,7 +148,7 @@ class DYCOPermissions extends Seeder
         foreach ($permissions as $per) {
             $permission_id = Permission::where('name', '=', $per['name'])->value('id');
 
-            if (count($permission_id) == 0){
+            if (!$permission_id){
 
                 $permission_id = Permission::insertGetId($per);
 
@@ -170,7 +170,7 @@ class DYCOPermissions extends Seeder
         $layout_id = \App\MasterLayout::where("layout_name", '=', "Samata Nagar, Kandivali(E)")->first();
         $layout_user =  \App\LayoutUser::where('user_id',$user_id)->where('layout_id',$layout_id->id)->first();
         
-        if(count($layout_user) == 0){
+        if(!$layout_user){
         	\App\LayoutUser::insert(['user_id' => $user_id, 'layout_id' => $layout_id->id]);          
         }          
 
@@ -178,7 +178,7 @@ class DYCOPermissions extends Seeder
 
         $role_id1 = Role::where('name', '=', 'dyco_engineer')->value('id');
 
-        if (count($role_id1) == 0) {
+        if (!$role_id1) {
             $role_id1 = Role::insertGetId([
                 'name'         => 'dyco_engineer',
                 'redirect_to'  => '/conveyance',
@@ -190,7 +190,7 @@ class DYCOPermissions extends Seeder
 
         $user_id1 = User::where('email', '=', 'dyco@gmail.com')->value('id'); 
 
-        if (count($user_id1) == 0){
+        if (!$user_id1){
 
             $user_id1 = User::insertGetId([
                 'name'      => 'dyco user',
@@ -211,7 +211,7 @@ class DYCOPermissions extends Seeder
 
         foreach ($permissions as $per) {
             $permission_id = Permission::where('name', '=', $per['name'])->value('id');
-            if (count($permission_id) == 0){
+            if (!$permission_id){
 
                 $permission_id = Permission::insertGetId($per);
             }    
@@ -233,7 +233,7 @@ class DYCOPermissions extends Seeder
         $layout_id = \App\MasterLayout::where("layout_name", '=', "Samata Nagar, Kandivali(E)")->first();
         $layout_user =  \App\LayoutUser::where('user_id',$user_id1)->where('layout_id',$layout_id->id)->first();
         
-        if(count($layout_user) == 0){
+        if(!$layout_user){
         	\App\LayoutUser::insert(['user_id' => $user_id1, 'layout_id' => $layout_id->id]);          
         }                  
     }
