@@ -72,6 +72,9 @@
                                             <input value="{{$application->imp_senior_professionals!=''?(isset($application->imp_senior_professionals[$j])?$application->imp_senior_professionals[$j]->len_of_service_with_firm_in_month:''):''}}" name="len_of_service_with_firm_in_month[]" placeholder="Length (Total)"
                                                 type="text" class="form-control form-control--custom select-box-list">
                                         </div>
+                                        @if($j>0)
+                                        <h2 class='m--font-danger remove-row'><i title='Delete' class='fa fa-remove'></i></h2>
+                                        @endif
                                     </td>
                                 </tr>
                                 @endfor
@@ -110,7 +113,37 @@
     });
 
     $('.imp_projects').on('click', '.fa-remove', function () {
-        $(this).closest('tr').remove();
+        //$(this).closest('tr').remove();
+        var delete_id=$(this).closest('tr').find("input[name='imp_senior_professional_id[]']")[0].value;
+        if(delete_id!="")
+        {
+            if(confirm('are you sure?'))
+            {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-Token': '{{csrf_token()}}'
+                    }
+                });
+                var thisInstance=$(this);
+                $.ajax({
+                    url:"{{route('appointing_architect.delete_imp_senior_professional')}}",
+                    method:'POST',
+                    data:{delete_imp_project_id:delete_id},
+                    success:function(data){
+                        if(data.status==0)
+                        {
+                            thisInstance.closest('tr').remove();
+                        }else
+                        {
+                            alert('something went wrong');
+                        }
+                    }
+                })
+            }
+        }else
+        {
+            $(this).closest('tr').remove();
+        }
     });
 
 </script>

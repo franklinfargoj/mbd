@@ -62,7 +62,11 @@
                                     <td><input name="value_of_work_in_rs[]" placeholder="Value of Works" value="{{$application->imp_project_work_handled!=''?(isset($application->imp_project_work_handled[$j])?$application->imp_project_work_handled[$j]->value_of_work_in_rs:''):''}}"
                                             type="text" class="form-control form-control--custom"></td>
                                     <td><input name="year_of_completion_start[]" placeholder="Year" value="{{$application->imp_project_work_handled!=''?(isset($application->imp_project_work_handled[$j])?$application->imp_project_work_handled[$j]->year_of_completion_start:''):''}}"
-                                            type="text" class="form-control form-control--custom"></td>
+                                            type="text" class="form-control form-control--custom">
+                                            @if($j>0)
+                                            <h2 class='m--font-danger remove-row'><i title='Delete' class='fa fa-remove'></i></h2>
+                                            @endif
+                                        </td>
                                     </tr>
                                     @endfor
                             </tbody>
@@ -100,7 +104,37 @@
     });
 
     $('.imp_projects').on('click', '.fa-remove', function () {
-        $(this).closest('tr').remove();
+        //$(this).closest('tr').remove();
+        var delete_id=$(this).closest('tr').find("input[name='imp_project_work_handled_id[]']")[0].value;
+        if(delete_id!="")
+        {
+            if(confirm('are you sure?'))
+            {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-Token': '{{csrf_token()}}'
+                    }
+                });
+                var thisInstance=$(this);
+                $.ajax({
+                    url:"{{route('appointing_architect.delete_imp_project_work_handled')}}",
+                    method:'POST',
+                    data:{delete_imp_project_id:delete_id},
+                    success:function(data){
+                        if(data.status==0)
+                        {
+                            thisInstance.closest('tr').remove();
+                        }else
+                        {
+                            alert('something went wrong');
+                        }
+                    }
+                })
+            }
+        }else
+        {
+            $(this).closest('tr').remove();
+        }
     });
 
 </script>

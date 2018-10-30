@@ -347,6 +347,18 @@ class EmploymentOfArchitectController extends Controller
         return redirect()->route('appointing_architect.step5', ['id' => $application_id]);
     }
 
+    public function delete_imp_project(Request $request)
+    {
+        $id=$request->delete_imp_project_id;
+        if($this->imp_projects->delete($id))
+        {
+            return response()->json(['status'=>0,'description'=>'deleted successfully']);
+        }else
+        {
+            return response()->json(['status'=>1,'description'=>'something went wrong']);
+        }
+    }
+
     public function step5($id)
     {
         $application = $this->model->whereWithFirst(['imp_project_work_handled', 'imp_projects'], ['id' => $id, 'user_id' => auth()->user()->id]);
@@ -394,6 +406,30 @@ class EmploymentOfArchitectController extends Controller
         }
         return redirect()->route('appointing_architect.step6', ['id' => $application_id]);
 
+    }
+
+    public function delete_imp_project_work_handled(Request $request)
+    {
+        $id=$request->delete_imp_project_id;
+        if($this->imp_projects_work_handled->delete($id))
+        {
+            return response()->json(['status'=>0,'description'=>'deleted successfully']);
+        }else
+        {
+            return response()->json(['status'=>1,'description'=>'something went wrong']);
+        }
+    }
+
+    public function delete_imp_senior_professional(Request $request)
+    {
+        $id=$request->delete_imp_project_id;
+        if($this->imp_senior_professional->delete($id))
+        {
+            return response()->json(['status'=>0,'description'=>'deleted successfully']);
+        }else
+        {
+            return response()->json(['status'=>1,'description'=>'something went wrong']);
+        }
     }
 
     public function step6($id)
