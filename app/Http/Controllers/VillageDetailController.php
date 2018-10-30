@@ -14,6 +14,7 @@ use App\Http\Controllers\Common\CommonController;
 use DB;
 use File;
 use Illuminate\Support\Facades\Auth;
+use function PHPSTORM_META\elementType;
 use Storage;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Yajra\DataTables\DataTables;
@@ -45,17 +46,18 @@ class VillageDetailController extends Controller
         ->where('role_id', session()->get('role_id'))->join('boards', 'lm_village_detail.board_id', '=', 'boards.id')->join('land_source', 'lm_village_detail.land_source_id', '=', 'land_source.id');
 
 $village_data = $village_data->selectRaw( DB::raw('lm_village_detail.id, boards.board_name as board,lm_village_detail.sr_no,lm_village_detail.village_name,land_source.source_name as source,lm_village_detail.land_address
-,lm_village_detail.district
-,lm_village_detail.taluka,
+,lm_village_detail.district,
+lm_village_detail.taluka,
 lm_village_detail.total_area,
-lm_village_detail.possession_date
-,lm_village_detail.remark,
-lm_village_detail.7_12_extract
-,lm_village_detail.7_12_mhada_name,
-lm_village_detail.property_card
-,lm_village_detail.property_card_mhada_name,
-lm_village_detail.land_cost
-,lm_village_detail.extract_file_name,
+lm_village_detail.possession_date,
+lm_village_detail.remark,
+lm_village_detail.other_remark,
+lm_village_detail.7_12_extract,
+lm_village_detail.7_12_mhada_name,
+lm_village_detail.property_card,
+lm_village_detail.property_card_mhada_name,
+lm_village_detail.land_cost,
+lm_village_detail.extract_file_name,
 lm_village_detail.created_at,
 lm_village_detail.updated_at'))->get();
 // dd($village_data);
@@ -73,6 +75,7 @@ lm_village_detail.updated_at'))->get();
                 $dataList['Total Area'] = '';
                 $dataList['Possession Date'] = '';
                 $dataList['Remark'] = '';
+                $dataList['Other Remark'] = '';
                 $dataList['Land Cost'] = '';
                 $dataList["Is 7/12 on MHADA's Name"] = '';
                 $dataList['Property Card'] = '';
@@ -96,6 +99,8 @@ lm_village_detail.updated_at'))->get();
                     $dataList['Total Area'] = $dataList_value['total_area'];
                     $dataList['Possession Date'] = $dataList_value['possession_date'];
                     $dataList['Remark'] = $dataList_value['remark'];
+                    if($dataList_value['other_remark'])  $dataList['Other Remark'] = $dataList_value['other_remark'];
+                    else $dataList['Other Remark'] = '';
                     $dataList['Land Cost'] = $dataList_value['land_cost'];
                     $dataList["Is 7/12 on MHADA's Name"] = ($dataList_value['7_12_mhada_name'] == 1) ? 'yes' : 'no';
                     $dataList['Property Card'] = $dataList_value['property_card'];
@@ -159,6 +164,7 @@ lm_village_detail.updated_at'))->get();
             lm_village_detail.total_area,
             lm_village_detail.possession_date
             ,lm_village_detail.remark,
+            lm_village_detail.other_remark,
             lm_village_detail.7_12_extract
             ,lm_village_detail.7_12_mhada_name,
             lm_village_detail.property_card
@@ -183,6 +189,7 @@ lm_village_detail.updated_at'))->get();
                 $dataList['Total Area'] = '';
                 $dataList['Possession Date'] = '';
                 $dataList['Remark'] = '';
+                $dataList['Other Remark'] = '';
                 $dataList['Land Cost'] = '';
                 $dataList["Is 7/12 on MHADA's Name"] = '';
                 $dataList['Property Card'] = '';
@@ -206,6 +213,8 @@ lm_village_detail.updated_at'))->get();
                     $dataList['Total Area'] = $dataList_value['total_area'];
                     $dataList['Possession Date'] = $dataList_value['possession_date'];
                     $dataList['Remark'] = $dataList_value['remark'];
+                    if($dataList_value['other_remark'])  $dataList['Other Remark'] = $dataList_value['other_remark'];
+                    else $dataList['Other Remark'] = '';
                     $dataList['Land Cost'] = $dataList_value['land_cost'];
                     $dataList["Is 7/12 on MHADA's Name"] = ($dataList_value['7_12_mhada_name'] == 1) ? 'yes' : 'no';
                     $dataList['Property Card'] = $dataList_value['property_card'];
@@ -442,10 +451,8 @@ lm_village_detail.updated_at'))->get();
             'role_id' => session()->get('role_id')
         ];
 
-        if($request->remark == 'other')
-            $village_data += [
-                'other_remark' =>$request->other_remark
-            ];
+        if($request->remark == 'other') $village_data += [ 'other_remark' =>$request->other_remark ];
+        else $village_data += [ 'other_remark' => '' ];
 
 //        dd($request->all());
 
