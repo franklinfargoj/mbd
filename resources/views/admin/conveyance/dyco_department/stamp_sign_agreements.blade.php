@@ -34,7 +34,7 @@
             </li>
         </ul>
     </div>
-<form class="nav-tabs-form" id ="agreementFRM" role="form" method="POST" action="{{ route('dyco.save_agreement')}}" enctype="multipart/form-data">
+<form class="nav-tabs-form" id ="StampSignAgreementFRM" role="form" method="POST" action="{{ route('dyco.save_stamp_sign_agreement')}}" enctype="multipart/form-data">
 @csrf
 
 <input type="hidden" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">
@@ -45,9 +45,9 @@
                     <div class="m-portlet__body m-portlet__body--table">
                         <div class="m-subheader" style="padding: 0;">
                             <div class="d-flex align-items-center justify-content-center">
-                                <h3 class="section-title">
+                                <h4 class="section-title">
                                     Sale Deed Agreement
-                                </h3>
+                                </h4>
                             </div>
                         </div>
                         <div class="m-section__content mb-0 table-responsive">
@@ -56,12 +56,30 @@
                                     <div class="col-sm-6">
                                         <div class="d-flex flex-column h-100 two-cols">
                                             <h5>Upload</h5>
-                                            <span class="hint-text">Upload Sale Deed Agreement</span>
+                                            <span class="hint-text">Click on 'Upload' to upload Sale Deed Agreement</span>
                                                 <div class="custom-file">
-                                                    <input class="custom-file-input" name="sale_agreement" type="file" id="test-upload1" required="">
-                                                    <label class="custom-file-label" for="test-upload1">Choose
-                                                        file...</label>
+                                                    <input class="custom-file-input" name="sale_agreement" type="file" id="test-upload1">
+                                                
+                                                        <label class="custom-file-label" for="test-upload1">Choose
+                                                        file...</label>   
                                                 </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 border-left">
+                                        <div class="d-flex flex-column h-100 two-cols">
+                                            <h5>Download</h5>
+                                            <span class="hint-text">Click to download Sale Deed Agreement </span>
+                                            <div class="mt-auto">
+                                                @if(isset($data->StampSignSaleAgreement->agreement_path))
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->StampSignSaleAgreement->agreement_path }}">
+                                                <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
+                                                        Download </Button>
+                                                </a>
+                                                @else
+                                                <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
+                                                    *Note : Sale Deed Agreement is not available.</span>
+                                                @endif
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -80,9 +98,9 @@
                     <div class="m-portlet__body m-portlet__body--table">
                         <div class="m-subheader" style="padding: 0;">
                             <div class="d-flex align-items-center justify-content-center">
-                                <h3 class="section-title">
+                                <h4 class="section-title">
                                     Lease Deed Agreement
-                                </h3>
+                                </h4>
                             </div>
                         </div>
                         <div class="m-section__content mb-0 table-responsive">
@@ -91,12 +109,31 @@
                                     <div class="col-sm-6">
                                         <div class="d-flex flex-column h-100 two-cols">
                                             <h5>Upload</h5>
-                                            <span class="hint-text">Upload Lease Deed Agreement</span>
+                                            <span class="hint-text">Click on 'Upload' to upload Lease Deed Agreement</span>
                                                 <div class="custom-file">
-                                                    <input class="custom-file-input" name="lease_agreement" type="file" id="test-upload2" required="">
+                                                <input class="custom-file-input" name="lease_agreement" type="file" id="test-upload2">
+   
                                                     <label class="custom-file-label" for="test-upload2">Choose
                                                         file...</label>
+                                                      
                                                 </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 border-left">
+                                        <div class="d-flex flex-column h-100 two-cols">
+                                            <h5>Download Note</h5>
+                                            <span class="hint-text">Click to download Lease Deed Agreement</span>
+                                            <div class="mt-auto">
+                                                @if(isset($data->StampSignLeaseAgreement->agreement_path))
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->StampSignLeaseAgreement->agreement_path }}">
+                                                <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
+                                                        Download </Button>
+                                                </a>
+                                                @else
+                                                <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
+                                                    *Note : Lease Deed Agreement is not available.</span>
+                                                @endif
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -107,13 +144,33 @@
             </div>
         </div>
     </div>
+    @if(count($data->AgreementComments) > 0)       
+        <div class="m-portlet m-portlet--mobile m_panel">
+            <div class="m-portlet__body">
+            <h3 class="section-title section-title--small">Remark History </h3>
+                <div class="remark-body">
+                    <div class="remarks-section">
+                        <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container"
+                            data-scrollbar-shown="true" data-scrollable="true" data-max-height="200">
+                            @foreach($data->AgreementComments as $comment)
+                                <div class="remarks-section__data">
+                                    <p class="remarks-section__data__row"><span>Remark By {{ isset($comment->Roles->display_name) ?  $comment->Roles->display_name : '' }}</p>
+                                    <p class="remarks-section__data__row"><span>Remark:</span><span>{{ isset($comment->remark) ? $comment->remark : '' }}</span></p>
+                                </div>
+                            @endforeach                                         
+                        </div>
+                    </div>
+                </div>               
+            </div>    
+        </div> 
+    @endif      
     <div class="m-portlet m-portlet--mobile m_panel">
         <div class="m-portlet__body">
             <h3 class="section-title section-title--small">Remark</h3>
             <div class="col-xs-12 row">
                 <div class="col-md-12">
                     <textarea rows="4" cols="63" name="remark"></textarea>
-                    <button type="submit" class="btn btn-primary mt-3">Send to Society</button>
+                    <button type="submit" class="btn btn-primary mt-3" style="display:block">Save</button>
                 </div>
             </div>
         </div>

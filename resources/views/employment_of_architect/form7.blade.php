@@ -222,7 +222,7 @@
     <div class="m-form__actions p-0">
         <div class="btn-list d-flex justify-content-between align-items-center">
             <a id="add-more" class="btn--add-delete add">add more<a>
-                    <button type="submit" id="" class="btn btn-primary">Next</button>
+            <a href="{{route('appointing_architect.step8',['id'=>$application->id])}}" id="" class="btn btn-primary">Next</a>
         </div>
     </div>
 </div>
