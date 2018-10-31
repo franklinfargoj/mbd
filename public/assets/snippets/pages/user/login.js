@@ -522,7 +522,8 @@ var SnippetLogin = function() {
                             required: !0
                         },
                         society_reg_no: {
-                            required: !0
+                            required: !0,
+                            number: true
                         },
                         society_conveyed: {
                             required: !0
@@ -531,6 +532,7 @@ var SnippetLogin = function() {
                             required: '.society_conveyed[value="1"]:checked',
                         },
                         area_of_conveyance: {
+                            number:true,
                             required: '.society_conveyed[value="1"]:checked',
                         },
                         village: {
@@ -545,6 +547,9 @@ var SnippetLogin = function() {
                             minlength: 10,
                             maxlength: 10,
                             number: true
+                        },
+                        layout : {
+                            required : true,
                         }
                     },
                 }), t.valid() && (a.addClass("m-loader m-loader--right m-loader--light").attr("disabled", !0), setTimeout(function() {
@@ -601,7 +606,8 @@ var SnippetLogin = function() {
                             required: !0
                         },
                         society_reg_no: {
-                            required: !0
+                            required: !0,
+                            number: true
                         },
                         society_conveyed: {
                             required: !0
@@ -611,6 +617,7 @@ var SnippetLogin = function() {
                         },
                         area_of_conveyance: {
                             required: '.society_conveyed[value="1"]:checked',
+                            number: true,
                         },
                         village: {
                             required: !0
@@ -624,6 +631,9 @@ var SnippetLogin = function() {
                             minlength: 10,
                             maxlength: 10,
                             number: true
+                        },
+                        layout : {
+                            required : true,
                         }
                     }
                 }), t.valid() && (a.addClass("m-loader m-loader--right m-loader--light").attr("disabled", !0), setTimeout(function() {
