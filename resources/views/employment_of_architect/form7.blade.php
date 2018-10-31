@@ -1,4 +1,7 @@
-@extends('admin.layouts.app')
+@extends('admin.layouts.sidebarAction')
+@section('actions')
+@include('employment_of_architect.actions',compact('application'))
+@endsection
 @section('content')
 
 <div class="col-md-12">
@@ -40,7 +43,7 @@
                     href="#form_{{$j+1}}">Form
                     {{$j+1}}:</a>
             </div>
-            <form role="form" method="post" class="m-form m-form--rows m-form--label-align-right form-steps-box" action="{{route('appointing_architect.step7_post')}}"
+            <form role="form" method="post" class="m-form m-form--rows m-form--label-align-right form-steps-box" action="{{route('appointing_architect.step7_post',['id'=>encrypt($application->id)])}}"
                 enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="form_number" value="{{$j+1}}">
@@ -225,7 +228,7 @@
     <div class="m-form__actions p-0">
         <div class="btn-list d-flex justify-content-between align-items-center">
             <a id="add-more" class="btn--add-delete add">add more<a>
-                    <a href="{{route('appointing_architect.step8',['id'=>$application->id])}}" id="" class="btn btn-primary">Next</a>
+            <a href="{{route('appointing_architect.step8',['id'=>encrypt($application->id)])}}" id="" class="btn btn-primary">Next</a>
         </div>
     </div>
 </div>

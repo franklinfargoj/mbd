@@ -37,7 +37,8 @@ class EoaApplication extends Model
         'reg_with_council_of_architecture_total_registered_persons',
         'award_prizes_etc',
         'other_information',
-        'application_info_and_its_enclosures_verify'
+        'application_info_and_its_enclosures_verify',
+        'form_step'
     ];
     
     public function fee_payment_details()

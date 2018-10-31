@@ -1,4 +1,7 @@
-@extends('admin.layouts.app')
+@extends('admin.layouts.sidebarAction')
+@section('actions')
+@include('employment_of_architect.actions',compact('application'))
+@endsection
 @section('content')
 
 <div class="col-md-12">
@@ -10,7 +13,7 @@
         <button class="btn--unstyled flex-grow-1 form-step-tab active">Step 5</button>
         <button class="btn--unstyled flex-grow-1 form-step-tab active">Step 6</button>
         <button class="btn--unstyled flex-grow-1 form-step-tab active">Step 7</button>
-        <button class="btn--unstyled flex-grow-1 form-step-tab">Step 8</button>
+        <button class="btn--unstyled flex-grow-1 form-step-tab active">Step 8</button>
     </div>
     <div id="accordion" class="mt-4">
         @php
@@ -37,7 +40,7 @@
         @for($j=0;$j<(1+$k);$j++) <div class="m-portlet m-portlet--compact form-accordion">
             <a class="btn--unstyled section-title section-title--small form-count-title" data-toggle="collapse" href="#form_{{$j+1}}">Form
                 {{$j+1}}:</a>
-            <form role="form" method="post" class="m-form m-form--rows m-form--label-align-right form-steps-box" action="{{route('appointing_architect.step8_post')}}"
+            <form role="form" method="post" class="m-form m-form--rows m-form--label-align-right form-steps-box" action="{{route('appointing_architect.step8_post',['id'=>encrypt($application->id)])}}"
                 enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="form_number" value="{{$j+1}}">

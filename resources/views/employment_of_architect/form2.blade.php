@@ -1,4 +1,7 @@
-@extends('admin.layouts.app')
+@extends('admin.layouts.sidebarAction')
+@section('actions')
+@include('employment_of_architect.actions',compact('application'))
+@endsection
 @section('content')
 
 <div class="col-md-12">
@@ -15,7 +18,7 @@
     <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
         <h3 class="section-title section-title--small">Form 2:</h3>
         <form id="" role="form" method="post" class="m-form m-form--rows m-form--label-align-right"
-    action="{{route('appointing_architect.step2_post')}}" enctype="multipart/form-data">
+    action="{{route('appointing_architect.step2_post',['id'=>encrypt($application->id)])}}" enctype="multipart/form-data">
             @csrf
             <input type="hidden" name="application_id" value="{{$application->id}}">
             @include('employment_of_architect.partial_personal_details',compact('application'))
