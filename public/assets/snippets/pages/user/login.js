@@ -550,7 +550,10 @@ var SnippetLogin = function() {
                         },
                         layout : {
                             required : true,
-                        }
+                        },
+                        society_email_id: {
+                            email: !0
+                        },
                     },
                 }), t.valid() && (a.addClass("m-loader m-loader--right m-loader--light").attr("disabled", !0), setTimeout(function() {
                     $('#addSocietyDetail').submit();
@@ -594,6 +597,9 @@ var SnippetLogin = function() {
                         },
                         date_on_service_tax: {
                             required: !0
+                        },
+                        society_email_id: {
+                            email: !0
                         },
                         surplus_charges: {
                             required: !0,
