@@ -187,6 +187,7 @@ class REEController extends Controller
         $capLogs  = $this->CommonController->getLogsOfCAPDepartment($applicationId); 
         $vpLogs   = $this->CommonController->getLogsOfVPDepartment($applicationId); 
 
+          // dd($ol_application->offer_letter_document_path);
         return view('admin.REE_department.forward_application',compact('applicationData','arrData','ol_application','eelogs','dyceLogs','reeLogs','coLogs','capLogs','vpLogs'));  
     }             
 
@@ -275,7 +276,7 @@ class REEController extends Controller
         $societyData->ree_branch_head = (session()->get('role_name') == config('commanConfig.ree_branch_head')); 
 
         $societyData->drafted_offer_letter = OlApplication::where('id',$applicationId)->value('drafted_offer_letter');   
-        
+      
         return view('admin.REE_department.generate-offer-letter',compact('societyData','ol_application','applicationLog'));
     }    
 

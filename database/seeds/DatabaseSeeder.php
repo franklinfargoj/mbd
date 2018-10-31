@@ -49,11 +49,24 @@ class DatabaseSeeder extends Seeder
         $this->call(AddSuperAdminToRoleTableSeeder::class);
         $this->call(ArchitectUserSeeder::class);
         $this->call(SelectionCommiteeSeeder::class);
+
         $this->call(EmPermissionSeeder::class);
+        $this->call(EMUserSeeder::class);
         $this->call(ArchitectLayoutLmScrtinyQuestionMasterSeeder::class);
         $this->call(ArchitectLayoutEmScrtinyQuestionMasterSeeder::class);
         $this->call(ArchitectLayoutReeScrtinyQuestionMasterSeeder::class);
         $this->call(ArchitectLayoutEEScrtinyQuestionMasterSeeder::class);
         // $this->call(RtiFormTableSeeder::class);
+
+//        $this->call(MasterTables::class);
+         // $this->call(RtiFormTableSeeder::class);
+
+        $this->call(SocietyConveyanceDocumentMasterSeeder::class);
+        // $this->call(SocietyConveyanceDocumentMasterSeeder::class);
+        $this->call(DYCOPermissions::class);
+        $this->call(AppointingArchitectPermissionSeeder::class);
+        $this->call(AddChildParentToConveyanceModule::class);
+        $this->call(LAPermission::class);
+        $this->call(sc_checklist_master::class);
     }
 }

@@ -182,7 +182,92 @@ class EEUserSeeder extends Seeder
                 'name'=>'ee.save_calculation_data',
                 'display_name'=>'save calculation data',
                 'description'=>'save calculation data'
-            ]
+            ],
+            [
+                'name' => 'arrears_charges.create',
+                'display_name' => 'Arrears charges create',
+                'description' => 'Arrears charges create'
+            ],
+            [
+                'name' => 'arrears_charges.store',
+                'display_name' => 'Arrears charges store',
+                'description' => 'Arrears charges store'
+            ],
+            [
+                'name' => 'arrears_charges.edit',
+                'display_name' => 'Arrears charges edit',
+                'description' => 'Arrears charges edit'
+            ],
+            [
+                'name' => 'arrears_charges.update',
+                'display_name' => 'Arrears charges update',
+                'description' => 'Arrears charges update'
+            ],
+            [
+                'name' => 'arrears_charges',
+                'display_name' => 'Arrears charges list',
+                'description' => 'Arrears charges list'
+            ],
+            [
+                'name' => 'service_charges.create',
+                'display_name' => 'Service charges create',
+                'description' => 'Service charges create'
+            ],
+            [
+                'name' => 'service_charges.store',
+                'display_name' => 'Service charges store',
+                'description' => 'Service charges store'
+            ],
+            [
+                'name' => 'service_charges.edit',
+                'display_name' => 'Service charges edit',
+                'description' => 'Service charges edit'
+            ],
+            [
+                'name' => 'service_charges.update',
+                'display_name' => 'Service charges update',
+                'description' => 'Service charges update'
+            ],
+            [
+                'name' => 'service_charges',
+                'display_name' => 'Service charges list',
+                'description' => 'Service charges list'
+            ],
+            [
+                'name' => 'society.billing_level',
+                'display_name' => 'Society billing level',
+                'description' => 'Society billing level'
+            ],
+            [
+                'name' => 'society.society_details',
+                'display_name' => 'Society details',
+                'description' => 'Society details'
+            ],
+            [
+                'name' => 'ee.upload_ee_note',
+                'display_name' => 'Upload EE Note',
+                'description' => 'Upload EE Note'
+            ],            
+            [
+                'name'          => 'ee.save_demarcation_plan',
+                'display_name'  => 'save demarcation plan',
+                'description'   => 'save demarcation plan'
+            ],            
+            [
+                'name'          => 'ee.save_covering_letter',
+                'display_name'  => 'save covering letter',
+                'description'   => 'save covering letter'
+            ],            
+            [
+                'name'          => 'ee.forward_application_sc',
+                'display_name'  => 'forward application sc',
+                'description'   => 'forward application sc'
+            ],            
+            [
+                'name'          => 'ee.send_forward_application',
+                'display_name'  => 'send forward application',
+                'description'   => 'send forward application'
+            ],
         ];
 
         // Role

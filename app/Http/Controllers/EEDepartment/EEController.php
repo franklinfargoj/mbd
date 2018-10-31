@@ -19,6 +19,8 @@ use App\OlTitBitVerificationDetails;
 use App\OlTitBitVerificationQuestionMaster;
 use App\Role;
 use App\SocietyOfferLetter;
+use App\SocietyDetail;
+use App\MasterBuilding;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -290,7 +292,8 @@ class EEController extends Controller
         $ol_application = $this->comman->getOlApplication($application_id);
         $ol_application->status = $this->comman->getCurrentStatus($application_id);
         $application_master_id = OlApplication::where('society_id', $society_id)->value('application_master_id');
-        $arrData['society_document'] = OlSocietyDocumentsMaster::where('application_id', $application_master_id)->get();       
+        // $arrData['society_document'] = OlSocietyDocumentsMaster::where('application_id', $application_master_id)->get();       
+        $societyEEdocument = $this->comman->getSocietyEEDocuments($application_id);       
         // Document Scrutiny
         $arrData['society_detail'] = OlApplication::with('eeApplicationSociety')->where('id', $application_id)->first();
         // $arrData['society_document'] = OlSocietyDocumentsMaster::get();
@@ -343,9 +346,7 @@ class EEController extends Controller
                 'role_id' => session()->get('role_id')
             ])->orderBy('id', 'desc')->first();
 
-         $societyDocuments = $this->comman->getSocietyEEDocuments($application_id);
-         // dd($societyDocuments);
-        return view('admin.ee_department.scrutiny-remark', compact('arrData','ol_application','societyDocuments'));
+        return view('admin.ee_department.scrutiny-remark', compact('arrData','ol_application','societyDocuments','societyEEdocument'));
     }
 
     public function addDocumentScrutiny(Request $request)
@@ -624,4 +625,64 @@ class EEController extends Controller
         $ol_application->status = $this->comman->getCurrentStatus($applicationId);
         return view('admin.common.offer_letter', compact('ol_application'));
     }    
+
+    public function getSocietyDetailsWithBillingLevel(Request $request, Datatables $datatables) {
+
+        $columns = [
+            ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
+            ['data' => 'name','name' => 'name','title' => 'Society Name'],
+            ['data' => 'society_bill_level', 'name' => 'society_bill_level','title' => 'Billing Level'],
+            ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
+        ];
+
+        if ($datatables->getRequest()->ajax()) {
+            DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
+            $societies = SocietyDetail::selectRaw('@rownum  := @rownum  + 1 AS rownum, name,society_bill_level,id');
+            return $datatables->of($societies)
+            ->editColumn('society_bill_level', function ($societies) {
+                if(SOCIETY_LEVEL_BILLING == $societies->society_bill_level) {
+                    return 'Society level billing';
+                } else {
+                    return 'Tenant level billing';
+                }
+            })
+            ->editColumn('actions', function ($societies) {
+                return "<div class='d-flex btn-icon-list'><a href='".url('society_details/'.$societies->id)."' class='d-flex flex-column align-items-center'><span class='btn-icon btn-icon--view'><img src='".asset('/img/view-icon.svg')."'></span>Society Details</a></div>";
+                
+            })
+            ->rawColumns(['actions','society_bill_level'])
+            ->make(true);
+        }
+
+        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+
+        return view('admin.ee_department.society_list_ee', compact('html'));
+    }
+
+    public function getSocietyDetails($id, Request $request,Datatables $datatables) {
+        $society = SocietyDetail::find($id);
+        $columns = [
+            ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
+            ['data' => 'building_no','name' => 'building_no','title' => 'Building/Chawl Number'],
+            ['data' => 'name', 'name' => 'name','title' => 'Building/Chawl Name'],
+            ['data' => 'tenants_count', 'name' => 'tenants_count','title' => 'Number Of Tenaments','searchable' => false,'orderable'=>false],
+            ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
+        ];
+
+        if ($datatables->getRequest()->ajax()) {
+            DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
+            $societieDetails = MasterBuilding::selectRaw('@rownum  := @rownum  + 1 AS rownum, name,building_no,id,society_id')->withCount('tenants')->where('society_id',$id);
+            return $datatables->of($societieDetails)
+            ->editColumn('actions', function ($societieDetails) use($society){
+                return "<div class='d-flex btn-icon-list'><a href='".url('arrears_charges/'.$society->id.'/'.$societieDetails->id)."' class='d-flex flex-column align-items-center'><span class='btn-icon btn-icon--view'><img src='".asset('/img/view-icon.svg')."'></span>Define Arrears Charges</a><a href='".url('service_charges/'.$society->id.'/'.$societieDetails->id)."' class='d-flex flex-column align-items-center'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/edit-icon.svg')."'></span>Define Service Charges</a></div>";
+                
+            })
+            ->rawColumns(['actions'])
+            ->make(true);
+        }
+
+        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+
+        return view('admin.ee_department.society_detail', compact('html','society'));
+    }
 }

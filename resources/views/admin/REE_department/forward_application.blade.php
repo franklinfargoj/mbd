@@ -539,6 +539,7 @@
                                                                                     name="remark" id="remark" cols="30"
                                                                                     rows="5"></textarea>
                                                                             </div>
+                                                                            @if($ol_application->status_offer_letter == 0)
                                                                             <div class="mt-3 btn-list">
                                                                                 <button type="submit" class="btn btn-primary">Save</button>
                                                                                 {{--<button type="submit" id="sign"
@@ -549,6 +550,21 @@
                                                                                 <button type="button" onclick="window.location.href='{{ url("/ree_applications") }}'"
                                                                                     class="btn btn-secondary">Cancel</button>
                                                                             </div>
+                                                                            @elseif($ol_application->status_offer_letter != 0 && isset($ol_application->offer_letter_document_path))
+                                                                            <div class="mt-3 btn-list">
+                                                                                <button type="submit" class="btn btn-primary">Save</button>
+                                                                                {{--<button type="submit" id="sign"
+                                                                                    class="btn btn-primary forwrdBtn">Sign</button>
+                                                                                <button type="submit" class="btn btn-primary forwrdBtn">Sign
+                                                                                    & Forward</button>
+                                                                                <button type="submit" class="btn btn-primary forwrdBtn">Forward</button>--}}
+                                                                                <button type="button" onclick="window.location.href='{{ url("/ree_applications") }}'"
+                                                                                    class="btn btn-secondary">Cancel</button>
+                                                                            </div>                                        @else                                    
+                                                                            <div>
+                                                                            <span class="error" style="display: block;color: #ce2323;margin-top: 13px;">
+                                                                            * Note : Please generate and upload Offer Letter. </span></div>
+                                                                            @endif
                                                                         </div>
                                                                         <input type="hidden" name="applicationId" value="{{$applicationData->id}}">
                                                                     </form>

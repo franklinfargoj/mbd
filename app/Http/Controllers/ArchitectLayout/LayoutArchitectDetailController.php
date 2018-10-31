@@ -18,6 +18,7 @@ use App\Layout\ArchitectLayoutStatusLog;
 use Illuminate\Http\Request;
 use Storage;
 use Validator;
+use DB;
 
 class LayoutArchitectDetailController extends Controller
 {
@@ -44,10 +45,11 @@ class LayoutArchitectDetailController extends Controller
                     'status_id' => config('commanConfig.architect_layout_status.sent_for_revision'),
                     'to_user_id' => null,
                     'to_role_id' => null,
+                    'open'=>1,
                     'remark' => null,
                 ],
             ];
-            ArchitectLayoutStatusLog::insert($forward_application);
+            $this->common->forward_architect_layout($layout_id,$forward_application);
         } else {
             $ArchitectLayoutDetail = ArchitectLayoutDetail::where(['id' => $layout_id])->orderBy('id', 'desc')->first();
         }
@@ -543,7 +545,7 @@ class LayoutArchitectDetailController extends Controller
     {
         $layout_detail_id = decrypt($layout_detail_id);
         $ArchitectLayoutDetail = ArchitectLayoutDetail::find($layout_detail_id);
-        $courCassesOrDisputes = ArchitectLayoutCourtMatterDispute::all();
+        $courCassesOrDisputes = ArchitectLayoutCourtMatterDispute::where(['architect_layout_detail_id'=>$layout_detail_id])->get();
         return view('admin.architect_layout_detail.view_court_case_or_dispute', compact('ArchitectLayoutDetail', 'courCassesOrDisputes'));
     }
 }

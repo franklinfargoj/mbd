@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Common;
 
 use App\ArchitectApplication;
+use App\conveyance\scApplicationLog;
 use App\EENote;
 use App\Http\Controllers\Controller;
 use App\Layout\ArchitectLayout;
@@ -177,7 +178,7 @@ class CommonController extends Controller
 
     public function architect_layout_details($request)
     {
-        $ArchitectLayoutLayoutdetailsQuery = ArchitectLayout::with(['layout_details', 'ArchitectLayoutStatusLogInListing' => function ($q) {
+        $ArchitectLayoutLayoutdetailsQuery = ArchitectLayout::with(['ArchitectLayoutStatusLogInListing' => function ($q) {
             $q->where('user_id', Auth::user()->id)
                 ->where('role_id', session()->get('role_id'))
                 ->orderBy('id', 'desc');
@@ -211,15 +212,18 @@ class CommonController extends Controller
     }
     public function architect_layout_request_revision($request)
     {
-        $ArchitectLayoutRevisionRequestsQuery = ArchitectLayout::with(['layout_details', 'ArchitectLayoutStatusLogInListing' => function ($q) {
+        $ArchitectLayoutRevisionRequestsQuery = ArchitectLayout::with(['ArchitectLayoutStatusLogInListing' => function ($q) {
             $q->where('user_id', Auth::user()->id)
                 ->where('role_id', session()->get('role_id'))
+                ->limit(1)
                 ->orderBy('id', 'desc');
         }])->whereHas('ArchitectLayoutStatusLogInListing', function ($q) {
             $q->where('user_id', Auth::user()->id)
                 ->where('role_id', session()->get('role_id'))
+                ->limit(1)
                 ->orderBy('id', 'desc');
         });
+        //dd($ArchitectLayoutRevisionRequestsQuery->get());
         if ($request->update_status) {
             $ArchitectLayoutRevisionRequestsQuery->where(DB::raw($request->update_status), '=', function ($q) {
                 $q->from('architect_layout_status_logs')
@@ -238,13 +242,29 @@ class CommonController extends Controller
             //dd($request->title);
             $ArchitectLayoutRevisionRequestsQuery->where('layout_no', $request->title);
         }
+
+        /** query replaced for optimization
+        *$ArchitectLayoutRevisionRequests = $ArchitectLayoutRevisionRequestsQuery->where(DB::raw(config('commanConfig.architect_layout_status.new_application')), '!=', function ($q) {
+        *    $q->from('architect_layout_status_logs')->select('status_id')->where('architect_layout_id', '=', DB::raw('architect_layouts.id'))->limit(1)->orderBy('id', 'desc');
+        *})->where(DB::raw(config('commanConfig.architect_layout_status.approved')), '!=', function ($q) {
+        *    $q->from('architect_layout_status_logs')->select('status_id')->where('architect_layout_id', '=', DB::raw('architect_layouts.id'))->limit(1)->orderBy('id', 'desc');
+        *})->get();
+        **/
         $ArchitectLayoutRevisionRequests = $ArchitectLayoutRevisionRequestsQuery->where(DB::raw(config('commanConfig.architect_layout_status.new_application')), '!=', function ($q) {
-            $q->from('architect_layout_status_logs')->select('status_id')->where('architect_layout_id', '=', DB::raw('architect_layouts.id'))->limit(1)->orderBy('id', 'desc');
+            $q->from('architect_layout_status_logs')->select('status_id')->where('architect_layout_id', '=', DB::raw('architect_layouts.id'))->where('open',1);
         })->where(DB::raw(config('commanConfig.architect_layout_status.approved')), '!=', function ($q) {
-            $q->from('architect_layout_status_logs')->select('status_id')->where('architect_layout_id', '=', DB::raw('architect_layouts.id'))->limit(1)->orderBy('id', 'desc');
+            $q->from('architect_layout_status_logs')->select('status_id')->where('architect_layout_id', '=', DB::raw('architect_layouts.id'))->where('open',1);
         })->get();
 
         return $ArchitectLayoutRevisionRequests;
+    }
+
+    public function forward_architect_layout($architect_layout_id,$forward_application)
+    {
+      DB::transaction(function () use($architect_layout_id,$forward_application){
+        ArchitectLayoutStatusLog::where(['architect_layout_id'=>$architect_layout_id,'open'=>1])->update(['open'=>0]);
+        ArchitectLayoutStatusLog::insert($forward_application);
+      });
     }
 
     public function listApplicationData($request, $application_type = null)
@@ -935,4 +955,56 @@ class CommonController extends Controller
         return $final_detail;
 
     }
+    public function form_fields($name, $type, $select_arr = NULL, $select_arr_key = NULL, $value = NULL, $readonly = NULL){
+        if($type == 'select'){
+            foreach($select_arr as $select_arr_key => $select_arr_value){
+                $select_arr .= '<option value="'.$select_arr_value->id.'">'.$select_arr_value->$select_arr_key.'</option>';
+            }
+            $fields = array(
+                'select' => '<select data-live-search="true" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="'.$name.'" name="'.$name.'" required>'.$select_arr.'</select>',
+            );
+        }
+
+        $fields = array(
+            'text' => '<input type="text" id="'.$name.'" name="'.$name.'" class="form-control form-control--custom m-input" value="'.$value.'" '.$readonly.'>',
+            'date' => '<input type="text" id="'.$name.'" name="'.$name.'" class="form-control form-control--custom m-input m_datepicker" value="'.$value.'" '.$readonly.'>',
+            'textarea' => '<textarea id="'.$name.'" name="'.$name.'" class="form-control form-control--custom form-control--fixed-height m-input"'.$readonly.'>'.$value.'</textarea>',
+        );
+
+        return $fields[$type];
+    }
+
+    public function sc_application_status_society($insert_arr, $status, $sc_application_id){
+        $status_in_words = array_flip(config('commanConfig.applicationStatus'))[$status];
+        $sc_application_last_id = $sc_application_id;
+        foreach($insert_arr['users'] as $key => $user){
+            $i = 0;
+            $insert_application_log[$status_in_words][$key]['application_id'] = $sc_application_last_id;
+            $insert_application_log[$status_in_words][$key]['society_flag'] = 1;
+            $insert_application_log[$status_in_words][$key]['user_id'] = Auth::user()->id;
+            $insert_application_log[$status_in_words][$key]['role_id'] = Auth::user()->role_id;
+            $insert_application_log[$status_in_words][$key]['status_id'] = $status;
+            $insert_application_log[$status_in_words][$key]['to_user_id'] = $user->id;
+            $insert_application_log[$status_in_words][$key]['to_role_id'] = $user->role_id;
+            $insert_application_log[$status_in_words][$key]['remark'] = '';
+            $application_log_status = $insert_application_log[$status_in_words];
+
+            if($status == 2){
+                $status_in_words_1 = array_flip(config('commanConfig.applicationStatus'))[1];
+                $insert_application_log[$status_in_words_1][$key]['application_id'] = $sc_application_last_id;
+                $insert_application_log[$status_in_words_1][$key]['society_flag'] = 1;
+                $insert_application_log[$status_in_words_1][$key]['user_id'] = $user->id;
+                $insert_application_log[$status_in_words_1][$key]['role_id'] = $user->role_id;
+                $insert_application_log[$status_in_words_1][$key]['status_id'] = $status;
+                $insert_application_log[$status_in_words_1][$key]['to_user_id'] = 0;
+                $insert_application_log[$status_in_words_1][$key]['to_role_id'] = 0;
+                $insert_application_log[$status_in_words_1][$key]['remark'] = '';
+                $application_log_status = array_merge($insert_application_log[$status_in_words], $insert_application_log[$status_in_words_1]);
+            }
+            $i++;
+        }
+        $inserted_application_log = scApplicationLog::insert($application_log_status);
+        return $inserted_application_log;
+    }
+
 }

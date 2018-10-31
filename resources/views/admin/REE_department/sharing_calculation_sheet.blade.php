@@ -102,9 +102,9 @@
                                                     1. भाडेपट्टा करारनाम्यानुसार क्षेत्रफळ
                                                 </td>
                                                 <td class="text-center">
-                                                    <input type="text" class="total_area form-control form-control--custom"
+                                                    <input type="text" placeholder="0" class="total_area form-control form-control--custom"
                                                         name="area_as_per_lease_agreement" id="area_as_per_lease_agreement"
-                                                        value="{{ isset($calculationSheetDetails[0]->area_as_per_lease_agreement) ? $calculationSheetDetails[0]->area_as_per_lease_agreement : 0 }}" />
+                                                        value="<?php if(isset($calculationSheetDetails[0]->area_as_per_lease_agreement) ) { echo $calculationSheetDetails[0]->area_as_per_lease_agreement; }  ?>" />
                                                 </td>
                                             </tr>
                                             <tr>
@@ -113,8 +113,8 @@
                                                     2. टिट बिट भूखंडाचे क्षेत्र
                                                 </td>
                                                 <td class="text-center">
-                                                    <input type="text" class="total_area form-control form-control--custom"
-                                                        name="area_of_tit_bit_plot" id="area_of_tit_bit_plot" value="{{ isset($calculationSheetDetails[0]->area_of_tit_bit_plot) ? $calculationSheetDetails[0]->area_of_tit_bit_plot : 0 }}" />
+                                                    <input type="text" placeholder="0" class="total_area form-control form-control--custom"
+                                                        name="area_of_tit_bit_plot" id="area_of_tit_bit_plot" value="<?php if(isset($calculationSheetDetails[0]->area_of_tit_bit_plot)) { echo $calculationSheetDetails[0]->area_of_tit_bit_plot; } ?>" />
                                                 </td>
                                             </tr>
                                             <tr>
@@ -123,9 +123,9 @@
                                                     Total भूखंडाचे क्षेत्रफळ
                                                 </td>
                                                 <td class="text-center">
-                                                    <input class="min_val_for_calculation form-control form-control--custom"
+                                                    <input placeholder="0" class="min_val_for_calculation form-control form-control--custom"
                                                         readonly type="text" name="area_of_total_plot" id="area_of_total_plot"
-                                                        value="{{ isset($calculationSheetDetails[0]->area_of_total_plot) ? $calculationSheetDetails[0]->area_of_total_plot : 0 }}" />
+                                                        value="<?php if(isset($calculationSheetDetails[0]->area_of_total_plot)) { echo $calculationSheetDetails[0]->area_of_total_plot; } ?>" />
                                                 </td>
                                             </tr>
                                             <tr>
@@ -142,9 +142,9 @@
                                                     1. भाडेपट्टा करारनाम्यानुसार क्षेत्रफळ
                                                 </td>
                                                 <td class="text-center">
-                                                    <input type="text" class="abhinyas_total_area  form-control form-control--custom"
+                                                    <input type="text" placeholder="0" class="abhinyas_total_area  form-control form-control--custom"
                                                         name="abhinyas_area_as_per_lease_agreement" id="abhinyas_area_as_per_lease_agreement"
-                                                        value="{{ isset($calculationSheetDetails[0]->abhinyas_area_as_per_lease_agreement) ? $calculationSheetDetails[0]->abhinyas_area_as_per_lease_agreement : 0 }}" />
+                                                        value="<?php if(isset($calculationSheetDetails[0]->abhinyas_area_as_per_lease_agreement)) { echo $calculationSheetDetails[0]->abhinyas_area_as_per_lease_agreement; } ?>"/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -153,9 +153,9 @@
                                                     2. टिट बिट भूखंडाचे क्षेत्र
                                                 </td>
                                                 <td class="text-center">
-                                                    <input type="text" class="abhinyas_total_area form-control form-control--custom"
+                                                    <input type="text" placeholder="0" class="abhinyas_total_area form-control form-control--custom"
                                                         name="abhinyas_area_of_tit_bit_plot" id="abhinyas_area_of_tit_bit_plot"
-                                                        value="{{ isset($calculationSheetDetails[0]->abhinyas_area_of_tit_bit_plot) ? $calculationSheetDetails[0]->abhinyas_area_of_tit_bit_plot : 0 }}" />
+                                                        value="<?php if(isset($calculationSheetDetails[0]->abhinyas_area_of_tit_bit_plot)) { echo $calculationSheetDetails[0]->abhinyas_area_of_tit_bit_plot; } ?>" />
                                                 </td>
                                             </tr>
                                             <tr>
@@ -164,9 +164,9 @@
                                                     Total भूखंडाचे क्षेत्रफळ
                                                 </td>
                                                 <td class="text-center">
-                                                    <input class="min_val_for_calculation form-control form-control--custom"
+                                                    <input class="min_val_for_calculation form-control form-control--custom" placeholder="0"
                                                         readonly type="text" name="abhinyas_area_of_total_plot" id="abhinyas_area_of_total_plot"
-                                                        value="{{ isset($calculationSheetDetails[0]->abhinyas_area_of_total_plot) ? $calculationSheetDetails[0]->abhinyas_area_of_total_plot : 0 }}" />
+                                                        value="<?php if(isset($calculationSheetDetails[0]->abhinyas_area_of_total_plot)) { echo $calculationSheetDetails[0]->abhinyas_area_of_total_plot; } ?>" />
                                                 </td>
                                             </tr>
                                             <tr>
@@ -175,9 +175,9 @@
                                                     परिगणनाकरिता ग्राह्य भूखंडाचे क्षेत्रफळ (किमान क्षेत्र)
                                                 </td>
                                                 <td class="text-center">
-                                                    <input readonly class="infra_fee form-control form-control--custom"
+                                                    <input readonly class="infra_fee form-control form-control--custom" placeholder="0"
                                                            type="text" name="area_of_​​subsistence_to_calculate" id="area_of_​​subsistence_to_calculate"
-                                                           value="{{ isset($calculationSheetDetails[0]->area_of_​​subsistence_to_calculate) ? $calculationSheetDetails[0]->area_of_​​subsistence_to_calculate : 0 }}" />
+                                                           value="<?php if(isset($calculationSheetDetails[0]->area_of_​​subsistence_to_calculate)) { echo $calculationSheetDetails[0]->area_of_​​subsistence_to_calculate; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -187,9 +187,9 @@
                                                     अनुज्ञेय चटई क्षेत्र निर्देशांक
                                                 </td>
                                                 <td class="text-center">
-                                                    <input class="remaining_area infra_fee form-control form-control--custom"
+                                                    <input class="remaining_area infra_fee form-control form-control--custom" placeholder="0"
                                                         type="text" name="permissible_carpet_area_coordinates" id="permissible_carpet_area_coordinates"
-                                                        value="{{ isset($calculationSheetDetails[0]->permissible_carpet_area_coordinates) ? $calculationSheetDetails[0]->permissible_carpet_area_coordinates : 0 }}" />
+                                                        value="<?php if(isset($calculationSheetDetails[0]->permissible_carpet_area_coordinates)) { echo $calculationSheetDetails[0]->permissible_carpet_area_coordinates; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -199,9 +199,9 @@
                                                     अनुज्ञेय बांधकाम क्षेत्रफळ
                                                 </td>
                                                 <td class="text-center">
-                                                    <input class="form-control form-control--custom" readonly type="text"
+                                                    <input class="form-control form-control--custom" readonly type="text" placeholder="0"
                                                         name="permissible_construction_area" id="permissible_construction_area"
-                                                        value="{{ isset($calculationSheetDetails[0]->permissible_construction_area) ? $calculationSheetDetails[0]->permissible_construction_area : 0 }}" />
+                                                        value="<?php if(isset($calculationSheetDetails[0]->permissible_construction_area)) { echo $calculationSheetDetails[0]->permissible_construction_area; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -219,9 +219,9 @@
                                                     1. प्रति सदनिका चौ मी क्षेत्रफळ
                                                 </td>
                                                 <td class="text-center">
-                                                    <input class="remaining_area infra_fee form-control form-control--custom"
+                                                    <input class="remaining_area infra_fee form-control form-control--custom" placeholder="0"
                                                         type="text" name="sqm_area_per_slot" id="sqm_area_per_slot"
-                                                        value="{{ isset($calculationSheetDetails[0]->sqm_area_per_slot) ? $calculationSheetDetails[0]->sqm_area_per_slot : 0 }}" />
+                                                        value="<?php if(isset($calculationSheetDetails[0]->sqm_area_per_slot)) { echo $calculationSheetDetails[0]->sqm_area_per_slot; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -231,8 +231,8 @@
                                                     2. एकूण सदनिका
                                                 </td>
                                                 <td class="text-center">
-                                                    <input class="remaining_area infra_fee form-control form-control--custom"
-                                                        type="text" name="total_house" id="total_house" value="{{ isset($calculationSheetDetails[0]->total_house) ? $calculationSheetDetails[0]->total_house : 0 }}" />
+                                                    <input class="remaining_area infra_fee form-control form-control--custom" placeholder="0"
+                                                        type="text" name="total_house" id="total_house" value="<?php if(isset($calculationSheetDetails[0]->total_house)) { echo $calculationSheetDetails[0]->total_house; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -242,9 +242,9 @@
                                                     Total
                                                 </td>
                                                 <td class="text-center">
-                                                    <input class="remaining_area form-control form-control--custom"
+                                                    <input class="remaining_area form-control form-control--custom" placeholder="0"
                                                         readonly type="text" name="permissible_proratata_area" id="permissible_proratata_area"
-                                                        value="{{ isset($calculationSheetDetails[0]->permissible_proratata_area) ? $calculationSheetDetails[0]->permissible_proratata_area : 0 }}" />
+                                                        value="<?php if(isset($calculationSheetDetails[0]->permissible_proratata_area)) { echo $calculationSheetDetails[0]->permissible_proratata_area; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -254,9 +254,9 @@
                                                     एकूण अनुज्ञेय बांधकाम क्षेत्रफळ
                                                 </td>
                                                 <td class="text-center">
-                                                    <input class="remaining_area form-control form-control--custom" readonly type="text"
+                                                    <input class="remaining_area form-control form-control--custom" readonly type="text" placeholder="0"
                                                         name="total_permissible_construction_area" id="total_permissible_construction_area"
-                                                        value="{{ isset($calculationSheetDetails[0]->total_permissible_construction_area) ? $calculationSheetDetails[0]->total_permissible_construction_area : 0 }}" />
+                                                        value="<?php if(isset($calculationSheetDetails[0]->total_permissible_construction_area)) { echo $calculationSheetDetails[0]->total_permissible_construction_area; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -266,9 +266,9 @@
                                                     अनुज्ञेय चटई क्षेत्रफळ प्रतिगाळा
                                                 </td>
                                                 <td class="text-center">
-                                                    <input class="remaining_area form-control form-control--custom"
+                                                    <input class="remaining_area form-control form-control--custom" placeholder="0"
                                                         type="text" name="permissible_mattress_area" id="permissible_mattress_area"
-                                                        value="{{ isset($calculationSheetDetails[0]->permissible_mattress_area) ? $calculationSheetDetails[0]->permissible_mattress_area : 0 }}" />
+                                                        value="<?php if(isset($calculationSheetDetails[0]->permissible_mattress_area)) { echo $calculationSheetDetails[0]->permissible_mattress_area; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -279,9 +279,9 @@
                                                     प्रतिगाळा
                                                 </td>
                                                 <td class="text-center">
-                                                    <input class="form-control form-control--custom" readonly type="text"
+                                                    <input class="form-control form-control--custom" readonly type="text" placeholder="0"
                                                         name="revised_permissible_mattress_area" id="revised_permissible_mattress_area"
-                                                        value="{{ isset($calculationSheetDetails[0]->revised_permissible_mattress_area) ? $calculationSheetDetails[0]->revised_permissible_mattress_area : 0 }}" />
+                                                        value="<?php if(isset($calculationSheetDetails[0]->revised_permissible_mattress_area)) { echo $calculationSheetDetails[0]->revised_permissible_mattress_area; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -294,9 +294,9 @@
                                                     गृहीत धरण्यात येत आहे
                                                 </td>
                                                 <td class="text-center">
-                                                    <input class="remaining_area form-control form-control--custom"
+                                                    <input class="remaining_area form-control form-control--custom" placeholder="0"
                                                         type="text" name="revised_increased_area_for_residential_use"
-                                                        id="revised_increased_area_for_residential_use" value="{{ isset($calculationSheetDetails[0]->revised_increased_area_for_residential_use) ? $calculationSheetDetails[0]->revised_increased_area_for_residential_use : 0 }}" />
+                                                        id="revised_increased_area_for_residential_use" value="<?php if(isset($calculationSheetDetails[0]->revised_increased_area_for_residential_use)) { echo $calculationSheetDetails[0]->revised_increased_area_for_residential_use; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -306,9 +306,9 @@
                                                     एकूण पुनर्वसन चटई क्षेत्रफळ
                                                 </td>
                                                 <td class="text-center">
-                                                    <input class="form-control form-control--custom" readonly type="text"
+                                                    <input class="form-control form-control--custom" readonly type="text" placeholder="0"
                                                         name="total_rehabilitation_mattress_area" id="total_rehabilitation_mattress_area"
-                                                        value="{{ isset($calculationSheetDetails[0]->total_rehabilitation_mattress_area) ? $calculationSheetDetails[0]->total_rehabilitation_mattress_area : 0 }}" />
+                                                        value="<?php if(isset($calculationSheetDetails[0]->total_rehabilitation_mattress_area)) { echo $calculationSheetDetails[0]->total_rehabilitation_mattress_area; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -341,9 +341,9 @@
                                                     Total
                                                 </td>
                                                 <td class="text-center">
-                                                    <input readonly class="form-control form-control--custom" type="text"
+                                                    <input readonly class="form-control form-control--custom" type="text" placeholder="0"
                                                         name="total_additional_claims" id="total_additional_claims"
-                                                        value="{{ isset($calculationSheetDetails[0]->total_additional_claims) ? $calculationSheetDetails[0]->total_additional_claims : 0 }}" />
+                                                        value="<?php if(isset($calculationSheetDetails[0]->total_additional_claims)) { echo $calculationSheetDetails[0]->total_additional_claims; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -354,9 +354,9 @@
 
                                                 </td>
                                                 <td class="text-center">
-                                                    <input class="form-control form-control--custom" readonly type="text"
+                                                    <input class="form-control form-control--custom" readonly type="text" placeholder="0"
                                                         name="total_rehabilitation_mattress_area_with_dcr" id="total_rehabilitation_mattress_area_with_dcr"
-                                                        value="{{ isset($calculationSheetDetails[0]->total_rehabilitation_mattress_area) ? $calculationSheetDetails[0]->total_rehabilitation_mattress_area : 0 }}" />
+                                                        value="<?php  if(isset($calculationSheetDetails[0]->total_rehabilitation_mattress_area)) { echo $calculationSheetDetails[0]->total_rehabilitation_mattress_area; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -367,9 +367,9 @@
                                                     एकूण पुनर्वसन बांधकाम क्षेत्रफळ
                                                 </td>
                                                 <td class="text-center">
-                                                    <input class="remaining_area form-control form-control--custom"
+                                                    <input class="remaining_area form-control form-control--custom" placeholder="0"
                                                         readonly type="text" name="total_rehabilitation_construction_area"
-                                                        id="total_rehabilitation_construction_area" value="{{ isset($calculationSheetDetails[0]->total_rehabilitation_construction_area) ? $calculationSheetDetails[0]->total_rehabilitation_construction_area : 0 }}" />
+                                                        id="total_rehabilitation_construction_area" value="<?php if(isset($calculationSheetDetails[0]->total_rehabilitation_construction_area)) { echo $calculationSheetDetails[0]->total_rehabilitation_construction_area; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -531,8 +531,8 @@
                                                     LR
                                                 </td>
                                                 <td class="text-center">
-                                                    <input class="infra_fee form-control form-control--custom" type="text"
-                                                        name="lr_val" id="lr_val" value="{{ isset($calculationSheetDetails[0]->lr_val) ? $calculationSheetDetails[0]->lr_val : 0 }}" />
+                                                    <input class="infra_fee form-control form-control--custom" type="text" placeholder="0"
+                                                        name="lr_val" id="lr_val" value="<?php if(isset($calculationSheetDetails[0]->lr_val)) { echo $calculationSheetDetails[0]->lr_val; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -542,8 +542,8 @@
                                                     RC
                                                 </td>
                                                 <td class="text-center">
-                                                    <input class="form-control form-control--custom" type="text" name="rc_val"
-                                                        id="rc_val" value="{{ isset($calculationSheetDetails[0]->rc_val) ? $calculationSheetDetails[0]->rc_val : 0 }}" />
+                                                    <input class="form-control form-control--custom" type="text" name="rc_val" placeholder="0"
+                                                        id="rc_val" value="<?php if(isset($calculationSheetDetails[0]->rc_val)) { echo $calculationSheetDetails[0]->rc_val; } ?>" />
 
                                                 </td>
                                                 </td>
@@ -554,8 +554,8 @@
                                                     LC/RC
                                                 </td>
                                                 <td class="text-center">
-                                                    <input class="form-control form-control--custom" readonly type="text"
-                                                        name="lr_rc_division_val" id="lr_rc_division_val" value="{{ isset($calculationSheetDetails[0]->lr_rc_division_val) ? $calculationSheetDetails[0]->lr_rc_division_val : 0 }}" />
+                                                    <input class="form-control form-control--custom" readonly type="text" placeholder="0"
+                                                        name="lr_rc_division_val" id="lr_rc_division_val" value="<?php if(isset($calculationSheetDetails[0]->lr_rc_division_val)) { echo $calculationSheetDetails[0]->lr_rc_division_val; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -577,9 +577,9 @@
                                                     बांधकाम क्षेत्रफलकरीता प्रोत्साहन चटई क्षेत्रफळ
                                                 </td>
                                                 <td class="text-center">
-                                                    <input class="form-control form-control--custom" readonly type="text"
+                                                    <input class="form-control form-control--custom" readonly type="text" placeholder="0"
                                                         name="mattress_area_for_construction_area" id="mattress_area_for_construction_area"
-                                                        value="{{ isset($calculationSheetDetails[0]->mattress_area_for_construction_area) ? $calculationSheetDetails[0]->mattress_area_for_construction_area : 0 }}" />
+                                                        value="<?php if(isset($calculationSheetDetails[0]->mattress_area_for_construction_area)) { echo $calculationSheetDetails[0]->mattress_area_for_construction_area; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -739,8 +739,8 @@
                                                     उर्वरित क्षेत्रफळ
                                                 </td>
                                                 <td class="text-center">
-                                                    <input class="form-control form-control--custom" readonly type="text"
-                                                        name="remaining_area" id="remaining_area" value="{{ isset($calculationSheetDetails[0]->remaining_area) ? $calculationSheetDetails[0]->remaining_area : 0 }}" />
+                                                    <input class="form-control form-control--custom" readonly type="text" placeholder="0"
+                                                        name="remaining_area" id="remaining_area" value="<?php if(isset($calculationSheetDetails[0]->remaining_area)) { echo $calculationSheetDetails[0]->remaining_area; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -750,8 +750,8 @@
                                                     LC/RC
                                                 </td>
                                                 <td class="text-center">
-                                                    <input class="form-control form-control--custom" readonly type="text"
-                                                        name="lr_rc_division_val" id="lr_rc_division_val" value="{{ isset($calculationSheetDetails[0]->lr_rc_division_val) ? $calculationSheetDetails[0]->lr_rc_division_val : 0 }}" />
+                                                    <input class="form-control form-control--custom" readonly type="text" placeholder="0"
+                                                        name="lr_rc_division_val" id="lr_rc_division_val" value="<?php if(isset($calculationSheetDetails[0]->lr_rc_division_val)) { echo $calculationSheetDetails[0]->lr_rc_division_val; } ?>" />
 
                                                 </td>
                                                 </td>
@@ -766,6 +766,7 @@
                                                     <span style="cursor: pointer" data-toggle="modal" data-target="#select-dcr">
                                                         DCR C
                                                     </span>
+                                                    <input type="hidden" name="dcr_c_mhada_val" id="dcr_c_mhada_val" value="0" />
                                                 </td>
                                             </tr>
                                             <tr>
@@ -774,8 +775,8 @@
                                                     संस्थेचा हिस्सा
                                                 </td>
                                                 <td class="text-center">
-                                                    <input class="form-control form-control--custom" readonly type="text"
-                                                        name="society_share" id="society_share" value="{{ isset($calculationSheetDetails[0]->society_share) ? $calculationSheetDetails[0]->society_share : 0 }}" />
+                                                    <input class="form-control form-control--custom" readonly type="text" placeholder="0"
+                                                        name="society_share" id="society_share" value="<?php if(isset($calculationSheetDetails[0]->society_share)) { echo $calculationSheetDetails[0]->society_share; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -787,7 +788,7 @@
 
                                                 </td>
                                                 <td class="text-center">
-                                                    <input class="form-control form-control--custom" readonly type="text"
+                                                    <input class="form-control form-control--custom" readonly type="text" placeholder="0"
                                                         name="mhada_share" id="mhada_share" value="{{ isset($calculationSheetDetails[0]->mhada_share) ? $calculationSheetDetails[0]->mhada_share : 0 }}" />
 
                                                 </td>
@@ -800,9 +801,9 @@
 
                                                 </td>
                                                 <td class="text-center">
-                                                    <input class="form-control form-control--custom" readonly type="text"
+                                                    <input class="form-control form-control--custom" readonly type="text" placeholder="0"
                                                         name="mhada_share_with_fungib" id="mhada_share_with_fungib"
-                                                        value="{{ isset($calculationSheetDetails[0]->mhada_share_with_fungib) ? $calculationSheetDetails[0]->mhada_share_with_fungib : 0 }}" />
+                                                        value="<?php if(isset($calculationSheetDetails[0]->mhada_share_with_fungib)) { echo $calculationSheetDetails[0]->mhada_share_with_fungib; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -813,14 +814,14 @@
 
                                         </tbody>
                                     </table>
-                                    <div class="modal fade show" id="select-dcr" tabindex="-1" role="dialog"
-                                        aria-labelledby="exampleModalLabel">
+                                    <div class="modal fade show table-c-modal" id="select-dcr" tabindex="-1"
+                                         role="dialog" aria-labelledby="exampleModalLabel">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                     <h5 class="modal-title" id="exampleModalLabel2">Table C</h5>
                                                     <button style="cursor: pointer;" type="button" class="close"
-                                                        data-dismiss="modal" aria-label="Close">
+                                                            data-dismiss="modal" aria-label="Close">
                                                         <span aria-hidden="true">×</span>
                                                     </button>
                                                 </div>
@@ -828,106 +829,75 @@
                                                     <div class="table-responsive">
                                                         <table class="table text-center table--dark table--dark--rows">
                                                             <thead>
-                                                                <th>Basic ratio (LC/RC)</th>
-                                                                <th>Cooprative society share</th>
-                                                                <th>Mhada share</th>
+                                                            <th>Basic ratio (LC/RC)</th>
+                                                            <th>Cooprative society share</th>
+                                                            <th>Mhada share</th>
                                                             </thead>
                                                             <tbody>
-                                                                <tr>
-                                                                    <td class="position-relative">
-                                                                        <label class="m-radio m-radio--row" for="test">
-                                                                            <input type="radio" id="test">
-                                                                            <span class="m-radio--row__span"><span>Above 6.00</span></span>
-                                                                        </label>
-                                                                    </td>
-                                                                    <td>
-                                                                        <span>30%</span>
-                                                                    </td>
-                                                                    <td>
-                                                                        <span>70%</span>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>Above 4.00 and upto 6.00</td>
-                                                                    <td class="position-relative">
-                                                                        <div class="m-radio--box">
-                                                                            <label class="m-radio m-radio--box-label">
-                                                                                <input type="radio" name="dcr_c_society_val"
-                                                                                    id="" value="35"
-                                                                                    {{ isset($calculationSheetDetails[0]->dcr_c_society_val) && $calculationSheetDetails[0]->dcr_c_society_val == '35' ? 'checked' : '' }}>
-                                                                                <span class="m-radio--box-span">
-                                                                                    <span>35%</span>
-                                                                                </span>
-                                                                            </label>
-                                                                        </div>
-                                                                    </td>
-                                                                    <td class="position-relative">
-                                                                        <div class="m-radio--box">
-                                                                            <label class="m-radio m-radio--box-label">
-                                                                                <input type="radio" name="dcr_c_mhada_val"
-                                                                                    id="" value="65"
-                                                                                    {{ isset($calculationSheetDetails[0]->dcr_c_mhada_val) && $calculationSheetDetails[0]->dcr_c_mhada_val == '65' ? 'checked' : '' }}>
-                                                                                <span class="m-radio--box-span">
-                                                                                    <span>65%</span>
-                                                                                </span>
-                                                                            </label>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>Above 2.00 and upto 4,00</td>
-                                                                    <td class="position-relative">
-                                                                        <div class="m-radio--box">
-                                                                            <label class="m-radio m-radio--box-label">
-                                                                                <input type="radio" name="dcr_c_society_val"
-                                                                                    id="" value="40"
-                                                                                    {{ isset($calculationSheetDetails[0]->dcr_c_society_val) && $calculationSheetDetails[0]->dcr_c_society_val == '40' ? 'checked' : '' }}>
-                                                                                <span class="m-radio--box-span">
-                                                                                    <span>40%</span>
-                                                                                </span>
-                                                                            </label>
-                                                                        </div>
-                                                                    </td>
-                                                                    <td class="position-relative">
-                                                                        <div class="m-radio--box">
-                                                                            <label class="m-radio m-radio--box-label">
-                                                                                <input type="radio" name="dcr_c_mhada_val"
-                                                                                    id="" value="60"
-                                                                                    {{ isset($calculationSheetDetails[0]->dcr_c_mhada_val) && $calculationSheetDetails[0]->dcr_c_mhada_val == '60' ? 'checked' : '' }}>
-                                                                                <span class="m-radio--box-span">
-                                                                                    <span>60%</span>
-                                                                                </span>
-                                                                            </label>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>Upto 2.00</td>
-                                                                    <td class="position-relative">
-                                                                        <div class="m-radio--box">
-                                                                            <label class="m-radio m-radio--box-label">
-                                                                                <input type="radio" name="dcr_c_society_val"
-                                                                                    id="" value="45"
-                                                                                    {{ isset($calculationSheetDetails[0]->dcr_c_society_val) && $calculationSheetDetails[0]->dcr_c_society_val == '45' ? 'checked' : '' }}>
-                                                                                <span class="m-radio--box-span">
-                                                                                    <span>45%</span>
-                                                                                </span>
-                                                                            </label>
-                                                                        </div>
-                                                                    </td>
-                                                                    <td class="position-relative">
-                                                                        <div class="m-radio--box">
-                                                                            <label class="m-radio m-radio--box-label">
-                                                                                <input type="radio" name="dcr_c_mhada_val"
-                                                                                    id="" value="55"
-                                                                                    {{ isset($calculationSheetDetails[0]->dcr_c_mhada_val) && $calculationSheetDetails[0]->dcr_c_mhada_val == '55' ? 'checked' : '' }}>
-                                                                                <span class="m-radio--box-span">
-                                                                                    <span>55%</span>
-                                                                                </span>
-                                                                            </label>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
+                                                            <tr>
+                                                                <td class="position-relative">
+                                                                    <label class="m-radio m-radio--row" for="test">
+                                                                        <input type="radio" id="test" name="dcr_c_society_val" value="30">
+                                                                        <span class="m-radio--row__span">
+                                                                                <span>Above 6.00</span>
+                                                                            </span>
+                                                                    </label>
+                                                                </td>
+                                                                <td>
+                                                                    <span>30%</span>
+                                                                </td>
+                                                                <td>
+                                                                    <span>70%</span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="position-relative">
+                                                                    <label class="m-radio m-radio--row" for="test1">
+                                                                        <input type="radio" id="test1" name="dcr_c_society_val" value="35">
+                                                                        <span class="m-radio--row__span">
+                                                                                <span>Above 4.00 and upto 6.00</span>
+                                                                            </span>
+                                                                    </label>
+                                                                </td>
+                                                                <td>
+                                                                    <span>35%</span>
+                                                                </td>
+                                                                <td>
+                                                                    <span>65%</span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="position-relative">
+                                                                    <label class="m-radio m-radio--row" for="test3">
+                                                                        <input type="radio" id="test3" name="dcr_c_society_val" value="40">
+                                                                        <span class="m-radio--row__span">
+                                                                                <span>Above 2.00 and upto 4.00</span>
+                                                                            </span>
+                                                                    </label>
+                                                                </td>
+                                                                <td>
+                                                                    <span>40%</span>
+                                                                </td>
+                                                                <td>
+                                                                    <span>60%</span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="position-relative">
+                                                                    <label class="m-radio m-radio--row" for="test4">
+                                                                        <input type="radio" id="test4" name="dcr_c_society_val" value="45">
+                                                                        <span class="m-radio--row__span">
+                                                                                <span>Upto 2.00</span>
+                                                                            </span>
+                                                                    </label>
+                                                                </td>
+                                                                <td>
+                                                                    <span>45%</span>
+                                                                </td>
+                                                                <td>
+                                                                    <span>55%</span>
+                                                                </td>
+                                                            </tr>
                                                             </tbody>
                                                         </table>
                                                     </div>
@@ -982,9 +952,9 @@
                                                     अस्तित्वातील बांधकाम क्षेत्रफळ
                                                 </td>
                                                 <td class="text-center">
-                                                    <input class="infra_fee  form-control form-control--custom" type="text"
+                                                    <input class="infra_fee  form-control form-control--custom" type="text" placeholder="0"
                                                         name="existing_construction_area" id="existing_construction_area"
-                                                        value="{{ isset($calculationSheetDetails[0]->existing_construction_area) ? $calculationSheetDetails[0]->existing_construction_area : 0 }}" />
+                                                        value="<?php if(isset($calculationSheetDetails[0]->existing_construction_area)) { echo $calculationSheetDetails[0]->existing_construction_area; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -995,9 +965,9 @@
                                                     इन्फ्रास्टक्चर शुल्क रक्कम
                                                 </td>
                                                 <td class="text-center">
-                                                    <input class="form-control form-control--custom" readonly type="text"
+                                                    <input class="form-control form-control--custom" readonly type="text" placeholder="0"
                                                         name="off_site_infrastructure_fee" id="off_site_infrastructure_fee"
-                                                        value="{{ isset($calculationSheetDetails[0]->off_site_infrastructure_fee) ? $calculationSheetDetails[0]->off_site_infrastructure_fee : 0 }}" />
+                                                        value="<?php if(isset($calculationSheetDetails[0]->off_site_infrastructure_fee)) { echo $calculationSheetDetails[0]->off_site_infrastructure_fee; } ?>" />
 
                                                 </td>
                                                 </td>
@@ -1009,9 +979,9 @@
                                                     ५/७ रक्कम (५/७ X अनु.क्र.१६)
                                                 </td>
                                                 <td class="text-center">
-                                                    <input class="form-control form-control--custom" readonly type="text"
+                                                    <input class="form-control form-control--custom" readonly type="text" placeholder="0"
                                                         name="amount_to_be_paid_to_municipal" id="amount_to_be_paid_to_municipal"
-                                                        value="{{ isset($calculationSheetDetails[0]->amount_to_be_paid_to_municipal) ? $calculationSheetDetails[0]->amount_to_be_paid_to_municipal : 0 }}" />
+                                                        value="<?php if(isset($calculationSheetDetails[0]->amount_to_be_paid_to_municipal)) { echo $calculationSheetDetails[0]->amount_to_be_paid_to_municipal; } ?>" />
 
 
                                                 </td>
@@ -1023,9 +993,9 @@
                                                     अनु.क्र.१६ )
                                                 </td>
                                                 <td class="text-center">
-                                                    <input class="total_amount_in_rs form-control form-control--custom"
+                                                    <input class="total_amount_in_rs form-control form-control--custom" placeholder="0"
                                                         readonly type="text" name="offsite_infrastructure_charge_to_mhada"
-                                                        id="offsite_infrastructure_charge_to_mhada" value="{{ isset($calculationSheetDetails[0]->offsite_infrastructure_charge_to_mhada) ? $calculationSheetDetails[0]->offsite_infrastructure_charge_to_mhada : 0 }}" />
+                                                        id="offsite_infrastructure_charge_to_mhada" value="<?php if(isset($calculationSheetDetails[0]->offsite_infrastructure_charge_to_mhada)) { echo $calculationSheetDetails[0]->offsite_infrastructure_charge_to_mhada; } ?>" />
 
 
                                                 </td>
@@ -1036,9 +1006,9 @@
                                                     छाननी शुल्क
                                                 </td>
                                                 <td class="text-center">
-                                                    <input class="total_amount_in_rs form-control form-control--custom"
+                                                    <input class="total_amount_in_rs form-control form-control--custom" placeholder="0"
                                                         readonly type="text" name="scrutiny_fee" id="scrutiny_fee"
-                                                        value="{{ isset($calculationSheetDetails[0]->scrutiny_fee) ? $calculationSheetDetails[0]->scrutiny_fee : 6000 }}" />
+                                                        value="<?php if(isset($calculationSheetDetails[0]->scrutiny_fee)) { echo $calculationSheetDetails[0]->scrutiny_fee; } else { echo '6000'; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -1048,9 +1018,9 @@
                                                     डेब्रिज रिमूव्हल शुल्क रु.६६००/-
                                                 </td>
                                                 <td class="text-center">
-                                                    <input class="total_amount_in_rs form-control form-control--custom"
+                                                    <input class="total_amount_in_rs form-control form-control--custom" placeholder="0"
                                                         readonly type="text" name="debraj_removal_fee" id="debraj_removal_fee"
-                                                        value="{{ isset($calculationSheetDetails[0]->debraj_removal_fee) ? $calculationSheetDetails[0]->debraj_removal_fee : 6600 }}" />
+                                                        value="<?php if(isset($calculationSheetDetails[0]->debraj_removal_fee)) { echo $calculationSheetDetails[0]->debraj_removal_fee; } else { echo '6600'; } ?>" />
 
 
                                                 </td>
@@ -1061,9 +1031,9 @@
                                                     अभिन्यास मंजुरी शुल्क रु,१०००/ - प्रति गाळा
                                                 </td>
                                                 <td class="text-center">
-                                                    <input class="total_amount_in_rs form-control form-control--custom"
+                                                    <input class="total_amount_in_rs form-control form-control--custom" placeholder="0"
                                                         readonly type="text" name="layout_approval_fee" id="layout_approval_fee"
-                                                        value="{{ isset($calculationSheetDetails[0]->layout_approval_fee) ? $calculationSheetDetails[0]->layout_approval_fee : 0 }}" />
+                                                        value="<?php if(isset($calculationSheetDetails[0]->layout_approval_fee)) { echo $calculationSheetDetails[0]->layout_approval_fee; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -1073,9 +1043,9 @@
                                                     पाणी वापर शुल्क (रु.१,००,०००/- )
                                                 </td>
                                                 <td class="text-center">
-                                                    <input class="total_amount_in_rs form-control form-control--custom"
+                                                    <input class="total_amount_in_rs form-control form-control--custom" placeholder="0"
                                                         readonly type="text" name="water_usage_charges" id="water_usage_charges"
-                                                        value="{{ isset($calculationSheetDetails[0]->water_usage_charges) ? $calculationSheetDetails[0]->water_usage_charges : 100000 }}" />
+                                                        value="<?php if(isset($calculationSheetDetails[0]->water_usage_charges)) { echo $calculationSheetDetails[0]->water_usage_charges; } else { echo '1,00,000'; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -1085,8 +1055,8 @@
                                                     एकूण रक्कम रुपये
                                                 </td>
                                                 <td class="text-center">
-                                                    <input class="form-control form-control--custom" readonly type="text"
-                                                        name="total_amount_in_rs" id="total_amount_in_rs" value="{{ isset($calculationSheetDetails[0]->total_amount_in_rs) ? $calculationSheetDetails[0]->total_amount_in_rs : 0 }}" />
+                                                    <input class="form-control form-control--custom" readonly type="text" placeholder="0"
+                                                        name="total_amount_in_rs" id="total_amount_in_rs" value="<?php if(isset($calculationSheetDetails[0]->total_amount_in_rs)) { echo $calculationSheetDetails[0]->total_amount_in_rs; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -1096,9 +1066,9 @@
                                                     बृहनमुंबई महानगर पालिकेकडे भरणा करावयाची रक्कम
                                                 </td>
                                                 <td class="text-center">
-                                                    <input class="form-control form-control--custom" readonly type="text"
+                                                    <input class="form-control form-control--custom" readonly type="text" placeholder="0"
                                                         name="amount_to_b_paid_to_municipal_corporation" id="amount_to_b_paid_to_municipal_corporation"
-                                                        value="{{ isset($calculationSheetDetails[0]->amount_to_b_paid_to_municipal_corporation) ? $calculationSheetDetails[0]->amount_to_b_paid_to_municipal_corporation : 0 }}" />
+                                                        value="<?php if(isset($calculationSheetDetails[0]->amount_to_b_paid_to_municipal_corporation)) { echo $calculationSheetDetails[0]->amount_to_b_paid_to_municipal_corporation; } ?>" />
 
 
                                                 </td>
@@ -1279,7 +1249,6 @@
                    //if a decimal has been added, disable the "."-button
 
                    */
-
             var $this = $(this);
             if ((event.which != 46 || $this.val().indexOf('.') != -1) &&
                 ((event.which < 48 || event.which > 57) &&
@@ -1305,7 +1274,7 @@
 
 
             // ============================== format no with comma
-/*
+
             // skip for arrow keys
             if(event.which >= 37 && event.which <= 40) return;
 
@@ -1316,52 +1285,26 @@
                   //  .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
          //           ;
 
-                value = value.replace(/,/g,'');
+              //  value = value.replace(/,/g,'');
                 return numberWithCommas(value);
-<<<<<<< HEAD
-*/
-        });
-=======
->>>>>>> 8f19a484f8f40af0615b90b0dbcee841d128cc2f
 
             });
-*/
+
 
     });
 
-    function numberWithCommas(x) {
-        var parts = x.toString().split(".");
-        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        return parts.join(".");
-    }
-
-    $("#total_permissible_construction_area").attr('value', parseFloat($("#permissible_construction_area").val()) +
-        parseFloat($("#permissible_proratata_area").val()));
-
-    $("#remaining_area").attr('value', parseFloat($("#total_permissible_construction_area").val()) - parseFloat($(
-        "#total_rehabilitation_construction_area").val()) - parseFloat($("#mattress_area_for_construction_area")
-        .val()));
-
-    var lr_cal = parseFloat(0.07 * $("#lr_val").val());
-    var substract = parseFloat($("#total_permissible_construction_area").val()) - parseFloat($(
-        "#existing_construction_area").val());
-    var off_site_infra_fee = Math.ceil(substract * lr_cal);
-    $("#off_site_infrastructure_fee").attr('value', off_site_infra_fee);
-
-    $("#amount_to_be_paid_to_municipal").attr('value', Math.ceil(5 / 7 * off_site_infra_fee));
-    $("#offsite_infrastructure_charge_to_mhada").attr('value', Math.ceil(2 / 7 * off_site_infra_fee));
-    $("#amount_to_b_paid_to_municipal_corporation").attr('value', Math.ceil(5 / 7 * off_site_infra_fee));
 
 
-    $("#layout_approval_fee").attr('value', 1000 * $("#total_house").val());
 
+        totalPermissibleConstructionArea();
 
-    var total_amount_in_rs = 0;
-    $(".total_amount_in_rs").each(function () {
-        total_amount_in_rs += +$(this).val();
-    });
-    $("#total_amount_in_rs").attr('value', Math.ceil(total_amount_in_rs));
+        remainingArea();
 
+        offSiteInfrastructureFee();
+
+        layoutApprovalFee();
+
+        totalAmountInRs();
 
 
 
@@ -1371,218 +1314,342 @@
 
 </script>
 <script>
-    $(document).on("keyup", ".total_area", function () {
+    //==========================================   CALCULATION START ==========================
+
+    function numberWithCommas(x) {
+
+        var parts = x.toString().split(".");
+        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        return parts.join(".");
+    }
+
+    function cleanNumber(value)
+    {
+        return value.toString().replace(/\,/g,'');
+    }
+
+
+    function areaOfTotalPlot()
+    {
         var sum = 0;
         $(".total_area").each(function () {
-            sum += +parseFloat($(this).val());
+
+           var total_area_val = cleanNumber($(this).val());
+
+           var areaVal = (!total_area_val || isNaN(total_area_val)) ? 0 : total_area_val;
+
+            sum += +parseFloat(areaVal);
         });
-        $("#area_of_total_plot").attr('value', sum);
+        if(sum > 0)
+        {
+            sum = sum.toFixed(2);
+        }
+        $("#area_of_total_plot").attr('value', numberWithCommas(sum));
+    }
+
+    function areaOfSubsistenceToCalculate()
+    {
 
         var sorted = $(".min_val_for_calculation").sort(
 
             function (a, b) {
-                return a.value - b.value
+                return cleanNumber(a.value) - cleanNumber(b.value)
             });
         var lowest = sorted[0].value;
 
-        $("#area_of_​​subsistence_to_calculate").attr('value', lowest);
+        $("#area_of_​​subsistence_to_calculate").attr('value', numberWithCommas(lowest));
+    }
 
-    });
 
-    $(document).on("keyup", ".abhinyas_total_area", function () {
+    function abhinyasAreaOfTotalPlot()
+    {
         var sum = 0;
         $(".abhinyas_total_area").each(function () {
-            sum += +$(this).val();
+
+            var total_area_val = cleanNumber($(this).val());
+
+            var areaVal = (!total_area_val || isNaN(total_area_val)) ? 0 : total_area_val;
+            sum += +areaVal;
         });
-        $("#abhinyas_area_of_total_plot").attr('value', sum);
+        if(sum > 0)
+        {
+            sum = sum.toFixed(2);
+        }
+        $("#abhinyas_area_of_total_plot").attr('value', numberWithCommas(sum));
+    }
 
-        var sorted = $(".min_val_for_calculation").sort(
+    function permissibleConstructionArea()
+    {
+        var area_of_subsistence_to_calculate = cleanNumber($("#area_of_​​subsistence_to_calculate").val());
+        var permissible_carpet_area_coordinates = cleanNumber($("#permissible_carpet_area_coordinates").val());
 
-            function (a, b) {
-                return a.value - b.value
-            });
-        var lowest = sorted[0].value;
+        area_of_subsistence_to_calculate = (!area_of_subsistence_to_calculate || isNaN(area_of_subsistence_to_calculate)) ? 0 : area_of_subsistence_to_calculate;
+        permissible_carpet_area_coordinates = (!permissible_carpet_area_coordinates || isNaN(permissible_carpet_area_coordinates)) ? 0 : permissible_carpet_area_coordinates;
 
-        $("#area_of_​​subsistence_to_calculate").attr('value', lowest);
+        $("#permissible_construction_area").attr('value', numberWithCommas((parseFloat(area_of_subsistence_to_calculate) * parseFloat(permissible_carpet_area_coordinates)).toFixed(2)));
+    }
+
+    function totalPermissibleConstructionArea()
+    {
+        var permissible_construction_area = (!cleanNumber($("#permissible_construction_area").val()) || isNaN(cleanNumber($("#permissible_construction_area").val()))) ? 0 : cleanNumber($("#permissible_construction_area").val());
+        var permissible_proratata_area = (!cleanNumber($("#permissible_proratata_area").val()) || isNaN(cleanNumber($("#permissible_proratata_area").val()))) ? 0 : cleanNumber($("#permissible_proratata_area").val());
+
+        $("#total_permissible_construction_area").attr('value', numberWithCommas((parseFloat(permissible_construction_area) + parseFloat(permissible_proratata_area)).toFixed(2)));
+    }
+
+    function permissibleProratataArea()
+    {
+        var sqm_area_per_slot = (!cleanNumber($("#sqm_area_per_slot").val()) || isNaN(cleanNumber($("#sqm_area_per_slot").val()))) ? 0 : cleanNumber($("#sqm_area_per_slot").val());
+        var total_house = (!cleanNumber($("#total_house").val()) || isNaN(cleanNumber($("#total_house").val()))) ? 0 : cleanNumber($("#total_house").val());
+
+        $("#permissible_proratata_area").attr('value', numberWithCommas((sqm_area_per_slot * total_house).toFixed(2)));
+    }
+
+    function totalRehabilitationMattressArea()
+    {
+        var revised_increased_area_for_residential_use = (!cleanNumber($("#revised_increased_area_for_residential_use").val()) || isNaN(cleanNumber($("#revised_increased_area_for_residential_use").val()))) ? 0 : cleanNumber($("#revised_increased_area_for_residential_use").val());
+        var total_house = (!cleanNumber($("#total_house").val()) || isNaN(cleanNumber($("#total_house").val()))) ? 0 : cleanNumber($("#total_house").val());
+
+        $("#total_rehabilitation_mattress_area").attr('value', numberWithCommas((total_house * revised_increased_area_for_residential_use).toFixed(2)));
+    }
+
+    function totalRehabilitationMattressAreaWithDcr()
+    {
+        var total_additional_claims = (!cleanNumber($("#total_additional_claims").val()) || isNaN(cleanNumber($("#total_additional_claims").val()))) ? 0 : cleanNumber($("#total_additional_claims").val());
+        var total_rehabilitation_mattress_area = (!cleanNumber($("#total_rehabilitation_mattress_area").val()) || isNaN(cleanNumber($("#total_rehabilitation_mattress_area").val()))) ? 0 : cleanNumber($("#total_rehabilitation_mattress_area").val());
+
+        $("#total_rehabilitation_mattress_area_with_dcr").attr('value', numberWithCommas((parseFloat(total_additional_claims) + parseFloat(total_rehabilitation_mattress_area)).toFixed(2)));
+    }
+
+    function totalRehabilitationConstructionArea()
+    {
+        var total_rehabilitation_mattress_area_with_dcr = (!cleanNumber($("#total_rehabilitation_mattress_area_with_dcr").val()) || isNaN(cleanNumber($("#total_rehabilitation_mattress_area_with_dcr").val()))) ? 0 : cleanNumber($("#total_rehabilitation_mattress_area_with_dcr").val());
+
+        $("#total_rehabilitation_construction_area").attr('value', numberWithCommas((parseFloat(total_rehabilitation_mattress_area_with_dcr) * 1.2).toFixed(2)));
+    }
+
+    function mattressAreaForConstructionArea()
+    {
+        var dcr_b_val = (!$("input[type=radio][name=dcr_b_val]:checked").val() || isNaN($("input[type=radio][name=dcr_b_val]:checked").val())) ? 0 : $("input[type=radio][name=dcr_b_val]:checked").val();
+        var total_rehabilitation_construction_area = (!cleanNumber($("#total_rehabilitation_construction_area").val()) || isNaN(cleanNumber($("#total_rehabilitation_construction_area").val()))) ? 0 : cleanNumber($("#total_rehabilitation_construction_area").val());
+
+        $("#mattress_area_for_construction_area").attr('value', numberWithCommas(((dcr_b_val / 100) * total_rehabilitation_construction_area).toFixed(2)));
+    }
+
+    function lrRcDivisionVal()
+    {
+        var lr_val = (!cleanNumber($("#lr_val").val()) || isNaN(cleanNumber($("#lr_val").val()))) ? 0 : cleanNumber($("#lr_val").val());
+        var rc_val = (!cleanNumber($("#rc_val").val()) || isNaN(cleanNumber($("#rc_val").val()))) ? 0 : cleanNumber($("#rc_val").val());
+
+        var div = parseFloat(lr_val) / parseFloat(rc_val);
+
+        if(rc_val!=0)
+        {
+            $("#lr_rc_division_val").attr('value', numberWithCommas(div.toFixed(2)));
+        }
+
+    }
+
+    function totalAdditionalClaims()
+    {
+        var dcr_a_val = (!$("input[type=radio][name=dcr_a_val]:checked").val() || isNaN($("input[type=radio][name=dcr_a_val]:checked").val())) ? 0 : $("input[type=radio][name=dcr_a_val]:checked").val();
+        var permissible_mattress_area = (!cleanNumber($("#permissible_mattress_area").val()) || isNaN(cleanNumber($("#permissible_mattress_area").val()))) ? 0 : cleanNumber($("#permissible_mattress_area").val());
+
+        var total_house = (!cleanNumber($("#total_house").val()) || isNaN(cleanNumber($("#total_house").val()))) ? 0 : cleanNumber($("#total_house").val());
+
+        var total_claims = (dcr_a_val / 100) * permissible_mattress_area * total_house;
+
+        $("#total_additional_claims").attr('value', numberWithCommas(total_claims.toFixed(2)));
+    }
+
+    function remainingArea()
+    {
+        var total_permissible_construction_area = (!cleanNumber($("#total_permissible_construction_area").val()) || isNaN(cleanNumber($("#total_permissible_construction_area").val()))) ? 0 : cleanNumber($("#total_permissible_construction_area").val());
+        var total_rehabilitation_construction_area = (!cleanNumber($("#total_rehabilitation_construction_area").val()) || isNaN(cleanNumber($("#total_rehabilitation_construction_area").val()))) ? 0 : cleanNumber($("#total_rehabilitation_construction_area").val());
+        var mattress_area_for_construction_area = (!cleanNumber($("#mattress_area_for_construction_area").val()) || isNaN(cleanNumber($("#mattress_area_for_construction_area").val()))) ? 0 : cleanNumber($("#mattress_area_for_construction_area").val());
+
+        $("#remaining_area").attr('value', numberWithCommas((parseFloat(total_permissible_construction_area) - parseFloat(total_rehabilitation_construction_area) - parseFloat(mattress_area_for_construction_area)).toFixed(2)));
+    }
+
+    function offSiteInfrastructureFee()
+    {
+        var lr_val = (!cleanNumber($("#lr_val").val()) || isNaN(cleanNumber($("#lr_val").val()))) ? 0 : cleanNumber($("#lr_val").val());
+        var total_permissible_construction_area = (!cleanNumber($("#total_permissible_construction_area").val()) || isNaN(cleanNumber($("#total_permissible_construction_area").val()))) ? 0 : cleanNumber($("#total_permissible_construction_area").val());
+        var existing_construction_area = (!cleanNumber($("#existing_construction_area").val()) || isNaN(cleanNumber($("#existing_construction_area").val()))) ? 0 : cleanNumber($("#existing_construction_area").val());
+
+
+        var lr_cal = parseFloat(0.07 * lr_val);
+        var substract = parseFloat(total_permissible_construction_area) - parseFloat(existing_construction_area);
+        var off_site_infra_fee = Math.ceil(substract * lr_cal);
+
+        $("#off_site_infrastructure_fee").attr('value', numberWithCommas(off_site_infra_fee));
+
+        $("#amount_to_be_paid_to_municipal").attr('value', numberWithCommas(Math.ceil(5 / 7 * off_site_infra_fee)));
+        $("#offsite_infrastructure_charge_to_mhada").attr('value', numberWithCommas(Math.ceil(2 / 7 * off_site_infra_fee)));
+        $("#amount_to_b_paid_to_municipal_corporation").attr('value', numberWithCommas(Math.ceil(5 / 7 * off_site_infra_fee)));
+
+    }
+
+    function layoutApprovalFee()
+    {
+        var total_house = (!cleanNumber($("#total_house").val()) || isNaN(cleanNumber($("#total_house").val()))) ? 0 : cleanNumber($("#total_house").val());
+
+        $("#layout_approval_fee").attr('value', numberWithCommas(1000 * total_house));
+    }
+
+    function totalAmountInRs()
+    {
+        var total_amount_in_rs = 0;
+        $(".total_amount_in_rs").each(function () {
+            var amountVal = (!cleanNumber(this.value) || isNaN(cleanNumber($(this).val()))) ? 0 : cleanNumber($(this).val());
+            total_amount_in_rs += +amountVal;
+        });
+        $("#total_amount_in_rs").attr('value', numberWithCommas(Math.ceil(total_amount_in_rs)));
+    }
+
+    // =========================================================
+
+    $(document).on("keyup blur", ".total_area", function () {
+        areaOfTotalPlot();
+
+        areaOfSubsistenceToCalculate();
+
+    });
+
+    $(document).on("keyup blur", ".abhinyas_total_area", function () {
+
+        abhinyasAreaOfTotalPlot();
+
+        areaOfSubsistenceToCalculate();
 
     });
 
 
 
-    $(document).on("keyup", ".total_area , .abhinyas_total_area , #permissible_carpet_area_coordinates", function () {
+    $(document).on("keyup blur", ".total_area , .abhinyas_total_area , #permissible_carpet_area_coordinates", function () {
 
-        $("#permissible_construction_area").attr('value', parseFloat($("#area_of_​​subsistence_to_calculate").val()) * parseFloat($(
-            "#permissible_carpet_area_coordinates").val()));
+        permissibleConstructionArea();
 
-        $("#total_permissible_construction_area").attr('value', parseFloat($("#permissible_construction_area").val()) +
-            parseFloat($("#permissible_proratata_area").val()));
+        totalPermissibleConstructionArea
+
+    });
+
+    $(document).on("keyup blur", "#sqm_area_per_slot , #total_house", function () {
+
+        permissibleProratataArea();
+
+        totalPermissibleConstructionArea();
 
 
     });
 
-    $(document).on("keyup", "#sqm_area_per_slot , #total_house", function () {
+    $(document).on("keyup blur", "#permissible_mattress_area", function () {
 
-        var sqm_area_per_slot = (isNaN($("#sqm_area_per_slot").val())) ? 0 : $("#sqm_area_per_slot").val();
-        var total_house = (isNaN($("#total_house").val())) ? 0 : $("#total_house").val();
+        var permissible_mattress_area = (!cleanNumber($(this).val()) || isNaN(cleanNumber($(this).val()))) ? 0 : cleanNumber($(this).val());
 
-        $("#permissible_proratata_area").attr('value', sqm_area_per_slot * total_house);
-
-        $("#total_permissible_construction_area").attr('value', parseFloat($("#permissible_construction_area").val()) +
-            parseFloat($("#permissible_proratata_area").val()));
-
+        $("#revised_permissible_mattress_area").attr('value', numberWithCommas((1.35 * permissible_mattress_area).toFixed(2)));
 
     });
 
-    $(document).on("keyup", "#permissible_mattress_area", function () {
+    $(document).on("keyup blur", "#revised_increased_area_for_residential_use", function () {
 
-        $("#revised_permissible_mattress_area").attr('value', (1.35 * $(this).val()).toFixed(2));
+        totalRehabilitationMattressArea();
+
+        totalRehabilitationMattressAreaWithDcr();
+
+        totalRehabilitationConstructionArea();
+
+        mattressAreaForConstructionArea();
+    });
+
+
+    $(document).on("keyup blur", "#lr_val , #rc_val", function () {
+
+        lrRcDivisionVal();
 
     });
 
-    $(document).on("keyup", "#revised_increased_area_for_residential_use", function () {
+    $(document).on("keyup blur", "#total_rehabilitation_construction_area", function () {
 
-        $("#total_rehabilitation_mattress_area").attr('value', $("#total_house").val() * $(this).val());
-
-        $("#total_rehabilitation_mattress_area_with_dcr").attr('value', parseFloat($("#total_additional_claims")
-                .val()) +
-            parseFloat($("#total_rehabilitation_mattress_area").val()));
-
-        $("#total_rehabilitation_construction_area").attr('value', parseFloat($(
-            "#total_rehabilitation_mattress_area_with_dcr").val()) * 1.2);
-
-        $("#mattress_area_for_construction_area").attr('value', (($("input[type=radio][name=dcr_b_val]:checked").val() /
-            100) * $("#total_rehabilitation_construction_area").val()).toFixed(2));
-    });
-    $(document).on("keyup", "#lr_val , #rc_val", function () {
-
-        var div = parseFloat($("#lr_val").val()) / parseFloat($("#rc_val").val());
-
-        $("#lr_rc_division_val").attr('value', div.toFixed(2));
-
-    });
-
-    $(document).on("keyup", "#total_rehabilitation_construction_area", function () {
-
-        $("#mattress_area_for_construction_area").attr('value', (($("input[type=radio][name=dcr_b_val]:checked").val() /
-            100) * $(
-            this).val()).toFixed(2));
+        mattressAreaForConstructionArea();
 
     });
 
     $(document).on("change", "input[type=radio][name=dcr_b_val]", function () {
 
-        $("#mattress_area_for_construction_area").attr('value', (($(this).val() / 100) * $(
-            "#total_rehabilitation_construction_area").val()).toFixed(2));
+        mattressAreaForConstructionArea();
 
     });
 
-    $(document).on("keyup", ".remaining_area", function () {
-        $("#remaining_area").attr('value', parseFloat($("#total_permissible_construction_area").val()) -
-            parseFloat($(
-                "#total_rehabilitation_construction_area").val()) - parseFloat($(
-                "#mattress_area_for_construction_area").val()));
-
-    });
+    $(document).on("keyup blur", ".remaining_area", function () {
 
 
-    $(document).on("change", "input[type=radio][name=dcr_c_society_val]", function () {
-
-        $("#society_share").attr('value', (($(this).val() / 100) * $("#remaining_area").val()).toFixed(2));
-
-    });
-    $(document).on("change", "input[type=radio][name=dcr_c_mhada_val]", function () {
-
-        var mhada_share = (($(this).val() / 100) * $("#remaining_area").val()).toFixed(2);
-        $("#mhada_share").attr('value', mhada_share);
-        $("#mhada_share_with_fungib").attr('value', (mhada_share * 1.35).toFixed(2));
-
-    });
-
-    $(document).on("keyup", ".infra_fee", function () {
-        var lr_cal = parseFloat(0.07 * $("#lr_val").val());
-        var substract = parseFloat($("#total_permissible_construction_area").val()) - parseFloat($(
-            "#existing_construction_area").val());
-        var off_site_infra_fee = Math.ceil(substract * lr_cal);
-        $("#off_site_infrastructure_fee").attr('value', off_site_infra_fee);
-
-        $("#amount_to_be_paid_to_municipal").attr('value', Math.ceil(5 / 7 * off_site_infra_fee));
-        $("#offsite_infrastructure_charge_to_mhada").attr('value', Math.ceil(2 / 7 * off_site_infra_fee));
-        $("#amount_to_b_paid_to_municipal_corporation").attr('value', Math.ceil(5 / 7 * off_site_infra_fee));
+        remainingArea();
 
     });
 
 
-    /*  $(document).on("keyup", "#existing_construction_area", function () {
-          $("#amount_to_be_paid_to_municipal").attr('value', Math.ceil(5 / 7 * $(this).val()));
-          $("#offsite_infrastructure_charge_to_mhada").attr('value', Math.ceil(2 / 7 * $(this).val()));
-          $("#amount_to_b_paid_to_municipal_corporation").attr('value', Math.ceil(5 / 7 * $(this).val()));
-      }); */
+    $(document).on("change blur", "input[type=radio][name=dcr_c_society_val]", function () {
+
+        var dcr_c_val = (!cleanNumber($(this).val()) || isNaN(cleanNumber($(this).val()))) ? 0 : cleanNumber($(this).val());
+        var remaining_area = (!cleanNumber($("#remaining_area").val()) || isNaN(cleanNumber($("#remaining_area").val()))) ? 0 : cleanNumber($("#remaining_area").val());
+
+        $("#society_share").attr('value', numberWithCommas(((dcr_c_val / 100) * remaining_area).toFixed(2)));
+
+        $("#dcr_c_mhada_val").attr('value',(100-dcr_c_val));
+
+        var mhada_share = (((100-dcr_c_val) / 100) * remaining_area).toFixed(2);
+
+        $("#mhada_share").attr('value', numberWithCommas(mhada_share));
+        $("#mhada_share_with_fungib").attr('value', numberWithCommas((mhada_share * 1.35).toFixed(2)));
+    });
 
 
-    $(document).on("keyup", "#total_house", function () {
-        $("#layout_approval_fee").attr('value', 1000 * $(this).val());
+    $(document).on("keyup blur", ".infra_fee", function () {
+
+        offSiteInfrastructureFee();
+    });
+
+
+    $(document).on("keyup blur", "#total_house", function () {
+
+        layoutApprovalFee();
 
     });
 
 
 
-    $(document).on("keyup", ".total_amount_in_rs", function () {
-        var total_amount_in_rs = 0;
-        $(".total_amount_in_rs").each(function () {
-            total_amount_in_rs += +$(this).val();
-        });
-        $("#total_amount_in_rs").attr('value', Math.ceil(total_amount_in_rs));
+    $(document).on("keyup blur", ".total_amount_in_rs", function () {
+
+        totalAmountInRs();
     });
 
-    $(document).on("change", "input[type=radio][name=dcr_a_val]", function () {
+    $(document).on("change blur", "input[type=radio][name=dcr_a_val]", function () {
 
-        var dcr_a_val = (isNaN($(this).val())) ? 0 : $(this).val();
-        var permissible_mattress_area = (isNaN($("#permissible_mattress_area").val())) ? 0 : $(
-            "#permissible_mattress_area").val();
-        var total_house = (isNaN($("#total_house").val())) ? 0 : $("#total_house").val();
+        totalAdditionalClaims();
 
-        var total_claims = (dcr_a_val / 100) * permissible_mattress_area * total_house;
-        $("#total_additional_claims").attr('value', total_claims.toFixed(2));
+        totalRehabilitationMattressAreaWithDcr();
 
+        totalRehabilitationConstructionArea();
 
-        $("#total_rehabilitation_mattress_area_with_dcr").attr('value', parseFloat($("#total_additional_claims")
-                .val()) +
-            parseFloat($("#total_rehabilitation_mattress_area").val()));
-
-        $("#total_rehabilitation_construction_area").attr('value', parseFloat($(
-            "#total_rehabilitation_mattress_area_with_dcr").val()) * 1.2);
-
-        $("#mattress_area_for_construction_area").attr('value', (($("input[type=radio][name=dcr_b_val]:checked").val() /
-            100) * $("#total_rehabilitation_construction_area").val()).toFixed(2));
+        mattressAreaForConstructionArea();
 
     });
-    $(document).on("keyup", "#total_house, #permissible_mattress_area", function () {
+    $(document).on("keyup blur", "#total_house, #permissible_mattress_area", function () {
 
-        var dcr_a_val = (isNaN($("input[type=radio][name=dcr_a_val]:checked").val())) ? 0 : $(
-            "input[type=radio][name=dcr_a_val]:checked").val();
-        var permissible_mattress_area = (isNaN($("#permissible_mattress_area").val())) ? 0 : $(
-            "#permissible_mattress_area").val();
-        var total_house = (isNaN($("#total_house").val())) ? 0 : $("#total_house").val();
+        totalAdditionalClaims();
 
-        var total_claims = (dcr_a_val / 100) * permissible_mattress_area * total_house;
-        $("#total_additional_claims").attr('value', total_claims.toFixed(2));
+        totalRehabilitationMattressArea();
 
+        totalRehabilitationMattressAreaWithDcr();
 
-        $("#total_rehabilitation_mattress_area").attr('value', $("#total_house").val() * $("#revised_increased_area_for_residential_use").val());
+        totalRehabilitationConstructionArea();
 
-        $("#total_rehabilitation_mattress_area_with_dcr").attr('value', parseFloat($("#total_additional_claims")
-                .val()) +
-            parseFloat($("#total_rehabilitation_mattress_area").val()));
-
-        $("#total_rehabilitation_construction_area").attr('value', parseFloat($(
-            "#total_rehabilitation_mattress_area_with_dcr").val()) * 1.2);
-
-
-        $("#mattress_area_for_construction_area").attr('value', (($("input[type=radio][name=dcr_b_val]:checked").val() /
-            100) * $("#total_rehabilitation_construction_area").val()).toFixed(2));
+        mattressAreaForConstructionArea();
 
     });
 
+    //==========================================   CALCULATION END ==========================
 
     function PrintElem(elem) {
         var mywindow = window.open('', 'PRINT', 'height=600,width=600');
@@ -1628,6 +1695,15 @@
 
     $(document).ready(function () {
         $(".display_msg").delay(5000).slideUp(300);
+    });
+
+    // Select row when radio is checked
+
+    $('.table-c-modal tr input').change(function () {
+        $('.table-c-modal tr').removeClass("active");
+        if (".table-c-modal tr:has(input[checked='true'])") {
+            $(this).closest("tr").addClass("active");
+        }
     });
 
 </script>

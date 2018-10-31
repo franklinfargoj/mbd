@@ -139,8 +139,7 @@
                     <!-- <div class="row field-row"> -->
                     <div class="col-md-12 row-list">
                         <p class="font-weight-semi-bold">Download Offer letter</p>
-                        <p>Want to make changes in offer letter, click on below button to download offer letter in .doc
-                            format</p>
+                        <p>Click on below button to download offer letter.</p>
 
                         @if($applicationData->offer_letter_document_path)   
                             <a href=" {{config('commanConfig.storage_server').'/'.$applicationData->offer_letter_document_path}}" class="btn btn-primary" download> Download</a>
@@ -153,19 +152,19 @@
 
         <!-- Demarkation verification -->
         <div class="m-portlet m-portlet--mobile m_panel">
-            <div class="m-portlet__body">
+            <div class="m-portlet__body table--box-input">
                 <h3 class="section-title section-title--small mb-0">Remark on Offer Letter:</h3>
                 <p class="heading"> </p>
                 <div class="col-xs-12 row row-list">
                     <div class="col-md-12">
                         <p class="font-weight-semi-bold">Remark by REE</p>
-                        <textarea rows="4" cols="63" name="demarkation_comments" readonly>{{(isset($applicationData->reeForwardLog) ? $applicationData->reeForwardLog->remark : '')}}</textarea>
+                        <textarea rows="4" cols="63" name="demarkation_comments" class="form-control form-control--custom" readonly>{{(isset($applicationData->reeForwardLog) ? $applicationData->reeForwardLog->remark : '')}}</textarea>
                     </div>
                 </div>
                 <div class="col-xs-12 row row-list border-0">
                     <div class="col-md-12">
                         <p class="font-weight-semi-bold">Remark by CO</p>
-                        <textarea rows="4" cols="63" name="demarkation_comments" readonly>{{(isset($applicationData->coLog) ? $applicationData->coLog->remark : '')}}</textarea>
+                        <textarea rows="4" cols="63" name="demarkation_comments" class="form-control form-control--custom" readonly>{{(isset($applicationData->coLog) ? $applicationData->coLog->remark : '')}}</textarea>
                     </div>
                 </div>
             </div>
@@ -174,12 +173,12 @@
         <!-- Encrochment verification -->
         @if($ree_head && $applicationData->status_offer_letter != config('commanConfig.applicationStatus.sent_to_society'))
         <div class="m-portlet m-portlet--mobile m_panel">
-            <div class="m-portlet__body">
+            <div class="m-portlet__body table--box-input">
                 <h3 class="section-title section-title--small">Send to Society:</h3>
                 <div class="col-xs-12 row">
                     <div class="col-md-12">
                         <p class="font-weight-semi-bold">Remark</p>
-                        <textarea rows="4" cols="63" name="remark"></textarea>
+                        <textarea rows="4" cols="63" name="remark" class="form-control form-control--custom"></textarea>
                         <button type="submit" class="btn btn-primary mt-3">Send offer Letter </button>
                     </div>
                 </div>

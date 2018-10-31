@@ -176,52 +176,31 @@
                                             <th class="table-data--xs">दस्तावेज</th>
                                         </thead>
                                         <tbody>
-                                            @php
+
+                                           @php
                                             $i = 1;
                                             @endphp
-                                            @foreach($arrData['society_document'] as $document)
+                                            @foreach($societyEEdocument[0]->societyDocuments as $document)
+                                            
                                             <tr>
                                                 <td>{{ $i }}.</td>
-                                                <td>{{ $document->name }}</td>
-                                                @php
-                                                $path =
-                                                $arrData['society_document_data'][$document->id]['society_document_path'];
+                                                <td>{{ $document->documents_Name[0]->name }}</td>
 
-                                                @endphp
-                                                <td class="text-center"><a download href="{{ asset($path) }}"><img
+                                                <td class="text-center"><a download href="{{ asset($document->society_document_path) }}"><img
                                                             class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a></td>
                                                 <td>
-                                                    @php
-                                                    if(array_key_exists($document->id,
-                                                    $arrData['society_document_data']))
-                                                    {
-                                                    $comment_by_EE =
-                                                    $arrData['society_document_data'][$document->id]['comment_by_EE'];
-                                                    $document_status_id =
-                                                    $arrData['society_document_data'][$document->id]['id'];
 
-                                                    $ee_document =
-                                                    $arrData['society_document_data'][$document->id]['EE_document_path'];
-                                                    }
-                                                    else
-                                                    {
-                                                    $comment_by_EE = '';
-                                                    $ee_document = '';
-                                                    }
-                                                    @endphp
-                                                    <p class="mb-2">{{ $comment_by_EE }}</p>
+                                                    <p class="mb-2">{{ $document->comment_by_EE }}</p>
                                                     <div class="d-flex btn-list-inline-wrap">
-                                                        @if($comment_by_EE)
+                                                        @if($document->comment_by_EE)
 
                                                         <button class="btn btn-link btn-list-inline editDocumentStatus"
                                                             style="cursor: pointer; {{$style}}" data-toggle="modal"
-                                                            data-id="{{ $i }}" data-documentStatusId={{ $document_status_id }}
-                                                            data-target="#edit-remark-{{$i}}">Edit</button>
+                                                            data-id="{{ $i }}" data-documentStatusId="{{ $document->id }}" data-target="#edit-remark-{{$i}}">Edit</button>
 
                                                         <button class="btn btn-link btn-list-inline deleteDocumentStatus"
                                                             style="cursor: pointer; {{$style}}" data-toggle="modal"
-                                                            data-id="{{ $i }}" data-documentStatusId={{ $document_status_id }}
-                                                            data-target="#delete-remark-{{$i}}">Delete</button>
+                                                            data-id="{{ $i }}" data-documentStatusId="{{ $document->id }}" data-target="#delete-remark-{{$i}}">Delete</button>
                                                         @else
                                                         <button class="btn btn-link btn-list-inline" style="cursor: pointer;{{$style}}"
                                                             data-toggle="modal" data-target="#add-remark-{{$i}}">Add</button>
@@ -244,21 +223,8 @@
                                                                         method="post" enctype="multipart/form-data">
                                                                         @csrf
 
-                                                                        @php
-                                                                        if(array_key_exists($document->id,
-                                                                        $arrData['society_document_data']))
-                                                                        {
-                                                                        $document_status_id =
-                                                                        $arrData['society_document_data'][$document->id]['id'];
-                                                                        }
-                                                                        else
-                                                                        {
-                                                                        $document_status_id = '';
-                                                                        }
-                                                                        @endphp
-
                                                                         <input type="hidden" name="document_status_id"
-                                                                            value="{{ $document_status_id }}">
+                                                                            value="{{ $document->id }}">
                                                                         <div class="modal-body table--box-input">
                                                                             <div class="mb-4">
                                                                                 <label for="remark">Remark:</label>
@@ -303,7 +269,7 @@
                                                                             <span aria-hidden="true">×</span>
                                                                         </button>
                                                                     </div>
-                                                                    <form class="" action="{{ route('edit-ee-scrutiny-document', $arrData['society_document_data'][$document->id]['id']) }}"
+                                                                    <form class="" action="{{ route('edit-ee-scrutiny-document', $document->id) }}"
                                                                         method="post" enctype="multipart/form-data">
                                                                         @csrf
                                                                         <input type="hidden" name="oldFileName" id="oldFileName_{{ $i }}">
@@ -351,7 +317,7 @@
                                                                             <span aria-hidden="true">×</span>
                                                                         </button>
                                                                     </div>
-                                                                    <form class="" action="{{ route('ee-document-scrutiny-delete', $arrData['society_document_data'][$document->id]['id']) }}"
+                                                                    <form class="" action="{{ route('ee-document-scrutiny-delete', $document->id) }}"
                                                                         method="post" enctype="multipart/form-data">
                                                                         @csrf
                                                                         <input type="hidden" name="fileName" id="fileName_{{ $i }}">
@@ -379,9 +345,9 @@
                                                     </div>
                                                 </td>
 
-                                                @if(!empty($ee_document))
+                                                @if(!empty($document->EE_document_path))
 
-                                                <td class="text-center"><a download href="{{config('commanConfig.storage_server').'/'.$ee_document}}"><img
+                                                <td class="text-center"><a download href="{{config('commanConfig.storage_server').'/'.$document->EE_document_path}}"><img
                                                             class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a></td>
                                                 @else
                                                 <td></td>

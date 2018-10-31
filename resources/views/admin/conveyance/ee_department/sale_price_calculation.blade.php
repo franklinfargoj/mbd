@@ -1,9 +1,18 @@
-@extends('admin.layouts.app')
+@extends('admin.layouts.sidebarAction')
+@section('actions')
+@include('admin.conveyance.ee_department.action'))
+@endsection
 @section('css')
 
 @section('content')
 
-<div class="col-md-12">
+@if(session()->has('success'))
+<div class="alert alert-success display_msg">
+    {{ session()->get('success') }}
+</div>
+@endif
+
+<div class="col-md-12"> 
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0">
         <div class="d-flex">
@@ -13,18 +22,18 @@
             </div>
         </div>
         <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom" role="tablist">
-            <li class="nav-item m-tabs__item">
+            <li class="nav-item m-tabs__item sale-tabs" id="sale-1">
                 <a class="nav-link m-tabs__link active show" data-toggle="tab" href="#calculation-sale-price" role="tab"
                     aria-selected="false">
                     <i class="la la-cog"></i> Calculation of Sale Price
                 </a>
             </li>
-            <li class="nav-item m-tabs__item">
+            <li class="nav-item m-tabs__item sale-tabs" id="sale-2">
                 <a class="nav-link m-tabs__link" data-toggle="tab" href="#demarcation-plan" role="tab" aria-selected="true">
                     <i class="la la-bell-o"></i> Demarcation Plan
                 </a>
             </li>
-            <li class="nav-item m-tabs__item">
+            <li class="nav-item m-tabs__item sale-tabs" id="sale-3">
                 <a class="nav-link m-tabs__link" data-toggle="tab" href="#covering-letter" role="tab" aria-selected="true">
                     <i class="la la-bell-o"></i> Covering Letter
                 </a>
@@ -33,7 +42,9 @@
     </div>
 
     <div class="tab-content">
-        <div class="tab-pane active show" id="calculation-sale-price" role="tabpanel">
+        <div class="tab-pane active show sale-1" id="calculation-sale-price" role="tabpanel">
+        <form class="nav-tabs-form" role="form" class="form-horizontal" method="POST" action="{{ route('ee.save_calculation_data') }}" enctype="multipart/form-data">
+        @csrf
             <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
                 <div class="portlet-body">
                     <div class="m-portlet__body m-portlet__body--table">
@@ -43,25 +54,26 @@
                                     Statement
                                 </h3>
                             </div>
-                            <p>Building/Chawl No. <input class="letter-form-input letter-form-input--md" type="text" name="chawl_no" value=""> Consisting 
-                            <input class="letter-form-input letter-form-input--md"
-                                    type="text"  name="consisting" value="">
+                            Building/Chawl No. 
+                            <input class="letter-form-input letter-form-input--md" type="text" name="chawl_no" value="{{ isset($data->ConveyanceSalePriceCalculation->chawl_no) ? $data->ConveyanceSalePriceCalculation->chawl_no : '' }}"> 
+                            Consisting 
+                            <input class="letter-form-input letter-form-input--md" type="text"  name="consisting" 
+                            value="{{ isset($data->ConveyanceSalePriceCalculation->consisting) ? $data->ConveyanceSalePriceCalculation->consisting : '' }}"> 
                              T/S Out of Project of 
                              <input class="letter-form-input letter-form-input--md"
-                                    type="text" name="project_of" value="">
+                                    type="text" name="project_of" value="{{ isset($data->ConveyanceSalePriceCalculation->project_of) ? $data->ConveyanceSalePriceCalculation->project_of : '' }}">
                             T/S Under 
                             <input class="letter-form-input letter-form-input--md"
-                                    type="text" name="ts_under" value=""> 
+                                    type="text" name="ts_under" value="{{ isset($data->ConveyanceSalePriceCalculation->ts_under) ? $data->ConveyanceSalePriceCalculation->ts_under : '' }}">  
                             Income Group at
                             <input class="letter-form-input letter-form-input--md"
-                                    type="text" name="income_group" value=""></p>
+                                    type="text" name="income_group" value="{{ isset($data->ConveyanceSalePriceCalculation->income_group) ? $data->ConveyanceSalePriceCalculation->income_group : '' }}"> 
                         </div>
                         <div class="m-section__content mb-0 table-responsive">
-                            <form class="nav-tabs-form" role="form" method="POST" action="{{ route('ee.save_calculation_data') }}">
-                            @csrf
-
-                            <input type="hidden" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">
-                                <table id="one" class="table mb-0 table--box-input" style="padding-top: 10px;">
+                            
+                            <input type="hidden" name="user_id" value="{{ (Auth::Id() != null ? Auth::Id() : '' ) }}">
+                            <input type="hidden" name="application_id" value="{{ isset($data->id) ? $data->id : '' }}">
+                                <table id="one" class="table mb-0 table--box-input" style="padding-top: 10px;"> 
                                     <div class="d-flex justify-content-between align-items-center mb-4">
                                         <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
                                                 src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("one");'
@@ -87,65 +99,64 @@
                                                 service with reference to the common service with reference to the
                                                 common service being rendered by the board</td>
                                             <td class="text-center">
-                                                <input type="text" class="form-control form-control--custom" name="common_service_rate" value="" />
+                                                <input type="text" class="form-control form-control--custom" name="common_service_rate" value="{{ isset($data->ConveyanceSalePriceCalculation->common_service_rate) ? $data->ConveyanceSalePriceCalculation->common_service_rate : '' }}"/>
                                             </td>
                                         </tr>                                        
                                         <tr>
                                             <td>2.</td>
                                             <td>Date of Handling over Pump House & Under Ground Tank to Society</td>
                                             <td class="text-center">
-                                                <input type="text" class="txtbox v_text form-control form-control--custom m-input m_datepicker" name="pump_house" id="pump_house" value="" aria-describedby="visit_date-error" aria-invalid="false" readonly>
+                                                <input type="text" class="txtbox v_text form-control form-control--custom m-input m_datepicker" name="pump_house" id="pump_house" value="{{ isset($data->ConveyanceSalePriceCalculation->pump_house) ? $data->ConveyanceSalePriceCalculation->pump_house : '' }}" aria-describedby="visit_date-error" aria-invalid="false" readonly>
                                             </td>
                                         </tr>                                       
                                          <tr>
                                             <td>3.</td>
                                             <td>The Plinith area of each tenement in Sq.Ft And Sq.Mtrs.</td>
                                             <td class="text-center">
-                                                <input type="text" class="form-control form-control--custom" name="tenement_plinth_area" value="" />
+                                                <input type="text" class="form-control form-control--custom" name="tenement_plinth_area" value="{{ isset($data->ConveyanceSalePriceCalculation->tenement_plinth_area) ? $data->ConveyanceSalePriceCalculation->tenement_plinth_area : '' }}" />
                                             </td>
                                         </tr>                                        
                                         <tr>
                                             <td>4.</td>
                                             <td>The Carpet Area of each tenement in Sq.Ft.and Sq.Mtrs.</td>
                                             <td class="text-center">
-                                                <input type="text" class="form-control form-control--custom" name="tenement_carpet_area" value="" />
+                                                <input type="text" class="form-control form-control--custom" name="tenement_carpet_area" value="{{ isset($data->ConveyanceSalePriceCalculation->tenement_carpet_area) ? $data->ConveyanceSalePriceCalculation->tenement_carpet_area : '' }}" />
                                             </td>
                                         </tr>                                        
                                         <tr>
                                             <td>5.</td>
                                             <td>The Plinth area of Building Sq.Ft and Sq.Mtrs</td>
                                             <td class="text-center">
-                                                <input type="text" class="form-control form-control--custom" name="building_plinth_area" value="" />
+                                                <input type="text" class="form-control form-control--custom" name="building_plinth_area" value="{{ isset($data->ConveyanceSalePriceCalculation->building_plinth_area) ? $data->ConveyanceSalePriceCalculation->building_plinth_area : '' }}" />
                                             </td>
                                         </tr>                                        
                                         <tr>
                                             <td>6.</td>
                                             <td>The Carpet Area of Building in Sq.FT and Sq.Mtrs.</td>
                                             <td class="text-center">
-                                                <input type="text" class="form-control form-control--custom" name="building_carpet_area" value="" />
+                                                <input type="text" class="form-control form-control--custom" name="building_carpet_area" value="{{ isset($data->ConveyanceSalePriceCalculation->building_carpet_area) ? $data->ConveyanceSalePriceCalculation->building_carpet_area : '' }}" />
                                             </td>
                                         </tr>                                        
                                         <tr>
                                             <td>7.1.</td>
                                             <td>Cost of Construction</td>
                                             <td class="text-center">
-                                                <input type="text" class="form-control form-control--custom" name="" id=""
-                                                    value="" />
+                                                <input type="text" class="form-control form-control--custom" 
+                                                name="construction_cost" value="{{ isset($data->ConveyanceSalePriceCalculation->construction_cost) ? $data->ConveyanceSalePriceCalculation->construction_cost : '' }}" />
                                             </td>
                                         </tr>                                       
                                          <tr>
                                             <td>7.2</td>
                                             <td>Premium of Land With Infrastructure (I.e Cost of land and Fillings) Lease Rent (Per Annum)</td>
                                             <td class="text-center">
-                                                <input type="text" class="form-control form-control--custom" name="" id=""
-                                                    value="" />
+                                                <input type="text" class="form-control form-control--custom" name="land_premiun_infrastructure" value="{{ isset($data->ConveyanceSalePriceCalculation->land_premiun_infrastructure) ? $data->ConveyanceSalePriceCalculation->land_premiun_infrastructure : '' }}" />
                                             </td>
                                         </tr>                                        
                                          <tr>
                                             <td></td>
                                             <td>The Final Sale price of the tenement</td>
                                             <td class="text-center">
-                                                <input type="text" class="form-control form-control--custom" name="final_sale_price_tenement" value="" />
+                                                <input type="text" class="form-control form-control--custom" name="final_sale_price_tenement" value="{{ isset($data->ConveyanceSalePriceCalculation->final_sale_price_tenement) ? $data->ConveyanceSalePriceCalculation->final_sale_price_tenement : '' }}" />
                                             </td>
                                         </tr>                                        
                                          <tr>
@@ -153,7 +164,7 @@
                                             <td>The Date of Completion of the above Building/Chawl</td>
                                             <td class="text-center">
                                     
-                                                <input type="text" class="txtbox v_text form-control form-control--custom m-input m_datepicker" name="completion_date" id="registration_date" value="" aria-describedby="visit_date-error" aria-invalid="false" readonly>
+                                                <input type="text" class="txtbox v_text form-control form-control--custom m-input m_datepicker" name="completion_date" id="registration_date" value="{{ isset($data->ConveyanceSalePriceCalculation->completion_date) ? $data->ConveyanceSalePriceCalculation->completion_date : '' }}" aria-describedby="visit_date-error" aria-invalid="false" readonly>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -161,38 +172,56 @@
                                 <div class="mt-3">
                                     <p>The Schedule of the Property</p>
                                     <p>All the Piece or Parcel of land bearing Plot/ Building No 
-                                    <input class="letter-form-input letter-form-input--md" type="text" name="building_no" value="">
+                                     <input class="letter-form-input letter-form-input--md" type="text" name="building_no" value="{{ isset($data->ConveyanceSalePriceCalculation->building_no) ? $data->ConveyanceSalePriceCalculation->building_no : '' }}">
                                      Admeasuring 
-                                    <input class="letter-form-input letter-form-input--md" type="text" name="admeasure" value="">
+                                    <input class="letter-form-input letter-form-input--md" type="text" name="admeasure" value="{{ isset($data->ConveyanceSalePriceCalculation->admeasure) ? $data->ConveyanceSalePriceCalculation->admeasure : '' }}">
                                     Sq.mtrs. There about being S.No
                                      <input class="letter-form-input letter-form-input--md" type="text" name="s_no"
-                                            value=""> 
-                                    and C.T.S No <input class="letter-form-input letter-form-input--md"
-                                            type="text" name="CTS_no" value="">
-                                    Situated at <input class="letter-form-input letter-form-input--md" type="text" name="situated_at" value=""> 
+                                            value="{{ isset($data->ConveyanceSalePriceCalculation->s_no) ? $data->ConveyanceSalePriceCalculation->s_no : '' }}"> 
+
+                                    and C.T.S No 
+
+                                    <input class="letter-form-input letter-form-input--md" type="text" name="CTS_no" value="{{ isset($data->ConveyanceSalePriceCalculation->CTS_no) ? $data->ConveyanceSalePriceCalculation->CTS_no : '' }}">
+                                    Situated at 
+
+                                    <input class="letter-form-input letter-form-input--md" type="text" name="situated_at" value="{{ isset($data->ConveyanceSalePriceCalculation->situated_at) ? $data->ConveyanceSalePriceCalculation->situated_at : '' }}"> 
                                     In the registrations district of 
-                                    <input class="letter-form-input letter-form-input--md" type="text" name="district" value=""> District and Bounded that is to say.
+                                    <input class="letter-form-input letter-form-input--md" type="text" name="district" value="{{ isset($data->ConveyanceSalePriceCalculation->district) ? $data->ConveyanceSalePriceCalculation->district : '' }}"> District and Bounded that is to say.
                                     </p>
                                     <p>On or towards the North By: <input class="letter-form-input letter-form-input--md"
-                                            type="text" name="north_dimension" value=""></p>
-                                    <p>On or towards the South By: <input class="letter-form-input letter-form-input--md"
-                                            type="text" name="south_dimension" value=""></p>
-                                    <p>On or towards the West By: <input class="letter-form-input letter-form-input--md"
-                                            type="text" name="west_dimension" value=""></p>
-                                    <p>On or towards the East By: <input class="letter-form-input letter-form-input--md"
-                                            type="text" name="east_dimension" value=""></p>
+                                            type="text" name="north_dimension" value="{{ isset($data->ConveyanceSalePriceCalculation->north_dimension) ? $data->ConveyanceSalePriceCalculation->north_dimension : '' }}"></p>
+
+                                    <p>On or towards the South By:
+
+                                     <input class="letter-form-input letter-form-input--md"
+                                            type="text" name="south_dimension" value="{{ isset($data->ConveyanceSalePriceCalculation->south_dimension) ? $data->ConveyanceSalePriceCalculation->south_dimension : '' }}"></p>
+                                    <p>
+                                    On or towards the West By: 
+
+                                    <input class="letter-form-input letter-form-input--md"
+                                            type="text" name="west_dimension" value="{{ isset($data->ConveyanceSalePriceCalculation->west_dimension) ? $data->ConveyanceSalePriceCalculation->west_dimension : '' }}"></p>
+                                    <p>On or towards the East By: 
+
+                                    <input class="letter-form-input letter-form-input--md"
+                                            type="text" name="east_dimension" value="{{ isset($data->ConveyanceSalePriceCalculation->east_dimension) ? $data->ConveyanceSalePriceCalculation->east_dimension : '' }}"></p>
                                 </div>
                                 <div class="mt-auto">
                                     <button type="submit" class="btn btn-primary btn-custom">
                                     Submit</button>
                                 </div>                                
-                            </form>
+                            
                         </div>
                     </div>
                 </div>
             </div>
+        </form>    
         </div>
-        <div class="tab-pane" id="demarcation-plan" role="tabpanel">
+
+        <div class="tab-pane sale-2" id="demarcation-plan" role="tabpanel">
+        <form class="nav-tabs-form" role="form" name="demarcationFRM" method="POST" class="form-horizontal" action="{{ route('ee.save_demarcation_plan') }}" enctype="multipart/form-data">
+        
+        @csrf
+            <input type="hidden" name="application_id" value="{{ isset($data->id) ? $data->id : '' }}">
             <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
                 <div class="portlet-body">
                     <div class="m-portlet__body m-portlet__body--table">
@@ -212,7 +241,7 @@
                                             <span class="hint-text">Click on 'Upload' to upload Demarcation Map</span>
                                             <form action="" method="post">
                                                 <div class="custom-file">
-                                                    <input class="custom-file-input" name="" type="file" id="test-upload"
+                                                    <input class="custom-file-input" name="demarcation_plan" type="file" id="test-upload"
                                                         required="">
                                                     <label class="custom-file-label" for="test-upload">Choose
                                                         file...</label>
@@ -222,13 +251,25 @@
                                                 </div>
                                             </form>
                                         </div>
-                                    </div>
+                                    </div> 
+                                    
                                     <div class="col-sm-6 border-left">
                                         <div class="d-flex flex-column h-100 two-cols">
                                             <h5>Download Demarcation Map</h5>
                                             <span class="hint-text">Download demarcation Map in .dwg (Autocad) format</span>
                                             <div class="mt-auto">
-                                                <button class="btn btn-primary">Download Map</button>
+                                                @if(isset($data->ConveyanceSalePriceCalculation->demarcation_map))
+
+                                                <input type="hidden" name="oldFileName" value="{{ $data->ConveyanceSalePriceCalculation->demarcation_map }}">
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->ConveyanceSalePriceCalculation->demarcation_map }}">
+
+                                                    <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
+                                                        Download </Button>
+                                                </a>
+                                                @else
+                                                <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
+                                                    *Note : Demarcation Map is not available.</span>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
@@ -238,8 +279,12 @@
                     </div>
                 </div>
             </div>
+        </form>    
         </div>
-        <div class="tab-pane" id="covering-letter" role="tabpanel">
+        <div class="tab-pane sale-3" id="covering-letter" role="tabpanel">
+        <form class="nav-tabs-form" role="form" name="CoveringFRM" method="POST" class="form-horizontal" action="{{ route('ee.save_covering_letter') }}" enctype="multipart/form-data">
+        @csrf
+            <input type="hidden" name="application_id" value="{{ isset($data->id) ? $data->id : '' }}">
             <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
                 <div class="portlet-body">
                     <div class="m-portlet__body m-portlet__body--table">
@@ -259,8 +304,7 @@
                                             <span class="hint-text">Click on 'Upload' to upload letter</span>
                                             <form action="" method="post">
                                                 <div class="custom-file">
-                                                    <input class="custom-file-input" name="" type="file" id="test-upload2"
-                                                        required="">
+                                                    <input class="custom-file-input" name="covering_letter" type="file" id="test-upload2" required="">
                                                     <label class="custom-file-label" for="test-upload2">Choose
                                                         file...</label>
                                                 </div>
@@ -275,7 +319,18 @@
                                             <h5>Download</h5>
                                             <span class="hint-text">Click Download to download letter in .doc format.</span>
                                             <div class="mt-auto">
-                                                <button class="btn btn-primary">Download Letter</button>
+                                                @if(isset($data->ConveyanceSalePriceCalculation->ee_covering_letter))
+
+                                                <input type="hidden" name="oldFileName" value="{{ $data->ConveyanceSalePriceCalculation->ee_covering_letter }}">
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->ConveyanceSalePriceCalculation->ee_covering_letter }}">
+
+                                                    <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
+                                                        Download </Button>
+                                                </a>
+                                                @else
+                                                <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
+                                                    *Note : Demarcation Map is not available.</span>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
@@ -285,7 +340,32 @@
                     </div>
                 </div>
             </div>
+        </form>    
         </div>
     </div>
 </div>
 @endsection
+
+@section('js')
+    <script>
+
+    $(document).ready(function () {
+
+        var id = Cookies.get('sale_tabs');
+        if (id != undefined) {
+            $(".sale-tabs > a").removeClass('active');
+            $(".tab-pane").removeClass('active');
+            $("#"+id+" > a").addClass('active');
+            $("#" + id).addClass('active');
+            $("." + id).addClass('active');
+        }
+    });    
+
+    $(".sale-tabs").on('click', function () {
+        $(".sale-tabs > a").removeClass('active');
+        Cookies.set('sale_tabs', this.id);
+    });
+
+    </script>
+
+@endsection    

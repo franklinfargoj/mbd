@@ -51,7 +51,7 @@
                             <div class="custom-file">
                                 <input type="file" id="doc_file" name="doc_file" class="custom-file-input">
                                 <label title="" class="custom-file-label" for="doc_file">Choose file</label>
-                                <a target="_blank" style="display:{{isset($ArchitectLayoutDetail->land_reports[0])?'block':'none'}}"
+                                <a class="btn-link" target="_blank" style="display:{{isset($ArchitectLayoutDetail->land_reports[0])?'block':'none'}}"
                                         id="land_report_uploaded_file" href="{{config('commanConfig.storage_server').'/'.(isset($courCassesOrDisputes->document_file)?$courCassesOrDisputes->document_file:'')}}">uploaded
                                         file</a>
                                 @if ($errors->has('doc_file'))

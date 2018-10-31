@@ -3,7 +3,7 @@
 <script>
     $(document).ready(function() {  
         $('.add').click(function() {
-            $('.block:last').after('<div class="block"><input placeholder="CTS no" type="text" name="cts_no[]" class="form-control form-control--custom" required><a href="#" class="remove">Remove</a></div>');
+            $('.block:last').after('<div class="block"><input placeholder="CTS no" type="text" name="cts_no[]" class="form-control form-control--custom" required><a href="#" class="fa fa-close btn--add-delete remove"></a></div>');
         });
         $('.optionBox').on('click','.remove',function() {
             $(this).parent().remove();
@@ -62,25 +62,25 @@
                     <form enctype="multipart/form-data" method="post" action="{{route('post_cts_detail')}}">
                         @csrf
                         <div class="row">
-                            <div class="col-sm-3">
+                            <div class="col-sm-4">
                                 <label for="Upload_Cts_Plan">Upload CTS Plan</label>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <input type="hidden" name="architect_layout_detail_id" value="{{$ArchitectLayoutDetail->id}}">
                                 <div class="custom-file">
                                     <input class="custom-file-input" name="cts_plan_file" type="file" id="cts_plan_file">
                                     <label class="custom-file-label" for="cts_plan_file">Choose file...</label>
-                                    <a target="_blank" id="cts_plan" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->cts_plan}}"
+                                    <a class="btn-link"  target="_blank" id="cts_plan" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->cts_plan}}"
                                         style="display:{{$ArchitectLayoutDetail->cts_plan!=''?'block':'none'}};">uploaded
                                         file</a>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-3">
+                            <div class="col-sm-4">
                                 <label for="Upload_Cts_Plan">List of CTS No</label>
                             </div>
-                            <div class="col-lg-6 form-group">
+                            <div class="col-sm-4 form-group">
                                 <!-- <label class="col-form-label">List of CTS No</label> -->
                                 <div class="optionBox">
                                     @if(count($ArchitectLayoutDetail->cts_plan_details)>0)
@@ -91,7 +91,7 @@
                                         <input placeholder="CTS no" type="text" name="cts_no[]" class="form-control form-control--custom"
                                             value="{{ $cts_plan_detail->cts_no }}" required>
                                         @if($j!=1)
-                                        <a href="#" onclick="deleteCtsDetail(this,{{$cts_plan_detail->id}})" class="remove">Remove</a>
+                                        <i onclick="deleteCtsDetail(this,{{$cts_plan_detail->id}})" class="fa fa-close btn--add-delete"></i>
                                         @endif
                                     </div>
                                     @php $j++; @endphp
@@ -101,14 +101,14 @@
                                         <input type="hidden">
                                         <input placeholder="CTS no" type="text" name="cts_no[]" class="form-control form-control--custom"
                                             required>
-                                        <a href="#" class="remove">Remove</a>
+                                        <a href="#" class=" remove"></a>
                                     </div>
                                     @endif
 
                                 </div>
                                 <div class="row">
-                                    <div class="col-lg-7 form-group">
-                                        <a class="add" href="javascript:void">add more<a>
+                                    <div class="col-12 form-group">
+                                        <a class="btn--add-delete add" href="javascript:void">add more<a>
                                     </div>
                                 </div>
                                 <div class="mt-auto">

@@ -22,7 +22,7 @@ return [
 
     'senior_architect_planner'=>'senior_architect_planner',
 
-    //Branch Head
+    //Branch Head 
     'ee_branch_head' => 'ee_engineer',
     'dyce_branch_head' => 'dyce_engineer',
     'ree_branch_head' => 'ree_engineer',
@@ -54,6 +54,25 @@ return [
         'offer_letter_approved' => 6,
         'sent_to_society' => 7,
     ],
+
+    // sc application agreements
+     'scAgreements' => [
+        'draft_sale_agreement'       => 'draft_sale_agreement',
+        'draft_lease_agreement'      => 'draft_lease_agreement',
+        'approve_sale_agreement'     => 'approve_sale_agreement',
+        'approve_lease_agreement'    => 'approve_lease_agreement',
+        'stamp_sale_agreement'       => 'stamp_sale_agreement',
+        'stamp_lease_agreement'      => 'stamp_lease_agreement',
+        'stamp_sign_sale_agreement'  => 'stamp_sign_sale_agreement',
+        'stamp_sign_lease_agreement' => 'stamp_sign_lease_agreement',
+        'register_sale_agreement'    => 'register_sale_agreement',
+        'register_lease_agreement'   => 'register_lease_agreement',
+    ], 
+
+    // sc Application types 
+    //  'scApplication' => [
+    //     'draft_sale_agreement'       => 'draft_sale_agreement',
+    // ],      
 
     'applicationStatusColor' => [
         '1' => 'metal',
@@ -90,6 +109,8 @@ return [
 
     'society_offer_letter' => 'society',
 
+    'appointing_architect' => 'appointing_architect',
+
     // Hearing Statuses
 
     'joint_co' => 'Joint CO',
@@ -122,6 +143,11 @@ return [
 
     'storage_server' => 'http://storage.mhada.php-dev.in',
 
+
+    'eoa_panel_categories'=>[
+        'HOUSING'=>1,
+        'LANDSCAPE'=>2
+    ],
     'eoa_imp_senior_professionals_category'=>[
         'AR'=>'ARCHITECT',
         'EN'=>'ENGINEER',
@@ -132,5 +158,7 @@ return [
         'DEG'=>'DEGREE',
         'PG'=>'POST GRADUATE',
         'DR'=>'DOCTORATE'
-    ]
+    ],
+
+    'mhada_code' => 'MHD'
 ];

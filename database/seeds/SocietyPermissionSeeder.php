@@ -188,6 +188,21 @@ class SocietyPermissionSeeder extends Seeder
                     'display_name' => 'Downloads template in excel format',
                     'description'  => 'Downloads template in excel format'
                 ],
+                [
+                    'name'         => 'sc_upload_docs',
+                    'display_name' => 'Upload Documents',
+                    'description'  => 'Shows society conveyance docuemnts list'
+                ],
+                [
+                    'name'         => 'delete_sc_upload_docs',
+                    'display_name' => 'Deletes Uploaded Documents',
+                    'description'  => 'Deletes Uploaded Documents'
+                ],
+                [
+                    'name'         => 'upload_sc_docs',
+                    'display_name' => 'Uploads Documents',
+                    'description'  => 'Uploads Documents'
+                ],
         ];
 
         if(count($society)==0){

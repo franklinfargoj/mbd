@@ -122,7 +122,7 @@
         <!-- END: Header -->
         <!-- begin::Body -->
         <div class="m-grid__item m-grid__item--fluid m-grid m-grid--ver-desktop m-grid--desktop m-body">
-            @include('admin.layouts.sidebar')
+            @include('admin.layouts.actions_sidebar')
             <div class="col-md-12">
                 <div class="m-grid__item m-grid__item--fluid m-wrapper">
                     @section('content')
@@ -146,7 +146,18 @@
                 </div>
             </div>
         </footer>
-        <!-- end::Footer -->
+        <!-- end::Footer -->  <!-- <li class="m-menu__item m-menu__item--active" aria-haspopup="true">
+                    <a href="{{ route('society_offer_letter_dashboard') }}" class="m-menu__link ">
+                        <i class="m-menu__link-icon flaticon-line-graph"></i>
+                        <span class="m-menu__link-title">
+                            <span class="m-menu__link-wrap">
+                                <span class="m-menu__link-text">
+                                    Offer Letter Dashboard
+                                </span>
+                            </span>
+                        </span>
+                    </a>
+                </li> -->
     </div>
     <div class="m-scroll-top m-scroll-top--skin-top" data-toggle="m-scroll-top" data-scroll-offset="500"
         data-scroll-speed="300">
@@ -206,6 +217,7 @@
 
     </script>
     <script type="text/javascript" src="{{ asset('/js/custom.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/js/cookie.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('/js/bootstrap-select.js') }}"></script>
     <script type="text/javascript" src="{{ asset('/assets/demo/default/custom/components/forms/validation/form-widgets.js') }}"></script>
     @yield('add_resolution_js');

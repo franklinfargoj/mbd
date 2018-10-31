@@ -7,7 +7,7 @@
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">Edit Hearing</h3>
-            {{ Breadcrumbs::render('Hearing Edit', $arrData['hearing']->id) }}
+            {{ Breadcrumbs::render('Edit Hearing', $arrData['hearing']->id) }}
         </div>
     </div>
     <!-- END: Subheader -->
@@ -19,7 +19,7 @@
             <div class="m-portlet__body m-portlet__body--spaced">
                 <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
-                        <label class="col-form-label" for="preceding_officer_name">Name of Preceding Officer:</label>
+                        <label class="col-form-label" for="preceding_officer_name">Name of Presiding Officer:</label>
                         <input type="text" id="preceding_officer_name" name="preceding_officer_name" class="form-control form-control--custom m-input"
                             value="{{ $arrData['hearing']->preceding_officer_name }}">
                         <span class="help-block">{{$errors->first('preceding_officer_name')}}</span>

@@ -118,14 +118,14 @@ Breadcrumbs::for('Hearing', function ($trail) {
     $trail->push('Hearing', route('hearing.index'));
 });
 
-Breadcrumbs::for('Hearing Create', function ($trail) {
+Breadcrumbs::for('Add Hearing', function ($trail) {
     $trail->parent('Hearing');
-    $trail->push('Hearing Create', route('hearing.create'));
+    $trail->push('Add Hearing', route('hearing.create'));
 });
 
-Breadcrumbs::for('Hearing Edit', function ($trail, $id) {
+Breadcrumbs::for('Edit Hearing', function ($trail, $id) {
     $trail->parent('Hearing');
-    $trail->push('Hearing Edit', route('hearing.edit', $id));
+    $trail->push('Edit Hearing', route('hearing.edit', $id));
 });
 
 Breadcrumbs::for('View Hearing', function ($trail, $hearing_id) {
@@ -196,6 +196,11 @@ Breadcrumbs::for('society_application', function ($trail) {
 Breadcrumbs::for('society_offer_application_create', function ($trail, $id) {
     $trail->parent('society_dashboard');
     $trail->push('Application form for Redevelopment', route('show_form_dev', $id));
+});
+
+Breadcrumbs::for('society_offer_letter_edit', function ($trail) {
+    $trail->parent('society_dashboard');
+    $trail->push('Redevelopment Application Form', route('society_offer_letter_edit'));
 });
 
 //cap Breadcrumbs
@@ -493,4 +498,16 @@ Breadcrumbs::for('edit_role', function ($trail,$id) {
 Breadcrumbs::for('role_view', function ($trail,$id) {
     $trail->parent('role');
     $trail->push('View Role', route('roles.show',$id));
+});
+
+Breadcrumbs::for('em', function ($trail) {
+    $trail->push('Home', route('em.index'));
+});
+
+Breadcrumbs::for('rc', function ($trail) {
+    $trail->push('Home', route('rc.index'));
+});
+
+Breadcrumbs::for('em_clerk', function ($trail) {
+    $trail->push('Home', route('em_clerk.index'));
 });

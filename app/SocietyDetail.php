@@ -19,10 +19,13 @@ class SocietyDetail extends Model
     protected $table = "lm_society_detail";
     protected $primaryKey = 'id';
     protected $fillable = [
+        'colony_id',
+        'society_bill_level',
         'society_name',
         'district',
         'taluka',
         'village',
+        'layout_id',
         'survey_number',
         'cts_number',
         'chairman',
@@ -32,7 +35,15 @@ class SocietyDetail extends Model
         'surplus_charges',
         'surplus_charges_last_date',
         'village_id',
-        'other_land_id'
+        'other_land_id',
+        'chairman_mob_no',
+        'secretary',
+        'secretary_mob_no',
+        'society_email_id',
+        'society_reg_no',
+        'society_conveyed',
+        'date_of_conveyance',
+        'area_of_conveyance',
     ];
 
     public function societyVillage()
@@ -43,5 +54,16 @@ class SocietyDetail extends Model
     public function Villages()
     {
         return $this->belongsToMany('App\VillageDetail', 'village_societies', 'society_id', 'village_id');
+    }
+
+    public function building()
+    {
+        return $this->hasMany('App\MasterBuilding');
+    }
+
+    public function MasterColony(){
+
+        return $this->belongsTo('App\MasterColony');    
+    
     }
 }

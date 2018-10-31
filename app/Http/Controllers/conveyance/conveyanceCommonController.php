@@ -1,12 +1,15 @@
 <?php
 
 namespace App\Http\Controllers\conveyance;
-
+ 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Common\CommonController;
 use App\conveyance\scApplication;
 use App\conveyance\scApplicationLog;
+use App\conveyance\ScAgreementTypeMasterModel;
+use App\conveyance\ScAgreementTypeStatus;
+use App\conveyance\ScAgreementComments;
 use Yajra\DataTables\DataTables;
 use App\Role;
 use Carbon\Carbon;
@@ -15,7 +18,7 @@ use App\User;
 use Auth;
 
 class conveyanceCommonController extends Controller
-{	
+{	 
     public function __construct()
     {
         $this->list_num_of_records_per_page = Config::get('commanConfig.list_num_of_records_per_page');
@@ -98,17 +101,8 @@ class conveyanceCommonController extends Controller
     public function ViewApplication(Request $request,$applicationId){
         
         $data = $this->listApplicationData($request); 
-        if (session()->get('role_name') == config('commanConfig.ee_junior_engineer')){
-            $data->folder = 'ee_department';
-        }        
-        else if (session()->get('role_name') == config('commanConfig.dycdo_engineer') || session()->get('role_name') == config('commanConfig.dyco_engineer')){
-            $data->folder = 'dyco_department';
-        }        
-        else if (session()->get('role_name') == config('commanConfig.estate_manager')){
-            $data->folder = 'em_department';
-        }
-
-        $data->id = $applicationId;
+        $data->folder = $this->getCurrentRoleFolderName();
+        $data->id     = $applicationId;
         return view('admin.conveyance.common.view_application',compact('data'));
     }             
 
@@ -143,18 +137,43 @@ class conveyanceCommonController extends Controller
         return $listArray;       	
     }
 
-    public function getForwardApplicationChildData(){
-
+    //revert application child id
+    public function getRevertApplicationChildData(){
+        
         $role_id = Role::where('id',Auth::user()->role_id)->first();
-        $result = json_decode($role_id->conveyance_child_id);
-        $child = User::with(['roles','LayoutUser' => function($q){
-            $q->where('layout_id', session('layout_id'));
-        }])
-        ->whereHas('LayoutUser' ,function($q){
-            $q->where('layout_id', session('layout_id'));
-        })
-        ->whereIn('role_id',$result)->get();
-        return $child;
+        $result  = json_decode($role_id->conveyance_child_id);
+        $child   = "";
+        
+        if ($result){
+            $child = User::with(['roles','LayoutUser' => function($q){
+                $q->where('layout_id', session('layout_id'));
+            }])
+            ->whereHas('LayoutUser' ,function($q){
+                $q->where('layout_id', session('layout_id'));
+            })
+            ->whereIn('role_id',$result)->get();            
+        }
+        return $child;        
+    }   
+    
+    //forward Application parent Id 
+
+     public function getForwardApplicationParentData(){
+        
+        $role_id = Role::where('id',Auth::user()->role_id)->first();
+        $result  = json_decode($role_id->conveyance_parent_id);
+        $parent  = "";
+
+        if ($result){
+            $parent = User::with(['roles','LayoutUser' => function($q){
+                $q->where('layout_id', session('layout_id'));
+            }])
+            ->whereHas('LayoutUser' ,function($q){
+                $q->where('layout_id', session('layout_id'));
+            })
+            ->whereIn('role_id',$result)->get();            
+        }
+        return $parent;
     }
 
     // forward and revert application
@@ -186,7 +205,119 @@ class conveyanceCommonController extends Controller
                 'created_at'    => Carbon::now(),
             ],
             ];
-
             scApplicationLog::insert($application);      
     }
+
+    public function getForwardApplicationData($applicationId){
+
+        $data = scApplication::with('societyApplication')->where('id',$applicationId)->first();
+        $data->society_role_id = Role::where('name', config('commanConfig.society_offer_letter'))->value('id');
+         $data->status         = $this->getCurrentStatus($applicationId);
+        $data->parent          = $this->getForwardApplicationParentData();
+        $data->child           = $this->getRevertApplicationChildData();
+        return $data;        
+    }
+
+    // get current status of application
+    public function getCurrentStatus($application_id)
+    {
+        $current_status = scApplicationLog::where('application_id', $application_id)
+            ->where('user_id', Auth::user()->id)
+            ->where('role_id', session()->get('role_id'))
+            ->orderBy('id', 'desc')->first();
+
+        return $current_status;
+    }
+
+    //view ee documents in readonly format
+    public function ViewEEDocuments($applicationId){
+        
+        $data = scApplication::with('ConveyanceSalePriceCalculation')->where('id',$applicationId)->first();
+        $data->folder = $this->getCurrentRoleFolderName();
+        return view('admin.conveyance.common.view_ee_sale_price_calculation', compact('data'));
+    }  
+
+    //get folder name to display action blade as per role id
+    public function getCurrentRoleFolderName(){
+
+        if (session()->get('role_name') == config('commanConfig.ee_junior_engineer') || config('commanConfig.ee_deputy_engineer') || config('commanConfig.ee_branch_head')){
+            $folder = 'ee_department';
+        }        
+        if (session()->get('role_name') == config('commanConfig.dycdo_engineer') || session()->get('role_name') == config('commanConfig.dyco_engineer')){
+            $folder = 'dyco_department';
+        }        
+        if (session()->get('role_name') == config('commanConfig.estate_manager')){
+            $folder = 'em_department';
+        } 
+        return $folder;       
+    }  
+
+    // get logs of DYCO dept
+    public function getLogsOfDYCODepartment($applicationId)
+    {
+
+        $roles = array(config('commanConfig.dycdo_engineer'), config('commanConfig.dyco_engineer'));
+
+        $status = array(config('commanConfig.applicationStatus.forwarded'), config('commanConfig.applicationStatus.reverted'));
+
+        $dycoRoles = Role::whereIn('name', $roles)->pluck('id');
+        $dycologs = scApplicationLog::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->whereIn('role_id', $dycoRoles)->whereIn('status_id', $status)->get();
+
+        return $dycologs;
+    } 
+
+    // get agreement as per agreement type id
+    public function getScAgreement($typeId,$applicationId){
+
+        $agreement = ScAgreementTypeStatus::with('scAgreementName')->where('agreement_type_id',$typeId)->where('application_id',$applicationId)->first();
+        return $agreement;
+    } 
+
+    // get agreement id as per agreement name
+    public function getScAgreementId($documentName){
+
+        $typeId = ScAgreementTypeMasterModel::where('agreement_name',$documentName)->value('id');
+        return $typeId;
+    } 
+
+    // insert sc agreements as per type
+    public function createScAgreement($applicationId,$typeId,$filePath){
+        
+        $ArrData[] = array('application_id'       => $applicationId,
+                            'agreement_type_id'   => $typeId, 
+                            'agreement_path'      => $filePath,
+                            'user_id'             => Auth::Id());   
+
+        $data = ScAgreementTypeStatus::insert($ArrData); 
+        return $data;          
+    }
+
+    // update sc agreements
+    public function updateScAgreement($applicationId,$typeId,$filePath){
+
+        $data = ScAgreementTypeStatus::where('application_id',$applicationId)->where('agreement_type_id',$typeId)
+        ->update(['agreement_path' => $filePath]);
+
+        return $data;
+    } 
+
+    //insert comment for agreement
+    public function ScAgreementComment($applicationId,$remark){
+
+        $comments[] = array('application_id' => $applicationId,
+                            'user_id'        => Auth::Id(),
+                            'role_id'        => session()->get('role_id'),
+                            'remark'         => $remark);
+        
+        $remark  = ScAgreementComments::insert($comments);
+        return $remark;
+    }
+
+    public function SaveAgreementComments(Request $request){
+        
+        $applicationId = $request->application_id;
+        $remark        = $request->remark;
+        $result        = $this->ScAgreementComment($applicationId,$remark);
+        return back()->with('success','data save Successfully.');
+    }   
 }

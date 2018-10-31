@@ -219,7 +219,7 @@
                 @csrf
                 <input type="hidden" name="applicationId" value="{{(isset($societyData->id) ? $societyData->id : '')}}">
                 <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
-                    <div class="portlet-body">
+                    <div class="portlet-body table--box-input">
                         <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
                             <div class="">
                                 <h3 class="section-title section-title--small">Send to CO:</h3>
