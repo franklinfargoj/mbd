@@ -59,7 +59,7 @@ class ArchitectApplicationController extends Controller
             ['data' => 'actions', 'name' => 'actions', 'title' => 'Actions', 'searchable' => false, 'orderable' => false],
         ];
 
-        //dd($this->CommonController->architect_applications($request));
+       // dd($this->CommonController->architect_applications($request));
         if ($datatables->getRequest()->ajax()) {
 
             $architect_applications = $this->CommonController->architect_applications($request);
@@ -74,13 +74,13 @@ class ArchitectApplicationController extends Controller
                     return $architect_applications->application_number;
                 })
                 ->editColumn('application_date', function ($architect_applications) {
-                    return date('d-m-Y', strtotime($architect_applications->application_date));
+                    return date('d-m-Y', strtotime($architect_applications->created_at));
                 })
                 ->editColumn('candidate_name', function ($architect_applications) {
-                    return $architect_applications->candidate_name;
+                    return $architect_applications->name_of_applicant;
                 })
                 ->editColumn('candidate_email', function ($architect_applications) {
-                    return $architect_applications->candidate_email . "<br>" . $architect_applications->candidate_mobile_no;
+                    return  $architect_applications->mobile;
                 })
                 ->editColumn('status', function ($architect_applications) {
 

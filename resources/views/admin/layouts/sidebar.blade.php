@@ -64,7 +64,7 @@ $route=\Request::route()->getName();
                 in_array('architect_detail_dp_crz_remark_view', session()->get('permission')) ||
                 in_array('view_court_case_or_dispute_on_land', session()->get('permission')) ||
                 in_array('architect_layout_add_scrutiny_report', session()->get('permission')) ))
-                <li class="m-menu__item {{($route=='architect_layout.index')?'m-menu__item--active':''}}" data-toggle="collapse"
+                <li class="m-menu__item" data-toggle="collapse"
                     data-target="#architect-layouts">
                     <a href="{{ route('architect_layout.index') }}" class="m-menu__link m-menu__toggle">
                         <i class="m-menu__link-icon flaticon-line-graph"></i>
@@ -82,7 +82,7 @@ $route=\Request::route()->getName();
                 <li id="architect-layouts" class="collapse show">
                     <ul class="list-unstyled">
                         @if(session()->get('role_name')=='junior_architect')
-                        <li class="m-menu__item m-menu__item--sub-menu m-menu__item--level-2 {{($route=='architect_layout.add')?'m-menu__item--active':''}}"
+                        <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='architect_layout.add')?'m-menu__item--active':''}}"
                             aria-haspopup="true">
                             <a href="{{ route('architect_layout.add') }}" class="m-menu__link m-menu__toggle">
                                 <i class="m-menu__link-icon flaticon-line-graph"></i>
@@ -96,7 +96,7 @@ $route=\Request::route()->getName();
                             </a>
                         </li>
                         @endif
-                        <li class="m-menu__item m-menu__item--sub-menu m-menu__item--level-2 {{($route=='architect_layout.index')?'m-menu__item--active':''}}"
+                        <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='architect_layout.index')?'m-menu__item--active':''}}"
                             aria-haspopup="true">
                             <a href="{{ route('architect_layout.index') }}" class="m-menu__link m-menu__toggle">
                                 <i class="m-menu__link-icon flaticon-line-graph"></i>
@@ -109,7 +109,7 @@ $route=\Request::route()->getName();
                                 </span>
                             </a>
                         </li>
-                        <li class="m-menu__item m-menu__item--sub-menu m-menu__item--level-2 {{($route=='architect_layouts_layout_details.index')?'m-menu__item--active':''}}"
+                        <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='architect_layouts_layout_details.index')?'m-menu__item--active':''}}"
                             aria-haspopup="true">
                             <a href="{{ route('architect_layouts_layout_details.index') }}" class="m-menu__link m-menu__toggle">
                                 <i class="m-menu__link-icon flaticon-line-graph"></i>
