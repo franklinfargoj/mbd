@@ -259,6 +259,8 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('get_tenant_bill_collection', 'RCDepartment\RCController@get_tenant_bill_collection')->name('get_tenant_bill_collection');
     Route::get('generate_receipt_society', 'RCDepartment\RCController@generate_receipt_society')->name('generate_receipt_society');
     Route::get('generate_receipt_tenant', 'RCDepartment\RCController@generate_receipt_tenant')->name('generate_receipt_tenant');
+    Route::post('payment_receipt_society', 'RCDepartment\RCController@payment_receipt_society')->name('payment_receipt_society');
+    Route::post('payment_receipt_tenant', 'RCDepartment\RCController@payment_receipt_tenant')->name('payment_receipt_tenant');
 
 
 	//DYCE Department routes

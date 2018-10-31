@@ -211,6 +211,16 @@ class EMUserSeeder extends Seeder
                     'name' => 'generate_receipt_tenant',
                     'display_name' => 'Generate Receipt Tenant',
                     'description' => 'Generate Receipt Tenant'
+                ],
+                [
+                    'name' => 'payment_receipt_society',
+                    'display_name' => 'payment receipt society',
+                    'description' => 'payment receipt society'
+                ],
+                [
+                    'name' => 'payment_receipt_tenant',
+                    'display_name' => 'payment receipt tenant',
+                    'description' => 'payment receipt tenant'
                 ]
             ];
 
