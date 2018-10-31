@@ -57,7 +57,7 @@
                                             @php
                                             $file="";
                                             $file=isset($application->supporting_documents[$j])?$application->supporting_documents[$j]->document_path:'';
-                                            @endphp
+                                            @endphp 
                                             <a style="display:{{$file!=''?'block':'none'}}" target="_blank" class="btn-link" href="{{config('commanConfig.storage_server').'/'.$file}}">download</a>
                                         </div>
                                     </td>
