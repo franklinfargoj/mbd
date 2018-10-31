@@ -678,13 +678,15 @@ Route::prefix('appointing_architect')->group(function () {
         Route::post('ajaxDeleteImpSeniorProfessional', 'EmploymentOfArchitectController@delete_imp_senior_professional')->name('appointing_architect.delete_imp_senior_professional');
         Route::get('step7/{id}', 'EmploymentOfArchitectController@step7')->name('appointing_architect.step7');
         Route::post('step7_post/{id}', 'EmploymentOfArchitectController@step7_post')->name('appointing_architect.step7_post');
+        Route::post('ajaxDeleteProjectSheet', 'EmploymentOfArchitectController@delete_project_sheet_detail')->name('appointing_architect.delete_project_sheet_detail');
         Route::get('step8/{id}', 'EmploymentOfArchitectController@step8')->name('appointing_architect.step8');
         Route::post('step8_post/{id}', 'EmploymentOfArchitectController@step8_post')->name('appointing_architect.step8_post');
       });
+      Route::post('send_to_architect','EmploymentOfArchitectController@send_to_architect')->name('appointing_architect.send_to_architect');
     });
     
 });
-
+//delete_project_sheet_detail
 define('SOCIETY_LEVEL_BILLING'  ,'1');
 define('TENANT_LEVEL_BILLING'   ,'2');
 define('PAYMENT_STATUS_NOT_PAID','0');
