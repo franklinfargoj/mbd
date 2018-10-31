@@ -23,6 +23,10 @@ class EoaApplicationCheckFormStep
             $EoaApplication=EoaApplication::find($app_id);
             if($EoaApplication)
             {
+                if($EoaApplication->ArchitectApplicationStatusForLoginListing->count()>0)
+                {
+                    return redirect()->route('appointing_architect.index');
+                }
                 $form_step=$EoaApplication->form_step;
                 if($request->route()->getName()=='appointing_architect.step1' || $request->route()->getName()=='appointing_architect.step1_post')
                 {

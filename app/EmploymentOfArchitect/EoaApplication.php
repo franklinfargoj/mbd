@@ -70,4 +70,37 @@ class EoaApplication extends Model
     {
         return $this->hasMany(\App\EmploymentOfArchitect\EoaApplicationProjectSheetDetail::class,'eoa_application_id','id');
     }
+
+    public function marks()
+    {
+        return $this->hasMany(ArchitectApplicationMark::class,'architect_application_id','id');
+    }
+
+    public function statusLog()
+    {
+        return $this->hasMany(ArchitectApplicationStatusLog::class,'architect_application_id','id');
+    }
+
+    public function getApplicationStatusAttribute($value)
+    {
+        switch ($value) {
+            case 0:
+                return "None";
+                break;
+            case 1:
+                return "Shortlisted";
+                break;
+            case 2:
+                return "Final";
+                break;
+            default:
+                return "None";
+                break;
+        }
+    }
+
+    public function ArchitectApplicationStatusForLoginListing()
+    {
+        return $this->hasMany('App\ArchitectApplicationStatusLog', 'architect_application_id', 'id');
+    }
 }

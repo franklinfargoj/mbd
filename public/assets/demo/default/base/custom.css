@@ -1191,6 +1191,11 @@ table.dataTable tbody tr:nth-child(even):focus {
 
 /* global classes starts here */
 
+.btn.m-btn--custom {
+    padding-left: 1.7rem;
+    padding-right: 1.7rem;
+}
+
 .select-box-list + .select-box-list {
     margin-left: 15px;
 }
