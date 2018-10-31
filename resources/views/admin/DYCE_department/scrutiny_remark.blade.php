@@ -212,7 +212,7 @@
                                     @foreach($applicationData->visitDocuments as $documents)
                                      
                                     <div class="align-items-center mb-5 upload_doc_{{$i}}">
-                                        <label class="site-visit-label">upload site photos:</label>
+                                        <label class="site-visit-label">Upload Site Photos:</label>
                                         <div class="custom-file custom-file--fixed mb-0 position-relative">
                                             <input type="file" class="file custom-file-input file_ext upload_file_{{$i}}" name="document[]" id="test-upload_{{$i}}">
                                             <label class="custom-file-label" for="test-upload_{{$i}}" id="file_label_{{$i}}">{{isset(explode('/',$documents->document_path)[1]) ? explode('/',$documents->document_path)[1] : ''}}</label>
@@ -232,7 +232,7 @@
                                     $required = '';
                                 } @endphp
                                 <div class="align-items-center mb-5 upload_doc_1">
-                                    <label class="site-visit-label">upload site photos:</label>
+                                    <label class="site-visit-label">Upload Site Photos:</label>
                                     <div class="custom-file custom-file--fixed mb-0 position-relative">
                                         <input type="file" class="file custom-file-input file_ext upload_file_1" name="document[]" id="test-upload_1" {{ $required }}>
                                         <label class="custom-file-label" for="test-upload_1" id="file_label_1">Choose file ...</label>
@@ -247,7 +247,7 @@
 
                                     <div class="col-sm-12 field-col">
                                         <div class="d-flex">
-                                            <span style="width: 200px;">Supporting Documents:</span>
+                                            <span style="width: 200px;">Upload Site Photos:</span>
                                             <a href="{{config('commanConfig.storage_server').'/'.$data->document_path}}" target="_blank">
 
                                             <img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
@@ -419,7 +419,7 @@ var isError = 0;
                 $(".file_required").text("");
                 $(text).css("display", "none");
                 $('.doc').css("visibility", "visible");
-                $(".all_documents").append("<div class='flex-wrap align-items-center mb-5 upload_doc_"+id+"'><label class='site-visit-label'>upload site photos:</label><div class='custom-file custom-file--fixed mb-0 position-relative'><input type='file' class='file custom-file-input file_ext upload_file_"+id+"' name='document[]' id='test-upload_" +
+                $(".all_documents").append("<div class='flex-wrap align-items-center mb-5 upload_doc_"+id+"'><label class='site-visit-label'>Upload Site Photos:</label><div class='custom-file custom-file--fixed mb-0 position-relative'><input type='file' class='file custom-file-input file_ext upload_file_"+id+"' name='document[]' id='test-upload_" +
                     id + "'><label class='custom-file-label' for='test-upload_"+id+"' id='file_label_"+id+"'> Choose file .. </label><span class='text-danger' id='file_error_"+id+"'></span><i class='fa fa-close doc close-icon' id='document_" + id +
                     "' onclick='removeDocuments(this.id)'></i><span class='file_required text-danger'></span><a class='add_more' id='add_more_"+id+"' onclick='addMoreDocuments(this);'>add more </a></div></div>"
                 );
