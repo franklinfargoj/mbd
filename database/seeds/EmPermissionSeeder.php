@@ -140,7 +140,17 @@ class EmPermissionSeeder extends Seeder
                 'name'         => 'em.scrutiny_remark',
                 'display_name' => 'em scrutiny remark',
                 'description'  => 'em scrutiny remark'
-            ],                  
+            ],
+            [
+                'name'         => 'em.save_renewal_no_dues_certificate',
+                'display_name' => 'em save renewal no dues certificate',
+                'description'  => 'em save renewal no dues certificate'
+            ],
+            [
+                'name'         => 'em.upload_covering_letter',
+                'display_name' => 'em upload covering letter',
+                'description'  => 'em upload covering letter'
+            ],
             [
                 'name' => 'em.index',
                 'display_name' => 'List EM Application',
