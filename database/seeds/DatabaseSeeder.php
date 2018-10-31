@@ -38,7 +38,7 @@ class DatabaseSeeder extends Seeder
         $this->call(EEUserSeeder::class);
         $this->call(DYCEPermissionSeeder::class);
         $this->call(LmPermissionSeeder::class);
-        $this->call(HearingPermissionSeeder::class);
+        // $this->call(HearingPermissionSeeder::class);
         $this->call(ReePermissionSeeder::class);
         $this->call(CapPermissionSeeder::class);
         $this->call(CoPermissionSeeder::class);
@@ -50,8 +50,8 @@ class DatabaseSeeder extends Seeder
         $this->call(ArchitectUserSeeder::class);
         $this->call(SelectionCommiteeSeeder::class);
 
-        $this->call(EmPermissionSeeder::class);
-        $this->call(EMUserSeeder::class);
+        // $this->call(EmPermissionSeeder::class);
+        // $this->call(EMUserSeeder::class);
         $this->call(ArchitectLayoutLmScrtinyQuestionMasterSeeder::class);
         $this->call(ArchitectLayoutEmScrtinyQuestionMasterSeeder::class);
         $this->call(ArchitectLayoutReeScrtinyQuestionMasterSeeder::class);
