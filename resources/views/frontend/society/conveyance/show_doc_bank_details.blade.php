@@ -80,12 +80,12 @@
                                         <a href="{{ config('commanConfig.storage_server').'/'.$document_uploaded['document_path'] }}" data-value='{{ $document->id }}'
                                            class="upload_documents" target="_blank" rel="noopener" download><button type="submit" class="btn btn-primary btn-custom">
                                                 Download</button></a>
-                                        <a href="{{ route('delete_sc_upload_docs', $document->id) }}" data-value='{{ $document->id }}'
+                                        <a href="{{ route('delete_sc_upload_docs', base64_encode($document->id)) }}" data-value='{{ $document->id }}'
                                            class="upload_documents"><button type="submit" class="btn btn-primary btn-custom">
                                                 <i class="fa fa-trash"></i></button></a>
                                     </span>
                                 @else
-                                <form action="{{ route('uploaded_documents') }}" method="post" enctype='multipart/form-data' class="sc_upload_documents_form"
+                                <form action="{{ route('upload_sc_docs') }}" method="post" enctype='multipart/form-data' class="sc_upload_documents_form"
                                       id="sc_upload_documents_form_{{ $document->id }}">
                                     @csrf
                                     <div class="custom-file">
@@ -106,7 +106,7 @@
                                 @endif
                                 {{--@endforeach--}}
                                 @else
-                                <form action="{{ route('uploaded_documents') }}" method="post" enctype='multipart/form-data' class="sc_upload_documents_form"
+                                <form action="{{ route('upload_sc_docs') }}" method="post" enctype='multipart/form-data' class="sc_upload_documents_form"
                                       id="sc_upload_documents_form_{{ $document->id }}">
                                     @csrf
                                     <div class="custom-file @if(session('error_'.$document->id)) has-error @endif">

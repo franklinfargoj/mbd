@@ -198,6 +198,11 @@ class SocietyPermissionSeeder extends Seeder
                     'display_name' => 'Deletes Uploaded Documents',
                     'description'  => 'Deletes Uploaded Documents'
                 ],
+                [
+                    'name'         => 'upload_sc_docs',
+                    'display_name' => 'Uploads Documents',
+                    'description'  => 'Uploads Documents'
+                ],
         ];
 
         if(count($society)==0){
