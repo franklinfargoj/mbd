@@ -598,15 +598,91 @@ function showUploadedFileName() {
 @section('content')
 <div class="loader" style="display:none;"></div>
 <div class="col-md-12">
-    <div class="m-subheader px-0 m-subheader--top">
+    <div class="m-subheader px-0 mb-0 m-subheader--top">
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">Add Detail -
                 {{$ArchitectLayoutDetail->architect_layout->layout_name}}</h3>
         </div>
+        <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom nav-tabs--steps">
+            <li class="nav-item m-tabs__item" data-target="#document-scrunity">
+                <a class="nav-link m-tabs__link active show" data-toggle="tab" href="#cts-plan-tab">
+                    <i class="la la-cog"></i> CTS Plan
+                </a>
+            </li>
+            <li class="nav-item m-tabs__item">
+                <a class="nav-link m-tabs__link show" data-toggle="tab" href="#prc-tab">
+                    <i class="la la-cog"></i> PRC
+                </a>
+            </li>
+            <li class="nav-item m-tabs__item">
+                <a class="nav-link m-tabs__link show" data-toggle="tab" href="#dp-remark-tab">
+                    <i class="la la-cog"></i> DP Remark, CRZ Remark and other
+                </a>
+            </li>
+        </ul>
     </div>
     <form id="upload_latest_layout" method="post" enctype="multipart/form-data">
         <input type="hidden" id="architect_layout_detail_id" name="architect_layout_detail_id" value="{{$ArchitectLayoutDetail->id}}">
         @csrf
+        <div class="tab-content">
+            <div class="tab-pane active show" id="cts-plan-tab">
+                <div class="m-portlet m-portlet--mobile m_panel">
+                    <div class="portlet-body">
+                        <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
+                            <div class="m-subheader">
+                                <div class="d-flex align-items-center">
+                                    <h3 class="section-title section-title--small">
+                                        CTS plan
+                                    </h3>
+                                </div>
+                                <div class="mt-auto">
+                                    <a href="{{route('architect_layout_detail_cts_plan',['layout_detail_id'=>encrypt($ArchitectLayoutDetail->id)])}}"
+                                        class="btn btn-primary btn-custom upload_note" id="uploadBtn">Add CTS Detail</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane" id="prc-tab">
+                <div class="m-portlet m-portlet--mobile m_panel">
+                    <div class="portlet-body">
+                        <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
+                            <div class="m-subheader">
+                                <div class="d-flex align-items-center">
+                                    <h3 class="section-title section-title--small">
+                                        PRC
+                                    </h3>
+                                </div>
+                                <div class="mt-auto">
+                                    <a href="{{route('architect_layout_detail_prc_detail',['layout_detail_id'=>encrypt($ArchitectLayoutDetail->id)])}}"
+                                        class="btn btn-primary btn-custom upload_note" id="uploadBtn">Add PRC Detail</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane" id="dp-remark-tab">
+                <div class="m-portlet m-portlet--mobile m_panel">
+                    <div class="portlet-body">
+                        <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
+                            <div class="m-subheader">
+                                <div class="d-flex align-items-center">
+                                    <h3 class="section-title section-title--small">
+                                        DP remark, CRZ remark and other
+                                    </h3>
+                                </div>
+                                <div class="mt-auto">
+                                    <a href="{{route('add_architect_detail_dp_crz_remark_add',['layout_detail_id'=>encrypt($ArchitectLayoutDetail->id)])}}"
+                                        class="btn btn-primary btn-custom upload_note" id="uploadBtn">Add Detail</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="m-portlet m-portlet--mobile m_panel">
             <div class="portlet-body">
                 <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
@@ -685,57 +761,6 @@ function showUploadedFileName() {
                             <button type="submit" style="btn btn-primary" class="btn btn-primary btn-custom upload_note"
                                 id="uploadBtn">Upload</button>
                         </div> -->
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="m-portlet m-portlet--mobile m_panel">
-            <div class="portlet-body">
-                <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
-                    <div class="m-subheader">
-                        <div class="d-flex align-items-center">
-                            <h3 class="section-title section-title--small">
-                                CTS plan
-                            </h3>
-                        </div>
-                        <div class="mt-auto">
-                            <a href="{{route('architect_layout_detail_cts_plan',['layout_detail_id'=>encrypt($ArchitectLayoutDetail->id)])}}"
-                                class="btn btn-primary btn-custom upload_note" id="uploadBtn">Add CTS Detail</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="m-portlet m-portlet--mobile m_panel">
-            <div class="portlet-body">
-                <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
-                    <div class="m-subheader">
-                        <div class="d-flex align-items-center">
-                            <h3 class="section-title section-title--small">
-                                PRC
-                            </h3>
-                        </div>
-                        <div class="mt-auto">
-                            <a href="{{route('architect_layout_detail_prc_detail',['layout_detail_id'=>encrypt($ArchitectLayoutDetail->id)])}}"
-                                class="btn btn-primary btn-custom upload_note" id="uploadBtn">Add PRC Detail</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="m-portlet m-portlet--mobile m_panel">
-            <div class="portlet-body">
-                <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
-                    <div class="m-subheader">
-                        <div class="d-flex align-items-center">
-                            <h3 class="section-title section-title--small">
-                                DP remark, CRZ remark and other
-                            </h3>
-                        </div>
-                        <div class="mt-auto">
-                            <a href="{{route('add_architect_detail_dp_crz_remark_add',['layout_detail_id'=>encrypt($ArchitectLayoutDetail->id)])}}"
-                                class="btn btn-primary btn-custom upload_note" id="uploadBtn">Add Detail</a>
-                        </div>
                     </div>
                 </div>
             </div>

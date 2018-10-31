@@ -2802,6 +2802,43 @@ label.site-visit-label {
 
 /* Appointing Architect starts here */
 
+.nav.nav-pills.nav-tabs--steps .nav-item,
+.nav.nav-tabs.nav-tabs--steps .nav-item {
+    margin-left: 0;
+}
+
+.m-tabs-line.m-tabs-line--primary.nav.nav-tabs.nav-tabs--steps .nav-link {
+    position: relative;
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
+.m-tabs-line.m-tabs-line--primary.nav.nav-tabs.nav-tabs--steps .nav-link:hover,
+.m-tabs-line.m-tabs-line--primary.nav.nav-tabs.nav-tabs--steps .nav-link:focus,
+.m-tabs-line.m-tabs-line--primary.nav.nav-tabs.nav-tabs--steps .nav-link:hover>i,
+.m-tabs-line.m-tabs-line--primary.nav.nav-tabs.nav-tabs--steps .nav-link:focus>i,
+.m-tabs-line.m-tabs-line--primary.nav.nav-tabs.nav-tabs--steps .nav-link.active
+.m-tabs-line.m-tabs-line--primary.nav.nav-tabs.nav-tabs--steps .nav-link.active>i {
+    background-color: #e8e8e8;
+    color: #7b7e8a !important;
+}
+
+.m-tabs-line.m-tabs-line--primary.nav.nav-tabs.nav-tabs--steps .nav-link.active::after {
+    content: "";
+    display: block;
+    position: absolute;
+    border-style: solid;
+    border-color: transparent;
+    width: 0;
+    height: 0;
+    z-index: 1;
+    border-width: 24px;
+    border-left-width: 15px;
+    top: 0;
+    left: 99%;
+    border-left-color: #ff754e;
+}
+
 .form-steps-wrap + .form-steps-box {
     margin-top: 30px;
 }
