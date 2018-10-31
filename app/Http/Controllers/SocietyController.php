@@ -97,9 +97,8 @@ class SocietyController extends Controller
                 $dataList['Is Society Conveyed ?'] = '';
                 $dataList['Date Of Conveyance'] = '';
                 $dataList['Area Of Conveyance'] = '';
-
-                $dataListMaster[]=$dataList;
                 $dataListKeys = array_keys($dataList);
+                $dataListMaster[]=$dataList;
             }else{
                 $i=1;
                 foreach ($society_data as $dataList_key => $dataList_value) {
