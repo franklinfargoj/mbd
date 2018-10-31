@@ -14,7 +14,7 @@
         <button class="btn--unstyled flex-grow-1 form-step-tab active">Step 6</button>
         <button class="btn--unstyled flex-grow-1 form-step-tab active">Step 7</button>
         <button class="btn--unstyled flex-grow-1 form-step-tab active">Step 8</button>
-        <button class="btn--unstyled flex-grow-1 form-step-tab ">Step 9</button>
+        <button class="btn--unstyled flex-grow-1 form-step-tab active">Step 9</button>
         <button class="btn--unstyled flex-grow-1 form-step-tab ">Step 10</button>
     </div>
     <form id="" role="form" method="post" class="m-form m-form--rows m-form--label-align-right form-steps-box" action="{{route('appointing_architect.step9_post',['id'=>encrypt($application->id)])}}"
@@ -60,6 +60,9 @@
                                             @endphp 
                                             <a style="display:{{$file!=''?'block':'none'}}" target="_blank" class="btn-link" href="{{config('commanConfig.storage_server').'/'.$file}}">download</a>
                                         </div>
+                                        @if($j>0)
+                                        <h2 class='m--font-danger remove-row'><i title='Delete' class='fa fa-remove'></i></h2>
+                                        @endif
                                     </td>
                                     </tr>
                                     @endfor
@@ -86,7 +89,7 @@
                 <div class="row">
                     <div class="col">
                         <div class="btn-list d-flex justify-content-end">
-                            <button type="submit" id="" class="btn btn-primary">Next</button>
+                        <a href="{{route('appointing_architect.step10',['id'=>encrypt($application->id)])}}" id="" class="btn btn-primary">Next</a>
                         </div>
                     </div>
                 </div>
@@ -132,7 +135,7 @@
                 });
                 var thisInstance = $(this);
                 $.ajax({
-                    url: "{{route('appointing_architect.delete_imp_project_work_handled')}}",
+                    url: "{{route('appointing_architect.delete_supporting_document')}}",
                     method: 'POST',
                     data: {
                         delete_imp_project_id: delete_id

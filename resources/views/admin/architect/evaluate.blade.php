@@ -37,8 +37,8 @@
                         <thead class="thead-default">
                             <tr>
                                 <th width="30%">Document Name</th>
-                                <th width="35%">Document</th>
-                                <th width="5%">Marks</th>
+                                <th width="30%">Document</th>
+                                <th width="10%">Marks</th>
                                 <th width="30%">Remark</th>
                             </tr>
                         </thead>
@@ -48,7 +48,7 @@
                             @php $i = $i + $row->marks; @endphp
                             <tr>
                                 <td>{{$row->document_name}}</td>
-                                <td>{{$row->document_path}}</td>
+                                <td><a target="_blank" href="{{ config('commanConfig.storage_server')."/" .$row->document_path}}">document</a></td>
                                 <td class="text-center">
                                     <div class="@if($errors->has('marks')) has-error @endif">
                                         <input {{ $disable }} type="text" name="marks[]" class="form-control form-control--custom"

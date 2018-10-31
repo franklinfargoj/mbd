@@ -146,6 +146,16 @@ class AppointingArchitectPermissionSeeder extends Seeder
                 'name'=>'appointing_architect.step10_post',
                 'display_name'=>'appointing_architect.step10_post',
                 'description'=>'appointing_architect.step10_post'
+            ],
+            [
+                'name'=>'appointing_architect.delete_supporting_document',
+                'display_name'=>'appointing_architect.delete_supporting_document',
+                'description'=>'appointing_architect.delete_supporting_document'
+            ],
+            [
+                'name'=>'appointing_architect.view_eoa_application',
+                'display_name'=>'appointing_architect.view_eoa_application',
+                'description'=>'appointing_architect.view_eoa_application'
             ]
         ];
         $appointing_architect = Role::where('name', '=', 'appointing_architect')->select('id')->first();
