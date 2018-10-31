@@ -211,8 +211,8 @@
                                 @if(isset($applicationData->visitDocuments))
                                     @foreach($applicationData->visitDocuments as $documents)
                                      
-                                    <div class="d-flex align-items-center mb-5 upload_doc_{{$i}}">
-                                        <label class="site-visit-label">Upload supporting files:</label>
+                                    <div class="align-items-center mb-5 upload_doc_{{$i}}">
+                                        <label class="site-visit-label">upload site photos:</label>
                                         <div class="custom-file custom-file--fixed mb-0 position-relative">
                                             <input type="file" class="file custom-file-input file_ext upload_file_{{$i}}" name="document[]" id="test-upload_{{$i}}">
                                             <label class="custom-file-label" for="test-upload_{{$i}}" id="file_label_{{$i}}">{{isset(explode('/',$documents->document_path)[1]) ? explode('/',$documents->document_path)[1] : ''}}</label>
@@ -226,13 +226,19 @@
                                     <?php $i++;?>
                                     @endforeach
                                 @endif
-                                <div class="d-flex align-items-center mb-5 upload_doc_1">
-                                    <label class="site-visit-label">Upload supporting files:</label>
+                                @php if(count($applicationData->visitDocuments) == 0){
+                                    $required = 'required';
+                                }else{
+                                    $required = '';
+                                } @endphp
+                                <div class="align-items-center mb-5 upload_doc_1">
+                                    <label class="site-visit-label">upload site photos:</label>
                                     <div class="custom-file custom-file--fixed mb-0 position-relative">
-                                        <input type="file" class="file custom-file-input file_ext upload_file_1" name="document[]" id="test-upload_1">
+                                        <input type="file" class="file custom-file-input file_ext upload_file_1" name="document[]" id="test-upload_1" {{ $required }}>
                                         <label class="custom-file-label" for="test-upload_1" id="file_label_1">Choose file ...</label>
                                         <span id="file_error_1" class="text-danger"></span>
-										<a class="add_more" id="add_more_1" onclick="addMoreDocuments(this);">add more</a>
+                                        <span class="file_required text-danger"></span> 
+										<a class="add_more" id="add_more_1" onclick="addMoreDocuments(this);" style="margin-top: 12px;">add more</a>
 										<i class="fa fa-close doc close-icon" id="document_1" onclick="removeDocuments(this.id)"></i>
                                     </div>
                                 </div>
@@ -249,8 +255,7 @@
                                         </div>
                                     </div>
                                 @endforeach                            
-                            @endif    
-                            </div>
+                            @endif   
                         </div>
                     </div>
                 </div>
@@ -326,6 +331,8 @@
 
     <input type="hidden" name="documentCount" id="documentCount" value="{{(isset($applicationData->visitDocuments) ? count($applicationData->visitDocuments)+2 : '')}}">
 
+    <input type="hidden" name="siteDocument" id="siteDocument" value="{{(isset($applicationData->visitDocuments) && count($applicationData->visitDocuments) > 0 ? count($applicationData->visitDocuments) + 1 : '1')}}">
+
 </div>
 @endsection
 @section('js')
@@ -350,7 +357,6 @@ var isError = 0;
         }
         $("#add_more_text").css("display", "block");       
         $(".officer_name_" + id).css("display", "none");
-        // $("#add_more_text").css("display", "block");
         $(".officer_name_" + id + " input").attr("disabled", "disabled");
         id1--;
         $("#OfficiersCount").val(id1);         
@@ -363,15 +369,8 @@ var isError = 0;
         if(id1 == 2){
            $(text).css("display", "none"); 
         }
-        // if(id1 == 1){
-        //    $('.icon').css("visibility", "hidden"); 
-        // }
         if(id1 < 3){
         $('.d-icon').css("visibility", "visible");
-            // $(".site_v").append("<div class='officer_name_" + id +
-            //     "'><div class='d-flex align-items-center mb-5'><label class='site-visit-label'>Name of Officer:</label><div class='position-relative'><input type='text' class='txtbox form-control form-control--custom m_input' name='officer_name[]' id='officer_name'><i class='fa fa-close icon close-icon' id='icon_" +
-            //     id + "' onclick='removeOfficerName(this.id)'></i></div></div></div>");            
-
             $("<div class='officer_name_" + id +
                 "'><div class='d-flex align-items-center mb-5'><label class='site-visit-label'>Name of Officer:</label><div class='position-relative'><input type='text' class='txtbox form-control form-control--custom m_input' name='officer_name[]' id='officer_name'><i class='fa fa-close icon d-icon close-icon' id='icon_" +
                 id + "' onclick='removeOfficerName(this.id)'></i></div></div></div>").insertBefore('.add_more_div');
@@ -396,43 +395,57 @@ var isError = 0;
         var id = $.trim(text.id.substr(9,2));
         myfile= $("#test-upload_"+id).val();
         var ext = myfile.split('.').pop();
-
-        if (ext != "pdf"){
-            $("#file_error_"+id).text("Invalid type of file uploaded (only pdf allowed)");
-            $("#test-upload_"+id).closest(".custom-file").addClass("has-error");
-            isError = 1;
+        if(myfile != ""){
+            console.log("hi");
+            if (ext != "pdf" && ext != "png" && ext != "jpeg" && ext != "jpg"){
+                $("#file_error_"+id).text("Invalid type of file uploaded.");
+                $("#test-upload_"+id).closest(".custom-file").addClass("has-error");
+                isError = 1;
+            }
+            else{
+                $("#file_error_"+id).text("");
+                $("#test-upload_"+id).closest(".custom-file").removeClass("has-error");
+                isError = 0;
+            }                
+        }else{
+           isError = 1; 
         }
-        else{
-            $("#file_error_"+id).text("");
-            $("#test-upload_"+id).closest(".custom-file").removeClass("has-error");
-            isError = 0;
-        }    
         
         if(isError == 0){
             var id = $("#documentCount").val();
-            $(text).css("display", "none");
-            $('.doc').css("visibility", "visible");
-            $(".all_documents").append("<div class='d-flex flex-wrap align-items-center mb-5 upload_doc_"+id+"'><label class='site-visit-label'>Upload supporting files:</label><div class='custom-file custom-file--fixed mb-0 position-relative'><input type='file' class='file custom-file-input file_ext upload_file_"+id+"' name='document[]' id='test-upload_" +
-                id + "'><label class='custom-file-label' for='test-upload_"+id+"' id='file_label_"+id+"'> Choose file .. </label><span class='text-danger' id='file_error_"+id+"'></span><i class='fa fa-close doc close-icon' id='document_" + id +
-                "' onclick='removeDocuments(this.id)'></i><a class='add_more' id='add_more_"+id+"' onclick='addMoreDocuments(this);'>add more </a></div></div>"
-            );
-            id++;
-            selectFile();
-            $("#documentCount").val(id);            
+            var id1 = $("#siteDocument").val();
+
+            if(id1 < 10){
+                $(".file_required").text("");
+                $(text).css("display", "none");
+                $('.doc').css("visibility", "visible");
+                $(".all_documents").append("<div class='flex-wrap align-items-center mb-5 upload_doc_"+id+"'><label class='site-visit-label'>upload site photos:</label><div class='custom-file custom-file--fixed mb-0 position-relative'><input type='file' class='file custom-file-input file_ext upload_file_"+id+"' name='document[]' id='test-upload_" +
+                    id + "'><label class='custom-file-label' for='test-upload_"+id+"' id='file_label_"+id+"'> Choose file .. </label><span class='text-danger' id='file_error_"+id+"'></span><i class='fa fa-close doc close-icon' id='document_" + id +
+                    "' onclick='removeDocuments(this.id)'></i><span class='file_required text-danger'></span><a class='add_more' id='add_more_"+id+"' onclick='addMoreDocuments(this);'>add more </a></div></div>"
+                );
+                id1++;
+                id++;
+                selectFile();
+                $("#documentCount").val(id);            
+                $("#siteDocument").val(id1);                            
+            }
          }
     }
 
     function removeDocuments(data) {
         var id = data.substr(9, 2);
+        var id1 = $("#siteDocument").val();
+        id1--;
+        $("#siteDocument").val(id1); 
         $('#deletedDoc').val($('#deletedDoc').val() + '#'+ $("#file_label_"+id).text());
-        $(".upload_doc_" + id).css("visibility", "hidden");
-        $(".upload_doc_" + id).css("position", "absolute");
+        // $(".upload_doc_" + id).css("visibility", "hidden");
+        $(".upload_doc_" + id).css("display", "none");
         $(".upload_doc_" + id).attr("disabled", "disabled");
         $(".upload_file_" + id).attr("disabled", "disabled");
     }
 
     $("#submitBtn").click(function () {   
-
+        var id1 = $("#siteDocument").val();
         var enrochComment = $("#encrochment_comments").val();
         var isEnrochment = $("input[name=encrochment]:checked").val();
 
@@ -444,10 +457,6 @@ var isError = 0;
         }
 
     });
-
-    $(document).ready(function(){
-        $(".display_msg").delay(5000).slideUp(300);
-    }); 
 
 </script>
 @endsection
