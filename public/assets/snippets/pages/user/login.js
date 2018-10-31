@@ -523,7 +523,6 @@ var SnippetLogin = function() {
                         },
                         society_reg_no: {
                             required: !0,
-                            number: true
                         },
                         society_conveyed: {
                             required: !0
@@ -613,7 +612,6 @@ var SnippetLogin = function() {
                         },
                         society_reg_no: {
                             required: !0,
-                            number: true
                         },
                         society_conveyed: {
                             required: !0
