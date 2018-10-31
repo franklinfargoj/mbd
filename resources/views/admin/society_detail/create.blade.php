@@ -52,7 +52,7 @@
                                 <option value={{$layout->id}}>{{$layout->layout_name}}</option>
                                  @endforeach
                             </select>
-                            <span class="help-block">{{$errors->first('layout')}}</span>
+                            <span class="text-danger">{{$errors->first('layout')}}</span>
                         </div>
                     </div>
 
@@ -66,7 +66,7 @@
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="society_name" name="society_name" class="form-control form-control--custom m-input"
                                 value="{{ old('society_name') }}">
-                            <span class="help-block">{{$errors->first('society_name')}}</span>
+                            <span class="text-danger">{{$errors->first('society_name')}}</span>
                         </div>
                     </div>
                     <div class="col-sm-4 offset-sm-1 form-group">
@@ -74,7 +74,7 @@
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="society_reg_no" name="society_reg_no" class="form-control form-control--custom m-input"
                                    value="{{ old('society_reg_no') }}">
-                            <span class="help-block">{{$errors->first('society_reg_no')}}</span>
+                            <span class="text-danger">{{$errors->first('society_reg_no')}}</span>
                         </div>
                     </div>
 
@@ -113,7 +113,7 @@
                                 <option value="Bandra">Bandra</option>
                                 <option value="Dadar">Dadar</option>
                             </select>
-                            <span class="help-block">{{$errors->first('district')}}</span>
+                            <span class="text-danger">{{$errors->first('district')}}</span>
                         </div>
                         {{--<div class="m-input-icon m-input-icon--right">--}}
                         {{--<input type="text" id="district" name="district" class="form-control form-control--custom m-input"  value="{{ old('district') }}">--}}
@@ -137,7 +137,7 @@
                                 <option value="Andheri">Andheri</option>
                                 <option value="Santacruz">Santacruz</option>
                             </select>
-                            <span class="help-block">{{$errors->first('taluka')}}</span>
+                            <span class="text-danger">{{$errors->first('taluka')}}</span>
                         </div>
                         {{--<div class="m-input-icon m-input-icon--right">--}}
                         {{--<input type="text" id="taluka" name="taluka" class="form-control form-control--custom" class="form-control form-control--custom m-input"  value="{{ old('taluka') }}">--}}
@@ -152,7 +152,7 @@
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="survey_number" name="survey_number" class="form-control form-control--custom m-input"
                                    value="{{ old('survey_number') }}">
-                            <span class="help-block">{{$errors->first('survey_number')}}</span>
+                            <span class="text-danger">{{$errors->first('survey_number')}}</span>
                         </div>
                     </div>
 
@@ -161,7 +161,7 @@
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="cts_number" name="cts_number" class="form-control form-control--custom m-input"
                                    value="{{ old('cts_number') }}">
-                            <span class="help-block">{{$errors->first('cts_number')}}</span>
+                            <span class="text-danger">{{$errors->first('cts_number')}}</span>
                         </div>
                     </div>
                 </div>
@@ -170,7 +170,7 @@
                         <label class="col-form-label" for="society_address">Society Address:<span class="star">*</span></label>
                         <div class="m-input-icon m-input-icon--right">
                             <textarea id="society_address" name="society_address" class="form-control form-control--custom form-control--fixed-height m-input">{{ old('society_address') }}</textarea>
-                            <span class="help-block">{{$errors->first('society_address')}}</span>
+                            <span class="text-danger">{{$errors->first('society_address')}}</span>
                         </div>
                     </div>
 
@@ -179,7 +179,7 @@
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="area" name="area" class="form-control form-control--custom m-input"
                                    value="{{ old('area') }}">
-                            <span class="help-block">{{$errors->first('area')}}</span>
+                            <span class="text-danger">{{$errors->first('area')}}</span>
                         </div>
                     </div>
                 </div>
@@ -188,7 +188,7 @@
                         <label class="col-form-label" for="chairman">Name of Chairman:</label>
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="chairman" name="chairman" class="form-control form-control--custom m-input" value="{{ old('chairman') }}">
-                            <span class="help-block">{{$errors->first('chairman')}}</span>
+                            <span class="text-danger">{{$errors->first('chairman')}}</span>
                         </div>
                     </div>
 
@@ -196,7 +196,7 @@
                         <label class="col-form-label" for="chairman_mob_no">Chairman's Mobile No:</label>
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="chairman_mob_no" name="chairman_mob_no" class="form-control form-control--custom m-input" value="{{ old('chairman_mob_no') }}">
-                            <span class="help-block">{{$errors->first('chairman_mob_no')}}</span>
+                            <span class="text-danger">{{$errors->first('chairman_mob_no')}}</span>
                         </div>
                     </div>
                 </div>
@@ -206,7 +206,7 @@
                         <label class="col-form-label" for="secretary">Name of Secretary:</label>
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="secretary" name="secretary" class="form-control form-control--custom m-input" value="{{ old('secretary') }}">
-                            <span class="help-block">{{$errors->first('secretary')}}</span>
+                            <span class="text-danger">{{$errors->first('secretary')}}</span>
                         </div>
                     </div>
 
@@ -214,7 +214,7 @@
                         <label class="col-form-label" for="secretary_mob_no">Secretary's Mobile No:</label>
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="secretary_mob_no" name="secretary_mob_no" class="form-control form-control--custom m-input" value="{{ old('secretary_mob_no') }}">
-                            <span class="help-block">{{$errors->first('secretary_mob_no')}}</span>
+                            <span class="text-danger">{{$errors->first('secretary_mob_no')}}</span>
                         </div>
                     </div>
                 </div>
@@ -225,7 +225,7 @@
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="society_email_id" name="society_email_id" class="form-control form-control--custom m-input"
                                    value="{{ old('society_email_id') }}">
-                            <span class="help-block">{{$errors->first('society_email_id')}}</span>
+                            <span class="text-danger">{{$errors->first('society_email_id')}}</span>
                         </div>
                     </div>
 
@@ -234,7 +234,7 @@
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="date_on_service_tax" name="date_on_service_tax" class="form-control form-control--custom m-input m_datepicker"
                                    readonly value="{{ old('date_on_service_tax') }}">
-                            <span class="help-block">{{$errors->first('date_on_service_tax')}}</span>
+                            <span class="text-danger">{{$errors->first('date_on_service_tax')}}</span>
                         </div>
                     </div>
                 </div>
@@ -245,7 +245,7 @@
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="surplus_charges" name="surplus_charges" class="form-control form-control--custom m-input"
                                    value="{{ old('surplus_charges') }}">
-                            <span class="help-block">{{$errors->first('surplus_charges')}}</span>
+                            <span class="text-danger">{{$errors->first('surplus_charges')}}</span>
                         </div>
                     </div>
 
@@ -255,7 +255,7 @@
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="surplus_charges_last_date" name="surplus_charges_last_date" class="form-control form-control--custom m-input m_datepicker"
                                    readonly value="{{ old('surplus_charges_last_date') }}">
-                            <span class="help-block">{{$errors->first('surplus_charges_last_date')}}</span>
+                            <span class="text-danger">{{$errors->first('surplus_charges_last_date')}}</span>
                         </div>
                     </div>
                 </div>
@@ -270,7 +270,7 @@
                                     <option value="{{ $other_land_details->id  }}">{{ $other_land_details->land_name }}</option>
                                 @endforeach
                             </select>
-                            <span class="help-block">{{$errors->first('other_land_id')}}</span>
+                            <span class="text-danger">{{$errors->first('other_land_id')}}</span>
                         </div>
                     </div>
                     <div class="col-sm-4 offset-sm-1 form-group">
@@ -278,11 +278,11 @@
                         <div class="m-radio-inline">
                             <label class="m-radio m-radio--primary">
                                 <input type="radio" class="society_conveyed" name="society_conveyed" value="1"> Yes
-                                <span class="help-block"></span>
+                                <span class="text-danger"></span>
                             </label>
                             <label class="m-radio m-radio--primary">
                                 <input type="radio" class="society_conveyed" name="society_conveyed" value="0" checked> No
-                                <span class="help-block"></span>
+                                <span class="text-danger"></span>
                             </label>
                         </div>
                     </div>
@@ -291,7 +291,7 @@
                     <div class="col-sm-4 form-group hide">
                         <label class="col-form-label" for="date_of_conveyance">Date of Conveyance:<span class="star">*</span></label>
                         <input type="text" id="date_of_conveyance" name="date_of_conveyance" class="form-control form-control--custom m-input m_datepicker"  value="{{ old('date_of_conveyance') }}">
-                        <span class="help-block">{{$errors->first('date_of_conveyance')}}</span>
+                        <span class="text-danger">{{$errors->first('date_of_conveyance')}}</span>
                     </div>
 
                     <div class="col-sm-4 offset-sm-1 form-group">
@@ -299,7 +299,7 @@
                         <div class="m-input-icon m-input-icon--right">
                             <input type="text" id="area_of_conveyance" name="area_of_conveyance" class="form-control form-control--custom m-input"
                                    value="{{ old('area_of_conveyance') }}">
-                            <span class="help-block">{{$errors->first('area_of_conveyance')}}</span>
+                            <span class="text-danger">{{$errors->first('area_of_conveyance')}}</span>
                         </div>
                     </div>
 
