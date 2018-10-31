@@ -14,6 +14,8 @@
         <button class="btn--unstyled flex-grow-1 form-step-tab active">Step 6</button>
         <button class="btn--unstyled flex-grow-1 form-step-tab active">Step 7</button>
         <button class="btn--unstyled flex-grow-1 form-step-tab active">Step 8</button>
+        <button class="btn--unstyled flex-grow-1 form-step-tab ">Step 9</button>
+        <button class="btn--unstyled flex-grow-1 form-step-tab ">Step 10</button>
     </div>
     <div id="accordion" class="mt-4">
         @php
@@ -212,13 +214,9 @@
                     </div>
                     <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
                         <div class="m-form__actions px-0">
-                            <div class="row">
-                                <div class="col-sm-one4">
-                                    <div class="btnone-list">
-                                        <input type="submit" id="" class="btn btn-primary" name="Save">
-                                        <a href="" class="btn btn-secondary">Cancel</a>
-                                    </div>
-                                </div>
+                            <div class="btn-list">
+                                <input type="submit" id="" class="btn btn-primary" name="Save">
+                                <a href="" class="btn btn-secondary">Cancel</a>
                             </div>
                         </div>
                     </div>
@@ -231,14 +229,14 @@
     <div class="m-form__actions p-0">
         <div class="btn-list d-flex justify-content-between align-items-center">
             <a id="add-more" class="btn--add-delete add">add more<a>
-            @if($application->form_step==9)
+            {{-- @if($application->form_step==9)
             <form method="post" action="{{route('appointing_architect.send_to_architect')}}">
                 @csrf
                 <input type="hidden" name="app_id" value="{{$application->id}}">
                 <button type="submit" class="btn btn-primary">Send To Architect</button>
             </form>
-            @endif
-            <a href="{{route('appointing_architect.step8',['id'=>encrypt($application->id)])}}" id="" class="btn btn-primary">Next</a>
+            @endif --}}
+            <a href="{{route('appointing_architect.step9',['id'=>encrypt($application->id)])}}" id="" class="btn btn-primary">Next</a>
         </div>
     </div>
 </div>

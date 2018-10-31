@@ -14,6 +14,8 @@
         <button class="btn--unstyled flex-grow-1 form-step-tab">Step 6</button>
         <button class="btn--unstyled flex-grow-1 form-step-tab">Step 7</button>
         <button class="btn--unstyled flex-grow-1 form-step-tab">Step 8</button>
+        <button class="btn--unstyled flex-grow-1 form-step-tab ">Step 9</button>
+        <button class="btn--unstyled flex-grow-1 form-step-tab ">Step 10</button>
     </div>
     <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
         <h3 class="section-title section-title--small">Form 3:</h3>

@@ -14,6 +14,8 @@
         <button class="btn--unstyled flex-grow-1 form-step-tab">Step 6</button>
         <button class="btn--unstyled flex-grow-1 form-step-tab">Step 7</button>
         <button class="btn--unstyled flex-grow-1 form-step-tab">Step 8</button>
+        <button class="btn--unstyled flex-grow-1 form-step-tab ">Step 9</button>
+        <button class="btn--unstyled flex-grow-1 form-step-tab ">Step 10</button>
     </div>
     <form id="" role="form" method="post" class="m-form m-form--rows m-form--label-align-right form-steps-box" action="{{route('appointing_architect.step5_post',['id'=>encrypt($application->id)])}}"
         enctype="multipart/form-data">

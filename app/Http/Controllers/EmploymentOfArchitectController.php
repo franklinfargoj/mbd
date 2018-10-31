@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\ArchitectApplicationMark;
+use App\ArchitectApplicationStatusLog;
 use App\EmploymentOfArchitect\EoaApplication;
 use App\EmploymentOfArchitect\EoaApplicationEnclosure;
 use App\EmploymentOfArchitect\EoaApplicationFeePaymentDetail;
@@ -21,12 +23,11 @@ use App\Repositories\Repository;
 use App\Role;
 use App\RoleUser;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Storage;
 use Validator;
 use Yajra\DataTables\DataTables;
-use Carbon\Carbon;
-use App\ArchitectApplicationStatusLog;
 
 class EmploymentOfArchitectController extends Controller
 {
@@ -39,7 +40,7 @@ class EmploymentOfArchitectController extends Controller
         'side_menu' => 'architect_application',
     );
 
-    public function __construct(EoaApplication $EoaApplication, User $user, EoaApplicationFeePaymentDetail $EoaApplicationFeePaymentDetail, EoaApplicationEnclosure $EoaApplicationEnclosure, EoaApplicationImportantProjectDetail $EoaApplicationImportantProjectDetail, EoaApplicationImportantProjectWorkHandledDetail $EoaApplicationImportantProjectWorkHandledDetail, EoaApplicationImportantSeniorProfessionalDetail $EoaApplicationImportantSeniorProfessionalDetail, EoaApplicationProjectSheetDetail $EoaApplicationProjectSheetDetail)
+    public function __construct(EoaApplication $EoaApplication, User $user, EoaApplicationFeePaymentDetail $EoaApplicationFeePaymentDetail, EoaApplicationEnclosure $EoaApplicationEnclosure, EoaApplicationImportantProjectDetail $EoaApplicationImportantProjectDetail, EoaApplicationImportantProjectWorkHandledDetail $EoaApplicationImportantProjectWorkHandledDetail, EoaApplicationImportantSeniorProfessionalDetail $EoaApplicationImportantSeniorProfessionalDetail, EoaApplicationProjectSheetDetail $EoaApplicationProjectSheetDetail, ArchitectApplicationMark $ArchitectApplicationMark)
     {
         // set the model
         $this->user = new Repository($user);
@@ -50,6 +51,7 @@ class EmploymentOfArchitectController extends Controller
         $this->imp_projects_work_handled = new Repository($EoaApplicationImportantProjectWorkHandledDetail);
         $this->imp_senior_professional = new Repository($EoaApplicationImportantSeniorProfessionalDetail);
         $this->project_sheet = new Repository($EoaApplicationProjectSheetDetail);
+        $this->supporting_documents = new Repository($ArchitectApplicationMark);
         $this->list_num_of_records_per_page = config('commanConfig.list_num_of_records_per_page');
     }
 
@@ -160,13 +162,13 @@ class EmploymentOfArchitectController extends Controller
                     return date('d-m-Y', strtotime($architect_applications->created_at));
                 })
                 ->editColumn('status', function ($architect_applications) {
-                    return $architect_applications->ArchitectApplicationStatusForLoginListing->count()>0?'sent':'new application';
+                    return $architect_applications->ArchitectApplicationStatusForLoginListing->count() > 0 ? 'sent' : 'new application';
                 })
                 ->editColumn('actions', function ($architect_applications) {
-                    
+
                     return view('employment_of_architect.action', compact('architect_applications'))->render();
                 })
-                ->rawColumns(['select', 'application_number', 'application', 'application_date', 'status','actions'])
+                ->rawColumns(['select', 'application_number', 'application', 'application_date', 'status', 'actions'])
                 ->make(true);
         }
 
@@ -614,6 +616,75 @@ class EmploymentOfArchitectController extends Controller
         }
 
         return back()->withSuccess('data saved successfully!!!');
+    }
+
+    public function step9($id)
+    {
+        $id = decrypt($id);
+        $application = $this->model->whereWithFirst(['supporting_documents'], ['id' => $id, 'user_id' => auth()->user()->id]);
+        //dd($application);
+        return view('employment_of_architect.form9', compact('application'));
+    }
+
+    public function step9_post(Request $request, $id)
+    {
+        $doc_name = $request->document_name;
+        $doc_id = $request->doc_id;
+        //$document_path=$request->document_path;
+        $k = 0;
+        $application_id = $request->application_id;
+        foreach ($doc_name as $doc) {
+            $data_array=array();
+            $storage="";
+            if (isset($doc_id[$k])) {
+                //dd($request->hasFile('document_path'));
+                if ($request->hasFile('document_path')) {
+                    $file = $request->file('document_path')[$k];
+                    $extension = $request->file('document_path')[$k]->getClientOriginalExtension();
+                    $dir = 'appointing_architect_application';
+                    $filename = uniqid() . '_' . time() . '_' . date('Ymd') . '.' . $extension;
+                    $storage = Storage::disk('ftp')->putFileAs($dir, $request->file('document_path')[$k], $filename);
+                }
+                $data_array = [
+                    'document_name' => $doc_name[$k],
+                    'architect_application_id' => $application_id,
+                ];
+                if($storage!="")
+                {
+                    $data_array['document_path'] =$storage;
+                }
+               //dd($storage);
+                $this->supporting_documents->updateWhere($data_array, ['id' => $doc_id[$k], 'architect_application_id' => $application_id]);
+
+            } else {
+                if ($request->hasFile('document_path')) {
+                    $file = $request->file('document_path')[$k];
+                    $extension = $request->file('document_path')[$k]->getClientOriginalExtension();
+                    $dir = 'appointing_architect_application';
+                    $filename = uniqid() . '_' . time() . '_' . date('Ymd') . '.' . $extension;
+                    $storage = Storage::disk('ftp')->putFileAs($dir, $request->file('document_path')[$k], $filename);
+                }
+                $data_array = [
+                    'document_path' => $storage,
+                    'document_name' => $doc_name[$k],
+                    'architect_application_id' => $application_id,
+                ];
+                $this->supporting_documents->create($data_array);
+                //$this->supporting_documents;
+            }
+            $k++;
+        }
+        return back();
+    }
+
+    public function step10($id)
+    {
+
+    }
+
+    public function step10_post(Request $request, $id)
+    {
+
     }
 
     public function send_to_architect(Request $request)
