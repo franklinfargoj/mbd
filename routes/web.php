@@ -476,11 +476,15 @@ Route::delete('destroy_architect_layout_detail_court_case_or_dispute_on_land/{id
         Route::resource('roles','RoleController');
     });
 
+    //Society Conveyance
+
     Route::get('download_template', 'SocietyConveyanceController@download_excel')->name('sc_download');
     Route::get('sc_upload_docs', 'SocietyConveyanceController@sc_upload_docs')->name('sc_upload_docs');
+    Route::get('upload_sc_docs', 'SocietyConveyanceController@upload_sc_docs')->name('upload_sc_docs');
     Route::get('delete_sc_upload_docs/{id}', 'SocietyConveyanceController@delete_sc_upload_docs')->name('delete_sc_upload_docs');
     Route::resource('/society_conveyance','SocietyConveyanceController');
-    
+
+    //Society Conveyance END
 });
 
 

@@ -259,8 +259,8 @@ class SocietyConveyanceController extends Controller
      */
     public function show($id)
     {
+        $id = base64_decode($id);
         $sc_application = scApplication::with(['sc_form_request', 'societyApplication', 'applicationLayout'])->where('id', $id)->first();
-//        dd($sc_application->id);
 
         return view('frontend.society.conveyance.show_sc_application', compact('sc_application'));
     }
@@ -273,6 +273,7 @@ class SocietyConveyanceController extends Controller
      */
     public function edit($id)
     {
+        $id = base64_decode($id);
         $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $sc_application = scApplication::with(['sc_form_request', 'societyApplication', 'applicationLayout'])->where('id', $id)->first();
         $sc = new SocietyConveyance;
@@ -339,10 +340,10 @@ class SocietyConveyanceController extends Controller
                         $is_match = 1;
                         $sc_application = scApplication::with('sc_form_request')->where('id', $id)->first();
                     }else{
-                        return redirect()->route('society_conveyance.edit', $id)->withErrors('error', "Excel file headers doesn't match")->withInput();
+                        return redirect()->route('society_conveyance.edit', base64_encode($id))->withErrors('error', "Excel file headers doesn't match")->withInput();
                     }
                 }else{
-                    return redirect()->route('society_conveyance.edit', $id)->withErrors('error', "Excel file is empty.")->withInput();
+                    return redirect()->route('society_conveyance.edit', base64_encode($id))->withErrors('error', "Excel file is empty.")->withInput();
                 }
             }
         }else{
@@ -376,7 +377,7 @@ class SocietyConveyanceController extends Controller
                 SocietyConveyance::where('id', $sc_application->sc_form_request->id)->update($input);
             }
         }
-        return redirect()->route('society_conveyance.show', $id);
+        return redirect()->route('society_conveyance.show', base64_encode($id));
     }
 
     /**
@@ -431,25 +432,25 @@ class SocietyConveyanceController extends Controller
      * @param  void
      * @return \Illuminate\Http\Response
      */
-//    public function delete_sc_upload_docs($id)
-//    {
-////        dd($id);
-//        $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
-//        $sc_application = scApplication::where('society_id', $society->id)->with(['scApplicationType', 'scApplicationLog' => function($q){
-//            $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
-//        } ])->orderBy('id', 'desc')->first();
-//        $documents = SocietyConveyanceDocumentMaster::with(['sc_document_status' => function($q) use($sc_application) { $q->where('application_id', $sc_application->id)->get(); }])->where('application_type_id', $sc_application->sc_application_master_id)->get();
-//        $documents_uploaded = SocietyConveyanceDocumentStatus::where('application_id', $sc_application->id)->where('conveyance_document_id', $id)->first();
-//        $path = config('commanConfig.storage_server').$documents_uploaded->document_path;
-//        $deleted = Storage::disk('ftp')->delete($path);
-//        SocietyConveyanceDocumentStatus::where('application_id', $sc_application->id)->where('conveyance_document_id', $id)->delete();
-//        $update_template_file = array(
-//            'template_file' => ''
-//        );
-//        SocietyConveyance::where('society_id', $society->id)->where('id', $sc_application->form_request_id)->update($update_template_file);
-//
-//        return redirect()->route('sc_upload_docs');
-//    }
+    public function upload_sc_docs(Request $request)
+    {
+        dd($request->all());
+        $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
+        $sc_application = scApplication::where('society_id', $society->id)->with(['scApplicationType', 'scApplicationLog' => function($q){
+            $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
+        } ])->orderBy('id', 'desc')->first();
+        $documents = SocietyConveyanceDocumentMaster::with(['sc_document_status' => function($q) use($sc_application) { $q->where('application_id', $sc_application->id)->get(); }])->where('application_type_id', $sc_application->sc_application_master_id)->get();
+        $documents_uploaded = SocietyConveyanceDocumentStatus::where('application_id', $sc_application->id)->where('conveyance_document_id', $id)->first();
+        $path = config('commanConfig.storage_server').$documents_uploaded->document_path;
+        $deleted = Storage::disk('ftp')->delete($path);
+        SocietyConveyanceDocumentStatus::where('application_id', $sc_application->id)->where('conveyance_document_id', $id)->delete();
+        $update_template_file = array(
+            'template_file' => ''
+        );
+        SocietyConveyance::where('society_id', $society->id)->where('id', $sc_application->form_request_id)->update($update_template_file);
+
+        return redirect()->route('sc_upload_docs');
+    }
 
     /**
      * Deletes uploaded documents.
@@ -459,7 +460,7 @@ class SocietyConveyanceController extends Controller
      */
     public function delete_sc_upload_docs($id)
     {
-//        dd($id);
+        dd($id);
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $sc_application = scApplication::where('society_id', $society->id)->with(['scApplicationType', 'scApplicationLog' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
