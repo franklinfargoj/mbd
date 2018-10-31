@@ -678,8 +678,17 @@ class EmploymentOfArchitectController extends Controller
             }
             $k++;
         }
-        $this->model->updateWhere(['form_step' => 9], ['id' => $application_id]);
+        $this->model->updateWhere(['form_step' => 10], ['id' => $application_id]);
         return back();
+    }
+    public function delete_supporting_document(Request $request)
+    {
+        $id = $request->delete_imp_project_id;
+        if ($this->supporting_documents->delete($id)) {
+            return response()->json(['status' => 0, 'description' => 'deleted successfully']);
+        } else {
+            return response()->json(['status' => 1, 'description' => 'something went wrong']);
+        }
     }
 
     public function step10($id)
@@ -700,9 +709,22 @@ class EmploymentOfArchitectController extends Controller
         return view('employment_of_architect.form10',compact('application','work_in_hand','work_completed'));
     }
 
-    public function step10_post(Request $request, $id)
+    public function view_eoa_application($id)
     {
-
+        $id = decrypt($id);
+        $application = $this->model->whereWithFirst([
+            'enclosures',
+            'supporting_documents',
+            'project_sheets',
+            'imp_senior_professionals',
+            'fee_payment_details',
+            'imp_projects',
+            'imp_project_work_handled'
+        ], 
+        ['id' => $id, 'user_id' => auth()->user()->id]);
+        $work_in_hand=$application->project_sheets->where('work_completed',0);
+        $work_completed=$application->project_sheets->where('work_completed',1);
+        return view('employment_of_architect.form10',compact('application','work_in_hand','work_completed'));
     }
 
     public function send_to_architect(Request $request)
@@ -764,7 +786,7 @@ class EmploymentOfArchitectController extends Controller
         // if (ArchitectApplicationStatusLog::insert($forward_application)) {
         //     return redirect()->route('architect_application');
         // }
-        return $request->all();
+        // return $request->all();
     }
 
 }

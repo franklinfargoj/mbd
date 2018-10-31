@@ -658,7 +658,14 @@
 <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
         <div class="m-form__actions px-0">
             <div class="btn-list">
+         @if($application->form_step==10 && $application->ArchitectApplicationStatusForLoginListing->count()<=0)
+            <form method="post" action="{{route('appointing_architect.send_to_architect')}}">
+                @csrf
+                <input type="hidden" name="app_id" value="{{$application->id}}">
                 <button type="submit" id="" class="btn btn-primary">Submit Application</button>
+            </form>
+            @endif
+                
                 {{-- <a href="" class="btn btn-secondary">Cancel</a> --}}
             </div>
         </div>
@@ -668,6 +675,11 @@
 @endsection
 @section('js')
     <script>
-        $("input").prop("disabled", true);
+        $("input").filter(
+                function (index, item) {
+                    if (item.name !== 'app_id' && item.name !== '_token') {
+                        item.setAttribute("disabled", true);
+                    }
+                });
     </script>
 @endsection

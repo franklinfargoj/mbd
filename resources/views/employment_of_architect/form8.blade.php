@@ -229,13 +229,7 @@
     <div class="m-form__actions p-0">
         <div class="btn-list d-flex justify-content-between align-items-center">
             <a id="add-more" class="btn--add-delete add">add more<a>
-            {{-- @if($application->form_step==9)
-            <form method="post" action="{{route('appointing_architect.send_to_architect')}}">
-                @csrf
-                <input type="hidden" name="app_id" value="{{$application->id}}">
-                <button type="submit" class="btn btn-primary">Send To Architect</button>
-            </form>
-            @endif --}}
+           
             <a href="{{route('appointing_architect.step9',['id'=>encrypt($application->id)])}}" id="" class="btn btn-primary">Next</a>
         </div>
     </div>

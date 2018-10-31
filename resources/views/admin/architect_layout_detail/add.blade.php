@@ -632,7 +632,7 @@ function showUploadedFileName() {
                             <div class="m-subheader">
                                 <div class="d-flex align-items-center">
                                     <h3 class="section-title section-title--small">
-                                        CTS plan
+                                        CTS plan 
                                     </h3>
                                 </div>
                                 <div class="mt-auto">
