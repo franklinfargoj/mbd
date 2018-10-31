@@ -39,7 +39,8 @@
         @endif
 
 
-        @for($j=0;$j<(1+$k);$j++) <div class="m-portlet m-portlet--compact form-accordion">
+        @for($j=0;$j<(1+$k);$j++) 
+        <div class="m-portlet m-portlet--compact form-accordion">
             <div class="d-flex justify-content-between align-items-center form-steps-toplinks">
                 <a class="btn--unstyled section-title section-title--small form-count-title" data-toggle="collapse"
                     href="#form_{{$j+1}}">Form
@@ -233,7 +234,7 @@
     <div class="m-form__actions p-0">
         <div class="btn-list d-flex justify-content-between align-items-center">
             <a id="add-more" class="btn--add-delete add">add more<a>
-            <a href="{{route('appointing_architect.step8',['id'=>encrypt($application->id)])}}" id="" class="btn btn-primary">Next</a>
+                    <a href="{{route('appointing_architect.step8',['id'=>encrypt($application->id)])}}" id="" class="btn btn-primary">Next</a>
         </div>
     </div>
 </div>
@@ -265,7 +266,8 @@
                     }
                 });
 
-            formAccordion.find(".form-steps-toplinks").append("<h2 class='m--font-danger'><i title='Delete' class='fa fa-remove'></i></h2>");
+            formAccordion.find(".form-steps-toplinks").append(
+                "<h2 class='m--font-danger'><i title='Delete' class='fa fa-remove'></i></h2>");
 
             var formAccordionCount = $("#accordion").find('.form-accordion').length + 1;
             var newID = 'form_' + formAccordionCount;
@@ -303,42 +305,40 @@
                 autoclose: true,
                 format: 'dd-mm-yyyy'
             });
-            
+
             removeAccordion();
         });
 
         function removeAccordion() {
-            if($('.form-steps-toplinks')) {
-                $('.form-steps-toplinks').on('click', '.fa-remove', function(e) {
-                    var delete_id=$(this).closest('.form-steps-toplinks').next('form').find("input[name='project_sheet_detail_id']")[0].value;
+            if ($('.form-steps-toplinks')) {
+                $('.form-steps-toplinks').on('click', '.fa-remove', function (e) {
+                    var delete_id = $(this).closest('.form-steps-toplinks').next('form').find(
+                        "input[name='project_sheet_detail_id']")[0].value;
                     //$(this)[0].closest('.form-accordion').remove();
-                    if(delete_id!="")
-                    {
-                        if(confirm('are you sure?'))
-                        {
+                    if (delete_id != "") {
+                        if (confirm('are you sure?')) {
                             $.ajaxSetup({
                                 headers: {
                                     'X-CSRF-Token': '{{csrf_token()}}'
                                 }
                             });
-                            var thisInstance=$(this);
+                            var thisInstance = $(this);
                             $.ajax({
-                                url:"{{route('appointing_architect.delete_project_sheet_detail')}}",
-                                method:'POST',
-                                data:{delete_imp_project_id:delete_id},
-                                success:function(data){
-                                    if(data.status==0)
-                                    {
+                                url: "{{route('appointing_architect.delete_project_sheet_detail')}}",
+                                method: 'POST',
+                                data: {
+                                    delete_imp_project_id: delete_id
+                                },
+                                success: function (data) {
+                                    if (data.status == 0) {
                                         thisInstance[0].closest('.form-accordion').remove();
-                                    }else
-                                    {
+                                    } else {
                                         alert('something went wrong');
                                     }
                                 }
                             })
                         }
-                    }else
-                    {
+                    } else {
                         $(this)[0].closest('.form-accordion').remove();
                     }
 

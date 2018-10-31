@@ -622,7 +622,6 @@ class EmploymentOfArchitectController extends Controller
     {
         $id = decrypt($id);
         $application = $this->model->whereWithFirst(['supporting_documents'], ['id' => $id, 'user_id' => auth()->user()->id]);
-        //dd($application);
         return view('employment_of_architect.form9', compact('application'));
     }
 
@@ -638,7 +637,6 @@ class EmploymentOfArchitectController extends Controller
             $data_array=array();
             $storage="";
             if (isset($doc_id[$k])) {
-
                 if ($request->hasFile('document_path')) {
                     if(isset($request->file('document_path')[$k]))
                     {
@@ -658,7 +656,6 @@ class EmploymentOfArchitectController extends Controller
                 {
                     $data_array['document_path'] =$storage;
                 }
-               //dd($storage);
                 $this->supporting_documents->updateWhere($data_array, ['id' => $doc_id[$k], 'architect_application_id' => $application_id]);
 
             } else {
@@ -678,16 +675,29 @@ class EmploymentOfArchitectController extends Controller
                     'architect_application_id' => $application_id,
                 ];
                 $this->supporting_documents->create($data_array);
-                //$this->supporting_documents;
             }
             $k++;
         }
+        $this->model->updateWhere(['form_step' => 9], ['id' => $application_id]);
         return back();
     }
 
     public function step10($id)
     {
-
+        $id = decrypt($id);
+        $application = $this->model->whereWithFirst([
+            'enclosures',
+            'supporting_documents',
+            'project_sheets',
+            'imp_senior_professionals',
+            'fee_payment_details',
+            'imp_projects',
+            'imp_project_work_handled'
+        ], 
+        ['id' => $id, 'user_id' => auth()->user()->id]);
+        $work_in_hand=$application->project_sheets->where('work_completed',0);
+        $work_completed=$application->project_sheets->where('work_completed',1);
+        return view('employment_of_architect.form10',compact('application','work_in_hand','work_completed'));
     }
 
     public function step10_post(Request $request, $id)
