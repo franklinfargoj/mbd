@@ -156,6 +156,22 @@ $route=\Request::route()->getName();
                 </li>
                 @endif
 
+                @if(session()->get('permission') != "" && in_array('appointing_architect.index', session()->get('permission')))
+                <li class="m-menu__item {{ ($route == 'appointing_architect.index' ? 'm-menu__item--active' : '') }}"
+                    aria-haspopup="true">
+                    <a href="{{ route('appointing_architect.index') }}" class="m-menu__link ">
+                        <i class="m-menu__link-icon flaticon-line-graph"></i>
+                        <span class="m-menu__link-title">
+                            <span class="m-menu__link-wrap">
+                                <span class="m-menu__link-text">
+                                    Applications
+                                </span>
+                            </span>
+                        </span>
+                    </a>
+                </li>
+                @endif
+
                 @if(session()->get('permission') && in_array('rti_applicants', session()->get('permission')))
                 <li class="m-menu__item">
                     <a href="{{url('/rti_applicants')}}" class="m-menu__link m-menu__toggle">
