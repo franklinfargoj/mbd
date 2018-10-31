@@ -12,11 +12,11 @@
         <button class="btn--unstyled flex-grow-1 form-step-tab">Step 7</button>
         <button class="btn--unstyled flex-grow-1 form-step-tab">Step 8</button>
     </div>
-    @if ($errors->any())
+    {{-- @if ($errors->any())
     @foreach ($errors->all() as $error)
     <div>{{$error}}</div>
     @endforeach
-    @endif
+    @endif --}}
     <form id="" role="form" method="post" class="m-form m-form--rows m-form--label-align-right form-steps-box" action="{{route('appointing_architect.step4_post')}}"
         enctype="multipart/form-data">
         <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
@@ -44,6 +44,10 @@
                                 @php $k=0; @endphp
                                 @endif
                                 @for($j=0;$j<(5+$k);$j++) 
+                                @php
+                                 $id="";
+                                 $id=$application->imp_projects!=''?(isset($application->imp_projects[$j])?$application->imp_projects[$j]->id:''):'';
+                                @endphp
                                 <tr class="cloneme">
                                     <td>
                                         <input type="hidden" name="imp_project_id[]" value="{{$application->imp_projects!=''?(isset($application->imp_projects[$j])?$application->imp_projects[$j]->id:''):''}}">
@@ -57,7 +61,10 @@
                                     <td>
                                         <input name="category_of_client[]" value="{{$application->imp_projects!=''?(isset($application->imp_projects[$j])?$application->imp_projects[$j]->category_of_client:''):''}}"
                                             placeholder="Category of Client" type="text" class="form-control form-control--custom">
-                                    </td>
+                                            @if($j>4)
+                                            <h2 class='m--font-danger remove-row'><i title='Delete' class='fa fa-remove'></i></h2>
+                                            @endif
+                                        </td>
                                     </tr>
                                     @endfor
                             </tbody>
@@ -90,13 +97,52 @@
     $('#add-more').click(function (e) {
         e.preventDefault();
         var clone = $('table.imp_projects tr.cloneme:first').clone().find('input').val('').end();
-        clone.append("<h2 class='m--font-danger remove-row'><i class='fa fa-remove'></i></h2>");
+        clone.find("td:last").append("<h2 class='m--font-danger remove-row'><i title='Delete' class='fa fa-remove'></i></h2>");
         $('table.imp_projects').append(clone);
     });
 
     $('.imp_projects').on('click', '.fa-remove', function () {
-        $(this).closest('tr').remove();
+        var delete_id=$(this).closest('tr').find("input[name='imp_project_id[]']")[0].value;
+        if(delete_id!="")
+        {
+            if(confirm('are you sure?'))
+            {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-Token': '{{csrf_token()}}'
+                    }
+                });
+                var thisInstance=$(this);
+                $.ajax({
+                    url:"{{route('appointing_architect.delete_imp_project')}}",
+                    method:'POST',
+                    data:{delete_imp_project_id:delete_id},
+                    success:function(data){
+                        if(data.status==0)
+                        {
+                            thisInstance.closest('tr').remove();
+                        }else
+                        {
+                            alert('something went wrong');
+                        }
+                    }
+                })
+            }
+        }else
+        {
+            $(this).closest('tr').remove();
+        }
+        
     });
-
+    function delete_imp_project(id)
+    {
+        if(id!="")
+        {
+            if(confirm('are you sure?'))
+            {
+                
+            }
+        }
+    }
 </script>
 @endsection

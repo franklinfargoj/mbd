@@ -58,7 +58,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ArchitectLayoutEEScrtinyQuestionMasterSeeder::class);
         // $this->call(RtiFormTableSeeder::class);
 
-        $this->call(MasterTables::class);
+//        $this->call(MasterTables::class);
          // $this->call(RtiFormTableSeeder::class);
 
         $this->call(SocietyConveyanceDocumentMasterSeeder::class);

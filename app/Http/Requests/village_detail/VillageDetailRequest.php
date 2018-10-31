@@ -35,8 +35,8 @@ class VillageDetailRequest extends FormRequest
             'possession_date' => "required",
             'remark' => "required",
             'extract' => "required_if:file_upload,==,1|mimes:pdf",
-            'mhada_name' => "required",
             'property_card' => "required",
+            'property_card_area' => "required",
             'property_card_mhada_name' => "required",
             'land_cost' => "required",
         ];

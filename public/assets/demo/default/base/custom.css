@@ -1191,6 +1191,10 @@ table.dataTable tbody tr:nth-child(even):focus {
 
 /* global classes starts here */
 
+.select-box-list + .select-box-list {
+    margin-left: 15px;
+}
+
 .btn--unstyled {
     background-color: transparent;
     border: none;
@@ -2805,21 +2809,81 @@ label.site-visit-label {
 .form-steps-wrap {
     border-radius: 4px;
     border: 2px solid #8c8c8c;
+    overflow: hidden;
 }
 
 .form-step-tab {
-    background-color: #f1f2f6;
+    background-color: #fff;
     color: #767678;
     padding: 20px 0;
+    position: relative;
+    cursor: default;
 }
 
 .form-step-tab.active {
     background-color: #ff754e;
     color: #fff;
+    cursor: pointer;
+}
+
+.form-step-tab.active::before,
+.form-step-tab.active::after {
+    content: "";
+    display: block;
+    position: absolute;
+    border-style: solid;
+    border-color: transparent;
+    width: 0;
+    height: 0;
+    z-index: 1;
+}
+
+.form-step-tab.active::before {
+    border-width: 35px;
+    border-left-width: 12px;
+    top: -4px;
+    left: 101%;
+    border-left-color: #fff;
+}
+
+.form-step-tab.active::after {
+    border-width: 31px;
+    border-left-width: 15px;
+    top: 0;
+    left: 100%;
+    border-left-color: #ff754e;
+}
+
+.form-step-tab:last-child.active::after {
+    display: none;
+}
+
+.remove-accordion {
+    font-size: 1.3rem;
+}
+
+.form-count-title {
+    margin-bottom: 0;
 }
 
 .input-row-list + .input-row-list {
     margin-top: 15px;
+}
+
+.cloneme td {
+    position: relative;
+}
+
+.remove-row {
+    position: absolute;
+    top: 50%;
+    left: 105%;
+    transform: translateY(-55%);
+}
+
+.remove-row .fa {
+    cursor: pointer;
+    font-size: 1.2rem;
 }
 
 /* Appointing Architect ends here */

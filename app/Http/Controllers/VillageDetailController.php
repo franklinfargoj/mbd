@@ -14,6 +14,7 @@ use App\Http\Controllers\Common\CommonController;
 use DB;
 use File;
 use Illuminate\Support\Facades\Auth;
+use function PHPSTORM_META\elementType;
 use Storage;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Yajra\DataTables\DataTables;
@@ -45,17 +46,18 @@ class VillageDetailController extends Controller
         ->where('role_id', session()->get('role_id'))->join('boards', 'lm_village_detail.board_id', '=', 'boards.id')->join('land_source', 'lm_village_detail.land_source_id', '=', 'land_source.id');
 
 $village_data = $village_data->selectRaw( DB::raw('lm_village_detail.id, boards.board_name as board,lm_village_detail.sr_no,lm_village_detail.village_name,land_source.source_name as source,lm_village_detail.land_address
-,lm_village_detail.district
-,lm_village_detail.taluka,
+,lm_village_detail.district,
+lm_village_detail.taluka,
 lm_village_detail.total_area,
-lm_village_detail.possession_date
-,lm_village_detail.remark,
-lm_village_detail.7_12_extract
-,lm_village_detail.7_12_mhada_name,
-lm_village_detail.property_card
-,lm_village_detail.property_card_mhada_name,
-lm_village_detail.land_cost
-,lm_village_detail.extract_file_name,
+lm_village_detail.possession_date,
+lm_village_detail.remark,
+lm_village_detail.other_remark,
+lm_village_detail.7_12_extract,
+lm_village_detail.7_12_mhada_name,
+lm_village_detail.property_card,
+lm_village_detail.property_card_mhada_name,
+lm_village_detail.land_cost,
+lm_village_detail.extract_file_name,
 lm_village_detail.created_at,
 lm_village_detail.updated_at'))->get();
 // dd($village_data);
@@ -73,6 +75,7 @@ lm_village_detail.updated_at'))->get();
                 $dataList['Total Area'] = '';
                 $dataList['Possession Date'] = '';
                 $dataList['Remark'] = '';
+                $dataList['Other Remark'] = '';
                 $dataList['Land Cost'] = '';
                 $dataList["Is 7/12 on MHADA's Name"] = '';
                 $dataList['Property Card'] = '';
@@ -96,6 +99,7 @@ lm_village_detail.updated_at'))->get();
                     $dataList['Total Area'] = $dataList_value['total_area'];
                     $dataList['Possession Date'] = $dataList_value['possession_date'];
                     $dataList['Remark'] = $dataList_value['remark'];
+                    $dataList['Other Remark'] = $dataList_value['othedr_remark'] ?? NULL;
                     $dataList['Land Cost'] = $dataList_value['land_cost'];
                     $dataList["Is 7/12 on MHADA's Name"] = ($dataList_value['7_12_mhada_name'] == 1) ? 'yes' : 'no';
                     $dataList['Property Card'] = $dataList_value['property_card'];
@@ -159,6 +163,7 @@ lm_village_detail.updated_at'))->get();
             lm_village_detail.total_area,
             lm_village_detail.possession_date
             ,lm_village_detail.remark,
+            lm_village_detail.other_remark,
             lm_village_detail.7_12_extract
             ,lm_village_detail.7_12_mhada_name,
             lm_village_detail.property_card
@@ -183,6 +188,7 @@ lm_village_detail.updated_at'))->get();
                 $dataList['Total Area'] = '';
                 $dataList['Possession Date'] = '';
                 $dataList['Remark'] = '';
+                $dataList['Other Remark'] = '';
                 $dataList['Land Cost'] = '';
                 $dataList["Is 7/12 on MHADA's Name"] = '';
                 $dataList['Property Card'] = '';
@@ -206,6 +212,7 @@ lm_village_detail.updated_at'))->get();
                     $dataList['Total Area'] = $dataList_value['total_area'];
                     $dataList['Possession Date'] = $dataList_value['possession_date'];
                     $dataList['Remark'] = $dataList_value['remark'];
+                    $dataList['Other Remark'] = $dataList_value['othedr_remark'] ?? NULL;
                     $dataList['Land Cost'] = $dataList_value['land_cost'];
                     $dataList["Is 7/12 on MHADA's Name"] = ($dataList_value['7_12_mhada_name'] == 1) ? 'yes' : 'no';
                     $dataList['Property Card'] = $dataList_value['property_card'];
@@ -327,9 +334,10 @@ lm_village_detail.updated_at'))->get();
             'land_address' => $request->land_address,
             'district' => $request->district,
             'taluka' => $request->taluka,
-            'total_area' => $request->total_area,
-            'possession_date' => $request->possession_date,
             'remark' => $request->remark,
+            'total_area' => $request->total_area,
+            'property_card_area' => $request->property_card_area,
+            'possession_date' => $request->possession_date,
             '7_12_mhada_name' => $request->mhada_name,
             'property_card' => $request->property_card,
             'property_card_mhada_name' => $request->property_card_mhada_name,
@@ -337,14 +345,18 @@ lm_village_detail.updated_at'))->get();
             'user_id' => Auth::user()->id,
             'role_id' => session()->get('role_id')
         ];
-        
+
+        if($request->remark == 'other')
+            $village_data += [
+                'other_remark' =>$request->other_remark
+            ];
         $time = time();
 
         if($request->file_upload == 1) {
             if ($request->hasFile('extract')) {
                 $extension = $request->file('extract')->getClientOriginalExtension();
                 if ($extension == "pdf") {
-                    $name = File::name($request->file('extract')->getClientOriginalName()) . '_' . $time . '.' . $extension;
+                    $name = File::name(str_replace(' ','_',($request->file('extract')->getClientOriginalName()))) . '_' . $time . '.' . $extension;
                     $folder_name = "7_12_extract_document";
                     $path = '/'.$folder_name.'/';
                     $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$request->file('extract'),$name);
@@ -361,7 +373,10 @@ lm_village_detail.updated_at'))->get();
         }
         else
         {
+            $village_data['extract_file_path'] = '';
+            $village_data['extract_file_name'] = '';
             $village_data['7_12_extract'] = 0;
+            $village_data['property_card_mhada_name'] = 0;
         }
         
         VillageDetail::create($village_data);
@@ -412,6 +427,7 @@ lm_village_detail.updated_at'))->get();
      */
     public function update(EditVillageDetailRequest $request, $id)
     {
+//        dd($request->all());
         $village = VillageDetail::find($id);
         $village_data = [
             'board_id' => $request->board_id,
@@ -426,11 +442,17 @@ lm_village_detail.updated_at'))->get();
             'remark' => $request->remark,
             '7_12_mhada_name' => $request->mhada_name,
             'property_card' => $request->property_card,
+            'property_card_area' => $request->property_card_area,
             'property_card_mhada_name' => $request->property_card_mhada_name,
             'land_cost' => $request->land_cost,
             'user_id' => Auth::user()->id,
             'role_id' => session()->get('role_id')
         ];
+
+        if($request->remark == 'other') $village_data += [ 'other_remark' =>$request->other_remark ];
+        else $village_data += [ 'other_remark' => '' ];
+
+//        dd($request->all());
 
         $time = time();
 
@@ -438,10 +460,14 @@ lm_village_detail.updated_at'))->get();
             if ($request->hasFile('extract')) {
                 $extension = $request->file('extract')->getClientOriginalExtension();
                 if ($extension == "pdf") {
-                    $name = File::name($request->file('extract')->getClientOriginalName()) . '_' . $time . '.' . $extension;
+                    // Deleting previous file
+                    $previous_file = VillageDetail::where('id',$id)->value('extract_file_name');
+                    if($previous_file) Storage::disk('ftp')->delete('7_12_extract_document/'.$previous_file);
+                    // Uploading new file
+                    $name = File::name(str_replace(' ','_',($request->file('extract')->getClientOriginalName()))) . '_' . $time . '.' . $extension;
                     $folder_name = '7_12_extract_document';
                     $path='/'.$folder_name.'/';
-                    $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$request->file('extract'),$name);
+                    $this->CommonController->ftpFileUpload($folder_name,$request->file('extract'),$name);
                     $village_data['7_12_extract'] = 1;
                     $village_data['extract_file_path'] = $path;
                     $village_data['extract_file_name'] = $name;
@@ -450,14 +476,25 @@ lm_village_detail.updated_at'))->get();
                 }
 
             } else {
+                // Deleting previous file
+                $previous_file = VillageDetail::where('id',$id)->value('extract_file_name');
+                if($previous_file) Storage::disk('ftp')->delete('7_12_extract_document/'.$previous_file);
+                // Setting null value in database
                 $village_data['extract_file_path'] = $request->extract_file_path;
                 $village_data['extract_file_name'] = $request->extract_file_name;
             }
         }
         else {
+            // Deleting previous file
+            $previous_file = VillageDetail::where('id',$id)->value('extract_file_name');
+            if($previous_file) Storage::disk('ftp')->delete('/7_12_extract_document/'.$previous_file);
+
+            // Setting null value in database
             $village_data['extract_file_path'] = '';
             $village_data['extract_file_name'] = '';
             $village_data['7_12_extract'] = 0;
+            $village_data['property_card_mhada_name'] = 0;
+
         }
 
         $village->update($village_data);

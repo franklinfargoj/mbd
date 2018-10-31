@@ -1148,7 +1148,7 @@
                                             <td class="text-center">
                                                 @if(isset($calculationSheetDetails[0]->payment_of_remaining_installment) || isset($calculationSheetDetails[0]->payment_of_first_installment))
 
-                                                    {{ (3 * $calculationSheetDetails[0]->payment_of_remaining_installment ) + $calculationSheetDetails[0]->payment_of_first_installment }}
+                                                    {{ (3 * (float)(str_replace( ',', '',$calculationSheetDetails[0]->payment_of_remaining_installment))) + (float)(str_replace( ',', '',$calculationSheetDetails[0]->payment_of_first_installment)) }}
                                                 @else
                                                     0
                                                 @endif

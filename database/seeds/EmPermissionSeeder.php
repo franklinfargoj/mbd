@@ -292,7 +292,7 @@ class EmPermissionSeeder extends Seeder
                 'description' => 'Generate Building Bill'
             ],
         ];
-
+ 
         $permission_role = [];
 
         foreach ($permissions as $lm_per) {
@@ -315,5 +315,11 @@ class EmPermissionSeeder extends Seeder
         if (count($permission_role) > 0) {
             PermissionRole::insert($permission_role);
         }
+        $layout_id = \App\MasterLayout::where("layout_name", '=', "Samata Nagar, Kandivali(E)")->value('id');
+        $layout_user =  \App\LayoutUser::where('user_id',$user_id)->where('layout_id',$layout_id)->first();
+        
+        if(!$layout_user){
+            \App\LayoutUser::insert(['user_id' => $user_id, 'layout_id' => $layout_id]);          
+        }    
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\society_detail\SocietyDetailRequest;
 use App\LeaseDetail;
+use App\MasterLayout;
 use App\OtherLand;
 use App\SocietyDetail;
 use App\MasterSociety;
@@ -47,24 +48,56 @@ class SocietyController extends Controller
     {
         $society_data = SocietyDetail::join('other_land','lm_society_detail.other_land_id', '=', 'other_land.id')
             ->join('village_societies','village_societies.society_id','=','lm_society_detail.id');
-            $society_data = $society_data->selectRaw( DB::raw('lm_society_detail.id,lm_society_detail.society_name,lm_society_detail.district,lm_society_detail.taluka,lm_society_detail.village,lm_society_detail.survey_number,lm_society_detail.cts_number,lm_society_detail.chairman,lm_society_detail.society_address,lm_society_detail.area,lm_society_detail.date_on_service_tax,lm_society_detail.surplus_charges,lm_society_detail.surplus_charges_last_date,other_land.land_name'))->distinct('id')->get();
+            $society_data = $society_data->selectRaw( DB::raw('lm_society_detail.id,
+            lm_society_detail.society_name,
+            lm_society_detail.district,
+            lm_society_detail.taluka,
+            lm_society_detail.village,
+            lm_society_detail.survey_number,
+            lm_society_detail.cts_number,
+            lm_society_detail.chairman,
+            lm_society_detail.society_address,
+            lm_society_detail.area,
+            lm_society_detail.society_reg_no,
+            lm_society_detail.society_email_id,
+            lm_society_detail.secretary,
+            lm_society_detail.secretary_mob_no,
+            lm_society_detail.chairman_mob_no,
+            lm_society_detail.society_conveyed,
+            lm_society_detail.date_of_conveyance,
+            lm_society_detail.area_of_conveyance,
+            lm_society_detail.layout_id,       
+            lm_society_detail.date_on_service_tax,
+            lm_society_detail.surplus_charges,
+            lm_society_detail.surplus_charges_last_date,
+            other_land.land_name'))->distinct('id')->get();
             if(count($society_data) == 0){
                 $dataListMaster = [];
                 $dataList = [];
                 $dataList['Sr. No.'] = '';
                 $dataList['Society Name'] = '';
+                $dataList['Society Reg. No.'] = '';
                 $dataList['District'] = '';
                 $dataList['Taluka'] = '';
                 $dataList['Village'] = ''   ;
+                $dataList['Layout'] = '';
                 $dataList['Survey Number'] = '';
                 $dataList['CTS Number'] = '';
-                $dataList['Chairman'] = '';
+                $dataList['Name Of Chairman'] = '';
+                $dataList['Mobile no. Of Chairman'] = '';
+                $dataList['Name Of Secretary'] = '';
+                $dataList['Mobile no. Of Secretary'] = '';
                 $dataList['Society Address'] = '';
+                $dataList['Society Email Id'] = '';
                 $dataList['Area'] = '';
                 $dataList['Date mentioned on service tax letters'] = '';
                 $dataList['Surplus Charges'] = '';
                 $dataList['Last date of paying surplus charges'] = '';
                 $dataList['Land Name'] = '';
+                $dataList['Is Society Conveyed ?'] = '';
+                $dataList['Date Of Conveyance'] = '';
+                $dataList['Area Of Conveyance'] = '';
+
                 $dataListMaster[]=$dataList;
                 $dataListKeys = array_keys($dataList);
             }else{
@@ -73,19 +106,29 @@ class SocietyController extends Controller
                     $dataList = [];
                     $dataList['Sr. No.'] = $i;   
                     $dataList['Society Name'] = $dataList_value['society_name'];
+                    $dataList['Society Reg. No.'] = $dataList_value['society_reg_no'];
                     $dataList['District'] = $dataList_value['district'];
                     $dataList['Taluka'] = $dataList_value['taluka'];
                     $dataList['Village'] = $this->getVillages($dataList_value['id']);
+                    $layout_name = MasterLayout::where('id',$dataList_value['layout_id'])->value('layout_name');
+                    $dataList['Layout'] = $layout_name ?? NULL;
                     $dataList['Survey Number'] = $dataList_value['survey_number'];
                     $dataList['CTS Number'] = $dataList_value['cts_number'];
-                    $dataList['Chairman'] = $dataList_value['chairman'];
+                    $dataList['Name Of Chairman'] = $dataList_value['chairman'] ?? NULL;
+                    $dataList['Mobile no. Of Chairman'] = $dataList_value['chairman_mob_no'] ?? NULL;
+                    $dataList['Name Of Secretary'] = $dataList_value['secretary'] ?? NULL;
+                    $dataList['Mobile no. Of Secretary'] = $dataList_value['secretary_mob_no'] ?? NULL;
                     $dataList['Society Address'] = $dataList_value['society_address'];
+                    $dataList['Society Email Id'] = $dataList_value['society_email_id'] ?? NULL;
                     $dataList['Area'] = $dataList_value['area'];
                     $dataList['Date mentioned on service tax letters'] = $dataList_value['date_on_service_tax'];
                     $dataList['Surplus Charges'] = $dataList_value['surplus_charges'];
                     $dataList['Last date of paying surplus charges'] = $dataList_value['surplus_charges_last_date'];
                     $dataList['Land Name'] = $dataList_value['land_name'];
-                    
+                    $dataList['Is Society Conveyed ?'] = ($dataList_value['society_conveyed'] == 1) ? 'yes' : 'no';;
+                    $dataList['Date Of Conveyance'] = $dataList_value['date_of_conveyance'] ?? NULL;
+                    $dataList['Area Of Conveyance'] = $dataList_value['area_of_conveyance'] ?? NULL;
+
                     $dataListKeys = array_keys($dataList);
                     $dataListMaster[]=$dataList;
                     $i++;
@@ -116,43 +159,87 @@ class SocietyController extends Controller
         {
             $society_data = SocietyDetail::join('other_land','lm_society_detail.other_land_id', '=', 'other_land.id')
             ->join('village_societies','village_societies.society_id','=','lm_society_detail.id');
-            $society_data = $society_data->selectRaw( DB::raw('lm_society_detail.id,lm_society_detail.society_name,lm_society_detail.district,lm_society_detail.taluka,lm_society_detail.village,lm_society_detail.survey_number,lm_society_detail.cts_number,lm_society_detail.chairman,lm_society_detail.society_address,lm_society_detail.area,lm_society_detail.date_on_service_tax,lm_society_detail.surplus_charges,lm_society_detail.surplus_charges_last_date,other_land.land_name'))->distinct('id')->get();
+            $society_data = $society_data->selectRaw( DB::raw('lm_society_detail.id,
+            lm_society_detail.society_name,
+            lm_society_detail.district,
+            lm_society_detail.taluka,
+            lm_society_detail.village,
+            lm_society_detail.survey_number,
+            lm_society_detail.cts_number,
+            lm_society_detail.chairman,
+            lm_society_detail.society_address,
+            lm_society_detail.area,
+            lm_society_detail.society_reg_no,
+            lm_society_detail.society_email_id,
+            lm_society_detail.secretary,
+            lm_society_detail.secretary_mob_no,
+            lm_society_detail.chairman_mob_no,
+            lm_society_detail.society_conveyed,
+            lm_society_detail.date_of_conveyance,
+            lm_society_detail.area_of_conveyance,
+            lm_society_detail.layout_id,       
+            lm_society_detail.date_on_service_tax,
+            lm_society_detail.surplus_charges,
+            lm_society_detail.surplus_charges_last_date,
+            other_land.land_name'))->distinct('id')->get();
             if(count($society_data) == 0){
                 $dataListMaster = [];
                 $dataList = [];
-                $dataList['id'] = '';
+                $dataList['Sr. No.'] = '';
                 $dataList['Society Name'] = '';
+                $dataList['Society Reg. No.'] = '';
                 $dataList['District'] = '';
                 $dataList['Taluka'] = '';
+                $dataList['Village'] = ''   ;
+                $dataList['Layout'] = '';
                 $dataList['Survey Number'] = '';
                 $dataList['CTS Number'] = '';
-                $dataList['Chairman'] = '';
+                $dataList['Name Of Chairman'] = '';
+                $dataList['Mobile no. Of Chairman'] = '';
+                $dataList['Name Of Secretary'] = '';
+                $dataList['Mobile no. Of Secretary'] = '';
                 $dataList['Society Address'] = '';
+                $dataList['Society Email Id'] = '';
                 $dataList['Area'] = '';
                 $dataList['Date mentioned on service tax letters'] = '';
                 $dataList['Surplus Charges'] = '';
                 $dataList['Last date of paying surplus charges'] = '';
                 $dataList['Land Name'] = '';
+                $dataList['Is Society Conveyed ?'] = '';
+                $dataList['Date Of Conveyance'] = '';
+                $dataList['Area Of Conveyance'] = '';
+
                 $dataListMaster[]=$dataList;
+                $dataListKeys = array_keys($dataList);
             }else{
                 $i=1;
                 foreach ($society_data as $dataList_key => $dataList_value) {
 
                     $dataList = [];
-                    $dataList['id'] = $i;
+                    $dataList['Sr. No.'] = $i;
                     $dataList['Society Name'] = $dataList_value['society_name'];
+                    $dataList['Society Reg. No.'] = $dataList_value['society_reg_no'];
                     $dataList['District'] = $dataList_value['district'];
                     $dataList['Taluka'] = $dataList_value['taluka'];
                     $dataList['Village'] = $this->getVillages($dataList_value['id']);
+                    $layout_name = MasterLayout::where('id',$dataList_value['layout_id'])->value('layout_name');
+                    $dataList['Layout'] = $layout_name ?? NULL;
                     $dataList['Survey Number'] = $dataList_value['survey_number'];
                     $dataList['CTS Number'] = $dataList_value['cts_number'];
-                    $dataList['Chairman'] = $dataList_value['chairman'];
+                    $dataList['Name Of Chairman'] = $dataList_value['chairman'] ?? NULL;
+                    $dataList['Mobile no. Of Chairman'] = $dataList_value['chairman_mob_no'] ?? NULL;
+                    $dataList['Name Of Secretary'] = $dataList_value['secretary'] ?? NULL;
+                    $dataList['Mobile no. Of Secretary'] = $dataList_value['secretary_mob_no'] ?? NULL;
                     $dataList['Society Address'] = $dataList_value['society_address'];
+                    $dataList['Society Email Id'] = $dataList_value['society_email_id'] ?? NULL;
                     $dataList['Area'] = $dataList_value['area'];
                     $dataList['Date mentioned on service tax letters'] = $dataList_value['date_on_service_tax'];
                     $dataList['Surplus Charges'] = $dataList_value['surplus_charges'];
                     $dataList['Last date of paying surplus charges'] = $dataList_value['surplus_charges_last_date'];
                     $dataList['Land Name'] = $dataList_value['land_name'];
+                    $dataList['Is Society Conveyed ?'] = ($dataList_value['society_conveyed'] == 1) ? 'yes' : 'no';;
+                    $dataList['Date Of Conveyance'] = $dataList_value['date_of_conveyance'] ?? NULL;
+                    $dataList['Area Of Conveyance'] = $dataList_value['area_of_conveyance'] ?? NULL;
 
                     $dataListKeys = array_keys($dataList);
                     $dataListMaster[]=$dataList;
@@ -232,7 +319,8 @@ class SocietyController extends Controller
         $header_data = $this->header_data;
         $arrData['other_land'] = OtherLand::where('status', 1)->get();
         $arrData['villages'] = VillageDetail::get();
-
+        $arrData['layouts'] = MasterLayout::get();
+        //dd($arrData);
         return view('admin.society_detail.create', compact('header_data', 'arrData'));
     }
 
@@ -244,25 +332,37 @@ class SocietyController extends Controller
      */
     public function store(SocietyDetailRequest $request)
     {
-        //dd($request->all());
         $request->validate([
             'villages'=>'required|array|min:1'
         ]); 
         $society_data = [
             'society_name' => $request->society_name,
+            'society_reg_no' => $request->society_reg_no,
             'district' => $request->district,
             'taluka' => $request->taluka,
             'survey_number' => $request->survey_number,
             'cts_number' => $request->cts_number,
-            'chairman' => $request->chairman,
             'society_address' => $request->society_address,
             'area' => $request->area,
             'date_on_service_tax' => $request->date_on_service_tax,
             'surplus_charges' => $request->surplus_charges,
             'surplus_charges_last_date' => $request->surplus_charges_last_date,
-            //'village_id' => $request->village_id,
-            'other_land_id' => $request->other_land_id
+//            'village' => $request->village_id,
+            'other_land_id' => $request->other_land_id,
+            'layout_id' => $request->layout,
+            'society_conveyed' => $request->society_conveyed,
+            'chairman' => $request->chairman,
+            'chairman_mob_no' => $request->chairman_mob_no,
+            'secretary' => $request->secretary,
+            'secretary_mob_no' => $request->secretary_mob_no,
+            'society_email_id' => $request->society_email_id
         ];
+        if($request->society_conveyed){
+            $society_data += [
+                'area_of_conveyance' => $request->area_of_conveyance,
+                'date_of_conveyance' => $request->date_of_conveyance
+            ];
+        }
 
         $society_detail=SocietyDetail::create($society_data);
         $society_detail->Villages()->attach($request->villages);
@@ -288,6 +388,7 @@ class SocietyController extends Controller
         {
             $villages_belongs[]=$has_village->village_id;
         }
+        $arrData['layouts'] = MasterLayout::get();
 
         return view('admin.society_detail.show', compact('header_data', 'arrData', 'id','villages_belongs'));
     }
@@ -310,6 +411,9 @@ class SocietyController extends Controller
             $villages_belongs[]=$has_village->village_id;
         }
         $arrData['villages'] = VillageDetail::get();
+        $arrData['layouts'] = MasterLayout::get();
+
+
         return view('admin.society_detail.edit', compact('header_data', 'arrData', 'id','villages_belongs'));
     }
 
@@ -322,7 +426,6 @@ class SocietyController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //dd($request->all());
         $request->validate([
             'villages'=>'required|array|min:1'
         ]);
@@ -330,18 +433,38 @@ class SocietyController extends Controller
 
         $society_data = [
             'society_name' => $request->society_name,
+            'society_reg_no' => $request->society_reg_no,
             'district' => $request->district,
             'taluka' => $request->taluka,
             'survey_number' => $request->survey_number,
             'cts_number' => $request->cts_number,
-            'chairman' => $request->chairman,
             'society_address' => $request->society_address,
             'area' => $request->area,
             'date_on_service_tax' => $request->date_on_service_tax,
             'surplus_charges' => $request->surplus_charges,
             'surplus_charges_last_date' => $request->surplus_charges_last_date,
-            'other_land_id' => $request->other_land_id
+            //'village_id' => $request->village_id,
+            'other_land_id' => $request->other_land_id,
+            'layout_id' => $request->layout,
+            'society_conveyed' => $request->society_conveyed,
+            'chairman' => $request->chairman,
+            'chairman_mob_no' => $request->chairman_mob_no,
+            'secretary' => $request->secretary,
+            'secretary_mob_no' => $request->secretary_mob_no,
+            'society_email_id' => $request->society_email_id
         ];
+
+        if($request->society_conveyed){
+            $society_data += [
+                'area_of_conveyance' => $request->area_of_conveyance,
+                'date_of_conveyance' => $request->date_of_conveyance
+            ];
+        }else{
+            $society_data += [
+                'area_of_conveyance' => NULL,
+                'date_of_conveyance' => NULL
+            ];
+        }
 
         $society->update($society_data);
         $society->Villages()->sync($request->villages);
