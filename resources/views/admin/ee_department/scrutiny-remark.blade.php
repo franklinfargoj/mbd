@@ -1140,15 +1140,18 @@
             $(".m-tabs__item").removeClass('active');
             $("#" + id).addClass('active');
             $("." + id).addClass('active');
+
+            Cookies.set('sectionId', 'undefined');
         }
         //nested tabs
         var nestedTab = Cookies.get('nestedTab');
-
         if (nestedTab != undefined && nestedTab != 'undefined') {
             $(".nested_t").removeClass('active');
             $("#" + nestedTab).addClass('active');
             $(".tab-pane").removeClass('active');
             $("." + nestedTab).addClass('active'); 
+
+            Cookies.set('nestedTab', 'undefined');
         }
     });
 
