@@ -681,7 +681,11 @@ Route::prefix('appointing_architect')->group(function () {
         Route::post('ajaxDeleteProjectSheet', 'EmploymentOfArchitectController@delete_project_sheet_detail')->name('appointing_architect.delete_project_sheet_detail');
         Route::get('step8/{id}', 'EmploymentOfArchitectController@step8')->name('appointing_architect.step8');
         Route::post('step8_post/{id}', 'EmploymentOfArchitectController@step8_post')->name('appointing_architect.step8_post');
-      });
+        Route::get('step9/{id}', 'EmploymentOfArchitectController@step9')->name('appointing_architect.step9');
+        Route::post('step9_post/{id}', 'EmploymentOfArchitectController@step9_post')->name('appointing_architect.step9_post');
+        Route::get('step10/{id}', 'EmploymentOfArchitectController@step10')->name('appointing_architect.step10');
+        Route::post('step10_post/{id}', 'EmploymentOfArchitectController@step10_post')->name('appointing_architect.step10_post');
+    });
       Route::post('send_to_architect','EmploymentOfArchitectController@send_to_architect')->name('appointing_architect.send_to_architect');
     });
     

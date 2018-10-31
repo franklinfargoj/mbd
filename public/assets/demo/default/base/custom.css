@@ -2919,8 +2919,9 @@ label.site-visit-label {
 .remove-row {
     position: absolute;
     top: 50%;
-    left: 105%;
+    left: 102%;
     transform: translateY(-55%);
+    margin-bottom: 0;
 }
 
 .remove-row .fa {

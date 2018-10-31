@@ -103,4 +103,9 @@ class EoaApplication extends Model
     {
         return $this->hasMany('App\ArchitectApplicationStatusLog', 'architect_application_id', 'id');
     }
+
+    public function supporting_documents()
+    {
+        return $this->hasMany(\App\ArchitectApplicationMark::class,'architect_application_id','id');
+    }
 }
