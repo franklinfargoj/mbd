@@ -1,4 +1,7 @@
-@extends('admin.layouts.app')
+@extends('admin.layouts.sidebarAction')
+@section('actions')
+@include('employment_of_architect.actions',compact('application'))
+@endsection
 @section('content')
 
 <div class="col-md-12">
@@ -11,13 +14,15 @@
         <button class="btn--unstyled flex-grow-1 form-step-tab">Step 6</button>
         <button class="btn--unstyled flex-grow-1 form-step-tab">Step 7</button>
         <button class="btn--unstyled flex-grow-1 form-step-tab">Step 8</button>
+        <button class="btn--unstyled flex-grow-1 form-step-tab ">Step 9</button>
+        <button class="btn--unstyled flex-grow-1 form-step-tab ">Step 10</button>
     </div>
     {{-- @if ($errors->any())
     @foreach ($errors->all() as $error)
     <div>{{$error}}</div>
     @endforeach
     @endif --}}
-    <form id="" role="form" method="post" class="m-form m-form--rows m-form--label-align-right form-steps-box" action="{{route('appointing_architect.step4_post')}}"
+    <form id="" role="form" method="post" class="m-form m-form--rows m-form--label-align-right form-steps-box" action="{{route('appointing_architect.step4_post',['id'=>encrypt($application->id)])}}"
         enctype="multipart/form-data">
         <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
             <h3 class="section-title section-title--small">Form 4:</h3>

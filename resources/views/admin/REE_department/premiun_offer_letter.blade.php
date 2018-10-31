@@ -33,8 +33,7 @@
                         </div>
                         <div style="clear: both;"></div>
                     </div>
-                    <h3 style="text-decoration: underline; text-align: center;">Offer
-                        Letter</h3>
+                    <h3 style="text-decoration: underline; text-align: center;">Offer Letter</h3>
                         <p > </p>
                     <div style="margin-top: -15px;">
                         <p style="margin-bottom:0; line-height:0.25;">To,</p>

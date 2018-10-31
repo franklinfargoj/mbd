@@ -1191,6 +1191,11 @@ table.dataTable tbody tr:nth-child(even):focus {
 
 /* global classes starts here */
 
+.btn.m-btn--custom {
+    padding-left: 1.7rem;
+    padding-right: 1.7rem;
+}
+
 .select-box-list + .select-box-list {
     margin-left: 15px;
 }
@@ -2802,6 +2807,43 @@ label.site-visit-label {
 
 /* Appointing Architect starts here */
 
+.nav.nav-pills.nav-tabs--steps .nav-item,
+.nav.nav-tabs.nav-tabs--steps .nav-item {
+    margin-left: 0;
+}
+
+.m-tabs-line.m-tabs-line--primary.nav.nav-tabs.nav-tabs--steps .nav-link {
+    position: relative;
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
+.m-tabs-line.m-tabs-line--primary.nav.nav-tabs.nav-tabs--steps .nav-link:hover,
+.m-tabs-line.m-tabs-line--primary.nav.nav-tabs.nav-tabs--steps .nav-link:focus,
+.m-tabs-line.m-tabs-line--primary.nav.nav-tabs.nav-tabs--steps .nav-link:hover>i,
+.m-tabs-line.m-tabs-line--primary.nav.nav-tabs.nav-tabs--steps .nav-link:focus>i,
+.m-tabs-line.m-tabs-line--primary.nav.nav-tabs.nav-tabs--steps .nav-link.active
+.m-tabs-line.m-tabs-line--primary.nav.nav-tabs.nav-tabs--steps .nav-link.active>i {
+    background-color: #e8e8e8;
+    color: #7b7e8a !important;
+}
+
+.m-tabs-line.m-tabs-line--primary.nav.nav-tabs.nav-tabs--steps .nav-link.active::after {
+    content: "";
+    display: block;
+    position: absolute;
+    border-style: solid;
+    border-color: transparent;
+    width: 0;
+    height: 0;
+    z-index: 1;
+    border-width: 24px;
+    border-left-width: 15px;
+    top: 0;
+    left: 99%;
+    border-left-color: #ff754e;
+}
+
 .form-steps-wrap + .form-steps-box {
     margin-top: 30px;
 }
@@ -2826,8 +2868,7 @@ label.site-visit-label {
     cursor: pointer;
 }
 
-.form-step-tab.active::before,
-.form-step-tab.active::after {
+.form-step-tab.active::before {
     content: "";
     display: block;
     position: absolute;
@@ -2842,17 +2883,17 @@ label.site-visit-label {
     border-width: 35px;
     border-left-width: 12px;
     top: -4px;
-    left: 101%;
-    border-left-color: #fff;
+    left: 100%;
+    border-left-color: #ff754e;
 }
 
-.form-step-tab.active::after {
+/* .form-step-tab.active::after {
     border-width: 31px;
     border-left-width: 15px;
     top: 0;
     left: 100%;
     border-left-color: #ff754e;
-}
+} */
 
 .form-step-tab:last-child.active::after {
     display: none;
@@ -2877,8 +2918,9 @@ label.site-visit-label {
 .remove-row {
     position: absolute;
     top: 50%;
-    left: 105%;
+    left: 102%;
     transform: translateY(-55%);
+    margin-bottom: 0;
 }
 
 .remove-row .fa {

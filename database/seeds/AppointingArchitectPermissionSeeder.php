@@ -116,6 +116,36 @@ class AppointingArchitectPermissionSeeder extends Seeder
                 'name'=>'appointing_architect.delete_imp_senior_professional',
                 'display_name'=>'appointing_architect.delete_imp_senior_professional',
                 'description'=>'appointing_architect.delete_imp_senior_professional'
+            ],
+            [
+                'name'=>'appointing_architect.delete_project_sheet_detail',
+                'display_name'=>'appointing_architect.delete_project_sheet_detail',
+                'description'=>'appointing_architect.delete_project_sheet_detail'
+            ],
+            [
+                'name'=>'appointing_architect.send_to_architect',
+                'display_name'=>'appointing_architect.send_to_architect',
+                'description'=>'appointing_architect.send_to_architect'
+            ],
+            [
+                'name'=>'appointing_architect.step9',
+                'display_name'=>'appointing_architect.step9',
+                'description'=>'appointing_architect.step9'
+            ],
+            [
+                'name'=>'appointing_architect.step9_post',
+                'display_name'=>'appointing_architect.step9_post',
+                'description'=>'appointing_architect.step9_post'
+            ],
+            [
+                'name'=>'appointing_architect.step10',
+                'display_name'=>'appointing_architect.step10',
+                'description'=>'appointing_architect.step10'
+            ],
+            [
+                'name'=>'appointing_architect.step10_post',
+                'display_name'=>'appointing_architect.step10_post',
+                'description'=>'appointing_architect.step10_post'
             ]
         ];
         $appointing_architect = Role::where('name', '=', 'appointing_architect')->select('id')->first();

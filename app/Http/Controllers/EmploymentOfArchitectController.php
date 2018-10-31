@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\ArchitectApplicationMark;
+use App\ArchitectApplicationStatusLog;
 use App\EmploymentOfArchitect\EoaApplication;
 use App\EmploymentOfArchitect\EoaApplicationEnclosure;
 use App\EmploymentOfArchitect\EoaApplicationFeePaymentDetail;
@@ -21,6 +23,7 @@ use App\Repositories\Repository;
 use App\Role;
 use App\RoleUser;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Storage;
 use Validator;
@@ -37,7 +40,7 @@ class EmploymentOfArchitectController extends Controller
         'side_menu' => 'architect_application',
     );
 
-    public function __construct(EoaApplication $EoaApplication, User $user, EoaApplicationFeePaymentDetail $EoaApplicationFeePaymentDetail, EoaApplicationEnclosure $EoaApplicationEnclosure, EoaApplicationImportantProjectDetail $EoaApplicationImportantProjectDetail, EoaApplicationImportantProjectWorkHandledDetail $EoaApplicationImportantProjectWorkHandledDetail, EoaApplicationImportantSeniorProfessionalDetail $EoaApplicationImportantSeniorProfessionalDetail, EoaApplicationProjectSheetDetail $EoaApplicationProjectSheetDetail)
+    public function __construct(EoaApplication $EoaApplication, User $user, EoaApplicationFeePaymentDetail $EoaApplicationFeePaymentDetail, EoaApplicationEnclosure $EoaApplicationEnclosure, EoaApplicationImportantProjectDetail $EoaApplicationImportantProjectDetail, EoaApplicationImportantProjectWorkHandledDetail $EoaApplicationImportantProjectWorkHandledDetail, EoaApplicationImportantSeniorProfessionalDetail $EoaApplicationImportantSeniorProfessionalDetail, EoaApplicationProjectSheetDetail $EoaApplicationProjectSheetDetail, ArchitectApplicationMark $ArchitectApplicationMark)
     {
         // set the model
         $this->user = new Repository($user);
@@ -48,6 +51,7 @@ class EmploymentOfArchitectController extends Controller
         $this->imp_projects_work_handled = new Repository($EoaApplicationImportantProjectWorkHandledDetail);
         $this->imp_senior_professional = new Repository($EoaApplicationImportantSeniorProfessionalDetail);
         $this->project_sheet = new Repository($EoaApplicationProjectSheetDetail);
+        $this->supporting_documents = new Repository($ArchitectApplicationMark);
         $this->list_num_of_records_per_page = config('commanConfig.list_num_of_records_per_page');
     }
 
@@ -102,7 +106,6 @@ class EmploymentOfArchitectController extends Controller
                     'start_date' => \Carbon\Carbon::now(),
                     'end_date' => '',
                 );
-                // dd($role_user);
                 if (RoleUser::where(['user_id' => $user->id, 'role_id' => $role_id])->first()) {
 
                 } else {
@@ -117,15 +120,20 @@ class EmploymentOfArchitectController extends Controller
 
     }
 
+    public function genRand()
+    {
+        return time() . rand(100000, 999999);
+    }
+
     public function index(Request $request, Datatables $datatables)
     {
-        
-        if(!$this->model->all())
-        {
-            $app=$this->model->getModel();
-            $app->user_id=auth()->user()->id;
+
+        if (count($this->model->all())<=0) {
+            $app = $this->model->getModel();
+            $app->user_id = auth()->user()->id;
+            $app->application_number = $this->genRand();
             $app->save();
-            return redirect()->route('appointing_architect.step1',['id'=>$app->id]);
+            return redirect()->route('appointing_architect.step1', ['id' => encrypt($app->id)]);
         }
         $header_data = $this->header_data;
         $columns = [
@@ -133,6 +141,7 @@ class EmploymentOfArchitectController extends Controller
             ['data' => 'application_number', 'name' => 'application_number', 'title' => 'Application Number'],
             ['data' => 'application', 'name' => 'application', 'title' => 'Application'],
             ['data' => 'application_date', 'name' => 'application_date', 'title' => 'Application Date'],
+            ['data' => 'status', 'name' => 'status', 'title' => 'Status'],
             ['data' => 'actions', 'name' => 'actions', 'title' => 'Actions', 'searchable' => false, 'orderable' => false],
         ];
 
@@ -144,7 +153,7 @@ class EmploymentOfArchitectController extends Controller
                     static $i = 0; $i++;return $i;
                 })
                 ->editColumn('application_number', function ($architect_applications) {
-                    return $architect_applications->id;
+                    return $architect_applications->application_number;
                 })
                 ->editColumn('application', function ($architect_applications) {
                     return "application";
@@ -152,10 +161,14 @@ class EmploymentOfArchitectController extends Controller
                 ->editColumn('application_date', function ($architect_applications) {
                     return date('d-m-Y', strtotime($architect_applications->created_at));
                 })
-                ->editColumn('actions', function ($architect_applications) {
-                    return "<a href='" . route('appointing_architect.step1', ['id' => $architect_applications->id]) . "'>edit</a>";
+                ->editColumn('status', function ($architect_applications) {
+                    return $architect_applications->ArchitectApplicationStatusForLoginListing->count() > 0 ? 'sent' : 'new application';
                 })
-                ->rawColumns(['select', 'application_number', 'application', 'application_date', 'actions'])
+                ->editColumn('actions', function ($architect_applications) {
+
+                    return view('employment_of_architect.action', compact('architect_applications'))->render();
+                })
+                ->rawColumns(['select', 'application_number', 'application', 'application_date', 'status', 'actions'])
                 ->make(true);
         }
 
@@ -173,7 +186,7 @@ class EmploymentOfArchitectController extends Controller
             'serverSide' => true,
             'processing' => true,
             'ordering' => 'isSorted',
-            "order" => [4, "desc"],
+            "order" => [5, "desc"],
             "pageLength" => $this->list_num_of_records_per_page,
             // 'fixedHeader' => [
             //     'header' => true,
@@ -184,11 +197,12 @@ class EmploymentOfArchitectController extends Controller
 
     public function step1($id)
     {
+        $id = decrypt($id);
         $application = $this->model->whereWithFirst(['fee_payment_details'], ['id' => $id, 'user_id' => auth()->user()->id]);
         return view('employment_of_architect.form1', compact('application'));
     }
 
-    public function step1_post(StepOneRequest $request)
+    public function step1_post(StepOneRequest $request, $id)
     {
         $v = Validator::make($request->all(), [
             'category_of_panel' => 'required',
@@ -217,6 +231,7 @@ class EmploymentOfArchitectController extends Controller
                 'fax' => $request->fax,
                 'res' => $request->res,
                 'user_id' => auth()->user()->id,
+                'form_step' => 2,
             ];
             $data = $this->model->updateWhere($form1_data, ['id' => $application_id, 'user_id' => auth()->user()->id]);
             if ($data) {
@@ -237,7 +252,7 @@ class EmploymentOfArchitectController extends Controller
                     $this->fee_payment->create($payment_data);
                 }
 
-                return redirect()->route('appointing_architect.step2', ['id' => $application_id]);
+                return redirect()->route('appointing_architect.step2', ['id' => encrypt($application_id)]);
             }
         }
 
@@ -245,12 +260,13 @@ class EmploymentOfArchitectController extends Controller
 
     public function step2($id)
     {
+        $id = decrypt($id);
         $application = $this->model->whereWithFirst(['fee_payment_details', 'enclosures'], ['id' => $id, 'user_id' => auth()->user()->id]);
         //dd($application->enclosures[0]);
         return view('employment_of_architect.form2', compact('application'));
     }
 
-    public function step2_post(StepTwoRequest $request)
+    public function step2_post(StepTwoRequest $request, $id)
     {
 
         $application_id = $request->application_id;
@@ -267,17 +283,18 @@ class EmploymentOfArchitectController extends Controller
             }
             $j++;
         }
-        $this->model->updateWhere(['application_info_and_its_enclosures_verify' => $request->application_info_and_its_enclosures_verify], ['id' => $application_id]);
-        return redirect()->route('appointing_architect.step3', ['id' => $application_id]);
+        $this->model->updateWhere(['application_info_and_its_enclosures_verify' => $request->application_info_and_its_enclosures_verify, 'form_step' => 3], ['id' => $application_id]);
+        return redirect()->route('appointing_architect.step3', ['id' => encrypt($application_id)]);
     }
 
     public function step3($id)
     {
+        $id = decrypt($id);
         $application = $this->model->whereWithFirst(['fee_payment_details', 'enclosures'], ['id' => $id, 'user_id' => auth()->user()->id]);
         return view('employment_of_architect.form3', compact('application'));
     }
 
-    public function step3_post(StepThreeRequest $request)
+    public function step3_post(StepThreeRequest $request, $id)
     {
         $application_id = $request->application_id;
         $step3_data = [
@@ -299,9 +316,10 @@ class EmploymentOfArchitectController extends Controller
             'reg_with_council_of_architecture_total_registered_persons' => $request->reg_with_council_of_architecture_total_registered_persons,
             'award_prizes_etc' => $request->award_prizes_etc,
             'other_information' => $request->other_information,
+            'form_step' => 4,
         ];
         if ($this->model->updateWhere($step3_data, ['id' => $application_id])) {
-            return redirect()->route('appointing_architect.step4', ['id' => $application_id]);
+            return redirect()->route('appointing_architect.step4', ['id' => encrypt($application_id)]);
         } else {
             return back()->withError('Something went wrong');
         }
@@ -309,12 +327,13 @@ class EmploymentOfArchitectController extends Controller
 
     public function step4($id)
     {
+        $id = decrypt($id);
         $application = $this->model->whereWithFirst(['imp_projects'], ['id' => $id, 'user_id' => auth()->user()->id]);
         //dd($this->imp_projects);
         return view('employment_of_architect.form4', compact('application'));
     }
 
-    public function step4_post(StepFourRequest $request)
+    public function step4_post(StepFourRequest $request, $id)
     {
         $imp_project_id = $request->imp_project_id;
         $name_of_clients = $request->name_of_client;
@@ -344,28 +363,28 @@ class EmploymentOfArchitectController extends Controller
 
             $i++;
         }
-        return redirect()->route('appointing_architect.step5', ['id' => $application_id]);
+        $this->model->updateWhere(['form_step' => 5], ['id' => $application_id]);
+        return redirect()->route('appointing_architect.step5', ['id' => encrypt($application_id)]);
     }
 
     public function delete_imp_project(Request $request)
     {
-        $id=$request->delete_imp_project_id;
-        if($this->imp_projects->delete($id))
-        {
-            return response()->json(['status'=>0,'description'=>'deleted successfully']);
-        }else
-        {
-            return response()->json(['status'=>1,'description'=>'something went wrong']);
+        $id = $request->delete_imp_project_id;
+        if ($this->imp_projects->delete($id)) {
+            return response()->json(['status' => 0, 'description' => 'deleted successfully']);
+        } else {
+            return response()->json(['status' => 1, 'description' => 'something went wrong']);
         }
     }
 
     public function step5($id)
     {
+        $id = decrypt($id);
         $application = $this->model->whereWithFirst(['imp_project_work_handled', 'imp_projects'], ['id' => $id, 'user_id' => auth()->user()->id]);
         return view('employment_of_architect.form5', compact('application'));
     }
 
-    public function step5_post(StepFiveRequest $request)
+    public function step5_post(StepFiveRequest $request, $id)
     {
         $imp_project_work_handled_id = $request->imp_project_work_handled_id;
         $eoa_application_imp_project_detail_id = $request->eoa_application_imp_project_detail_id;
@@ -404,41 +423,49 @@ class EmploymentOfArchitectController extends Controller
 
             $i++;
         }
-        return redirect()->route('appointing_architect.step6', ['id' => $application_id]);
+        $this->model->updateWhere(['form_step' => 6], ['id' => $application_id]);
+        return redirect()->route('appointing_architect.step6', ['id' => encrypt($application_id)]);
 
     }
 
     public function delete_imp_project_work_handled(Request $request)
     {
-        $id=$request->delete_imp_project_id;
-        if($this->imp_projects_work_handled->delete($id))
-        {
-            return response()->json(['status'=>0,'description'=>'deleted successfully']);
-        }else
-        {
-            return response()->json(['status'=>1,'description'=>'something went wrong']);
+        $id = $request->delete_imp_project_id;
+        if ($this->imp_projects_work_handled->delete($id)) {
+            return response()->json(['status' => 0, 'description' => 'deleted successfully']);
+        } else {
+            return response()->json(['status' => 1, 'description' => 'something went wrong']);
         }
     }
 
     public function delete_imp_senior_professional(Request $request)
     {
-        $id=$request->delete_imp_project_id;
-        if($this->imp_senior_professional->delete($id))
-        {
-            return response()->json(['status'=>0,'description'=>'deleted successfully']);
-        }else
-        {
-            return response()->json(['status'=>1,'description'=>'something went wrong']);
+        $id = $request->delete_imp_project_id;
+        if ($this->imp_senior_professional->delete($id)) {
+            return response()->json(['status' => 0, 'description' => 'deleted successfully']);
+        } else {
+            return response()->json(['status' => 1, 'description' => 'something went wrong']);
+        }
+    }
+
+    public function delete_project_sheet_detail(Request $request)
+    {
+        $id = $request->delete_imp_project_id;
+        if ($this->project_sheet->delete($id)) {
+            return response()->json(['status' => 0, 'description' => 'deleted successfully']);
+        } else {
+            return response()->json(['status' => 1, 'description' => 'something went wrong']);
         }
     }
 
     public function step6($id)
     {
+        $id = decrypt($id);
         $application = $this->model->whereWithFirst(['imp_senior_professionals'], ['id' => $id, 'user_id' => auth()->user()->id]);
         return view('employment_of_architect.form6', compact('application'));
     }
 
-    public function step6_post(StepSixRequest $request)
+    public function step6_post(StepSixRequest $request, $id)
     {
         $imp_senior_professional_id = $request->imp_senior_professional_id;
         $category = $request->category;
@@ -477,18 +504,20 @@ class EmploymentOfArchitectController extends Controller
 
             $i++;
         }
-        return redirect()->route('appointing_architect.step7', ['id' => $application_id]);
+        $this->model->updateWhere(['form_step' => 7], ['id' => $application_id]);
+        return redirect()->route('appointing_architect.step7', ['id' => encrypt($application_id)]);
     }
 
     public function step7($id)
     {
+        $id = decrypt($id);
         $application = $this->model->whereWithFirst(['project_sheets' => function ($q) {
             return $q->where('work_completed', 0);
         }], ['id' => $id, 'user_id' => auth()->user()->id]);
         return view('employment_of_architect.form7', compact('application'));
     }
 
-    public function step7_post(StepSevenRequest $request)
+    public function step7_post(StepSevenRequest $request, $id)
     {
         $storage = "";
         if ($request->hasFile('copy_of_agreement')) {
@@ -526,8 +555,10 @@ class EmploymentOfArchitectController extends Controller
         if ($project_sheet_detail_id != "") {
 
             $this->project_sheet->updateWhere($data_array, ['id' => $project_sheet_detail_id, 'eoa_application_id' => $application_id]);
+            $this->model->updateWhere(['form_step' => 8], ['id' => $application_id]);
         } else {
             $this->project_sheet->create($data_array);
+            $this->model->updateWhere(['form_step' => 8], ['id' => $application_id]);
         }
 
         return back()->withSuccess('data saved successfully!!!');
@@ -535,13 +566,14 @@ class EmploymentOfArchitectController extends Controller
 
     public function step8($id)
     {
+        $id = decrypt($id);
         $application = $this->model->whereWithFirst(['project_sheets' => function ($q) {
             return $q->where('work_completed', 1);
         }], ['id' => $id, 'user_id' => auth()->user()->id]);
         return view('employment_of_architect.form8', compact('application'));
     }
 
-    public function step8_post(StepSevenRequest $request)
+    public function step8_post(StepSevenRequest $request, $id)
     {
         $storage = "";
         if ($request->hasFile('copy_of_agreement')) {
@@ -569,7 +601,7 @@ class EmploymentOfArchitectController extends Controller
             'whether_service_terminated_by_client' => $request->whether_service_terminated_by_client,
             'salient_features_of_project' => $request->salient_features_of_project,
             'reason_for_delay_if_any' => $request->reason_for_delay_if_any,
-            'work_completed' => 1
+            'work_completed' => 1,
         ];
         if ($storage != "") {
             $data_array['copy_of_agreement'] = $storage;
@@ -577,11 +609,162 @@ class EmploymentOfArchitectController extends Controller
         if ($project_sheet_detail_id != "") {
 
             $this->project_sheet->updateWhere($data_array, ['id' => $project_sheet_detail_id, 'eoa_application_id' => $application_id]);
+            $this->model->updateWhere(['form_step' => 9], ['id' => $application_id]);
         } else {
             $this->project_sheet->create($data_array);
+            $this->model->updateWhere(['form_step' => 9], ['id' => $application_id]);
         }
 
         return back()->withSuccess('data saved successfully!!!');
+    }
+
+    public function step9($id)
+    {
+        $id = decrypt($id);
+        $application = $this->model->whereWithFirst(['supporting_documents'], ['id' => $id, 'user_id' => auth()->user()->id]);
+        return view('employment_of_architect.form9', compact('application'));
+    }
+
+    public function step9_post(Request $request, $id)
+    {
+        $doc_name = $request->document_name;
+        $doc_id = $request->doc_id;
+        $document_path=$request->document_path;
+        //dd($document_path);
+        $k = 0;
+        $application_id = $request->application_id;
+        foreach ($doc_name as $doc) {
+            $data_array=array();
+            $storage="";
+            if (isset($doc_id[$k])) {
+                if ($request->hasFile('document_path')) {
+                    if(isset($request->file('document_path')[$k]))
+                    {
+                        $file = $request->file('document_path')[$k];
+                        $extension = $request->file('document_path')[$k]->getClientOriginalExtension();
+                        $dir = 'appointing_architect_application';
+                        $filename = uniqid() . '_' . time() . '_' . date('Ymd') . '.' . $extension;
+                        $storage = Storage::disk('ftp')->putFileAs($dir, $request->file('document_path')[$k], $filename);
+               
+                    }
+                }
+                $data_array = [
+                    'document_name' => $doc_name[$k],
+                    'architect_application_id' => $application_id,
+                ];
+                if($storage!="")
+                {
+                    $data_array['document_path'] =$storage;
+                }
+                $this->supporting_documents->updateWhere($data_array, ['id' => $doc_id[$k], 'architect_application_id' => $application_id]);
+
+            } else {
+                if ($request->hasFile('document_path')) {
+                    if(isset($request->file('document_path')[$k]))
+                    {
+                    $file = $request->file('document_path')[$k];
+                    $extension = $request->file('document_path')[$k]->getClientOriginalExtension();
+                    $dir = 'appointing_architect_application';
+                    $filename = uniqid() . '_' . time() . '_' . date('Ymd') . '.' . $extension;
+                    $storage = Storage::disk('ftp')->putFileAs($dir, $request->file('document_path')[$k], $filename);
+                    }
+                }
+                $data_array = [
+                    'document_path' => $storage,
+                    'document_name' => $doc_name[$k],
+                    'architect_application_id' => $application_id,
+                ];
+                $this->supporting_documents->create($data_array);
+            }
+            $k++;
+        }
+        $this->model->updateWhere(['form_step' => 9], ['id' => $application_id]);
+        return back();
+    }
+
+    public function step10($id)
+    {
+        $id = decrypt($id);
+        $application = $this->model->whereWithFirst([
+            'enclosures',
+            'supporting_documents',
+            'project_sheets',
+            'imp_senior_professionals',
+            'fee_payment_details',
+            'imp_projects',
+            'imp_project_work_handled'
+        ], 
+        ['id' => $id, 'user_id' => auth()->user()->id]);
+        $work_in_hand=$application->project_sheets->where('work_completed',0);
+        $work_completed=$application->project_sheets->where('work_completed',1);
+        return view('employment_of_architect.form10',compact('application','work_in_hand','work_completed'));
+    }
+
+    public function step10_post(Request $request, $id)
+    {
+
+    }
+
+    public function send_to_architect(Request $request)
+    {
+        $get_user = User::where(['email' => 'junior_architect@gmail.com'])->first();
+        if ($get_user) {
+            $forward_application = [
+                [
+                    'architect_application_id' => $request->app_id,
+                    'user_id' => auth()->user()->id,
+                    'role_id' => session()->get('role_id'),
+                    'status_id' => config('commanConfig.architect_applicationStatus.forward'),
+                    'to_user_id' => $get_user->id,
+                    'to_role_id' => $get_user->role_id,
+                    'remark' => '',
+                    'changed_at' => Carbon::now(),
+                ],
+                [
+                    'architect_application_id' => $request->app_id,
+                    'user_id' => $get_user->id,
+                    'role_id' => $get_user->role_id,
+                    'status_id' => config('commanConfig.architect_applicationStatus.scrutiny_pending'),
+                    'to_user_id' => null,
+                    'to_role_id' => null,
+                    'remark' => '',
+                    'changed_at' => Carbon::now(),
+                ],
+            ];
+            if (ArchitectApplicationStatusLog::insert($forward_application)) {
+                return redirect()->route('appointing_architect.index');
+            }
+        } else {
+            return back()->withError('something went wrong');
+        }
+
+        // $forward_application = [
+        //     [
+        //         'architect_application_id' => $request->app_id,
+        //         'user_id' => auth()->user()->id,
+        //         'role_id' => session()->get('role_id'),
+        //         'status_id' => config('commanConfig.architect_applicationStatus.forward'),
+        //         'to_user_id' => $request->to_user_id,
+        //         'to_role_id' => $request->to_role_id,
+        //         'remark' => $request->remark,
+        //         'changed_at' => Carbon::now(),
+        //     ],
+        //     [
+        //         'architect_application_id' => $request->application_id,
+        //         'user_id' => $request->to_user_id,
+        //         'role_id' => $request->to_role_id,
+        //         'status_id' => config('commanConfig.architect_applicationStatus.scrutiny_pending'),
+        //         'to_user_id' => null,
+        //         'to_role_id' => null,
+        //         'remark' => $request->remark,
+        //         'changed_at' => Carbon::now(),
+        //     ],
+        // ];
+
+        // if (ArchitectApplicationStatusLog::insert($forward_application)) {
+        //     return redirect()->route('architect_application');
+        // }
+        return $request->all();
     }
 
 }

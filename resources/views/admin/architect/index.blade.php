@@ -44,16 +44,18 @@
                         </select>
                     </div>
                     <div class="col-md-3">
-                        <button type="submit" class="btn m-btn--pill m-btn--custom btn-primary">Search</button>
-                        <button type="submit" name="reset" value="Reset" class="btn m-btn--pill m-btn--custom btn-metal">Reset</button>
+                        <div class="btn-list">
+                            <button type="submit" class="btn m-btn--pill m-btn--custom btn-primary">Search</button>
+                            <button type="submit" name="reset" value="Reset" class="btn m-btn--pill m-btn--custom btn-metal">Reset</button>
+                        </div>
                     </div>
-                    <!-- <div class="col-md-6 mt-5">
+                    {{-- <div class="col-md-6 mt-5">
                                 <div class="btn-list text-right">
                                     <button type="submit" name="excel" value="excel" class="btn excel-icon"><img src="{{asset('/img/excel-icon.svg')}}"></button>
                                     <a target="_blank" href=""
                                         class="btn print-icon"><img src="{{asset('/img/print-icon.svg')}}"></a>
                                 </div>
-                            </div> -->
+                            </div>  --}}
 
                 </form>
 
@@ -65,8 +67,8 @@
         <div class="d-flex justify-content-between">
             <h3 class="section-title section-title--small">Revision Requests</h3>
             <div class="topnav">
-                <a class="btn-link {{isset($_GET['application_status'])?($_GET['application_status']==0?'active':''):''}}"
-                    href="?application_status=0">All</a>
+                <a class="btn-link {{isset($_GET['application_status'])?($_GET['application_status']==0?'active':''):'active'}}"
+                 href="?application_status=0">All</a>
                 <a class="btn-link {{isset($_GET['application_status'])?($_GET['application_status']==1?'active':''):''}}"
                     href="?application_status=1">Shortlisted</a>
                 <a class="btn-link {{isset($_GET['application_status'])?($_GET['application_status']==2?'active':''):''}}"

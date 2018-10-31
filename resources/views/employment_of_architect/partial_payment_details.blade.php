@@ -45,7 +45,7 @@
 <div class="form-group m-form__group row">
     <div class="col-sm-4 form-group">
         <label class="col-form-label" for="">Payment Date:</label>
-        <input type="text" id="" name="date_of_payment" class="form-control form-control--custom m-input" value="{{$application->fee_payment_details!=""?$application->fee_payment_details->date_of_payment:""}}">
+        <input type="text" id="" name="date_of_payment" class="form-control form-control--custom m-input m_datepicker" value="{{$application->fee_payment_details!=""?$application->fee_payment_details->date_of_payment:""}}">
         @if ($errors->has('date_of_payment'))
         <span class="text-danger">{{ $errors->first('date_of_payment') }}</span>
         @endif
@@ -73,7 +73,7 @@
     </div>
     <div class="col-sm-4 offset-sm-1 form-group">
         <label class="col-form-label" for="">Receipt Date:</label>
-        <input type="text" id="" name="receipt_date" class="form-control form-control--custom m-input" value="{{$application->fee_payment_details!=""?$application->fee_payment_details->receipt_date:""}}">
+        <input type="text" id="" name="receipt_date" class="form-control form-control--custom m-input m_datepicker" value="{{$application->fee_payment_details!=""?$application->fee_payment_details->receipt_date:""}}">
         @if ($errors->has('receipt_date'))
         <span class="text-danger">{{ $errors->first('receipt_date') }}</span>
         @endif

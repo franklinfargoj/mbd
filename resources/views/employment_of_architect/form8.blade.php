@@ -1,4 +1,7 @@
-@extends('admin.layouts.app')
+@extends('admin.layouts.sidebarAction')
+@section('actions')
+@include('employment_of_architect.actions',compact('application'))
+@endsection
 @section('content')
 
 <div class="col-md-12">
@@ -10,7 +13,9 @@
         <button class="btn--unstyled flex-grow-1 form-step-tab active">Step 5</button>
         <button class="btn--unstyled flex-grow-1 form-step-tab active">Step 6</button>
         <button class="btn--unstyled flex-grow-1 form-step-tab active">Step 7</button>
-        <button class="btn--unstyled flex-grow-1 form-step-tab">Step 8</button>
+        <button class="btn--unstyled flex-grow-1 form-step-tab active">Step 8</button>
+        <button class="btn--unstyled flex-grow-1 form-step-tab ">Step 9</button>
+        <button class="btn--unstyled flex-grow-1 form-step-tab ">Step 10</button>
     </div>
     <div id="accordion" class="mt-4">
         @php
@@ -35,9 +40,15 @@
 
 
         @for($j=0;$j<(1+$k);$j++) <div class="m-portlet m-portlet--compact form-accordion">
-            <a class="btn--unstyled section-title section-title--small form-count-title" data-toggle="collapse" href="#form_{{$j+1}}">Form
-                {{$j+1}}:</a>
-            <form role="form" method="post" class="m-form m-form--rows m-form--label-align-right form-steps-box" action="{{route('appointing_architect.step8_post')}}"
+            <div class="d-flex justify-content-between align-items-center form-steps-toplinks">
+                <a class="btn--unstyled section-title section-title--small form-count-title" data-toggle="collapse"
+                    href="#form_{{$j+1}}">Form
+                    {{$j+1}}:</a>
+                @if($j>=1)
+                <h2 class='m--font-danger mb-0'><i title='Delete' class='fa fa-remove'></i></h2>
+                @endif
+            </div>
+            <form role="form" method="post" class="m-form m-form--rows m-form--label-align-right form-steps-box" action="{{route('appointing_architect.step8_post',['id'=>encrypt($application->id)])}}"
                 enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="form_number" value="{{$j+1}}">
@@ -203,13 +214,9 @@
                     </div>
                     <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
                         <div class="m-form__actions px-0">
-                            <div class="row">
-                                <div class="col-sm-one4">
-                                    <div class="btnone-list">
-                                        <input type="submit" id="" class="btn btn-primary" name="Save">
-                                        <a href="" class="btn btn-secondary">Cancel</a>
-                                    </div>
-                                </div>
+                            <div class="btn-list">
+                                <input type="submit" id="" class="btn btn-primary" name="Save">
+                                <a href="" class="btn btn-secondary">Cancel</a>
                             </div>
                         </div>
                     </div>
@@ -222,7 +229,14 @@
     <div class="m-form__actions p-0">
         <div class="btn-list d-flex justify-content-between align-items-center">
             <a id="add-more" class="btn--add-delete add">add more<a>
-            <a href="{{route('appointing_architect.step8',['id'=>$application->id])}}" id="" class="btn btn-primary">Next</a>
+            {{-- @if($application->form_step==9)
+            <form method="post" action="{{route('appointing_architect.send_to_architect')}}">
+                @csrf
+                <input type="hidden" name="app_id" value="{{$application->id}}">
+                <button type="submit" class="btn btn-primary">Send To Architect</button>
+            </form>
+            @endif --}}
+            <a href="{{route('appointing_architect.step9',['id'=>encrypt($application->id)])}}" id="" class="btn btn-primary">Next</a>
         </div>
     </div>
 </div>
@@ -235,12 +249,13 @@
 <script>
     $(document).ready(function () {
         //document.querySelector(".m-portlet__body").classList.add("show");
-        
+
         function showUploadedFile() {
             $('.custom-file-input').change(function (e) {
                 $(this).parents('.custom-file').find('.custom-file-label').text(e.target.files[0].name);
             });
         }
+
 
         $('#add-more').click(function (e) {
             e.preventDefault();
@@ -253,6 +268,8 @@
                     }
                 });
 
+            formAccordion.find(".form-steps-toplinks").append("<h2 class='m--font-danger'><i title='Delete' class='fa fa-remove'></i></h2>");
+
             var formAccordionCount = $("#accordion").find('.form-accordion').length + 1;
             var newID = 'form_' + formAccordionCount;
 
@@ -263,9 +280,9 @@
             formAccordionNumber.textContent = "Form " + formAccordionCount + ":";
 
             var file_input = formAccordion.find('.custom-file-input')[0];
-            file_input.setAttribute('id', 'extract_'+formAccordionCount)
+            file_input.setAttribute('id', 'extract_' + formAccordionCount)
             var file_label = formAccordion.find('.custom-file-label')[0];
-            file_label.setAttribute('for', 'extract_'+formAccordionCount);
+            file_label.setAttribute('for', 'extract_' + formAccordionCount);
             var download_link = formAccordion.find('.btn-link')[0];
             download_link.setAttribute('style', 'display:none;');
 
@@ -288,8 +305,52 @@
                 },
                 autoclose: true,
                 format: 'dd-mm-yyyy'
-            })
+            });
+            
+            removeAccordion();
         });
+
+        function removeAccordion() {
+            if($('.form-steps-toplinks')) {
+                $('.form-steps-toplinks').on('click', '.fa-remove', function(e) {
+                    var delete_id=$(this).closest('.form-steps-toplinks').next('form').find("input[name='project_sheet_detail_id']")[0].value;
+                    //$(this)[0].closest('.form-accordion').remove();
+                    if(delete_id!="")
+                    {
+                        if(confirm('are you sure?'))
+                        {
+                            $.ajaxSetup({
+                                headers: {
+                                    'X-CSRF-Token': '{{csrf_token()}}'
+                                }
+                            });
+                            var thisInstance=$(this);
+                            $.ajax({
+                                url:"{{route('appointing_architect.delete_project_sheet_detail')}}",
+                                method:'POST',
+                                data:{delete_imp_project_id:delete_id},
+                                success:function(data){
+                                    if(data.status==0)
+                                    {
+                                        thisInstance[0].closest('.form-accordion').remove();
+                                    }else
+                                    {
+                                        alert('something went wrong');
+                                    }
+                                }
+                            })
+                        }
+                    }else
+                    {
+                        $(this)[0].closest('.form-accordion').remove();
+                    }
+
+
+                });
+            }
+        }
+
+        removeAccordion();
     });
 
 </script>

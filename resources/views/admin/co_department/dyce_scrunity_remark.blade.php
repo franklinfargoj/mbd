@@ -157,7 +157,7 @@
                     @foreach($applicationData->visitDocuments as $data)
                     <div class="col-sm-12 field-col">
                         <div class="d-flex">
-                            <span style="width: 200px;">Supporting Documents:</span>
+                            <span style="width: 200px;">Upload Site Photos:</span>
                             <a href="{{config('commanConfig.storage_server').'/'.$data->document_path}}">
                                 <img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}" style="height:44px"></a>
                             <span class="field-value" style="padding-left: 15px;">{{ (isset(explode('/',$data->document_path)[1]) ? explode('/',$data->document_path)[1]: '') }}

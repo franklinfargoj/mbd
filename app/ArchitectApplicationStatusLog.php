@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\EmploymentOfArchitect\EoaApplication;
 
 class ArchitectApplicationStatusLog extends Model
 {
@@ -23,6 +24,11 @@ class ArchitectApplicationStatusLog extends Model
     public function architectApplication()
     {
         return $this->belongsTo(ArchitectApplication::class);
+    }
+
+    public function eoa_application()
+    {
+        return $this->belongsTo(EoaApplication::class,'architect_application_id','id');
     }
 
     
