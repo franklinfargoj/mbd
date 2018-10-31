@@ -2868,8 +2868,7 @@ label.site-visit-label {
     cursor: pointer;
 }
 
-.form-step-tab.active::before,
-.form-step-tab.active::after {
+.form-step-tab.active::before {
     content: "";
     display: block;
     position: absolute;
@@ -2884,17 +2883,17 @@ label.site-visit-label {
     border-width: 35px;
     border-left-width: 12px;
     top: -4px;
-    left: 101%;
-    border-left-color: #fff;
+    left: 100%;
+    border-left-color: #ff754e;
 }
 
-.form-step-tab.active::after {
+/* .form-step-tab.active::after {
     border-width: 31px;
     border-left-width: 15px;
     top: 0;
     left: 100%;
     border-left-color: #ff754e;
-}
+} */
 
 .form-step-tab:last-child.active::after {
     display: none;

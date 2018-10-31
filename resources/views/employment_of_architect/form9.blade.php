@@ -20,7 +20,7 @@
     <form id="" role="form" method="post" class="m-form m-form--rows m-form--label-align-right form-steps-box" action="{{route('appointing_architect.step9_post',['id'=>encrypt($application->id)])}}"
         enctype="multipart/form-data">
         <div class="m-portlet m-portlet--mobile">
-            <h3 class="section-title section-title--small">Form 5:</h3>
+            <h3 class="section-title section-title--small">Form 9:</h3>
             @csrf
             <input type="hidden" name="application_id" value="{{$application->id}}">
             <div class="m-portlet__body m-portlet__body--table">
@@ -102,10 +102,23 @@
     $('#add-more').click(function (e) {
         e.preventDefault();
         var clone = $('table.imp_projects tr.cloneme:first').clone().find('input').val('').end();
+        console.log("clone", clone.find('.custom-file-label')[0].textContent);
+        var tableRowCount = $('#table-form-4 tbody tr').length + 1;
+        clone.find('.custom-file-label')[0].setAttribute('for', 'extract_' + tableRowCount);
+        clone.find('.custom-file-label')[0].textContent = "Choose File...";
+        clone.find('.custom-file-input')[0].setAttribute('id', 'extract_' + tableRowCount);
+        clone.find('.btn-link')[0].style.display = "none";
         clone.find("td:last").append(
             "<h2 class='m--font-danger remove-row'><i title='Delete' class='fa fa-remove'></i></h2>");
         $('table.imp_projects').append(clone);
+        showUploadedFile();
     });
+
+    function showUploadedFile() {
+        $('.custom-file-input').change(function (e) {
+            $(this).parents('.custom-file').find('.custom-file-label').text(e.target.files[0].name);
+        });
+    }
 
     $('.imp_projects').on('click', '.fa-remove', function () {
         //$(this).closest('tr').remove();

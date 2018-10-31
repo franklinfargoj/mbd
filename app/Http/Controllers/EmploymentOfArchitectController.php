@@ -128,7 +128,7 @@ class EmploymentOfArchitectController extends Controller
     public function index(Request $request, Datatables $datatables)
     {
 
-        if (!$this->model->all()) {
+        if (count($this->model->all())<=0) {
             $app = $this->model->getModel();
             $app->user_id = auth()->user()->id;
             $app->application_number = $this->genRand();
@@ -630,20 +630,25 @@ class EmploymentOfArchitectController extends Controller
     {
         $doc_name = $request->document_name;
         $doc_id = $request->doc_id;
-        //$document_path=$request->document_path;
+        $document_path=$request->document_path;
+        //dd($document_path);
         $k = 0;
         $application_id = $request->application_id;
         foreach ($doc_name as $doc) {
             $data_array=array();
             $storage="";
             if (isset($doc_id[$k])) {
-                //dd($request->hasFile('document_path'));
+
                 if ($request->hasFile('document_path')) {
-                    $file = $request->file('document_path')[$k];
-                    $extension = $request->file('document_path')[$k]->getClientOriginalExtension();
-                    $dir = 'appointing_architect_application';
-                    $filename = uniqid() . '_' . time() . '_' . date('Ymd') . '.' . $extension;
-                    $storage = Storage::disk('ftp')->putFileAs($dir, $request->file('document_path')[$k], $filename);
+                    if(isset($request->file('document_path')[$k]))
+                    {
+                        $file = $request->file('document_path')[$k];
+                        $extension = $request->file('document_path')[$k]->getClientOriginalExtension();
+                        $dir = 'appointing_architect_application';
+                        $filename = uniqid() . '_' . time() . '_' . date('Ymd') . '.' . $extension;
+                        $storage = Storage::disk('ftp')->putFileAs($dir, $request->file('document_path')[$k], $filename);
+               
+                    }
                 }
                 $data_array = [
                     'document_name' => $doc_name[$k],
@@ -658,11 +663,14 @@ class EmploymentOfArchitectController extends Controller
 
             } else {
                 if ($request->hasFile('document_path')) {
+                    if(isset($request->file('document_path')[$k]))
+                    {
                     $file = $request->file('document_path')[$k];
                     $extension = $request->file('document_path')[$k]->getClientOriginalExtension();
                     $dir = 'appointing_architect_application';
                     $filename = uniqid() . '_' . time() . '_' . date('Ymd') . '.' . $extension;
                     $storage = Storage::disk('ftp')->putFileAs($dir, $request->file('document_path')[$k], $filename);
+                    }
                 }
                 $data_array = [
                     'document_path' => $storage,
