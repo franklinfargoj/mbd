@@ -2,7 +2,7 @@
 $route="";
 $route=\Request::route()->getName();
 @endphp
-<li class="m-menu__item m-menu__item--submenu m-menu__item--level-1" >
+<li class="m-menu__item m-menu__item--level-1" >
     <a href="{{ route('architect_layout.index') }}" class="m-menu__link m-menu__toggle">
         <i class="m-menu__link-icon flaticon-line-graph"></i>
         <span class="m-menu__link-title">
@@ -14,7 +14,7 @@ $route=\Request::route()->getName();
         </span>
     </a>   
 </li>
-<li class="m-menu__item m-menu__item--submenu m-menu__item--level-2" data-toggle="collapse" data-target="#cap-actions">
+<li class="m-menu__item m-menu__item--level-1" data-toggle="collapse" data-target="#cap-actions">
     <a href="javascript:void(0);" class="m-menu__link m-menu__toggle">
         <i class="m-menu__link-icon flaticon-line-graph"></i>
         <span class="m-menu__link-title">
