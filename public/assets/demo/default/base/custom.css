@@ -2592,7 +2592,7 @@ label.site-visit-label {
 .m-aside-menu.m-aside-menu--skin-dark .m-menu__nav>.m-menu__item:hover>.m-menu__link .m-menu__link-text,
 .m-aside-menu.m-aside-menu--skin-dark .m-menu__nav>.m-menu__item:hover>.m-menu__heading .m-menu__ver-arrow,
 .m-aside-menu.m-aside-menu--skin-dark .m-menu__nav>.m-menu__item:hover>.m-menu__link .m-menu__ver-arrow {
-    color: #f0791b;
+    color: #fff;
 }
 
 .m-aside-menu.m-aside-menu--skin-dark .m-menu__nav>.m-menu__item:hover {

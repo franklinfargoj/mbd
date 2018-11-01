@@ -39,7 +39,7 @@
         @endif
 
 
-        @for($j=0;$j<(1+$k);$j++) 
+        @for($j=0;$j<(1+$k);$j++)
         <div class="m-portlet m-portlet--compact form-accordion">
             <div class="d-flex justify-content-between align-items-center form-steps-toplinks">
                 <a class="btn--unstyled section-title section-title--small form-count-title" data-toggle="collapse"
