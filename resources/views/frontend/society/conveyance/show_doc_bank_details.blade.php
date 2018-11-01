@@ -1,6 +1,6 @@
 @extends('frontend.layouts.sidebarAction')
 @section('actions')
-@include('frontend.society.conveyance.actions',compact('sc_application'))
+    @include('frontend.society.conveyance.actions',compact('sc_application'))
 @endsection
 @section('content')
 <div class="col-md-12">
@@ -145,7 +145,7 @@
                                 <div class="">
                                     <h3 class="section-title section-title--small">Enter Bank Details:</h3>
                                 </div>
-                                <form action="{{ route('add_documents_comment') }}" id="society_bank_details" method="post" enctype='multipart/form-data'>
+                                <form action="{{ route('society_bank_details') }}" id="society_bank_details" method="post" enctype='multipart/form-data'>
                                     @csrf
                                     <div class="m-portlet__body m-portlet__body--spaced">
                                         @for($i=0; $i < count($sc_bank_details_fields); $i++)
@@ -155,12 +155,14 @@
                                                         <div class="col-sm-4 form-group">
                                                             <label class="col-form-label" for="{{ $sc_bank_details_fields[$i] }}">@php $labels = implode(' ', explode('_', $sc_bank_details_fields[$i])); echo ucwords($labels); @endphp:</label>
                                                             @php echo $comm_func->form_fields($sc_bank_details_fields[$i], 'text','' , ''); @endphp
+                                                            <span id="error_{{ $sc_bank_details_fields[$i] }}" class="help-block">{{$errors->first($sc_bank_details_fields[$i])}}</span>
                                                         </div>
                                                     @endif
                                                     @if(isset($sc_bank_details_fields[$i+1]))
                                                         <div class="col-sm-4 offset-sm-1 form-group">
                                                             <label class="col-form-label" for="{{ $sc_bank_details_fields[$i+1] }}">@php $labels = implode(' ', explode('_', $sc_bank_details_fields[$i+1])); echo ucwords($labels); @endphp:</label>
                                                             @php echo $comm_func->form_fields($sc_bank_details_fields[$i+1], 'text','' , ''); @endphp
+                                                            <span id="error_{{ $sc_bank_details_fields[$i+1] }}" class="help-block">{{$errors->first($sc_bank_details_fields[$i+1])}}</span>
                                                         </div>
                                                     @endif
                                                 </div>
@@ -220,7 +222,8 @@
             $('#society_bank_details').validate({
                 rules: {
                     account_no:{
-                        required:true
+                        required:true,
+                        number:true
                     },
                     ifsc_code:{
                         required:true
@@ -231,7 +234,7 @@
                 },
                 messages: {
                     account_no:{
-                        required:'Enter Bank Account number.'
+                        required:'Enter Bank Account number.',
                     },
                     ifsc_code:{
                         required:'Enter Bank IFSC code'
@@ -244,13 +247,17 @@
 
             $('#ifsc_code').on('keyup', function () {
                 var str = $(this).val();
-                var exp = /^[A-Z]{4}[0][\d]{6}/g;
+                var exp = /^[A-Z]{4}[0][\d]{6}/;
 
                 if(str.length > 10){
-                    if(exp.test(str)){
-                        console.log('=====');
+                    if(!exp.test(str) || str.length > 11){
+                        $('#error_ifsc_code').text('IFSC code not valid.').addClass('text-danger');
                     }else{
-                        console.log('get lost!');
+                        $('#error_ifsc_code').text('');
+                    }
+                }else{
+                    if(empty(str)){
+                        $('#error_ifsc_code').text('');
                     }
                 }
             });
