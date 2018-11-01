@@ -8,7 +8,7 @@
         <div class="d-flex">
             {{-- {{ Breadcrumbs::render('calculation_sheet',$ol_application->id) }} --}}
             <div class="ml-auto btn-list">
-                <a href="{{route('appointing_architect.step9',['id'=>encrypt($application->id)])}}" class="btn btn-link"><i
+                <a href="{{route('architect_application')}}" class="btn btn-link"><i
                         class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
             </div>
         </div>
@@ -491,11 +491,11 @@
         @foreach($work_in_hand as $work_in_ha)
         <div class="m-portlet m-portlet--compact form-accordion">
             <div class="d-flex justify-content-between align-items-center form-steps-toplinks">
-                <a class="btn--unstyled section-title section-title--small form-count-title" data-toggle="collapse" href="#form_7">Project
+                <a class="btn--unstyled section-title section-title--small form-count-title" data-toggle="collapse" href="#work_in_hand_{{$j+1}}">Project
                     {{$j+1}}:</a>
             </div>
 
-            <div class="m-portlet__body m-portlet__body--spaced collapse form-count" id="form_7" data-parent="#accordion">
+            <div class="m-portlet__body m-portlet__body--spaced collapse form-count" id="work_in_hand_{{$j+1}}" data-parent="#accordion">
                 <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="">Name of Project:</label>
@@ -593,10 +593,10 @@
     @foreach($work_completed as $work_in_ha)
     <div class="m-portlet m-portlet--compact form-accordion">
         <div class="d-flex justify-content-between align-items-center form-steps-toplinks">
-            <a class="btn--unstyled section-title section-title--small form-count-title" data-toggle="collapse" href="#form_8">Project
+            <a class="btn--unstyled section-title section-title--small form-count-title" data-toggle="collapse" href="#work_completed_{{$j+1}}">Project
                 {{$j+1}}:</a>
         </div>
-        <div class="m-portlet__body m-portlet__body--spaced collapse form-count" id="form_8" data-parent="#accordion">
+    <div class="m-portlet__body m-portlet__body--spaced collapse form-count" id="work_completed_{{$j+1}}" data-parent="#accordion">
             <div class="form-group m-form__group row">
                 <div class="col-sm-4 form-group">
                     <label class="col-form-label" for="">Name of Project:</label>

@@ -35,7 +35,7 @@
                                 </thead>
                                 <tbody>
                                 <?php $i=0; ?>
-                                @foreach($societyDocument[0]->societyDocuments as $data)
+                                @foreach($societyDocument[0]->societyRevalDocuments as $data)
                                     <tr>
                                         <td>{{ $i+1}}.</td>
                                         <td>{{(isset($data->documents_Name[0]->name) ? $data->documents_Name[0]->name : '')}}

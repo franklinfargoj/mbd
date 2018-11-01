@@ -55,14 +55,15 @@ class ArchitectApplicationController extends Controller
         }
         $getData = $request->all();
         $columns = [
-            ['data' => 'radio', 'name' => 'radio', 'title' => '', 'searchable' => false],
+            //['data' => 'radio', 'name' => 'radio', 'title' => '', 'searchable' => false],
             ['data' => 'select', 'name' => 'select', 'title' => '', 'searchable' => false],
             ['data' => 'rownum', 'name' => 'rownum', 'title' => 'Sr No.', 'searchable' => false],
             ['data' => 'application_number', 'name' => 'application_number', 'title' => 'Application Number'],
             ['data' => 'application_date', 'name' => 'application_date', 'title' => 'Application Date'],
             ['data' => 'candidate_name', 'name' => 'candidate_name', 'title' => 'Candidate Name'],
             ['data' => 'candidate_email', 'name' => 'candidate_email', 'title' => 'Candidate Email'],
-            ['data' => 'status', 'name' => 'status', 'title' => 'Status']
+            ['data' => 'status', 'name' => 'status', 'title' => 'Status'],
+            ['data' => 'view', 'name' => 'view', 'title' => 'Action']
         ];
 
         //dd($this->CommonController->architect_applications($request));
@@ -70,15 +71,15 @@ class ArchitectApplicationController extends Controller
 
             $architect_applications = $this->CommonController->architect_applications($request);
             return $datatables->of($architect_applications)
-                ->editColumn('radio', function ($listArray) {
-                    $url = route('view_architect_application', encrypt($listArray->id));
-                    return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="' . $url . '" name="village_data_id"><span></span></label>';
-                })
+                // ->editColumn('radio', function ($listArray) {
+                //     $url = route('view_architect_application', encrypt($listArray->id));
+                //     return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="' . $url . '" name="village_data_id"><span></span></label>';
+                // })
                 ->editColumn('select', function ($architect_applications) {
                     return view('admin.architect.checkbox', compact('architect_applications'))->render();
                 })
                 ->editColumn('rownum', function ($listArray) {
-                    static $i = 0; $i++;return $i;
+                    static $i = 0; $i++; return $i;
                 })
                 ->editColumn('application_number', function ($architect_applications) {
                     return $architect_applications->application_number;
@@ -103,8 +104,11 @@ class ArchitectApplicationController extends Controller
                     }
                     return $value . ($architect_applications->application_status == 'None' ? '' : ' & ' . $architect_applications->application_status);
                 })
+                ->editColumn('view', function ($architect_applications) {
+                     return view('admin.architect.view_layout', compact('architect_applications'))->render();
+                })
                 
-                ->rawColumns(['radio', 'select', 'application_number', 'application_date', 'candidate_name', 'candidate_email'])
+                ->rawColumns([ 'select', 'application_number', 'application_date', 'candidate_name', 'candidate_email','view'])
                 ->make(true);
         }
 
@@ -118,8 +122,8 @@ class ArchitectApplicationController extends Controller
         return [
             'serverSide' => true,
             'processing' => true,
-            'ordering' => 'isSorted',
-            "order" => [6, "desc"],
+           'ordering' => 'isSorted',
+            "order" => [2, "asc"],
             "pageLength" => $this->list_num_of_records_per_page,
             // 'fixedHeader' => [
             //     'header' => true,
@@ -251,10 +255,14 @@ class ArchitectApplicationController extends Controller
 
     public function getFinalCertificateGenerate($encryptedId)
     {
+        
         $uploadPath = '/uploads/temp_certificate';
         $destination = public_path($uploadPath);
         $certificate_generated = 0;
-        $ArchitectApplication = EoaApplication::find(decrypt($encryptedId));
+        $ArchitectApplication = EoaApplication::with(['statusLog'=>function($query){
+            return $query->where('user_id',auth()->user()->id)->where('role_id',session()->get('role_id'))->orderBY('id','desc')->limit(1);
+        }])->find(decrypt($encryptedId));
+        //dd($ArchitectApplication->statusLog);
         if ($ArchitectApplication) {
             if ($ArchitectApplication->drafted_certificate == null) {
                 if ((!is_dir($destination))) {
@@ -272,7 +280,7 @@ class ArchitectApplicationController extends Controller
 
     public function edit_certificate($encryptedId)
     {
-        $ArchitectApplication = ArchitectApplication::find(decrypt($encryptedId));
+        $ArchitectApplication = EoaApplication::find(decrypt($encryptedId));
         return view('admin.architect.edit_certificate', compact('ArchitectApplication'));
     }
 
@@ -413,5 +421,43 @@ class ArchitectApplicationController extends Controller
             return redirect()->route('architect_application');
         }
     }
+
+    public function send_to_candidate(Request $request)
+    {
+        $applicationId=decrypt($request->applicationId);
+        $EoaApplication=EoaApplication::find($applicationId);
+        $to_user_id=$EoaApplication->user->id;
+        $to_role_id=$EoaApplication->user->role_id;
+        $forward_application = [
+            [
+                'architect_application_id' => $applicationId,
+                'user_id' => auth()->user()->id,
+                'role_id' => session()->get('role_id'),
+                'status_id' => config('commanConfig.architect_applicationStatus.approved'),
+                'to_user_id' => $to_user_id,
+                'to_role_id' => $to_role_id,
+                'remark' => '',
+                'changed_at' => Carbon::now(),
+            ],
+            [
+                'architect_application_id' => $applicationId,
+                'user_id' => $to_user_id,
+                'role_id' => $to_role_id,
+                'status_id' => config('commanConfig.architect_applicationStatus.approved'),
+                'to_user_id' => null,
+                'to_role_id' => null,
+                'remark' => $request->comment,
+                'changed_at' => Carbon::now(),
+            ],
+        ];
+        //dd($forward_application);
+        if (ArchitectApplicationStatusLog::insert($forward_application)) {
+            return redirect()->route('architect_application');
+        }else
+        {
+            return back()->withError('something went wrong');
+        }
+         
+    }   
 
 }

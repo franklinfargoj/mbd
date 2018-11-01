@@ -88,7 +88,7 @@ return [
         'new_application' => 1,
         'scrutiny_pending' => 2,
         'forward' => 3,
-        // 'shortListed' => 4,
+         'approved' => 4,
         // 'final' => 5
     ],
     'architect_layout_status' => [

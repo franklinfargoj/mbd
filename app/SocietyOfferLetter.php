@@ -56,7 +56,11 @@ class SocietyOfferLetter extends Authenticatable
     
     public function societyDocuments(){
         return $this->hasMany('App\OlSocietyDocumentsStatus', 'society_id','id');
-    }     
+    }
+
+    public function societyRevalDocuments(){
+        return $this->hasMany('App\RevalOlSocietyDocumentStatus', 'society_id','id');
+    }
 
     public function roles()
     {

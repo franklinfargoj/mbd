@@ -8,7 +8,7 @@ $route=\Request::route()->getName();
         <span class="m-menu__link-title">
             <span class="m-menu__link-wrap">
                 <span class="m-menu__link-text">
-                    Back to Layouts
+                    Back to Applications
                 </span>
             </span>
         </span>

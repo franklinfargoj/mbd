@@ -534,7 +534,8 @@ class REEController extends Controller
     public function societyRevalDocuments(Request $request,$applicationId){
 
         $ol_application = $this->CommonController->getOlApplication($applicationId);
-        $societyDocument = $this->CommonController->getSocietyEEDocuments($applicationId);
+        $societyDocument = $this->CommonController->getRevalSocietyREEDocuments($applicationId);
+
         $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
 
         $ol_application->status = $this->CommonController->getCurrentStatus($applicationId);
