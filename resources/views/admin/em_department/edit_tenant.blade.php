@@ -191,9 +191,9 @@
                 <div class="col-md-12">
                     <div class="col-md-9">
                         <div class="form-group m-form__group">
-                            <input type="submit" class="btn btn-success" name="submit" value="submit">
+                            <input type="submit" class="btn m-btn--pill m-btn--custom btn-primary" name="submit" value="submit">
 
-                            <a  class="btn btn-info" href="{{ route('get_tenants', [$tenant->building_id]) }}">Cancel</a>
+                            <a  class="btn m-btn--pill m-btn--custom btn-metal" href="{{ route('get_tenants', [$tenant->building_id]) }}">Cancel</a>
                         </div>
                     </div>
                 </div>

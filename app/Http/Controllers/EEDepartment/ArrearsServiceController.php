@@ -47,8 +47,9 @@ class ArrearsServiceController extends Controller
             $arrears_charges = ArrearsChargesRate::selectRaw('@rownum  := @rownum  + 1 AS rownum,arrears_charges_rates.*')->where('society_id',$society->id)->where('building_id',$building->id);
             return $datatables->of($arrears_charges)
             ->editColumn('actions', function ($arrears_charges){
-                return "<a href='".url('arrears_charges/'.$arrears_charges->id.'/edit')."' class='btn m-btn--pill m-btn--custom btn-primary'>Update</a>";
                 
+                return "<div class='d-flex btn-icon-list'><a href='".url('arrears_charges/'.$arrears_charges->id.'/edit')."' class='d-flex flex-column align-items-center'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/edit-icon.svg')."'></span>Update</a></div>";
+
             })
             ->rawColumns(['actions'])
             ->make(true);

@@ -18,13 +18,13 @@
                 <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="">Account Code:</label>
-                        <input type="text" id="" name="" class="form-control form-control--custom m-input" value="">
+                        <input type="text" name="account_code" class="form-control form-control--custom m-input" value="">
                         <span class="help-block"></span>
                     </div>
 
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="">Bill No:</label>
-                        <input type="text" id="" name="" class="form-control form-control--custom m-input" value="{{$bill->id}}" disabled>
+                        <input type="text" name="bill_no" class="form-control form-control--custom m-input" value="{{$bill->id}}" readonly>
                         <span class="help-block"></span>
                     </div>
 
@@ -32,36 +32,39 @@
                 <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="">Society Name:</label>
-                        <input type="text" id="" name="" class="form-control form-control--custom m-input" value="{{$bill->society_detail->society_name}}" disabled>
+                        <input type="text" class="form-control form-control--custom m-input" value="{{$bill->society_detail->society_name}}" readonly>
                         <span class="help-block"></span>
                     </div>
                 </div>
+                
                 <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="">Building Number:</label>
-                        <input type="text" id="" name="" class="form-control form-control--custom m-input" value="{{$bill->building_detail->building_no}}" disabled>
+                        <input type="text" class="form-control form-control--custom m-input" value="{{$bill->building_detail->building_no}}" readonly>
                         <span class="help-block"></span>
                     </div>
 
                     <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="">Flat Number:</label>
-                        <input type="text" id="" name="" class="form-control form-control--custom m-input" value="{{$bill->tenant_detail->flat_no}}" disabled>
+                        <input type="text" class="form-control form-control--custom m-input" value="{{$bill->tenant_detail->flat_no}}" readonly>
                         <span class="help-block"></span>
                     </div>
                 </div>
+
                 <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="">Amount Paid By:</label>
-                        <input type="text" id="" name="amount_paid_by" class="form-control form-control--custom m-input" value="">
+                        <input type="text" name="amount_paid_by" class="form-control form-control--custom m-input" value="">
                         <span class="help-block"></span>
                     </div>
 
                     <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="">Bill Amount of month:</label>
-                        <input type="text" id="" name="bill_amount" class="form-control form-control--custom m-input" value="{{$bill->total_bill}}" disabled>
+                        <input type="text" name="bill_amount" class="form-control form-control--custom m-input" value="{{$bill->total_bill}}" readonly>
                         <span class="help-block"></span>
                     </div>
                 </div>
+
                 <div class="form-group m-form__group row">
                     <div class="col-sm-12 form-group">
                         <label class="col-form-label" for="payment-mode">Payment Mode:</label>
@@ -79,13 +82,13 @@
                                 <span></span>
                             </label>
                         </div>
-                    </div>
-                    
+                    </div>                    
                 </div>
+
                 <div class="form-group m-form__group row" id="cash_block">
                     <div class="col-sm-3 form-group">
                         <label class="col-form-label" for="">Amount Paid:</label>
-                        <input type="text" id="cash_amount" name="cash_amount" class="form-control form-control--custom m-input" value="">
+                        <input type="number" id="cash_amount" name="cash_amount" class="form-control form-control--custom m-input" value="">
                         <span></span>
                     </div>
                 </div>
@@ -104,7 +107,7 @@
                     </div>
                     <div class="col-sm-3 form-group">
                         <label class="col-form-label" for="">Amount Paid:</label>
-                        <input type="text" id="dd_amount" name="dd_amount" class="form-control form-control--custom m-input" value="">
+                        <input type="number" id="dd_amount" name="dd_amount" class="form-control form-control--custom m-input" value="">
                         <span></span>
                     </div>
                 </div>
@@ -123,7 +126,7 @@
                     </div>
                     <div class="col-sm-3 form-group">
                         <label class="col-form-label" for="">Amount Paid:</label>
-                        <input type="text" id="online_amount" name="online_amount" class="form-control form-control--custom m-input amount_paid" value="">
+                        <input type="number" id="online_amount" name="online_amount" class="form-control form-control--custom m-input amount_paid" value="">
                         <span></span>
                     </div>
                 </div>
@@ -132,25 +135,25 @@
                     <label class="col-form-label col-sm-12" for="">Payment Made for months:</label>
                     <div class="col-sm-4 form-group">
                         <input type="text" id="payment-made-from-month" name="payment-made-from-month" class="form-control form-control--custom m-input"
-                            value="{{$bill->bill_from}}" disabled>
+                            value="{{$bill->bill_from}}" readonly>
                         <span class="help-block"></span>
                     </div>
                     <div class="col-sm-4 offset-sm-1 form-group">
                         <input type="text" id="payment-made-to-month" name="payment-made-to-month" class="form-control form-control--custom m-input"
-                            value="{{$bill->bill_to}}" disabled>
+                            value="{{$bill->bill_to}}" readonly>
                         <span class="help-block"></span>
                     </div>
                 </div>
                 <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="">Amount Balance:</label>
-                        <input type="text" id="balance_amount" name="balance_amount" class="form-control form-control--custom m-input" value="00" disabled>
+                        <input type="text" id="balance_amount" name="balance_amount" class="form-control form-control--custom m-input" value="00" readonly>
                         <span class="help-block"></span>
                     </div>
 
                     <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="">Credit Amount:</label>
-                        <input type="text" id="credit_amount" name="credit_amount" class="form-control form-control--custom m-input" value="00" disabled>
+                        <input type="text" id="credit_amount" name="credit_amount" class="form-control form-control--custom m-input" value="00" readonly>
                         <span class="help-block"></span>
                     </div>
                 </div>
@@ -197,34 +200,54 @@
         });
         /* Multi select with search data code toggle payment mode ends here */
 
-        $('#online_amount').chnage(function(){
-            $amount.isNumeric()
+        $('#online_amount').change(function(){
             var amount = $('#online_amount').val(); 
-            var bill_amount = <?php echo $bill->total_bill; ?>
-            if( Number.isInteger(amount)){
-                var credit = $('#credit_amount').val();
-                var balance = $('#balance_amount').val();
+            $('#dd_amount').val('');
+            $('#cash_amount').val('');
+            calc(amount);
+        });
+
+        $('#cash_amount').change(function(){
+            var amount = $('#cash_amount').val(); 
+            $('#online_amount').val('');
+            $('#dd_amount').val('');
+            calc(amount); 
+        });
+
+        $('#dd_amount').change(function(){
+            var amount = $('#dd_amount').val(); 
+            $('#cash_amount').val('');
+            $('#online_amount').val('');
+            calc(amount);
+        });
+
+        function calc(amount){
+           
+            var bill_amount = '<?php echo $bill->total_bill; ?>';
+            var balance = '<?php echo 0; ?>';
+            var credit = '<?php echo 0; ?>'; 
+            
+            
+            //if (/^\d+$/.test(amount)) {              
+            if (amount.match(/^-?\d*(\.\d+)?$/)) {              
+               //console.log(amount);
                 var diff = bill_amount - amount;
                 if(diff < 0){
-                    credit += Math.abs(diff);
-                    $('#credit_amount').val() = credit;
+                    credit = parseFloat(credit) + parseFloat(Math.abs(diff));
+                    //console.log(credit);
+                    $('#balance_amount').val(balance);
+                    $('#credit_amount').val(credit);
                 } else {
-                    balance += Math.abs(diff);
-                    $('#balance_amount').val() = balance;
+                    balance = parseFloat(balance) + parseFloat(Math.abs(diff));
+                    //console.log(balance);
+                    $('#credit_amount').val(credit);
+                    $('#balance_amount').val(balance);
                 }
             } else {
                 alert('Only Numbers allowed.');
             }
-        });
 
-        $('#online_amount').chnage(function(){
-            
-        });
-
-        $('#online_amount').chnage(function(){
-            
-        });
-
+        }
 
     });    
   </script>

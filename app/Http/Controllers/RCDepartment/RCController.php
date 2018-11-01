@@ -241,7 +241,18 @@ class RCController extends Controller
 
     public function payment_receipt_society(Request $request){
 
-        dd($request->all());
+       // dd($request->all());
+
+        /*if($request->bill_no){
+            
+            if($request->balance_amount && $request->balance_amount == 0){
+                $request->status = 'paid';               
+            } else {
+                $request->status = 'partial_paid';               
+            }
+        } else {
+           return redirect()->back()->with('warning', 'Invalid Bill Data.');
+        }*/
        
         $pdf = PDF::loadView('admin.rc_department.payment_receipt_society');
         return $pdf->download('payment_receipt_society'.date('YmdHis').'.pdf');
@@ -249,7 +260,7 @@ class RCController extends Controller
 
     public function payment_receipt_tenant(Request $request){
         
-        dd($request->all());
+        //dd($request->all());
         
         $pdf = PDF::loadView('admin.rc_department.payment_receipt_tenant');
         return $pdf->download('payment_receipt_tenant'.date('YmdHis').'.pdf');

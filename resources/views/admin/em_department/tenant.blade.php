@@ -29,8 +29,10 @@
                     placeholder="Search ..."></div>     
                 </div>
             </div>
-            <a class="btn btn-danger" href="{{route('add_tenant', [$building_id])}}" style="float: right;margin-top: 3%">Add
-                Tenant</a>
+             <div class='btn-icon-list'>
+                <a href="{{route('add_tenant', [$building_id])}}" class='d-flex flex-column align-items-center' style="padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px; float: right;margin-top: 3%"><span class='btn-icon btn-icon--edit'><img src="{{asset('/img/add-icon.svg')}}"></span>Add Tenant</a>
+            </div>
+
         </div>
         <div class="m-portlet__body">
             <!--begin: Datatable -->
@@ -50,9 +52,10 @@
             </tr>
         </thead>
         <tbody id="myTable">
+             <?php $row_no = 1; ?>
         @foreach($buildings as $key => $value )
             <tr>
-                <td>{{$value->id}}</td>
+                <td>{{$row_no++}}</td>
                 <td>{{$value->flat_no}}</td>
                 <td>{{$value->salutation}}</td>
                 <td>{{$value->first_name}}</td>
@@ -66,8 +69,12 @@
                     @endforeach                   
                 </td>
                 <td>
-                    <a class="btn btn-info" href="{{route('edit_tenant', [$value->id])}}">Edit</a>
-                    <a class="btn btn-danger" onclick="return confirm('Are you sure?')" href="{{route('delete_tenant', [$value->id])}}">Delete</a>
+                    <div class='d-flex btn-icon-list'>
+                        <a href="{{route('edit_tenant', [$value->id])}}" class='d-flex flex-column align-items-center' style="padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;"><span class='btn-icon btn-icon--edit'><img src="{{asset('/img/edit-icon.svg')}}"></span>Edit</a>
+
+                        <a href="{{route('delete_tenant', [$value->id])}}" class='d-flex flex-column align-items-center' style="padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;" onclick="return confirm('Are you sure?')" ><span class='btn-icon btn-icon--delete'><img src="{{asset('/img/delete-icon.svg')}}"></span>Delete</a>
+
+                    </div>
                 </td>
             </tr>
         @endforeach

@@ -148,7 +148,7 @@ class EMController extends Controller
           $layout_data = MasterLayout::whereIn('id', $layouts)->get();
           $wards = MasterWard::whereIn('layout_id', $layouts)->pluck('id');
           $colonies = MasterColony::whereIn('ward_id', $wards)->pluck('id');
-          $societies = SocietyDetail::whereIn('colony_id', $colonies)->where('name','like', '%'.$request->input('search').'%')->paginate(10);
+          $societies = SocietyDetail::whereIn('colony_id', $colonies)->where('society_name','like', '%'.$request->input('search').'%')->paginate(10);
           return view('admin.em_department.ajax_society', compact('societies'));
         
         } else {
@@ -589,6 +589,7 @@ class EMController extends Controller
             $data['consumer_number'] = substr(sprintf('%08d', $data['building']->society_id),0,8).'|'.substr(sprintf('%08d', $data['building']->id),0,8);
 
             return view('admin.em_department.generate_building_bill',$data);
+            
         }
     }
 
@@ -607,6 +608,7 @@ class EMController extends Controller
             $data['consumer_number'] = substr(sprintf('%08d', $data['building']->id),0,8).'|'.substr(sprintf('%08d', $data['tenant']->id),0,8);
 
             return view('admin.em_department.generate_tenant_bill',$data);
+
         }
     }
 }

@@ -14,9 +14,10 @@
             </tr>
         </thead>
         <tbody id="myTable">
+        <?php $row_no = 1; ?>
         @foreach($buildings as $key => $value )
             <tr>
-                <td>{{$value->id}}</td>
+                <td>{{$row_no++}}</td>
                 <td>{{$value->flat_no}}</td>
                 <td>{{$value->salutation}}</td>
                 <td>{{$value->first_name}}</td>
