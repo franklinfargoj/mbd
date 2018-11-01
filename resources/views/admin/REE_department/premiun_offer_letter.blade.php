@@ -13,7 +13,7 @@
     <form id="OfferLetterFRM" action="{{ route('ree.save_offer_letter')}}" method="post">
         @csrf
         <input type="hidden" id="applicationId" name="applicationId" value="{{$applicatonId}}">
-        <textarea id="ckeditorText" name="ckeditorText">
+        <textarea id="ckeditorText" name="ckeditorText" style="display:none">
         @if($content != "")
             {{$content}}
         @else
