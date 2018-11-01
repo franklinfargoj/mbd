@@ -23,6 +23,7 @@
                                 @endforeach
                             </select>
                             <input type="hidden" name="society_id" value="{{ $society_details->id }}">
+                            <input type="hidden" name="sc_application_master_id" value="1">
                             <span class="help-block">{{$errors->first('layout_id')}}</span>
                         </div>
                     </div>

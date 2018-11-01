@@ -23,7 +23,12 @@
                     {!! Form::submit(trans('View Billing Details'), array('class' => 'btn btn-info mb-10')) !!}
                     {!! Form::close() !!}
 
-                    <a class="btn btn-info mb-10" href="{{route('get_tenants', [$value->id])}}"> Generate Reciept </a>
+
+                    {!! Form::open(['method' => 'get', 'route' => 'generate_receipt_society']) !!}
+                    {{ Form::hidden('building_id', $value->id) }}
+                    {{ Form::hidden('society_id', $value->society_id) }}
+                    {!! Form::submit(trans('Generate Reciept'), array('class' => 'btn btn-info mb-10')) !!}
+                    {!! Form::close() !!}
                     
                     {!! Form::open(['method' => 'get', 'route' => 'arrears_calculations']) !!}
                     {{ Form::hidden('building_id', $value->id) }}

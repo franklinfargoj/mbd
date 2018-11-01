@@ -1,4 +1,7 @@
-@extends('admin.layouts.app')
+@extends('admin.layouts.sidebarAction')
+@section('actions')
+@include('employment_of_architect.actions',compact('application'))
+@endsection
 @section('content')
 
 <div class="col-md-12">
@@ -11,51 +14,81 @@
         <button class="btn--unstyled flex-grow-1 form-step-tab active">Step 6</button>
         <button class="btn--unstyled flex-grow-1 form-step-tab">Step 7</button>
         <button class="btn--unstyled flex-grow-1 form-step-tab">Step 8</button>
+        <button class="btn--unstyled flex-grow-1 form-step-tab ">Step 9</button>
+        <button class="btn--unstyled flex-grow-1 form-step-tab ">Step 10</button>
     </div>
-    <form id="" role="form" method="post" class="m-form m-form--rows m-form--label-align-right form-steps-box" action="" enctype="multipart/form-data">
+<form id="" role="form" method="post" class="m-form m-form--rows m-form--label-align-right form-steps-box" action="{{route('appointing_architect.step6_post',['id'=>encrypt($application->id)])}}"
+        enctype="multipart/form-data">
         <div class="m-portlet m-portlet--mobile">
             <h3 class="section-title section-title--small">Form 6:</h3>
             @csrf
+            <input type="hidden" name="application_id" value="{{$application->id}}">
             <div class="m-portlet__body m-portlet__body--table">
                 <div class="">
                     <div class="table-responsive">
-                        <table id="table-form-4" class="table table--box-input">
+                        <table id="table-form-4" class="table table--box-input imp_projects">
                             <thead class="thead-default">
                                 <tr>
                                     <th>Category</th>
                                     <th>Name</th>
                                     <th>Qualifications</th>
                                     <th>Year of Qualification</th>
-                                    <th>Length of Service (Firm)</th>
-                                    <th>Length of Service (Total)</th>
+                                    <th>Length of Service Firm Total</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
+                                @php
+                                $project_count=$application->imp_senior_professionals->count();
+                                @endphp
+                                @if($project_count>1)
+                                @php $k=($project_count-1); @endphp
+                                @else
+                                @php $k=0; @endphp
+                                @endif
+                                @for($j=0;$j<(1+$k);$j++) 
+                                <tr class="cloneme">
                                     <td>
-                                        <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id=""
-                                            name="">
-                                            <option value="">one</option>
-                                            <option value="">two</option>
-                                            <option value="">three</option>
+                                        <input type="hidden" name="imp_senior_professional_id[]" value="{{$application->imp_senior_professionals!=''?(isset($application->imp_senior_professionals[$j])?$application->imp_senior_professionals[$j]->id:''):''}}">
+                                        <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
+                                            id="" name="category[]">
+                                            @foreach(config('commanConfig.eoa_imp_senior_professionals_category') as
+                                            $key=>$cat)
+                                            <option {{$application->imp_senior_professionals!=''?(isset($application->imp_senior_professionals[$j])?($application->imp_senior_professionals[$j]->category==$key?'selected':''):''):''}} value="{{$key}}">{{$cat}}</option>
+                                            @endforeach
                                         </select>
                                     </td>
-                                    <td><input placeholder="Name" type="text" class="form-control form-control--custom"></td>
+                                    <td><input value="{{$application->imp_senior_professionals!=''?(isset($application->imp_senior_professionals[$j])?$application->imp_senior_professionals[$j]->name:''):''}}" placeholder="Name" name="name[]" type="text" class="form-control form-control--custom"></td>
                                     <td>
-                                        <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id=""
-                                            name="">
-                                            <option value="">one</option>
-                                            <option value="">two</option>
-                                            <option value="">three</option>
+                                        <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
+                                            id="" name="qualifications[]">
+                                            @foreach(config('commanConfig.eoa_imp_senior_professionals_qualifications')
+                                            as
+                                            $key=>$qual)
+                                            <option {{$application->imp_senior_professionals!=''?(isset($application->imp_senior_professionals[$j])?($application->imp_senior_professionals[$j]->qualifications==$key?'selected':''):''):''}} value="{{$key}}">{{$qual}}</option>
+                                            @endforeach
                                         </select>
                                     </td>
-                                    <td><input placeholder="Year of Qualification" type="text" class="form-control form-control--custom"></td>
-                                    <td><input placeholder="Length (Firm)" type="text" class="form-control form-control--custom"></td>
-                                    <td><input placeholder="Length (Total)" type="text" class="form-control form-control--custom"></td>
+                                    <td><input name="year_of_qualification[]" placeholder="Year of Qualification" type="text"
+                                            class="form-control form-control--custom" value="{{$application->imp_senior_professionals!=''?(isset($application->imp_senior_professionals[$j])?$application->imp_senior_professionals[$j]->year_of_qualification:''):''}}"></td>
+                                    <td>
+                                        <div class="d-flex justify-content-end">
+                                            <input value="{{$application->imp_senior_professionals!=''?(isset($application->imp_senior_professionals[$j])?$application->imp_senior_professionals[$j]->len_of_service_with_firm_in_year:''):''}}" name="len_of_service_with_firm_in_year[]" placeholder="Length (Firm)" type="text"
+                                                class="form-control form-control--custom select-box-list">
+                                            <input value="{{$application->imp_senior_professionals!=''?(isset($application->imp_senior_professionals[$j])?$application->imp_senior_professionals[$j]->len_of_service_with_firm_in_month:''):''}}" name="len_of_service_with_firm_in_month[]" placeholder="Length (Total)"
+                                                type="text" class="form-control form-control--custom select-box-list">
+                                        </div>
+                                        @if($j>0)
+                                        <h2 class='m--font-danger remove-row'><i title='Delete' class='fa fa-remove'></i></h2>
+                                        @endif
+                                    </td>
                                 </tr>
+                                @endfor
                             </tbody>
                         </table>
                     </div>
+                </div>
+                <div class="form-group">
+                    <a id="add-more" class="btn--add-delete add">add more<a>
                 </div>
             </div>
         </div>
@@ -76,4 +109,47 @@
 @endsection
 
 @section('js')
+<script>
+    $('#add-more').click(function (e) {
+        e.preventDefault();
+        var clone = $('table.imp_projects tr.cloneme:first').clone().find('input').val('').end();
+        clone.find("td:last").append("<h2 class='m--font-danger remove-row'><i title='Delete' class='fa fa-remove'></i></h2>");
+        $('table.imp_projects').append(clone);
+    });
+
+    $('.imp_projects').on('click', '.fa-remove', function () {
+        //$(this).closest('tr').remove();
+        var delete_id=$(this).closest('tr').find("input[name='imp_senior_professional_id[]']")[0].value;
+        if(delete_id!="")
+        {
+            if(confirm('are you sure?'))
+            {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-Token': '{{csrf_token()}}'
+                    }
+                });
+                var thisInstance=$(this);
+                $.ajax({
+                    url:"{{route('appointing_architect.delete_imp_senior_professional')}}",
+                    method:'POST',
+                    data:{delete_imp_project_id:delete_id},
+                    success:function(data){
+                        if(data.status==0)
+                        {
+                            thisInstance.closest('tr').remove();
+                        }else
+                        {
+                            alert('something went wrong');
+                        }
+                    }
+                })
+            }
+        }else
+        {
+            $(this).closest('tr').remove();
+        }
+    });
+
+</script>
 @endsection

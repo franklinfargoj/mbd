@@ -240,6 +240,8 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('arrears_calculations','EMDepartment\ArrearsCalculationController@index')->name('arrears_calculations');
     Route::get('billing_calculations','EMDepartment\BillingDetailController@index')->name('billing_calculations');
 
+    Route::get('generateBuildingBill','EMDepartment\EMController@generateBuildingBill')->name('generateBuildingBill');
+    Route::get('generateTenantBill','EMDepartment\EMController@generateTenantBill')->name('generateTenantBill');
     //EM_Clerk Routes
     Route::resource('em_clerk', 'EMDepartment\EMClerkController');
     Route::get('em_society_list', 'EMDepartment\EMClerkController@society_list')->name('em_society_list');
@@ -255,6 +257,10 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('bill_collection_tenant', 'RCDepartment\RCController@bill_collection_tenant')->name('bill_collection_tenant');
     Route::get('get_building_bill_collection', 'RCDepartment\RCController@get_building_bill_collection')->name('get_building_bill_collection');
     Route::get('get_tenant_bill_collection', 'RCDepartment\RCController@get_tenant_bill_collection')->name('get_tenant_bill_collection');
+    Route::get('generate_receipt_society', 'RCDepartment\RCController@generate_receipt_society')->name('generate_receipt_society');
+    Route::get('generate_receipt_tenant', 'RCDepartment\RCController@generate_receipt_tenant')->name('generate_receipt_tenant');
+    Route::post('payment_receipt_society', 'RCDepartment\RCController@payment_receipt_society')->name('payment_receipt_society');
+    Route::post('payment_receipt_tenant', 'RCDepartment\RCController@payment_receipt_tenant')->name('payment_receipt_tenant');
 
 
 	//DYCE Department routes
@@ -476,9 +482,15 @@ Route::delete('destroy_architect_layout_detail_court_case_or_dispute_on_land/{id
         Route::resource('roles','RoleController');
     });
 
+    //Society Conveyance
+
     Route::get('download_template', 'SocietyConveyanceController@download_excel')->name('sc_download');
+    Route::get('sc_upload_docs', 'SocietyConveyanceController@sc_upload_docs')->name('sc_upload_docs');
+    Route::post('upload_sc_docs', 'SocietyConveyanceController@upload_sc_docs')->name('upload_sc_docs');
+    Route::get('delete_sc_upload_docs/{id}', 'SocietyConveyanceController@delete_sc_upload_docs')->name('delete_sc_upload_docs');
     Route::resource('/society_conveyance','SocietyConveyanceController');
-    
+
+    //Society Conveyance END
 });
 
 
@@ -579,6 +591,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('conveyance_application/{id}', 'conveyance\conveyanceCommonController@ViewApplication')->name('conveyance.view_application');
 
     Route::get('view_ee_documents/{id}', 'conveyance\conveyanceCommonController@ViewEEDocuments')->name('conveyance.view_ee_documents');
+    Route::post('save_agreement_comments', 'conveyance\conveyanceCommonController@SaveAgreementComments')->name('conveyance.save_agreement_comments');
 
     //dyco
     Route::get('checklist/{id}', 'conveyance\DYCODepartment\DYCOController@showChecklist')->name('dyco.checklist');
@@ -588,22 +601,35 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('stamp_signed_duty_agreement/{id}', 'conveyance\DYCODepartment\DYCOController@SignedSaleLeaseAgreement')->name('dyco.stamp_signed_duty_agreement');
     Route::get('register_sale_lease_agreement/{id}', 'conveyance\DYCODepartment\DYCOController@RegisterSaleLeaseAgreement')->name('dyco.register_sale_lease_agreement'); 
     Route::get('conveyance_noc/{id}', 'conveyance\DYCODepartment\DYCOController@conveyanceNoc')->name('dyco.conveyance_noc');
-    Route::get('forward_application/{id}', 'conveyance\DYCODepartment\DYCOController@displayForwardApplication')->name('dyco.forward_application');
+    Route::get('forward_application/{id}', 'conveyance\DYCODepartment\DYCOController@displayForwardApplication')->name('dyco.forward_application');   
+
+    Route::get('conveyance_noc/{id}', 'conveyance\DYCODepartment\DYCOController@conveyanceNOC')->name('dyco.conveyance_noc');
 
     Route::post('storeChecklistData', 'conveyance\DYCODepartment\DYCOController@storeChecklistData')->name('dyco.storeChecklistData'); 
 
     Route::post('upload_note', 'conveyance\DYCODepartment\DYCOController@uploadNote')->name('dyco.uploadDycoNote');    
 
     Route::post('save_agreement', 'conveyance\DYCODepartment\DYCOController@saveAgreement')->name('dyco.save_agreement');
+    Route::post('save_stamp_sign_agreement', 'conveyance\DYCODepartment\DYCOController@SaveStampSignAgreement')->name('dyco.save_stamp_sign_agreement');
     Route::post('forward_application_dyco', 'conveyance\DYCODepartment\DYCOController@saveForwardApplication')->name('dyco.forward_application_data');  
 
     //EM
 
-     Route::get('scrutiny_remark_em/{id}', 'conveyance\EMDepartment\EMController@ScrutinyReamrk')->name('em.scrutiny_remark'); 
+    Route::get('scrutiny_remark_em/{id}', 'conveyance\EMDepartment\EMController@ScrutinyReamrk')->name('em.scrutiny_remark');
+
+    Route::get('sale_price_calculation/{id}', 'conveyance\EEDepartment\EEController@SalePriceCalculation')->name('ee.sale_price_calculation');
+
+    // Renewal
+    Route::get('renewal_scrutiny_remark_em/{id}', 'conveyance\EMDepartment\EMController@RenewalScrutinyReamrk')->name('em.scrutiny_remark');
+    Route::post('save_renewal_letter', 'conveyance\EMDepartment\EMController@saveRenewalNoDuesCertificate')->name('em.save_renewal_no_dues_certificate');
+
+    Route::post('upload_covering_letter','conveyance\EMDepartment\EMController@uploadCoveringLetter')->name('em.upload_covering_letter');
+
 
     //EE 
 
      Route::get('sale_price_calculation/{id}', 'conveyance\EEDepartment\EEController@SalePriceCalculation')->name('ee.sale_price_calculation');
+
 
     Route::post('save_calculation_data', 'conveyance\EEDepartment\EEController@SaveCalculationData')->name('ee.save_calculation_data');
     Route::post('save_demarcation_plan', 'conveyance\EEDepartment\EEController@SaveDemarcationPlan')->name('ee.save_demarcation_plan');
@@ -633,27 +659,40 @@ Route::prefix('appointing_architect')->group(function () {
     Route::get('signup','EmploymentOfArchitectController@signup')->name('appointing_architect.signup');
     Route::post('post_signup','EmploymentOfArchitectController@create_user')->name('appointing_architect.post_signup');
     Route::middleware(['check-permission', 'auth', 'disablepreventback'])->group(function(){
-        Route::get('index', 'EmploymentOfArchitectController@index')->name('appointing_architect.index');
+    Route::get('index', 'EmploymentOfArchitectController@index')->name('appointing_architect.index');
+      Route::middleware(['check_eoa_form_step'])->group(function(){
         Route::get('step1/{id}', 'EmploymentOfArchitectController@step1')->name('appointing_architect.step1');
-        Route::post('step1_post', 'EmploymentOfArchitectController@step1_post')->name('appointing_architect.step1_post');
+        Route::post('step1_post/{id}', 'EmploymentOfArchitectController@step1_post')->name('appointing_architect.step1_post');
         Route::get('step2/{id}', 'EmploymentOfArchitectController@step2')->name('appointing_architect.step2');
-        Route::post('step2_post', 'EmploymentOfArchitectController@step2_post')->name('appointing_architect.step2_post');
+        Route::post('step2_post/{id}', 'EmploymentOfArchitectController@step2_post')->name('appointing_architect.step2_post');
         Route::get('step3/{id}', 'EmploymentOfArchitectController@step3')->name('appointing_architect.step3');
-        Route::post('step3_post', 'EmploymentOfArchitectController@step3_post')->name('appointing_architect.step3_post');
+        Route::post('step3_post/{id}', 'EmploymentOfArchitectController@step3_post')->name('appointing_architect.step3_post');
         Route::get('step4/{id}', 'EmploymentOfArchitectController@step4')->name('appointing_architect.step4');
-        Route::post('step4_post', 'EmploymentOfArchitectController@step4_post')->name('appointing_architect.step4_post');
+        Route::post('step4_post/{id}', 'EmploymentOfArchitectController@step4_post')->name('appointing_architect.step4_post');
+        Route::post('ajaxDeleteImpProject', 'EmploymentOfArchitectController@delete_imp_project')->name('appointing_architect.delete_imp_project');
         Route::get('step5/{id}', 'EmploymentOfArchitectController@step5')->name('appointing_architect.step5');
-        Route::post('step5_post', 'EmploymentOfArchitectController@step5_post')->name('appointing_architect.step5_post');
+        Route::post('step5_post/{id}', 'EmploymentOfArchitectController@step5_post')->name('appointing_architect.step5_post');
+        Route::post('ajaxDeleteImpProjectWorkHandled', 'EmploymentOfArchitectController@delete_imp_project_work_handled')->name('appointing_architect.delete_imp_project_work_handled');
         Route::get('step6/{id}', 'EmploymentOfArchitectController@step6')->name('appointing_architect.step6');
-        Route::post('step6_post', 'EmploymentOfArchitectController@step6_post')->name('appointing_architect.step6_post');
+        Route::post('step6_post/{id}', 'EmploymentOfArchitectController@step6_post')->name('appointing_architect.step6_post');
+        Route::post('ajaxDeleteImpSeniorProfessional', 'EmploymentOfArchitectController@delete_imp_senior_professional')->name('appointing_architect.delete_imp_senior_professional');
         Route::get('step7/{id}', 'EmploymentOfArchitectController@step7')->name('appointing_architect.step7');
-        Route::post('step7_post', 'EmploymentOfArchitectController@step7_post')->name('appointing_architect.step7_post');
+        Route::post('step7_post/{id}', 'EmploymentOfArchitectController@step7_post')->name('appointing_architect.step7_post');
+        Route::post('ajaxDeleteProjectSheet', 'EmploymentOfArchitectController@delete_project_sheet_detail')->name('appointing_architect.delete_project_sheet_detail');
         Route::get('step8/{id}', 'EmploymentOfArchitectController@step8')->name('appointing_architect.step8');
-        Route::post('step8_post', 'EmploymentOfArchitectController@step8_post')->name('appointing_architect.step8_post');
+        Route::post('step8_post/{id}', 'EmploymentOfArchitectController@step8_post')->name('appointing_architect.step8_post');
+        Route::get('step9/{id}', 'EmploymentOfArchitectController@step9')->name('appointing_architect.step9');
+        Route::post('step9_post/{id}', 'EmploymentOfArchitectController@step9_post')->name('appointing_architect.step9_post');
+        Route::post('ajaxDeleteSupportingDocument', 'EmploymentOfArchitectController@delete_supporting_document')->name('appointing_architect.delete_supporting_document');
+        Route::get('step10/{id}', 'EmploymentOfArchitectController@step10')->name('appointing_architect.step10');
+        Route::post('step10_post/{id}', 'EmploymentOfArchitectController@step10_post')->name('appointing_architect.step10_post');
+    });
+      Route::post('send_to_architect','EmploymentOfArchitectController@send_to_architect')->name('appointing_architect.send_to_architect');
+      Route::get('view_eoa_application/{id}','EmploymentOfArchitectController@view_eoa_application')->name('appointing_architect.view_eoa_application');
     });
     
 });
-
+//
 define('SOCIETY_LEVEL_BILLING'  ,'1');
 define('TENANT_LEVEL_BILLING'   ,'2');
 define('PAYMENT_STATUS_NOT_PAID','0');

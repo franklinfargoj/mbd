@@ -13,6 +13,7 @@ interface RepositoryInterface
     public function updateWhere(array $data, array $conditions);
 
     public function whereFirst(array $data);
+    public function whereAll(array $where);
 
     public function whereWithFirst(array $relations,array $conditions);
 

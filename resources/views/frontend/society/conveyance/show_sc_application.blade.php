@@ -167,11 +167,11 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a href="{{ route('society_conveyance.edit', $sc_application->id) }}" class="btn btn-primary">
+                                <a href="{{ route('society_conveyance.edit', base64_encode($sc_application->id)) }}" class="btn btn-primary">
                                     Back
                                 </a>
                                 <span style="float:right;margin-right: 20px">
-                                    <a href="{{ route('documents_upload') }}" class="btn btn-primary">
+                                    <a href="{{ route('sc_upload_docs') }}" class="btn btn-primary">
                                         Next
                                     </a>
                                 </span>

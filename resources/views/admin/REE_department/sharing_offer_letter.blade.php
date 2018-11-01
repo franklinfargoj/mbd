@@ -13,7 +13,7 @@
     <form id="OfferLetterFRM" action="{{ route('ree.save_offer_letter')}}" method="post">
         @csrf
         <input type="hidden" id="applicationId" name="applicationId" value="{{$applicatonId}}">
-        <textarea id="ckeditorText" name="ckeditorText">
+        <textarea id="ckeditorText" name="ckeditorText" style="display:none">
     <div style="" id="">
         <div style="width: 100%;">
 
@@ -319,12 +319,12 @@
                         </tr>
                         <tr>
                             <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;"></td>
-                            <td colspan="2" style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Rs. {{  converNumberToWord(($calculationData->sharingCalculationSheet) !="" ? $calculationData->sharingCalculationSheet->amount_to_b_paid_to_municipal_corporation : '' ) }}</td>
+                            <td colspan="2" style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Rs. {{  converNumberToWord(($calculationData->sharingCalculationSheet) !="" ? str_replace( ',', '',$calculationData->sharingCalculationSheet->amount_to_b_paid_to_municipal_corporation) : '' ) }}</td>
                         </tr>
                         <tr>
                             <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;"></td>
                             <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Total Amount to be paid to MCGM (Sr.No._____)</td>
-                            <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;">{{ ($calculationData->sharingCalculationSheet) !="" ? $calculationData->sharingCalculationSheet->amount_to_b_paid_to_municipal_corporation : '_____' }}</td>
+                            <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;">{{ ($calculationData->sharingCalculationSheet) !="" ? str_replace( ',', '',$calculationData->sharingCalculationSheet->amount_to_b_paid_to_municipal_corporation) : '_____' }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -372,12 +372,12 @@
 
                  Rs.{{ ($calculationData->sharingCalculationSheet) !="" ? $calculationData->sharingCalculationSheet->total_amount_in_rs : '_____' }}/- 
 
-                 (Rs. {{  converNumberToWord(($calculationData->sharingCalculationSheet) !="" ? $calculationData->sharingCalculationSheet->total_amount_in_rs : '' ) }}) may be paid in the office of the Chief Accounts Officer/ Mumbai Board, Third Floor, Griha Nirman Bhavan, Bandra (E), Mumbai – 400051 by Demand Draft/ Pay Order within SIX months from the date of issue of this letter and produce certified Xerox copy of the receipt in this office.</p> 
+                 (Rs. {{  converNumberToWord(($calculationData->sharingCalculationSheet) !="" ? str_replace( ',', '',$calculationData->sharingCalculationSheet->total_amount_in_rs) : '' ) }}) may be paid in the office of the Chief Accounts Officer/ Mumbai Board, Third Floor, Griha Nirman Bhavan, Bandra (E), Mumbai – 400051 by Demand Draft/ Pay Order within SIX months from the date of issue of this letter and produce certified Xerox copy of the receipt in this office.</p> 
                 <p style="text-indent: 25px; margin-top: 5px; margin-bottom: 5px;">The society should pay Rs. 
 
                 {{ ($calculationData->sharingCalculationSheet) !="" ? $calculationData->sharingCalculationSheet->amount_to_b_paid_to_municipal_corporation : '_____' }}/- 
 
-                (In words Rs. {{  converNumberToWord(($calculationData->sharingCalculationSheet) !="" ? $calculationData->sharingCalculationSheet->amount_to_b_paid_to_municipal_corporation : '' ) }}) in the office of the Executive Engineer, {{($calculationData->eeApplicationSociety->address ? $calculationData->eeApplicationSociety->address : '')}}., within SIX months from the date of issue of this letter  and produce certified Xerox copy of the receipt in this office.</p>                 
+                (In words Rs. {{  converNumberToWord(($calculationData->sharingCalculationSheet) !="" ? str_replace( ',', '',$calculationData->sharingCalculationSheet->amount_to_b_paid_to_municipal_corporation) : '' ) }}) in the office of the Executive Engineer, {{($calculationData->eeApplicationSociety->address ? $calculationData->eeApplicationSociety->address : '')}}., within SIX months from the date of issue of this letter  and produce certified Xerox copy of the receipt in this office.</p>                 
                 <p style="text-indent: 25px; margin-top: 5px; margin-bottom: 5px;">On receipt of the same & after execution of tripartite agreement as mentioned above  for surrender of constructed BUA as MHADA's share the NOC will be  processed under certain terms and condition, which may please, be noted.</p>                
                 <p style="margin-bottom: 5px; margin-top: 5px;">Encl.: Annexure-I </p>
                 <p style="margin-bottom: 5px; margin-top: 5px; font-weight: bold;">(Draft approved by CO/MB) </p>

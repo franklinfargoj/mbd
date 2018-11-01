@@ -6,8 +6,8 @@
     <div class="col-md-12">
         <div class="m-subheader px-0 m-subheader--top">
             <div class="d-flex align-items-center">
-                <h3 class="m-subheader__title m-subheader__title--separator">Redevelopment Through Developer</h3>
-                {{ Breadcrumbs::render('Hearing Create') }}
+                <h3 class="m-subheader__title m-subheader__title--separator">Redevelopment Application Form</h3>
+                {{ Breadcrumbs::render('society_offer_letter_edit') }}
 
             </div>
         </div>
@@ -58,8 +58,8 @@
 
                     <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="date_of_meeting">Date of meeting:</label>
-                            <input type="text" id="m_datepicker" name="date_of_meeting" class="form-control form-control--custom m-input m_datepicker" value="{{ $ol_application->request_form->date_of_meeting }}">
+                            <label class="col-form-label" for="date_of_meeting">Resolution Date:</label>
+                            <input type="text" id="m_datepicker" name="date_of_meeting" class="form-control form-control--custom m-input m_datepicker" value="{{ date(config('commanConfig.dateFormat'), strtotime($ol_application->request_form->date_of_meeting)) }}">
                             <span class="help-block">{{$errors->first('date_of_meeting')}}</span>
                         </div>
                         <div class="col-sm-4 offset-sm-1 form-group">

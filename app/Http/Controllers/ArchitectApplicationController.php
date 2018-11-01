@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\Repository;
+use App\EmploymentOfArchitect\EoaApplication;
+use App\EmploymentOfArchitect\EoaApplicationProjectSheetDetail;
 use App\ArchitectApplication;
 use App\ArchitectApplicationMark;
 use App\ArchitectApplicationStatusLog;
@@ -26,9 +29,12 @@ class ArchitectApplicationController extends Controller
         'side_menu' => 'architect_application',
     );
     protected $list_num_of_records_per_page;
+    protected $model;
     protected $CommonController;
-    public function __construct(CommonController $CommonController)
+    public function __construct(CommonController $CommonController,EoaApplication $EoaApplication,EoaApplicationProjectSheetDetail $EoaApplicationProjectSheetDetail)
     {
+        $this->model = new Repository($EoaApplication);
+        $this->project_sheet = new Repository($EoaApplicationProjectSheetDetail);
         $this->CommonController = $CommonController;
         $this->list_num_of_records_per_page = Config::get('commanConfig.list_num_of_records_per_page');
     }
@@ -49,21 +55,25 @@ class ArchitectApplicationController extends Controller
         }
         $getData = $request->all();
         $columns = [
+            ['data' => 'radio', 'name' => 'radio', 'title' => '', 'searchable' => false],
             ['data' => 'select', 'name' => 'select', 'title' => '', 'searchable' => false],
             ['data' => 'rownum', 'name' => 'rownum', 'title' => 'Sr No.', 'searchable' => false],
             ['data' => 'application_number', 'name' => 'application_number', 'title' => 'Application Number'],
             ['data' => 'application_date', 'name' => 'application_date', 'title' => 'Application Date'],
             ['data' => 'candidate_name', 'name' => 'candidate_name', 'title' => 'Candidate Name'],
             ['data' => 'candidate_email', 'name' => 'candidate_email', 'title' => 'Candidate Email'],
-            ['data' => 'status', 'name' => 'status', 'title' => 'Status'],
-            ['data' => 'actions', 'name' => 'actions', 'title' => 'Actions', 'searchable' => false, 'orderable' => false],
+            ['data' => 'status', 'name' => 'status', 'title' => 'Status']
         ];
 
-        //dd($this->CommonController->architect_applications($request));
+       // dd($this->CommonController->architect_applications($request));
         if ($datatables->getRequest()->ajax()) {
 
             $architect_applications = $this->CommonController->architect_applications($request);
             return $datatables->of($architect_applications)
+                ->editColumn('radio', function ($listArray) {
+                    $url = route('view_architect_application', encrypt($listArray->id));
+                    return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="' . $url . '" name="village_data_id"><span></span></label>';
+                })
                 ->editColumn('select', function ($architect_applications) {
                     return view('admin.architect.checkbox', compact('architect_applications'))->render();
                 })
@@ -74,13 +84,13 @@ class ArchitectApplicationController extends Controller
                     return $architect_applications->application_number;
                 })
                 ->editColumn('application_date', function ($architect_applications) {
-                    return date('d-m-Y', strtotime($architect_applications->application_date));
+                    return date('d-m-Y', strtotime($architect_applications->created_at));
                 })
                 ->editColumn('candidate_name', function ($architect_applications) {
-                    return $architect_applications->candidate_name;
+                    return $architect_applications->name_of_applicant;
                 })
                 ->editColumn('candidate_email', function ($architect_applications) {
-                    return $architect_applications->candidate_email . "<br>" . $architect_applications->candidate_mobile_no;
+                    return  $architect_applications->mobile;
                 })
                 ->editColumn('status', function ($architect_applications) {
 
@@ -93,10 +103,8 @@ class ArchitectApplicationController extends Controller
                     }
                     return $value . ($architect_applications->application_status == 'None' ? '' : ' & ' . $architect_applications->application_status);
                 })
-                ->editColumn('actions', function ($architect_applications) {
-                    return view('admin.architect.actions', compact('architect_applications'))->render();
-                })
-                ->rawColumns(['select', 'application_number', 'application_date', 'candidate_name', 'candidate_email', 'actions'])
+                
+                ->rawColumns(['radio', 'select', 'application_number', 'application_date', 'candidate_name', 'candidate_email'])
                 ->make(true);
         }
 
@@ -111,7 +119,7 @@ class ArchitectApplicationController extends Controller
             'serverSide' => true,
             'processing' => true,
             'ordering' => 'isSorted',
-            "order" => [7, "desc"],
+            "order" => [6, "desc"],
             "pageLength" => $this->list_num_of_records_per_page,
             // 'fixedHeader' => [
             //     'header' => true,
@@ -134,12 +142,12 @@ class ArchitectApplicationController extends Controller
     {
         if (is_array($request->application_id)) {
             if ($request->final == 'final') {
-                ArchitectApplication::whereIn('id', $request->application_id)->update(['application_status' => config('commanConfig.architect_application_status.final')]);
+                EoaApplication::whereIn('id', $request->application_id)->update(['application_status' => config('commanConfig.architect_application_status.final')]);
                 return back()->withSuccess('added to final list');
             }
 
             if ($request->remove_final == 'remove_final') {
-                ArchitectApplication::whereIn('id', $request->application_id)->update(['application_status' => config('commanConfig.architect_application_status.shortListed')]);
+                EoaApplication::whereIn('id', $request->application_id)->update(['application_status' => config('commanConfig.architect_application_status.shortListed')]);
                 return back()->withSuccess('removed from final list');
             }
         } else {
@@ -151,12 +159,12 @@ class ArchitectApplicationController extends Controller
     {
         if (is_array($request->application_id)) {
             if ($request->shortlist == 'shortlist') {
-                ArchitectApplication::whereIn('id', $request->application_id)->update(['application_status' => config('commanConfig.architect_application_status.shortListed')]);
+                EoaApplication::whereIn('id', $request->application_id)->update(['application_status' => config('commanConfig.architect_application_status.shortListed')]);
                 return back()->withSuccess('shortlisted');
             }
 
             if ($request->remove_shortlist == 'remove_shortlist') {
-                ArchitectApplication::whereIn('id', $request->application_id)->update(['application_status' => config('commanConfig.architect_application_status.none')]);
+                EoaApplication::whereIn('id', $request->application_id)->update(['application_status' => config('commanConfig.architect_application_status.none')]);
                 return back()->withSuccess('removed from shortlisted');
             }
 
@@ -177,21 +185,32 @@ class ArchitectApplicationController extends Controller
 
     public function viewApplication($encryptedId)
     {
-        //return decrypt($encryptedId);
-        $ArchitectApplication = ArchitectApplication::find(decrypt($encryptedId));
-        return view('admin.architect.view_application', compact('ArchitectApplication'));
+        $id = decrypt($encryptedId);
+        $application = $this->model->whereWithFirst([
+            'enclosures',
+            'supporting_documents',
+            'project_sheets',
+            'imp_senior_professionals',
+            'fee_payment_details',
+            'imp_projects',
+            'imp_project_work_handled'
+        ], 
+        ['id' => $id]);
+        $work_in_hand=$application->project_sheets->where('work_completed',0);
+        $work_completed=$application->project_sheets->where('work_completed',1);
+        return view('admin.architect.view_application', compact('application','work_in_hand','work_completed'));
     }
 
     public function evaluateApplication($encryptedId)
     {
         $id = decrypt($encryptedId);
-
-        $architect_application_id = ArchitectApplication::find($id);
-        $architect_application_id = $architect_application_id->id;
+        $ArchitectApplication = EoaApplication::find(decrypt($encryptedId));
+        // $architect_application_id = ArchitectApplication::find($id);
+        // $architect_application_id = $architect_application_id->id;
         $is_view = session()->get('role_name') == config('commanConfig.junior_architect');
         $application = ArchitectApplicationMark::where('architect_application_id', $id)->get();
         $header_data = $this->header_data;
-        return view('admin.architect.evaluate', compact('architect_application_id', 'application', 'header_data', 'is_view'));
+        return view('admin.architect.evaluate', compact('application', 'header_data', 'is_view','ArchitectApplication'));
     }
 
     public function saveEvaluateMarks(EvaluationMarkRequest $request)
@@ -223,11 +242,11 @@ class ArchitectApplicationController extends Controller
 
     public function getGenerateCertificate($encryptedId)
     {
-        $ArchitectApplication = ArchitectApplication::find(decrypt($encryptedId));
+        $ArchitectApplication = EoaApplication::find(decrypt($encryptedId));
         if ($ArchitectApplication->drafted_certificate != null) {
             return redirect()->route('finalCertificateGenerate', ['id' => $encryptedId]);
         }
-        return view('admin.architect.generate_certificate', compact('header_data', 'encryptedId'));
+        return view('admin.architect.generate_certificate', compact('ArchitectApplication','header_data', 'encryptedId'));
     }
 
     public function getFinalCertificateGenerate($encryptedId)
@@ -235,7 +254,7 @@ class ArchitectApplicationController extends Controller
         $uploadPath = '/uploads/temp_certificate';
         $destination = public_path($uploadPath);
         $certificate_generated = 0;
-        $ArchitectApplication = ArchitectApplication::find(decrypt($encryptedId));
+        $ArchitectApplication = EoaApplication::find(decrypt($encryptedId));
         if ($ArchitectApplication) {
             if ($ArchitectApplication->drafted_certificate == null) {
                 if ((!is_dir($destination))) {
@@ -259,7 +278,7 @@ class ArchitectApplicationController extends Controller
 
     public function update_certificate(Request $request)
     {
-        $ArchitectApplication = ArchitectApplication::where('id', $request->applicationId)->first();
+        $ArchitectApplication = EoaApplication::where('id', $request->applicationId)->first();
         $uploadPath = '/uploads/temp_certificate';
         $destination = public_path($uploadPath);
         $content = $request->ckeditorText;
@@ -281,11 +300,11 @@ class ArchitectApplicationController extends Controller
         \Storage::disk('ftp')->put($filePath, $file_local);
         $ArchitectApplication->certificate_path = $filePath;
         $ArchitectApplication->save();
-        ArchitectCertificate::create([
-            'architect_application_id' => $ArchitectApplication->id,
-            'certificate_name' => $folder_name . "/" . $fileName,
-            'certificate_path' => $folder_name,
-        ]);
+        // ArchitectCertificate::create([
+        //     'architect_application_id' => $ArchitectApplication->id,
+        //     'certificate_name' => $folder_name . "/" . $fileName,
+        //     'certificate_path' => $folder_name,
+        // ]);
         return redirect('finalCertificateGenerate/' . encrypt($request->applicationId));
     }
 
@@ -318,7 +337,7 @@ class ArchitectApplicationController extends Controller
 
         if ($request->hasFile('certificate')) {
             $applicationId = decrypt($request->get('ap_no'));
-            $application = ArchitectApplication::where('id', $applicationId)->first();
+            $application = EoaApplication::where('id', $applicationId)->first();
             $extension = $request->file('certificate')->getClientOriginalExtension();
             $path = \Storage::putFileAs('/architect_certificates', $request->file('certificate'), $applicationId . $application->application_number . '.' . $extension, 'public');
             $input['architect_application_id'] = $applicationId;
@@ -336,14 +355,15 @@ class ArchitectApplicationController extends Controller
 
     public function getForwardApplication($encryptedId)
     {
-        $arrData['architect_details'] = ArchitectApplication::where('id', decrypt($encryptedId))->first();
+        $ArchitectApplication = EoaApplication::find(decrypt($encryptedId));
+        $arrData['architect_details'] = EoaApplication::where('id', decrypt($encryptedId))->first();
 
         $parentData = $this->CommonController->getForwardApplicationArchitectParentData();
         $arrData['parentData'] = $parentData['parentData'];
         $arrData['role_name'] = $parentData['role_name'];
 
         if (session()->get('role_name') != config('commanConfig.junior_architect')) {
-            $status_user = ArchitectApplication::where(['id' => decrypt($encryptedId)])->pluck('id')->toArray();
+            $status_user = EoaApplication::where(['id' => decrypt($encryptedId)])->pluck('id')->toArray();
         }
 
         if (session()->get('role_name') == config('commanConfig.selection_commitee')) {
@@ -361,7 +381,7 @@ class ArchitectApplicationController extends Controller
             $arrData['commitee_role_name'] = strtoupper(str_replace('_', ' ', $commitee_role_id->name));
         }
 
-        return view('admin.architect.forward_application', compact('arrData'));
+        return view('admin.architect.forward_application', compact('arrData','ArchitectApplication'));
     }
 
     public function forward_application(Request $request)

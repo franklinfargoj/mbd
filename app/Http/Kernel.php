@@ -62,5 +62,6 @@ class Kernel extends HttpKernel
         'check-permission' => \App\Http\Middleware\CheckPermission::class,
         'disablepreventback' => \App\Http\Middleware\DisablePreventBack::class,
         'check_society_offer_letter_permission' => \App\Http\Middleware\CheckSocietyOfferLetterPermission::class,
+        'check_eoa_form_step'=>\App\Http\Middleware\EoaApplicationCheckFormStep::class
     ];
 }

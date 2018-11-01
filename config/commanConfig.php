@@ -22,7 +22,7 @@ return [
 
     'senior_architect_planner'=>'senior_architect_planner',
 
-    //Branch Head
+    //Branch Head 
     'ee_branch_head' => 'ee_engineer',
     'dyce_branch_head' => 'dyce_engineer',
     'ree_branch_head' => 'ree_engineer',
@@ -67,7 +67,12 @@ return [
         'stamp_sign_lease_agreement' => 'stamp_sign_lease_agreement',
         'register_sale_agreement'    => 'register_sale_agreement',
         'register_lease_agreement'   => 'register_lease_agreement',
-    ],   
+    ], 
+
+    // sc Application types 
+    //  'scApplication' => [
+    //     'draft_sale_agreement'       => 'draft_sale_agreement',
+    // ],      
 
     'applicationStatusColor' => [
         '1' => 'metal',
