@@ -31,7 +31,7 @@
             <div class="table-responsive">
                 @php
                 $disable="";
-                 $disable=$is_view==true?'':'disabled';
+                $disable=$is_view==true?'':'disabled';
                 @endphp
                 <form method="post" action="{{route('save_evaluate_marks')}}">
                     @csrf
@@ -47,6 +47,25 @@
                         </thead>
                         <tbody>
                             @php $i = 0; @endphp
+                            <tr>
+                                <td>Application form</td>
+                                <td><a target="_blank" href="{{route('view_architect_application',['id'=>encrypt($ArchitectApplication->id)])}}">document</a></td>
+                                <td class="text-center">
+                                    <div class="@if($errors->has('marks')) has-error @endif">
+                                        <input {{ $disable }} type="text" name="application_marks" class="form-control form-control--custom marks"
+                                    value="{{$ArchitectApplication->application_marks}}">
+                                        
+                                        <span class="help-block">{{$errors->first('marks')}}</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="@if($errors->has('remark')) has-error @endif">
+                                        <textarea {{ $disable }} name="application_remark" class="form-control form-control--custom form-control--fixed-height">{{trim($ArchitectApplication->application_remark)}}</textarea>
+                                        <span class="help-block">{{$errors->first('remark')}}</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            @php $i=$ArchitectApplication->application_marks; @endphp
                             @forelse($application as $row)
                             @php $i = $i + $row->marks; @endphp
                             <tr>
@@ -54,7 +73,7 @@
                                 <td><a target="_blank" href="{{ config('commanConfig.storage_server')."/" .$row->document_path}}">document</a></td>
                                 <td class="text-center">
                                     <div class="@if($errors->has('marks')) has-error @endif">
-                                        <input {{ $disable }} type="text" name="marks[]" class="form-control form-control--custom"
+                                        <input {{ $disable }} type="text" name="marks[]" class="form-control form-control--custom marks"
                                             value="{{$row->marks}}">
                                         <input type="hidden" name="id[]" value="{{$row->id}}">
 
@@ -76,7 +95,7 @@
                             <tr>
                                 <td class="font-weight-semi-bold">Grand total</td>
                                 <td>&nbsp;</td>
-                                <td class="text-center">{{$i}}</td>
+                                <td class="text-center"><span class="grand_total">{{ $i }}<span></td>
                                 <td>&nbsp;</td>
                             </tr>
                         </tbody>
@@ -98,4 +117,18 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('js')
+<script>
+    $(document).on("keydown keyup", ".marks", function() {
+    var sum = 0;
+    $(".marks").each(function(){
+        sum += +$(this).val();
+    });
+    $(".grand_total").html(sum);
+    console.log(sum)
+});
+ 
+    </script>
 @endsection

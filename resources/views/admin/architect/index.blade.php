@@ -75,7 +75,7 @@
                     href="?application_status=2">Final</a>
             </div>
         </div>
-        @if($is_commitee==true)
+        {{-- @if($is_commitee==true)
         <form method="post" action="{{route('finalise_architect_application')}}">
             @else
             <form method="post" action="{{route('shortlist_architect_application')}}">
@@ -94,9 +94,9 @@
                     <button type="submit" name="remove_final" value="remove_final" class="btn btn-primary">Remove
                         from Final list</button>
                 </div>
-                @endif
+                @endif --}}
                 {!! $html->table() !!}
-            </form>
+            {{-- </form> --}}
     </div>
     <input type="hidden" id="myModalBtn" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" />
 

@@ -4,4 +4,29 @@
             <img src="{{ asset('/img/view-icon.svg')}}">
         </span>View
     </a>
+    @php $app=DB::table('eoa_applications')->where('id',$architect_applications->id)->first(); @endphp
+    @if($is_commitee==true)
+    <form method="post" action="{{route('finalise_architect_application')}}">
+        @else
+        <form method="post" action="{{route('shortlist_architect_application')}}">
+            @endif
+            @csrf
+            <input type="hidden" name="application_id" value="{{$architect_applications->id}}">
+            @if($is_view==true)
+            @if($app->application_status!=config('commanConfig.architect_application_status.shortListed'))
+            <button type="submit" name="shortlist" value="shortlist" class="btn btn-primary">Shortlist</button>
+            @else
+            <button type="submit" name="remove_shortlist" value="remove_shortlist" class="btn btn-primary">Remove
+                From Shortlisted List</button>
+            @endif
+            @endif
+            @if($is_commitee==true)
+            @if($app->application_status!=config('commanConfig.architect_application_status.final'))
+            <button type="submit" name="final" value="final" class="btn btn-primary">Add to Final list</button>
+            @else
+            <button type="submit" name="remove_final" value="remove_final" class="btn btn-primary">Remove
+                from Final list</button>
+            @endif
+            @endif
+        </form>
 </div>
