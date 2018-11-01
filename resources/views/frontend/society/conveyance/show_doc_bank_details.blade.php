@@ -243,17 +243,14 @@
             });
 
             $('#ifsc_code').on('keyup', function () {
-                console.log();
                 var str = $(this).val();
-                // var exp = '^[A-Z]{4}[a-zA-Z0-9]{7}$';
-                // var re = new RegExp('^[A-Za-z]{4}[a-zA-Z0-9]{7}$');
-                var exp = '/^[A-Z]{4}[0][\d]{6}/';
+                var exp = /^[A-Z]{4}[0][\d]{6}/g;
 
-                if(str.length > 4){
-                    if(re.test(str)){
-                        alert('=====');
+                if(str.length > 10){
+                    if(exp.test(str)){
+                        console.log('=====');
                     }else{
-                        alert('get lost!');
+                        console.log('get lost!');
                     }
                 }
             });
