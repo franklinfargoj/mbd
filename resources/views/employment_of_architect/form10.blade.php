@@ -9,7 +9,8 @@
         <div class="d-flex">
             {{-- {{ Breadcrumbs::render('calculation_sheet',$ol_application->id) }} --}}
             <div class="ml-auto btn-list">
-            <a href="{{route('appointing_architect.step9',['id'=>encrypt($application->id)])}}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+                <a href="{{route('appointing_architect.step9',['id'=>encrypt($application->id)])}}" class="btn btn-link"><i
+                        class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
             </div>
         </div>
         <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom mb-0" role="tablist">
@@ -72,7 +73,7 @@
 
         <div class="tab-pane" id="step-2" role="tabpanel">
             <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
-                    <h3 class="section-title section-title--small">EMPANELMENT OF ARCHITECT/CONSULTANT WITH MHADB</h3>
+                <h3 class="section-title section-title--small">EMPANELMENT OF ARCHITECT/CONSULTANT WITH MHADB</h3>
                 <div class="m-portlet__head px-0 m-portlet__head--top">
                     <div class="m-portlet__head-caption">
                         <div class="m-portlet__head-title">
@@ -473,8 +474,7 @@
                                 @else
                                 @php $k=0; @endphp
                                 @endif
-                                @for($j=0;$j<(1+$k);$j++) 
-                                <tr class="cloneme">
+                                @for($j=0;$j<(1+$k);$j++) <tr class="cloneme">
                                     <td>
                                         <input type="hidden" name="imp_senior_professional_id[]" value="{{$application->imp_senior_professionals!=''?(isset($application->imp_senior_professionals[$j])?$application->imp_senior_professionals[$j]->id:''):''}}">
                                         <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
@@ -528,215 +528,219 @@
 
     <div class="tab-pane" id="step-7" role="tabpanel">
         <div class="m-portlet m-portlet--mobile">
-        <h3 class="section-title section-title--small">PROJECT SHEET DETAILS - WORK IN HAND</h3>
-        @php $j=0; @endphp
-        @foreach($work_in_hand as $work_in_ha)
-        <div class="m-portlet m-portlet--compact form-accordion">
-            <div class="d-flex justify-content-between align-items-center form-steps-toplinks">
-                <a class="btn--unstyled section-title section-title--small form-count-title" data-toggle="collapse"
-                    href="#form_{{$j+1}}">Project
-                    {{$j+1}}:</a>
+            <h3 class="section-title section-title--small">PROJECT SHEET DETAILS - WORK IN HAND</h3>
+            @php $j=0; @endphp
+            @foreach($work_in_hand as $work_in_ha)
+            <div class="m-portlet m-portlet--compact form-accordion">
+                <div class="d-flex justify-content-between align-items-center form-steps-toplinks">
+                    <a class="btn--unstyled section-title section-title--small form-count-title" data-toggle="collapse"
+                        href="#form_{{$j+1}}">Project
+                        {{$j+1}}:</a>
+                </div>
+
+                <div class="m-portlet__body m-portlet__body--spaced collapse form-count show" id="form_{{$j+1}}"
+                    data-parent="#accordion">
+                    <div class="form-group m-form__group row">
+                        <div class="col-sm-4 form-group">
+                            <label class="col-form-label" for="">Name of Project:</label>
+                            <input type="text" id="" name="name_of_project" class="form-control form-control--custom m-input"
+                                value="{{$work_in_ha->name_of_project}}">
+
+                        </div>
+                        <div class="col-sm-4 offset-sm-1 form-group">
+                            <label class="col-form-label" for="">Location:</label>
+                            <input type="text" id="" name="location" class="form-control form-control--custom m-input"
+                                value="{{$work_in_ha->location}}">
+                        </div>
+                    </div>
+                    <div class="form-group m-form__group row">
+                        <div class="col-sm-4 form-group">
+                            <label class="col-form-label" for="">Name of Client:</label>
+                            <input type="text" id="" name="name_of_client" class="form-control form-control--custom m-input"
+                                value="{{$work_in_ha->name_of_client}}">
+                        </div>
+                        <div class="col-sm-4 offset-sm-1 form-group">
+                            <label class="col-form-label" for="">Address:</label>
+                            <input type="text" id="" name="address" class="form-control form-control--custom m-input"
+                                value="{{$work_in_ha->address}}">
+                        </div>
+                    </div>
+                    <div class="form-group m-form__group row">
+                        <div class="col-sm-4 form-group">
+                            <label class="col-form-label" for="">Phone Number:</label>
+                            <input type="text" id="" name="tel_no" class="form-control form-control--custom m-input"
+                                value="{{$work_in_ha->tel_no}}">
+                        </div>
+                    </div>
+                    <div class="form-group m-form__group row">
+                        <div class="col-sm-4 form-group">
+                            <label class="col-form-label" for="">Build Up Area in m<sup>2</sup>:</label>
+                            <input type="text" id="" name="built_up_area_in_sq_m" class="form-control form-control--custom m-input"
+                                value="{{$work_in_ha->built_up_area_in_sq_m}}">
+                        </div>
+                        <div class="col-sm-4 offset-sm-1 form-group">
+                            <label class="col-form-label" for="">Land Area in m<sup>2</sup>:</label>
+                            <input type="text" id="" name="land_area_in_sq_m" class="form-control form-control--custom m-input"
+                                value="{{$work_in_ha->land_area_in_sq_m}}">
+                        </div>
+                    </div>
+                    <div class="form-group m-form__group row">
+                        <div class="col-sm-4 form-group">
+                            <label class="col-form-label" for="">Estimated Value of Projects:</label>
+                            <input type="text" id="" name="estimated_value_of_project" class="form-control form-control--custom m-input"
+                                value="{{$work_in_ha->estimated_value_of_project}}">
+                        </div>
+                        <div class="col-sm-4 offset-sm-1 form-group">
+                            <label class="col-form-label" for="">Completed Value of Projects:</label>
+                            <input type="text" id="" name="completed_value_of_project" class="form-control form-control--custom m-input"
+                                value="{{$work_in_ha->completed_value_of_project}}">
+                        </div>
+                    </div>
+                    <div class="form-group m-form__group row">
+                        <div class="col-sm-4 form-group">
+                            <label class="col-form-label" for="">Date of Start:</label>
+                            <input type="text" id="" name="date_of_start" class="form-control form-control--custom m_datepicker"
+                                readonly value="{{$work_in_ha->date_of_start}}">
+                        </div>
+                        <div class="col-sm-4 offset-sm-1 form-group">
+                            <label class="col-form-label" for="">Date of Completion:</label>
+                            <input type="text" id="" name="date_of_completion" class="form-control form-control--custom m_datepicker"
+                                readonly value="{{$work_in_ha->date_of_completion}}">
+
+                        </div>
+                    </div>
+                    <div class="form-group m-form__group row">
+                        <div class="col-sm-4 form-group">
+                            <label class="col-form-label" for="">Whether Service Terminated by Client:</label>
+                            <input type="text" id="" name="whether_service_terminated_by_client" class="form-control form-control--custom m-input"
+                                value="{{$work_in_ha->whether_service_terminated_by_client}}">
+                        </div>
+                        <div class="col-sm-4 offset-sm-1 form-group">
+                            <label class="col-form-label" for="">Salient Features of Project:</label>
+                            <input type="text" id="" name="salient_features_of_project" class="form-control form-control--custom m-input"
+                                value="{{$work_in_ha->salient_features_of_project}}">
+                        </div>
+                    </div>
+                    <div class="form-group m-form__group row">
+                        <div class="col-sm-4 form-group">
+                            <label class="col-form-label" for="">Reasons for Delay (If any):</label>
+                            <input type="text" id="" name="reason_for_delay_if_any" class="form-control form-control--custom m-input"
+                                value="{{$work_in_ha->reason_for_delay_if_any}}">
+                        </div>
+                    </div>
+                </div>
             </div>
-
-            <div class="m-portlet__body m-portlet__body--spaced collapse form-count show" id="form_{{$j+1}}"
-                data-parent="#accordion">
-                <div class="form-group m-form__group row">
-                    <div class="col-sm-4 form-group">
-                        <label class="col-form-label" for="">Name of Project:</label>
-                        <input type="text" id="" name="name_of_project" class="form-control form-control--custom m-input"
-                            value="{{$work_in_ha->name_of_project}}">
-
-                    </div>
-                    <div class="col-sm-4 offset-sm-1 form-group">
-                        <label class="col-form-label" for="">Location:</label>
-                        <input type="text" id="" name="location" class="form-control form-control--custom m-input"
-                            value="{{$work_in_ha->location}}">
-                    </div>
-                </div>
-                <div class="form-group m-form__group row">
-                    <div class="col-sm-4 form-group">
-                        <label class="col-form-label" for="">Name of Client:</label>
-                        <input type="text" id="" name="name_of_client" class="form-control form-control--custom m-input"
-                            value="{{$work_in_ha->name_of_client}}">
-                    </div>
-                    <div class="col-sm-4 offset-sm-1 form-group">
-                        <label class="col-form-label" for="">Address:</label>
-                        <input type="text" id="" name="address" class="form-control form-control--custom m-input" value="{{$work_in_ha->address}}">
-                    </div>
-                </div>
-                <div class="form-group m-form__group row">
-                    <div class="col-sm-4 form-group">
-                        <label class="col-form-label" for="">Phone Number:</label>
-                        <input type="text" id="" name="tel_no" class="form-control form-control--custom m-input" value="{{$work_in_ha->tel_no}}">
-                    </div>
-                </div>
-                <div class="form-group m-form__group row">
-                    <div class="col-sm-4 form-group">
-                        <label class="col-form-label" for="">Build Up Area in m<sup>2</sup>:</label>
-                        <input type="text" id="" name="built_up_area_in_sq_m" class="form-control form-control--custom m-input"
-                            value="{{$work_in_ha->built_up_area_in_sq_m}}">
-                    </div>
-                    <div class="col-sm-4 offset-sm-1 form-group">
-                        <label class="col-form-label" for="">Land Area in m<sup>2</sup>:</label>
-                        <input type="text" id="" name="land_area_in_sq_m" class="form-control form-control--custom m-input"
-                            value="{{$work_in_ha->land_area_in_sq_m}}">
-                    </div>
-                </div>
-                <div class="form-group m-form__group row">
-                    <div class="col-sm-4 form-group">
-                        <label class="col-form-label" for="">Estimated Value of Projects:</label>
-                        <input type="text" id="" name="estimated_value_of_project" class="form-control form-control--custom m-input"
-                            value="{{$work_in_ha->estimated_value_of_project}}">
-                    </div>
-                    <div class="col-sm-4 offset-sm-1 form-group">
-                        <label class="col-form-label" for="">Completed Value of Projects:</label>
-                        <input type="text" id="" name="completed_value_of_project" class="form-control form-control--custom m-input"
-                            value="{{$work_in_ha->completed_value_of_project}}">
-                    </div>
-                </div>
-                <div class="form-group m-form__group row">
-                    <div class="col-sm-4 form-group">
-                        <label class="col-form-label" for="">Date of Start:</label>
-                        <input type="text" id="" name="date_of_start" class="form-control form-control--custom m_datepicker"
-                            readonly value="{{$work_in_ha->date_of_start}}">
-                    </div>
-                    <div class="col-sm-4 offset-sm-1 form-group">
-                        <label class="col-form-label" for="">Date of Completion:</label>
-                        <input type="text" id="" name="date_of_completion" class="form-control form-control--custom m_datepicker"
-                            readonly value="{{$work_in_ha->date_of_completion}}">
-
-                    </div>
-                </div>
-                <div class="form-group m-form__group row">
-                    <div class="col-sm-4 form-group">
-                        <label class="col-form-label" for="">Whether Service Terminated by Client:</label>
-                        <input type="text" id="" name="whether_service_terminated_by_client" class="form-control form-control--custom m-input"
-                            value="{{$work_in_ha->whether_service_terminated_by_client}}">
-                    </div>
-                    <div class="col-sm-4 offset-sm-1 form-group">
-                        <label class="col-form-label" for="">Salient Features of Project:</label>
-                        <input type="text" id="" name="salient_features_of_project" class="form-control form-control--custom m-input"
-                            value="{{$work_in_ha->salient_features_of_project}}">
-                    </div>
-                </div>
-                <div class="form-group m-form__group row">
-                    <div class="col-sm-4 form-group">
-                        <label class="col-form-label" for="">Reasons for Delay (If any):</label>
-                        <input type="text" id="" name="reason_for_delay_if_any" class="form-control form-control--custom m-input"
-                            value="{{$work_in_ha->reason_for_delay_if_any}}">
-                    </div>
-                </div>
-            </div>
-        </div>
-        @php $j++; @endphp
-        @endforeach
+            @php $j++; @endphp
+            @endforeach
         </div>
     </div>
 
     <div class="tab-pane" id="step-8" role="tabpanel">
         <div class="m-portlet m-portlet--mobile">
-        <h3 class="section-title section-title--small">PROJECT SHEET DETAILS - WORK COMPLETED</h3>
-        @php $j=0; @endphp
-        @foreach($work_completed as $work_in_ha)
-        <div class="m-portlet m-portlet--compact form-accordion">
-            <div class="d-flex justify-content-between align-items-center form-steps-toplinks">
-                <a class="btn--unstyled section-title section-title--small form-count-title" data-toggle="collapse"
-                    href="#form_{{$j+1}}">Project
-                    {{$j+1}}:</a>
+            <h3 class="section-title section-title--small">PROJECT SHEET DETAILS - WORK COMPLETED</h3>
+            @php $j=0; @endphp
+            @foreach($work_completed as $work_in_ha)
+            <div class="m-portlet m-portlet--compact form-accordion">
+                <div class="d-flex justify-content-between align-items-center form-steps-toplinks">
+                    <a class="btn--unstyled section-title section-title--small form-count-title" data-toggle="collapse"
+                        href="#form_{{$j+1}}">Project
+                        {{$j+1}}:</a>
+                </div>
+
+                <div class="m-portlet__body m-portlet__body--spaced collapse form-count show" id="form_{{$j+1}}"
+                    data-parent="#accordion">
+                    <div class="form-group m-form__group row">
+                        <div class="col-sm-4 form-group">
+                            <label class="col-form-label" for="">Name of Project:</label>
+                            <input type="text" id="" name="name_of_project" class="form-control form-control--custom m-input"
+                                value="{{$work_in_ha->name_of_project}}">
+
+                        </div>
+                        <div class="col-sm-4 offset-sm-1 form-group">
+                            <label class="col-form-label" for="">Location:</label>
+                            <input type="text" id="" name="location" class="form-control form-control--custom m-input"
+                                value="{{$work_in_ha->location}}">
+                        </div>
+                    </div>
+                    <div class="form-group m-form__group row">
+                        <div class="col-sm-4 form-group">
+                            <label class="col-form-label" for="">Name of Client:</label>
+                            <input type="text" id="" name="name_of_client" class="form-control form-control--custom m-input"
+                                value="{{$work_in_ha->name_of_client}}">
+                        </div>
+                        <div class="col-sm-4 offset-sm-1 form-group">
+                            <label class="col-form-label" for="">Address:</label>
+                            <input type="text" id="" name="address" class="form-control form-control--custom m-input"
+                                value="{{$work_in_ha->address}}">
+                        </div>
+                    </div>
+                    <div class="form-group m-form__group row">
+                        <div class="col-sm-4 form-group">
+                            <label class="col-form-label" for="">Phone Number:</label>
+                            <input type="text" id="" name="tel_no" class="form-control form-control--custom m-input"
+                                value="{{$work_in_ha->tel_no}}">
+                        </div>
+                    </div>
+                    <div class="form-group m-form__group row">
+                        <div class="col-sm-4 form-group">
+                            <label class="col-form-label" for="">Build Up Area in m<sup>2</sup>:</label>
+                            <input type="text" id="" name="built_up_area_in_sq_m" class="form-control form-control--custom m-input"
+                                value="{{$work_in_ha->built_up_area_in_sq_m}}">
+                        </div>
+                        <div class="col-sm-4 offset-sm-1 form-group">
+                            <label class="col-form-label" for="">Land Area in m<sup>2</sup>:</label>
+                            <input type="text" id="" name="land_area_in_sq_m" class="form-control form-control--custom m-input"
+                                value="{{$work_in_ha->land_area_in_sq_m}}">
+                        </div>
+                    </div>
+                    <div class="form-group m-form__group row">
+                        <div class="col-sm-4 form-group">
+                            <label class="col-form-label" for="">Estimated Value of Projects:</label>
+                            <input type="text" id="" name="estimated_value_of_project" class="form-control form-control--custom m-input"
+                                value="{{$work_in_ha->estimated_value_of_project}}">
+                        </div>
+                        <div class="col-sm-4 offset-sm-1 form-group">
+                            <label class="col-form-label" for="">Completed Value of Projects:</label>
+                            <input type="text" id="" name="completed_value_of_project" class="form-control form-control--custom m-input"
+                                value="{{$work_in_ha->completed_value_of_project}}">
+                        </div>
+                    </div>
+                    <div class="form-group m-form__group row">
+                        <div class="col-sm-4 form-group">
+                            <label class="col-form-label" for="">Date of Start:</label>
+                            <input type="text" id="" name="date_of_start" class="form-control form-control--custom m_datepicker"
+                                readonly value="{{$work_in_ha->date_of_start}}">
+                        </div>
+                        <div class="col-sm-4 offset-sm-1 form-group">
+                            <label class="col-form-label" for="">Date of Completion:</label>
+                            <input type="text" id="" name="date_of_completion" class="form-control form-control--custom m_datepicker"
+                                readonly value="{{$work_in_ha->date_of_completion}}">
+
+                        </div>
+                    </div>
+                    <div class="form-group m-form__group row">
+                        <div class="col-sm-4 form-group">
+                            <label class="col-form-label" for="">Whether Service Terminated by Client:</label>
+                            <input type="text" id="" name="whether_service_terminated_by_client" class="form-control form-control--custom m-input"
+                                value="{{$work_in_ha->whether_service_terminated_by_client}}">
+                        </div>
+                        <div class="col-sm-4 offset-sm-1 form-group">
+                            <label class="col-form-label" for="">Salient Features of Project:</label>
+                            <input type="text" id="" name="salient_features_of_project" class="form-control form-control--custom m-input"
+                                value="{{$work_in_ha->salient_features_of_project}}">
+                        </div>
+                    </div>
+                    <div class="form-group m-form__group row">
+                        <div class="col-sm-4 form-group">
+                            <label class="col-form-label" for="">Reasons for Delay (If any):</label>
+                            <input type="text" id="" name="reason_for_delay_if_any" class="form-control form-control--custom m-input"
+                                value="{{$work_in_ha->reason_for_delay_if_any}}">
+                        </div>
+                    </div>
+                </div>
             </div>
-
-            <div class="m-portlet__body m-portlet__body--spaced collapse form-count show" id="form_{{$j+1}}"
-                data-parent="#accordion">
-                <div class="form-group m-form__group row">
-                    <div class="col-sm-4 form-group">
-                        <label class="col-form-label" for="">Name of Project:</label>
-                        <input type="text" id="" name="name_of_project" class="form-control form-control--custom m-input"
-                            value="{{$work_in_ha->name_of_project}}">
-
-                    </div>
-                    <div class="col-sm-4 offset-sm-1 form-group">
-                        <label class="col-form-label" for="">Location:</label>
-                        <input type="text" id="" name="location" class="form-control form-control--custom m-input"
-                            value="{{$work_in_ha->location}}">
-                    </div>
-                </div>
-                <div class="form-group m-form__group row">
-                    <div class="col-sm-4 form-group">
-                        <label class="col-form-label" for="">Name of Client:</label>
-                        <input type="text" id="" name="name_of_client" class="form-control form-control--custom m-input"
-                            value="{{$work_in_ha->name_of_client}}">
-                    </div>
-                    <div class="col-sm-4 offset-sm-1 form-group">
-                        <label class="col-form-label" for="">Address:</label>
-                        <input type="text" id="" name="address" class="form-control form-control--custom m-input" value="{{$work_in_ha->address}}">
-                    </div>
-                </div>
-                <div class="form-group m-form__group row">
-                    <div class="col-sm-4 form-group">
-                        <label class="col-form-label" for="">Phone Number:</label>
-                        <input type="text" id="" name="tel_no" class="form-control form-control--custom m-input" value="{{$work_in_ha->tel_no}}">
-                    </div>
-                </div>
-                <div class="form-group m-form__group row">
-                    <div class="col-sm-4 form-group">
-                        <label class="col-form-label" for="">Build Up Area in m<sup>2</sup>:</label>
-                        <input type="text" id="" name="built_up_area_in_sq_m" class="form-control form-control--custom m-input"
-                            value="{{$work_in_ha->built_up_area_in_sq_m}}">
-                    </div>
-                    <div class="col-sm-4 offset-sm-1 form-group">
-                        <label class="col-form-label" for="">Land Area in m<sup>2</sup>:</label>
-                        <input type="text" id="" name="land_area_in_sq_m" class="form-control form-control--custom m-input"
-                            value="{{$work_in_ha->land_area_in_sq_m}}">
-                    </div>
-                </div>
-                <div class="form-group m-form__group row">
-                    <div class="col-sm-4 form-group">
-                        <label class="col-form-label" for="">Estimated Value of Projects:</label>
-                        <input type="text" id="" name="estimated_value_of_project" class="form-control form-control--custom m-input"
-                            value="{{$work_in_ha->estimated_value_of_project}}">
-                    </div>
-                    <div class="col-sm-4 offset-sm-1 form-group">
-                        <label class="col-form-label" for="">Completed Value of Projects:</label>
-                        <input type="text" id="" name="completed_value_of_project" class="form-control form-control--custom m-input"
-                            value="{{$work_in_ha->completed_value_of_project}}">
-                    </div>
-                </div>
-                <div class="form-group m-form__group row">
-                    <div class="col-sm-4 form-group">
-                        <label class="col-form-label" for="">Date of Start:</label>
-                        <input type="text" id="" name="date_of_start" class="form-control form-control--custom m_datepicker"
-                            readonly value="{{$work_in_ha->date_of_start}}">
-                    </div>
-                    <div class="col-sm-4 offset-sm-1 form-group">
-                        <label class="col-form-label" for="">Date of Completion:</label>
-                        <input type="text" id="" name="date_of_completion" class="form-control form-control--custom m_datepicker"
-                            readonly value="{{$work_in_ha->date_of_completion}}">
-
-                    </div>
-                </div>
-                <div class="form-group m-form__group row">
-                    <div class="col-sm-4 form-group">
-                        <label class="col-form-label" for="">Whether Service Terminated by Client:</label>
-                        <input type="text" id="" name="whether_service_terminated_by_client" class="form-control form-control--custom m-input"
-                            value="{{$work_in_ha->whether_service_terminated_by_client}}">
-                    </div>
-                    <div class="col-sm-4 offset-sm-1 form-group">
-                        <label class="col-form-label" for="">Salient Features of Project:</label>
-                        <input type="text" id="" name="salient_features_of_project" class="form-control form-control--custom m-input"
-                            value="{{$work_in_ha->salient_features_of_project}}">
-                    </div>
-                </div>
-                <div class="form-group m-form__group row">
-                    <div class="col-sm-4 form-group">
-                        <label class="col-form-label" for="">Reasons for Delay (If any):</label>
-                        <input type="text" id="" name="reason_for_delay_if_any" class="form-control form-control--custom m-input"
-                            value="{{$work_in_ha->reason_for_delay_if_any}}">
-                    </div>
-                </div>
-            </div>
-        </div>
-        @php $j++; @endphp
-        @endforeach
+            @php $j++; @endphp
+            @endforeach
         </div>
     </div>
 
@@ -791,7 +795,6 @@
     </div>
 
 </div>
-</div>
 <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
     <div class="m-form__actions px-0">
         <div class="btn-list">
@@ -806,6 +809,7 @@
                 {{-- <a href="" class="btn btn-secondary">Cancel</a> --}}
         </div>
     </div>
+</div>
 </div>
 </div>
 
