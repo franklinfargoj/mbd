@@ -184,11 +184,12 @@
                                         </div>
                                     </div>                                
                                 @endif
-                                
+                                @if($is_view)
                                     <div class="col-md-6 add_more_div" style="left: 173px;top: -40px;">
                                         <a class="add_more" id="add_more_text" onclick="addMoreText(this);" style="{{ 
                                             (isset($applicationData->SiteVisitorOfficers) && count($applicationData->SiteVisitorOfficers) >= 3) ? 'display: none' : '' }}">add more </a>
                                     </div>
+                                @endif    
                             </div>
 
                             <div class="col-md-6">
@@ -245,9 +246,9 @@
                             @else
                                 @foreach($applicationData->visitDocuments as $data)
 
-                                    <div class="col-sm-12 field-col">
+                                    <div class="col-xs-12 field-col">
                                         <div class="d-flex">
-                                            <span style="width: 200px;">Upload Site Photos:</span>
+                                            <span style="width: 170px;">Upload Site Photos:</span>
                                             <a href="{{config('commanConfig.storage_server').'/'.$data->document_path}}" target="_blank">
 
                                             <img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>

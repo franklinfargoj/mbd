@@ -1141,7 +1141,7 @@
             $("#" + id).addClass('active');
             $("." + id).addClass('active');
 
-            Cookies.set('sectionId', 'undefined');
+            // Cookies.set('sectionId', 'undefined');
         }
         //nested tabs
         var nestedTab = Cookies.get('nestedTab');
@@ -1151,7 +1151,7 @@
             $(".tab-pane").removeClass('active');
             $("." + nestedTab).addClass('active'); 
 
-            Cookies.set('nestedTab', 'undefined');
+            // Cookies.set('nestedTab', 'undefined');
         }
     });
 
