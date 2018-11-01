@@ -49,7 +49,7 @@
                             @php $i = 0; @endphp
                             <tr>
                                 <td>Application form</td>
-                                <td><a target="_blank" href="{{route('view_architect_application',['id'=>encrypt($ArchitectApplication->id)])}}">document</a></td>
+                                <td><a target="_blank" href="{{route('view_architect_application',['id'=>encrypt($ArchitectApplication->id)])}}">download</a></td>
                                 <td class="text-center">
                                     <div class="@if($errors->has('marks')) has-error @endif">
                                         <input {{ $disable }} type="text" name="application_marks" class="form-control form-control--custom marks"
@@ -70,7 +70,7 @@
                             @php $i = $i + $row->marks; @endphp
                             <tr>
                                 <td>{{$row->document_name}}</td>
-                                <td><a target="_blank" href="{{ config('commanConfig.storage_server')."/" .$row->document_path}}">document</a></td>
+                                <td><a target="_blank" href="{{ config('commanConfig.storage_server')."/" .$row->document_path}}">download</a></td>
                                 <td class="text-center">
                                     <div class="@if($errors->has('marks')) has-error @endif">
                                         <input {{ $disable }} type="text" name="marks[]" class="form-control form-control--custom marks"

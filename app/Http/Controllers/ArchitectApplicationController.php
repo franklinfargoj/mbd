@@ -274,12 +274,20 @@ class ArchitectApplicationController extends Controller
         //dd($ArchitectApplication->statusLog);
         if ($ArchitectApplication) {
             if ($ArchitectApplication->drafted_certificate == null) {
-                if ((!is_dir($destination))) {
-                    File::makeDirectory($destination, $mode = 0777, true, true);
-                }
+                
                 $content = view('admin.architect.certificate', compact('ArchitectApplication'));
-                File::put($destination . "/" . $ArchitectApplication->id . $ArchitectApplication->application_number . ".txt", $content);
-                $ArchitectApplication->drafted_certificate = 'uploads/temp_certificate/' . $ArchitectApplication->id . $ArchitectApplication->application_number . ".txt";
+                $pdf = \App::make('dompdf.wrapper');
+                $pdf->loadHTML($content);
+                $fileName = $ArchitectApplication->id . $ArchitectApplication->application_number . '.pdf';
+                $folder_name = 'temp_certificate';
+                if (!(\Storage::disk('ftp')->has($folder_name))) {
+                    \Storage::disk('ftp')->makeDirectory($folder_name, $mode = 0777, true, true);
+                }
+                $filePath = $folder_name . "/" . $fileName;
+                // $file_local = \Storage::disk('local')->get($filePath);
+                \Storage::disk('ftp')->put($filePath, $pdf->output());
+                $ArchitectApplication->drafted_certificate = $filePath;
+                $ArchitectApplication->certificate_path = $filePath;
                 $ArchitectApplication->save();
             }
             return view('admin.architect.final_generate_certificate', compact('header_data', 'encryptedId', 'ArchitectApplication'));
@@ -295,6 +303,7 @@ class ArchitectApplicationController extends Controller
 
     public function update_certificate(Request $request)
     {
+        dd('ok');
         $ArchitectApplication = EoaApplication::where('id', $request->applicationId)->first();
         $uploadPath = '/uploads/temp_certificate';
         $destination = public_path($uploadPath);
