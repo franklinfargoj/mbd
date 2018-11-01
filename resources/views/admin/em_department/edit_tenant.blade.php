@@ -14,7 +14,7 @@
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center" id="search_box">
-            <h3 class="m-subheader__title m-subheader__title--separator">Application for Offer Letter</h3>
+            <h3 class="m-subheader__title m-subheader__title--separator">Edit Tenant</h3>
             {{ Breadcrumbs::render('em') }}
          </div>
    <form method="post" enctype='multipart/form-data' action="{{route('update_tenant')}}">
@@ -25,7 +25,7 @@
         <div class="m-portlet m-portlet--compact filter-wrap">
             <div class="row align-items-center row--filter">
                 <div class="col-md-12">
-                    <h4 class="m-subheader__title">Add Tenant</h4>
+                    <h4 class="m-subheader__title">Edit Tenant</h4>
                 </div>
             
                 <div class="col-md-12" style="margin-top:10px;">

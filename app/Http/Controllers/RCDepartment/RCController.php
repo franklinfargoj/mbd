@@ -40,6 +40,7 @@ use App\ArrearsChargesRate;
 use App\ArrearTenantPayment;
 use App\ArrearCalculation;
 use PDF;
+use App\TransBillGenerate;
 
 class RCController extends Controller
 {
@@ -220,19 +221,36 @@ class RCController extends Controller
          $buildings = MasterTenant::where('building_id', '=', $request->input('id'))
                  ->get();
         // return $buildings;*/
-        return view('admin.rc_department.generate_receipt_tenant', compact('tenament','buildings', 'building_id'));
+
+        $bill = TransBillGenerate::where('tenant_id', '=', $request->tenant_id)
+                                   ->where('building_id', '=', $request->building_id)
+                                   ->where('bill_month', '=',  date('n'))
+                                   ->where('bill_year', '=', date('Y'))
+                                   ->with('tenant_detail')
+                                   ->with('building_detail')
+                                   ->with('society_detail')
+                                   ->first();
+        //return $bill;
+
+         if(empty($bill) || is_null($bill)){
+           return redirect()->back()->with('warning', 'Receipt Generation is not done for user.');
+        }
+
+        return view('admin.rc_department.generate_receipt_tenant', compact('bill'));
     }
 
     public function payment_receipt_society(Request $request){
-       /*
-       $pdf = PDF::loadView('admin.rti_form.download_applicant_form', array('boards'=>$boards, 'departments'=>$departments,'application_form_data'=>$application_form_data));
-            return $pdf->download($application_form_data->unique_id.date('YmdHis').'.pdf');
-       */
+
+        dd($request->all());
+       
         $pdf = PDF::loadView('admin.rc_department.payment_receipt_society');
         return $pdf->download('payment_receipt_society'.date('YmdHis').'.pdf');
     }
 
     public function payment_receipt_tenant(Request $request){
+        
+        dd($request->all());
+        
         $pdf = PDF::loadView('admin.rc_department.payment_receipt_tenant');
         return $pdf->download('payment_receipt_tenant'.date('YmdHis').'.pdf');
     }

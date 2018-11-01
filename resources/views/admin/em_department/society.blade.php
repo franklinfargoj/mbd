@@ -14,7 +14,7 @@
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center" id="search_box">
-            <h3 class="m-subheader__title m-subheader__title--separator">Application for Offer Letter</h3>
+            <h3 class="m-subheader__title m-subheader__title--separator">Society List</h3>
             {{ Breadcrumbs::render('em') }}
          </div>
 
