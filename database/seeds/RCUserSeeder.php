@@ -8,7 +8,7 @@ use App\RoleUser;
 use App\User;
 use App\Permission;
 use App\PermissionRole;
-class EMUserSeeder extends Seeder
+class RCUserSeeder extends Seeder
 {
     /**
      * Run the database seeds.
