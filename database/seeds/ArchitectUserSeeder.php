@@ -166,6 +166,11 @@ class ArchitectUserSeeder extends Seeder
                     'name'=>'architect_layout_prepare_layout_excel',
                     'display_name'=>'architect_layout_prepare_layout_excel',
                     'description'=>'architect_layout_prepare_layout_excel'
+                ],
+                [
+                    'name'=>'appointing_architect.send_to_candidate',
+                    'display_name'=>'appointing_architect.send_to_candidate',
+                    'description'=>'appointing_architect.send_to_candidate'
                 ]
                 
             ];

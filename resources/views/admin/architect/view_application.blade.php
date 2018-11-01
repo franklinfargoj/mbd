@@ -8,7 +8,7 @@
             <div class="d-flex">
                 {{-- {{ Breadcrumbs::render('calculation_sheet',$ol_application->id) }} --}}
                 <div class="ml-auto btn-list">
-                <a href="{{route('appointing_architect.step9',['id'=>encrypt($application->id)])}}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+                <a href="{{route('architect_application')}}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
                 </div>
             </div>
             <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom mb-0" role="tablist">
