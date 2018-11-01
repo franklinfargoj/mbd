@@ -160,7 +160,8 @@
         $('input[name=society_email]').keyup(function(){
             var society_email = $('input[name=society_email]').val();
             var url = "{{ route('society_offer_letter.store') }}";
-            if(society_email != null){
+            console.log(society_email);
+            if(society_email != null && society_email.length > 2){
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

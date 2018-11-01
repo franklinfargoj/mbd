@@ -2406,9 +2406,8 @@ label.site-visit-label {
 
 .input-hint {
     position: absolute;
-    top: 50%;
+    top: 21px;
     right: 25px;
-    transform: translateY(-50%);
 }
 
 .signup-wrapper {
@@ -2866,6 +2865,11 @@ label.site-visit-label {
     background-color: #ff754e;
     color: #fff;
     cursor: pointer;
+}
+
+.form-step-tab.active + .form-step-tab.active {
+    border-left: 1px solid white;
+    z-index: 5;
 }
 
 .form-step-tab.active::before {

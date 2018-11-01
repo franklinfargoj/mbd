@@ -25,7 +25,7 @@
     <form id="" role="form" method="post" class="m-form m-form--rows m-form--label-align-right form-steps-box" action="{{route('appointing_architect.step4_post',['id'=>encrypt($application->id)])}}"
         enctype="multipart/form-data">
         <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
-            <h3 class="section-title section-title--small">Form 4:</h3>
+            <h3 class="section-title section-title--small">DETAIL OF 5 IMPORTANT PROJECTS</h3>
             @csrf
             <input type="hidden" name="application_id" value="{{$application->id}}">
             <div class="m-portlet__body m-portlet__body--table">
@@ -56,15 +56,15 @@
                                 <tr class="cloneme">
                                     <td>
                                         <input type="hidden" name="imp_project_id[]" value="{{$application->imp_projects!=''?(isset($application->imp_projects[$j])?$application->imp_projects[$j]->id:''):''}}">
-                                        <input name="name_of_client[]" value="{{$application->imp_projects!=''?(isset($application->imp_projects[$j])?$application->imp_projects[$j]->name_of_client:''):''}}"
+                                        <input required name="name_of_client[]" value="{{$application->imp_projects!=''?(isset($application->imp_projects[$j])?$application->imp_projects[$j]->name_of_client:''):''}}"
                                             placeholder="Name of Client" type="text" class="form-control form-control--custom">
                                     </td>
                                     <td>
-                                        <input name="location[]" value="{{$application->imp_projects!=''?(isset($application->imp_projects[$j])?$application->imp_projects[$j]->location:''):''}}"
+                                        <input required name="location[]" value="{{$application->imp_projects!=''?(isset($application->imp_projects[$j])?$application->imp_projects[$j]->location:''):''}}"
                                             placeholder="Location" type="text" class="form-control form-control--custom">
                                     </td>
                                     <td>
-                                        <input name="category_of_client[]" value="{{$application->imp_projects!=''?(isset($application->imp_projects[$j])?$application->imp_projects[$j]->category_of_client:''):''}}"
+                                        <input required name="category_of_client[]" value="{{$application->imp_projects!=''?(isset($application->imp_projects[$j])?$application->imp_projects[$j]->category_of_client:''):''}}"
                                             placeholder="Category of Client" type="text" class="form-control form-control--custom">
                                             @if($j>4)
                                             <h2 class='m--font-danger remove-row'><i title='Delete' class='fa fa-remove'></i></h2>

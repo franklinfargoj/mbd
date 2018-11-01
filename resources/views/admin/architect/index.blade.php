@@ -85,7 +85,7 @@
                 <div class="btn-list mb-2">
                     <button type="submit" name="shortlist" value="shortlist" class="btn btn-primary">Shortlist</button>
                     <button type="submit" name="remove_shortlist" value="remove_shortlist" class="btn btn-primary">Remove
-                        from Shortlisted Lis</button>
+                        From Shortlisted List</button>
                 </div>
                 @endif
                 @if($is_commitee==true)

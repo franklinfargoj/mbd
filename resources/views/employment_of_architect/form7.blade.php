@@ -21,8 +21,8 @@
         @php
         $prev_form_number=old('form_number')?old('form_number'):0;
         @endphp
-
-        <h3 class="section-title section-title--small mb-4">Name of Applicant: {{$application->name_of_applicant}}</h3>
+        <h3 class="section-title section-title--small mb-4">PROJECT DETAIL SHEET - WORK IN HAND</h3>
+        {{-- <h3 class="section-title section-title--small mb-4">Name of Applicant: {{$application->name_of_applicant}}</h3> --}}
 
         @php
         $project_count=$application->project_sheets->count();
@@ -39,11 +39,11 @@
         @endif
 
 
-        @for($j=0;$j<(1+$k);$j++) 
+        @for($j=0;$j<(1+$k);$j++)
         <div class="m-portlet m-portlet--compact form-accordion">
             <div class="d-flex justify-content-between align-items-center form-steps-toplinks">
                 <a class="btn--unstyled section-title section-title--small form-count-title" data-toggle="collapse"
-                    href="#form_{{$j+1}}">Form
+                    href="#form_{{$j+1}}">PROJECT
                     {{$j+1}}:</a>
                 @if($j>=1)
                 <h2 class='m--font-danger mb-0'><i title='Delete' class='fa fa-remove'></i></h2>
@@ -276,7 +276,7 @@
 
             var formAccordionNumber = formAccordion.find('.form-count-title')[0];
             formAccordionNumber.setAttribute("href", "#" + newID);
-            formAccordionNumber.textContent = "Form " + formAccordionCount + ":";
+            formAccordionNumber.textContent = "PROJECT " + formAccordionCount + ":";
 
             var file_input = formAccordion.find('.custom-file-input')[0];
             file_input.setAttribute('id', 'extract_' + formAccordionCount)

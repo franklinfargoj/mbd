@@ -139,7 +139,6 @@ class EmploymentOfArchitectController extends Controller
         $columns = [
             ['data' => 'rownum', 'name' => 'rownum', 'title' => 'Sr No.', 'searchable' => false],
             ['data' => 'application_number', 'name' => 'application_number', 'title' => 'Application Number'],
-            ['data' => 'application', 'name' => 'application', 'title' => 'Application'],
             ['data' => 'application_date', 'name' => 'application_date', 'title' => 'Application Date'],
             ['data' => 'status', 'name' => 'status', 'title' => 'Status'],
             ['data' => 'actions', 'name' => 'actions', 'title' => 'Actions', 'searchable' => false, 'orderable' => false],
@@ -155,20 +154,25 @@ class EmploymentOfArchitectController extends Controller
                 ->editColumn('application_number', function ($architect_applications) {
                     return $architect_applications->application_number;
                 })
-                ->editColumn('application', function ($architect_applications) {
-                    return "application";
-                })
                 ->editColumn('application_date', function ($architect_applications) {
                     return date('d-m-Y', strtotime($architect_applications->created_at));
                 })
                 ->editColumn('status', function ($architect_applications) {
-                    return $architect_applications->ArchitectApplicationStatusForLoginListing->count() > 0 ? 'sent' : 'new application';
+                    if($architect_applications->ArchitectApplicationStatusForLoginListing->count() > 0)
+                    {
+                        $status_id=\App\ArchitectApplicationStatusLog::where(['user_id'=>auth()->user()->id,'role_id'=>session()->get('role_id')])->orderBy('id','desc')->get()[0]->status_id;
+                        $config_array = array_flip(config('commanConfig.architect_applicationStatus'));
+                        return $value = ucwords(str_replace('_', ' ', $config_array[$status_id]));
+                    }else
+                    {
+                        return 'New Application & details pending';
+                    } 
                 })
                 ->editColumn('actions', function ($architect_applications) {
 
                     return view('employment_of_architect.action', compact('architect_applications'))->render();
                 })
-                ->rawColumns(['select', 'application_number', 'application', 'application_date', 'status', 'actions'])
+                ->rawColumns(['select', 'application_number', 'application_date', 'status', 'actions'])
                 ->make(true);
         }
 
@@ -186,7 +190,7 @@ class EmploymentOfArchitectController extends Controller
             'serverSide' => true,
             'processing' => true,
             'ordering' => 'isSorted',
-            "order" => [5, "desc"],
+            "order" => [1, "desc"],
             "pageLength" => $this->list_num_of_records_per_page,
             // 'fixedHeader' => [
             //     'header' => true,
@@ -701,7 +705,8 @@ class EmploymentOfArchitectController extends Controller
             'imp_senior_professionals',
             'fee_payment_details',
             'imp_projects',
-            'imp_project_work_handled'
+            'imp_project_work_handled',
+            'supporting_documents'
         ], 
         ['id' => $id, 'user_id' => auth()->user()->id]);
         $work_in_hand=$application->project_sheets->where('work_completed',0);

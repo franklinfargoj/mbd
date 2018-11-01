@@ -561,7 +561,7 @@ $route=\Request::route()->getName();
 
                 @if (isset($route) && ($route == 'co.index' || $route=='society_detail.index' ||
                 $route=='village_detail.index' || $route=='ee.index' || $route=='dyce.index' ||
-                $route=='ree_applications.index' || $route=='cap.index' || $route=='vp.index' ||
+                $route=='ree_applications.index' || $route=='ree_applications.reval' || $route=='cap.index' || $route=='vp.index' ||
                 $route=='society_offer_letter.index' || $route=='society_offer_letter_dashboard' ||
                 $route=='documents_uploaded' || $route=='documents_upload'))
 
@@ -586,7 +586,7 @@ $route=\Request::route()->getName();
 
                         @if (isset($route) && ($route == 'co.index' || $route=='society_detail.index' ||
                         $route=='village_detail.index' || $route=='ee.index' || $route=='dyce.index' ||
-                        $route=='ree_applications.index' || $route=='cap.index' || $route=='vp.index' ||
+                        $route=='ree_applications.index' || $route=='ree_applications.reval' || $route=='cap.index' || $route=='vp.index' ||
                         $route=='society_offer_letter.index' || $route=='society_offer_letter_dashboard' ||
                         $route=='documents_uploaded' || $route=='documents_upload'))
                         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2  {{($route=='society_detail.index' || $route=='village_detail.index' || $route=='ee.index' || $route=='dyce.index' || $route=='ree_applications.index' || $route=='co.index' || $route=='cap.index' || $route=='vp.index' || $route=='society_offer_letter.index' || $route=='society_offer_letter_dashboard' || $route=='documents_uploaded' || $route=='documents_upload')?'m-menu__item--active':''}}">
@@ -605,7 +605,7 @@ $route=\Request::route()->getName();
 
                         @if (isset($route) && ($route == 'co.index' || $route=='society_detail.index' ||
                         $route=='village_detail.index' || $route=='ee.index' || $route=='dyce.index' ||
-                        $route=='ree_applications.index' || $route=='cap.index' || $route=='vp.index' ||
+                        $route=='ree_applications.index' || $route=='ree_applications.reval' || $route=='cap.index' || $route=='vp.index' ||
                         $route=='society_offer_letter.index' || $route=='society_offer_letter_dashboard' ||
                         $route=='documents_uploaded' || $route=='documents_upload'))
 
@@ -625,7 +625,7 @@ $route=\Request::route()->getName();
 
                         @if (isset($route) && ($route == 'co.index' || $route=='society_detail.index' ||
                         $route=='village_detail.index' || $route=='ee.index' || $route=='dyce.index' ||
-                        $route=='ree_applications.index' || $route=='cap.index' || $route=='vp.index' ||
+                        $route=='ree_applications.index' || $route=='ree_applications.reval' || $route=='cap.index' || $route=='vp.index' ||
                         $route=='society_offer_letter.index' || $route=='society_offer_letter_dashboard' ||
                         $route=='documents_uploaded' || $route=='documents_upload'))
 
