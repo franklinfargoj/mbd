@@ -245,9 +245,9 @@
             $('#ifsc_code').on('keyup', function () {
                 console.log();
                 var str = $(this).val();
-                var exp = '^[A-Za-z]{4}[a-zA-Z0-9]{7}$';
-                var re = new RegExp('^[A-Za-z]{4}[a-zA-Z0-9]{7}$');
-
+                // var exp = '^[A-Z]{4}[a-zA-Z0-9]{7}$';
+                // var re = new RegExp('^[A-Za-z]{4}[a-zA-Z0-9]{7}$');
+                var exp = '/^[A-Z]{4}[0][\d]{6}/';
 
                 if(str.length > 4){
                     if(re.test(str)){
