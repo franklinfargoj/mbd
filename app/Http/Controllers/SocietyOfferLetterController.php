@@ -885,7 +885,7 @@ class SocietyOfferLetterController extends Controller
 //        dd($request->input());
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $update_input = array(
-            'date_of_meeting' => $request->date_of_meeting,
+            'date_of_meeting' => date('Y-m-d', strtotime($request->date_of_meeting)),
             'resolution_no' => $request->resolution_no,
             'architect_name' => $request->architect_name,
             'developer_name' => $request->developer_name,

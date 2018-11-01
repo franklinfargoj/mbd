@@ -34,7 +34,7 @@
                         </div>
                         <div class="col-sm-4 offset-sm-1 form-group">
                             <label class="col-form-label" for="case_year">Building No:</label>
-                            <input type="text" id="building_no" name="building_no" class="form-control form-control--custom m-input" value="{{ $society_details->building_no }}">
+                            <input type="text" id="building_no" name="building_no" class="form-control form-control--custom m-input" value="{{ $society_details->building_no }}" readonly>
                             <span class="help-block">{{$errors->first('building_no')}}</span>
                         </div>
                     </div>
@@ -42,12 +42,12 @@
                     <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="name">Society Name:</label>
-                            <input type="text" id="name" name="name" class="form-control form-control--custom m-input" value="{{ $society_details->name }}">
+                            <input type="text" id="name" name="name" class="form-control form-control--custom m-input" value="{{ $society_details->name }}" readonly>
                             <span class="help-block">{{$errors->first('name')}}</span>
                         </div>
                         <div class="col-sm-4 offset-sm-1 form-group">
                             <label class="col-form-label" for="address">Society Address:</label>
-                            <textarea id="address" name="address" class="form-control form-control--custom form-control--fixed-height m-input">{{ $society_details->address }}</textarea>
+                            <textarea id="address" name="address" class="form-control form-control--custom form-control--fixed-height m-input" readonly>{{ $society_details->address }}</textarea>
                             <span class="help-block">{{$errors->first('address')}}</span>
                         </div>
                     </div>
@@ -55,12 +55,12 @@
                     <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="date_of_meeting">Date of Resolution:</label>
-                            <input type="text" id="m_datepicker" name="date_of_meeting" class="form-control form-control--custom m-input m_datepicker" value="{{ old('date_of_meeting') }}">
+                            <input type="text" id="m_datepicker" name="date_of_meeting" class="form-control form-control--custom m-input m_datepicker" value="{{ old('date_of_meeting') }}" required>
                             <span class="help-block">{{$errors->first('date_of_meeting')}}</span>
                         </div>
                         <div class="col-sm-4 offset-sm-1 form-group">
                             <label class="col-form-label" for="resolution_no">Resolution No:</label>
-                            <input type="text" id="resolution_no" name="resolution_no" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ old('resolution_no') }}">
+                            <input type="text" id="resolution_no" name="resolution_no" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ old('resolution_no') }}" required>
                             <span class="help-block">{{$errors->first('resolution_no')}}</span>
                         </div>
                     </div>
@@ -68,12 +68,12 @@
                     <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="architect_name">Architect Name:</label>
-                            <input type="text" id="architect_name" name="architect_name" class="form-control form-control--custom m-input" value="{{ $society_details->name_of_architect }}">
+                            <input type="text" id="architect_name" name="architect_name" class="form-control form-control--custom m-input" value="{{ $society_details->name_of_architect }}" readonly>
                             <span class="help-block">{{$errors->first('architect_name')}}</span>
                         </div>
                         <div class="col-sm-4 offset-sm-1 form-group">
                             <label class="col-form-label" for="developer_name">Developer Name:</label>
-                            <input type="text" id="developer_name" name="developer_name" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ old('developer_name') }}">
+                            <input type="text" id="developer_name" name="developer_name" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ old('developer_name') }}" required>
                             <span class="help-block">{{$errors->first('developer_name')}}</span>
                         </div>
                     </div>
