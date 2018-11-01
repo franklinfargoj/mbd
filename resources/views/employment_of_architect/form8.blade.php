@@ -22,7 +22,8 @@
         $prev_form_number=old('form_number')?old('form_number'):0;
         @endphp
 
-        <h3 class="section-title section-title--small mb-4">Name of Applicant: {{$application->name_of_applicant}}</h3>
+<h3 class="section-title section-title--small mb-4">PROJECT DETAIL SHEET - WORK COMPLETED</h3>
+        {{-- <h3 class="section-title section-title--small mb-4">Name of Applicant: {{$application->name_of_applicant}}</h3> --}}
 
         @php
         $project_count=$application->project_sheets->count();

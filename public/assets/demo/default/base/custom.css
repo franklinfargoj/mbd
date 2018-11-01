@@ -2406,9 +2406,8 @@ label.site-visit-label {
 
 .input-hint {
     position: absolute;
-    top: 50%;
+    top: 21px;
     right: 25px;
-    transform: translateY(-50%);
 }
 
 .signup-wrapper {
@@ -2593,7 +2592,7 @@ label.site-visit-label {
 .m-aside-menu.m-aside-menu--skin-dark .m-menu__nav>.m-menu__item:hover>.m-menu__link .m-menu__link-text,
 .m-aside-menu.m-aside-menu--skin-dark .m-menu__nav>.m-menu__item:hover>.m-menu__heading .m-menu__ver-arrow,
 .m-aside-menu.m-aside-menu--skin-dark .m-menu__nav>.m-menu__item:hover>.m-menu__link .m-menu__ver-arrow {
-    color: #fff;
+    color: #f0791b;
 }
 
 .m-aside-menu.m-aside-menu--skin-dark .m-menu__nav>.m-menu__item:hover {
@@ -2866,6 +2865,11 @@ label.site-visit-label {
     background-color: #ff754e;
     color: #fff;
     cursor: pointer;
+}
+
+.form-step-tab.active + .form-step-tab.active {
+    border-left: 1px solid white;
+    z-index: 5;
 }
 
 .form-step-tab.active::before {

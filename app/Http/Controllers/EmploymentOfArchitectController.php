@@ -701,7 +701,8 @@ class EmploymentOfArchitectController extends Controller
             'imp_senior_professionals',
             'fee_payment_details',
             'imp_projects',
-            'imp_project_work_handled'
+            'imp_project_work_handled',
+            'supporting_documents'
         ], 
         ['id' => $id, 'user_id' => auth()->user()->id]);
         $work_in_hand=$application->project_sheets->where('work_completed',0);

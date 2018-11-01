@@ -142,7 +142,11 @@ class CommonController extends Controller
         
         $architect_applications = EoaApplication::with(['ArchitectApplicationStatusForLoginListing' => function ($query) {
             return $query->where(['user_id' => auth()->user()->id, 'role_id' => session()->get('role_id')])->orderBy('id', 'desc');
-        }]);
+        }])->whereHas('ArchitectApplicationStatusForLoginListing', function ($q) {
+            $q->where('user_id', Auth::user()->id)
+                ->where('role_id', session()->get('role_id'))
+                ->orderBy('id', 'desc');
+        });
         //dd($architect_applications->get());
         if ($request->keyword) {
             $architect_applications->where(function ($query) use ($request) {

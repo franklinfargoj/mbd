@@ -20,7 +20,7 @@
 <form id="" role="form" method="post" class="m-form m-form--rows m-form--label-align-right form-steps-box" action="{{route('appointing_architect.step6_post',['id'=>encrypt($application->id)])}}"
         enctype="multipart/form-data">
         <div class="m-portlet m-portlet--mobile">
-            <h3 class="section-title section-title--small">Form 6:</h3>
+            <h3 class="section-title section-title--small">DETAILS OF IMPORTANT/SENIOR PROFESSIONAL IN THE FIRM</h3>
             @csrf
             <input type="hidden" name="application_id" value="{{$application->id}}">
             <div class="m-portlet__body m-portlet__body--table">
