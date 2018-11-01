@@ -17,7 +17,7 @@
     <!-- END: Subheader -->
     <div class="m-portlet m-portlet--mobile">
         @if(Session::has('success'))
-        <div class="note note-success">
+        <div class="alert alert-success">
             <div class="caption">
                 <i class="fa fa-gift"></i> {{Session::get('success')}}
             </div>

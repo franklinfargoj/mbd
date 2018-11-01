@@ -73,12 +73,12 @@ class EoaApplication extends Model
 
     public function marks()
     {
-        return $this->hasMany(ArchitectApplicationMark::class,'architect_application_id','id');
+        return $this->hasMany(\App\ArchitectApplicationMark::class,'architect_application_id','id');
     }
 
     public function statusLog()
     {
-        return $this->hasMany(ArchitectApplicationStatusLog::class,'architect_application_id','id');
+        return $this->hasMany(\App\ArchitectApplicationStatusLog::class,'architect_application_id','id');
     }
 
     public function getApplicationStatusAttribute($value)
@@ -107,5 +107,10 @@ class EoaApplication extends Model
     public function supporting_documents()
     {
         return $this->hasMany(\App\ArchitectApplicationMark::class,'architect_application_id','id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(\App\User::class,'user_id','id');
     }
 }

@@ -391,6 +391,8 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::post('shortlist_architect_application','ArchitectApplicationController@shortlist_architect_application')->name('shortlist_architect_application');
     
     Route::post('finalise_architect_application','ArchitectApplicationController@finalise_architect_application')->name('finalise_architect_application');
+    
+    Route::post('send_to_candidate','ArchitectApplicationController@send_to_candidate')->name('appointing_architect.send_to_candidate');
     //architect module end
 
     //---------------------architect layout-------------------------------------------
