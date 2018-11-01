@@ -19,6 +19,7 @@ use Config;
 use File;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
+use Storage;
 
 class ArchitectApplicationController extends Controller
 {
@@ -303,7 +304,7 @@ class ArchitectApplicationController extends Controller
 
     public function update_certificate(Request $request)
     {
-        dd('ok');
+        //dd('ok');
         $ArchitectApplication = EoaApplication::where('id', $request->applicationId)->first();
         $uploadPath = '/uploads/temp_certificate';
         $destination = public_path($uploadPath);
@@ -360,19 +361,20 @@ class ArchitectApplicationController extends Controller
 
     public function postFinalCertificateGenerate(CertificateUploadRequest $request)
     {
-
+            //dd('ok');
         if ($request->hasFile('certificate')) {
             $applicationId = decrypt($request->get('ap_no'));
             $application = EoaApplication::where('id', $applicationId)->first();
             $extension = $request->file('certificate')->getClientOriginalExtension();
-            $path = \Storage::putFileAs('/architect_certificates', $request->file('certificate'), $applicationId . $application->application_number . '.' . $extension, 'public');
-            $input['architect_application_id'] = $applicationId;
-            $input['certificate_name'] = $applicationId . $application->application_number;
-            $input['certificate_path'] = $path;
-            $application->certificate_path = $path;
+            //\Storage::disk('ftp')->put($filePath, $pdf->output());
+            //$path = \Storage::putFileAs('/architect_certificates', $request->file('certificate'), $applicationId . $application->application_number . '.' . $extension, 'public');
+            $dir = 'architect_certificates';
+            $filename = $applicationId . $application->application_number . '.' . $extension;
+            $storage = Storage::disk('ftp')->putFileAs($dir, $request->file('certificate'), $filename);
+            $application->certificate_path = $storage;
             $application->final_signed_certificate_status = 1;
             $application->save();
-            ArchitectCertificate::create($input);
+            //EoaApplication::create($input);
             return redirect()->back()->with('success', "Certificate Uploaded succesfully.");
         } else {
             return redirect()->back()->with('error', "Look like something went wrong.");
