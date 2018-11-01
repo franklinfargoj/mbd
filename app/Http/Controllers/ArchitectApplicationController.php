@@ -65,7 +65,7 @@ class ArchitectApplicationController extends Controller
             ['data' => 'status', 'name' => 'status', 'title' => 'Status']
         ];
 
-       // dd($this->CommonController->architect_applications($request));
+        //dd($this->CommonController->architect_applications($request));
         if ($datatables->getRequest()->ajax()) {
 
             $architect_applications = $this->CommonController->architect_applications($request);

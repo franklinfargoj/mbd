@@ -27,7 +27,7 @@ class RegisterUserRequest extends FormRequest
             'name' => 'required',
             'email' => 'required|email|unique:users|max:255',
             'mobile_no' => 'required|unique:users|max:255',
-            'password' => 'required|same:confirm_password',
+            'password' => 'required|min:6|max:10|same:confirm_password',
             'address' => 'required',
             'confirm_password' => 'required',
         ];

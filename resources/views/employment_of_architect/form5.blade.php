@@ -20,7 +20,7 @@
     <form id="" role="form" method="post" class="m-form m-form--rows m-form--label-align-right form-steps-box" action="{{route('appointing_architect.step5_post',['id'=>encrypt($application->id)])}}"
         enctype="multipart/form-data">
         <div class="m-portlet m-portlet--mobile">
-            <h3 class="section-title section-title--small">Form 5:</h3>
+            <h3 class="section-title section-title--small">DETAILS OF WORK HANDLED</h3>
             @csrf
             <input type="hidden" name="application_id" value="{{$application->id}}">
             <div class="m-portlet__body m-portlet__body--table">
@@ -58,15 +58,15 @@
                                             @endforeach
                                         </select>
                                     </td>
-                                    <td><input name="no_of_dwelling[]" placeholder="No. of Dwelling" value="{{$application->imp_project_work_handled!=''?(isset($application->imp_project_work_handled[$j])?$application->imp_project_work_handled[$j]->no_of_dwelling:''):''}}"
+                                    <td><input required name="no_of_dwelling[]" placeholder="No. of Dwelling" value="{{$application->imp_project_work_handled!=''?(isset($application->imp_project_work_handled[$j])?$application->imp_project_work_handled[$j]->no_of_dwelling:''):''}}"
                                             type="text" class="form-control form-control--custom"></td>
-                                    <td><input name="land_area_in_sq_mt[]" placeholder="Land Area" value="{{$application->imp_project_work_handled!=''?(isset($application->imp_project_work_handled[$j])?$application->imp_project_work_handled[$j]->land_area_in_sq_mt:''):''}}"
+                                    <td><input required name="land_area_in_sq_mt[]" placeholder="Land Area" value="{{$application->imp_project_work_handled!=''?(isset($application->imp_project_work_handled[$j])?$application->imp_project_work_handled[$j]->land_area_in_sq_mt:''):''}}"
                                             type="text" class="form-control form-control--custom"></td>
-                                    <td><input name="built_up_area_in_sq_mt[]" placeholder="Built Up Area" value="{{$application->imp_project_work_handled!=''?(isset($application->imp_project_work_handled[$j])?$application->imp_project_work_handled[$j]->built_up_area_in_sq_mt:''):''}}"
+                                    <td><input required name="built_up_area_in_sq_mt[]" placeholder="Built Up Area" value="{{$application->imp_project_work_handled!=''?(isset($application->imp_project_work_handled[$j])?$application->imp_project_work_handled[$j]->built_up_area_in_sq_mt:''):''}}"
                                             type="text" class="form-control form-control--custom"></td>
-                                    <td><input name="value_of_work_in_rs[]" placeholder="Value of Works" value="{{$application->imp_project_work_handled!=''?(isset($application->imp_project_work_handled[$j])?$application->imp_project_work_handled[$j]->value_of_work_in_rs:''):''}}"
+                                    <td><input required name="value_of_work_in_rs[]" placeholder="Value of Works" value="{{$application->imp_project_work_handled!=''?(isset($application->imp_project_work_handled[$j])?$application->imp_project_work_handled[$j]->value_of_work_in_rs:''):''}}"
                                             type="text" class="form-control form-control--custom"></td>
-                                    <td><input name="year_of_completion_start[]" placeholder="Year" value="{{$application->imp_project_work_handled!=''?(isset($application->imp_project_work_handled[$j])?$application->imp_project_work_handled[$j]->year_of_completion_start:''):''}}"
+                                    <td><input required name="year_of_completion_start[]" placeholder="Year" value="{{$application->imp_project_work_handled!=''?(isset($application->imp_project_work_handled[$j])?$application->imp_project_work_handled[$j]->year_of_completion_start:''):''}}"
                                             type="text" class="form-control form-control--custom">
                                             @if($j>0)
                                             <h2 class='m--font-danger remove-row'><i title='Delete' class='fa fa-remove'></i></h2>
