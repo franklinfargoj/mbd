@@ -16,45 +16,42 @@ class EmPermissionSeeder extends Seeder
      */
     public function run()
     {
-        $em_manager = Role::where('name', '=', 'EM')->select('id')->first();
+        // EM Manager
+        $em_manager_id = Role::where('name', '=', 'EM')->value('id');
 
-        if (!$em_manager) {
-            $role_id = Role::insertGetId([
+        if ($em_manager_id == NULL)
+            $em_manager_id = Role::insertGetId([
                 'name' => 'EM',
                 'redirect_to' => '/conveyance',
                 'display_name' => 'estate_manager',
                 'description' => 'Login as Estae Manger',
             ]);
-        } else {
-            $role_id = $em_manager->id;
-        }
 
-        $em_user = User::where(['email' => 'em@gmail.com'])->first();
-        if ($em_user) {
-            $user_id = $em_user->id;
-        } else {
-            $user_id = User::insertGetId([
+        // EM User
+        $em_user_id = User::where(['email' => 'em@gmail.com'])->value('id');
+
+        if ($em_user_id == NULL )
+            $em_user_id = User::insertGetId([
                 'name' => 'estate namager',
                 'email' => 'em@gmail.com',
                 'password' => bcrypt('1234'),
-                'role_id' => $role_id,
+                'role_id' => $em_manager_id,
                 'uploaded_note_path' => 'Test',
                 'mobile_no' => '8785854587',
                 'address' => 'Mumbai',
             ]);
-        }
 
-        $em_role_user = RoleUser::where(['user_id' => $user_id, 'role_id' => $role_id])->first();
-        if ($em_role_user) {
+        // EM User and EM Manager Role Mapping
+        $em_manager_role_user = RoleUser::where(['user_id' => $em_user_id, 'role_id' => $em_manager_id])->first();
 
-        } else {
-            $role_user = RoleUser::insert([
-                'user_id' => $user_id,
-                'role_id' => $role_id,
-                'start_date' => \Carbon\Carbon::now(),
+        if($em_manager_role_user == NULL)
+            RoleUser::insert([
+                'user_id' => $em_user_id,
+                'role_id' => $em_manager_id,
+                'start_date' => \Carbon\Carbon::now()
             ]);
-        }
 
+        // EM Manager Permissions
         $permissions = [
             [
                 'name' => 'architect_layout.index',
@@ -135,7 +132,7 @@ class EmPermissionSeeder extends Seeder
                 'name'         => 'conveyance.view_application',
                 'display_name' => 'conveyance application',
                 'description'  => 'conveyance application'
-            ],              
+            ],
             [
                 'name'         => 'em.scrutiny_remark',
                 'display_name' => 'em scrutiny remark',
@@ -252,11 +249,6 @@ class EmPermissionSeeder extends Seeder
                 'description' => 'Edit Tenant'
             ],
             [
-                'name' => 'add_tenant',
-                'display_name' => 'Add Tenant',
-                'description' => 'Add Tenant'
-            ],
-            [
                 'name' => 'create_tenant',
                 'display_name' => 'Create Tenant',
                 'description' => 'Create Tenant'
@@ -302,22 +294,21 @@ class EmPermissionSeeder extends Seeder
                 'description' => 'Generate Building Bill'
             ],
         ];
- 
+
         $permission_role = [];
 
         foreach ($permissions as $lm_per) {
-            $permission = Permission::where(['name' => $lm_per['name']])->first();
-            if ($permission) {
-                $permission_id = $permission->id;
-            } else {
-                $permission_id = Permission::insertGetId($lm_per);
-            }
+            $permission_id = Permission::where(['name' => $lm_per['name']])->value('id');
 
-            $PermissionRole = PermissionRole::where(['permission_id' => $permission_id, 'role_id' => $role_id])->first();
+            if (!($permission_id))
+                $permission_id = Permission::insertGetId($lm_per);
+
+            $PermissionRole = PermissionRole::where(['permission_id' => $permission_id, 'role_id' => $em_manager_id])->first();
+
             if (!$PermissionRole) {
                 $permission_role[] = [
                     'permission_id' => $permission_id,
-                    'role_id' => $role_id,
+                    'role_id' => $em_manager_id,
                 ];
             }
 
@@ -325,11 +316,110 @@ class EmPermissionSeeder extends Seeder
         if (count($permission_role) > 0) {
             PermissionRole::insert($permission_role);
         }
+
         $layout_id = \App\MasterLayout::where("layout_name", '=', "Samata Nagar, Kandivali(E)")->value('id');
-        $layout_user =  \App\LayoutUser::where('user_id',$user_id)->where('layout_id',$layout_id)->first();
-        
+        $layout_user =  \App\LayoutUser::where('user_id',$em_user_id)->where('layout_id',$layout_id)->first();
+
         if(!$layout_user){
-            \App\LayoutUser::insert(['user_id' => $user_id, 'layout_id' => $layout_id]);          
-        }    
+            \App\LayoutUser::insert(['user_id' => $em_user_id, 'layout_id' => $layout_id]);
+        }
+
+
+        // EM Clerk
+        $em_cl_role_id = Role::where('name','em_clerk')->value('id');
+
+        if($em_cl_role_id  == NULL)
+            $em_cl_role_id = Role::insertGetId([
+                'name' => 'em_clerk',
+                'redirect_to' => '/em_clerk',
+                'parent_id' => $em_manager_id,
+                'display_name' => 'EM Clerk',
+                'description' => 'EM Clerk'
+            ]);
+
+        // EM Clerk User
+        $em_cl_user_id = User::where(['email' => 'em_clerk@gmail.com'])->value('id');
+
+        if ($em_cl_user_id == NULL)
+            $em_cl_user_id = User::insertGetId([
+                'name' => 'Amit Kadam',
+                'email' => 'em_clerk@gmail.com',
+                'password' => bcrypt('user123'),
+                'role_id' => $em_cl_role_id,
+                'uploaded_note_path' => 'Test',
+                'mobile_no' => '7412589635',
+                'address' => 'Mumbai'
+            ]);
+
+        // EM Clerk User and EM Clerk Role Mapping
+        $em_cl_role_user = RoleUser::where(['user_id' => $em_cl_user_id, 'role_id' => $em_cl_role_id])->first();
+
+        if($em_cl_role_user == NULL)
+            RoleUser::insert([
+                'user_id' => $em_cl_user_id,
+                'role_id' => $em_cl_role_id,
+                'start_date' => \Carbon\Carbon::now()
+            ]);
+
+        // EM Clerk Permission
+        $em_clerk_permissions = [
+            [
+                'name' => 'em_clerk.index',
+                'display_name' => 'List EM  ClerkApplication',
+                'description' => 'Listing EM Clerk Application'
+            ],
+            [
+                'name' => 'em_society_list',
+                'display_name' => 'List EM  Society',
+                'description' => 'Listing EM Society'
+            ],
+            [
+                'name' => 'em_building_list',
+                'display_name' => 'List EM  Building',
+                'description' => 'Listing EM Building'
+            ],
+            [
+                'name' => 'tenant_payment_list',
+                'display_name' => 'List Tenant Payment',
+                'description' => 'Listing Tenant Payment'
+            ],
+            [
+                'name' => 'tenant_arrear_calculation',
+                'display_name' => 'Tenant Arrear Calculation',
+                'description' => 'Tenant Arrear Calculation'
+            ],
+            [
+                'name' => 'create_arrear_calculation',
+                'display_name' => 'Create Arrear Calculation',
+                'description' => 'Create Arrear Calculation'
+            ],
+        ];
+
+        $em_clerk_permission_role = [];
+
+        foreach ($em_clerk_permissions as $em_clerk) {
+            $em_clerk_permission_id = Permission::where(['name' => $em_clerk['name']])->value('id');
+            if ($em_clerk_permission_id == NULL) {
+                $em_clerk_permission_id = Permission::insertGetId($em_clerk);
+            }
+
+            $PermissionRole = PermissionRole::where(['permission_id' => $em_clerk_permission_id, 'role_id' => $em_cl_role_id])->first();
+            if (!$PermissionRole) {
+                $em_clerk_permission_role[] = [
+                    'permission_id' => $em_clerk_permission_id,
+                    'role_id' => $em_cl_role_id,
+                ];
+            }
+
+        }
+        if (count($em_clerk_permission_role) > 0) {
+            PermissionRole::insert($em_clerk_permission_role);
+        }
+        $layout_id = \App\MasterLayout::where("layout_name", '=', "Samata Nagar, Kandivali(E)")->value('id');
+        $layout_user =  \App\LayoutUser::where('user_id',$em_cl_user_id)->where('layout_id',$layout_id)->first();
+
+        if(!$layout_user){
+            \App\LayoutUser::insert(['user_id' => $em_cl_user_id, 'layout_id' => $layout_id]);
+        }
     }
 }
