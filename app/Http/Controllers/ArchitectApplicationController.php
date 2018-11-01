@@ -56,7 +56,7 @@ class ArchitectApplicationController extends Controller
         $getData = $request->all();
         $columns = [
             //['data' => 'radio', 'name' => 'radio', 'title' => '', 'searchable' => false],
-            ['data' => 'select', 'name' => 'select', 'title' => '', 'searchable' => false],
+            // ['data' => 'select', 'name' => 'select', 'title' => '', 'searchable' => false],
             ['data' => 'rownum', 'name' => 'rownum', 'title' => 'Sr No.', 'searchable' => false],
             ['data' => 'application_number', 'name' => 'application_number', 'title' => 'Application Number'],
             ['data' => 'application_date', 'name' => 'application_date', 'title' => 'Application Date'],
@@ -75,9 +75,9 @@ class ArchitectApplicationController extends Controller
                 //     $url = route('view_architect_application', encrypt($listArray->id));
                 //     return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="' . $url . '" name="village_data_id"><span></span></label>';
                 // })
-                ->editColumn('select', function ($architect_applications) {
-                    return view('admin.architect.checkbox', compact('architect_applications'))->render();
-                })
+                // ->editColumn('select', function ($architect_applications) {
+                //     return view('admin.architect.checkbox', compact('architect_applications'))->render();
+                // })
                 ->editColumn('rownum', function ($listArray) {
                     static $i = 0; $i++; return $i;
                 })
@@ -104,11 +104,11 @@ class ArchitectApplicationController extends Controller
                     }
                     return $value . ($architect_applications->application_status == 'None' ? '' : ' & ' . $architect_applications->application_status);
                 })
-                ->editColumn('view', function ($architect_applications) {
-                     return view('admin.architect.view_layout', compact('architect_applications'))->render();
+                ->editColumn('view', function ($architect_applications) use($is_commitee,$is_view){
+                     return view('admin.architect.view_layout', compact('architect_applications','is_commitee','is_view'))->render();
                 })
                 
-                ->rawColumns([ 'select', 'application_number', 'application_date', 'candidate_name', 'candidate_email','view'])
+                ->rawColumns(['application_number', 'application_date', 'candidate_name', 'candidate_email','view'])
                 ->make(true);
         }
 
@@ -123,7 +123,7 @@ class ArchitectApplicationController extends Controller
             'serverSide' => true,
             'processing' => true,
            'ordering' => 'isSorted',
-            "order" => [2, "asc"],
+            "order" => [1, "asc"],
             "pageLength" => $this->list_num_of_records_per_page,
             // 'fixedHeader' => [
             //     'header' => true,
@@ -144,37 +144,38 @@ class ArchitectApplicationController extends Controller
 
     public function finalise_architect_application(Request $request)
     {
-        if (is_array($request->application_id)) {
+        //if (is_array($request->application_id)) {
             if ($request->final == 'final') {
-                EoaApplication::whereIn('id', $request->application_id)->update(['application_status' => config('commanConfig.architect_application_status.final')]);
+                EoaApplication::where('id', $request->application_id)->update(['application_status' => config('commanConfig.architect_application_status.final')]);
                 return back()->withSuccess('added to final list');
             }
 
             if ($request->remove_final == 'remove_final') {
-                EoaApplication::whereIn('id', $request->application_id)->update(['application_status' => config('commanConfig.architect_application_status.shortListed')]);
+                EoaApplication::where('id', $request->application_id)->update(['application_status' => config('commanConfig.architect_application_status.shortListed')]);
                 return back()->withSuccess('removed from final list');
             }
-        } else {
-            return back()->withError('select atlease one application');
-        }
+        // } else {
+        //     return back()->withError('select atlease one application');
+        // }
     }
 
     public function shortlist_architect_application(Request $request)
     {
-        if (is_array($request->application_id)) {
+        //dd($request->all());
+        //if (is_array($request->application_id)) {
             if ($request->shortlist == 'shortlist') {
-                EoaApplication::whereIn('id', $request->application_id)->update(['application_status' => config('commanConfig.architect_application_status.shortListed')]);
+                EoaApplication::where('id', $request->application_id)->update(['application_status' => config('commanConfig.architect_application_status.shortListed')]);
                 return back()->withSuccess('shortlisted');
             }
 
             if ($request->remove_shortlist == 'remove_shortlist') {
-                EoaApplication::whereIn('id', $request->application_id)->update(['application_status' => config('commanConfig.architect_application_status.none')]);
+                EoaApplication::where('id', $request->application_id)->update(['application_status' => config('commanConfig.architect_application_status.none')]);
                 return back()->withSuccess('removed from shortlisted');
             }
 
-        } else {
-            return back()->withError('select atlease one application');
-        }
+      //  } else {
+      //      return back()->withError('select atlease one application');
+      //  }
     }
 
     // public function finalIndex()
@@ -219,7 +220,7 @@ class ArchitectApplicationController extends Controller
 
     public function saveEvaluateMarks(EvaluationMarkRequest $request)
     {
-        //dd($request->application_id);
+        //dd($request->all());
         $marks = $request->get('marks');
         $ids = $request->get('id');
         $remark = $request->get('remark');
@@ -227,20 +228,28 @@ class ArchitectApplicationController extends Controller
         foreach ($ids as $key => $id) {
             ArchitectApplicationMark::where('id', $id)->update(['marks' => $marks[$key], 'remark' => $remark[$key]]);
         }
-        $forward_application = [
-            [
-                'architect_application_id' => $request->application_id,
-                'user_id' => auth()->user()->id,
-                'role_id' => session()->get('role_id'),
-                'status_id' => config('commanConfig.architect_applicationStatus.scrutiny_pending'),
-                'to_user_id' => null,
-                'to_role_id' => null,
-                'remark' => null,
-                'changed_at' => Carbon::now(),
-            ],
-        ];
 
-        ArchitectApplicationStatusLog::insert($forward_application);
+        $EoaApplication=EoaApplication::find($request->application_id);
+        if($EoaApplication)
+        {
+            $EoaApplication->application_marks=$request->application_marks;
+            $EoaApplication->application_remark=$request->application_remark;
+            $EoaApplication->save();
+        }
+        // $forward_application = [
+        //     [
+        //         'architect_application_id' => $request->application_id,
+        //         'user_id' => auth()->user()->id,
+        //         'role_id' => session()->get('role_id'),
+        //         'status_id' => config('commanConfig.architect_applicationStatus.scrutiny_pending'),
+        //         'to_user_id' => null,
+        //         'to_role_id' => null,
+        //         'remark' => null,
+        //         'changed_at' => Carbon::now(),
+        //     ],
+        // ];
+
+        // ArchitectApplicationStatusLog::insert($forward_application);
         return redirect()->back()->with('success', "Marks updated succesfully!!!");
     }
 
