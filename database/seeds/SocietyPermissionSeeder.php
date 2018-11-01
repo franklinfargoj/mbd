@@ -203,6 +203,21 @@ class SocietyPermissionSeeder extends Seeder
                     'display_name' => 'Uploads Documents',
                     'description'  => 'Uploads Documents'
                 ],
+                [
+                    'name'         => 'society_bank_details',
+                    'display_name' => 'Submit society bank details',
+                    'description'  => 'Submit society bank details'
+                ],
+                [
+                    'name'         => 'sc_form_upload_show',
+                    'display_name' => 'Upload Stamped Application Form',
+                    'description'  => 'Upload Stamped Application Form'
+                ],
+                [
+                    'name'         => 'sc_form_download',
+                    'display_name' => 'Download Application Form',
+                    'description'  => 'Download Application Form'
+                ],
         ];
 
         if(count($society)==0){

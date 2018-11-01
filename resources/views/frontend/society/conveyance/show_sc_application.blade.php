@@ -35,7 +35,7 @@
                     <!-- END: Subheader -->
                     <div class="m-content letter-form-content">
                         <div class="letter-form-subject">
-                            <p><span class="font-weight-semi-bold">विषय :- </span> <input class="letter-form-input letter-form-input--md" type="text" id="" name="layout_name" value="{{ $sc_application->applicationLayout[0]->layout_name }}"> येथील <input class="letter-form-input letter-form-input--md" type="text" id="" name="society_name" value="{{ $sc_application->societyApplication->name }}"> इमारतीचे अभिहस्तांतरण करणेबाबत गृहनिर्माण
+                            <p><span class="font-weight-semi-bold">विषय :- </span> <input class="letter-form-input" type="text" id="" name="layout_name" value="{{ $sc_application->applicationLayout[0]->layout_name }}"> येथील <input class="letter-form-input" type="text" id="" name="society_name" value="{{ $sc_application->societyApplication->name }}"> इमारतीचे अभिहस्तांतरण करणेबाबत गृहनिर्माण
                                 संस्थेच्या स्वयंपुनर्विकासाच्या प्रस्तावास मंजूरी मिळण्याबाबतचा अर्ज.</p>
                             <p class="font-weight-semi-bold">महोदय,</p>
                             <p>उपुक्त विषयांकित इमारतीचे अभिहस्तांतरण करणेसाठी खालील माहिती व कागदपत्रे सादर करण्यात येत
