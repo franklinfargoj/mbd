@@ -16,8 +16,10 @@
 
     <div class="m-portlet m-portlet--compact form-accordion mt-4">
         <div class="d-flex justify-content-between align-items-center form-steps-toplinks">
-            <a class="btn--unstyled section-title section-title--small form-count-title" data-toggle="collapse"
-                href="#form_1">APPLICATION FORM FOR EMPLOYMENT OF ARCHITECT</a>
+            <a class="btn--unstyled section-title section-title--small form-count-title d-flex justify-content-between collapsed" data-toggle="collapse"
+                href="#form_1">
+                <span class="form-accordion-title">APPLICATION FORM FOR EMPLOYMENT OF ARCHITECT</span><span class="accordion-icon"></span>
+            </a>
         </div>
         <div class="m-portlet__body m-portlet__body--spaced collapse" id="form_1" data-parent="#accordion">
             @include('employment_of_architect.partial_personal_details',compact('application'))
@@ -27,8 +29,10 @@
 
     <div class="m-portlet m-portlet--compact form-accordion">
         <div class="d-flex justify-content-between align-items-center form-steps-toplinks">
-            <a class="btn--unstyled section-title section-title--small form-count-title" data-toggle="collapse"
-                href="#form_2">EMPANELMENT OF ARCHITECT/CONSULTANT WITH MHADB</a>
+            <a class="btn--unstyled section-title section-title--small form-count-title d-flex justify-content-between collapsed" data-toggle="collapse"
+                href="#form_2">
+                <span class="form-accordion-title">EMPANELMENT OF ARCHITECT/CONSULTANT WITH MHADB</span><span class="accordion-icon"></span>
+            </a>
         </div>
         <div class="m-portlet__body m-portlet__body--spaced collapse" id="form_2" data-parent="#accordion">
             <div class="m-portlet__head px-0 m-portlet__head--top">
@@ -69,8 +73,9 @@
 
     <div class="m-portlet m-portlet--compact form-accordion">
         <div class="d-flex justify-content-between align-items-center form-steps-toplinks">
-            <a class="btn--unstyled section-title section-title--small form-count-title" data-toggle="collapse"
-                href="#form_3">ARCHITECT/CONSULTANT</a>
+            <a class="btn--unstyled section-title section-title--small form-count-title d-flex justify-content-between collapsed" data-toggle="collapse"
+                href="#form_3">
+                <span class="form-accordion-title">ARCHITECT/CONSULTANT</span><span class="accordion-icon"></span></a>
         </div>
         <div class="m-portlet__body m-portlet__body--spaced collapse" id="form_3" data-parent="#accordion">
             <div class="form-group m-form__group row">
@@ -297,8 +302,10 @@
 
     <div class="m-portlet m-portlet--compact form-accordion">
         <div class="d-flex justify-content-between align-items-center form-steps-toplinks">
-            <a class="btn--unstyled section-title section-title--small form-count-title" data-toggle="collapse"
-                href="#form_4">DETAIL OF 5 IMPORTANT PROJECTS</a>
+            <a class="btn--unstyled section-title section-title--small form-count-title d-flex justify-content-between collapsed" data-toggle="collapse"
+                href="#form_4">
+                <span class="form-accordion-title">DETAIL OF 5 IMPORTANT PROJECTS</span><span class="accordion-icon"></span>
+            </a>
         </div>
         <div class="m-portlet__body m-portlet__body--spaced m-portlet__body--table collapse" id="form_4" data-parent="#accordion">
             <div class="">
@@ -347,8 +354,10 @@
 
     <div class="m-portlet m-portlet--compact form-accordion">
         <div class="d-flex justify-content-between align-items-center form-steps-toplinks">
-            <a class="btn--unstyled section-title section-title--small form-count-title" data-toggle="collapse"
-                href="#form_5">DETAILS OF WORK HANDLED</a>
+            <a class="btn--unstyled section-title section-title--small form-count-title d-flex justify-content-between collapsed" data-toggle="collapse"
+                href="#form_5">
+                <span class="form-accordion-title">DETAILS OF WORK HANDLED</span><span class="accordion-icon"></span>
+            </a>
         </div>
         <div class="m-portlet__body m-portlet__body--spaced m-portlet__body--table collapse" id="form_5" data-parent="#accordion">
             <div class="">
@@ -408,8 +417,10 @@
 
     <div class="m-portlet m-portlet--compact form-accordion">
         <div class="d-flex justify-content-between align-items-center form-steps-toplinks">
-            <a class="btn--unstyled section-title section-title--small form-count-title" data-toggle="collapse"
-                href="#form_6">DETAILS OF IMPORTANT/SENIOR PROFESSIONALS IN THE FIRM</a>
+            <a class="btn--unstyled section-title section-title--small form-count-title d-flex justify-content-between collapsed" data-toggle="collapse"
+                href="#form_6">
+                <span class="form-accordion-title">DETAILS OF IMPORTANT/SENIOR PROFESSIONALS IN THE FIRM</span><span class="accordion-icon"></span>
+            </a>
         </div>
         <div class="m-portlet__body m-portlet__body--spaced m-portlet__body--table collapse" id="form_6" data-parent="#accordion">
             <div class="">
@@ -491,8 +502,8 @@
         @foreach($work_in_hand as $work_in_ha)
         <div class="m-portlet m-portlet--compact form-accordion">
             <div class="d-flex justify-content-between align-items-center form-steps-toplinks">
-                <a class="btn--unstyled section-title section-title--small form-count-title" data-toggle="collapse" href="#work_in_hand_{{$j+1}}">Project
-                    {{$j+1}}:</a>
+                <a class="btn--unstyled section-title section-title--small form-count-title d-flex justify-content-between collapsed" data-toggle="collapse" href="#work_in_hand_{{$j+1}}">
+                    <span class="form-accordion-title">Project {{$j+1}}:</span><span class="accordion-icon"></span></a>
             </div>
 
             <div class="m-portlet__body m-portlet__body--spaced collapse form-count" id="work_in_hand_{{$j+1}}" data-parent="#accordion">
@@ -593,8 +604,8 @@
     @foreach($work_completed as $work_in_ha)
     <div class="m-portlet m-portlet--compact form-accordion">
         <div class="d-flex justify-content-between align-items-center form-steps-toplinks">
-            <a class="btn--unstyled section-title section-title--small form-count-title" data-toggle="collapse" href="#work_completed_{{$j+1}}">Project
-                {{$j+1}}:</a>
+            <a class="btn--unstyled section-title section-title--small form-count-title d-flex justify-content-between collapsed" data-toggle="collapse" href="#work_completed_{{$j+1}}">
+                <span class="form-accordion-title">Project {{$j+1}}:</span><span class="accordion-icon"></span></a>
         </div>
     <div class="m-portlet__body m-portlet__body--spaced collapse form-count" id="work_completed_{{$j+1}}" data-parent="#accordion">
             <div class="form-group m-form__group row">
@@ -690,7 +701,9 @@
 
 <div class="m-portlet m-portlet--compact form-accordion">
     <div class="d-flex justify-content-between align-items-center form-steps-toplinks">
-        <a class="btn--unstyled section-title section-title--small form-count-title" data-toggle="collapse" href="#form_9">Supporting Documents:</a>
+        <a class="btn--unstyled section-title section-title--small form-count-title d-flex justify-content-between collapsed" data-toggle="collapse" href="#form_9">
+            <span class="form-accordion-title">Supporting Documents</span><span class="accordion-icon"></span>
+        </a>
     </div>
     @csrf
     <input type="hidden" name="application_id" value="{{$application->id}}">
