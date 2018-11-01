@@ -1,11 +1,14 @@
-@extends('admin.layouts.app')
+@extends('admin.layouts.sidebarAction')
+@section('actions')
+@include('admin.architect.actions',compact('ArchitectApplication'))
+@endsection
 @section('content')
 <div class="col-md-12">
     <div id="show-offer-letter" style="display: block;">
         <div class="m-portlet m-portlet--mobile m_panel">
             <div class="m-portlet__body" style="padding-right: 0;">
                 @if(Session::has('success'))
-                <div class="note note-success">
+                <div class="alert alert-success">
                     <div class="caption">
                         <i class="fa fa-gift"></i> {{Session::get('success')}}
                     </div>
@@ -15,7 +18,7 @@
                 </div>
                 @endif
                 @if(Session::has('error'))
-                <div class="note note-error">
+                <div class="alert alert-error">
                     <div class="caption">
                         <i class="fa fa-gift"></i> {{Session::get('error')}}
                     </div>
@@ -49,7 +52,7 @@
                                     <div class="mt-3">
 
                                         @if($ArchitectApplication->drafted_certificate!="")
-                                        <a href="{{config('commanConfig.storage_server').'/'.$ArchitectApplication->certificate_path}}"
+                                        <a target="_blank" href="{{config('commanConfig.storage_server').'/'.$ArchitectApplication->certificate_path}}"
                                             class="btn btn-primary">Download offer Letter</a>
                                         @else
                                         <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">

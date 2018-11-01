@@ -1,4 +1,7 @@
-@extends('admin.layouts.app')
+@extends('admin.layouts.sidebarAction')
+@section('actions')
+@include('admin.architect.actions',compact('ArchitectApplication'))
+@endsection
 @section('content')
 <div class="page-bar">
   <ul class="page-breadcrumb">

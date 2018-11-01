@@ -128,7 +128,7 @@ class EmploymentOfArchitectController extends Controller
     public function index(Request $request, Datatables $datatables)
     {
 
-        if (count($this->model->all())<=0) {
+        if (count($this->model->whereAll(['user_id'=>auth()->user()->id]))<=0) {
             $app = $this->model->getModel();
             $app->user_id = auth()->user()->id;
             $app->application_number = $this->genRand();
@@ -147,7 +147,7 @@ class EmploymentOfArchitectController extends Controller
 
         if ($datatables->getRequest()->ajax()) {
 
-            $architect_applications = $this->model->all();
+            $architect_applications = $this->model->whereAll(['user_id'=>auth()->user()->id]);
             return $datatables->of($architect_applications)
                 ->editColumn('rownum', function ($listArray) {
                     static $i = 0; $i++;return $i;

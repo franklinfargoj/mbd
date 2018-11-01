@@ -1,4 +1,7 @@
-@extends('admin.layouts.app')
+@extends('admin.layouts.sidebarAction')
+@section('actions')
+@include('admin.architect.actions',compact('ArchitectApplication'))
+@endsection
 @section('content')
 <div class="col-md-12">
     <!-- BEGIN: Subheader -->
@@ -28,11 +31,11 @@
             <div class="table-responsive">
                 @php
                 $disable="";
-                echo $disable=$is_view==true?'':'disabled';
+                 $disable=$is_view==true?'':'disabled';
                 @endphp
                 <form method="post" action="{{route('save_evaluate_marks')}}">
                     @csrf
-                    <input type="hidden" name="application_id" value="{{$architect_application_id}}">
+                    <input type="hidden" name="application_id" value="{{$ArchitectApplication->id}}">
                     <table class="table mb-0 table--box-input">
                         <thead class="thead-default">
                             <tr>
@@ -84,7 +87,7 @@
                                 <div class="col-sm-12">
                                     <div class="btn-list">
                                         <button type="submit" id="" style="display:{{$is_view==false?'none':''}}" class="btn btn-primary">Save</button>
-                                        <a href="javascript:void(0);" class="btn btn-secondary">Cancel</a>
+                                        {{-- <a href="javascript:void(0);" class="btn btn-secondary">Cancel</a> --}}
                                     </div>
                                 </div>
                             </div>
