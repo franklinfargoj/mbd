@@ -589,7 +589,7 @@ class EMController extends Controller
             $data['consumer_number'] = substr(sprintf('%08d', $data['building']->society_id),0,8).'|'.substr(sprintf('%08d', $data['building']->id),0,8);
 
             return view('admin.em_department.generate_building_bill',$data);
-            
+
         }
     }
 
@@ -608,7 +608,6 @@ class EMController extends Controller
             $data['consumer_number'] = substr(sprintf('%08d', $data['building']->id),0,8).'|'.substr(sprintf('%08d', $data['tenant']->id),0,8);
 
             return view('admin.em_department.generate_tenant_bill',$data);
-
         }
     }
 }

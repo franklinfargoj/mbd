@@ -16,17 +16,17 @@
                 </div>
                 <div class="form-group m-form__group row">
                     <div class="col-sm-6 form-group">
-                        <span>Consumer Number:{{$consumer_number}}</span>
+                        <span>Consumer Number: BL-{{$consumer_number}}</span>
                     </div>
                 </div>
                 <div class="form-group m-form__group row">
                     <div class="col-sm-6 form-group">
-                        <span>Society Name:@if(!empty($society)){{$society->society_name}}@endif</span>
+                        <span>Society Name: @if(!empty($society)){{$society->society_name}}@endif</span>
                     </div>
                 </div>
                 <div class="form-group m-form__group row">
                     <div class="col-sm-6 form-group">
-                        <span>Bill Number:</span>
+                        <span>Bill Number: </span>
                     </div>
                 </div>
                 <div class="form-group m-form__group row">

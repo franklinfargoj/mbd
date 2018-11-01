@@ -17,8 +17,14 @@
                 <td>{{$value->name}}</td>
                 <td><?php echo isset($value->tenant_count[0]->count) ? $value->tenant_count[0]->count : '0'; ?></td>
                 <td>
-                    <a class="btn btn-info mb-10" href="{{route('get_tenants', [$value->id])}}"> Generate Bill</a>
-                   
+                    <!-- <a class="btn btn-info mb-10" href="{{route('get_tenants', [$value->id])}}"> Generate Bill</a> -->
+
+                    {!! Form::open(['method' => 'get', 'route' => 'generateBuildingBill']) !!}
+                    {{ Form::hidden('building_id', $value->id) }}
+                    {{ Form::hidden('society_id', $value->society_id) }}
+                    {!! Form::submit(trans('Generate Bill'), array('class' => 'btn btn-info mb-10')) !!}
+                    {!! Form::close() !!}
+
                     {!! Form::open(['method' => 'get', 'route' => 'billing_calculations']) !!}
                     {{ Form::hidden('building_id', $value->id) }}
                     {{ Form::hidden('society_id', $value->society_id) }}
@@ -31,7 +37,7 @@
                     {!! Form::submit(trans('View Arrear Calculation'), array('class' => 'btn btn-info mb-10')) !!}
                     {!! Form::close() !!}
 
-                    <a class="btn btn-info mb-10" href="{{route('edit_building', [$value->id])}}">Regenerate Bill</a>
+                    <a class="btn btn-info mb-10" href="#">Regenerate Bill</a>
                 </td>
             </tr>
         @endforeach

@@ -1,5 +1,19 @@
 @extends('admin.layouts.app')
 @section('content')
+    @php 
+        $total_service = $serviceChargesRate->water_charges + $serviceChargesRate->electric_city_charge + $serviceChargesRate->pump_man_and_repair_charges + $serviceChargesRate->external_expender_charge + $serviceChargesRate->administrative_charge + $serviceChargesRate->lease_rent + $serviceChargesRate->na_assessment + $serviceChargesRate->other; 
+
+        $total_after_due = $total_service * 0.02; 
+
+        $total_service_after_due = $total_service + $total_after_due;     
+        $total ='0';           
+    @endphp
+    @if(!$arreasCalculation->isEmpty())  
+      @foreach($arreasCalculation as $calculation)
+            @php $total = $total + $calculation->total_amount; @endphp
+      @endforeach
+    @endif  
+
 <div class="container-fluid">
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
@@ -11,17 +25,17 @@
             <div class="m-portlet__body m-portlet__body--spaced">
                 <div class="form-group m-form__group row">
                     <div class="col-sm-6 form-group">
-                        <span>Bill For:{{date("M", strtotime("2001-" . $month . "-01"))}}, {{$year}}</span>
+                        <span>Bill For: {{date("M", strtotime("2001-" . $month . "-01"))}}, {{$year}}</span>
                     </div>
                 </div>
                 <div class="form-group m-form__group row">
                     <div class="col-sm-6 form-group">
-                        <span>Consumer Number:{{$consumer_number}}</span>
+                        <span>Consumer Number: TN-{{$consumer_number}}</span>
                     </div>
                 </div>
                 <div class="form-group m-form__group row">
                     <div class="col-sm-6 form-group">
-                        <span>Society Name:@if(!empty($society)){{$society->society_name}}@endif</span>
+                        <span>Society Name: @if(!empty($society)){{$society->society_name}}@endif</span>
                     </div>
                 </div>
                 <div class="form-group m-form__group row">
@@ -31,10 +45,10 @@
                 </div>
                 <div class="form-group m-form__group row">
                     <table class="display table table-responsive table-bordered" style="width:100%">
-                        <tr><td>Buidling Name : {{$building->name}} </td><td>Bill Period : </td></tr>
-                        <tr><td>Address : @if(!empty($society)){{$society->society_address}}@endif </td><td>Bill Date : </td></tr>
-                        <tr><td>Total Tenament : {{ $number_of_tenants->tenant_count()->first()->count}} </td><td>Due Date : </td></tr>
-                        <tr><td>Amount : </td><td>Late fee charge : </td></tr>
+                        <tr><td>Tenant Name : {{$tenant->first_name.' '.$tenant->last_name}} </td><td>Bill Period : </td></tr>
+                        <tr><td>Buidling Name : {{$building->name}} </td><td>Bill Date : {{date('d-M-Y')}} </td></tr>
+                        <tr><td>Address : @if(!empty($society)){{$society->society_address}}@endif</td><td>Due Date : {{date('d-M-Y', strtotime(date('Y-m-d'). ' + 5 days'))}}</td></tr>
+                        <tr><td>Amount : {{$total + $total_service}}</td> <td>Late fee charge : {{ $total_after_due}} </td></tr>
                     </table>
                 </div>
                 <div class="form-group m-form__group row">
@@ -79,20 +93,20 @@
                         </tr>
                         <tr>
                             <td><p class="pull-right">Total</p></td>
-                            <td></td>
+                            <td>{{$total_service}}</td>
                         </tr>
                         <tr>
-                            <td><p class="pull-right">After Due date x% interest</p></td>
-                            <td> </td>
+                            <td><p class="pull-right">After Due date 2% interest</p></td>
+                            <td>{{$total_after_due}}</td>
                         </tr>
                         <tr>
                             <td><p class="pull-right">After Due date Amount payable</p></td>
-                            <td> </td>
+                            <td>{{ $total_service_after_due }} </td>
                         </tr>
                     </table>
                 </div>
-                @if(!$arreasCalculation->isEmpty())
-                @php $total ='0'; @endphp
+               
+                @if(!$arreasCalculation->isEmpty())               
                 <div class="form-group m-form__group row">
                     <div class="col-sm-12 form-group">
                         <p class="text-center">Balance amount to be paid - Arrears</p>
@@ -107,7 +121,6 @@
                             <th class="text-center">Penalty in Rs</th>
                         </tr>
                         @foreach($arreasCalculation as $calculation)
-                            @php $total = $total + $calculation->total_amount; @endphp
                             <tr>
                                 <td class="text-center">{{$calculation->year}}</td>
                                 <td class="text-center">{{date("M", strtotime("2001-" . $calculation->month . "-01"))}}</td>
@@ -134,14 +147,15 @@
                         </tr>
                         <tr>
                             <td>Balance Amount</td>
-                            <td class="text-center"></td>
+                            <td class="text-center">{{ $total }}</td>
                         </tr>
                         <tr>
                             <td>Current month Bill amount before due date</td>
-                            <td class="text-center"></td>
+                            <td class="text-center">{{$total_service}} </td>
                         </tr>
                         <tr>
-                            <td><p class="pull-right">Total</p></td><td></td>
+                            <td><p class="pull-right">Total</p></td>
+                            <td>{{$total + $total_service}}</td>
                         </tr>
                     </table>
                 </div>
