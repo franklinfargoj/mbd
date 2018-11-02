@@ -26,11 +26,11 @@
                     </div>
                     <div class="col-md-2">
                         <input type="text" class="form-control form-control--custom m-input m_datepicker" placeholder="From Date"
-                            name="from" value="{{ (!empty($getData) ? (isset($getData['from'])?$getData['from']:'') : '') }}">
+                            name="from" autocomplete="off" value="{{ (!empty($getData) ? (isset($getData['from'])?$getData['from']:'') : '') }}">
                     </div>
                     <div class="col-md-2">
-                        <input type="text" class="form-control form-control--custom m-input m_datepicker" placeholder="To Date"
-                            name="to" value="{{ (!empty($getData) ? (isset($getData['ro'])?$getData['to']:'') : '') }}">
+                        <input type="text" autocomplete="off" class="form-control form-control--custom m-input m_datepicker" placeholder="To Date"
+                            name="to" value="{{ (!empty($getData) ? (isset($getData['to'])?$getData['to']:'') : '') }}">
                     </div>
                     <div class="col-md-3">
                         <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="exampleSelect1"

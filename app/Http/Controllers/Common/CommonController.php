@@ -161,7 +161,7 @@ class CommonController extends Controller
         }
 
         if ($request->from) {
-            $architect_applications->whereDate(DB::raw('DATE(updated_at)'), '>=', date('Y-m-d', strtotime($request->from)));
+            $architect_applications->whereDate(DB::raw('DATE(created_at)'), '>=', date('Y-m-d', strtotime($request->from)));
         }
 
         if ($request->status) {
@@ -170,14 +170,15 @@ class CommonController extends Controller
                     ->select('status_id')
                     ->where('user_id', auth()->user()->id)
                     ->where('role_id', session()->get('role_id'))
-                    ->where('architect_application_id', '=', DB::raw('architect_application.id'))
+                    ->where('architect_application_id', '=', DB::raw('eoa_applications.id'))
                     ->limit(1)
                     ->orderBy('id', 'desc');
+                    //dd($q->get());
             });
         }
 
         if ($request->to) {
-            $architect_applications->whereDate(DB::raw('DATE(updated_at)'), '<=', date('Y-m-d', strtotime($request->to)));
+            $architect_applications->whereDate(DB::raw('DATE(created_at)'), '<=', date('Y-m-d', strtotime($request->to)));
         }
         $architect_application = $architect_applications->get();
 
