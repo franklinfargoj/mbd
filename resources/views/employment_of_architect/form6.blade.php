@@ -113,6 +113,8 @@
     $('#add-more').click(function (e) {
         e.preventDefault();
         var clone = $('table.imp_projects tr.cloneme:first').clone().find('input').val('').end();
+        clone.find('.bootstrap-select').replaceWith(function() { return $('select', this); });
+        clone.find('select').selectpicker();
         clone.find("td:last").append("<h2 class='m--font-danger remove-row'><i title='Delete' class='fa fa-remove'></i></h2>");
         $('table.imp_projects').append(clone);
     });
