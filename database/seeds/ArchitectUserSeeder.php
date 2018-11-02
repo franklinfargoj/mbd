@@ -166,11 +166,33 @@ class ArchitectUserSeeder extends Seeder
                     'name'=>'architect_layout_prepare_layout_excel',
                     'display_name'=>'architect_layout_prepare_layout_excel',
                     'description'=>'architect_layout_prepare_layout_excel'
+
                 ],
                 [
                     'name'=>'appointing_architect.send_to_candidate',
                     'display_name'=>'appointing_architect.send_to_candidate',
                     'description'=>'appointing_architect.send_to_candidate'
+
+                ],                
+                [
+                    'name'=>'conveyance.index',
+                    'display_name'=>'conveyance Application',
+                    'description'=>'conveyance Application'
+                ],               
+                [
+                    'name'=>'conveyance.view_application',
+                    'display_name'=>'conveyance Application',
+                    'description'=>'conveyance Application'
+                ],                
+                [
+                    'name'=>'conveyance.architect_scrutiny_remark',
+                    'display_name'=>'architect scrutiny remark',
+                    'description'=>'architect scrutiny remark'
+                ],                
+                [
+                    'name'=>'conveyance.save_architect_scrutiny_remark',
+                    'display_name'=>'save architect scrutiny remark',
+                    'description'=>'save architect scrutiny remark'
                 ]
                 
             ];
@@ -522,6 +544,27 @@ class ArchitectUserSeeder extends Seeder
                 'name'=>'uploadLayoutandExcelAjax',
                 'display_name'=>'uploadLayoutandExcelAjax',
                 'description'=>'uploadLayoutandExcelAjax'
+            ];            
+
+            $architect_permissions[]=[
+                'name'=>'conveyance.index',
+                'display_name'=>'conveyance Application',
+                'description'=>'conveyance Application'
+            ];            
+            $architect_permissions[]=[
+                'name'=>'conveyance.view_application',
+                'display_name'=>'conveyance Application',
+                'description'=>'conveyance Application'
+            ];            
+            $architect_permissions[]=[
+                'name'=>'conveyance.architect_scrutiny_remark',
+                'display_name'=>'architect scrutiny remark',
+                'description'=>'architect scrutiny remark'
+            ];            
+            $architect_permissions[]=[
+                'name'=>'conveyance.save_architect_scrutiny_remark',
+                'display_name'=>'save architect scrutiny remark',
+                'description'=>'save architect scrutiny remark'
             ];
             
             //$architect_permission_role = [];

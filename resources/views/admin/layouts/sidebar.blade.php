@@ -551,13 +551,14 @@ $route=\Request::route()->getName();
                         </span>
                     </a>
                 </li>--}}
-
+                
                 @if(session()->get('permission') && (in_array('vp.index', session()->get('permission')) ||
                 in_array('ee.index',
                 session()->get('permission')) || in_array('dyce.index', session()->get('permission')) ||
                 in_array('ree_applications.index', session()->get('permission')) || in_array('co.index',
                 session()->get('permission')) || in_array('cap.index', session()->get('permission')) ||
-                in_array('society_offer_letter.index', session()->get('permission'))))
+                in_array('society_offer_letter.index', session()->get('permission')) ||
+                in_array('architect_layout.index', session()->get('permission')) ))
 
                 @if (isset($route) && ($route == 'co.index' || $route=='society_detail.index' ||
                 $route=='village_detail.index' || $route=='ee.index' || $route=='dyce.index' ||
@@ -627,7 +628,7 @@ $route=\Request::route()->getName();
                         $route=='village_detail.index' || $route=='ee.index' || $route=='dyce.index' ||
                         $route=='ree_applications.index' || $route=='ree_applications.reval' || $route=='cap.index' || $route=='vp.index' ||
                         $route=='society_offer_letter.index' || $route=='society_offer_letter_dashboard' ||
-                        $route=='documents_uploaded' || $route=='documents_upload'))
+                        $route=='documents_uploaded' || $route=='documents_upload' || $route = 'architect_layout.index'))
 
                         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2">
                             <a href="{{ route('conveyance.index') }}" class="m-menu__link m-menu__toggle">

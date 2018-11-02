@@ -23,7 +23,7 @@
             </div>
         </div>
     </div>
-<form class="nav-tabs-form" id ="agreementFRM" role="form" method="POST" action="{{ route('dyco.save_agreement')}}" enctype="multipart/form-data">
+<form class="nav-tabs-form" id ="agreementFRM" role="form" method="POST" action="{{ route('dyco.send_to_society')}}" enctype="multipart/form-data">
 @csrf
 
 <input type="hidden" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">
@@ -39,10 +39,12 @@
                         <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                         Download  </Button>
                     </div>
-                    <div class="col-md-6" style="display: inline;">
-                        <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
-                        send to society </Button>
-                    </div>    
+                    @if($data->is_view && $data->status->status_id == config('commanConfig.applicationStatus.in_process'))
+                        <div class="col-md-6" style="display: inline;">
+                            <Button type="submit" class="s_btn btn btn-primary" id="submitBtn">
+                            send to society </Button>
+                        </div> 
+                    @endif   
                 </div>
             <!-- </div> -->
         </div>

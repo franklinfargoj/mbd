@@ -25,9 +25,11 @@ class EEController extends Controller
         $is_view = session()->get('role_name') == config('commanConfig.ee_junior_engineer');
         
         if ($is_view && $data->status->status_id == config('commanConfig.applicationStatus.in_process')){
+
             $route = 'admin.conveyance.ee_department.sale_price_calculation';
         }else{
-            $route = 'admin.conveyance.common.view_ee_sale_price_calculation';   
+            $route = 'admin.conveyance.common.view_ee_sale_price_calculation'; 
+            $data->folder = 'ee_department'; 
         }
 		return view($route, compact('data'));
 	}
@@ -107,8 +109,11 @@ class EEController extends Controller
 
 	public function forwardApplication(Request $request,$applicationId){
 
-		$data = $this->conveyance->getForwardApplicationData($applicationId);
-		return view('admin.conveyance.ee_department.forward_application', compact('data'));
+		$data     = $this->conveyance->getForwardApplicationData($applicationId);
+        $dycoLogs = $this->conveyance->getLogsOfDYCODepartment($applicationId);
+        $eelogs   = $this->conveyance->getLogsOfEEDepartment($applicationId);
+        
+		return view('admin.conveyance.ee_department.forward_application', compact('data','dycoLogs','eelogs'));
 	}
 
     public function sendForwardApplication(Request $request){

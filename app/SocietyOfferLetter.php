@@ -69,6 +69,10 @@ class SocietyOfferLetter extends Authenticatable
     public function documentComments(){
 
         return $this->hasOne(OlSocietyDocumentsComment::class, 'society_id', 'id');   
-    }    
+    } 
 
+    public function roleUser()
+    {
+        return $this->hasOne('App\User', 'id', 'user_id');
+    } 
 }

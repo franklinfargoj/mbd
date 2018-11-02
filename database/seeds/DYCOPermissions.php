@@ -106,6 +106,16 @@ class DYCOPermissions extends Seeder
                 'name' => 'conveyance.save_agreement_comments',
                 'display_name' => 'save agreement comments',
                 'description' => 'save agreement comments',
+            ],            
+            [
+                'name' => 'dyco.send_to_society',
+                'display_name' => 'send to society',
+                'description' => 'send to society',
+            ],            
+            [
+                'name' => 'dyco.save_approved_agreement',
+                'display_name' => 'save approved agreement',
+                'description' => 'save approved agreement',
             ],
         ];
 
