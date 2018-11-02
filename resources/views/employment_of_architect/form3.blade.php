@@ -19,7 +19,7 @@
     </div>
     <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
         <h3 class="section-title section-title--small">ARCHITECT/CONSULTANT</h3>
-        <form id="" role="form" method="post" class="m-form m-form--rows m-form--label-align-right" action="{{route('appointing_architect.step3_post',['id'=>encrypt($application->id)])}}"
+        <form id="appointing_architect_step3" role="form" method="post" class="m-form m-form--rows m-form--label-align-right" action="{{route('appointing_architect.step3_post',['id'=>encrypt($application->id)])}}"
             enctype="multipart/form-data">
             @csrf
             <input type="hidden" name="application_id" value="{{$application->id}}">
@@ -119,7 +119,7 @@
                             </h3>
                             <div class="m-radio-inline">
                                 <label class="m-radio m-radio--primary">
-                                    <input type="radio" name="is_cad_facility" value="1"
+                                    <input type="radio" id="is_cad_facility_yes" name="is_cad_facility" value="1"
                                         {{$application->is_cad_facility==1?'checked':''}}> Yes
                                     <span></span>
                                 </label>
