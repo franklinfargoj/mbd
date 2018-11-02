@@ -62,7 +62,7 @@ class ArchitectApplicationController extends Controller
             ['data' => 'application_number', 'name' => 'application_number', 'title' => 'Application Number'],
             ['data' => 'application_date', 'name' => 'application_date', 'title' => 'Application Date'],
             ['data' => 'candidate_name', 'name' => 'candidate_name', 'title' => 'Candidate Name'],
-            ['data' => 'candidate_email', 'name' => 'candidate_email', 'title' => 'Candidate Email'],
+            ['data' => 'grand_total', 'name' => 'grand_total', 'title' => 'Grand Total'],
             ['data' => 'status', 'name' => 'status', 'title' => 'Status'],
             ['data' => 'view', 'name' => 'view', 'title' => 'Action']
         ];
@@ -91,8 +91,13 @@ class ArchitectApplicationController extends Controller
                 ->editColumn('candidate_name', function ($architect_applications) {
                     return $architect_applications->name_of_applicant;
                 })
-                ->editColumn('candidate_email', function ($architect_applications) {
-                    return  $architect_applications->mobile;
+                ->editColumn('grand_total', function ($architect_applications) {
+                    $total_marks=0;
+                    foreach($architect_applications->marks as $mark)
+                    {
+                        $total_marks=$total_marks+$mark->marks;
+                    }
+                    return  ($architect_applications->application_marks+$total_marks)==0?'-':($architect_applications->application_marks+$total_marks);
                 })
                 ->editColumn('status', function ($architect_applications) {
 
@@ -109,7 +114,7 @@ class ArchitectApplicationController extends Controller
                      return view('admin.architect.view_layout', compact('architect_applications','is_commitee','is_view'))->render();
                 })
                 
-                ->rawColumns(['application_number', 'application_date', 'candidate_name', 'candidate_email','view'])
+                ->rawColumns(['application_number', 'application_date', 'candidate_name', 'grand_total','view'])
                 ->make(true);
         }
 
