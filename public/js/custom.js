@@ -554,6 +554,27 @@ $(document).ready(function () {
         }
     });
 
+    $("#appointing_architect_step1").validate({
+        rules:{
+            category_of_panel:"required",
+            name_of_applicant:"required",
+            address:"required",
+            city:"required",
+            pin:"required",
+            off:"required",
+            res:"required",
+            mobile:"required",
+            fax:"required",
+            cash:"required",
+            pay_order_no:"required",
+            bank:"required",
+            branch:"required",
+            date_of_payment:"required",
+            receipt_no:"required",
+            receipt_date:"required"
+        }
+    });
+
     // $('#sign_up_form_society_offer_letters').validate({
     //     rules:{
     //         society_name:{

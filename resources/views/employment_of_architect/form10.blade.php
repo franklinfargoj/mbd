@@ -32,7 +32,7 @@
             <div class="d-flex justify-content-between align-items-center form-steps-toplinks">
                 <a class="btn--unstyled section-title section-title--small form-count-title d-flex justify-content-between collapsed" data-toggle="collapse"
                     href="#form_2">
-                    <span class="form-accordion-title">EMPANELMENT OF ARCHITECT/CONSULTANT WITH MHADB</span><span class="accordion-icon"></span>
+                    <span class="form-accordion-title">EMPANELMENT OF ARCHITECT/CONSULTANT WITH MHADA</span><span class="accordion-icon"></span>
                 </a>
             </div>
             <div class="m-portlet__body m-portlet__body--spaced collapse" id="form_2" data-parent="#accordion">
