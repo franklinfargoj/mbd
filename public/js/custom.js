@@ -575,6 +575,80 @@ $(document).ready(function () {
         }
     });
 
+    $("#appointing_architect_step2").validate({
+        rules:{
+            category_of_panel:"required",
+            name_of_applicant:"required",
+            address:"required",
+            city:"required",
+            pin:"required",
+            off:"required",
+            res:"required",
+            mobile:"required",
+            fax:"required",
+            cash:"required",
+            pay_order_no:"required",
+            bank:"required",
+            branch:"required",
+            date_of_payment:"required",
+            receipt_no:"required",
+            receipt_date:"required",
+            application_info_and_its_enclosures_verify:"required"
+        }
+    })
+
+    $("#appointing_architect_step3").validate({
+        rules:{
+            category_of_panel:"required",
+            name_of_applicant:"required",
+            address:"required",
+            city:"required",
+            pin:"required",
+            off:"required",
+            res:"required",
+            mobile:"required",
+            fax:"required",
+            cash:"required",
+            pay_order_no:"required",
+            bank:"required",
+            branch:"required",
+            date_of_payment:"required",
+            receipt_no:"required",
+            receipt_date:"required",
+            details_of_establishment:"required",
+            branch_office_details:"required",
+            staff_architects:"required",
+            staff_engineers:"required",
+            staff_supporting_tech:"required",
+            staff_supporting_nontech:"required",
+            staff_others:"required",
+            staff_total:"required",
+            is_cad_facility:"required",
+            cad_facility_no_of_computers:{
+                required: function(element) {
+                    return $('#is_cad_facility_yes').is(':checked')
+                  }
+            },
+            cad_facility_no_of_printers:{
+                required: function(element) {
+                    return $('#is_cad_facility_yes').is(':checked')
+                  }
+            },
+            cad_facility_no_of_plotters:{
+                required: function(element) {
+                    return $('#is_cad_facility_yes').is(':checked')
+                  }
+            },
+            reg_with_council_of_architecture_principle:"required",
+            reg_with_council_of_architecture_associate:"required",
+            reg_with_council_of_architecture_partner:"required",
+            reg_with_council_of_architecture_total_registered_persons:"required",
+            award_prizes_etc:"required",
+            other_information:"required"
+
+        }
+    });
+
     // $('#sign_up_form_society_offer_letters').validate({
     //     rules:{
     //         society_name:{

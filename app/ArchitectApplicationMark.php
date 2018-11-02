@@ -12,6 +12,6 @@ class ArchitectApplicationMark extends Model
 
     public function architectApplication()
     {
-        return $this->belongsTo(ArchitectApplication::class);
+        return $this->belongsTo(\App\EmploymentOfArchitect\EoaApplication::class,'architect_application_id','id');
     }
 }
