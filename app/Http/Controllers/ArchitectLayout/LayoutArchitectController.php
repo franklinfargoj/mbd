@@ -221,33 +221,33 @@ class LayoutArchitectController extends Controller
         $arrData['parentData'] = $parentData['parentData'];
         $arrData['role_name'] = $parentData['role_name'];
         if (session()->get('role_name') == config('commanConfig.architect')) {
-            if (!$ArchitectLayout->land_scrutiny_checklist_and_remarks) {
+            //if (!$ArchitectLayout->land_scrutiny_checklist_and_remarks) {
                 if (session()->get('role_name') != config('commanConfig.LM')) {
                     $lm_role_id = Role::where('name', '=', config('commanConfig.land_manager'))->first();
                     $arrData['get_forward_lm'] = User::where('role_id', $lm_role_id->id)->get();
                     $arrData['lm_role_name'] = strtoupper(str_replace('_', ' ', $lm_role_id->name));
                 }
-            }
+           // }
 
             if (session()->get('role_name') != config('commanConfig.ree_junior')) {
                 $ree_role_id = Role::where('name', '=', config('commanConfig.ree_junior'))->first();
                 $arrData['get_forward_ree'] = User::where('role_id', $ree_role_id->id)->get();
                 $arrData['ree_role_name'] = strtoupper(str_replace('_', ' ', $ree_role_id->name));
             }
-            if (!$ArchitectLayout->ee_scrutiny_checklist_and_remarks) {
+           // if (!$ArchitectLayout->ee_scrutiny_checklist_and_remarks) {
                 if (session()->get('role_name') != config('commanConfig.ee_junior_engineer')) {
                     $ee_role_id = Role::where('name', '=', config('commanConfig.ee_junior_engineer'))->first();
                     $arrData['get_forward_ee'] = User::where('role_id', $ee_role_id->id)->get();
                     $arrData['ee_role_name'] = strtoupper(str_replace('_', ' ', $ee_role_id->name));
                 }
-            }
-            if (!$ArchitectLayout->em_scrutiny_checklist_and_remarks) {
+          //  }
+            //if (!$ArchitectLayout->em_scrutiny_checklist_and_remarks) {
                 if (session()->get('role_name') != config('commanConfig.estate_manager')) {
                     $em_role_id = Role::where('name', '=', config('commanConfig.estate_manager'))->first();
                     $arrData['get_forward_em'] = User::where('role_id', $em_role_id->id)->get();
                     $arrData['em_role_name'] = strtoupper(str_replace('_', ' ', $em_role_id->name));
                 }
-            }
+          //  }
 
             $architectlogs = $this->architect_layouts->getLogOfArchitectLayoutApplication($layout_id);
         }
