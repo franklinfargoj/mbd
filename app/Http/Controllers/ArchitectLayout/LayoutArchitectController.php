@@ -46,7 +46,7 @@ class LayoutArchitectController extends Controller
             ['data' => 'address', 'name' => 'address', 'title' => 'Society Name'],
             ['data' => 'Status', 'name' => 'Status', 'title' => 'Status'],
         ];
-         //$this->architect_layouts->architect_layout_request_revision($request);
+         $this->architect_layouts->architect_layout_request_revision($request);
         if ($datatables->getRequest()->ajax()) {
 
             $architect_layout_data = $this->architect_layouts->architect_layout_request_revision($request);
