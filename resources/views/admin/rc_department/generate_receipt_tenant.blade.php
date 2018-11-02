@@ -14,6 +14,11 @@
     <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
         <form method="post" action="{{route('payment_receipt_tenant')}}">
             {{ csrf_field() }}
+
+            <input type="text" name="tenant_id" value="{{$bill->tenant_id}}" hidden>
+            <input type="text" name="building_id" value="{{$bill->building_id}}" hidden>
+            <input type="text" name="society_id" value="{{$bill->society_id}}" hidden>
+
             <div class="m-portlet__body m-portlet__body--spaced">
                 <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
@@ -53,7 +58,7 @@
 
                 <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
-                        <label class="col-form-label" for="">Amount Paid By:</label>
+                        <label class="col-form-label" for="">Amount Paid Byfrom_date:</label>
                         <input type="text" name="amount_paid_by" class="form-control form-control--custom m-input" value="">
                         <span class="help-block"></span>
                     </div>
@@ -134,12 +139,12 @@
                 <div class="form-group m-form__group row">
                     <label class="col-form-label col-sm-12" for="">Payment Made for months:</label>
                     <div class="col-sm-4 form-group">
-                        <input type="text" id="payment-made-from-month" name="payment-made-from-month" class="form-control form-control--custom m-input"
+                        <input type="text" id="payment-made-from-month" name="from_date" class="form-control form-control--custom m-input"
                             value="{{$bill->bill_from}}" readonly>
                         <span class="help-block"></span>
                     </div>
                     <div class="col-sm-4 offset-sm-1 form-group">
-                        <input type="text" id="payment-made-to-month" name="payment-made-to-month" class="form-control form-control--custom m-input"
+                        <input type="text" id="payment-made-to-month" name="to_date" class="form-control form-control--custom m-input"
                             value="{{$bill->bill_to}}" readonly>
                         <span class="help-block"></span>
                     </div>

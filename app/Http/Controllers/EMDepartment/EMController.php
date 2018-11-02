@@ -38,6 +38,7 @@ use App\MasterTenant;
 use App\SocietyDetail;
 use App\ServiceChargesRate;
 use App\ArrearCalculation;
+use App\TransBillGenerate;
 
 
 class EMController extends Controller
@@ -581,9 +582,20 @@ class EMController extends Controller
             $data['building'] = MasterBuilding::find($request->building_id);
             $data['society'] = SocietyDetail::find($data['building']->society_id);
             $data['serviceChargesRate'] = ServiceChargesRate::selectRaw('Sum(water_charges) as water_charges,sum(electric_city_charge) as electric_city_charge,sum(pump_man_and_repair_charges) as  pump_man_and_repair_charges,sum(external_expender_charge) as external_expender_charge,sum(administrative_charge) as administrative_charge, sum(lease_rent) as lease_rent,sum(na_assessment) as na_assessment, sum(other) as other')->where('building_id',$request->building_id)->where('year',date('Y') . '-' . (date('y') + 1))->first();
-            $data['arreasCalculation'] = ArrearCalculation::where('building_id',$request->building_id)->where('year',date('Y') . '-' . (date('y') + 1))->where('payment_status','0')->get();
+
+          // dd($data['serviceChargesRate']); 
+        if(!$data['serviceChargesRate']){
+            return redirect()->back()->with('warning', 'Service charge Rates Not added into system.');
+        }
+
+         $data['arreasCalculation'] = ArrearCalculation::where('building_id',$request->building_id)->where('year',date('Y') . '-' . (date('y') + 1))->where('payment_status','0')->get();
             
-            $data['number_of_tenants'] = MasterBuilding::with('tenant_count')->where('id',$request->building_id)->first();
+         $data['number_of_tenants'] = MasterBuilding::with('tenant_count')->where('id',$request->building_id)->first();
+         //dd($data['number_of_tenants']->tenant_count()->first());
+            if(!$data['number_of_tenants']->tenant_count()->first()) {
+                return redirect()->back()->with('warning', 'Number of Tenants Is zero.');
+            }
+
             $data['month'] = date('m');
             $data['year'] = date('Y') . '-' . (date('y') + 1);
             $data['consumer_number'] = substr(sprintf('%08d', $data['building']->society_id),0,8).'|'.substr(sprintf('%08d', $data['building']->id),0,8);
@@ -601,6 +613,12 @@ class EMController extends Controller
             $data['tenant'] = MasterTenant::where('building_id',$data['building']->id)->where('id',$request->tenant_id)->first();
 
             $data['serviceChargesRate'] = ServiceChargesRate::selectRaw('Sum(water_charges) as water_charges,sum(electric_city_charge) as electric_city_charge,sum(pump_man_and_repair_charges) as  pump_man_and_repair_charges,sum(external_expender_charge) as external_expender_charge,sum(administrative_charge) as administrative_charge, sum(lease_rent) as lease_rent,sum(na_assessment) as na_assessment, sum(other) as other')->where('building_id',$request->building_id)->where('year',date('Y') . '-' . (date('y') + 1))->first();
+
+            if(!$data['serviceChargesRate']){
+                dd($data);
+                return redirect()->back()->with('warning', 'Service charge Rates Not added into system.');
+            }
+
             $data['arreasCalculation'] = ArrearCalculation::where('building_id',$request->building_id)->where('year',date('Y') . '-' . (date('y') + 1))->where('payment_status','0')->get();
 
             $data['month'] = date('m');
@@ -610,4 +628,70 @@ class EMController extends Controller
             return view('admin.em_department.generate_tenant_bill',$data);
         }
     }
+
+    public function create_tenant_bill(Request $request){
+
+        $check = TransBillGenerate::where('tenant_id', '=', $request->tenant_id)
+                                    ->where('bill_month', '=', $request->bill_month)
+                                    ->where('bill_year', '=', $request->bill_year)
+                                    ->first();
+
+        if(is_null($check) || $check == ''){
+            $bill = new TransBillGenerate;
+            $bill->tenant_id = $request->tenant_id;
+            $bill->building_id = $request->building_id;
+            $bill->society_id = $request->society_id;
+            $bill->bill_from = $request->bill_from;
+            $bill->bill_to = $request->bill_to;
+            $bill->bill_month = $request->bill_month;
+            $bill->bill_year = $request->bill_year;
+            $bill->monthly_bill = $request->monthly_bill;
+            $bill->arrear_bill = $request->arrear_bill;
+            $bill->total_bill = $request->total_bill;
+            $bill->bill_date = $request->bill_date;
+            $bill->due_date = $request->due_date;
+            $bill->consumer_number = $request->consumer_number;
+            $bill->total_service_after_due = $request->total_service_after_due;
+            $bill->late_fee_charge = $request->late_fee_charge;
+            $bill->status = 'Generated';
+            $bill->save();
+            return redirect()->back()->with('success', 'Bill Generated Successfully.');
+        } else {
+            $message = ' Bill Already Generated on '.$check->bill_date; 
+            return redirect()->back()->with('warning', $message);
+        }
+    }
+
+        public function create_society_bill(Request $request){
+        $check = TransBillGenerate::where('tenant_id', '=', $request->tenant_id)
+                                    ->where('bill_month', '=', $request->bill_month)
+                                    ->where('bill_year', '=', $request->bill_year)
+                                    ->first();
+
+        if(is_null($check) || $check == ''){
+            $bill = new TransBillGenerate;
+            $bill->tenant_id = $request->tenant_id;
+            $bill->building_id = $request->building_id;
+            $bill->society_id = $request->society_id;
+            $bill->bill_from = $request->bill_from;
+            $bill->bill_to = $request->bill_to;
+            $bill->bill_month = $request->bill_month;
+            $bill->bill_year = $request->bill_year;
+            $bill->monthly_bill = $request->monthly_bill;
+            $bill->arrear_bill = $request->arrear_bill;
+            $bill->total_bill = $request->total_bill;
+            $bill->bill_date = $request->bill_date;
+            $bill->due_date = $request->due_date;
+            $bill->consumer_number = $request->consumer_number;
+            $bill->total_service_after_due = $request->total_service_after_due;
+            $bill->late_fee_charge = $request->late_fee_charge;
+            $bill->status = 'Generated';
+            $bill->save();
+            return redirect()->back()->with('success', 'Bill Generated Successfully.');
+        } else {
+            $message = ' Bill Already Generated on '.$check->bill_date; 
+            return redirect()->back()->with('warning', $message);
+        }
+    }
+
 }

@@ -41,6 +41,7 @@ use App\ArrearTenantPayment;
 use App\ArrearCalculation;
 use PDF;
 use App\TransBillGenerate;
+use App\TransPayment;
 
 class RCController extends Controller
 {
@@ -216,12 +217,7 @@ class RCController extends Controller
     }
 
     public function generate_receipt_tenant(Request $request){
-        /* $tenament = DB::table('master_tenant_type')->get();
-         $building_id = $request->input('id');
-         $buildings = MasterTenant::where('building_id', '=', $request->input('id'))
-                 ->get();
-        // return $buildings;*/
-
+       
         $bill = TransBillGenerate::where('tenant_id', '=', $request->tenant_id)
                                    ->where('building_id', '=', $request->building_id)
                                    ->where('bill_month', '=',  date('n'))
@@ -230,7 +226,6 @@ class RCController extends Controller
                                    ->with('building_detail')
                                    ->with('society_detail')
                                    ->first();
-        //return $bill;
 
          if(empty($bill) || is_null($bill)){
            return redirect()->back()->with('warning', 'Receipt Generation is not done for user.');
@@ -261,9 +256,71 @@ class RCController extends Controller
     public function payment_receipt_tenant(Request $request){
         
         //dd($request->all());
-        
-        $pdf = PDF::loadView('admin.rc_department.payment_receipt_tenant');
-        return $pdf->download('payment_receipt_tenant'.date('YmdHis').'.pdf');
+        if($request->bill_no){
+            
+            $receipt = TransPayment::where('bill_no', '=', $request->bill_no)->first();
+
+            if(!$receipt){
+
+                if($request->payment_mode == 'dd' && $request->dd_no != ''){
+                    $dd = DdDetails::where('bill_no', '=', $request->bill_no)
+                          ->where('dd_no', '=', $request->dd_no)->first();
+                          if(!$dd){
+                            $dd = new DdDetails;
+                            $dd->bill_no = $request->bill_no;
+                            $dd->dd_no = $request->dd_no;
+                            $dd->bank_name = $request->bank_name;
+                            $dd->dd_amount = $request->dd_amount;
+                            $dd->status = 'Submitted';
+                            $dd->save();                            
+                          }
+                        $dd = $dd->id;
+                } else {
+                    $dd = '';
+                }
+
+                if($request->payment_mode == 'cash'){
+                         $amount_paid = $request->cash_amount;
+                } else if($request->payment_mode == 'dd'){
+                         $amount_paid = $request->dd_amount;
+                } else {
+                    $amount_paid = 0;
+                }
+
+                $bill = new TransPayment;
+                $bill->bill_no = $request->bill_no;
+                $bill->tenant_id = $request->tenant_id;
+                $bill->building_id = $request->building_id;
+                $bill->society_id = $request->society_id;
+                $bill->paid_by = $request->amount_paid_by;
+                $bill->dd_id = $dd;
+                $bill->mode_of_payment = $request->payment_mode;
+                $bill->bill_amount = $request->bill_amount;
+                $bill->amount_paid = $amount_paid;
+                $bill->from_date = $request->from_date;
+                $bill->to_date = $request->to_date;
+                $bill->balance_amount = $request->balance_amount;
+                $bill->credit_amount = $request->credit_amount;
+
+                $bill->save();
+
+                $data['building'] = MasterBuilding::find($request->building_id);
+                $data['society'] = SocietyDetail::find($data['building']->society_id);
+                $data['tenant'] = MasterTenant::where('building_id',$data['building']->id)->where('id',$request->tenant_id)->first();
+                $data['bill'] = $bill;
+                $data['consumer_number'] = substr(sprintf('%08d', $data['building']->id),0,8).'|'.substr(sprintf('%08d', $data['tenant']->id),0,8);
+
+                $pdf = PDF::loadView('admin.rc_department.payment_receipt_tenant', $data);
+                       return $pdf->download('payment_receipt_tenant'.date('YmdHis').'.pdf');
+
+            } else {
+                return redirect()->back()->with('warning', 'Bill Already Paid.');
+            }
+          
+        } else {
+           return redirect()->back()->with('warning', 'Invalid Bill Data.');
+        }
+
     }
 
 }

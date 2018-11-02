@@ -1,5 +1,38 @@
 @extends('admin.layouts.app')
+
 @section('content')
+
+    @php 
+        $total_service = $serviceChargesRate->water_charges + $serviceChargesRate->electric_city_charge + $serviceChargesRate->pump_man_and_repair_charges + $serviceChargesRate->external_expender_charge + $serviceChargesRate->administrative_charge + $serviceChargesRate->lease_rent + $serviceChargesRate->na_assessment + $serviceChargesRate->other; 
+
+        $total_service = $total_service * $number_of_tenants->tenant_count()->first()->count;
+
+        $total_after_due = $total_service * 0.02; 
+
+        $total_service_after_due = $total_service + $total_after_due;   
+
+        $total ='0';           
+    @endphp
+    @if(!$arreasCalculation->isEmpty())  
+      @foreach($arreasCalculation as $calculation)
+            @php $total = $total + $calculation->total_amount; @endphp
+      @endforeach
+    @endif  
+
+
+@if(session()->has('success'))
+<div class="alert alert-success display_msg">
+    {{ session()->get('success') }}
+</div>
+@endif
+
+@if(session()->has('warning'))
+    <div class="alert alert-danger display_msg">
+        {{ session()->get('warning') }}
+    </div>  
+@endif
+
+
 <div class="container-fluid">
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
@@ -7,7 +40,18 @@
         </div>
     </div>
     <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
-        <form action="">
+        <form method="post" action="{{route('create_society_bill')}}">
+            {{ csrf_field() }}
+            <input type="text" name="building_id" value="{{$building->id}}" hidden>
+            <input type="text" name="society_id" value="{{$society->id}}" hidden>
+            <input type="text" name="bill_to" value="{{date('1-m-Y')}}" hidden>
+            <input type="text" name="bill_from" value="{{date('1-m-Y', strtotime('+1 month'))}}" hidden>
+            <input type="text" name="bill_month" value="{{date('n')}}" hidden>
+            <input type="text" name="bill_year" value="{{date('Y')}}" hidden>
+            <input type="text" name="monthly_bill" value="{{$total_service}}" hidden>
+            <input type="text" name="arrear_bill" value="{{$total}}" hidden>
+            <input type="text" name="total_service_after_due" value="{{$total_service_after_due}}" hidden>
+
             <div class="m-portlet__body m-portlet__body--spaced">
                 <div class="form-group m-form__group row">
                     <div class="col-sm-6 form-group">
@@ -33,7 +77,7 @@
                     <table class="display table table-responsive table-bordered" style="width:100%">
                         <tr><td>Buidling Name : {{$building->name}} </td><td>Bill Period : </td></tr>
                         <tr><td>Address : @if(!empty($society)){{$society->society_address}}@endif </td><td>Bill Date : </td></tr>
-                        <tr><td>Total Tenament : {{ $number_of_tenants->tenant_count()->first()->count}} </td><td>Due Date : </td></tr>
+                        <tr><td>Total Tenament : {{ $number_of_tenants->tenant_count()->first()->count }} </td><td>Due Date : </td></tr>
                         <tr><td>Amount : </td><td>Late fee charge : </td></tr>
                     </table>
                 </div>
@@ -79,15 +123,15 @@
                         </tr>
                         <tr>
                             <td><p class="pull-right">Total</p></td>
-                            <td></td>
+                            <td>{{$total_service}}</td>
                         </tr>
                         <tr>
-                            <td><p class="pull-right">After Due date x% interest</p></td>
-                            <td> </td>
+                            <td><p class="pull-right">After Due date 2% interest</p></td>
+                            <td> {{$total_after_due}} </td>
                         </tr>
                         <tr>
                             <td><p class="pull-right">After Due date Amount payable</p></td>
-                            <td> </td>
+                            <td> {{$total_service_after_due}} </td>
                         </tr>
                     </table>
                 </div>
@@ -134,14 +178,14 @@
                         </tr>
                         <tr>
                             <td>Balance Amount</td>
-                            <td class="text-center"></td>
+                            <td class="text-center">{{$total}}</td>
                         </tr>
                         <tr>
                             <td>Current month Bill amount before due date</td>
-                            <td class="text-center"></td>
+                            <td class="text-center">{{$total_service}}</td>
                         </tr>
                         <tr>
-                            <td><p class="pull-right">Total</p></td><td></td>
+                            <td><p class="pull-right">Total</p></td><td>{{$total + $total_service}}</td>
                         </tr>
                     </table>
                 </div>
