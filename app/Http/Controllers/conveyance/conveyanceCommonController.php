@@ -15,6 +15,7 @@ use App\Role;
 use Carbon\Carbon;
 use Config;
 use App\User;
+use Storage;
 use Auth;
 
 class conveyanceCommonController extends Controller
@@ -225,7 +226,7 @@ class conveyanceCommonController extends Controller
             ->where('user_id', Auth::user()->id)
             ->where('role_id', session()->get('role_id'))
             ->orderBy('id', 'desc')->first();
-
+   
         return $current_status;
     }
 
@@ -245,6 +246,9 @@ class conveyanceCommonController extends Controller
         }        
         if (session()->get('role_name') == config('commanConfig.dycdo_engineer') || session()->get('role_name') == config('commanConfig.dyco_engineer')){
             $folder = 'dyco_department';
+        }         
+        if (session()->get('role_name') == config('commanConfig.junior_architect') || session()->get('role_name') == config('commanConfig.senior_architect') || session()->get('role_name') == config('commanConfig.architect')){
+            $folder = 'architect_department';
         }        
         if (session()->get('role_name') == config('commanConfig.estate_manager')){
             $folder = 'em_department';
@@ -261,10 +265,24 @@ class conveyanceCommonController extends Controller
         $status = array(config('commanConfig.applicationStatus.forwarded'), config('commanConfig.applicationStatus.reverted'));
 
         $dycoRoles = Role::whereIn('name', $roles)->pluck('id');
-        $dycologs = scApplicationLog::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->whereIn('role_id', $dycoRoles)->whereIn('status_id', $status)->get();
+        $dycologs  = scApplicationLog::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->whereIn('role_id', $dycoRoles)->whereIn('status_id', $status)->get();
 
         return $dycologs;
     } 
+
+    // get logs of EE dept
+    public function getLogsOfEEDepartment($applicationId)
+    {
+
+        $roles = array(config('commanConfig.ee_junior_engineer'), config('commanConfig.ee_deputy_engineer'), config('commanConfig.ee_branch_head'));
+
+        $status = array(config('commanConfig.applicationStatus.forwarded'), config('commanConfig.applicationStatus.reverted'));
+
+        $eeRoles = Role::whereIn('name', $roles)->pluck('id');
+        $eelogs  = scApplicationLog::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->whereIn('role_id', $eeRoles)->whereIn('status_id', $status)->get();
+
+        return $eelogs;
+    }     
 
     // get agreement as per agreement type id
     public function getScAgreement($typeId,$applicationId){
@@ -319,5 +337,38 @@ class conveyanceCommonController extends Controller
         $remark        = $request->remark;
         $result        = $this->ScAgreementComment($applicationId,$remark);
         return back()->with('success','data save Successfully.');
-    }   
+    } 
+
+    // conveyance Architect scrutiny remark
+    public function ArchitectScrutinyRemark(Request $request, $applicationId){
+        
+        $data = scApplication::with('societyApplication')->where('id',$applicationId)->first();
+        // dd();
+        return view('admin.conveyance.architect_department.scrutiny_remark',compact('data'));
+    }  
+
+    // save conveyance Architect scrutiny remark
+    public function SaveArchitectScrutinyRemark(Request $request){
+        
+        $applicationId = $request->applicationId;
+        $file = $request->file('conveyance_map');
+
+        if ($file) {
+            
+            $extension  = $file->getClientOriginalExtension(); 
+            $folder_name = 'Architect_conveyance_map';
+            $file_name  = time().'_map_'.$applicationId.'.'.$extension; 
+            $file_path  = $folder_name.'/'.$file_name; 
+            
+            if ($extension == "pdf"){    
+                Storage::disk('ftp')->delete($request->oldFileName);            
+                $sale_upload = $this->CommonController->ftpFileUpload($folder_name,$file,$file_name);
+                $conveyanceMap = scApplication::where('id',$applicationId)->update(['architect_conveyance_map' => $file_path]);
+                   
+                return back()->with('success','Conveyance map uploaded successfully.');                 
+            }  else{
+                return back()->with('error','Invalid type of file uploaded (only pdf allowed).'); 
+            }          
+        }         
+    }
 }
