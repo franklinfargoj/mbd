@@ -490,6 +490,10 @@ Route::delete('destroy_architect_layout_detail_court_case_or_dispute_on_land/{id
     Route::get('sc_upload_docs', 'SocietyConveyanceController@sc_upload_docs')->name('sc_upload_docs');
     Route::post('upload_sc_docs', 'SocietyConveyanceController@upload_sc_docs')->name('upload_sc_docs');
     Route::get('delete_sc_upload_docs/{id}', 'SocietyConveyanceController@delete_sc_upload_docs')->name('delete_sc_upload_docs');
+    Route::post('society_bank_details', 'SocietyConveyanceController@society_bank_details')->name('society_bank_details');
+    Route::get('sc_form_download', 'SocietyConveyanceController@generate_pdf')->name('sc_form_download');
+    Route::get('sc_form_upload_show', 'SocietyConveyanceController@sc_form_upload_show')->name('sc_form_upload_show');
+    Route::post('sc_form_upload', 'SocietyConveyanceController@sc_form_upload')->name('sc_form_upload');
     Route::resource('/society_conveyance','SocietyConveyanceController');
 
     //Society Conveyance END

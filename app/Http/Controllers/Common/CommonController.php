@@ -265,12 +265,12 @@ class CommonController extends Controller
         $ArchitectLayoutRevisionRequestsQuery = ArchitectLayout::with(['ArchitectLayoutStatusLogInListing' => function ($q) {
             $q->where('user_id', Auth::user()->id)
                 ->where('role_id', session()->get('role_id'))
-                ->limit(1)
+                //->limit(1)
                 ->orderBy('id', 'desc');
         }])->whereHas('ArchitectLayoutStatusLogInListing', function ($q) {
             $q->where('user_id', Auth::user()->id)
                 ->where('role_id', session()->get('role_id'))
-                ->limit(1)
+                //->limit(1)
                 ->orderBy('id', 'desc');
         });
         //dd($ArchitectLayoutRevisionRequestsQuery->get());
@@ -293,19 +293,19 @@ class CommonController extends Controller
             $ArchitectLayoutRevisionRequestsQuery->where('layout_no', $request->title);
         }
 
-        /** query replaced for optimization
-        *$ArchitectLayoutRevisionRequests = $ArchitectLayoutRevisionRequestsQuery->where(DB::raw(config('commanConfig.architect_layout_status.new_application')), '!=', function ($q) {
-        *    $q->from('architect_layout_status_logs')->select('status_id')->where('architect_layout_id', '=', DB::raw('architect_layouts.id'))->limit(1)->orderBy('id', 'desc');
-        *})->where(DB::raw(config('commanConfig.architect_layout_status.approved')), '!=', function ($q) {
-        *    $q->from('architect_layout_status_logs')->select('status_id')->where('architect_layout_id', '=', DB::raw('architect_layouts.id'))->limit(1)->orderBy('id', 'desc');
-        *})->get();
-        **/
+        // query replaced for optimization
         $ArchitectLayoutRevisionRequests = $ArchitectLayoutRevisionRequestsQuery->where(DB::raw(config('commanConfig.architect_layout_status.new_application')), '!=', function ($q) {
-            $q->from('architect_layout_status_logs')->select('status_id')->where('architect_layout_id', '=', DB::raw('architect_layouts.id'))->where('open',1);
+            $q->from('architect_layout_status_logs')->select('status_id')->where('architect_layout_id', '=', DB::raw('architect_layouts.id'))->limit(1)->orderBy('id', 'desc');
         })->where(DB::raw(config('commanConfig.architect_layout_status.approved')), '!=', function ($q) {
-            $q->from('architect_layout_status_logs')->select('status_id')->where('architect_layout_id', '=', DB::raw('architect_layouts.id'))->where('open',1);
+            $q->from('architect_layout_status_logs')->select('status_id')->where('architect_layout_id', '=', DB::raw('architect_layouts.id'))->limit(1)->orderBy('id', 'desc');
         })->get();
-
+        
+        // $ArchitectLayoutRevisionRequests = $ArchitectLayoutRevisionRequestsQuery->where(DB::raw(config('commanConfig.architect_layout_status.new_application')), '!=', function ($q) {
+        //     $q->from('architect_layout_status_logs')->select('status_id')->where('architect_layout_id', '=', DB::raw('architect_layouts.id'))->where('open',1);
+        // })->where(DB::raw(config('commanConfig.architect_layout_status.approved')), '!=', function ($q) {
+        //     $q->from('architect_layout_status_logs')->select('status_id')->where('architect_layout_id', '=', DB::raw('architect_layouts.id'))->where('open',1);
+        // })->get();
+        //dd($ArchitectLayoutRevisionRequests);
         return $ArchitectLayoutRevisionRequests;
     }
 

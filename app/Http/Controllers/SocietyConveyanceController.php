@@ -20,6 +20,7 @@ use App\conveyance\SocietyConveyanceDocumentMaster;
 use App\conveyance\SocietyConveyanceDocumentStatus;
 use App\conveyance\SocietyBankDetails;
 use Storage;
+use Mpdf\Mpdf;
 
 use Illuminate\Http\Request;
 
@@ -484,7 +485,6 @@ class SocietyConveyanceController extends Controller
                             }
                         }
                     });
-
                     if ($count != 0) {
                         if ($count == count($sc_excel_headers)) {
 
@@ -493,14 +493,18 @@ class SocietyConveyanceController extends Controller
                             );
                             $updated_sc_application = SocietyConveyance::where('id', $sc_application->id)->update($update_scApplication);
                         }else{
-                            return redirect()->route('upload_sc_docs')->withErrors('error_'.$document_id, "Excel file headers doesn't match")->withInput();
+                            return redirect()->route('sc_upload_docs')->with('error_'.$document_id, "Excel file headers doesn't match");
                         }
                     }else{
-                        return redirect()->route('upload_sc_docs')->withErrors('error_'.$document_id, "Excel file is empty.")->withInput();
+                        return redirect()->route('sc_upload_docs')->with('error_'.$document_id, "Excel file is empty.");
                     }
                 }
             }else{
-                $is_doc = 1;
+                if($extension == 'pdf'){
+                    $is_doc = 1;
+                }else{
+                    return redirect()->route('sc_upload_docs')->with('error_'.$document_id, "Only files with .pdf extension required.");
+                }
             }
 
             if($is_doc_first == 1 || $is_doc == 1){
@@ -514,7 +518,7 @@ class SocietyConveyanceController extends Controller
             }
 
         }else{
-            return redirect()->route('upload_sc_docs')->withErrors('error_'.$document_id, "File upload is required.")->withInput();
+            return redirect()->route('sc_upload_docs')->with('error_'.$document_id, "File upload is required.");
         }
 
         return redirect()->route('sc_upload_docs');
@@ -553,30 +557,72 @@ class SocietyConveyanceController extends Controller
     /**
      * Saves society bank details.
      *
-     * @param  id
+     * @param  request
      * @return \Illuminate\Http\Response
      */
     public function society_bank_details(Request $request)
     {
-        dd($request);
+        $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
+        $society_bank_detail['society_id'] = $society->id;
+        $society_bank_details = $request->all();
+        unset($society_bank_details['_token']);
+        $sc_bank_details = new SocietyBankDetails;
+        if(count($sc_bank_details->getFillable()) == count(array_merge($society_bank_detail, $society_bank_details))){
+            SocietyBankDetails::create(array_merge($society_bank_detail, $society_bank_details));
+        }
+//        dd('done');
+        return redirect()->route('sc_form_upload_show');
+    }
 
+
+    /**
+     * Shows society conveyance upload form.
+     *
+     * @param  void
+     * @return \Illuminate\Http\Response
+     */
+    public function sc_form_upload_show()
+    {
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $sc_application = scApplication::where('society_id', $society->id)->with(['scApplicationType', 'scApplicationLog' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         } ])->orderBy('id', 'desc')->first();
 
-        $documents = SocietyConveyanceDocumentMaster::with(['sc_document_status' => function($q) use($sc_application) { $q->where('application_id', $sc_application->id)->get(); }])->where('application_type_id', $sc_application->sc_application_master_id)->get();
-        $documents_uploaded = SocietyConveyanceDocumentStatus::where('application_id', $sc_application->id)->where('conveyance_document_id', $id)->first();
+        return view('frontend.society.conveyance.sc_form_upload_show', compact('sc_application'));
+    }
 
-        $path = $documents_uploaded->document_path;
-        $deleted = Storage::disk('ftp')->delete($path);
-        SocietyConveyanceDocumentStatus::where('application_id', $sc_application->id)->where('conveyance_document_id', $id)->delete();
-        $update_template_file = array(
-            'template_file' => ''
-        );
-        SocietyConveyance::where('society_id', $society->id)->where('id', $sc_application->form_request_id)->update($update_template_file);
+    /**
+     * Uploads stamped society conveyance application form.
+     *
+     * @param  request
+     * @return \Illuminate\Http\Response
+     */
+    public function sc_form_upload(Request $request)
+    {
+        $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
+        $sc_application = scApplication::where('society_id', $society->id)->with(['scApplicationType', 'scApplicationLog' => function($q){
+            $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
+        } ])->orderBy('id', 'desc')->first();
 
-        return redirect()->route('sc_upload_docs');
+        return view('frontend.society.conveyance.sc_form_upload_show', compact('sc_application'));
+    }
+
+    /**
+     * Shows society conveyance application form in pdf format.
+     *
+     * @param  void
+     * @return \Illuminate\Http\Response
+     */
+    public function generate_pdf(){
+        $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
+        $sc_application = scApplication::with(['sc_form_request', 'societyApplication', 'applicationLayout'])->where('society_id', $society->id)->first();
+        // dd($id);
+        $mpdf = new Mpdf();
+        $mpdf->autoScriptToLang = true;
+        $mpdf->autoLangToFont = true;
+        $contents = view('frontend.society.conveyance.sc_application_form_preview', compact('society_details', 'sc_application'));
+        $mpdf->WriteHTML($contents);
+        $mpdf->Output();
     }
 
 }

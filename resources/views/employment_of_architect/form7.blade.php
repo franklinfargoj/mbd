@@ -6,16 +6,16 @@
 
 <div class="col-md-12">
     <div class="d-flex form-steps-wrap">
-        <button class="btn--unstyled flex-grow-1 form-step-tab active">Step 1</button>
-        <button class="btn--unstyled flex-grow-1 form-step-tab active">Step 2</button>
-        <button class="btn--unstyled flex-grow-1 form-step-tab active">Step 3</button>
-        <button class="btn--unstyled flex-grow-1 form-step-tab active">Step 4</button>
-        <button class="btn--unstyled flex-grow-1 form-step-tab active">Step 5</button>
-        <button class="btn--unstyled flex-grow-1 form-step-tab active">Step 6</button>
-        <button class="btn--unstyled flex-grow-1 form-step-tab active">Step 7</button>
-        <button class="btn--unstyled flex-grow-1 form-step-tab">Step 8</button>
-        <button class="btn--unstyled flex-grow-1 form-step-tab ">Step 9</button>
-        <button class="btn--unstyled flex-grow-1 form-step-tab ">Step 10</button>
+        <button onclick="window.location='{{ route("appointing_architect.step1",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab active">Step 1</button>
+        <button onclick="window.location='{{ route("appointing_architect.step2",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab active">Step 2</button>
+        <button onclick="window.location='{{ route("appointing_architect.step3",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab active">Step 3</button>
+        <button onclick="window.location='{{ route("appointing_architect.step4",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab active">Step 4</button>
+        <button onclick="window.location='{{ route("appointing_architect.step5",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab active">Step 5</button>
+        <button onclick="window.location='{{ route("appointing_architect.step6",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab active">Step 6</button>
+        <button onclick="window.location='{{ route("appointing_architect.step7",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab active">Step 7</button>
+        <button onclick="window.location='{{ route("appointing_architect.step8",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab">Step 8</button>
+        <button onclick="window.location='{{ route("appointing_architect.step9",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab ">Step 9</button>
+        <button onclick="window.location='{{ route("appointing_architect.step10",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab ">Step 10</button>
     </div>
     <div id="accordion" class="mt-4">
         @php
@@ -42,11 +42,10 @@
         @for($j=0;$j<(1+$k);$j++)
         <div class="m-portlet m-portlet--compact form-accordion">
             <div class="d-flex justify-content-between align-items-center form-steps-toplinks">
-                <a class="btn--unstyled section-title section-title--small form-count-title" data-toggle="collapse"
-                    href="#form_{{$j+1}}">PROJECT
-                    {{$j+1}}:</a>
+                <a class="btn--unstyled section-title section-title--small form-count-title d-flex justify-content-between collapsed" data-toggle="collapse"
+                    href="#form_{{$j+1}}"><span class="form-accordion-title">PROJECT {{$j+1}}:</span><span class="accordion-icon"></span></a>
                 @if($j>=1)
-                <h2 class='m--font-danger mb-0'><i title='Delete' class='fa fa-remove'></i></h2>
+                <h2 class='m--font-danger ml-3 mb-0'><i title='Delete' class='fa fa-remove'></i></h2>
                 @endif
             </div>
             <form role="form" method="post" class="m-form m-form--rows m-form--label-align-right form-steps-box" action="{{route('appointing_architect.step7_post',['id'=>encrypt($application->id)])}}"
@@ -266,8 +265,9 @@
                     }
                 });
 
+
             formAccordion.find(".form-steps-toplinks").append(
-                "<h2 class='m--font-danger'><i title='Delete' class='fa fa-remove'></i></h2>");
+                "<h2 class='m--font-danger ml-3 mb-0'><i title='Delete' class='fa fa-remove'></i></h2>");
 
             var formAccordionCount = $("#accordion").find('.form-accordion').length + 1;
             var newID = 'form_' + formAccordionCount;
@@ -275,8 +275,11 @@
             formAccordion.find("input[name='form_number']")[0].value = formAccordionCount
 
             var formAccordionNumber = formAccordion.find('.form-count-title')[0];
+            formAccordionNumber.classList.remove("collapsed");
             formAccordionNumber.setAttribute("href", "#" + newID);
-            formAccordionNumber.textContent = "PROJECT " + formAccordionCount + ":";
+
+            var formAccordionTitle = formAccordion.find('.form-accordion-title')[0];
+            formAccordionTitle.textContent = "PROJECT " + formAccordionCount + ":";
 
             var file_input = formAccordion.find('.custom-file-input')[0];
             file_input.setAttribute('id', 'extract_' + formAccordionCount)

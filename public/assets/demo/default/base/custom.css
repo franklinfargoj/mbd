@@ -2700,6 +2700,19 @@ label.site-visit-label {
     background-color: #fc4b1a;
 }
 
+.btn--icon-wrap {
+    font-size: 10px;
+    color: rgba(87, 89, 98);
+}
+
+.btn--icon-wrap .btn-icon {
+    margin-bottom: 2px;
+}
+
+.btn-icon-list a + .btn-submit-icon {
+    margin-left: 10px;
+}
+
 .dataTables_wrapper table.dataTable .btn-icon-list a {
     font-size: 10px;
     color: #252525;
@@ -2827,6 +2840,10 @@ label.site-visit-label {
     color: #7b7e8a !important;
 }
 
+.form-steps-toplinks .m--font-danger {
+    cursor: pointer;
+}
+
 .m-tabs-line.m-tabs-line--primary.nav.nav-tabs.nav-tabs--steps .nav-link.active::after {
     content: "";
     display: block;
@@ -2903,12 +2920,25 @@ label.site-visit-label {
     display: none;
 }
 
+.accordion-icon {
+    width: 30px;
+    height: 30px;
+    background-image: url('../../../../img/minus-icon.svg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.form-count-title.collapsed .accordion-icon {
+    background-image: url('../../../../img/plus-icon.svg');
+}
+
 .remove-accordion {
     font-size: 1.3rem;
 }
 
 .form-count-title {
     margin-bottom: 0;
+    width: 100%;
 }
 
 .input-row-list + .input-row-list {

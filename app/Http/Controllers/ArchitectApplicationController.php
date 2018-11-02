@@ -19,6 +19,7 @@ use Config;
 use File;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
+use Storage;
 
 class ArchitectApplicationController extends Controller
 {
@@ -56,7 +57,7 @@ class ArchitectApplicationController extends Controller
         $getData = $request->all();
         $columns = [
             //['data' => 'radio', 'name' => 'radio', 'title' => '', 'searchable' => false],
-            ['data' => 'select', 'name' => 'select', 'title' => '', 'searchable' => false],
+            // ['data' => 'select', 'name' => 'select', 'title' => '', 'searchable' => false],
             ['data' => 'rownum', 'name' => 'rownum', 'title' => 'Sr No.', 'searchable' => false],
             ['data' => 'application_number', 'name' => 'application_number', 'title' => 'Application Number'],
             ['data' => 'application_date', 'name' => 'application_date', 'title' => 'Application Date'],
@@ -75,9 +76,9 @@ class ArchitectApplicationController extends Controller
                 //     $url = route('view_architect_application', encrypt($listArray->id));
                 //     return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="' . $url . '" name="village_data_id"><span></span></label>';
                 // })
-                ->editColumn('select', function ($architect_applications) {
-                    return view('admin.architect.checkbox', compact('architect_applications'))->render();
-                })
+                // ->editColumn('select', function ($architect_applications) {
+                //     return view('admin.architect.checkbox', compact('architect_applications'))->render();
+                // })
                 ->editColumn('rownum', function ($listArray) {
                     static $i = 0; $i++; return $i;
                 })
@@ -104,11 +105,11 @@ class ArchitectApplicationController extends Controller
                     }
                     return $value . ($architect_applications->application_status == 'None' ? '' : ' & ' . $architect_applications->application_status);
                 })
-                ->editColumn('view', function ($architect_applications) {
-                     return view('admin.architect.view_layout', compact('architect_applications'))->render();
+                ->editColumn('view', function ($architect_applications) use($is_commitee,$is_view){
+                     return view('admin.architect.view_layout', compact('architect_applications','is_commitee','is_view'))->render();
                 })
                 
-                ->rawColumns([ 'select', 'application_number', 'application_date', 'candidate_name', 'candidate_email','view'])
+                ->rawColumns(['application_number', 'application_date', 'candidate_name', 'candidate_email','view'])
                 ->make(true);
         }
 
@@ -123,7 +124,7 @@ class ArchitectApplicationController extends Controller
             'serverSide' => true,
             'processing' => true,
            'ordering' => 'isSorted',
-            "order" => [2, "asc"],
+            "order" => [1, "asc"],
             "pageLength" => $this->list_num_of_records_per_page,
             // 'fixedHeader' => [
             //     'header' => true,
@@ -144,37 +145,38 @@ class ArchitectApplicationController extends Controller
 
     public function finalise_architect_application(Request $request)
     {
-        if (is_array($request->application_id)) {
+        //if (is_array($request->application_id)) {
             if ($request->final == 'final') {
-                EoaApplication::whereIn('id', $request->application_id)->update(['application_status' => config('commanConfig.architect_application_status.final')]);
+                EoaApplication::where('id', $request->application_id)->update(['application_status' => config('commanConfig.architect_application_status.final')]);
                 return back()->withSuccess('added to final list');
             }
 
             if ($request->remove_final == 'remove_final') {
-                EoaApplication::whereIn('id', $request->application_id)->update(['application_status' => config('commanConfig.architect_application_status.shortListed')]);
+                EoaApplication::where('id', $request->application_id)->update(['application_status' => config('commanConfig.architect_application_status.shortListed')]);
                 return back()->withSuccess('removed from final list');
             }
-        } else {
-            return back()->withError('select atlease one application');
-        }
+        // } else {
+        //     return back()->withError('select atlease one application');
+        // }
     }
 
     public function shortlist_architect_application(Request $request)
     {
-        if (is_array($request->application_id)) {
+        //dd($request->all());
+        //if (is_array($request->application_id)) {
             if ($request->shortlist == 'shortlist') {
-                EoaApplication::whereIn('id', $request->application_id)->update(['application_status' => config('commanConfig.architect_application_status.shortListed')]);
+                EoaApplication::where('id', $request->application_id)->update(['application_status' => config('commanConfig.architect_application_status.shortListed')]);
                 return back()->withSuccess('shortlisted');
             }
 
             if ($request->remove_shortlist == 'remove_shortlist') {
-                EoaApplication::whereIn('id', $request->application_id)->update(['application_status' => config('commanConfig.architect_application_status.none')]);
+                EoaApplication::where('id', $request->application_id)->update(['application_status' => config('commanConfig.architect_application_status.none')]);
                 return back()->withSuccess('removed from shortlisted');
             }
 
-        } else {
-            return back()->withError('select atlease one application');
-        }
+      //  } else {
+      //      return back()->withError('select atlease one application');
+      //  }
     }
 
     // public function finalIndex()
@@ -219,7 +221,7 @@ class ArchitectApplicationController extends Controller
 
     public function saveEvaluateMarks(EvaluationMarkRequest $request)
     {
-        //dd($request->application_id);
+        //dd($request->all());
         $marks = $request->get('marks');
         $ids = $request->get('id');
         $remark = $request->get('remark');
@@ -227,20 +229,28 @@ class ArchitectApplicationController extends Controller
         foreach ($ids as $key => $id) {
             ArchitectApplicationMark::where('id', $id)->update(['marks' => $marks[$key], 'remark' => $remark[$key]]);
         }
-        $forward_application = [
-            [
-                'architect_application_id' => $request->application_id,
-                'user_id' => auth()->user()->id,
-                'role_id' => session()->get('role_id'),
-                'status_id' => config('commanConfig.architect_applicationStatus.scrutiny_pending'),
-                'to_user_id' => null,
-                'to_role_id' => null,
-                'remark' => null,
-                'changed_at' => Carbon::now(),
-            ],
-        ];
 
-        ArchitectApplicationStatusLog::insert($forward_application);
+        $EoaApplication=EoaApplication::find($request->application_id);
+        if($EoaApplication)
+        {
+            $EoaApplication->application_marks=$request->application_marks;
+            $EoaApplication->application_remark=$request->application_remark;
+            $EoaApplication->save();
+        }
+        // $forward_application = [
+        //     [
+        //         'architect_application_id' => $request->application_id,
+        //         'user_id' => auth()->user()->id,
+        //         'role_id' => session()->get('role_id'),
+        //         'status_id' => config('commanConfig.architect_applicationStatus.scrutiny_pending'),
+        //         'to_user_id' => null,
+        //         'to_role_id' => null,
+        //         'remark' => null,
+        //         'changed_at' => Carbon::now(),
+        //     ],
+        // ];
+
+        // ArchitectApplicationStatusLog::insert($forward_application);
         return redirect()->back()->with('success', "Marks updated succesfully!!!");
     }
 
@@ -265,12 +275,20 @@ class ArchitectApplicationController extends Controller
         //dd($ArchitectApplication->statusLog);
         if ($ArchitectApplication) {
             if ($ArchitectApplication->drafted_certificate == null) {
-                if ((!is_dir($destination))) {
-                    File::makeDirectory($destination, $mode = 0777, true, true);
-                }
+                
                 $content = view('admin.architect.certificate', compact('ArchitectApplication'));
-                File::put($destination . "/" . $ArchitectApplication->id . $ArchitectApplication->application_number . ".txt", $content);
-                $ArchitectApplication->drafted_certificate = 'uploads/temp_certificate/' . $ArchitectApplication->id . $ArchitectApplication->application_number . ".txt";
+                $pdf = \App::make('dompdf.wrapper');
+                $pdf->loadHTML($content);
+                $fileName = $ArchitectApplication->id . $ArchitectApplication->application_number . '.pdf';
+                $folder_name = 'temp_certificate';
+                if (!(\Storage::disk('ftp')->has($folder_name))) {
+                    \Storage::disk('ftp')->makeDirectory($folder_name, $mode = 0777, true, true);
+                }
+                $filePath = $folder_name . "/" . $fileName;
+                // $file_local = \Storage::disk('local')->get($filePath);
+                \Storage::disk('ftp')->put($filePath, $pdf->output());
+                $ArchitectApplication->drafted_certificate = $filePath;
+                $ArchitectApplication->certificate_path = $filePath;
                 $ArchitectApplication->save();
             }
             return view('admin.architect.final_generate_certificate', compact('header_data', 'encryptedId', 'ArchitectApplication'));
@@ -286,6 +304,7 @@ class ArchitectApplicationController extends Controller
 
     public function update_certificate(Request $request)
     {
+        //dd('ok');
         $ArchitectApplication = EoaApplication::where('id', $request->applicationId)->first();
         $uploadPath = '/uploads/temp_certificate';
         $destination = public_path($uploadPath);
@@ -342,19 +361,20 @@ class ArchitectApplicationController extends Controller
 
     public function postFinalCertificateGenerate(CertificateUploadRequest $request)
     {
-
+            //dd('ok');
         if ($request->hasFile('certificate')) {
             $applicationId = decrypt($request->get('ap_no'));
             $application = EoaApplication::where('id', $applicationId)->first();
             $extension = $request->file('certificate')->getClientOriginalExtension();
-            $path = \Storage::putFileAs('/architect_certificates', $request->file('certificate'), $applicationId . $application->application_number . '.' . $extension, 'public');
-            $input['architect_application_id'] = $applicationId;
-            $input['certificate_name'] = $applicationId . $application->application_number;
-            $input['certificate_path'] = $path;
-            $application->certificate_path = $path;
+            //\Storage::disk('ftp')->put($filePath, $pdf->output());
+            //$path = \Storage::putFileAs('/architect_certificates', $request->file('certificate'), $applicationId . $application->application_number . '.' . $extension, 'public');
+            $dir = 'architect_certificates';
+            $filename = $applicationId . $application->application_number . '.' . $extension;
+            $storage = Storage::disk('ftp')->putFileAs($dir, $request->file('certificate'), $filename);
+            $application->certificate_path = $storage;
             $application->final_signed_certificate_status = 1;
             $application->save();
-            ArchitectCertificate::create($input);
+            //EoaApplication::create($input);
             return redirect()->back()->with('success', "Certificate Uploaded succesfully.");
         } else {
             return redirect()->back()->with('error', "Look like something went wrong.");
