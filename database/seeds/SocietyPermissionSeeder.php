@@ -210,8 +210,13 @@ class SocietyPermissionSeeder extends Seeder
                 ],
                 [
                     'name'         => 'sc_form_upload_show',
-                    'display_name' => 'Upload Stamped Application Form',
-                    'description'  => 'Upload Stamped Application Form'
+                    'display_name' => 'Shows Upload Stamped Application Form',
+                    'description'  => 'Shows Upload Stamped Application Form'
+                ],
+                [
+                    'name'         => 'sc_form_upload',
+                    'display_name' => 'Uploads Stamped Application Form',
+                    'description'  => 'Uploads Stamped Application Form'
                 ],
                 [
                     'name'         => 'sc_form_download',
