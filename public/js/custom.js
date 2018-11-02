@@ -649,6 +649,14 @@ $(document).ready(function () {
         }
     });
 
+    $('#appointing_architect_step4').validate({
+        rules:{
+            "name_of_client[]":"required",
+            "location[]":"required",
+            "category_of_client[]":"required"
+        }
+    });
+
     // $('#sign_up_form_society_offer_letters').validate({
     //     rules:{
     //         society_name:{
