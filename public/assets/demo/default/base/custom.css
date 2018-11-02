@@ -2731,6 +2731,12 @@ label.site-visit-label {
 
 /* EE Billing starts here */
 
+.app-heading {
+    font-size: 1rem;
+    color: #878b8c;
+    margin-bottom: 10px;
+}
+
 .app-card {
     font-weight: 500;
     height: 100%;
@@ -2738,7 +2744,7 @@ label.site-visit-label {
 }
 
 .app-no {
-    font-size: 3.5rem;
+    font-size: 2.5rem;
     color: #ff7750;
     margin-bottom: 15px;
 }
@@ -2746,6 +2752,24 @@ label.site-visit-label {
 .app-title {
     font-size: 1.2rem;
     color: #8d8d8d;
+    margin-bottom: 0;
+}
+
+.hearing-row .app-card {
+    height: auto;
+}
+
+.hearing-row .app-no {
+    font-size: 1.2rem;
+}
+
+.hearing-row .m-portlet {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.app-no--view {
+    color: #668afd;
 }
 
 /* EE Billing ends here */
@@ -2754,7 +2778,6 @@ label.site-visit-label {
     color: #f4516c;
 }
 
-<<<<<<< HEAD
 /* Society Conveyance starts here */
 
 .application-fields-wrapper {

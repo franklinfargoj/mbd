@@ -424,4 +424,8 @@ class HearingController extends Controller
         $id = $request->id;
         return view('admin.hearing.hearingDeleteReason', compact('id'))->render();
     }
+
+    public function Dashboard() {
+        return view('admin.hearing.Dashboard');
+    }
 }

@@ -590,6 +590,8 @@ Route::get('generate-receipt', 'EEBillingController@GenerateReceipt');
 
 //conveyance
 
+Route::get('hearing-dashboard', 'HearingController@Dashboard');
+
 Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']], function(){
  
  //common in conveyance
