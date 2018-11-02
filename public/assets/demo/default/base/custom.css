@@ -2700,6 +2700,19 @@ label.site-visit-label {
     background-color: #fc4b1a;
 }
 
+.btn--icon-wrap {
+    font-size: 10px;
+    color: rgba(87, 89, 98);
+}
+
+.btn--icon-wrap .btn-icon {
+    margin-bottom: 2px;
+}
+
+.btn-icon-list a + .btn-submit-icon {
+    margin-left: 10px;
+}
+
 .dataTables_wrapper table.dataTable .btn-icon-list a {
     font-size: 10px;
     color: #252525;
