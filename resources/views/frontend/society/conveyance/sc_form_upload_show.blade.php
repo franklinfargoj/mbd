@@ -30,10 +30,10 @@
                                     <div class="d-flex flex-column h-100 two-cols">
                                         <h5>Upload Signed & Stamped Application here</h5>
                                         <span class="hint-text">Click on 'Upload' to upload signed & stamped application for offer letter.</span>
-                                        <form action="{{ route('upload_society_offer_letter') }}" method="post" enctype="multipart/form-data">
+                                        <form action="{{ route('sc_form_upload') }}" method="post" enctype="multipart/form-data">
                                             @csrf
                                             <div class="custom-file">
-                                                <input class="custom-file-input" name="offer_letter_application_form" type="file"
+                                                <input class="custom-file-input" name="sc_application_form" type="file"
                                                        id="test-upload" required="">
                                                 <label class="custom-file-label" for="test-upload">Choose
                                                     file...</label>
