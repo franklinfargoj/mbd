@@ -22,7 +22,7 @@
                             <h3 class="block-title">Appointing Architect</h3>
                             <div class="m-portlet mb-0">
                                 <div class="d-block">
-                                    <form method="post" class="m-login__form m-form m-login__signup" action="{{route('appointing_architect.post_signup')}}">
+                                    <form id="appointing_architect_signup" method="post" class="m-login__form m-form m-login__signup" action="{{route('appointing_architect.post_signup')}}">
                                         @csrf
                                         <div class="row">
                                             <div class="col-sm-6">

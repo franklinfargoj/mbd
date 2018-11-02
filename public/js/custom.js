@@ -657,6 +657,26 @@ $(document).ready(function () {
         }
     });
 
+    $("#appointing_architect_signup").validate({
+        rules:{
+            name:"required",
+            email:{
+                required: true,
+                email: true,
+            },
+            mobile_no:{
+                required: true,
+                minlength: 10,
+                maxlength: 10,
+                number: true
+            },
+            address:"required",
+            password:"required",
+            confirm_password:"required"
+            
+        }
+    });
+
     // $('#sign_up_form_society_offer_letters').validate({
     //     rules:{
     //         society_name:{

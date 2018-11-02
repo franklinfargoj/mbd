@@ -679,7 +679,7 @@ class EmploymentOfArchitectController extends Controller
             $k++;
         }
         $this->model->updateWhere(['form_step' => ($app_data->form_step>10?$app_data->form_step:10)], ['id' => $application_id]);
-        return back();
+        return redirect()->route('appointing_architect.step10',['id'=>encrypt($application_id)]);
     }
     public function delete_supporting_document(Request $request)
     {

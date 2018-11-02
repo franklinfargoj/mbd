@@ -40,8 +40,8 @@
                         <thead class="thead-default">
                             <tr>
                                 <th width="30%">Document Name</th>
-                                <th width="30%">Document</th>
-                                <th width="10%">Marks</th>
+                                <th width="20%">Document</th>
+                                <th width="20%">Marks</th>
                                 <th width="30%">Remark</th>
                             </tr>
                         </thead>
@@ -52,7 +52,7 @@
                                 <td><a target="_blank" href="{{route('view_architect_application',['id'=>encrypt($ArchitectApplication->id)])}}">download</a></td>
                                 <td class="text-center">
                                     <div class="@if($errors->has('marks')) has-error @endif">
-                                        <input {{ $disable }} type="text" name="application_marks" class="form-control form-control--custom marks"
+                                        <input required {{ $disable }} type="number" step="0.01" name="application_marks" class="form-control form-control--custom marks"
                                     value="{{$ArchitectApplication->application_marks}}">
                                         
                                         <span class="help-block">{{$errors->first('marks')}}</span>
@@ -60,7 +60,7 @@
                                 </td>
                                 <td>
                                     <div class="@if($errors->has('remark')) has-error @endif">
-                                        <textarea {{ $disable }} name="application_remark" class="form-control form-control--custom form-control--fixed-height">{{trim($ArchitectApplication->application_remark)}}</textarea>
+                                        <textarea required {{ $disable }} name="application_remark" class="form-control form-control--custom form-control--fixed-height">{{trim($ArchitectApplication->application_remark)}}</textarea>
                                         <span class="help-block">{{$errors->first('remark')}}</span>
                                     </div>
                                 </td>
@@ -73,7 +73,7 @@
                                 <td><a target="_blank" href="{{ config('commanConfig.storage_server')."/" .$row->document_path}}">download</a></td>
                                 <td class="text-center">
                                     <div class="@if($errors->has('marks')) has-error @endif">
-                                        <input {{ $disable }} type="text" name="marks[]" class="form-control form-control--custom marks"
+                                        <input required {{ $disable }} type="number" step="0.01" name="marks[]" class="form-control form-control--custom marks"
                                             value="{{$row->marks}}">
                                         <input type="hidden" name="id[]" value="{{$row->id}}">
 
@@ -82,7 +82,7 @@
                                 </td>
                                 <td>
                                     <div class="@if($errors->has('remark')) has-error @endif">
-                                        <textarea {{ $disable }} name="remark[]" class="form-control form-control--custom form-control--fixed-height">{{$row->remark}}</textarea>
+                                        <textarea required {{ $disable }} name="remark[]" class="form-control form-control--custom form-control--fixed-height">{{$row->remark}}</textarea>
                                         <span class="help-block">{{$errors->first('remark')}}</span>
                                     </div>
                                 </td>

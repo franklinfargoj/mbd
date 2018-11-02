@@ -74,17 +74,26 @@
                     <a id="add-more" class="btn--add-delete add">add more<a>
                 </div>
             </div>
-            <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+            {{-- <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
                 <div class="m-form__actions px-0">
                     <div class="btn-list">
                         <input type="submit" id="" class="btn btn-primary" name="Save">
                         <a href="" class="btn btn-secondary">Cancel</a>
                     </div>
                 </div>
+            </div> --}}
+            <div class="m-form__actions p-0">
+                <div class="row">
+                    <div class="col">
+                        <div class="btn-list d-flex justify-content-end">
+                        <button type="submit" id="" class="btn btn-primary">Next</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+        {{-- <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
             <div class="m-form__actions p-0">
                 <div class="row">
                     <div class="col">
@@ -94,7 +103,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </form>
 </div>
 
