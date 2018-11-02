@@ -88,10 +88,12 @@
                         </div>
                         <div class="col-sm-4 offset-sm-1 form-group">
                             <label class="col-form-label" for="template">Upload File:</label>
-                            <input class="custom-file-input" name="template" type="file"
-                                   id="test-upload" required>
-                            <label class="custom-file-label" for="test-upload">Choose
-                                file ...</label>
+                            <div class="custom-file">
+                                <input class="custom-file-input" name="template" type="file"
+                                       id="test-upload" required>
+                                <label class="custom-file-label" for="test-upload">Choose
+                                    file ...</label>
+                            </div>
                             <span class="help-block">@if(session('error')) {{ session('error') }} @endif {{$errors->first('template')}}</span>
                         </div>
                     </div>

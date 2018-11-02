@@ -570,7 +570,7 @@ class SocietyConveyanceController extends Controller
         if(count($sc_bank_details->getFillable()) == count(array_merge($society_bank_detail, $society_bank_details))){
             SocietyBankDetails::create(array_merge($society_bank_detail, $society_bank_details));
         }
-        dd('done');
+//        dd('done');
         return redirect()->route('sc_form_upload_show');
     }
 
@@ -620,7 +620,7 @@ class SocietyConveyanceController extends Controller
         $mpdf = new Mpdf();
         $mpdf->autoScriptToLang = true;
         $mpdf->autoLangToFont = true;
-        $contents = view('frontend.society.conveyance.sc_form_upload_show', compact('society_details', 'sc_application'));
+        $contents = view('frontend.society.conveyance.sc_application_form_preview', compact('society_details', 'sc_application'));
         $mpdf->WriteHTML($contents);
         $mpdf->Output();
     }
