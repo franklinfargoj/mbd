@@ -33,6 +33,13 @@ class StepOneRequest extends FormRequest
             'off' => 'required',
             'fax' => 'required',
             'res' => 'required',
+            'cash'=>'required',
+            'pay_order_no'=>'required',
+            'bank'=>'required',
+            'branch'=>'required',
+            'date_of_payment'=>'required',
+            'receipt_no'=>'required',
+            'receipt_date'=>'required'
         ];
     }
 }

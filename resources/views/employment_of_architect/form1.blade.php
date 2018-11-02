@@ -6,16 +6,16 @@
 
 <div class="col-md-12">
     <div class="d-flex form-steps-wrap">
-        <button class="btn--unstyled flex-grow-1 form-step-tab active">Step 1</button>
-        <button class="btn--unstyled flex-grow-1 form-step-tab">Step 2</button>
-        <button class="btn--unstyled flex-grow-1 form-step-tab">Step 3</button>
-        <button class="btn--unstyled flex-grow-1 form-step-tab">Step 4</button>
-        <button class="btn--unstyled flex-grow-1 form-step-tab">Step 5</button>
-        <button class="btn--unstyled flex-grow-1 form-step-tab">Step 6</button>
-        <button class="btn--unstyled flex-grow-1 form-step-tab">Step 7</button>
-        <button class="btn--unstyled flex-grow-1 form-step-tab">Step 8</button>
-        <button class="btn--unstyled flex-grow-1 form-step-tab ">Step 9</button>
-        <button class="btn--unstyled flex-grow-1 form-step-tab ">Step 10</button>
+        <button onclick="window.location='{{ route("appointing_architect.step1",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab active">Step 1</button>
+        <button onclick="window.location='{{ route("appointing_architect.step2",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab">Step 2</button>
+        <button onclick="window.location='{{ route("appointing_architect.step3",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab">Step 3</button>
+        <button onclick="window.location='{{ route("appointing_architect.step4",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab">Step 4</button>
+        <button onclick="window.location='{{ route("appointing_architect.step5",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab">Step 5</button>
+        <button onclick="window.location='{{ route("appointing_architect.step6",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab">Step 6</button>
+        <button onclick="window.location='{{ route("appointing_architect.step7",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab">Step 7</button>
+        <button onclick="window.location='{{ route("appointing_architect.step8",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab">Step 8</button>
+        <button onclick="window.location='{{ route("appointing_architect.step9",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab ">Step 9</button>
+        <button onclick="window.location='{{ route("appointing_architect.step10",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab ">Step 10</button>
     </div>
     <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
         <h3 class="section-title section-title--small">APPLICATION FORM FOR EMPLOYMENT OF ARCHITECT</h3>
