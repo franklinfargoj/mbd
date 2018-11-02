@@ -1,13 +1,9 @@
-@extends('admin.layouts.app')
-@section('content')
 <div>
     <div >
         <div >
             <h3 >Application</h3>
             <div >
-                <a href="" ><i  style="padding-right: 8px;"></i>Back</a>
-                <a href="#" target="_blank" id="download_application_form"  rel="noopener"
-                   onclick="printContent('printdiv')"><img src="{{asset('/img/print-icon.svg')}}" title="print"></a>
+
             </div>
         </div>
     </div>
@@ -146,7 +142,7 @@
                         </div>
                     </div>
                     <div >
-                        <div "ml-auto text-right">
+                        <div>
                             <p >आपला विश्वासू,</p>
                             <p>
                                 <span >अध्यक्ष <input  type="text" id="" name="" value=""></span>
@@ -165,14 +161,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <a href="{{ route('society_conveyance.edit', base64_encode($sc_application->id)) }}" >
-                                Back
-                            </a>
-                            <span style="float:right;margin-right: 20px">
-                                    <a href="{{ route('sc_upload_docs') }}" >
-                                        Next
-                                    </a>
-                                </span>
                         </div>
                     </div>
                 </div>
@@ -180,4 +168,3 @@
         </div>
     </div>
 </div>
-@endsection
