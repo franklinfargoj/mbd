@@ -357,7 +357,9 @@ class REEController extends Controller
         }else{
            $content = ""; 
         }
+        $vpApprovedData = $this->CommonController->getLogsOfVPDepartment($applicatonId);
 
+        $calculationData->vpDate = $vpApprovedData[0]->created_at;
         return view('admin.REE_department.'.$blade,compact('applicatonId','calculationData','content'));
     }
 
