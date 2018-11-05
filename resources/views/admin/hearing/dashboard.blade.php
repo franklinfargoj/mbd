@@ -47,19 +47,19 @@
             <div class="col">
                 <h2 class="app-heading">Total No of Cases</h2>
                 <div class="m-portlet app-card text-center">
-                    <h2 class="app-no mb-0">240</h2>
+                    <h2 class="app-no mb-0">{{$totalHearing}}</h2>
                 </div>
             </div>
             <div class="col">
                 <h2 class="app-heading">Total No of Pending Cases</h2>
                 <div class="m-portlet app-card text-center">
-                    <h2 class="app-no mb-0">250</h2>
+                    <h2 class="app-no mb-0">{{$totalPendingHearing}}</h2>
                 </div>
             </div>
             <div class="col">
                 <h2 class="app-heading">Total No of Closed Cases</h2>        
                 <div class="m-portlet app-card text-center">
-                    <h2 class="app-no mb-0">240</h2>
+                    <h2 class="app-no mb-0">{{$totalClosedHearing}}</h2>
                 </div>
             </div>
             <div class="col"></div>

@@ -425,7 +425,22 @@ class HearingController extends Controller
         return view('admin.hearing.hearingDeleteReason', compact('id'))->render();
     }
 
+
+    /**
+     * Show the hearing dashboard.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function Dashboard() {
-        return view('admin.hearing.Dashboard');
+
+        $totalHearing = Hearing::get()->count();
+
+        $totalPendingHearing = Hearing::where('hearing_status_id','1')->get()->count();
+
+        $totalClosedHearing = Hearing::where('hearing_status_id','6')->get()->count();
+
+//        $todaysHearing = Hearing::where('office_date',todays date)->get();
+
+        return view('admin.hearing.dashboard',compact('totalHearing','totalClosedHearing','totalPendingHearing'));
     }
 }

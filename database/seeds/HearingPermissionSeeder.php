@@ -292,8 +292,12 @@ class HearingPermissionSeeder extends Seeder
                 'name' => 'schedule_hearing.show',
                 'display_name' => 'Shows scheduled hearing data',
                 'description' => 'Shows scheduled hearing data'
-            ]
-
+            ],
+            [
+                'name' => 'hearing.dashboard',
+                'display_name' => 'Shows hearing dashboard',
+                'description' => 'Shows hearing dashboard'
+            ],
         ];
 
         $permission_role_joint_pa = [];
@@ -369,6 +373,11 @@ class HearingPermissionSeeder extends Seeder
                 'name' => 'forward_case.show',
                 'display_name' => 'Shows Forwarded Case data',
                 'description' => 'Shows Forwarded Case data'
+            ],
+            [
+                'name' => 'hearing.dashboard',
+                'display_name' => 'Shows hearing dashboard',
+                'description' => 'Shows hearing dashboard'
             ],
 
         ];

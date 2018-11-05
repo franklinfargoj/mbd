@@ -130,6 +130,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('/frontend_resolution_list', 'FrontendResolutionController@index')->name('frontend_resolution_list');
 
     //Hearing Admin
+    Route::get('hearing-dashboard', 'HearingController@Dashboard')->name('hearing.dashboard');
     Route::resource('/hearing', 'HearingController');
     Route::post('loadDeleteReasonOfHearingUsingAjax', 'HearingController@loadDeleteReasonOfHearingUsingAjax')->name('loadDeleteReasonOfHearingUsingAjax');
 //Route::get('/hearing/delete/{id}', 'HearingController@destroy')->name('hearing.delete');
@@ -589,9 +590,6 @@ Route::get('ee-blling-view-bill-details', 'EEBillingController@ViewBillDetailsSo
 Route::get('generate-receipt', 'EEBillingController@GenerateReceipt');
 
 //conveyance
-
-Route::get('hearing-dashboard', 'HearingController@Dashboard');
-
 Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']], function(){
  
  //common in conveyance
