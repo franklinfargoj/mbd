@@ -59,7 +59,7 @@
                     <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="">Name of Project:</label>
-                            <input type="text" id="" name="name_of_project" class="form-control form-control--custom m-input"
+                            <input required type="text" id="" name="name_of_project" class="form-control form-control--custom m-input"
                                 value="{{isset($application->project_sheets[$j])?$application->project_sheets[$j]->name_of_project:old('name_of_project')}}">
                             @if ($errors->has('name_of_project') && $prev_form_number==$j+1)
                             <span class="text-danger">{{ $errors->first('name_of_project')
@@ -68,7 +68,7 @@
                         </div>
                         <div class="col-sm-4 offset-sm-1 form-group">
                             <label class="col-form-label" for="">Location:</label>
-                            <input type="text" id="" name="location" class="form-control form-control--custom m-input"
+                            <input required type="text" id="" name="location" class="form-control form-control--custom m-input"
                                 value="{{isset($application->project_sheets[$j])?$application->project_sheets[$j]->location:old('location')}}">
                             @if ($errors->has('location') && $prev_form_number==$j+1)
                             <span class="text-danger">{{ $errors->first('location')
@@ -79,7 +79,7 @@
                     <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="">Name of Client:</label>
-                            <input type="text" id="" name="name_of_client" class="form-control form-control--custom m-input"
+                            <input required type="text" id="" name="name_of_client" class="form-control form-control--custom m-input"
                                 value="{{isset($application->project_sheets[$j])?$application->project_sheets[$j]->name_of_client:old('name_of_client')}}">
                             @if ($errors->has('name_of_client') && $prev_form_number==$j+1)
                             <span class="text-danger">{{ $errors->first('name_of_client')
@@ -88,7 +88,7 @@
                         </div>
                         <div class="col-sm-4 offset-sm-1 form-group">
                             <label class="col-form-label" for="">Address:</label>
-                            <input type="text" id="" name="address" class="form-control form-control--custom m-input"
+                            <input required type="text" id="" name="address" class="form-control form-control--custom m-input"
                                 value="{{isset($application->project_sheets[$j])?$application->project_sheets[$j]->address:old('address')}}">
                             @if ($errors->has('address') && $prev_form_number==$j+1)
                             <span class="text-danger">{{ $errors->first('address')
@@ -99,7 +99,7 @@
                     <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="">Phone Number:</label>
-                            <input type="text" id="" name="tel_no" class="form-control form-control--custom m-input"
+                            <input required type="text" id="" name="tel_no" class="form-control form-control--custom m-input"
                                 value="{{isset($application->project_sheets[$j])?$application->project_sheets[$j]->tel_no:old('tel_no')}}">
                             @if ($errors->has('tel_no') && $prev_form_number==$j+1)
                             <span class="text-danger">{{ $errors->first('tel_no')
@@ -110,13 +110,14 @@
                             <label class="col-form-label" for="extract">Upload copy of agreement:
                                 <!--<span class="star">*</span>--></label>
                             <div class="custom-file">
-                                <input type="file" id="extract_{{$j+1}}" name="copy_of_agreement" class="custom-file-input">
+                                    @php
+                                    $file="";
+                                    $file=isset($application->project_sheets[$j])?$application->project_sheets[$j]->copy_of_agreement:'';
+                                    @endphp
+                                <input accept="pdf" title="please upload file with pdf extension" {{ $file!=""?"":"required" }} type="file" id="extract_{{$j+1}}" name="copy_of_agreement" class="custom-file-input">
                                 <label title="" class="custom-file-label" for="extract_{{$j+1}}">Choose File...</label>
                                 <span class="help-block"></span>
-                                @php
-                                $file="";
-                                $file=isset($application->project_sheets[$j])?$application->project_sheets[$j]->copy_of_agreement:'';
-                                @endphp
+                                
                                 <a style="display:{{$file!=''?'block':'none'}}" target="_blank" class="btn-link" href="{{config('commanConfig.storage_server').'/'.$file}}">download</a>
                             </div>
                         </div>
@@ -124,7 +125,7 @@
                     <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="">Build Up Area in m<sup>2</sup>:</label>
-                            <input type="text" id="" name="built_up_area_in_sq_m" class="form-control form-control--custom m-input"
+                            <input required type="text" id="" name="built_up_area_in_sq_m" class="form-control form-control--custom m-input"
                                 value="{{isset($application->project_sheets[$j])?$application->project_sheets[$j]->built_up_area_in_sq_m:old('built_up_area_in_sq_m')}}">
                             @if ($errors->has('built_up_area_in_sq_m') && $prev_form_number==$j+1)
                             <span class="text-danger">{{ $errors->first('built_up_area_in_sq_m')
@@ -133,7 +134,7 @@
                         </div>
                         <div class="col-sm-4 offset-sm-1 form-group">
                             <label class="col-form-label" for="">Land Area in m<sup>2</sup>:</label>
-                            <input type="text" id="" name="land_area_in_sq_m" class="form-control form-control--custom m-input"
+                            <input required type="text" id="" name="land_area_in_sq_m" class="form-control form-control--custom m-input"
                                 value="{{isset($application->project_sheets[$j])?$application->project_sheets[$j]->land_area_in_sq_m:old('land_area_in_sq_m')}}">
                             @if ($errors->has('land_area_in_sq_m') && $prev_form_number==$j+1)
                             <span class="text-danger">{{ $errors->first('land_area_in_sq_m')
@@ -144,7 +145,7 @@
                     <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="">Estimated Value of Projects:</label>
-                            <input type="text" id="" name="estimated_value_of_project" class="form-control form-control--custom m-input"
+                            <input required type="text" id="" name="estimated_value_of_project" class="form-control form-control--custom m-input"
                                 value="{{isset($application->project_sheets[$j])?$application->project_sheets[$j]->estimated_value_of_project:old('estimated_value_of_project')}}">
                             @if ($errors->has('estimated_value_of_project') && $prev_form_number==$j+1)
                             <span class="text-danger">{{ $errors->first('estimated_value_of_project')
@@ -153,7 +154,7 @@
                         </div>
                         <div class="col-sm-4 offset-sm-1 form-group">
                             <label class="col-form-label" for="">Completed Value of Projects:</label>
-                            <input type="text" id="" name="completed_value_of_project" class="form-control form-control--custom m-input"
+                            <input required type="text" id="" name="completed_value_of_project" class="form-control form-control--custom m-input"
                                 value="{{isset($application->project_sheets[$j])?$application->project_sheets[$j]->completed_value_of_project:old('completed_value_of_project')}}">
                             @if ($errors->has('completed_value_of_project') && $prev_form_number==$j+1)
                             <span class="text-danger">{{ $errors->first('completed_value_of_project')
@@ -164,7 +165,7 @@
                     <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="">Date of Start:</label>
-                            <input type="text" id="" name="date_of_start" class="form-control form-control--custom m_datepicker"
+                            <input required type="text" id="" name="date_of_start" class="form-control form-control--custom m_datepicker"
                                 readonly value="{{isset($application->project_sheets[$j])?$application->project_sheets[$j]->date_of_start:old('date_of_start')}}">
                             @if ($errors->has('date_of_start') && $prev_form_number==$j+1)
                             <span class="text-danger">{{ $errors->first('date_of_start')
@@ -173,7 +174,7 @@
                         </div>
                         <div class="col-sm-4 offset-sm-1 form-group">
                             <label class="col-form-label" for="">Date of Completion:</label>
-                            <input type="text" id="" name="date_of_completion" class="form-control form-control--custom m_datepicker"
+                            <input required type="text" id="" name="date_of_completion" class="form-control form-control--custom m_datepicker"
                                 readonly value="{{isset($application->project_sheets[$j])?$application->project_sheets[$j]->date_of_completion:old('date_of_completion')}}">
                             @if ($errors->has('date_of_completion') && $prev_form_number==$j+1)
                             <span class="text-danger">{{ $errors->first('date_of_completion')
@@ -184,7 +185,7 @@
                     <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="">Whether Service Terminated by Client:</label>
-                            <input type="text" id="" name="whether_service_terminated_by_client" class="form-control form-control--custom m-input"
+                            <input required type="text" id="" name="whether_service_terminated_by_client" class="form-control form-control--custom m-input"
                                 value="{{isset($application->project_sheets[$j])?$application->project_sheets[$j]->whether_service_terminated_by_client:old('whether_service_terminated_by_client')}}">
                             @if ($errors->has('whether_service_terminated_by_client') && $prev_form_number==$j+1)
                             <span class="text-danger">{{ $errors->first('whether_service_terminated_by_client')
@@ -193,7 +194,7 @@
                         </div>
                         <div class="col-sm-4 offset-sm-1 form-group">
                             <label class="col-form-label" for="">Salient Features of Project:</label>
-                            <input type="text" id="" name="salient_features_of_project" class="form-control form-control--custom m-input"
+                            <input required type="text" id="" name="salient_features_of_project" class="form-control form-control--custom m-input"
                                 value="{{isset($application->project_sheets[$j])?$application->project_sheets[$j]->salient_features_of_project:old('salient_features_of_project')}}">
                             @if ($errors->has('salient_features_of_project') && $prev_form_number==$j+1)
                             <span class="text-danger">{{ $errors->first('salient_features_of_project')
@@ -204,7 +205,7 @@
                     <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="">Reasons for Delay (If any):</label>
-                            <input type="text" id="" name="reason_for_delay_if_any" class="form-control form-control--custom m-input"
+                            <input required type="text" id="" name="reason_for_delay_if_any" class="form-control form-control--custom m-input"
                                 value="{{isset($application->project_sheets[$j])?$application->project_sheets[$j]->reason_for_delay_if_any:old('reason_for_delay_if_any')}}">
                             @if ($errors->has('reason_for_delay_if_any') && $prev_form_number==$j+1)
                             <span class="text-danger">{{ $errors->first('reason_for_delay_if_any')
@@ -264,8 +265,6 @@
                         item.value = '';
                     }
                 });
-
-
             formAccordion.find(".form-steps-toplinks").append(
                 "<h2 class='m--font-danger ml-3 mb-0'><i title='Delete' class='fa fa-remove'></i></h2>");
 
@@ -283,6 +282,7 @@
 
             var file_input = formAccordion.find('.custom-file-input')[0];
             file_input.setAttribute('id', 'extract_' + formAccordionCount)
+            file_input.setAttribute('required', 'required');
             var file_label = formAccordion.find('.custom-file-label')[0];
             file_label.setAttribute('for', 'extract_' + formAccordionCount);
             var download_link = formAccordion.find('.btn-link')[0];
@@ -291,12 +291,34 @@
             var formAccordionCount = formAccordion.find('.form-count')[0];
             formAccordionCount.setAttribute("id", newID);
 
+            
+
             var formAccordionShow = formAccordion.find('.form-count')[0];
             var changed_class_name_for_show = formAccordionShow.getAttribute('class');
             formAccordionShow.setAttribute('class', changed_class_name_for_show + ' show')
 
             formAccordion.insertAfter("#accordion .form-accordion:last");
-
+            formAccordion.find('form').each(function() {  // attach to all form elements on page
+                var form=$(this)
+                form.validate({       // initialize plugin on each form
+                    rules: {
+                    name_of_project: "required",
+                    location:"required",
+                    name_of_client:"required",
+                    address:"required",
+                    tel_no:"required",
+                    built_up_area_in_sq_m:"required",
+                    land_area_in_sq_m:"required",
+                    estimated_value_of_project:"required",
+                    completed_value_of_project:"required",
+                    date_of_start:"required",
+                    date_of_completion:"required",
+                    whether_service_terminated_by_client:"required",
+                    salient_features_of_project:"required",
+                    reason_for_delay_if_any:"required"
+                    }
+                });
+            });
             showUploadedFile();
 
             $(".m_datepicker").datepicker({
@@ -352,6 +374,32 @@
 
         removeAccordion();
     });
+    
+
+$(document).ready(function() {
+
+    $('form').each(function() {  // attach to all form elements on page
+        var form=$(this)
+        form.validate({       // initialize plugin on each form
+            rules: {
+              name_of_project: "required",
+              location:"required",
+              name_of_client:"required",
+              address:"required",
+              tel_no:"required",
+              built_up_area_in_sq_m:"required",
+              land_area_in_sq_m:"required",
+              estimated_value_of_project:"required",
+              completed_value_of_project:"required",
+              date_of_start:"required",
+              date_of_completion:"required",
+              whether_service_terminated_by_client:"required",
+              salient_features_of_project:"required",
+              reason_for_delay_if_any:"required"
+            }
+        });
+    });
+});
 
 </script>
 @endsection
