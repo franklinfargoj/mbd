@@ -68,5 +68,6 @@ class DatabaseSeeder extends Seeder
         $this->call(AddChildParentToConveyanceModule::class);
         $this->call(LAPermission::class);
         $this->call(sc_checklist_master::class);
+        $this->call(SocietyConveyanceApplicationTypeSeeder::class);
     }
 }

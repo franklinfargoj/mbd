@@ -57,16 +57,14 @@ return [
 
     // sc application agreements
      'scAgreements' => [
-        'draft_sale_agreement'       => 'draft_sale_agreement',
-        'draft_lease_agreement'      => 'draft_lease_agreement',
-        'approve_sale_agreement'     => 'approve_sale_agreement',
-        'approve_lease_agreement'    => 'approve_lease_agreement',
-        'stamp_sale_agreement'       => 'stamp_sale_agreement',
-        'stamp_lease_agreement'      => 'stamp_lease_agreement',
-        'stamp_sign_sale_agreement'  => 'stamp_sign_sale_agreement',
-        'stamp_sign_lease_agreement' => 'stamp_sign_lease_agreement',
-        'register_sale_agreement'    => 'register_sale_agreement',
-        'register_lease_agreement'   => 'register_lease_agreement',
+        'sale_deed_agreement'  => 'Sale Deed Agreement',
+        'lease_deed_agreement' => 'Lease Deed Agreement',
+    ],   
+
+      // sc application Type
+     'applicationType' => [
+        'Conveyance'  => 'Conveyance',
+        'Renewal'     => 'Renewal',
     ], 
 
     // sc Application types 

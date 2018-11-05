@@ -11,7 +11,7 @@ class SocietyConveyanceDocumentStatus extends Model
      *
      * @var string
      */
-    protected $table = 'society_conveyance_document_status';
+    protected $table = 'sc_document_status';
 
     /**
      * The database primary key value.
@@ -27,7 +27,10 @@ class SocietyConveyanceDocumentStatus extends Model
      */
     protected $fillable = [
         'application_id',
-        'conveyance_document_id',
+        'user_id',
+        'society_flag',
+        'status_id',
+        'document_id',
         'document_path',
     ];
 

@@ -7,8 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\Common\CommonController;
 use App\conveyance\scApplication;
 use App\conveyance\scApplicationLog;
-use App\conveyance\ScAgreementTypeMasterModel;
-use App\conveyance\ScAgreementTypeStatus;
+use App\conveyance\SocietyConveyanceDocumentMaster;
+use App\conveyance\SocietyConveyanceDocumentStatus;
 use App\conveyance\ScAgreementComments;
 use Yajra\DataTables\DataTables;
 use App\Role;
@@ -57,7 +57,7 @@ class conveyanceCommonController extends Controller
                     return $data->societyApplication->building_no;
                 })
                 ->editColumn('societyApplication.address', function ($data) {
-                    return '<span>'.$data->societyApplication->address.'</span>';
+                    return "<span>".$data->societyApplication->address."</span>";
                 })                
                 ->editColumn('date', function ($data) {
                     return date(config('commanConfig.dateFormat'), strtotime($data->created_at));
@@ -285,46 +285,49 @@ class conveyanceCommonController extends Controller
     }     
 
     // get agreement as per agreement type id
-    public function getScAgreement($typeId,$applicationId){
+    public function getScAgreement($typeId,$applicationId,$status){
 
-        $agreement = ScAgreementTypeStatus::with('scAgreementName')->where('agreement_type_id',$typeId)->where('application_id',$applicationId)->first();
+        // $agreement = SocietyConveyanceDocumentStatus::with('scAgreementName')->where('agreement_type_id',$typeId)->where('application_id',$applicationId)->first();       
+        $agreement = SocietyConveyanceDocumentStatus::where('document_id',$typeId)->where('status_id',$status)->where('application_id',$applicationId)->first();
         return $agreement;
     } 
 
     // get agreement id as per agreement name
-    public function getScAgreementId($documentName){
+    public function getScAgreementId($documentName,$type){
 
-        $typeId = ScAgreementTypeMasterModel::where('agreement_name',$documentName)->value('id');
+        $typeId = SocietyConveyanceDocumentMaster::where('document_name',$documentName)->where('application_type_id',$type)->value('id');
         return $typeId;
     } 
 
     // insert sc agreements as per type
-    public function createScAgreement($applicationId,$typeId,$filePath){
+    public function createScAgreement($applicationId,$typeId,$filePath,$Agreementstatus){
         
         $ArrData[] = array('application_id'       => $applicationId,
-                            'agreement_type_id'   => $typeId, 
-                            'agreement_path'      => $filePath,
+                            'document_id'         => $typeId, 
+                            'document_path'       => $filePath,
+                            'status_id'           => $Agreementstatus,
                             'user_id'             => Auth::Id());   
 
-        $data = ScAgreementTypeStatus::insert($ArrData); 
+        $data = SocietyConveyanceDocumentStatus::insert($ArrData); 
+        dd($data);
         return $data;          
     }
 
     // update sc agreements
-    public function updateScAgreement($applicationId,$typeId,$filePath){
+    public function updateScAgreement($applicationId,$typeId,$filePath,$status){
 
-        $data = ScAgreementTypeStatus::where('application_id',$applicationId)->where('agreement_type_id',$typeId)
-        ->update(['agreement_path' => $filePath]);
+        $data = SocietyConveyanceDocumentStatus::where('application_id',$applicationId)->where('document_id',$typeId)->where('status_id',$status)->where('user_id',Auth::Id())->update(['document_path' => $filePath]);
 
         return $data;
     } 
 
     //insert comment for agreement
-    public function ScAgreementComment($applicationId,$remark){
+    public function ScAgreementComment($applicationId,$remark,$type){
 
         $comments[] = array('application_id' => $applicationId,
                             'user_id'        => Auth::Id(),
                             'role_id'        => session()->get('role_id'),
+                            'agreement_type_id' => $type,
                             'remark'         => $remark);
         
         $remark  = ScAgreementComments::insert($comments);
