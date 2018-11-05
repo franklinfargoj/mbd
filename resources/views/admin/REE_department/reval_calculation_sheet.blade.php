@@ -1,6 +1,6 @@
 @extends('admin.layouts.sidebarAction')
 @section('actions')
-@include('admin.REE_department.action',compact('ol_application'))
+@include('admin.REE_department.reval_action',compact('ol_application'))
 @endsection
 @section('content')
 
@@ -70,7 +70,7 @@
                                 </div>
                             </div>
                             <div class="m-section__content mb-0 table-responsive">
-                                <form class="nav-tabs-form" role="form" method="POST" action="{{ route('save_calculation_details') }}">
+                                <form class="nav-tabs-form" role="form" method="POST" action="{{ route('save_reval_calculation_details') }}">
                                     <div class="d-flex justify-content-start align-items-center mb-4">
                                         <span class="flex-shrink-0 text-nowrap">Total Number of buildings:</span>
                                         <input type="text" class="form-control form-control--xs form-control--custom flex-grow-0 ml-3" placeholder="0"
@@ -769,7 +769,7 @@
                                 </div>
                             </div>
                             <div class="m-section__content mb-0 table-responsive">
-                                <form class="nav-tabs-form" role="form" method="POST" action="{{ route('save_calculation_details') }}">
+                                <form class="nav-tabs-form" role="form" method="POST" action="{{ route('save_reval_calculation_details') }}">
                                     <input name="_token" type="hidden" value="{!! csrf_token() !!}" />
                                     <input name="application_id" type="hidden" value="{{ $applicationId }}" />
                                     <input name="user_id" type="hidden" value="{{ $user->id }}" />
@@ -911,7 +911,7 @@
                                 </div>
                             </div>
                             <div class="m-section__content mb-0 table-responsive">
-                                <form class="nav-tabs-form" role="form" method="POST" action="{{ route('save_calculation_details') }}">
+                                <form class="nav-tabs-form" role="form" method="POST" action="{{ route('save_reval_calculation_details') }}">
                                     <input name="_token" type="hidden" value="{!! csrf_token() !!}" />
                                     <input name="application_id" type="hidden" value="{{ $applicationId }}" />
                                     <input name="user_id" type="hidden" value="{{ $user->id }}" />
@@ -1109,7 +1109,7 @@
                                 </div>
                             </div>
                             <div class="m-section__content mb-0 table-responsive">
-                                <form class="nav-tabs-form" role="form" method="POST" action="{{ route('save_calculation_details') }}">
+                                <form class="nav-tabs-form" role="form" method="POST" action="{{ route('save_reval_calculation_details') }}">
                                     <input name="_token" type="hidden" value="{!! csrf_token() !!}" />
                                     <input name="application_id" type="hidden" value="{{ $applicationId }}" />
                                     <input name="user_id" type="hidden" value="{{ $user->id }}" />
