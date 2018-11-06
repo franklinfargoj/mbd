@@ -203,7 +203,7 @@
                     <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="office_date">Date:</label>
                         <input type="text" id="office_date" name="office_date" class="form-control form-control--custom m_datepicker"
-                            readonly value="{{ $arrData['hearing']->office_date }}">
+                             value="{{ date(config('commanConfig.dateFormat'), strtotime($arrData['hearing']->office_date))}}">
                         <span class="help-block">{{$errors->first('office_date')}}</span>
 
                     </div>

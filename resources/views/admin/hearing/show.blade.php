@@ -17,14 +17,14 @@
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="preceding_officer_name">Name of Presiding Officer:</label>
                         <input type="text" id="preceding_officer_name" name="preceding_officer_name" class="form-control form-control--custom m-input"
-                               value="{{ $arrData['hearing']->preceding_officer_name }}" readonly>
+                               value="{{ $arrData['hearing']->preceding_officer_name }}" disabled>
                         <span class="help-block">{{$errors->first('preceding_officer_name')}}</span>
                     </div>
 
                     <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="case_number">Case Number:</label>
-                        <input type="text" id="case_number" name="case_number" class="form-control form-control--custom m-input"
-                               value="{{ $arrData['hearing']->id }}" readonly>
+                        <input disabled type="text" id="case_number" name="case_number" class="form-control form-control--custom m-input"
+                               value="{{ $arrData['hearing']->id }}">
                         <span class="help-block">{{$errors->first('case_number')}}</span>
                     </div>
                 </div>
@@ -33,7 +33,7 @@
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="case_year">Case Year:</label>
                         <input type="text" id="case_number" name="case_year" class="form-control form-control--custom m-input"
-                               value="{{ $arrData['hearing']->case_year }}" readonly>
+                               value="{{ $arrData['hearing']->case_year }}" disabled>
                     </div>
 
                     <div class="col-sm-4 offset-sm-1 form-group">
@@ -44,7 +44,7 @@
                             @endif
                         @endforeach
                         <input type="text" id="application_type_id" name="application_type_id" class="form-control form-control--custom m-input"
-                               value="{{ $application_name }}" readonly>
+                               value="{{ $application_name }}" disabled>
                         <span class="help-block">{{$errors->first('application_type_id')}}</span>
                     </div>
                 </div>
@@ -65,14 +65,14 @@
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="applicant_name">Name of Applicant:</label>
                         <input type="text" id="applicant_name" name="applicant_name" class="form-control form-control--custom m-input"
-                               value="{{ $arrData['hearing']->applicant_name }}" readonly>
+                               value="{{ $arrData['hearing']->applicant_name }}" disabled>
                         <span class="help-block">{{$errors->first('applicant_name')}}</span>
                     </div>
 
                     <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="applicant_mobile_no">Mobile Number:</label>
                         <input type="text" id="applicant_mobile_no" name="applicant_mobile_no" class="form-control form-control--custom m-input"
-                               value="{{ $arrData['hearing']->applicant_mobile_no }}" readonly>
+                               value="{{ $arrData['hearing']->applicant_mobile_no }}" disabled>
                         <span class="help-block">{{$errors->first('applicant_mobile_no')}}</span>
                     </div>
                 </div>
@@ -80,7 +80,7 @@
                 <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="applicant_address">Address:</label>
-                        <textarea id="applicant_address" name="applicant_address" class="form-control form-control--custom form-control--fixed-height m-input" readonly>{{ $arrData['hearing']->applicant_address }}</textarea>
+                        <textarea id="applicant_address" name="applicant_address" class="form-control form-control--custom form-control--fixed-height m-input" disabled>{{ $arrData['hearing']->applicant_address }}</textarea>
                         <span class="help-block">{{$errors->first('applicant_address')}}</span>
                     </div>
                 </div>
@@ -102,14 +102,14 @@
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="respondent_name">Name of Respondent:</label>
                         <input type="text" id="respondent_name" name="respondent_name" class="form-control form-control--custom m-input"
-                               value="{{ $arrData['hearing']->respondent_name }}" readonly>
+                               value="{{ $arrData['hearing']->respondent_name }}" disabled>
                         <span class="help-block">{{$errors->first('respondent_name')}}</span>
                     </div>
 
                     <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="respondent_mobile_no">Mobile Number:</label>
                         <input type="text" id="respondent_mobile_no" name="respondent_mobile_no" class="form-control form-control--custom m-input"
-                               value="{{ $arrData['hearing']->respondent_mobile_no }}" readonly>
+                               value="{{ $arrData['hearing']->respondent_mobile_no }}" disabled>
                         <span class="help-block">{{$errors->first('respondent_mobile_no')}}</span>
                     </div>
                 </div>
@@ -117,7 +117,7 @@
                 <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="respondent_address">Address:</label>
-                        <textarea id="respondent_address" name="respondent_address" class="form-control form-control--custom form-control--fixed-height" readonly>{{ $arrData['hearing']->respondent_address }}</textarea>
+                        <textarea id="respondent_address" name="respondent_address" class="form-control form-control--custom form-control--fixed-height" disabled>{{ $arrData['hearing']->respondent_address }}</textarea>
                         <span class="help-block">{{$errors->first('respondent_address')}}</span>
                     </div>
                 </div>
@@ -139,14 +139,14 @@
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="case_type">Case Type:</label>
                         <input type="text" id="case_type" name="case_type" class="form-control form-control--custom m-input"
-                               value="{{ $arrData['hearing']->case_type }}" readonly>
+                               value="{{ $arrData['hearing']->case_type }}" disabled>
                         <span class="help-block">{{$errors->first('case_type')}}</span>
                     </div>
 
                     <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="office_year">Year:</label>
                         <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="office_year"
-                                name="office_year" readonly>
+                                name="office_year" disabled>
                             @php
                                 $start_year = date('Y', strtotime('-15 year'));
                                 $end_year = date('Y', strtotime('+15 year'));
@@ -165,14 +165,14 @@
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="office_number">Number:</label>
                         <input type="text" id="office_number" name="office_number" class="form-control form-control--custom m-input"
-                               value="{{ $arrData['hearing']->office_number }}" readonly>
+                               value="{{ $arrData['hearing']->office_number }}" disabled>
                         <span class="help-block">{{$errors->first('office_number')}}</span>
                     </div>
 
                     <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="office_date">Date:</label>
                         <input type="text" id="office_date" name="office_date" class="form-control form-control--custom m_datepicker"
-                               readonly value="{{ $arrData['hearing']->office_date }}" readonly>
+                               disabled value="{{ date(config('commanConfig.dateFormat'), strtotime($arrData['hearing']->office_date))}}" >
                         <span class="help-block">{{$errors->first('office_date')}}</span>
 
                     </div>
@@ -182,14 +182,14 @@
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="office_tehsil">Tehsil:</label>
                         <input type="text" id="office_tehsil" name="office_tehsil" class="form-control form-control--custom m-input"
-                               value="{{ $arrData['hearing']->office_tehsil }}" readonly>
+                               value="{{ $arrData['hearing']->office_tehsil }}" disabled>
                         <span class="help-block">{{$errors->first('office_tehsil')}}</span>
                     </div>
 
                     <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="office_village">Village:</label>
                         <input type="text" id="office_village" name="office_village" class="form-control form-control--custom m-input"
-                               value="{{ $arrData['hearing']->office_village }}" readonly>
+                               value="{{ $arrData['hearing']->office_village }}" disabled>
                         <span class="help-block">{{$errors->first('office_village')}}</span>
                     </div>
                 </div>
@@ -197,7 +197,7 @@
                 <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="office_remark">Remarks:</label>
-                        <textarea id="office_remark" name="office_remark" class="form-control form-control--custom form-control--fixed-height m-input" readonly>{{ $arrData['hearing']->office_remark }}</textarea>
+                        <textarea id="office_remark" name="office_remark" class="form-control form-control--custom form-control--fixed-height m-input" disabled>{{ $arrData['hearing']->office_remark }}</textarea>
                         <span class="help-block">{{$errors->first('office_remark')}}</span>
                     </div>
 
