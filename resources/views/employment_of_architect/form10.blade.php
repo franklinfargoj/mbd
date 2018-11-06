@@ -536,6 +536,17 @@
                             <label class="col-form-label" for="">Phone Number:</label>
                             <input type="text" id="" name="tel_no" class="form-control form-control--custom m-input" value="{{$work_in_ha->tel_no}}">
                         </div>
+                        <div class="col-sm-4 offset-sm-1 form-group">
+                            <label class="col-form-label" for="extract">Upload copy of agreement:
+                                <!--<span class="star">*</span>--></label>
+                            <div class="custom-file">
+                                @php
+                                $file="";
+                                $file=isset($work_in_ha->copy_of_agreement)?$work_in_ha->copy_of_agreement:'';
+                                @endphp
+                                <a style="display:{{$file!=''?'block':'none'}}" target="_blank" class="btn-link" href="{{config('commanConfig.storage_server').'/'.$file}}">download</a>
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group">
@@ -636,6 +647,17 @@
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="">Phone Number:</label>
                         <input type="text" id="" name="tel_no" class="form-control form-control--custom m-input" value="{{$work_in_ha->tel_no}}">
+                    </div>
+                    <div class="col-sm-4 offset-sm-1 form-group">
+                        <label class="col-form-label" for="extract">Upload copy of agreement:
+                            <!--<span class="star">*</span>--></label>
+                        <div class="custom-file">
+                            @php
+                            $file="";
+                            $file=isset($work_in_ha->copy_of_agreement)?$work_in_ha->copy_of_agreement:'';
+                            @endphp
+                            <a style="display:{{$file!=''?'block':'none'}}" target="_blank" class="btn-link" href="{{config('commanConfig.storage_server').'/'.$file}}">download</a>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group m-form__group row">
