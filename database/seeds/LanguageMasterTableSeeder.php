@@ -22,8 +22,21 @@ class LanguageMasterTableSeeder extends Seeder
             'language'   => "marathi",
         ];
 
-        foreach ($languageArr as $language) {
-            $lang = LanguageMaster::create($language);
+        $language = LanguageMaster::all();
+        
+        if (count($language) == '0'){
+            $lang = LanguageMaster::insert($languageArr);
+        }else{
+            foreach ($languageArr as $data) {
+                $languageData = LanguageMaster::where('language',$data['language'])->first();
+                
+                if(!$languageData){
+                    $LanguageMaster = new LanguageMaster();
+                    $LanguageMaster->language = $data['language'];
+                    $LanguageMaster->save();
+                }   
+            }
+
         }
 
     }

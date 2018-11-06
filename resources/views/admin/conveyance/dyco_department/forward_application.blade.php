@@ -20,7 +20,7 @@
                     </a>
                 </li>
                 
-                @if($data->status->status_id == config('commanConfig.applicationStatus.in_process'))
+                @if($data->status->status_id != config('commanConfig.applicationStatus.forwarded'))
                 <li class="nav-item m-tabs__item">
                     <a class="nav-link m-tabs__link show" data-toggle="tab" href="#forward-application-tab">
                         <i class="la la-cog"></i> Forward Application
@@ -223,12 +223,13 @@
                                                         value="1" checked> Forward Application
                                                     <span></span>
                                                 </label>
-                                                
-                                                <label class="m-radio m-radio--primary">
-                                                    <input type="radio" name="remarks_suggestion" id="remark" class="forward-application"
-                                                        value="0"> Revert Application
-                                                    <span></span>
-                                                </label>                                                
+                                                @if($data->child != "")    
+                                                    <label class="m-radio m-radio--primary">
+                                                        <input type="radio" name="remarks_suggestion" id="remark" class="forward-application"
+                                                            value="0"> Revert Application
+                                                        <span></span>
+                                                    </label>  
+                                                @endif                                              
                                             </div>
 
                                             <div class="form-group m-form__group row mt-3 parent-data" id="select_dropdown">
@@ -246,7 +247,7 @@
                                                     </select>
                                                 </div>                                                 
                                             </div>
-                                             @if($data->child)
+                                             @if($data->child != "")
                                             <div class="form-group m-form__group row mt-3 child-data" style="display: none">
                                                 <label class="col-form-label col-lg-2 col-sm-12">
                                                     Revert To:

@@ -74,9 +74,9 @@
                                             <h5>Download</h5>
                                             <span class="hint-text">Click to download Sale Deed Agreement </span>
                                             <div class="mt-auto">
-                                                @if(isset($data->ApprovedSaleAgreement->agreement_path))
-                                                <input type="hidden" name="oldSaleFile" value="{{ $data->ApprovedSaleAgreement->agreement_path }}">
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->ApprovedSaleAgreement->agreement_path }}">
+                                                @if(isset($data->ApprovedSaleAgreement->document_path))
+                                                <input type="hidden" name="oldSaleFile" value="{{ $data->ApprovedSaleAgreement->document_path }}">
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->ApprovedSaleAgreement->document_path }}">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>
@@ -132,10 +132,10 @@
                                             <h5>Download</h5>
                                             <span class="hint-text">Click to download Lease Deed Agreement</span>
                                             <div class="mt-auto"> 
-                                                @if(isset($data->ApprovedLeaseAgreement->agreement_path))
+                                                @if(isset($data->ApprovedLeaseAgreement->document_path))
 
-                                                <input type="hidden" name="oldLeaseFile" value="{{ $data->ApprovedLeaseAgreement->agreement_path }}">
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->ApprovedLeaseAgreement->agreement_path }}">
+                                                <input type="hidden" name="oldLeaseFile" value="{{ $data->ApprovedLeaseAgreement->document_path }}">
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->ApprovedLeaseAgreement->document_path }}">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                        Download  </Button>
                                                 </a>

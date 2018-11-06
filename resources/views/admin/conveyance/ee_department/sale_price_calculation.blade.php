@@ -106,7 +106,7 @@
                                             <td>2.</td>
                                             <td>Date of Handling over Pump House & Under Ground Tank to Society</td>
                                             <td class="text-center">
-                                                <input type="text" class="txtbox v_text form-control form-control--custom m-input m_datepicker" name="pump_house" id="pump_house" value="{{ isset($data->ConveyanceSalePriceCalculation->pump_house) ? $data->ConveyanceSalePriceCalculation->pump_house : '' }}" aria-describedby="visit_date-error" aria-invalid="false" readonly>
+                                                <input type="text" class="txtbox v_text form-control form-control--custom m-input m_datepicker" name="pump_house" id="pump_house" value="{{ isset($data->ConveyanceSalePriceCalculation->pump_house) ? date('d-m-Y',strtotime($data->ConveyanceSalePriceCalculation->pump_house)) : '' }}" aria-describedby="visit_date-error" aria-invalid="false" readonly>
                                             </td>
                                         </tr>                                       
                                          <tr>
@@ -164,7 +164,7 @@
                                             <td>The Date of Completion of the above Building/Chawl</td>
                                             <td class="text-center">
                                     
-                                                <input type="text" class="txtbox v_text form-control form-control--custom m-input m_datepicker" name="completion_date" id="registration_date" value="{{ isset($data->ConveyanceSalePriceCalculation->completion_date) ? $data->ConveyanceSalePriceCalculation->completion_date : '' }}" aria-describedby="visit_date-error" aria-invalid="false" readonly>
+                                                <input type="text" class="txtbox v_text form-control form-control--custom m-input m_datepicker" name="completion_date" id="registration_date" value="{{ isset($data->ConveyanceSalePriceCalculation->completion_date) ? date('d-m-Y',strtotime($data->ConveyanceSalePriceCalculation->completion_date)) : '' }}" aria-describedby="visit_date-error" aria-invalid="false" readonly>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -218,7 +218,7 @@
         </div>
 
         <div class="tab-pane sale-2" id="demarcation-plan" role="tabpanel">
-        <form class="nav-tabs-form" role="form" name="demarcationFRM" method="POST" class="form-horizontal" action="{{ route('ee.save_demarcation_plan') }}" enctype="multipart/form-data">
+        <form class="nav-tabs-form" role="form" id="demarcationFRM" name="demarcationFRM" method="POST" class="form-horizontal" action="{{ route('ee.save_demarcation_plan') }}" enctype="multipart/form-data">
         
         @csrf
             <input type="hidden" name="application_id" value="{{ isset($data->id) ? $data->id : '' }}">
@@ -238,7 +238,7 @@
                                     <div class="col-sm-6">
                                         <div class="d-flex flex-column h-100 two-cols">
                                             <h5>Upload Demarcation Map</h5>
-                                            <span class="hint-text">Click on 'Upload' to upload Demarcation Map</span>
+                                            <span class="hint-text">Click to upload Demarcation Map</span>
                                             <form action="" method="post">
                                                 <div class="custom-file">
                                                     <input class="custom-file-input" name="demarcation_plan" type="file" id="test-upload"
@@ -246,7 +246,7 @@
                                                     <label class="custom-file-label" for="test-upload">Choose
                                                         file...</label>
                                                 </div>
-                                                <div class="mt-auto">
+                                                <div class="mt-auto" style="margin-top: 13px !important;">
                                                     <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
                                                 </div>
                                             </form>
@@ -256,7 +256,7 @@
                                     <div class="col-sm-6 border-left">
                                         <div class="d-flex flex-column h-100 two-cols">
                                             <h5>Download Demarcation Map</h5>
-                                            <span class="hint-text">Download demarcation Map in .dwg (Autocad) format</span>
+                                            <span class="hint-text">Download demarcation Map</span>
                                             <div class="mt-auto">
                                                 @if(isset($data->ConveyanceSalePriceCalculation->demarcation_map))
 
@@ -282,7 +282,7 @@
         </form>    
         </div>
         <div class="tab-pane sale-3" id="covering-letter" role="tabpanel">
-        <form class="nav-tabs-form" role="form" name="CoveringFRM" method="POST" class="form-horizontal" action="{{ route('ee.save_covering_letter') }}" enctype="multipart/form-data">
+        <form class="nav-tabs-form" role="form" name="CoveringFRM" id="CoveringFRM" method="POST" class="form-horizontal" action="{{ route('ee.save_covering_letter') }}" enctype="multipart/form-data">
         @csrf
             <input type="hidden" name="application_id" value="{{ isset($data->id) ? $data->id : '' }}">
             <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
@@ -304,12 +304,12 @@
                                             <span class="hint-text">Click on 'Upload' to upload letter</span>
                                             <form action="" method="post">
                                                 <div class="custom-file">
-                                                    <input class="custom-file-input" name="covering_letter" type="file" id="test-upload2" required="">
+                                                    <input class="custom-file-input" name="covering_letter" type="file" id="test-upload2">
                                                     <label class="custom-file-label" for="test-upload2">Choose
                                                         file...</label>
                                                 </div>
-                                                <div class="mt-auto">
-                                                    <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn2">Upload</button>
+                                                <div class="mt-auto" style="margin-top: 13px !important;">
+                                                    <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
                                                 </div>
                                             </form>
                                         </div>
@@ -317,7 +317,7 @@
                                     <div class="col-sm-6 border-left">
                                         <div class="d-flex flex-column h-100 two-cols">
                                             <h5>Download</h5>
-                                            <span class="hint-text">Click Download to download letter in .doc format.</span>
+                                            <span class="hint-text">Click to download letter.</span>
                                             <div class="mt-auto">
                                                 @if(isset($data->ConveyanceSalePriceCalculation->ee_covering_letter))
 
@@ -349,22 +349,48 @@
 @section('js')
     <script>
 
-    $(document).ready(function () {
+    // $(document).ready(function () {
 
-        var id = Cookies.get('sale_tabs');
-        if (id != undefined) {
-            $(".sale-tabs > a").removeClass('active');
-            $(".tab-pane").removeClass('active');
-            $("#"+id+" > a").addClass('active');
-            $("#" + id).addClass('active');
-            $("." + id).addClass('active');
+    //     var id = Cookies.get('sale_tabs');
+    //     if (id != undefined) {
+    //         $(".sale-tabs > a").removeClass('active');
+    //         $(".tab-pane").removeClass('active');
+    //         $("#"+id+" > a").addClass('active');
+    //         $("#" + id).addClass('active');
+    //         $("." + id).addClass('active');
+    //     }
+    // });    
+
+    // $(".sale-tabs").on('click', function () {
+    //     $(".sale-tabs > a").removeClass('active');
+    //     Cookies.set('sale_tabs', this.id);
+    // });
+
+    $("#demarcationFRM").validate({
+        rules: {
+            demarcation_plan: {
+                required: true,
+                extension: "pdf"
+            },
+        }, messages: {
+            demarcation_plan: {
+                extension: "Invalid type of file uploaded (only pdf allowed)."
+            }
         }
-    });    
+    });  
 
-    $(".sale-tabs").on('click', function () {
-        $(".sale-tabs > a").removeClass('active');
-        Cookies.set('sale_tabs', this.id);
-    });
+    $("#CoveringFRM").validate({
+        rules: {
+            covering_letter: {
+                required: true,
+                extension: "pdf"
+            },
+        }, messages: {
+            covering_letter: {
+                extension: "Invalid type of file uploaded (only pdf allowed)."
+            }
+        }
+    });      
 
     </script>
 
