@@ -181,6 +181,7 @@ class conveyanceCommonController extends Controller
     // forward and revert application
     public function forwardApplication($request){
         
+        $Scstatus = "";
         $masterId = scApplication::where('id',$request->applicationId)->value('sc_application_master_id');
         $dycdoId =  Role::where('name',config('commanConfig.dycdo_engineer'))->value('id');  
          
@@ -192,6 +193,7 @@ class conveyanceCommonController extends Controller
 
         if(session()->get('role_name') == config('commanConfig.ee_branch_head') && $request->to_role_id == $dycdoId) {
             $Tostatus = ApplicationStatusMaster::where('status_name','=','Draft sale and lease deed')->value('id');
+            $Scstatus = $Tostatus;
         } else{
             $Tostatus = config('commanConfig.applicationStatus.in_process');
         }
@@ -221,8 +223,10 @@ class conveyanceCommonController extends Controller
             ];
 
             scApplicationLog::insert($application); 
-            $up = scApplication::where('id',$request->applicationId)->where('sc_application_master_id',$masterId)
-            ->update(['application_status' => $Tostatus]);    
+            if ($Scstatus != ""){
+                scApplication::where('id',$request->applicationId)->where('sc_application_master_id',$masterId)
+                ->update(['application_status' => $Tostatus]);                    
+            }
     }
 
     public function getForwardApplicationData($applicationId){
@@ -270,7 +274,11 @@ class conveyanceCommonController extends Controller
         }        
         if (session()->get('role_name') == config('commanConfig.estate_manager')){
             $folder = 'em_department';
+        }         
+        if (session()->get('role_name') == config('commanConfig.co_engineer') || session()->get('role_name') == config('commanConfig.joint_co') ){
+            $folder = 'co_department';
         } 
+        dd($folder);
         return $folder;       
     }  
 
@@ -366,10 +374,11 @@ class conveyanceCommonController extends Controller
     }
 
     public function SaveAgreementComments(Request $request){
-        
+
         $applicationId = $request->application_id;
         $remark        = $request->remark;
-        $result        = $this->ScAgreementComment($applicationId,$remark);
+        $masterId      = scApplication::where('id',$applicationId)->value('sc_application_master_id');  
+        $result        = $this->ScAgreementComment($applicationId,$remark,$masterId);
         return back()->with('success','data save Successfully.');
     } 
 

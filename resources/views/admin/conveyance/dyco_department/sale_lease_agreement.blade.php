@@ -113,8 +113,6 @@
                                             <h5>Upload</h5>
                                             <span class="hint-text">Click to upload Lease Deed Agreement</span>
                                                 <div class="custom-file">
-                                                    <!-- <input class="custom-file-input" name="lease_agreement" type="file" id="test-upload2"> -->
-                                                    
                                                     <input class="custom-file-input" name="lease_agreement" type="file" id="test-upload2">
    
                                                     <label class="custom-file-label" for="test-upload2">Choose
@@ -183,4 +181,28 @@
  </form>   
 </div>
 
+@endsection
+
+@section('js')
+<script>
+    $("#agreementFRM").validate({
+        rules: {
+            sale_agreement: {
+                // required: true,
+                extension: "pdf"
+            },            
+            lease_agreement: {
+                // required: true,
+                extension: "pdf"
+            },
+        }, messages: {
+            sale_agreement: {
+                extension: "Invalid type of file uploaded (only pdf allowed)."
+            },            
+            lease_agreement: {
+                extension: "Invalid type of file uploaded (only pdf allowed)."
+            }
+        }
+    });  
+</script>
 @endsection

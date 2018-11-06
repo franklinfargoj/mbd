@@ -45,7 +45,7 @@ class DYCOController extends Controller
         $is_view = session()->get('role_name') == config('commanConfig.dycdo_engineer');
         $data->status = $this->common->getCurrentStatus($applicationId,$data->sc_application_master_id);
 
-        if ($is_view && $data->status->status_id == config('commanConfig.applicationStatus.in_process')) {
+        if ($is_view && $data->status->status_id == config('commanConfig.applicationStatus.Draft_sale_&_lease_deed')) {
             $route = 'admin.conveyance.dyco_department.checklist_office_note';
         }else{
             $route = 'admin.conveyance.common.view_checklist_office_note';
@@ -127,7 +127,7 @@ class DYCOController extends Controller
 
         $data->AgreementComments = ScAgreementComments::with('Roles')->where('application_id',$applicationId)->where('agreement_type_id',$Applicationtype)->whereNotNull('remark')->get();
 
-        if ($is_view && $data->status->status_id == config('commanConfig.applicationStatus.in_process')) {
+        if ($is_view && $data->status->status_id == config('commanConfig.applicationStatus.Draft_sale_&_lease_deed')) {
             $route = 'admin.conveyance.dyco_department.sale_lease_agreement';
         }else{
             $route = 'admin.conveyance.common.view_draft_sale_lease_agreements';
@@ -432,7 +432,8 @@ class DYCOController extends Controller
       $data     = $this->common->getForwardApplicationData($applicationId);
       $dycoLogs = $this->common->getLogsOfDYCODepartment($applicationId,$data->sc_application_master_id);
       $eelogs   = $this->common->getLogsOfEEDepartment($applicationId,$data->sc_application_master_id);
-      return view('admin.conveyance.dyco_department.forward_application',compact('data','dycoLogs','eelogs'));          
+      $Architectlogs = $this->common->getLogsOfArchitectDepartment($applicationId,$data->sc_application_master_id);
+      return view('admin.conveyance.dyco_department.forward_application',compact('data','dycoLogs','eelogs','Architectlogs'));          
     }
  
     public function saveForwardApplication(Request $request){

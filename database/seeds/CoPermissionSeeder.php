@@ -107,6 +107,16 @@ class CoPermissionSeeder extends Seeder
                 'display_name' => 'post_forward_architect_layout',
                 'description' => 'post_forward_architect_layout',
             ],
+            [
+                'name'=>'conveyance.index',
+                'display_name'=>'conveyance',
+                'description'=>'conveyance'
+            ],           
+            [
+                'name'=>'conveyance.view_application',
+                'display_name'=>'view application',
+                'description'=>'view application'
+            ],             
         ];
         $ree_role_id = Role::where('name', 'ree_engineer')->value('id');
         if ($ree_role_id == null) {
