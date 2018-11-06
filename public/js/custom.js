@@ -253,8 +253,14 @@ $(document).ready(function () {
                 number: true
             },
             office_date: "required",
-            office_tehsil: "required",
-            office_village: "required",
+            office_tehsil: {
+                required : true,
+                lettersonly: true
+            },
+            office_village: {
+                required : true,
+                lettersonly : true,
+            },
             office_remark: "required",
             department_id: "required",
             hearing_status_id: "required"
@@ -291,8 +297,14 @@ $(document).ready(function () {
                 number: true
             },
             office_date: "required",
-            office_tehsil: "required",
-            office_village: "required",
+            office_tehsil: {
+                required : true,
+                lettersonly: true
+            },
+            office_village: {
+                required : true,
+                lettersonly : true,
+            },
             office_remark: "required",
             department_id: "required",
             hearing_status_id: "required"
