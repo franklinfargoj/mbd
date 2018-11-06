@@ -141,10 +141,11 @@ class EMController extends Controller
             $wards = MasterWard::where('layout_id', '=', $request->input('id'))->pluck('id');
             $colonies = MasterColony::whereIn('ward_id', $wards)->pluck('id');
             $societies = SocietyDetail::whereIn('colony_id', $colonies)->paginate(10);
+            
             return view('admin.em_department.ajax_society', compact('societies'));
-
+            
         } elseif(!empty($request->input('search'))) {
-
+                
           $layouts = DB::table('layout_user')->where('user_id', '=', Auth::user()->id)->pluck('layout_id');
           $layout_data = MasterLayout::whereIn('id', $layouts)->get();
           $wards = MasterWard::whereIn('layout_id', $layouts)->pluck('id');
@@ -153,7 +154,7 @@ class EMController extends Controller
           return view('admin.em_department.ajax_society', compact('societies'));
         
         } else {
-
+    
         $layouts = DB::table('layout_user')->where('user_id', '=', Auth::user()->id)->pluck('layout_id');
         $layout_data = MasterLayout::whereIn('id', $layouts)->get();
        // dd($layout_data);
@@ -161,7 +162,11 @@ class EMController extends Controller
         //dd($wards);
         $colonies = MasterColony::whereIn('ward_id', $wards)->pluck('id');
         //dd($colonies);
-        $societies = SocietyDetail::whereIn('colony_id', $colonies)->paginate(10);
+
+        //done by shrikant sabne
+        //$societies = SocietyDetail::whereIn('colony_id', $colonies)->paginate(10);
+        
+        $societies = SocietyDetail::paginate(10);
         //dd($societies);
         if($request->has('search')) {
             return view('admin.em_department.ajax_society', compact('societies'));  
@@ -234,7 +239,9 @@ class EMController extends Controller
     public function soc_ward_colony($id){
         $society = SocietyDetail::where('id','=',$id)->get();
         //dd($society);
-        $soc_colony = MasterColony::where('id', '=', $society[0]->colony_id)->first();
+        // $soc_colony = MasterColony::where('id', '=', $society[0]->colony_id)->first();
+
+        $soc_colony = MasterColony::first();
         //dd($soc_colony);
         $layouts = DB::table('layout_user')->where('user_id', '=', Auth::user()->id)->pluck('layout_id');
         $layout_data = MasterLayout::whereIn('id', $layouts)->get();
