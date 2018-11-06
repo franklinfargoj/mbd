@@ -630,14 +630,14 @@ class EEController extends Controller
 
         $columns = [
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
-            ['data' => 'name','name' => 'name','title' => 'Society Name'],
+            ['data' => 'society_name','name' => 'society_name','title' => 'Society Name'],
             ['data' => 'society_bill_level', 'name' => 'society_bill_level','title' => 'Billing Level'],
             ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
         ];
 
         if ($datatables->getRequest()->ajax()) {
             DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
-            $societies = SocietyDetail::selectRaw('@rownum  := @rownum  + 1 AS rownum, name,society_bill_level,id');
+            $societies = SocietyDetail::selectRaw('@rownum  := @rownum  + 1 AS rownum, society_name,society_bill_level,id');
             return $datatables->of($societies)
             ->editColumn('society_bill_level', function ($societies) {
                 if(SOCIETY_LEVEL_BILLING == $societies->society_bill_level) {

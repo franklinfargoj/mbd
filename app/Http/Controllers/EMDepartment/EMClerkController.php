@@ -150,10 +150,14 @@ class EMClerkController extends Controller
             })
             ->editColumn('actions', function ($tenant){
                 if($tenant->total_amount == null || $tenant->payment_status == null || $tenant->payment_status == 0 ){
-/*
-                    return "<a href='".url('tenant_arrear_calculation?id='.$tenant->id)."' class='btn m-btn--pill m-btn--custom btn-primary'>edit</a>";*/
+                    
+                    return "<div class='d-flex btn-icon-list'><a href='".url('tenant_arrear_calculation?id='.$tenant->id)."' class='d-flex flex-column align-items-center'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/edit-icon.svg')."'></span>edit</a></div>";
 
-                    return "<form method='get' action='".route('tenant_arrear_calculation')."'> <input type='hidden' name='id' value='".$tenant->id."' /> <input type='submit' value='edit' /></form>";
+                   /* return "<a href='".url('tenant_arrear_calculation?id='.$tenant->id)."' class='btn m-btn--pill m-btn--custom btn-primary'>edit</a>";*/
+
+                   /* return "<form method='get' action='".route('tenant_arrear_calculation')."'> <input type='hidden' name='id' value='".$tenant->id."' /> 
+                            <input type='submit' value='edit' />
+                       </form>";*/
 
                 } else {
                     return '';
@@ -256,7 +260,11 @@ class EMClerkController extends Controller
             })
             ->editColumn('actions', function ($arrear){
                 if($arrear->total_amount == null || $arrear->payment_status == null || $arrear->payment_status == 0 ){
-                    return "<a href='".url('tenant_arrear_calculation?id='.$arrear->tenant_id.'&row_id='.$arrear->id)."' class='btn m-btn--pill m-btn--custom btn-primary'>edit</a>"; 
+
+                     return "<div class='d-flex btn-icon-list'><a href='".url('tenant_arrear_calculation?id='.$arrear->tenant_id.'&row_id='.$arrear->id)."' class='d-flex flex-column align-items-center'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/edit-icon.svg')."'></span>edit</a></div>";
+
+                  /*  return "<a href='".url('tenant_arrear_calculation?id='.$arrear->tenant_id.'&row_id='.$arrear->id)."' class='btn m-btn--pill m-btn--custom btn-primary'>edit</a>";*/
+
                 } else {
                     return '';
                 } 

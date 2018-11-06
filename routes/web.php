@@ -243,6 +243,11 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::get('generateBuildingBill','EMDepartment\EMController@generateBuildingBill')->name('generateBuildingBill');
     Route::get('generateTenantBill','EMDepartment\EMController@generateTenantBill')->name('generateTenantBill');
+
+    Route::post('create_tenant_bill','EMDepartment\EMController@create_tenant_bill')->name('create_tenant_bill');
+    Route::post('create_society_bill','EMDepartment\EMController@create_society_bill')->name('create_society_bill');
+    
+
     //EM_Clerk Routes
     Route::resource('em_clerk', 'EMDepartment\EMClerkController');
     Route::get('em_society_list', 'EMDepartment\EMClerkController@society_list')->name('em_society_list');

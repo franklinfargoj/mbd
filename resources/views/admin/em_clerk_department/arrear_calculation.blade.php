@@ -105,6 +105,14 @@
                                         <option value="" style="font-weight: normal;">Select Year</option>
                                         <option value="<?php echo  date('Y');?>" style="font-weight: normal;"><?php echo  date('Y'); ?></option>
                                         <option value="<?php echo date("Y",strtotime("-1 year")); ?>" style="font-weight: normal;"><?php echo date("Y",strtotime("-1 year")); ?></option>
+                                        <option value="<?php echo date("Y",strtotime("-2 year")); ?>" style="font-weight: normal;"><?php echo date("Y",strtotime("-2 year")); ?></option>
+                                        <option value="<?php echo date("Y",strtotime("-3 year")); ?>" style="font-weight: normal;"><?php echo date("Y",strtotime("-3 year")); ?></option>
+                                        <option value="<?php echo date("Y",strtotime("-4 year")); ?>" style="font-weight: normal;"><?php echo date("Y",strtotime("-4 year")); ?></option>
+                                        <option value="<?php echo date("Y",strtotime("-5 year")); ?>" style="font-weight: normal;"><?php echo date("Y",strtotime("-5 year")); ?></option>
+                                        <option value="<?php echo date("Y",strtotime("-6 year")); ?>" style="font-weight: normal;"><?php echo date("Y",strtotime("-6 year")); ?></option>
+                                        <option value="<?php echo date("Y",strtotime("-7 year")); ?>" style="font-weight: normal;"><?php echo date("Y",strtotime("-7 year")); ?></option>
+                                        <option value="<?php echo date("Y",strtotime("-8 year")); ?>" style="font-weight: normal;"><?php echo date("Y",strtotime("-8 year")); ?></option>
+                                        <option value="<?php echo date("Y",strtotime("-9 year")); ?>" style="font-weight: normal;"><?php echo date("Y",strtotime("-9 year")); ?></option>
                                     </select>
                                 </div>
                             </div>       
@@ -158,6 +166,14 @@
                                         <option value="" style="font-weight: normal;">Select Year</option>
                                         <option value="<?php echo  date('Y');?>" style="font-weight: normal;"><?php echo  date('Y'); ?></option>
                                         <option value="<?php echo date("Y",strtotime("-1 year")); ?>" style="font-weight: normal;"><?php echo date("Y",strtotime("-1 year")); ?></option>
+                                         <option value="<?php echo date("Y",strtotime("-2 year")); ?>" style="font-weight: normal;"><?php echo date("Y",strtotime("-2 year")); ?></option>
+                                        <option value="<?php echo date("Y",strtotime("-3 year")); ?>" style="font-weight: normal;"><?php echo date("Y",strtotime("-3 year")); ?></option>
+                                        <option value="<?php echo date("Y",strtotime("-4 year")); ?>" style="font-weight: normal;"><?php echo date("Y",strtotime("-4 year")); ?></option>
+                                        <option value="<?php echo date("Y",strtotime("-5 year")); ?>" style="font-weight: normal;"><?php echo date("Y",strtotime("-5 year")); ?></option>
+                                        <option value="<?php echo date("Y",strtotime("-6 year")); ?>" style="font-weight: normal;"><?php echo date("Y",strtotime("-5 year")); ?></option>
+                                        <option value="<?php echo date("Y",strtotime("-7 year")); ?>" style="font-weight: normal;"><?php echo date("Y",strtotime("-7 year")); ?></option>
+                                        <option value="<?php echo date("Y",strtotime("-8 year")); ?>" style="font-weight: normal;"><?php echo date("Y",strtotime("-8 year")); ?></option>
+                                        <option value="<?php echo date("Y",strtotime("-9 year")); ?>" style="font-weight: normal;"><?php echo date("Y",strtotime("-9 year")); ?></option>
                                     </select>
                                 </div>
                             </div>       
@@ -211,8 +227,8 @@
                 <div class="row align-items-center mb-0">           
                     <div class="col-md-9">
                         <div class="form-group m-form__group">
-                            <input type="submit" class="btn btn-success" name="save" value="Save">
-                            <a  class="btn btn-info" href="{{ route('em_clerk.index') }}">Cancel</a>
+                            <input type="submit" class="btn m-btn--pill m-btn--custom btn-primary" name="save" value="Save">
+                            <a  class="btn m-btn--pill m-btn--custom btn-metal" href="{{ route('em_clerk.index') }}">Cancel</a>
                         </div>
                     </div>
                 </div>
@@ -328,16 +344,6 @@
                  $('#total_amount').html(total);
                  $('#total_amount_val').val(total);
 
-                /*
-                 console.log(old_rate);
-                 console.log(months1);
-                 console.log(ior_per);
-            console.log(old_intrest_amount);
-                
-                 console.log(rate_diff)
-                 console.log(months2);
-                 console.log(iod_per);
-                 console.log(intrest_on_difference);*/
     }
 
 function monthDiff(d1, d2) {
