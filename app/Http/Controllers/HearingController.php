@@ -45,7 +45,6 @@ class HearingController extends Controller
                 $q->where('user_id', Auth::user()->id)
                     ->where('role_id', session()->get('role_id'));
             })->get()->toArray();
-dd($hearing_data);
         return view('admin.hearing.print_data',compact('hearing_data'));
     }
 
@@ -260,12 +259,8 @@ dd($hearing_data);
             'role_id' => session()->get('role_id'),
             'user_id' => Auth::user()->id
         ];
-//        dd($data);
         $hearing = Hearing::create($data);
-//        dd($hearing->id);
-        $hearing->fill(['case_number' => $hearing->id]);
-
-        dd($hearing);
+        $hearing->update(['case_number' => $hearing->id]);
         $parent_role_id = User::where('role_id', session()->get('parent'))->first();
 
         $hearing_status_log = [
