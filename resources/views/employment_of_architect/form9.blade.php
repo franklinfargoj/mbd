@@ -17,7 +17,7 @@
         <button onclick="window.location='{{ route("appointing_architect.step9",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab active">Step 9</button>
         <button onclick="window.location='{{ route("appointing_architect.step10",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab ">Step 10</button>
     </div>
-    <form id="" role="form" method="post" class="m-form m-form--rows m-form--label-align-right form-steps-box" action="{{route('appointing_architect.step9_post',['id'=>encrypt($application->id)])}}"
+    <form id="appointing_architect_step9" role="form" method="post" class="m-form m-form--rows m-form--label-align-right form-steps-box" action="{{route('appointing_architect.step9_post',['id'=>encrypt($application->id)])}}"
         enctype="multipart/form-data">
         <div class="m-portlet m-portlet--mobile">
             <h3 class="section-title section-title--small">SUPPORTING DOCUMENTS</h3>
@@ -42,22 +42,24 @@
                                 @else
                                 @php $k=0; @endphp
                                 @endif
-                                @for($j=0;$j<(1+$k);$j++) <tr class="cloneme">
+                                @for($j=0;$j<(1+$k);$j++) 
+                                <tr class="cloneme">
                                     <td>
-                                        <input type="hidden" name="doc_id[]" value="{{$application->supporting_documents!=''?(isset($application->supporting_documents[$j])?$application->supporting_documents[$j]->id:''):''}}">
-                                        <input required name="document_name[]" placeholder="Name of document" value="{{$application->supporting_documents!=''?(isset($application->supporting_documents[$j])?$application->supporting_documents[$j]->document_name:''):''}}"
+                                        <input type="hidden" name="doc_id[{{$j}}]" value="{{$application->supporting_documents!=''?(isset($application->supporting_documents[$j])?$application->supporting_documents[$j]->id:''):''}}">
+                                        <input required name="document_name[{{$j}}]" placeholder="Name of document" value="{{$application->supporting_documents!=''?(isset($application->supporting_documents[$j])?$application->supporting_documents[$j]->document_name:''):''}}"
                                             type="text" class="form-control form-control--custom">
                                     </td>
                                     <td>
-                                        <div class="custom-file mb-0">
-                                            <input type="file" id="extract_{{$j+1}}" name="document_path[]" class="custom-file-input">
-                                            <label title="" class="custom-file-label" for="extract_{{$j+1}}">Choose
-                                                File...</label>
-                                            <span class="help-block"></span>
                                             @php
                                             $file="";
                                             $file=isset($application->supporting_documents[$j])?$application->supporting_documents[$j]->document_path:'';
                                             @endphp 
+                                        <div class="custom-file mb-0">
+                                            <input accept="pdf" title="please upload file with pdf extension" {{ $file!=""?"":"required" }} type="file" id="extract_{{$j}}" name="document_path[{{$j}}]" class="custom-file-input">
+                                            <label title="" class="custom-file-label" for="extract_{{$j}}">Choose
+                                                File...</label>
+                                            <span class="help-block"></span>
+                                           
                                             <a style="display:{{$file!=''?'block':'none'}}" target="_blank" class="btn-link" href="{{config('commanConfig.storage_server').'/'.$file}}">download</a>
                                         </div>
                                         @if($j>0)
@@ -114,11 +116,16 @@
     $('#add-more').click(function (e) {
         e.preventDefault();
         var clone = $('table.imp_projects tr.cloneme:first').clone().find('input').val('').end();
-        console.log("clone", clone.find('.custom-file-label')[0].textContent);
-        var tableRowCount = $('#table-form-4 tbody tr').length + 1;
+        //console.log("clone", clone.find('.custom-file-label')[0].textContent);
+        var tableRowCount = $('#table-form-4 tbody tr').length;
         clone.find('.custom-file-label')[0].setAttribute('for', 'extract_' + tableRowCount);
         clone.find('.custom-file-label')[0].textContent = "Choose File...";
         clone.find('.custom-file-input')[0].setAttribute('id', 'extract_' + tableRowCount);
+        clone.find('.custom-file-input')[0].setAttribute('accept', 'pdf');
+        clone.find('.custom-file-input')[0].setAttribute('required', 'required');
+        clone.find('input[name="document_path[0]"]')[0].setAttribute('name', 'document_path[' + tableRowCount + ']')
+        clone.find('input[name="document_name[0]"]')[0].setAttribute('name', 'document_name[' + tableRowCount + ']')
+        clone.find('input[name="doc_id[0]"]')[0].setAttribute('name', 'doc_id[' + tableRowCount + ']')
         clone.find('.btn-link')[0].style.display = "none";
         clone.find("td:last").append(
             "<h2 class='m--font-danger remove-row'><i title='Delete' class='fa fa-remove'></i></h2>");
@@ -134,7 +141,7 @@
 
     $('.imp_projects').on('click', '.fa-remove', function () {
         //$(this).closest('tr').remove();
-        var delete_id = $(this).closest('tr').find("input[name='doc_id[]']")[0].value;
+        var delete_id = $(this).closest('tr').find("input")[0].value;
         if (delete_id != "") {
             if (confirm('are you sure?')) {
                 $.ajaxSetup({
@@ -162,6 +169,34 @@
             $(this).closest('tr').remove();
         }
     });
+
+    $.validator.prototype.checkForm = function () {
+        //overriden in a specific page
+        this.prepareForm();
+        for (var i = 0, elements = (this.currentElements = this.elements()); elements[i]; i++) {
+            if (this.findByName(elements[i].name).length !== undefined && this.findByName(elements[i].name).length >
+                1) {
+                for (var cnt = 0; cnt < this.findByName(elements[i].name).length; cnt++) {
+                    this.check(this.findByName(elements[i].name)[cnt]);
+                }
+            } else {
+                this.check(elements[i]);
+            }
+        }
+        return this.valid();
+    };
+    
+    $('#appointing_architect_step9').validate({
+        rules: {
+            "document_name[]": "required",
+            "document_path[]": {
+                required:true,
+                extension: "pdf|doc|docx",
+            },
+        }
+    });
+
+   
 
 </script>
 @endsection
