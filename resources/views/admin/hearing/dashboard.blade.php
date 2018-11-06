@@ -6,35 +6,44 @@
             <h3 class="m-subheader__title">Today's Hearing</h3>
         </div>
     </div>
-    <div class="row hearing-row">
-        <div class="col">
-            <h2 class="app-heading">Case Year</h2>
-            <div class="m-portlet app-card text-center">
-                <h2 class="app-no mb-0">240</h2>
-            </div>
+    <div class="m-portlet m-portlet--compact form-accordion">
+        <div class="d-flex justify-content-between align-items-center">
+            <a class="btn--unstyled section-title section-title--small d-flex justify-content-between mb-0 w-100 collapsed" data-toggle="collapse"
+                href="#todays-hearing"><span class="form-accordion-title">Today's Hearing</span><span class="accordion-icon"></span></a>
         </div>
-        <div class="col">
-            <h2 class="app-heading">Case NO</h2>
-            <div class="m-portlet app-card text-center">
-                <h2 class="app-no mb-0">250</h2>
+    </div>
+    
+    <div class="m-portlet__body m-portlet__body--spaced collapse" id="todays-hearing" data-parent="#accordion">
+        <div class="row hearing-row">
+            <div class="col">
+                <h2 class="app-heading">Case Year</h2>
+                <div class="m-portlet app-card text-center">
+                    <h2 class="app-no mb-0">240</h2>
+                </div>
             </div>
-        </div>
-        <div class="col">
-            <h2 class="app-heading">Hearing Time</h2>        
-            <div class="m-portlet app-card text-center">
-                <h2 class="app-no mb-0">240</h2>
+            <div class="col">
+                <h2 class="app-heading">Case NO</h2>
+                <div class="m-portlet app-card text-center">
+                    <h2 class="app-no mb-0">250</h2>
+                </div>
             </div>
-        </div>
-        <div class="col">
-            <h2 class="app-heading">Applicant Name</h2>
-            <div class="m-portlet app-card text-center">
-                <h2 class="app-no mb-0">10</h2>
+            <div class="col">
+                <h2 class="app-heading">Hearing Time</h2>        
+                <div class="m-portlet app-card text-center">
+                    <h2 class="app-no mb-0">240</h2>
+                </div>
             </div>
-        </div>
-        <div class="col">
-            <h2 class="app-heading">Action</h2>
-            <div class="m-portlet app-card text-center">
-                <h2 class="app-no app-no--view mb-0">View Details</h2>
+            <div class="col">
+                <h2 class="app-heading">Applicant Name</h2>
+                <div class="m-portlet app-card text-center">
+                    <h2 class="app-no mb-0">10</h2>
+                </div>
+            </div>
+            <div class="col">
+                <h2 class="app-heading">Action</h2>
+                <div class="m-portlet app-card text-center">
+                    <h2 class="app-no app-no--view mb-0">View Details</h2>
+                </div>
             </div>
         </div>
     </div>
