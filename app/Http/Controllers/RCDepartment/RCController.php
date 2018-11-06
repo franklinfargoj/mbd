@@ -379,6 +379,14 @@ class RCController extends Controller
                        return $pdf->download('payment_receipt_tenant'.date('YmdHis').'.pdf');
 
             } else {
+                $data['building'] = MasterBuilding::find($request->building_id);
+                $data['society'] = SocietyDetail::find($data['building']->society_id);
+                $data['tenant'] = MasterTenant::where('building_id',$data['building']->id)->where('id',$request->tenant_id)->first();
+                $data['bill'] = $receipt;
+                $data['consumer_number'] = substr(sprintf('%08d', $data['building']->id),0,8).'|'.substr(sprintf('%08d', $data['tenant']->id),0,8);
+
+                $pdf = PDF::loadView('admin.rc_department.payment_receipt_tenant', $data);
+                       return $pdf->download('payment_receipt_tenant'.date('YmdHis').'.pdf');
                 return redirect()->back()->with('warning', 'Bill Already Paid.');
             }
           

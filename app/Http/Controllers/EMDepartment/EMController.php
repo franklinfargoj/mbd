@@ -654,7 +654,14 @@ class EMController extends Controller
             $bill->bill_to = $request->bill_to;
             $bill->bill_month = $request->bill_month;
             $bill->bill_year = $request->bill_year;
-            $bill->monthly_bill = $request->monthly_bill / $request->no_of_tenant;
+            if($request->no_of_tenant)
+            {
+                $bill->monthly_bill = $request->monthly_bill / $request->no_of_tenant;
+            }else
+            {
+                $bill->monthly_bill = $request->monthly_bill;
+            }
+            
             $bill->arrear_bill = $request->arrear_bill;
             $bill->total_bill = $request->total_bill;
             $bill->bill_date = $request->bill_date;
