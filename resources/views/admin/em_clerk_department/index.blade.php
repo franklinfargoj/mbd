@@ -14,7 +14,7 @@
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center" id="search_box">
-            <h3 class="m-subheader__title m-subheader__title--separator">Application for Offer Letter</h3>
+            <h3 class="m-subheader__title m-subheader__title--separator">ARrear Calculation</h3>
             {{ Breadcrumbs::render('em') }}
          </div>
 
@@ -65,8 +65,7 @@
                 <div class="row align-items-center mb-0">           
                     <div class="col-md-9">
                         <div class="form-group m-form__group">
-                            <input type="submit" class="btn btn-success" name="search" value="Search">
-
+                            <input type="submit" class="btn m-btn--pill m-btn--custom btn-primary" name="search" value="Search">
                         </div>
                     </div>
                 </div>

@@ -293,6 +293,16 @@ class EmPermissionSeeder extends Seeder
                 'display_name' => 'Generate Building Bill',
                 'description' => 'Generate Building Bill'
             ],
+            [
+                'name' => 'create_tenant_bill',
+                'display_name' => 'Create Tenant Bill',
+                'description' => 'Create Tenant Bill'
+            ],
+            [
+                'name' => 'create_society_bill',
+                'display_name' => 'Create Building Bill',
+                'description' => 'Create Building Bill'
+            ]
         ];
 
         $permission_role = [];
@@ -313,6 +323,7 @@ class EmPermissionSeeder extends Seeder
             }
 
         }
+        
         if (count($permission_role) > 0) {
             PermissionRole::insert($permission_role);
         }

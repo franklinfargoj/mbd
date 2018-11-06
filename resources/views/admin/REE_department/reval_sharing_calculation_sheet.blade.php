@@ -1,6 +1,6 @@
 @extends('admin.layouts.sidebarAction')
 @section('actions')
-@include('admin.REE_department.action',compact('ol_application'))
+@include('admin.REE_department.reval_action',compact('ol_application'))
 @endsection
 @section('content')
 
@@ -62,7 +62,7 @@
                                 </div>
                             </div>
                             <div class="m-section__content mb-0 table-responsive">
-                                <form role="form" method="POST" action="{{ route('save_sharing_calculation_details') }}">
+                                <form role="form" method="POST" action="{{ route('save_reval_sharing_calculation_details') }}">
                                     <input name="_token" type="hidden" value="{!! csrf_token() !!}" />
                                     <input name="application_id" type="hidden" value="{{ $applicationId }}" />
                                     <input name="user_id" type="hidden" value="{{ $user->id }}" />
@@ -501,7 +501,7 @@
                                 </div>
                             </div>
                             <div id="two" class="m-section__content mb-0 table-responsive">
-                                <form role="form" method="POST" action="{{ route('save_sharing_calculation_details') }}">
+                                <form role="form" method="POST" action="{{ route('save_reval_sharing_calculation_details') }}">
                                     <input name="_token" type="hidden" value="{!! csrf_token() !!}" />
                                     <input name="application_id" type="hidden" value="{{ $applicationId }}" />
                                     <input name="user_id" type="hidden" value="{{ $user->id }}" />
@@ -710,7 +710,7 @@
                                 </div>
                             </div>
                             <div id="three" class="m-section__content mb-0 table-responsive">
-                                <form role="form" method="POST" action="{{ route('save_sharing_calculation_details') }}">
+                                <form role="form" method="POST" action="{{ route('save_reval_sharing_calculation_details') }}">
                                     <input name="_token" type="hidden" value="{!! csrf_token() !!}" />
                                     <input name="application_id" type="hidden" value="{{ $applicationId }}" />
                                     <input name="user_id" type="hidden" value="{{ $user->id }}" />
@@ -924,7 +924,7 @@
                                 </div>
                             </div>
                             <div id="four" class="m-section__content mb-0 table-responsive">
-                                <form role="form" method="POST" action="{{ route('save_sharing_calculation_details') }}">
+                                <form role="form" method="POST" action="{{ route('save_reval_sharing_calculation_details') }}">
                                     <input name="_token" type="hidden" value="{!! csrf_token() !!}" />
                                     <input name="application_id" type="hidden" value="{{ $applicationId }}" />
                                     <input name="user_id" type="hidden" value="{{ $user->id }}" />

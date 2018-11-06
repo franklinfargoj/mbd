@@ -1,28 +1,28 @@
 <div>
     <div>
-        <h3>Bill for Month, Year</h3>
-        <h3 style="text-decoration: underline; text-align: center;">Receipt for Month, Year</h3>
+        <h3>Bill for {{$bill->month}}, {{$bill->year}}</h3>
+        <h3 style="text-decoration: underline; text-align: center;">Receipt for {{$bill->month}}, {{$bill->year}}</h3>
     </div>
     <div>
         <div style="width: 100%; margin-top: 30px;">
             <div style="width: 100%; float: left; margin-bottom: 20px;">
                 <div style="width: 30%; float: left;">Consumer No:</div>
-                <div style="width: 70%; float: left;">1000000011100111</div>
+                <div style="width: 70%; float: left;">TN-{{$consumer_number}}</div>
             </div>
             <div style="clear:both;"></div>
             <div style="width: 100%;float: left; margin-bottom: 20px;">
                 <div style="width: 30%; float: left;">Bill No:</div>
-                <div style="width: 70%; float: left;">121245411</div>
+                <div style="width: 70%; float: left;">{{$bill->bill_no}}</div>
             </div>
             <div style="clear:both;"></div>
             <div style="width: 100%; float: left; margin-bottom: 20px;">
                 <div style="width: 30%; float: left;">Room No:</div>
-                <div style="width: 70%; float: left;">1000000011100111</div>
+                <div style="width: 70%; float: left;">{{$tenant->flat_no}}</div>
             </div>
             <div style="clear:both;"></div>
             <div style="width: 100%;float: left; margin-bottom: 20px;">
-                <div style="width: 30%; float: left;">Name:</div>
-                <div style="width: 70%; float: left;">Secretory name</div>
+                <div style="width: 30%; float: left;">Tenant Name:</div>
+                <div style="width: 70%; float: left;">{{$tenant->first_name}} {{$tenant->last_name}}</div>
             </div>
             <div style="clear:both;"></div>
         </div>
@@ -34,8 +34,8 @@
                     <table>
                         <tbody>
                             <tr>
-                                <td valign="top" style="font-weight: bold;">Total Tenament:</td>
-                                <td valign="top" style="text-align: right;">Lorem Ipsum</td>
+                                <td valign="top" style="font-weight: bold;">Building name:</td>
+                                <td valign="top" style="text-align: right;">{{$building->name}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -45,7 +45,7 @@
                         <tbody>
                             <tr>
                                 <td valign="top" style="font-weight: bold;">Bill Period:</td>
-                                <td valign="top" style="text-align: right;">Lorem Ipsum</td>
+                                <td valign="top" style="text-align: right;">{{$bill->from_date}} to {{$bill->to_date}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -57,7 +57,7 @@
                         <tbody>
                             <tr>
                                 <td valign="top" style="font-weight: bold;">Society / Tenant Name:</td>
-                                <td valign="top" style="text-align: right;">Lorem Ipsum</td>
+                                <td valign="top" style="text-align: right;"></td>
                             </tr>
                         </tbody>
                     </table>
@@ -89,7 +89,7 @@
                         <tbody>
                             <tr>
                                 <td valign="top" style="font-weight: bold;">Payment Date:</td>
-                                <td valign="top" style="text-align: right;">Lorem Ipsum</td>
+                                <td valign="top" style="text-align: right;">{{$bill->created_at}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -113,7 +113,7 @@
                         <tbody>
                             <tr>
                                 <td valign="top" style="font-weight: bold;">Amount Paid:</td>
-                                <td valign="top" style="text-align: right;">Lorem Ipsum</td>
+                                <td valign="top" style="text-align: right;">{{$bill->amount_paid}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -123,7 +123,7 @@
                         <tbody>
                             <tr>
                                 <td valign="top" style="font-weight: bold;">Payment Mode:</td>
-                                <td valign="top" style="text-align: right;">Lorem Ipsum</td>
+                                <td valign="top" style="text-align: right;">{{$bill->mode_of_payment}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -131,7 +131,7 @@
             </tr>
         </tbody>
     </table>
-    <div style="border: 2px solid #000; padding: 5px; margin-top: 30px;"><h3 style="text-align: center;">Bill Summary for Month, Year</h3></div>
+    <div style="border: 2px solid #000; padding: 5px; margin-top: 30px;"><h3 style="text-align: center;">Bill Summary for {{date('M')}}, {{date('Y')}} </h3></div>
     <table style="width: 100%; border-collapse: collapse; margin-top: 30px;">
         <thead>
             <tr>
@@ -166,11 +166,11 @@
             </tr>
             <tr>
                 <td valign="top" style="border: 1px solid #000; padding: 5px;">Balance Amount:</td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px;"></td>
+                <td valign="top" style="border: 1px solid #000; padding: 5px;">{{$bill->balance_amount}}</td>
             </tr>
             <tr>
                 <td valign="top" style="border: 1px solid #000; padding: 5px;">Credit Amount:</td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px;"></td>
+                <td valign="top" style="border: 1px solid #000; padding: 5px;">{{ $bill->credit_amount}}</td>
             </tr>
         </tbody>
     </table>

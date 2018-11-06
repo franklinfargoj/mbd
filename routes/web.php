@@ -243,6 +243,11 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::get('generateBuildingBill','EMDepartment\EMController@generateBuildingBill')->name('generateBuildingBill');
     Route::get('generateTenantBill','EMDepartment\EMController@generateTenantBill')->name('generateTenantBill');
+
+    Route::post('create_tenant_bill','EMDepartment\EMController@create_tenant_bill')->name('create_tenant_bill');
+    Route::post('create_society_bill','EMDepartment\EMController@create_society_bill')->name('create_society_bill');
+    
+
     //EM_Clerk Routes
     Route::resource('em_clerk', 'EMDepartment\EMClerkController');
     Route::get('em_society_list', 'EMDepartment\EMClerkController@society_list')->name('em_society_list');
@@ -285,7 +290,9 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::get('dyce_Scrutiny_Remark/{id}','REEDepartment\REEController@dyceScrutinyRemark')->name('ree.dyce_scrutiny_remark');
 
-    Route::get('ree_forward_application/{id}','REEDepartment\REEController@forwardApplication')->name('ree.forward_application'); 
+    Route::get('ree_forward_application/{id}','REEDepartment\REEController@forwardApplication')->name('ree.forward_application');
+
+    Route::get('ree_forward_reval_application/{id}','REEDepartment\REEController@forwardRevalApplication')->name('ree.forward_reval_application');
 
     Route::get('download_cap_note/{id}','REEDepartment\REEController@downloadCapNote')->name('ree.download_cap_note');
     
@@ -295,9 +302,17 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     // Route::resource('/ol_calculation_sheet', 'REEDepartment\OlApplicationCalculationSheetDetailsController');
     Route::post('ol_calculation_sheet/save_details','REEDepartment\OlApplicationCalculationSheetDetailsController@saveCalculationDetails')->name('save_calculation_details');
+    Route::post('ol_reval_calculation_sheet/save_details','REEDepartment\OlApplicationCalculationSheetDetailsController@saveRevalCalculationDetails')->name('save_reval_calculation_details');
+
+
+    Route::get('ol_reval_calculation_sheet/{id}','REEDepartment\OlApplicationCalculationSheetDetailsController@showRevalCalculationDetails')->name('ol_reval_calculation_sheet.show');
+
 
     Route::resource('/ol_sharing_calculation_sheet', 'REEDepartment\OlSharingCalculationSheetDetailsController');
     Route::post('ol_sharing_calculation_sheet/save_details','REEDepartment\OlSharingCalculationSheetDetailsController@saveCalculationDetails')->name('save_sharing_calculation_details');
+    Route::post('ol_reval_sharing_calculation_sheet/save_details','REEDepartment\OlSharingCalculationSheetDetailsController@saveRevalCalculationDetails')->name('save_reval_sharing_calculation_details');
+
+    Route::get('ol_reval_sharing_calculation_sheet/{id}','REEDepartment\OlApplicationCalculationSheetDetailsController@showRevalSharingCalculationDetails')->name('ol_reval_sharing_calculation_sheet.show');
 
     Route::post('upload_ree_note','REEDepartment\REEController@uploadREENote')->name('ree.upload_ree_note');
 

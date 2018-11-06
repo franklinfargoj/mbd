@@ -19,6 +19,7 @@ use App\Http\Requests\AppointingArchitect\StepSevenRequest;
 use App\Http\Requests\AppointingArchitect\StepSixRequest;
 use App\Http\Requests\AppointingArchitect\StepThreeRequest;
 use App\Http\Requests\AppointingArchitect\StepTwoRequest;
+use App\Http\Requests\AppointingArchitect\StepNineRequest;
 use App\Repositories\Repository;
 use App\Role;
 use App\RoleUser;
@@ -447,7 +448,12 @@ class EmploymentOfArchitectController extends Controller
     public function delete_project_sheet_detail(Request $request)
     {
         $id = $request->delete_imp_project_id;
+        $delete=$this->project_sheet->show($id);
+        $file = $delete->copy_of_agreement;
         if ($this->project_sheet->delete($id)) {
+            if (Storage::disk('ftp')->has($file)) {
+                Storage::disk('ftp')->delete($file);
+            }
             return response()->json(['status' => 0, 'description' => 'deleted successfully']);
         } else {
             return response()->json(['status' => 1, 'description' => 'something went wrong']);
@@ -621,15 +627,16 @@ class EmploymentOfArchitectController extends Controller
     {
         $id = decrypt($id);
         $application = $this->model->whereWithFirst(['supporting_documents'], ['id' => $id, 'user_id' => auth()->user()->id]);
+        
         return view('employment_of_architect.form9', compact('application'));
     }
 
-    public function step9_post(Request $request, $id)
+    public function step9_post(StepNineRequest $request, $id)
     {
         $doc_name = $request->document_name;
         $doc_id = $request->doc_id;
         $document_path=$request->document_path;
-        //dd($document_path);
+        //  dd($document_path);
         $k = 0;
         $application_id = $request->application_id;
         $app_data=$this->model->show($application_id);
@@ -684,7 +691,12 @@ class EmploymentOfArchitectController extends Controller
     public function delete_supporting_document(Request $request)
     {
         $id = $request->delete_imp_project_id;
+        $delete=$this->supporting_documents->show($id);
+        $file = $delete->document_path;
         if ($this->supporting_documents->delete($id)) {
+            if (Storage::disk('ftp')->has($file)) {
+                Storage::disk('ftp')->delete($file);
+            }
             return response()->json(['status' => 0, 'description' => 'deleted successfully']);
         } else {
             return response()->json(['status' => 1, 'description' => 'something went wrong']);

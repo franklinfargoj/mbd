@@ -70,6 +70,24 @@ class OlSharingCalculationSheetDetailsController extends Controller
 
     }
 
+
+    public function showRevalSharingCalculationDetails($id)
+    {
+        $applicationId = $id;$user = Auth::user();
+        $ol_application = $this->CommonController->getOlApplication($id);
+        $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$id)->first();
+        $calculationSheetDetails = OlApplicationCalculationSheetDetails::where('society_id', '=', $ol_application->society_id)->first();
+
+        $dcr_rates = OlDcrRateMaster::all();
+        // REE Note download
+
+        $arrData['reeNote'] = REENote::where('application_id', $applicationId)->orderBy('id', 'desc')->first();
+
+        return view('admin.REE_department.reval_sharing_calculation_sheet',compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application'));
+
+    }
+
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -106,9 +124,15 @@ class OlSharingCalculationSheetDetailsController extends Controller
 
     public function saveCalculationDetails(Request $request)
     {
-        //echo "<pre>";print_r($request->all());exit;
 
         OlSharingCalculationSheetDetail::updateOrCreate(['application_id'=>$request->get('application_id')],$request->all());
         return redirect("ol_sharing_calculation_sheet/" . $request->get('application_id')."#".$request->get('redirect_tab'));
+    }
+
+    public function saveRevalCalculationDetails(Request $request)
+    {
+
+        OlSharingCalculationSheetDetail::updateOrCreate(['application_id'=>$request->get('application_id')],$request->all());
+        return redirect("ol_reval_sharing_calculation_sheet/" . $request->get('application_id')."#".$request->get('redirect_tab'));
     }
 }

@@ -14,7 +14,7 @@
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center" id="search_box">
-            <h3 class="m-subheader__title m-subheader__title--separator">Application for Offer Letter</h3>
+            <h3 class="m-subheader__title m-subheader__title--separator">Add Building</h3>
             {{ Breadcrumbs::render('em') }}
          </div>
    <form method="post" enctype='multipart/form-data' action="{{route('create_building')}}">
@@ -62,9 +62,9 @@
                 <div class="col-md-12">
                     <div class="col-md-9">
                         <div class="form-group m-form__group">
-                            <input type="submit" class="btn btn-success" name="submit" value="submit">
+                            <input type="submit" class="btn m-btn--pill m-btn--custom btn-primary" name="submit" value="submit">
 
-                            <a  class="btn btn-info" href="{{ route('get_buildings', [$society_id]) }}">Cancel</a>
+                            <a  class="btn m-btn--pill m-btn--custom btn-metal" href="{{ route('get_buildings', [$society_id]) }}">Cancel</a>
                         </div>
                     </div>
                 </div>
