@@ -18,14 +18,14 @@
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="preceding_officer_name">Name of Preceding Officer:</label>
                             <input type="text" id="preceding_officer_name" name="preceding_officer_name" class="form-control form-control--custom m-input"
-                                   value="{{ $arrData['hearing']->preceding_officer_name }}" readonly>
+                                   value="{{ $arrData['hearing']->preceding_officer_name }}" disabled>
                             <span class="help-block">{{$errors->first('preceding_officer_name')}}</span>
                         </div>
 
                         <div class="col-sm-4 offset-sm-1 form-group">
                             <label class="col-form-label" for="case_year">Case Year:</label>
                             <input type="text" id="case_year" name="case_year" class="form-control form-control--custom m-input"
-                                   value="{{ $arrData['hearing']->case_year }}" readonly>
+                                   value="{{ $arrData['hearing']->case_year }}" disabled>
                             <span class="help-block">{{$errors->first('case_year')}}</span>
                         </div>
                     </div>
@@ -34,14 +34,14 @@
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="case_number">Case Number:</label>
                             <input type="text" id="case_number" name="case_number" class="form-control form-control--custom m-input"
-                                   value="{{ $arrData['hearing']->id }}" readonly>
+                                   value="{{ $arrData['hearing']->id }}" disabled>
                             <span class="help-block">{{$errors->first('case_number')}}</span>
                         </div>
 
                         <div class="col-sm-4 offset-sm-1 form-group">
                             <label class="col-form-label" for="preceding_number">Preceding Number:</label>
                             <input type="text" id="preceding_number" name="preceding_number" class="form-control form-control--custom m-input"
-                                   value="{{ $hearing_data->hearingSchedule->preceding_number }}" readonly>
+                                   value="{{ $hearing_data->hearingSchedule->preceding_number }}" disabled>
                             <span class="help-block">{{$errors->first('preceding_number')}}</span>
                         </div>
                     </div>
@@ -50,14 +50,14 @@
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="applicant_name">Apellent Name:</label>
                             <input type="text" id="applicant_name" name="applicant_name" class="form-control form-control--custom m-input"
-                                   value="{{ $arrData['hearing']->applicant_name }}" readonly>
+                                   value="{{ $arrData['hearing']->applicant_name }}" disabled>
                             <span class="help-block">{{$errors->first('applicant_name')}}</span>
                         </div>
 
                         <div class="col-sm-4 offset-sm-1 form-group">
                             <label class="col-form-label" for="respondent_name">Respondent Name:</label>
                             <input type="text" id="respondent_name" name="respondent_name" class="form-control form-control--custom m-input"
-                                   value="{{ $arrData['hearing']->respondent_name }}" readonly>
+                                   value="{{ $arrData['hearing']->respondent_name }}" disabled>
                             <span class="help-block">{{$errors->first('respondent_name')}}</span>
                         </div>
                     </div>
@@ -66,13 +66,13 @@
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="preceding_date">Preceding Date:</label>
                             <input type="text" id="preceding_date" name="preceding_date" class="form-control form-control--custom m_datepicker"
-                                   class="form-control m-input" value="{{ $hearing_data->hearingSchedule->preceding_date }}">
+                                   disabled class="form-control m-input" value="{{ $hearing_data->hearingSchedule->preceding_date }}">
                             <span class="help-block">{{$errors->first('preceding_date')}}</span>
                         </div>
 
                         <div class="col-sm-4 offset-sm-1 form-group">
                             <label class="col-form-label" for="preceding_time">Preceding Time:</label>
-                            <input type="text" id="preceding_time" name="preceding_time" class="form-control form-control--custom m-input"
+                            <input disabled type="text" id="preceding_time" name="preceding_time" class="form-control form-control--custom m-input"
                                    value="{{ $hearing_data->hearingSchedule->preceding_time }}">
                             <span class="help-block">{{$errors->first('preceding_time')}}</span>
                         </div>
@@ -90,7 +90,7 @@
 
                         <div class="col-sm-4 offset-sm-1 form-group">
                             <label class="col-form-label" for="description">Description:</label>
-                            <textarea id="description" name="description" class="form-control form-control--custom form-control--fixed-height m-input" readonly>{{ $hearing_data->hearingSchedule->description }}</textarea>
+                            <textarea disabled id="description" name="description" class="form-control form-control--custom form-control--fixed-height m-input" >{{ $hearing_data->hearingSchedule->description }}</textarea>
                             <span class="help-block">{{$errors->first('description')}}</span>
                         </div>
                     </div>

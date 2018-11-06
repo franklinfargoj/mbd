@@ -11,7 +11,7 @@ class SocietyConveyanceDocumentMaster extends Model
      *
      * @var string
      */
-    protected $table = 'society_conveyance_document_master';
+    protected $table = 'sc_document_master';
 
     /**
      * The database primary key value.
@@ -29,6 +29,7 @@ class SocietyConveyanceDocumentMaster extends Model
         'document_name',
         'application_type_id',
         'language_id',
+        'society_flag',
         ];
 
     /**

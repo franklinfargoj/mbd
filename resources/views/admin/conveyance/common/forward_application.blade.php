@@ -1,9 +1,9 @@
 @extends('admin.layouts.sidebarAction')
 @section('actions')
-@include('admin.conveyance.dyco_department.action'))
+@include('admin.conveyance.'.$data->folder.'.action'))
 @endsection
 @section('content')
-     
+
 <div class="custom-wrapper">
     <div class="col-md-12">
         <div class="d-flex">
@@ -193,42 +193,7 @@
                                         </div>
                                     </div>
                                 </div> 
-                                @endif    
-
-                                @if(count($Architectlogs) > 0)
-                                <div class="remark-body">
-                                    <div class="border-bottom pb-2">
-                                        <span class="hint-text d-block t-remark">Remark by Architect Department</span>
-                                    </div>                                
-                                    <div class="remarks-section">
-                                        <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container"
-                                            data-scrollbar-shown="true" data-scrollable="true" data-max-height="200">
-
-                                        @foreach($Architectlogs as $log)
-
-                                            @if($log->status_id == config('commanConfig.applicationStatus.forwarded'))
-                                                @php $status = 'Forwarded'; @endphp
-                                            @elseif($log->status_id == config('commanConfig.applicationStatus.reverted'))
-                                                @php $status = 'Reverted'; @endphp
-                                            @endif
-
-                                            <div class="remarks-section__data">
-                                                <p class="remarks-section__data__row"><span>Date:</span><span>{{(isset($log) && $log->created_at != '' ? date("d-m-Y",
-                                                        strtotime($log->created_at)) : '')}}</span>
-
-                                                </p>
-                                                <p class="remarks-section__data__row"><span>Time:</span><span>{{(isset($log) && $log->created_at != '' ? date("H:i",
-                                                        strtotime($log->created_at)) : '')}}</span></p>
-                                                <p class="remarks-section__data__row"><span>Action:</span>
-
-                                                <span>{{$status}} to {{isset($log->getRoleName->display_name) ? $log->getRoleName->display_name : ''}} From {{isset($log->getRole->display_name) ? $log->getRole->display_name : ''}}</span></p>
-                                                <p class="remarks-section__data__row"><span>Description:</span><span>{{(isset($log) ? $log->remark : '')}}</span></p>
-                                            </div>
-                                        @endforeach                                         
-                                        </div>
-                                    </div>
-                                </div> 
-                                @endif                                                                 
+                                @endif                                  
                             </div>
                         </div>
                     </div>
@@ -244,7 +209,7 @@
                                     </h3>
                                 </div>
                                 <div class="remarks-suggestions">
-                                    <form action="{{ route('dyco.forward_application_data') }}" id="forwardApplication" method="post">
+                                    <form action="{{ route('conveyance.save_forward_application') }}" id="forwardApplication" method="post">
                                         @csrf
                                         <input type="hidden" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">
                                         <input type="hidden" name="to_role_id" id="to_role_id">

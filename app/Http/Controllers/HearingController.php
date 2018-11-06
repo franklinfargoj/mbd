@@ -7,6 +7,7 @@ use App\Board;
 use App\DeletedHearing;
 use App\Department;
 use App\Hearing;
+use App\HearingSchedule;
 use App\HearingStatus;
 use App\HearingStatusLog;
 use App\Http\Requests\hearing\EditHearingRequest;
@@ -44,7 +45,7 @@ class HearingController extends Controller
                 $q->where('user_id', Auth::user()->id)
                     ->where('role_id', session()->get('role_id'));
             })->get()->toArray();
-
+dd($hearing_data);
         return view('admin.hearing.print_data',compact('hearing_data'));
     }
 
@@ -260,13 +261,16 @@ class HearingController extends Controller
             'user_id' => Auth::user()->id
         ];
 //        dd($data);
-        $hearing_id = Hearing::create($data)->id;
+        $hearing = Hearing::create($data);
+//        dd($hearing->id);
+        $hearing->fill(['case_number' => $hearing->id]);
 
+        dd($hearing);
         $parent_role_id = User::where('role_id', session()->get('parent'))->first();
 
         $hearing_status_log = [
             [
-                'hearing_id' => $hearing_id,
+                'hearing_id' => $hearing->id,
                 'user_id' => Auth::user()->id,
                 'role_id' => session()->get('role_id'),
                 'hearing_status_id' => config('commanConfig.hearingStatus.pending'),
@@ -277,7 +281,7 @@ class HearingController extends Controller
             ],
 
             [
-                'hearing_id' => $hearing_id,
+                'hearing_id' => $hearing->id,
                 'user_id' => $parent_role_id->id,
                 'role_id' => session()->get('parent'),
                 'hearing_status_id' => config('commanConfig.hearingStatus.pending'),
@@ -439,7 +443,7 @@ class HearingController extends Controller
 
         $totalClosedHearing = Hearing::where('hearing_status_id','6')->get()->count();
 
-//        $todaysHearing = Hearing::where('office_date',todays date)->get();
+//        $todaysHearing = HearingSchedule::where()->where('preceding_date',Carbon::now()->format('dd-mm-YY'))->get();
 
         return view('admin.hearing.dashboard',compact('totalHearing','totalClosedHearing','totalPendingHearing'));
     }

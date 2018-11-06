@@ -193,6 +193,16 @@ class ArchitectUserSeeder extends Seeder
                     'name'=>'conveyance.save_architect_scrutiny_remark',
                     'display_name'=>'save architect scrutiny remark',
                     'description'=>'save architect scrutiny remark'
+                ],                
+                [
+                    'name'=>'conveyance.forward_application_sc',
+                    'display_name'=>'forward application',
+                    'description'=>'forward application'
+                ],                
+                [
+                    'name'=>'conveyance.save_forward_application',
+                    'display_name'=>'save forward application',
+                    'description'=>'save forward application'
                 ]
                 
             ];
@@ -565,6 +575,16 @@ class ArchitectUserSeeder extends Seeder
                 'name'=>'conveyance.save_architect_scrutiny_remark',
                 'display_name'=>'save architect scrutiny remark',
                 'description'=>'save architect scrutiny remark'
+            ];            
+            $architect_permissions[]=[
+                'name'=>'conveyance.forward_application_sc',
+                'display_name'=>'forward application',
+                'description'=>'forward application'
+            ];            
+            $architect_permissions[]=[
+                'name'=>'conveyance.save_forward_application',
+                'display_name'=>'save forward application',
+                'description'=>'save forward application'
             ];
             
             //$architect_permission_role = [];

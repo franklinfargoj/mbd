@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\scApplicationType;
+use App\conveyance\scApplicationType;
 
 class SocietyConveyanceApplicationTypeSeeder extends Seeder
 {
