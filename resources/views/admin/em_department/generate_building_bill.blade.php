@@ -44,23 +44,27 @@
             {{ csrf_field() }}
             <input type="text" name="building_id" value="{{$building->id}}" hidden>
             <input type="text" name="society_id" value="{{$society->id}}" hidden>
-            <input type="text" name="bill_to" value="{{date('1-m-Y')}}" hidden>
-            <input type="text" name="bill_from" value="{{date('1-m-Y', strtotime('+1 month'))}}" hidden>
+            <input type="text" name="bill_from" value="{{date('1-m-Y')}}" hidden>
+            <input type="text" name="bill_to" value="{{date('1-m-Y', strtotime('+1 month'))}}" hidden>
             <input type="text" name="bill_month" value="{{date('n')}}" hidden>
             <input type="text" name="bill_year" value="{{date('Y')}}" hidden>
             <input type="text" name="monthly_bill" value="{{$total_service}}" hidden>
             <input type="text" name="arrear_bill" value="{{$total}}" hidden>
             <input type="text" name="total_service_after_due" value="{{$total_service_after_due}}" hidden>
+            <input type="text" name="late_fee_charge" value="{{$total_after_due}}" hidden>
+            <input type="text" name="no_of_tenant" value="{{$number_of_tenants->tenant_count()->first()->count}}" hidden>
 
             <div class="m-portlet__body m-portlet__body--spaced">
                 <div class="form-group m-form__group row">
                     <div class="col-sm-6 form-group">
                         <span>Bill For:{{date("M", strtotime("2001-" . $month . "-01"))}}, {{$year}}</span>
+                        <input type="text" name="bill_date" value="{{date('d-m-Y')}}" hidden>
                     </div>
                 </div>
                 <div class="form-group m-form__group row">
                     <div class="col-sm-6 form-group">
                         <span>Consumer Number: BL-{{$consumer_number}}</span>
+                         <input type="text" name="consumer_number" value="BL-{{$consumer_number}}" hidden>
                     </div>
                 </div>
                 <div class="form-group m-form__group row">
@@ -75,10 +79,10 @@
                 </div>
                 <div class="form-group m-form__group row">
                     <table class="display table table-responsive table-bordered" style="width:100%">
-                        <tr><td>Buidling Name : {{$building->name}} </td><td>Bill Period : </td></tr>
-                        <tr><td>Address : @if(!empty($society)){{$society->society_address}}@endif </td><td>Bill Date : </td></tr>
-                        <tr><td>Total Tenament : {{ $number_of_tenants->tenant_count()->first()->count }} </td><td>Due Date : </td></tr>
-                        <tr><td>Amount : </td><td>Late fee charge : </td></tr>
+                        <tr><td>Buidling Name : {{$building->name}} </td><td>Bill Period : {{date('1-M-Y', strtotime('-1 month'))}} to {{date('1-M-Y')}} </td></tr>
+                        <tr><td>Address : @if(!empty($society)){{$society->society_address}}@endif </td><td>Bill Date : {{date('d-M-Y')}}  <input type="text" name="bill_date" value="{{date('d-m-Y')}}" hidden></td></tr>
+                        <tr><td>Total Tenament : {{ $number_of_tenants->tenant_count()->first()->count }} </td><td>Due Date : {{date('d-M-Y', strtotime(date('Y-m-d'). ' + 5 days'))}} <input type="text" name="due_date" value="{{date('d-m-Y', strtotime(date('Y-m-d'). ' + 5 days'))}}" hidden> </td></tr>
+                        <tr><td>Amount : {{$total + $total_service}} <input type="text" name="total_bill" value="{{$total + $total_service}}" hidden> </td><td>Late fee charge : {{ $total_after_due}} </td></tr>
                     </table>
                 </div>
                 <div class="form-group m-form__group row">
@@ -156,7 +160,7 @@
                                 <td class="text-center">{{$calculation->year}}</td>
                                 <td class="text-center">{{date("M", strtotime("2001-" . $calculation->month . "-01"))}}</td>
                                 <td class="text-center">{{$calculation->total_amount}}</td>
-                                <td class="text-center">{{$calculation->year}}</td>
+                                <td class="text-center">{{$calculation->old_intrest_amount + $calculation->difference_intrest_amount}}</td>
                             </tr>
                         @endforeach
                         <tr>

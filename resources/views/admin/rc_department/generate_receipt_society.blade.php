@@ -18,6 +18,10 @@
     <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
         <form method="post" action="{{route('payment_receipt_society')}}">
             {{ csrf_field() }}
+            
+            <input type="text" name="building_id" value="{{$bill->building_id}}" hidden>
+            <input type="text" name="society_id" value="{{$bill->society_id}}" hidden>
+
             <div class="m-portlet__body m-portlet__body--spaced">
                 <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
@@ -26,35 +30,47 @@
                         <span class="help-block"></span>
                     </div>
 
-                    <div class="col-sm-4 offset-sm-1 form-group">
-                        <label class="col-form-label" for="">Society Name:</label>
-                        <input type="text" id="" name="" class="form-control form-control--custom m-input" value="" readonly>
+                    <div class="col-sm-4 form-group">
+                        <label class="col-form-label" for="">Bill No:</label>
+                        <input type="text" name="bill_no" class="form-control form-control--custom m-input" value="{{$bill->id}}" readonly>
                         <span class="help-block"></span>
                     </div>
+
+                   
                 </div>
+
+
+                    <div class="form-group m-form__group row">
+                        <div class="col-sm-4 form-group">
+                            <label class="col-form-label" for="">Society Name:</label>
+                            <input type="text" class="form-control form-control--custom m-input" value="{{$bill->society_detail->society_name}}" readonly>
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
+
                 <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="">Building Number:</label>
-                        <input type="text" id="" name="" class="form-control form-control--custom m-input" value="" readonly>
+                        <input type="text" class="form-control form-control--custom m-input" value="{{$bill->building_detail->building_no}}" readonly>
                         <span class="help-block"></span>
                     </div>
 
-                    <div class="col-sm-4 offset-sm-1 form-group">
-                        <label class="col-form-label" for="">Flat Number:</label>
-                        <input type="text" id="" name="" class="form-control form-control--custom m-input" value="" readonly>
+                    <div class="col-sm-4 form-group">
+                        <label class="col-form-label" for="">Building Name:</label>
+                        <input type="text" class="form-control form-control--custom m-input" value="{{$bill->building_detail->name}}" readonly>
                         <span class="help-block"></span>
                     </div>
                 </div>
                 <div class="form-group m-form__group row">
-                    <div class="col-sm-4 form-group">
+                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="">Amount Paid By:</label>
-                        <input type="text" id="" name="" class="form-control form-control--custom m-input" value="" >
+                        <input type="text" name="amount_paid_by" class="form-control form-control--custom m-input" value="">
                         <span class="help-block"></span>
                     </div>
 
                     <div class="col-sm-4 offset-sm-1 form-group">
-                        <label class="col-form-label" for="">Bill Amount:</label>
-                       <input type="number" id="cash_amount" name="cash_amount" class="form-control form-control--custom m-input" value="" readonly>
+                        <label class="col-form-label" for="">Bill Amount of month:</label>
+                        <input type="text" name="bill_amount" class="form-control form-control--custom m-input" value="{{$bill->total_bill}}" readonly>
                         <span class="help-block"></span>
                     </div>
                 </div>
@@ -156,13 +172,13 @@
                 <div class="form-group m-form__group row">
                     <label class="col-form-label col-sm-12" for="">Payment Made for months:</label>
                     <div class="col-sm-4 form-group">
-                        <input type="text" id="payment-made-from-month" name="payment-made-from-month" class="form-control form-control--custom m-input m_datepicker"
-                            value="">
+                        <input type="text" id="payment-made-from-month" name="from_date" class="form-control form-control--custom m-input"
+                            value="{{$bill->bill_from}}" readonly>
                         <span class="help-block"></span>
                     </div>
                     <div class="col-sm-4 offset-sm-1 form-group">
-                        <input type="text" id="payment-made-to-month" name="payment-made-to-month" class="form-control form-control--custom m-input m_datepicker"
-                            value="">
+                        <input type="text" id="payment-made-to-month" name="to_date" class="form-control form-control--custom m-input"
+                            value="{{$bill->bill_to}}" readonly>
                         <span class="help-block"></span>
                     </div>
                 </div>
@@ -180,6 +196,7 @@
                         <span class="help-block"></span>
                     </div>
                 </div>
+
 
                 <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
                     <div class="m-form__actions px-0">

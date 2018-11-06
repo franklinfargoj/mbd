@@ -1,13 +1,13 @@
 <div>
     <div>
-        <h3>Bill for Month, Year</h3>
-        <h3 style="text-decoration: underline; text-align: center;">Receipt for Month, Year</h3>
+        <h3>Bill for {{$bill->month}}, {{$bill->year}}</h3>
+        <h3 style="text-decoration: underline; text-align: center;">Receipt for {{$bill->month}}, {{$bill->year}}</h3>
     </div>
     <div>
         <div style="width: 100%; margin-top: 30px;">
             <div style="width: 100%; float: left; margin-bottom: 20px;">
                 <div style="width: 30%; float: left;">Consumer No:</div>
-                <div style="width: 70%; float: left;">{{$consumer_number}}</div>
+                <div style="width: 70%; float: left;">TN-{{$consumer_number}}</div>
             </div>
             <div style="clear:both;"></div>
             <div style="width: 100%;float: left; margin-bottom: 20px;">

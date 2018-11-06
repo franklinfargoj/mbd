@@ -1,18 +1,18 @@
 <div>
     <div>
-        <h3>Bill for Month, Year</h3>
-        <h3 style="text-decoration: underline; text-align: center;">Receipt for Month, Year</h3>
+        <h3>Bill for {{$bill->month}}, {{$bill->year}}</h3>
+        <h3 style="text-decoration: underline; text-align: center;">Receipt for {{$bill->month}}, {{$bill->year}}</h3>
     </div>
     <div>
         <div style="width: 100%; margin-top: 30px;">
             <div style="width: 100%; float: left; margin-bottom: 20px;">
                 <div style="width: 30%; float: left;">Consumer No:</div>
-                <div style="width: 70%; float: left;">1000000011100111</div>
+                <div style="width: 70%; float: left;">BL-{{$consumer_number}}</div>
             </div>
             <div style="clear:both;"></div>
             <div style="width: 100%;float: left; margin-bottom: 20px;">
                 <div style="width: 30%; float: left;">Bill No:</div>
-                <div style="width: 70%; float: left;">121245411</div>
+                <div style="width: 70%; float: left;">{{$bill->bill_no}}</div>
             </div>
             <div style="clear:both;"></div>
             <div style="width: 100%; float: left; margin-bottom: 20px;">
@@ -184,26 +184,14 @@
             </tr>
         </thead>
         <tbody>
+            @php
+                $count = 1;
+            @endphp
+            @foreach(tenants as $row => $val) 
             <tr>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align:center;">&nbsp;</td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align:center;">1</td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align:center;">&nbsp;</td>
+                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align:center;">&nbsp;{{$count++}}</td>
+                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align:center;">{{$val->room_no}}</td>
+                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align:center;">{{$val->first_name}}&nbsp;{{$val->last_name}}</td>
             </tr>
-            <tr>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align:center;">&nbsp;</td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align:center;">2</td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align:center;">&nbsp;</td>
-            </tr>
-            <tr>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align:center;">&nbsp;</td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align:center;">3</td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align:center;">&nbsp;</td>
-            </tr>
-            <tr>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align:center;">&nbsp;</td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align:center;">4</td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align:center;">&nbsp;</td>
-            </tr>
-        </tbody>
-    </table>
+    </table>1
 </div>

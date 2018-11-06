@@ -58,7 +58,7 @@
 
                 <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
-                        <label class="col-form-label" for="">Amount Paid Byfrom_date:</label>
+                        <label class="col-form-label" for="">Amount Paid By:</label>
                         <input type="text" name="amount_paid_by" class="form-control form-control--custom m-input" value="">
                         <span class="help-block"></span>
                     </div>

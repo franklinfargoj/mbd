@@ -36,8 +36,8 @@
             <input type="text" name="tenant_id" value="{{$tenant->id}}" hidden>
             <input type="text" name="building_id" value="{{$building->id}}" hidden>
             <input type="text" name="society_id" value="{{$society->id}}" hidden>
-            <input type="text" name="bill_to" value="{{date('1-m-Y')}}" hidden>
-            <input type="text" name="bill_from" value="{{date('1-m-Y', strtotime('+1 month'))}}" hidden>
+            <input type="text" name="bill_from" value="{{date('1-m-Y')}}" hidden>
+            <input type="text" name="bill_to" value="{{date('1-m-Y', strtotime('+1 month'))}}" hidden>
             <input type="text" name="bill_month" value="{{date('n')}}" hidden>
             <input type="text" name="bill_year" value="{{date('Y')}}" hidden>
             <input type="text" name="monthly_bill" value="{{$total_service}}" hidden>
@@ -50,7 +50,6 @@
                 <div class="form-group m-form__group row">
                     <div class="col-sm-6 form-group">
                         <span>Bill For: {{date("M", strtotime("2001-" . $month . "-01"))}}, {{$year}}</span>
-                        <input type="text" name="bill_date" value="{{date('d-m-Y')}}" hidden>
                     </div>
                 </div>
                 <div class="form-group m-form__group row">
@@ -156,8 +155,8 @@
                             <tr>
                                 <td class="text-center">{{$calculation->year}}</td>
                                 <td class="text-center">{{date("M", strtotime("2001-" . $calculation->month . "-01"))}}</td>
-                                <td class="text-center">{{$calculation->total_amount}}</td>
-                                <td class="text-center">{{$calculation->year}}</td>
+                                <td class="text-center">{{$calculation->total_amount - $calculation->old_intrest_amount - $calculation->difference_intrest_amount }}</td>
+                                <td class="text-center">{{$calculation->old_intrest_amount + $calculation->difference_intrest_amount}}</td>
                             </tr>
                         @endforeach
                         <tr>
