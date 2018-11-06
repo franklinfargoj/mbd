@@ -17,14 +17,75 @@ class MasterTables extends Seeder
      */
     public function run()
     {
-        $wards = MasterWard::select('id')->get();
-        if(count($wards)==0) {
-          $master_ward = factory(App\MasterWard::class, 10)->create();
-        }
+        //coded by shrikant sabne
+        // $wards = MasterWard::select('id')->get();
+        // if(count($wards)==0) {
+        //   $master_ward = factory(App\MasterWard::class, 10)->create();
+        // }
         
-        $colony = MasterColony::select('id')->get();
-        if(count($colony)==0) {
-          $master_colony = factory(App\MasterColony::class, 30)->create();
+        // $colony = MasterColony::select('id')->get();
+        // if(count($colony)==0) {
+        //   $master_colony = factory(App\MasterColony::class, 30)->create();
+        // }
+
+        $wards=[
+            [
+                'layout_id'=>1,
+                'name'=>'ward1',
+                'description'=>'ward1'
+            ],
+            [
+                'layout_id'=>1,
+                'name'=>'ward2',
+                'description'=>'ward2'
+            ],
+            [
+                'layout_id'=>1,
+                'name'=>'ward3',
+                'description'=>'ward3'
+            ],
+        ];
+        foreach($wards as $ward)
+        {
+            $ward_chek = MasterWard::where(['name'=>$ward['name'],'layout_id'=>1])->first();
+            if($ward_chek)
+            {
+                $ward_id=$ward_chek->id;
+            }else
+            {
+                $ward_id = MasterWard::insertGetId($ward);
+            }
+
+            $colonies=[
+                [
+                    'ward_id'=>$ward_id,
+                    'name'=>'colony1_of_'.$ward['name'],
+                    'description'=>'colony1_of_'.$ward['name']
+                ],
+                [
+                    'ward_id'=>$ward_id,
+                    'name'=>'colony2_of_'.$ward['name'],
+                    'description'=>'colony3_of_'.$ward['name']
+                ]
+                ,
+                [
+                    'ward_id'=>$ward_id,
+                    'name'=>'colony3_of_'.$ward['name'],
+                    'description'=>'colony3_of_'.$ward['name']
+                ]
+            ];
+
+            foreach($colonies as $colony)
+            {
+                $colony_check = MasterColony::where(['name'=>$ward['name'],'ward_id'=>$ward_id])->first();
+                if($colony_check)
+                {
+                    $colony_id=$colony_check->id;
+                }else
+                {
+                    $colony_id = MasterColony::insertGetId($colony);
+                }
+            }
         }
         
         $building = MasterBuilding::select('id')->get();

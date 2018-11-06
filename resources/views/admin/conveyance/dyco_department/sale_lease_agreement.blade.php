@@ -65,14 +65,15 @@
                                                 </div>
                                         </div>
                                     </div>
+
                                     <div class="col-sm-6 border-left">
                                         <div class="d-flex flex-column h-100 two-cols">
                                             <h5>Download</h5>
                                             <span class="hint-text">Click to download Sale Deed Agreement </span>
                                             <div class="mt-auto">
-                                                @if(isset($data->DraftSaleAgreement->agreement_path))
-                                                <input type="hidden" name="oldSaleFile" value="{{ $data->DraftSaleAgreement->agreement_path }}">
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->DraftSaleAgreement->agreement_path }}">
+                                                @if(isset($data->DraftSaleAgreement->document_path))
+                                                <input type="hidden" name="oldSaleFile" value="{{ $data->DraftSaleAgreement->document_path }}">
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->DraftSaleAgreement->document_path }}">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>
@@ -127,9 +128,9 @@
                                             <h5>Download Note</h5>
                                             <span class="hint-text">Click to download Lease Deed Agreement</span>
                                             <div class="mt-auto">
-                                                @if(isset($data->DraftLeaseAgreement->agreement_path))
-                                                <input type="hidden" name="oldLeaseFile" value="{{ $data->DraftLeaseAgreement->agreement_path }}">
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->DraftLeaseAgreement->agreement_path }}">
+                                                @if(isset($data->DraftLeaseAgreement->document_path))
+                                                <input type="hidden" name="oldLeaseFile" value="{{ $data->DraftLeaseAgreement->document_path }}">
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->DraftLeaseAgreement->document_path }}">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>

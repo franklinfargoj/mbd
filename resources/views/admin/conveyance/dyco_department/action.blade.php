@@ -29,6 +29,7 @@ $route=\Request::route()->getName();
         </span>
     </a>
 </li>
+
 <li id="dyco-actions" class="collapse show">
     <ul class="list-unstyled">
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{($route=='dyco.view_application')?'m-menu__item--active':''}}">
@@ -51,6 +52,7 @@ $route=\Request::route()->getName();
             </a>
         </li>
 
+    @if(isset($data->ConveyanceSalePriceCalculation))    
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{($route=='conveyance.view_ee_documents')?'m-menu__item--active':''}}">
             <a class="m-menu__link m-menu__toggle" title="EE Documents" href="{{ route('conveyance.view_ee_documents', $data->id) }}">
                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
@@ -60,6 +62,7 @@ $route=\Request::route()->getName();
                 <span class="m-menu__link-text">EE Documents</span>
             </a>
         </li>
+    @endif    
 
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3">
             <a class="m-menu__link m-menu__toggle" title="EM Documents" href="">
@@ -69,7 +72,9 @@ $route=\Request::route()->getName();
                 </svg>
                 <span class="m-menu__link-text">EM Documents</span>
             </a>
-        </li>    
+        </li>   
+
+    @if(isset($data->application_status) && $data->application_status == config('commanConfig.applicationStatus.Draft_sale_&_lease_deed'))
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{($route=='dyco.sale_lease_agreement')?'m-menu__item--active':''}}">
             <a class="m-menu__link m-menu__toggle" title="Prepar draft  Sale & Leae deed" href="{{ route('dyco.sale_lease_agreement', $data->id) }}">
                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
@@ -79,6 +84,9 @@ $route=\Request::route()->getName();
                 <span class="m-menu__link-text">Prepar draft  Sale & Leae deed</span>
             </a> 
         </li>
+    @endif
+
+    @if(isset($data->application_status) && $data->application_status == config('commanConfig.applicationStatus.Aproved_sale_&_lease'))    
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{($route=='dyco.approved_sale_lease_agreement')?'m-menu__item--active':''}}">
             <a class="m-menu__link m-menu__toggle" title="Approved  Sale & Leae deed" href="{{ route('dyco.approved_sale_lease_agreement', $data->id) }}">
                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
@@ -87,8 +95,10 @@ $route=\Request::route()->getName();
                 </svg>
                 <span class="m-menu__link-text">Approved  Sale & Leae deed</span>
             </a> 
-        </li>     
-
+        </li>
+    @endif  
+           
+    @if(isset($data->application_status) && $data->application_status == config('commanConfig.applicationStatus.Stamped_sale_&_lease_deed'))
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{($route=='dyco.stamp_duty_agreement')?'m-menu__item--active':''}}">
             <a class="m-menu__link m-menu__toggle" title="Approved  Sale & Leae deed" href="{{ route('dyco.stamp_duty_agreement', $data->id) }}">
                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
@@ -98,7 +108,9 @@ $route=\Request::route()->getName();
                 <span class="m-menu__link-text">Stamp Duty Agreement</span>
             </a> 
         </li>              
+    @endif
 
+    @if(isset($data->application_status) && $data->application_status == config('commanConfig.applicationStatus.Stamped_signed_sale_&_lease_deed'))       
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{($route=='dyco.stamp_signed_duty_agreement')?'m-menu__item--active':''}}">
             <a class="m-menu__link m-menu__toggle" title="Approved  Sale & Leae deed" href="{{ route('dyco.stamp_signed_duty_agreement', $data->id) }}">
                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
@@ -108,7 +120,9 @@ $route=\Request::route()->getName();
                 <span class="m-menu__link-text">Stamped and signed Sale & Leae deed</span>
             </a> 
         </li>   
+    @endif
 
+    @if(isset($data->application_status) && $data->application_status == config('commanConfig.applicationStatus.Registered_sale_&_lease_deed'))    
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{($route=='dyco.register_sale_lease_agreement')?'m-menu__item--active':''}}">
             <a class="m-menu__link m-menu__toggle" title="Approved  Sale & Leae deed" href="{{ route('dyco.register_sale_lease_agreement', $data->id) }}">
                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
@@ -117,8 +131,10 @@ $route=\Request::route()->getName();
                 </svg>
                 <span class="m-menu__link-text">Registered Sale & Leae deed</span>
             </a> 
-        </li>         
+        </li> 
+    @endif            
 
+    @if(isset($data->application_status) && $data->application_status == config('commanConfig.applicationStatus.NOC_Issued'))    
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{($route=='dyco.conveyance_noc')?'m-menu__item--active':''}}">
             <a class="m-menu__link m-menu__toggle" title="NOC for Conveyance" href="{{ route('dyco.conveyance_noc', $data->id) }}">
                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
@@ -128,7 +144,9 @@ $route=\Request::route()->getName();
                 <span class="m-menu__link-text">NOC for Conveyance</span>
             </a>
         </li>
+    @endif    
 
+    @if(isset($data->application_status) && $data->application_status != config('commanConfig.applicationStatus.in_process'))
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{($route=='dyco.checklist')?'m-menu__item--active':''}}">
             <a class="m-menu__link m-menu__toggle" title="Checklist & office note" href="{{ route('dyco.checklist', $data->id) }}">
                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
@@ -137,7 +155,8 @@ $route=\Request::route()->getName();
                 </svg>
                 <span class="m-menu__link-text">Checklist & office note</span>
             </a>
-        </li>        
+        </li>   
+    @endif         
 
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{($route=='dyco.forward_application')?'m-menu__item--active':''}}">
             <a class="m-menu__link m-menu__toggle" title="Forward Application" href="{{ route('dyco.forward_application', $data->id) }}">

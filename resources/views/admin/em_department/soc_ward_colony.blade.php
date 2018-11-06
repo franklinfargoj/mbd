@@ -39,7 +39,8 @@
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="wards" name="wards" required>
                                         <option value="" style="font-weight: normal;">Select Ward</option>
                                         @foreach($wards as $key => $value)
-                                        <option value="{{ $value->id }}" {{ old("wards", $soc_colony->ward_id) == $value->id ? 'selected' : '' }} >{{ $value->name }}</option>
+                                        {{-- <option value="{{ $value->id }}" {{ old("wards", $soc_colony->ward_id) == $value->id ? 'selected' : '' }} >{{ $value->name }}</option> --}}
+                                        <option value="{{ $value->id }}" >{{ $value->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>

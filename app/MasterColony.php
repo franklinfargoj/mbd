@@ -8,6 +8,8 @@ class MasterColony extends Model
 {
     protected $table = 'master_colonies';
 
+    protected $fillabel=['id','ward_id','name','description'];
+
      public function societies()
     {
         return $this->hasMany('App\SocietyDetail');
