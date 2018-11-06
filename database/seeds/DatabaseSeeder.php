@@ -8,7 +8,7 @@ class DatabaseSeeder extends Seeder
      * Seed the application's database.
      *
      * @return void
-     */
+     */ 
     public function run()
     {
         // $this->call(UsersTableSeeder::class);
@@ -69,5 +69,6 @@ class DatabaseSeeder extends Seeder
         $this->call(LAPermission::class);
         $this->call(sc_checklist_master::class);
         $this->call(SocietyConveyanceApplicationTypeSeeder::class);
+        $this->call(ApplicationStatusMasterSeeder::class);
     }
 }

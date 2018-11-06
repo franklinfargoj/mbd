@@ -122,6 +122,7 @@
                         <div class="m-section__content mb-0 table-responsive">
                             <div class="container">
                                 <div class="row">
+                                @if(session()->get('role_name') == config('commanConfig.junior_architect') && $data->status->status_id == config('commanConfig.applicationStatus.in_process'))
                                     <div class="col-sm-6">
                                         <div class="d-flex flex-column h-100 two-cols">
                                             <h5>Upload Map</h5>
@@ -136,15 +137,16 @@
                                                 <button type="submit" class="btn btn-primary mt-3" style="display:block">Save</button>
                                             </div>
                                         </div>
-
                                     </div>
+                                    @endif
                                     <div class="col-sm-6 border-left">
                                         <div class="d-flex flex-column h-100 two-cols">
                                             <h5>Download</h5>
                                             <span class="hint-text">Click to download Conveyance map </span>
                                             <div class="mt-auto">
-                                                @if(isset($data->DraftSaleAgreement->agreement_path))
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->DraftSaleAgreement->agreement_path }}">
+                                                @if(isset($data->architect_conveyance_map))
+                                                 <input type="hidden" name="oldFileName" value="{{ $data->architect_conveyance_map }}">
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->architect_conveyance_map }}">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>
@@ -162,5 +164,22 @@
                 </div>
             </div>
 </form>            
-</div>
+</div> 
 @endsection
+
+@section('js')
+<script>
+    $("#conveyanceMapFRM").validate({
+        rules: {
+            conveyance_map: {
+                required: true,
+                extension: "pdf"
+            },
+        }, messages: {
+            conveyance_map: {
+                extension: "Invalid type of file uploaded (only pdf allowed)."
+            }
+        }
+    }); 
+</script>    
+@endsection    

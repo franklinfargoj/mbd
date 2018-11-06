@@ -9,6 +9,7 @@ use App\conveyance\scApplication;
 use App\conveyance\scApplicationLog;
 use App\conveyance\SocietyConveyanceDocumentMaster;
 use App\conveyance\SocietyConveyanceDocumentStatus;
+use App\ApplicationStatusMaster;
 use App\conveyance\ScAgreementComments;
 use Yajra\DataTables\DataTables;
 use App\Role;
@@ -75,6 +76,7 @@ class conveyanceCommonController extends Controller
                         }
                     }else{
                         $config_array = array_flip(config('commanConfig.applicationStatus'));
+
                         $value = ucwords(str_replace('_', ' ', $config_array[$status]));
                         return '<span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$status) .' m-badge--wide">'.$value.'</span>';
                     }
@@ -99,18 +101,10 @@ class conveyanceCommonController extends Controller
         ];
     }
 
-    public function ViewApplication(Request $request,$applicationId){
-        
-        $data = $this->listApplicationData($request); 
-        $data->folder = $this->getCurrentRoleFolderName();
-        $data->id     = $applicationId;
-        return view('admin.conveyance.common.view_application',compact('data'));
-    }             
-
 	// list all data
     public function listApplicationData($request){
 
-		$applicationData = scApplication::with(['applicationLayoutUser','societyApplication','scApplicationLog' => function($q) {
+		$applicationData = scApplication::with(['ConveyanceSalePriceCalculation','applicationLayoutUser','societyApplication','scApplicationLog' => function($q) {
 	        	$q->where('user_id', Auth::user()->id)
 	            ->where('role_id', session()->get('role_id'))
 	            ->orderBy('id', 'desc');
@@ -134,9 +128,16 @@ class conveyanceCommonController extends Controller
             }
         } else {
             $listArray = $applicationData;
-        }           
+        }         
         return $listArray;       	
     }
+
+    public function ViewApplication(Request $request,$applicationId){
+         
+        $data = scApplication::where('id',$applicationId)->first(); 
+        $data->folder = $this->getCurrentRoleFolderName();
+        return view('admin.conveyance.common.view_application',compact('data'));
+    }             
 
     //revert application child id
     public function getRevertApplicationChildData(){
@@ -179,12 +180,22 @@ class conveyanceCommonController extends Controller
 
     // forward and revert application
     public function forwardApplication($request){
- 
+        
+        $masterId = scApplication::where('id',$request->applicationId)->value('sc_application_master_id');
+        $dycdoId =  Role::where('name',config('commanConfig.dycdo_engineer'))->value('id');  
+         
         if ($request->check_status == 1) {
-            $status = config('commanConfig.applicationStatus.forwarded');
+            $status = config('commanConfig.applicationStatus.forwarded');                
         }else{
             $status = config('commanConfig.applicationStatus.reverted');
-        } 
+        }
+
+        if(session()->get('role_name') == config('commanConfig.ee_branch_head') && $request->to_role_id == $dycdoId) {
+            $Tostatus = ApplicationStatusMaster::where('status_name','=','Draft sale and lease deed')->value('id');
+        } else{
+            $Tostatus = config('commanConfig.applicationStatus.in_process');
+        }
+
             $application = [[
                 'application_id' => $request->applicationId,
                 'user_id'        => Auth::user()->id,
@@ -193,36 +204,43 @@ class conveyanceCommonController extends Controller
                 'to_user_id'     => $request->to_user_id,
                 'to_role_id'     => $request->to_role_id,
                 'remark'         => $request->remark,
+                'application_master_id' => $masterId,
                 'created_at'     => Carbon::now(),
             ],
             [
                 'application_id' => $request->applicationId,
                 'user_id'       => $request->to_user_id,
                 'role_id'       => $request->to_role_id,
-                'status_id'     => config('commanConfig.applicationStatus.in_process'),
+                'status_id'     => $Tostatus,
                 'to_user_id'    => null,
                 'to_role_id'    => null,
                 'remark'        => $request->remark,
+                'application_master_id' => $masterId,
                 'created_at'    => Carbon::now(),
             ],
             ];
-            scApplicationLog::insert($application);      
+
+            scApplicationLog::insert($application); 
+            $up = scApplication::where('id',$request->applicationId)->where('sc_application_master_id',$masterId)
+            ->update(['application_status' => $Tostatus]);    
     }
 
     public function getForwardApplicationData($applicationId){
 
-        $data = scApplication::with('societyApplication')->where('id',$applicationId)->first();
+        $data = scApplication::with('societyApplication','ConveyanceSalePriceCalculation')
+        ->where('id',$applicationId)->first();
         $data->society_role_id = Role::where('name', config('commanConfig.society_offer_letter'))->value('id');
-         $data->status         = $this->getCurrentStatus($applicationId);
+        $data->status         = $this->getCurrentStatus($applicationId,$data->sc_application_master_id);
         $data->parent          = $this->getForwardApplicationParentData();
         $data->child           = $this->getRevertApplicationChildData();
         return $data;        
     }
 
     // get current status of application
-    public function getCurrentStatus($application_id)
+    public function getCurrentStatus($application_id,$masterId)
     {
         $current_status = scApplicationLog::where('application_id', $application_id)
+            ->where('application_master_id',$masterId)
             ->where('user_id', Auth::user()->id)
             ->where('role_id', session()->get('role_id'))
             ->orderBy('id', 'desc')->first();
@@ -257,7 +275,7 @@ class conveyanceCommonController extends Controller
     }  
 
     // get logs of DYCO dept
-    public function getLogsOfDYCODepartment($applicationId)
+    public function getLogsOfDYCODepartment($applicationId,$masterId)
     {
 
         $roles = array(config('commanConfig.dycdo_engineer'), config('commanConfig.dyco_engineer'));
@@ -265,13 +283,14 @@ class conveyanceCommonController extends Controller
         $status = array(config('commanConfig.applicationStatus.forwarded'), config('commanConfig.applicationStatus.reverted'));
 
         $dycoRoles = Role::whereIn('name', $roles)->pluck('id');
-        $dycologs  = scApplicationLog::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->whereIn('role_id', $dycoRoles)->whereIn('status_id', $status)->get();
+        $dycologs  = scApplicationLog::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)
+        ->where('application_master_id',$masterId)->whereIn('role_id', $dycoRoles)->whereIn('status_id', $status)->get();
 
         return $dycologs;
     } 
 
     // get logs of EE dept
-    public function getLogsOfEEDepartment($applicationId)
+    public function getLogsOfEEDepartment($applicationId,$masterId)
     {
 
         $roles = array(config('commanConfig.ee_junior_engineer'), config('commanConfig.ee_deputy_engineer'), config('commanConfig.ee_branch_head'));
@@ -279,11 +298,23 @@ class conveyanceCommonController extends Controller
         $status = array(config('commanConfig.applicationStatus.forwarded'), config('commanConfig.applicationStatus.reverted'));
 
         $eeRoles = Role::whereIn('name', $roles)->pluck('id');
-        $eelogs  = scApplicationLog::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->whereIn('role_id', $eeRoles)->whereIn('status_id', $status)->get();
+        $eelogs  = scApplicationLog::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->where('application_master_id',$masterId)->whereIn('role_id', $eeRoles)->whereIn('status_id', $status)->get();
 
         return $eelogs;
-    }     
+    }
 
+    // get logs of EE dept
+    public function getLogsOfArchitectDepartment($applicationId,$masterId)
+    {
+
+        $roles = array(config('commanConfig.junior_architect'), config('commanConfig.senior_architect'), config('commanConfig.architect'));
+        $status = array(config('commanConfig.applicationStatus.forwarded'), config('commanConfig.applicationStatus.reverted'));
+
+        $ArchitectRoles = Role::whereIn('name', $roles)->pluck('id');
+        $Architectlogs  = scApplicationLog::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->where('application_master_id',$masterId)->whereIn('role_id', $ArchitectRoles)->whereIn('status_id', $status)->get();
+
+        return $Architectlogs;
+    }
     // get agreement as per agreement type id
     public function getScAgreement($typeId,$applicationId,$status){
 
@@ -346,7 +377,7 @@ class conveyanceCommonController extends Controller
     public function ArchitectScrutinyRemark(Request $request, $applicationId){
         
         $data = scApplication::with('societyApplication')->where('id',$applicationId)->first();
-        // dd();
+        $data->status = $this->getCurrentStatus($applicationId,$data->sc_application_master_id);
         return view('admin.conveyance.architect_department.scrutiny_remark',compact('data'));
     }  
 
@@ -374,4 +405,20 @@ class conveyanceCommonController extends Controller
             }          
         }         
     }
+
+    public function commonForward(Request $request,$applicationId){
+
+      $data     = $this->getForwardApplicationData($applicationId);
+      $data->folder = $this->getCurrentRoleFolderName();
+      $dycoLogs = $this->getLogsOfDYCODepartment($applicationId,$data->sc_application_master_id);
+      $eelogs   = $this->getLogsOfEEDepartment($applicationId,$data->sc_application_master_id);
+
+      return view('admin.conveyance.common.forward_application',compact('data','dycoLogs','eelogs'));         
+    }
+
+    public function saveForwardApplication(Request $request){
+        
+        $forwardData = $this->forwardApplication($request); 
+        return redirect('/conveyance')->with('success','Application send successfully..');
+    }   
 }

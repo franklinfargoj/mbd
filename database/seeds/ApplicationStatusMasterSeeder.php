@@ -16,7 +16,10 @@ class ApplicationStatusMasterSeeder extends Seeder
     	['status_name' => 'in_process'],
     	['status_name' => 'forwarded'],
     	['status_name' => 'reverted'],
-    	['status_name' => 'pending'],
+        ['status_name' => 'pending'],
+        ['status_name' => 'offer_letter_generation'],
+        ['status_name' => 'offer_letter_approved'],
+        ['status_name' => 'sent_to_society'],
     	['status_name' => 'Draft sale and lease deed'],
     	['status_name' => 'Aproved sale and lease'],
     	['status_name' => 'Sent society to pay stamp duety'],
@@ -39,7 +42,7 @@ class ApplicationStatusMasterSeeder extends Seeder
  		 		$ApplicationStatusMaster = ApplicationStatusMaster::where('status_name',$data['status_name'])->first();
  		 		
  		 		if(!$ApplicationStatusMaster){
- 		 			
+
  		 			$ApplicationStatusMaster = new ApplicationStatusMaster();	
  		 			$ApplicationStatusMaster->status_name = $data['status_name'];
  		 			$ApplicationStatusMaster->save();

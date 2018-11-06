@@ -606,7 +606,12 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::resource('conveyance', 'conveyance\conveyanceCommonController');    
     Route::get('conveyance_application/{id}', 'conveyance\conveyanceCommonController@ViewApplication')->name('conveyance.view_application');
 
-    Route::get('view_ee_documents/{id}', 'conveyance\conveyanceCommonController@ViewEEDocuments')->name('conveyance.view_ee_documents');
+    Route::get('view_ee_documents/{id}', 'conveyance\conveyanceCommonController@ViewEEDocuments')->name('conveyance.view_ee_documents'); 
+
+    Route::get('forward_application_sc/{id}', 'conveyance\conveyanceCommonController@commonForward')->name('conveyance.forward_application_sc');
+
+    Route::post('save_forward_application_sc', 'conveyance\conveyanceCommonController@saveForwardApplication')->name('conveyance.save_forward_application');
+
     Route::post('save_agreement_comments', 'conveyance\conveyanceCommonController@SaveAgreementComments')->name('conveyance.save_agreement_comments');
 
     //dyco
