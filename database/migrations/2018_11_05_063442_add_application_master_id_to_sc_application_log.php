@@ -15,7 +15,6 @@ class AddApplicationMasterIdToScApplicationLog extends Migration
     {
         Schema::table('sc_application_log', function (Blueprint $table) {
             $table->integer('application_master_id')->after('application_id')->nullable();
-            $table->timestamps();
         });
     }
 
