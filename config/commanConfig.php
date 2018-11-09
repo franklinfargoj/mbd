@@ -54,7 +54,7 @@ return [
         'offer_letter_approved' => 6,
         'sent_to_society' => 7,
         'Draft_sale_&_lease_deed' => 8,
-        'Aproved_sale_&_lease' => 9,
+        'Aproved_sale_&_lease_deed' => 9,
         'Sent_society_to_pay_stamp_duety' => 10,
         'Stamped_sale_&_lease_deed' => 11,
         'Stamped_signed_sale_&_lease_deed' => 12,

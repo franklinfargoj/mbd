@@ -188,11 +188,9 @@
     $("#agreementFRM").validate({
         rules: {
             sale_agreement: {
-                // required: true,
                 extension: "pdf"
             },            
             lease_agreement: {
-                // required: true,
                 extension: "pdf"
             },
         }, messages: {

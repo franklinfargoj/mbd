@@ -31,6 +31,12 @@
                     aria-selected="true">
                     <i class="la la-bell-o"></i> Lease Deed Agreement
                 </a>
+            </li>            
+            <li class="nav-item m-tabs__item">
+                <a class="nav-link m-tabs__link" data-toggle="tab" href="#resolution" role="tab"
+                    aria-selected="true">
+                    <i class="la la-bell-o"></i> Society Resolution & Undertalking
+                </a>
             </li>
         </ul>
     </div>
@@ -42,7 +48,7 @@
                         <div class="m-subheader" style="padding: 0;">
                             <div class="d-flex align-items-center">
                                 <h4 class="section-title">
-                                    Sale Deed Agreement
+                                    Stamped Sale Deed Agreement
                                 </h4>
                             </div>
                         </div>
@@ -83,7 +89,7 @@
                         <div class="m-subheader" style="padding: 0;">
                             <div class="d-flex align-items-center">
                                 <h4 class="section-title">
-                                    Lease Deed Agreement
+                                    Stamped Lease Deed Agreement
                                 </h4>
                             </div>
                         </div>
@@ -114,6 +120,8 @@
                 </div>
             </div>
         </div>
+
+
     </div>
     @if(count($data->AgreementComments) > 0)       
         <div class="m-portlet m-portlet--mobile m_panel">

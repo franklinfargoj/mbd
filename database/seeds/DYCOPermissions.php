@@ -23,7 +23,7 @@ class DYCOPermissions extends Seeder
                 'description' => 'conveyance',
             ],
             [
-                'name' => 'dyco.checklist',
+                'name' => 'conveyance.checklist',
                 'display_name' => 'checklist',
                 'description' => 'checklist',
             ],
@@ -48,27 +48,27 @@ class DYCOPermissions extends Seeder
                 'description' => 'forward application',
             ],
             [
-                'name' => 'dyco.sale_lease_agreement',
+                'name' => 'conveyance.sale_lease_agreement',
                 'display_name' => 'sale lease agreement',
                 'description' => 'sale lease agreement',
             ],
             [
-                'name' => 'dyco.approved_sale_lease_agreement',
+                'name' => 'conveyance.approved_sale_lease_agreement',
                 'display_name' => 'approved sale lease agreement',
                 'description' => 'approved sale lease agreement',
             ],
             [
-                'name' => 'dyco.stamp_duty_agreement',
+                'name' => 'conveyance.stamp_duty_agreement',
                 'display_name' => 'stamp duty agreement',
                 'description' => 'stamp duty agreement',
             ],
             [
-                'name' => 'dyco.stamp_signed_duty_agreement',
+                'name' => 'conveyance.stamp_signed_duty_agreement',
                 'display_name' => 'stamp signed duty agreement',
                 'description' => 'stamp signed duty agreement',
             ],
             [
-                'name' => 'dyco.register_sale_lease_agreement',
+                'name' => 'conveyance.register_sale_lease_agreement',
                 'display_name' => 'register sale lease agreement',
                 'description' => 'register sale lease agreement',
             ],
@@ -83,7 +83,7 @@ class DYCOPermissions extends Seeder
                 'description' => 'save Agreement',
             ],
             [
-                'name' => 'dyco.forward_application_data',
+                'name' => 'conveyance.forward_application_sc',
                 'display_name' => 'forward application data',
                 'description' => 'forward application data',
             ],
