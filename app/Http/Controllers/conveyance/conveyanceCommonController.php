@@ -218,7 +218,13 @@ class conveyanceCommonController extends Controller
 
                 $Tostatus = config('commanConfig.applicationStatus.Sent_society_to_pay_stamp_duety');
                 $Scstatus = $Tostatus;
-            }else{
+
+            }elseif($applicationStatus == config('commanConfig.applicationStatus.Stamped_signed_sale_&_lease_deed')){
+                
+                $Tostatus = config('commanConfig.applicationStatus.Sent_society_for_registration_of_sale_&_lease');
+                $Scstatus = $Tostatus;                
+            }
+            else{
                 $Tostatus = $applicationStatus;
                 $Scstatus = $Tostatus;
             }
