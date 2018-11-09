@@ -6,7 +6,7 @@
 <div class="custom-wrapper">
     <div class="col-md-12">
         <div class="d-flex">
-            {{-- {{ Breadcrumbs::render('forward_application-dyce',$ol_application->id) }} --}}
+            {{ Breadcrumbs::render('architect_layout_scrutiny_remarks',$ArchitectLayout->id) }}
             <div class="ml-auto btn-list">
                 <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
             </div>
@@ -37,8 +37,10 @@
                                         Scrutiny Report
                                     </h3>
                                 </div>
+                                @if($read_only!=0)
                                 <a href="{{route('architect_layout_add_scrutiny_report',['layout_id'=>encrypt($ArchitectLayout->id)])}}"
                                     class="btn btn-primary mb-2">Add report</a>
+                                @endif
                                 <div class="remarks-suggestions">
                                     <table class="table">
                                         <tr>
@@ -76,7 +78,7 @@
                                 <div class="remarks-suggestions scrutiny-checklist_and_remarks">
                                     <div id="wrapper">
                                         @if(isset($post_route_name) && isset($upload_file_route_name))
-                                        @include('admin.architect_layout.scrutiny.checklist_and_remark',compact('check_list_and_remarks','post_route_name','upload_file_route_name'))
+                                        @include('admin.architect_layout.scrutiny.checklist_and_remark',compact('read_only','check_list_and_remarks','post_route_name','upload_file_route_name'))
                                         @endif
                                         {{-- @if(session()->get('role_name')==config('commanConfig.land_manager'))
                                         @include('admin.architect_layout.scrutiny.lm_checklist_and_remark',compact('check_list_and_remarks',''))
@@ -154,7 +156,7 @@
                 '<input type="hidden" name="report_file_name[]" id="report_file_' + count +
                 '" value="">' +
                 '<a class="btn-link" target="_blank" id="report_file_link_' + count +
-                '" style="display:none">uploaded file</a>' +
+                '" style="display:none">download</a>' +
                 '</div>' +
                 '</div>' +
                 '</div>'

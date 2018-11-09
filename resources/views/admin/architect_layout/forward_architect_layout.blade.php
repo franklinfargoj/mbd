@@ -6,7 +6,7 @@
 <div class="custom-wrapper">
     <div class="col-md-12">
         <div class="d-flex">
-            {{-- {{ Breadcrumbs::render('forward_application-dyce',$ol_application->id) }} --}}
+            {{ Breadcrumbs::render('architect_layout_forward',$ArchitectLayout->id) }}
             <div class="ml-auto btn-list">
                 <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
             </div>
@@ -113,6 +113,10 @@
                                                 @php  
                                                     $multiple="multiple";
                                                     if(session()->get('role_name')==config('commanConfig.cap_engineer'))
+                                                    {
+                                                        $multiple="";
+                                                    }
+                                                    if(session()->get('role_name')==config('commanConfig.ree_branch_head'))
                                                     {
                                                         $multiple="";
                                                     }

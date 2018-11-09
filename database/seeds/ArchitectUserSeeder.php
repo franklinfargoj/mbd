@@ -142,11 +142,11 @@ class ArchitectUserSeeder extends Seeder
                     'display_name' => 'post_forward_architect_layout',
                     'description' => 'post_forward_architect_layout',
                 ],
-                [
-                    'name' => 'architect_layout_get_scrtiny',
-                    'display_name' => 'architect_layout_get_scrtiny',
-                    'description' => 'architect_layout_get_scrtiny',
-                ],
+                // [
+                //     'name' => 'architect_layout_get_scrtiny',
+                //     'display_name' => 'architect_layout_get_scrtiny',
+                //     'description' => 'architect_layout_get_scrtiny',
+                // ],
                 [
                     'name' => 'architect_layout_add_scrutiny_report',
                     'display_name' => 'architect_layout_add_scrutiny_report',
@@ -206,6 +206,8 @@ class ArchitectUserSeeder extends Seeder
                 ]
                 
             ];
+
+            $delete_permission_id=Permission::where(['name'=>'architect_layout_get_scrtiny'])->first();
         // $architect=Role::where('name', '=', 'architect')->select('id')->first();
         // if(!$architect)
         // {
@@ -271,6 +273,16 @@ class ArchitectUserSeeder extends Seeder
                         'permission_id' => $ee_permission_id,
                         'role_id' => $architect_id,
                     ];
+                }
+            }
+
+            if($delete_permission_id)
+            {
+               // dd($delete_permission_id->id);
+                $delete_permission_role=PermissionRole::where(['permission_id'=>$delete_permission_id->id,'role_id'=>$architect_id])->first();
+                if($delete_permission_role)
+                {
+                    $delete_permission_role->where(['permission_id'=>$delete_permission_id->id,'role_id'=>$architect_id])->delete();
                 }
             }
             if(count($architect_permission_role)>0)
@@ -343,6 +355,16 @@ class ArchitectUserSeeder extends Seeder
                         'permission_id' => $ee_permission_id,
                         'role_id' => $senior_architect_id,
                     ];
+                }
+            }
+
+            if($delete_permission_id)
+            {
+               // dd($delete_permission_id->id);
+                $delete_permission_role=PermissionRole::where(['permission_id'=>$delete_permission_id->id,'role_id'=>$senior_architect_id])->first();
+                if($delete_permission_role)
+                {
+                    $delete_permission_role->where(['permission_id'=>$delete_permission_id->id,'role_id'=>$senior_architect_id])->delete();
                 }
             }
             if(count($architect_permission_role)>0)
@@ -610,6 +632,16 @@ class ArchitectUserSeeder extends Seeder
                         'permission_id' => $ee_permission_id,
                         'role_id' => $junior_architect_id,
                     ]);
+                }
+            }
+
+            if($delete_permission_id)
+            {
+               // dd($delete_permission_id->id);
+                $delete_permission_role=PermissionRole::where(['permission_id'=>$delete_permission_id->id,'role_id'=>$junior_architect_id])->first();
+                if($delete_permission_role)
+                {
+                    $delete_permission_role->where(['permission_id'=>$delete_permission_id->id,'role_id'=>$junior_architect_id])->delete();
                 }
             }
             if(count($architect_permission_role)>0)
