@@ -145,7 +145,7 @@ class RCUserSeeder extends Seeder
         }
 
         $permission_role = [];
-
+        $rc_permission_role=array();
         foreach ($rc_permissions as $rc) {
 
             $rc_permission = Permission::where(['name' => $rc['name']])->first();
