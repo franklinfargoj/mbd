@@ -69,6 +69,7 @@
                                                 </div>
                                         </div>
                                     </div> 
+
                                     <div class="col-sm-6 border-left">
                                         <div class="d-flex flex-column h-100 two-cols">
                                             <h5>Download</h5>
@@ -87,7 +88,6 @@
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
@@ -203,7 +203,7 @@
         </div> 
     @endif   
 
-    @if($data->status->status_id == config('commanConfig.applicationStatus.in_process'))
+    @if($data->status->status_id != config('commanConfig.applicationStatus.forwarded'))
   
              <input type="hidden" name="application_id" value="{{ isset($data->id) ? $data->id : '' }}">
             <div class="m-portlet m-portlet--mobile m_panel">  
@@ -220,4 +220,25 @@
         </form>
     @endif 
 
+@endsection
+@section('js')
+<script>
+    $("#agreementFRM").validate({
+        rules: {
+            sale_agreement: {
+                extension: "pdf"
+            },            
+            lease_agreement: {
+                extension: "pdf"
+            },
+        }, messages: {
+            sale_agreement: {
+                extension: "Invalid type of file uploaded (only pdf allowed)."
+            },            
+            lease_agreement: {
+                extension: "Invalid type of file uploaded (only pdf allowed)."
+            }
+        }
+    });  
+</script>
 @endsection

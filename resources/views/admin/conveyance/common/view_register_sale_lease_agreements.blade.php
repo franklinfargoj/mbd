@@ -12,8 +12,11 @@
 
 <div class="col-md-12">
     <!-- BEGIN: Subheader -->
-    <div class="m-subheader px-0">
-        <div class="d-flex">
+    <div class="m-subheader px-0 m-subheader--top">
+        <div class="d-flex align-items-center">
+            <!-- <h3 class="m-subheader__title m-subheader__title--separator"> -->
+            <!-- Registered Sale & Lease Deed Agreement -->
+            <!-- </h3> -->
             {{-- {{ Breadcrumbs::render('calculation_sheet',$ol_application->id) }} --}}
             <div class="ml-auto btn-list">
                 <a href="javascript:void(0);" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
@@ -34,28 +37,32 @@
             </li>
         </ul>
     </div>
+<form class="nav-tabs-form" id ="agreementFRM" role="form" method="POST" action="{{ route('dyco.save_agreement')}}" enctype="multipart/form-data">
+@csrf
+
+<input type="hidden" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">
     <div class="tab-content">
         <div class="tab-pane active show" id="sale-deed-agreement" role="tabpanel">
             <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
                 <div class="portlet-body">
                     <div class="m-portlet__body m-portlet__body--table">
                         <div class="m-subheader" style="padding: 0;">
-                            <div class="d-flex align-items-center">
-                                <h4 class="section-title">
+                            <div class="d-flex">
+                                <h5 class="section-title">
                                     Sale Deed Agreement
-                                </h4>
+                                </h5>
                             </div>
                         </div>
                         <div class="m-section__content mb-0 table-responsive">
                             <div class="container">
                                 <div class="row">
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-12">
                                         <div class="d-flex flex-column h-100 two-cols">
                                             <h5>Download</h5>
-                                            <span class="hint-text">Click to download Sale Deed Agreement </span>
+                                            <span class="hint-text">Click Download to download Sale Deed Agreement </span>
                                             <div class="mt-auto">
-                                                @if(isset($data->DraftSaleAgreement->document_path))
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->DraftSaleAgreement->document_path }}">
+                                                @if(isset($data->scApplicationAgreement->draft_sale_agreement))
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->scApplicationAgreement->draft_sale_agreement }}">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>
@@ -82,23 +89,25 @@
                     <div class="m-portlet__body m-portlet__body--table">
                         <div class="m-subheader" style="padding: 0;">
                             <div class="d-flex align-items-center">
-                                <h4 class="section-title">
+                                <h5 class="section-title">
                                     Lease Deed Agreement
-                                </h4>
+                                </h5>
                             </div>
                         </div>
                         <div class="m-section__content mb-0 table-responsive">
                             <div class="container">
                                 <div class="row">
                                     <div class="col-sm-6">
+                                    </div>
+                                    <div class="col-sm-12">
                                         <div class="d-flex flex-column h-100 two-cols">
-                                            <h5>Download Note</h5>
-                                            <span class="hint-text">Click to download Lease Deed Agreement</span>
+                                            <h5>Download</h5>
+                                            <span class="hint-text">Click Download to download Lease Deed Agreement</span>
                                             <div class="mt-auto">
-                                                @if(isset($data->DraftLeaseAgreement->document_path))
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->DraftLeaseAgreement->document_path }}">
+                                                @if(isset($data->scApplicationAgreement->draft_lease_agreement))
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->scApplicationAgreement->draft_lease_agreement }}">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
-                                                        Download </Button>
+                                                       Download  </Button>
                                                 </a>
                                                 @else
                                                 <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
@@ -115,6 +124,24 @@
             </div>
         </div>
     </div>
+    <div class="m-portlet m-portlet--mobile m_panel">
+        <div class="m-portlet__body">
+            <h3 class="section-title section-title--small">Sub registrar Details</h3>
+<!--             <div class="col-xs-12 row">
+                <div class="col-md-12">
+                    <div class="col-md-6" style="display: inline;">
+                        <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
+                        Download  </Button>
+                    </div>
+                    <div class="col-md-6" style="display: inline;">
+                        <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
+                        send to society </Button>
+                    </div>    
+                </div>
+            </div> -->
+        </div>
+    </div>
+
     @if(count($data->AgreementComments) > 0)       
         <div class="m-portlet m-portlet--mobile m_panel">
             <div class="m-portlet__body">
@@ -136,7 +163,7 @@
         </div> 
     @endif   
 
-    @if($data->status->status_id != config('commanConfig.applicationStatus.forwarded'))
+    @if($data->status->status_id == config('commanConfig.applicationStatus.in_process'))
 
         <form class="nav-tabs-form" id ="CommentFRM" role="form" method="POST" action="{{ route('conveyance.save_agreement_comments')}}">
             @csrf   
@@ -153,5 +180,8 @@
                 </div>
             </div>
         </form>
-    @endif   
+    @endif     
+ </form>   
+</div>
+
 @endsection
