@@ -4,6 +4,18 @@
 @endsection
 @section('content')
 <div class="col-md-12">
+        <div class="m-subheader px-0 m-subheader--top">
+                <div class="d-flex align-items-center">
+                    <h3 class="m-subheader__title m-subheader__title--separator">Issue certificate to selected candidate</h3>
+                    {{ Breadcrumbs::render('architect_finalCertificateGenerate',$ArchitectApplication->id) }}
+                </div>
+                {{-- @if(session('error'))
+                <div class="alert alert-danger">{{ session('error') }}</div>
+                @endif
+                @if(session('success'))
+                <div class="alert alert-success">{{ session('success') }}</div>
+                @endif --}}
+            </div>
     <div id="show-offer-letter" style="display: block;">
         <div class="m-portlet m-portlet--mobile m_panel">
             <div class="m-portlet__body" style="padding-right: 0;">

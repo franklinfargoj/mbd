@@ -511,3 +511,36 @@ Breadcrumbs::for('rc', function ($trail) {
 Breadcrumbs::for('em_clerk', function ($trail) {
     $trail->push('Home', route('em_clerk.index'));
 });
+
+
+//architect application
+
+Breadcrumbs::for('architect_application', function ($trail) {
+    $trail->push('architect_application', route('architect_application'));
+});
+Breadcrumbs::for('evaluate_application', function ($trail,$id) {
+    $trail->parent('architect_application');
+    $trail->push('Evaluate', route('evaluate_architect_application',['id'=>$id]));
+});
+
+Breadcrumbs::for('view_architect_application', function ($trail,$id) {
+    $trail->parent('architect_application');
+    $trail->push('View', route('view_architect_application',['id'=>$id]));
+});
+
+Breadcrumbs::for('forward_architect_application', function ($trail,$id) {
+    $trail->parent('architect_application');
+    $trail->push('Forward', route('architect.forward_application',['id'=>$id]));
+});
+
+Breadcrumbs::for('architect_generate_certificate', function ($trail,$id) {
+    $trail->parent('architect_application');
+    $trail->push('Generate Certificate', route('generate_certificate',['id'=>$id]));
+});
+
+Breadcrumbs::for('architect_finalCertificateGenerate', function ($trail,$id) {
+    $trail->parent('architect_application');
+    $trail->push('Download Certificate', route('finalCertificateGenerate',['id'=>$id]));
+});
+
+

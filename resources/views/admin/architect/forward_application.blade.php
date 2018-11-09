@@ -4,6 +4,15 @@
 @endsection
 @section('content')
 <div class="col-md-12">
+    <div class="m-subheader px-0">
+        <div class="d-flex">
+            {{ Breadcrumbs::render('forward_architect_application',$ArchitectApplication->id) }}
+            <div class="ml-auto btn-list">
+                <a href="{{route('architect_application')}}" class="btn btn-link"><i
+                        class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+            </div>
+        </div>
+    </div>
     <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
         <form action="{{route('architect.post_forward_application')}}" id="forwardApplication" method="post">
             @csrf
