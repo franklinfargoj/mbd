@@ -18,7 +18,7 @@
             <div class="form-group m-form__group row">
                 <div class="col-sm-4 form-group">
                     <label class="col-form-label" for="year">Year:</label>
-                    <select id="year" name="year" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" disabled="true">
+                    <select id="year" name="year" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" readonly>
                         <option value="">Select Year</option>
                         <option value="{{$arrears_charge->year}}" selected="true">{{$arrears_charge->year}}</option>
                     </select>

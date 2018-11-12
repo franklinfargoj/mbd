@@ -20,7 +20,6 @@ use App\MasterBuilding;
 use App\MasterTenant;
 use App\ArrearsChargesRate;
 use App\ArrearCalculation;
-use App\ArrearTenantPayment;
 
 class ArrearsCalculationController extends Controller
 {
