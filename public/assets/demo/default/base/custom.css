@@ -1,5 +1,12 @@
 /* theme classes over ride starts here */
 
+.position-relative .btn--add-delete {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 102%;
+}
+
 a[title="JavaScript charts"] {
     display: none !important;
 }
@@ -1198,6 +1205,10 @@ table.dataTable tbody tr:nth-child(even):focus {
 /* Bootstrap classes ends here */
 
 /* global classes starts here */
+
+.optionBox .block + .block {
+    margin-top: 5px;
+}
 
 .btn.m-btn--custom {
     padding-left: 1.7rem;
@@ -2908,10 +2919,10 @@ label.site-visit-label {
 .m-tabs-line.m-tabs-line--primary.nav.nav-tabs.nav-tabs--steps .nav-link.active
 .m-tabs-line.m-tabs-line--primary.nav.nav-tabs.nav-tabs--steps .nav-link.active>i {
     background-color: #ff764f !important;
-    color: #fff !important;
+    color: rgba(2, 133, 65, 0.7) !important;
 }
-.m-tabs-line.m-tabs-line--primary.nav.nav-tabs.nav-tabs--steps .filled .nav-link.active,
-.m-tabs-line.m-tabs-line--primary.nav.nav-tabs.nav-tabs--steps .filled .nav-link.active i {
+.m-tabs-line.m-tabs-line--primary.nav.nav-tabs.nav-tabs--steps .filled .nav-link,
+.m-tabs-line.m-tabs-line--primary.nav.nav-tabs.nav-tabs--steps .filled .nav-link i {
     color: rgba(2, 133, 65, 0.7) !important;
 }
 

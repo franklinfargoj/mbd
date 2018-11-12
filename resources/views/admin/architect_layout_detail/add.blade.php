@@ -599,7 +599,7 @@ function showUploadedFileName() {
     //cts plan detail
         $(document).ready(function() {  
             $('.add').click(function() {
-                $('.block:last').after('<div class="block"><input placeholder="CTS no" type="text" name="cts_no[]" class="form-control form-control--custom" required><a href="#" class="fa fa-close btn--add-delete remove"></a></div>');
+                $('.block:last').after('<div class="block position-relative"><input placeholder="CTS no" type="text" name="cts_no[]" class="form-control form-control--custom" required><a href="#" class="fa fa-close btn--add-delete remove"></a></div>');
             });
             $('.optionBox').on('click','.remove',function() {
                 $(this).parent().remove();
