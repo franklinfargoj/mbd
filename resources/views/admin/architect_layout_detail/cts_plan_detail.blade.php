@@ -1,57 +1,7 @@
-@extends('admin.layouts.app')
-@section('js')
-<script>
-    $(document).ready(function() {  
-        $('.add').click(function() {
-            $('.block:last').after('<div class="block"><input placeholder="CTS no" type="text" name="cts_no[]" class="form-control form-control--custom" required><a href="#" class="fa fa-close btn--add-delete remove"></a></div>');
-        });
-        $('.optionBox').on('click','.remove',function() {
-            $(this).parent().remove();
-        }); 
-    });
-    function deleteCtsDetail(tt,id)
-    {
-        if(confirm('Are you sure?'))
-        {
-            $.ajaxSetup({
-            headers: {
-                'X-CSRF-Token': '{{csrf_token()}}'
-            }
-            });
-            $.ajax({
-                url:'{{route("delete_cts_detail")}}',
-                method:'POST',
-                data:{cts_detail_id:id},
-                success:function(data){
-                    console.log(data);
-                    $(tt).parent().remove();
-                }
-            })
-        }
-    }
-
-</script>
-@endsection
-@section('content')
-<div class="col-md-12">
-    <div class="m-subheader px-0 m-subheader--top">
-        <div class="d-flex align-items-center">
-            <h3 class="m-subheader__title m-subheader__title--separator">View CTS Plan Details -
-                {{$ArchitectLayoutDetail->architect_layout->layout_name}}</h3>
-        </div>
-    </div>
+{{-- <div class="col-md-12">
     <div class="m-portlet m-portlet--mobile m_panel">
-        <div class="portlet-body">
-            @if(Session::has('success'))
-            <div class="alert alert-success">
-                <p> {{ Session::get('success') }} </p>
-            </div>
-            @endif
-            @if(Session::has('error'))
-            <div class="alert alert-danger">
-                <p> {{ Session::get('error') }} </p>
-            </div>
-            @endif
+        <div class="portlet-body"> --}}
+           
             <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
                 <div class="m-subheader">
                     <div class="d-flex align-items-center">
@@ -70,7 +20,7 @@
                                 <div class="custom-file">
                                     <input class="custom-file-input" name="cts_plan_file" type="file" id="cts_plan_file">
                                     <label class="custom-file-label" for="cts_plan_file">Choose file...</label>
-                                    <a class="btn-link"  target="_blank" id="cts_plan" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->cts_plan}}"
+                                    <a class="btn-link" target="_blank" id="cts_plan" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->cts_plan}}"
                                         style="display:{{$ArchitectLayoutDetail->cts_plan!=''?'block':'none'}};">uploaded
                                         file</a>
                                 </div>
@@ -108,7 +58,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-12 form-group">
-                                        <a class="btn--add-delete add" href="javascript:void">add more<a>
+                                        <a class="btn--add-delete add" href="javascript:void(0)">add more<a>
                                     </div>
                                 </div>
                                 <div class="mt-auto">
@@ -121,7 +71,6 @@
                     </form>
                 </div>
             </div>
-        </div>
+            {{-- </div>
     </div>
-</div>
-@endsection
+</div> --}}

@@ -2906,12 +2906,13 @@ label.site-visit-label {
 .m-tabs-line.m-tabs-line--primary.nav.nav-tabs.nav-tabs--steps .nav-link:focus>i,
 .m-tabs-line.m-tabs-line--primary.nav.nav-tabs.nav-tabs--steps .nav-link.active
 .m-tabs-line.m-tabs-line--primary.nav.nav-tabs.nav-tabs--steps .nav-link.active>i {
-    background-color: #ff764f;
+    background-color: #ff764f !important;
     color: #fff !important;
 }
 
-.m-tabs-line.m-tabs-line--primary.nav.nav-tabs.nav-tabs--steps .filled .nav-link {
-    background-color: rgba(2, 133, 65, 0.8) !important;
+.m-tabs-line.m-tabs-line--primary.nav.nav-tabs.nav-tabs--steps .filled .nav-link,
+.m-tabs-line.m-tabs-line--primary.nav.nav-tabs.nav-tabs--steps .filled .nav-link i {
+    background-color: rgba(2, 133, 65, 0.7) !important;
     color: #fff;
 }
 
