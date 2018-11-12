@@ -2906,15 +2906,20 @@ label.site-visit-label {
 .m-tabs-line.m-tabs-line--primary.nav.nav-tabs.nav-tabs--steps .nav-link:focus>i,
 .m-tabs-line.m-tabs-line--primary.nav.nav-tabs.nav-tabs--steps .nav-link.active
 .m-tabs-line.m-tabs-line--primary.nav.nav-tabs.nav-tabs--steps .nav-link.active>i {
-    background-color: #e8e8e8;
-    color: #7b7e8a !important;
+    background-color: #ff764f;
+    color: #fff !important;
+}
+
+.m-tabs-line.m-tabs-line--primary.nav.nav-tabs.nav-tabs--steps .filled .nav-link {
+    background-color: rgba(2, 133, 65, 0.8) !important;
+    color: #fff;
 }
 
 .form-steps-toplinks .m--font-danger {
     cursor: pointer;
 }
 
-.m-tabs-line.m-tabs-line--primary.nav.nav-tabs.nav-tabs--steps .nav-link.active::after {
+/* .m-tabs-line.m-tabs-line--primary.nav.nav-tabs.nav-tabs--steps .nav-link.active::after {
     content: "";
     display: block;
     position: absolute;
@@ -2928,7 +2933,7 @@ label.site-visit-label {
     top: 0;
     left: 99%;
     border-left-color: #ff754e;
-}
+} */
 
 .form-steps-wrap + .form-steps-box {
     margin-top: 30px;
