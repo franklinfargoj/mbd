@@ -435,13 +435,13 @@ class HearingController extends Controller
         $role_id = session()->get('role_id');
         $user_id = Auth::id();
 
-        $hearing_data = Hearing::with(['hearingStatusLog.hearingStatus','hearingStatusLog' => function($q){
-            $q->where('user_id', Auth::user()->id)
-                ->where('role_id', session()->get('role_id'));
+        $hearing_data = Hearing::with(['hearingStatusLog.hearingStatus','hearingStatusLog' => function($q) use ($user_id,$role_id){
+            $q->where('user_id', $user_id)
+                ->where('role_id', $role_id);
         }, 'hearingSchedule.prePostSchedule', 'hearingForwardCase', 'hearingSendNoticeToAppellant', 'hearingUploadCaseJudgement'])
-            ->whereHas('hearingStatusLog' ,function($q){
-                $q->where('user_id', Auth::user()->id)
-                    ->where('role_id', session()->get('role_id'));
+            ->whereHas('hearingStatusLog' ,function($q) use ($user_id,$role_id) {
+                $q->where('user_id', $user_id)
+                    ->where('role_id', $role_id);
             })->get()->toArray();
 
         $totalPendingHearing = $totalClosedHearing = $totalScheduledHearing = $totalUnderJudgementHearing = $totalForwardedHearing = 0;
@@ -462,18 +462,6 @@ class HearingController extends Controller
             }
 
         }
-
-
-//        $totalPendingHearing = Hearing::where('hearing_status_id','1')->count();
-//
-////        dd($totalPendingHearing);
-//        $totalClosedHearing = Hearing::where('hearing_status_id','6')->get()->count();
-//
-//        $totalScheduledHearing = Hearing::where('hearing_status_id','2')->get()->count();
-//
-//        $totalUnderJudgementHearing = Hearing::where('hearing_status_id','3')->get()->count();
-
-
 
         $totalHearing = count($hearing_data);
 
