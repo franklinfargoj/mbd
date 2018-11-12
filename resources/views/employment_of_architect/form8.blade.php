@@ -6,21 +6,24 @@
 
 <div class="col-md-12">
     <div class="d-flex form-steps-wrap">
-        <button class="btn--unstyled flex-grow-1 form-step-tab active">Step 1</button>
-        <button class="btn--unstyled flex-grow-1 form-step-tab active">Step 2</button>
-        <button class="btn--unstyled flex-grow-1 form-step-tab active">Step 3</button>
-        <button class="btn--unstyled flex-grow-1 form-step-tab active">Step 4</button>
-        <button class="btn--unstyled flex-grow-1 form-step-tab active">Step 5</button>
-        <button class="btn--unstyled flex-grow-1 form-step-tab active">Step 6</button>
-        <button class="btn--unstyled flex-grow-1 form-step-tab active">Step 7</button>
-        <button class="btn--unstyled flex-grow-1 form-step-tab active">Step 8</button>
+        <button onclick="window.location='{{ route("appointing_architect.step1",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab active">Step 1</button>
+        <button onclick="window.location='{{ route("appointing_architect.step2",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab active">Step 2</button>
+        <button onclick="window.location='{{ route("appointing_architect.step3",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab active">Step 3</button>
+        <button onclick="window.location='{{ route("appointing_architect.step4",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab active">Step 4</button>
+        <button onclick="window.location='{{ route("appointing_architect.step5",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab active">Step 5</button>
+        <button onclick="window.location='{{ route("appointing_architect.step6",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab active">Step 6</button>
+        <button onclick="window.location='{{ route("appointing_architect.step7",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab active">Step 7</button>
+        <button onclick="window.location='{{ route("appointing_architect.step8",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab active">Step 8</button>
+        <button onclick="window.location='{{ route("appointing_architect.step9",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab ">Step 9</button>
+        <button onclick="window.location='{{ route("appointing_architect.step10",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab ">Step 10</button>
     </div>
     <div id="accordion" class="mt-4">
         @php
         $prev_form_number=old('form_number')?old('form_number'):0;
         @endphp
 
-        <h3 class="section-title section-title--small mb-4">Name of Applicant: {{$application->name_of_applicant}}</h3>
+<h3 class="section-title section-title--small mb-4">PROJECT DETAIL SHEET - WORK COMPLETED</h3>
+        {{-- <h3 class="section-title section-title--small mb-4">Name of Applicant: {{$application->name_of_applicant}}</h3> --}}
 
         @php
         $project_count=$application->project_sheets->count();
@@ -38,8 +41,13 @@
 
 
         @for($j=0;$j<(1+$k);$j++) <div class="m-portlet m-portlet--compact form-accordion">
-            <a class="btn--unstyled section-title section-title--small form-count-title" data-toggle="collapse" href="#form_{{$j+1}}">Form
-                {{$j+1}}:</a>
+            <div class="d-flex justify-content-between align-items-center form-steps-toplinks">
+                <a class="btn--unstyled section-title section-title--small form-count-title d-flex justify-content-between collapsed" data-toggle="collapse"
+                    href="#form_{{$j+1}}"><span class="form-accordion-title">Form {{$j+1}}:</span><span class="accordion-icon"></span></a>
+                @if($j>=1)
+                <h2 class='m--font-danger ml-3 mb-0'><i title='Delete' class='fa fa-remove'></i></h2>
+                @endif
+            </div>
             <form role="form" method="post" class="m-form m-form--rows m-form--label-align-right form-steps-box" action="{{route('appointing_architect.step8_post',['id'=>encrypt($application->id)])}}"
                 enctype="multipart/form-data">
                 @csrf
@@ -102,13 +110,14 @@
                             <label class="col-form-label" for="extract">Upload copy of agreement:
                                 <!--<span class="star">*</span>--></label>
                             <div class="custom-file">
-                                <input type="file" id="extract_{{$j+1}}" name="copy_of_agreement" class="custom-file-input">
-                                <label title="" class="custom-file-label" for="extract_{{$j+1}}">Choose File...</label>
-                                <span class="help-block"></span>
                                 @php
                                 $file="";
                                 $file=isset($application->project_sheets[$j])?$application->project_sheets[$j]->copy_of_agreement:'';
                                 @endphp
+                                <input accept="pdf" title="please upload file with pdf extension" {{ $file!=""?"":"required" }} type="file" id="extract_{{$j}}" name="copy_of_agreement" class="custom-file-input">
+                                <label title="" class="custom-file-label" for="extract_{{$j}}">Choose File...</label>
+                                <span class="help-block"></span>
+                                
                                 <a style="display:{{$file!=''?'block':'none'}}" target="_blank" class="btn-link" href="{{config('commanConfig.storage_server').'/'.$file}}">download</a>
                             </div>
                         </div>
@@ -206,13 +215,9 @@
                     </div>
                     <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
                         <div class="m-form__actions px-0">
-                            <div class="row">
-                                <div class="col-sm-one4">
-                                    <div class="btnone-list">
-                                        <input type="submit" id="" class="btn btn-primary" name="Save">
-                                        <a href="" class="btn btn-secondary">Cancel</a>
-                                    </div>
-                                </div>
+                            <div class="btn-list">
+                                <input type="submit" id="" class="btn btn-primary" name="Save">
+                                <a href="" class="btn btn-secondary">Cancel</a>
                             </div>
                         </div>
                     </div>
@@ -225,7 +230,8 @@
     <div class="m-form__actions p-0">
         <div class="btn-list d-flex justify-content-between align-items-center">
             <a id="add-more" class="btn--add-delete add">add more<a>
-            <a href="{{route('appointing_architect.step8',['id'=>$application->id])}}" id="" class="btn btn-primary">Next</a>
+           
+            <a href="{{route('appointing_architect.step9',['id'=>encrypt($application->id)])}}" id="" class="btn btn-primary">Next</a>
         </div>
     </div>
 </div>
@@ -238,12 +244,13 @@
 <script>
     $(document).ready(function () {
         //document.querySelector(".m-portlet__body").classList.add("show");
-        
+
         function showUploadedFile() {
             $('.custom-file-input').change(function (e) {
                 $(this).parents('.custom-file').find('.custom-file-label').text(e.target.files[0].name);
             });
         }
+
 
         $('#add-more').click(function (e) {
             e.preventDefault();
@@ -256,19 +263,25 @@
                     }
                 });
 
-            var formAccordionCount = $("#accordion").find('.form-accordion').length + 1;
+            formAccordion.find(".form-steps-toplinks").append("<h2 class='m--font-danger ml-3 mb-0'><i title='Delete' class='fa fa-remove'></i></h2>");
+
+            var formAccordionCount = $("#accordion").find('.form-accordion').length;
             var newID = 'form_' + formAccordionCount;
 
             formAccordion.find("input[name='form_number']")[0].value = formAccordionCount
 
             var formAccordionNumber = formAccordion.find('.form-count-title')[0];
+            formAccordionNumber.classList.remove("collapsed");
             formAccordionNumber.setAttribute("href", "#" + newID);
-            formAccordionNumber.textContent = "Form " + formAccordionCount + ":";
+
+            var formAccordionTitle = formAccordion.find('.form-accordion-title')[0];
+            formAccordionTitle.textContent = "FORM " + formAccordionCount + ":";
 
             var file_input = formAccordion.find('.custom-file-input')[0];
-            file_input.setAttribute('id', 'extract_'+formAccordionCount)
+            file_input.setAttribute('id', 'extract_' + formAccordionCount)
+            file_input.setAttribute('required', 'required');
             var file_label = formAccordion.find('.custom-file-label')[0];
-            file_label.setAttribute('for', 'extract_'+formAccordionCount);
+            file_label.setAttribute('for', 'extract_' + formAccordionCount);
             var download_link = formAccordion.find('.btn-link')[0];
             download_link.setAttribute('style', 'display:none;');
 
@@ -281,6 +294,28 @@
 
             formAccordion.insertAfter("#accordion .form-accordion:last");
 
+             formAccordion.find('form').each(function() {  // attach to all form elements on page
+                var form=$(this)
+                form.validate({       // initialize plugin on each form
+                    rules: {
+                    name_of_project: "required",
+                    location:"required",
+                    name_of_client:"required",
+                    address:"required",
+                    tel_no:"required",
+                    built_up_area_in_sq_m:"required",
+                    land_area_in_sq_m:"required",
+                    estimated_value_of_project:"required",
+                    completed_value_of_project:"required",
+                    date_of_start:"required",
+                    date_of_completion:"required",
+                    whether_service_terminated_by_client:"required",
+                    salient_features_of_project:"required",
+                    reason_for_delay_if_any:"required"
+                    }
+                });
+            });
+
             showUploadedFile();
 
             $(".m_datepicker").datepicker({
@@ -291,9 +326,78 @@
                 },
                 autoclose: true,
                 format: 'dd-mm-yyyy'
-            })
+            });
+            
+            removeAccordion();
         });
+
+        function removeAccordion() {
+            if($('.form-steps-toplinks')) {
+                $('.form-steps-toplinks').on('click', '.fa-remove', function(e) {
+                    var delete_id=$(this).closest('.form-steps-toplinks').next('form').find("input[name='project_sheet_detail_id']")[0].value;
+                    //$(this)[0].closest('.form-accordion').remove();
+                    if(delete_id!="")
+                    {
+                        if(confirm('are you sure?'))
+                        {
+                            $.ajaxSetup({
+                                headers: {
+                                    'X-CSRF-Token': '{{csrf_token()}}'
+                                }
+                            });
+                            var thisInstance=$(this);
+                            $.ajax({
+                                url:"{{route('appointing_architect.delete_project_sheet_detail')}}",
+                                method:'POST',
+                                data:{delete_imp_project_id:delete_id},
+                                success:function(data){
+                                    if(data.status==0)
+                                    {
+                                        thisInstance[0].closest('.form-accordion').remove();
+                                    }else
+                                    {
+                                        alert('something went wrong');
+                                    }
+                                }
+                            })
+                        }
+                    }else
+                    {
+                        $(this)[0].closest('.form-accordion').remove();
+                    }
+
+
+                });
+            }
+        }
+
+        removeAccordion();
     });
+
+    $(document).ready(function() {
+
+$('form').each(function() {  // attach to all form elements on page
+    var form=$(this)
+    form.validate({       // initialize plugin on each form
+        rules: {
+          name_of_project: "required",
+          location:"required",
+          name_of_client:"required",
+          address:"required",
+          tel_no:"required",
+          built_up_area_in_sq_m:"required",
+          land_area_in_sq_m:"required",
+          estimated_value_of_project:"required",
+          completed_value_of_project:"required",
+          date_of_start:"required",
+          date_of_completion:"required",
+          whether_service_terminated_by_client:"required",
+          salient_features_of_project:"required",
+          reason_for_delay_if_any:"required"
+        }
+    });
+});
+});
 
 </script>
 @endsection

@@ -70,5 +70,10 @@ class OlDemarcationVerificationQuestion extends Seeder
             ];
             OlDemarcationVerificationQuestionMaster::insert($questionArr);
         }
+
+        //add compulsory remark 
+        $compulsoryRemark = array('संस्थेच्या वापरात असलेल्या एकूण भूखंडाचे क्षेत्रफळ किती आहे ?','संस्थेचे भाडेपट्टा करारनामा नुसार भूखंडाचे एकूण क्षेत्रफळ किती आहे ?','नसल्यास सदर जागा फुटकळ भूखंडाच्या  परिभाषेनुसार असल्यास त्याचे क्षेत्रफळ व मोजमापे नमुद करावीत.','सदर फुटकळ भूखंडालगतच्या इतर संस्थांची नावे नमुद करावीत.','संस्थेच्या अस्तित्वातील इमारतीच्या मजल्यांची संख्या किती आहे ?','संस्थेमध्ये एकूण निवासी व अनिवासी गाळ्यांची संख्या नमुद करावी','सदर इमारतीस संलग्न असलेल्या रोडची रूंदी नमुद करण्यात यावी.');
+
+        OlDemarcationVerificationQuestionMaster::whereIn('question',$compulsoryRemark)->update(['is_compulsory' => '1']);
     }
 }

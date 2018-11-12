@@ -1,6 +1,6 @@
 @extends('admin.layouts.sidebarAction')
 @section('actions')
-@include('admin.conveyance.dyco_department.action',compact('data'))
+@include('admin.conveyance.'.$data->folder.'.action')
 @endsection
 @section('content')
 
@@ -58,8 +58,8 @@
                                             <h5>Download</h5>
                                             <span class="hint-text">Click to download Sale Deed Agreement </span>
                                             <div class="mt-auto">
-                                                @if(isset($data->StampSignSaleAgreement->agreement_path))
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->StampSignSaleAgreement->agreement_path }}">
+                                                @if(isset($data->StampSignSaleAgreement->document_path))
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->StampSignSaleAgreement->document_path }}">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>
@@ -99,8 +99,8 @@
                                             <h5>Download</h5>
                                             <span class="hint-text">Click to download Lease Deed Agreement</span>
                                             <div class="mt-auto">
-                                                @if(isset($data->StampSignLeaseAgreement->agreement_path))
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->StampSignLeaseAgreement->agreement_path }}">
+                                                @if(isset($data->StampSignLeaseAgreement->document_path))
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->StampSignLeaseAgreement->document_path }}">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>
@@ -154,5 +154,26 @@
     @endif 
  </form>   
 </div>
+
+@if(session()->get('role_name') == config('commanConfig.dyco_engineer') && $status->status_id != config('commanConfig.applicationStatus.forwarded'))
+    <div class="m-portlet m-portlet--mobile m_panel">
+        <div class="m-portlet__body">
+            <h3 class="section-title section-title--small">Send To Society</h3>
+            <div class="col-xs-12 row">
+                <div class="col-md-12">
+                    <form class="nav-tabs-form" id ="agreementFRM" role="form" method="POST" action="{{ route('dyco.send_to_society')}}" enctype="multipart/form-data">
+                        @csrf
+                        <input type="hidden" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">
+                        <div class="col-md-6" style="display: inline;">
+                                <Button type="submit" class="s_btn btn btn-primary" id="submitBtn">
+                                send to society </Button>
+                            </div>     
+                    </form>    
+                </div>
+            </div>
+        </div>
+    </div>
+@endif      
+
 
 @endsection

@@ -151,7 +151,7 @@ class DYCEController extends Controller
                 $extension = $file->getClientOriginalExtension();
                 $file_name = time()."_".$file->getClientoriginalName();
 
-                if($extension == "pdf"){
+                if($extension == "pdf" || $extension == "png" || $extension == "jpeg" || $extension == "jpg"){
 
                     $path = $folder_name."/".$file_name;  
                     $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$file,$file_name);      
@@ -161,7 +161,7 @@ class DYCEController extends Controller
                         'user_id' => Auth::Id());
                     //             
                 }else{
-                    return back()->with('error','Invalid type of file uploaded (only pdf allowed)'); 
+                    return back()->with('error','Invalid type of file uploaded.'); 
                 }
             }
             $data = olSiteVisitDocuments::insert($fileData);

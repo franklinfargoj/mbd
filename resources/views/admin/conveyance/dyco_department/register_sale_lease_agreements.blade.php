@@ -1,6 +1,6 @@
 @extends('admin.layouts.sidebarAction')
 @section('actions')
-@include('admin.conveyance.dyco_department.action',compact('data'))
+@include('admin.conveyance.dyco_department.action')
 @endsection
 @section('content')
 
@@ -163,7 +163,7 @@
         </div> 
     @endif   
 
-    @if($status->status_id == config('commanConfig.applicationStatus.in_process'))
+    @if($data->status->status_id == config('commanConfig.applicationStatus.in_process'))
 
         <form class="nav-tabs-form" id ="CommentFRM" role="form" method="POST" action="{{ route('conveyance.save_agreement_comments')}}">
             @csrf   

@@ -59,9 +59,9 @@ class scApplication extends Model
         return $this->hasOne('App\conveyance\scApplicationLog', 'application_id','id');
     }  
 
-    public function scAgreementStatus()
+    public function scDocumentStatus()
     {
-        return $this->hasOne('App\conveyance\ScAgreementTypeStatus', 'application_id','id');
+        return $this->hasOne('App\conveyance\SocietyConveyanceDocumentStatus', 'application_id','id');
     }  
 
     public function ScAgreementComments()

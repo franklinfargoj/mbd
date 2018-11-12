@@ -277,9 +277,10 @@ class EMClerkController extends Controller
 
         //dd($html->table());
 
-        if($request->row_id){            
+        if($request->row_id){           
             return view('admin.em_clerk_department.edit_arrear_calculation', compact('tenant', 'rate_card', 'society', 'html', 'arrear_row'));
-        } else {           
+        } else {  
+                    
             return view('admin.em_clerk_department.arrear_calculation', compact('tenant', 'rate_card', 'society', 'html'));
         }
     }

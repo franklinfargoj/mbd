@@ -511,3 +511,72 @@ Breadcrumbs::for('rc', function ($trail) {
 Breadcrumbs::for('em_clerk', function ($trail) {
     $trail->push('Home', route('em_clerk.index'));
 });
+
+
+//architect application
+
+Breadcrumbs::for('architect_application', function ($trail) {
+    $trail->push('architect_application', route('architect_application'));
+});
+Breadcrumbs::for('evaluate_application', function ($trail,$id) {
+    $trail->parent('architect_application');
+    $trail->push('Evaluate', route('evaluate_architect_application',['id'=>$id]));
+});
+
+Breadcrumbs::for('view_architect_application', function ($trail,$id) {
+    $trail->parent('architect_application');
+    $trail->push('View', route('view_architect_application',['id'=>$id]));
+});
+
+Breadcrumbs::for('forward_architect_application', function ($trail,$id) {
+    $trail->parent('architect_application');
+    $trail->push('Forward', route('architect.forward_application',['id'=>$id]));
+});
+
+Breadcrumbs::for('architect_generate_certificate', function ($trail,$id) {
+    $trail->parent('architect_application');
+    $trail->push('Generate Certificate', route('generate_certificate',['id'=>$id]));
+});
+
+Breadcrumbs::for('architect_finalCertificateGenerate', function ($trail,$id) {
+    $trail->parent('architect_application');
+    $trail->push('Download Certificate', route('finalCertificateGenerate',['id'=>$id]));
+});
+
+//architect layouts
+
+Breadcrumbs::for('architect_layout', function ($trail) {
+    $trail->push('architect_layout', route('architect_layout.index'));
+});
+
+Breadcrumbs::for('architect_layout_details', function ($trail,$id) {
+    $trail->parent('architect_layout');
+    $trail->push('View Details', route('architect_layout_details.view',['layout_id'=>$id]));
+});
+
+Breadcrumbs::for('architect_layout_scrutiny_remarks', function ($trail,$id) {
+    $trail->parent('architect_layout');
+    $trail->push('Scrutiny & Remark', route('architect_layout_get_scrtiny',['layout_id'=>$id]));
+});
+
+Breadcrumbs::for('architect_layout_add_details', function ($trail,$id) {
+    $trail->parent('architect_layout_details',$id);
+    $trail->push('Add Details', route('architect_layout_detail.edit',['layout_id'=>$id]));
+});
+
+Breadcrumbs::for('architect_layout_forward', function ($trail,$id) {
+    $trail->parent('architect_layout');
+    $trail->push('Forward Application', route('forward_architect_layout',['layout_id'=>$id]));
+});
+
+Breadcrumbs::for('architect_Layout_scrutiny_of_ee_em_lm_ree', function ($trail,$id) {
+    $trail->parent('architect_layout');
+    $trail->push('Scrutiny of EE EM LM REE', route('architect_Layout_scrutiny_of_ee_em_lm_ree',['layout_id'=>$id]));
+});
+
+Breadcrumbs::for('architect_layout_prepare_layout_excel', function ($trail,$id) {
+    $trail->parent('architect_layout');
+    $trail->push('Layout & Excel', route('architect_layout_prepare_layout_excel',['layout_id'=>$id]));
+});
+
+

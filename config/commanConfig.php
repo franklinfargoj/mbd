@@ -53,20 +53,26 @@ return [
         'offer_letter_generation' => 5,
         'offer_letter_approved' => 6,
         'sent_to_society' => 7,
+        'Draft_sale_&_lease_deed' => 8,
+        'Aproved_sale_&_lease_deed' => 9,
+        'Sent_society_to_pay_stamp_duety' => 10,
+        'Stamped_sale_&_lease_deed' => 11,
+        'Stamped_signed_sale_&_lease_deed' => 12,
+        'Sent_society_for_registration_of_sale_&_lease' => 13,
+        'Registered_sale_&_lease_deed' => 14,
+        'NOC_Issued' => 15,
     ],
 
     // sc application agreements
      'scAgreements' => [
-        'draft_sale_agreement'       => 'draft_sale_agreement',
-        'draft_lease_agreement'      => 'draft_lease_agreement',
-        'approve_sale_agreement'     => 'approve_sale_agreement',
-        'approve_lease_agreement'    => 'approve_lease_agreement',
-        'stamp_sale_agreement'       => 'stamp_sale_agreement',
-        'stamp_lease_agreement'      => 'stamp_lease_agreement',
-        'stamp_sign_sale_agreement'  => 'stamp_sign_sale_agreement',
-        'stamp_sign_lease_agreement' => 'stamp_sign_lease_agreement',
-        'register_sale_agreement'    => 'register_sale_agreement',
-        'register_lease_agreement'   => 'register_lease_agreement',
+        'sale_deed_agreement'  => 'Sale Deed Agreement',
+        'lease_deed_agreement' => 'Lease Deed Agreement',
+    ],   
+
+      // sc application Type
+     'applicationType' => [
+        'Conveyance'  => 'Conveyance',
+        'Renewal'     => 'Renewal',
     ], 
 
     // sc Application types 
@@ -81,14 +87,22 @@ return [
         '4' => 'metal',
         '5' => 'purple',
         '6' => 'purple',
-        '7' => 'success',
+        '7' => 'success', 
+        '8' => 'purple', 
+        '9' => 'purple', 
+        '10' => 'success', 
+        '11' => 'purple', 
+        '12' => 'purple', 
+        '13' => 'success', 
+        '14' => 'purple', 
+        '15' => 'success', 
     ],
 
     'architect_applicationStatus' => [
         'new_application' => 1,
         'scrutiny_pending' => 2,
         'forward' => 3,
-        // 'shortListed' => 4,
+         'approved' => 4,
         // 'final' => 5
     ],
     'architect_layout_status' => [

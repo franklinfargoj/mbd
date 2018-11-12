@@ -1,5 +1,13 @@
 /* theme classes over ride starts here */
 
+a[title="JavaScript charts"] {
+    display: none !important;
+}
+
+.amcharts-chart-div svg path {
+    fill-opacity: 1;
+}
+
 .m-checkbox.m-checkbox--primary>input:checked~span,
 .m-checkbox.m-checkbox--primary>span:after {
     border-color: #f0791b;
@@ -1190,6 +1198,11 @@ table.dataTable tbody tr:nth-child(even):focus {
 /* Bootstrap classes ends here */
 
 /* global classes starts here */
+
+.btn.m-btn--custom {
+    padding-left: 1.7rem;
+    padding-right: 1.7rem;
+}
 
 .select-box-list + .select-box-list {
     margin-left: 15px;
@@ -2401,9 +2414,8 @@ label.site-visit-label {
 
 .input-hint {
     position: absolute;
-    top: 50%;
+    top: 21px;
     right: 25px;
-    transform: translateY(-50%);
 }
 
 .signup-wrapper {
@@ -2696,6 +2708,19 @@ label.site-visit-label {
     background-color: #fc4b1a;
 }
 
+.btn--icon-wrap {
+    font-size: 10px;
+    color: rgba(87, 89, 98);
+}
+
+.btn--icon-wrap .btn-icon {
+    margin-bottom: 2px;
+}
+
+.btn-icon-list a + .btn-submit-icon {
+    margin-left: 10px;
+}
+
 .dataTables_wrapper table.dataTable .btn-icon-list a {
     font-size: 10px;
     color: #252525;
@@ -2714,6 +2739,12 @@ label.site-visit-label {
 
 /* EE Billing starts here */
 
+.app-heading {
+    font-size: 1rem;
+    color: #878b8c;
+    margin-bottom: 10px;
+}
+
 .app-card {
     font-weight: 500;
     height: 100%;
@@ -2721,7 +2752,7 @@ label.site-visit-label {
 }
 
 .app-no {
-    font-size: 3.5rem;
+    font-size: 2.5rem;
     color: #ff7750;
     margin-bottom: 15px;
 }
@@ -2729,15 +2760,71 @@ label.site-visit-label {
 .app-title {
     font-size: 1.2rem;
     color: #8d8d8d;
+    margin-bottom: 0;
+}
+
+.app-no--view {
+    color: #668afd;
 }
 
 /* EE Billing ends here */
+
+/* Hearing starts here */
+
+.hearing-accordion-wrapper {
+    box-shadow: 0 0 20px rgba(0,0,0,0.1)
+}
+
+.hearing-accordion-wrapper + .hearing-accordion-wrapper {
+    margin-top: 30px;
+}
+
+.hearing-row {
+    margin-left: -1px;
+    margin-right: -1px;
+}
+
+.hearing-row .col {
+    padding-left: 1px;
+    padding-right: 1px;
+}
+
+.hearing-row .app-card {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.hearing-row .app-card > * {
+    width: 100%;
+}
+
+.hearing-row .app-no {
+    font-size: 1.2rem;
+}
+
+.hearing-row .m-portlet {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.hearing-row {
+    margin-top: 1px;
+}
+
+.app-card__details {
+    margin-top: 5px;
+    color: #f98263;
+    font-size: 0.9rem;
+}
+
+/* Hearing ends here */
 
 .star {
     color: #f4516c;
 }
 
-<<<<<<< HEAD
 /* Society Conveyance starts here */
 
 .application-fields-wrapper {
@@ -2802,6 +2889,47 @@ label.site-visit-label {
 
 /* Appointing Architect starts here */
 
+.nav.nav-pills.nav-tabs--steps .nav-item,
+.nav.nav-tabs.nav-tabs--steps .nav-item {
+    margin-left: 0;
+}
+
+.m-tabs-line.m-tabs-line--primary.nav.nav-tabs.nav-tabs--steps .nav-link {
+    position: relative;
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
+.m-tabs-line.m-tabs-line--primary.nav.nav-tabs.nav-tabs--steps .nav-link:hover,
+.m-tabs-line.m-tabs-line--primary.nav.nav-tabs.nav-tabs--steps .nav-link:focus,
+.m-tabs-line.m-tabs-line--primary.nav.nav-tabs.nav-tabs--steps .nav-link:hover>i,
+.m-tabs-line.m-tabs-line--primary.nav.nav-tabs.nav-tabs--steps .nav-link:focus>i,
+.m-tabs-line.m-tabs-line--primary.nav.nav-tabs.nav-tabs--steps .nav-link.active
+.m-tabs-line.m-tabs-line--primary.nav.nav-tabs.nav-tabs--steps .nav-link.active>i {
+    background-color: #e8e8e8;
+    color: #7b7e8a !important;
+}
+
+.form-steps-toplinks .m--font-danger {
+    cursor: pointer;
+}
+
+.m-tabs-line.m-tabs-line--primary.nav.nav-tabs.nav-tabs--steps .nav-link.active::after {
+    content: "";
+    display: block;
+    position: absolute;
+    border-style: solid;
+    border-color: transparent;
+    width: 0;
+    height: 0;
+    z-index: 1;
+    border-width: 24px;
+    border-left-width: 15px;
+    top: 0;
+    left: 99%;
+    border-left-color: #ff754e;
+}
+
 .form-steps-wrap + .form-steps-box {
     margin-top: 30px;
 }
@@ -2826,8 +2954,12 @@ label.site-visit-label {
     cursor: pointer;
 }
 
-.form-step-tab.active::before,
-.form-step-tab.active::after {
+.form-step-tab.active + .form-step-tab.active {
+    border-left: 1px solid white;
+    z-index: 5;
+}
+
+.form-step-tab.active::before {
     content: "";
     display: block;
     position: absolute;
@@ -2842,20 +2974,32 @@ label.site-visit-label {
     border-width: 35px;
     border-left-width: 12px;
     top: -4px;
-    left: 101%;
-    border-left-color: #fff;
+    left: 100%;
+    border-left-color: #ff754e;
 }
 
-.form-step-tab.active::after {
+/* .form-step-tab.active::after {
     border-width: 31px;
     border-left-width: 15px;
     top: 0;
     left: 100%;
     border-left-color: #ff754e;
-}
+} */
 
 .form-step-tab:last-child.active::after {
     display: none;
+}
+
+.accordion-icon {
+    width: 30px;
+    height: 30px;
+    background-image: url('../../../../img/minus-icon.svg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.form-count-title.collapsed .accordion-icon {
+    background-image: url('../../../../img/plus-icon.svg');
 }
 
 .remove-accordion {
@@ -2864,6 +3008,7 @@ label.site-visit-label {
 
 .form-count-title {
     margin-bottom: 0;
+    width: 100%;
 }
 
 .input-row-list + .input-row-list {
@@ -2877,8 +3022,9 @@ label.site-visit-label {
 .remove-row {
     position: absolute;
     top: 50%;
-    left: 105%;
+    left: 102%;
     transform: translateY(-55%);
+    margin-bottom: 0;
 }
 
 .remove-row .fa {

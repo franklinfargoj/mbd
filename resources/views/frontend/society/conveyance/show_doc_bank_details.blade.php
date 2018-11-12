@@ -1,6 +1,6 @@
 @extends('frontend.layouts.sidebarAction')
 @section('actions')
-@include('frontend.society.conveyance.actions',compact('sc_application'))
+    @include('frontend.society.conveyance.actions',compact('sc_application'))
 @endsection
 @section('content')
 <div class="col-md-12">
@@ -135,107 +135,53 @@
             </div>
         </div>
     </div>
-    @if(!empty($docs_count) && !empty($docs_uploaded_count))
-    @if($docs_count == $docs_uploaded_count)
-    <div class="m-portlet">
-        <div>
-            @if($application->olApplicationStatus[0]->status_id == 3)
-            <div>
+    @if(!empty($documents) && !empty($documents_uploaded))
+        @if(count($documents) == count($documents_uploaded))
+            <div class="m-portlet">
                 <div>
-                    <div class="portlet-body">
-                        <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
-                            <div class="border-bottom pb-2">
-                                <h3 class="section-title section-title--small mb-2">
-                                    Remark History:
-                                </h3>
-                                <span class="hint-text d-block">Remark by EE</span>
-                            </div>
-                            <div class="remarks-section">
-                                <div class="remarks-section__data">
-                                    <p class="remarks-section__data__row"><span>Date:</span><span>{{date('d-m-Y',
-                                            strtotime($application->olApplicationStatus[0]->created_at))}}</span>
-                                    </p>
-                                    <p class="remarks-section__data__row"><span>Time:</span><span>{{date('h:i:sa',
-                                            strtotime($application->olApplicationStatus[0]->created_at))}}</span></p>
-                                    <p class="remarks-section__data__row"><span>Action:</span><span>Sent
-                                            to Society</span></p>
-                                    <p class="remarks-section__data__row"><span>Description:</span><span>{{$application->olApplicationStatus[0]->remark}}</span></p>
+                    <div>
+                        <div class="portlet-body">
+                            <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
+                                <div class="">
+                                    <h3 class="section-title section-title--small">Enter Bank Details:</h3>
                                 </div>
-
-                                {{--<div class="remarks-section__data">--}}
-                                    {{--<form action="{{ route('add_uploaded_documents_remark') }}" method="post" enctype='multipart/form-data'>--}}
-                                        {{--@csrf--}}
-                                        {{--<div class="form-group">--}}
-                                            {{--<label class="col-form-label">Remark</label>--}}
-                                            {{--<div class="col-md-8 @if($errors->has('society_documents_comment')) has-error @endif">--}}
-                                                {{--<div class="input-icon right">--}}
-                                                    {{--<textarea name="remark" id="remark" class="form-control m-input">{{old('remark')}}</textarea>--}}
-                                                    {{--<span class="help-block">{{$errors->first('remark')}}</span>--}}
-                                                    {{--<input type="hidden" name="user_id" id="user_id" class="form-control m-input"--}}
-                                                           {{--value="{{ $application->olApplicationStatus[0]->user_id }}">--}}
-                                                    {{--<input type="hidden" name="role_id" id="role_id" class="form-control m-input"--}}
-                                                           {{--value="{{ $application->olApplicationStatus[0]->role_id }}">--}}
-                                                {{--</div>--}}
-                                            {{--</div>--}}
-                                        {{--</div>--}}
-                                        {{--<br>--}}
-                                        {{--<button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Submit</button>--}}
-                                    {{--</form>--}}
-                                {{--</div>--}}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            @else
-            <!--               <div class="m-portlet__head main-sub-title">
-                   <div class="m-portlet__head-caption">
-                      <div class="m-portlet__head-title">
-                         <span class="m-portlet__head-icon m--hide">
-                         <i class="flaticon-statistics"></i>
-                         </span>
-                         <h2 class="m-portlet__head-label m-portlet__head-label--custom">
-                            <span>
-                            Submit Application
-                            </span>
-                         </h2>
-                      </div>
-                   </div>
-                </div> -->
-
-            <div>
-                <div class="portlet-body">
-                    <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
-                        <div class="">
-                            <h3 class="section-title section-title--small">Submit Application:</h3>
-                        </div>
-                        <form action="{{ route('add_documents_comment') }}" method="post" enctype='multipart/form-data'>
-                            @csrf
-                            <div class="remarks-suggestions table--box-input">
-                                <div class="mt-3">
-                                    <label for="society_documents_comment">Additional Information:</label>
-                                    <div class="@if($errors->has('society_documents_comment')) has-error @endif">
-                                        <textarea name="society_documents_comment" rows="5" cols="30" id="society_documents_comment" class="form-control form-control--custom">{{old('society_documents_comment')}}</textarea>
-                                        <span class="help-block">{{$errors->first('society_documents_comment')}}</span>
+                                <form action="{{ route('society_bank_details') }}" id="society_bank_details" method="post" enctype='multipart/form-data'>
+                                    @csrf
+                                    <div class="m-portlet__body m-portlet__body--spaced">
+                                        @for($i=0; $i < count($sc_bank_details_fields); $i++)
+                                            @if($i != 0) @php $i++; @endphp @endif
+                                                <div class="form-group m-form__group row">
+                                                    @if(isset($sc_bank_details_fields[$i]))
+                                                        <div class="col-sm-4 form-group">
+                                                            <label class="col-form-label" for="{{ $sc_bank_details_fields[$i] }}">@php $labels = implode(' ', explode('_', $sc_bank_details_fields[$i])); echo ucwords($labels); @endphp:</label>
+                                                            @php echo $comm_func->form_fields($sc_bank_details_fields[$i], 'text','' , ''); @endphp
+                                                            <span id="error_{{ $sc_bank_details_fields[$i] }}" class="help-block">{{$errors->first($sc_bank_details_fields[$i])}}</span>
+                                                        </div>
+                                                    @endif
+                                                    @if(isset($sc_bank_details_fields[$i+1]))
+                                                        <div class="col-sm-4 offset-sm-1 form-group">
+                                                            <label class="col-form-label" for="{{ $sc_bank_details_fields[$i+1] }}">@php $labels = implode(' ', explode('_', $sc_bank_details_fields[$i+1])); echo ucwords($labels); @endphp:</label>
+                                                            @php echo $comm_func->form_fields($sc_bank_details_fields[$i+1], 'text','' , ''); @endphp
+                                                            <span id="error_{{ $sc_bank_details_fields[$i+1] }}" class="help-block">{{$errors->first($sc_bank_details_fields[$i+1])}}</span>
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                        @endfor
+                                        <div class="mt-3 btn-list">
+                                            <button class="btn btn-primary" type="submit" id="uploadBtn">Submit</button>
+                                            <a href="{{route('society_offer_letter_dashboard')}}" class="btn btn-secondary">Cancel</a>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="mt-3 btn-list">
-                                    <button class="btn btn-primary" type="submit" id="uploadBtn">Submit</button>
-                                    <a href="{{route('society_offer_letter_dashboard')}}" class="btn btn-secondary">Cancel</a>
-                                </div>
+                                    <!-- <a href="{{ route('society_offer_letter_dashboard') }}" class="btn btn-primary btn-custom" id="">Cancel</a> -->
+                                </form>
                             </div>
-                            <!-- <a href="{{ route('society_offer_letter_dashboard') }}" class="btn btn-primary btn-custom" id="">Cancel</a> -->
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
-
-        </div>
-    </div>
+        @endif
+    @endif
 </div>
-@endif
-@endif
-@endif
 @endsection
 @section('datatablejs')
     <script>
@@ -271,6 +217,49 @@
                     });
                 }
 
+            });
+
+            $('#society_bank_details').validate({
+                rules: {
+                    account_no:{
+                        required:true,
+                        number:true
+                    },
+                    ifsc_code:{
+                        required:true
+                    },
+                    bank_name:{
+                        required:true
+                    }
+                },
+                messages: {
+                    account_no:{
+                        required:'Enter Bank Account number.',
+                    },
+                    ifsc_code:{
+                        required:'Enter Bank IFSC code'
+                    },
+                    bank_name:{
+                        required:'Enter Bank Name.'
+                    }
+                }
+            });
+
+            $('#ifsc_code').on('keyup', function () {
+                var str = $(this).val();
+                var exp = /^[A-Z]{4}[0][\d]{6}/;
+
+                if(str.length > 10){
+                    if(!exp.test(str) || str.length > 11){
+                        $('#error_ifsc_code').text('IFSC code not valid.').addClass('text-danger');
+                    }else{
+                        $('#error_ifsc_code').text('');
+                    }
+                }else{
+                    if(empty(str)){
+                        $('#error_ifsc_code').text('');
+                    }
+                }
             });
         });
     </script>

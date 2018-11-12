@@ -117,6 +117,7 @@ class ArrearsServiceController extends Controller
     }
 
     public function update($id, Request $request) {
+       // dd($request->all());
     	$rules = [
     		'year' => 'required',
     		'tenant_type' => 'required',
@@ -127,6 +128,7 @@ class ArrearsServiceController extends Controller
     	$validator = Validator::make($request->all(),$rules,$messages);
 
     	if ($validator->fails()) {
+            //dd($validator->errors());
             return redirect('arrears_charges/'.$id.'/edit')->withErrors($validator)->withInput();
         }
 

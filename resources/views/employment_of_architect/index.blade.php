@@ -26,7 +26,7 @@
             </div>
         </div>
     </div> --}}
-    <div class="m-portlet data-table--custom data-table--icons data-table--actions">
+    <div class="m-portlet m-portlet--compact data-table--custom data-table--icons data-table--actions">
                 {!! $html->table() !!}
     </div>
     <input type="hidden" id="myModalBtn" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" />

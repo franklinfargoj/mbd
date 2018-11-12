@@ -155,11 +155,22 @@
                         </div>
                     </div>
                     @foreach($applicationData->visitDocuments as $data)
+
+                        @php $fileName = explode('/',$data->document_path)[1];
+                            $imgIcon = explode('.',$fileName)[1];
+                        @endphp  
+                                            
                     <div class="col-sm-12 field-col">
                         <div class="d-flex">
-                            <span style="width: 200px;">Supporting Documents:</span>
+                            <span style="width: 200px;">Upload Site Photos:</span>
                             <a href="{{config('commanConfig.storage_server').'/'.$data->document_path}}">
-                                <img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}" style="height:44px"></a>
+                                @if($imgIcon == 'pdf')
+                                    <img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}">
+                                            
+                                @else
+                                    <i class="pdf-icon fa fa-file-image-o" aria-hidden="true" style="color: #862727;font-size: 19px;"></i>  
+                                @endif
+                            </a>
                             <span class="field-value" style="padding-left: 15px;">{{ (isset(explode('/',$data->document_path)[1]) ? explode('/',$data->document_path)[1]: '') }}
                             </span>
                         </div>

@@ -189,7 +189,47 @@ class REEController extends Controller
 
           // dd($ol_application->offer_letter_document_path);
         return view('admin.REE_department.forward_application',compact('applicationData','arrData','ol_application','eelogs','dyceLogs','reeLogs','coLogs','capLogs','vpLogs'));  
-    }             
+    }
+
+
+    // Forward Revalidation Application page
+    public function forwardRevalApplication(Request $request, $applicationId){
+
+        $ol_application = $this->CommonController->getOlApplication($applicationId);
+        $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
+        $applicationData = $this->CommonController->getForwardApplication($applicationId);
+
+        $parentData = $this->CommonController->getForwardApplicationParentData();
+        $arrData['parentData'] = $parentData['parentData'];
+        $arrData['role_name'] = $parentData['role_name'];
+
+//        $arrData['application_status'] = $this->CommonController->getCurrentApplicationStatus($applicationId);
+        if(session()->get('role_name') != config('commanConfig.ree_junior'))
+            $arrData['application_status'] = $this->CommonController->getCurrentLoggedInChild($applicationId);
+
+        $arrData['get_current_status'] = $this->CommonController->getCurrentStatus($applicationId);
+
+        // CO Forward Application
+
+        $co_id = Role::where('name', '=', config('commanConfig.co_engineer'))->first();
+        if($arrData['get_current_status']->status_id != config('commanConfig.applicationStatus.offer_letter_approved'))
+        {
+            $arrData['get_forward_co'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
+                ->where('lu.layout_id', session()->get('layout_id'))
+                ->where('role_id', $co_id->id)->get();
+            $arrData['co_role_name'] = strtoupper(str_replace('_', ' ', $co_id->name));
+        }
+
+        //remark and history
+        $reeLogs  = $this->CommonController->getLogsOfREEDepartment($applicationId);
+        $coLogs   = $this->CommonController->getLogsOfCODepartment($applicationId);
+        $capLogs  = $this->CommonController->getLogsOfCAPDepartment($applicationId);
+        $vpLogs   = $this->CommonController->getLogsOfVPDepartment($applicationId);
+
+        // dd($ol_application->offer_letter_document_path);
+        return view('admin.REE_department.forward_reval_application',compact('applicationData','arrData','ol_application','eelogs','dyceLogs','reeLogs','coLogs','capLogs','vpLogs'));
+    }
+
 
     public function sendForwardApplication(Request $request){
 
@@ -317,7 +357,9 @@ class REEController extends Controller
         }else{
            $content = ""; 
         }
+        $vpApprovedData = $this->CommonController->getLogsOfVPDepartment($applicatonId);
 
+        $calculationData->vpDate = $vpApprovedData[0]->created_at;
         return view('admin.REE_department.'.$blade,compact('applicatonId','calculationData','content'));
     }
 
@@ -534,7 +576,8 @@ class REEController extends Controller
     public function societyRevalDocuments(Request $request,$applicationId){
 
         $ol_application = $this->CommonController->getOlApplication($applicationId);
-        $societyDocument = $this->CommonController->getSocietyEEDocuments($applicationId);
+        $societyDocument = $this->CommonController->getRevalSocietyREEDocuments($applicationId);
+
         $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
 
         $ol_application->status = $this->CommonController->getCurrentStatus($applicationId);

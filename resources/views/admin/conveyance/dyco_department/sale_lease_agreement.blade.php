@@ -56,7 +56,7 @@
                                     <div class="col-sm-6">
                                         <div class="d-flex flex-column h-100 two-cols">
                                             <h5>Upload</h5>
-                                            <span class="hint-text">Click on 'Upload' to upload Sale Deed Agreement</span>
+                                            <span class="hint-text">Click to upload Sale Deed Agreement</span>
                                                 <div class="custom-file">
                                                     <input class="custom-file-input" name="sale_agreement" type="file" id="test-upload1">
                                                 
@@ -65,13 +65,15 @@
                                                 </div>
                                         </div>
                                     </div>
+
                                     <div class="col-sm-6 border-left">
                                         <div class="d-flex flex-column h-100 two-cols">
                                             <h5>Download</h5>
                                             <span class="hint-text">Click to download Sale Deed Agreement </span>
                                             <div class="mt-auto">
-                                                @if(isset($data->DraftSaleAgreement->agreement_path))
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->DraftSaleAgreement->agreement_path }}">
+                                                @if(isset($data->DraftSaleAgreement->document_path))
+                                                <input type="hidden" name="oldSaleFile" value="{{ $data->DraftSaleAgreement->document_path }}">
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->DraftSaleAgreement->document_path }}">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>
@@ -109,10 +111,8 @@
                                     <div class="col-sm-6">
                                         <div class="d-flex flex-column h-100 two-cols">
                                             <h5>Upload</h5>
-                                            <span class="hint-text">Click on 'Upload' to upload Lease Deed Agreement</span>
+                                            <span class="hint-text">Click to upload Lease Deed Agreement</span>
                                                 <div class="custom-file">
-                                                    <!-- <input class="custom-file-input" name="lease_agreement" type="file" id="test-upload2"> -->
-                                                    
                                                     <input class="custom-file-input" name="lease_agreement" type="file" id="test-upload2">
    
                                                     <label class="custom-file-label" for="test-upload2">Choose
@@ -126,8 +126,9 @@
                                             <h5>Download Note</h5>
                                             <span class="hint-text">Click to download Lease Deed Agreement</span>
                                             <div class="mt-auto">
-                                                @if(isset($data->DraftLeaseAgreement->agreement_path))
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->DraftLeaseAgreement->agreement_path }}">
+                                                @if(isset($data->DraftLeaseAgreement->document_path))
+                                                <input type="hidden" name="oldLeaseFile" value="{{ $data->DraftLeaseAgreement->document_path }}">
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->DraftLeaseAgreement->document_path }}">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>
@@ -180,4 +181,26 @@
  </form>   
 </div>
 
+@endsection
+
+@section('js')
+<script>
+    $("#agreementFRM").validate({
+        rules: {
+            sale_agreement: {
+                extension: "pdf"
+            },            
+            lease_agreement: {
+                extension: "pdf"
+            },
+        }, messages: {
+            sale_agreement: {
+                extension: "Invalid type of file uploaded (only pdf allowed)."
+            },            
+            lease_agreement: {
+                extension: "Invalid type of file uploaded (only pdf allowed)."
+            }
+        }
+    });  
+</script>
 @endsection

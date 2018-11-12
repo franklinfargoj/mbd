@@ -369,19 +369,19 @@
                 <div class="panel section-2" id="checklist-scrunity">
                     <ul id="scrunity-tabs" class="nav nav-pills nav-justified" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active show nested_t" data-toggle="pill" href="#verification" id="nested_tab_1">
+                            <a class="nav-link active show nested_t" data-toggle="pill" href="#verification" id="nested_tab_1" next_tab = "nested_tab_2">
                                 Consent Verification</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link nested_t" data-toggle="pill" href="#demarcation" id="nested_tab_2">
+                            <a class="nav-link nested_t" data-toggle="pill" href="#demarcation" id="nested_tab_2" next_tab = "nested_tab_3">
                                 Demarcation</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link nested_t" data-toggle="pill" href="#tit-bit" id="nested_tab_3">
+                            <a class="nav-link nested_t" data-toggle="pill" href="#tit-bit" id="nested_tab_3" next_tab = "nested_tab_4">
                                 Tit-Bit</a>
                         </li>
                         <li class="nav-item ">
-                            <a class="nav-link nested_t" data-toggle="pill" href="#relocation" id="nested_tab_4">
+                            <a class="nav-link nested_t" data-toggle="pill" href="#relocation" id="nested_tab_4" next_tab = "nested_tab_1">
                                 R.G. Relocation</a>
                         </li>
                     </ul>
@@ -491,7 +491,7 @@
                                                         <td>
                                                             <label class="m-radio m-radio--primary">
                                                                 <input {{$disabled}} type="radio" name="answer[{{$i}}]"
-                                                                    value="1"
+                                                                    value="1" required
                                                                     {{ (isset($arrData['consent_verification_details_data'][$consent_question->id]) && $arrData['consent_verification_details_data'][$consent_question->id]['answer'] == 1) ? 'checked' : '' }}>
                                                                 <span></span>
                                                             </label>
@@ -527,7 +527,7 @@
                                             </table>
                                         </div>
                                     </div>
-                                    <button type="submit" style="{{ $style }}" class="btn btn-primary">Save</button>
+                                    <button type="submit" style="{{ $style }}" class="btn btn-primary saveBtn" next_tab = "nested_tab_2">Save</button>
                                 </form>
                             </div>
                             <div class="tab-pane nested_tab_2" id="demarcation">
@@ -626,14 +626,22 @@
                                                     <input type="hidden" name="application_id" value="{{ $arrData['society_detail']->id }}">
                                                     @foreach($arrData['demarcation_question'] as
                                                     $demarcation_question)
+
+                                                    @php if(isset($demarcation_question->is_compulsory) && $demarcation_question->is_compulsory == '1'){
+                                                        $required = 'required';
+                                                    }
+                                                    else{
+                                                        $required = '';
+                                                    }
+                                                    @endphp
+
                                                     <input type="hidden" name="question_id[{{$i}}]" value="{{ $demarcation_question->id }}">
                                                     <tr>
                                                         <td>{{ $i }}.</td>
                                                         <td>{{ $demarcation_question->question }}</td>
                                                         <td>
                                                             <label class="m-radio m-radio--primary">
-                                                                <input {{$disabled}} type="radio" name="answer[{{ $i }}]"
-                                                                    value="1"
+                                                                <input {{$disabled}} type="radio" name="answer[{{ $i }}]" value="1" required
                                                                     {{ (isset($arrData['demarcation_details_data'][$demarcation_question->id]) && $arrData['demarcation_details_data'][$demarcation_question->id]['answer'] == 1) ? 'checked' : '' }}>
                                                                 <span></span>
                                                             </label>
@@ -658,7 +666,7 @@
                                                             </label></td>
                                                         <td>
                                                             <textarea class="form-control form-control--custom form-control--textarea"
-                                                                name="remark[{{ $i }}]" {{$disabled}} id="remark-one">{{ isset($arrData['demarcation_details_data'][$demarcation_question->id]) ? $arrData['demarcation_details_data'][$demarcation_question->id]['remark'] : '' }}</textarea>
+                                                                name="remark[{{ $i }}]" {{$disabled}} id="remark-one" {{$required}}>{{ isset($arrData['demarcation_details_data'][$demarcation_question->id]) ? $arrData['demarcation_details_data'][$demarcation_question->id]['remark'] : '' }}</textarea>
                                                         </td>
                                                     </tr>
 
@@ -670,7 +678,7 @@
                                             </table>
                                         </div>
                                     </div>
-                                    <button type="submit" style="{{ $style }}" class="btn btn-primary">Save</button>
+                                    <button type="submit" style="{{ $style }}" class="btn btn-primary saveBtn" next_tab = "nested_tab_3">Save</button>
                                 </form>
                             </div>
                             <div class="tab-pane nested_tab_3" id="tit-bit">
@@ -770,14 +778,21 @@
 
                                                     @foreach($arrData['tit_bit_question'] as $tit_bit)
 
+                                                    @php if(isset($tit_bit->is_compulsory) && $tit_bit->is_compulsory == '1'){
+                                                        $required = 'required';
+                                                    }
+                                                    else{
+                                                        $required = '';
+                                                    }
+                                                    @endphp                                                    
+
                                                     <input type="hidden" name="question_id[{{$i}}]" value="{{ $tit_bit->id }}">
                                                     <tr>
                                                         <td>{{ $i }}.</td>
                                                         <td>{{ $tit_bit->question }}</td>
                                                         <td>
                                                             <label class="m-radio m-radio--primary">
-                                                                <input {{$disabled}} type="radio" name="answer[{{ $i }}]"
-                                                                    value="1"
+                                                                <input {{$disabled}} type="radio" name="answer[{{ $i }}]" value="1" required
                                                                     {{ (isset($arrData['tit_bit_details_data'][$tit_bit->id]) && $arrData['tit_bit_details_data'][$tit_bit->id]['answer'] == 1) ? 'checked' : '' }}>
                                                                 <span></span>
                                                             </label>
@@ -802,7 +817,7 @@
                                                             </label></td>
                                                         <td>
                                                             <textarea {{$disabled}} class="form-control form-control--custom form-control--textarea"
-                                                                name="remark[{{ $i }}]" id="remark-one">{{ isset($arrData['tit_bit_details_data'][$tit_bit->id]) ? $arrData['tit_bit_details_data'][$tit_bit->id]['remark'] : '' }}</textarea>
+                                                                name="remark[{{ $i }}]" id="remark-one" {{ $required }}>{{ isset($arrData['tit_bit_details_data'][$tit_bit->id]) ? $arrData['tit_bit_details_data'][$tit_bit->id]['remark'] : '' }}</textarea>
                                                         </td>
                                                     </tr>
                                                     @php
@@ -813,7 +828,7 @@
                                             </table>
                                         </div>
                                     </div>
-                                    <button type="submit" style="{{ $style }}" class="btn btn-primary">Save</button>
+                                    <button type="submit" style="{{ $style }}" class="btn btn-primary saveBtn" next_tab = "nested_tab_4">Save</button>
                                 </form>
                             </div>
                             <div class="tab-pane nested_tab_4" id="relocation">
@@ -886,14 +901,21 @@
 
                                                     <input type="hidden" name="application_id" value="{{ $arrData['society_detail']->id }}">
                                                     @foreach($arrData['rg_question'] as $rg_question)
+
+                                                    @php if(isset($rg_question->is_compulsory) && $rg_question->is_compulsory == '1'){
+                                                        $required = 'required';
+                                                    }
+                                                    else{
+                                                        $required = '';
+                                                    }
+                                                    @endphp                                                     
                                                     <input type="hidden" name="question_id[{{$i}}]" value="{{ $rg_question->id }}">
                                                     <tr>
                                                         <td>{{ $i }}.</td>
                                                         <td>{{ $rg_question->question }}</td>
                                                         <td>
                                                             <label class="m-radio m-radio--primary">
-                                                                <input {{$disabled}} type="radio" name="answer[{{ $i }}]"
-                                                                    value="1"
+                                                                <input {{$disabled}} type="radio" name="answer[{{ $i }}]" value="1" required
                                                                     {{ (isset($arrData['rg_details_data'][$rg_question->id]) && $arrData['rg_details_data'][$rg_question->id]['answer'] == 1) ? 'checked' : '' }}>
                                                                 <span></span>
                                                             </label>
@@ -918,7 +940,7 @@
                                                             </label></td>
                                                         <td>
                                                             <textarea {{$disabled}} class="form-control form-control--custom form-control--textarea"
-                                                                name="remark[{{ $i }}]" id="remark-one">{{ isset($arrData['rg_details_data'][$rg_question->id]) ? $arrData['rg_details_data'][$rg_question->id]['remark'] : '' }}</textarea>
+                                                                name="remark[{{ $i }}]" id="remark-one" {{ $required }}>{{ isset($arrData['rg_details_data'][$rg_question->id]) ? $arrData['rg_details_data'][$rg_question->id]['remark'] : '' }}</textarea>
                                                         </td>
                                                     </tr>
                                                     @php
@@ -929,7 +951,7 @@
                                             </table>
                                         </div>
                                     </div>
-                                    <button type="submit" style="{{ $style }}" class="btn btn-primary">Save</button>
+                                    <button type="submit" style="{{ $style }}" class="btn btn-primary saveBtn" next_tab = "nested_tab_1">Save</button>
                                 </form>
                             </div>
                         </div>
@@ -1016,7 +1038,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="hidden" id="hiddenPart" value="0">
                 </div>
             </div>
         </div>
@@ -1109,38 +1130,51 @@
         }
     });
 
-    var link = 0;
+//function is to keep tabs selected after refreshing page
+
     $(document).ready(function () {
-        $(".display_msg").delay("slow").slideUp("slow");
 
         var id = Cookies.get('sectionId');
-        if (id != undefined) {
+        if (id != undefined && id != 'undefined') {
             $(".panel").removeClass('active');
             $(".m-tabs__item").removeClass('active');
             $("#" + id).addClass('active');
             $("." + id).addClass('active');
+
+            // Cookies.set('sectionId', 'undefined');
         }
         //nested tabs
         var nestedTab = Cookies.get('nestedTab');
-
-        if (nestedTab != undefined) {
+        if (nestedTab != undefined && nestedTab != 'undefined') {
             $(".nested_t").removeClass('active');
             $("#" + nestedTab).addClass('active');
             $(".tab-pane").removeClass('active');
-            $("." + nestedTab).addClass('active');
+            $("." + nestedTab).addClass('active'); 
+
+            // Cookies.set('nestedTab', 'undefined');
         }
     });
 
     $(".ee_tabs").on('click', function () {
-        $("#hiddenPart").val("1");
         $(".nav-item").removeClass('active');
         Cookies.set('sectionId', this.id);
     });
 
     $(".nested_t").on('click', function () {
-        $("#hiddenPart").val("1");
-        Cookies.set('nestedTab', this.id);
+
+        var id = $(this).attr("next_tab");
+        selectNextTab(id);
     });
 
+    $(".saveBtn").on('click', function () {
+
+        var id = $(this).attr("next_tab");
+        selectNextTab(id);
+       
+    });    
+    function selectNextTab(id){
+        Cookies.set('nestedTab', id);        
+    }      
+ 
 </script>
 @endsection

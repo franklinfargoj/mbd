@@ -9,6 +9,7 @@
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">View Detail -
                 {{$ArchitectLayout->layout_name}}</h3>
+                {{ Breadcrumbs::render('architect_layout_details',$ArchitectLayout->id) }}
         </div>
     </div>
     {{-- <div class="m-portlet m-portlet--mobile m_panel">

@@ -6,24 +6,26 @@
 
 <div class="col-md-12">
     <div class="d-flex form-steps-wrap">
-        <button class="btn--unstyled flex-grow-1 form-step-tab active">Step 1</button>
-        <button class="btn--unstyled flex-grow-1 form-step-tab active">Step 2</button>
-        <button class="btn--unstyled flex-grow-1 form-step-tab active">Step 3</button>
-        <button class="btn--unstyled flex-grow-1 form-step-tab active">Step 4</button>
-        <button class="btn--unstyled flex-grow-1 form-step-tab">Step 5</button>
-        <button class="btn--unstyled flex-grow-1 form-step-tab">Step 6</button>
-        <button class="btn--unstyled flex-grow-1 form-step-tab">Step 7</button>
-        <button class="btn--unstyled flex-grow-1 form-step-tab">Step 8</button>
+        <button onclick="window.location='{{ route("appointing_architect.step1",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab active">Step 1</button>
+        <button onclick="window.location='{{ route("appointing_architect.step2",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab active">Step 2</button>
+        <button onclick="window.location='{{ route("appointing_architect.step3",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab active">Step 3</button>
+        <button onclick="window.location='{{ route("appointing_architect.step4",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab active">Step 4</button>
+        <button onclick="window.location='{{ route("appointing_architect.step5",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab">Step 5</button>
+        <button onclick="window.location='{{ route("appointing_architect.step6",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab">Step 6</button>
+        <button onclick="window.location='{{ route("appointing_architect.step7",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab">Step 7</button>
+        <button onclick="window.location='{{ route("appointing_architect.step8",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab">Step 8</button>
+        <button onclick="window.location='{{ route("appointing_architect.step9",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab ">Step 9</button>
+        <button onclick="window.location='{{ route("appointing_architect.step10",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab ">Step 10</button>
     </div>
     {{-- @if ($errors->any())
     @foreach ($errors->all() as $error)
     <div>{{$error}}</div>
     @endforeach
     @endif --}}
-    <form id="" role="form" method="post" class="m-form m-form--rows m-form--label-align-right form-steps-box" action="{{route('appointing_architect.step4_post',['id'=>encrypt($application->id)])}}"
+    <form id="appointing_architect_step4" role="form" method="post" class="m-form m-form--rows m-form--label-align-right form-steps-box" action="{{route('appointing_architect.step4_post',['id'=>encrypt($application->id)])}}"
         enctype="multipart/form-data">
         <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
-            <h3 class="section-title section-title--small">Form 4:</h3>
+            <h3 class="section-title section-title--small">DETAIL OF 5 IMPORTANT PROJECTS</h3>
             @csrf
             <input type="hidden" name="application_id" value="{{$application->id}}">
             <div class="m-portlet__body m-portlet__body--table">
@@ -53,16 +55,16 @@
                                 @endphp
                                 <tr class="cloneme">
                                     <td>
-                                        <input type="hidden" name="imp_project_id[]" value="{{$application->imp_projects!=''?(isset($application->imp_projects[$j])?$application->imp_projects[$j]->id:''):''}}">
-                                        <input name="name_of_client[]" value="{{$application->imp_projects!=''?(isset($application->imp_projects[$j])?$application->imp_projects[$j]->name_of_client:''):''}}"
+                                        <input type="hidden" name="imp_project_id[{{$j}}]" value="{{$application->imp_projects!=''?(isset($application->imp_projects[$j])?$application->imp_projects[$j]->id:''):''}}">
+                                        <input required name="name_of_client[{{$j}}]" value="{{$application->imp_projects!=''?(isset($application->imp_projects[$j])?$application->imp_projects[$j]->name_of_client:''):''}}"
                                             placeholder="Name of Client" type="text" class="form-control form-control--custom">
                                     </td>
                                     <td>
-                                        <input name="location[]" value="{{$application->imp_projects!=''?(isset($application->imp_projects[$j])?$application->imp_projects[$j]->location:''):''}}"
+                                        <input required name="location[{{$j}}]" value="{{$application->imp_projects!=''?(isset($application->imp_projects[$j])?$application->imp_projects[$j]->location:''):''}}"
                                             placeholder="Location" type="text" class="form-control form-control--custom">
                                     </td>
                                     <td>
-                                        <input name="category_of_client[]" value="{{$application->imp_projects!=''?(isset($application->imp_projects[$j])?$application->imp_projects[$j]->category_of_client:''):''}}"
+                                        <input required name="category_of_client[{{$j}}]" value="{{$application->imp_projects!=''?(isset($application->imp_projects[$j])?$application->imp_projects[$j]->category_of_client:''):''}}"
                                             placeholder="Category of Client" type="text" class="form-control form-control--custom">
                                             @if($j>4)
                                             <h2 class='m--font-danger remove-row'><i title='Delete' class='fa fa-remove'></i></h2>
@@ -99,13 +101,19 @@
 <script>
     $('#add-more').click(function (e) {
         e.preventDefault();
+        var count=$('.cloneme').length;
+        //count++;
         var clone = $('table.imp_projects tr.cloneme:first').clone().find('input').val('').end();
+        clone.find('input[name="imp_project_id[0]"]')[0].setAttribute('name','imp_project_id['+count+']')
+        clone.find('input[name="name_of_client[0]"]')[0].setAttribute('name','name_of_client['+count+']')
+        clone.find('input[name="location[0]"]')[0].setAttribute('name','location['+count+']')
+        clone.find('input[name="category_of_client[0]"]')[0].setAttribute('name','category_of_client['+count+']')
         clone.find("td:last").append("<h2 class='m--font-danger remove-row'><i title='Delete' class='fa fa-remove'></i></h2>");
         $('table.imp_projects').append(clone);
     });
 
     $('.imp_projects').on('click', '.fa-remove', function () {
-        var delete_id=$(this).closest('tr').find("input[name='imp_project_id[]']")[0].value;
+        var delete_id=$(this).closest('tr').find("input")[0].value;
         if(delete_id!="")
         {
             if(confirm('are you sure?'))
@@ -147,5 +155,27 @@
             }
         }
     }
+
+    $.validator.prototype.checkForm = function() {
+    //overriden in a specific page
+    this.prepareForm();
+    for (var i = 0, elements = (this.currentElements = this.elements()); elements[i]; i++) {
+        if (this.findByName(elements[i].name).length !== undefined && this.findByName(elements[i].name).length > 1) {
+            for (var cnt = 0; cnt < this.findByName(elements[i].name).length; cnt++) {
+                this.check(this.findByName(elements[i].name)[cnt]);
+            }
+        } else {
+            this.check(elements[i]);
+        }
+    }
+    return this.valid();
+};
+$('#appointing_architect_step4').validate({
+        rules:{
+            "name_of_client[]":"required",
+            "location[]":"required",
+            "category_of_client[]":"required"
+        }
+    });
 </script>
 @endsection

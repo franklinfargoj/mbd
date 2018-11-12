@@ -23,6 +23,10 @@ class EoaApplicationCheckFormStep
             $EoaApplication=EoaApplication::find($app_id);
             if($EoaApplication)
             {
+                if($EoaApplication->ArchitectApplicationStatusForLoginListing->count()>0)
+                {
+                    return redirect()->route('appointing_architect.index');
+                }
                 $form_step=$EoaApplication->form_step;
                 if($request->route()->getName()=='appointing_architect.step1' || $request->route()->getName()=='appointing_architect.step1_post')
                 {
@@ -88,6 +92,26 @@ class EoaApplicationCheckFormStep
                     }else
                     {
                         return redirect()->route('appointing_architect.step7',encrypt($app_id));
+                    }
+                }else if($request->route()->getName()=='appointing_architect.step9' || $request->route()->getName()=='appointing_architect.step9_post')
+                {
+                    if($form_step>=9)
+                    {
+
+                    }else
+                    {
+                        return redirect()->route('appointing_architect.step8',encrypt($app_id));
+                    }
+                    
+                }else if($request->route()->getName()=='appointing_architect.step10' || $request->route()->getName()=='appointing_architect.step10_post')
+                {
+                    
+                    if($form_step>=10)
+                    {
+
+                    }else
+                    {
+                        return redirect()->route('appointing_architect.step9',encrypt($app_id));
                     }
                 }else
                 {

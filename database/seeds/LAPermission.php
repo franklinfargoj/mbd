@@ -152,16 +152,9 @@ class LAPermission extends Seeder
         }
         $layout_id = \App\MasterLayout::where("layout_name", '=', "Samata Nagar, Kandivali(E)")->first();
         $layout_user =  \App\LayoutUser::where('user_id',$user_id)->where('layout_id',$layout_id->id)->first();
-
-        if($layout_user){
-            if(\App\LayoutUser::where(['user_id' => $user_id, 'layout_id' => $layout_id->id])->first())
-            {
-
-            }else
-            {
-                \App\LayoutUser::insert(['user_id' => $user_id, 'layout_id' => $layout_id->id]);
-            }
-            
+        if($layout_user){}
+        else {
+            \App\LayoutUser::insert(['user_id' => $user_id, 'layout_id' => $layout_id->id]);
         }
     }
 }

@@ -5,6 +5,7 @@
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">Architect Applications</h3>
+            {{ Breadcrumbs::render('architect_application') }}
         </div>
         @if(session('error'))
         <div class="alert alert-danger">{{ session('error') }}</div>
@@ -26,11 +27,11 @@
                     </div>
                     <div class="col-md-2">
                         <input type="text" class="form-control form-control--custom m-input m_datepicker" placeholder="From Date"
-                            name="from" value="{{ (!empty($getData) ? (isset($getData['from'])?$getData['from']:'') : '') }}">
+                            name="from" autocomplete="off" value="{{ (!empty($getData) ? (isset($getData['from'])?$getData['from']:'') : '') }}">
                     </div>
                     <div class="col-md-2">
-                        <input type="text" class="form-control form-control--custom m-input m_datepicker" placeholder="To Date"
-                            name="to" value="{{ (!empty($getData) ? (isset($getData['ro'])?$getData['to']:'') : '') }}">
+                        <input type="text" autocomplete="off" class="form-control form-control--custom m-input m_datepicker" placeholder="To Date"
+                            name="to" value="{{ (!empty($getData) ? (isset($getData['to'])?$getData['to']:'') : '') }}">
                     </div>
                     <div class="col-md-3">
                         <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="exampleSelect1"
@@ -44,16 +45,18 @@
                         </select>
                     </div>
                     <div class="col-md-3">
-                        <button type="submit" class="btn m-btn--pill m-btn--custom btn-primary">Search</button>
-                        <button type="submit" name="reset" value="Reset" class="btn m-btn--pill m-btn--custom btn-metal">Reset</button>
+                        <div class="btn-list">
+                            <button type="submit" class="btn m-btn--pill m-btn--custom btn-primary">Search</button>
+                            <button type="submit" name="reset" value="Reset" class="btn m-btn--pill m-btn--custom btn-metal">Reset</button>
+                        </div>
                     </div>
-                    <!-- <div class="col-md-6 mt-5">
+                    {{-- <div class="col-md-6 mt-5">
                                 <div class="btn-list text-right">
                                     <button type="submit" name="excel" value="excel" class="btn excel-icon"><img src="{{asset('/img/excel-icon.svg')}}"></button>
                                     <a target="_blank" href=""
                                         class="btn print-icon"><img src="{{asset('/img/print-icon.svg')}}"></a>
                                 </div>
-                            </div> -->
+                            </div>  --}}
 
                 </form>
 
@@ -65,15 +68,15 @@
         <div class="d-flex justify-content-between">
             <h3 class="section-title section-title--small">Revision Requests</h3>
             <div class="topnav">
-                <a class="btn-link {{isset($_GET['application_status'])?($_GET['application_status']==0?'active':''):''}}"
-                    href="?application_status=0">All</a>
+                <a class="btn-link {{isset($_GET['application_status'])?($_GET['application_status']==0?'active':''):'active'}}"
+                 href="?application_status=0">All</a>
                 <a class="btn-link {{isset($_GET['application_status'])?($_GET['application_status']==1?'active':''):''}}"
                     href="?application_status=1">Shortlisted</a>
                 <a class="btn-link {{isset($_GET['application_status'])?($_GET['application_status']==2?'active':''):''}}"
                     href="?application_status=2">Final</a>
             </div>
         </div>
-        @if($is_commitee==true)
+        {{-- @if($is_commitee==true)
         <form method="post" action="{{route('finalise_architect_application')}}">
             @else
             <form method="post" action="{{route('shortlist_architect_application')}}">
@@ -83,7 +86,7 @@
                 <div class="btn-list mb-2">
                     <button type="submit" name="shortlist" value="shortlist" class="btn btn-primary">Shortlist</button>
                     <button type="submit" name="remove_shortlist" value="remove_shortlist" class="btn btn-primary">Remove
-                        from Shortlisted Lis</button>
+                        From Shortlisted List</button>
                 </div>
                 @endif
                 @if($is_commitee==true)
@@ -92,9 +95,9 @@
                     <button type="submit" name="remove_final" value="remove_final" class="btn btn-primary">Remove
                         from Final list</button>
                 </div>
-                @endif
+                @endif --}}
                 {!! $html->table() !!}
-            </form>
+            {{-- </form> --}}
     </div>
     <input type="hidden" id="myModalBtn" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" />
 

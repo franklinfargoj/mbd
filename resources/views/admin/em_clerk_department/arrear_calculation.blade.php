@@ -294,38 +294,43 @@
                 
                 var bill_year = $('#bill_year').val();
                 var bill_month = $('#bill_month').val();
-
+                bill_month = bill_month - 1;
                 var ior_year = $('#ior_year').val();
                 var ior_month = $('#ior_month').val();
+
+                ior_month = ior_month - 1;
 
                 var ida_year = $('#ida_year').val();
                 var ida_month = $('#ida_month').val();
 
-                if(bill_year == '' || bill_month == ''){
+                ida_month = ida_month - 1;
+
+                if(bill_year == '' || bill_month === ''){
                     $('#bill_error').html('select Year and month for arrear Calculation.');
                     return false;
-                } else if(ior_year == '' || ior_month == '') {
+                } else if(ior_year == '' || ior_month === '') {
                     $('#bill_error').html(''); 
                     $('#ior_error').html('select Year and month of arrear Calculation.');
                     return false;
-                } else if(ida_year == '' || ida_month == '') {
+                } else if(ida_year == '' || ida_month === '') {
                     $('#ior_error').html('');
                     $('#ida_error').html('select Year and month of arrear Calculation.');
                     return false;
                 } else {
                     $('#ida_error').html('');
                 }
-
+                
                 var months1 = monthDiff(
-                                new Date(ior_year, ior_month, 1),
+                                new Date(ior_year, ior_month, 01),
                                 new Date(bill_year, bill_month, 30)  
                              );
-
+                             console.log(bill_year+' '+bill_month)
+                
                 var months2 = monthDiff(
-                                new Date(ida_year, ida_month, 1),
+                                new Date(ida_year, ida_month, 01),
                                 new Date(bill_year, bill_month, 30)  
                              );
-
+                
                 var iod_per = iod / 100;
                 var ior_per = ior / 100;
 
@@ -349,8 +354,8 @@
 function monthDiff(d1, d2) {
     var months;
     months = (d2.getFullYear() - d1.getFullYear()) * 12;
-    months -= d1.getMonth() + 1;
-    months += d2.getMonth();
+    months = months - d1.getMonth() + 1;
+    months = months + d2.getMonth();
     return months <= 0 ? 0 : months;
 }
 

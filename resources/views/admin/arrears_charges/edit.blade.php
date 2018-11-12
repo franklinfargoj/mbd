@@ -77,3 +77,13 @@
 <!-- END EXAMPLE TABLE PORTLET-->
 </div>
 @endsection
+@section('js')
+<script>
+
+    $('#service_charges').submit(function() {
+        $("#year").prop('disabled', false);
+    
+        //Rest of code
+        })
+    </script>
+@endsection
