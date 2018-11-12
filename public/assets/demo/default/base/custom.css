@@ -2900,6 +2900,7 @@ label.site-visit-label {
     padding-right: 25px;
 }
 
+.m-tabs-line.m-tabs-line--primary.nav.nav-tabs.nav-tabs--steps .filled .nav-link.active,
 .m-tabs-line.m-tabs-line--primary.nav.nav-tabs.nav-tabs--steps .nav-link:hover,
 .m-tabs-line.m-tabs-line--primary.nav.nav-tabs.nav-tabs--steps .nav-link:focus,
 .m-tabs-line.m-tabs-line--primary.nav.nav-tabs.nav-tabs--steps .nav-link:hover>i,
@@ -2909,11 +2910,9 @@ label.site-visit-label {
     background-color: #ff764f !important;
     color: #fff !important;
 }
-
-.m-tabs-line.m-tabs-line--primary.nav.nav-tabs.nav-tabs--steps .filled .nav-link,
-.m-tabs-line.m-tabs-line--primary.nav.nav-tabs.nav-tabs--steps .filled .nav-link i {
-    background-color: rgba(2, 133, 65, 0.7) !important;
-    color: #fff;
+.m-tabs-line.m-tabs-line--primary.nav.nav-tabs.nav-tabs--steps .filled .nav-link.active,
+.m-tabs-line.m-tabs-line--primary.nav.nav-tabs.nav-tabs--steps .filled .nav-link.active i {
+    color: rgba(2, 133, 65, 0.7) !important;
 }
 
 .form-steps-toplinks .m--font-danger {

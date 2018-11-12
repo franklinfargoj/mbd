@@ -723,19 +723,13 @@ function showUploadedFileName() {
         <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom nav-tabs--steps">
             <li class="nav-item m-tabs__item {{$ArchitectLayoutDetail->cts_plan_details->count()>0?'filled':''}}"
                 data-target="#document-scrunity">
-                <a class="nav-link m-tabs__link active" data-toggle="tab" href="#cts-plan-tab">
-                    <i class="la la-cog"></i> CTS Plan
-                </a>
+                <a class="nav-link m-tabs__link active" data-toggle="tab" href="#cts-plan-tab">CTS Plan <i class="fa fa-check"></i></a>
             </li>
             <li class="nav-item m-tabs__item {{$ArchitectLayoutDetail->pr_card_details->count()>0?'filled':''}}">
-                <a class="nav-link m-tabs__link " data-toggle="tab" href="#prc-tab">
-                    <i class="la la-cog"></i> PRC
-                </a>
+                <a class="nav-link m-tabs__link " data-toggle="tab" href="#prc-tab">PRC <i class="fa fa-check"></i></a>
             </li>
             <li class="nav-item m-tabs__item {{$ArchitectLayoutDetail->dp_letter!=''?'filled':''}}">
-                <a class="nav-link m-tabs__link " data-toggle="tab" href="#dp-remark-tab">
-                    <i class="la la-cog"></i> DP Remark, CRZ Remark and other
-                </a>
+                <a class="nav-link m-tabs__link " data-toggle="tab" href="#dp-remark-tab">DP Remark, CRZ Remark and other <i class="fa fa-check"></i></a>
             </li>
         </ul>
     </div>
