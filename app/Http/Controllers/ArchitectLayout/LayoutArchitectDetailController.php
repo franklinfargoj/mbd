@@ -446,8 +446,13 @@ class LayoutArchitectDetailController extends Controller
             if (Storage::disk('ftp')->has($file)) {
                 Storage::disk('ftp')->delete($file);
             }
-            return $ArchitectLayoutDetailPrCardDetai->delete();
+            if($ArchitectLayoutDetailPrCardDetai->delete())
+            {
+                return response()->json(['status'=>'success','message'=>'deleted successfully!!']);
+            }else
+            return response()->json(['status'=>'fail','message'=>'something went wrong']);
         }
+        return response()->json(['status'=>'fail','message'=>'something went wrong']);
     }
 
     public function view_dp_crz_remark($layout_detail_id)
