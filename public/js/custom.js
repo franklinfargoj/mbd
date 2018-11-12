@@ -661,13 +661,7 @@ $(document).ready(function () {
         }
     });
 
-    // $('#appointing_architect_step4').validate({
-    //     rules:{
-    //         "name_of_client[]":"required",
-    //         "location[]":"required",
-    //         "category_of_client[]":"required"
-    //     }
-    // });
+    
 
     $("#appointing_architect_signup").validate({
         rules:{

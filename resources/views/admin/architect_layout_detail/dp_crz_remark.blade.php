@@ -1,4 +1,4 @@
-<form enctype="multipart/form-data" method="post" action="{{route('post_architect_detail_dp_crz_remark_add')}}">
+<form id="dpcrz_remark_form" enctype="multipart/form-data" method="post" action="{{route('post_architect_detail_dp_crz_remark_add')}}">
     @csrf
     <input type="hidden" name="architect_layout_detail_id" value="{{$ArchitectLayoutDetail->id}}">
     <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
@@ -15,7 +15,7 @@
                 <div class="col-lg-7 form-group">
 
                     <div class="custom-file">
-                        <input class="custom-file-input" name="dp_remark_letter" type="file" id="dp_remark_letter_file">
+                        <input accept="pdf" title="please upload file with pdf extension" class="custom-file-input" {{ $ArchitectLayoutDetail->dp_letter!=""?"":"required" }} name="dp_remark_letter" type="file" id="dp_remark_letter_file">
                         <label class="custom-file-label" for="dp_remark_letter_file">Choose file...</label>
                         @if($ArchitectLayoutDetail->dp_letter!="")
                         <a class="btn-link" target="_blank" id="dp_remark_letter_uploaded_file" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->dp_letter}}">download</a>
@@ -32,7 +32,7 @@
                 </div>
                 <div class="col-lg-7 form-group">
                     <div class="custom-file">
-                        <input class="custom-file-input" name="dp_remark_plan" type="file" id="dp_remark_plan_file">
+                        <input accept="pdf" title="please upload file with pdf extension" class="custom-file-input" {{ $ArchitectLayoutDetail->dp_plan!=""?"":"required" }} name="dp_remark_plan" type="file" id="dp_remark_plan_file">
                         <label class="custom-file-label" for="dp_remark_plan_file">Choose file...</label>
                         @if($ArchitectLayoutDetail->dp_plan!="")
                         <a class="btn-link" target="_blank" id="dp_remark_plan_uploaded_file" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->dp_plan}}">download</a>
@@ -73,7 +73,7 @@
                 <div class="col-lg-7 form-group">
 
                     <div class="custom-file">
-                        <input class="custom-file-input" name="crz_remark_letter" type="file" id="crz_remark_letter_file">
+                        <input accept="pdf" title="please upload file with pdf extension" class="custom-file-input" {{ $ArchitectLayoutDetail->crz_letter!=""?"":"required" }} name="crz_remark_letter" type="file" id="crz_remark_letter_file">
                         <label class="custom-file-label" for="crz_remark_letter_file">Choose file...</label>
                         @if($ArchitectLayoutDetail->crz_letter!="")
                         <a class="btn-link" target="_blank" id="crz_remark_letter_uploaded_file" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->crz_letter}}">download</a>
@@ -90,7 +90,7 @@
                 </div>
                 <div class="col-lg-7 form-group">
                     <div class="custom-file">
-                        <input class="custom-file-input" name="crz_remark_plan" type="file" id="crz_remark_plan_file">
+                        <input accept="pdf" title="please upload file with pdf extension" class="custom-file-input" {{ $ArchitectLayoutDetail->crz_plan!=""?"":"required" }} name="crz_remark_plan" type="file" id="crz_remark_plan_file">
                         <label class="custom-file-label" for="crz_remark_plan_file">Choose file...</label>
                         @if($ArchitectLayoutDetail->crz_plan!="")
                         <a class="btn-link" target="_blank" id="crz_remark_plan_uploaded_file" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->crz_plan}}">download</a>
