@@ -605,19 +605,19 @@ function showUploadedFileName() {
                 
                 {{ Breadcrumbs::render('architect_layout_add_details',encrypt($ArchitectLayoutDetail->architect_layout->id)) }}
         </div>
-        <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom nav-tabs--steps">
-            <li class="nav-item m-tabs__item" data-target="#document-scrunity">
+        <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom ">
+            <li class="nav-item m-tabs__item {{$ArchitectLayoutDetail->cts_plan_details->count()>0?'filled':''}}" data-target="#document-scrunity">
                 <a class="nav-link m-tabs__link active" data-toggle="tab" href="#cts-plan-tab">
                     <i class="la la-cog"></i> CTS Plan
                 </a>
             </li>
             <li class="nav-item m-tabs__item">
-                <a class="nav-link m-tabs__link" data-toggle="tab" href="#prc-tab">
+                <a class="nav-link m-tabs__link {{$ArchitectLayoutDetail->pr_card_details->count()>0?'filled':''}}" data-toggle="tab" href="#prc-tab">
                     <i class="la la-cog"></i> PRC
                 </a>
             </li>
             <li class="nav-item m-tabs__item">
-                <a class="nav-link m-tabs__link" data-toggle="tab" href="#dp-remark-tab">
+                <a class="nav-link m-tabs__link {{$ArchitectLayoutDetail->dp_letter!=''?'filled':''}}" data-toggle="tab" href="#dp-remark-tab">
                     <i class="la la-cog"></i> DP Remark, CRZ Remark and other
                 </a>
             </li>
@@ -1179,7 +1179,9 @@ function showUploadedFileName() {
                         </div>
                         <div class="mt-auto">
                             <a href="{{route('architect_layout_detail_court_case_or_dispute_on_land.index',['layout_detail_id'=>encrypt($ArchitectLayoutDetail->id)])}}"
-                                class="btn btn-primary btn-custom upload_note" id="uploadBtn">Add Detail</a>
+                                class="btn btn-primary btn-custom upload_note" id="uploadBtn">
+                                {{$ArchitectLayoutDetail->layout_detail_court_matter_or_dispute->count()>0?'View Detail':'Add Detail'}}
+                            </a>
                         </div>
                     </div>
                 </div>

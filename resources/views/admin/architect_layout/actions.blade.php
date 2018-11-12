@@ -2,7 +2,7 @@
 $route="";
 $route=\Request::route()->getName();
 @endphp
-<li class="m-menu__item m-menu__item--level-1" >
+<li class="m-menu__item m-menu__item--level-1">
     <a href="{{ route('architect_layout.index') }}" class="m-menu__link m-menu__toggle">
         <i class="m-menu__link-icon flaticon-line-graph"></i>
         <span class="m-menu__link-title">
@@ -12,7 +12,7 @@ $route=\Request::route()->getName();
                 </span>
             </span>
         </span>
-    </a>   
+    </a>
 </li>
 <li class="m-menu__item m-menu__item--level-1" data-toggle="collapse" data-target="#cap-actions">
     <a href="javascript:void(0);" class="m-menu__link m-menu__toggle">
@@ -29,7 +29,7 @@ $route=\Request::route()->getName();
 </li>
 <li id="cap-actions" class="collapse show">
     <ul class="list-unstyled">
-        
+
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{($route=='architect_layout_details.view')?'m-menu__item--active':''}}">
             <a class="m-menu__link m-menu__toggle" title="View Application" href="{{ route('architect_layout_details.view', encrypt($ArchitectLayout->id)) }}">
                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
@@ -43,8 +43,19 @@ $route=\Request::route()->getName();
         $check_layout_details_complete_status =
         count($CommonController->check_layout_details_complete_status($ArchitectLayout->id));
         @endphp
+        @php
+        $status=\App\Layout\ArchitectLayoutStatusLog::where(['architect_layout_id'=>$ArchitectLayout->id,'user_id'=>auth()->user()->id,'role_id'=>session()->get('role_id')])->orderBy('id','desc')->get();
+        $show=0;
+        if($status)
+        {
+        $show=$status[0]->status_id==config('commanConfig.architect_layout_status.forward')?1:0;
+        }else
+        {
+        $show=1;
+        }
+        @endphp
         @if($check_layout_details_complete_status==0 &&
-        (session()->get('role_name')==config('commanConfig.junior_architect')))
+        (session()->get('role_name')==config('commanConfig.junior_architect')) && $show!=1)
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{( $route=='architect_layout_detail.edit')?'m-menu__item--active':''}}">
             <a class="m-menu__link m-menu__toggle" title="View Application" href="{{ route('architect_layout_detail.add', encrypt($ArchitectLayout->id)) }}">
                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
