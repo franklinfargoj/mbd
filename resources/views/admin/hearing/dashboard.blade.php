@@ -24,99 +24,39 @@
 
         <div class="m-portlet__body m-portlet__body--hearing m-portlet__body--spaced collapse" id="todays-hearing"
             data-parent="#accordion">
+            @foreach($todaysHearing as $hearing)
             <div class="row hearing-row">
                 <div class="col">
                     <div class="m-portlet app-card text-center">
                         <h2 class="app-heading">Case Year</h2>
-                        <h2 class="app-no mb-0">240</h2>
+                        <h2 class="app-no mb-0">{{$hearing['hearing'][0]['case_year']}}</h2>
                     </div>
                 </div>
                 <div class="col">
                     <div class="m-portlet app-card text-center">
                         <h2 class="app-heading">Case NO</h2>
-                        <h2 class="app-no mb-0">250</h2>
+                        <h2 class="app-no mb-0">{{$hearing['hearing'][0]['case_number']}}</h2>
                     </div>
                 </div>
                 <div class="col">
                     <div class="m-portlet app-card text-center">
                         <h2 class="app-heading">Hearing Time</h2>
-                        <h2 class="app-no mb-0">240</h2>
+                        <h2 class="app-no mb-0">{{$hearing['preceding_time']}}</h2>
                     </div>
                 </div>
                 <div class="col">
                     <div class="m-portlet app-card text-center">
                         <h2 class="app-heading">Applicant Name</h2>
-                        <h2 class="app-no mb-0">10</h2>
+                        <h2 class="app-no mb-0">{{$hearing['hearing'][0]['applicant_name']}}</h2>
                     </div>
                 </div>
                 <div class="col">
                     <div class="m-portlet app-card text-center">
-                        <a href="javascript:void(0);" class="app-no app-no--view mb-0">View Details</a>
+                        <a href="{{route('hearing.show',$hearing['hearing_id'])}}" class="app-no app-no--view mb-0">View Details</a>
                     </div>
                 </div>
             </div>
-            <div class="row hearing-row">
-                <div class="col">
-                    <div class="m-portlet app-card text-center">
-                        <h2 class="app-heading">Case Year</h2>
-                        <h2 class="app-no mb-0">240</h2>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="m-portlet app-card text-center">
-                        <h2 class="app-heading">Case NO</h2>
-                        <h2 class="app-no mb-0">250</h2>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="m-portlet app-card text-center">
-                        <h2 class="app-heading">Hearing Time</h2>
-                        <h2 class="app-no mb-0">240</h2>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="m-portlet app-card text-center">
-                        <h2 class="app-heading">Applicant Name</h2>
-                        <h2 class="app-no mb-0">10</h2>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="m-portlet app-card text-center">
-                        <a href="javascript:void(0);" class="app-no app-no--view mb-0">View Details</a>
-                    </div>
-                </div>
-            </div>
-            <div class="row hearing-row">
-                <div class="col">
-                    <div class="m-portlet app-card text-center">
-                        <h2 class="app-heading">Case Year</h2>
-                        <h2 class="app-no mb-0">240</h2>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="m-portlet app-card text-center">
-                        <h2 class="app-heading">Case NO</h2>
-                        <h2 class="app-no mb-0">250</h2>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="m-portlet app-card text-center">
-                        <h2 class="app-heading">Hearing Time</h2>
-                        <h2 class="app-no mb-0">240</h2>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="m-portlet app-card text-center">
-                        <h2 class="app-heading">Applicant Name</h2>
-                        <h2 class="app-no mb-0">10</h2>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="m-portlet app-card text-center">
-                        <a href="javascript:void(0);" class="app-no app-no--view mb-0">View Details</a>
-                    </div>
-                </div>
-            </div>
+            @endforeach
         </div>
 
     </div>
@@ -136,29 +76,43 @@
                 <div class="col">
                     <div class="m-portlet app-card text-center">
                         <h2 class="app-heading">Total No of Cases</h2>
-                        <h2 class="app-no mb-0">240</h2>
-                        <a href="javascript:void(0);" class="app-card__details mb-0">View Details</a>
+                        <h2 class="app-no mb-0">{{$totalHearing}}</h2>
+                        <a href="{{url('hearing')}}" class="app-card__details mb-0">View Details</a>
                     </div>
                 </div>
                 <div class="col">
                     <div class="m-portlet app-card text-center">
                         <h2 class="app-heading">Total No of Pending Cases</h2>
-                        <h2 class="app-no mb-0">250</h2>
-                        <a href="javascript:void(0);" class="app-card__details mb-0">View Details</a>
+                        <h2 class="app-no mb-0">{{$totalPendingHearing}}</h2>
+                        <a href="{{url('hearing')}}" class="app-card__details mb-0">View Details</a>
                     </div>
                 </div>
                 <div class="col">
                     <div class="m-portlet app-card text-center">
-                        <h2 class="app-heading">Total No of Closed Cases</h2>
-                        <h2 class="app-no mb-0">240</h2>
-                        <a href="javascript:void(0);" class="app-card__details mb-0">View Details</a>
+                        <h2 class="app-heading">Total No of Scheduled Cases</h2>
+                        <h2 class="app-no mb-0">{{$totalScheduledHearing}}</h2>
+                        <a href="{{url('hearing')}}" class="app-card__details mb-0">View Details</a>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="m-portlet app-card text-center">
+                        <h2 class="app-heading">Total No of Forwarded Cases</h2>
+                        <h2 class="app-no mb-0">{{$totalForwardedHearing}}</h2>
+                        <a href="{{url('hearing')}}" class="app-card__details mb-0">View Details</a>
                     </div>
                 </div>
                 <div class="col">
                     <div class="m-portlet app-card text-center">
                         <h2 class="app-heading">Case Under Hearing</h2>
-                        <h2 class="app-no mb-0">10</h2>
-                        <a href="javascript:void(0);" class="app-card__details mb-0">View Details</a>
+                        <h2 class="app-no mb-0">{{$totalUnderJudgementHearing}}</h2>
+                        <a href="{{url('hearing')}}" class="app-card__details mb-0">View Details</a>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="m-portlet app-card text-center">
+                        <h2 class="app-heading">Total No of Closed Cases</h2>
+                        <h2 class="app-no mb-0">{{$totalClosedHearing}}</h2>
+                        <a href="{{url('hearing')}}" class="app-card__details mb-0">View Details</a>
                     </div>
                 </div>
             </div>
@@ -178,28 +132,24 @@
 
         var chartData = [
             {
-                "country": "Lithuania",
-                "value": 260
+                "status": "Pending",
+                "value": '{{$totalPendingHearing}}'
             },
             {
-                "country": "Ireland",
-                "value": 201
+                "status": "Scheduled",
+                "value": '{{$totalScheduledHearing}}'
             },
             {
-                "country": "Germany",
-                "value": 65
+                "status": "Under Judgement",
+                "value": '{{$totalUnderJudgementHearing}}'
             },
             {
-                "country": "Australia",
-                "value": 39
+                "status": "Forwarded",
+                "value": '{{$totalForwardedHearing}}'
             },
             {
-                "country": "UK",
-                "value": 19
-            },
-            {
-                "country": "Latvia",
-                "value": 10
+                "status": "Closed",
+                "value": '{{$totalClosedHearing}}'
             }
         ];
 
@@ -207,7 +157,7 @@
             // PIE CHART
             chart = new AmCharts.AmPieChart();
             chart.dataProvider = chartData;
-            chart.titleField = "country";
+            chart.titleField = "status";
             chart.valueField = "value";
             chart.outlineColor = "#FFFFFF";
             chart.outlineAlpha = 0.8;
@@ -216,7 +166,8 @@
             // this makes the chart 3D
             chart.depth3D = 15;
             chart.angle = 30;
-
+            chart.colors = [ "#f0791b", "#ffc063", "#2A0CD0", "#8bc34a", "#CD0D74", "#754DEB", "#DDDDDD", "#999999", "#333333", "#000000", "#57032A", "#CA9726", "#990000", "#4B0C25"]
+//
             // WRITE
             chart.write("chartdiv");
         });

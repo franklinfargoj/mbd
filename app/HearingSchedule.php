@@ -24,4 +24,9 @@ class HearingSchedule extends Model
         return $this->hasMany('App\PrePostSchedule', 'hearing_schedule_id', 'id')
                     ->orderBy('id', 'desc');
     }
+
+    public function hearing()
+    {
+        return $this->hasMany('App\Hearing', 'id', 'hearing_id');
+    }
 }

@@ -19,49 +19,48 @@ class HearingPermissionSeeder extends Seeder
 
         //Role
         // Joint CO
-        $joint_co_role_id = Role::where('name', '=', 'Joint Co')->value('id');
-
+        $joint_co_role_id = Role::where('name', '=', 'Joint CO')->value('id');
         if($joint_co_role_id == NULL)
             $joint_co_role_id = Role::insertGetId([
                 'name' => 'Joint CO',
                 'parent_id' => NULL,
-                'redirect_to' => '/hearing',
+                'redirect_to' => '/hearing.dashboard',
                 'display_name' => 'joint_co',
                 'description' => 'Login as Joint CO'
             ]);
 
         // Joint CO PA
-        $joint_co_pa_role_id = Role::where('name','joint_co_pa')->value('id');
+        $joint_co_pa_role_id = Role::where('name','Joint Co PA')->value('id');
 
         if($joint_co_pa_role_id  == NULL)
             $joint_co_pa_role_id = Role::insertGetId([
                 'name' => 'Joint Co PA',
                 'parent_id' => $joint_co_role_id,
-                'redirect_to' => '/hearing',
+                'redirect_to' => '/hearing-dashboard',
                 'display_name' => 'joint_co_pa',
                 'description' => 'Login as Joint CO PA'
             ]);
 
         // CO
-        $co_role_id = Role::where('name','co')->value('id');
+        $co_role_id = Role::where('name','Co')->value('id');
 
         if($co_role_id == NULL)
             $co_role_id = Role::insertGetId([
                 'name' => 'Co',
                 'parent_id' => NULL,
-                'redirect_to' => '/hearing',
+                'redirect_to' => '/hearing-dashboard',
                 'display_name' => 'co',
                 'description' => 'Login as CO'
             ]);
 
         //CO PA
-        $co_pa_role_id =Role::where('name','joint_co_pa')->value('id');
+        $co_pa_role_id =Role::where('name','Co PA')->value('id');
 
         if($co_pa_role_id == NULL)
             $co_pa_role_id = Role::insertGetId([
                 'name' => 'Co PA',
                 'parent_id' => $co_role_id,
-                'redirect_to' => '/hearing',
+                'redirect_to' => '/hearing-dashboard',
                 'display_name' => 'joint_co_pa',
                 'description' => 'Login as Joint CO PA'
             ]);
@@ -469,12 +468,12 @@ class HearingPermissionSeeder extends Seeder
                 'name'         =>'conveyance.index',
                 'display_name' =>'conveyance',
                 'description'  =>'conveyance'
-            ],           
+            ],
             [
                 'name'         =>'conveyance.view_application',
                 'display_name' =>'view application',
                 'description'  =>'view application'
-            ],            
+            ],
             [
                 'name'        =>'conveyance.sale_lease_agreement',
                 'display_name'=>'sale lease agreement',
@@ -484,7 +483,7 @@ class HearingPermissionSeeder extends Seeder
                 'name'         => 'conveyance.save_agreement_comments',
                 'display_name' => 'save agreement comments',
                 'description'  => 'save agreement comments',
-            ], 
+            ],
             [
                 'name'         => 'conveyance.approved_sale_lease_agreement',
                 'display_name' => 'approved sale lease agreement',
@@ -504,17 +503,17 @@ class HearingPermissionSeeder extends Seeder
                 'name'         => 'conveyance.register_sale_lease_agreement',
                 'display_name' => 'register sale lease agreement',
                 'description'  => 'register sale lease agreement',
-            ], 
+            ],
             [
                 'name'         => 'conveyance.checklist',
                 'display_name' => 'checklist',
                 'description'  => 'checklist',
-            ], 
+            ],
             [
                 'name'         => 'conveyance.forward_application_sc',
                 'display_name' => 'forward application data',
                 'description'  => 'forward application data',
-            ],                       
+            ],
             [
                 'name'         => 'conveyance.save_forward_application',
                 'display_name' => 'forward application data',
@@ -524,44 +523,44 @@ class HearingPermissionSeeder extends Seeder
                 'name' => 'conveyance.view_ee_documents',
                 'display_name' => 'view ee documents',
                 'description' => 'view ee documents',
-            ], 
+            ],
             [
                 'name' => 'conveyance.view_ee_documents',
                 'display_name' => 'view ee documents',
                 'description' => 'view ee documents',
-            ],                               
+            ],
         ];
 
         foreach ($Jtco_permission as $permission) {
             $permission_role = [];
             $permission_ids = Permission::where('name', $permission['name'])->value('id');
-           
+
             if (!$permission_ids){
-                $permission_ids = Permission::insertGetId($permission);     
+                $permission_ids = Permission::insertGetId($permission);
             }
 
             $permissionData = PermissionRole::where('permission_id', $permission_ids)
                 ->where('role_id', $joint_co_role_id)->first();
-    
+
             if ($permissionData){
             }else{
                 $permission_role[] = [
                     'permission_id' => $permission_ids,
                     'role_id' => $joint_co_role_id,
                 ];
-                PermissionRole::insert($permission_role);                
+                PermissionRole::insert($permission_role);
             }
-        } 
-        //add joint CO as per layout 
+        }
+        //add joint CO as per layout
 
         $layout_id = \App\MasterLayout::where("layout_name", '=', "Samata Nagar, Kandivali(E)")->first();
         $layout_user = \App\LayoutUser::where('user_id', $joint_co_user_id)->where('layout_id', $layout_id->id)->first();
 
         if ($layout_user) {
-            
+
         }else
         {
             \App\LayoutUser::insert(['user_id' => $joint_co_user_id, 'layout_id' => $layout_id->id]);
-        }        
+        }
     }
 }

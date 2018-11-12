@@ -254,8 +254,8 @@ class HearingController extends Controller
             'office_village' => $request->office_village,
             'office_remark' => $request->office_remark,
             /*'department_id' => $request->department,
-            'board_id' => $request->board_id,
-            'hearing_status_id' => $request->hearing_status_id,*/
+            'board_id' => $request->board_id,*/
+            'hearing_status_id' => config('commanConfig.hearingStatus.pending'),
             'role_id' => session()->get('role_id'),
             'user_id' => Auth::user()->id
         ];
@@ -374,7 +374,7 @@ class HearingController extends Controller
             'office_remark' => $request->office_remark,
             'department_id' => $request->department,
             'board_id' => $request->board_id,
-            'hearing_status_id' => $request->hearing_status_id,
+            'hearing_status_id' => config('commanConfig.hearingStatus.pending'),
             'role_id' => session()->get('role_id'),
             'user_id' => Auth::user()->id
         ];
@@ -432,14 +432,55 @@ class HearingController extends Controller
      */
     public function Dashboard() {
 
-        $totalHearing = Hearing::get()->count();
+        $role_id = session()->get('role_id');
+        $user_id = Auth::id();
 
-        $totalPendingHearing = Hearing::where('hearing_status_id','1')->get()->count();
+        $hearing_data = Hearing::with(['hearingStatusLog.hearingStatus','hearingStatusLog' => function($q){
+            $q->where('user_id', Auth::user()->id)
+                ->where('role_id', session()->get('role_id'));
+        }, 'hearingSchedule.prePostSchedule', 'hearingForwardCase', 'hearingSendNoticeToAppellant', 'hearingUploadCaseJudgement'])
+            ->whereHas('hearingStatusLog' ,function($q){
+                $q->where('user_id', Auth::user()->id)
+                    ->where('role_id', session()->get('role_id'));
+            })->get()->toArray();
 
-        $totalClosedHearing = Hearing::where('hearing_status_id','6')->get()->count();
+        $totalPendingHearing = $totalClosedHearing = $totalScheduledHearing = $totalUnderJudgementHearing = $totalForwardedHearing = 0;
 
-//        $todaysHearing = HearingSchedule::where()->where('preceding_date',Carbon::now()->format('dd-mm-YY'))->get();
+        foreach ($hearing_data as $hearing){
 
-        return view('admin.hearing.dashboard',compact('totalHearing','totalClosedHearing','totalPendingHearing'));
+            $status = $hearing['hearing_status_log']['0']['hearing_status']['id'];
+
+            switch ( $status )
+            {
+                case config('commanConfig.hearingStatus.pending'): $totalPendingHearing += 1; break;
+                case config('commanConfig.hearingStatus.scheduled_meeting'): $totalScheduledHearing += 1; break;
+                case config('commanConfig.hearingStatus.case_under_judgement'): $totalUnderJudgementHearing += 1 ; break;
+                case config('commanConfig.hearingStatus.forwarded'): $totalForwardedHearing += 1; break;
+                case config('commanConfig.hearingStatus.case_closed'): $totalClosedHearing +=1 ; break;
+                default:
+                    ; break;
+            }
+
+        }
+
+
+//        $totalPendingHearing = Hearing::where('hearing_status_id','1')->count();
+//
+////        dd($totalPendingHearing);
+//        $totalClosedHearing = Hearing::where('hearing_status_id','6')->get()->count();
+//
+//        $totalScheduledHearing = Hearing::where('hearing_status_id','2')->get()->count();
+//
+//        $totalUnderJudgementHearing = Hearing::where('hearing_status_id','3')->get()->count();
+
+
+
+        $totalHearing = count($hearing_data);
+
+        $today = Carbon::now()->format('d-m-Y');
+
+        $todaysHearing = HearingSchedule::with(['Hearing'])->where('preceding_date',$today)->get()->toArray();
+
+        return view('admin.hearing.dashboard',compact('totalHearing','totalClosedHearing','totalPendingHearing','totalUnderJudgementHearing','todaysHearing','totalScheduledHearing','totalForwardedHearing'));
     }
 }

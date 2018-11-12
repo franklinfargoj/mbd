@@ -197,8 +197,24 @@ $route=\Request::route()->getName();
                 'forward_case.create', 'forward_case.store', 'forward_case.edit', 'forward_case.update',
                 'send_notice_to_appellant.create', 'send_notice_to_appellant.store', 'send_notice_to_appellant.edit',
                 'send_notice_to_appellant.update',
+                'hearing.dashboard',
                 ];
                 @endphp
+
+                    <li class="m-menu__item {{($route=='hearing.dashboard')?'m-menu__item--active':''}}">
+                        <a href="{{ url('hearing-dashboard') }}" class="m-menu__link m-menu__toggle">
+                            <i class="m-menu__link-icon flaticon-line-graph"></i>
+                            <span class="m-menu__link-title">
+                            <span class="m-menu__link-wrap">
+                                <span class="m-menu__link-text">
+                                    Dashboard
+                                </span>
+                            </span>
+                        </span>
+                        </a>
+                    </li>
+
+
                 {{-- @if(!empty(array_intersect($hearing_permission, session()->get('permission'))))--}}
                 @if(session()->get('permission') && in_array('hearing.index', session()->get('permission')))
                 <li class="m-menu__item {{($route=='hearing.index')?'m-menu__item--active':''}}">
