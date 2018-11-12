@@ -5,7 +5,7 @@
                 Add PR Card
             </h3>
         </div>
-        <form enctype="multipart/form-data" method="post" action="{{route('post_prc_detail')}}">
+        <form id="add_prc_details" enctype="multipart/form-data" method="post" action="{{route('post_prc_detail')}}">
             @csrf
             <input type="hidden" name="architect_layout_detail_id" value="{{$ArchitectLayoutDetail->id}}">
             <div class="row">
@@ -20,12 +20,12 @@
             <!-- Row -->
             <div class="optionBoxPrc">
                 @if(count($ArchitectLayoutDetail->pr_card_details)>0)
-                @php $j=1; @endphp
+                @php $j=0; @endphp
                 @foreach($ArchitectLayoutDetail->pr_card_details as $pr_card_detail)
                 <div class="blockPrc">
                     <div class="form-group m-form__group row mb-0">
                         <div class="col-lg-5 form-group">
-                            <input type="hidden" name="pr_card_detail_id[]" value="{{$pr_card_detail->id}}">
+                            <input type="hidden" name="pr_card_detail_id[{{$j}}]" value="{{$pr_card_detail->id}}">
                             <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
                                 id="" name="cts_no[]">
                                 @foreach($ArchitectLayoutDetail->cts_plan_details as $cts_plan_detail)
@@ -38,13 +38,17 @@
                         </div>
                         <div class="col-lg-5 form-group">
                             <div class="custom-file">
-                                <input type="file" id="extract_{{$j}}" name="pr_cards[]" class="custom-file-input">
+                                    @php
+                                    $file="";
+                                    $file=$pr_card_detail->upload_pr_card!=""?$pr_card_detail->upload_pr_card:'';
+                                    @endphp 
+                                <input type="file" accept="pdf" title="please upload file with pdf extension" id="extract_{{$j}}" {{ $file!=""?"":"required" }} name="pr_cards[{{$j}}]" class="custom-file-input">
                                 <label title="" class="custom-file-label" for="extract_{{$j}}">Choose file</label>
                                 <a class="btn-link" target="_blank" href="{{config('commanConfig.storage_server').'/'.$pr_card_detail->upload_pr_card}}">download</a>
                                 <span class="help-block"></span>
                             </div>
                         </div>
-                        @if($j!=1)
+                        @if($j!=0)
                         <div class="col-lg-2 form-group mt-2">
                             <i class="fa fa-close btn--add-delete" id="" class="remove" onclick="deletePrCardDetail(this,{{$pr_card_detail->id}})"></i>
                         </div>
