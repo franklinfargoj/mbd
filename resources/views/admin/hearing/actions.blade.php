@@ -13,6 +13,20 @@ $route="";
 $route=\Request::route()->getName();
 
 @endphp
+
+<li class="m-menu__item {{($route=='hearing.dashboard')?'m-menu__item--active':''}}">
+    <a href="{{ url('hearing-dashboard') }}" class="m-menu__link m-menu__toggle">
+        <i class="m-menu__link-icon flaticon-line-graph"></i>
+        <span class="m-menu__link-title">
+                            <span class="m-menu__link-wrap">
+                                <span class="m-menu__link-text">
+                                    Dashboard
+                                </span>
+                            </span>
+                        </span>
+    </a>
+</li>
+
 <li class="m-menu__item" data-toggle="collapse" data-target="#hearing-actions">
     <a href="javascript:void(0);" class="m-menu__link m-menu__toggle">
         <i class="m-menu__link-icon flaticon-line-graph"></i>
