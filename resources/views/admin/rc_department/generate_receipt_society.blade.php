@@ -64,7 +64,7 @@
                 <div class="form-group m-form__group row">
                      <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="">Amount Paid By:</label>
-                        <input type="text" name="amount_paid_by" class="form-control form-control--custom m-input" value="">
+                        <input type="text" name="amount_paid_by" class="form-control form-control--custom m-input" value="" required>
                         <span class="help-block"></span>
                     </div>
 
@@ -97,7 +97,7 @@
                 <div class="form-group m-form__group row" id="cash_block">
                     <div class="col-sm-3 form-group">
                         <label class="col-form-label" for="">Amount Paid:</label>
-                        <input type="number" id="cash_amount" name="cash_amount" class="form-control form-control--custom m-input" value="">
+                        <input type="number" id="cash_amount" name="cash_amount" class="form-control form-control--custom m-input" value="00">
                         <span></span>
                     </div>
                 </div>
@@ -105,17 +105,17 @@
                 <div class="form-group m-form__group row" id="dd_block">
                     <div class="col-sm-3 form-group">
                         <label class="col-form-label" for="">DD Number:</label>
-                        <input type="text" id="" name="" class="form-control form-control--custom m-input" value="">
+                        <input type="text" id="" name="dd_no" class="form-control form-control--custom m-input" value="">
                         <span class="help-block"></span>
                     </div>
                     <div class="col-sm-3 form-group">
                         <label class="col-form-label" for="">Bank Name:</label>
-                        <input type="text" id="" name="" class="form-control form-control--custom m-input" value="">
+                        <input type="text" id="" name="bank_name" class="form-control form-control--custom m-input" value="">
                         <span class="help-block"></span>
                     </div>
                     <div class="col-sm-3 form-group">
                         <label class="col-form-label" for="">Amount Paid:</label>
-                        <input type="number" id="dd_amount" name="dd_amount" class="form-control form-control--custom m-input" value="">
+                        <input type="number" id="dd_amount" name="dd_amount" class="form-control form-control--custom m-input" value="00">
                         <span></span>
                     </div>
                 </div>
@@ -133,7 +133,7 @@
                     </div>
                     <div class="col-sm-3 form-group">
                         <label class="col-form-label" for="">Amount Paid:</label>
-                        <input type="number" id="online_amount" name="online_amount" class="form-control form-control--custom m-input amount_paid" value="">
+                        <input type="number" id="online_amount" name="online_amount" class="form-control form-control--custom m-input amount_paid" value="00">
                         <span></span>
                     </div>
                 </div>

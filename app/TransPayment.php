@@ -21,4 +21,15 @@ class TransPayment extends Model
 	protected $fillable = [
          	'bill_no', 'tenant_id', 'building_id', 'society_id', 'paid_by', 'mode_of_payment', 'bill_amount', 'amount_paid', 'from_date', 'to_date', 'balance_amount', 'credit_amount'
     ];
+
+    public function bill_details()
+    {
+        return $this->belongsTo('App\TransBillGenerate', 'bill_no');
+    }
+    
+    public function dd_details()
+    {
+        return $this->belongsTo('App\DdDetails', 'dd_id');
+    }
+
 }
