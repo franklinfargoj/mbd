@@ -11,6 +11,7 @@ use App\conveyance\SocietyConveyanceDocumentMaster;
 use App\conveyance\SocietyConveyanceDocumentStatus;
 use App\ApplicationStatusMaster;
 use App\conveyance\ScAgreementComments;
+use App\conveyance\scApplicationType;
 use Yajra\DataTables\DataTables;
 use App\Role;
 use Carbon\Carbon;
@@ -104,15 +105,19 @@ class conveyanceCommonController extends Controller
 	// list all data
     public function listApplicationData($request){
 
-		$applicationData = scApplication::with(['ConveyanceSalePriceCalculation','applicationLayoutUser','societyApplication','scApplicationLog' => function($q) {
+        $conveyanceId = scApplicationType::where('application_type','=','Conveyance')->value('id');
+
+		$applicationData = scApplication::with(['ConveyanceSalePriceCalculation','applicationLayoutUser','societyApplication','scApplicationLog' => function($q) use($conveyanceId) {
 	        	$q->where('user_id', Auth::user()->id)
-	            ->where('role_id', session()->get('role_id'))
+                ->where('role_id', session()->get('role_id'))
+	            ->where('application_master_id', $conveyanceId)
 	            ->orderBy('id', 'desc');
 		}])
 
-        ->whereHas('scApplicationLog', function ($q) {
+        ->whereHas('scApplicationLog', function ($q) use($conveyanceId) {
             $q->where('user_id', Auth::user()->id)
                 ->where('role_id', session()->get('role_id'))
+                ->where('application_master_id', $conveyanceId)
                 ->orderBy('id', 'desc');
         }); 
 
@@ -128,7 +133,8 @@ class conveyanceCommonController extends Controller
             }
         } else {
             $listArray = $applicationData;
-        }         
+        } 
+       
         return $listArray;       	
     }
 
@@ -222,6 +228,11 @@ class conveyanceCommonController extends Controller
             }elseif($applicationStatus == config('commanConfig.applicationStatus.Stamped_signed_sale_&_lease_deed')){
                 
                 $Tostatus = config('commanConfig.applicationStatus.Sent_society_for_registration_of_sale_&_lease');
+                $Scstatus = $Tostatus; 
+
+            }elseif($applicationStatus == config('commanConfig.applicationStatus.Registered_sale_&_lease_deed')){
+                
+                $Tostatus = config('commanConfig.applicationStatus.NOC_Issued');
                 $Scstatus = $Tostatus;                
             }
             else{
@@ -319,6 +330,20 @@ class conveyanceCommonController extends Controller
         } 
         return $folder;       
     }  
+
+    // get logs of Society
+    public function getLogsOfSociety($applicationId,$masterId)
+    {
+        $roles = array(config('commanConfig.society_offer_letter'));
+
+        $status = array(config('commanConfig.applicationStatus.forwarded'), config('commanConfig.applicationStatus.reverted'));
+
+        $societyRoles = Role::whereIn('name', $roles)->pluck('id');
+        $ocietylogs  = scApplicationLog::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->where('society_flag','=','1')->where('application_master_id',$masterId)->whereIn('role_id', $societyRoles)->whereIn('status_id', $status)->get();
+        // dd($societyRoles);
+
+        return $ocietylogs;
+    }     
 
     // get logs of DYCO dept
     public function getLogsOfDYCODepartment($applicationId,$masterId)
@@ -464,11 +489,12 @@ class conveyanceCommonController extends Controller
         }         
     }
 
-    //common forward page 
+    //common forward page for DYCO dept, Architect 
     public function commonForward(Request $request,$applicationId){
 
       $data          = $this->getForwardApplicationData($applicationId);
       $data->folder  = $this->getCurrentRoleFolderName();
+      $societyLogs   = $this->getLogsOfSociety($applicationId,$data->sc_application_master_id);
       $dycoLogs      = $this->getLogsOfDYCODepartment($applicationId,$data->sc_application_master_id);
       $eelogs        = $this->getLogsOfEEDepartment($applicationId,$data->sc_application_master_id);
       $Architectlogs = $this->getLogsOfArchitectDepartment($applicationId,$data->sc_application_master_id);

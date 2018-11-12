@@ -583,4 +583,19 @@ class REEController extends Controller
         $ol_application->status = $this->CommonController->getCurrentStatus($applicationId);
         return view('admin.REE_department.society_reval_documents', compact('societyDocument','ol_application'));
     }
+
+    //calculations option with formula and custom
+    public function displayCalculationSheetOptions(Request $request,$applicationId){
+        
+        $ol_application = $this->CommonController->getOlApplication($applicationId);
+        $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
+        return view('admin.REE_department.show_calculation_sheet',compact('ol_application'));
+    }
+    // display custom calculation sheet for premium
+    public function displayCustomCalculationSheet(Request $request,$applicationId){
+       
+       dd($applicationId);
+       return view('admin.REE_department.custom_premium_calculation_sheet'); 
+    }
+
 }

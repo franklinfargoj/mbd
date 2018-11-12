@@ -16,8 +16,7 @@
 </div>
 @endif
 
-</div>
-<div class="custom-wrapper" id="offer_letter_div">
+<div class="custom-wrapper">
     <div class="col-md-12">
         <div class="d-flex">
             {{ Breadcrumbs::render('calculation_sheet',$ol_application->id) }}
