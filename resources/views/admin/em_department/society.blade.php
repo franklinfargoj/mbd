@@ -10,11 +10,16 @@
 </div>
 @endif
 
+@if(session()->has('warning'))
+    <div class="alert alert-danger display_msg">
+        {{ session()->get('warning') }}
+    </div>  
+@endif
 <div class="col-md-12">
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center" id="search_box">
-            <h3 class="m-subheader__title m-subheader__title--separator">Application for Offer Letter</h3>
+            <h3 class="m-subheader__title m-subheader__title--separator">Society List</h3>
             {{ Breadcrumbs::render('em') }}
          </div>
 
@@ -40,6 +45,7 @@
     </div>
     <!-- END: Subheader -->
     <div class="m-portlet m-portlet--compact m-portlet--mobile">
+       
         <div class="m-portlet__head">
             <div class="m-portlet__head-caption">
                 <h3 class="m-portlet__head-text"> List of societies</h3>
@@ -48,9 +54,8 @@
                     placeholder="Search ..."></div>    
                 </div>
             </div>
-            {{--<a class="btn btn-danger" href="{{route('hearing.create')}}" style="float: right;margin-top: 3%">Add
-                Hearing</a>--}}
         </div>
+
         <div class="m-portlet__body">
             <!--begin: Datatable -->
         <table class="display table table-responsive table-bordered" style="width:100%">
@@ -62,14 +67,25 @@
             </tr>
         </thead>
         <tbody id="myTable">
+        <?php $row_no = 1; ?>
         @foreach($societies as $key => $value )
             <tr>    
-                <td>{{$value->id}}</td>
+                 <td>{{$row_no++}}</td>
                 <td data-search="{{$value->society_name}}">{{$value->society_name}}</td>
                <td>
-                    <a class="btn btn-info" href="{{route('get_buildings', [$value->id])}}">Society Detail</a>
+                    <div class='d-flex btn-icon-list'>
+                        <a href="{{route('get_buildings', [$value->id])}}" class='d-flex flex-column align-items-center ' style="padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;"><span class='btn-icon btn-icon--view'><img src="{{asset('/img/view-icon.svg')}}"></span>Society Detail</a>
+                    
+                        <a href="{{route('soc_bill_level', [$value->id])}}" class='d-flex flex-column align-items-center' style="padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;"><span class='btn-icon btn-icon--edit'><img src="{{asset('/img/edit-icon.svg')}}"></span>Bill Level</a>
+                       
+                        <a href="{{route('soc_ward_colony', [$value->id])}}" class='d-flex flex-column align-items-center' style="padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;"><span class='btn-icon btn-icon--edit'><img src="{{asset('/img/edit-icon.svg')}}"></span>Ward & colony</a>
+
+                    </div>
+                
+                    <!-- <a class="btn btn-info" href="{{route('get_buildings', [$value->id])}}">Society Detail</a>
                     <a class="btn btn-info" href="{{route('soc_bill_level', [$value->id])}}" >Bill Level</a>
-                    <a class="btn btn-info"  href="{{route('soc_ward_colony', [$value->id])}}">Ward & colony</a>
+                    <a class="btn btn-info"  href="{{route('soc_ward_colony', [$value->id])}}">Ward & colony</a> -->
+
                 </td>
             </tr>
         @endforeach

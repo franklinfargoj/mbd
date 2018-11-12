@@ -1,6 +1,6 @@
 @extends('admin.layouts.sidebarAction')
 @section('actions')
-@include('admin.conveyance.dyco_department.action',compact('data'))
+@include('admin.conveyance.'.$data->folder.'.action')
 @endsection
 @section('content')
 
@@ -54,8 +54,8 @@
                                             <h5>Download</h5>
                                             <span class="hint-text">Click to download Sale Deed Agreement </span>
                                             <div class="mt-auto">
-                                                @if(isset($data->DraftSaleAgreement->agreement_path))
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->DraftSaleAgreement->agreement_path }}">
+                                                @if(isset($data->DraftSaleAgreement->document_path))
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->DraftSaleAgreement->document_path }}">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>
@@ -95,8 +95,8 @@
                                             <h5>Download Note</h5>
                                             <span class="hint-text">Click to download Lease Deed Agreement</span>
                                             <div class="mt-auto">
-                                                @if(isset($data->DraftLeaseAgreement->agreement_path))
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->DraftLeaseAgreement->agreement_path }}">
+                                                @if(isset($data->DraftLeaseAgreement->document_path))
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->DraftLeaseAgreement->document_path }}">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>
@@ -136,7 +136,7 @@
         </div> 
     @endif   
 
-    @if($status->status_id == config('commanConfig.applicationStatus.in_process'))
+    @if($data->status->status_id != config('commanConfig.applicationStatus.forwarded'))
 
         <form class="nav-tabs-form" id ="CommentFRM" role="form" method="POST" action="{{ route('conveyance.save_agreement_comments')}}">
             @csrf   

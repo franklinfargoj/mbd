@@ -80,6 +80,7 @@
                                         <input name="_token" type="hidden" value="{!! csrf_token() !!}" />
                                         <input name="application_id" type="hidden" value="{{ $applicationId }}" />
                                         <input name="user_id" type="hidden" value="{{ $user->id }}" />
+                                        <input name="society_id" type="hidden" value="{{ $ol_application->society_id }}" />
                                         <input name="redirect_tab" type="hidden" value="two" />
                                         <div class="d-flex justify-content-between align-items-center mb-4">
                                             <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
@@ -772,6 +773,7 @@
                                     <input name="_token" type="hidden" value="{!! csrf_token() !!}" />
                                     <input name="application_id" type="hidden" value="{{ $applicationId }}" />
                                     <input name="user_id" type="hidden" value="{{ $user->id }}" />
+                                    <input name="society_id" type="hidden" value="{{ $ol_application->society_id }}" />
                                     <input name="redirect_tab" type="hidden" value="three" />
                                     <div class="d-flex justify-content-between align-items-center mb-4">
                                         <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
@@ -913,6 +915,7 @@
                                     <input name="_token" type="hidden" value="{!! csrf_token() !!}" />
                                     <input name="application_id" type="hidden" value="{{ $applicationId }}" />
                                     <input name="user_id" type="hidden" value="{{ $user->id }}" />
+                                    <input name="society_id" type="hidden" value="{{ $ol_application->society_id }}" />
                                     <input name="redirect_tab" type="hidden" value="four" />
                                     <div class="d-flex justify-content-between align-items-center mb-4">
                                         <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
@@ -1110,6 +1113,7 @@
                                     <input name="_token" type="hidden" value="{!! csrf_token() !!}" />
                                     <input name="application_id" type="hidden" value="{{ $applicationId }}" />
                                     <input name="user_id" type="hidden" value="{{ $user->id }}" />
+                                    <input name="society_id" type="hidden" value="{{ $ol_application->society_id }}" />
                                     <input name="redirect_tab" type="hidden" value="five" />
                                     <div class="d-flex justify-content-between align-items-center mb-4">
                                         <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img

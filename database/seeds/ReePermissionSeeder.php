@@ -166,6 +166,41 @@ class ReePermissionSeeder extends Seeder
                 'name'=>'architect_layout_prepare_layout_excel',
                 'display_name'=>'architect_layout_prepare_layout_excel',
                 'description'=>'architect_layout_prepare_layout_excel'
+            ],
+            [
+                'name'=>'ree_applications.reval',
+                'display_name'=>'Applications for revalidation',
+                'description'=>'Applications for revalidation'
+            ],
+            [
+                'name'=>'ree.society_reval_documents',
+                'display_name'=>'Society Revalidation Documents',
+                'description'=>'Society Revalidation Documents'
+            ],
+            [
+                'name'=>'ree.forward_reval_application',
+                'display_name'=>'Forward Revalidation Application',
+                'description'=>'Forward Revalidation Application'
+            ],
+            [
+                'name'=>'save_reval_calculation_details',
+                'display_name'=>'Save Revalidation Calculation Details',
+                'description'=>'Save Revalidation Calculation Details'
+            ],
+            [
+                'name'=>'ol_reval_calculation_sheet.show',
+                'display_name'=>'Show Revalidation Calculation Sheet',
+                'description'=>'Show Revalidation Calculation Sheet'
+            ],
+            [
+                'name'=>'save_reval_sharing_calculation_details',
+                'display_name'=>'Save Revalidation Calculation Details',
+                'description'=>'Save Revalidation Calculation Details'
+            ],
+            [
+                'name'=>'ol_reval_sharing_calculation_sheet.show',
+                'display_name'=>'Show Revalidation Sharing Calculation Sheet',
+                'description'=>'Show Revalidation Sharing Calculation Sheet'
             ]
         ];
 

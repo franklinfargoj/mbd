@@ -110,13 +110,14 @@
                             <label class="col-form-label" for="extract">Upload copy of agreement:
                                 <!--<span class="star">*</span>--></label>
                             <div class="custom-file">
-                                <input type="file" id="extract_{{$j+1}}" name="copy_of_agreement" class="custom-file-input">
-                                <label title="" class="custom-file-label" for="extract_{{$j+1}}">Choose File...</label>
-                                <span class="help-block"></span>
                                 @php
                                 $file="";
                                 $file=isset($application->project_sheets[$j])?$application->project_sheets[$j]->copy_of_agreement:'';
                                 @endphp
+                                <input accept="pdf" title="please upload file with pdf extension" {{ $file!=""?"":"required" }} type="file" id="extract_{{$j}}" name="copy_of_agreement" class="custom-file-input">
+                                <label title="" class="custom-file-label" for="extract_{{$j}}">Choose File...</label>
+                                <span class="help-block"></span>
+                                
                                 <a style="display:{{$file!=''?'block':'none'}}" target="_blank" class="btn-link" href="{{config('commanConfig.storage_server').'/'.$file}}">download</a>
                             </div>
                         </div>
@@ -264,7 +265,7 @@
 
             formAccordion.find(".form-steps-toplinks").append("<h2 class='m--font-danger ml-3 mb-0'><i title='Delete' class='fa fa-remove'></i></h2>");
 
-            var formAccordionCount = $("#accordion").find('.form-accordion').length + 1;
+            var formAccordionCount = $("#accordion").find('.form-accordion').length;
             var newID = 'form_' + formAccordionCount;
 
             formAccordion.find("input[name='form_number']")[0].value = formAccordionCount
@@ -278,6 +279,7 @@
 
             var file_input = formAccordion.find('.custom-file-input')[0];
             file_input.setAttribute('id', 'extract_' + formAccordionCount)
+            file_input.setAttribute('required', 'required');
             var file_label = formAccordion.find('.custom-file-label')[0];
             file_label.setAttribute('for', 'extract_' + formAccordionCount);
             var download_link = formAccordion.find('.btn-link')[0];
@@ -291,6 +293,28 @@
             formAccordionShow.setAttribute('class', changed_class_name_for_show + ' show')
 
             formAccordion.insertAfter("#accordion .form-accordion:last");
+
+             formAccordion.find('form').each(function() {  // attach to all form elements on page
+                var form=$(this)
+                form.validate({       // initialize plugin on each form
+                    rules: {
+                    name_of_project: "required",
+                    location:"required",
+                    name_of_client:"required",
+                    address:"required",
+                    tel_no:"required",
+                    built_up_area_in_sq_m:"required",
+                    land_area_in_sq_m:"required",
+                    estimated_value_of_project:"required",
+                    completed_value_of_project:"required",
+                    date_of_start:"required",
+                    date_of_completion:"required",
+                    whether_service_terminated_by_client:"required",
+                    salient_features_of_project:"required",
+                    reason_for_delay_if_any:"required"
+                    }
+                });
+            });
 
             showUploadedFile();
 
@@ -349,6 +373,31 @@
 
         removeAccordion();
     });
+
+    $(document).ready(function() {
+
+$('form').each(function() {  // attach to all form elements on page
+    var form=$(this)
+    form.validate({       // initialize plugin on each form
+        rules: {
+          name_of_project: "required",
+          location:"required",
+          name_of_client:"required",
+          address:"required",
+          tel_no:"required",
+          built_up_area_in_sq_m:"required",
+          land_area_in_sq_m:"required",
+          estimated_value_of_project:"required",
+          completed_value_of_project:"required",
+          date_of_start:"required",
+          date_of_completion:"required",
+          whether_service_terminated_by_client:"required",
+          salient_features_of_project:"required",
+          reason_for_delay_if_any:"required"
+        }
+    });
+});
+});
 
 </script>
 @endsection

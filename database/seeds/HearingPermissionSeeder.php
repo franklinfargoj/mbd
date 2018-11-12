@@ -292,8 +292,12 @@ class HearingPermissionSeeder extends Seeder
                 'name' => 'schedule_hearing.show',
                 'display_name' => 'Shows scheduled hearing data',
                 'description' => 'Shows scheduled hearing data'
-            ]
-
+            ],
+            [
+                'name' => 'hearing.dashboard',
+                'display_name' => 'Shows hearing dashboard',
+                'description' => 'Shows hearing dashboard'
+            ],
         ];
 
         $permission_role_joint_pa = [];
@@ -370,6 +374,11 @@ class HearingPermissionSeeder extends Seeder
                 'display_name' => 'Shows Forwarded Case data',
                 'description' => 'Shows Forwarded Case data'
             ],
+            [
+                'name' => 'hearing.dashboard',
+                'display_name' => 'Shows hearing dashboard',
+                'description' => 'Shows hearing dashboard'
+            ],
 
         ];
         $permission_role_joint_co = [];
@@ -380,8 +389,9 @@ class HearingPermissionSeeder extends Seeder
 
             $permission_ids = Permission::where('name', $hearings['name'])->value('id');
 
-            if (!$permission_ids)
+            if (!$permission_ids){
                 $permission_ids = Permission::insertGetId($hearings);
+            }
 
             $permission_role_joint_co_data = PermissionRole::where('permission_id', $permission_ids)
                 ->where('role_id', $joint_co_role_id)->first();
@@ -453,5 +463,105 @@ class HearingPermissionSeeder extends Seeder
             'user_id' => $co_pa_user_id
         ]);
 
+        //Joint CO permissions for society conveyance Application
+        $Jtco_permission = [
+            [
+                'name'         =>'conveyance.index',
+                'display_name' =>'conveyance',
+                'description'  =>'conveyance'
+            ],           
+            [
+                'name'         =>'conveyance.view_application',
+                'display_name' =>'view application',
+                'description'  =>'view application'
+            ],            
+            [
+                'name'        =>'conveyance.sale_lease_agreement',
+                'display_name'=>'sale lease agreement',
+                'description' =>'sale lease agreement'
+            ],
+            [
+                'name'         => 'conveyance.save_agreement_comments',
+                'display_name' => 'save agreement comments',
+                'description'  => 'save agreement comments',
+            ], 
+            [
+                'name'         => 'conveyance.approved_sale_lease_agreement',
+                'display_name' => 'approved sale lease agreement',
+                'description'  => 'approved sale lease agreement',
+            ],
+            [
+                'name'         => 'conveyance.stamp_duty_agreement',
+                'display_name' => 'stamp duty agreement',
+                'description'  => 'stamp duty agreement',
+            ],
+            [
+                'name'         => 'conveyance.stamp_signed_duty_agreement',
+                'display_name' => 'stamp signed duty agreement',
+                'description'  => 'stamp signed duty agreement',
+            ],
+            [
+                'name'         => 'conveyance.register_sale_lease_agreement',
+                'display_name' => 'register sale lease agreement',
+                'description'  => 'register sale lease agreement',
+            ], 
+            [
+                'name'         => 'conveyance.checklist',
+                'display_name' => 'checklist',
+                'description'  => 'checklist',
+            ], 
+            [
+                'name'         => 'conveyance.forward_application_sc',
+                'display_name' => 'forward application data',
+                'description'  => 'forward application data',
+            ],                       
+            [
+                'name'         => 'conveyance.save_forward_application',
+                'display_name' => 'forward application data',
+                'description'  => 'forward application data',
+            ],
+            [
+                'name' => 'conveyance.view_ee_documents',
+                'display_name' => 'view ee documents',
+                'description' => 'view ee documents',
+            ], 
+            [
+                'name' => 'conveyance.view_ee_documents',
+                'display_name' => 'view ee documents',
+                'description' => 'view ee documents',
+            ],                               
+        ];
+
+        foreach ($Jtco_permission as $permission) {
+            $permission_role = [];
+            $permission_ids = Permission::where('name', $permission['name'])->value('id');
+           
+            if (!$permission_ids){
+                $permission_ids = Permission::insertGetId($permission);     
+            }
+
+            $permissionData = PermissionRole::where('permission_id', $permission_ids)
+                ->where('role_id', $joint_co_role_id)->first();
+    
+            if ($permissionData){
+            }else{
+                $permission_role[] = [
+                    'permission_id' => $permission_ids,
+                    'role_id' => $joint_co_role_id,
+                ];
+                PermissionRole::insert($permission_role);                
+            }
+        } 
+        //add joint CO as per layout 
+
+        $layout_id = \App\MasterLayout::where("layout_name", '=', "Samata Nagar, Kandivali(E)")->first();
+        $layout_user = \App\LayoutUser::where('user_id', $joint_co_user_id)->where('layout_id', $layout_id->id)->first();
+
+        if ($layout_user) {
+            
+        }else
+        {
+            \App\LayoutUser::insert(['user_id' => $joint_co_user_id, 'layout_id' => $layout_id->id]);
+        }        
     }
 }

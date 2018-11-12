@@ -57,15 +57,15 @@
                         <tr>
                             <td valign="top" style="border: 1px solid #000; text-align: center; padding: 5px;">Sub:</td>
                             <td valign="top" style="border: 1px solid #000; padding: 5px;">
-                                Proposed redevelopment of existing building No. <span style="font-weight: bold;">{{($calculationData->eeApplicationSociety->building_no ? $calculationData->eeApplicationSociety->building_no : '')}}</span>, known as  <span style="font-weight: bold;"></span> ______________ under  DCR 33(5), 
+                                Proposed redevelopment of existing building No. <span style="font-weight: bold;">{{($calculationData->eeApplicationSociety->building_no ? $calculationData->eeApplicationSociety->building_no : '')}}</span>, known as <span style="font-weight: bold;"> {{($calculationData->eeApplicationSociety->name ? $calculationData->eeApplicationSociety->name : '')}} ( {{($calculationData->eeApplicationSociety->address ? $calculationData->eeApplicationSociety->address : '')}} )</span> under  DCR 33(5), 
                                 dated 08.10.2013 & it's modification dated 03.07.2017.
                             </td>
                         </tr>
                         <tr>
                             <td valign="top" style="border: 1px solid #000; text-align: center; padding: 5px;">Ref:</td>
                             <td valign="top" style="border: 1px solid #000; padding: 5px;">
-                                <span style="display: block; margin-bottom: 4px;">1. Society's proposal dt__________.</span>
-                                <span style="display: block;">2. Hon. VP/A's approval dt.__________.</span>
+                                <span style="display: block; margin-bottom: 4px;">1. Society's proposal dt. <span style="font-weight: bold;">{{($calculationData->submitted_at ? date('d-m-Y',strtotime($calculationData->submitted_at)) : '')}} </span></span>
+                                <span style="display: block;">2. Hon. VP/A's approval dt. <span style="font-weight: bold;"> {{($calculationData->vpDate ? date('d-m-Y',strtotime($calculationData->vpDate)) : '')}}. </span></span>.</span>
                             </td>
                         </tr>
                     </tbody>

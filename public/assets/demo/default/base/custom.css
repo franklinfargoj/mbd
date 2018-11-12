@@ -1,5 +1,13 @@
 /* theme classes over ride starts here */
 
+a[title="JavaScript charts"] {
+    display: none !important;
+}
+
+.amcharts-chart-div svg path {
+    fill-opacity: 1;
+}
+
 .m-checkbox.m-checkbox--primary>input:checked~span,
 .m-checkbox.m-checkbox--primary>span:after {
     border-color: #f0791b;
@@ -2731,6 +2739,12 @@ label.site-visit-label {
 
 /* EE Billing starts here */
 
+.app-heading {
+    font-size: 1rem;
+    color: #878b8c;
+    margin-bottom: 10px;
+}
+
 .app-card {
     font-weight: 500;
     height: 100%;
@@ -2738,7 +2752,7 @@ label.site-visit-label {
 }
 
 .app-no {
-    font-size: 3.5rem;
+    font-size: 2.5rem;
     color: #ff7750;
     margin-bottom: 15px;
 }
@@ -2746,15 +2760,71 @@ label.site-visit-label {
 .app-title {
     font-size: 1.2rem;
     color: #8d8d8d;
+    margin-bottom: 0;
+}
+
+.app-no--view {
+    color: #668afd;
 }
 
 /* EE Billing ends here */
+
+/* Hearing starts here */
+
+.hearing-accordion-wrapper {
+    box-shadow: 0 0 20px rgba(0,0,0,0.1)
+}
+
+.hearing-accordion-wrapper + .hearing-accordion-wrapper {
+    margin-top: 30px;
+}
+
+.hearing-row {
+    margin-left: -1px;
+    margin-right: -1px;
+}
+
+.hearing-row .col {
+    padding-left: 1px;
+    padding-right: 1px;
+}
+
+.hearing-row .app-card {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.hearing-row .app-card > * {
+    width: 100%;
+}
+
+.hearing-row .app-no {
+    font-size: 1.2rem;
+}
+
+.hearing-row .m-portlet {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.hearing-row {
+    margin-top: 1px;
+}
+
+.app-card__details {
+    margin-top: 5px;
+    color: #f98263;
+    font-size: 0.9rem;
+}
+
+/* Hearing ends here */
 
 .star {
     color: #f4516c;
 }
 
-<<<<<<< HEAD
 /* Society Conveyance starts here */
 
 .application-fields-wrapper {

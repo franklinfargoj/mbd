@@ -7,7 +7,7 @@
             <label class="m-radio m-radio--primary">
                 <input
                     {{config('commanConfig.eoa_panel_categories.HOUSING')==$application->category_of_panel?'checked':''}}
-                    type="radio" id="" name="category_of_panel" class="form-control" value="{{config('commanConfig.eoa_panel_categories.HOUSING')}}">Housing
+                    type="radio" id="" name="category_of_panel" class="form-control" value="{{config('commanConfig.eoa_panel_categories.HOUSING')}}" checked>Housing
                 <span></span>
             </label>
         </div>

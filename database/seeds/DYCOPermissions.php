@@ -23,7 +23,7 @@ class DYCOPermissions extends Seeder
                 'description' => 'conveyance',
             ],
             [
-                'name' => 'dyco.checklist',
+                'name' => 'conveyance.checklist',
                 'display_name' => 'checklist',
                 'description' => 'checklist',
             ],
@@ -48,27 +48,27 @@ class DYCOPermissions extends Seeder
                 'description' => 'forward application',
             ],
             [
-                'name' => 'dyco.sale_lease_agreement',
+                'name' => 'conveyance.sale_lease_agreement',
                 'display_name' => 'sale lease agreement',
                 'description' => 'sale lease agreement',
             ],
             [
-                'name' => 'dyco.approved_sale_lease_agreement',
+                'name' => 'conveyance.approved_sale_lease_agreement',
                 'display_name' => 'approved sale lease agreement',
                 'description' => 'approved sale lease agreement',
             ],
             [
-                'name' => 'dyco.stamp_duty_agreement',
+                'name' => 'conveyance.stamp_duty_agreement',
                 'display_name' => 'stamp duty agreement',
                 'description' => 'stamp duty agreement',
             ],
             [
-                'name' => 'dyco.stamp_signed_duty_agreement',
+                'name' => 'conveyance.stamp_signed_duty_agreement',
                 'display_name' => 'stamp signed duty agreement',
                 'description' => 'stamp signed duty agreement',
             ],
             [
-                'name' => 'dyco.register_sale_lease_agreement',
+                'name' => 'conveyance.register_sale_lease_agreement',
                 'display_name' => 'register sale lease agreement',
                 'description' => 'register sale lease agreement',
             ],
@@ -83,7 +83,7 @@ class DYCOPermissions extends Seeder
                 'description' => 'save Agreement',
             ],
             [
-                'name' => 'dyco.forward_application_data',
+                'name' => 'conveyance.forward_application_sc',
                 'display_name' => 'forward application data',
                 'description' => 'forward application data',
             ],
@@ -106,14 +106,27 @@ class DYCOPermissions extends Seeder
                 'name' => 'conveyance.save_agreement_comments',
                 'display_name' => 'save agreement comments',
                 'description' => 'save agreement comments',
+            ],            
+            [
+                'name' => 'dyco.send_to_society',
+                'display_name' => 'send to society',
+                'description' => 'send to society',
+            ],            
+            [
+                'name' => 'dyco.save_approved_agreement',
+                'display_name' => 'save approved agreement',
+                'description' => 'save approved agreement',
             ],
         ];
 
         //dycdo
 
-        $role_id = Role::where('name', '=', 'dycdo_engineer')->value('id');
+        $role = Role::where('name', '=', 'dycdo_engineer')->first();
 
-        if (!$role_id) {
+        if ($role) {
+            $role_id=$role->id;
+        }else
+        {
             $role_id = Role::insertGetId([
                 'name' => 'dycdo_engineer',
                 'redirect_to' => '/conveyance',
@@ -123,10 +136,12 @@ class DYCOPermissions extends Seeder
             ]);
         }
 
-        $user_id = User::where('email', '=', 'dycdo@gmail.com')->value('id');
+        $user = User::where('email', '=', 'dycdo@gmail.com')->first();
 
-        if (!$user_id) {
-
+        if ($user) {
+            $user_id=$user->id;
+        }else
+        {
             $user_id = User::insertGetId([
                 'name' => 'dycdo user',
                 'email' => 'dycdo@gmail.com',
@@ -136,51 +151,71 @@ class DYCOPermissions extends Seeder
                 'mobile_no' => '9765238678',
                 'address' => 'Mumbai',
             ]);
+        }
+        if(RoleUser::where(['user_id' => $user_id,'role_id' => $role_id])->first())
+        {
+
+        }else
+        {
             $role_user = RoleUser::insert([
                 'user_id' => $user_id,
                 'role_id' => $role_id,
                 'start_date' => \Carbon\Carbon::now(),
             ]);
         }
-        $permission_role = [];
+        
+        
 
         foreach ($permissions as $per) {
+            $permission_role = [];
             $dyco_permission = Permission::where('name', '=', $per['name'])->first();
 
-            if (!$dyco_permission) {
-
-                $permission_id = Permission::insertGetId($per);
-
-            } else {
+            if ($dyco_permission) {
                 $permission_id = $dyco_permission->id;
+            } else {
+                $permission_id = Permission::insertGetId($per);
             }
 
-            $permission_roles1 = PermissionRole::where('permission_id', $permission_id)->where('role_id', $role_id)->first();
-
-            if (!$permission_roles1) {
+            $permission_roles1 = PermissionRole::where(['permission_id'=> $permission_id,'role_id'=> $role_id])->first();
+            
+            if ($permission_roles1) {
+                
+            }else
+            {
                 $permission_role[] = [
                     'permission_id' => $permission_id,
                     'role_id' => $role_id,
                 ];
+                PermissionRole::insert($permission_role);
             }
+            
+            
         }
-        if ($permission_role > 0) {
+        //dd($permission_role);
+        // if ($permission_role > 0) {
 
-            PermissionRole::insert($permission_role);
-        }
+            
+        // }
+        //dd('ok');
         
         $layout_id = \App\MasterLayout::where("layout_name", '=', "Samata Nagar, Kandivali(E)")->first();
         $layout_user = \App\LayoutUser::where('user_id', $user_id)->where('layout_id', $layout_id->id)->first();
 
-        if (!$layout_user) {
+        if ($layout_user) {
+            
+        }else
+        {
             \App\LayoutUser::insert(['user_id' => $user_id, 'layout_id' => $layout_id->id]);
         }
 
         //dyco
 
-        $role_id1 = Role::where('name', '=', 'dyco_engineer')->value('id');
+        $role = Role::where('name', '=', 'dyco_engineer')->first();
 
-        if (!$role_id1) {
+        if ($role) {
+            $role_id1=$role->id;
+        }else
+        {
             $role_id1 = Role::insertGetId([
                 'name' => 'dyco_engineer',
                 'redirect_to' => '/conveyance',
@@ -190,9 +225,13 @@ class DYCOPermissions extends Seeder
             ]);
         }
 
-        $user_id1 = User::where('email', '=', 'dyco@gmail.com')->value('id');
+        $user = User::where('email', '=', 'dyco@gmail.com')->first();
 
-        if (!$user_id1) {
+        if ($user) {
+
+            $user_id1=$user->id;
+        }else
+        {
 
             $user_id1 = User::insertGetId([
                 'name' => 'dyco user',
@@ -209,37 +248,45 @@ class DYCOPermissions extends Seeder
                 'start_date' => \Carbon\Carbon::now(),
             ]);
         }
-        $permission_role = [];
+        
         
         foreach ($permissions as $per) {
+            $permission_role = [];
             $dyco_permission = Permission::where('name', '=', $per['name'])->first();
-            if (!$dyco_permission) {
-
-                $permission_id = Permission::insertGetId($per);
-            } else {
+            if ($dyco_permission) {
                 $permission_id = $dyco_permission->id;
+                
+            } else {
+                $permission_id = Permission::insertGetId($per);
             }
 
             $permission_roles = PermissionRole::where('permission_id', $permission_id)->where('role_id', $role_id1)->first();
 
-            if (!$permission_roles) {
+            if ($permission_roles) {
+                
+            }else
+            {
                 $permission_role[] = [
                     'permission_id' => $permission_id,
                     'role_id' => $role_id1,
                 ];
+                PermissionRole::insert($permission_role);
             }
         }
         
-        if ($permission_role > 0) {
+        // if ($permission_role > 0) {
             
-            PermissionRole::insert($permission_role);
             
-        }
+            
+        // }
        
         $layout_id = \App\MasterLayout::where("layout_name", '=', "Samata Nagar, Kandivali(E)")->first();
         $layout_user = \App\LayoutUser::where('user_id', $user_id1)->where('layout_id', $layout_id->id)->first();
 
-        if (!$layout_user) {
+        if ($layout_user) {
+            
+        }else
+        {
             \App\LayoutUser::insert(['user_id' => $user_id1, 'layout_id' => $layout_id->id]);
         }
     }

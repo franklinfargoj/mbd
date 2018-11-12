@@ -130,6 +130,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('/frontend_resolution_list', 'FrontendResolutionController@index')->name('frontend_resolution_list');
 
     //Hearing Admin
+    Route::get('hearing-dashboard', 'HearingController@Dashboard')->name('hearing.dashboard');
     Route::resource('/hearing', 'HearingController');
     Route::post('loadDeleteReasonOfHearingUsingAjax', 'HearingController@loadDeleteReasonOfHearingUsingAjax')->name('loadDeleteReasonOfHearingUsingAjax');
 //Route::get('/hearing/delete/{id}', 'HearingController@destroy')->name('hearing.delete');
@@ -589,25 +590,37 @@ Route::get('ee-blling-view-bill-details', 'EEBillingController@ViewBillDetailsSo
 Route::get('generate-receipt', 'EEBillingController@GenerateReceipt');
 
 //conveyance
-
 Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']], function(){
  
  //common in conveyance
     Route::resource('conveyance', 'conveyance\conveyanceCommonController');    
     Route::get('conveyance_application/{id}', 'conveyance\conveyanceCommonController@ViewApplication')->name('conveyance.view_application');
 
-    Route::get('view_ee_documents/{id}', 'conveyance\conveyanceCommonController@ViewEEDocuments')->name('conveyance.view_ee_documents');
+    Route::get('view_ee_documents/{id}', 'conveyance\conveyanceCommonController@ViewEEDocuments')->name('conveyance.view_ee_documents'); 
+
+    Route::get('forward_application_sc/{id}', 'conveyance\conveyanceCommonController@commonForward')->name('conveyance.forward_application_sc');
+
+    Route::post('save_forward_application_sc', 'conveyance\conveyanceCommonController@saveForwardApplication')->name('conveyance.save_forward_application');
+
     Route::post('save_agreement_comments', 'conveyance\conveyanceCommonController@SaveAgreementComments')->name('conveyance.save_agreement_comments');
 
+    Route::get('sale_lease_agreement/{id}', 'conveyance\DYCODepartment\DYCOController@saleLeaseAgreement')->name('conveyance.sale_lease_agreement');
+    
+    Route::get('approved_sale_lease_agreement/{id}', 'conveyance\DYCODepartment\DYCOController@ApprovedSaleLeaseAgreement')->name('conveyance.approved_sale_lease_agreement');
+    
+    Route::get('stamp_duty_agreement/{id}', 'conveyance\DYCODepartment\DYCOController@StampedSaleLeaseAgreement')->name('conveyance.stamp_duty_agreement');
+    
+    Route::get('stamp_signed_duty_agreement/{id}', 'conveyance\DYCODepartment\DYCOController@SignedSaleLeaseAgreement')->name('conveyance.stamp_signed_duty_agreement');
+    
+    Route::get('register_sale_lease_agreement/{id}', 'conveyance\DYCODepartment\DYCOController@RegisterSaleLeaseAgreement')->name('conveyance.register_sale_lease_agreement'); 
+
+    Route::get('checklist/{id}', 'conveyance\DYCODepartment\DYCOController@showChecklist')->name('conveyance.checklist');
+    
     //dyco
-    Route::get('checklist/{id}', 'conveyance\DYCODepartment\DYCOController@showChecklist')->name('dyco.checklist');
-    Route::get('sale_lease_agreement/{id}', 'conveyance\DYCODepartment\DYCOController@saleLeaseAgreement')->name('dyco.sale_lease_agreement');
-    Route::get('approved_sale_lease_agreement/{id}', 'conveyance\DYCODepartment\DYCOController@ApprovedSaleLeaseAgreement')->name('dyco.approved_sale_lease_agreement');
-    Route::get('stamp_duty_agreement/{id}', 'conveyance\DYCODepartment\DYCOController@StampedSaleLeaseAgreement')->name('dyco.stamp_duty_agreement');
-    Route::get('stamp_signed_duty_agreement/{id}', 'conveyance\DYCODepartment\DYCOController@SignedSaleLeaseAgreement')->name('dyco.stamp_signed_duty_agreement');
-    Route::get('register_sale_lease_agreement/{id}', 'conveyance\DYCODepartment\DYCOController@RegisterSaleLeaseAgreement')->name('dyco.register_sale_lease_agreement'); 
-    Route::get('conveyance_noc/{id}', 'conveyance\DYCODepartment\DYCOController@conveyanceNoc')->name('dyco.conveyance_noc');
-    Route::get('forward_application/{id}', 'conveyance\DYCODepartment\DYCOController@displayForwardApplication')->name('dyco.forward_application');   
+    
+   Route::get('conveyance_noc/{id}', 'conveyance\DYCODepartment\DYCOController@conveyanceNoc')->name('dyco.conveyance_noc');
+    
+    // Route::get('forward_application/{id}', 'conveyance\DYCODepartment\DYCOController@displayForwardApplication')->name('dyco.forward_application');   
 
     Route::get('conveyance_noc/{id}', 'conveyance\DYCODepartment\DYCOController@conveyanceNOC')->name('dyco.conveyance_noc');
 
@@ -617,13 +630,23 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::post('save_agreement', 'conveyance\DYCODepartment\DYCOController@saveAgreement')->name('dyco.save_agreement');
     Route::post('save_stamp_sign_agreement', 'conveyance\DYCODepartment\DYCOController@SaveStampSignAgreement')->name('dyco.save_stamp_sign_agreement');
-    Route::post('forward_application_dyco', 'conveyance\DYCODepartment\DYCOController@saveForwardApplication')->name('dyco.forward_application_data');  
+    Route::post('forward_application_dyco', 'conveyance\DYCODepartment\DYCOController@saveForwardApplication')->name('dyco.forward_application_data');   
+
+     Route::post('send_to_society', 'conveyance\DYCODepartment\DYCOController@SendToSociety')->name('dyco.send_to_society');  
+     Route::post('save_approved_agreement', 'conveyance\DYCODepartment\DYCOController@saveApprovedAgreement')->name('dyco.save_approved_agreement');  
 
     //EM
 
     Route::get('scrutiny_remark_em/{id}', 'conveyance\EMDepartment\EMController@ScrutinyReamrk')->name('em.scrutiny_remark');
 
     Route::get('sale_price_calculation/{id}', 'conveyance\EEDepartment\EEController@SalePriceCalculation')->name('ee.sale_price_calculation');
+
+    //Architect
+
+    Route::get('architect_scrutiny_remark/{id}', 'conveyance\conveyanceCommonController@ArchitectScrutinyRemark')->name('conveyance.architect_scrutiny_remark'); 
+
+    Route::post('save_architect_scrutiny_remark', 'conveyance\conveyanceCommonController@SaveArchitectScrutinyRemark')->name('conveyance.save_architect_scrutiny_remark');
+    
 
     // Renewal
     Route::get('renewal_scrutiny_remark_em/{id}', 'conveyance\EMDepartment\EMController@RenewalScrutinyReamrk')->name('em.scrutiny_remark');

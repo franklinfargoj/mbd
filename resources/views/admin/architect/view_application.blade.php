@@ -6,7 +6,7 @@
 <div class="col-md-12">
     <div class="m-subheader px-0">
         <div class="d-flex">
-            {{-- {{ Breadcrumbs::render('calculation_sheet',$ol_application->id) }} --}}
+            {{ Breadcrumbs::render('view_architect_application',$application->id) }}
             <div class="ml-auto btn-list">
                 <a href="{{route('architect_application')}}" class="btn btn-link"><i
                         class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
@@ -31,7 +31,7 @@
         <div class="d-flex justify-content-between align-items-center form-steps-toplinks">
             <a class="btn--unstyled section-title section-title--small form-count-title d-flex justify-content-between collapsed" data-toggle="collapse"
                 href="#form_2">
-                <span class="form-accordion-title">EMPANELMENT OF ARCHITECT/CONSULTANT WITH MHADB</span><span class="accordion-icon"></span>
+                <span class="form-accordion-title">EMPANELMENT OF ARCHITECT/CONSULTANT WITH MHADA</span><span class="accordion-icon"></span>
             </a>
         </div>
         <div class="m-portlet__body m-portlet__body--spaced collapse" id="form_2" data-parent="#accordion">
@@ -535,6 +535,17 @@
                         <label class="col-form-label" for="">Phone Number:</label>
                         <input type="text" id="" name="tel_no" class="form-control form-control--custom m-input" value="{{$work_in_ha->tel_no}}">
                     </div>
+                    <div class="col-sm-4 offset-sm-1 form-group">
+                        <label class="col-form-label" for="extract">Upload copy of agreement:
+                            <!--<span class="star">*</span>--></label>
+                        <div class="custom-file">
+                            @php
+                            $file="";
+                            $file=$work_in_ha->copy_of_agreement!=""?$work_in_ha->copy_of_agreement:'';
+                            @endphp
+                            <a style="display:{{$file!=''?'block':'none'}}" target="_blank" class="btn-link" href="{{config('commanConfig.storage_server').'/'.$file}}">download</a>
+                        </div>
+                    </div>
                 </div>
                 <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
@@ -635,6 +646,17 @@
                 <div class="col-sm-4 form-group">
                     <label class="col-form-label" for="">Phone Number:</label>
                     <input type="text" id="" name="tel_no" class="form-control form-control--custom m-input" value="{{$work_in_ha->tel_no}}">
+                </div>
+                <div class="col-sm-4 offset-sm-1 form-group">
+                    <label class="col-form-label" for="extract">Upload copy of agreement:
+                        <!--<span class="star">*</span>--></label>
+                    <div class="custom-file">
+                        @php
+                        $file="";
+                        $file=$work_in_ha->copy_of_agreement!=""?$work_in_ha->copy_of_agreement:'';
+                        @endphp
+                        <a style="display:{{$file!=''?'block':'none'}}" target="_blank" class="btn-link" href="{{config('commanConfig.storage_server').'/'.$file}}">download</a>
+                    </div>
                 </div>
             </div>
             <div class="form-group m-form__group row">

@@ -18,8 +18,8 @@
         <button onclick="window.location='{{ route("appointing_architect.step10",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab ">Step 10</button>
     </div>
     <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
-        <h3 class="section-title section-title--small">EMPANELMENT OF ARCHITECT/CONSULTANT WITH MHADB</h3>
-        <form id="" role="form" method="post" class="m-form m-form--rows m-form--label-align-right"
+        <h3 class="section-title section-title--small">EMPANELMENT OF ARCHITECT/CONSULTANT WITH MHADA</h3>
+        <form id="appointing_architect_step2" role="form" method="post" class="m-form m-form--rows m-form--label-align-right"
     action="{{route('appointing_architect.step2_post',['id'=>encrypt($application->id)])}}" enctype="multipart/form-data">
             @csrf
             <input type="hidden" name="application_id" value="{{$application->id}}">

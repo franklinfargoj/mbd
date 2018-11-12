@@ -105,6 +105,14 @@
                                         <option value="" style="font-weight: normal;">Select Year</option>
                                         <option value="<?php echo  date('Y');?>" style="font-weight: normal;"><?php echo  date('Y'); ?></option>
                                         <option value="<?php echo date("Y",strtotime("-1 year")); ?>" style="font-weight: normal;"><?php echo date("Y",strtotime("-1 year")); ?></option>
+                                        <option value="<?php echo date("Y",strtotime("-2 year")); ?>" style="font-weight: normal;"><?php echo date("Y",strtotime("-2 year")); ?></option>
+                                        <option value="<?php echo date("Y",strtotime("-3 year")); ?>" style="font-weight: normal;"><?php echo date("Y",strtotime("-3 year")); ?></option>
+                                        <option value="<?php echo date("Y",strtotime("-4 year")); ?>" style="font-weight: normal;"><?php echo date("Y",strtotime("-4 year")); ?></option>
+                                        <option value="<?php echo date("Y",strtotime("-5 year")); ?>" style="font-weight: normal;"><?php echo date("Y",strtotime("-5 year")); ?></option>
+                                        <option value="<?php echo date("Y",strtotime("-6 year")); ?>" style="font-weight: normal;"><?php echo date("Y",strtotime("-6 year")); ?></option>
+                                        <option value="<?php echo date("Y",strtotime("-7 year")); ?>" style="font-weight: normal;"><?php echo date("Y",strtotime("-7 year")); ?></option>
+                                        <option value="<?php echo date("Y",strtotime("-8 year")); ?>" style="font-weight: normal;"><?php echo date("Y",strtotime("-8 year")); ?></option>
+                                        <option value="<?php echo date("Y",strtotime("-9 year")); ?>" style="font-weight: normal;"><?php echo date("Y",strtotime("-9 year")); ?></option>
                                     </select>
                                 </div>
                             </div>       
@@ -158,6 +166,14 @@
                                         <option value="" style="font-weight: normal;">Select Year</option>
                                         <option value="<?php echo  date('Y');?>" style="font-weight: normal;"><?php echo  date('Y'); ?></option>
                                         <option value="<?php echo date("Y",strtotime("-1 year")); ?>" style="font-weight: normal;"><?php echo date("Y",strtotime("-1 year")); ?></option>
+                                         <option value="<?php echo date("Y",strtotime("-2 year")); ?>" style="font-weight: normal;"><?php echo date("Y",strtotime("-2 year")); ?></option>
+                                        <option value="<?php echo date("Y",strtotime("-3 year")); ?>" style="font-weight: normal;"><?php echo date("Y",strtotime("-3 year")); ?></option>
+                                        <option value="<?php echo date("Y",strtotime("-4 year")); ?>" style="font-weight: normal;"><?php echo date("Y",strtotime("-4 year")); ?></option>
+                                        <option value="<?php echo date("Y",strtotime("-5 year")); ?>" style="font-weight: normal;"><?php echo date("Y",strtotime("-5 year")); ?></option>
+                                        <option value="<?php echo date("Y",strtotime("-6 year")); ?>" style="font-weight: normal;"><?php echo date("Y",strtotime("-5 year")); ?></option>
+                                        <option value="<?php echo date("Y",strtotime("-7 year")); ?>" style="font-weight: normal;"><?php echo date("Y",strtotime("-7 year")); ?></option>
+                                        <option value="<?php echo date("Y",strtotime("-8 year")); ?>" style="font-weight: normal;"><?php echo date("Y",strtotime("-8 year")); ?></option>
+                                        <option value="<?php echo date("Y",strtotime("-9 year")); ?>" style="font-weight: normal;"><?php echo date("Y",strtotime("-9 year")); ?></option>
                                     </select>
                                 </div>
                             </div>       
@@ -211,8 +227,8 @@
                 <div class="row align-items-center mb-0">           
                     <div class="col-md-9">
                         <div class="form-group m-form__group">
-                            <input type="submit" class="btn btn-success" name="save" value="Save">
-                            <a  class="btn btn-info" href="{{ route('em_clerk.index') }}">Cancel</a>
+                            <input type="submit" class="btn m-btn--pill m-btn--custom btn-primary" name="save" value="Save">
+                            <a  class="btn m-btn--pill m-btn--custom btn-metal" href="{{ route('em_clerk.index') }}">Cancel</a>
                         </div>
                     </div>
                 </div>
@@ -278,38 +294,43 @@
                 
                 var bill_year = $('#bill_year').val();
                 var bill_month = $('#bill_month').val();
-
+                bill_month = bill_month - 1;
                 var ior_year = $('#ior_year').val();
                 var ior_month = $('#ior_month').val();
+
+                ior_month = ior_month - 1;
 
                 var ida_year = $('#ida_year').val();
                 var ida_month = $('#ida_month').val();
 
-                if(bill_year == '' || bill_month == ''){
+                ida_month = ida_month - 1;
+
+                if(bill_year == '' || bill_month === ''){
                     $('#bill_error').html('select Year and month for arrear Calculation.');
                     return false;
-                } else if(ior_year == '' || ior_month == '') {
+                } else if(ior_year == '' || ior_month === '') {
                     $('#bill_error').html(''); 
                     $('#ior_error').html('select Year and month of arrear Calculation.');
                     return false;
-                } else if(ida_year == '' || ida_month == '') {
+                } else if(ida_year == '' || ida_month === '') {
                     $('#ior_error').html('');
                     $('#ida_error').html('select Year and month of arrear Calculation.');
                     return false;
                 } else {
                     $('#ida_error').html('');
                 }
-
+                
                 var months1 = monthDiff(
-                                new Date(ior_year, ior_month, 1),
+                                new Date(ior_year, ior_month, 01),
                                 new Date(bill_year, bill_month, 30)  
                              );
-
+                             console.log(bill_year+' '+bill_month)
+                
                 var months2 = monthDiff(
-                                new Date(ida_year, ida_month, 1),
+                                new Date(ida_year, ida_month, 01),
                                 new Date(bill_year, bill_month, 30)  
                              );
-
+                
                 var iod_per = iod / 100;
                 var ior_per = ior / 100;
 
@@ -328,23 +349,13 @@
                  $('#total_amount').html(total);
                  $('#total_amount_val').val(total);
 
-                /*
-                 console.log(old_rate);
-                 console.log(months1);
-                 console.log(ior_per);
-            console.log(old_intrest_amount);
-                
-                 console.log(rate_diff)
-                 console.log(months2);
-                 console.log(iod_per);
-                 console.log(intrest_on_difference);*/
     }
 
 function monthDiff(d1, d2) {
     var months;
     months = (d2.getFullYear() - d1.getFullYear()) * 12;
-    months -= d1.getMonth() + 1;
-    months += d2.getMonth();
+    months = months - d1.getMonth() + 1;
+    months = months + d2.getMonth();
     return months <= 0 ? 0 : months;
 }
 
