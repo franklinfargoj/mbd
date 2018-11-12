@@ -659,6 +659,8 @@ $route=\Request::route()->getName();
                             </a>
                         </li>                        
                         @endif
+                        
+                        @if(Session::all()['role_name'] == 'ee_engineer')
                         <li class="m-menu__item {{($route=='society_detail.billing_level')?'m-menu__item--active':''}}">
                             <a href="#" class="m-menu__link m-menu__toggle">
                                 <i class="m-menu__link-icon flaticon-line-graph"></i>
@@ -683,7 +685,7 @@ $route=\Request::route()->getName();
                                 </span>
                             </a>
                         </li>
-                       
+                       @endif
 
                         @if(Session::all()['role_name'] == 'society')
                         {{--@if(isset($ol_application_count))--}}
@@ -754,6 +756,96 @@ $route=\Request::route()->getName();
                                 </ul>
                             </div>
                         </li> --}}
+
+                         @if(Session::all()['role_name'] == 'em_manager')
+
+                        <li class="m-menu__item {{($route=='get_societies')?'m-menu__item--active':''}}">
+                            <a class="m-menu__link m-menu__toggle" title="view_Application" href="{{ route('get_societies') }}">
+                                 <i class="m-menu__link-icon flaticon-line-graph"></i>
+                                <span class="m-menu__link-title">
+                                    <span class="m-menu__link-wrap">
+                                        <span class="m-menu__link-text">
+                                          Manage Societies
+                                        </span>
+                                    </span>
+                                </span>                                
+                            </a>
+                        </li>
+
+                        <li class="m-menu__item {{($route=='generate_soc_bill')?'m-menu__item--active':''}}">
+                            <a class="m-menu__link m-menu__toggle" title="view_Application" href="{{ route('generate_soc_bill') }}">
+                                <i class="m-menu__link-icon flaticon-line-graph"></i>
+                                <span class="m-menu__link-title">
+                                    <span class="m-menu__link-wrap">
+                                        <span class="m-menu__link-text">
+                                          Generate Bill (Society)
+                                        </span>
+                                    </span>
+                                </span>
+                            </a>
+                        </li>
+
+                        <li class="m-menu__item {{($route=='generate_tenant_bill')?'m-menu__item--active':''}}">
+                           <a href="{{ route('generate_tenant_bill') }}" class="m-menu__link m-menu__toggle">
+                                <i class="m-menu__link-icon flaticon-line-graph"></i>
+                                <span class="m-menu__link-title">
+                                    <span class="m-menu__link-wrap">
+                                        <span class="m-menu__link-text">
+                                          Generate Bill (Tenant)
+                                        </span>
+                                    </span>
+                                </span>
+                            </a>                           
+                        </li>                      
+                       @endif
+
+
+                       @if(Session::all()['role_name'] == 'em_clerk')
+
+                        <li class="m-menu__item m-menu__item--submenu {{($route=='em_clerk.index')?'m-menu__item--active':''}}">
+                            <a class="m-menu__link m-menu__toggle" title="view_Application" href="{{ route('em_clerk.index') }}">
+                               <i class="m-menu__link-icon flaticon-line-graph"></i>
+                                <span class="m-menu__link-title">
+                                    <span class="m-menu__link-wrap">
+                                        <span class="m-menu__link-text">
+                                         Manage Societies
+                                        </span>
+                                    </span>
+                                </span>
+                            </a>
+                        </li>
+                 
+                       @endif  
+
+
+                       @if(Session::all()['role_name'] == 'rc_collector')
+                        <li class="m-menu__item m-menu__item--submenu {{($route=='bill_collection_society')?'m-menu__item--active':''}}">
+                            <a class="m-menu__link m-menu__toggle" title="view_Application" href="{{ route('bill_collection_society') }}">
+                               <i class="m-menu__link-icon flaticon-line-graph"></i>
+                                                <span class="m-menu__link-title">
+                                                    <span class="m-menu__link-wrap">
+                                                        <span class="m-menu__link-text">
+                                                         Collect Bill (Society)
+                                                        </span>
+                                                    </span>
+                                                </span>
+                            </a>
+                        </li>
+
+                        <li class="m-menu__item m-menu__item--submenu {{($route=='bill_collection_tenant')?'m-menu__item--active':''}}">
+                            <a class="m-menu__link m-menu__toggle" title="view_Application" href="{{ route('bill_collection_tenant') }}">
+                               
+                            <i class="m-menu__link-icon flaticon-line-graph"></i>
+                                <span class="m-menu__link-title">
+                                    <span class="m-menu__link-wrap">
+                                        <span class="m-menu__link-text">
+                                        Collect Bill (Tenant)
+                                        </span>
+                                    </span>
+                                </span>                
+                            </a>
+                        </li>
+                        @endif
 
                         @yield('actions')
 

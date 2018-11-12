@@ -647,8 +647,7 @@ class EEController extends Controller
                 }
             })
             ->editColumn('actions', function ($societies) {
-                return "<div class='d-flex btn-icon-list'><a href='".url('society_details/'.$societies->id)."' class='d-flex flex-column align-items-center'><span class='btn-icon btn-icon--view'><img src='".asset('/img/view-icon.svg')."'></span>Society Details</a></div>";
-                
+                return "<div class='d-flex btn-icon-list'><a href='".url('society_details/'.$societies->id)."' class='d-flex flex-column align-items-center'><span class='btn-icon btn-icon--view'><img src='".asset('/img/view-icon.svg')."'></span>Society Details</a></div>";                
             })
             ->rawColumns(['actions','society_bill_level'])
             ->make(true);
