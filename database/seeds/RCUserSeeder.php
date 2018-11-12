@@ -145,9 +145,9 @@ class RCUserSeeder extends Seeder
         }
 
         $permission_role = [];
-        $rc_permission_role=array();
-        foreach ($rc_permissions as $rc) {
 
+        foreach ($rc_permissions as $rc) {
+            $rc_permission_role=array();
             $rc_permission = Permission::where(['name' => $rc['name']])->first();
             if ($rc_permission) {
                 $rc_permission_id = $rc_permission->id;
@@ -162,12 +162,13 @@ class RCUserSeeder extends Seeder
                     'permission_id' => $rc_permission_id,
                     'role_id' => $rc_role_id,
                 ];
+                PermissionRole::insert($rc_permission_role);
             }
 
         }
-        if (count($rc_permission_role) > 0) {
-            PermissionRole::insert($rc_permission_role);
-        }
+//        if (count($rc_permission_role) > 0) {
+//            PermissionRole::insert($rc_permission_role);
+//        }
 
         $layout_id = MasterLayout::first()->id;
         // Layout User Mapping

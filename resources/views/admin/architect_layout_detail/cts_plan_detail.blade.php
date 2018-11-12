@@ -21,8 +21,7 @@
                                     <input class="custom-file-input" name="cts_plan_file" type="file" id="cts_plan_file">
                                     <label class="custom-file-label" for="cts_plan_file">Choose file...</label>
                                     <a class="btn-link" target="_blank" id="cts_plan" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->cts_plan}}"
-                                        style="display:{{$ArchitectLayoutDetail->cts_plan!=''?'block':'none'}};">uploaded
-                                        file</a>
+                                        style="display:{{$ArchitectLayoutDetail->cts_plan!=''?'block':'none'}};">download</a>
                                 </div>
                             </div>
                         </div>
