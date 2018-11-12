@@ -40,8 +40,7 @@
                             <div class="custom-file">
                                 <input type="file" id="extract_{{$j}}" name="pr_cards[]" class="custom-file-input">
                                 <label title="" class="custom-file-label" for="extract_{{$j}}">Choose file</label>
-                                <a class="btn-link" target="_blank" href="{{config('commanConfig.storage_server').'/'.$pr_card_detail->upload_pr_card}}">uploaded
-                                    file</a>
+                                <a class="btn-link" target="_blank" href="{{config('commanConfig.storage_server').'/'.$pr_card_detail->upload_pr_card}}">download</a>
                                 <span class="help-block"></span>
                             </div>
                         </div>
