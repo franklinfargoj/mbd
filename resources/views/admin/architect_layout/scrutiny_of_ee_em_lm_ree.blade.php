@@ -6,7 +6,7 @@
 <div class="custom-wrapper">
     <div class="col-md-12">
         <div class="d-flex">
-            {{-- {{ Breadcrumbs::render('forward_application-dyce',$ol_application->id) }} --}}
+            {{ Breadcrumbs::render('architect_Layout_scrutiny_of_ee_em_lm_ree',$ArchitectLayout->id) }}
             <div class="ml-auto btn-list">
                 <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
             </div>

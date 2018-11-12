@@ -147,6 +147,7 @@
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">Prepare Layout & Excel -
                 {{$ArchitectLayout->layout_name}}</h3>
+                {{ Breadcrumbs::render('architect_layout_prepare_layout_excel',$ArchitectLayout->id) }}
         </div>
     </div>
     <form>

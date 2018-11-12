@@ -38,13 +38,13 @@
             @if($is_commitee==true)
                 @if($status_id['status_id']!=config('commanConfig.architect_applicationStatus.forward'))
                     @if($app->application_status!=config('commanConfig.architect_application_status.final'))
-                    <button type="submit" name="final" value="final" class="btn btn--unstyled p-0 btn--icon-wrap d-flex align-items-center flex-column"">
+                    <button type="submit" name="final" value="final" class="btn btn--unstyled p-0 btn--icon-wrap d-flex align-items-center flex-column">
                         <span class="btn-icon btn-icon--delete">
                             <img src="{{ asset('/img/shortlist-add-icon.svg')}}">
                         </span>Add to Final list
                     </button>
                     @else
-                    <button type="submit" name="remove_final" value="remove_final" class="btn btn--unstyled p-0 btn--icon-wrap d-flex align-items-center flex-column"">
+                    <button type="submit" name="remove_final" value="remove_final" class="btn btn--unstyled p-0 btn--icon-wrap d-flex align-items-center flex-column">
                         <span class="btn-icon btn-icon--delete">
                                 <img src="{{ asset('/img/shortlist-remove-icon.svg')}}">
                         </span>Remove from<span class="d-block">Final list</span></button>

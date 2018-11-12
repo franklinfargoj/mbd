@@ -6,7 +6,7 @@
 <div class="col-md-12">
     <div class="m-subheader px-0">
         <div class="d-flex">
-            {{-- {{ Breadcrumbs::render('calculation_sheet',$ol_application->id) }} --}}
+            {{ Breadcrumbs::render('view_architect_application',$application->id) }}
             <div class="ml-auto btn-list">
                 <a href="{{route('architect_application')}}" class="btn btn-link"><i
                         class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>

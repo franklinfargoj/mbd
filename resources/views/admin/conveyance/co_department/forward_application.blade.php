@@ -1,9 +1,9 @@
 @extends('admin.layouts.sidebarAction')
 @section('actions')
-@include('admin.conveyance.'.$data->folder.'.action'))
+@include('admin.conveyance.co_department.action'))
 @endsection
 @section('content')
-
+     
 <div class="custom-wrapper">
     <div class="col-md-12">
         <div class="d-flex">
@@ -193,7 +193,7 @@
                                         </div>
                                     </div>
                                 </div> 
-                                @endif  
+                                @endif    
 
                                 @if(count($Architectlogs) > 0)
                                 <div class="remark-body">
@@ -228,7 +228,7 @@
                                         </div>
                                     </div>
                                 </div> 
-                                @endif   
+                                @endif  
 
                                 @if(count($cologs) > 0)
                                 <div class="remark-body">
@@ -263,7 +263,8 @@
                                         </div>
                                     </div>
                                 </div> 
-                                @endif                                                                 
+                                @endif  
+                                                                                                                              
                             </div>
                         </div>
                     </div>

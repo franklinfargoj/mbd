@@ -602,20 +602,22 @@ function showUploadedFileName() {
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">Add Detail -
                 {{$ArchitectLayoutDetail->architect_layout->layout_name}}</h3>
+                
+                {{ Breadcrumbs::render('architect_layout_add_details',encrypt($ArchitectLayoutDetail->architect_layout->id)) }}
         </div>
         <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom nav-tabs--steps">
             <li class="nav-item m-tabs__item" data-target="#document-scrunity">
-                <a class="nav-link m-tabs__link active show" data-toggle="tab" href="#cts-plan-tab">
+                <a class="nav-link m-tabs__link active" data-toggle="tab" href="#cts-plan-tab">
                     <i class="la la-cog"></i> CTS Plan
                 </a>
             </li>
             <li class="nav-item m-tabs__item">
-                <a class="nav-link m-tabs__link show" data-toggle="tab" href="#prc-tab">
+                <a class="nav-link m-tabs__link" data-toggle="tab" href="#prc-tab">
                     <i class="la la-cog"></i> PRC
                 </a>
             </li>
             <li class="nav-item m-tabs__item">
-                <a class="nav-link m-tabs__link show" data-toggle="tab" href="#dp-remark-tab">
+                <a class="nav-link m-tabs__link" data-toggle="tab" href="#dp-remark-tab">
                     <i class="la la-cog"></i> DP Remark, CRZ Remark and other
                 </a>
             </li>
