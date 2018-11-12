@@ -80,9 +80,11 @@
                                         <a href="{{ config('commanConfig.storage_server').'/'.$document_uploaded['document_path'] }}" data-value='{{ $document->id }}'
                                            class="upload_documents" target="_blank" rel="noopener" download><button type="submit" class="btn btn-primary btn-custom">
                                                 Download</button></a>
-                                        <a href="{{ route('delete_sc_upload_docs', base64_encode($document->id)) }}" data-value='{{ $document->id }}'
-                                           class="upload_documents"><button type="submit" class="btn btn-primary btn-custom">
-                                                <i class="fa fa-trash"></i></button></a>
+                                        @if($sc_application->scApplicationLog->status_id == 4)
+                                            <a href="{{ route('delete_sc_upload_docs', base64_encode($document->id)) }}" data-value='{{ $document->id }}'
+                                               class="upload_documents"><button type="submit" class="btn btn-primary btn-custom">
+                                                    <i class="fa fa-trash"></i></button></a>
+                                        @endif
                                     </span>
                                 @else
                                 <form action="{{ route('upload_sc_docs') }}" method="post" enctype='multipart/form-data' class="sc_upload_documents_form"
@@ -154,14 +156,14 @@
                                                     @if(isset($sc_bank_details_fields[$i]))
                                                         <div class="col-sm-4 form-group">
                                                             <label class="col-form-label" for="{{ $sc_bank_details_fields[$i] }}">@php $labels = implode(' ', explode('_', $sc_bank_details_fields[$i])); echo ucwords($labels); @endphp:</label>
-                                                            @php echo $comm_func->form_fields($sc_bank_details_fields[$i], 'text','' , ''); @endphp
+                                                            @php if($sc_application->scApplicationLog->status_id == 2){ $readonly = 'readonly'; $value = $society_bank_details[$sc_bank_details_fields[$i]]; }else{ $readonly = ''; $value = ''; }; echo $comm_func->form_fields($sc_bank_details_fields[$i], 'text','' , '', $value, $readonly); @endphp
                                                             <span id="error_{{ $sc_bank_details_fields[$i] }}" class="help-block">{{$errors->first($sc_bank_details_fields[$i])}}</span>
                                                         </div>
                                                     @endif
                                                     @if(isset($sc_bank_details_fields[$i+1]))
                                                         <div class="col-sm-4 offset-sm-1 form-group">
                                                             <label class="col-form-label" for="{{ $sc_bank_details_fields[$i+1] }}">@php $labels = implode(' ', explode('_', $sc_bank_details_fields[$i+1])); echo ucwords($labels); @endphp:</label>
-                                                            @php echo $comm_func->form_fields($sc_bank_details_fields[$i+1], 'text','' , ''); @endphp
+                                                            @php if($sc_application->scApplicationLog->status_id == 2){ $readonly = 'readonly'; $value = $society_bank_details[$sc_bank_details_fields[$i+1]]; }else{ $readonly = ''; $value = ''; }; echo $comm_func->form_fields($sc_bank_details_fields[$i+1], 'text','' , '', $value, $readonly); @endphp
                                                             <span id="error_{{ $sc_bank_details_fields[$i+1] }}" class="help-block">{{$errors->first($sc_bank_details_fields[$i+1])}}</span>
                                                         </div>
                                                     @endif

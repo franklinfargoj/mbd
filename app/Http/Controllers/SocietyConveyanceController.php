@@ -46,12 +46,12 @@ class SocietyConveyanceController extends Controller
 //        $sc = SocietyConveyance::where('society_id', $society_details->id)->first();
 //        dd($sc);
         $columns = [
+            ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'application_no','name' => 'application_no','title' => 'Application No.'],
             ['data' => 'application_master_id','name' => 'application_master_id','title' => 'Application Type'],
             ['data' => 'created_at','name' => 'created_date','title' => 'Submission Date', 'class' => 'datatable-date'],
             ['data' => 'status','name' => 'status','title' => 'Status'],
-            ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
         ];
         $getRequest = $request->all();
         $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
@@ -66,8 +66,12 @@ class SocietyConveyanceController extends Controller
                 $sc_applications = $sc_applications->where('application_master_id', 'like', '%'.$request->application_master_id.'%');
             }
             $sc_applications = $sc_applications->get();
-//             dd($sc_applications->scApplicationLog->status_id);
+
             return $datatables->of($sc_applications)
+                ->editColumn('radio', function ($sc_applications) {
+                    $url = route('society_conveyance.show', base64_encode($sc_applications->id));
+                    return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="sc_applications_id"><span></span></label>';
+                })
                 ->editColumn('rownum', function ($sc_applications) {
                     static $i = 0;
                     $i++;
@@ -93,14 +97,7 @@ class SocietyConveyanceController extends Controller
 
                     return '<span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$sc_applications->scApplicationLog->status_id) .' m-badge--wide">'.$status_display.'</span>';
                 })
-                ->editColumn('actions', function ($sc_applications) {
-                    $status = explode('_', array_keys(config('commanConfig.applicationStatus'), $sc_applications->scApplicationLog->status_id)[0]);
-                    $status_display = '';
-                    foreach($status as $status_value){ $status_display .= ucwords($status_value). ' ';}
-                    // dd($ol_applications->offer_letter_document_path);
-//                    return view('frontend.society.actions', compact('sc_applications', 'status_display'))->render();
-                })
-                ->rawColumns(['application_no', 'application_master_id', 'created_at','status','actions'])
+                ->rawColumns(['radio', 'application_no', 'application_master_id', 'created_at','status'])
                 ->make(true);
         }
 
@@ -113,7 +110,7 @@ class SocietyConveyanceController extends Controller
             'serverSide' => true,
             'processing' => true,
             'ordering'   =>'isSorted',
-            "order"=> [5, "desc" ],
+            "order"=> [4, "desc" ],
             "pageLength" => $this->list_num_of_records_per_page,
             // 'fixedHeader' => [
             //     'header' => true,
@@ -233,8 +230,10 @@ class SocietyConveyanceController extends Controller
                             $sc_document_status = new SocietyConveyanceDocumentStatus;
                             $sc_document_status_arr = array_flip($sc_document_status->getFillable());
                             $sc_document_status_arr['application_id'] = $sc_application->id;
-                            $sc_document_status_arr['conveyance_document_id'] = 1;
+                            $sc_document_status_arr['society_flag'] = 1;
+                            $sc_document_status_arr['document_id'] = 1;
                             $sc_document_status_arr['document_path'] = $path;
+
                             SocietyConveyanceDocumentStatus::create($sc_document_status_arr);
 
                             if($inserted_application_log == true){
@@ -262,7 +261,9 @@ class SocietyConveyanceController extends Controller
     public function show($id)
     {
         $id = base64_decode($id);
-        $sc_application = scApplication::with(['sc_form_request', 'societyApplication', 'applicationLayout'])->where('id', $id)->first();
+        $sc_application = scApplication::with(['sc_form_request', 'societyApplication', 'applicationLayout', 'scApplicationLog' => function($q){
+            $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
+        }])->where('id', $id)->first();
 
         return view('frontend.society.conveyance.show_sc_application', compact('sc_application'));
     }
@@ -370,10 +371,11 @@ class SocietyConveyanceController extends Controller
             $sc_document_status = new SocietyConveyanceDocumentStatus;
             $sc_document_status_arr = array_flip($sc_document_status->getFillable());
             $sc_document_status_arr['application_id'] = $sc_application->id;
-            $sc_document_status_arr['conveyance_document_id'] = 1;
+            $sc_document_status_arr['society_flag'] = 1;
+            $sc_document_status_arr['document_id'] = 1;
             $sc_document_status_arr['document_path'] = $path;
 //            dd($sc_document_status_arr);
-            SocietyConveyanceDocumentStatus::where('conveyance_document_id', '1')->update($sc_document_status_arr);
+            SocietyConveyanceDocumentStatus::where('document_id', '1')->update($sc_document_status_arr);
 
             if(count($input) < count($sc_application_form)){
                 SocietyConveyance::where('id', $sc_application->sc_form_request->id)->update($input);
@@ -422,8 +424,9 @@ class SocietyConveyanceController extends Controller
         $sc_application = scApplication::where('society_id', $society->id)->with(['scApplicationType', 'scApplicationLog' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         } ])->orderBy('id', 'desc')->first();
+        $society_bank_details = SocietyBankDetails::where('society_id', $society->id)->first();
 
-        $documents = SocietyConveyanceDocumentMaster::with(['sc_document_status' => function($q) use($sc_application) { $q->where('application_id', $sc_application->id)->get(); }])->where('application_type_id', $sc_application->sc_application_master_id)->get();
+        $documents = SocietyConveyanceDocumentMaster::with(['sc_document_status' => function($q) use($sc_application) { $q->where('application_id', $sc_application->id)->get(); }])->where('application_type_id', $sc_application->sc_application_master_id)->where('society_flag', '1')->get();
         $documents_uploaded = SocietyConveyanceDocumentStatus::where('application_id', $sc_application->id)->get();
         $sc_bank_details = new SocietyBankDetails;
         $sc_bank_details_fields_name = $sc_bank_details->getFillable();
@@ -432,7 +435,7 @@ class SocietyConveyanceController extends Controller
         $sc_bank_details_fields = array_values(array_flip($sc_bank_details_fields_name));
         $comm_func = $this->CommonController;
 
-        return view('frontend.society.conveyance.show_doc_bank_details', compact('documents', 'sc_application', 'society', 'documents_uploaded', 'sc_bank_details_fields', 'comm_func'));
+        return view('frontend.society.conveyance.show_doc_bank_details', compact('documents', 'sc_application', 'society', 'documents_uploaded', 'sc_bank_details_fields', 'comm_func', 'society_bank_details'));
     }
 
     /**
@@ -511,7 +514,7 @@ class SocietyConveyanceController extends Controller
                 $fileUpload = $this->CommonController->ftpFileUpload($folder_name, $file, $name);
                 $sc_doc_status = array(
                     'application_id' => $sc_application->id,
-                    'conveyance_document_id' => $document_id,
+                    'document_id' => $document_id,
                     'document_path' => $path
                 );
                 $documents_uploaded = SocietyConveyanceDocumentStatus::create($sc_doc_status);
@@ -540,11 +543,11 @@ class SocietyConveyanceController extends Controller
         } ])->orderBy('id', 'desc')->first();
 
         $documents = SocietyConveyanceDocumentMaster::with(['sc_document_status' => function($q) use($sc_application) { $q->where('application_id', $sc_application->id)->get(); }])->where('application_type_id', $sc_application->sc_application_master_id)->get();
-        $documents_uploaded = SocietyConveyanceDocumentStatus::where('application_id', $sc_application->id)->where('conveyance_document_id', $id)->first();
+        $documents_uploaded = SocietyConveyanceDocumentStatus::where('application_id', $sc_application->id)->where('document_id', $id)->first();
 
         $path = $documents_uploaded->document_path;
         $deleted = Storage::disk('ftp')->delete($path);
-        SocietyConveyanceDocumentStatus::where('application_id', $sc_application->id)->where('conveyance_document_id', $id)->delete();
+        SocietyConveyanceDocumentStatus::where('application_id', $sc_application->id)->where('document_id', $id)->delete();
         $update_template_file = array(
             'template_file' => ''
         );
@@ -618,7 +621,6 @@ class SocietyConveyanceController extends Controller
      */
     public function sc_form_upload(Request $request)
     {
-//        dd($request->all());
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $sc_application = scApplication::where('society_id', $society->id)->with(['scApplicationType', 'scApplicationLog' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
@@ -642,17 +644,18 @@ class SocietyConveyanceController extends Controller
 
             $role_id = Role::where('name', config('commanConfig.dycdo_engineer'))->first();
             $user_ids = RoleUser::where('role_id', $role_id->id)->get();
-            $layout_user_ids = LayoutUser::where('layout_id', $request->input('layout_id'))->whereIn('user_id', $user_ids)->get();
+            $layout_user_ids = LayoutUser::where('layout_id', $sc_application->layout_id)->whereIn('user_id', $user_ids)->get();
 
             foreach ($layout_user_ids as $key => $value) {
                 $select_user_ids[] = $value['user_id'];
             }
+
             $users = User::whereIn('id', $select_user_ids)->get();
             if(count($users) > 0){
                 $insert_arr = array(
                     'users' => $users
                 );
-                $inserted_application_log = $this->CommonController->sc_application_status_society($insert_arr, config('commanConfig.applicationStatus.pending'), $sc_application->id);
+                $inserted_application_log = $this->CommonController->sc_application_status_society($insert_arr, config('commanConfig.applicationStatus.forwarded'), $sc_application->id);
             }
         }
 
