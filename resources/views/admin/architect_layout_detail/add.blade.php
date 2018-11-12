@@ -594,6 +594,109 @@ function showUploadedFileName() {
         });
     }
 </script>
+
+<script>
+    //cts plan detail
+        $(document).ready(function() {  
+            $('.add').click(function() {
+                $('.block:last').after('<div class="block"><input placeholder="CTS no" type="text" name="cts_no[]" class="form-control form-control--custom" required><a href="#" class="fa fa-close btn--add-delete remove"></a></div>');
+            });
+            $('.optionBox').on('click','.remove',function() {
+                $(this).parent().remove();
+            }); 
+        });
+        function deleteCtsDetail(tt,id)
+        {
+            if(confirm('Are you sure?'))
+            {
+                $.ajaxSetup({
+                headers: {
+                    'X-CSRF-Token': '{{csrf_token()}}'
+                }
+                });
+                $.ajax({
+                    url:'{{route("delete_cts_detail")}}',
+                    method:'POST',
+                    data:{cts_detail_id:id},
+                    success:function(data){
+                        console.log(data);
+                        $(tt).parent().remove();
+                    }
+                })
+            }
+        }
+    
+    </script>
+
+<script>
+    //prc details
+        $(document).ready(function () {
+            
+            
+            $('.addPrc').click(function () {
+                var count=$(".optionBoxPrc > div").length;
+                count++;
+                $('.blockPrc:last').after(
+                    '<div class="blockPrc">'+
+                    '<div class="form-group m-form__group row mb-0">'+
+                                '<div class="col-lg-5 form-group">'+
+                                    '<select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="" name="cts_no[]">'+
+                                        @foreach($ArchitectLayoutDetail->cts_plan_details as $cts_plan_detail)
+                                        '<option value="{{$cts_plan_detail->id}}">{{$cts_plan_detail->cts_no}}</option>'+
+                                        @endforeach
+                                    '</select>'+
+                                    '<span class="help-block"></span>'+
+                                '</div>'+
+                                '<div class="col-lg-5 form-group">'+
+                                    '<div class="custom-file">'+
+                                        '<input type="file" id="extract_'+count+'" name="pr_cards[]" class="custom-file-input">'+
+                                        '<label title="" class="custom-file-label" for="extract_'+count+'">Choose file</label>'+
+                                        '<span class="help-block"></span>'+
+                                    '</div>'+
+                                '</div>'+
+                                '<div class="col-lg-2 form-group mt-2">'+
+                                    '<a href="#" class="remove"><i class="fa fa-close btn--add-delete"></i></a>'+
+                                '</div>'+
+                            '</div>'+
+                    '</div>'
+                );
+                $('.m-bootstrap-select').selectpicker('refresh');
+                showUploadedFileName();
+            });
+    
+            function showUploadedFileName() {
+                $('.custom-file-input').change(function (e) {
+                    $(this).parents('.custom-file').find('.custom-file-label').text(e.target.files[0].name);
+                });
+            }
+    
+            $('.optionBoxPrc').on('click', '.remove', function () {
+                $(this).parent().parent().remove();
+            });
+        });
+    
+        function deletePrCardDetail(tt,id)
+        {
+            if(confirm('Are you sure?'))
+            {
+                $.ajaxSetup({
+                headers: {
+                    'X-CSRF-Token': '{{csrf_token()}}'
+                }
+                });
+                $.ajax({
+                    url:'{{route("delete_prc_detail")}}',
+                    method:'POST',
+                    data:{pr_card_detail_id:id},
+                    success:function(data){
+                        console.log(data);
+                        $(tt).parent().parent().remove();
+                    }
+                })
+            }
+        }
+    
+    </script>
 @endsection
 @section('content')
 <div class="loader" style="display:none;"></div>
@@ -602,28 +705,41 @@ function showUploadedFileName() {
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">Add Detail -
                 {{$ArchitectLayoutDetail->architect_layout->layout_name}}</h3>
-                
-                {{ Breadcrumbs::render('architect_layout_add_details',encrypt($ArchitectLayoutDetail->architect_layout->id)) }}
+
+            {{
+            Breadcrumbs::render('architect_layout_add_details',encrypt($ArchitectLayoutDetail->architect_layout->id))
+            }}
         </div>
+        @if(Session::has('success'))
+        <div class="alert alert-success display_msg">
+            <p> {{ Session::get('success') }} </p>
+        </div>
+        @endif
+        @if(Session::has('error'))
+        <div class="alert alert-danger display_msg">
+            <p> {{ Session::get('error') }} </p>
+        </div>
+        @endif
         <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom nav-tabs--steps">
-            <li class="nav-item m-tabs__item" data-target="#document-scrunity">
-                <a class="nav-link m-tabs__link active show" data-toggle="tab" href="#cts-plan-tab">
+            <li class="nav-item m-tabs__item {{$ArchitectLayoutDetail->cts_plan_details->count()>0?'filled':''}}"
+                data-target="#document-scrunity">
+                <a class="nav-link m-tabs__link active" data-toggle="tab" href="#cts-plan-tab">
                     <i class="la la-cog"></i> CTS Plan
                 </a>
             </li>
-            <li class="nav-item m-tabs__item">
-                <a class="nav-link m-tabs__link show" data-toggle="tab" href="#prc-tab">
+            <li class="nav-item m-tabs__item {{$ArchitectLayoutDetail->pr_card_details->count()>0?'filled':''}}">
+                <a class="nav-link m-tabs__link " data-toggle="tab" href="#prc-tab">
                     <i class="la la-cog"></i> PRC
                 </a>
             </li>
-            <li class="nav-item m-tabs__item">
-                <a class="nav-link m-tabs__link show" data-toggle="tab" href="#dp-remark-tab">
+            <li class="nav-item m-tabs__item {{$ArchitectLayoutDetail->dp_letter!=''?'filled':''}}">
+                <a class="nav-link m-tabs__link " data-toggle="tab" href="#dp-remark-tab">
                     <i class="la la-cog"></i> DP Remark, CRZ Remark and other
                 </a>
             </li>
         </ul>
     </div>
-    <form id="upload_latest_layout" method="post" enctype="multipart/form-data">
+    {{-- <form id="upload_latest_layout" method="post" enctype="multipart/form-data"> --}}
         <input type="hidden" id="architect_layout_detail_id" name="architect_layout_detail_id" value="{{$ArchitectLayoutDetail->id}}">
         @csrf
         <div class="tab-content">
@@ -632,14 +748,16 @@ function showUploadedFileName() {
                     <div class="portlet-body">
                         <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
                             <div class="m-subheader">
-                                <div class="d-flex align-items-center">
+                                {{-- <div class="d-flex align-items-center">
                                     <h3 class="section-title section-title--small">
-                                        CTS plan 
+                                        CTS plan
                                     </h3>
-                                </div>
+                                </div> --}}
                                 <div class="mt-auto">
-                                    <a href="{{route('architect_layout_detail_cts_plan',['layout_detail_id'=>encrypt($ArchitectLayoutDetail->id)])}}"
+                                    @include('admin.architect_layout_detail.cts_plan_detail',compact('ArchitectLayoutDetail'))
+                                    {{-- <a href="{{route('architect_layout_detail_cts_plan',['layout_detail_id'=>encrypt($ArchitectLayoutDetail->id)])}}"
                                         class="btn btn-primary btn-custom upload_note" id="uploadBtn">Add CTS Detail</a>
+                                    --}}
                                 </div>
                             </div>
                         </div>
@@ -651,14 +769,16 @@ function showUploadedFileName() {
                     <div class="portlet-body">
                         <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
                             <div class="m-subheader">
-                                <div class="d-flex align-items-center">
+                                {{-- <div class="d-flex align-items-center">
                                     <h3 class="section-title section-title--small">
                                         PRC
                                     </h3>
-                                </div>
+                                </div> --}}
                                 <div class="mt-auto">
-                                    <a href="{{route('architect_layout_detail_prc_detail',['layout_detail_id'=>encrypt($ArchitectLayoutDetail->id)])}}"
+                                    {{-- <a href="{{route('architect_layout_detail_prc_detail',['layout_detail_id'=>encrypt($ArchitectLayoutDetail->id)])}}"
                                         class="btn btn-primary btn-custom upload_note" id="uploadBtn">Add PRC Detail</a>
+                                    --}}
+                                    @include('admin.architect_layout_detail.prc_detail',compact('ArchitectLayoutDetail'))
                                 </div>
                             </div>
                         </div>
@@ -670,14 +790,16 @@ function showUploadedFileName() {
                     <div class="portlet-body">
                         <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
                             <div class="m-subheader">
-                                <div class="d-flex align-items-center">
+                                {{-- <div class="d-flex align-items-center">
                                     <h3 class="section-title section-title--small">
                                         DP remark, CRZ remark and other
                                     </h3>
-                                </div>
+                                </div> --}}
                                 <div class="mt-auto">
-                                    <a href="{{route('add_architect_detail_dp_crz_remark_add',['layout_detail_id'=>encrypt($ArchitectLayoutDetail->id)])}}"
+                                    @include('admin.architect_layout_detail.dp_crz_remark',compact('ArchitectLayoutDetail'))
+                                    {{-- <a href="{{route('add_architect_detail_dp_crz_remark_add',['layout_detail_id'=>encrypt($ArchitectLayoutDetail->id)])}}"
                                         class="btn btn-primary btn-custom upload_note" id="uploadBtn">Add Detail</a>
+                                    --}}
                                 </div>
                             </div>
                         </div>
@@ -1179,7 +1301,10 @@ function showUploadedFileName() {
                         </div>
                         <div class="mt-auto">
                             <a href="{{route('architect_layout_detail_court_case_or_dispute_on_land.index',['layout_detail_id'=>encrypt($ArchitectLayoutDetail->id)])}}"
-                                class="btn btn-primary btn-custom upload_note" id="uploadBtn">Add Detail</a>
+                                class="btn btn-primary btn-custom upload_note" id="uploadBtn">
+                                {{$ArchitectLayoutDetail->layout_detail_court_matter_or_dispute->count()>0?'View
+                                Detail':'Add Detail'}}
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -1193,14 +1318,15 @@ function showUploadedFileName() {
                         <div class="mt-auto">
                             {{-- <a href="{{route('architect_layout_details.view',['layout_id'=>encrypt($ArchitectLayoutDetail->architect_layout_id)])}}"
                                 class="btn btn-primary btn-custom upload_note" id="uploadBtn">Save</a> --}}
-                        <a href="{{route('architect_layout_details.view',['layout_id'=>encrypt($ArchitectLayoutDetail->architect_layout_id)])}}"
+                            <a href="{{route('architect_layout_details.view',['layout_id'=>encrypt($ArchitectLayoutDetail->architect_layout_id)])}}"
                                 class="btn btn-primary " id="uploadBtn">Back</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </form>
+        {{--
+    </form> --}}
 </div>
 
 @endsection
