@@ -8,7 +8,7 @@
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">Evaluate Application</h3>
-            {{-- Breadcrumbs::render('lease_detail',$id) }} --}}
+            {{ Breadcrumbs::render('evaluate_application',$ArchitectApplication->id) }}
             <div class="ml-auto btn-list">
                 <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
             </div>

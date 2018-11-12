@@ -181,19 +181,60 @@ class conveyanceCommonController extends Controller
     // forward and revert application
     public function forwardApplication($request){
         
-        $masterId = scApplication::where('id',$request->applicationId)->value('sc_application_master_id');
+        $Scstatus = "";
+        $data = scApplication::where('id',$request->applicationId)->first();
+        $applicationStatus = $data->application_status;
+        $masterId = $data->sc_application_master_id;
+
         $dycdoId =  Role::where('name',config('commanConfig.dycdo_engineer'))->value('id');  
+        $dycoId =  Role::where('name',config('commanConfig.dyco_engineer'))->value('id'); 
          
         if ($request->check_status == 1) {
             $status = config('commanConfig.applicationStatus.forwarded');                
         }else{
             $status = config('commanConfig.applicationStatus.reverted');
         }
+        
+        if (session()->get('role_name') == config('commanConfig.ee_branch_head') && $request->to_role_id == $dycdoId) {
+            $Tostatus = config('commanConfig.applicationStatus.Draft_sale_&_lease_deed');
+            $Scstatus = $Tostatus;
 
-        if(session()->get('role_name') == config('commanConfig.ee_branch_head') && $request->to_role_id == $dycdoId) {
-            $Tostatus = ApplicationStatusMaster::where('status_name','=','Draft sale and lease deed')->value('id');
-        } else{
-            $Tostatus = config('commanConfig.applicationStatus.in_process');
+        } elseif (session()->get('role_name') == config('commanConfig.joint_co') && $request->to_role_id == $dycdoId){
+            
+            if ($applicationStatus == config('commanConfig.applicationStatus.Draft_sale_&_lease_deed')){
+                $Tostatus = config('commanConfig.applicationStatus.Aproved_sale_&_lease_deed');
+                $Scstatus = $Tostatus;
+
+            }elseif($applicationStatus == config('commanConfig.applicationStatus.Stamped_sale_&_lease_deed')){
+                $Tostatus = config('commanConfig.applicationStatus.Stamped_signed_sale_&_lease_deed');
+                $Scstatus = $Tostatus;
+                
+            }else{
+                $Tostatus = $applicationStatus;
+                $Scstatus = $Tostatus;
+            }
+        }elseif((session()->get('role_name') == config('commanConfig.dycdo_engineer') && $request->to_role_id == $dycoId)){
+            if ($applicationStatus == config('commanConfig.applicationStatus.Aproved_sale_&_lease_deed')){
+
+                $Tostatus = config('commanConfig.applicationStatus.Sent_society_to_pay_stamp_duety');
+                $Scstatus = $Tostatus;
+
+            }elseif($applicationStatus == config('commanConfig.applicationStatus.Stamped_signed_sale_&_lease_deed')){
+                
+                $Tostatus = config('commanConfig.applicationStatus.Sent_society_for_registration_of_sale_&_lease');
+                $Scstatus = $Tostatus;                
+            }
+            else{
+                $Tostatus = $applicationStatus;
+                $Scstatus = $Tostatus;
+            }
+        }
+        else {
+            if (isset($applicationStatus)){
+                $Tostatus = $applicationStatus;
+            }else{
+                $Tostatus = config('commanConfig.applicationStatus.in_process');                
+            }
         }
 
             $application = [[
@@ -221,8 +262,10 @@ class conveyanceCommonController extends Controller
             ];
 
             scApplicationLog::insert($application); 
-            $up = scApplication::where('id',$request->applicationId)->where('sc_application_master_id',$masterId)
-            ->update(['application_status' => $Tostatus]);    
+            if ($Scstatus != ""){
+                scApplication::where('id',$request->applicationId)->where('sc_application_master_id',$masterId)
+                ->update(['application_status' => $Tostatus]);                    
+            }
     }
 
     public function getForwardApplicationData($applicationId){
@@ -270,6 +313,9 @@ class conveyanceCommonController extends Controller
         }        
         if (session()->get('role_name') == config('commanConfig.estate_manager')){
             $folder = 'em_department';
+        }         
+        if (session()->get('role_name') == config('commanConfig.co_engineer') || session()->get('role_name') == config('commanConfig.joint_co') ){
+            $folder = 'co_department';
         } 
         return $folder;       
     }  
@@ -303,7 +349,7 @@ class conveyanceCommonController extends Controller
         return $eelogs;
     }
 
-    // get logs of EE dept
+    // get logs of Architect dept
     public function getLogsOfArchitectDepartment($applicationId,$masterId)
     {
 
@@ -315,10 +361,22 @@ class conveyanceCommonController extends Controller
 
         return $Architectlogs;
     }
+
+    // get logs of CO and JTCO dept
+    public function getLogsOfCODepartment($applicationId,$masterId)
+    {
+        $roles = array(config('commanConfig.co_engineer'), config('commanConfig.joint_co'));
+        $status = array(config('commanConfig.applicationStatus.forwarded'), config('commanConfig.applicationStatus.reverted'));
+
+        $coRoles = Role::whereIn('name', $roles)->pluck('id');
+        $cologs  = scApplicationLog::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->where('application_master_id',$masterId)->whereIn('role_id', $coRoles)->whereIn('status_id', $status)->get();
+
+        return $cologs;
+    }
+
     // get agreement as per agreement type id
     public function getScAgreement($typeId,$applicationId,$status){
-
-        // $agreement = SocietyConveyanceDocumentStatus::with('scAgreementName')->where('agreement_type_id',$typeId)->where('application_id',$applicationId)->first();       
+      
         $agreement = SocietyConveyanceDocumentStatus::where('document_id',$typeId)->where('status_id',$status)->where('application_id',$applicationId)->first();
         return $agreement;
     } 
@@ -340,7 +398,6 @@ class conveyanceCommonController extends Controller
                             'user_id'             => Auth::Id());   
 
         $data = SocietyConveyanceDocumentStatus::insert($ArrData); 
-        dd($data);
         return $data;          
     }
 
@@ -366,10 +423,11 @@ class conveyanceCommonController extends Controller
     }
 
     public function SaveAgreementComments(Request $request){
-        
+
         $applicationId = $request->application_id;
         $remark        = $request->remark;
-        $result        = $this->ScAgreementComment($applicationId,$remark);
+        $masterId      = scApplication::where('id',$applicationId)->value('sc_application_master_id');  
+        $result        = $this->ScAgreementComment($applicationId,$remark,$masterId);
         return back()->with('success','data save Successfully.');
     } 
 
@@ -406,19 +464,54 @@ class conveyanceCommonController extends Controller
         }         
     }
 
+    //common forward page 
     public function commonForward(Request $request,$applicationId){
 
-      $data     = $this->getForwardApplicationData($applicationId);
-      $data->folder = $this->getCurrentRoleFolderName();
-      $dycoLogs = $this->getLogsOfDYCODepartment($applicationId,$data->sc_application_master_id);
-      $eelogs   = $this->getLogsOfEEDepartment($applicationId,$data->sc_application_master_id);
+      $data          = $this->getForwardApplicationData($applicationId);
+      $data->folder  = $this->getCurrentRoleFolderName();
+      $dycoLogs      = $this->getLogsOfDYCODepartment($applicationId,$data->sc_application_master_id);
+      $eelogs        = $this->getLogsOfEEDepartment($applicationId,$data->sc_application_master_id);
+      $Architectlogs = $this->getLogsOfArchitectDepartment($applicationId,$data->sc_application_master_id);
+      $cologs        = $this->getLogsOfCODepartment($applicationId,$data->sc_application_master_id);
+      
+      $this->getAllSaleLeaseAgreement($data,$applicationId,$data->sc_application_master_id);
 
-      return view('admin.conveyance.common.forward_application',compact('data','dycoLogs','eelogs'));         
+      if (session()->get('role_name') == config('commanConfig.co_engineer') || session()->get('role_name') == config('commanConfig.joint_co')){
+        $route = 'admin.conveyance.co_department.forward_application';
+
+      } elseif (session()->get('role_name') == config('commanConfig.dyco_engineer') || session()->get('role_name') == config('commanConfig.dycdo_engineer')){
+
+             $route = 'admin.conveyance.dyco_department.forward_application';
+        }     
+        else{
+        $route = 'admin.conveyance.common.forward_application';
+      }
+
+      return view($route,compact('data','dycoLogs','eelogs','Architectlogs','cologs'));         
     }
 
     public function saveForwardApplication(Request $request){
         
         $forwardData = $this->forwardApplication($request); 
         return redirect('/conveyance')->with('success','Application send successfully..');
-    }   
+    } 
+
+    public function getAllSaleLeaseAgreement($data,$applicationId,$masterId){
+
+        $SaleAgreement  = config('commanConfig.scAgreements.sale_deed_agreement');
+        $LeaseAgreement = config('commanConfig.scAgreements.lease_deed_agreement');
+
+        $SaleId  = $this->getScAgreementId($SaleAgreement,$masterId);
+        $LeaseId = $this->getScAgreementId($LeaseAgreement,$masterId);
+
+        $DraftStatus = ApplicationStatusMaster::where('status_name','=','Draft')->value('id');
+        $ApprovedStatus = ApplicationStatusMaster::where('status_name','=','Approved')->value('id');
+
+        $data->DraftSaleAgreement    = $this->getScAgreement($SaleId,$applicationId,$DraftStatus);
+        $data->DraftLeaseAgreement   = $this->getScAgreement($LeaseId,$applicationId,$DraftStatus);
+        $data->ApprovedSaleAgreement = $this->getScAgreement($SaleId,$applicationId,$ApprovedStatus);
+        $data->ApprovedLeaseAgreement = $this->getScAgreement($LeaseId,$applicationId,$ApprovedStatus);
+        
+        return $data;
+    }     
 }

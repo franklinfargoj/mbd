@@ -1,5 +1,13 @@
 /* theme classes over ride starts here */
 
+a[title="JavaScript charts"] {
+    display: none !important;
+}
+
+.amcharts-chart-div svg path {
+    fill-opacity: 1;
+}
+
 .m-checkbox.m-checkbox--primary>input:checked~span,
 .m-checkbox.m-checkbox--primary>span:after {
     border-color: #f0791b;
@@ -2755,8 +2763,41 @@ label.site-visit-label {
     margin-bottom: 0;
 }
 
+.app-no--view {
+    color: #668afd;
+}
+
+/* EE Billing ends here */
+
+/* Hearing starts here */
+
+.hearing-accordion-wrapper {
+    box-shadow: 0 0 20px rgba(0,0,0,0.1)
+}
+
+.hearing-accordion-wrapper + .hearing-accordion-wrapper {
+    margin-top: 30px;
+}
+
+.hearing-row {
+    margin-left: -1px;
+    margin-right: -1px;
+}
+
+.hearing-row .col {
+    padding-left: 1px;
+    padding-right: 1px;
+}
+
 .hearing-row .app-card {
-    height: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.hearing-row .app-card > * {
+    width: 100%;
 }
 
 .hearing-row .app-no {
@@ -2768,11 +2809,17 @@ label.site-visit-label {
     padding-right: 15px;
 }
 
-.app-no--view {
-    color: #668afd;
+.hearing-row {
+    margin-top: 1px;
 }
 
-/* EE Billing ends here */
+.app-card__details {
+    margin-top: 5px;
+    color: #f98263;
+    font-size: 0.9rem;
+}
+
+/* Hearing ends here */
 
 .star {
     color: #f4516c;

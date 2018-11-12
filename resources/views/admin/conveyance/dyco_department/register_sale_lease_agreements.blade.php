@@ -1,6 +1,6 @@
 @extends('admin.layouts.sidebarAction')
 @section('actions')
-@include('admin.conveyance.dyco_department.action',compact('data'))
+@include('admin.conveyance.dyco_department.action')
 @endsection
 @section('content')
 
