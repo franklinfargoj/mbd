@@ -14,8 +14,8 @@
 <div class="alert alert-success display_msg">
     {{ session()->get('success') }}
 </div>
-@endif
-
+@endif 
+ 
 <!-- offer letter options for custom and offer letter with formula -->
 <div class="custom-wrapper" id="offer_letter_options">
     <div class="m-portlet m-portlet--mobile m_panel">
@@ -24,14 +24,14 @@
                 <div class="m-subheader">
                     <div class="d-flex align-items-center">
                         <h3 class="section-title section-title--small">
-                                Select Offer Letter
+                                Select Calculation Sheet
                         </h3>
                     </div>
                     <div class="d-flex align-items-center">
-                    <div class="col-md-3"> 
-                        <a href="{{ route('ree_applications.custom_calculation_sheet', $ol_application->id) }}" class="btn btn-primary btn-next">Custom Offer Letter</a>
+                    <div class="col-md-4"> 
+                        <a href="{{ route('ree_applications.custom_calculation_sheet', $ol_application->id) }}" class="btn btn-primary btn-next">Custom Calculation Sheet</a>
                     </div>
-                        <a href="{{ route('ree_applications.custom_calculation_sheet', $ol_application->id) }}" class="btn btn-primary btn-next" id="with_formula" >Offer Letter with Formula's</a>
+                        <a href="{{ route('ol_calculation_sheet.show', $ol_application->id) }}" class="btn btn-primary btn-next" id="with_formula" >Calculation Sheet with Formula's</a>
                     </div>    
                 </div>
             </div>
