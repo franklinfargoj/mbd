@@ -35,8 +35,8 @@
                                     @if(count($ArchitectLayoutDetail->cts_plan_details)>0)
                                     @php $j=0; @endphp
                                     @foreach($ArchitectLayoutDetail->cts_plan_details as $cts_plan_detail)
-                                    <div class="block position-relative">
-                                        <input type="hidden" name="cts_plan_detail_id[{{$j}}]" value="{{$cts_plan_detail->id}}">
+                                    <input type="hidden" name="cts_plan_detail_id[{{$j}}]" value="{{$cts_plan_detail->id}}">
+                                    <div class="block position-relative form-group">
                                         <input required placeholder="CTS no" type="text" name="cts_no[{{$j}}]" class="form-control form-control--custom"
                                             value="{{ $cts_plan_detail->cts_no }}" >
                                         @if($j!=0)
