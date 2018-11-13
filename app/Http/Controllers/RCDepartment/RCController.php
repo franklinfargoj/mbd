@@ -42,6 +42,7 @@ use App\ArrearCalculation;
 use PDF;
 use App\TransBillGenerate;
 use App\TransPayment;
+use App\DdDetails;
 
 class RCController extends Controller
 {
@@ -97,14 +98,13 @@ class RCController extends Controller
                 ->editColumn('Status', function ($listArray) use ($request) {
                     $status = $listArray->olApplicationStatusForLoginListing[0]->status_id;
                     // dd(config('commanConfig.applicationStatusColor.'.$status));
-                    if($request->update_status)
-                    {
+                    if($request->update_status){
                         if($request->update_status == $status){
                             $config_array = array_flip(config('commanConfig.applicationStatus'));
                             $value = ucwords(str_replace('_', ' ', $config_array[$status]));
                             return '<span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$status) .' m-badge--wide">'.$value.'</span>';
                         }
-                    }else{
+                    } else {
                         $config_array = array_flip(config('commanConfig.applicationStatus'));
                         $value = ucwords(str_replace('_', ' ', $config_array[$status]));
                         return '<span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$status) .' m-badge--wide">'.$value.'</span>';
@@ -200,8 +200,8 @@ class RCController extends Controller
 
     public function generate_receipt_society(Request $request){
 
-        //dd($request->building_id);
-       // dd($request->society_id);
+       //dd($request->building_id);
+       //dd($request->society_id);
 
         $bill = TransBillGenerate::where('building_id', '=', $request->building_id)
                                    ->where('bill_month', '=',  date('n'))
@@ -212,7 +212,7 @@ class RCController extends Controller
                                    ->first();
 
          if(empty($bill) || is_null($bill)){
-           return redirect()->back()->with('warning', 'Receipt Generation is not done for user.');
+           return redirect()->back()->with('success', 'Bill Generation is not done for Society. Contact Estate Manager for bill generation.');
         }
                  
         $tenament = DB::table('master_tenant_type')->get();
@@ -247,14 +247,14 @@ class RCController extends Controller
 
     public function payment_receipt_society(Request $request){
 
-        dd($request->all());
+    //dd($request->all());
        
     if($request->bill_no){
             
-            $receipt = TransPayment::where('bill_no', '=', $request->bill_no)->first();
-
+          $receipt = TransPayment::with('dd_details')->with('bill_details')->where('bill_no', '=', $request->bill_no)->where('building_id', '=', $request->building_id)->where('society_id', '=', $request->society_id)->first();
+          //dd($receipt);
             if(!$receipt){
-
+                
                 if($request->payment_mode == 'dd' && $request->dd_no != ''){
                     $dd = DdDetails::where('bill_no', '=', $request->bill_no)
                           ->where('dd_no', '=', $request->dd_no)->first();
@@ -280,36 +280,73 @@ class RCController extends Controller
                     $amount_paid = 0;
                 }
 
-                $bill = new TransPayment;
-                $bill->bill_no = $request->bill_no;
-                $bill->tenant_id = $request->tenant_id;
-                $bill->building_id = $request->building_id;
-                $bill->society_id = $request->society_id;
-                $bill->paid_by = $request->amount_paid_by;
-                $bill->dd_id = $dd;
-                $bill->mode_of_payment = $request->payment_mode;
-                $bill->bill_amount = $request->bill_amount;
-                $bill->amount_paid = $amount_paid;
-                $bill->from_date = $request->from_date;
-                $bill->to_date = $request->to_date;
-                $bill->balance_amount = $request->balance_amount;
-                $bill->credit_amount = $request->credit_amount;
+               
+            $tenants = MasterTenant::where('building_id',$request->building_id)->get();
+            
+            //dd($tenants);
 
-                $bill->save();
+            if($tenants){
+                foreach($tenants as $row => $key){
+                        $data[] =  [
+                                    'bill_no'    => $request->bill_no,
+                                    'tenant_id'  => $key->id,
+                                    'building_id'    => $key->building_id,
+                                    'society_id'     => $request->society_id,
+                                    'paid_by'    => $request->amount_paid_by,
+                                    'dd_id'    => $dd,
+                                    'mode_of_payment' => $request->payment_mode,
+                                    'bill_amount' => $request->bill_amount,
+                                    'amount_paid' => $amount_paid,
+                                    'from_date' => $request->from_date,
+                                    'to_date' => $request->to_date,
+                                    'balance_amount' => $request->balance_amount,
+                                    'credit_amount' => $request->credit_amount,
+                                  ];
+                }
+                    $bill = TransPayment::insert($data);
+                                 
+                } else {
+                    return redirect()->back()->with('success', 'Check bill details once.');    
+                }
+        
+
+                $receipt = TransPayment::with('dd_details')->with('bill_details')->where('bill_no', '=', $request->bill_no)->where('building_id', '=', $request->building_id)->where('society_id', '=', $request->society_id)->first();
+
 
                 $data['building'] = MasterBuilding::find($request->building_id);
                 $data['society'] = SocietyDetail::find($data['building']->society_id);
 
                 $data['tenants'] = MasterTenant::where('building_id',$request->building_id)->get();
 
-                $data['bill'] = $bill;
+                $data['bill'] = $receipt;
                 $data['consumer_number'] = substr(sprintf('%08d', $data['building']->society_id),0,8).'|'.substr(sprintf('%08d', $data['building']->id),0,8);
-
+                $data['number_of_tenants'] = MasterBuilding::with('tenant_count')->where('id',$request->building_id)->first();
+                //dd($data['number_of_tenants']->tenant_count()->first());
+                if(!$data['number_of_tenants']->tenant_count()->first()) {
+                    return redirect()->back()->with('warning', 'Number of Tenants Is zero.');
+                }
                 $pdf = PDF::loadView('admin.rc_department.payment_receipt_society', $data);
-                       return $pdf->download('payment_receipt_society'.date('YmdHis').'.pdf');
+                return $pdf->download('payment_receipt_society'.date('YmdHis').'.pdf');
 
             } else {
-                return redirect()->back()->with('warning', 'Bill Already Paid.');
+              
+
+                $data['building'] = MasterBuilding::find($request->building_id);
+                $data['society'] = SocietyDetail::find($data['building']->society_id);
+
+                $data['tenants'] = MasterTenant::where('building_id',$request->building_id)->get();
+
+                $data['bill'] = $receipt;
+                $data['consumer_number'] = substr(sprintf('%08d', $data['building']->society_id),0,8).'|'.substr(sprintf('%08d', $data['building']->id),0,8);
+                 $data['number_of_tenants'] = MasterBuilding::with('tenant_count')->where('id',$request->building_id)->first();
+                //dd($data);
+                 //dd($data['number_of_tenants']->tenant_count()->first());
+            if(!$data['number_of_tenants']->tenant_count()->first()) {
+                return redirect()->back()->with('warning', 'Number of Tenants Is zero.');
+            }
+
+                $pdf = PDF::loadView('admin.rc_department.payment_receipt_society', $data);
+                return $pdf->download('payment_receipt_society'.date('YmdHis').'.pdf');
             }
           
         } else {
@@ -320,10 +357,10 @@ class RCController extends Controller
 
     public function payment_receipt_tenant(Request $request){
         
-        //dd($request->all());
+       // dd($request->all());
         if($request->bill_no){
             
-            $receipt = TransPayment::where('bill_no', '=', $request->bill_no)->first();
+            $receipt = TransPayment::with('dd_details')->with('bill_details')->where('bill_no', '=', $request->bill_no)->first();
 
             if(!$receipt){
 

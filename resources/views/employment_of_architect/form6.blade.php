@@ -88,21 +88,21 @@
                                         </select>
                                     </td>
                                     <td><input required name="year_of_qualification[{{$j}}]" placeholder="Year of Qualification"
-                                            type="text" class="form-control form-control--custom" value="{{$application->imp_senior_professionals!=''?(isset($application->imp_senior_professionals[$j])?$application->imp_senior_professionals[$j]->year_of_qualification:''):''}}"></td>
+                                            type="number" class="form-control form-control--custom" value="{{$application->imp_senior_professionals!=''?(isset($application->imp_senior_professionals[$j])?$application->imp_senior_professionals[$j]->year_of_qualification:''):''}}"></td>
                                     <td>
                                         <div class="d-flex justify-content-end">
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <input required value="{{$application->imp_senior_professionals!=''?(isset($application->imp_senior_professionals[$j])?$application->imp_senior_professionals[$j]->len_of_service_with_firm_in_year:''):''}}"
                                                         name="len_of_service_with_firm_in_year[{{$j}}]" placeholder="Length (Firm)"
-                                                        type="text" class="form-control form-control--custom select-box-list">
+                                                        type="number" class="form-control form-control--custom select-box-list">
                                                 </div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <input required value="{{$application->imp_senior_professionals!=''?(isset($application->imp_senior_professionals[$j])?$application->imp_senior_professionals[$j]->len_of_service_with_firm_in_month:''):''}}"
                                                         name="len_of_service_with_firm_in_month[{{$j}}]" placeholder="Length (Total)"
-                                                        type="text" class="form-control form-control--custom select-box-list">
+                                                        type="number" class="form-control form-control--custom select-box-list">
                                                 </div>
                                             </div>
                                         </div>
@@ -146,12 +146,22 @@
         clone.find('input[name="imp_senior_professional_id[0]"]')[0].setAttribute('name',
             'imp_senior_professional_id[' + count + ']')
         clone.find('select[name="category[0]"]')[0].setAttribute('name', 'category[' + count + ']')
+
+        clone.find('input[name="name[0]"]')[0].setAttribute('aria-describedby','name['+count+']-error')
         clone.find('input[name="name[0]"]')[0].setAttribute('name', 'name[' + count + ']')
+
+        clone.find('select[name="qualifications[0]"]')[0].setAttribute('aria-describedby','qualifications['+count+']-error')
         clone.find('select[name="qualifications[0]"]')[0].setAttribute('name', 'qualifications[' + count + ']')
+
+        clone.find('input[name="year_of_qualification[0]"]')[0].setAttribute('aria-describedby','year_of_qualification['+count+']-error')
         clone.find('input[name="year_of_qualification[0]"]')[0].setAttribute('name', 'year_of_qualification[' +
             count + ']')
+
+        clone.find('input[name="len_of_service_with_firm_in_year[0]"]')[0].setAttribute('aria-describedby','len_of_service_with_firm_in_year['+count+']-error')
         clone.find('input[name="len_of_service_with_firm_in_year[0]"]')[0].setAttribute('name',
             'len_of_service_with_firm_in_year[' + count + ']')
+
+        clone.find('input[name="len_of_service_with_firm_in_month[0]"]')[0].setAttribute('aria-describedby','len_of_service_with_firm_in_month['+count+']-error')
         clone.find('input[name="len_of_service_with_firm_in_month[0]"]')[0].setAttribute('name',
             'len_of_service_with_firm_in_month[' + count + ']')
         clone.find('.bootstrap-select').replaceWith(function () {
@@ -215,9 +225,18 @@
             "category[]": "required",
             "name[]": "required",
             "qualifications[]": "required",
-            "year_of_qualification[]": "required",
-            "len_of_service_with_firm_in_year[]": "required",
-            "len_of_service_with_firm_in_month[]": "required"
+            "year_of_qualification[]": {
+                required:true,
+                number:true
+            },
+            "len_of_service_with_firm_in_year[]": {
+                required:true,
+                number:true
+            },
+            "len_of_service_with_firm_in_month[]": {
+                required:true,
+                number:true
+            }
         }
     });
 

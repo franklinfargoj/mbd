@@ -599,7 +599,9 @@ function showUploadedFileName() {
     //cts plan detail
         $(document).ready(function() {  
             $('.add').click(function() {
-                $('.block:last').after('<div class="block position-relative"><input placeholder="CTS no" type="text" name="cts_no[]" class="form-control form-control--custom" required><a href="#" class="fa fa-close btn--add-delete remove"></a></div>');
+                var count=$(".optionBox > div").length;
+                    //count++;
+                $('.block:last').after('<div class="block position-relative"><input placeholder="CTS no" type="text" name="cts_no['+count+']" class="form-control form-control--custom" required><a href="#" class="fa fa-close btn--add-delete remove"></a></div>');
             });
             $('.optionBox').on('click','.remove',function() {
                 $(this).parent().remove();
@@ -695,6 +697,67 @@ function showUploadedFileName() {
                 })
             }
         }
+
+
+        $('#dpcrz_remark_form').validate({
+        rules:{
+            "dp_remark_letter[]":{
+                required:true,
+                extension: "pdf|doc|docx",
+            },
+            "dp_remark_plan[]":{
+                required:true,
+                extension: "pdf|doc|docx",
+            },
+            "dp_comment":"required",
+            "crz_remark_letter[]":{
+                required:true,
+                extension: "pdf|doc|docx",
+            },
+            "crz_remark_plan[]":{
+                required:true,
+                extension: "pdf|doc|docx",
+            },
+            "crz_comment":"required"
+        }
+    });
+
+    $.validator.prototype.checkForm = function () {
+        //overriden in a specific page
+        this.prepareForm();
+        for (var i = 0, elements = (this.currentElements = this.elements()); elements[i]; i++) {
+            if (this.findByName(elements[i].name).length !== undefined && this.findByName(elements[i].name).length >
+                1) {
+                for (var cnt = 0; cnt < this.findByName(elements[i].name).length; cnt++) {
+                    this.check(this.findByName(elements[i].name)[cnt]);
+                }
+            } else {
+                this.check(elements[i]);
+            }
+        }
+        return this.valid();
+    };
+    $('#add_cts_plan').validate({
+        rules: {
+            "cts_no[]": "required",
+            "cts_plan_file[]": {
+                required:true,
+                extension: "pdf|doc|docx",
+            },
+        }
+    });
+
+    $('#add_prc_details').validate({
+        rules: {
+            "cts_no[]": "required",
+            "pr_cards[]": {
+                required:true,
+                extension: "pdf|doc|docx",
+            },
+        }
+    });
+
+    
     
     </script>
 @endsection

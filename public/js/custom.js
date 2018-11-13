@@ -572,17 +572,41 @@ $(document).ready(function () {
             name_of_applicant:"required",
             address:"required",
             city:"required",
-            pin:"required",
-            off:"required",
-            res:"required",
-            mobile:"required",
-            fax:"required",
-            cash:"required",
-            pay_order_no:"required",
+            pin:{
+                required:true,
+                number:true
+            },
+            off:{
+                required:true,
+                number:true
+            },
+            res:{
+                required:true,
+                number:true
+            },
+            mobile:{
+                required:true,
+                number:true
+            },
+            fax:{
+                required:true,
+                number:true
+            },
+            cash:{
+                required:true,
+                number:true
+            },
+            pay_order_no:{
+                required:true,
+                number:true
+            },
             bank:"required",
             branch:"required",
             date_of_payment:"required",
-            receipt_no:"required",
+            receipt_no:{
+                required:true,
+                number:true
+            },
             receipt_date:"required"
         }
     });
@@ -593,17 +617,41 @@ $(document).ready(function () {
             name_of_applicant:"required",
             address:"required",
             city:"required",
-            pin:"required",
-            off:"required",
-            res:"required",
-            mobile:"required",
-            fax:"required",
-            cash:"required",
-            pay_order_no:"required",
+            pin:{
+                required:true,
+                number:true
+            },
+            off:{
+                required:true,
+                number:true
+            },
+            res:{
+                required:true,
+                number:true
+            },
+            mobile:{
+                required:true,
+                number:true
+            },
+            fax:{
+                required:true,
+                number:true
+            },
+            cash:{
+                required:true,
+                number:true
+            },
+            pay_order_no:{
+                required:true,
+                number:true
+            },
             bank:"required",
             branch:"required",
             date_of_payment:"required",
-            receipt_no:"required",
+            receipt_no:{
+                required:true,
+                number:true
+            },
             receipt_date:"required",
             application_info_and_its_enclosures_verify:"required"
         }
@@ -615,26 +663,68 @@ $(document).ready(function () {
             name_of_applicant:"required",
             address:"required",
             city:"required",
-            pin:"required",
-            off:"required",
-            res:"required",
-            mobile:"required",
-            fax:"required",
-            cash:"required",
-            pay_order_no:"required",
+            pin:{
+                required:true,
+                number:true
+            },
+            off:{
+                required:true,
+                number:true
+            },
+            res:{
+                required:true,
+                number:true
+            },
+            mobile:{
+                required:true,
+                number:true
+            },
+            fax:{
+                required:true,
+                number:true
+            },
+            cash:{
+                required:true,
+                number:true
+            },
+            pay_order_no:{
+                required:true,
+                number:true
+            },
             bank:"required",
             branch:"required",
             date_of_payment:"required",
-            receipt_no:"required",
+            receipt_no:{
+                required:true,
+                number:true
+            },
             receipt_date:"required",
             details_of_establishment:"required",
             branch_office_details:"required",
-            staff_architects:"required",
-            staff_engineers:"required",
-            staff_supporting_tech:"required",
-            staff_supporting_nontech:"required",
-            staff_others:"required",
-            staff_total:"required",
+            staff_architects:{
+                required:true,
+                number:true
+            },
+            staff_engineers:{
+                required:true,
+                number:true
+            },
+            staff_supporting_tech:{
+                required:true,
+                number:true
+            },
+            staff_supporting_nontech:{
+                required:true,
+                number:true
+            },
+            staff_others:{
+                required:true,
+                number:true
+            },
+            staff_total:{
+                required:true,
+                number:true
+            },
             is_cad_facility:"required",
             cad_facility_no_of_computers:{
                 required: function(element) {
@@ -651,23 +741,29 @@ $(document).ready(function () {
                     return $('#is_cad_facility_yes').is(':checked')
                   }
             },
-            reg_with_council_of_architecture_principle:"required",
-            reg_with_council_of_architecture_associate:"required",
-            reg_with_council_of_architecture_partner:"required",
-            reg_with_council_of_architecture_total_registered_persons:"required",
+            reg_with_council_of_architecture_principle:{
+                required:true,
+                number:true
+            },
+            reg_with_council_of_architecture_associate:{
+                required:true,
+                number:true
+            },
+            reg_with_council_of_architecture_partner:{
+                required:true,
+                number:true
+            },
+            reg_with_council_of_architecture_total_registered_persons:{
+                required:true,
+                number:true
+            },
             award_prizes_etc:"required",
             other_information:"required"
 
         }
     });
 
-    // $('#appointing_architect_step4').validate({
-    //     rules:{
-    //         "name_of_client[]":"required",
-    //         "location[]":"required",
-    //         "category_of_client[]":"required"
-    //     }
-    // });
+    
 
     $("#appointing_architect_signup").validate({
         rules:{
