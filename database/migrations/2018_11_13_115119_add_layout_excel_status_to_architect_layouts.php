@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AlterTransPayment extends Migration
+class AddLayoutExcelStatusToArchitectLayouts extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,9 @@ class AlterTransPayment extends Migration
      */
     public function up()
     {
-        //
+        Schema::table('architect_layouts', function (Blueprint $table) {
+            $table->tinyInteger('layout_excel_status')->default(0);
+        });
     }
 
     /**
@@ -23,6 +25,8 @@ class AlterTransPayment extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('architect_layouts', function (Blueprint $table) {
+            $table->dropColumn('layout_excel_status');
+        });
     }
 }

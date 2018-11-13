@@ -66,10 +66,10 @@ $route=\Request::route()->getName();
             </a>
         </li>
         @endif
-        @php $status=getLastStatusIdArchitectLayout($ArchitectLayout->id); @endphp
+        {{-- @php $status=getLastStatusIdArchitectLayout($ArchitectLayout->id); @endphp
         @if($status!="")
         @if($status->status_id!=config('commanConfig.architect_layout_status.forward') &&
-        ($status->status_id!=config('commanConfig.architect_layout_status.approved')))
+        ($status->status_id!=config('commanConfig.architect_layout_status.approved'))) --}}
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{($route=='forward_architect_layout')?'m-menu__item--active':''}}">
             <a class="m-menu__link" title="Society & EE Documents" href="{{route('forward_architect_layout',encrypt($ArchitectLayout->id))}}">
                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
@@ -79,8 +79,8 @@ $route=\Request::route()->getName();
                 <span class="m-menu__link-text">Forward Application</span>
             </a>
         </li>
-        @endif
-        @endif
+        {{-- @endif
+        @endif --}}
         @if(in_array('architect_layout_get_scrtiny',session()->get('permission')))
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3  {{($route=='architect_layout_get_scrtiny')?'m-menu__item--active':''}}">
             <a class="m-menu__link m-menu__toggle" title="Scrutiny & Remarks" href="{{route('architect_layout_get_scrtiny',encrypt($ArchitectLayout->id))}}">
