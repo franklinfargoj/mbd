@@ -82,7 +82,7 @@ class conveyanceCommonController extends Controller
                     }
 
                 })
-                ->rawColumns(['radio','society_name', 'Status', 'building_name', 'society_address','date','eeApplicationSociety.address'])
+                ->rawColumns(['radio','society_name', 'Status', 'building_name', 'societyApplication.address','date','eeApplicationSociety.address'])
                 ->make(true);
         }  
 
@@ -114,7 +114,7 @@ class conveyanceCommonController extends Controller
             $q->where('user_id', Auth::user()->id)
                 ->where('role_id', session()->get('role_id'))
                 ->orderBy('id', 'desc');
-        }); 
+        });
 
         $applicationData = $applicationData->orderBy('sc_application.id', 'desc')->get();
         $listArray = [];
@@ -133,9 +133,9 @@ class conveyanceCommonController extends Controller
     }
 
     public function ViewApplication(Request $request,$applicationId){
-         
-        $data = scApplication::where('id',$applicationId)->first(); 
+        $data = scApplication::where('id',$applicationId)->first();
         $data->folder = $this->getCurrentRoleFolderName();
+//        dd($data->stamp_conveyance_application);
         return view('admin.conveyance.common.view_application',compact('data'));
     }             
 
@@ -297,7 +297,18 @@ class conveyanceCommonController extends Controller
         $data = scApplication::with('ConveyanceSalePriceCalculation')->where('id',$applicationId)->first();
         $data->folder = $this->getCurrentRoleFolderName();
         return view('admin.conveyance.common.view_ee_sale_price_calculation', compact('data'));
-    }  
+    }
+
+
+    //view documents in readonly format
+    public function ViewDocuments($applicationId){
+        $data = scApplication::where('id',$applicationId)->first();
+        $data->folder = $this->getCurrentRoleFolderName();
+        $documents = SocietyConveyanceDocumentMaster::with(['sc_document_status' => function($q) use($data) { $q->where('application_id', $data->id)->get(); }])->where('application_type_id', $data->sc_application_master_id)->where('society_flag', '1')->get();
+        $documents_uploaded = SocietyConveyanceDocumentStatus::where('application_id', $data->id)->get();
+        return view('admin.conveyance.common.view_documents', compact('data', 'documents', 'documents_uploaded'));
+    }
+
 
     //get folder name to display action blade as per role id
     public function getCurrentRoleFolderName(){
