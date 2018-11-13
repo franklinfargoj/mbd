@@ -9,9 +9,10 @@
             </tr>
         </thead>
         <tbody id="myTable">
+              <?php $row_no = 1; ?>
         @foreach($buildings as $key => $value )
             <tr>
-                <td>{{$value->id}}</td>
+                <td>{{$row_no++}}</td>
                 <td>{{$value->building_no}}</td>
                 <td>{{$value->name}}</td>
                 <td><?php echo isset($value->tenant_count[0]->count) ? $value->tenant_count[0]->count : '0'; ?></td>
@@ -31,7 +32,7 @@
                     </div>
                     {!! Form::close() !!}
                     
-                    {!! Form::open(['method' => 'get', 'route' => 'arrears_calculations']) !!}
+                    {!! Form::open(['method' => 'get', 'route' => 'view_bill_building']) !!}
                     {{ Form::hidden('building_id', $value->id) }}
                     {{ Form::hidden('society_id', $value->society_id) }}                   
                     {{ Form::button('<span class="btn-icon btn-icon--edit"><img src="img/view-icon.svg"></span>View Bill', array('class'=>'d-flex flex-column align-items-center','type'=>'submit')) }}

@@ -15,7 +15,7 @@ $route=\Request::route()->getName();
         </span>
     </a>
 </li>
-<li id="ee-actions" class="collapse show">
+<!-- <li id="ee-actions" class="collapse show">
     <ul class="list-unstyled">
        <li class="m-menu__item m-menu__item--submenu {{($route=='rc.index')?'m-menu__item--active':''}}">
            <a class="m-menu__link m-menu__toggle" title="view_Application" href="{{route('rc.index')}}">
@@ -27,4 +27,4 @@ $route=\Request::route()->getName();
            </a>
        </li>
     </ul>
-</li>
+</li> -->
