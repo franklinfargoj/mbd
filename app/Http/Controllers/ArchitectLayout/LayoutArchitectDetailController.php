@@ -371,9 +371,12 @@ class LayoutArchitectDetailController extends Controller
     {
         $ArchitectLayoutDetailCtsPlanDetail = ArchitectLayoutDetailCtsPlanDetail::where('id', $request->cts_detail_id)->first();
         if ($ArchitectLayoutDetailCtsPlanDetail) {
-            return $ArchitectLayoutDetailCtsPlanDetail->delete();
+            if($ArchitectLayoutDetailCtsPlanDetail->delete())
+            {
+                return response()->json(['status'=>'success','message'=>'deleted successfully!!']);
+            }
         }
-        return false;
+        return response()->json(['status'=>'fail','message'=>'something went wrong']);
     }
 
     public function view_prc_detail($layout_detail_id)
@@ -443,8 +446,13 @@ class LayoutArchitectDetailController extends Controller
             if (Storage::disk('ftp')->has($file)) {
                 Storage::disk('ftp')->delete($file);
             }
-            return $ArchitectLayoutDetailPrCardDetai->delete();
+            if($ArchitectLayoutDetailPrCardDetai->delete())
+            {
+                return response()->json(['status'=>'success','message'=>'deleted successfully!!']);
+            }else
+            return response()->json(['status'=>'fail','message'=>'something went wrong']);
         }
+        return response()->json(['status'=>'fail','message'=>'something went wrong']);
     }
 
     public function view_dp_crz_remark($layout_detail_id)

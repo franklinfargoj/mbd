@@ -41,7 +41,7 @@ class SocietyConveyanceDocumentMaster extends Model
 
     public function sc_document_status()
     {
-        return $this->hasOne('App\conveyance\SocietyConveyanceDocumentStatus', 'conveyance_document_id','id');
+        return $this->hasOne('App\conveyance\SocietyConveyanceDocumentStatus', 'document_id','id');
     }
 
 }

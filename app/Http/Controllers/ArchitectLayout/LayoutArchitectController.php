@@ -160,7 +160,7 @@ class LayoutArchitectController extends Controller
             'serverSide' => true,
             'processing' => true,
             'ordering' => 'isSorted',
-            "order"=> [2, "asc" ],
+            "order" => [2, "asc"],
             "pageLength" => $this->list_num_of_records_per_page,
         ];
     }
@@ -220,11 +220,11 @@ class LayoutArchitectController extends Controller
         $arrData['role_name'] = $parentData['role_name'];
         if (session()->get('role_name') == config('commanConfig.architect')) {
             if (!$ArchitectLayout->land_scrutiny_checklist_and_remarks) {
-            if (session()->get('role_name') != config('commanConfig.LM')) {
-                $lm_role_id = Role::where('name', '=', config('commanConfig.land_manager'))->first();
-                $arrData['get_forward_lm'] = User::where('role_id', $lm_role_id->id)->get();
-                $arrData['lm_role_name'] = strtoupper(str_replace('_', ' ', $lm_role_id->name));
-            }
+                if (session()->get('role_name') != config('commanConfig.LM')) {
+                    $lm_role_id = Role::where('name', '=', config('commanConfig.land_manager'))->first();
+                    $arrData['get_forward_lm'] = User::where('role_id', $lm_role_id->id)->get();
+                    $arrData['lm_role_name'] = strtoupper(str_replace('_', ' ', $lm_role_id->name));
+                }
             }
 
             if (session()->get('role_name') != config('commanConfig.ree_junior')) {
@@ -233,19 +233,19 @@ class LayoutArchitectController extends Controller
                 $arrData['ree_role_name'] = strtoupper(str_replace('_', ' ', $ree_role_id->name));
             }
             if (!$ArchitectLayout->ee_scrutiny_checklist_and_remarks) {
-            if (session()->get('role_name') != config('commanConfig.ee_junior_engineer')) {
-                $ee_role_id = Role::where('name', '=', config('commanConfig.ee_junior_engineer'))->first();
-                $arrData['get_forward_ee'] = User::where('role_id', $ee_role_id->id)->get();
-                $arrData['ee_role_name'] = strtoupper(str_replace('_', ' ', $ee_role_id->name));
+                if (session()->get('role_name') != config('commanConfig.ee_junior_engineer')) {
+                    $ee_role_id = Role::where('name', '=', config('commanConfig.ee_junior_engineer'))->first();
+                    $arrData['get_forward_ee'] = User::where('role_id', $ee_role_id->id)->get();
+                    $arrData['ee_role_name'] = strtoupper(str_replace('_', ' ', $ee_role_id->name));
+                }
             }
-             }
             if (!$ArchitectLayout->em_scrutiny_checklist_and_remarks) {
-            if (session()->get('role_name') != config('commanConfig.estate_manager')) {
-                $em_role_id = Role::where('name', '=', config('commanConfig.estate_manager'))->first();
-                $arrData['get_forward_em'] = User::where('role_id', $em_role_id->id)->get();
-                $arrData['em_role_name'] = strtoupper(str_replace('_', ' ', $em_role_id->name));
+                if (session()->get('role_name') != config('commanConfig.estate_manager')) {
+                    $em_role_id = Role::where('name', '=', config('commanConfig.estate_manager'))->first();
+                    $arrData['get_forward_em'] = User::where('role_id', $em_role_id->id)->get();
+                    $arrData['em_role_name'] = strtoupper(str_replace('_', ' ', $em_role_id->name));
+                }
             }
-              }
 
             $architectlogs = $this->architect_layouts->getLogOfArchitectLayoutApplication($layout_id);
         }
@@ -259,13 +259,13 @@ class LayoutArchitectController extends Controller
                     $arrData['get_forward_co'] = User::where('role_id', $co_role_id->id)->get();
                     $arrData['co_role_name'] = strtoupper(str_replace('_', ' ', $co_role_id->name));
                 }
-               if ($ArchitectLayout->upload_layout_in_pdf_format == "" && $ArchitectLayout->upload_layout_in_excel_format == "" && $ArchitectLayout->upload_architect_note == "") {
+                if ($ArchitectLayout->upload_layout_in_pdf_format == "" && $ArchitectLayout->upload_layout_in_excel_format == "" && $ArchitectLayout->upload_architect_note == "") {
                     if (session()->get('role_name') != config('commanConfig.junior_architect')) {
                         $lm_role_id = Role::where('name', '=', config('commanConfig.junior_architect'))->first();
                         $arrData['get_forward_lm'] = User::where('role_id', $lm_role_id->id)->get();
                         $arrData['lm_role_name'] = strtoupper(str_replace('_', ' ', $lm_role_id->name));
                     }
-               }
+                }
 
             } else {
                 if (session()->get('role_name') != config('commanConfig.junior_architect')) {

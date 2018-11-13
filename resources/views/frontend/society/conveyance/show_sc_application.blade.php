@@ -1,11 +1,14 @@
-@extends('admin.layouts.app')
+@extends('frontend.layouts.sidebarAction')
+@section('actions')
+    @include('frontend.society.conveyance.actions',compact('sc_applications'))
+@endsection
 @section('content')
     <div class="col-md-12">
         <div class="m-subheader px-0 m-subheader--top">
             <div class="d-flex align-items-center">
                 <h3 class="m-subheader__title m-subheader__title--separator">Application</h3>
                 <div class="ml-auto btn-list">
-                    <a href="" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+                    <a href="{{ route('society_conveyance.index') }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
                     <a href="#" target="_blank" id="download_application_form" class="btn print-icon" rel="noopener"
                        onclick="printContent('printdiv')"><img src="{{asset('/img/print-icon.svg')}}" title="print"></a>
                 </div>
