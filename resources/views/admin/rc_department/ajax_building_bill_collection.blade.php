@@ -20,20 +20,21 @@
                     {!! Form::open(['method' => 'get', 'route' => 'billing_calculations']) !!}
                     {{ Form::hidden('building_id', $value->id) }}
                     {{ Form::hidden('society_id', $value->society_id) }}
-                    {!! Form::submit(trans('View Billing Details'), array('class' => 'btn btn-info mb-10')) !!}
+                    {{ Form::button('<span class="btn-icon btn-icon--edit"><img src="img/view-icon.svg"></span> View Billing Details', array('class'=>'d-flex flex-column align-items-center','type'=>'submit')) }}
                     {!! Form::close() !!}
-
 
                     {!! Form::open(['method' => 'get', 'route' => 'generate_receipt_society']) !!}
                     {{ Form::hidden('building_id', $value->id) }}
-                    {{ Form::hidden('society_id', $value->society_id) }}
-                    {!! Form::submit(trans('Generate Reciept'), array('class' => 'btn btn-info mb-10')) !!}
+                    {{ Form::hidden('society_id', $value->society_id) }}     
+                    <div class="d-flex btn-icon-list">
+                    {{ Form::button('<span class="btn-icon btn-icon--edit"><img src="img/view-icon.svg"></span>Generate Reciept', array('class'=>'d-flex flex-column align-items-center','type'=>'submit')) }}
+                    </div>
                     {!! Form::close() !!}
                     
                     {!! Form::open(['method' => 'get', 'route' => 'arrears_calculations']) !!}
                     {{ Form::hidden('building_id', $value->id) }}
-                    {{ Form::hidden('society_id', $value->society_id) }}
-                    {!! Form::submit(trans('View Bill'), array('class' => 'btn btn-info mb-10')) !!}
+                    {{ Form::hidden('society_id', $value->society_id) }}                   
+                    {{ Form::button('<span class="btn-icon btn-icon--edit"><img src="img/view-icon.svg"></span>View Bill', array('class'=>'d-flex flex-column align-items-center','type'=>'submit')) }}
                     {!! Form::close() !!}
 
                 </td>

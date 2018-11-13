@@ -13,7 +13,9 @@ class AlterTransPayment extends Migration
      */
     public function up()
     {
-        //
+         Schema::table('dd_details', function (Blueprint $table) {
+            $table->string('except_id')->nullable()->after('status');
+        });
     }
 
     /**

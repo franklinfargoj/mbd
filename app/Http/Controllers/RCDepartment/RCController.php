@@ -184,7 +184,7 @@ class RCController extends Controller
 
             $society_id = $request->input('id');
             $buildings = MasterBuilding::with('tenant_count')->where('society_id', '=', $request->input('id'))
-                        ->get();
+                        ->get(); 
             //return $buildings;
             return view('admin.rc_department.ajax_building_bill_collection', compact('buildings', 'society_id'));
     }
@@ -279,7 +279,6 @@ class RCController extends Controller
                 } else {
                     $amount_paid = 0;
                 }
-
                
             $tenants = MasterTenant::where('building_id',$request->building_id)->get();
             
@@ -304,7 +303,11 @@ class RCController extends Controller
                                   ];
                 }
                     $bill = TransPayment::insert($data);
-                                 
+
+                    $bill_status = TransBillGenerate::where($request->building_id);
+                    $bill_status->status = 'paid';
+                    $bill_status->save();   
+
                 } else {
                     return redirect()->back()->with('success', 'Check bill details once.');    
                 }
@@ -325,6 +328,7 @@ class RCController extends Controller
                 if(!$data['number_of_tenants']->tenant_count()->first()) {
                     return redirect()->back()->with('warning', 'Number of Tenants Is zero.');
                 }
+
                 $pdf = PDF::loadView('admin.rc_department.payment_receipt_society', $data);
                 return $pdf->download('payment_receipt_society'.date('YmdHis').'.pdf');
 
@@ -403,8 +407,11 @@ class RCController extends Controller
                 $bill->to_date = $request->to_date;
                 $bill->balance_amount = $request->balance_amount;
                 $bill->credit_amount = $request->credit_amount;
-
                 $bill->save();
+
+                    $bill_status = TransBillGenerate::find($request->bill_no);
+                    $bill_status->status = 'paid';
+                    $bill_status->save(); 
 
                 $data['building'] = MasterBuilding::find($request->building_id);
                 $data['society'] = SocietyDetail::find($data['building']->society_id);

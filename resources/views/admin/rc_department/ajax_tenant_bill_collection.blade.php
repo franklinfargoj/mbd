@@ -34,19 +34,19 @@
                     {!! Form::open(['method' => 'get', 'route' => 'billing_calculations']) !!}
                     {{ Form::hidden('tenant_id', $value->id) }}
                     {{ Form::hidden('building_id', $value->building_id) }}
-                    {!! Form::submit(trans('View Billing Details'), array('class' => 'btn btn-info mb-10')) !!}
+                    {{ Form::button('<span class="btn-icon btn-icon--edit"><img src="img/view-icon.svg"></span> View Billing Details', array('class'=>'d-flex flex-column align-items-center','type'=>'submit')) }}
                     {!! Form::close() !!}
 
                     {!! Form::open(['method' => 'get', 'route' => 'generate_receipt_tenant']) !!}
                     {{ Form::hidden('tenant_id', $value->id) }}
                     {{ Form::hidden('building_id', $value->building_id) }}
-                    {!! Form::submit(trans('Generate Reciept'), array('class' => 'btn btn-info mb-10')) !!}
+                    {{ Form::button('<span class="btn-icon btn-icon--edit"><img src="img/view-icon.svg"></span> Generate Reciept', array('class'=>'d-flex flex-column align-items-center','type'=>'submit')) }}
                     {!! Form::close() !!}  
 
                     {!! Form::open(['method' => 'Post', 'route' => 'arrears_calculations']) !!}
                     {{ Form::hidden('tenant_id', $value->id) }}
                     {{ Form::hidden('building_id', $value->building_id) }}
-                    {!! Form::submit(trans('View Bill'), array('class' => 'btn btn-info mb-10')) !!}
+                    {{ Form::button('<span class="btn-icon btn-icon--edit"><img src="img/view-icon.svg"></span> View Bill', array('class'=>'d-flex flex-column align-items-center','type'=>'submit')) }}
                     {!! Form::close() !!}
 
                 </td>
