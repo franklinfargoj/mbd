@@ -69,16 +69,16 @@
                                         </select>
                                     </td>
                                     <td><input required name="no_of_dwelling[{{$j}}]" placeholder="No. of Dwelling" value="{{$application->imp_project_work_handled!=''?(isset($application->imp_project_work_handled[$j])?$application->imp_project_work_handled[$j]->no_of_dwelling:''):''}}"
-                                            type="text" class="form-control form-control--custom"></td>
+                                            type="number" min="0" class="form-control form-control--custom"></td>
                                     <td><input required name="land_area_in_sq_mt[{{$j}}]" placeholder="Land Area" value="{{$application->imp_project_work_handled!=''?(isset($application->imp_project_work_handled[$j])?$application->imp_project_work_handled[$j]->land_area_in_sq_mt:''):''}}"
-                                            type="text" class="form-control form-control--custom"></td>
+                                            type="number" min="0" class="form-control form-control--custom"></td>
                                     <td><input required name="built_up_area_in_sq_mt[{{$j}}]" placeholder="Built Up Area"
                                             value="{{$application->imp_project_work_handled!=''?(isset($application->imp_project_work_handled[$j])?$application->imp_project_work_handled[$j]->built_up_area_in_sq_mt:''):''}}"
-                                            type="text" class="form-control form-control--custom"></td>
+                                            type="number" min="0" class="form-control form-control--custom"></td>
                                     <td><input required name="value_of_work_in_rs[{{$j}}]" placeholder="Value of Works" value="{{$application->imp_project_work_handled!=''?(isset($application->imp_project_work_handled[$j])?$application->imp_project_work_handled[$j]->value_of_work_in_rs:''):''}}"
-                                            type="text" class="form-control form-control--custom"></td>
+                                            type="number" min="0" class="form-control form-control--custom"></td>
                                     <td><input required name="year_of_completion_start[{{$j}}]" placeholder="Year" value="{{$application->imp_project_work_handled!=''?(isset($application->imp_project_work_handled[$j])?$application->imp_project_work_handled[$j]->year_of_completion_start:''):''}}"
-                                            type="text" class="form-control form-control--custom">
+                                            type="number" min="0" class="form-control form-control--custom">
                                         @if($j>0)
                                         <h2 class='m--font-danger remove-row'><i title='Delete' class='fa fa-remove'></i></h2>
                                         @endif
@@ -118,10 +118,20 @@
         var clone = $('table.imp_projects tr.cloneme:first').clone().find('input').val('').end();
         clone.find('input[name="imp_project_work_handled_id[0]"]')[0].setAttribute('name','imp_project_work_handled_id['+count+']')
         clone.find('select[name="eoa_application_imp_project_detail_id[0]"]')[0].setAttribute('name','eoa_application_imp_project_detail_id['+count+']')
+        
+        clone.find('input[name="no_of_dwelling[0]"]')[0].setAttribute('aria-describedby','no_of_dwelling['+count+']-error')
         clone.find('input[name="no_of_dwelling[0]"]')[0].setAttribute('name','no_of_dwelling['+count+']')
+
+        clone.find('input[name="land_area_in_sq_mt[0]"]')[0].setAttribute('aria-describedby','land_area_in_sq_mt['+count+']-error')
         clone.find('input[name="land_area_in_sq_mt[0]"]')[0].setAttribute('name','land_area_in_sq_mt['+count+']')
+
+        clone.find('input[name="built_up_area_in_sq_mt[0]"]')[0].setAttribute('aria-describedby','built_up_area_in_sq_mt['+count+']-error')
         clone.find('input[name="built_up_area_in_sq_mt[0]"]')[0].setAttribute('name','built_up_area_in_sq_mt['+count+']')
+
+        clone.find('input[name="value_of_work_in_rs[0]"]')[0].setAttribute('aria-describedby','value_of_work_in_rs['+count+']-error')
         clone.find('input[name="value_of_work_in_rs[0]"]')[0].setAttribute('name','value_of_work_in_rs['+count+']')
+
+        clone.find('input[name="year_of_completion_start[0]"]')[0].setAttribute('aria-describedby','year_of_completion_start['+count+']-error')
         clone.find('input[name="year_of_completion_start[0]"]')[0].setAttribute('name','year_of_completion_start['+count+']')
         clone.find('.bootstrap-select').replaceWith(function () {
             return $('select', this);
@@ -183,11 +193,26 @@
     
     $('#appointing_architect_step5').validate({
         rules: {
-            "no_of_dwelling[]": "required",
-            "land_area_in_sq_mt[]": "required",
-            "built_up_area_in_sq_mt[]": "required",
-            "value_of_work_in_rs[]": "required",
-            "year_of_completion_start[]":"required",
+            "no_of_dwelling[]": {
+                required:true,
+                number:true
+            },
+            "land_area_in_sq_mt[]": {
+                required:true,
+                number:true
+            },
+            "built_up_area_in_sq_mt[]": {
+                required:true,
+                number:true
+            },
+            "value_of_work_in_rs[]": {
+                required:true,
+                number:true
+            },
+            "year_of_completion_start[]":{
+                required:true,
+                number:true
+            },
         }
     });
 
