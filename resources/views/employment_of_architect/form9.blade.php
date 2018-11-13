@@ -123,7 +123,11 @@
         clone.find('.custom-file-input')[0].setAttribute('id', 'extract_' + tableRowCount);
         clone.find('.custom-file-input')[0].setAttribute('accept', 'pdf');
         clone.find('.custom-file-input')[0].setAttribute('required', 'required');
+
+        clone.find('input[name="document_path[0]"]')[0].setAttribute('aria-describedby','document_path['+tableRowCount+']-error')
         clone.find('input[name="document_path[0]"]')[0].setAttribute('name', 'document_path[' + tableRowCount + ']')
+
+        clone.find('input[name="document_name[0]"]')[0].setAttribute('aria-describedby','document_name['+tableRowCount+']-error')
         clone.find('input[name="document_name[0]"]')[0].setAttribute('name', 'document_name[' + tableRowCount + ']')
         clone.find('input[name="doc_id[0]"]')[0].setAttribute('name', 'doc_id[' + tableRowCount + ']')
         clone.find('.btn-link')[0].style.display = "none";

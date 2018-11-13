@@ -102,11 +102,17 @@
     $('#add-more').click(function (e) {
         e.preventDefault();
         var count=$('.cloneme').length;
-        //count++;
+        //count++;aria-describedby="name_of_client[5]-error"
         var clone = $('table.imp_projects tr.cloneme:first').clone().find('input').val('').end();
         clone.find('input[name="imp_project_id[0]"]')[0].setAttribute('name','imp_project_id['+count+']')
+
+        clone.find('input[name="name_of_client[0]"]')[0].setAttribute('aria-describedby','name_of_client['+count+']-error')
         clone.find('input[name="name_of_client[0]"]')[0].setAttribute('name','name_of_client['+count+']')
+        
+        clone.find('input[name="location[0]"]')[0].setAttribute('aria-describedby','location['+count+']-error')
         clone.find('input[name="location[0]"]')[0].setAttribute('name','location['+count+']')
+
+        clone.find('input[name="category_of_client[0]"]')[0].setAttribute('aria-describedby','category_of_client['+count+']-error')
         clone.find('input[name="category_of_client[0]"]')[0].setAttribute('name','category_of_client['+count+']')
         clone.find("td:last").append("<h2 class='m--font-danger remove-row'><i title='Delete' class='fa fa-remove'></i></h2>");
         $('table.imp_projects').append(clone);
