@@ -598,12 +598,12 @@ function showUploadedFileName() {
 <script>
     //cts plan detail
         $(document).ready(function() {  
-            $('.add').click(function() {
-                var count=$(".optionBox > div").length;
+            $('.addCTS').click(function() {
+                var count=$(".optionBoxCTS > div").length;
                     //count++;
-                $('.block:last').after('<div class="block position-relative"><input placeholder="CTS no" type="text" name="cts_no['+count+']" class="form-control form-control--custom" required><a href="#" class="fa fa-close btn--add-delete remove"></a></div>');
+                $('.blockCTS:last').after('<div class="blockCTS position-relative form-group"><input placeholder="CTS no" type="text" name="cts_no['+count+']" class="form-control form-control--custom" required><a href="#" class="fa fa-close btn--add-delete remove"></a></div>');
             });
-            $('.optionBox').on('click','.remove',function() {
+            $('.optionBoxCTS').on('click','.remove',function() {
                 $(this).parent().remove();
             }); 
         });

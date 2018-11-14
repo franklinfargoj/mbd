@@ -259,6 +259,32 @@ class REEController extends Controller
 
     }
 
+    public function sendForwardRevalApplication(Request $request){
+
+//        dd($request->all());
+        $arrData['get_current_status'] = $this->CommonController->getCurrentStatus($request->applicationId);
+
+        if($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.offer_letter_generation'))
+        {
+            $this->CommonController->generateOfferLetterREE($request);
+        }
+        // elseif((session()->get('role_name') == config('commanConfig.ree_branch_head')) && $arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.offer_letter_approved'))
+        // {
+        //     $this->CommonController->forwardApplicationToSociety($request);
+        // }
+        elseif($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.offer_letter_approved'))
+        {
+            $this->CommonController->forwardApprovedApplication($request);
+        }
+        else
+        {
+            $this->CommonController->forwardApplicationForm($request);
+        }
+
+        return redirect('/ree_reval_applications')->with('success','Application send successfully.');
+
+    }
+
     public function downloadCapNote(Request $request, $applicationId){
 
         $ol_application = $this->CommonController->getOlApplication($applicationId);
@@ -476,6 +502,22 @@ class REEController extends Controller
     }
 
     public function showCalculationSheet($id)
+    {
+        $applicationId = $id;
+        $user = $this->CommonController->showCalculationSheet($applicationId);
+        $ol_application = $this->CommonController->getOlApplication($applicationId); //echo "<pre>";print_r($ol_application);exit;
+        $ol_application->folder = 'REE_department';
+        $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
+        $calculationSheetDetails = $user->calculationSheetDetails;
+        $dcr_rates = $user->dcr_rates;
+        $blade = $user->blade;
+        $arrData['reeNote'] = $user->areeNote;
+        // dd($blade);
+        return view('admin.common.'.$blade,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application'));
+
+    }
+
+    public function showRevalCalculationSheet($id)
     {
         $applicationId = $id;
         $user = $this->CommonController->showCalculationSheet($applicationId);

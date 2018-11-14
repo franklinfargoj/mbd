@@ -143,12 +143,180 @@
                                 </div>
 
                                 <div class="border-bottom pb-2">
-                                        <span class="hint-text d-block">Remark by EE</span>
+                                    <span class="hint-text d-block">Remark by EE</span>
+                                </div>
+                                <div class="remarks-section">
+                                    <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container"
+                                        data-scrollbar-shown="true" data-scrollable="true" data-max-height="200">
+                                        @foreach($EElogs as $log)
+                                        @if($log->status_id == config('commanConfig.architect_layout_status.forward'))
+                                        @php $status = 'Forwarded'; @endphp
+                                        @elseif($log->status_id ==
+                                        config('commanConfig.architect_layout_status.reverted'))
+                                        @php $status = 'Reverted'; @endphp
+                                        @endif
+
+                                        <div class="remarks-section__data">
+                                            <p class="remarks-section__data__row"><span>Date:</span><span>{{(isset($log)
+                                                    && $log->created_at != '' ? date("d-m-Y",
+                                                    strtotime($log->created_at)) : '')}}</span>
+
+                                            </p>
+                                            <p class="remarks-section__data__row"><span>Time:</span><span>{{(isset($log)
+                                                    && $log->created_at != '' ? date("H:i",
+                                                    strtotime($log->created_at)) : '')}}</span></p>
+                                            <p class="remarks-section__data__row"><span>Action:</span>
+
+                                                <span>{{$status}} to {{isset($log->getRoleName->display_name) ?
+                                                    $log->getRoleName->display_name : ''}}</span></p>
+                                            <p class="remarks-section__data__row"><span>Description:</span><span>{{(isset($log)
+                                                    ? $log->remark : '')}}</span></p>
+                                        </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+
+                                <div class="border-bottom pb-2">
+                                    <span class="hint-text d-block">Remark by Ree</span>
+                                </div>
+                                <div class="remarks-section">
+                                    <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container"
+                                        data-scrollbar-shown="true" data-scrollable="true" data-max-height="200">
+                                        @foreach($Reelogs as $log)
+                                        @if($log->status_id == config('commanConfig.architect_layout_status.forward'))
+                                        @php $status = 'Forwarded'; @endphp
+                                        @elseif($log->status_id ==
+                                        config('commanConfig.architect_layout_status.reverted'))
+                                        @php $status = 'Reverted'; @endphp
+                                        @endif
+
+                                        <div class="remarks-section__data">
+                                            <p class="remarks-section__data__row"><span>Date:</span><span>{{(isset($log)
+                                                    && $log->created_at != '' ? date("d-m-Y",
+                                                    strtotime($log->created_at)) : '')}}</span>
+
+                                            </p>
+                                            <p class="remarks-section__data__row"><span>Time:</span><span>{{(isset($log)
+                                                    && $log->created_at != '' ? date("H:i",
+                                                    strtotime($log->created_at)) : '')}}</span></p>
+                                            <p class="remarks-section__data__row"><span>Action:</span>
+
+                                                <span>{{$status}} to {{isset($log->getRoleName->display_name) ?
+                                                    $log->getRoleName->display_name : ''}}</span></p>
+                                            <p class="remarks-section__data__row"><span>Description:</span><span>{{(isset($log)
+                                                    ? $log->remark : '')}}</span></p>
+                                        </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                                <div class="border-bottom pb-2">
+                                    <span class="hint-text d-block">Remark by CO</span>
+                                </div>
+                                <div class="remarks-section">
+                                    <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container"
+                                        data-scrollbar-shown="true" data-scrollable="true" data-max-height="200">
+                                        @foreach($Cologs as $log)
+                                        @if($log->status_id == config('commanConfig.architect_layout_status.forward'))
+                                        @php $status = 'Forwarded'; @endphp
+                                        @elseif($log->status_id ==
+                                        config('commanConfig.architect_layout_status.reverted'))
+                                        @php $status = 'Reverted'; @endphp
+                                        @endif
+
+                                        <div class="remarks-section__data">
+                                            <p class="remarks-section__data__row"><span>Date:</span><span>{{(isset($log)
+                                                    && $log->created_at != '' ? date("d-m-Y",
+                                                    strtotime($log->created_at)) : '')}}</span>
+
+                                            </p>
+                                            <p class="remarks-section__data__row"><span>Time:</span><span>{{(isset($log)
+                                                    && $log->created_at != '' ? date("H:i",
+                                                    strtotime($log->created_at)) : '')}}</span></p>
+                                            <p class="remarks-section__data__row"><span>Action:</span>
+
+                                                <span>{{$status}} to {{isset($log->getRoleName->display_name) ?
+                                                    $log->getRoleName->display_name : ''}}</span></p>
+                                            <p class="remarks-section__data__row"><span>Description:</span><span>{{(isset($log)
+                                                    ? $log->remark : '')}}</span></p>
+                                        </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+
+                                <div class="border-bottom pb-2">
+                                    <span class="hint-text d-block">Remark by SAP</span>
+                                </div>
+                                <div class="remarks-section">
+                                    <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container"
+                                        data-scrollbar-shown="true" data-scrollable="true" data-max-height="200">
+                                        @foreach($Saplogs as $log)
+                                        @if($log->status_id == config('commanConfig.architect_layout_status.forward'))
+                                        @php $status = 'Forwarded'; @endphp
+                                        @elseif($log->status_id ==
+                                        config('commanConfig.architect_layout_status.reverted'))
+                                        @php $status = 'Reverted'; @endphp
+                                        @endif
+
+                                        <div class="remarks-section__data">
+                                            <p class="remarks-section__data__row"><span>Date:</span><span>{{(isset($log)
+                                                    && $log->created_at != '' ? date("d-m-Y",
+                                                    strtotime($log->created_at)) : '')}}</span>
+
+                                            </p>
+                                            <p class="remarks-section__data__row"><span>Time:</span><span>{{(isset($log)
+                                                    && $log->created_at != '' ? date("H:i",
+                                                    strtotime($log->created_at)) : '')}}</span></p>
+                                            <p class="remarks-section__data__row"><span>Action:</span>
+
+                                                <span>{{$status}} to {{isset($log->getRoleName->display_name) ?
+                                                    $log->getRoleName->display_name : ''}}</span></p>
+                                            <p class="remarks-section__data__row"><span>Description:</span><span>{{(isset($log)
+                                                    ? $log->remark : '')}}</span></p>
+                                        </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+
+                                <div class="border-bottom pb-2">
+                                    <span class="hint-text d-block">Remark by CAP</span>
+                                </div>
+                                <div class="remarks-section">
+                                    <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container"
+                                        data-scrollbar-shown="true" data-scrollable="true" data-max-height="200">
+                                        @foreach($Caplogs as $log)
+                                        @if($log->status_id == config('commanConfig.architect_layout_status.forward'))
+                                        @php $status = 'Forwarded'; @endphp
+                                        @elseif($log->status_id ==
+                                        config('commanConfig.architect_layout_status.reverted'))
+                                        @php $status = 'Reverted'; @endphp
+                                        @endif
+
+                                        <div class="remarks-section__data">
+                                            <p class="remarks-section__data__row"><span>Date:</span><span>{{(isset($log)
+                                                    && $log->created_at != '' ? date("d-m-Y",
+                                                    strtotime($log->created_at)) : '')}}</span>
+
+                                            </p>
+                                            <p class="remarks-section__data__row"><span>Time:</span><span>{{(isset($log)
+                                                    && $log->created_at != '' ? date("H:i",
+                                                    strtotime($log->created_at)) : '')}}</span></p>
+                                            <p class="remarks-section__data__row"><span>Action:</span>
+
+                                                <span>{{$status}} to {{isset($log->getRoleName->display_name) ?
+                                                    $log->getRoleName->display_name : ''}}</span></p>
+                                            <p class="remarks-section__data__row"><span>Description:</span><span>{{(isset($log)
+                                                    ? $log->remark : '')}}</span></p>
+                                        </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                                <div class="border-bottom pb-2">
+                                        <span class="hint-text d-block">Remark by LA</span>
                                     </div>
                                     <div class="remarks-section">
                                         <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container"
                                             data-scrollbar-shown="true" data-scrollable="true" data-max-height="200">
-                                            @foreach($EElogs as $log)
+                                            @foreach($LAlogs as $log)
                                             @if($log->status_id == config('commanConfig.architect_layout_status.forward'))
                                             @php $status = 'Forwarded'; @endphp
                                             @elseif($log->status_id ==
@@ -177,12 +345,12 @@
                                     </div>
 
                                     <div class="border-bottom pb-2">
-                                            <span class="hint-text d-block">Remark by Ree</span>
+                                            <span class="hint-text d-block">Remark by VP</span>
                                         </div>
                                         <div class="remarks-section">
                                             <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container"
                                                 data-scrollbar-shown="true" data-scrollable="true" data-max-height="200">
-                                                @foreach($Reelogs as $log)
+                                                @foreach($VPlogs as $log)
                                                 @if($log->status_id == config('commanConfig.architect_layout_status.forward'))
                                                 @php $status = 'Forwarded'; @endphp
                                                 @elseif($log->status_id ==

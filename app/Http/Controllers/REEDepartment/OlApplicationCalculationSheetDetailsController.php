@@ -80,7 +80,7 @@ class OlApplicationCalculationSheetDetailsController extends Controller
         $ol_application = $this->CommonController->getOlApplication($id);
         $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$id)->first();
 
-        $calculationSheetDetails = OlApplicationCalculationSheetDetails::where('society_id', '=', $ol_application->society_id)->first();
+        $calculationSheetDetails = OlApplicationCalculationSheetDetails::where('society_id', '=', $ol_application->society_id)->get();
 
         $dcr_rates = OlDcrRateMaster::all();
         // REE Note download

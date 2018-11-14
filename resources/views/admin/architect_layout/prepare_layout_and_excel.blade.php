@@ -157,13 +157,17 @@
             <div class="portlet-body">
                 <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
                     <div class="m-subheader">
-                        <div class="d-flex align-items-center">
+                        {{-- <div class="d-flex align-items-center">
                             <h3 class="section-title section-title--small">
                                 Layout
                             </h3>
-                        </div>
+                        </div> --}}
                         <h4 class="section-title section-title--small">
+                            @if($ArchitectLayout->upload_layout_in_pdf_format!='')
                             Upload Layout in PDF format
+                            @else
+                            Upload Layout in PDF format
+                            @endif
                         </h4>
                         <div class="row">
                             @if(session()->get('role_name')==config('commanConfig.junior_architect'))
@@ -180,7 +184,7 @@
                             </div>
                             @endif
                         </div>
-                        <a target="_blank" id="upload_layout_in_pdf_format_file" class="btn btn-primary col-md-6" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayout->upload_layout_in_pdf_format}}"
+                        <a target="_blank" id="upload_layout_in_pdf_format_file" class="btn btn-primary col-md-3" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayout->upload_layout_in_pdf_format}}"
                             style="display:{{$ArchitectLayout->upload_layout_in_pdf_format!=''?'block':'none'}};">Download
                             Layout</a>
                         <span class="text-danger" id="upload_layout_in_pdf_format_error"></span>
@@ -194,7 +198,7 @@
                     <div class="m-subheader">
                         <div class="d-flex align-items-center">
                             <h3 class="section-title section-title--small">
-                                Excel
+                                    {{$ArchitectLayout->upload_layout_in_excel_format!=''?'Download':'Upload'}} Excel
                             </h3>
                         </div>
 
@@ -216,10 +220,10 @@
                             </div>
                             @endif
                             <div class="col-sm-6" id="upload_layout_in_excel_format_file_display" style="display:{{$ArchitectLayout->upload_layout_in_excel_format!=''?'block':'none'}}">
-                                <h4 class="section-title section-title--small">
+                                {{-- <h4 class="section-title section-title--small">
                                     Download
-                                </h4>
-                                <p> Click 'Download Excel reprot' to download & view</p>
+                                </h4> --}}
+                                {{-- <p> Click 'Download Excel reprot' to download & view</p> --}}
                                 <a target="_blank" id="upload_layout_in_excel_format_file" class="btn btn-primary col-md-6"
                                     href="{{config('commanConfig.storage_server').'/'.$ArchitectLayout->upload_layout_in_excel_format}}">Download
                                     Excel Report</a>
@@ -237,7 +241,7 @@
                     <div class="m-subheader">
                         <div class="d-flex align-items-center">
                             <h3 class="section-title section-title--small">
-                                Architect Note
+                                    {{$ArchitectLayout->upload_architect_note!=''?'Download':'Upload'}} Architect Note
                             </h3>
                         </div>
 
@@ -259,10 +263,10 @@
                             </div>
                             @endif
                             <div class="col-sm-6" id="upload_architect_note_display" style="display:{{$ArchitectLayout->upload_architect_note!=''?'block':'none'}}">
-                                <h4 class="section-title section-title--small">
+                                {{-- <h4 class="section-title section-title--small">
                                     Download
-                                </h4>
-                                <p> Click 'Download Note' to download & view</p>
+                                </h4> --}}
+                                {{-- <p> Click 'Download Note' to download & view</p> --}}
                                 <a target="_blank" id="upload_architect_note_file" class="btn btn-primary col-md-6"
                                     href="{{config('commanConfig.storage_server').'/'.$ArchitectLayout->upload_architect_note}}">Download
                                     Excel Report</a>
