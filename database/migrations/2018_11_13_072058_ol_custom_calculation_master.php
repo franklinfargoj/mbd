@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AlterTransPayment extends Migration
+class OlCustomCalculationMaster extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,10 @@ class AlterTransPayment extends Migration
      */
     public function up()
     {
-         Schema::table('trans_payment', function (Blueprint $table) {
-            $table->string('except_id')->nullable()->after('dd_id');
+        Schema::create('ol_custom_calculation_master', function (Blueprint $table){
+            $table->increments('id');
+            $table->string('name')->nullable();
+            $table->timestamps(); 
         });
     }
 
@@ -25,6 +27,6 @@ class AlterTransPayment extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('ol_custom_calculation_master');
     }
 }

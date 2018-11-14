@@ -17,6 +17,8 @@ use App\OlDemarcationVerificationDetails;
 use App\OlTitBitVerificationDetails;
 use App\OlRelocationVerificationDetails;
 use App\OlApplicationCalculationSheetDetails;
+use App\OlCustomCalculationMasterModel;
+use App\OlCustomCalculationSheet;
 use App\OlChecklistScrutiny;
 use App\OlApplicationStatus;
 use App\User;
@@ -582,5 +584,95 @@ class REEController extends Controller
 
         $ol_application->status = $this->CommonController->getCurrentStatus($applicationId);
         return view('admin.REE_department.society_reval_documents', compact('societyDocument','ol_application'));
+    }
+
+    //calculations option with formula and custom
+    public function displayCalculationSheetOptions(Request $request,$applicationId){
+        
+        $ol_application = $this->CommonController->getOlApplication($applicationId);
+        $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
+        return view('admin.REE_department.show_calculation_sheet',compact('ol_application'));
+    }
+    // display custom calculation sheet for premium
+    public function displayCustomCalculationSheet(Request $request,$applicationId){
+        
+        $user = Auth::user(); 
+        $ol_application = $this->CommonController->getOlApplication($applicationId);
+        $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
+
+        $table1Id = OlCustomCalculationMasterModel::where('name','Calculation_Table-A')->value('id');
+        $table2Id = OlCustomCalculationMasterModel::where('name','Part_Payment')->value('id');
+        $table3Id = OlCustomCalculationMasterModel::where('name','1st_Installment')->value('id');
+        $table4Id = OlCustomCalculationMasterModel::where('name','remaining_Installment')->value('id');
+        $table5Id = OlCustomCalculationMasterModel::where('name','Summary')->value('id');
+        
+        $ol_application->table1 = OlCustomCalculationSheet::where('application_id',$applicationId)
+        ->where('parent_id',$table1Id)->get()->toArray();        
+        $ol_application->table2 = OlCustomCalculationSheet::where('application_id',$applicationId)
+        ->where('parent_id',$table2Id)->get()->toArray();
+        $ol_application->table3 = OlCustomCalculationSheet::where('application_id',$applicationId)
+        ->where('parent_id',$table3Id)->get()->toArray();
+        $ol_application->table4 = OlCustomCalculationSheet::where('application_id',$applicationId)
+        ->where('parent_id',$table4Id)->get()->toArray();
+        $ol_application->table5 = OlCustomCalculationSheet::where('application_id',$applicationId)
+        ->where('parent_id',$table5Id)->get()->toArray();
+
+        return view('admin.REE_department.custom_premium_calculation_sheet',compact('ol_application','user')); 
+    }
+
+    public function saveCustomCalculationData(Request $request){
+        
+        $tableData  = "";  $parentId = ""; $calculationData = ""; $deletedIds = ""; 
+        // dd($request->table5);
+        if ($request->table1){
+            $tableData = $request->table1; 
+            $parentId = OlCustomCalculationMasterModel::where('name','Calculation_Table-A')->value('id'); 
+
+        }else if($request->table2){
+            $tableData = $request->table2; 
+            $parentId = OlCustomCalculationMasterModel::where('name','Part_Payment')->value('id');
+
+        }else if($request->table3){
+            $tableData = $request->table3; 
+            $parentId = OlCustomCalculationMasterModel::where('name','1st_Installment')->value('id');
+
+        }else if($request->table4){
+            $tableData = $request->table4; 
+            $parentId = OlCustomCalculationMasterModel::where('name','remaining_Installment')->value('id');
+
+        }else if($request->table5){
+            $tableData = $request->table5; 
+            $parentId = OlCustomCalculationMasterModel::where('name','Summary')->value('id');
+        }
+
+        if ($request->table1_deletedIds){
+            $deletedIds = explode("#",$request->table1_deletedIds);
+        }
+        if ($deletedIds != ""){
+            OlCustomCalculationSheet::whereIn('id',$deletedIds)->delete();   
+        }
+       
+        if ($tableData != ""){
+            foreach($tableData as $data){
+                
+                if (isset($data['title']) && isset($data['amount'])){
+                    if(isset($data['hiddenId'])){
+                        $calculationData = OlCustomCalculationSheet::where('id',$data['hiddenId'])
+                        ->where('application_id',$request->application_id)
+                        ->where('user_id',Auth::id())->where('parent_id',$parentId)->first();
+                    
+                    } else {
+                        $calculationData = new OlCustomCalculationSheet();    
+                    }
+                    $calculationData->application_id = $request->application_id;
+                    $calculationData->user_id        = Auth::id();
+                    $calculationData->parent_id      = $parentId;
+                    $calculationData->title          = $data['title'];
+                    $calculationData->amount         = $data['amount'];
+                    $calculationData->save();                  
+                }                
+            }
+        }
+        return back();
     }
 }

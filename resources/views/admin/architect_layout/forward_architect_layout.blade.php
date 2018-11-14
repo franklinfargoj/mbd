@@ -18,12 +18,17 @@
                         <i class="la la-cog"></i> Scrutiny History
                     </a>
                 </li>
-
+                @php $status=getLastStatusIdArchitectLayout($ArchitectLayout->id); @endphp
+                @if($status!="")
+                @if($status->status_id!=config('commanConfig.architect_layout_status.forward') &&
+                ($status->status_id!=config('commanConfig.architect_layout_status.approved')))
                 <li class="nav-item m-tabs__item">
                     <a class="nav-link m-tabs__link show" data-toggle="tab" href="#forward-application-tab">
                         <i class="la la-cog"></i> Forward Application
                     </a>
                 </li>
+                @endif
+                @endif
             </ul>
 
             <div class="tab-content">
@@ -68,6 +73,142 @@
                                         @endforeach
                                     </div>
                                 </div>
+
+                                <div class="border-bottom pb-2">
+                                    <span class="hint-text d-block">Remark by EM</span>
+                                </div>
+                                <div class="remarks-section">
+                                    <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container"
+                                        data-scrollbar-shown="true" data-scrollable="true" data-max-height="200">
+                                        @foreach($Emlogs as $log)
+                                        @if($log->status_id == config('commanConfig.architect_layout_status.forward'))
+                                        @php $status = 'Forwarded'; @endphp
+                                        @elseif($log->status_id ==
+                                        config('commanConfig.architect_layout_status.reverted'))
+                                        @php $status = 'Reverted'; @endphp
+                                        @endif
+
+                                        <div class="remarks-section__data">
+                                            <p class="remarks-section__data__row"><span>Date:</span><span>{{(isset($log)
+                                                    && $log->created_at != '' ? date("d-m-Y",
+                                                    strtotime($log->created_at)) : '')}}</span>
+
+                                            </p>
+                                            <p class="remarks-section__data__row"><span>Time:</span><span>{{(isset($log)
+                                                    && $log->created_at != '' ? date("H:i",
+                                                    strtotime($log->created_at)) : '')}}</span></p>
+                                            <p class="remarks-section__data__row"><span>Action:</span>
+
+                                                <span>{{$status}} to {{isset($log->getRoleName->display_name) ?
+                                                    $log->getRoleName->display_name : ''}}</span></p>
+                                            <p class="remarks-section__data__row"><span>Description:</span><span>{{(isset($log)
+                                                    ? $log->remark : '')}}</span></p>
+                                        </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+
+                                <div class="border-bottom pb-2">
+                                    <span class="hint-text d-block">Remark by LM</span>
+                                </div>
+                                <div class="remarks-section">
+                                    <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container"
+                                        data-scrollbar-shown="true" data-scrollable="true" data-max-height="200">
+                                        @foreach($Lmlogs as $log)
+                                        @if($log->status_id == config('commanConfig.architect_layout_status.forward'))
+                                        @php $status = 'Forwarded'; @endphp
+                                        @elseif($log->status_id ==
+                                        config('commanConfig.architect_layout_status.reverted'))
+                                        @php $status = 'Reverted'; @endphp
+                                        @endif
+
+                                        <div class="remarks-section__data">
+                                            <p class="remarks-section__data__row"><span>Date:</span><span>{{(isset($log)
+                                                    && $log->created_at != '' ? date("d-m-Y",
+                                                    strtotime($log->created_at)) : '')}}</span>
+
+                                            </p>
+                                            <p class="remarks-section__data__row"><span>Time:</span><span>{{(isset($log)
+                                                    && $log->created_at != '' ? date("H:i",
+                                                    strtotime($log->created_at)) : '')}}</span></p>
+                                            <p class="remarks-section__data__row"><span>Action:</span>
+
+                                                <span>{{$status}} to {{isset($log->getRoleName->display_name) ?
+                                                    $log->getRoleName->display_name : ''}}</span></p>
+                                            <p class="remarks-section__data__row"><span>Description:</span><span>{{(isset($log)
+                                                    ? $log->remark : '')}}</span></p>
+                                        </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+
+                                <div class="border-bottom pb-2">
+                                        <span class="hint-text d-block">Remark by EE</span>
+                                    </div>
+                                    <div class="remarks-section">
+                                        <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container"
+                                            data-scrollbar-shown="true" data-scrollable="true" data-max-height="200">
+                                            @foreach($EElogs as $log)
+                                            @if($log->status_id == config('commanConfig.architect_layout_status.forward'))
+                                            @php $status = 'Forwarded'; @endphp
+                                            @elseif($log->status_id ==
+                                            config('commanConfig.architect_layout_status.reverted'))
+                                            @php $status = 'Reverted'; @endphp
+                                            @endif
+    
+                                            <div class="remarks-section__data">
+                                                <p class="remarks-section__data__row"><span>Date:</span><span>{{(isset($log)
+                                                        && $log->created_at != '' ? date("d-m-Y",
+                                                        strtotime($log->created_at)) : '')}}</span>
+    
+                                                </p>
+                                                <p class="remarks-section__data__row"><span>Time:</span><span>{{(isset($log)
+                                                        && $log->created_at != '' ? date("H:i",
+                                                        strtotime($log->created_at)) : '')}}</span></p>
+                                                <p class="remarks-section__data__row"><span>Action:</span>
+    
+                                                    <span>{{$status}} to {{isset($log->getRoleName->display_name) ?
+                                                        $log->getRoleName->display_name : ''}}</span></p>
+                                                <p class="remarks-section__data__row"><span>Description:</span><span>{{(isset($log)
+                                                        ? $log->remark : '')}}</span></p>
+                                            </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+
+                                    <div class="border-bottom pb-2">
+                                            <span class="hint-text d-block">Remark by Ree</span>
+                                        </div>
+                                        <div class="remarks-section">
+                                            <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container"
+                                                data-scrollbar-shown="true" data-scrollable="true" data-max-height="200">
+                                                @foreach($Reelogs as $log)
+                                                @if($log->status_id == config('commanConfig.architect_layout_status.forward'))
+                                                @php $status = 'Forwarded'; @endphp
+                                                @elseif($log->status_id ==
+                                                config('commanConfig.architect_layout_status.reverted'))
+                                                @php $status = 'Reverted'; @endphp
+                                                @endif
+        
+                                                <div class="remarks-section__data">
+                                                    <p class="remarks-section__data__row"><span>Date:</span><span>{{(isset($log)
+                                                            && $log->created_at != '' ? date("d-m-Y",
+                                                            strtotime($log->created_at)) : '')}}</span>
+        
+                                                    </p>
+                                                    <p class="remarks-section__data__row"><span>Time:</span><span>{{(isset($log)
+                                                            && $log->created_at != '' ? date("H:i",
+                                                            strtotime($log->created_at)) : '')}}</span></p>
+                                                    <p class="remarks-section__data__row"><span>Action:</span>
+        
+                                                        <span>{{$status}} to {{isset($log->getRoleName->display_name) ?
+                                                            $log->getRoleName->display_name : ''}}</span></p>
+                                                    <p class="remarks-section__data__row"><span>Description:</span><span>{{(isset($log)
+                                                            ? $log->remark : '')}}</span></p>
+                                                </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
                             </div>
                         </div>
                     </div>
@@ -110,16 +251,16 @@
                                                 <label class="col-form-label col-lg-2 col-sm-12">
                                                     Forward To:
                                                 </label>
-                                                @php  
-                                                    $multiple="multiple";
-                                                    if(session()->get('role_name')==config('commanConfig.cap_engineer'))
-                                                    {
-                                                        $multiple="";
-                                                    }
-                                                    if(session()->get('role_name')==config('commanConfig.ree_branch_head'))
-                                                    {
-                                                        $multiple="";
-                                                    }
+                                                @php
+                                                $multiple="multiple";
+                                                if(session()->get('role_name')==config('commanConfig.cap_engineer'))
+                                                {
+                                                $multiple="";
+                                                }
+                                                if(session()->get('role_name')==config('commanConfig.ree_branch_head'))
+                                                {
+                                                $multiple="";
+                                                }
                                                 @endphp
                                                 <div class="col-lg-4 col-md-9 col-sm-12">
                                                     <select required class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
@@ -205,7 +346,8 @@
                                                     cols="30" rows="5"></textarea>
                                             </div>
                                             <div class="mt-3 btn-list">
-                                                {{-- @if (session()->get('role_name') == config('commanConfig.vp_engineer'))
+                                                {{-- @if (session()->get('role_name') ==
+                                                config('commanConfig.vp_engineer'))
                                                 <button type="submit" id="sign" class="btn btn-primary forwrdBtn">Sign</button>
                                                 <button type="submit" class="btn btn-primary forwrdBtn">Sign & Forward</button>
                                                 <button type="submit" class="btn btn-primary forwrdBtn">Forward</button>

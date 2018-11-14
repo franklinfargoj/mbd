@@ -16,8 +16,10 @@
             <div class="d-flex justify-content-between align-items-center">
                 <a class="btn--unstyled section-title section-title--small d-flex justify-content-between mb-0 w-100 collapsed"
                     data-toggle="collapse" href="#todays-hearing">
-                    <span class="form-accordion-title">Today's Hearing</span>
-                    <span class="accordion-icon"></span>
+                    <span class="form-accordion-title">Today's Hearing ({{count($todaysHearing)}})</span>
+                    @if($todaysHearing)
+                        <span class="accordion-icon"></span>
+                    @endif
                 </a>
             </div>
         </div>
@@ -35,7 +37,7 @@
                 <div class="col">
                     <div class="m-portlet app-card text-center">
                         <h2 class="app-heading">Case NO</h2>
-                        <h2 class="app-no mb-0">{{$hearing['hearing'][0]['case_number']}}</h2>
+                        <h2 class="app-no mb-0">{{$hearing['hearing'][0]['id']}}</h2>
                     </div>
                 </div>
                 <div class="col">

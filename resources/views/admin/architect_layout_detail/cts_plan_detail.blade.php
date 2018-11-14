@@ -32,14 +32,15 @@
                             <div class="col-sm-4 form-group">
                                 <!-- <label class="col-form-label">List of CTS No</label> -->
                                 <div class="optionBox">
+                                        @php $j=0; @endphp
                                     @if(count($ArchitectLayoutDetail->cts_plan_details)>0)
-                                    @php $j=0; @endphp
+                                    
                                     @foreach($ArchitectLayoutDetail->cts_plan_details as $cts_plan_detail)
-                                    <div class="block position-relative">
-                                        <input type="hidden" name="cts_plan_detail_id[{{$j}}]" value="{{$cts_plan_detail->id}}">
+                                    <input type="hidden" name="cts_plan_detail_id[{{$j}}]" value="{{$cts_plan_detail->id}}">
+                                    <div class="block position-relative form-group">
                                         <input required placeholder="CTS no" type="text" name="cts_no[{{$j}}]" class="form-control form-control--custom"
                                             value="{{ $cts_plan_detail->cts_no }}" >
-                                        @if($j!=0)
+                                        @if($j>0)
                                         <i onclick="deleteCtsDetail(this,{{$cts_plan_detail->id}})" class="fa fa-close btn--add-delete remove"></i>
                                         @endif
                                     </div>

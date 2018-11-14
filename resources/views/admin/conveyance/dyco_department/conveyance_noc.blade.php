@@ -39,7 +39,7 @@
                         <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                         Download  </Button>
                     </div>
-                    @if($data->is_view && $data->status->status_id == config('commanConfig.applicationStatus.in_process'))
+                    @if($data->is_view && $data->status->status_id == config('commanConfig.applicationStatus.NOC_Issued'))
                         <div class="col-md-6" style="display: inline;">
                             <Button type="submit" class="s_btn btn btn-primary" id="submitBtn">
                             send to society </Button>

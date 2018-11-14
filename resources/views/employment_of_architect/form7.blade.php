@@ -306,11 +306,26 @@
                     location:"required",
                     name_of_client:"required",
                     address:"required",
-                    tel_no:"required",
-                    built_up_area_in_sq_m:"required",
-                    land_area_in_sq_m:"required",
-                    estimated_value_of_project:"required",
-                    completed_value_of_project:"required",
+                    tel_no:{
+                        required:true,
+                        number:true
+                    },
+                    built_up_area_in_sq_m:{
+                        required:true,
+                        number:true
+                    },
+                    land_area_in_sq_m:{
+                        required:true,
+                        number:true
+                    },
+                    estimated_value_of_project:{
+                        required:true,
+                        number:true
+                    },
+                    completed_value_of_project:{
+                        required:true,
+                        number:true
+                    },
                     date_of_start:"required",
                     date_of_completion:"required",
                     whether_service_terminated_by_client:"required",
@@ -386,11 +401,26 @@ $(document).ready(function() {
               location:"required",
               name_of_client:"required",
               address:"required",
-              tel_no:"required",
-              built_up_area_in_sq_m:"required",
-              land_area_in_sq_m:"required",
-              estimated_value_of_project:"required",
-              completed_value_of_project:"required",
+              tel_no:{
+                        required:true,
+                        number:true
+                    },
+              built_up_area_in_sq_m:{
+                        required:true,
+                        number:true
+                    },
+              land_area_in_sq_m:{
+                        required:true,
+                        number:true
+                    },
+              estimated_value_of_project:{
+                        required:true,
+                        number:true
+                    },
+              completed_value_of_project:{
+                        required:true,
+                        number:true
+                    },
               date_of_start:"required",
               date_of_completion:"required",
               whether_service_terminated_by_client:"required",

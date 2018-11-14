@@ -70,5 +70,6 @@ class DatabaseSeeder extends Seeder
         $this->call(sc_checklist_master::class);
         $this->call(SocietyConveyanceApplicationTypeSeeder::class);
         $this->call(ApplicationStatusMasterSeeder::class);
+        $this->call(SapPermissionSeeder::class);
     }
 }

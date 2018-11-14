@@ -19,7 +19,7 @@
                         <i class="la la-cog"></i> Scrutiny History
                     </a>
                 </li>
-               
+
                 @if((session()->get('role_name') == config('commanConfig.dycdo_engineer') && $data->status->status_id != config('commanConfig.applicationStatus.forwarded')) || $data->status->status_id == config('commanConfig.applicationStatus.Stamped_sale_&_lease_deed') || $data->status->status_id == config('commanConfig.applicationStatus.Draft_sale_&_lease_deed') )
                 <li class="nav-item m-tabs__item">
                     <a class="nav-link m-tabs__link show" data-toggle="tab" href="#forward-application-tab">

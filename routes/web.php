@@ -300,6 +300,12 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::get('ree_reval_applications','REEDepartment\REEController@revalidationApplicationList')->name('ree_applications.reval');
 
+    Route::get('calculation_sheet_options/{id}','REEDepartment\REEController@displayCalculationSheetOptions')->name('ree_applications.calculation_sheet_options');
+
+    Route::get('custom_calculation_sheet/{id}','REEDepartment\REEController@displayCustomCalculationSheet')->name('ree_applications.custom_calculation_sheet');
+
+    Route::post('save_custom_calculation_data','REEDepartment\REEController@saveCustomCalculationData')->name('ree.save_custom_calculation_data');
+
     // Route::resource('/ol_calculation_sheet', 'REEDepartment\OlApplicationCalculationSheetDetailsController');
     Route::post('ol_calculation_sheet/save_details','REEDepartment\OlApplicationCalculationSheetDetailsController@saveCalculationDetails')->name('save_calculation_details');
 
@@ -610,6 +616,8 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::post('save_forward_application_sc', 'conveyance\conveyanceCommonController@saveForwardApplication')->name('conveyance.save_forward_application');
 
     Route::post('save_agreement_comments', 'conveyance\conveyanceCommonController@SaveAgreementComments')->name('conveyance.save_agreement_comments');
+
+    Route::get('view_documents/{id}', 'conveyance\conveyanceCommonController@ViewDocuments')->name('conveyance.view_documents');
 
     Route::get('sale_lease_agreement/{id}', 'conveyance\DYCODepartment\DYCOController@saleLeaseAgreement')->name('conveyance.sale_lease_agreement');
     
