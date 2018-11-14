@@ -782,7 +782,7 @@ $route=\Request::route()->getName();
                             </div>
                         </li> --}}
 
-                         @if(Session::all()['role_name'] == 'em_manager')
+                        @if(Session::all()['role_name'] == 'EM')
 
                         <li class="m-menu__item {{($route=='get_societies')?'m-menu__item--active':''}}">
                             <a class="m-menu__link m-menu__toggle" title="view_Application" href="{{ route('get_societies') }}">

@@ -32,7 +32,7 @@ class EmPermissionSeeder extends Seeder
 
         if ($em_user_id == NULL )
             $em_user_id = User::insertGetId([
-                'name' => 'estate namager',
+                'name' => 'estate manager',
                 'email' => 'em@gmail.com',
                 'password' => bcrypt('1234'),
                 'role_id' => $em_manager_id,
