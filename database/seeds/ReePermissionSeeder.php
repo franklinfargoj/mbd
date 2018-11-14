@@ -201,7 +201,12 @@ class ReePermissionSeeder extends Seeder
                 'name'=>'ol_reval_sharing_calculation_sheet.show',
                 'display_name'=>'Show Revalidation Sharing Calculation Sheet',
                 'description'=>'Show Revalidation Sharing Calculation Sheet'
-            ],            
+            ],
+            [
+                'name'=>'dashboard',
+                'display_name'=>'dashboard',
+                'description'=>'Dashboard'
+            ],
             [
                 'name'=>'ree.save_custom_calculation_data',
                 'display_name'=>'save custom calculation data',
@@ -226,7 +231,7 @@ class ReePermissionSeeder extends Seeder
         if ($ree_role_id == null) {
             $ree_role_id = Role::insertGetId([
                 'name' => 'ree_engineer',
-                'redirect_to' => '/ree_applications',
+                'redirect_to' => '/dashboard',
                 'parent_id' => null,
                 'display_name' => 'Residential Executive Engineer',
                 'description' => 'Login as Residential Executive Engineer',
@@ -238,7 +243,7 @@ class ReePermissionSeeder extends Seeder
         if ($ree_as_role_id == null) {
             $ree_as_role_id = Role::insertGetId([
                 'name' => 'REE Assistant Engineer',
-                'redirect_to' => '/ree_applications',
+                'redirect_to' => '/dashboard',
                 'parent_id' => $ree_role_id,
                 'display_name' => 'REE Assistant Engineer',
                 'description' => 'Login as REE Assistant Engineer',
@@ -250,7 +255,7 @@ class ReePermissionSeeder extends Seeder
         if ($ree_deputy_role_id == null) {
             $ree_deputy_role_id = Role::insertGetId([
                 'name' => 'REE deputy Engineer',
-                'redirect_to' => '/ree_applications',
+                'redirect_to' => '/dashboard',
                 'parent_id' => $ree_as_role_id,
                 'display_name' => 'REE Deputy Engineer',
                 'description' => 'Login as REE Deputy Engineer',
@@ -262,7 +267,7 @@ class ReePermissionSeeder extends Seeder
         if ($ree_Jr_role_id == null) {
             $ree_Jr_role_id = Role::insertGetId([
                 'name' => 'REE Junior Engineer',
-                'redirect_to' => '/ree_applications',
+                'redirect_to' => '/dashboard',
                 'parent_id' => $ree_deputy_role_id,
                 'display_name' => 'REE Junior Engineer',
                 'description' => 'Login as REE Junior Engineer',

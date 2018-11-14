@@ -106,7 +106,12 @@ class VpPermission extends Seeder
                 'name' => 'post_forward_architect_layout',
                 'display_name' => 'post_forward_architect_layout',
                 'description' => 'post_forward_architect_layout',
-            ],                                
+            ],
+            [
+                'name'=>'dashboard',
+                'display_name'=>'dashboard',
+                'description'=>'Dashboard'
+            ]
         ];
 
         $vp_manager = Role::where('name', '=', 'vp_engineer')->first();
@@ -117,7 +122,7 @@ class VpPermission extends Seeder
         {
             $role_id = Role::insertGetId([
                 'name'         => 'vp_engineer',
-                'redirect_to'  => '/vp',
+                'redirect_to'  => '/dashboard',
                 'parent_id'    => NULL,
                 'display_name' => 'VP_Engineer',
                 'description'  => 'Login as VP Engineer'

@@ -166,13 +166,18 @@ class CoPermissionSeeder extends Seeder
                 'name' => 'conveyance.view_ee_documents',
                 'display_name' => 'view ee documents',
                 'description' => 'view ee documents',
-            ],                                                                      
+            ],
+            [
+                'name'=>'dashboard',
+                'display_name'=>'dashboard',
+                'description'=>'Dashboard'
+            ]
         ];
         $ree_role_id = Role::where('name', 'ree_engineer')->value('id');
         if ($ree_role_id == null) {
             $ree_role_id = Role::insertGetId([
                 'name' => 'ree_engineer',
-                'redirect_to' => '/ree_applications',
+                'redirect_to' => '/dashboard',
                 'parent_id' => null,
                 'display_name' => 'Residential Executive Engineer',
                 'description' => 'Login as Residential Executive Engineer',
@@ -185,7 +190,7 @@ class CoPermissionSeeder extends Seeder
         } else {
             $role_id = Role::insertGetId([
                 'name' => 'co_engineer',
-                'redirect_to' => '/co',
+                'redirect_to' => '/dashboard',
                 'parent_id' => null,
                 'display_name' => 'Co_Engineer',
                 'description' => 'Login as CO Engineer',

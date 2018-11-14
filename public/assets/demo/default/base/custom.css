@@ -1,5 +1,9 @@
 /* theme classes over ride starts here */
 
+.modal-large .modal-dialog {
+    max-width: 1200px;
+}
+
 .position-relative .btn--add-delete {
     position: absolute;
     top: 50%;

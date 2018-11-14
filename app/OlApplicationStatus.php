@@ -26,5 +26,6 @@ class OlApplicationStatus extends Model
     public function getRole()
     {
         return $this->hasOne('App\Role', 'id','role_id');
-    }    
+    }
+
 }
