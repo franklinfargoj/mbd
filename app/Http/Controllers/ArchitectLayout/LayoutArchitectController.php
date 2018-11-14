@@ -224,6 +224,11 @@ class LayoutArchitectController extends Controller
         $Lmlogs = $this->architect_layouts->getLogOfLmLayoutApplication($layout_id);
         $EElogs = $this->architect_layouts->getLogOfEELayoutApplication($layout_id);
         $Reelogs = $this->architect_layouts->getLogOfReeLayoutApplication($layout_id);
+        $Cologs = $this->architect_layouts->getLogOfCoLayoutApplication($layout_id);
+        $Saplogs=$this->architect_layouts->getLogOfSapLayoutApplication($layout_id);
+        $Caplogs=$this->architect_layouts->getLogOfCapLayoutApplication($layout_id);
+        $LAlogs=$this->architect_layouts->getLogOfLALayoutApplication($layout_id);
+        $VPlogs=$this->architect_layouts->getLogOfVPLayoutApplication($layout_id);
         // dd($ArchitectLayout->land_scrutiny_checklist_and_remarks);
         if (session()->get('role_name') == config('commanConfig.architect')) {
             //if (!$ArchitectLayout->land_scrutiny_checklist_and_remarks) {
@@ -336,7 +341,7 @@ class LayoutArchitectController extends Controller
                 $arrData['lm_role_name'] = strtoupper(str_replace('_', ' ', $jr_architect_role_id->name));
             }
         }
-        return view('admin.architect_layout.forward_architect_layout', compact('arrData', 'ArchitectLayout', 'architectlogs', 'Emlogs', 'Lmlogs', 'EElogs', 'Reelogs'));
+        return view('admin.architect_layout.forward_architect_layout', compact('arrData', 'ArchitectLayout', 'architectlogs', 'Emlogs', 'Lmlogs', 'EElogs', 'Reelogs','Cologs','Saplogs','Caplogs','LAlogs','VPlogs'));
     }
 
     public function post_forward_layout(Request $request)

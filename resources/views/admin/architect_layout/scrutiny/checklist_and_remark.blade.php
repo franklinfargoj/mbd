@@ -12,7 +12,7 @@
         <div class="block">
             <input type="hidden" name="report_id[]" id="report_id_{{$j}}" value="{{$item->id}}">
             @if($item->question!="")
-            <p style="font-size: 16px">{{$item->question->title}}</p>
+            <p style="font-size: 16px"><strong>{{$item->question->title}}</strong></p>
             @if($item->question->is_options==1)
             <p>
                 <input {{$read_only!=1?'disabled':''}} type="radio" name="lable[{{$j}}]" value="1" {{$item->label1==1?'checked':''}}>{{$item->question->label1}}
