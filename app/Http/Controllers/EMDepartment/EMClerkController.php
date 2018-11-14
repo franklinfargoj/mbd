@@ -4,21 +4,7 @@ namespace App\Http\Controllers\EMDepartment;
 
 use App\EENote;
 use App\Http\Controllers\Common\CommonController;
-use App\OlApplication;
-use App\OlApplicationStatus;
-use App\OlChecklistScrutiny;
-use App\OlConsentVerificationDetails;
-use App\OlConsentVerificationQuestionMaster;
-use App\OlDemarcationVerificationDetails;
-use App\OlDemarcationVerificationQuestionMaster;
-use App\OlRelocationVerificationDetails;
-use App\OlRgRelocationVerificationQuestionMaster;
-use App\OlSocietyDocumentsMaster;
-use App\OlSocietyDocumentsStatus;
-use App\OlTitBitVerificationDetails;
-use App\OlTitBitVerificationQuestionMaster;
 use App\Role;
-use App\SocietyOfferLetter;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -29,7 +15,7 @@ use Yajra\DataTables\DataTables;
 use Config;
 use DB;
 use File;
-use Storage;
+use Storage, Validator;
 use Session;
 use App\MasterLayout;
 use App\MasterWard;
@@ -47,6 +33,7 @@ class EMClerkController extends Controller
     {
         $this->comman = new CommonController();
         $this->list_num_of_records_per_page = Config::get('commanConfig.list_num_of_records_per_page');
+        $this->tenant_level_billing = Config::get('commanConfig.TENANT_LEVEL_BILLING');
     }
 
     /**
@@ -66,7 +53,7 @@ class EMClerkController extends Controller
         
         $societies = SocietyDetail::whereIn('colony_id', $colonies)->pluck('id');
 
-        $societies_data = SocietyDetail::whereIn('colony_id', $colonies)->get();
+        $societies_data = SocietyDetail::whereIn('colony_id', $colonies)->where('society_bill_level',$this->tenant_level_billing)->get();
 
         $building_data = MasterBuilding::whereIn('society_id', $societies)->get();
 
@@ -75,15 +62,15 @@ class EMClerkController extends Controller
  
     public function society_list(Request $request){
         if($request->input('id')){            
-            $wards = MasterWard::where('layout_id', '=', $request->input('id'))->pluck('id');
+            $wards = MasterWard::where('layout_id', '=', decrypt($request->id))->pluck('id');
             $colonies = MasterColony::whereIn('ward_id', $wards)->pluck('id');
 
-            $societies = SocietyDetail::whereIn('colony_id', $colonies)->get();
+            $societies = SocietyDetail::whereIn('colony_id', $colonies)->where('society_bill_level', $this->tenant_level_billing )->get();
 
             $html = '<select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="society" name="society" required>
                                         <option value="" style="font-weight: normal;">Select Society</option>';
                                         foreach($societies as $key => $value){
-                                        $html .= '<option value="'.$value->id.'">'.$value->society_name.'</option>';
+                                        $html .= '<option value="'.encrypt($value->id).'">'.$value->society_name.'</option>';
                                         }
                                     $html .= '</select>';
             return $html;
@@ -95,12 +82,12 @@ class EMClerkController extends Controller
 
     public function building_list(Request $request){
         if($request->input('id')){            
-            $buildings = MasterBuilding::where('society_id', '=', $request->input('id'))->get();
+            $buildings = MasterBuilding::where('society_id', '=', decrypt($request->id))->get();
 
             $html = '<select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="building" name="building" required>
                                         <option value="" style="font-weight: normal;">Select Building</option>';
                                         foreach($buildings as $key => $value){
-                                        $html .= '<option value="'.$value->id.'">'.$value->name.'</option>';
+                                        $html .= '<option value="'.encrypt($value->id).'">'.$value->name.'</option>';
                                         }
                                     $html .= '</select>';
             return $html;
@@ -111,6 +98,22 @@ class EMClerkController extends Controller
 
     public function tenant_payment_list(Request $request, Datatables $datatables){
         //dd($request->all());     
+        $rules = [
+            'layout' => 'required',
+            'society' => 'required',            
+            'building' => 'required',            
+        ];
+        $messages = [
+            'layout.required' => 'Select Layout.',
+            'society.required' => 'Select Society.',
+            'building.required' => 'Select Building.'
+        ];
+        $validator = Validator::make($request->all(),$rules,$messages);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
         $getData = $request->all();  
 
            $columns = [
@@ -127,7 +130,7 @@ class EMClerkController extends Controller
           
             DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
           
-            $tenant = MasterTenant::leftJoin('arrear_calculation', 'master_tenants.id', '=', 'arrear_calculation.tenant_id')->where('master_tenants.building_id', '=', $request->input('building'))->selectRaw('@rownum  := @rownum  + 1 AS rownum, master_tenants.*, arrear_calculation.* ,master_tenants.id as id');
+            $tenant = MasterTenant::leftJoin('arrear_calculation', 'master_tenants.id', '=', 'arrear_calculation.tenant_id')->where('master_tenants.building_id', '=', decrypt($request->building))->selectRaw('@rownum  := @rownum  + 1 AS rownum, master_tenants.*, arrear_calculation.* ,master_tenants.id as id');
 
             //dd($tenant);
 
@@ -151,14 +154,7 @@ class EMClerkController extends Controller
             ->editColumn('actions', function ($tenant){
                 if($tenant->total_amount == null || $tenant->payment_status == null || $tenant->payment_status == 0 ){
                     
-                    return "<div class='d-flex btn-icon-list'><a href='".url('tenant_arrear_calculation?id='.$tenant->id)."' class='d-flex flex-column align-items-center'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/edit-icon.svg')."'></span>edit</a></div>";
-
-                   /* return "<a href='".url('tenant_arrear_calculation?id='.$tenant->id)."' class='btn m-btn--pill m-btn--custom btn-primary'>edit</a>";*/
-
-                   /* return "<form method='get' action='".route('tenant_arrear_calculation')."'> <input type='hidden' name='id' value='".$tenant->id."' /> 
-                            <input type='submit' value='edit' />
-                       </form>";*/
-
+                    return "<div class='d-flex btn-icon-list'><a href='".url('tenant_arrear_calculation?id='.encrypt($tenant->id))."' class='d-flex flex-column align-items-center'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/edit-icon.svg')."'></span>edit</a></div>";
                 } else {
                     return '';
                 } 
@@ -177,7 +173,7 @@ class EMClerkController extends Controller
 
     public function tenant_arrear_calculation(Request $request, Datatables $datatables){        
         
-        $tenant = MasterTenant::leftJoin('arrear_calculation', 'master_tenants.id', '=', 'arrear_calculation.tenant_id')->where('master_tenants.id', '=', $request->id)
+        $tenant = MasterTenant::leftJoin('arrear_calculation', 'master_tenants.id', '=', 'arrear_calculation.tenant_id')->where('master_tenants.id', '=', decrypt($request->id))
             ->select('*','master_tenants.id as id','master_tenants.building_id as building_id')->first();
         //dd($tenant);
         $year = date('Y').'-'.(date('y') + 1);
@@ -207,7 +203,7 @@ class EMClerkController extends Controller
         // return $months;
 
         if($request->row_id){
-            $arrear_row = ArrearCalculation::find($request->row_id);
+            $arrear_row = ArrearCalculation::find(decrypt($request->row_id));
             //dd($arrear_row);
         } else {
             $arrear_row = (array) '';
@@ -261,10 +257,7 @@ class EMClerkController extends Controller
             ->editColumn('actions', function ($arrear){
                 if($arrear->total_amount == null || $arrear->payment_status == null || $arrear->payment_status == 0 ){
 
-                     return "<div class='d-flex btn-icon-list'><a href='".url('tenant_arrear_calculation?id='.$arrear->tenant_id.'&row_id='.$arrear->id)."' class='d-flex flex-column align-items-center'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/edit-icon.svg')."'></span>edit</a></div>";
-
-                  /*  return "<a href='".url('tenant_arrear_calculation?id='.$arrear->tenant_id.'&row_id='.$arrear->id)."' class='btn m-btn--pill m-btn--custom btn-primary'>edit</a>";*/
-
+                     return "<div class='d-flex btn-icon-list'><a href='".url('tenant_arrear_calculation?id='.encrypt($arrear->tenant_id).'&row_id='.encrypt($arrear->id))."' class='d-flex flex-column align-items-center'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/edit-icon.svg')."'></span>edit</a></div>";
                 } else {
                     return '';
                 } 
@@ -286,7 +279,6 @@ class EMClerkController extends Controller
     }
 
     public function create_arrear_calculation(Request $request){
-
         
         $temp = array(
         'tenant_id' => 'required',
@@ -296,13 +288,13 @@ class EMClerkController extends Controller
         'month' => 'required',
         'oir_year' => 'required',
         'oir_month' => 'required',
-        'old_intrest_amount' => 'required',
-        'difference_amount' => 'required',
+        'old_intrest_amount' => 'required|numeric',
+        'difference_amount' => 'required|numeric',
         'ida_year' => 'required',
         'ida_month' => 'required',
-        'difference_intrest_amount' => 'required',
+        'difference_intrest_amount' => 'required|numeric',
         'payment_status' => 'required',
-        'total_amount' => 'required'
+        'total_amount' => 'required|numeric'
         );
         // validate the job application form data.
         $this->validate($request, $temp);
