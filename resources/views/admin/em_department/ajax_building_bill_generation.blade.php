@@ -22,19 +22,19 @@
                     {!! Form::open(['method' => 'get', 'route' => 'generateBuildingBill', 'class'=>'']) !!}
                     {{ Form::hidden('building_id', $value->id) }}
                     {{ Form::hidden('society_id', $value->society_id) }}
-                    {{ Form::button('<span class="btn-icon btn-icon--view"><img src="img/generate-bill-icon.svg"></span>Generate Bill', array('class'=>'btn btn--unstyled p-0 btn--icon-wrap d-flex flex-column align-items-center','type'=>'submit')) }}
+                    {{ Form::button('<span class="btn-icon btn-icon--view"><img src="/img/generate-bill-icon.svg"></span>Generate Bill', array('class'=>'btn btn--unstyled p-0 btn--icon-wrap d-flex flex-column align-items-center','type'=>'submit')) }}
                     {!! Form::close() !!}
 
                     {!! Form::open(['method' => 'get', 'route' => 'billing_calculations']) !!}
                     {{ Form::hidden('building_id', $value->id) }}
                     {{ Form::hidden('society_id', $value->society_id) }}
-                    {{ Form::button('<span class="btn-icon btn-icon--edit"><img src="img/view-billing-details-icon.svg"></span>View Billing Details', array('class'=>'btn btn--unstyled p-0 btn--icon-wrap d-flex flex-column align-items-center','type'=>'submit')) }}
+                    {{ Form::button('<span class="btn-icon btn-icon--edit"><img src="/img/view-billing-details-icon.svg"></span>View Billing Details', array('class'=>'btn btn--unstyled p-0 btn--icon-wrap d-flex flex-column align-items-center','type'=>'submit')) }}
                     {!! Form::close() !!}
                     
                     {!! Form::open(['method' => 'get', 'route' => 'arrears_calculations']) !!}
                     {{ Form::hidden('building_id', $value->id) }}
                     {{ Form::hidden('society_id', $value->society_id) }}                  
-                    {{ Form::button('<span class="btn-icon btn-icon--delete"><img src="img/view-arrears-calculation-icon.svg"></span>View Arrear Calculation', array('class'=>'btn btn--unstyled p-0 btn--icon-wrap d-flex flex-column align-items-center','type'=>'submit')) }}
+                    {{ Form::button('<span class="btn-icon btn-icon--delete"><img src="/img/view-arrears-calculation-icon.svg"></span>View Arrear Calculation', array('class'=>'btn btn--unstyled p-0 btn--icon-wrap d-flex flex-column align-items-center','type'=>'submit')) }}
                     {!! Form::close() !!}
                        
                     <div class="d-flex btn-icon-list"> 
