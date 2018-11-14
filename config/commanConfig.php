@@ -176,8 +176,25 @@ return [
 
     'mhada_code' => 'MHD',
 
+
     'SOCIETY_LEVEL_BILLING' => '1',
     'TENANT_LEVEL_BILLING' => '2',
     'PAYMENT_STATUS_NOT_PAID' => '0',
-    'PAYMENT_STATUS_PAID' => '1'
+    'PAYMENT_STATUS_PAID' => '1',
+
+    'no_dues_certificate' => [
+        'db_columns' => [
+            'draft' => 'drafted_no_dues_certificate',
+            'text' => 'text_no_dues_certificate',
+            'upload' => 'uploaded_no_dues_certificate',
+        ],
+        'redirect_message' => [
+            'draft_text' => 'No dues certificate generated successfully.',
+            'upload' => 'Uploaded No dues certificate successfully.',
+        ],
+        'redirect_message_status' => [
+            'draft_text' => 'drafted',
+            'upload' => 'uploaded',
+        ]
+    ]
 ];

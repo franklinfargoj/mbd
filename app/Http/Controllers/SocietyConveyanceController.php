@@ -42,9 +42,6 @@ class SocietyConveyanceController extends Controller
      */
     public function index(DataTables $datatables, Request $request)
     {
-//        $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
-//        $sc = SocietyConveyance::where('society_id', $society_details->id)->first();
-//        dd($sc);
         $columns = [
             ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
@@ -225,7 +222,7 @@ class SocietyConveyanceController extends Controller
                             $input_sc_application['application_no'] = config('commanConfig.mhada_code').str_pad($input_id->id, 5, '0', STR_PAD_LEFT);
                             $input_sc_application['form_request_id'] = $input_id->id;
                             $sc_application = scApplication::create($input_sc_application);
-                            $inserted_application_log = $this->CommonController->sc_application_status_society($insert_arr, config('commanConfig.applicationStatus.pending'), $sc_application->id);
+                            $inserted_application_log = $this->CommonController->sc_application_status_society($insert_arr, config('commanConfig.applicationStatus.pending'), $sc_application);
 
                             $sc_document_status = new SocietyConveyanceDocumentStatus;
                             $sc_document_status_arr = array_flip($sc_document_status->getFillable());
@@ -655,7 +652,7 @@ class SocietyConveyanceController extends Controller
                 $insert_arr = array(
                     'users' => $users
                 );
-                $inserted_application_log = $this->CommonController->sc_application_status_society($insert_arr, config('commanConfig.applicationStatus.forwarded'), $sc_application->id);
+                $inserted_application_log = $this->CommonController->sc_application_status_society($insert_arr, config('commanConfig.applicationStatus.forwarded'), $sc_application);
             }
         }
 
