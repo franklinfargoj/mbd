@@ -586,9 +586,6 @@ Route::get('view_application_vp/{id}','VPDepartment\VPController@viewApplication
 Route::get('calculation_sheet_vp/{id}','REEDepartment\REEController@showCalculationSheet')->name('vp.show_calculation_sheet');
 
 
-
-
-
 Route::resource('/ol_calculation_sheet', 'REEDepartment\OlApplicationCalculationSheetDetailsController');
 
 
