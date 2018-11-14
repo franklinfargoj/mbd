@@ -58,7 +58,7 @@
                 @php $j++; @endphp
                 @endforeach
                 @else
-                <div class="block">
+                <div class="blockPrc">
                     <div class="form-group m-form__group row mb-0">
                         <div class="col-lg-5 form-group">
                             <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
