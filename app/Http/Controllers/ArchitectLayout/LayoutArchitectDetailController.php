@@ -19,6 +19,7 @@ use Illuminate\Http\Request;
 use Storage;
 use Validator;
 use DB;
+use App\Layout\PrepareLayoutExcelLog;
 
 class LayoutArchitectDetailController extends Controller
 {
@@ -50,6 +51,21 @@ class LayoutArchitectDetailController extends Controller
                 ],
             ];
             $this->common->forward_architect_layout($layout_id,$forward_application);
+            $set_blank_excel_layout=ArchitectLayout::find($layout_id);
+            if($set_blank_excel_layout)
+            {
+                $set_blank_excel_layout->upload_layout_in_pdf_format="";
+                $set_blank_excel_layout->upload_layout_in_excel_format="";
+                $set_blank_excel_layout->upload_architect_note="";
+                $set_blank_excel_layout->layout_excel_status=0;
+                $set_blank_excel_layout->save();
+                if($set_blank_excel_layout)
+                {
+                    $PrepareLayoutExcelLog=new PrepareLayoutExcelLog;
+                    $PrepareLayoutExcelLog->architect_layout_id=$layout_id;
+                    $PrepareLayoutExcelLog->save();
+                }
+            }
         } else {
             $ArchitectLayoutDetail = ArchitectLayoutDetail::where(['id' => $layout_id])->orderBy('id', 'desc')->first();
         }

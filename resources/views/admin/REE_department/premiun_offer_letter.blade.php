@@ -86,8 +86,13 @@
                     <p style="text-indent: 25px; margin-top: 5px; margin-bottom: 5px;">Allotment of additional buildable area of <span style="font-weight: bold"> {{ $calculationData->premiumCalculationSheet != "" ? $calculationData->premiumCalculationSheet->remaining_area : ""}} m<sup>2</sup> </span> (for residential use)[i.e. ___________ in the form of additional BUA + <span style="font-weight: bold;"> {{ ($calculationData->premiumCalculationSheet != "") ? $calculationData->premiumCalculationSheet->proratata_construction_area : '' }} m<sup>2</sup> </span> in the form of balance built up area of layout (Pro-rata)] over and above <span style="font-weight: bold;"> {{ ($calculationData->premiumCalculationSheet != "") ? $calculationData->premiumCalculationSheet->existing_construction_area : ''}} m<sup>2</sup> </span>
                         existing built up area.</p>
                     <p style="text-indent: 25px; margin-top: 5px; margin-bottom: 5px;">
-                    The above allotment is on sub-divided plot as per layout admeasuring about <span style="font-weight: bold"> {{ ($calculationData->premiumCalculationSheet != "") ? $calculationData->premiumCalculationSheet->area_of_subsistence_to_calculate : '' }} m<sup>2</sup> </span> (i.e. _____________________ m<sup>2</sup> Lease Area +
-                        _____________________ m<sup>2</sup> Tit Bit area). The total built up area should be permitted up to existing BUA ___________ m<sup>2</sup>
+                    The above allotment is on sub-divided plot as per layout admeasuring about <span style="font-weight: bold"> {{ ($calculationData->premiumCalculationSheet != "") ? $calculationData->premiumCalculationSheet->area_of_subsistence_to_calculate : '' }} m<sup>2</sup> </span> 
+
+                    (i.e. <span style="font-weight: bold"> {{ ($calculationData->premiumCalculationSheet != "") ? $calculationData->premiumCalculationSheet->area_as_per_lease_agreement : '' }} m<sup>2</sup> </span> Lease Area +
+                    <span style="font-weight: bold"> {{ ($calculationData->premiumCalculationSheet != "") ? $calculationData->premiumCalculationSheet->area_of_tit_bit_plot : '' }} m<sup>2</sup> </span>
+
+                    Tit Bit area). The total built up area should be permitted up to existing BUA <span style="font-weight: bold"> {{ ($calculationData->premiumCalculationSheet != "") ? $calculationData->premiumCalculationSheet->existing_construction_area : '' }} m<sup>2</sup> </span> m<sup>2</sup>
+                        
                         + <span style="font-weight: bold"> {{($calculationData->premiumCalculationSheet !="") ? $calculationData->premiumCalculationSheet->remaining_area : ''}} m<sup>2</sup> </span> (for residential use)[i.e. ___________ m<sup>2</sup> in the form of additional BUA + <span style="font-weight: bold"> {{ ($calculationData->premiumCalculationSheet != "") ? $calculationData->premiumCalculationSheet->proratata_construction_area : '' }} m<sup>2</sup></span> in
                         the form of balance built up area of layout (Pro-rata)] thus total BUA = <span style="font-weight: bold"> {{($calculationData->premiumCalculationSheet != "") ? $calculationData->premiumCalculationSheet->total_permissible_construction_area : ''}} m<sup>2</sup> </span> only.</p>
                     <p style="text-indent: 25px; margin-top: 5px; margin-bottom: 5px;">MHADA's resolution no.6260
@@ -151,7 +156,7 @@
                                     Construction </td>
                                 <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;"><span style="font-weight: bold">{{($calculationData->premiumCalculationSheet != "" ? $calculationData->premiumCalculationSheet->redirekner_construction_rate : '')}}</span></td>
                             </tr>
-                            <tr>
+                            <tr> 
                                 <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">7.</td>
                                 <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">LR /RC Ratio
                                     (55,900.00 / 27,500.00)</td>
@@ -160,8 +165,8 @@
                             <tr>
                                 <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">8.</td>
                                 <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Premium towards
-                                    additional buildable area for ___________ use of <span style="font-weight: bold"> {{$calculationData->premiumCalculationSheet != "" ? $calculationData->premiumCalculationSheet->remaining_area : ''}} m<sup>2</sup> </span> sq. mt. by charging Rs.
-                                    ___________@ ___________ current Ready Reckoner Rate of 2018-19 (i.e. ___________ of Rs.<span style="font-weight: bold"> {{($calculationData->premiumCalculationSheet != "" ? $calculationData->premiumCalculationSheet->redirekner_value : '')}}/-) </span> as per
+                                    additional buildable area for use of <span style="font-weight: bold"> {{$calculationData->premiumCalculationSheet != "" ? $calculationData->premiumCalculationSheet->remaining_area : ''}} m<sup>2</sup> </span> sq. mt. by charging Rs.
+                                    ___________@ ___________ current Ready Reckoner Rate of 2018-19 (i.e. ___________ of Rs.<span style="font-weight: bold"> {{($calculationData->premiumCalculationSheet != "" ? $calculationData->premiumCalculationSheet->calculated_dcr_rate_val : '')}}/-) </span> as per
                                     Table C-1, in DCR 33(5),dated 03.07.2017. </td>
                                 <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;"><span style="font-weight: bold">{{($calculationData->premiumCalculationSheet != "" ? $calculationData->premiumCalculationSheet->balance_of_remaining_area : '')}} </span></td>
                             </tr>
@@ -187,7 +192,7 @@
                             <tr>
                                 <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">11.</td>
                                 <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Amount to be paid
-                                    to MHADA (2/7 of Sr.No. ____)</td>
+                                    to MHADA (2/7 of Sr.No. 09)</td>
                                 <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;">
                                 <span style="font-weight: bold">{{($calculationData->premiumCalculationSheet != "" ? $calculationData->premiumCalculationSheet->offsite_infrastructure_charge_to_mhada : '')}}
                                 </span></td>
@@ -212,7 +217,7 @@
                             <tr>
                                 <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;"></td>
                                 <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Total Amount to be
-                                    paid to MCGM (Sr.No.____)</td>
+                                    paid to MCGM (Sr.No. 10)</td>
                                 <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;"><span style="font-weight: bold"> {{($calculationData->premiumCalculationSheet != "" ? $calculationData->premiumCalculationSheet->offsite_infrastructure_charges_to_municipal_corporation : '')}}</span></td>
                             </tr>
                         </tbody>
@@ -346,9 +351,7 @@
                     <p style="margin-bottom: 5px; margin-top: 5px;">13) MHADA reserve it's right to withdraw, change,
                         alter, amend their offer letter and conditions mentioned therein in future at any point of time
                         without giving any reason to do so.</p>
-                    <p style="margin-bottom: 5px; margin-top: 5px;">14) It should be sole responsibility of society to
-                        obtain the approval of plans from S.P.A./ MHADA and this allotment is made subject to approval of
-                        S.P.A./ MHADA.</p>
+                    <p style="margin-bottom: 5px; margin-top: 5px;">14) It should be sole responsibility of society to obtain the approval of plans from EE,BP Cell, Greater Mumbai / MHADA and this allotment is made subject to approval of EE,BP Cell, Greater Mumbai / MHADA.</p>
                     <p style="margin-bottom: 5px; margin-top: 5px;">15) The society should have to submit the rectification
                         / Correction in CTS No. in the sale deed / lease deed as per CTS plan and PR card before issuance
                         of NOC for said building if applicable.</p>
@@ -452,9 +455,7 @@
                             & conveyance is binding on the society.</div>
                         <div style="clear: both;"></div>
                         <div style="width: 4%; float: left;">2.</div>
-                        <div style="width: 96%; float: left;">The society will have to obtain separate P. R. card as per
-                            the approved additional area leased out by the board duly signed by S. L. R. before asking for
-                            consent letter for Occupation Certificate of S.P.A./ MHADA.</div>
+                        <div style="width: 96%; float: left;">The society will have to obtain separate P. R. card as per the approved additional area leased out by the board duly signed by S. L. R. before asking for consent letter for Occupation Certificate of EE,BP Cell, Greater Mumbai / MHADA.</div>
                         <div style="clear: both;"></div>
                         <div style="width: 4%; float: left;">3.</div>
                         <div style="width: 96%; float: left;">This offer letter will not be misused for taking out any kind
@@ -462,21 +463,14 @@
                         <div style="clear: both;"></div>
                         <div style="width: 4%; float: left;">4.</div>
                         <div style="width: 96%; float: left;">The work of the proposed demolition & reconstruction of the
-                            new building will be undertaken by the society entirely at the risk and cost of the society and
-                            MHADA / MHADA will not be held responsible for any kind of damages or losses.</div>
+                            new building will be undertaken by the society entirely at the risk and cost of the society and MHADA / MHADA will not be held responsible for any kind of damages or losses.</div>
                         <div style="clear: both;"></div>
                         <div style="width: 4%; float: left;">5.</div>
-                        <div style="width: 96%; float: left;">The society will undertake & entrust responsibility of the
-                            planning, designing approval from S.P.A./ MHADA & day to day supervision of the proposed
-                            demolition and reconstruction / development of the new building by the Licensed Architect
-                            registered with the council of Architecture and licensed Structural Engineer.</div>
+                        <div style="width: 96%; float: left;">The society will undertake & entrust responsibility of the planning, designing approval from EE, BP Cell, Greater Mumbai / MHADA & day to day supervision of the proposed demolition and reconstruction / development of the new building by the Licensed Architect registered with the council of Architecture and licensed Structural Engineer.</div>
                         <div style="clear: both;"></div>
                         <div style="width: 4%; float: left;">6.</div>
                         <div style="width: 96%; float: left;">The society is responsible for obtaining all necessary
-                            permissions & approvals for utilization of additional BUA from the S.P.A./ MHADA & other
-                            concerned authorities (such as MOEF, MCZM, forest etc) before starting of the work & MHADA is
-                            not responsible for S.P.A./ MHADA / other authorities refuse to give permission for development
-                            of society's proposal.</div>
+                            permissions & approvals for utilization of additional BUA from the EE,BP Cell, Greater Mumbai / MHADA & other concerned authorities (such as MOEF, MCZM, forest etc) before starting of the work & MHADA is not responsible for S EE,BP Cell, Greater Mumbai / MHADA other authorities refuse to give permission for development of society's proposal.</div>
                         <div style="clear: both;"></div>
                         <div style="width: 4%; float: left;">7.</div>
                         <div style="width: 96%; float: left;">Society will be responsible for any kind of litigation or
@@ -509,9 +503,7 @@
                             as permitted by the MHADA.</div>
                         <div style="clear: both;"></div> 
                         <div style="width: 4%; float: left;">14.</div>
-                        <div style="width: 96%; float: left;">The society will have to construct and maintain separate
-                            underground water tank, pump house and over-head tank to meet requirement of the proposed
-                            buildings and obtain separate water meter & water connection as per approvals of S.P.A./ MHADA</div>
+                        <div style="width: 96%; float: left;">The society will have to construct and maintain separate underground water tank, pump house and over-head tank to meet requirement of the proposed buildings and obtain separate water meter & water connection as per approvals of EE,BP Cell, Greater Mumbai / MHADA.</div>
                         <div style="clear: both;"></div>
                         <div style="width: 4%; float: left;">15.</div>
                         <div style="width: 96%; float: left;">The Society will construct compound wall along boundary line
@@ -523,13 +515,10 @@
                             cost.</div>
                         <div style="clear: both;"></div>
                         <div style="width: 4%; float: left;">17.</div>
-                        <div style="width: 96%; float: left;">The society at its cost will undertake up-gradation of all
-                            existing infrastructure and also carry-out laying of new infrastructural services at its cost
-                            as suggested by S.P.A./ MHADA, MHADA and any other concerned Authority.</div>
+                        <div style="width: 96%; float: left;">The society at its cost will undertake up-gradation of all existing infrastructure and also carry-out laying of new infrastructural services at its cost as suggested by EE,BP Cell, Greater Mumbai / MHADA,  and any other concerned Authority.</div>
                         <div style="clear: both;"></div>
                         <div style="width: 4%; float: left;">18.</div>
-                        <div style="width: 96%; float: left;">All the terms and conditions of the layout approval of the
-                            S.P.A./ MHADA will be binding on the society.</div>
+                        <div style="width: 96%; float: left;">All the terms and conditions of the layout approval of the EE,BP Cell, Greater Mumbai / MHADA will be binding on the society.</div>
                         <div style="clear: both;"></div>
                         <div style="width: 4%; float: left;">19.</div>
                         <div style="width: 96%; float: left;">MHADA reserve it's right to withdraw, change, alter, amend

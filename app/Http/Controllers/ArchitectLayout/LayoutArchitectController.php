@@ -21,7 +21,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Storage;
 use Yajra\DataTables\DataTables;
-
+use App\Layout\PrepareLayoutExcelLog;
 class LayoutArchitectController extends Controller
 {
     protected $architect_layouts;
@@ -218,52 +218,67 @@ class LayoutArchitectController extends Controller
         $parentData = $this->architect_layouts->getForwardApplicationArchitectParentData();
         $arrData['parentData'] = $parentData['parentData'];
         $arrData['role_name'] = $parentData['role_name'];
+        $architectlogs = $this->architect_layouts->getLogOfArchitectLayoutApplication($layout_id);
+        $Emlogs = $this->architect_layouts->getLogOfEmLayoutApplication($layout_id);
+        $Lmlogs = $this->architect_layouts->getLogOfLmLayoutApplication($layout_id);
+        $EElogs = $this->architect_layouts->getLogOfEELayoutApplication($layout_id);
+        $Reelogs = $this->architect_layouts->getLogOfReeLayoutApplication($layout_id);
+        // dd($ArchitectLayout->land_scrutiny_checklist_and_remarks);
         if (session()->get('role_name') == config('commanConfig.architect')) {
-            if (!$ArchitectLayout->land_scrutiny_checklist_and_remarks) {
+            //if (!$ArchitectLayout->land_scrutiny_checklist_and_remarks) {
+                if ($ArchitectLayout->upload_layout_in_pdf_format == "" && $ArchitectLayout->upload_layout_in_excel_format == "" && $ArchitectLayout->upload_architect_note == "") {
                 if (session()->get('role_name') != config('commanConfig.LM')) {
                     $lm_role_id = Role::where('name', '=', config('commanConfig.land_manager'))->first();
                     $arrData['get_forward_lm'] = User::where('role_id', $lm_role_id->id)->get();
                     $arrData['lm_role_name'] = strtoupper(str_replace('_', ' ', $lm_role_id->name));
                 }
             }
+            //}
 
             if (session()->get('role_name') != config('commanConfig.ree_junior')) {
                 $ree_role_id = Role::where('name', '=', config('commanConfig.ree_junior'))->first();
                 $arrData['get_forward_ree'] = User::where('role_id', $ree_role_id->id)->get();
                 $arrData['ree_role_name'] = strtoupper(str_replace('_', ' ', $ree_role_id->name));
             }
-            if (!$ArchitectLayout->ee_scrutiny_checklist_and_remarks) {
+            // if (!$ArchitectLayout->ee_scrutiny_checklist_and_remarks) {
+            if ($ArchitectLayout->upload_layout_in_pdf_format == "" && $ArchitectLayout->upload_layout_in_excel_format == "" && $ArchitectLayout->upload_architect_note == "") {
                 if (session()->get('role_name') != config('commanConfig.ee_junior_engineer')) {
                     $ee_role_id = Role::where('name', '=', config('commanConfig.ee_junior_engineer'))->first();
                     $arrData['get_forward_ee'] = User::where('role_id', $ee_role_id->id)->get();
                     $arrData['ee_role_name'] = strtoupper(str_replace('_', ' ', $ee_role_id->name));
                 }
             }
-            if (!$ArchitectLayout->em_scrutiny_checklist_and_remarks) {
+            // }
+            //if (!$ArchitectLayout->em_scrutiny_checklist_and_remarks) {
+            if ($ArchitectLayout->upload_layout_in_pdf_format == "" && $ArchitectLayout->upload_layout_in_excel_format == "" && $ArchitectLayout->upload_architect_note == "") {
                 if (session()->get('role_name') != config('commanConfig.estate_manager')) {
                     $em_role_id = Role::where('name', '=', config('commanConfig.estate_manager'))->first();
                     $arrData['get_forward_em'] = User::where('role_id', $em_role_id->id)->get();
                     $arrData['em_role_name'] = strtoupper(str_replace('_', ' ', $em_role_id->name));
                 }
             }
+            //}
 
-            $architectlogs = $this->architect_layouts->getLogOfArchitectLayoutApplication($layout_id);
+            
         }
         if (session()->get('role_name') == config('commanConfig.land_manager') ||
             session()->get('role_name') == config('commanConfig.estate_manager') ||
             session()->get('role_name') == config('commanConfig.ree_branch_head') ||
             session()->get('role_name') == config('commanConfig.ee_branch_head')) {
             if (session()->get('role_name') == config('commanConfig.ree_branch_head')) {
-                if (session()->get('role_name') != config('commanConfig.co_engineer')) {
-                    $co_role_id = Role::where('name', '=', config('commanConfig.co_engineer'))->first();
-                    $arrData['get_forward_co'] = User::where('role_id', $co_role_id->id)->get();
-                    $arrData['co_role_name'] = strtoupper(str_replace('_', ' ', $co_role_id->name));
-                }
+                
                 if ($ArchitectLayout->upload_layout_in_pdf_format == "" && $ArchitectLayout->upload_layout_in_excel_format == "" && $ArchitectLayout->upload_architect_note == "") {
                     if (session()->get('role_name') != config('commanConfig.junior_architect')) {
                         $lm_role_id = Role::where('name', '=', config('commanConfig.junior_architect'))->first();
                         $arrData['get_forward_lm'] = User::where('role_id', $lm_role_id->id)->get();
                         $arrData['lm_role_name'] = strtoupper(str_replace('_', ' ', $lm_role_id->name));
+                    }
+                }else
+                {
+                    if (session()->get('role_name') != config('commanConfig.co_engineer')) {
+                        $co_role_id = Role::where('name', '=', config('commanConfig.co_engineer'))->first();
+                        $arrData['get_forward_co'] = User::where('role_id', $co_role_id->id)->get();
+                        $arrData['co_role_name'] = strtoupper(str_replace('_', ' ', $co_role_id->name));
                     }
                 }
 
@@ -280,6 +295,7 @@ class LayoutArchitectController extends Controller
         if (session()->get('role_name') == config('commanConfig.co_engineer')) {
             if (session()->get('role_name') != config('commanConfig.senior_architect_planner')) {
                 $sap_role_id = Role::where('name', '=', config('commanConfig.senior_architect_planner'))->first();
+                //dd(config('commanConfig.senior_architect_planner'));
                 $arrData['get_forward_sap'] = User::where('role_id', $sap_role_id->id)->get();
                 $arrData['sap_role_name'] = strtoupper(str_replace('_', ' ', $sap_role_id->name));
             }
@@ -321,7 +337,7 @@ class LayoutArchitectController extends Controller
                 $arrData['lm_role_name'] = strtoupper(str_replace('_', ' ', $jr_architect_role_id->name));
             }
         }
-        return view('admin.architect_layout.forward_architect_layout', compact('arrData', 'ArchitectLayout', 'architectlogs'));
+        return view('admin.architect_layout.forward_architect_layout', compact('arrData', 'ArchitectLayout', 'architectlogs','Emlogs','Lmlogs','EElogs','Reelogs'));
     }
 
     public function post_forward_layout(Request $request)
@@ -353,7 +369,13 @@ class LayoutArchitectController extends Controller
         }
         $this->architect_layouts->forward_architect_layout($request->architect_layout_id, $forward_application);
         //ArchitectLayoutStatusLog::insert($forward_application);
-
+        $ArchitectLayout=ArchitectLayout::find($request->architect_layout_id);
+        if($ArchitectLayout)
+        {
+            $ArchitectLayout->sent_for_scrutiny_status=1;
+            $ArchitectLayout->save();
+        }
+        
         return redirect(route('architect_layout.index'));
     }
 
@@ -844,7 +866,7 @@ class LayoutArchitectController extends Controller
 
     public function uploadLayoutandExcelAjax(Request $request)
     {
-        //return $request->all();
+        
         $response_array = array();
         $file = $request->file('file');
         if ($file->getClientMimeType() == 'application/pdf') {
@@ -856,12 +878,60 @@ class LayoutArchitectController extends Controller
                 $ArchitectLayout = ArchitectLayout::find($request->architect_layout_id);
                 if ($request->field_name == 'layout_in_pdf') {
                     $ArchitectLayout->upload_layout_in_pdf_format = $storage;
+                    $get_id=PrepareLayoutExcelLog::where(['architect_layout_id'=>$request->architect_layout_id])->orderBy('id','desc')->first();
+                    if($get_id)
+                    {
+                        $PrepareLayoutExcelLog=PrepareLayoutExcelLog::find($get_id->id);
+                        $PrepareLayoutExcelLog->upload_layout_in_pdf_format=$storage;
+                        $PrepareLayoutExcelLog->save();
+                    }else
+                    {
+                        
+                        $PrepareLayoutExcelLog=new PrepareLayoutExcelLog;
+                        $PrepareLayoutExcelLog->architect_layout_id=$request->architect_layout_id;
+                        $PrepareLayoutExcelLog->upload_layout_in_pdf_format=$storage;
+                        $PrepareLayoutExcelLog->save();
+                    }
                 }
                 if ($request->field_name == 'layout_in_excel') {
                     $ArchitectLayout->upload_layout_in_excel_format = $storage;
+                    $get_id=PrepareLayoutExcelLog::where(['architect_layout_id'=>$request->architect_layout_id])->orderBy('id','desc')->first();
+                    if($get_id)
+                    {
+                        $PrepareLayoutExcelLog=PrepareLayoutExcelLog::find($get_id->id);
+                        $PrepareLayoutExcelLog->upload_layout_in_excel_format=$storage;
+                        $PrepareLayoutExcelLog->save();
+                        
+                    }else
+                    {
+                        
+                        $PrepareLayoutExcelLog=new PrepareLayoutExcelLog;
+                        $PrepareLayoutExcelLog->architect_layout_id=$request->architect_layout_id;
+                        $PrepareLayoutExcelLog->upload_layout_in_excel_format=$storage;
+                        $PrepareLayoutExcelLog->save();
+                    }
                 }
                 if ($request->field_name == 'upload_architect_note') {
                     $ArchitectLayout->upload_architect_note = $storage;
+                    $get_id=PrepareLayoutExcelLog::where(['architect_layout_id'=>$request->architect_layout_id])->orderBy('id','desc')->first();
+                    if($get_id)
+                    {
+                        $PrepareLayoutExcelLog=PrepareLayoutExcelLog::find($get_id->id);
+                        $PrepareLayoutExcelLog->upload_architect_note=$storage;
+                        $PrepareLayoutExcelLog->save();
+                    }else
+                    {
+                        
+                        $PrepareLayoutExcelLog=new PrepareLayoutExcelLog;
+                        $PrepareLayoutExcelLog->architect_layout_id=$request->architect_layout_id;
+                        $PrepareLayoutExcelLog->upload_architect_note=$storage;
+                        $PrepareLayoutExcelLog->save();
+                    }
+                }
+
+                if($ArchitectLayout->upload_layout_in_pdf_format!="" && $ArchitectLayout->upload_layout_in_excel_format!="" && $ArchitectLayout->upload_architect_note!="")
+                {
+                    $ArchitectLayout->layout_excel_status=1;
                 }
                 $ArchitectLayout->save();
                 $response_array = array(

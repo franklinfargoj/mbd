@@ -206,6 +206,21 @@ class ReePermissionSeeder extends Seeder
                 'name'=>'dashboard',
                 'display_name'=>'dashboard',
                 'description'=>'Dashboard'
+            ],
+            [
+                'name'=>'ree.save_custom_calculation_data',
+                'display_name'=>'save custom calculation data',
+                'description'=>'save custom calculation data'
+            ],            
+            [
+                'name'=>'ree_applications.custom_calculation_sheet',
+                'display_name'=>'custom calculation sheet',
+                'description'=>'custom calculation sheet'
+            ],            
+            [
+                'name'=>'ree_applications.calculation_sheet_options',
+                'display_name'=>'calculation sheet options',
+                'description'=>'calculation sheet options'
             ]
         ];
 

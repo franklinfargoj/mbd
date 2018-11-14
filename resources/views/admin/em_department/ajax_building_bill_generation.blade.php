@@ -22,22 +22,29 @@
                     {!! Form::open(['method' => 'get', 'route' => 'generateBuildingBill']) !!}
                     {{ Form::hidden('building_id', $value->id) }}
                     {{ Form::hidden('society_id', $value->society_id) }}
-                    {!! Form::submit(trans('Generate Bill'), array('class' => 'btn btn-info mb-10')) !!}
+                    {{ Form::button('<span class="btn-icon btn-icon--edit"><img src="img/view-icon.svg"></span>Generate Bill', array('class'=>'d-flex flex-column align-items-center','type'=>'submit')) }}
                     {!! Form::close() !!}
 
                     {!! Form::open(['method' => 'get', 'route' => 'billing_calculations']) !!}
                     {{ Form::hidden('building_id', $value->id) }}
                     {{ Form::hidden('society_id', $value->society_id) }}
-                    {!! Form::submit(trans('View Billing Details'), array('class' => 'btn btn-info mb-10')) !!}
+                    {{ Form::button('<span class="btn-icon btn-icon--edit"><img src="img/view-icon.svg"></span>View Billing Details', array('class'=>'d-flex flex-column align-items-center','type'=>'submit')) }}
                     {!! Form::close() !!}
                     
                     {!! Form::open(['method' => 'get', 'route' => 'arrears_calculations']) !!}
                     {{ Form::hidden('building_id', $value->id) }}
-                    {{ Form::hidden('society_id', $value->society_id) }}
-                    {!! Form::submit(trans('View Arrear Calculation'), array('class' => 'btn btn-info mb-10')) !!}
+                    {{ Form::hidden('society_id', $value->society_id) }}                    
+                    {{ Form::button('<span class="btn-icon btn-icon--edit"><img src="img/view-icon.svg"></span>View Arrear Calculation', array('class'=>'d-flex flex-column align-items-center','type'=>'submit')) }}
                     {!! Form::close() !!}
+                       
+                    <div class="d-flex btn-icon-list"> 
+                    <a class="d-flex flex-column align-items-center" href="#">
+                            <span class="btn-icon btn-icon--edit">
+                                <img src="{{ asset('/img/edit-icon.svg')}}">
+                            </span>Regenerate Bill
+                    </a>
+                    </div>
 
-                    <a class="btn btn-info mb-10" href="#">Regenerate Bill</a>
                 </td>
             </tr>
         @endforeach

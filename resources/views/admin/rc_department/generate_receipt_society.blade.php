@@ -142,7 +142,7 @@
                     <div class="col-sm-6 form-group">
                         <label class="col-form-label" for="">Receipt generation except following tenaments :</label>
                         <div class="dropdown-sin-2">
-                            <select style="display:none" multiple placeholder="Select" name="except_tenaments"></select>
+                            <select style="display:none" multiple placeholder="Select" name="except_tenaments[]"></select>
                         </div>
                         <span class="help-block"></span>
                     </div>

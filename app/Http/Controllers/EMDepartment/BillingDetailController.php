@@ -97,6 +97,12 @@ class BillingDetailController extends Controller
 
 	        $data['service_charges'] = ServiceChargesRate::where('society_id',$request->society_id)->where('building_id',$request->building_id)->where('year',$data['select_year'])->first();
 
+            if($data['select_month'] <= 3){
+                $data['arrear_year'] = '20'.explode("-", $data['select_year'])[1];
+            } else {
+                $data['arrear_year'] = explode("-", $data['select_year'])[0];
+            }
+
 	        $data['arreas_calculations'] = ArrearCalculation::selectRaw("
 	        	sum(total_amount) as total_amount,
 	        	sum(old_intrest_amount+difference_amount) as balance_amount,
@@ -105,7 +111,7 @@ class BillingDetailController extends Controller
 	        	year")
 	        	->where('society_id',$request->society_id)
 	        	->where('building_id',$request->building_id)
-	        	->where('year',$data['select_year'])
+	        	->where('year',  $data['arrear_year'])
 	        	->whereIn('month',$data['select_month']);
 
         	if($request->has('tenant_id') && !empty($request->tenant_id)) {
@@ -114,7 +120,7 @@ class BillingDetailController extends Controller
             }  else {
             	$data['arreas_calculations'] = $data['arreas_calculations']->groupBy('year','month');
             }
-            $data['arreas_calculations'] = $data['arreas_calculations']->get();
+                $data['arreas_calculations'] = $data['arreas_calculations']->get();
     	}
 
         return view('admin.em_department.billing_calculations', $data);

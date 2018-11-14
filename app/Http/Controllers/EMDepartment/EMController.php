@@ -40,7 +40,6 @@ use App\ServiceChargesRate;
 use App\ArrearCalculation;
 use App\TransBillGenerate;
 
-
 class EMController extends Controller
 {
     public function __construct()

@@ -257,7 +257,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::post('create_arrear_calculation', 'EMDepartment\EMClerkController@create_arrear_calculation')->name('create_arrear_calculation');
 
 
-    // RC Dewpartment Routes
+    // RC Department Routes
     Route::resource('rc', 'RCDepartment\RCController');
     Route::get('bill_collection_society', 'RCDepartment\RCController@bill_collection_society')->name('bill_collection_society');
     Route::get('bill_collection_tenant', 'RCDepartment\RCController@bill_collection_tenant')->name('bill_collection_tenant');
@@ -267,6 +267,8 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('generate_receipt_tenant', 'RCDepartment\RCController@generate_receipt_tenant')->name('generate_receipt_tenant');
     Route::post('payment_receipt_society', 'RCDepartment\RCController@payment_receipt_society')->name('payment_receipt_society');
     Route::post('payment_receipt_tenant', 'RCDepartment\RCController@payment_receipt_tenant')->name('payment_receipt_tenant');
+    Route::get('view_bill_tenant', 'RCDepartment\RCController@view_bill_tenant')->name('view_bill_tenant');
+    Route::get('view_bill_building', 'RCDepartment\RCController@view_bill_building')->name('view_bill_building');
 
 
 	//DYCE Department routes
@@ -297,6 +299,12 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::post('ree_forward_Application_data','REEDepartment\REEController@sendForwardApplication')->name('ree.forward_application_data');
 
     Route::get('ree_reval_applications','REEDepartment\REEController@revalidationApplicationList')->name('ree_applications.reval');
+
+    Route::get('calculation_sheet_options/{id}','REEDepartment\REEController@displayCalculationSheetOptions')->name('ree_applications.calculation_sheet_options');
+
+    Route::get('custom_calculation_sheet/{id}','REEDepartment\REEController@displayCustomCalculationSheet')->name('ree_applications.custom_calculation_sheet');
+
+    Route::post('save_custom_calculation_data','REEDepartment\REEController@saveCustomCalculationData')->name('ree.save_custom_calculation_data');
 
     // Route::resource('/ol_calculation_sheet', 'REEDepartment\OlApplicationCalculationSheetDetailsController');
     Route::post('ol_calculation_sheet/save_details','REEDepartment\OlApplicationCalculationSheetDetailsController@saveCalculationDetails')->name('save_calculation_details');
@@ -608,6 +616,8 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::post('save_forward_application_sc', 'conveyance\conveyanceCommonController@saveForwardApplication')->name('conveyance.save_forward_application');
 
     Route::post('save_agreement_comments', 'conveyance\conveyanceCommonController@SaveAgreementComments')->name('conveyance.save_agreement_comments');
+
+    Route::get('view_documents/{id}', 'conveyance\conveyanceCommonController@ViewDocuments')->name('conveyance.view_documents');
 
     Route::get('sale_lease_agreement/{id}', 'conveyance\DYCODepartment\DYCOController@saleLeaseAgreement')->name('conveyance.sale_lease_agreement');
     
