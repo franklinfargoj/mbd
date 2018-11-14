@@ -14,9 +14,10 @@
             </tr>
         </thead>
         <tbody id="myTable">
+              <?php $row_no = 1; ?>
         @foreach($buildings as $key => $value )
             <tr>
-                <td>{{$value->id}}</td>
+                <td>{{$row_no++}}</td>
                 <td>{{$value->flat_no}}</td>
                 <td>{{$value->salutation}}</td>
                 <td>{{$value->first_name}}</td>
@@ -29,24 +30,27 @@
                      {{ $value->tenant_type == $value2->id ? $value2->name : '' }} 
                     @endforeach 
                 </td>
-                <td>                 
+                <td>                  
                     
                     {!! Form::open(['method' => 'get', 'route' => 'billing_calculations']) !!}
                     {{ Form::hidden('tenant_id', $value->id) }}
                     {{ Form::hidden('building_id', $value->building_id) }}
-                    {!! Form::submit(trans('View Billing Details'), array('class' => 'btn btn-info mb-10')) !!}
+                    {{ Form::hidden('society_id', $society_id) }}
+                    {{ Form::button('<span class="btn-icon btn-icon--edit"><img src="img/view-icon.svg"></span> View Billing Details', array('class'=>'d-flex flex-column align-items-center','type'=>'submit')) }}
                     {!! Form::close() !!}
 
                     {!! Form::open(['method' => 'get', 'route' => 'generate_receipt_tenant']) !!}
                     {{ Form::hidden('tenant_id', $value->id) }}
                     {{ Form::hidden('building_id', $value->building_id) }}
-                    {!! Form::submit(trans('Generate Reciept'), array('class' => 'btn btn-info mb-10')) !!}
+                    {{ Form::hidden('society_id', $society_id) }}
+                    {{ Form::button('<span class="btn-icon btn-icon--edit"><img src="img/view-icon.svg"></span> Generate Reciept', array('class'=>'d-flex flex-column align-items-center','type'=>'submit')) }}
                     {!! Form::close() !!}  
 
-                    {!! Form::open(['method' => 'Post', 'route' => 'arrears_calculations']) !!}
+                    {!! Form::open(['method' => 'get', 'route' => 'view_bill_tenant']) !!}
                     {{ Form::hidden('tenant_id', $value->id) }}
                     {{ Form::hidden('building_id', $value->building_id) }}
-                    {!! Form::submit(trans('View Bill'), array('class' => 'btn btn-info mb-10')) !!}
+                    {{ Form::hidden('society_id', $society_id) }}
+                    {{ Form::button('<span class="btn-icon btn-icon--edit"><img src="img/view-icon.svg"></span> View Bill', array('class'=>'d-flex flex-column align-items-center','type'=>'submit')) }}
                     {!! Form::close() !!}
 
                 </td>

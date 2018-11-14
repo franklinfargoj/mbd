@@ -37,6 +37,7 @@ use App\SocietyDetail;
 use App\MasterBuilding;
 use App\MasterTenant;
 use App\ArrearsChargesRate;
+use App\ServiceChargesRate;
 use App\ArrearTenantPayment;
 use App\ArrearCalculation;
 use PDF;
@@ -59,71 +60,7 @@ class RCController extends Controller
      */
     public function index(Request $request, Datatables $datatables)
     {
-        $getData = $request->all();
-
-        $columns = [
-            ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
-            ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
-            ['data' => 'application_no','name' => 'application_no','title' => 'Application Number'],
-            ['data' => 'submitted_at','name' => 'submitted_at','title' => 'Date', 'class' => 'datatable-date'],
-            ['data' => 'eeApplicationSociety.name','name' => 'eeApplicationSociety.name','title' => 'Society Name'],
-            ['data' => 'eeApplicationSociety.building_no', 'name' => 'eeApplicationSociety.building_no', 'title' => 'Building No'],
-            ['data' => 'eeApplicationSociety.address','name' => 'eeApplicationSociety.address','title' => 'Address','class' => 'datatable-address'],
-//            ['data' => 'model','name' => 'model','title' => 'Model'],
-            ['data' => 'Status','name' => 'current_status_id','title' => 'Status'],
-            // ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
-        ];
-
-        if ($datatables->getRequest()->ajax()) {
-
-            $ee_application_data =  $this->comman->listApplicationData($request);
-
-            return $datatables->of($ee_application_data)
-                ->editColumn('rownum', function ($listArray) {
-                    static $i = 0; $i++; return $i;
-                })
-                ->editColumn('radio', function ($ee_application_data) {
-                    $url = route('ee.view_application', $ee_application_data->id);
-                    return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
-                })                
-                ->editColumn('eeApplicationSociety.name', function ($listArray) {
-                    return $listArray->eeApplicationSociety->name;
-                })
-                ->editColumn('eeApplicationSociety.building_no', function ($listArray) {
-                    return $listArray->eeApplicationSociety->building_no;
-                })
-                ->editColumn('eeApplicationSociety.address', function ($listArray) {
-                    return "<span>".$listArray->eeApplicationSociety->address."</span>";
-                })
-                ->editColumn('Status', function ($listArray) use ($request) {
-                    $status = $listArray->olApplicationStatusForLoginListing[0]->status_id;
-                    // dd(config('commanConfig.applicationStatusColor.'.$status));
-                    if($request->update_status){
-                        if($request->update_status == $status){
-                            $config_array = array_flip(config('commanConfig.applicationStatus'));
-                            $value = ucwords(str_replace('_', ' ', $config_array[$status]));
-                            return '<span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$status) .' m-badge--wide">'.$value.'</span>';
-                        }
-                    } else {
-                        $config_array = array_flip(config('commanConfig.applicationStatus'));
-                        $value = ucwords(str_replace('_', ' ', $config_array[$status]));
-                        return '<span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$status) .' m-badge--wide">'.$value.'</span>';
-                    }
-
-                })
-                ->editColumn('submitted_at', function ($listArray) {
-                    return date(config('commanConfig.dateFormat'), strtotime($listArray->submitted_at));
-                })
-                // ->editColumn('actions', function ($ee_application_data) use($request) {
-                //     return view('admin.ee_department.actions', compact('ee_application_data', 'request'))->render();
-                // })
-                ->rawColumns(['radio','society_name', 'society_building_no', 'society_address', 'Status', 'submitted_at','eeApplicationSociety.address'])
-                ->make(true);
-        }
-
-        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
-
-        return view('admin.rc_department.index', compact('html','header_data','getData'));
+        return $this->bill_collection_society($request);
     }
 
     protected function getParameters() {
@@ -184,7 +121,7 @@ class RCController extends Controller
 
             $society_id = $request->input('id');
             $buildings = MasterBuilding::with('tenant_count')->where('society_id', '=', $request->input('id'))
-                        ->get();
+                        ->get(); 
             //return $buildings;
             return view('admin.rc_department.ajax_building_bill_collection', compact('buildings', 'society_id'));
     }
@@ -194,8 +131,9 @@ class RCController extends Controller
          $building_id = $request->input('id');
          $buildings = MasterTenant::where('building_id', '=', $request->input('id'))
                  ->get();
+         $society_id = MasterBuilding::where('id', '=', $request->input('id'))->first()->society_id;
         // return $buildings;
-        return view('admin.rc_department.ajax_tenant_bill_collection', compact('tenament','buildings', 'building_id'));
+        return view('admin.rc_department.ajax_tenant_bill_collection', compact('tenament','buildings', 'building_id', 'society_id'));
     }
 
     public function generate_receipt_society(Request $request){
@@ -247,13 +185,14 @@ class RCController extends Controller
 
     public function payment_receipt_society(Request $request){
 
-    //dd($request->all());
-       
+    // dd($request->all());
+
     if($request->bill_no){
             
           $receipt = TransPayment::with('dd_details')->with('bill_details')->where('bill_no', '=', $request->bill_no)->where('building_id', '=', $request->building_id)->where('society_id', '=', $request->society_id)->first();
           //dd($receipt);
-            if(!$receipt){
+
+          if(!$receipt){
                 
                 if($request->payment_mode == 'dd' && $request->dd_no != ''){
                     $dd = DdDetails::where('bill_no', '=', $request->bill_no)
@@ -279,44 +218,53 @@ class RCController extends Controller
                 } else {
                     $amount_paid = 0;
                 }
-
                
-            $tenants = MasterTenant::where('building_id',$request->building_id)->get();
-            
-            //dd($tenants);
+            if($request->except_tenaments){
+              $tenants = MasterTenant::where('building_id',$request->building_id)->whereNotIn('id', $request->except_tenaments)->get();
+            } else {
+              $tenants = MasterTenant::where('building_id',$request->building_id)->get();
+            }
+           
+            // dd($tenants);
 
             if($tenants){
                 foreach($tenants as $row => $key){
-                        $data[] =  [
-                                    'bill_no'    => $request->bill_no,
-                                    'tenant_id'  => $key->id,
-                                    'building_id'    => $key->building_id,
-                                    'society_id'     => $request->society_id,
-                                    'paid_by'    => $request->amount_paid_by,
-                                    'dd_id'    => $dd,
-                                    'mode_of_payment' => $request->payment_mode,
-                                    'bill_amount' => $request->bill_amount,
-                                    'amount_paid' => $amount_paid,
-                                    'from_date' => $request->from_date,
-                                    'to_date' => $request->to_date,
-                                    'balance_amount' => $request->balance_amount,
-                                    'credit_amount' => $request->credit_amount,
-                                  ];
+
+                    $check = TransBillGenerate::where('tenant_id', '=', $key->id)
+                                    ->where('bill_month', '=', date('n'))
+                                    ->where('bill_year', '=', date('Y'))
+                                    ->first();
+
+                    $data[] =  [
+                            'bill_no'    => $check->id,
+                            'tenant_id'  => $key->id,
+                            'building_id'    => $key->building_id,
+                            'society_id'     => $request->society_id,
+                            'paid_by'    => $request->amount_paid_by,
+                            'dd_id'    => $dd,
+                            'mode_of_payment' => $request->payment_mode,
+                            'bill_amount' => $request->bill_amount,
+                            'amount_paid' => $amount_paid,
+                            'from_date' => $request->from_date,
+                            'to_date' => $request->to_date,
+                            'balance_amount' => $request->balance_amount,
+                            'credit_amount' => $request->credit_amount,
+                          ];   
+
+                    $bill_status = TransBillGenerate::where('tenant_id', $key->id)->where('building_id',$request->building_id)->where('bill_month', date('n'))->where('bill_year', date('Y'))->update(array('status' => 'Paid'));                                         
                 }
                     $bill = TransPayment::insert($data);
-                                 
+                    
                 } else {
                     return redirect()->back()->with('success', 'Check bill details once.');    
                 }
         
-
                 $receipt = TransPayment::with('dd_details')->with('bill_details')->where('bill_no', '=', $request->bill_no)->where('building_id', '=', $request->building_id)->where('society_id', '=', $request->society_id)->first();
 
-
                 $data['building'] = MasterBuilding::find($request->building_id);
-                $data['society'] = SocietyDetail::find($data['building']->society_id);
+                $data['society']  = SocietyDetail::find($data['building']->society_id);
 
-                $data['tenants'] = MasterTenant::where('building_id',$request->building_id)->get();
+                $data['tenants'] = MasterTenant::where('building_id',$request->building_id)->whereNotIn('id', $request->except_tenaments)->get();
 
                 $data['bill'] = $receipt;
                 $data['consumer_number'] = substr(sprintf('%08d', $data['building']->society_id),0,8).'|'.substr(sprintf('%08d', $data['building']->id),0,8);
@@ -325,12 +273,12 @@ class RCController extends Controller
                 if(!$data['number_of_tenants']->tenant_count()->first()) {
                     return redirect()->back()->with('warning', 'Number of Tenants Is zero.');
                 }
+
                 $pdf = PDF::loadView('admin.rc_department.payment_receipt_society', $data);
                 return $pdf->download('payment_receipt_society'.date('YmdHis').'.pdf');
 
             } else {
               
-
                 $data['building'] = MasterBuilding::find($request->building_id);
                 $data['society'] = SocietyDetail::find($data['building']->society_id);
 
@@ -341,9 +289,9 @@ class RCController extends Controller
                  $data['number_of_tenants'] = MasterBuilding::with('tenant_count')->where('id',$request->building_id)->first();
                 //dd($data);
                  //dd($data['number_of_tenants']->tenant_count()->first());
-            if(!$data['number_of_tenants']->tenant_count()->first()) {
-                return redirect()->back()->with('warning', 'Number of Tenants Is zero.');
-            }
+                if(!$data['number_of_tenants']->tenant_count()->first()) {
+                    return redirect()->back()->with('warning', 'Number of Tenants Is zero.');
+                }
 
                 $pdf = PDF::loadView('admin.rc_department.payment_receipt_society', $data);
                 return $pdf->download('payment_receipt_society'.date('YmdHis').'.pdf');
@@ -403,8 +351,11 @@ class RCController extends Controller
                 $bill->to_date = $request->to_date;
                 $bill->balance_amount = $request->balance_amount;
                 $bill->credit_amount = $request->credit_amount;
-
                 $bill->save();
+
+                    $bill_status = TransBillGenerate::find($request->bill_no);
+                    $bill_status->status = 'paid';
+                    $bill_status->save(); 
 
                 $data['building'] = MasterBuilding::find($request->building_id);
                 $data['society'] = SocietyDetail::find($data['building']->society_id);
@@ -432,5 +383,59 @@ class RCController extends Controller
         }
 
     }
+
+    public function view_bill_building(Request $request){
+
+        if($request->has('building_id') && '' != $request->building_id) {
+            $data['building'] = MasterBuilding::find($request->building_id);
+            $data['society'] = SocietyDetail::find($data['building']->society_id);
+            $data['serviceChargesRate'] = ServiceChargesRate::selectRaw('Sum(water_charges) as water_charges,sum(electric_city_charge) as electric_city_charge,sum(pump_man_and_repair_charges) as  pump_man_and_repair_charges,sum(external_expender_charge) as external_expender_charge,sum(administrative_charge) as administrative_charge, sum(lease_rent) as lease_rent,sum(na_assessment) as na_assessment, sum(other) as other')->where('building_id',$request->building_id)->where('year',date('Y') . '-' . (date('y') + 1))->first();
+
+         //  dd($data['serviceChargesRate']); 
+        if(!$data['serviceChargesRate']){
+            return redirect()->back()->with('warning', 'Service charge Rates Not added into system.');
+        }
+
+         $data['arreasCalculation'] = ArrearCalculation::where('building_id',$request->building_id)->where('year',date('Y'))->where('payment_status','0')->get();
+            
+         $data['number_of_tenants'] = MasterBuilding::with('tenant_count')->where('id',$request->building_id)->first();
+         //dd($data['number_of_tenants']->tenant_count()->first());
+            if(!$data['number_of_tenants']->tenant_count()->first()) {
+                return redirect()->back()->with('warning', 'Number of Tenants Is zero.');
+            }
+
+            $data['month'] = date('m');
+            $data['year'] = date('Y') . '-' . (date('y') + 1);
+            $data['consumer_number'] = substr(sprintf('%08d', $data['building']->society_id),0,8).'|'.substr(sprintf('%08d', $data['building']->id),0,8);
+
+            return view('admin.rc_department.view_bill_building',$data);
+
+        }   
+    }
+
+     public function view_bill_tenant(Request $request){
+
+          if($request->has('building_id') && '' != $request->building_id && $request->has('tenant_id') && '' != $request->tenant_id) {
+            $data['building'] = MasterBuilding::find($request->building_id);
+            $data['society'] = SocietyDetail::find($data['building']->society_id);
+            $data['tenant'] = MasterTenant::where('building_id',$data['building']->id)->where('id',$request->tenant_id)->first();
+
+            $data['serviceChargesRate'] = ServiceChargesRate::selectRaw('Sum(water_charges) as water_charges,sum(electric_city_charge) as electric_city_charge,sum(pump_man_and_repair_charges) as  pump_man_and_repair_charges,sum(external_expender_charge) as external_expender_charge,sum(administrative_charge) as administrative_charge, sum(lease_rent) as lease_rent,sum(na_assessment) as na_assessment, sum(other) as other')->where('building_id',$request->building_id)->where('year',date('Y') . '-' . (date('y') + 1))->first();
+
+            if(!$data['serviceChargesRate']){
+                //dd($data);
+                return redirect()->back()->with('warning', 'Service charge Rates Not added into system.');
+            }
+
+            $data['arreasCalculation'] = ArrearCalculation::where('building_id',$request->building_id)->where('year',date('Y'))->where('payment_status','0')->get();
+
+            $data['month'] = date('m');
+            $data['year'] = date('Y') . '-' . (date('y') + 1);
+            $data['consumer_number'] = substr(sprintf('%08d', $data['building']->id),0,8).'|'.substr(sprintf('%08d', $data['tenant']->id),0,8);
+
+            return view('admin.rc_department.view_bill_tenant',$data);
+        }
+
+     }
 
 }
