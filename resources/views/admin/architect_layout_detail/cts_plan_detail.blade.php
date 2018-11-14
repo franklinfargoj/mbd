@@ -31,13 +31,13 @@
                             </div>
                             <div class="col-sm-4 form-group">
                                 <!-- <label class="col-form-label">List of CTS No</label> -->
-                                <div class="optionBox">
+                                <div class="optionBoxCTS">
                                         @php $j=0; @endphp
                                     @if(count($ArchitectLayoutDetail->cts_plan_details)>0)
                                     
                                     @foreach($ArchitectLayoutDetail->cts_plan_details as $cts_plan_detail)
                                     <input type="hidden" name="cts_plan_detail_id[{{$j}}]" value="{{$cts_plan_detail->id}}">
-                                    <div class="block position-relative form-group">
+                                    <div class="blockCTS position-relative form-group">
                                         <input required placeholder="CTS no" type="text" name="cts_no[{{$j}}]" class="form-control form-control--custom"
                                             value="{{ $cts_plan_detail->cts_no }}" >
                                         @if($j>0)
@@ -47,7 +47,7 @@
                                     @php $j++; @endphp
                                     @endforeach
                                     @else
-                                    <div class="block">
+                                    <div class="blockCTS">
                                         <input type="hidden">
                                         <input placeholder="CTS no" type="text" name="cts_no[{{$j}}]" class="form-control form-control--custom"
                                             required>
@@ -58,7 +58,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-12 form-group">
-                                        <a class="btn--add-delete add" href="javascript:void(0)">add more<a>
+                                        <a class="btn--add-delete addCTS" href="javascript:void(0)">add more<a>
                                     </div>
                                 </div>
                                 <div class="mt-auto">
