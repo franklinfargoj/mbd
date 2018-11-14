@@ -17,6 +17,7 @@
 @endif 
  
 <!-- offer letter options for custom and offer letter with formula -->
+{{ Breadcrumbs::render('calculation_sheet',$ol_application->id) }}
 <div class="custom-wrapper" id="offer_letter_options">
     <div class="m-portlet m-portlet--mobile m_panel">
         <div class="portlet-body">
@@ -29,9 +30,9 @@
                     </div>
                     <div class="d-flex align-items-center">
                     <div class="col-md-4"> 
-                        <a href="{{ route('ree_applications.custom_calculation_sheet', $ol_application->id) }}" class="btn btn-primary btn-next">Custom Calculation Sheet</a>
-                    </div>
                         <a href="{{ route('ol_calculation_sheet.show', $ol_application->id) }}" class="btn btn-primary btn-next" id="with_formula" >Calculation Sheet with Formula's</a>
+                    </div>
+                     <a href="{{ route('ree_applications.custom_calculation_sheet', $ol_application->id) }}" class="btn btn-primary btn-next">Custom Calculation Sheet</a>
                     </div>    
                 </div>
             </div>
