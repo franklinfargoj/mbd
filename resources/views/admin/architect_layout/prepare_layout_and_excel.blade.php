@@ -165,7 +165,7 @@
                         </div> --}}
                         <h4 class="section-title section-title--small">
                             @if($ArchitectLayout->upload_layout_in_pdf_format!='')
-                            Upload Layout in PDF format
+                            Download Layout in PDF format
                             @else
                             Upload Layout in PDF format
                             @endif
