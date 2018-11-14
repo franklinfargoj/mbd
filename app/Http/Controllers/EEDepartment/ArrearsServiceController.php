@@ -28,6 +28,10 @@ class ArrearsServiceController extends Controller
     }
 
     public function arrersChargesRate($society_id,$building_id,Request $request,Datatables $datatables) {
+        
+        $society_id = decrypt($society_id);
+        $building_id = decrypt($building_id);
+
         $society = SocietyDetail::find($society_id);
         $building = MasterBuilding::where('society_id', $society_id)->find($building_id);
 
@@ -48,7 +52,7 @@ class ArrearsServiceController extends Controller
             return $datatables->of($arrears_charges)
             ->editColumn('actions', function ($arrears_charges){
                 
-                return "<div class='d-flex btn-icon-list'><a href='".url('arrears_charges/'.$arrears_charges->id.'/edit')."' class='d-flex flex-column align-items-center'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/edit-icon.svg')."'></span>Update</a></div>";
+                return "<div class='d-flex btn-icon-list'><a href='".url('arrears_charges/'.encrypt($arrears_charges->id).'/edit')."' class='d-flex flex-column align-items-center'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/edit-icon.svg')."'></span>Update</a></div>";
 
             })
             ->rawColumns(['actions'])
@@ -70,6 +74,10 @@ class ArrearsServiceController extends Controller
     }
 
     public function create($society_id,$building_id) {
+
+        $society_id = decrypt($society_id);
+        $building_id = decrypt($building_id);
+
     	$data['tenant_types'] = MasterTenantType::pluck('name','name')->toArray();
     	$data['society'] = SocietyDetail::find($society_id);
         $data['building'] = MasterBuilding::where('society_id', $society_id)->find($building_id);
@@ -77,9 +85,17 @@ class ArrearsServiceController extends Controller
     }
 
     public function store($society_id,$building_id,Request $request) {
-    	$rules = [
+
+    	$society_id = decrypt($society_id);
+        $building_id = decrypt($building_id);
+
+        $rules = [
     		'year' => 'required',
     		'tenant_type' => 'required',
+            'old_rate' => 'required|numeric',
+            'revise_rate' => 'required|numeric',
+            'interest_on_old_rate' => 'required|numeric|between:0,99.99',
+            'interest_on_differance' => 'required|numeric|between:0,99.99'
     	];
     	$messages = [
     		'tenant_type.required' => 'Select Tenant Type.'
@@ -87,7 +103,7 @@ class ArrearsServiceController extends Controller
     	$validator = Validator::make($request->all(),$rules,$messages);
 
     	if ($validator->fails()) {
-            return redirect('arrears_charges/'.$society_id.'/'.$building_id.'/create')->withErrors($validator)->withInput();
+            return redirect('arrears_charges/'.encrypt($society_id).'/'.encrypt($building_id).'/create')->withErrors($validator)->withInput();
         }
 
         $society = SocietyDetail::find($society_id);
@@ -105,10 +121,11 @@ class ArrearsServiceController extends Controller
         $arrears_charge->save();
 
         $request->session()->flash('success', 'Service rate added successfully!');
-        return redirect('arrears_charges/'.$society_id.'/'.$building_id);
+        return redirect('arrears_charges/'.encrypt($society_id).'/'.encrypt($building_id));
     }
 
     public function edit($id) {
+        $id = decrypt($id);
     	$data['tenant_types'] = MasterTenantType::pluck('name','name')->toArray();
     	$data['arrears_charge'] = ArrearsChargesRate::find($id);
     	$data['society'] = SocietyDetail::find($data['arrears_charge']->society_id);
@@ -118,9 +135,15 @@ class ArrearsServiceController extends Controller
 
     public function update($id, Request $request) {
        // dd($request->all());
+       $id = decrypt($id);
+
     	$rules = [
     		'year' => 'required',
-    		'tenant_type' => 'required',
+            'tenant_type' => 'required',
+            'old_rate' => 'required|numeric',
+            'revise_rate' => 'required|numeric',
+            'interest_on_old_rate' => 'required|between:0,99.99',
+    		'interest_on_differance' => 'required|between:0,99.99'
     	];
     	$messages = [
     		'tenant_type.required' => 'Select Tenant Type.'
@@ -129,7 +152,7 @@ class ArrearsServiceController extends Controller
 
     	if ($validator->fails()) {
             //dd($validator->errors());
-            return redirect('arrears_charges/'.$id.'/edit')->withErrors($validator)->withInput();
+            return redirect('arrears_charges/'.encrypt($id).'/edit')->withErrors($validator)->withInput();
         }
 
         $arrears_charge = ArrearsChargesRate::find($id);
@@ -142,6 +165,6 @@ class ArrearsServiceController extends Controller
         $arrears_charge->save();
 
         $request->session()->flash('success', 'Service rate updated successfully!');
-        return redirect('arrears_charges/'.$arrears_charge->society_id.'/'.$arrears_charge->building_id);
+        return redirect('arrears_charges/'.encrypt($arrears_charge->society_id).'/'.encrypt($arrears_charge->building_id));
     }
 }

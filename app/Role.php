@@ -43,5 +43,10 @@ class Role extends Model
     public function conveyance_child()
     {
         return $this->belongsTo('App\Role', 'conveyance_child_id', 'id');
-    }    
+    }
+
+    public function status()
+    {
+        return $this->hasMany('App\OlApplicationStatus', 'id', 'role_id');
+    }
 }

@@ -306,6 +306,16 @@ class EmPermissionSeeder extends Seeder
                 'name' => 'create_society_bill',
                 'display_name' => 'Create Building Bill',
                 'description' => 'Create Building Bill'
+            ],
+            [
+                'name' => 'conveyance.view_documents',
+                'display_name' => 'View Documents',
+                'description' => 'View Documents Submitted'
+            ],
+            [
+                'name' => 'em.save_conveyance_no_dues_certificate',
+                'display_name' => 'Save no dues certificate',
+                'description' => 'Saves no dues certificate'
             ]
         ];
 

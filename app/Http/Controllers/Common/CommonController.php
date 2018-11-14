@@ -30,6 +30,7 @@ use App\OlDemarcationVerificationQuestionMaster;
 use App\OlRgRelocationVerificationQuestionMaster;
 use App\OlSharingCalculationSheetDetail;
 use App\OlTitBitVerificationQuestionMaster;
+use App\Permission;
 use App\REENote;
 use App\Role;
 use App\SocietyOfferLetter;
@@ -771,7 +772,55 @@ class CommonController extends Controller
 
         $architectRoles = Role::whereIn('name', $roles)->pluck('id');
         $Architectlogs = ArchitectLayoutStatusLog::with('getRoleName')->where('architect_layout_id', $layout_id)->whereIn('role_id', $architectRoles)->whereIn('status_id', $status)->get();
+        //dd($Architectlogs);
+        return $Architectlogs;
+    }
 
+    public function getLogOfEmLayoutApplication($layout_id)
+    {
+        $roles = array(config('commanConfig.estate_manager'));
+
+        $status = array(config('commanConfig.architect_layout_status.forward'));
+
+        $architectRoles = Role::whereIn('name', $roles)->pluck('id');
+        $Architectlogs = ArchitectLayoutStatusLog::with('getRoleName')->where('architect_layout_id', $layout_id)->whereIn('role_id', $architectRoles)->whereIn('status_id', $status)->get();
+        //dd($Architectlogs);
+        return $Architectlogs;
+    }
+
+    public function getLogOfLmLayoutApplication($layout_id)
+    {
+        $roles = array(config('commanConfig.land_manager'));
+
+        $status = array(config('commanConfig.architect_layout_status.forward'));
+
+        $architectRoles = Role::whereIn('name', $roles)->pluck('id');
+        $Architectlogs = ArchitectLayoutStatusLog::with('getRoleName')->where('architect_layout_id', $layout_id)->whereIn('role_id', $architectRoles)->whereIn('status_id', $status)->get();
+        //dd($Architectlogs);
+        return $Architectlogs;
+    }
+
+    public function getLogOfEELayoutApplication($layout_id)
+    {
+        $roles = array(config('commanConfig.ee_junior_engineer'),config('commanConfig.ee_deputy_engineer'),config('commanConfig.ee_branch_head'));
+
+        $status = array(config('commanConfig.architect_layout_status.forward'));
+
+        $architectRoles = Role::whereIn('name', $roles)->pluck('id');
+        $Architectlogs = ArchitectLayoutStatusLog::with('getRoleName')->where('architect_layout_id', $layout_id)->whereIn('role_id', $architectRoles)->whereIn('status_id', $status)->get();
+        //dd($Architectlogs);
+        return $Architectlogs;
+    }
+
+    public function getLogOfReeLayoutApplication($layout_id)
+    {
+        $roles = array(config('commanConfig.ree_junior'),config('commanConfig.ree_deputy_engineer'),config('commanConfig.ree_assistant_engineer'),config('commanConfig.ree_branch_head'));
+
+        $status = array(config('commanConfig.architect_layout_status.forward'));
+
+        $architectRoles = Role::whereIn('name', $roles)->pluck('id');
+        $Architectlogs = ArchitectLayoutStatusLog::with('getRoleName')->where('architect_layout_id', $layout_id)->whereIn('role_id', $architectRoles)->whereIn('status_id', $status)->get();
+        //dd($Architectlogs);
         return $Architectlogs;
     }
 
@@ -1069,5 +1118,119 @@ class CommonController extends Controller
 
         return $societyDocuments;
     }
+
+
+    /**
+     * Show the offer letter dashboard.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function dashboard()
+    {
+        $role_id = session()->get('role_id');
+        $user_id = Auth::id();
+
+        $applicationData = OlApplication::with([
+            'olApplicationStatusForLoginListing' => function ($q) use ($role_id,$user_id) {
+            $q->where('user_id', $user_id)
+                ->where('role_id', $role_id)
+                ->where('society_flag', 0)
+                ->orderBy('id', 'desc');
+        }])
+            ->whereHas('olApplicationStatusForLoginListing', function ($q) use ($role_id,$user_id) {
+                $q->where('user_id', $user_id)
+                    ->where('role_id', $role_id)
+                    ->where('society_flag', 0)
+                    ->orderBy('id', 'desc');
+            })->get()->toArray();
+
+//        dd($applicationData);
+
+        $totalInProcess = $totalForwarded = $totalReverted = $totalPending =
+        $totalOlGenerated = $totalOlApproved = $totalSentToSociety = $totalSentForApproval = $totalOlPendingForApproval = 0 ;
+
+        foreach ($applicationData as $application){
+
+            $status = $application['ol_application_status_for_login_listing'][0]['status_id'];
+
+            $co_id = Role::where('name','Co')->value('id');
+            $status_role = $application['ol_application_status_for_login_listing'][0]['to_role_id'];
+//            print_r($co_id);print_r($status_role);die();
+            switch ( $status )
+            {
+                case config('commanConfig.applicationStatus.in_process'): $totalInProcess += 1; break;
+                case config('commanConfig.applicationStatus.forwarded'): $totalForwarded += 1; break;
+                case config('commanConfig.applicationStatus.reverted'): $totalReverted += 1 ; break;
+                case config('commanConfig.applicationStatus.pending'): $totalPending += 1; break;
+                case config('commanConfig.applicationStatus.offer_letter_generation'): $totalOlGenerated += 1 ; break;
+                case config('commanConfig.applicationStatus.offer_letter_approved'): $totalOlApproved += 1 ; break;
+                case config('commanConfig.applicationStatus.sent_to_society'): $totalSentToSociety += 1 ; break;
+                case ($co_id == $status_role) : $totalSentForApproval += 1 ; break;
+                case (($co_id == $role_id) && ($status == config('commanConfig.applicationStatus.offer_letter_generation'))) :
+                    $totalOlPendingForApproval += 1 ; break;
+                default:
+                    ; break;
+            }
+
+        }
+        $totalApplication = count($applicationData);
+        $dashboardData = [];
+        $dashboardData['Total No. of Applications'] = $totalApplication;
+        $dashboardData['Applications In Process'] = $totalInProcess;
+        $dashboardData['Application Forwarded'] = $totalForwarded;
+        $dashboardData['Application Sent for Revision'] = $totalReverted;
+        $dashboardData['Application Pending'] = $totalPending;
+        $dashboardData['Offer Letter Generated'] = $totalOlGenerated;
+        $dashboardData['Offer Letter Approved'] = $totalOlApproved;
+        $dashboardData['Sent To Society'] = $totalSentToSociety;
+        $dashboardData['Offer Letter sent for Approval'] = $totalSentForApproval ;
+        $dashboardData['Offer Letter Pending for Approval'] = $totalOlPendingForApproval;
+
+        $ee_roles = array(config('commanConfig.ee_junior_engineer'), config('commanConfig.ee_branch_head'), config('commanConfig.ee_deputy_engineer'));
+        $eeRoles = Role::whereIn('name', $ee_roles)->pluck('id')->toArray();
+
+        $ree_roles = array(config('commanConfig.ree_junior'), config('commanConfig.ree_branch_head'), config('commanConfig.ree_deputy_engineer'), config('commanConfig.ree_assistant_engineer'));
+        $reeRoles = Role::whereIn('name', $ree_roles)->pluck('id')->toArray();
+
+        $dyce_roles = array(config('commanConfig.dyce_branch_head'), config('commanConfig.dyce_jr_user'), config('commanConfig.dyce_deputy_engineer'));
+        $dyceRoles = Role::whereIn('name', $dyce_roles)->pluck('id')->toArray();
+
+        $co_roles = config('commanConfig.co_engineer');
+        $coRoles = Role::where('name', $co_roles)->value('id');
+
+        $cap_roles = config('commanConfig.cap_engineer');
+        $capRoles = Role::where('name', $cap_roles)->value('id');
+
+        $vp_roles = config('commanConfig.vp_engineer');
+        $vpRoles = Role::where('name', $vp_roles)->value('id');
+
+        switch ( $role_id )
+        {
+            case in_array($role_id,$eeRoles):
+                $status = ['Total No. of Applications','Applications In Process','Application Forwarded','Application Sent for Revision','Application Pending'];
+                break;
+            case in_array($role_id,$reeRoles):
+                $status = ['Total No. of Applications','Applications In Process','Application Forwarded','Application Sent for Revision','Application Pending','Offer Letter sent for Approval','Offer Letter Approved','Offer Letter Generated'];
+                break;
+            case in_array($role_id,$dyceRoles):
+                $status = ['Total No. of Applications','Applications In Process','Application Forwarded','Application Sent for Revision','Application Pending'];
+                break;
+            case ($role_id == $coRoles):
+                $status = ['Total No. of Applications','Applications In Process','Application Forwarded','Application Sent for Revision','Application Pending','Offer Letter Pending for Approval','Offer Letter Approved'];
+                break;
+            case ($role_id == $capRoles):
+                $status = ['Total No. of Applications','Applications In Process','Application Forwarded','Application Sent for Revision','Application Pending'];
+                break;
+            case ($role_id == $vpRoles):
+                $status = ['Total No. of Applications','Applications In Process','Application Forwarded','Application Sent for Revision','Application Pending'];
+                break;
+            default:
+                ; break;
+        }
+
+        return view('admin.common.ol_dashboard',compact('dashboardData','status'));
+
+    }
+
 
 }

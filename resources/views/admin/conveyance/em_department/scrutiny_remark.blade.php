@@ -1,6 +1,7 @@
-@extends('admin.layouts.app')
-@section('css')
-
+@extends('admin.layouts.sidebarAction')
+@section('actions')
+    @include('admin.conveyance.'.$data->folder.'.action')
+@endsection
 @section('content')
 
 <div class="col-md-12">
@@ -13,18 +14,18 @@
             </div>
         </div>
         <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom" role="tablist">
-            <li class="nav-item m-tabs__item">
+            <li class="nav-item m-tabs__item em_tabs" id="section-1">
                 <a class="nav-link m-tabs__link active show" data-toggle="tab" href="#scrutiny-summary-remark" role="tab"
                     aria-selected="false">
-                    <i class="la la-cog"></i> Scrutiny Summaary & Remark
+                    <i class="la la-cog"></i> Scrutiny Summary & Remark
                 </a>
             </li>
-            <li class="nav-item m-tabs__item">
+            <li class="nav-item m-tabs__item em_tabs" id="section-2">
                 <a class="nav-link m-tabs__link" data-toggle="tab" href="#list-of-allottes" role="tab" aria-selected="true">
                     <i class="la la-bell-o"></i> List of Allottes
                 </a>
             </li>
-            <li class="nav-item m-tabs__item">
+            <li class="nav-item m-tabs__item em_tabs" id="section-3">
                 <a class="nav-link m-tabs__link" data-toggle="tab" href="#society-resolution" role="tab" aria-selected="true">
                     <i class="la la-bell-o"></i> Society Resolution
                 </a>
@@ -33,7 +34,7 @@
     </div>
 
     <div class="tab-content">
-        <div class="tab-pane active show" id="scrutiny-summary-remark" role="tabpanel">
+        <div class="tab-pane section-1 active show" id="scrutiny-summary-remark" role="tabpanel">
             <!-- society details div here -->
             <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
                 <div class="portlet-body">
@@ -167,25 +168,108 @@
                 </div>
             </div>
             <!-- Generate No dues certificate div here -->
-            <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
-                <div class="portlet-body">
-                    <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
-                        <div class="m-subheader">
-                            <div class="d-flex align-items-center">
-                                <h3 class="section-title section-title--small">
-                                    Generate No dues certificate
-                                </h3>
+            {{--<div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">--}}
+                {{--<div class="portlet-body">--}}
+                    {{--<div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">--}}
+                        {{--<div class="m-subheader">--}}
+                            {{--<div class="d-flex align-items-center">--}}
+                                {{--<h3 class="section-title section-title--small">--}}
+                                    {{--Generate No dues certificate--}}
+                                {{--</h3>--}}
+                            {{--</div>--}}
+                            {{--<span class="hint-text d-block">Generate No due certificate, if all service charges are paid by the society</span>--}}
+                                {{--<div class="mt-auto">--}}
+                                    {{--<button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Generate</button>--}}
+                                {{--</div>    --}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                {{--</div><br/>--}}
+                {{--<div class="portlet-body">--}}
+                    {{--<div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">--}}
+                        {{--<div class="m-subheader">--}}
+                            {{--<div class="row" id="generate_no_dues_certificate" style="display: none">--}}
+                                {{--<div class="col-sm-6">--}}
+                                    {{--<div class="d-flex flex-column h-100 two-cols">--}}
+                                        {{--<h5>Upload letter</h5>--}}
+                                        {{--<span class="hint-text">Click on 'Upload' to upload covering letter.</span>--}}
+                                        {{--<a title="Donwload" href="{{ route('society_offer_letter_application_download') }}" target="_blank" class="btn btn-primary" rel="noopener"><i class="icon-pencil"></i>Donwload Offer Letter Application</a>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+
+                                {{--<div class="col-sm-6 border-left">--}}
+                                    {{--<div class="d-flex flex-column h-100 two-cols">--}}
+                                        {{--<h5>Download Covering Letter</h5>--}}
+                                        {{--<span class="hint-text">Download covering letter in .doc format</span>--}}
+                                        {{--<div class="mt-auto">--}}
+                                            {{--<a title="Donwload" href="{{ route('society_offer_letter_application_download') }}" target="_blank" class="btn btn-primary" rel="noopener"><i class="icon-pencil"></i>Donwload Offer Letter Application</a>--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                {{--</div><br/>--}}
+
+                <div class="m-portlet m-portlet--mobile m_panel">
+                    <div class="m-portlet__body" style="padding-right: 0;">
+                            <h3 class="section-title section-title--small mb-0">Generate No dues certificate:</h3>
+                            <div class=" row-list">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <p class="font-weight-semi-bold">Edit Offer letter</p>
+                                        <p>Click to view generated No dues certificate in PDF format</p>
+                                        {{--<button class="btn btn-primary btn-custom" id="uploadBtn" data-toggle="modal" data-target="#myModal">Edit</button>--}}
+                                        <a href="" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                                            Edit</a>
+                                    </div>
+                                </div>
                             </div>
-                            <span class="hint-text d-block">Generate No due certificate, if all service charges are paid by the society</span>
-                                <div class="mt-auto">
-                                    <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Generate</button>
-                                </div>    
+                        <div class="w-100 row-list">
+                            <div class="">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="d-flex flex-column h-100">
+                                            <h5>Download Offer Letter</h5>
+                                            <div class="mt-auto">
+
+                                                {{--@if($societyData->drafted_offer_letter)--}}
+                                                    {{--<a href="{{config('commanConfig.storage_server').'/'.$societyData->drafted_offer_letter}}"--}}
+                                                       {{--class="btn btn-primary">Download</a>--}}
+                                                {{--@else--}}
+                                                    <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
+                                                * Note : Offer Letter not available. </span>
+                                                {{--@endif--}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 border-left">
+                                        <div class="d-flex flex-column h-100">
+                                            <h5>Upload Offer Letter</h5>
+                                            <span class="hint-text">Click on 'Upload' to upload offer letter</span>
+                                            <form action="" method="post"
+                                                  enctype="multipart/form-data">
+                                                @csrf
+                                                <div class="custom-file">
+                                                    <input class="custom-file-input pdfcheck" name="offer_letter" type="file"
+                                                           id="test-upload" required="required">
+                                                    <label class="custom-file-label" for="test-upload">Choose
+                                                        file...</label>
+                                                    <span class="text-danger" id="file_error"></span>
+                                                </div>
+                                                <div class="mt-auto">
+                                                    <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>            
+            {{--</div>--}}
         </div>
-        <div class="tab-pane" id="list-of-allottes" role="tabpanel">
+        <div class="tab-pane section-2" id="list-of-allottes" role="tabpanel">
         <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
                 <div class="portlet-body">
                     <div class="m-portlet__body m-portlet__body--table">
@@ -225,7 +309,7 @@
                 </div>
             </div>        
         </div>
-        <div class="tab-pane" id="society-resolution" role="tabpanel">
+        <div class="tab-pane section-3" id="society-resolution" role="tabpanel">
             <!-- Society Resolution div here -->
             <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
                 <div class="portlet-body">
@@ -246,5 +330,114 @@
             </div>            
         </div>
     </div>
+    <!-- Modal -->
+    <div class="modal modal-large fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">No Dues Certificate</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    {{--<p>This is a large modal.</p>--}}
+                    <form id="noDuesCerti" action="{{route('em.save_conveyance_no_dues_certificate')}}" method="POST">
+                        @csrf
+                        {{--<input type="hidden" id="applicationId" name="applicationId" value="{{$applicatonId}}">--}}
+                        <textarea id="ckeditorText" name="ckeditorText" style="display: none;">
+
+                                    <div style="float: left; padding-left: 15px;">
+                                        <span style="font-weight: bold; font-size: 20px; ">Subject:</span>
+                                        <div style="float: left;line-height: 2.0; padding-left: 20px;">
+                                        <p style="font-size: 15px; ">It is to certify that Building No. ____________ consisting of _____________ T/S under the _____________ Scheme at __________ In favour of ___________
+Co-op. Housing Society Ltd. Have paid all the dues in respect of above bldg./bldgs. Including the final sale price for the bldg. and premium of the land as
+                                            follow:</p>
+                                        </div>
+                                        <p style="float: left;line-height: 2.0; padding-left: 20px; font-size: 15px; ">
+                                            5. Final Sale Price of the Bldg/bldgs.<br/>
+
+                                            (A) Cost of Construction<span style="padding-left: 30px;">________________</span><br/>
+
+                                            (B) Premium Land<span style="padding-left: 68px;">________________</span><br/>
+
+                                            <span style="padding-left: 70px;">Total<span style="padding-left: 88px;">________________</span></span>
+                                        </p>
+                                    </div>
+
+                                </textarea>
+                        <input type="submit" value="save" style="background-color: #f0791b;border-color: #f0791b;color: #fff !important;font-family: Poppins;cursor: pointer;display: inline-block;font-weight: 400;text-align: center;white-space: nowrap;vertical-align: middle;border: 1px solid transparent;transition: all .15s ease-in-out;border-radius: .25rem;line-height: 1.25;padding: .65rem 1.25rem;font-size: 1rem;">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+@endsection
+@section('js')
+    <script src="{{ asset('vendor/unisharp/laravel-ckeditor/ckeditor.js') }}"></script>
+    <script>
+        CKEDITOR.disableAutoInline = true;
+        CKEDITOR.replace('ckeditorText', {
+            height: 700,
+            allowedContent: true
+        });
+
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // pdf validation
+            // $("#uploadBtn").click(function () {
+            //
+            //     myfile = $("#test-upload").val();
+            //     var ext = myfile.split('.').pop();
+            //     if (myfile != '') {
+            //
+            //         if (ext != "pdf") {
+            //             $("#file_error").text("Invalid type of file uploaded (only pdf allowed).");
+            //             return false;
+            //         } else {
+            //             $("#file_error").text("");
+            //             return true;
+            //         }
+            //     } else {
+            //         $("#file_error").text("This field required");
+            //         return false;
+            //     }
+            // });
+
+            //cookies setting for tabs
+            $(".display_msg").delay("slow").slideUp("slow");
+
+            var id = Cookies.get('sectionId');
+            if (id != undefined) {
+                //alert(id);
+
+
+                $(".tab-pane").removeClass('active');
+                $(".nav-link").removeClass('active');
+                $(".m-tabs__item").removeClass('active');
+                $("#" + id+ " a").addClass('active');
+
+                $("." + id).addClass('active');
+            }
+
+            $(".em_tabs").on('click', function () {
+                $(".nav-link").removeClass('active');
+                Cookies.set('sectionId', this.id);
+            });
+
+            $('#uploadBtn').on('click', function(){
+                console.log('=======================');
+                // $upload_download_tab = '';
+                $('#generate_no_dues_certificate').show();
+            });
+
+        });
+    </script>
+
+
 @endsection

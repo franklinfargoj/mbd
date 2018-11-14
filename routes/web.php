@@ -257,7 +257,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::post('create_arrear_calculation', 'EMDepartment\EMClerkController@create_arrear_calculation')->name('create_arrear_calculation');
 
 
-    // RC Dewpartment Routes
+    // RC Department Routes
     Route::resource('rc', 'RCDepartment\RCController');
     Route::get('bill_collection_society', 'RCDepartment\RCController@bill_collection_society')->name('bill_collection_society');
     Route::get('bill_collection_tenant', 'RCDepartment\RCController@bill_collection_tenant')->name('bill_collection_tenant');
@@ -267,6 +267,8 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('generate_receipt_tenant', 'RCDepartment\RCController@generate_receipt_tenant')->name('generate_receipt_tenant');
     Route::post('payment_receipt_society', 'RCDepartment\RCController@payment_receipt_society')->name('payment_receipt_society');
     Route::post('payment_receipt_tenant', 'RCDepartment\RCController@payment_receipt_tenant')->name('payment_receipt_tenant');
+    Route::get('view_bill_tenant', 'RCDepartment\RCController@view_bill_tenant')->name('view_bill_tenant');
+    Route::get('view_bill_building', 'RCDepartment\RCController@view_bill_building')->name('view_bill_building');
 
 
 	//DYCE Department routes
@@ -297,6 +299,12 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::post('ree_forward_Application_data','REEDepartment\REEController@sendForwardApplication')->name('ree.forward_application_data');
 
     Route::get('ree_reval_applications','REEDepartment\REEController@revalidationApplicationList')->name('ree_applications.reval');
+
+    Route::get('calculation_sheet_options/{id}','REEDepartment\REEController@displayCalculationSheetOptions')->name('ree_applications.calculation_sheet_options');
+
+    Route::get('custom_calculation_sheet/{id}','REEDepartment\REEController@displayCustomCalculationSheet')->name('ree_applications.custom_calculation_sheet');
+
+    Route::post('save_custom_calculation_data','REEDepartment\REEController@saveCustomCalculationData')->name('ree.save_custom_calculation_data');
 
     // Route::resource('/ol_calculation_sheet', 'REEDepartment\OlApplicationCalculationSheetDetailsController');
     Route::post('ol_calculation_sheet/save_details','REEDepartment\OlApplicationCalculationSheetDetailsController@saveCalculationDetails')->name('save_calculation_details');
@@ -609,6 +617,8 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::post('save_agreement_comments', 'conveyance\conveyanceCommonController@SaveAgreementComments')->name('conveyance.save_agreement_comments');
 
+    Route::get('view_documents/{id}', 'conveyance\conveyanceCommonController@ViewDocuments')->name('conveyance.view_documents');
+
     Route::get('sale_lease_agreement/{id}', 'conveyance\DYCODepartment\DYCOController@saleLeaseAgreement')->name('conveyance.sale_lease_agreement');
     
     Route::get('approved_sale_lease_agreement/{id}', 'conveyance\DYCODepartment\DYCOController@ApprovedSaleLeaseAgreement')->name('conveyance.approved_sale_lease_agreement');
@@ -642,7 +652,8 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     //EM
 
-    Route::get('scrutiny_remark_em/{id}', 'conveyance\EMDepartment\EMController@ScrutinyReamrk')->name('em.scrutiny_remark');
+    Route::get('scrutiny_remark_em/{id}', 'conveyance\EMDepartment\EMController@ScrutinyRemark')->name('em.scrutiny_remark');
+    Route::post('save_conveyance_letter', 'conveyance\EMDepartment\EMController@saveNoDuesCertificate')->name('em.save_conveyance_no_dues_certificate');
 
     Route::get('sale_price_calculation/{id}', 'conveyance\EEDepartment\EEController@SalePriceCalculation')->name('ee.sale_price_calculation');
 
@@ -654,7 +665,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     
 
     // Renewal
-    Route::get('renewal_scrutiny_remark_em/{id}', 'conveyance\EMDepartment\EMController@RenewalScrutinyReamrk')->name('em.scrutiny_remark');
+    Route::get('renewal_scrutiny_remark_em/{id}', 'conveyance\EMDepartment\EMController@RenewalScrutinyRemark')->name('em.renewal_scrutiny_remark');
     Route::post('save_renewal_letter', 'conveyance\EMDepartment\EMController@saveRenewalNoDuesCertificate')->name('em.save_renewal_no_dues_certificate');
 
     Route::post('upload_covering_letter','conveyance\EMDepartment\EMController@uploadCoveringLetter')->name('em.upload_covering_letter');
@@ -670,7 +681,10 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::post('save_covering_letter', 'conveyance\EEDepartment\EEController@SaveCoveringLetter')->name('ee.save_covering_letter');
     Route::get('forward_application_ee/{id}', 'conveyance\EEDepartment\EEController@forwardApplication')->name('ee.forward_application_sc'); 
 
-    Route::post('send_forward_application', 'conveyance\EEDepartment\EEController@sendForwardApplication')->name('ee.send_forward_application');    
+    Route::post('send_forward_application', 'conveyance\EEDepartment\EEController@sendForwardApplication')->name('ee.send_forward_application');
+
+    Route::get('/dashboard','Common\CommonController@dashboard')->name('dashboard');
+
 });
 
 Route::get('/calculation', function () {
@@ -726,8 +740,3 @@ Route::prefix('appointing_architect')->group(function () {
     });
     
 });
-//
-define('SOCIETY_LEVEL_BILLING'  ,'1');
-define('TENANT_LEVEL_BILLING'   ,'2');
-define('PAYMENT_STATUS_NOT_PAID','0');
-define('PAYMENT_STATUS_PAID'    ,'1');
