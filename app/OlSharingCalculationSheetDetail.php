@@ -10,6 +10,7 @@ class OlSharingCalculationSheetDetail extends Model
     protected $fillable = [
     'application_id',
   'user_id',
+        'society_id',
   'area_of_tit_bit_plot',
         'area_as_per_lease_agreement',
   'area_of_total_plot',
