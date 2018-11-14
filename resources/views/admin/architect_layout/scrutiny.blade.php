@@ -15,7 +15,7 @@
             <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom">
                 <li class="nav-item m-tabs__item" data-target="#document-scrunity">
                     <a class="nav-link m-tabs__link active show" data-toggle="tab" href="#scrutiny-history-tab">
-                        <i class="la la-cog"></i> Submit Report
+                        <i class="la la-cog"></i> Report
                     </a>
                 </li>
 
@@ -42,7 +42,7 @@
                                     class="btn btn-primary mb-2">Add report</a>
                                 @endif
                                 <div class="remarks-suggestions">
-                                    <table class="table">
+                                    <table class="table" style="width:50%">
                                         <tr>
                                             <th>Date</th>
                                             <th>Name Of Document</th>
