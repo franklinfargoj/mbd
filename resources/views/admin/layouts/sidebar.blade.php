@@ -645,12 +645,13 @@ $route=\Request::route()->getName();
                         $route=='documents_uploaded' || $route=='documents_upload'))
 
                                 @php
+                                $reval_redirect_to = "";
                                 if(Session::all()['role_name'] == 'REE Junior Engineer' || Session::all()['role_name'] ==  'REE deputy Engineer' || Session::all()['role_name'] == 'REE Assistant Engineer' || Session::all()['role_name'] == 'ree_engineer')
                                     $reval_redirect_to = "ree_applications.reval";
                                 elseif(Session::all()['role_name'] == 'co_engineer' )
                                     $reval_redirect_to = "co_applications.reval";
                                 @endphp
-
+                        @if($reval_redirect_to != "")        
                         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route==$reval_redirect_to)?'m-menu__item--active':'' }}">
                             <a href="{{ route($reval_redirect_to) }}" class="m-menu__link m-menu__toggle">
                                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -663,6 +664,7 @@ $route=\Request::route()->getName();
                                 </span>
                             </a>
                         </li>
+                        @endif
                         @endif
                         
                         @if (isset($route) && ($route == 'co.index' || $route=='society_detail.index' ||
