@@ -71,5 +71,6 @@ class DatabaseSeeder extends Seeder
         $this->call(SocietyConveyanceApplicationTypeSeeder::class);
         $this->call(ApplicationStatusMasterSeeder::class);
         $this->call(SapPermissionSeeder::class);
+        $this->call(OlCustomCalculationMaster::class);
     }
 }
