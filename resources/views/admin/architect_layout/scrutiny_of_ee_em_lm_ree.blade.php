@@ -64,7 +64,7 @@
                                     </table>
                                 </div>
                                 <div class="remarks-suggestions">
-                                    @foreach ($ArchitectLayout->em_scrutiny_checklist_and_remarks as $item)
+                                    @foreach ($ArchitectLayout->ee_scrutiny_checklist_and_remarks as $item)
                                     <div class="block">
                                         <input type="hidden" name="report_id[]" value="{{$item->id}}">
                                         @if($item->question!="")
