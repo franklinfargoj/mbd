@@ -192,7 +192,7 @@
                                     {{--<div class="d-flex flex-column h-100 two-cols">--}}
                                         {{--<h5>Upload letter</h5>--}}
                                         {{--<span class="hint-text">Click on 'Upload' to upload covering letter.</span>--}}
-                                        {{--<a title="Donwload" href="{{ route('society_offer_letter_application_download') }}" target="_blank" class="btn btn-primary" rel="noopener"><i class="icon-pencil"></i>Donwload Offer Letter Application</a>--}}
+                                        {{--<a title="Donwload" href="{{ route('society_offer_letter_application_download') }}" target="_blank" class="btn btn-primary" rel="noopener"><i class="icon-pencil"></i>Donwload No Dues Certificate Application</a>--}}
                                     {{--</div>--}}
                                 {{--</div>--}}
 
@@ -201,7 +201,7 @@
                                         {{--<h5>Download Covering Letter</h5>--}}
                                         {{--<span class="hint-text">Download covering letter in .doc format</span>--}}
                                         {{--<div class="mt-auto">--}}
-                                            {{--<a title="Donwload" href="{{ route('society_offer_letter_application_download') }}" target="_blank" class="btn btn-primary" rel="noopener"><i class="icon-pencil"></i>Donwload Offer Letter Application</a>--}}
+                                            {{--<a title="Donwload" href="{{ route('society_offer_letter_application_download') }}" target="_blank" class="btn btn-primary" rel="noopener"><i class="icon-pencil"></i>Donwload No Dues Certificate Application</a>--}}
                                         {{--</div>--}}
                                     {{--</div>--}}
                                 {{--</div>--}}
@@ -216,7 +216,19 @@
                             <div class=" row-list">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <p class="font-weight-semi-bold">Edit Offer letter</p>
+                                        <p class="font-weight-semi-bold">Edit No Dues Certificate</p>
+                                        <p>
+                                            @if (session(config('commanConfig.no_dues_certificate.redirect_message_status.draft_text')))
+                                                <div class="alert alert-success society_registered">
+                                                    <div class="text-center">{{ session(config('commanConfig.no_dues_certificate.redirect_message_status.draft_text')) }}</div>
+                                                </div>
+                                            @endif
+                                            @if (session('error'))
+                                                <div class="alert alert-danger society_registered">
+                                                    <div class="text-center">{{ session('error') }}</div>
+                                                </div>
+                                            @endif
+                                        </p>
                                         <p>Click to view generated No dues certificate in PDF format</p>
                                         {{--<button class="btn btn-primary btn-custom" id="uploadBtn" data-toggle="modal" data-target="#myModal">Edit</button>--}}
                                         <a href="" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
@@ -229,32 +241,44 @@
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="d-flex flex-column h-100">
-                                            <h5>Download Offer Letter</h5>
+                                            <h5>Download No Dues Certificate</h5>
                                             <div class="mt-auto">
 
-                                                {{--@if($societyData->drafted_offer_letter)--}}
-                                                    {{--<a href="{{config('commanConfig.storage_server').'/'.$societyData->drafted_offer_letter}}"--}}
-                                                       {{--class="btn btn-primary">Download</a>--}}
-                                                {{--@else--}}
+                                                @if($data->drafted_no_dues_certificate)
+                                                    <a href="{{ config('commanConfig.storage_server').'/'.$data->drafted_no_dues_certificate }}"
+                                                       class="btn btn-primary">Download</a>
+                                                @else
                                                     <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
-                                                * Note : Offer Letter not available. </span>
-                                                {{--@endif--}}
+                                                * Note : No Dues Certificate not available. </span>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-sm-6 border-left">
                                         <div class="d-flex flex-column h-100">
-                                            <h5>Upload Offer Letter</h5>
-                                            <span class="hint-text">Click on 'Upload' to upload offer letter</span>
-                                            <form action="" method="post"
-                                                  enctype="multipart/form-data">
+                                            <h5>Upload No Dues Certificate</h5>
+                                            <span class="hint-text">Click on 'Upload' to upload No Dues Certificate</span>
+                                            <p>
+                                                @if (session(config('commanConfig.no_dues_certificate.redirect_message_status.upload')))
+                                                    <div class="alert alert-success society_registered">
+                                                        <div class="text-center">{{ session(config('commanConfig.no_dues_certificate.redirect_message_status.upload')) }}</div>
+                                                    </div>
+                                                @endif
+                                                @if (session('error'))
+                                                    <div class="alert alert-danger society_registered">
+                                                        <div class="text-center">{{ session('error') }}</div>
+                                                    </div>
+                                                @endif
+                                            </p>
+                                            <form action="{{ route('em.save_conveyance_no_dues_certificate') }}" id="no_dues_certi_upload" method="post" enctype="multipart/form-data">
                                                 @csrf
                                                 <div class="custom-file">
-                                                    <input class="custom-file-input pdfcheck" name="offer_letter" type="file"
+                                                    <input class="custom-file-input pdfcheck" name="no_dues_certificate" type="file"
                                                            id="test-upload" required="required">
                                                     <label class="custom-file-label" for="test-upload">Choose
                                                         file...</label>
                                                     <span class="text-danger" id="file_error"></span>
+                                                    <input type="hidden" id="applicationId" name="applicationId" value="{{ $data->id }}">
                                                 </div>
                                                 <div class="mt-auto">
                                                     <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
@@ -342,9 +366,11 @@
                     {{--<p>This is a large modal.</p>--}}
                     <form id="noDuesCerti" action="{{route('em.save_conveyance_no_dues_certificate')}}" method="POST">
                         @csrf
-                        {{--<input type="hidden" id="applicationId" name="applicationId" value="{{$applicatonId}}">--}}
+                        <input type="hidden" id="applicationId" name="applicationId" value="{{ $data->id }}">
                         <textarea id="ckeditorText" name="ckeditorText" style="display: none;">
-
+                            @if(!empty($content))
+                                @php echo $content; @endphp
+                            @else
                                     <div style="float: left; padding-left: 15px;">
                                         <span style="font-weight: bold; font-size: 20px; ">Subject:</span>
                                         <div style="float: left;line-height: 2.0; padding-left: 20px;">
@@ -362,7 +388,7 @@ Co-op. Housing Society Ltd. Have paid all the dues in respect of above bldg./bld
                                             <span style="padding-left: 70px;">Total<span style="padding-left: 88px;">________________</span></span>
                                         </p>
                                     </div>
-
+                            @endif
                                 </textarea>
                         <input type="submit" value="save" style="background-color: #f0791b;border-color: #f0791b;color: #fff !important;font-family: Poppins;cursor: pointer;display: inline-block;font-weight: 400;text-align: center;white-space: nowrap;vertical-align: middle;border: 1px solid transparent;transition: all .15s ease-in-out;border-radius: .25rem;line-height: 1.25;padding: .65rem 1.25rem;font-size: 1rem;">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
@@ -435,6 +461,23 @@ Co-op. Housing Society Ltd. Have paid all the dues in respect of above bldg./bld
                 // $upload_download_tab = '';
                 $('#generate_no_dues_certificate').show();
             });
+
+            $('#no_dues_certi_upload').validate({
+                rules:{
+                    no_dues_certificate: {
+                        // required:true,
+                        extension:'pdf'
+                    }
+                },
+                messages:{
+                    no_dues_certificate: {
+                        required: 'File is required to upload.',
+                        extension: 'File only in pdf format is required.'
+                    }
+                }
+            });
+
+            $('.society_registered').delay("slow").slideUp("slow");
 
         });
     </script>
