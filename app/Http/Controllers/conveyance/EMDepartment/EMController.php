@@ -18,15 +18,50 @@ class EMController extends Controller
     {
         $this->common = new conveyanceCommonController();
         $this->CommonController = new CommonController();
+        $this->conveyance_common = new conveyanceCommonController();
     }
 
-	public function ScrutinyReamrk(Request $request,$applicationId){
+	public function ScrutinyRemark(Request $request,$applicationId){
 
 		$data = scApplication::with(['societyApplication','scApplicationLog'])->where('id',$applicationId)->first();
+        $data->folder = $this->conveyance_common->getCurrentRoleFolderName();
 		return view('admin.conveyance.em_department.scrutiny_remark',compact('data'));
 	}
 
-    public function RenewalScrutinyReamrk(Request $request,$applicationId){
+    public function saveNoDuesCertificate(Request $request){
+
+        $applicationId = 1;
+        $id = $request->applicationId;
+        $content = str_replace('_', "", $_POST['ckeditorText']);
+        $folder_name = 'conveyance_no_dues_certificate';
+
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadHTML($content);
+        $fileName = time().'renewal_no_dues_certificate_'.$id.'.pdf';
+        $filePath = $folder_name."/".$fileName;
+
+        dd($filePath);
+        $this->CommonController->ftpFileUpload($folder_name,$request->file('offer_letter_application_form'),$name);
+        die('end');
+
+        //text offer letter
+
+        $folder_name1 = 'text_renewal_no_dues_certificate';
+
+        if (!(Storage::disk('ftp')->has($folder_name1))) {
+            Storage::disk('ftp')->makeDirectory($folder_name1, $mode = 0777, true, true);
+        }
+        $file_nm =  time()."text_renewal_no_dues_certificate_".$id.'.txt';
+        $filePath1 = $folder_name1."/".$file_nm;
+
+        Storage::disk('ftp')->put($filePath1, $content);
+
+//        OlApplication::where('id',$request-> )->update(["drafted_offer_letter" => $filePath, "text_offer_letter" => $filePath1]);
+
+//        return redirect('generate_offer_letter/'.$request->applicationId);
+    }
+
+    public function RenewalScrutinyRemark(Request $request,$applicationId){
 
 //        $data = scApplication::with(['societyApplication','scApplicationLog'])->where('id',$applicationId)->first();
 //        dd($data);

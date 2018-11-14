@@ -311,6 +311,11 @@ class EmPermissionSeeder extends Seeder
                 'name' => 'conveyance.view_documents',
                 'display_name' => 'View Documents',
                 'description' => 'View Documents Submitted'
+            ],
+            [
+                'name' => 'em.save_conveyance_no_dues_certificate',
+                'display_name' => 'Save no dues certificate',
+                'description' => 'Saves no dues certificate'
             ]
         ];
 
