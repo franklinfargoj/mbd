@@ -184,13 +184,10 @@
                                 </div>
                             </div>
                             @endif
-                            <div class="col-sm-6" style="display:{{$ArchitectLayout->upload_layout_in_pdf_format!=''?'block':'none'}}">
-                                    <a target="_blank" id="upload_layout_in_pdf_format_file" class="btn btn-primary col-md-6" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayout->upload_layout_in_pdf_format}}"
-                                        style="display:{{$ArchitectLayout->upload_layout_in_pdf_format!=''?'block':'none'}};">Download
-                                        Layout</a>
-                            </div>
                         </div>
-                       
+                        <a target="_blank" id="upload_layout_in_pdf_format_file" class="btn btn-primary col-md-3" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayout->upload_layout_in_pdf_format}}"
+                            style="display:{{$ArchitectLayout->upload_layout_in_pdf_format!=''?'block':'none'}};">Download
+                            Layout</a>
                         <span class="text-danger" id="upload_layout_in_pdf_format_error"></span>
                     </div>
                 </div>
