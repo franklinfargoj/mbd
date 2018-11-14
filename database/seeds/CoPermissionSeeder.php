@@ -182,14 +182,13 @@ class CoPermissionSeeder extends Seeder
                 'name'=>'co.view_reval_application',
                 'display_name'=>'View Revalidation Application',
                 'description'=>'View Revalidation Application'
-            ]
 
             ],             
             [
                 'name' => 'ree.show_calculation_sheet',
                 'display_name' => 'show calculation sheet',
                 'description' => 'show calculation sheet',
-            ],                                                                      
+            ]                                                                    
 
         ];
         $ree_role_id = Role::where('name', 'ree_engineer')->value('id');
