@@ -26,8 +26,8 @@
                                             <div class="alert alert-success society_registered">
                                                 <div class="text-center">{{ session('registered') }}</div>
                                             </div>
-                                            @endif
-                                            @if (session('error'))
+                                        @endif
+                                        @if (session('error'))
                                             <div class="alert alert-danger society_registered">
                                                 <div class="text-center">{{ session('error') }}</div>
                                             </div>

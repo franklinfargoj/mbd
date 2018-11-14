@@ -174,5 +174,21 @@ return [
         'DR'=>'DOCTORATE'
     ],
 
-    'mhada_code' => 'MHD'
+    'mhada_code' => 'MHD',
+
+    'no_dues_certificate' => [
+        'db_columns' => [
+            'draft' => 'drafted_no_dues_certificate',
+            'text' => 'text_no_dues_certificate',
+            'upload' => 'uploaded_no_dues_certificate',
+        ],
+        'redirect_message' => [
+            'draft_text' => 'No dues certificate generated successfully.',
+            'upload' => 'Uploaded No dues certificate successfully.',
+        ],
+        'redirect_message_status' => [
+            'draft_text' => 'drafted',
+            'upload' => 'uploaded',
+        ]
+    ]
 ];
