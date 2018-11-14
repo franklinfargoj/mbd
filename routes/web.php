@@ -571,19 +571,19 @@ Route::get('reval_calculation_sheet_ree/{id}','REEDepartment\REEController@showR
 Route::get('approve_offer_letter/{id}','CODepartment\COController@approveOfferLetter')->name('co.approve_offer_letter');
 Route::post('send_approved_offer_letter','CODepartment\COController@approvedOfferLetter')->name('co.send_approved_offer_letter');
 Route::get('view_application_co/{id}','CODepartment\COController@viewApplication')->name('co.view_application');
-Route::get('calculation_sheet_co/{id}','CODepartment\COController@showCalculationSheet')->name('co.show_calculation_sheet');
+Route::get('calculation_sheet_co/{id}','REEDepartment\REEController@showCalculationSheet')->name('co.show_calculation_sheet');
 
 // Route::get('calculation_sheet/{id}','Common\CommonController@showCalculationSheet')->name('show_calculation_sheet');
 
 Route::get('view_application/{id}','CAPDepartment\CAPController@viewApplication')->name('cap.view_application');
-Route::get('calculation_sheet_cap/{id}','CAPDepartment\CAPController@showCalculationSheet')->name('cap.show_calculation_sheet');
+Route::get('calculation_sheet_cap/{id}','REEDepartment\REEController@showCalculationSheet')->name('cap.show_calculation_sheet');
 
 Route::get('view_application_dyce/{id}','DYCEDepartment\DYCEController@viewApplication')->name('dyce.view_application');
 
 Route::get('view_application_ee/{id}','EEDepartment\EEController@viewApplication')->name('ee.view_application');
 
 Route::get('view_application_vp/{id}','VPDepartment\VPController@viewApplication')->name('vp.view_application');
-Route::get('calculation_sheet_vp/{id}','VPDepartment\VPController@showCalculationSheet')->name('vp.show_calculation_sheet');
+Route::get('calculation_sheet_vp/{id}','REEDepartment\REEController@showCalculationSheet')->name('vp.show_calculation_sheet');
 
 
 
