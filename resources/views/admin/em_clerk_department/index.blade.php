@@ -14,7 +14,7 @@
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center" id="search_box">
-            <h3 class="m-subheader__title m-subheader__title--separator">ARrear Calculation</h3>
+            <h3 class="m-subheader__title m-subheader__title--separator">Arrear Calculation</h3>
             {{ Breadcrumbs::render('em') }}
          </div>
 
@@ -29,9 +29,10 @@
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="layout" name="layout" required>
                                         <option value="" style="font-weight: normal;">Select Layout</option>
                                         @foreach($layout_data as $key => $value)
-                                        <option value="{{ $value->id }}">{{ $value->layout_name }}</option>
+                                        <option value="{{ encrypt($value->id) }}">{{ $value->layout_name }}</option>
                                         @endforeach
                                     </select>
+                                    <span class="help-block error">{{$errors->first('layout')}}</span>
                                 </div>
                             </div>                          
                     </div>
@@ -42,9 +43,10 @@
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="society" name="society" required>
                                         <option value="" style="font-weight: normal;">Select Society</option>
                                         @foreach($societies_data as $key => $value)
-                                        <option value="{{ $value->id }}">{{ $value->society_name }}</option>
+                                        <option value="{{ encrypt($value->id) }}">{{ $value->society_name }}</option>
                                         @endforeach
                                     </select>
+                                    <span class="help-block error">{{$errors->first('society')}}</span>
                                 </div>
                             </div>                          
                     </div>
@@ -55,9 +57,10 @@
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="building" name="building" required>
                                         <option value="" style="font-weight: normal;">Select Building</option>
                                         @foreach($building_data as $key => $value)
-                                        <option value="{{ $value->id }}">{{ $value->name }}</option>
+                                        <option value="{{ encrypt($value->id) }}">{{ $value->name }}</option>
                                         @endforeach
                                     </select>
+                                    <span class="help-block error">{{$errors->first('building')}}</span>
                                 </div>
                             </div>                          
                     </div>
@@ -108,7 +111,7 @@
                     type: 'get',
                     data: {id: id},
                         success: function(response){
-                        //console.log(response);
+                        console.log(response);
                         $('.society_list').html(response);
                         $('#society').selectpicker('refresh');
                     }

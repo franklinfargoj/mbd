@@ -95,7 +95,15 @@ class ServiceChargesController extends Controller
 
     	$rules = [
     		'year' => 'required',
-    		'tenant_type' => 'required',
+            'tenant_type' => 'required',            
+            'water_charges' => 'required|numeric',
+            'electric_city_charge' => 'required|numeric',
+            'pump_man_and_repair_charges' => 'required|numeric',
+            'external_expender_charge' => 'required|numeric',
+            'administrative_charge' => 'required|numeric',
+            'lease_rent' => 'required|numeric',
+            'na_assessment' => 'required|numeric',
+    		'other' => 'required|numeric',
     	];
     	$messages = [
     		'tenant_type.required' => 'Select Tenant Type.'
@@ -144,6 +152,14 @@ class ServiceChargesController extends Controller
     	$rules = [
     		'year' => 'required',
     		'tenant_type' => 'required',
+            'water_charges' => 'required|numeric',
+            'electric_city_charge' => 'required|numeric',
+            'pump_man_and_repair_charges' => 'required|numeric',
+            'external_expender_charge' => 'required|numeric',
+            'administrative_charge' => 'required|numeric',
+            'lease_rent' => 'required|numeric',
+            'na_assessment' => 'required|numeric',
+            'other' => 'required|numeric',
     	];
     	$messages = [
     		'tenant_type.required' => 'Select Tenant Type.'
