@@ -318,12 +318,12 @@
 
                 var months1 = monthDiff(
                                 new Date(ior_year, ior_month, 1),
-                                new Date(bill_year, bill_month, 30)  
+                                new Date(bill_year, (bill_month), 30)  
                              );
 
                 var months2 = monthDiff(
                                 new Date(ida_year, ida_month, 1),
-                                new Date(bill_year, bill_month, 30)  
+                                new Date(bill_year, (bill_month), 30)  
                              );
                 var iod_per = iod / 100;
                 var ior_per = ior / 100;
@@ -342,16 +342,16 @@
 
                  $('#total_amount').html(total);
                  $('#total_amount_val').val(total);
-/*
+
                  console.log(old_rate);
                  console.log(months1);
                  console.log(ior_per);
-            console.log(old_intrest_amount);
+                 console.log(old_intrest_amount);
                 
                  console.log(rate_diff)
                  console.log(months2);
                  console.log(iod_per);
-                 console.log(intrest_on_difference);*/
+                 console.log(intrest_on_difference);
     }
 
 function monthDiff(d1, d2) {

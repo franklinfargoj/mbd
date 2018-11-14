@@ -221,6 +221,11 @@ class ReePermissionSeeder extends Seeder
                 'name'=>'ree_applications.calculation_sheet_options',
                 'display_name'=>'calculation sheet options',
                 'description'=>'calculation sheet options'
+            ],
+            [
+                'name'=>'ree.forward_reval_application_data',
+                'display_name'=>'forward revalidation application',
+                'description'=>'forward revalidation application'
             ]
         ];
 

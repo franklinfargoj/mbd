@@ -824,6 +824,65 @@ class CommonController extends Controller
         return $Architectlogs;
     }
 
+    public function getLogOfCoLayoutApplication($layout_id)
+    {
+        $roles = array(config('commanConfig.co_engineer'));
+
+        $status = array(config('commanConfig.architect_layout_status.forward'));
+
+        $architectRoles = Role::whereIn('name', $roles)->pluck('id');
+        $Architectlogs = ArchitectLayoutStatusLog::with('getRoleName')->where('architect_layout_id', $layout_id)->whereIn('role_id', $architectRoles)->whereIn('status_id', $status)->get();
+        //dd($Architectlogs);
+        return $Architectlogs;
+    }
+
+    public function getLogOfSapLayoutApplication($layout_id)
+    {
+        $roles = array(config('commanConfig.senior_architect_planner'));
+
+        $status = array(config('commanConfig.architect_layout_status.forward'));
+
+        $architectRoles = Role::whereIn('name', $roles)->pluck('id');
+        $Architectlogs = ArchitectLayoutStatusLog::with('getRoleName')->where('architect_layout_id', $layout_id)->whereIn('role_id', $architectRoles)->whereIn('status_id', $status)->get();
+        //dd($Architectlogs);
+        return $Architectlogs;
+    }
+    public function getLogOfCapLayoutApplication($layout_id)
+    {
+        $roles = array(config('commanConfig.cap_engineer'));
+
+        $status = array(config('commanConfig.architect_layout_status.forward'));
+
+        $architectRoles = Role::whereIn('name', $roles)->pluck('id');
+        $Architectlogs = ArchitectLayoutStatusLog::with('getRoleName')->where('architect_layout_id', $layout_id)->whereIn('role_id', $architectRoles)->whereIn('status_id', $status)->get();
+        //dd($Architectlogs);
+        return $Architectlogs;
+    }
+
+    public function getLogOfLALayoutApplication($layout_id)
+    {
+        $roles = array(config('commanConfig.legal_advisor'));
+
+        $status = array(config('commanConfig.architect_layout_status.forward'));
+
+        $architectRoles = Role::whereIn('name', $roles)->pluck('id');
+        $Architectlogs = ArchitectLayoutStatusLog::with('getRoleName')->where('architect_layout_id', $layout_id)->whereIn('role_id', $architectRoles)->whereIn('status_id', $status)->get();
+        //dd($Architectlogs);
+        return $Architectlogs;
+    }
+
+    public function getLogOfVPLayoutApplication($layout_id)
+    {
+        $roles = array(config('commanConfig.vp_engineer'));
+
+        $status = array(config('commanConfig.architect_layout_status.approved'));
+
+        $architectRoles = Role::whereIn('name', $roles)->pluck('id');
+        $Architectlogs = ArchitectLayoutStatusLog::with('getRoleName')->where('architect_layout_id', $layout_id)->whereIn('role_id', $architectRoles)->whereIn('status_id', $status)->get();
+        //dd($Architectlogs);
+        return $Architectlogs;
+    }
+
     public function getLogsOfEEDepartment($applicationId)
     {
 

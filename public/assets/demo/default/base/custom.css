@@ -2723,6 +2723,10 @@ label.site-visit-label {
     background-color: #fc4b1a;
 }
 
+.btn-icon--regenerate {
+    background-color: #3523ed;
+}
+
 .btn--icon-wrap {
     font-size: 10px;
     color: rgba(87, 89, 98);
@@ -2780,6 +2784,14 @@ label.site-visit-label {
 
 .app-no--view {
     color: #668afd;
+}
+
+.society-bill-actions > * {
+    max-width: 60px;
+}
+
+.society-bill-actions .btn--icon-wrap {
+    white-space: normal;
 }
 
 /* EE Billing ends here */

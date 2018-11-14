@@ -1,6 +1,6 @@
 @extends('admin.layouts.sidebarAction')
 @section('actions')
-@include('admin.REE_department.action',compact('ol_application'))
+@include('admin.'.$folder.'.action',compact('ol_application'))
 @endsection
 @section('content')
 
@@ -15,11 +15,22 @@
     {{ session()->get('success') }}
 </div>
 @endif
+@php
+$route_name=\Request::route()->getName();
+@endphp
 
 <div class="custom-wrapper">
     <div class="col-md-12">
         <div class="d-flex">
-            {{ Breadcrumbs::render('calculation_sheet',$ol_application->id) }}
+        @if($route_name=='co.show_calculation_sheet')
+            {{ Breadcrumbs::render('calculation_sheet_co',$ol_application->id) }}
+        @elseif($route_name=='cap.show_calculation_sheet') 
+            {{ Breadcrumbs::render('calculation_sheet_cap',$ol_application->id) }}
+        @elseif($route_name=='vp.show_calculation_sheet') 
+            {{ Breadcrumbs::render('calculation_sheet_vp',$ol_application->id) }}       
+        @elseif($route_name=='ree.show_calculation_sheet') 
+            {{ Breadcrumbs::render('REE_calculation',$ol_application->id) }}   
+        @endif
             <div class="ml-auto btn-list">
                 <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
             </div>
@@ -70,15 +81,13 @@
                                 </div>
                             </div>
                             <div class="m-section__content mb-0 table-responsive">
-                                <form class="nav-tabs-form" role="form" method="POST" action="{{ route('ree.save_custom_calculation_data') }}">
-                                @csrf
+
                                     <div class="d-flex justify-content-start align-items-center mb-4">
                                         <span class="flex-shrink-0 text-nowrap">Total Number of buildings:</span>
-                                        <input type="text" class="form-control form-control--xs form-control--custom flex-grow-0 ml-3" name="total_no_of_buildings" id="total_no_of_buildings" 
-                                        value="{{ isset($buldingNumber) ? $buldingNumber : '' }}" required/>
+                                        <input type="text" class="form-control form-control--xs form-control--custom flex-grow-0 ml-3" placeholder="0"
+                                            name="total_no_of_buildings" id="total_no_of_buildings" value="{{ isset($buldingNumber) ? $buldingNumber : '' }}" readonly />
                                     </div>
                                     <table id="one" class="table mb-0 table--box-input table1" style="padding-top: 10px;">
-                                    <input name="application_id" type="hidden" value="{{ $ol_application->id }}" />
                                         <input name="redirect_tab" type="hidden" value="two" />
                                         <div class="d-flex justify-content-between align-items-center mb-4">
                                             <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("one");'
@@ -92,9 +101,6 @@
                                                 <th class="table-data--md">
                                                     रक्कम रु
                                                 </th>
-                                                <th class="table-data--xs">
-                                                    #
-                                                </th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -105,38 +111,17 @@
                                                 <tr>
                                                     <td>
                                                     <input type="hidden" name="table1[{{$i}}][hiddenId]" value="{{ isset($data['id']) ? $data['id'] : '' }}">
-                                                        <input type="text" class="form-control form-control--custom" name="table1[{{$i}}][title]" value="{{ isset($data['title'])? $data['title'] : '' }}" required>
+                                                        <input type="text" class="form-control form-control--custom" name="table1[{{$i}}][title]" value="{{ isset($data['title'])? $data['title'] : '' }}" readonly>
                                                     </td>
                                                     <td class="text-center"> 
-                                                        <input type="text" class="form-control form-control--custom" name="table1[{{$i}}][amount]" value="{{ isset($data['amount'])? $data['amount'] : '' }}" required>
+                                                        <input type="text" class="form-control form-control--custom" name="table1[{{$i}}][amount]" value="{{ isset($data['amount'])? $data['amount'] : '' }}" readonly>
                                                     </td>
-                                                    <td><i class="fa fa-trash deleteBtn" aria-hidden="true" id="table1_{{$data['id']}}" style="font-size: 20px;color: #b21c1c;cursor: pointer;"></i></td>
                                                 </tr>  
                                             @php $i++; @endphp                                               
-                                            @endforeach
-                                        @else
-                                            <tr>
-                                                <td>
-                                                    <input type="text" class="form-control form-control--custom" name="table1[1][title]" value="" required>
-                                                </td>
-                                                <td class="text-center"> 
-                                                    <input type="text" class="form-control form-control--custom" name="table1[1][amount]" value="" required>
-                                                </td>
-                                                <td><i class="fa fa-trash" aria-hidden="true" id="delete1" style="font-size: 20px;color: #b21c1c;cursor: pointer;" onclick="deleteRow(this.id);"></i></td>
-                                            </tr> 
+                                            @endforeach 
                                         @endif      
                                         </tbody>
-                                    </table>
-                                    @if($status->status_id != config('commanConfig.applicationStatus.forwarded'))
-                                    <div class="col-md-12 btn-list" style="padding-top: 13px;">
-                                        <input type="button" name="add_more" id="table1" class="btn btn-primary btn-next add-more" value="Add More.." />
-                                        <input type="submit" name="submit" class="btn btn-primary btn-next"
-                                        value="Next" style="float:right"/> 
-                                    </div> 
-                                    @endif
-                                <input type="hidden" id="table1_Ids" value="{{ isset($ol_application->table1) && count($ol_application->table1) > 0 ? count($ol_application->table1) : '1' }}">    
-                                <input type="hidden" name="table1_deletedIds" id="table1_deletedIds" value="">
-                               </form>                       
+                                    </table>                      
                             </div>
                         </div>
                     </div>
@@ -154,9 +139,6 @@
                                 </div>
                             </div>
                             <div class="m-section__content mb-0 table-responsive">
-                                <form class="nav-tabs-form" role="form" method="POST" action="{{ route('ree.save_custom_calculation_data') }}">
-                                @csrf
-                                    <input name="application_id" type="hidden" value="{{ $ol_application->id }}" />
                                     <input name="redirect_tab" type="hidden" value="three" />
                                     <div class="d-flex justify-content-between align-items-center mb-4">
                                         <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
@@ -172,9 +154,6 @@
                                                 <th class="table-data--md">
                                                     रक्कम रु
                                                 </th>
-                                                <th class="table-data--xs">
-                                                    #
-                                                </th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -185,38 +164,17 @@
                                                 <tr>
                                                     <td>
                                                     <input type="hidden" name="table2[{{$i}}][hiddenId]" value="{{ isset($data['id']) ? $data['id'] : '' }}">
-                                                        <input type="text" class="form-control form-control--custom" name="table2[{{$i}}][title]" value="{{ isset($data['title'])? $data['title'] : '' }}" required>
+                                                        <input type="text" class="form-control form-control--custom" name="table2[{{$i}}][title]" value="{{ isset($data['title'])? $data['title'] : '' }}" readonly>
                                                     </td>
                                                     <td class="text-center"> 
-                                                        <input type="text" class="form-control form-control--custom" name="table2[{{$i}}][amount]" value="{{ isset($data['amount'])? $data['amount'] : '' }}" required>
+                                                        <input type="text" class="form-control form-control--custom" name="table2[{{$i}}][amount]" value="{{ isset($data['amount'])? $data['amount'] : '' }}" readonly>
                                                     </td>
-                                                    <td><i class="fa fa-trash deleteBtn" aria-hidden="true" id="table2_{{$data['id']}}" style="font-size: 20px;color: #b21c1c;cursor: pointer;"></i></td>
                                                 </tr>  
                                             @php $i++; @endphp                                               
                                             @endforeach
-                                        @else
-                                            <tr>
-                                                <td>
-                                                    <input type="text" class="form-control form-control--custom" name="table2[1][title]" value="" required>
-                                                </td>
-                                                <td class="text-center"> 
-                                                    <input type="text" class="form-control form-control--custom" name="table2[1][amount]" value="" required>
-                                                </td>
-                                                <td><i class="fa fa-trash" id="delete1" aria-hidden="true" style="font-size: 20px;color: #b21c1c;cursor: pointer;" onclick="deleteRow(this.id);"></i></td>
-                                            </tr> 
                                         @endif      
                                         </tbody>
                                     </table>
-                                    @if($status->status_id != config('commanConfig.applicationStatus.forwarded'))
-                                    <div class="col-md-12 btn-list" style="padding-top: 13px;">
-                                        <input type="button" name="add_more" id="table2" class="btn btn-primary btn-next add-more" value="Add More.." />
-                                        <input type="submit" name="submit" class="btn btn-primary btn-next"
-                                        value="Next" style="float:right"/> 
-                                    </div> 
-                                    @endif                                    
-                                    <input type="hidden" id="table2_Ids" value="{{ isset($ol_application->table2) && count($ol_application->table2) > 0 ? count($ol_application->table2) : '1' }}">    
-                                    <input type="hidden" name="table2_deletedIds" id="table2_deletedIds" value="">                                        
-                                </form>
                             </div>
                         </div>
                     </div>
@@ -234,9 +192,6 @@
                                 </div>
                             </div>
                             <div class="m-section__content mb-0 table-responsive">
-                                <form class="nav-tabs-form" role="form" method="POST" action="{{ route('ree.save_custom_calculation_data') }}">
-                                @csrf
-                                    <input name="application_id" type="hidden" value="{{ $ol_application->id }}" />
                                     <input name="redirect_tab" type="hidden" value="four" />
                                     <div class="d-flex justify-content-between align-items-center mb-4">
                                         <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
@@ -252,9 +207,6 @@
                                                 <th class="table-data--md">
                                                     रक्कम रु
                                                 </th>
-                                                <th class="table-data--xs">
-                                                    #
-                                                </th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -265,38 +217,17 @@
                                                 <tr>
                                                     <td>
                                                     <input type="hidden" name="table3[{{$i}}][hiddenId]" value="{{ isset($data['id']) ? $data['id'] : '' }}">
-                                                        <input type="text" class="form-control form-control--custom" name="table3[{{$i}}][title]" value="{{ isset($data['title'])? $data['title'] : '' }}" required>
+                                                        <input type="text" class="form-control form-control--custom" name="table3[{{$i}}][title]" value="{{ isset($data['title'])? $data['title'] : '' }}" readonly>
                                                     </td>
                                                     <td class="text-center"> 
-                                                        <input type="text" class="form-control form-control--custom" name="table3[{{$i}}][amount]" value="{{ isset($data['amount'])? $data['amount'] : '' }}" required>
+                                                        <input type="text" class="form-control form-control--custom" name="table3[{{$i}}][amount]" value="{{ isset($data['amount'])? $data['amount'] : '' }}" readonly>
                                                     </td>
-                                                    <td><i class="fa fa-trash deleteBtn" aria-hidden="true" id="table3_{{$data['id']}}" style="font-size: 20px;color: #b21c1c;cursor: pointer;"></i></td>
                                                 </tr>  
                                             @php $i++; @endphp                                               
-                                            @endforeach
-                                        @else
-                                            <tr>
-                                                <td>
-                                                    <input type="text" class="form-control form-control--custom" name="table3[1][title]" value="" required>
-                                                </td>
-                                                <td class="text-center"> 
-                                                    <input type="text" class="form-control form-control--custom" name="table3[1][amount]" value="" required>
-                                                </td>
-                                                <td><i class="fa fa-trash" id="delete1" aria-hidden="true" style="font-size: 20px;color: #b21c1c;cursor: pointer;" onclick="deleteRow(this.id);"></i></td>
-                                            </tr> 
+                                            @endforeach 
                                         @endif      
                                         </tbody>
                                     </table>
-                                    @if($status->status_id != config('commanConfig.applicationStatus.forwarded'))
-                                        <div class="col-md-12 btn-list" style="padding-top: 13px;">
-                                            <input type="button" name="add_more" id="table3" class="btn btn-primary btn-next add-more" value="Add More.." />
-                                            <input type="submit" name="submit" class="btn btn-primary btn-next"
-                                            value="Next" style="float:right"/> 
-                                        </div> 
-                                    @endif                                    
-                                    <input type="hidden" id="table3_Ids" value="{{ isset($ol_application->table3) && count($ol_application->table3) > 0 ? count($ol_application->table3) : '1' }}">    
-                                    <input type="hidden" name="table3_deletedIds" id="table3_deletedIds" value="">                                        
-                                </form>
                             </div>
                         </div>
                     </div>
@@ -314,9 +245,6 @@
                                 </div>
                             </div>
                             <div class="m-section__content mb-0 table-responsive">
-                                <form class="nav-tabs-form" role="form" method="POST" action="{{ route('ree.save_custom_calculation_data') }}">
-                                @csrf
-                                    <input name="application_id" type="hidden" value="{{ $ol_application->id }}" />
                                     <input name="redirect_tab" type="hidden" value="five" />
                                     <div class="d-flex justify-content-between align-items-center mb-4">
                                         <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
@@ -332,9 +260,6 @@
                                                 <th class="table-data--md">
                                                     रक्कम रु
                                                 </th>
-                                                <th class="table-data--xs">
-                                                    #
-                                                </th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -345,38 +270,17 @@
                                                 <tr>
                                                     <td>
                                                     <input type="hidden" name="table4[{{$i}}][hiddenId]" value="{{ isset($data['id']) ? $data['id'] : '' }}">
-                                                        <input type="text" class="form-control form-control--custom" name="table4[{{$i}}][title]" value="{{ isset($data['title'])? $data['title'] : '' }}" required>
+                                                        <input type="text" class="form-control form-control--custom" name="table4[{{$i}}][title]" value="{{ isset($data['title'])? $data['title'] : '' }}" readonly>
                                                     </td>
                                                     <td class="text-center"> 
-                                                        <input type="text" class="form-control form-control--custom" name="table4[{{$i}}][amount]" value="{{ isset($data['amount'])? $data['amount'] : '' }}" required>
+                                                        <input type="text" class="form-control form-control--custom" name="table4[{{$i}}][amount]" value="{{ isset($data['amount'])? $data['amount'] : '' }}" readonly>
                                                     </td>
-                                                    <td><i class="fa fa-trash deleteBtn" aria-hidden="true" id="table4_{{$data['id']}}" style="font-size: 20px;color: #b21c1c;cursor: pointer;"></i></td>
                                                 </tr>  
                                             @php $i++; @endphp                                               
-                                            @endforeach
-                                        @else
-                                            <tr>
-                                                <td>
-                                                    <input type="text" class="form-control form-control--custom" name="table4[1][title]" value="" required>
-                                                </td>
-                                                <td class="text-center"> 
-                                                    <input type="text" class="form-control form-control--custom" name="table4[1][amount]" value="" required>
-                                                </td>
-                                                <td><i class="fa fa-trash" aria-hidden="true" id="delete1" style="font-size: 20px;color: #b21c1c;cursor: pointer;" onclick="deleteRow(this.id);"></i></td>
-                                            </tr> 
+                                            @endforeach 
                                         @endif      
                                         </tbody>
                                     </table>
-                                    @if($status->status_id != config('commanConfig.applicationStatus.forwarded'))
-                                        <div class="col-md-12 btn-list" style="padding-top: 13px;">
-                                            <input type="button" name="add_more" id="table4" class="btn btn-primary btn-next add-more" value="Add More.." />
-                                            <input type="submit" name="submit" class="btn btn-primary btn-next"
-                                            value="Next" style="float:right"/> 
-                                        </div> 
-                                    @endif
-                                <input type="hidden" id="table4_Ids" value="{{ isset($ol_application->table4) && count($ol_application->table4) > 0 ? count($ol_application->table4) : '1' }}">    
-                                <input type="hidden" name="table4_deletedIds" id="table4_deletedIds" value="">                                    
-                                </form>
                             </div>
                         </div>
                     </div>
@@ -394,10 +298,6 @@
                                     </h3>
                                 </div>
                             </div>
-                        <form class="nav-tabs-form" role="form" method="POST" action="{{ route('ree.save_custom_calculation_data') }}">
-                        @csrf    
-                        <input name="application_id" type="hidden" value="{{ $ol_application->id }}" />
-                        <input name="redirect_tab" type="hidden" value="six" />
                             <div class="m-section__content mb-0 table-responsive">
                                 <div class="d-flex justify-content-between align-items-center mb-4">
                                     <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
@@ -414,7 +314,7 @@
                                             </th>
                                             <th class="table-data--md">
                                                 रक्कम रु
-                                            </th>
+                                            </th>                                            
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -427,7 +327,7 @@
                                                 <input type="hidden" class="form-control form-control--custom" name="table5[1][title]" value="within_6months">
                                             </td>
                                             <td class="text-center">
-                                                <input type="text" class="form-control form-control--custom" name="table5[1][amount]" value="{{ isset($summary['within_6months']) ? $summary['within_6months'] : '' }}" required>
+                                                <input type="text" class="form-control form-control--custom" name="table5[1][amount]" value="{{ isset($summary['within_6months']) ? $summary['within_6months'] : '' }}" readonly>
 
                                             </td>
                                         </tr>
@@ -441,7 +341,7 @@
                                                 <input type="hidden" class="form-control form-control--custom" name="table5[2][title]" value="within_1year">
                                             </td>
                                             <td class="text-center">
-                                                <input type="text" class="form-control form-control--custom" name="table5[2][amount]" value="{{ isset($summary['within_1year']) ? $summary['within_1year'] : '' }}" required>
+                                                <input type="text" class="form-control form-control--custom" name="table5[2][amount]" value="{{ isset($summary['within_1year']) ? $summary['within_1year'] : '' }}" readonly>
 
                                             </td>
                                         </tr>
@@ -455,7 +355,7 @@
                                                 <input type="hidden" class="form-control form-control--custom" name="table5[3][title]" value="within_2year">
                                             </td>
                                             <td class="text-center">
-                                                <input type="text" class="form-control form-control--custom" name="table5[3][amount]" value="{{ isset($summary['within_2year']) ? $summary['within_2year'] : '' }}" required>
+                                                <input type="text" class="form-control form-control--custom" name="table5[3][amount]" value="{{ isset($summary['within_2year']) ? $summary['within_2year'] : '' }}" readonly>
 
                                             </td>
                                         </tr>
@@ -469,7 +369,7 @@
                                                 <input type="hidden" class="form-control form-control--custom" name="table5[4][title]" value="within_3year">
                                             </td>
                                             <td class="text-center">
-                                                <input type="text" class="form-control form-control--custom" name="table5[4][amount]" value="{{ isset($summary['within_3year']) ? $summary['within_3year'] : '' }}" required>
+                                                <input type="text" class="form-control form-control--custom" name="table5[4][amount]" value="{{ isset($summary['within_3year']) ? $summary['within_3year'] : '' }}" readonly>
 
                                             </td>
                                         </tr>
@@ -480,23 +380,11 @@
                                                 <input type="hidden" class="form-control form-control--custom" name="table5[5][title]" value="total">
                                             </td>
                                             <td class="text-center">
-                                                <input type="text" class="form-control form-control--custom" name="table5[5][amount]" value="{{ isset($summary['total']) ? $summary['total'] : '' }}" required>
+                                                <input type="text" class="form-control form-control--custom" name="table5[5][amount]" value="{{ isset($summary['total']) ? $summary['total'] : '' }}" readonly>
                                             </td>
-                                        </tr>
-                                        @if($status->status_id != config('commanConfig.applicationStatus.forwarded'))
-                                            <tr>
-                                                <td colspan="3" align="right"><input type="submit" name="submit" class="btn btn-primary btn-next"
-                                                            value="Next" /> </td>
-                                            </tr>
-                                        @endif    
+                                        </tr>  
                                     </tbody>
-                                </table>
-  <!--                                   <div class="col-md-12 btn-list" style="padding-top: 13px;">
-                                        
-                                    </div>  -->
-                                <input type="hidden" id="table5_Ids" value="{{ isset($ol_application->table5) && count($ol_application->table5) > 0 ? count($ol_application->table5) : '1' }}">    
-                                <input type="hidden" name="table5_deletedIds" id="table5_deletedIds" value=""> 
-                                </form>                               
+                                </table>                              
                             </div>
                         </div>
                     </div>
@@ -513,15 +401,14 @@
                                     </h3>
                                 </div>
                             </div>
-
                             <div class="m-section__content mb-0 table-responsive">
                                 <div class="container">
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <div class="d-flex flex-column h-100 two-cols">
                                             <h3 class="section-title section-title--small">Download REE Note</h3>
+                                                <!-- <span class="hint-text">Download  Note uploaded by REE</span> -->
                                                 <div class="mt-auto">
-
                                                     @if(isset($reeNote->document_path))
                                                     <a href="{{config('commanConfig.storage_server').'/'.$reeNote->document_path}}">
 
@@ -535,27 +422,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        @if($status->status_id != config('commanConfig.applicationStatus.forwarded'))
-                                        <div class="col-sm-6 border-left">
-                                            <div class="d-flex flex-column h-100 two-cols">
-                                                <h5>Upload REE Note</h5>
-                                                <form action="{{ route('ree.upload_ree_note') }}" method="post" enctype="multipart/form-data">
-                                                    @csrf
-                                                    <input type="hidden" name="application_id" value="{{ $ol_application->id }}">
-                                                    <div class="custom-file">
-                                                        <input class="custom-file-input" name="ree_note" type="file" id="test-upload"
-                                                            required="">
-                                                        <label class="custom-file-label" for="test-upload">Choose file
-                                                            ...</label>
-                                                    </div>
-                                                    <span class="text-danger" id="file_error"></span>
-                                                    <div class="mt-auto">
-                                                        <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -610,50 +476,6 @@
         mywindow.close();
 
         return true;
-    }           
-    $(document).ready(function () {
-
-        // **Start** Save tabs location on window refresh or submit
-
-        // Set first tab to active if user visits page for the first time
-
-        if (localStorage.getItem("activeTab") === null) {
-            document.querySelector(".nav-link.m-tabs__link").classList.add("active", "show");
-        } else {
-            document.querySelector(".nav-link.m-tabs__link").classList.remove("active", "show");
-        }
-
-        if (location.hash) {
-            $('a[href=\'' + location.hash + '\']').tab('show');
-        }
-        var activeTab = localStorage.getItem('activeTab');
-        if (activeTab) {
-            $('a[href="' + activeTab + '"]').tab('show');
-        }
-
-        $('body').on('click', 'a[data-toggle=\'tab\']', function (e) {
-            e.preventDefault()
-            var tab_name = this.getAttribute('href')
-            if (history.pushState) {
-                history.pushState(null, null, tab_name)
-            } else {
-                location.hash = tab_name
-            }
-            localStorage.setItem('activeTab', tab_name)
-
-            $(this).tab('show');
-
-            localStorage.clear();
-            return false;
-        });
-
-        $(window).on('popstate', function () {
-            var anchor = location.hash ||
-                $('a[data-toggle=\'tab\']').first().attr('href');
-            $('a[href=\'' + anchor + '\']').tab('show');
-            window.scrollTo(0, 0);
-        });
-    });    
+    }    
 </script>
-
 @endsection

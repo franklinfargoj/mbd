@@ -9,6 +9,7 @@
 </head>
 
 <body>
+          
 <div class="m_portlet">
     <form id="OfferLetterFRM" action="{{ route('ree.save_offer_letter')}}" method="post">
         @csrf
@@ -107,7 +108,32 @@
                 <!-- Letter Body ends here -->
 
                 <!-- Table 1 starts here -->
-
+                @if($custom == '1')
+                <div>
+                    <h3 style="text-transform: uppercase; font-weight: bold; text-decoration: underline; text-align: center;">Table-1</h3>
+                    <table style="width: 100%; text-align: center; border-collapse: collapse;">
+                        <thead style="text-align: center;">
+                            <tr>
+                                <th style="width: 4%; border: 1px solid #000; padding: 5px 10px">Sr.No</th>
+                                <th style="width: 80%; border: 1px solid #000; padding: 5px 10px">Particular</th>
+                                <th style="width: 16%; border: 1px solid #000; padding: 5px 10px">Amount in Rs.</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        @php $i = 1; @endphp
+                        @foreach($table1 as $value)
+                            
+                            <tr>
+                                <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">{{$i}}</td>
+                                <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">{{ isset($value['title']) ? $value['title'] : '' }}</td>
+                                <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;"> <span style="font-weight: bold">{{ isset($value['amount']) ? $value['amount'] : '' }} </td>
+                            </tr> 
+                        @php $i++; @endphp
+                        @endforeach    
+                        </tbody>
+                    </table>
+                </div>                          
+                @else
                 <div>
                     <h3 style="text-transform: uppercase; font-weight: bold; text-decoration: underline; text-align: center;">Table-1</h3>
                     <table style="width: 100%; text-align: center; border-collapse: collapse;">
@@ -196,6 +222,38 @@
                                 <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;">
                                 <span style="font-weight: bold">{{($calculationData->premiumCalculationSheet != "" ? $calculationData->premiumCalculationSheet->offsite_infrastructure_charge_to_mhada : '')}}
                                 </span></td>
+                            </tr>                            
+                            <tr>
+                                <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;"></td>
+                                <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">For R.G. relocation Rs. <span style="font-weight: bold">{{($calculationData->premiumCalculationSheet != "" ? $calculationData->premiumCalculationSheet->redirekner_value : '')}}
+                                </span>/- (10% of Rs <span style="font-weight: bold">{{($calculationData->premiumCalculationSheet != "" ? $calculationData->premiumCalculationSheet->redirekner_value : '')}} </span> per m2 of R. R. 2017-18 ) *
+
+                                 {{($calculationData->premiumCalculationSheet != "" ? $calculationData->premiumCalculationSheet->area_of_rg_to_be_relocated : '')}}   </td>
+
+                                <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;">
+                                <span style="font-weight: bold">{{($calculationData->premiumCalculationSheet != "" ? $calculationData->premiumCalculationSheet->total_area_of_rg_to_be_relocated : '')}}
+                                </span></td>
+                            </tr>                            
+                            <tr>
+                                <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;"></td>
+                                <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Capitalization of lease rent annual 2.5%</td>
+                                <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;">
+                                <span style="font-weight: bold">{{($calculationData->premiumCalculationSheet != "" ? $calculationData->premiumCalculationSheet->groundrent_capitalization_yearly : '')}}
+                                </span></td>
+                            </tr>                           
+                             <tr>
+                                <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;"></td>
+                                <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Advance Lease rent 8%</td>
+                                <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;">
+                                <span style="font-weight: bold">{{($calculationData->premiumCalculationSheet != "" ? $calculationData->premiumCalculationSheet->advance_groundrent_per_year : '')}}
+                                </span></td>
+                            </tr>                            
+                            <tr>
+                                <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;"></td>
+                                <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Nominal Lease rent</td>
+                                <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;">
+                                <span style="font-weight: bold">{{($calculationData->premiumCalculationSheet != "" ? $calculationData->premiumCalculationSheet->nominal_groundrent : '')}}
+                                </span></td>
                             </tr>
                             <tr>
                                 <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">12.</td>
@@ -223,6 +281,7 @@
                         </tbody>
                     </table>
                 </div>
+                @endif
 
                 <!-- Table 1 ends here -->
 
@@ -264,7 +323,13 @@
                                 <td style="border: 1px solid #000; padding: 5px 10px; text-align: center; width: 4%;">1)</td>
                                 <td style="border: 1px solid #000; padding: 5px 10px; text-align: left; width: 5%;">First
                                     Installment</td>
-                                <td style="border: 1px solid #000; padding: 5px 10px; text-align: center; width: 5%;"><span style="font-weight: bold"> {{($calculationData->premiumCalculationSheet != "" ? $calculationData->premiumCalculationSheet->payment_of_first_installment : '')}} </span></td>
+                                <td style="border: 1px solid #000; padding: 5px 10px; text-align: center; width: 5%;"><span style="font-weight: bold"> 
+                            @if($custom == '1')
+                                {{ isset($summary['within_6months']) ? $summary['within_6months'] : '' }}
+                            @else
+                                {{($calculationData->premiumCalculationSheet != "" ? $calculationData->premiumCalculationSheet->payment_of_first_installment : '')}} 
+                            @endif    
+                                </span></td>
                                 <td style="border: 1px solid #000; padding: 5px 10px; text-align: left; width: 10%;"><span style="font-weight: bold"> 6 Months </span> from the date of offer letter issued.</td>
                                 <td style="border: 1px solid #000; padding: 5px 10px; text-align: left; width: 30%;"> 
                                 a) Compound Interest @ 12% or prime lending rate (PLR) as decide by SBI whichever is higher to be calculated from the date of offer letter issued, up to date of payment (Calculated every three Months i.e. quarterly) as the amercible interest.
@@ -277,7 +342,13 @@
                                 <td style="border: 1px solid #000; padding: 5px 10px; text-align: center; width: 4%;">2)</td>
                                 <td style="border: 1px solid #000; padding: 5px 10px; text-align: left; width: 20%;">Second
                                     Installment</td>
-                                <td style="border: 1px solid #000; padding: 5px 10px; text-align: center; width: 25%;"><span style="font-weight: bold"> {{($calculationData->premiumCalculationSheet != "" ? $calculationData->premiumCalculationSheet->payment_of_remaining_installment : '')}}</span></td>
+                                <td style="border: 1px solid #000; padding: 5px 10px; text-align: center; width: 25%;"><span style="font-weight: bold"> 
+                                @if($custom == '1')
+                                    {{ isset($summary['within_1year']) ? $summary['within_1year'] : '' }}
+                                @else
+                                    {{($calculationData->premiumCalculationSheet != "" ? $calculationData->premiumCalculationSheet->payment_of_remaining_installment : '')}} 
+                                @endif 
+                                </span></td>
                                 <td style="border: 1px solid #000; padding: 5px 10px; text-align: left; width: 21%;">Within
                                     <span style="font-weight: bold"> ONE year </span> from the date of offer letter issued </td>
                                 <td style="border: 1px solid #000; padding: 5px 10px; text-align: left; width: 30%;">Compound Interest @ 12% or prime lending rate (PLR) as decide by SBI whichever is higher to be calculated from the date of offer letter issued, up to date of payment (Calculated every three Months i.e. quarterly) as the amercible interest.</td>
@@ -288,7 +359,13 @@
                                 <td style="border: 1px solid #000; padding: 5px 10px; text-align: center; width: 4%;">3)</td>
                                 <td style="border: 1px solid #000; padding: 5px 10px; text-align: left; width: 20%;">Third
                                     Installment</td>
-                                <td style="border: 1px solid #000; padding: 5px 10px; text-align: center; width: 25%;"><span style="font-weight: bold"> {{($calculationData->premiumCalculationSheet != "" ? $calculationData->premiumCalculationSheet->payment_of_remaining_installment : '')}}</span></td>
+                                <td style="border: 1px solid #000; padding: 5px 10px; text-align: center; width: 25%;"><span style="font-weight: bold"> 
+                                @if($custom == '1')
+                                    {{ isset($summary['within_2year']) ? $summary['within_2year'] : '' }}
+                                @else
+                                    {{($calculationData->premiumCalculationSheet != "" ? $calculationData->premiumCalculationSheet->payment_of_remaining_installment : '')}} 
+                                @endif 
+                                </span></td>
                                 <td style="border: 1px solid #000; padding: 5px 10px; text-align: left; width: 21%;">Within
                                     <span style="font-weight: bold"> TWO years </span> from the date of offer letter issued.</td>
                                 <td style="border: 1px solid #000; padding: 5px 10px; text-align: left; width: 30%;">Compound Interest @ 12% or prime lending rate (PLR) as decide by SBI whichever is higher to be calculated from the date of offer letter issued, up to date of payment (Calculated every three Months i.e. quarterly) as the amercible interest.</td>
@@ -298,7 +375,13 @@
                                 <td style="border: 1px solid #000; padding: 5px 10px; text-align: center; width: 4%;">4)</td>
                                 <td style="border: 1px solid #000; padding: 5px 10px; text-align: left; width: 20%;">Fourth
                                     Installment</td>
-                                <td style="border: 1px solid #000; padding: 5px 10px; text-align: center; width: 25%;"><span style="font-weight: bold"> {{($calculationData->premiumCalculationSheet != "" ? $calculationData->premiumCalculationSheet->payment_of_remaining_installment : '')}}</span></td>
+                                <td style="border: 1px solid #000; padding: 5px 10px; text-align: center; width: 25%;"><span style="font-weight: bold"> 
+                                @if($custom == '1')
+                                    {{ isset($summary['within_3year']) ? $summary['within_3year'] : '' }}
+                                @else
+                                    {{($calculationData->premiumCalculationSheet != "" ? $calculationData->premiumCalculationSheet->payment_of_remaining_installment : '')}} 
+                                @endif                                 
+                                </span></td>
                                 <td style="border: 1px solid #000; padding: 5px 10px; text-align: left; width: 21%;">Within
                                     <span style="font-weight: bold"> THREE years </span> the date of first offer letter issued.</td>
                                 <td style="border: 1px solid #000; padding: 5px 10px; text-align: left; width: 30%;">Compound Interest @ 12% or prime lending rate (PLR) as decide by SBI whichever is higher to be calculated from the date of offer letter issued, up to date of payment (Calculated every three Months i.e. quarterly) as the amercible interest.</td>

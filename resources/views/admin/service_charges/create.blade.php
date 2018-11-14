@@ -21,7 +21,7 @@
                         <option value="">Select Year</option>
                         <option value="{{date('Y') . '-' . (date('y') + 1)}}" {{ old('year') == date('Y') . '-' . (date('y') + 1) ? 'selected' : '' }}>{{date('Y') . '-' . (date('y') + 1)}}</option>
                     </select>
-                    <span class="help-block">{{$errors->first('year')}}</span>
+                    <span class="help-block error">{{$errors->first('year')}}</span>
                 </div>
             </div>
             <div class="form-group m-form__group row">
@@ -33,63 +33,63 @@
                             <option value="{{$tenant_type}}" {{ old('tenant_type') == $tenant_type ? 'selected' : '' }}>{{$tenant_type}}</option>
                         @endforeach
                     </select>
-                    <span class="help-block">{{$errors->first('tenant_type')}}</span>
+                    <span class="help-block error">{{$errors->first('tenant_type')}}</span>
                 </div>
             </div>
             <div class="form-group m-form__group row">
                 <div class="col-lg-6 form-group">
                     <label class="col-form-label" for="case_year">Water Charges:</label>
                     <input type="text" id="water_charges" name="water_charges" class="form-control form-control--custom m-input" value="{{old('water_charges')}}" required>
-                    <span class="help-block">{{$errors->first('water_charges')}}</span>
+                    <span class="help-block error">{{$errors->first('water_charges')}}</span>
                 </div>
             </div>
             <div class="form-group m-form__group row">
                 <div class="col-lg-6 form-group">
                     <label class="col-form-label" for="case_year">Electric City Charge:</label>
                     <input type="text" id="electric_city_charge" name="electric_city_charge" class="form-control form-control--custom m-input" value="{{old('electric_city_charge')}}" required>
-                    <span class="help-block">{{$errors->first('electric_city_charge')}}</span>
+                    <span class="help-block error">{{$errors->first('electric_city_charge')}}</span>
                 </div>
             </div>
             <div class="form-group m-form__group row">
                 <div class="col-lg-6 form-group">
                     <label class="col-form-label" for="case_year">Pump Man & Repair Charges:</label>
                     <input type="text" id="pump_man_and_repair_charges" name="pump_man_and_repair_charges" class="form-control form-control--custom m-input" value="{{old('pump_man_and_repair_charges')}}" required>
-                    <span class="help-block">{{$errors->first('pump_man_and_repair_charges')}}</span>
+                    <span class="help-block error">{{$errors->first('pump_man_and_repair_charges')}}</span>
                 </div>
             </div>
             <div class="form-group m-form__group row">
                 <div class="col-lg-6 form-group">
                     <label class="col-form-label" for="case_year">External Expender Charge:</label>
                     <input type="text" id="external_expender_charge" name="external_expender_charge" class="form-control form-control--custom m-input" value="{{old('external_expender_charge')}}" required>
-                    <span class="help-block">{{$errors->first('external_expender_charge')}}</span>
+                    <span class="help-block error">{{$errors->first('external_expender_charge')}}</span>
                 </div>
             </div>
             <div class="form-group m-form__group row">
                 <div class="col-lg-6 form-group">
                     <label class="col-form-label" for="case_year">Administrative Charge:</label>
                     <input type="text" id="administrative_charge" name="administrative_charge" class="form-control form-control--custom m-input" value="{{old('administrative_charge')}}" required>
-                    <span class="help-block">{{$errors->first('administrative_charge')}}</span>
+                    <span class="help-block error">{{$errors->first('administrative_charge')}}</span>
                 </div>
             </div>
             <div class="form-group m-form__group row">
                 <div class="col-lg-6 form-group">
                     <label class="col-form-label" for="case_year">Lease Rent:</label>
                     <input type="text" id="lease_rent" name="lease_rent" class="form-control form-control--custom m-input" value="{{old('lease_rent')}}" required>
-                    <span class="help-block">{{$errors->first('lease_rent')}}</span>
+                    <span class="help-block error">{{$errors->first('lease_rent')}}</span>
                 </div>
             </div>
             <div class="form-group m-form__group row">
                 <div class="col-lg-6 form-group">
                     <label class="col-form-label" for="case_year">N.A.Assessment:</label>
                     <input type="text" id="na_assessment" name="na_assessment" class="form-control form-control--custom m-input" value="{{old('na_assessment')}}" required>
-                    <span class="help-block">{{$errors->first('na_assessment')}}</span>
+                    <span class="help-block error">{{$errors->first('na_assessment')}}</span>
                 </div>
             </div>
             <div class="form-group m-form__group row">
                 <div class="col-lg-6 form-group">
                     <label class="col-form-label" for="case_year">Other:</label>
                     <input type="text" id="other" name="other" class="form-control form-control--custom m-input" value="{{old('other')}}" required>
-                    <span class="help-block">{{$errors->first('other')}}</span>
+                    <span class="help-block error">{{$errors->first('other')}}</span>
                 </div>
             </div>
             <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">

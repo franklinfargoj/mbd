@@ -46,29 +46,30 @@
                             <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
                                 <div class="">
                                     <h3 class="section-title section-title--small">
-                                        EE Scrutiny
+                                        Report
                                     </h3>
                                 </div>
                                 <div class="remarks-suggestions">
-                                    <table class="table">
-                                        <tr>
-                                            <th colspan="3">Report</th>
-                                        </tr>
+                                    <table class="table" style="width:50%">
                                         @foreach($ArchitectLayout->ee_scrutiny_reports as $ee_scrutiny_report)
                                         <tr>
-                                            <td>Name of the Document</td>
-                                            <td>{{$ee_scrutiny_report->name_of_document}}</td>
-                                            <td><a target="_blank" class="btn-link" href="{{ config('commanConfig.storage_server')."/".$ee_scrutiny_report->file}}">Download</a></td>
+                                            <td style="width: 25%">{{$ee_scrutiny_report->name_of_document}}</td>
+                                            <td style="width:25%"><a target="_blank" class="btn-link" href="{{ config('commanConfig.storage_server')."/".$ee_scrutiny_report->file}}">Download</a></td>
                                         </tr>
                                         @endforeach
                                     </table>
+                                </div>
+                                <div class="">
+                                    <h3 class="section-title section-title--small">
+                                        Questionnaire
+                                    </h3>
                                 </div>
                                 <div class="remarks-suggestions">
                                     @foreach ($ArchitectLayout->ee_scrutiny_checklist_and_remarks as $item)
                                     <div class="block">
                                         <input type="hidden" name="report_id[]" value="{{$item->id}}">
                                         @if($item->question!="")
-                                        <p style="font-size: 16px">{{$item->question->title}}</p>
+                                        <p style="font-size: 16px"><strong>{{$item->question->title}}</strong></p>
                                         @if($item->question->is_options==1)
                                         <p>
                                             <input type="radio" value="1" {{$item->label1==1?'checked':''}}>{{$item->question->label1}}
@@ -114,31 +115,32 @@
                             <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
                                 <div class="">
                                     <h3 class="section-title section-title--small">
-                                        LM Scrutiny
+                                        Report
                                     </h3>
                                 </div>
                                 <div class="remarks-suggestions scrutiny-checklist_and_remarks">
                                     <div id="wrapper">
-                                        <table class="table">
-                                            <tr>
-                                                <th colspan="3">Report</th>
-                                            </tr>
+                                        <table class="table" style="width:50%">
                                             @foreach($ArchitectLayout->land_scrutiny_reports as $lm_scrutiny_report)
                                             <tr>
-                                                <td>Name of the Document</td>
-                                                <td>{{$lm_scrutiny_report->name_of_document}}</td>
-                                                <td><a target="_blank" class="btn-link" href="{{ config('commanConfig.storage_server')."/".$lm_scrutiny_report->file}}">Download</a></td>
+                                                <td style="width: 25%">{{$lm_scrutiny_report->name_of_document}}</td>
+                                                <td style="width:25%"><a target="_blank" class="btn-link" href="{{ config('commanConfig.storage_server')."/".$lm_scrutiny_report->file}}">Download</a></td>
                                             </tr>
                                             @endforeach
                                         </table>
                                     </div>
+                                </div>
+                                <div class="">
+                                    <h3 class="section-title section-title--small">
+                                        Questionnaire
+                                    </h3>
                                 </div>
                                 <div class="remarks-suggestions">
                                     @foreach ($ArchitectLayout->land_scrutiny_checklist_and_remarks as $item)
                                     <div class="block">
                                         <input type="hidden" name="report_id[]" value="{{$item->id}}">
                                         @if($item->question!="")
-                                        <p style="font-size: 16px">{{$item->question->title}}</p>
+                                        <p style="font-size: 16px"><strong>{{$item->question->title}}</strong></p>
                                         @if($item->question->is_options==1)
                                         <p>
                                             <input type="radio" disabled value="1" {{$item->label1==1?'checked':''}}>{{$item->question->label1}}
@@ -184,31 +186,32 @@
                             <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
                                 <div class="">
                                     <h3 class="section-title section-title--small">
-                                        EM Scrutiny
+                                        Report
                                     </h3>
                                 </div>
                                 <div class="remarks-suggestions scrutiny-checklist_and_remarks">
                                     <div id="wrapper">
-                                        <table class="table">
-                                            <tr>
-                                                <th colspan="3">Report</th>
-                                            </tr>
+                                        <table class="table" style="width:50%">
                                             @foreach($ArchitectLayout->em_scrutiny_reports as $em_scrutiny_report)
                                             <tr>
-                                                <td>Name of the Document</td>
-                                                <td>{{$em_scrutiny_report->name_of_document}}</td>
-                                                <td><a target="_blank" class="btn-link" href="{{ config('commanConfig.storage_server')."/".$em_scrutiny_report->file}}">Download</a></td>
+                                                <td style="width: 25%">{{$em_scrutiny_report->name_of_document}}</td>
+                                                <td style="width:25%"><a target="_blank" class="btn-link" href="{{ config('commanConfig.storage_server')."/".$em_scrutiny_report->file}}">Download</a></td>
                                             </tr>
                                             @endforeach
                                         </table>
                                     </div>
+                                </div>
+                                <div class="">
+                                    <h3 class="section-title section-title--small">
+                                        Questionnaire
+                                    </h3>
                                 </div>
                                 <div class="remarks-suggestions">
                                         @foreach ($ArchitectLayout->em_scrutiny_checklist_and_remarks as $item)
                                         <div class="block">
                                             <input type="hidden" name="report_id[]" value="{{$item->id}}">
                                             @if($item->question!="")
-                                            <p style="font-size: 16px">{{$item->question->title}}</p>
+                                            <p style="font-size: 16px"><strong>{{$item->question->title}}</strong></p>
                                             @if($item->question->is_options==1)
                                             <p>
                                                 <input type="radio" disabled value="1" {{$item->label1==1?'checked':''}}>{{$item->question->label1}}
@@ -254,31 +257,32 @@
                             <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
                                 <div class="">
                                     <h3 class="section-title section-title--small">
-                                        REE Scrutiny
+                                        Report
                                     </h3>
                                 </div>
                                 <div class="remarks-suggestions scrutiny-checklist_and_remarks">
                                     <div id="wrapper">
-                                        <table class="table">
-                                            <tr>
-                                                <th colspan="3">Report</th>
-                                            </tr>
+                                        <table class="table" style="width:50%">
                                             @foreach($ArchitectLayout->ree_scrutiny_reports as $ree_scrutiny_report)
                                             <tr>
-                                                <td>Name of the Document</td>
-                                                <td>{{$ree_scrutiny_report->name_of_document}}</td>
-                                                <td><a target="_blank" class="btn-link" href="{{ config('commanConfig.storage_server')."/".$ree_scrutiny_report->file}}">Download</a></td>
+                                                <td style="width: 25%">{{$ree_scrutiny_report->name_of_document}}</td>
+                                                <td style="width:25%"><a target="_blank" class="btn-link" href="{{ config('commanConfig.storage_server')."/".$ree_scrutiny_report->file}}">Download</a></td>
                                             </tr>
                                             @endforeach
                                         </table>
                                     </div>
+                                </div>
+                                <div class="">
+                                    <h3 class="section-title section-title--small">
+                                        Questionnaire
+                                    </h3>
                                 </div>
                                 <div class="remarks-suggestions">
                                         @foreach ($ArchitectLayout->ree_scrutiny_checklist_and_remarks as $item)
                                         <div class="block">
                                             <input type="hidden" name="report_id[]" value="{{$item->id}}">
                                             @if($item->question!="")
-                                            <p style="font-size: 16px">{{$item->question->title}}</p>
+                                            <p style="font-size: 16px"><strong>{{$item->question->title}}</strong></p>
                                             @if($item->question->is_options==1)
                                             <p>
                                                 <input type="radio" disabled value="1" {{$item->label1==1?'checked':''}}>{{$item->question->label1}}

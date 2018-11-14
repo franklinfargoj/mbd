@@ -9,6 +9,7 @@ class OlApplicationCalculationSheetDetails extends Model
     protected $fillable = [
         'application_id',
         'user_id',
+        'society_id',
         'total_no_of_buildings',
         'area_as_per_lease_agreement',
         'area_of_tit_bit_plot',
