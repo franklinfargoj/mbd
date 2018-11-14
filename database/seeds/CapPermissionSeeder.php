@@ -112,6 +112,11 @@ class CapPermissionSeeder extends Seeder
                 'display_name' => 'post_forward_architect_layout',
                 'description' => 'post_forward_architect_layout',
             ],
+            [
+                'name'=>'dashboard',
+                'display_name'=>'dashboard',
+                'description'=>'Dashboard'
+            ]
         ];
 
         $cap_manager = Role::where('name', '=', 'cap_engineer')->first();
@@ -120,7 +125,7 @@ class CapPermissionSeeder extends Seeder
         } else {
             $role_id = Role::insertGetId([
                 'name' => 'cap_engineer',
-                'redirect_to' => '/cap',
+                'redirect_to' => '/dashboard',
                 'parent_id' => null,
                 'display_name' => 'CAP_Engineer',
                 'description' => 'Login as CAP Engineer',

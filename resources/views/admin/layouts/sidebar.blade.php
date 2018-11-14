@@ -20,6 +20,22 @@ $route=\Request::route()->getName();
             data-max-height="100vh">
             <ul class="m-menu__nav  m-menu__nav--dropdown-submenu-arrow">
 
+                @if(session()->get('permission') && in_array('dashboard', session()->get('permission')))
+                    <li class="m-menu__item {{($route=='dashboard')?'m-menu__item--active':''}}">
+                        <a href="{{ url('dashboard') }}" class="m-menu__link m-menu__toggle">
+                            <i class="m-menu__link-icon flaticon-line-graph"></i>
+                            <span class="m-menu__link-title">
+                            <span class="m-menu__link-wrap">
+                                <span class="m-menu__link-text">
+                                    Dashboard
+                                </span>
+                            </span>
+                        </span>
+                        </a>
+                    </li>
+                @endif
+
+
                 @if(session()->get('permission') && (in_array('architect_application', session()->get('permission')) ||
                 in_array('view_architect_application',
                 session()->get('permission')) || in_array('evaluate_architect_application',
