@@ -46,9 +46,9 @@
     <!-- END: Subheader -->
     <div class="m-portlet m-portlet--compact m-portlet--mobile">
        
-        <div class="m-portlet__head">
+        <div class="m-portlet__head px-0">
             <div class="m-portlet__head-caption">
-                <h3 class="m-portlet__head-text"> List of societies</h3>
+                <h3 class="m-portlet__head-text">List of societies</h3>
                 <div class="m-portlet__head-text">
                     <div id="filter" class="ml-auto"><input type="search" id="searchId" class="form-control input-lg input-large input-inline form-control--custom"
                     placeholder="Search ..."></div>    
@@ -78,7 +78,7 @@
                     
                         <a href="{{route('soc_bill_level', [$value->id])}}" class='d-flex flex-column align-items-center' style="padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;"><span class='btn-icon btn-icon--edit'><img src="{{asset('/img/edit-icon.svg')}}"></span>Bill Level</a>
                        
-                        <a href="{{route('soc_ward_colony', [$value->id])}}" class='d-flex flex-column align-items-center' style="padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;"><span class='btn-icon btn-icon--edit'><img src="{{asset('/img/edit-icon.svg')}}"></span>Ward & colony</a>
+                        <a href="{{route('soc_ward_colony', [$value->id])}}" class='d-flex flex-column align-items-center' style="padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;"><span class='btn-icon btn-icon--delete'><img src="{{asset('/img/generate-bill-icon.svg')}}"></span>Ward & colony</a>
 
                     </div>
                 

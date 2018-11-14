@@ -292,11 +292,14 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::get('dyce_Scrutiny_Remark/{id}','REEDepartment\REEController@dyceScrutinyRemark')->name('ree.dyce_scrutiny_remark');
 
-    Route::get('ree_forward_application/{id}','REEDepartment\REEController@forwardApplication')->name('ree.forward_application'); 
+    Route::get('ree_forward_application/{id}','REEDepartment\REEController@forwardApplication')->name('ree.forward_application');
+
+    Route::get('ree_forward_reval_application/{id}','REEDepartment\REEController@forwardRevalApplication')->name('ree.forward_reval_application');
 
     Route::get('download_cap_note/{id}','REEDepartment\REEController@downloadCapNote')->name('ree.download_cap_note');
     
     Route::post('ree_forward_Application_data','REEDepartment\REEController@sendForwardApplication')->name('ree.forward_application_data');
+    Route::post('ree_forward_reval_Application_data','REEDepartment\REEController@sendForwardRevalApplication')->name('ree.forward_reval_application_data');
 
     Route::get('ree_reval_applications','REEDepartment\REEController@revalidationApplicationList')->name('ree_applications.reval');
 
@@ -308,14 +311,23 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     // Route::resource('/ol_calculation_sheet', 'REEDepartment\OlApplicationCalculationSheetDetailsController');
     Route::post('ol_calculation_sheet/save_details','REEDepartment\OlApplicationCalculationSheetDetailsController@saveCalculationDetails')->name('save_calculation_details');
+    Route::post('ol_reval_calculation_sheet/save_details','REEDepartment\OlApplicationCalculationSheetDetailsController@saveRevalCalculationDetails')->name('save_reval_calculation_details');
+
+    Route::get('ol_reval_calculation_sheet/{id}','REEDepartment\OlApplicationCalculationSheetDetailsController@showRevalCalculationDetails')->name('ol_reval_calculation_sheet.show');
 
     Route::resource('/ol_sharing_calculation_sheet', 'REEDepartment\OlSharingCalculationSheetDetailsController');
     Route::post('ol_sharing_calculation_sheet/save_details','REEDepartment\OlSharingCalculationSheetDetailsController@saveCalculationDetails')->name('save_sharing_calculation_details');
+
+    Route::post('ol_reval_sharing_calculation_sheet/save_details','REEDepartment\OlSharingCalculationSheetDetailsController@saveRevalCalculationDetails')->name('save_reval_sharing_calculation_details');
+
+    Route::get('ol_reval_sharing_calculation_sheet/{id}','REEDepartment\OlApplicationCalculationSheetDetailsController@showRevalSharingCalculationDetails')->name('ol_reval_sharing_calculation_sheet.show');
 
     Route::post('upload_ree_note','REEDepartment\REEController@uploadREENote')->name('ree.upload_ree_note');
 
     // CO department route 
     Route::resource('co','CODepartment\COController');
+    Route::get('co_reval_applications','CODepartment\COController@revalidationApplicationList')->name('co_applications.reval');
+    Route::get('view_reval_application_co/{id}','CODepartment\COController@viewRevalApplication')->name('co.view_reval_application');
     Route::get('society_ee_documents/{id}','CODepartment\COController@societyEEDocuments')->name('co.society_EE_documents');
     Route::get('ee_Scrutiny_Remark/{id}','CODepartment\COController@eeScrutinyRemark')->name('co.EE_Scrutiny_Remark');
 
@@ -554,6 +566,7 @@ Route::post('send_letter_society','REEDepartment\REEController@sendOfferLetterTo
 Route::get('view_application_ree/{id}','REEDepartment\REEController@viewApplication')->name('ree.view_application');
 Route::get('view_reval_application_ree/{id}','REEDepartment\REEController@viewRevalApplication')->name('ree.view_reval_application');
 Route::get('calculation_sheet_ree/{id}','REEDepartment\REEController@showCalculationSheet')->name('ree.show_calculation_sheet');
+Route::get('reval_calculation_sheet_ree/{id}','REEDepartment\REEController@showRevalCalculationSheet')->name('ree.show_reval_calculation_sheet');
 
 Route::get('approve_offer_letter/{id}','CODepartment\COController@approveOfferLetter')->name('co.approve_offer_letter');
 Route::post('send_approved_offer_letter','CODepartment\COController@approvedOfferLetter')->name('co.send_approved_offer_letter');
@@ -740,8 +753,3 @@ Route::prefix('appointing_architect')->group(function () {
     });
     
 });
-//
-define('SOCIETY_LEVEL_BILLING'  ,'1');
-define('TENANT_LEVEL_BILLING'   ,'2');
-define('PAYMENT_STATUS_NOT_PAID','0');
-define('PAYMENT_STATUS_PAID'    ,'1');

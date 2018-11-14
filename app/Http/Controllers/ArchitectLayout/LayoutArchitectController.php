@@ -15,13 +15,14 @@ use App\Layout\ArchitectLayoutScrutinyEEReport;
 use App\Layout\ArchitectLayoutScrutinyEMReport;
 use App\Layout\ArchitectLayoutScrutinyLandReport;
 use App\Layout\ArchitectLayoutScrutinyREEReport;
+use App\Layout\PrepareLayoutExcelLog;
 use App\Role;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Storage;
 use Yajra\DataTables\DataTables;
-use App\Layout\PrepareLayoutExcelLog;
+
 class LayoutArchitectController extends Controller
 {
     protected $architect_layouts;
@@ -223,10 +224,15 @@ class LayoutArchitectController extends Controller
         $Lmlogs = $this->architect_layouts->getLogOfLmLayoutApplication($layout_id);
         $EElogs = $this->architect_layouts->getLogOfEELayoutApplication($layout_id);
         $Reelogs = $this->architect_layouts->getLogOfReeLayoutApplication($layout_id);
+        $Cologs = $this->architect_layouts->getLogOfCoLayoutApplication($layout_id);
+        $Saplogs=$this->architect_layouts->getLogOfSapLayoutApplication($layout_id);
+        $Caplogs=$this->architect_layouts->getLogOfCapLayoutApplication($layout_id);
+        $LAlogs=$this->architect_layouts->getLogOfLALayoutApplication($layout_id);
+        $VPlogs=$this->architect_layouts->getLogOfVPLayoutApplication($layout_id);
         // dd($ArchitectLayout->land_scrutiny_checklist_and_remarks);
         if (session()->get('role_name') == config('commanConfig.architect')) {
             //if (!$ArchitectLayout->land_scrutiny_checklist_and_remarks) {
-                if ($ArchitectLayout->upload_layout_in_pdf_format == "" && $ArchitectLayout->upload_layout_in_excel_format == "" && $ArchitectLayout->upload_architect_note == "") {
+            if ($ArchitectLayout->upload_layout_in_pdf_format == "" && $ArchitectLayout->upload_layout_in_excel_format == "" && $ArchitectLayout->upload_architect_note == "") {
                 if (session()->get('role_name') != config('commanConfig.LM')) {
                     $lm_role_id = Role::where('name', '=', config('commanConfig.land_manager'))->first();
                     $arrData['get_forward_lm'] = User::where('role_id', $lm_role_id->id)->get();
@@ -259,22 +265,20 @@ class LayoutArchitectController extends Controller
             }
             //}
 
-            
         }
         if (session()->get('role_name') == config('commanConfig.land_manager') ||
             session()->get('role_name') == config('commanConfig.estate_manager') ||
             session()->get('role_name') == config('commanConfig.ree_branch_head') ||
             session()->get('role_name') == config('commanConfig.ee_branch_head')) {
             if (session()->get('role_name') == config('commanConfig.ree_branch_head')) {
-                
+
                 if ($ArchitectLayout->upload_layout_in_pdf_format == "" && $ArchitectLayout->upload_layout_in_excel_format == "" && $ArchitectLayout->upload_architect_note == "") {
                     if (session()->get('role_name') != config('commanConfig.junior_architect')) {
                         $lm_role_id = Role::where('name', '=', config('commanConfig.junior_architect'))->first();
                         $arrData['get_forward_lm'] = User::where('role_id', $lm_role_id->id)->get();
                         $arrData['lm_role_name'] = strtoupper(str_replace('_', ' ', $lm_role_id->name));
                     }
-                }else
-                {
+                } else {
                     if (session()->get('role_name') != config('commanConfig.co_engineer')) {
                         $co_role_id = Role::where('name', '=', config('commanConfig.co_engineer'))->first();
                         $arrData['get_forward_co'] = User::where('role_id', $co_role_id->id)->get();
@@ -337,7 +341,7 @@ class LayoutArchitectController extends Controller
                 $arrData['lm_role_name'] = strtoupper(str_replace('_', ' ', $jr_architect_role_id->name));
             }
         }
-        return view('admin.architect_layout.forward_architect_layout', compact('arrData', 'ArchitectLayout', 'architectlogs','Emlogs','Lmlogs','EElogs','Reelogs'));
+        return view('admin.architect_layout.forward_architect_layout', compact('arrData', 'ArchitectLayout', 'architectlogs', 'Emlogs', 'Lmlogs', 'EElogs', 'Reelogs','Cologs','Saplogs','Caplogs','LAlogs','VPlogs'));
     }
 
     public function post_forward_layout(Request $request)
@@ -369,13 +373,12 @@ class LayoutArchitectController extends Controller
         }
         $this->architect_layouts->forward_architect_layout($request->architect_layout_id, $forward_application);
         //ArchitectLayoutStatusLog::insert($forward_application);
-        $ArchitectLayout=ArchitectLayout::find($request->architect_layout_id);
-        if($ArchitectLayout)
-        {
-            $ArchitectLayout->sent_for_scrutiny_status=1;
+        $ArchitectLayout = ArchitectLayout::find($request->architect_layout_id);
+        if ($ArchitectLayout) {
+            $ArchitectLayout->sent_for_scrutiny_status = 1;
             $ArchitectLayout->save();
         }
-        
+
         return redirect(route('architect_layout.index'));
     }
 
@@ -386,9 +389,12 @@ class LayoutArchitectController extends Controller
         $scrutiny_reports = array();
         $layout_id = decrypt($layout_id);
 
+        //get latest detail
+        $latest_architect_layout_detail = ArchitectLayoutDetail::where(['architect_layout_id' => $layout_id])->orderBy('id', 'desc')->first();
+
         //get reports uploaded by em
         if (session()->get('role_name') == config('commanConfig.estate_manager')) {
-            $scrutiny_reports['architect_layout_em_scrutiny_reports'] = ArchitectLayoutScrutinyEMReport::where(['user_id' => auth()->user()->id, 'architect_layout_id' => $layout_id])->get();
+            $scrutiny_reports['architect_layout_em_scrutiny_reports'] = ArchitectLayoutScrutinyEMReport::where(['user_id' => auth()->user()->id, 'architect_layout_id' => $layout_id, 'architect_layout_detail_id' => $latest_architect_layout_detail->id])->get();
             $check_list_and_remarks['em_scrtiny_questions'] = $this->architect_layouts->get_em_checklist_and_remarks($layout_id, auth()->user()->id);
             $post_route_name = route('post_em_checklist_and_remark_report');
             $upload_file_route_name = route('upload_em_checklist_and_remark_report');
@@ -399,7 +405,7 @@ class LayoutArchitectController extends Controller
         //get reports uploaded by lm
         if (session()->get('role_name') == config('commanConfig.land_manager')) {
             $check_list_and_remarks['lm_scrtiny_questions'] = $this->architect_layouts->get_lm_checklist_and_remarks($layout_id, auth()->user()->id);
-            $scrutiny_reports['architect_layout_land_scrutiny_reports'] = ArchitectLayoutScrutinyLandReport::where(['user_id' => auth()->user()->id, 'architect_layout_id' => $layout_id])->get();
+            $scrutiny_reports['architect_layout_land_scrutiny_reports'] = ArchitectLayoutScrutinyLandReport::where(['user_id' => auth()->user()->id, 'architect_layout_id' => $layout_id, 'architect_layout_detail_id' => $latest_architect_layout_detail->id])->get();
             $post_route_name = route('post_lm_checklist_and_remark_report');
             $upload_file_route_name = route('upload_lm_checklist_and_remark_report');
             $check_list_and_remarks = $check_list_and_remarks['lm_scrtiny_questions'];
@@ -413,7 +419,7 @@ class LayoutArchitectController extends Controller
             //dd(session()->get('role_name'));
             $check_list_and_remarks['ee_scrtiny_questions'] = $this->architect_layouts->get_ee_checklist_and_remarks($layout_id, auth()->user()->id);
             //$scrutiny_reports['architect_layout_ee_scrutiny_reports'] = ArchitectLayoutScrutinyEEReport::where(['user_id' => auth()->user()->id, 'architect_layout_id' => $layout_id])->get();
-            $scrutiny_reports['architect_layout_ee_scrutiny_reports'] = ArchitectLayoutScrutinyEEReport::where(['architect_layout_id' => $layout_id])->get();
+            $scrutiny_reports['architect_layout_ee_scrutiny_reports'] = ArchitectLayoutScrutinyEEReport::where(['architect_layout_id' => $layout_id, 'architect_layout_detail_id' => $latest_architect_layout_detail->id])->get();
             $post_route_name = route('post_ee_checklist_and_remark_report');
             $upload_file_route_name = route('upload_ee_checklist_and_remark_report');
             $check_list_and_remarks = $check_list_and_remarks['ee_scrtiny_questions'];
@@ -428,7 +434,7 @@ class LayoutArchitectController extends Controller
             session()->get('role_name') == config('commanConfig.ree_assistant_engineer') ||
             session()->get('role_name') == config('commanConfig.ree_branch_head')) {
             $check_list_and_remarks['ree_scrtiny_questions'] = $this->architect_layouts->get_ree_checklist_and_remarks($layout_id, auth()->user()->id);
-            $scrutiny_reports['architect_layout_ree_scrutiny_reports'] = ArchitectLayoutScrutinyReeReport::where(['architect_layout_id' => $layout_id])->get();
+            $scrutiny_reports['architect_layout_ree_scrutiny_reports'] = ArchitectLayoutScrutinyReeReport::where(['architect_layout_id' => $layout_id, 'architect_layout_detail_id' => $latest_architect_layout_detail->id])->get();
             $post_route_name = route('post_ree_checklist_and_remark_report');
             $upload_file_route_name = route('upload_ree_checklist_and_remark_report');
             $check_list_and_remarks = $check_list_and_remarks['ree_scrtiny_questions'];
@@ -456,7 +462,8 @@ class LayoutArchitectController extends Controller
             'document_name' => 'required',
             'doc_file' => 'required|mimes:pdf',
         ]);
-        // dd(session()->get('role_name'));
+        //get latest detail
+        $latest_architect_layout_detail = ArchitectLayoutDetail::where(['architect_layout_id' => $request->architect_layout_id])->orderBy('id', 'desc')->first();
 
         if (session()->get('role_name') == config('commanConfig.estate_manager')) {
             $extension = $request->file('doc_file')->getClientOriginalExtension();
@@ -467,6 +474,7 @@ class LayoutArchitectController extends Controller
                 $ArchitectLayoutScrutinyEMReport = new ArchitectLayoutScrutinyEMReport;
                 $ArchitectLayoutScrutinyEMReport->user_id = auth()->user()->id;
                 $ArchitectLayoutScrutinyEMReport->architect_layout_id = $request->architect_layout_id;
+                $ArchitectLayoutScrutinyEMReport->architect_layout_detail_id = $latest_architect_layout_detail->id;
                 $ArchitectLayoutScrutinyEMReport->name_of_document = $request->document_name;
                 $ArchitectLayoutScrutinyEMReport->file = $storage;
                 $ArchitectLayoutScrutinyEMReport->save();
@@ -484,6 +492,7 @@ class LayoutArchitectController extends Controller
                 $ArchitectLayoutScrutinyLandReport = new ArchitectLayoutScrutinyLandReport;
                 $ArchitectLayoutScrutinyLandReport->user_id = auth()->user()->id;
                 $ArchitectLayoutScrutinyLandReport->architect_layout_id = $request->architect_layout_id;
+                $ArchitectLayoutScrutinyLandReport->architect_layout_detail_id = $latest_architect_layout_detail->id;
                 $ArchitectLayoutScrutinyLandReport->name_of_document = $request->document_name;
                 $ArchitectLayoutScrutinyLandReport->file = $storage;
                 $ArchitectLayoutScrutinyLandReport->save();
@@ -501,6 +510,7 @@ class LayoutArchitectController extends Controller
                 $ArchitectLayoutScrutinyLandReport = new ArchitectLayoutScrutinyEEReport;
                 $ArchitectLayoutScrutinyLandReport->user_id = auth()->user()->id;
                 $ArchitectLayoutScrutinyLandReport->architect_layout_id = $request->architect_layout_id;
+                $ArchitectLayoutScrutinyLandReport->architect_layout_detail_id = $latest_architect_layout_detail->id;
                 $ArchitectLayoutScrutinyLandReport->name_of_document = $request->document_name;
                 $ArchitectLayoutScrutinyLandReport->file = $storage;
                 $ArchitectLayoutScrutinyLandReport->save();
@@ -518,6 +528,7 @@ class LayoutArchitectController extends Controller
                 $ArchitectLayoutScrutinyLandReport = new ArchitectLayoutScrutinyREEReport;
                 $ArchitectLayoutScrutinyLandReport->user_id = auth()->user()->id;
                 $ArchitectLayoutScrutinyLandReport->architect_layout_id = $request->architect_layout_id;
+                $ArchitectLayoutScrutinyLandReport->architect_layout_detail_id = $latest_architect_layout_detail->id;
                 $ArchitectLayoutScrutinyLandReport->name_of_document = $request->document_name;
                 $ArchitectLayoutScrutinyLandReport->file = $storage;
                 $ArchitectLayoutScrutinyLandReport->save();
@@ -532,6 +543,9 @@ class LayoutArchitectController extends Controller
     //upload lm checklist and remark files
     public function upload_lm_checklist_and_remark_report(Request $request)
     {
+        //get latest detail
+        $latest_architect_layout_detail = ArchitectLayoutDetail::where(['architect_layout_id' => $request->architect_layout_id])->orderBy('id', 'desc')->first();
+
         $file = $request->file('file');
         if ($file->getClientMimeType() == 'application/pdf') {
             $extension = $request->file('file')->getClientOriginalExtension();
@@ -539,7 +553,7 @@ class LayoutArchitectController extends Controller
             $filename = uniqid() . '_' . time() . '_' . date('Ymd') . '.' . $extension;
             $storage = Storage::disk('ftp')->putFileAs($dir, $request->file('file'), $filename);
             if ($storage) {
-                $enter_detail = ArchitectLayoutLmScrtinyQuestionDetail::where(['architect_layout_id' => $request->architect_layout_id, 'id' => $request->report_id, 'user_id' => auth()->user()->id])->first();
+                $enter_detail = ArchitectLayoutLmScrtinyQuestionDetail::where(['architect_layout_id' => $request->architect_layout_id, 'architect_layout_detail_id' => $latest_architect_layout_detail->id, 'id' => $request->report_id, 'user_id' => auth()->user()->id])->first();
                 if ($enter_detail) {
                     $enter_detail->file = $storage;
                     $enter_detail->save();
@@ -548,6 +562,7 @@ class LayoutArchitectController extends Controller
                     $enter_detail = new ArchitectLayoutLmScrtinyQuestionDetail;
                     $enter_detail->user_id = auth()->user()->id;
                     $enter_detail->architect_layout_id = $request->architect_layout_id;
+                    $enter_detail->architect_layout_detail_id = $latest_architect_layout_detail->id;
                     $enter_detail->architect_layout_lm_scrunity_question_master_id = 0;
                     $enter_detail->file = $storage;
                     $enter_detail->save();
@@ -578,11 +593,14 @@ class LayoutArchitectController extends Controller
     //upload lm checklist and remark data
     public function post_lm_checklist_and_remark_report(Request $request)
     {
+        //get latest detail
+        $latest_architect_layout_detail = ArchitectLayoutDetail::where(['architect_layout_id' => $request->architect_layout_id])->orderBy('id', 'desc')->first();
+
         $lables = $request->lable;
         $remarks = $request->remark;
         $j = 0;
         foreach ($request->report_id as $report_ids) {
-            $detail = ArchitectLayoutLmScrtinyQuestionDetail::where(['id' => $report_ids, 'architect_layout_id' => $request->architect_layout_id])->first();
+            $detail = ArchitectLayoutLmScrtinyQuestionDetail::where(['id' => $report_ids, 'architect_layout_id' => $request->architect_layout_id, 'architect_layout_detail_id' => $latest_architect_layout_detail->id])->first();
             if ($detail) {
                 if (isset($lables[$j])) {
                     if ($lables[$j] == 1) {
@@ -607,6 +625,9 @@ class LayoutArchitectController extends Controller
     //upload em checklist and remark files
     public function upload_em_checklist_and_remark_report(Request $request)
     {
+        //get latest detail
+        $latest_architect_layout_detail = ArchitectLayoutDetail::where(['architect_layout_id' => $request->architect_layout_id])->orderBy('id', 'desc')->first();
+
         $file = $request->file('file');
         if ($file->getClientMimeType() == 'application/pdf') {
             $extension = $request->file('file')->getClientOriginalExtension();
@@ -614,7 +635,7 @@ class LayoutArchitectController extends Controller
             $filename = uniqid() . '_' . time() . '_' . date('Ymd') . '.' . $extension;
             $storage = Storage::disk('ftp')->putFileAs($dir, $request->file('file'), $filename);
             if ($storage) {
-                $enter_detail = ArchitectLayoutEmScrtinyQuestionDetail::where(['architect_layout_id' => $request->architect_layout_id, 'id' => $request->report_id, 'user_id' => auth()->user()->id])->first();
+                $enter_detail = ArchitectLayoutEmScrtinyQuestionDetail::where(['architect_layout_id' => $request->architect_layout_id, 'architect_layout_detail_id' => $latest_architect_layout_detail->id, 'id' => $request->report_id, 'user_id' => auth()->user()->id])->first();
                 if ($enter_detail) {
                     $enter_detail->file = $storage;
                     $enter_detail->save();
@@ -623,6 +644,7 @@ class LayoutArchitectController extends Controller
                     $enter_detail = new ArchitectLayoutEmScrtinyQuestionDetail;
                     $enter_detail->user_id = auth()->user()->id;
                     $enter_detail->architect_layout_id = $request->architect_layout_id;
+                    $enter_detail->architect_layout_detail_id = $latest_architect_layout_detail->id;
                     $enter_detail->architect_layout_em_scrunity_question_master_id = 0;
                     $enter_detail->file = $storage;
                     $enter_detail->save();
@@ -653,11 +675,14 @@ class LayoutArchitectController extends Controller
     //upload em checklist and remark data
     public function post_em_checklist_and_remark_report(Request $request)
     {
+        //get latest detail
+        $latest_architect_layout_detail = ArchitectLayoutDetail::where(['architect_layout_id' => $request->architect_layout_id])->orderBy('id', 'desc')->first();
+
         $lables = $request->lable;
         $remarks = $request->remark;
         $j = 0;
         foreach ($request->report_id as $report_ids) {
-            $detail = ArchitectLayoutEmScrtinyQuestionDetail::where(['id' => $report_ids, 'architect_layout_id' => $request->architect_layout_id])->first();
+            $detail = ArchitectLayoutEmScrtinyQuestionDetail::where(['id' => $report_ids, 'architect_layout_id' => $request->architect_layout_id, 'architect_layout_detail_id' => $latest_architect_layout_detail->id])->first();
             if ($detail) {
                 if (isset($lables[$j])) {
                     if ($lables[$j] == 1) {
@@ -682,6 +707,9 @@ class LayoutArchitectController extends Controller
     //upload ee checklist and remark files
     public function upload_ee_checklist_and_remark_report(Request $request)
     {
+        //get latest detail
+        $latest_architect_layout_detail = ArchitectLayoutDetail::where(['architect_layout_id' => $request->architect_layout_id])->orderBy('id', 'desc')->first();
+
         if (session()->get('role_name') == config('commanConfig.ee_junior_engineer')) {
             $file = $request->file('file');
             if ($file->getClientMimeType() == 'application/pdf') {
@@ -690,7 +718,7 @@ class LayoutArchitectController extends Controller
                 $filename = uniqid() . '_' . time() . '_' . date('Ymd') . '.' . $extension;
                 $storage = Storage::disk('ftp')->putFileAs($dir, $request->file('file'), $filename);
                 if ($storage) {
-                    $enter_detail = ArchitectLayoutEEScrtinyQuestionDetail::where(['architect_layout_id' => $request->architect_layout_id, 'id' => $request->report_id, 'user_id' => auth()->user()->id])->first();
+                    $enter_detail = ArchitectLayoutEEScrtinyQuestionDetail::where(['architect_layout_id' => $request->architect_layout_id, 'architect_layout_detail_id' => $latest_architect_layout_detail->id, 'id' => $request->report_id, 'user_id' => auth()->user()->id])->first();
                     if ($enter_detail) {
                         $enter_detail->file = $storage;
                         $enter_detail->save();
@@ -699,6 +727,7 @@ class LayoutArchitectController extends Controller
                         $enter_detail = new ArchitectLayoutEEScrtinyQuestionDetail;
                         $enter_detail->user_id = auth()->user()->id;
                         $enter_detail->architect_layout_id = $request->architect_layout_id;
+                        $enter_detail->architect_layout_detail_id = $latest_architect_layout_detail->id;
                         $enter_detail->architect_layout_ee_scrunity_question_master_id = 0;
                         $enter_detail->file = $storage;
                         $enter_detail->save();
@@ -735,12 +764,15 @@ class LayoutArchitectController extends Controller
     //upload ee checklist and remark data
     public function post_ee_checklist_and_remark_report(Request $request)
     {
+        //get latest detail
+        $latest_architect_layout_detail = ArchitectLayoutDetail::where(['architect_layout_id' => $request->architect_layout_id])->orderBy('id', 'desc')->first();
+
         if (session()->get('role_name') == config('commanConfig.ee_junior_engineer')) {
             $lables = $request->lable;
             $remarks = $request->remark;
             $j = 0;
             foreach ($request->report_id as $report_ids) {
-                $detail = ArchitectLayoutEEScrtinyQuestionDetail::where(['id' => $report_ids, 'architect_layout_id' => $request->architect_layout_id])->first();
+                $detail = ArchitectLayoutEEScrtinyQuestionDetail::where(['id' => $report_ids, 'architect_layout_id' => $request->architect_layout_id, 'architect_layout_detail_id' => $latest_architect_layout_detail->id])->first();
                 if ($detail) {
                     if (isset($lables[$j])) {
                         if ($lables[$j] == 1) {
@@ -768,6 +800,9 @@ class LayoutArchitectController extends Controller
     //upload ree checklist and remark files
     public function upload_ree_checklist_and_remark_report(Request $request)
     {
+        //get latest detail
+        $latest_architect_layout_detail = ArchitectLayoutDetail::where(['architect_layout_id' => $request->architect_layout_id])->orderBy('id', 'desc')->first();
+
         if (session()->get('role_name') == config('commanConfig.ree_junior')) {
             $file = $request->file('file');
             if ($file->getClientMimeType() == 'application/pdf') {
@@ -776,7 +811,7 @@ class LayoutArchitectController extends Controller
                 $filename = uniqid() . '_' . time() . '_' . date('Ymd') . '.' . $extension;
                 $storage = Storage::disk('ftp')->putFileAs($dir, $request->file('file'), $filename);
                 if ($storage) {
-                    $enter_detail = ArchitectLayoutReeScrtinyQuestionDetail::where(['architect_layout_id' => $request->architect_layout_id, 'id' => $request->report_id, 'user_id' => auth()->user()->id])->first();
+                    $enter_detail = ArchitectLayoutReeScrtinyQuestionDetail::where(['architect_layout_id' => $request->architect_layout_id, 'architect_layout_detail_id' => $latest_architect_layout_detail->id, 'id' => $request->report_id, 'user_id' => auth()->user()->id])->first();
                     if ($enter_detail) {
                         $enter_detail->file = $storage;
                         $enter_detail->save();
@@ -785,6 +820,7 @@ class LayoutArchitectController extends Controller
                         $enter_detail = new ArchitectLayoutReeScrtinyQuestionDetail;
                         $enter_detail->user_id = auth()->user()->id;
                         $enter_detail->architect_layout_id = $request->architect_layout_id;
+                        $enter_detail->architect_layout_detail_id = $latest_architect_layout_detail->id;
                         $enter_detail->architect_layout_ree_scrunity_question_master_id = 0;
                         $enter_detail->file = $storage;
                         $enter_detail->save();
@@ -821,12 +857,15 @@ class LayoutArchitectController extends Controller
     //upload ee checklist and remark data
     public function post_ree_checklist_and_remark_report(Request $request)
     {
+        //get latest detail
+        $latest_architect_layout_detail = ArchitectLayoutDetail::where(['architect_layout_id' => $request->architect_layout_id])->orderBy('id', 'desc')->first();
+
         if (session()->get('role_name') == config('commanConfig.ree_junior')) {
             $lables = $request->lable;
             $remarks = $request->remark;
             $j = 0;
             foreach ($request->report_id as $report_ids) {
-                $detail = ArchitectLayoutReeScrtinyQuestionDetail::where(['id' => $report_ids, 'architect_layout_id' => $request->architect_layout_id])->first();
+                $detail = ArchitectLayoutReeScrtinyQuestionDetail::where(['id' => $report_ids, 'architect_layout_id' => $request->architect_layout_id, 'architect_layout_detail_id' => $latest_architect_layout_detail->id])->first();
                 if ($detail) {
                     if (isset($lables[$j])) {
                         if ($lables[$j] == 1) {
@@ -852,7 +891,26 @@ class LayoutArchitectController extends Controller
     public function get_scrutiny_of_ee_em_lm_ree($layout_id)
     {
         $layout_id = decrypt($layout_id);
-        $ArchitectLayout = ArchitectLayout::with(['layout_details', 'ee_scrutiny_reports', 'em_scrutiny_reports', 'land_scrutiny_reports', 'ree_scrutiny_reports', 'ee_scrutiny_checklist_and_remarks', 'land_scrutiny_checklist_and_remarks', 'em_scrutiny_checklist_and_remarks', 'ree_scrutiny_checklist_and_remarks'])->find($layout_id);
+        //get latest detail
+        $latest_architect_layout_detail = ArchitectLayoutDetail::where(['architect_layout_id' => $layout_id])->orderBy('id', 'desc')->first();
+        //dd($latest_architect_layout_detail->id);
+        $ArchitectLayout = ArchitectLayout::with(['layout_details', 'ee_scrutiny_reports' => function ($q) use ($latest_architect_layout_detail) {
+            return $q->where('architect_layout_detail_id', $latest_architect_layout_detail->id);
+        }, 'em_scrutiny_reports' => function ($q) use ($latest_architect_layout_detail) {
+            return $q->where('architect_layout_detail_id', $latest_architect_layout_detail->id);
+        }, 'land_scrutiny_reports' => function ($q) use ($latest_architect_layout_detail) {
+            return $q->where('architect_layout_detail_id', $latest_architect_layout_detail->id);
+        }, 'ree_scrutiny_reports' => function ($q) use ($latest_architect_layout_detail) {
+            return $q->where('architect_layout_detail_id', $latest_architect_layout_detail->id);
+        }, 'ee_scrutiny_checklist_and_remarks' => function ($q) use ($latest_architect_layout_detail) {
+            return $q->where('architect_layout_detail_id', $latest_architect_layout_detail->id);
+        }, 'land_scrutiny_checklist_and_remarks' => function ($q) use ($latest_architect_layout_detail) {
+            return $q->where('architect_layout_detail_id', $latest_architect_layout_detail->id);
+        }, 'em_scrutiny_checklist_and_remarks' => function ($q) use ($latest_architect_layout_detail) {
+            return $q->where('architect_layout_detail_id', $latest_architect_layout_detail->id);
+        }, 'ree_scrutiny_checklist_and_remarks'=>function($q) use($latest_architect_layout_detail){
+            return $q->where('architect_layout_detail_id',$latest_architect_layout_detail->id);
+        }])->find($layout_id);
         //dd($ArchitectLayout);
         return view('admin.architect_layout.scrutiny_of_ee_em_lm_ree', compact('ArchitectLayout'));
     }
@@ -866,7 +924,7 @@ class LayoutArchitectController extends Controller
 
     public function uploadLayoutandExcelAjax(Request $request)
     {
-        
+
         $response_array = array();
         $file = $request->file('file');
         if ($file->getClientMimeType() == 'application/pdf') {
@@ -878,60 +936,53 @@ class LayoutArchitectController extends Controller
                 $ArchitectLayout = ArchitectLayout::find($request->architect_layout_id);
                 if ($request->field_name == 'layout_in_pdf') {
                     $ArchitectLayout->upload_layout_in_pdf_format = $storage;
-                    $get_id=PrepareLayoutExcelLog::where(['architect_layout_id'=>$request->architect_layout_id])->orderBy('id','desc')->first();
-                    if($get_id)
-                    {
-                        $PrepareLayoutExcelLog=PrepareLayoutExcelLog::find($get_id->id);
-                        $PrepareLayoutExcelLog->upload_layout_in_pdf_format=$storage;
+                    $get_id = PrepareLayoutExcelLog::where(['architect_layout_id' => $request->architect_layout_id])->orderBy('id', 'desc')->first();
+                    if ($get_id) {
+                        $PrepareLayoutExcelLog = PrepareLayoutExcelLog::find($get_id->id);
+                        $PrepareLayoutExcelLog->upload_layout_in_pdf_format = $storage;
                         $PrepareLayoutExcelLog->save();
-                    }else
-                    {
-                        
-                        $PrepareLayoutExcelLog=new PrepareLayoutExcelLog;
-                        $PrepareLayoutExcelLog->architect_layout_id=$request->architect_layout_id;
-                        $PrepareLayoutExcelLog->upload_layout_in_pdf_format=$storage;
+                    } else {
+
+                        $PrepareLayoutExcelLog = new PrepareLayoutExcelLog;
+                        $PrepareLayoutExcelLog->architect_layout_id = $request->architect_layout_id;
+                        $PrepareLayoutExcelLog->upload_layout_in_pdf_format = $storage;
                         $PrepareLayoutExcelLog->save();
                     }
                 }
                 if ($request->field_name == 'layout_in_excel') {
                     $ArchitectLayout->upload_layout_in_excel_format = $storage;
-                    $get_id=PrepareLayoutExcelLog::where(['architect_layout_id'=>$request->architect_layout_id])->orderBy('id','desc')->first();
-                    if($get_id)
-                    {
-                        $PrepareLayoutExcelLog=PrepareLayoutExcelLog::find($get_id->id);
-                        $PrepareLayoutExcelLog->upload_layout_in_excel_format=$storage;
+                    $get_id = PrepareLayoutExcelLog::where(['architect_layout_id' => $request->architect_layout_id])->orderBy('id', 'desc')->first();
+                    if ($get_id) {
+                        $PrepareLayoutExcelLog = PrepareLayoutExcelLog::find($get_id->id);
+                        $PrepareLayoutExcelLog->upload_layout_in_excel_format = $storage;
                         $PrepareLayoutExcelLog->save();
-                        
-                    }else
-                    {
-                        
-                        $PrepareLayoutExcelLog=new PrepareLayoutExcelLog;
-                        $PrepareLayoutExcelLog->architect_layout_id=$request->architect_layout_id;
-                        $PrepareLayoutExcelLog->upload_layout_in_excel_format=$storage;
+
+                    } else {
+
+                        $PrepareLayoutExcelLog = new PrepareLayoutExcelLog;
+                        $PrepareLayoutExcelLog->architect_layout_id = $request->architect_layout_id;
+                        $PrepareLayoutExcelLog->upload_layout_in_excel_format = $storage;
                         $PrepareLayoutExcelLog->save();
                     }
                 }
                 if ($request->field_name == 'upload_architect_note') {
                     $ArchitectLayout->upload_architect_note = $storage;
-                    $get_id=PrepareLayoutExcelLog::where(['architect_layout_id'=>$request->architect_layout_id])->orderBy('id','desc')->first();
-                    if($get_id)
-                    {
-                        $PrepareLayoutExcelLog=PrepareLayoutExcelLog::find($get_id->id);
-                        $PrepareLayoutExcelLog->upload_architect_note=$storage;
+                    $get_id = PrepareLayoutExcelLog::where(['architect_layout_id' => $request->architect_layout_id])->orderBy('id', 'desc')->first();
+                    if ($get_id) {
+                        $PrepareLayoutExcelLog = PrepareLayoutExcelLog::find($get_id->id);
+                        $PrepareLayoutExcelLog->upload_architect_note = $storage;
                         $PrepareLayoutExcelLog->save();
-                    }else
-                    {
-                        
-                        $PrepareLayoutExcelLog=new PrepareLayoutExcelLog;
-                        $PrepareLayoutExcelLog->architect_layout_id=$request->architect_layout_id;
-                        $PrepareLayoutExcelLog->upload_architect_note=$storage;
+                    } else {
+
+                        $PrepareLayoutExcelLog = new PrepareLayoutExcelLog;
+                        $PrepareLayoutExcelLog->architect_layout_id = $request->architect_layout_id;
+                        $PrepareLayoutExcelLog->upload_architect_note = $storage;
                         $PrepareLayoutExcelLog->save();
                     }
                 }
 
-                if($ArchitectLayout->upload_layout_in_pdf_format!="" && $ArchitectLayout->upload_layout_in_excel_format!="" && $ArchitectLayout->upload_architect_note!="")
-                {
-                    $ArchitectLayout->layout_excel_status=1;
+                if ($ArchitectLayout->upload_layout_in_pdf_format != "" && $ArchitectLayout->upload_layout_in_excel_format != "" && $ArchitectLayout->upload_architect_note != "") {
+                    $ArchitectLayout->layout_excel_status = 1;
                 }
                 $ArchitectLayout->save();
                 $response_array = array(
