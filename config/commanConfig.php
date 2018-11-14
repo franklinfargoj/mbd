@@ -174,5 +174,10 @@ return [
         'DR'=>'DOCTORATE'
     ],
 
-    'mhada_code' => 'MHD'
+    'mhada_code' => 'MHD',
+
+    'SOCIETY_LEVEL_BILLING' => '1',
+    'TENANT_LEVEL_BILLING' => '2',
+    'PAYMENT_STATUS_NOT_PAID' => '0',
+    'PAYMENT_STATUS_PAID' => '1'
 ];

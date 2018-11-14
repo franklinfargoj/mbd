@@ -28,6 +28,10 @@ class ServiceChargesController extends Controller
     }
 
     public function serviceChargesRate($society_id,$building_id,Request $request,Datatables $datatables) {
+       
+        $society_id = decrypt($society_id);
+        $building_id = decrypt($building_id);
+
         $society = SocietyDetail::find($society_id);
         $building = MasterBuilding::where('society_id', $society_id)->find($building_id);
 
@@ -52,7 +56,7 @@ class ServiceChargesController extends Controller
             return $datatables->of($service_charges)
             ->editColumn('actions', function ($service_charges){
 
-               return "<div class='d-flex btn-icon-list'><a href='".url('service_charges/'.$service_charges->id.'/edit')."' class='d-flex flex-column align-items-center'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/edit-icon.svg')."'></span>Update</a></div>";
+               return "<div class='d-flex btn-icon-list'><a href='".url('service_charges/'.encrypt($service_charges->id).'/edit')."' class='d-flex flex-column align-items-center'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/edit-icon.svg')."'></span>Update</a></div>";
 
             })
             ->rawColumns(['actions'])
@@ -74,6 +78,10 @@ class ServiceChargesController extends Controller
     }
 
     public function create($society_id,$building_id) {
+        
+        $society_id = decrypt($society_id);
+        $building_id = decrypt($building_id);
+
     	$data['tenant_types'] = MasterTenantType::pluck('name','name')->toArray();
     	$data['society'] = SocietyDetail::find($society_id);
         $data['building'] = MasterBuilding::where('society_id', $society_id)->find($building_id);
@@ -81,6 +89,10 @@ class ServiceChargesController extends Controller
     }
 
     public function store($society_id,$building_id,Request $request) {
+
+        $society_id = decrypt($society_id);
+        $building_id = decrypt($building_id);
+
     	$rules = [
     		'year' => 'required',
     		'tenant_type' => 'required',
@@ -91,7 +103,7 @@ class ServiceChargesController extends Controller
     	$validator = Validator::make($request->all(),$rules,$messages);
 
     	if ($validator->fails()) {
-            return redirect('service_charges/'.$society_id.'/'.$building_id.'/create')->withErrors($validator)->withInput();
+            return redirect('service_charges/'.encrypt($society_id).'/'.encrypt($building_id).'/create')->withErrors($validator)->withInput();
         }
 
         $society = SocietyDetail::find($society_id);
@@ -113,10 +125,11 @@ class ServiceChargesController extends Controller
         $service_charge->save();
 
         $request->session()->flash('success', 'Service rate added successfully!');
-        return redirect('service_charges/'.$society_id.'/'.$building_id);
+        return redirect('service_charges/'.encrypt($society_id).'/'.encrypt($building_id));
     }
 
     public function edit($id) {
+        $id = decrypt($id);
     	$data['tenant_types'] = MasterTenantType::pluck('name','name')->toArray();
     	$data['service_charge'] = ServiceChargesRate::find($id);
     	$data['society'] = SocietyDetail::find($data['service_charge']->society_id);
@@ -125,6 +138,9 @@ class ServiceChargesController extends Controller
     }
 
     public function update($id, Request $request) {
+
+        $id = decrypt($id);
+
     	$rules = [
     		'year' => 'required',
     		'tenant_type' => 'required',
@@ -135,7 +151,7 @@ class ServiceChargesController extends Controller
     	$validator = Validator::make($request->all(),$rules,$messages);
 
     	if ($validator->fails()) {
-            return redirect('service_charges/'.$id.'/edit')->withErrors($validator)->withInput();
+            return redirect('service_charges/'.encrypt($id).'/edit')->withErrors($validator)->withInput();
         }
 
         $service_charge = ServiceChargesRate::find($id);
@@ -152,6 +168,6 @@ class ServiceChargesController extends Controller
         $service_charge->save();
 
         $request->session()->flash('success', 'Service rate updated successfully!');
-        return redirect('service_charges/'.$service_charge->society_id.'/'.$service_charge->building_id);
+        return redirect('service_charges/'.encrypt($service_charge->society_id).'/'.encrypt($service_charge->building_id));
     }
 }

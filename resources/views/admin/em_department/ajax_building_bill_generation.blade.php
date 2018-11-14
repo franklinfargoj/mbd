@@ -19,7 +19,7 @@
                 <td>
                     <!-- <a class="btn btn-info mb-10" href="{{route('get_tenants', [$value->id])}}"> Generate Bill</a> -->
 
-                    {!! Form::open(['method' => 'get', 'route' => 'generateBuildingBill']) !!}
+                    {!! Form::open(['method' => 'get', 'route' => 'generateBuildingBill', 'class'=>'abc']) !!}
                     {{ Form::hidden('building_id', $value->id) }}
                     {{ Form::hidden('society_id', $value->society_id) }}
                     {{ Form::button('<span class="btn-icon btn-icon--edit"><img src="img/view-icon.svg"></span>Generate Bill', array('class'=>'d-flex flex-column align-items-center','type'=>'submit')) }}
