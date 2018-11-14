@@ -151,6 +151,7 @@
         </div>
     </div>
     <form>
+            @php $status=getLastStatusIdArchitectLayout($ArchitectLayout->id); @endphp
         <input type="hidden" id="architect_layout_id" name="architect_layout_id" value="{{$ArchitectLayout->id}}">
         @csrf
         <div class="m-portlet m-portlet--mobile m_panel">
@@ -164,17 +165,17 @@
                         </div> --}}
                         <h4 class="section-title section-title--small">
                             @if($ArchitectLayout->upload_layout_in_pdf_format!='')
-                            Upload Layout in PDF format
+                            Download Layout in PDF format
                             @else
                             Upload Layout in PDF format
                             @endif
                         </h4>
                         <div class="row">
-                            @if(session()->get('role_name')==config('commanConfig.junior_architect'))
+                            @if(session()->get('role_name')==config('commanConfig.junior_architect') && $status->status_id!=config('commanConfig.architect_layout_status.approved'))
                             <div class="col-sm-6">
-                                <p> Click 'Choose File' to upload Layout</p>
+                                {{-- <p> Click 'Choose File' to upload Layout</p>
 
-                                <p> Upload a file here in Autocad format</p>
+                                <p> Upload a file here in Autocad format</p> --}}
                                 <div class="custom-file">
                                     <input type="hidden" id="layout_in_pdf_field_name" value="layout_in_pdf">
                                     <input class="custom-file-input" name="layout_in_pdf_format" type="file" id="layout_in_pdf_format"
@@ -183,10 +184,13 @@
                                 </div>
                             </div>
                             @endif
+                            <div class="col-sm-6" style="display:{{$ArchitectLayout->upload_layout_in_pdf_format!=''?'block':'none'}}">
+                                    <a target="_blank" id="upload_layout_in_pdf_format_file" class="btn btn-primary col-md-6" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayout->upload_layout_in_pdf_format}}"
+                                        style="display:{{$ArchitectLayout->upload_layout_in_pdf_format!=''?'block':'none'}};">Download
+                                        Layout</a>
+                            </div>
                         </div>
-                        <a target="_blank" id="upload_layout_in_pdf_format_file" class="btn btn-primary col-md-3" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayout->upload_layout_in_pdf_format}}"
-                            style="display:{{$ArchitectLayout->upload_layout_in_pdf_format!=''?'block':'none'}};">Download
-                            Layout</a>
+                       
                         <span class="text-danger" id="upload_layout_in_pdf_format_error"></span>
                     </div>
                 </div>
@@ -203,14 +207,14 @@
                         </div>
 
                         <div class="row">
-                            @if(session()->get('role_name')==config('commanConfig.junior_architect'))
+                            @if(session()->get('role_name')==config('commanConfig.junior_architect') && $status->status_id!=config('commanConfig.architect_layout_status.approved'))
                             <div class="col-sm-6">
                                 <h4 class="section-title section-title--small">
                                     Upload Excel
                                 </h4>
-                                <p> Click 'Choose File' to upload Excel</p>
+                                {{-- <p> Click 'Choose File' to upload Excel</p>
 
-                                <p> Upload a file here in .excel format</p>
+                                <p> Upload a file here in .excel format</p> --}}
                                 <div class="custom-file">
                                     <input type="hidden" id="layout_in_excel_field_name" value="layout_in_excel">
                                     <input class="custom-file-input" name="layout_in_excel_format" type="file" id="layout_in_excel_format"
@@ -246,14 +250,14 @@
                         </div>
 
                         <div class="row">
-                            @if(session()->get('role_name')==config('commanConfig.junior_architect'))
+                            @if(session()->get('role_name')==config('commanConfig.junior_architect') && $status->status_id!=config('commanConfig.architect_layout_status.approved'))
                             <div class="col-sm-6">
                                 <h4 class="section-title section-title--small">
                                     Upload Note
                                 </h4>
-                                <p> Click 'Choose File' to upload Note</p>
+                                {{-- <p> Click 'Choose File' to upload Note</p>
 
-                                <p> Upload a file here in .excel format</p>
+                                <p> Upload a file here in .excel format</p> --}}
                                 <div class="custom-file">
                                     <input type="hidden" id="architect_note_field_name" value="upload_architect_note">
                                     <input class="custom-file-input" name="upload_architect_note" type="file" id="upload_architect_note"
