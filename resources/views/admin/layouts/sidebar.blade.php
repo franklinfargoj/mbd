@@ -664,11 +664,11 @@ $route=\Request::route()->getName();
                         </li>
                         @endif
                         @endif
-                        
+                           
                         @if (isset($route) && ($route == 'co.index' || $route=='ee.index' || $route=='dyco.index' ||
                         $route=='ree_applications.index' || $route=='ree_applications.reval' || 
                         $route=='society_offer_letter.index' || $route=='society_offer_letter_dashboard' ||
-                        $route=='documents_uploaded' || $route=='documents_upload' || $route == 'architect_layout.index' || $route == 'hearing.index'))
+                        $route=='documents_uploaded' || $route=='documents_upload' || $route == 'architect_layout.index' || $route == 'hearing.index' || $route == 'conveyance.index' || $route == 'architect_application'))
                             
                         <li class="m-menu__item {{($route=='conveyance.index')?'m-menu__item--active':''}}">
                             <a href="{{ route('conveyance.index') }}" class="m-menu__link m-menu__toggle">

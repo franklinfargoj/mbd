@@ -482,6 +482,12 @@ class conveyanceCommonController extends Controller
         
         $data = scApplication::with('societyApplication')->where('id',$applicationId)->first();
         $data->status = $this->getCurrentStatus($applicationId,$data->sc_application_master_id);
+        
+        //get architect_conveyance_map from sc document status table
+        $document  = config('commanConfig.documents.architect_conveyance_map');
+        $documentId = $this->getDocumentId($document,$data->sc_application_master_id);
+        $data->conveyance_map = $this->getDocumentStatus($applicationId,$documentId);        
+
         return view('admin.conveyance.architect_department.scrutiny_remark',compact('data'));
     }  
 
@@ -501,7 +507,10 @@ class conveyanceCommonController extends Controller
             if ($extension == "pdf"){    
                 Storage::disk('ftp')->delete($request->oldFileName);            
                 $sale_upload = $this->CommonController->ftpFileUpload($folder_name,$file,$file_name);
-                $conveyanceMap = scApplication::where('id',$applicationId)->update(['architect_conveyance_map' => $file_path]);
+
+                // save document to sc document status table
+                $document  = config('commanConfig.documents.architect_conveyance_map');
+                $this->uploadDocumentStatus($applicationId,$document,$file_path);                
                    
                 return back()->with('success','Conveyance map uploaded successfully.');                 
             }  else{
@@ -587,4 +596,11 @@ class conveyanceCommonController extends Controller
         $document = SocietyConveyanceDocumentStatus::where('document_id',$typeId)->where('application_id',$applicationId)->first();
         return $document;        
     }  
+
+    // get document id as per document name
+    public function getDocumentId($documentName,$type){
+
+        $typeId = SocietyConveyanceDocumentMaster::where('document_name',$documentName)->where('application_type_id',$type)->value('id');
+        return $typeId;
+    }     
 }

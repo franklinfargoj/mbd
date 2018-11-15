@@ -78,7 +78,7 @@ return [
       // sc documents
      'documents' => [
         'dycdo_note'  => 'dycdo_note',
-        'Renewal'     => 'Renewal',
+        'architect_conveyance_map' => 'architect_conveyance_map',
     ], 
 
     // sc Application types 

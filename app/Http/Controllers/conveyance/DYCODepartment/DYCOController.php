@@ -53,7 +53,7 @@ class DYCOController extends Controller
 
         //get dycdo note from sc document status table
         $document  = config('commanConfig.documents.dycdo_note');
-        $documentId = $this->common->getScAgreementId($document,$data->sc_application_master_id);
+        $documentId = $this->common->getDocumentId($document,$data->sc_application_master_id);
         $dycdo_note = $this->common->getDocumentStatus($applicationId,$documentId);
         
         return view($route,compact('data','checklist','dycdo_note'));
@@ -91,7 +91,7 @@ class DYCOController extends Controller
         if ($request->file('dycdo_note')){
 
             $file = $request->file('dycdo_note');
-            $file_name = time().'_dycdo_note'.'.'.$file->getClientOriginalExtension();
+            $file_name = time().'_dycdo_note_'.$applicationId.'.'.$file->getClientOriginalExtension();
 
             $extension = $file->getClientOriginalExtension();
             $folder_name = "conveyance_dycdo_note";
