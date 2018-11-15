@@ -27,7 +27,7 @@
             </li>
             <li class="nav-item m-tabs__item em_tabs" id="section-3">
                 <a class="nav-link m-tabs__link" data-toggle="tab" href="#society-resolution" role="tab" aria-selected="true">
-                    <i class="la la-bell-o"></i> Society Resolution
+                    <i class="la la-bell-o"></i> Covering Letter
                 </a>
             </li>
         </ul>
@@ -402,15 +402,63 @@
                 <div class="portlet-body">
                     <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
                         <div class="m-subheader">
-                            <div class="d-flex align-items-center">
-                                <h3 class="section-title section-title--small">
-                                    Society Resolution
-                                </h3>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="d-flex flex-column h-100">
+                                        <h5>Download Covering Letter</h5>
+                                        <p>
+                                        @if (session(config('commanConfig.no_dues_certificate.redirect_message_status.draft_text')))
+                                            <div class="alert alert-success society_registered">
+                                                <div class="text-center">{{ session(config('commanConfig.no_dues_certificate.redirect_message_status.draft_text')) }}</div>
+                                            </div>
+                                        @endif
+                                        @if (session('error'))
+                                        <div class="alert alert-danger society_registered">
+                                            <div class="text-center">{{ session('error') }}</div>
+                                        </div>
+                                        @endif
+                                        </p>
+                                        <p>Click to download Covering Letter in pdf format</p><p></p>
+                                        {{--<button class="btn btn-primary btn-custom" id="uploadBtn" data-toggle="modal" data-target="#myModal">Edit</button>--}}
+                                        @if($data->sc_form_request->template_file)
+                                            <a href="{{ config('commanConfig.storage_server').'/'.$data->sc_form_request->template_file }}" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                                                Download</a>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 border-left">
+                                    <div class="d-flex flex-column h-100">
+                                        <h5>Upload Covering Letter</h5>
+                                        <span class="hint-text">Click on 'Upload' to upload Covering Letter</span>
+                                        <p>
+                                        @if (session(config('commanConfig.no_dues_certificate.redirect_message_status.upload')))
+                                            <div class="alert alert-success society_registered">
+                                                <div class="text-center">{{ session(config('commanConfig.no_dues_certificate.redirect_message_status.upload')) }}</div>
+                                            </div>
+                                        @endif
+                                        @if (session('error'))
+                                        <div class="alert alert-danger society_registered">
+                                            <div class="text-center">{{ session('error') }}</div>
+                                        </div>
+                                        @endif
+                                        </p>
+                                        <form action="{{ route('em.save_conveyance_no_dues_certificate') }}" id="no_dues_certi_upload" method="post" enctype="multipart/form-data">
+                                            @csrf
+                                            <div class="custom-file">
+                                                <input class="custom-file-input pdfcheck" name="no_dues_certificate" type="file"
+                                                       id="test-upload" required="required">
+                                                <label class="custom-file-label" for="test-upload">Choose
+                                                    file...</label>
+                                                <span class="text-danger" id="file_error"></span>
+                                                <input type="hidden" id="applicationId" name="applicationId" value="{{ $data->id }}">
+                                            </div>
+                                            <div class="mt-auto">
+                                                <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
                             </div>
-                            <span class="hint-text d-block">Please Download copy of Society resolution in pdf format</span>
-                                <div class="mt-auto">
-                                    <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Download</button>
-                                </div>    
                         </div>
                     </div>
                 </div>
