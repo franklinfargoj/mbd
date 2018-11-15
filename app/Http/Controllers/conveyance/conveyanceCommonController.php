@@ -40,7 +40,7 @@ class conveyanceCommonController extends Controller
             ['data' => 'societyApplication.name','name' => 'societyApplication.name','title' => 'Society Name'],
             ['data' => 'societyApplication.building_no','name' => 'societyApplication.building_no','title' => 'building No'],
             ['data' => 'societyApplication.address','name' => 'societyApplication.address','title' => 'Address', 'class' => 'datatable-address'],
-             ['data' => 'Status','name' => 'Status','title' => 'Status'],
+            ['data' => 'Status','name' => 'Status','title' => 'Status'],
         ];
 
         if ($datatables->getRequest()->ajax()) {
@@ -141,7 +141,7 @@ class conveyanceCommonController extends Controller
     public function ViewApplication(Request $request,$applicationId){
         $data = scApplication::where('id',$applicationId)->first();
         $data->folder = $this->getCurrentRoleFolderName();
-//        dd($data->stamp_conveyance_application);
+
         return view('admin.conveyance.common.view_application',compact('data'));
     }             
 
