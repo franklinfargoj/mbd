@@ -43,29 +43,37 @@ class conveyanceCommonController extends Controller
              ['data' => 'Status','name' => 'Status','title' => 'Status'],
         ];
 
+            // dd($data);
         if ($datatables->getRequest()->ajax()) {
+
             return $datatables->of($data)
                 ->editColumn('rownum', function ($data) {
                     static $i = 0; $i++; return $i;
                 })
+
                 ->editColumn('radio', function ($data) {
                     $url = route('conveyance.view_application', $data->id);
                     return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" name="application_id" onclick="geturl(this.value);" value="'.$url.'" ><span></span></label>';
                 })                              
                 ->editColumn('societyApplication.name', function ($data) {
+
                     return $data->societyApplication->name;
                 })
                 ->editColumn('societyApplication.building_no', function ($data) {
+
                     return $data->societyApplication->building_no;
                 })
                 ->editColumn('societyApplication.address', function ($data) {
+
                     return "<span>".$data->societyApplication->address."</span>";
                 })                
                 ->editColumn('date', function ($data) {
+
                     return date(config('commanConfig.dateFormat'), strtotime($data->created_at));
                 })
 
                 ->editColumn('Status', function ($data) use ($request) {
+
                     $status = $data->scApplicationLog->status_id;
 
                     if($request->update_status)
@@ -83,11 +91,13 @@ class conveyanceCommonController extends Controller
                     }
 
                 })
-                ->rawColumns(['radio','society_name', 'Status', 'building_name', 'societyApplication.address','date','eeApplicationSociety.address'])
+                ->rawColumns(['radio','society_name', 'Status', 'building_name', 'societyApplication.address','date'])
                 ->make(true);
+
         }  
 
-        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());                                
+        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+
         return view('admin.conveyance.common.index', compact('html','header_data','getData','folder_name'));         
 
     }
@@ -134,7 +144,7 @@ class conveyanceCommonController extends Controller
         } else {
             $listArray = $applicationData;
         } 
-       
+    
         return $listArray;       	
     }
 
@@ -550,5 +560,31 @@ class conveyanceCommonController extends Controller
         $data->ApprovedLeaseAgreement = $this->getScAgreement($LeaseId,$applicationId,$ApprovedStatus);
         
         return $data;
-    }     
+    }  
+
+    //add document to sc_document status
+    public function uploadDocumentStatus($applicationId,$document,$documentPath){
+        
+        $masterId   = scApplication::where('id',$applicationId)->value('sc_application_master_id');
+        $documentId = SocietyConveyanceDocumentMaster::where('document_name',$document)
+        ->where('application_type_id',$masterId)->value('id');
+        
+        $DocumentStatus = SocietyConveyanceDocumentStatus::where('application_id',$applicationId)->where('document_id',$documentId)->where('user_id',Auth::Id())->first();
+
+        if (!$DocumentStatus){
+            $DocumentStatus = new SocietyConveyanceDocumentStatus();
+        }
+        $DocumentStatus->application_id = $applicationId;
+        $DocumentStatus->user_id        = Auth::Id();
+        $DocumentStatus->document_id    = $documentId;
+        $DocumentStatus->document_path  = $documentPath;
+        $DocumentStatus->save();
+    } 
+
+    //fetch documents from sc_document status
+    public function getDocumentStatus($applicationId,$typeId){
+
+        $document = SocietyConveyanceDocumentStatus::where('document_id',$typeId)->where('application_id',$applicationId)->first();
+        return $document;        
+    }  
 }

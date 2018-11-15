@@ -109,6 +109,18 @@ class SocietyConveyanceDocumentMasterSeeder extends Seeder
                 'application_type_id' => $conveyanceId,
                 'society_flag'        => '0',
                 'language_id'         => $eLanguage
+            ],             
+            [
+                'document_name'       => 'noc_conveyance',
+                'application_type_id' => $conveyanceId,
+                'society_flag'        => '0',
+                'language_id'         => $eLanguage
+            ],            
+            [
+                'document_name'       => 'architect_conveyance_map',
+                'application_type_id' => $conveyanceId,
+                'society_flag'        => '0',
+                'language_id'         => $eLanguage
             ],            
         ];
 

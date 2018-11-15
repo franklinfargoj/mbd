@@ -116,11 +116,9 @@
                                 </h3>
                             </div>
                         </div>
- <!--                        <form class="nav-tabs-form" id="DYCDONote" role="form" method="post" action="{{ route('dyco.uploadDycoNote')}}"> -->
 
 <form role="form" id="DYCDONote"  name="DycoNote" class="form-horizontal" method="post"
         action="{{ route('dyco.uploadDycoNote')}}" enctype="multipart/form-data">
-
                         @csrf   
                         <input type="hidden" name="application_id" value="{{ isset($data->id) ? $data->id : '' }}"> 
                             <div class="m-section__content mb-0 table-responsive">
@@ -147,9 +145,9 @@
                                             <div class="d-flex flex-column h-100 two-cols">
                                                 <h5>Download DyCDO Note</h5>
                                                 <div class="mt-auto">
-                                                @if(isset($checklist->dyco_note))
-                                                <input type="hidden" name="old_file_name" value="{{ $checklist->dyco_note }}">
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$checklist->dyco_note }}">
+                                                @if(isset($dycdo_note->document_path))
+                                                <input type="hidden" name="old_file_name" value="{{ $dycdo_note->document_path }}">
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$dycdo_note->document_path }}">
 
                                                 
                                                 

@@ -50,8 +50,13 @@ class DYCOController extends Controller
         }else{
             $route = 'admin.conveyance.common.view_checklist_office_note';
         }
+
+        //get dycdo note from sc document status table
+        $document  = config('commanConfig.documents.dycdo_note');
+        $documentId = $this->common->getScAgreementId($document,$data->sc_application_master_id);
+        $dycdo_note = $this->common->getDocumentStatus($applicationId,$documentId);
         
-        return view($route,compact('data','checklist'));
+        return view($route,compact('data','checklist','dycdo_note'));
     }
 
     // save/update checklist data
@@ -94,11 +99,12 @@ class DYCOController extends Controller
             if ($extension == "pdf"){
                 $path = $folder_name.'/'.$file_name;
                 $delete = Storage::disk('ftp')->delete($request->old_file_name);
-                $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$request->file('dycdo_note'),$file_name);
+                $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$file,$file_name);
 
-                $note = ConveyanceChecklistScrutiny::where('application_id',$applicationId)
-                ->update(['dyco_note' => $path]);
-                   
+                // save document to sc document status table
+                $document  = config('commanConfig.documents.dycdo_note');
+                $this->common->uploadDocumentStatus($applicationId,$document,$path);
+
                 return back()->with('success','Note uploaded successfully.');                         
             } else {
                 return back()->with('pdf_error', 'Invalid type of file uploaded (only pdf allowed).');
@@ -113,6 +119,7 @@ class DYCOController extends Controller
         ->where('id',$applicationId)->first();
         
         $Applicationtype= $data->sc_application_master_id;
+        // add $this->SaleAgreement
         $SaleAgreement  = config('commanConfig.scAgreements.sale_deed_agreement');
         $LeaseAgreement = config('commanConfig.scAgreements.lease_deed_agreement');
         $Agreementstatus = ApplicationStatusMaster::where('status_name','=','Draft')->value('id');
@@ -147,6 +154,8 @@ class DYCOController extends Controller
         
         $data = scApplication::where('id',$applicationId)->first();        
         $Applicationtype= $data->sc_application_master_id;
+
+        //add $this->SaleAgreement
         $SaleAgreement  = config('commanConfig.scAgreements.sale_deed_agreement');
         $LeaseAgreement = config('commanConfig.scAgreements.lease_deed_agreement');  
         $Agrstatus = ApplicationStatusMaster::where('status_name','=','Draft')->value('id');          

@@ -18,7 +18,7 @@
         <div class="d-flex">
             {{-- {{ Breadcrumbs::render('calculation_sheet',$ol_application->id) }} --}}
             <div class="ml-auto btn-list">
-                <a href="javascript:void(0);" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+                <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
             </div>
         </div>
         <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom" role="tablist">
@@ -47,7 +47,7 @@
         @csrf
             <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
                 <div class="portlet-body">
-                    <div class="m-portlet__body m-portlet__body--table">
+                    <div class="m-portlet__body m-portlet__body--table" id="calculation">
                         <div class="m-subheader">
                             <div class="d-flex align-items-center justify-content-center">
                                 <h3 class="section-title text-uppercase">
@@ -76,7 +76,7 @@
                                 <table id="one" class="table mb-0 table--box-input" style="padding-top: 10px;"> 
                                     <div class="d-flex justify-content-between align-items-center mb-4">
                                         <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
-                                                src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("one");'
+                                                src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("calculation");'
                                                 style="max-width: 22px"></a>
                                     </div>
                                     <thead class="thead-default">
@@ -205,13 +205,14 @@
                                     <input class="letter-form-input letter-form-input--md"
                                             type="text" name="east_dimension" value="{{ isset($data->ConveyanceSalePriceCalculation->east_dimension) ? $data->ConveyanceSalePriceCalculation->east_dimension : '' }}"></p>
                                 </div>
-                                <div class="mt-auto">
-                                    <button type="submit" class="btn btn-primary btn-custom">
-                                    Submit</button>
-                                </div>                                
                             
                         </div>
                     </div>
+                    <div class="mt-auto">
+                        <button type="submit" class="btn btn-primary btn-custom">
+                        Submit</button>
+                    </div>                                
+                    <!-- place -->
                 </div>
             </div>
         </form>    
@@ -349,22 +350,27 @@
 @section('js')
     <script>
 
-    // $(document).ready(function () {
+    function PrintElem(elem) {
 
-    //     var id = Cookies.get('sale_tabs');
-    //     if (id != undefined) {
-    //         $(".sale-tabs > a").removeClass('active');
-    //         $(".tab-pane").removeClass('active');
-    //         $("#"+id+" > a").addClass('active');
-    //         $("#" + id).addClass('active');
-    //         $("." + id).addClass('active');
-    //     }
-    // });    
+        $("#"+elem+"_btn").css("display","none");
+        var printable = document.getElementById(elem).innerHTML;
 
-    // $(".sale-tabs").on('click', function () {
-    //     $(".sale-tabs > a").removeClass('active');
-    //     Cookies.set('sale_tabs', this.id);
-    // });
+       var mywindow = window.open('', 'PRINT', 'height=400,width=600');
+
+        mywindow.document.write('<html><head><title>Maharashtra Housing and development authority</title>');
+        mywindow.document.write('</head><body >');
+        mywindow.document.write(printable);
+        mywindow.document.write('</body></html>');
+
+        mywindow.document.close();
+        mywindow.focus();
+
+        mywindow.print();
+        mywindow.close();
+        $("#"+elem+"_btn").css("display","block");
+
+        return true;
+    } 
 
     $("#demarcationFRM").validate({
         rules: {

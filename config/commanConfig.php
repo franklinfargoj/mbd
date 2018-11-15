@@ -75,6 +75,12 @@ return [
         'Renewal'     => 'Renewal',
     ], 
 
+      // sc documents
+     'documents' => [
+        'dycdo_note'  => 'dycdo_note',
+        'Renewal'     => 'Renewal',
+    ], 
+
     // sc Application types 
     //  'scApplication' => [
     //     'draft_sale_agreement'       => 'draft_sale_agreement',
