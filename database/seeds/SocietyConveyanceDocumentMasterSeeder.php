@@ -55,6 +55,60 @@ class SocietyConveyanceDocumentMasterSeeder extends Seeder
                 'application_type_id' => $conveyanceId,
                 'society_flag'        => '0',
                 'language_id'         => $eLanguage
+            ],                       
+            [
+                'document_name'       => 'stamp_conveyance_application',
+                'application_type_id' => $conveyanceId,
+                'society_flag'        => '1',
+                'language_id'         => $eLanguage
+            ],            
+            [
+                'document_name'       => 'sc_resolution',
+                'application_type_id' => $conveyanceId,
+                'society_flag'        => '1',
+                'language_id'         => $eLanguage
+            ],            
+            [
+                'document_name'       => 'sc_undertaking',
+                'application_type_id' => $conveyanceId,
+                'society_flag'        => '1',
+                'language_id'         => $eLanguage
+            ],            
+            [
+                'document_name'       => 'bonafide_list',
+                'application_type_id' => $conveyanceId,
+                'society_flag'        => '0',
+                'language_id'         => $eLanguage
+            ],                     
+            [
+                'document_name'       => 'em_covering_letter',
+                'application_type_id' => $conveyanceId,
+                'society_flag'        => '0',
+                'language_id'         => $eLanguage
+            ],             
+            [
+                'document_name'       => 'text_no_dues_certificate',
+                'application_type_id' => $conveyanceId,
+                'society_flag'        => '0',
+                'language_id'         => $eLanguage
+            ],            
+            [
+                'document_name'       => 'drafted_no_dues_certificate',
+                'application_type_id' => $conveyanceId,
+                'society_flag'        => '0',
+                'language_id'         => $eLanguage
+            ],            
+            [
+                'document_name'       => 'uploaded_no_dues_certificate',
+                'application_type_id' => $conveyanceId,
+                'society_flag'        => '0',
+                'language_id'         => $eLanguage
+            ],            
+            [
+                'document_name'       => 'DYCDO_note',
+                'application_type_id' => $conveyanceId,
+                'society_flag'        => '0',
+                'language_id'         => $eLanguage
             ],            
         ];
 
