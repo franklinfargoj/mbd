@@ -93,9 +93,9 @@ $route=\Request::route()->getName();
         </li>
         @endif
         @if(session()->get('role_name')==config('commanConfig.junior_architect') ||
-        session()->get('role_name')==config('commanConfig.land_manager') ||
-        session()->get('role_name')==config('commanConfig.estate_manager') ||
-        session()->get('role_name')==config('commanConfig.ee_junior_engineer') ||
+        // session()->get('role_name')==config('commanConfig.land_manager') ||
+        // session()->get('role_name')==config('commanConfig.estate_manager') ||
+        // session()->get('role_name')==config('commanConfig.ee_junior_engineer') ||
         session()->get('role_name')==config('commanConfig.ree_junior') ||
         session()->get('role_name')==config('commanConfig.ree_assistant_engineer') ||
         session()->get('role_name')==config('commanConfig.ree_deputy_engineer') ||
