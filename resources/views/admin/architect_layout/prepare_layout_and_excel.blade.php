@@ -171,7 +171,7 @@
                             @endif
                         </h4>
                         <div class="row">
-                            @if(session()->get('role_name')==config('commanConfig.junior_architect') && $status->status_id!=config('commanConfig.architect_layout_status.approved'))
+                            @if(session()->get('role_name')==config('commanConfig.junior_architect') && ($status->status_id!=config('commanConfig.architect_layout_status.approved') && $status->status_id!=config('commanConfig.architect_layout_status.forward')))
                             <div class="col-sm-6">
                                 {{-- <p> Click 'Choose File' to upload Layout</p>
 
@@ -204,11 +204,11 @@
                         </div>
 
                         <div class="row">
-                            @if(session()->get('role_name')==config('commanConfig.junior_architect') && $status->status_id!=config('commanConfig.architect_layout_status.approved'))
+                            @if(session()->get('role_name')==config('commanConfig.junior_architect') && ($status->status_id!=config('commanConfig.architect_layout_status.approved') && $status->status_id!=config('commanConfig.architect_layout_status.forward')))
                             <div class="col-sm-6">
-                                <h4 class="section-title section-title--small">
+                                {{-- <h4 class="section-title section-title--small">
                                     Upload Excel
-                                </h4>
+                                </h4> --}}
                                 {{-- <p> Click 'Choose File' to upload Excel</p>
 
                                 <p> Upload a file here in .excel format</p> --}}
@@ -247,11 +247,11 @@
                         </div>
 
                         <div class="row">
-                            @if(session()->get('role_name')==config('commanConfig.junior_architect') && $status->status_id!=config('commanConfig.architect_layout_status.approved'))
+                            @if(session()->get('role_name')==config('commanConfig.junior_architect') && ($status->status_id!=config('commanConfig.architect_layout_status.approved') && $status->status_id!=config('commanConfig.architect_layout_status.forward')))
                             <div class="col-sm-6">
-                                <h4 class="section-title section-title--small">
+                                {{-- <h4 class="section-title section-title--small">
                                     Upload Note
-                                </h4>
+                                </h4> --}}
                                 {{-- <p> Click 'Choose File' to upload Note</p>
 
                                 <p> Upload a file here in .excel format</p> --}}
