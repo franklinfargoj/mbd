@@ -326,9 +326,15 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     // CO department route 
     Route::resource('co','CODepartment\COController');
+
     Route::get('co_reval_applications','CODepartment\COController@revalidationApplicationList')->name('co_applications.reval');
     Route::get('view_reval_application_co/{id}','CODepartment\COController@viewRevalApplication')->name('co.view_reval_application');
+
     Route::get('society_ee_documents/{id}','CODepartment\COController@societyEEDocuments')->name('co.society_EE_documents');
+    Route::get('co_society_reval_document/{id}','CODepartment\COController@societyRevalDocuments')->name('co.society_reval_documents');
+
+    Route::get('reval_calculation_sheet_co/{id}','CODepartment\COController@showRevalCalculationSheet')->name('co.show_reval_calculation_sheet');
+
     Route::get('ee_Scrutiny_Remark/{id}','CODepartment\COController@eeScrutinyRemark')->name('co.EE_Scrutiny_Remark');
 
     Route::get('scrutiny_remark_dyce/{id}','CODepartment\COController@dyceScrutinyRemark')->name('co.scrutiny_remark');
@@ -337,10 +343,22 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::post('save_forward_Application','CODepartment\COController@sendForwardApplication')->name('co.forward_application_data');
 
-    Route::get('download_note/{id}','CODepartment\COController@downloadCapNote')->name('co.download_cap_note');    
+    Route::get('download_note/{id}','CODepartment\COController@downloadCapNote')->name('co.download_cap_note');
 
-        // CAP department route 
+    Route::get('co_forward_reval_application/{id}','CODepartment\COController@forwardRevalApplication')->name('co.forward_reval_application');
+    Route::post('co_forward_reval_Application_data','CODepartment\COController@sendForwardRevalApplication')->name('co.forward_reval_application_data');
+
+
+    // CAP department route
     Route::resource('cap','CAPDepartment\CAPController');
+
+    Route::get('cap_reval_applications','CAPDepartment\CAPController@revalidationApplicationList')->name('cap_applications.reval');
+    Route::get('view_reval_application_cap/{id}','CAPDepartment\CAPController@viewRevalApplication')->name('cap.view_reval_application');
+
+    Route::get('cap_society_reval_document/{id}','CAPDepartment\CAPController@societyRevalDocuments')->name('cap.society_reval_documents');
+
+    Route::get('reval_calculation_sheet_cap/{id}','CAPDepartment\CAPController@showRevalCalculationSheet')->name('cap.show_reval_calculation_sheet');
+
     Route::get('society_EE_document/{id}','CAPDepartment\CAPController@societyEEDocuments')->name('cap.society_EE_documents');
     Route::get('ee_scrutiny_remarks/{id}','CAPDepartment\CAPController@eeScrutinyRemark')->name('cap.EE_scrutiny_remark');
 
@@ -351,6 +369,8 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::post('upload_cap_note','CAPDepartment\CAPController@uploadCAPNote')->name('cap.upload_cap_note');
     Route::post('cap_save_forward_Application','CAPDepartment\CAPController@sendForwardApplication')->name('cap.forward_application_data');
 
+    Route::get('cap_forward_reval_application/{id}','CAPDepartment\CAPController@forwardRevalApplication')->name('cap.forward_reval_application');
+    Route::post('cap_forward_reval_Application_data','CAPDepartment\CAPController@sendForwardRevalApplication')->name('cap.forward_reval_application_data');
 
         // VP department route 
     Route::resource('vp','VPDepartment\VPController');
