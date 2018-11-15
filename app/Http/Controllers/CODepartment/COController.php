@@ -264,6 +264,57 @@ class COController extends Controller
         return view('admin.co_department.forward_application',compact('applicationData', 'arrData','ol_application','eelogs','dyceLogs','reeLogs','coLogs','capLogs','vpLogs'));
     }
 
+    public function forwardRevalApplication(Request $request, $applicationId){
+
+        $ol_application = $this->CommonController->getOlApplication($applicationId);
+        $ol_application->status = $this->CommonController->getCurrentStatus($applicationId);
+        $applicationData = $this->CommonController->getForwardApplication($applicationId);
+//        $arrData['application_status'] = $this->CommonController->getCurrentApplicationStatus($applicationId);
+
+//        if(session()->get('role_name') != config('commanConfig.co_engineer'))
+        $arrData['application_status'] = $this->CommonController->getCurrentLoggedInChild($applicationId);
+
+        $arrData['get_current_status'] = $this->CommonController->getCurrentStatus($applicationId);
+
+        // CAP Forward Application
+
+        $cap_role_id = Role::where('name', '=', config('commanConfig.cap_engineer'))->first();
+
+        if($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.offer_letter_generation'))
+        {
+            $ree_id = Role::where('name', '=', config('commanConfig.ree_junior'))->first();
+
+            $arrData['get_forward_ree'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
+                ->where('lu.layout_id', session()->get('layout_id'))
+                ->where('role_id', $ree_id->id)->get();
+
+            $arrData['ree_role_name']   = strtoupper(str_replace('_', ' ', $ree_id->name));
+        }
+        else
+        {
+            $arrData['get_forward_cap'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
+                ->where('lu.layout_id', session()->get('layout_id'))
+                ->where('role_id', $cap_role_id->id)->get();
+            $arrData['cap_role_name'] = strtoupper(str_replace('_', ' ', $cap_role_id->name));
+        }
+
+
+        // remark and history
+        $this->CommonController->getEEForwardRevertLog($applicationData,$applicationId);
+        $this->CommonController->getDyceForwardRevertLog($applicationData,$applicationId);
+        $this->CommonController->getREEForwardRevertLog($applicationData,$applicationId);
+
+        //remark and history
+        $eelogs   = $this->CommonController->getLogsOfEEDepartment($applicationId);
+        $dyceLogs = $this->CommonController->getLogsOfDYCEDepartment($applicationId);
+        $reeLogs  = $this->CommonController->getLogsOfREEDepartment($applicationId);
+        $coLogs   = $this->CommonController->getLogsOfCODepartment($applicationId);
+        $capLogs  = $this->CommonController->getLogsOfCAPDepartment($applicationId);
+        $vpLogs   = $this->CommonController->getLogsOfVPDepartment($applicationId);
+
+        return view('admin.co_department.forward_reval_application',compact('applicationData', 'arrData','ol_application','eelogs','dyceLogs','reeLogs','coLogs','capLogs','vpLogs'));
+    }
+
     public function sendForwardApplication(Request $request){
         $arrData['get_current_status'] = $this->CommonController->getCurrentStatus($request->applicationId);
 
@@ -276,6 +327,20 @@ class COController extends Controller
             $this->CommonController->forwardApplicationForm($request);
         }
         return redirect('/co')->with('success','Application send successfully.');
+    }
+
+    public function sendForwardRevalApplication(Request $request){
+        $arrData['get_current_status'] = $this->CommonController->getCurrentStatus($request->applicationId);
+
+        if($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.offer_letter_generation'))
+        {
+            $this->CommonController->generateOfferLetterForwardToREE($request);
+        }
+        else
+        {
+            $this->CommonController->forwardApplicationForm($request);
+        }
+        return redirect('/co_reval_applications')->with('success','Application send successfully.');
     }
 
     public function downloadCapNote(Request $request, $applicationId){
@@ -331,7 +396,7 @@ class COController extends Controller
     public function viewRevalApplication(Request $request, $applicationId){
 
         $ol_application = $this->CommonController->downloadOfferLetter($applicationId);
-        $ol_application->folder = 'REE_department';
+        $ol_application->folder = 'co_department';
 
         $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
 
@@ -346,7 +411,7 @@ class COController extends Controller
         $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
 
         $ol_application->status = $this->CommonController->getCurrentStatus($applicationId);
-        return view('admin.REE_department.society_reval_documents', compact('societyDocument','ol_application'));
+        return view('admin.co_department.society_reval_documents', compact('societyDocument','ol_application'));
     }
 
     public function showCalculationSheet(Request $request, $applicationId){
@@ -361,5 +426,19 @@ class COController extends Controller
         $arrData['reeNote'] = $user->areeNote;
         // dd($blade);
         return view('admin.common.'.$blade,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application'));         
-    }            
+    }
+
+    public function showRevalCalculationSheet(Request $request, $applicationId){
+
+        $user = $this->CommonController->showCalculationSheet($applicationId);
+        $ol_application = $this->CommonController->getOlApplication($applicationId);
+        $ol_application->status = $this->CommonController->getCurrentStatus($applicationId);
+        $ol_application->folder = 'co_department';
+        $calculationSheetDetails = $user->calculationSheetDetails;
+        $dcr_rates = $user->dcr_rates;
+        $blade = $user->blade;
+        $arrData['reeNote'] = $user->areeNote;
+        // dd($blade);
+        return view('admin.common.'.$blade,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application'));
+    }
 }
