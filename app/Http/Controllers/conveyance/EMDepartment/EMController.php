@@ -23,13 +23,14 @@ class EMController extends Controller
 
 	public function ScrutinyRemark(Request $request,$applicationId){
 
-		$data = scApplication::with(['societyApplication','scApplicationLog'])->where('id',$applicationId)->first();
+		$data = scApplication::with(['societyApplication','scApplicationLog', 'sc_form_request'])->where('id',$applicationId)->first();
         $data->folder = $this->conveyance_common->getCurrentRoleFolderName();
         if($data->text_no_dues_certificate != NULL){
             $content = $this->CommonController->getftpFileContent($data->text_no_dues_certificate);
         }else{
             $content = "";
         }
+//        dd($data->sc_form_request->template_file);
 		return view('admin.conveyance.em_department.scrutiny_remark',compact('data', 'content'));
 	}
 
@@ -116,6 +117,11 @@ class EMController extends Controller
 //        OlApplication::where('id',$request-> )->update(["drafted_offer_letter" => $filePath, "text_offer_letter" => $filePath1]);
 
 //        return redirect('generate_offer_letter/'.$request->applicationId);
+    }
+
+    // Uploads list of bonafide & no-bonafide allottees
+    public function uploadListOfAllottees(Request $request){
+        dd($request->all());
     }
 
     public function uploadCoveringLetter(Request $request){

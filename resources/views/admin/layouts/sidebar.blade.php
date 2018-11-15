@@ -594,8 +594,7 @@ $route=\Request::route()->getName();
                 in_array('society_offer_letter.index', session()->get('permission')) ||
                 in_array('architect_layout.index', session()->get('permission')) || in_array('dyco.index', session()->get('permission')) || in_array('hearing.index', session()->get('permission')) ))
 
-                @if (isset($route) && ($route == 'co.index' || $route=='society_detail.index' ||
-                $route=='village_detail.index' || $route=='ee.index' || $route=='dyce.index' || $route=='co_applications.reval' ||
+                @if (isset($route) && ($route == 'co.index' || $route=='ee.index' || $route=='dyce.index' || $route=='co_applications.reval' ||
                 $route=='ree_applications.index' || $route=='ree_applications.reval' || $route=='cap.index' || $route=='vp.index' ||
                 $route=='society_offer_letter.index' || $route=='society_offer_letter_dashboard' ||
                 $route=='documents_uploaded' || $route=='documents_upload'))
@@ -619,8 +618,7 @@ $route=\Request::route()->getName();
                 <li id="society-actions" class="collapse show">
                     <ul class="list-unstyled">
 
-                        @if (isset($route) && ($route == 'co.index' || $route=='society_detail.index' ||
-                        $route=='village_detail.index' || $route=='ee.index' || $route=='dyce.index' || $route=='co_applications.reval' ||
+                        @if (isset($route) && ($route == 'co.index' || $route=='ee.index' || $route=='dyce.index' || $route=='co_applications.reval' ||
                         $route=='ree_applications.index' || $route=='ree_applications.reval' || $route=='cap.index' || $route=='vp.index' ||
                         $route=='society_offer_letter.index' || $route=='society_offer_letter_dashboard' ||
                         $route=='documents_uploaded' || $route=='documents_upload'))
@@ -667,8 +665,7 @@ $route=\Request::route()->getName();
                         @endif
                         @endif
                         
-                        @if (isset($route) && ($route == 'co.index' || $route=='society_detail.index' ||
-                        $route=='village_detail.index' || $route=='ee.index' || $route=='dyco.index' ||
+                        @if (isset($route) && ($route == 'co.index' || $route=='ee.index' || $route=='dyco.index' ||
                         $route=='ree_applications.index' || $route=='ree_applications.reval' || 
                         $route=='society_offer_letter.index' || $route=='society_offer_letter_dashboard' ||
                         $route=='documents_uploaded' || $route=='documents_upload' || $route == 'architect_layout.index' || $route == 'hearing.index'))
