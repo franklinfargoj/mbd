@@ -30,7 +30,7 @@ class EMController extends Controller
         }else{
             $content = "";
         }
-//        dd($data->sc_form_request->template_file);
+//        dd($data);
 		return view('admin.conveyance.em_department.scrutiny_remark',compact('data', 'content'));
 	}
 
