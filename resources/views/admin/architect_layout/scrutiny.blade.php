@@ -15,7 +15,7 @@
             <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom">
                 <li class="nav-item m-tabs__item" data-target="#document-scrunity">
                     <a class="nav-link m-tabs__link active show" data-toggle="tab" href="#scrutiny-history-tab">
-                        <i class="la la-cog"></i> Report
+                        <i class="la la-cog"></i> Scrutiny Report
                     </a>
                 </li>
 
@@ -32,11 +32,11 @@
                     <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
                         <div class="portlet-body">
                             <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
-                                <div class="">
+                                {{-- <div class="">
                                     <h3 class="section-title section-title--small">
                                         Scrutiny Report
                                     </h3>
-                                </div>
+                                </div> --}}
                                 @if($read_only!=0)
                                 <a href="{{route('architect_layout_add_scrutiny_report',['layout_id'=>encrypt($ArchitectLayout->id)])}}"
                                     class="btn btn-primary mb-2">Add report</a>
@@ -49,7 +49,7 @@
                                             <th>File</th>
                                         </tr>
                                         @foreach($scrutiny_reports as $scrutiny_report)
-                                        @foreach($scrutiny_report as $report)
+                                        @forelse($scrutiny_report as $report)
                                         <tr>
                                             <td>{{
                                                 date('d/m/Y',strtotime($report->created_at))
@@ -57,7 +57,9 @@
                                             <td>{{ $report->name_of_document }}</td>
                                             <td><a class="btn-link" target="_blank" href="{{config('commanConfig.storage_server').'/'.$report->file}}">file</a></td>
                                         </tr>
-                                        @endforeach
+                                        @empty
+                                        <tr><td colspan="3">No Record Found</td></tr>
+                                        @endforelse
                                         @endforeach
                                     </table>
                                 </div>
