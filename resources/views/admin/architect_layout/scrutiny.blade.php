@@ -31,13 +31,24 @@
                 <div class="tab-pane active show" id="scrutiny-history-tab">
                     <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
                         <div class="portlet-body">
+                                @if(Session::has('success'))
+                                <div class="alert alert-success">
+                                    <p> {{ Session::get('success') }} </p>
+                                </div>
+                                @endif
+                                @if(Session::has('error'))
+                                <div class="alert alert-danger">
+                                    <p> {{ Session::get('error') }} </p>
+                                </div>
+                                @endif
                             <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
                                 {{-- <div class="">
                                     <h3 class="section-title section-title--small">
                                         Scrutiny Report
                                     </h3>
                                 </div> --}}
-                                @if($read_only!=0)
+                                {{-- {{$read_only}} --}}
+                                @if($read_only!=1)
                                 <a href="{{route('architect_layout_add_scrutiny_report',['layout_id'=>encrypt($ArchitectLayout->id)])}}"
                                     class="btn btn-primary mb-2">Add report</a>
                                 @endif
@@ -47,6 +58,9 @@
                                             <th>Date</th>
                                             <th>Name Of Document</th>
                                             <th>File</th>
+                                            @if($read_only!=1)
+                                            <th>Delete</th>
+                                            @endif
                                         </tr>
                                         @foreach($scrutiny_reports as $scrutiny_report)
                                         @forelse($scrutiny_report as $report)
@@ -55,10 +69,33 @@
                                                 date('d/m/Y',strtotime($report->created_at))
                                                 }}</td>
                                             <td>{{ $report->name_of_document }}</td>
-                                            <td><a class="btn-link" target="_blank" href="{{config('commanConfig.storage_server').'/'.$report->file}}">file</a></td>
+                                            <td>
+                                                <a class="btn-link" target="_blank" href="{{config('commanConfig.storage_server').'/'.$report->file}}">file</a>
+                                            </td>
+                                            @if($read_only!=1)
+                                            <td>
+                                                <form method="post" action="{{route('delete_architect_layout_scrutiny_report')}}">
+                                                    @csrf
+                                                    <input type="hidden" name="report_id" value="{{encrypt($report->id)}}">
+                                                    <button type="submit" onclick="return confirm('are you sure?')" name="final" value="final" class="btn btn--unstyled p-0 btn--icon-wrap d-flex align-items-center flex-column">
+                                                        <span class="btn-icon btn-icon--delete">
+                                                            <img src="{{ asset('/img/delete-icon.svg')}}">
+                                                        </span>
+                                                    </button>
+                                                </form>
+                                                {{-- <a class="d-flex flex-column align-items-center" title="Delete"
+                                                    href="Javascript:void(0);">
+                                                    <span class="btn-icon btn-icon--delete">
+                                                        <img src="{{ asset('/img/delete-icon.svg')}}">
+                                                    </span>
+                                                </a> --}}
+                                            </td>
+                                            @endif
                                         </tr>
                                         @empty
-                                        <tr><td colspan="3">No Record Found</td></tr>
+                                        <tr>
+                                            <td colspan="{{$read_only!=1?4:3}}">No Record Found</td>
+                                        </tr>
                                         @endforelse
                                         @endforeach
                                     </table>
@@ -132,6 +169,7 @@
             var count = $(".optionBox > div").length;
             count++;
             $('.block:last').after(
+                '<div class="block">' +
                 '<input type="hidden" name="report_id[]" id="report_id_' + count + '" value="">' +
                 '<div class="m-form__group row">' +
                 '<div class="col-lg-3 form-group">' +
@@ -161,11 +199,20 @@
                 '" style="display:none">download</a>' +
                 '</div>' +
                 '</div>' +
+                '<div class="col-lg-2 form-group mt-2">' +
+                '<a href="" class="removeChecklistAndRemark"><i class="fa fa-close btn--add-delete"></i></a>' +
+                '</div>' +
                 '</div>'
             );
             $('.m-bootstrap-select').selectpicker('refresh');
             showUploadedFileName();
         });
+
+        $('body').on('click', '.removeChecklistAndRemark', function (e) {
+            e.preventDefault()
+            //console.log($(this).parent().parent().parent().parent()[0])
+            $(this).parent().parent().parent()[0].remove()
+        })
 
         function showUploadedFileName() {
             $('.custom-file-input').change(function (e) {

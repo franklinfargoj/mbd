@@ -154,6 +154,11 @@ class EEUserSeeder extends Seeder
                 'description' => 'architect_layout_post_scrutiny_report',
             ],
             [
+                'name'=>'delete_architect_layout_scrutiny_report',
+                'display_name'=>'delete_architect_layout_scrutiny_report',
+                'description'=>'delete_architect_layout_scrutiny_report'
+            ],
+            [
                 'name'=>'upload_ee_checklist_and_remark_report',
                 'display_name'=>'upload_ee_checklist_and_remark_report',
                 'description'=>'upload_ee_checklist_and_remark_report'
