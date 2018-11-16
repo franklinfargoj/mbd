@@ -82,7 +82,10 @@ class ServiceChargesController extends Controller
         $society_id = decrypt($society_id);
         $building_id = decrypt($building_id);
 
-    	$data['tenant_types'] = MasterTenantType::pluck('name','name')->toArray();
+    	$data['tenant_types'] = MasterTenantType::pluck('id','name');
+       
+        //dd($data['tenant_types']);
+
     	$data['society'] = SocietyDetail::find($society_id);
         $data['building'] = MasterBuilding::where('society_id', $society_id)->find($building_id);
     	return view('admin.service_charges.create',$data);
@@ -138,8 +141,8 @@ class ServiceChargesController extends Controller
 
     public function edit($id) {
         $id = decrypt($id);
-    	$data['tenant_types'] = MasterTenantType::pluck('name','name')->toArray();
-    	$data['service_charge'] = ServiceChargesRate::find($id);
+    	$data['tenant_types'] = MasterTenantType::pluck('id','name');
+        $data['service_charge'] = ServiceChargesRate::find($id);
     	$data['society'] = SocietyDetail::find($data['service_charge']->society_id);
         $data['building'] = MasterBuilding::where('society_id', $data['service_charge']->society_id)->find($data['service_charge']->building_id);
     	return view('admin.service_charges.edit',$data);

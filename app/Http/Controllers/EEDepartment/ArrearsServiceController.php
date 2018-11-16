@@ -78,7 +78,7 @@ class ArrearsServiceController extends Controller
         $society_id = decrypt($society_id);
         $building_id = decrypt($building_id);
 
-    	$data['tenant_types'] = MasterTenantType::pluck('name','name')->toArray();
+    	$data['tenant_types'] = MasterTenantType::pluck('id','name');
     	$data['society'] = SocietyDetail::find($society_id);
         $data['building'] = MasterBuilding::where('society_id', $society_id)->find($building_id);
     	return view('admin.arrears_charges.create',$data);
@@ -126,7 +126,7 @@ class ArrearsServiceController extends Controller
 
     public function edit($id) {
         $id = decrypt($id);
-    	$data['tenant_types'] = MasterTenantType::pluck('name','name')->toArray();
+    	$data['tenant_types'] = MasterTenantType::pluck('id','name');
     	$data['arrears_charge'] = ArrearsChargesRate::find($id);
     	$data['society'] = SocietyDetail::find($data['arrears_charge']->society_id);
         $data['building'] = MasterBuilding::where('society_id', $data['arrears_charge']->society_id)->find($data['arrears_charge']->building_id);

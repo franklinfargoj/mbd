@@ -167,6 +167,9 @@ class RCController extends Controller
 
     public function generate_receipt_tenant(Request $request){
        
+       $request->tenant_id = decrypt($request->tenant_id);
+       $request->building_id = decrypt($request->building_id);
+
         $bill = TransBillGenerate::where('tenant_id', '=', $request->tenant_id)
                                    ->where('building_id', '=', $request->building_id)
                                    ->where('bill_month', '=',  date('n'))
@@ -187,7 +190,7 @@ class RCController extends Controller
 
     // dd($request->all());
 
-    if($request->bill_no){
+    if($request->bill_no){  
             
           $receipt = TransPayment::with('dd_details')->with('bill_details')->where('bill_no', '=', $request->bill_no)->where('building_id', '=', $request->building_id)->where('society_id', '=', $request->society_id)->first();
           //dd($receipt);
@@ -357,6 +360,12 @@ class RCController extends Controller
                     $bill_status->status = 'paid';
                     $bill_status->save(); 
 
+                    // update Arrear of user
+                    if($bill_status->arrear_id != ''){
+                      $ids = explode(',', $bill_status->arrear_id);
+                      $update = ArrearCalculation::whereIn('id', $ids)->update('payment_status', 1);
+                    }
+
                 $data['building'] = MasterBuilding::find($request->building_id);
                 $data['society'] = SocietyDetail::find($data['building']->society_id);
                 $data['tenant'] = MasterTenant::where('building_id',$data['building']->id)->where('id',$request->tenant_id)->first();
@@ -387,6 +396,7 @@ class RCController extends Controller
     public function view_bill_building(Request $request){
 
         if($request->has('building_id') && '' != $request->building_id) {
+            $request->building_id = decrypt($request->building_id);
             $data['building'] = MasterBuilding::find($request->building_id);
             $data['society'] = SocietyDetail::find($data['building']->society_id);
             $data['serviceChargesRate'] = ServiceChargesRate::selectRaw('Sum(water_charges) as water_charges,sum(electric_city_charge) as electric_city_charge,sum(pump_man_and_repair_charges) as  pump_man_and_repair_charges,sum(external_expender_charge) as external_expender_charge,sum(administrative_charge) as administrative_charge, sum(lease_rent) as lease_rent,sum(na_assessment) as na_assessment, sum(other) as other')->where('building_id',$request->building_id)->where('year',date('Y') . '-' . (date('y') + 1))->first();
@@ -416,6 +426,9 @@ class RCController extends Controller
      public function view_bill_tenant(Request $request){
 
           if($request->has('building_id') && '' != $request->building_id && $request->has('tenant_id') && '' != $request->tenant_id) {
+            $request->building_id = decrypt($request->building_id);
+            $request->tenant_id = decrypt($request->tenant_id);
+
             $data['building'] = MasterBuilding::find($request->building_id);
             $data['society'] = SocietyDetail::find($data['building']->society_id);
             $data['tenant'] = MasterTenant::where('building_id',$data['building']->id)->where('id',$request->tenant_id)->first();

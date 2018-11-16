@@ -136,6 +136,7 @@ class EMController extends Controller
     }
 
     public function getsocieties(Request $request){
+
         if($request->input('id')){            
             $wards = MasterWard::where('layout_id', '=', $request->input('id'))->pluck('id');
             $colonies = MasterColony::whereIn('ward_id', $wards)->pluck('id');
@@ -182,7 +183,7 @@ class EMController extends Controller
 
         if(!empty($request->input('search'))) {
             $society_id = $id;
-            $buildings = MasterBuilding::with('tenant_count')->where('society_id', '=', $id)
+            $buildings = MasterBuilding::with('tenant_count')->where('society_id', '=', decrypt($id))
                 ->where(function ($query) use ($request) {
                   $query->orWhere('name', 'like', '%'.$request->input('search').'%')
                        ->orWhere('building_no', 'like', '%'.$request->input('search').'%');
@@ -192,7 +193,7 @@ class EMController extends Controller
             return view('admin.em_department.ajax_building', compact('buildings', 'society_id'));
         } else {
             $society_id = $id;
-            $buildings = MasterBuilding::with('tenant_count')->where('society_id', '=', $id)->paginate(10);
+            $buildings = MasterBuilding::with('tenant_count')->where('society_id', '=', decrypt($id))->paginate(10);
             //dd($buildings);
             if($request->has('search')) {
                 return view('admin.em_department.ajax_building', compact('buildings', 'society_id'));  
@@ -207,7 +208,7 @@ class EMController extends Controller
          $tenament = DB::table('master_tenant_type')->get();
         if(!empty($request->input('search'))) {
             $building_id = $id;
-            $buildings = MasterTenant::where('building_id', '=', $id)
+            $buildings = MasterTenant::where('building_id', '=', decrypt($id))
                  ->where(function ($query) use ($request) {
                    $query->orWhere('first_name', 'like', '%'.$request->input('search').'%')
                         ->orWhere('middle_name', 'like', '%'.$request->input('search').'%')
@@ -217,7 +218,7 @@ class EMController extends Controller
             return view('admin.em_department.ajax_tenant', compact('tenament','buildings', 'building_id'));
         } else {
             $building_id = $id;
-            $buildings = MasterTenant::where('building_id', '=', $id)->paginate(10);
+            $buildings = MasterTenant::where('building_id', '=', decrypt($id))->paginate(10);
             if($request->has('search')) {
                 return view('admin.em_department.ajax_tenant', compact('tenament','buildings', 'building_id'));  
             } else {
@@ -228,7 +229,7 @@ class EMController extends Controller
     }
 
     public function soc_bill_level($id){
-        $society = SocietyDetail::where('id','=',$id)->get();
+        $society = SocietyDetail::where('id','=',decrypt($id))->get();
         //dd($society);
         $soc_bill_level = DB::table('master_society_bill_level')->get();
        // dd($soc_bill_level);
@@ -236,11 +237,12 @@ class EMController extends Controller
     }
 
     public function soc_ward_colony($id){
-        $society = SocietyDetail::where('id','=',$id)->get();
+        
+        $society = SocietyDetail::where('id','=',decrypt($id))->get();
         //dd($society);
-        // $soc_colony = MasterColony::where('id', '=', $society[0]->colony_id)->first();
+        $soc_colony = MasterColony::where('id', '=', $society[0]->colony_id)->first();
 
-        $soc_colony = MasterColony::first();
+        //$soc_colony = MasterColony::first();
         //dd($soc_colony);
         $layouts = DB::table('layout_user')->where('user_id', '=', Auth::user()->id)->pluck('layout_id');
         $layout_data = MasterLayout::whereIn('id', $layouts)->get();
@@ -344,6 +346,7 @@ class EMController extends Controller
 
         $temp = array(       
             'id' => 'required',
+            'wards' => 'required', 
             'colony' => 'required' 
         );
 
@@ -373,7 +376,7 @@ class EMController extends Controller
     }
     
     public function add_building($id){
-        return view('admin.em_department.add_building')->with('society_id', $id);
+        return view('admin.em_department.add_building')->with('society_id', decrypt($id));
     }
 
     public function create_building(Request $request){
@@ -395,11 +398,11 @@ class EMController extends Controller
 
         //return redirect()->back()->with('success', 'Building Added Successfully.');
 
-        return redirect()->route('get_buildings', [$building->society_id])->with('success', 'Building Added Successfully.');
+        return redirect()->route('get_buildings', [encrypt($building->society_id)])->with('success', 'Building Added Successfully.');
     }
 
     public function edit_building($id){
-        $building = MasterBuilding::where('id', '=', $id)->first();
+        $building = MasterBuilding::where('id', '=', decrypt($id))->first();
         return view('admin.em_department.edit_building')->with('building', $building);
         //return $building;
     }
@@ -450,7 +453,7 @@ class EMController extends Controller
         'first_name' => 'required|alpha',
         'middle_name' => 'required|alpha',
         'last_name' => 'required|alpha',
-        'mobile' => 'required',
+        'mobile' => 'required|numeric|digits:10',
         'email_id' => 'required|email',
         'use' => 'required',
         'carpet_area' => 'required', 
@@ -474,7 +477,7 @@ class EMController extends Controller
         $tenant->save();
 
         //return redirect()->back()->with('success', 'Tenant Added Successfully.');
-        return redirect()->route('get_tenants', [$tenant->building_id])->with('success', 'Tenant Added Successfully.');
+        return redirect()->route('get_tenants', [encrypt($tenant->building_id)])->with('success', 'Tenant Added Successfully.');
     }
 
     /*
@@ -483,7 +486,7 @@ class EMController extends Controller
     * @ Response => Return view with tenant details.
     */
     public function edit_tenant($id){
-        $tenant = MasterTenant::where('id', '=', $id)->first();
+        $tenant = MasterTenant::where('id', '=', decrypt($id))->first();
          $tenament = DB::table('master_tenant_type')->get();
         return view('admin.em_department.edit_tenant')->with('tenant', $tenant)->with('tenament',$tenament);
         //return $building;
@@ -497,14 +500,14 @@ class EMController extends Controller
     public function update_tenant(Request $request){
        // return $request->all();
         $temp = array(       
-            'id' => 'required',
+        'id' => 'required',
         'building_id' => 'required',
         'flat_no' => 'required',
         'salutation' => 'required|alpha',
         'first_name' => 'required|alpha',
         'middle_name' => 'required|alpha',
         'last_name' => 'required|alpha',
-        'mobile' => 'required',
+        'mobile' => 'required|numeric|digits:10',
         'email_id' => 'required|email',
         'use' => 'required',
         'carpet_area' => 'required', 
@@ -528,11 +531,11 @@ class EMController extends Controller
         $tenant->save();
 
         //return redirect()->back()->with('success', 'Tenant Added Successfully.');
-        return redirect()->route('get_tenants', [$tenant->building_id])->with('success', 'Tenant Updated Successfully.');
+        return redirect()->route('get_tenants', [encrypt($tenant->building_id)])->with('success', 'Tenant Updated Successfully.');
     }
 
     public function delete_tenant($id){
-        $tenant = MasterTenant::find($id);
+        $tenant = MasterTenant::find(decrypt($id));
         $tenant->delete();
         return redirect()->back()->with('success', 'Tenant Removed Successfully.');
     }
@@ -585,6 +588,10 @@ class EMController extends Controller
     public function generateBuildingBill(Request $request) {
 
         if($request->has('building_id') && '' != $request->building_id) {
+
+            $request->building_id = decrypt($request->building_id);
+            $request->society_id  = decrypt($request->society_id);            
+
             $data['building'] = MasterBuilding::find($request->building_id);
             $data['society'] = SocietyDetail::find($data['building']->society_id);
             $data['serviceChargesRate'] = ServiceChargesRate::selectRaw('Sum(water_charges) as water_charges,sum(electric_city_charge) as electric_city_charge,sum(pump_man_and_repair_charges) as  pump_man_and_repair_charges,sum(external_expender_charge) as external_expender_charge,sum(administrative_charge) as administrative_charge, sum(lease_rent) as lease_rent,sum(na_assessment) as na_assessment, sum(other) as other')->where('building_id',$request->building_id)->where('year',date('Y') . '-' . (date('y') + 1))->first();
@@ -594,7 +601,7 @@ class EMController extends Controller
             return redirect()->back()->with('warning', 'Service charge Rates Not added into system.');
         }
 
-         $data['arreasCalculation'] = ArrearCalculation::where('building_id',$request->building_id)->where('year',date('Y'))->where('payment_status','0')->get();
+         $data['arreasCalculation'] = ArrearCalculation::where('building_id',$request->building_id)->where('payment_status','0')->orderby('year','month')->get();
             
          $data['number_of_tenants'] = MasterBuilding::with('tenant_count')->where('id',$request->building_id)->first();
          //dd($data['number_of_tenants']->tenant_count()->first());
@@ -614,6 +621,9 @@ class EMController extends Controller
     public function generateTenantBill(Request $request) {
 
         if($request->has('building_id') && '' != $request->building_id && $request->has('tenant_id') && '' != $request->tenant_id) {
+            $request->building_id = decrypt($request->building_id);
+            $request->tenant_id  = decrypt($request->tenant_id);
+
             $data['building'] = MasterBuilding::find($request->building_id);
             $data['society'] = SocietyDetail::find($data['building']->society_id);
             $data['tenant'] = MasterTenant::where('building_id',$data['building']->id)->where('id',$request->tenant_id)->first();
@@ -625,7 +635,7 @@ class EMController extends Controller
                 return redirect()->back()->with('warning', 'Service charge Rates Not added into system.');
             }
 
-            $data['arreasCalculation'] = ArrearCalculation::where('building_id',$request->building_id)->where('year',date('Y'))->where('payment_status','0')->get();
+            $data['arreasCalculation'] = ArrearCalculation::where('tenant_id',$request->tenant_id)->where('payment_status','0')->get();
 
             $data['month'] = date('m');
             $data['year'] = date('Y') . '-' . (date('y') + 1);
@@ -637,9 +647,14 @@ class EMController extends Controller
 
     public function create_tenant_bill(Request $request){
 
-                 //dd($request->all());
+            if($request->arrear_id && (count($request->arrear_id) > 0)){
+                $arrear_id = implode(",",$request->arrear_id);
+                //dd($arrear_id);
+            } else {
+                $arrear_id = '';
+            }
 
-        $check = TransBillGenerate::where('tenant_id', '=', $request->tenant_id)
+            $check = TransBillGenerate::where('tenant_id', '=', $request->tenant_id)
                                     ->where('bill_month', '=', $request->bill_month)
                                     ->where('bill_year', '=', $request->bill_year)
                                     ->first();
@@ -656,12 +671,12 @@ class EMController extends Controller
             if($request->no_of_tenant)
             {
                 $bill->monthly_bill = $request->monthly_bill / $request->no_of_tenant;
-            }else
-            {
+            }else {
                 $bill->monthly_bill = $request->monthly_bill;
             }
             
             $bill->arrear_bill = $request->arrear_bill;
+            $bill->arrear_id = $arrear_id;
             $bill->total_bill = $request->total_bill;
             $bill->bill_date = $request->bill_date;
             $bill->due_date = $request->due_date;
@@ -688,9 +703,28 @@ class EMController extends Controller
         if(is_null($check) || $check == ''){
 
             $tenants = MasterTenant::where('building_id',$request->building_id)->get();
+            $request->monthly_bill = $request->monthly_bill / $request->no_of_tenant;
             if($tenants){
                 foreach($tenants as $row => $key){
-                        $data[] =  [
+
+                    $consumer_number = 'BL-'.substr(sprintf('%08d', $request->building_id),0,8).'|'.substr(sprintf('%08d', $key->id),0,8);
+                    $arreasCalculation = ArrearCalculation::where('tenant_id',$key->id)->where('payment_status','0')->get();
+                    $arrear_bill = 0;
+                    $total_bill = 0;
+                    $arrear_id = '';
+                    if(!$arreasCalculation->isEmpty()){ 
+                      foreach($arreasCalculation as $calculation){
+                         $arrear_bill = $arrear_bill + $calculation->total_amount;
+                         $arrearID[] = $calculation->id; 
+                      }
+                      $arrear_id = implode(",",$arrearID);                      
+                    }  
+
+                    $total_bill  = $request->monthly_bill + $arrear_bill;
+                    $total_after_due = $total_bill * 0.02; 
+                    $total_service_after_due = $total_bill + $total_after_due; 
+
+                        $data =  [
                                     'tenant_id'  => $key->id,
                                     'building_id'    => $key->building_id,
                                     'society_id'     => $request->society_id,
@@ -699,17 +733,27 @@ class EMController extends Controller
                                     'bill_month' => $request->bill_month,
                                     'bill_year' => $request->bill_year,
                                     'monthly_bill' => $request->monthly_bill,
-                                    'arrear_bill' => $request->arrear_bill,
-                                    'total_bill' => $request->total_bill,
+                                    'arrear_bill' => $arrear_bill,
+                                    'arrear_id' => $arrear_id,
+                                    'total_bill' => $total_bill,
                                     'bill_date' => $request->bill_date,
                                     'due_date' => $request->due_date,
-                                    'consumer_number' => $request->consumer_number,
-                                    'total_service_after_due' => $request->total_service_after_due,
-                                    'late_fee_charge' => $request->late_fee_charge,
+                                    'consumer_number' => $consumer_number,
+                                    'total_service_after_due' => $total_service_after_due,
+                                    'late_fee_charge' => $total_after_due,
                                     'status' => 'Generated',
                                 ];
+                        $bill[] = TransBillGenerate::insertGetId($data);
                 }
-                $bill = TransBillGenerate::insert($data);
+                
+               if(isset($bill)){
+                    $ids = implode(",",$bill);
+                    $association = DB::table('building_tenant_bill_association')->insert(['building_id' => $request->building_id, 'bill_id' => $ids, 'bill_month' => $request->bill_month, 'bill_year' => $request->bill_year]);
+                } else { 
+                                   
+                }     
+                //dd($bill);
+
                 return redirect()->back()->with('success', 'Bill Generated Successfully.');                   
             } else {
                 return redirect()->back()->with('success', 'Check bill details once.');    
