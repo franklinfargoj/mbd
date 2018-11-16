@@ -4,7 +4,7 @@
 
 @extends('admin.layouts.sidebarAction')
 @section('actions')
-    @if($route_name=='ree.show_reval_calculation_sheet'  || $route_name=='co.show_reval_calculation_sheet' || $route_name=='cap.show_reval_calculation_sheet' )
+    @if($route_name=='ree.show_reval_calculation_sheet'  || $route_name=='co.show_reval_calculation_sheet' || $route_name=='cap.show_reval_calculation_sheet' || $route_name=='vp.show_reval_calculation_sheet')
         @include('admin.'.$ol_application->folder.'.reval_action',compact('ol_application'))
     @else
         @include('admin.'.$ol_application->folder.'.action',compact('ol_application'))

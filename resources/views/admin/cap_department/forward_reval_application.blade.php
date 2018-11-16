@@ -407,7 +407,7 @@
                             </h3>
                         </div>
                         <div class="remarks-suggestions">
-                            <form action="{{ route('cap.forward_application_data') }}"
+                            <form action="{{ route('cap.forward_reval_application_data') }}"
                                   id="forwardApplication" method="post">
                                 @csrf
                                 <input type="hidden" name="to_role_id" id="to_role_id">

@@ -620,7 +620,7 @@ $route=\Request::route()->getName();
                     <ul class="list-unstyled">
 
                         @if (isset($route) && ($route == 'co.index' || $route=='society_detail.index' ||
-                        $route=='village_detail.index' || $route=='ee.index' || $route=='dyce.index' || $route=='co_applications.reval' ||
+                        $route=='village_detail.index' || $route=='ee.index' || $route=='dyce.index' || $route=='co_applications.reval' || $route=='vp_applications.reval' ||
                         $route=='ree_applications.index' || $route=='ree_applications.reval' || $route=='cap.index' || $route=='cap_applications.reval' ||$route=='vp.index' ||
                         $route=='society_offer_letter.index' || $route=='society_offer_letter_dashboard' ||
                         $route=='documents_uploaded' || $route=='documents_upload'))
@@ -639,7 +639,7 @@ $route=\Request::route()->getName();
                         @endif
 
                         @if (isset($route) && ($route == 'co.index' || $route=='society_detail.index' ||
-                        $route=='village_detail.index' || $route=='ee.index' || $route=='dyce.index' || $route=='ree_applications.reval' ||
+                        $route=='village_detail.index' || $route=='ee.index' || $route=='dyce.index' || $route=='ree_applications.reval' || $route=='vp_applications.reval' ||
                         $route=='ree_applications.index' || $route=='co_applications.reval' || $route=='cap.index' || $route=='cap_applications.reval' || $route=='vp.index' ||
                         $route=='society_offer_letter.index' || $route=='society_offer_letter_dashboard' ||
                         $route=='documents_uploaded' || $route=='documents_upload'))
@@ -652,6 +652,8 @@ $route=\Request::route()->getName();
                                     $reval_redirect_to = "co_applications.reval";
                                 elseif(Session::all()['role_name'] == 'cap_engineer' )
                                     $reval_redirect_to = "cap_applications.reval";
+                                elseif(Session::all()['role_name'] == 'vp_engineer' )
+                                    $reval_redirect_to = "vp_applications.reval";
                                 @endphp
                         @if($reval_redirect_to != "")        
                         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route==$reval_redirect_to)?'m-menu__item--active':'' }}">
