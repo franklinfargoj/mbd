@@ -212,7 +212,10 @@ Breadcrumbs::for('cap', function ($trail) {
 Breadcrumbs::for('cap_reval', function ($trail) {
     $trail->push('Home', route('cap_applications.reval'));
 });
-
+Breadcrumbs::for('society_reval_documents_cap', function ($trail,$id) {
+    $trail->parent('cap_reval');
+    $trail->push('society reval documents cap', route('cap.society_reval_documents',$id));
+});
 Breadcrumbs::for('society_EE_documents_cap', function ($trail,$id) {
     $trail->parent('cap');
     $trail->push('society EE documents', route('cap.society_EE_documents',$id));

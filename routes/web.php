@@ -374,6 +374,15 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
         // VP department route 
     Route::resource('vp','VPDepartment\VPController');
+
+    Route::get('vp_reval_applications','VPDepartment\VPController@revalidationApplicationList')->name('vp_applications.reval');
+    Route::get('view_reval_application_vp/{id}','VPDepartment\VPController@viewRevalApplication')->name('vp.view_reval_application');
+
+    Route::get('vp_society_reval_document/{id}','VPDepartment\VPController@societyRevalDocuments')->name('vp.society_reval_documents');
+
+    Route::get('reval_calculation_sheet_vp/{id}','VPDepartment\VPController@showRevalCalculationSheet')->name('vp.show_reval_calculation_sheet');
+
+
     Route::get('society_EE_document_vp/{id}','VPDepartment\VPController@societyEEDocuments')->name('vp.society_EE_documents');
     Route::get('ee_scrutiny_remarks_vp/{id}','VPDepartment\VPController@eeScrutinyRemark')->name('vp.EE_scrutiny_remark');
 
@@ -383,7 +392,10 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::get('cap_notes_vp/{id}','VPDepartment\VPController@displayCAPNote')->name('vp.cap_notes');
 
-    Route::post('save_forward_Application_vp','VPDepartment\VPController@sendForwardApplication')->name('vp.forward_application_data');    
+    Route::post('save_forward_Application_vp','VPDepartment\VPController@sendForwardApplication')->name('vp.forward_application_data');
+
+    Route::get('vp_forward_reval_application/{id}','VPDepartment\VPController@forwardRevalApplication')->name('vp.forward_reval_application');
+    Route::post('vp_forward_reval_Application_data','VPDepartment\VPController@sendForwardRevalApplication')->name('vp.forward_reval_application_data');
 
     // Route::post('save_forward_Application','CODepartment\COController@sendForwardApplication')->name('co.forward_application_data');
 

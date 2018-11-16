@@ -1,7 +1,7 @@
 
     @extends('admin.layouts.sidebarAction')
     @section('actions')
-        @include('admin.cap_department.reval_action',compact('ol_application'))
+        @include('admin.vp_department.reval_action',compact('ol_application'))
     @endsection
     @section('content')
         <div class="col-md-12">
