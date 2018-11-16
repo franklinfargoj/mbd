@@ -406,15 +406,19 @@ class REEController extends Controller
 
         return view('admin.REE_department.'.$blade,compact('applicatonId','calculationData','content','table1','custom','summary'));
     }
-
+// 
     public function saveOfferLetter(Request $request){
 
         $id = $request->applicationId;
         $content = str_replace('_', "", $_POST['ckeditorText']);
         $folder_name = 'Draft_offer_letter';
 
+        $header_file = view('admin.REE_department.offer_letter_header');        
+        $footer_file = view('admin.REE_department.offer_letter_footer');
         $pdf = \App::make('dompdf.wrapper');
-        $pdf->loadHTML($content);
+
+        $pdf->loadHTML($header_file.$content.$footer_file);
+
         $fileName = time().'draft_offer_letter_'.$id.'.pdf';
         $filePath = $folder_name."/".$fileName;
 
@@ -422,6 +426,7 @@ class REEController extends Controller
             Storage::disk('ftp')->makeDirectory($folder_name, $mode = 0777, true, true);
         } 
         Storage::disk('ftp')->put($filePath, $pdf->output());
+        $file = $pdf->output();
 
         //text offer letter
 
@@ -436,6 +441,7 @@ class REEController extends Controller
         Storage::disk('ftp')->put($filePath1, $content);
 
         OlApplication::where('id',$request->applicationId)->update(["drafted_offer_letter" => $filePath, "text_offer_letter" => $filePath1]);
+         // OlApplication::where('id',$request->applicationId)->update(["drafted_offer_letter" => $filePath]);
 
         return redirect('generate_offer_letter/'.$request->applicationId);
     }

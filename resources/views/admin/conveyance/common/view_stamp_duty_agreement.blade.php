@@ -20,7 +20,7 @@
             </div>
 
         </div>
-        <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom" role="tablist">
+        <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom nav-tabs--stamp-duty" role="tablist">
             <li class="nav-item m-tabs__item">
                 <a class="nav-link m-tabs__link active show" data-toggle="tab" href="#sale-deed-agreement" role="tab"
                     aria-selected="false">
@@ -123,7 +123,33 @@
         </div>
 
 
+        <div class="tab-pane" id="resolution" role="tabpanel">
+            <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
+                <div class="portlet-body">
+                    <div class="m-portlet__body m-portlet__body--table">
+                        <div class="m-subheader" style="padding: 0;">
+                            <div class="d-flex align-items-center">
+                                <h4 class="section-title">
+                                    test
+                                </h4>
+                            </div>
+                        </div>
+                        <div class="m-section__content mb-0 table-responsive">
+                            <div class="container">
+                                <div class="row">
+                                tetst
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
+
+    <div id="sale-lease-aggrement" style="margin-top: 30px;">
+    
     @if(count($data->AgreementComments) > 0)       
         <div class="m-portlet m-portlet--mobile m_panel">
             <div class="m-portlet__body">
@@ -163,4 +189,25 @@
             </div>
         </form>
     @endif   
+
+    </div>
+@endsection
+
+@section('js')
+
+<script type="text/javascript">
+    document.querySelector(".nav-tabs--stamp-duty").addEventListener('click', function(e) {
+        if(e.target.href.indexOf("resolution") === -1) {
+            document.getElementById("sale-lease-aggrement").classList.remove("d-none");
+            console.log("!resolution", e.target.href.indexOf("resolution"));            
+        } else if (e.target.href.indexOf("resolution") >= -1) {
+        console.log("resolution", e.target.href.indexOf("resolution"));
+
+            document.getElementById("sale-lease-aggrement").classList.add("d-none");
+        }
+        
+
+    })
+</script>
+
 @endsection
