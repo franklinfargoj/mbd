@@ -525,7 +525,7 @@ class REEController extends Controller
         $this->getCustomCalculationData($ol_application,$applicationId);
         $summary = $this->getSummaryData($applicationId);
         
-        $ol_application->folder = 'REE_department';
+        // $ol_application->folder = 'REE_department';
         $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
         $calculationSheetDetails = $user->calculationSheetDetails;
         $dcr_rates = $user->dcr_rates;
@@ -548,7 +548,7 @@ class REEController extends Controller
         $folder = $this->getCurrentRoleFolderName();
         $buldingNumber = OlCustomCalculationSheet::where('application_id',$applicationId)
             ->where('title','total_no_of_buildings')->value('amount');     
-
+          
         return view($route,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application','summary','status','reeNote','folder','buldingNumber'));
 
     }
@@ -720,7 +720,7 @@ class REEController extends Controller
              $route = 'admin.REE_department.custom_premium_calculation_sheet';
         }  else{
             $route = 'admin.REE_department.view_custom_premium_calculation_sheet';
-        }  
+        } 
         $folder = $this->getCurrentRoleFolderName();
         return view($route,compact('ol_application','user','summary','status','reeNote','buldingNumber','folder')); 
     }
