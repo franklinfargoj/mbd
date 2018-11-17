@@ -79,6 +79,19 @@ return [
      'documents' => [
         'dycdo_note'  => 'dycdo_note',
         'architect_conveyance_map' => 'architect_conveyance_map',
+        'em_conveyance' => [
+            'no_dues_certificate' => [
+                'text_no_dues_certificate',
+                'drafted_no_dues_certificate',
+                'uploaded_no_dues_certificate',
+            ],
+            'bonafide' => [
+                'bonafide_list',
+            ],
+            'covering_letter' => [
+                'em_covering_letter'
+            ]
+        ]
     ], 
 
     // sc Application types 

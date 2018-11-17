@@ -325,8 +325,9 @@ class conveyanceCommonController extends Controller
     public function ViewDocuments($applicationId){
         $data = scApplication::where('id',$applicationId)->first();
         $data->folder = $this->getCurrentRoleFolderName();
-        $documents = SocietyConveyanceDocumentMaster::with(['sc_document_status' => function($q) use($data) { $q->where('application_id', $data->id)->get(); }])->where('application_type_id', $data->sc_application_master_id)->where('society_flag', '1')->get();
+        $documents = SocietyConveyanceDocumentMaster::with(['sc_document_status' => function($q) use($data) { $q->where('application_id', $data->id)->get(); }])->where('application_type_id', $data->sc_application_master_id)->where('society_flag', '1')->where('language_id', '2')->get();
         $documents_uploaded = SocietyConveyanceDocumentStatus::where('application_id', $data->id)->get();
+//        dd($documents);
         return view('admin.conveyance.common.view_documents', compact('data', 'documents', 'documents_uploaded'));
     }
 
@@ -602,5 +603,12 @@ class conveyanceCommonController extends Controller
 
         $typeId = SocietyConveyanceDocumentMaster::where('document_name',$documentName)->where('application_type_id',$type)->value('id');
         return $typeId;
-    }     
+    }
+
+    // get document id as per document name
+    public function getDocumentIds($documentNames,$type){
+
+        $typeId = SocietyConveyanceDocumentMaster::with(['sc_document_status'])->whereIn('document_name',$documentNames)->where('application_type_id',$type)->get();
+        return $typeId;
+    }
 }
