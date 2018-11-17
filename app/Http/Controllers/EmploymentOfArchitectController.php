@@ -281,6 +281,16 @@ class EmploymentOfArchitectController extends Controller
         return redirect()->route('appointing_architect.step3', ['id' => encrypt($application_id)]);
     }
 
+    public function delete_enclosure(Request $request)
+    {
+        $id = $request->delete_imp_project_id;
+        if ($this->enclosures->delete($id)) {
+            return response()->json(['status' => 0, 'description' => 'deleted successfully']);
+        } else {
+            return response()->json(['status' => 1, 'description' => 'something went wrong']);
+        }
+    }
+
     public function step3($id)
     {
         $id = decrypt($id);
