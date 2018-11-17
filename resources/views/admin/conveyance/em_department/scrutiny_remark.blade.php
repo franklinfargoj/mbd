@@ -220,7 +220,7 @@
                                         <p>
                                             @if (session(config('commanConfig.no_dues_certificate.redirect_message_status.draft_text')))
                                                 <div class="alert alert-success society_registered">
-                                                    <div class="text-center">{{ session(config('commanConfig.no_dues_certificate.redirect_message_status.draft_text')) }}</div>
+                                                    <div class="text-center">{{ session(config('commanConfig.no_dues_certificate.redirect_message.draft_text')) }}</div>
                                                 </div>
                                             @endif
                                             @if (session('error'))
@@ -243,9 +243,9 @@
                                         <div class="d-flex flex-column h-100">
                                             <h5>Download No Dues Certificate</h5>
                                             <div class="mt-auto">
-
-                                                @if($data->drafted_no_dues_certificate)
-                                                    <a href="{{ config('commanConfig.storage_server').'/'.$data->drafted_no_dues_certificate }}"
+{{--                                                @php dd($no_dues_certificate_docs['drafted_no_dues_certificate']['sc_document_status']); @endphp--}}
+                                                @if($no_dues_certificate_docs['drafted_no_dues_certificate']['sc_document_status'] != null)
+                                                    <a href="{{ config('commanConfig.storage_server').'/'.$no_dues_certificate_docs['drafted_no_dues_certificate']['sc_document_status']->document_path }}"
                                                        class="btn btn-primary" target="_blank" rel="noopener">Download</a>
                                                 @else
                                                     <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
@@ -259,16 +259,16 @@
                                             <h5>Upload No Dues Certificate</h5>
                                             <span class="hint-text">Click on 'Upload' to upload No Dues Certificate</span>
                                             <p>
-                                                @if (session(config('commanConfig.no_dues_certificate.redirect_message_status.upload')))
-                                                    <div class="alert alert-success society_registered">
-                                                        <div class="text-center">{{ session(config('commanConfig.no_dues_certificate.redirect_message_status.upload')) }}</div>
-                                                    </div>
-                                                @endif
-                                                @if (session('error'))
-                                                    <div class="alert alert-danger society_registered">
-                                                        <div class="text-center">{{ session('error') }}</div>
-                                                    </div>
-                                                @endif
+                                                {{--@if (session(config('commanConfig.no_dues_certificate.redirect_message_status.upload')))--}}
+                                                    {{--<div class="alert alert-success society_registered">--}}
+                                                        {{--<div class="text-center">{{ session(config('commanConfig.no_dues_certificate.redirect_message_status.upload')) }}</div>--}}
+                                                    {{--</div>--}}
+                                                {{--@endif--}}
+                                                {{--@if (session('error'))--}}
+                                                    {{--<div class="alert alert-danger society_registered">--}}
+                                                        {{--<div class="text-center">{{ session('error') }}</div>--}}
+                                                    {{--</div>--}}
+                                                {{--@endif--}}
                                             </p>
                                             <form action="{{ route('em.save_conveyance_no_dues_certificate') }}" id="no_dues_certi_upload" method="post" enctype="multipart/form-data">
                                                 @csrf
@@ -477,6 +477,8 @@
                     <form id="noDuesCerti" action="{{route('em.save_conveyance_no_dues_certificate')}}" method="POST">
                         @csrf
                         <input type="hidden" id="applicationId" name="applicationId" value="{{ $data->id }}">
+                        <input type="hidden" id="document_id" name="text_document_id" value="{{ $no_dues_certificate_docs['text_no_dues_certificate']->id }}">
+                        <input type="hidden" id="document_id" name="pdf_document_id" value="{{ $no_dues_certificate_docs['drafted_no_dues_certificate']->id }}">
                         <textarea id="ckeditorText" name="ckeditorText" style="display: none;">
                             @if(!empty($content))
                                 @php echo $content; @endphp
