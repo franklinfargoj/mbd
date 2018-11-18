@@ -157,7 +157,7 @@
                         @foreach($arreasCalculation as $calculation)
                             @php $total = $total + $calculation->total_amount; @endphp
                             <tr>
-                                <td class="text-center">{{$calculation->year}}</td>
+                                <td class="text-center">{{$calculation->year}} <input name='arrear_id[]' type='text' value='{{$calculation->id}}' hidden></td>
                                 <td class="text-center">{{date("M", strtotime("2001-" . $calculation->month . "-01"))}}</td>
                                 <td class="text-center">{{$calculation->total_amount}}</td>
                                 <td class="text-center">{{$calculation->old_intrest_amount + $calculation->difference_intrest_amount}}</td>
@@ -198,8 +198,12 @@
                         <div class="row">
                             <div class="col-sm-4">
                                 <div class="btn-list">
-                                    <button type="submit" id="" class="btn btn-primary">Generate Society Bill</button>
-                                    <a href="javascript:void(0);" class="btn btn-secondary">Cancel</a>
+                                    <button type="submit" id="" class="btn btn-primary">Generate Society Bill</button>                                    
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="btn-list">
+                                    <a onclick="goBack()" class="btn btn-secondary">Cancel</a>
                                 </div>
                             </div>
                         </div>
@@ -209,4 +213,14 @@
         </form>
     </div>
 </div>
+@endsection
+@section('datatablejs')
+<script>
+    /*$("#update_status").on("change", function () {
+        $("#eeForm").submit();
+    });*/
+function goBack() {
+    window.history.back();
+}
+</script>
 @endsection

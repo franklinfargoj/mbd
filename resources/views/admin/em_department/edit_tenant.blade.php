@@ -41,7 +41,7 @@
                                         <div class="col-md-8 @if($errors->has('flat_no')) has-error @endif">
                                         <div class="input-icon right">
                                              <input type="text" name="flat_no" id="flat_no" class="form-control" value="{{old('flat_no', $tenant->flat_no)}}">
-                                            <span class="help-block">{{$errors->first('flat_no')}}</span>
+                                            <span class="help-block error">{{$errors->first('flat_no')}}</span>
                                         </div>
                                         </div>
                                 </div>
@@ -60,6 +60,7 @@
                                         <option value="Smt"  {{ old("salutation", $tenant->salutation) == "Smt" ? 'selected' : '' }}>Smt</option>
                                         <option value="Kumari"  {{ old("salutation", $tenant->salutation) == "Kumari" ? 'selected' : '' }}>Kumari</option>
                                     </select>
+                                     <span class="help-block error">{{$errors->first('salutation')}}</span>
                                 </div>
                             </div>                          
                     </div>
@@ -73,7 +74,7 @@
                                         <div class="col-md-8 @if($errors->has('first_name')) has-error @endif">
                                         <div class="input-icon right">
                                              <input type="text" name="first_name" id="first_name" class="form-control" value="{{old('first_name', $tenant->first_name)}}">
-                                            <span class="help-block">{{$errors->first('first_name')}}</span>
+                                            <span class="help-block error">{{$errors->first('first_name')}}</span>
                                         </div>
                                         </div>
                                 </div>
@@ -89,7 +90,7 @@
                                         <div class="col-md-8 @if($errors->has('middle_name')) has-error @endif">
                                         <div class="input-icon right">
                                              <input type="text" name="middle_name" id="middle_name" class="form-control" value="{{old('middle_name', $tenant->middle_name)}}">
-                                            <span class="help-block">{{$errors->first('middle_name')}}</span>
+                                            <span class="help-block error">{{$errors->first('middle_name')}}</span>
                                         </div>
                                         </div>
                                 </div>
@@ -105,7 +106,7 @@
                                         <div class="col-md-8 @if($errors->has('last_name')) has-error @endif">
                                         <div class="input-icon right">
                                              <input type="text" name="last_name" id="last_name" class="form-control" value="{{old('last_name', $tenant->last_name)}}">
-                                            <span class="help-block">{{$errors->first('last_name')}}</span>
+                                            <span class="help-block error">{{$errors->first('last_name')}}</span>
                                         </div>
                                         </div>
                                 </div>
@@ -121,7 +122,7 @@
                                         <div class="col-md-8 @if($errors->has('mobile')) has-error @endif">
                                         <div class="input-icon right">
                                              <input type="text" name="mobile" id="mobile" class="form-control" value="{{old('mobile', $tenant->mobile)}}">
-                                            <span class="help-block">{{$errors->first('mobile')}}</span>
+                                            <span class="help-block error">{{$errors->first('mobile')}}</span>
                                         </div>
                                         </div>
                                 </div>
@@ -137,7 +138,7 @@
                                         <div class="col-md-8 @if($errors->has('email_id')) has-error @endif">
                                         <div class="input-icon right">
                                              <input type="text" name="email_id" id="email_id" class="form-control" value="{{old('email_id', $tenant->email_id)}}">
-                                            <span class="help-block">{{$errors->first('email_id')}}</span>
+                                            <span class="help-block error">{{$errors->first('email_id')}}</span>
                                         </div>
                                         </div>
                                 </div>
@@ -155,6 +156,7 @@
                                         <option value="Residential" {{ old("use", $tenant->use) == "Residential" ? 'selected' : '' }} >Residential</option>
                                         <option value="Commercial" {{ old("use", $tenant->use) == "Commercial" ? 'selected' : '' }} >Commercial</option>
                                     </select>
+                                    <span class="help-block error">{{$errors->first('use')}}</span>
                                 </div>
                             </div>                          
                     </div>
@@ -168,7 +170,7 @@
                                         <div class="col-md-8 @if($errors->has('carpet_area')) has-error @endif">
                                         <div class="input-icon right">
                                              <input type="text" name="carpet_area" id="carpet_area" class="form-control" value="{{old('carpet_area', $tenant->carpet_area)}}">
-                                            <span class="help-block">{{$errors->first('carpet_area')}}</span>
+                                            <span class="help-block error">{{$errors->first('carpet_area')}}</span>
                                         </div>
                                         </div>
                                 </div>
@@ -187,6 +189,7 @@
                                         <option value="{{ $value->id }}" {{ old("tenant_type", $tenant->tenant_type) == $value->id ? 'selected' : '' }} >{{ $value->name }}</option>
                                         @endforeach
                                     </select>
+                                    <span class="help-block error">{{$errors->first('tenant_type')}}</span>
                                 </div>
                             </div>                          
                     </div>
@@ -198,7 +201,7 @@
                         <div class="form-group m-form__group">
                             <input type="submit" class="btn m-btn--pill m-btn--custom btn-primary" name="submit" value="submit">
 
-                            <a  class="btn m-btn--pill m-btn--custom btn-metal" href="{{ route('get_tenants', [$tenant->building_id]) }}">Cancel</a>
+                            <a  class="btn m-btn--pill m-btn--custom btn-metal" href="{{ route('get_tenants', [encrypt($tenant->building_id)]) }}">Cancel</a>
                         </div>
                     </div>
                 </div>

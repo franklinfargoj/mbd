@@ -20,7 +20,7 @@
                     </a>
                 </li>
 
-                @if((session()->get('role_name') == config('commanConfig.dycdo_engineer') && $data->status->status_id != config('commanConfig.applicationStatus.forwarded')) || $data->status->status_id == config('commanConfig.applicationStatus.Stamped_sale_&_lease_deed') || $data->status->status_id == config('commanConfig.applicationStatus.Draft_sale_&_lease_deed') )
+                @if((session()->get('role_name') == config('commanConfig.dycdo_engineer') && $data->status->status_id != config('commanConfig.applicationStatus.forwarded')) || $data->status->status_id == config('commanConfig.applicationStatus.Stamped_sale_&_lease_deed') || $data->status->status_id == config('commanConfig.applicationStatus.Draft_sale_&_lease_deed') || $data->status->status_id == config('commanConfig.applicationStatus.in_process') )
                 <li class="nav-item m-tabs__item">
                     <a class="nav-link m-tabs__link show" data-toggle="tab" href="#forward-application-tab">
                         <i class="la la-cog"></i> Forward Application
@@ -344,7 +344,11 @@
                                                 if(isset($data->application_status)){
                                                     if ($data->application_status == config('commanConfig.applicationStatus.Draft_sale_&_lease_deed')){ 
 
+                                                            if (!(isset($data->DraftSaleAgreement) && isset($data->DraftLeaseAgreement))){
+                                                            $error = 'error';
+                                                        }
                                                     }elseif($data->application_status == config('commanConfig.applicationStatus.Aproved_sale_&_lease_deed')){
+                                                        
                                                         if (!(isset($data->ApprovedSaleAgreement) && isset($data->ApprovedLeaseAgreement))){
                                                         
                                                         $error = 'error';

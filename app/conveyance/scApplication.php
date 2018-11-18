@@ -10,28 +10,13 @@ class scApplication extends Model
 	public $timestamps = true;
 	protected $fillable = [
 	    'sc_application_master_id',
-	    'application_no',
+        'application_no',
+        'application_type',
+	    'application_status',
 		'society_id',
 	    'form_request_id',
 	    'layout_id',
-	    'draft_conveyance_application',
-	    'stamp_conveyance_application',
-	    'resolution',
-	    'undertaking',
-	    'sale_sub_register_name',
-	    'sale_registeration_year',
-	    'sale_registeration_no',
-	    'lease_sub_register_name',
-	    'lease_registeration_year',
-	    'lease_registeration_no',
-	    'service_charge_receipt',
-	    'is_allotement_available',
-	    'is_society_resolution',
-	    'no_due_certificate',
-	    'em_covering_letter',
-	    'bonafide_list',
 	    'riders',
-	    'noc_conveyance',
 	];
  
     public function applicationLayoutUser()

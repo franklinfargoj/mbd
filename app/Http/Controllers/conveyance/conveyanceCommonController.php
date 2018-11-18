@@ -40,32 +40,40 @@ class conveyanceCommonController extends Controller
             ['data' => 'societyApplication.name','name' => 'societyApplication.name','title' => 'Society Name'],
             ['data' => 'societyApplication.building_no','name' => 'societyApplication.building_no','title' => 'building No'],
             ['data' => 'societyApplication.address','name' => 'societyApplication.address','title' => 'Address', 'class' => 'datatable-address'],
-             ['data' => 'Status','name' => 'Status','title' => 'Status'],
+            ['data' => 'Status','name' => 'Status','title' => 'Status'],
         ];
 
+            // dd($data);
         if ($datatables->getRequest()->ajax()) {
+
             return $datatables->of($data)
                 ->editColumn('rownum', function ($data) {
                     static $i = 0; $i++; return $i;
                 })
+
                 ->editColumn('radio', function ($data) {
                     $url = route('conveyance.view_application', $data->id);
                     return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" name="application_id" onclick="geturl(this.value);" value="'.$url.'" ><span></span></label>';
                 })                              
                 ->editColumn('societyApplication.name', function ($data) {
+
                     return $data->societyApplication->name;
                 })
                 ->editColumn('societyApplication.building_no', function ($data) {
+
                     return $data->societyApplication->building_no;
                 })
                 ->editColumn('societyApplication.address', function ($data) {
+
                     return "<span>".$data->societyApplication->address."</span>";
                 })                
                 ->editColumn('date', function ($data) {
+
                     return date(config('commanConfig.dateFormat'), strtotime($data->created_at));
                 })
 
                 ->editColumn('Status', function ($data) use ($request) {
+
                     $status = $data->scApplicationLog->status_id;
 
                     if($request->update_status)
@@ -83,11 +91,13 @@ class conveyanceCommonController extends Controller
                     }
 
                 })
-                ->rawColumns(['radio','society_name', 'Status', 'building_name', 'societyApplication.address','date','eeApplicationSociety.address'])
+                ->rawColumns(['radio','society_name', 'Status', 'building_name', 'societyApplication.address','date'])
                 ->make(true);
+
         }  
 
-        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());                                
+        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+
         return view('admin.conveyance.common.index', compact('html','header_data','getData','folder_name'));         
 
     }
@@ -134,14 +144,14 @@ class conveyanceCommonController extends Controller
         } else {
             $listArray = $applicationData;
         } 
-       
+    
         return $listArray;       	
     }
 
     public function ViewApplication(Request $request,$applicationId){
         $data = scApplication::where('id',$applicationId)->first();
         $data->folder = $this->getCurrentRoleFolderName();
-//        dd($data->stamp_conveyance_application);
+
         return view('admin.conveyance.common.view_application',compact('data'));
     }             
 
@@ -315,8 +325,9 @@ class conveyanceCommonController extends Controller
     public function ViewDocuments($applicationId){
         $data = scApplication::where('id',$applicationId)->first();
         $data->folder = $this->getCurrentRoleFolderName();
-        $documents = SocietyConveyanceDocumentMaster::with(['sc_document_status' => function($q) use($data) { $q->where('application_id', $data->id)->get(); }])->where('application_type_id', $data->sc_application_master_id)->where('society_flag', '1')->get();
+        $documents = SocietyConveyanceDocumentMaster::with(['sc_document_status' => function($q) use($data) { $q->where('application_id', $data->id)->get(); }])->where('application_type_id', $data->sc_application_master_id)->where('society_flag', '1')->where('language_id', '2')->get();
         $documents_uploaded = SocietyConveyanceDocumentStatus::where('application_id', $data->id)->get();
+//        dd($documents);
         return view('admin.conveyance.common.view_documents', compact('data', 'documents', 'documents_uploaded'));
     }
 
@@ -472,6 +483,12 @@ class conveyanceCommonController extends Controller
         
         $data = scApplication::with('societyApplication')->where('id',$applicationId)->first();
         $data->status = $this->getCurrentStatus($applicationId,$data->sc_application_master_id);
+        
+        //get architect_conveyance_map from sc document status table
+        $document  = config('commanConfig.documents.architect_conveyance_map');
+        $documentId = $this->getDocumentId($document,$data->sc_application_master_id);
+        $data->conveyance_map = $this->getDocumentStatus($applicationId,$documentId);        
+
         return view('admin.conveyance.architect_department.scrutiny_remark',compact('data'));
     }  
 
@@ -491,7 +508,10 @@ class conveyanceCommonController extends Controller
             if ($extension == "pdf"){    
                 Storage::disk('ftp')->delete($request->oldFileName);            
                 $sale_upload = $this->CommonController->ftpFileUpload($folder_name,$file,$file_name);
-                $conveyanceMap = scApplication::where('id',$applicationId)->update(['architect_conveyance_map' => $file_path]);
+
+                // save document to sc document status table
+                $document  = config('commanConfig.documents.architect_conveyance_map');
+                $this->uploadDocumentStatus($applicationId,$document,$file_path);                
                    
                 return back()->with('success','Conveyance map uploaded successfully.');                 
             }  else{
@@ -528,9 +548,8 @@ class conveyanceCommonController extends Controller
     }
 
     public function saveForwardApplication(Request $request){
-        
         $forwardData = $this->forwardApplication($request); 
-        return redirect('/conveyance')->with('success','Application send successfully..');
+        return redirect('/conveyance')->with('success','Application sent successfully.');
     } 
 
     public function getAllSaleLeaseAgreement($data,$applicationId,$masterId){
@@ -550,5 +569,45 @@ class conveyanceCommonController extends Controller
         $data->ApprovedLeaseAgreement = $this->getScAgreement($LeaseId,$applicationId,$ApprovedStatus);
         
         return $data;
-    }     
+    }  
+
+    //add document to sc_document status
+    public function uploadDocumentStatus($applicationId,$document,$documentPath){
+        
+        $masterId   = scApplication::where('id',$applicationId)->value('sc_application_master_id');
+        $documentId = SocietyConveyanceDocumentMaster::where('document_name',$document)
+        ->where('application_type_id',$masterId)->value('id');
+        
+        $DocumentStatus = SocietyConveyanceDocumentStatus::where('application_id',$applicationId)->where('document_id',$documentId)->where('user_id',Auth::Id())->first();
+
+        if (!$DocumentStatus){
+            $DocumentStatus = new SocietyConveyanceDocumentStatus();
+        }
+        $DocumentStatus->application_id = $applicationId;
+        $DocumentStatus->user_id        = Auth::Id();
+        $DocumentStatus->document_id    = $documentId;
+        $DocumentStatus->document_path  = $documentPath;
+        $DocumentStatus->save();
+    } 
+
+    //fetch documents from sc_document status
+    public function getDocumentStatus($applicationId,$typeId){
+
+        $document = SocietyConveyanceDocumentStatus::where('document_id',$typeId)->where('application_id',$applicationId)->first();
+        return $document;        
+    }  
+
+    // get document id as per document name
+    public function getDocumentId($documentName,$type){
+
+        $typeId = SocietyConveyanceDocumentMaster::where('document_name',$documentName)->where('application_type_id',$type)->value('id');
+        return $typeId;
+    }
+
+    // get document id as per document name
+    public function getDocumentIds($documentNames,$type){
+
+        $typeId = SocietyConveyanceDocumentMaster::with(['sc_document_status'])->whereIn('document_name',$documentNames)->where('application_type_id',$type)->get();
+        return $typeId;
+    }
 }

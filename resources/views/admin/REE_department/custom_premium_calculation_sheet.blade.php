@@ -60,18 +60,18 @@
         <div class="tab-content">
             <div class="tab-pane active show" id="one" role="tabpanel">
                 <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
+                    <form class="nav-tabs-form" role="form" method="POST" action="{{ route('ree.save_custom_calculation_data') }}">
+                    @csrf
                     <div class="portlet-body">
-                        <div class="m-portlet__body m-portlet__body--table">
+                        <div class="m-portlet__body m-portlet__body--table" id="Printone">
                             <div class="m-subheader">
-                                <div class="d-flex align-items-center justify-content-center">
+                                <div class="d-flex align-items-center justify-content-center" >
                                     <h3 class="section-title">
                                         परिगणनेचा तक्ता - अ
                                     </h3>
                                 </div>
                             </div>
                             <div class="m-section__content mb-0 table-responsive">
-                                <form class="nav-tabs-form" role="form" method="POST" action="{{ route('ree.save_custom_calculation_data') }}">
-                                @csrf
                                     <div class="d-flex justify-content-start align-items-center mb-4">
                                         <span class="flex-shrink-0 text-nowrap">Total Number of buildings:</span>
                                         <input type="text" class="form-control form-control--xs form-control--custom flex-grow-0 ml-3" name="total_no_of_buildings" id="total_no_of_buildings" 
@@ -81,7 +81,7 @@
                                     <input name="application_id" type="hidden" value="{{ $ol_application->id }}" />
                                         <input name="redirect_tab" type="hidden" value="two" />
                                         <div class="d-flex justify-content-between align-items-center mb-4">
-                                            <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("one");'
+                                            <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("Printone");'
                                                     style="max-width: 22px"></a>
                                         </div>
                                         <thead class="thead-default">
@@ -127,25 +127,28 @@
                                         @endif      
                                         </tbody>
                                     </table>
-                                    @if($status->status_id != config('commanConfig.applicationStatus.forwarded'))
-                                    <div class="col-md-12 btn-list" style="padding-top: 13px;">
-                                        <input type="button" name="add_more" id="table1" class="btn btn-primary btn-next add-more" value="Add More.." />
-                                        <input type="submit" name="submit" class="btn btn-primary btn-next"
-                                        value="Next" style="float:right"/> 
-                                    </div> 
-                                    @endif
-                                <input type="hidden" id="table1_Ids" value="{{ isset($ol_application->table1) && count($ol_application->table1) > 0 ? count($ol_application->table1) : '1' }}">    
-                                <input type="hidden" name="table1_deletedIds" id="table1_deletedIds" value="">
-                               </form>                       
                             </div>
                         </div>
                     </div>
+                        @if($status->status_id != config('commanConfig.applicationStatus.forwarded'))
+                        <div class="col-md-12 btn-list" style="padding-top: 13px;">
+                            <input type="button" name="add_more" id="table1" class="btn btn-primary btn-next add-more" value="Add More.." />
+                            <input type="submit" name="submit" class="btn btn-primary btn-next"
+                            value="Next" style="float:right"/> 
+                        </div> 
+                        @endif
+                        <input type="hidden" id="table1_Ids" value="{{ isset($ol_application->table1) && count($ol_application->table1) > 0 ? count($ol_application->table1) : '1' }}">    
+                        <input type="hidden" name="table1_deletedIds" id="table1_deletedIds" value="">
+                   </form>                       
                 </div>
             </div>
             <div class="tab-pane" id="two" role="tabpanel">
                 <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
+                    <div class="m-section__content mb-0 table-responsive">
+                        <form class="nav-tabs-form" role="form" method="POST" action="{{ route('ree.save_custom_calculation_data') }}">
+                        @csrf
                     <div class="portlet-body">
-                        <div class="m-portlet__body m-portlet__body--table">
+                        <div class="m-portlet__body m-portlet__body--table" id="Printtwo">
                             <div class="m-subheader">
                                 <div class="d-flex align-items-center justify-content-center">
                                     <h3 class="section-title">
@@ -153,14 +156,11 @@
                                     </h3>
                                 </div>
                             </div>
-                            <div class="m-section__content mb-0 table-responsive">
-                                <form class="nav-tabs-form" role="form" method="POST" action="{{ route('ree.save_custom_calculation_data') }}">
-                                @csrf
                                     <input name="application_id" type="hidden" value="{{ $ol_application->id }}" />
                                     <input name="redirect_tab" type="hidden" value="three" />
                                     <div class="d-flex justify-content-between align-items-center mb-4">
                                         <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
-                                                src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("two");'
+                                                src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("Printtwo");'
                                                 style="max-width: 22px"></a>
                                     </div>
                                     <table class="table mb-0 table--box-input table2">
@@ -207,25 +207,28 @@
                                         @endif      
                                         </tbody>
                                     </table>
-                                    @if($status->status_id != config('commanConfig.applicationStatus.forwarded'))
-                                    <div class="col-md-12 btn-list" style="padding-top: 13px;">
-                                        <input type="button" name="add_more" id="table2" class="btn btn-primary btn-next add-more" value="Add More.." />
-                                        <input type="submit" name="submit" class="btn btn-primary btn-next"
-                                        value="Next" style="float:right"/> 
-                                    </div> 
-                                    @endif                                    
-                                    <input type="hidden" id="table2_Ids" value="{{ isset($ol_application->table2) && count($ol_application->table2) > 0 ? count($ol_application->table2) : '1' }}">    
-                                    <input type="hidden" name="table2_deletedIds" id="table2_deletedIds" value="">                                        
-                                </form>
                             </div>
                         </div>
                     </div>
+                    @if($status->status_id != config('commanConfig.applicationStatus.forwarded'))
+                    <div class="col-md-12 btn-list" style="padding-top: 13px;">
+                        <input type="button" name="add_more" id="table2" class="btn btn-primary btn-next add-more" value="Add More.." />
+                        <input type="submit" name="submit" class="btn btn-primary btn-next"
+                        value="Next" style="float:right"/> 
+                    </div> 
+                    @endif                                    
+                    <input type="hidden" id="table2_Ids" value="{{ isset($ol_application->table2) && count($ol_application->table2) > 0 ? count($ol_application->table2) : '1' }}">    
+                    <input type="hidden" name="table2_deletedIds" id="table2_deletedIds" value="">                                        
+                </form>
                 </div>
             </div>
             <div class="tab-pane" id="three" role="tabpanel">
                 <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
+                    <div class="m-section__content mb-0 table-responsive">
+                        <form class="nav-tabs-form" role="form" method="POST" action="{{ route('ree.save_custom_calculation_data') }}">
+                        @csrf
                     <div class="portlet-body">
-                        <div class="m-portlet__body m-portlet__body--table">
+                        <div class="m-portlet__body m-portlet__body--table" id="Printthree">
                             <div class="m-subheader">
                                 <div class="d-flex align-items-center justify-content-center">
                                     <h3 class="section-title">
@@ -233,14 +236,11 @@
                                     </h3>
                                 </div>
                             </div>
-                            <div class="m-section__content mb-0 table-responsive">
-                                <form class="nav-tabs-form" role="form" method="POST" action="{{ route('ree.save_custom_calculation_data') }}">
-                                @csrf
                                     <input name="application_id" type="hidden" value="{{ $ol_application->id }}" />
                                     <input name="redirect_tab" type="hidden" value="four" />
                                     <div class="d-flex justify-content-between align-items-center mb-4">
                                         <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
-                                                src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("three");'
+                                                src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("Printthree");'
                                                 style="max-width: 22px"></a>
                                     </div>
                                     <table class="table mb-0 table--box-input table3">
@@ -287,25 +287,27 @@
                                         @endif      
                                         </tbody>
                                     </table>
-                                    @if($status->status_id != config('commanConfig.applicationStatus.forwarded'))
-                                        <div class="col-md-12 btn-list" style="padding-top: 13px;">
-                                            <input type="button" name="add_more" id="table3" class="btn btn-primary btn-next add-more" value="Add More.." />
-                                            <input type="submit" name="submit" class="btn btn-primary btn-next"
-                                            value="Next" style="float:right"/> 
-                                        </div> 
-                                    @endif                                    
-                                    <input type="hidden" id="table3_Ids" value="{{ isset($ol_application->table3) && count($ol_application->table3) > 0 ? count($ol_application->table3) : '1' }}">    
-                                    <input type="hidden" name="table3_deletedIds" id="table3_deletedIds" value="">                                        
-                                </form>
                             </div>
                         </div>
                     </div>
+                    @if($status->status_id != config('commanConfig.applicationStatus.forwarded'))
+                        <div class="col-md-12 btn-list" style="padding-top: 13px;">
+                            <input type="button" name="add_more" id="table3" class="btn btn-primary btn-next add-more" value="Add More.." />
+                            <input type="submit" name="submit" class="btn btn-primary btn-next"
+                            value="Next" style="float:right"/> 
+                        </div> 
+                    @endif                                    
+                    <input type="hidden" id="table3_Ids" value="{{ isset($ol_application->table3) && count($ol_application->table3) > 0 ? count($ol_application->table3) : '1' }}">    
+                    <input type="hidden" name="table3_deletedIds" id="table3_deletedIds" value="">                                        
+                </form>
                 </div>
             </div>
             <div class="tab-pane" id="four" role="tabpanel">
                 <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
+                    <form class="nav-tabs-form" role="form" method="POST" action="{{ route('ree.save_custom_calculation_data') }}">
+                    @csrf
                     <div class="portlet-body">
-                        <div class="m-portlet__body m-portlet__body--table">
+                        <div class="m-portlet__body m-portlet__body--table" id="Printfour">
                             <div class="m-subheader">
                                 <div class="d-flex align-items-center justify-content-center">
                                     <h3 class="section-title">
@@ -314,13 +316,11 @@
                                 </div>
                             </div>
                             <div class="m-section__content mb-0 table-responsive">
-                                <form class="nav-tabs-form" role="form" method="POST" action="{{ route('ree.save_custom_calculation_data') }}">
-                                @csrf
                                     <input name="application_id" type="hidden" value="{{ $ol_application->id }}" />
                                     <input name="redirect_tab" type="hidden" value="five" />
                                     <div class="d-flex justify-content-between align-items-center mb-4">
                                         <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
-                                                src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("four");'
+                                                src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("Printfour");'
                                                 style="max-width: 22px"></a>
                                     </div>
                                     <table class="table mb-0 table--box-input table4">
@@ -367,26 +367,28 @@
                                         @endif      
                                         </tbody>
                                     </table>
-                                    @if($status->status_id != config('commanConfig.applicationStatus.forwarded'))
-                                        <div class="col-md-12 btn-list" style="padding-top: 13px;">
-                                            <input type="button" name="add_more" id="table4" class="btn btn-primary btn-next add-more" value="Add More.." />
-                                            <input type="submit" name="submit" class="btn btn-primary btn-next"
-                                            value="Next" style="float:right"/> 
-                                        </div> 
-                                    @endif
-                                <input type="hidden" id="table4_Ids" value="{{ isset($ol_application->table4) && count($ol_application->table4) > 0 ? count($ol_application->table4) : '1' }}">    
-                                <input type="hidden" name="table4_deletedIds" id="table4_deletedIds" value="">                                    
-                                </form>
                             </div>
                         </div>
                     </div>
+                    @if($status->status_id != config('commanConfig.applicationStatus.forwarded'))
+                        <div class="col-md-12 btn-list" style="padding-top: 13px;">
+                            <input type="button" name="add_more" id="table4" class="btn btn-primary btn-next add-more" value="Add More.." />
+                            <input type="submit" name="submit" class="btn btn-primary btn-next"
+                            value="Next" style="float:right"/> 
+                        </div> 
+                    @endif
+                <input type="hidden" id="table4_Ids" value="{{ isset($ol_application->table4) && count($ol_application->table4) > 0 ? count($ol_application->table4) : '1' }}">    
+                <input type="hidden" name="table4_deletedIds" id="table4_deletedIds" value="">                                    
+                </form>
                 </div>
             </div>
         
             <div class="tab-pane" id="five" role="tabpanel">
                 <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
+                    <form class="nav-tabs-form" role="form" method="POST" action="{{ route('ree.save_custom_calculation_data') }}">
+                    @csrf    
                     <div class="portlet-body">
-                        <div class="m-portlet__body m-portlet__body--table">
+                        <div class="m-portlet__body m-portlet__body--table" id="Printfive">
                             <div class="m-subheader">
                                 <div class="d-flex align-items-center justify-content-center">
                                     <h3 class="section-title">
@@ -394,14 +396,12 @@
                                     </h3>
                                 </div>
                             </div>
-                        <form class="nav-tabs-form" role="form" method="POST" action="{{ route('ree.save_custom_calculation_data') }}">
-                        @csrf    
                         <input name="application_id" type="hidden" value="{{ $ol_application->id }}" />
                         <input name="redirect_tab" type="hidden" value="six" />
                             <div class="m-section__content mb-0 table-responsive">
                                 <div class="d-flex justify-content-between align-items-center mb-4">
                                     <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
-                                            src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("five");' style="max-width: 22px"></a>
+                                            src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("Printfive");' style="max-width: 22px"></a>
                                 </div>
                                 <table class="table mb-0 table--box-input">
                                     <thead class="thead-default">
@@ -485,7 +485,7 @@
                                         </tr>
                                         @if($status->status_id != config('commanConfig.applicationStatus.forwarded'))
                                             <tr>
-                                                <td colspan="3" align="right"><input type="submit" name="submit" class="btn btn-primary btn-next"
+                                                <td colspan="3" align="right"><input type="submit" id="Printfive_btn" name="submit" class="btn btn-primary btn-next"
                                                             value="Next" /> </td>
                                             </tr>
                                         @endif    
@@ -594,6 +594,8 @@
 
     function PrintElem(elem) {
 
+        // console.log(elem);
+        $("#"+elem+"_btn").css("display","none");
         var printable = document.getElementById(elem).innerHTML;
 
        var mywindow = window.open('', 'PRINT', 'height=400,width=600');
@@ -608,6 +610,7 @@
 
         mywindow.print();
         mywindow.close();
+        $("#"+elem+"_btn").css("display","block");
 
         return true;
     }           

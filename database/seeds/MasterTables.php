@@ -28,7 +28,7 @@ class MasterTables extends Seeder
         //   $master_colony = factory(App\MasterColony::class, 30)->create();
         // }
 
-        $wards=[
+        /*$wards=[
             [
                 'layout_id'=>1,
                 'name'=>'ward1',
@@ -86,8 +86,8 @@ class MasterTables extends Seeder
                     $colony_id = MasterColony::insertGetId($colony);
                 }
             }
-        }
-        
+        }*/
+        /*
         $building = MasterBuilding::select('id')->get();
         if(count($building)==0) {
           $master_building = factory(App\MasterBuilding::class, 90)->create();
@@ -96,7 +96,7 @@ class MasterTables extends Seeder
         $tenant = MasterTenant::select('id')->get();
         if(count($tenant)==0) {
           $master_tenant = factory(App\MasterTenant::class, 100)->create(); 
-        }
+        }*/
 
         $tenant = [
                 [

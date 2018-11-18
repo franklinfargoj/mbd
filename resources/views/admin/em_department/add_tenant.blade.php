@@ -19,7 +19,7 @@
          </div>
    <form method="post" enctype='multipart/form-data' action="{{route('create_tenant')}}">
         {{ csrf_field() }}
-        <input type="hidden" value="{{ old('building_id', $building_id) }}" name="building_id" />
+        <input type="hidden" value="{{ old('building_id', decrypt($building_id)) }}" name="building_id" />
 
         <div class="m-portlet m-portlet--compact filter-wrap">
             <div class="row align-items-center row--filter">
@@ -28,14 +28,14 @@
                 </div>
             
                 <div class="col-md-12" style="margin-top:10px;">
-                    <div class="row align-items-center mb-0">                            
+                    <div class="row align-items-center mb-0">                                
                             <div class="col-md-9">
                                 <div class="form-group">
                                     <label class="col-md-4 control-label">Flat No.</label>
                                         <div class="col-md-8 @if($errors->has('flat_no')) has-error @endif">
                                         <div class="input-icon right">
-                                             <input type="text" name="flat_no" id="flat_no" class="form-control" value="{{old('flat_no')}}">
-                                            <span class="help-block">{{$errors->first('flat_no')}}</span>
+                                             <input type="text" name="flat_no" id="flat_no" class="form-control" value="{{old('flat_no')}}" required>
+                                            <span class="help-block error">{{$errors->first('flat_no')}}</span>
                                         </div>
                                         </div>
                                 </div>
@@ -50,10 +50,11 @@
                                     <label class="col-md-4 control-label">Saluation</label>
                                     <select class="col-md-8 form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="salutation" name="salutation" required>
                                         <option value="" style="font-weight: normal;">Select Saluation</option>
-                                        <option value="Shri">Shri</option>
-                                        <option value="Smt">Smt</option>
-                                        <option value="Kumari">Kumari</option>
+                                        <option value="Shri" {{ old('salutation') == 'Shri' ? 'selected' : '' }} >Shri</option>
+                                        <option value="Smt" {{ old('salutation') == 'Smt' ? 'selected' : '' }} >Smt</option>
+                                        <option value="Kumari" {{ old('salutation') == 'Kumari' ? 'selected' : '' }} >Kumari</option>
                                     </select>
+                                    <span class="help-block error">{{$errors->first('salutation')}}</span>
                                 </div>
                             </div>                          
                     </div>
@@ -66,8 +67,8 @@
                                     <label class="col-md-4 control-label">First name</label>
                                         <div class="col-md-8 @if($errors->has('first_name')) has-error @endif">
                                         <div class="input-icon right">
-                                             <input type="text" name="first_name" id="first_name" class="form-control" value="{{old('first_name')}}">
-                                            <span class="help-block">{{$errors->first('first_name')}}</span>
+                                             <input type="text" name="first_name" id="first_name" class="form-control" value="{{old('first_name')}}" required>
+                                            <span class="help-block error">{{$errors->first('first_name')}}</span>
                                         </div>
                                         </div>
                                 </div>
@@ -82,8 +83,8 @@
                                     <label class="col-md-4 control-label">Middle name</label>
                                         <div class="col-md-8 @if($errors->has('middle_name')) has-error @endif">
                                         <div class="input-icon right">
-                                             <input type="text" name="middle_name" id="middle_name" class="form-control" value="{{old('middle_name')}}">
-                                            <span class="help-block">{{$errors->first('middle_name')}}</span>
+                                             <input type="text" name="middle_name" id="middle_name" class="form-control" value="{{old('middle_name')}}" required>
+                                            <span class="help-block error">{{$errors->first('middle_name')}}</span>
                                         </div>
                                         </div>
                                 </div>
@@ -98,8 +99,8 @@
                                     <label class="col-md-4 control-label">Last name</label>
                                         <div class="col-md-8 @if($errors->has('last_name')) has-error @endif">
                                         <div class="input-icon right">
-                                             <input type="text" name="last_name" id="last_name" class="form-control" value="{{old('last_name')}}">
-                                            <span class="help-block">{{$errors->first('last_name')}}</span>
+                                             <input type="text" name="last_name" id="last_name" class="form-control" value="{{old('last_name')}}" required>
+                                            <span class="help-block error">{{$errors->first('last_name')}}</span>
                                         </div>
                                         </div>
                                 </div>
@@ -114,8 +115,8 @@
                                     <label class="col-md-4 control-label">Mobile</label>
                                         <div class="col-md-8 @if($errors->has('mobile')) has-error @endif">
                                         <div class="input-icon right">
-                                             <input type="text" name="mobile" id="mobile" class="form-control" value="{{old('mobile')}}">
-                                            <span class="help-block">{{$errors->first('mobile')}}</span>
+                                             <input type="text" name="mobile" id="mobile" class="form-control" value="{{old('mobile')}}" required>
+                                            <span class="help-block error">{{$errors->first('mobile')}}</span>
                                         </div>
                                         </div>
                                 </div>
@@ -130,8 +131,8 @@
                                     <label class="col-md-4 control-label">Email ID</label>
                                         <div class="col-md-8 @if($errors->has('email_id')) has-error @endif">
                                         <div class="input-icon right">
-                                             <input type="text" name="email_id" id="email_id" class="form-control" value="{{old('email_id')}}">
-                                            <span class="help-block">{{$errors->first('email_id')}}</span>
+                                             <input type="email" name="email_id" id="email_id" class="form-control" value="{{old('email_id')}}" required>
+                                            <span class="help-block error">{{$errors->first('email_id')}}</span>
                                         </div>
                                         </div>
                                 </div>
@@ -146,9 +147,10 @@
                                     <label class="col-md-4 control-label">Use</label>
                                     <select class="col-md-8 form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="use" name="use" required>
                                         <option value="" style="font-weight: normal;">Select Use</option>
-                                        <option value="Residential">Residential</option>
-                                        <option value="Commercial">Commercial</option>
+                                        <option value="Residential" {{ old('use') == 'Residential' ? 'selected' : '' }}>Residential</option>
+                                        <option value="Commercial" {{ old('use') == 'Commercial' ? 'selected' : '' }} >Commercial</option>
                                     </select>
+                                    <span class="help-block error">{{$errors->first('use')}}</span>
                                 </div>
                             </div>                          
                     </div>
@@ -161,8 +163,8 @@
                                     <label class="col-md-4 control-label">Carpet Area</label>
                                         <div class="col-md-8 @if($errors->has('carpet_area')) has-error @endif">
                                         <div class="input-icon right">
-                                             <input type="text" name="carpet_area" id="carpet_area" class="form-control" value="{{old('carpet_area')}}">
-                                            <span class="help-block">{{$errors->first('carpet_area')}}</span>
+                                             <input type="text" name="carpet_area" id="carpet_area" class="form-control" value="{{old('carpet_area')}}" required>
+                                            <span class="help-block error">{{$errors->first('carpet_area')}}</span>
                                         </div>
                                         </div>
                                 </div>
@@ -178,9 +180,10 @@
                                     <select class=" col-md-8 form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="tenant_type" name="tenant_type" required>
                                         <option value="" style="font-weight: normal;">Select Tenament</option>
                                         @foreach($tenament as $key => $value)
-                                        <option value="{{ $value->id }}" >{{ $value->name }}</option>
+                                        <option value="{{ $value->id }}" {{ old('tenant_type') == $value->id ? 'selected' : '' }} >{{ $value->name }}</option>
                                         @endforeach
                                     </select>
+                                     <span class="help-block error">{{$errors->first('tenant_type')}}</span>
                                 </div>
                             </div>                          
                     </div>

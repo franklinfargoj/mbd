@@ -9,7 +9,7 @@
 </head>
 
 <body>
-          
+  
 <div class="m_portlet">
     <form id="OfferLetterFRM" action="{{ route('ree.save_offer_letter')}}" method="post">
         @csrf
@@ -20,7 +20,7 @@
         @else
         <div style="" id="">
 
-            <div style="width: 100%;">
+
                 <!-- Header starts here -->
                 <div>
                     <div style="margin-top: 30px; text-align: right;">
@@ -115,8 +115,8 @@
                         <thead style="text-align: center;">
                             <tr>
                                 <th style="width: 4%; border: 1px solid #000; padding: 5px 10px">Sr.No</th>
-                                <th style="width: 80%; border: 1px solid #000; padding: 5px 10px">Particular</th>
-                                <th style="width: 16%; border: 1px solid #000; padding: 5px 10px">Amount in Rs.</th>
+                                <th style="width: 65%; border: 1px solid #000; padding: 5px 10px">Particular</th>
+                                <th style="border: 35% solid #000; padding: 5px 10px">Amount in Rs.</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -140,8 +140,8 @@
                         <thead style="text-align: center;">
                             <tr>
                                 <th style="width: 4%; border: 1px solid #000; padding: 5px 10px">Sr.No</th>
-                                <th style="width: 80%; border: 1px solid #000; padding: 5px 10px">Particular</th>
-                                <th style="width: 16%; border: 1px solid #000; padding: 5px 10px">Amount in Rs.</th>
+                                <th style="width: 65%; border: 1px solid #000; padding: 5px 10px">Particular</th>
+                                <th style="width: 35%; border: 1px solid #000; padding: 5px 10px">Amount in Rs.</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -286,8 +286,7 @@
                 <!-- Table 1 ends here -->
 
                 <!-- Table 2 starts here -->
-
-                <div style="margin-top: 30px;">
+                <div style="margin-top: 50px;">
 
                     <div style="text-align: center;">
                         <h3 style="text-transform: uppercase; font-weight: bold;">As per Authority Resolution No. 6749 dt.
@@ -393,7 +392,7 @@
 
                 <!-- Table 2 ends here -->
 
-                <div style="margin-top: 30px; line-height: 1.5">
+                <div style="margin-top: 60px; line-height: 1.5">
                     <p style="margin-bottom: 5px; margin-top: 5px;">1) As per the above Table no. 2, society will have to
                         make payment of first installment to MHADA and MCGM WITHIN SIX MONTHS and remaining THREE
                         installments within stipulated time limit as per Table no. 2. If society fails to make payment as
@@ -631,15 +630,18 @@
             </div>
         </div>
         @endif
+        
 
-</textarea>
-        <input type="submit" value="save" style="background-color: #f0791b;border-color: #f0791b;color: #fff !important;font-family: Poppins;cursor: pointer;display: inline-block;font-weight: 400;text-align: center;white-space: nowrap;vertical-align: middle;border: 1px solid transparent;transition: all .15s ease-in-out;border-radius: .25rem;line-height: 1.25;padding: .65rem 1.25rem;font-size: 1rem;">
+</textarea> 
+        <input type="submit" id="submit" value="save" style="background-color: #f0791b;border-color: #f0791b;color: #fff !important;font-family: Poppins;cursor: pointer;display: inline-block;font-weight: 400;text-align: center;white-space: nowrap;vertical-align: middle;border: 1px solid transparent;transition: all .15s ease-in-out;border-radius: .25rem;line-height: 1.25;padding: .65rem 1.25rem;font-size: 1rem;">
 
     </form>
     </div>
 </body>
 
 </html>
+
+<script src="{{ asset('/js/jquery-3.3.1.min.js') }}"></script>
 <script src="{{ asset('vendor/unisharp/laravel-ckeditor/ckeditor.js') }}"></script>
 <script>
     CKEDITOR.disableAutoInline = true;
@@ -647,7 +649,12 @@
         height: 700,
         allowedContent: true
     });
-
+$(document)
+// $("#OfferLetterFRM").submit(function(){
+//     $("#header_start").css("display","block !important");
+//     alert();
+// });
 </script>
 <script>
+
 
