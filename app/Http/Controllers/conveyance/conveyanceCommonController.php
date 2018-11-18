@@ -548,9 +548,8 @@ class conveyanceCommonController extends Controller
     }
 
     public function saveForwardApplication(Request $request){
-        
         $forwardData = $this->forwardApplication($request); 
-        return redirect('/conveyance')->with('success','Application send successfully..');
+        return redirect('/conveyance')->with('success','Application sent successfully.');
     } 
 
     public function getAllSaleLeaseAgreement($data,$applicationId,$masterId){

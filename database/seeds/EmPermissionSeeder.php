@@ -321,6 +321,16 @@ class EmPermissionSeeder extends Seeder
                 'name' => 'em.save_conveyance_no_dues_certificate',
                 'display_name' => 'Save no dues certificate',
                 'description' => 'Saves no dues certificate'
+            ],
+            [
+                'name' => 'conveyance.forward_application_sc',
+                'display_name' => 'Forward Application',
+                'description' => 'Forwards conveyance Application'
+            ],
+            [
+                'name' => 'conveyance.save_forward_application',
+                'display_name' => 'Saves Forward Application',
+                'description' => 'Saves Forwards conveyance Application'
             ]
         ];
 
