@@ -689,6 +689,25 @@ $route=\Request::route()->getName();
                             </a>
                         </li>                        
                         @endif
+
+                        @if (isset($route) && ($route == 'co.index' || $route=='ee.index' || $route=='dyco.index' ||
+                        $route=='ree_applications.index' || $route=='ree_applications.reval' || 
+                        $route=='society_offer_letter.index' || $route=='society_offer_letter_dashboard' ||
+                        $route=='documents_uploaded' || $route=='documents_upload' || $route == 'architect_layout.index' || $route == 'hearing.index' || $route == 'conveyance.index' || $route == 'architect_application'))
+                            
+                        <li class="m-menu__item {{($route=='renewal.index')?'m-menu__item--active':''}}">
+                            <a href="{{ route('renewal.index') }}" class="m-menu__link m-menu__toggle">
+                                <i class="m-menu__link-icon flaticon-line-graph"></i>
+                                <span class="m-menu__link-title">
+                                    <span class="m-menu__link-wrap">
+                                        <span class="m-menu__link-text">
+                                            Renewal of Lease Agreement
+                                        </span>
+                                    </span>
+                                </span>
+                            </a>
+                        </li>                        
+                        @endif                        
                         
                         @if(Session::all()['role_name'] == 'ee_engineer')
                         <li class="m-menu__item {{($route=='society_detail.billing_level')?'m-menu__item--active':''}}">

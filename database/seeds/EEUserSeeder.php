@@ -277,7 +277,12 @@ class EEUserSeeder extends Seeder
                 'name'=>'dashboard',
                 'display_name'=>'dashboard',
                 'description'=>'Dashboard'
-            ]
+            ],
+            [
+                'name' => 'conveyance.architect_scrutiny_remark',
+                'display_name' => 'architect scrutiny remark',
+                'description' => 'architect scrutiny remark',
+            ],             
         ];
 
         // Role

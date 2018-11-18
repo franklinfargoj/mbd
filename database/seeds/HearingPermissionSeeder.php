@@ -529,6 +529,11 @@ class HearingPermissionSeeder extends Seeder
                 'display_name' => 'view ee documents',
                 'description' => 'view ee documents',
             ],
+            [
+                'name' => 'conveyance.architect_scrutiny_remark',
+                'display_name' => 'architect scrutiny remark',
+                'description' => 'architect scrutiny remark',
+            ],            
         ];
 
         foreach ($Jtco_permission as $permission) {

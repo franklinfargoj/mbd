@@ -116,6 +116,11 @@ class DYCOPermissions extends Seeder
                 'name' => 'dyco.save_approved_agreement',
                 'display_name' => 'save approved agreement',
                 'description' => 'save approved agreement',
+            ],            
+            [
+                'name' => 'conveyance.architect_scrutiny_remark',
+                'display_name' => 'architect scrutiny remark',
+                'description' => 'architect scrutiny remark',
             ],
         ];
 
