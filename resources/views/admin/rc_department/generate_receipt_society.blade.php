@@ -18,9 +18,8 @@
     <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
         <form method="post" action="{{route('payment_receipt_society')}}">
             {{ csrf_field() }}
-            
-            <input type="text" name="building_id" value="{{$bill->building_id}}" hidden>
-            <input type="text" name="society_id" value="{{$bill->society_id}}" hidden>
+            <input type="text" name="building_id" value="{{$data['building_id']}}" hidden>
+            <input type="text" name="society_id" value="{{$data['society_id']}}" hidden>
 
             <div class="m-portlet__body m-portlet__body--spaced">
                 <div class="form-group m-form__group row">
@@ -32,46 +31,37 @@
 
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="">Bill No:</label>
-                        <input type="text" name="bill_no" class="form-control form-control--custom m-input" value="{{$bill->id}}" readonly>
-                        <span class="help-block"></span>
-                    </div>
-
-                   
+                        <input type="text" name="bill_no" class="form-control form-control--custom m-input" value="{{$Tenant_bill_id->id}}" readonly>
+                    </div>                   
                 </div>
 
-
-                    <div class="form-group m-form__group row">
-                        <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="">Society Name:</label>
-                            <input type="text" class="form-control form-control--custom m-input" value="{{$bill->society_detail->society_name}}" readonly>
-                            <span class="help-block"></span>
-                        </div>
+                <div class="form-group m-form__group row">
+                    <div class="col-sm-4 form-group">
+                        <label class="col-form-label" for="">Society Name:</label>
+                        <input type="text" class="form-control form-control--custom m-input" value="{{$society_detail->society_name}}" readonly>
                     </div>
+                </div>
 
                 <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="">Building Number:</label>
-                        <input type="text" class="form-control form-control--custom m-input" value="{{$bill->building_detail->building_no}}" readonly>
-                        <span class="help-block"></span>
+                        <input type="text" class="form-control form-control--custom m-input" value="{{$building_detail->building_no}}" readonly>
                     </div>
 
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="">Building Name:</label>
-                        <input type="text" class="form-control form-control--custom m-input" value="{{$bill->building_detail->name}}" readonly>
-                        <span class="help-block"></span>
+                        <input type="text" class="form-control form-control--custom m-input" value="{{$building_detail->name}}" readonly>
                     </div>
                 </div>
                 <div class="form-group m-form__group row">
                      <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="">Amount Paid By:</label>
                         <input type="text" name="amount_paid_by" class="form-control form-control--custom m-input" value="" required>
-                        <span class="help-block"></span>
                     </div>
 
                     <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="">Bill Amount of month:</label>
-                        <input type="text" name="bill_amount" class="form-control form-control--custom m-input" value="{{$bill->total_bill}}" readonly>
-                        <span class="help-block"></span>
+                        <input type="text" name="bill_amount" class="form-control form-control--custom m-input" value="{{$data['total_bill']}}" readonly>
                     </div>
                 </div>
                 <div class="form-group m-form__group row">
@@ -139,23 +129,26 @@
                 </div>
 
                 <div class="form-group m-form__group row">
-                    <div class="col-sm-6 form-group">
+                    <!-- <div class="col-sm-6 form-group">
                         <label class="col-form-label" for="">Receipt generation except following tenaments :</label>
                         <div class="dropdown-sin-2">
-                            <select style="display:none" multiple placeholder="Select" name="except_tenaments[]"></select>
+                            <select style="display:none" placeholder="Select" name="except_tenaments[]"></select>
                         </div>
                         <span class="help-block"></span>
-                    </div>
+                    </div> -->
 
-                    <div class="col-sm-6 form-group">
+                    <div class="col-sm-12 form-group">
                         <div class="row">
                             <div class="col-md-12">
-                                <label class="col-form-label" for="">Tenaments Having Credit Amount :</label>
+                                <label class="col-form-label" for="">Tenaments Having Balance / Credit Amount :</label>
                             </div>
-                        </div>                       
+                        </div>  
+
                         <div class="row after-add-more">
                             <div class="col-md-5">
-                               <input type="text" name="credit_tenant_name[]" class="form-control form-control--custom m-input" placeholder="Tenant Name" > 
+                               <div class="dropdown-sin-2">
+                                <select style="display:none" placeholder="Select" name="except_tenaments[]"></select>
+                               </div>
                             </div>
                             <div class="col-md-4">
                                <input type="text" name="tenant_credit_amt[]" class="form-control form-control--custom m-input" placeholder="Credit Amount" > 
@@ -172,14 +165,10 @@
                 <div class="form-group m-form__group row">
                     <label class="col-form-label col-sm-12" for="">Payment Made for months:</label>
                     <div class="col-sm-4 form-group">
-                        <input type="text" id="payment-made-from-month" name="from_date" class="form-control form-control--custom m-input"
-                            value="{{$bill->bill_from}}" readonly>
-                        <span class="help-block"></span>
+                        <input type="text" id="payment-made-from-month" name="from_date" class="form-control form-control--custom m-input" value="{{$data['bill_from']}}" readonly>
                     </div>
                     <div class="col-sm-4 offset-sm-1 form-group">
-                        <input type="text" id="payment-made-to-month" name="to_date" class="form-control form-control--custom m-input"
-                            value="{{$bill->bill_to}}" readonly>
-                        <span class="help-block"></span>
+                        <input type="text" id="payment-made-to-month" name="to_date" class="form-control form-control--custom m-input" value="{{$data['bill_to']}}" readonly>
                     </div>
                 </div>
 
@@ -187,16 +176,13 @@
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="">Amount Balance:</label>
                         <input type="text" id="balance_amount" name="balance_amount" class="form-control form-control--custom m-input" value="00" readonly>
-                        <span class="help-block"></span>
                     </div>
 
                     <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="">Credit Amount:</label>
                         <input type="text" id="credit_amount" name="credit_amount" class="form-control form-control--custom m-input" value="00" readonly>
-                        <span class="help-block"></span>
                     </div>
                 </div>
-
 
                 <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
                     <div class="m-form__actions px-0">
@@ -210,11 +196,12 @@
                         </div>
                     </div>
                 </div>
-
             </div>
+
         </form>
     </div>
 </div>
+
 @endsection
 
 @section('js')
@@ -225,7 +212,7 @@
     $(document).ready(function () {
         /* Multi select with search data code start here */
         var json2 = JSON.parse('<?php echo $buildings; ?>');
-        console.log(json2);
+        //console.log(json2);
         $('.dropdown-sin-2').dropdown({
           data: json2,
           input: '<input type="text" maxLength="20" placeholder="Search">'
@@ -278,10 +265,9 @@
 
         function calc(amount){
            
-            var bill_amount = '<?php echo $bill->total_bill; ?>';
+            var bill_amount = '<?php echo $data['total_bill']; ?>';
             var balance = '<?php echo 0; ?>';
-            var credit = '<?php echo 0; ?>'; 
-            
+            var credit = '<?php echo 0; ?>';             
             
             //if (/^\d+$/.test(amount)) {              
             if (amount.match(/^-?\d*(\.\d+)?$/)) {              
@@ -312,10 +298,16 @@
               
                 //  $(html).find(".change").prepend("<label for=''>&nbsp;</label><br/><a class='btn btn-danger remove'>- Remove</a>");
               
-                  $(html).find(".change").html("<a class='btn btn-danger remove'>- Remove</a>");              
-              
+                $(html).find(".change").html("<a class='btn btn-danger remove'>- Remove</a>");    
+               
+                $(html).find(".dropdown-sin-2").html("<select style='display:none' placeholder='Select' name='except_tenaments[]'></select>");    
+
                 $(".after-add-more").last().after(html);
                
+               $('.dropdown-sin-2').last().dropdown({
+                  data: json2,
+                  input: '<input type="text" maxLength="20" placeholder="Search">'
+                });
             });
 
             $("body").on("click",".remove",function(){ 
@@ -323,8 +315,6 @@
             });
 
         /* Add more button code ends here */
-
-
     });    
   </script>
 @endsection

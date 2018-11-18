@@ -19,7 +19,7 @@
                     <label class="col-form-label" for="year">Year:</label>
                     <select  id="year" name="year" class="form-control form-control--custom m-input" required>
                         <option value="">Select Year</option>
-                        <option value="{{date('Y') . '-' . (date('y') + 1)}}" {{ old('year') == date('Y') . '-' . (date('y') + 1) ? 'selected' : '' }}>{{date('Y') . '-' . (date('y') + 1)}}</option>
+                        <option value="{{date('Y')}}" {{ old('year') == date('Y') ? 'selected' : '' }}>{{date('Y')}}</option>
                     </select>
                     <span class="help-block error">{{$errors->first('year')}}</span>
                 </div>
