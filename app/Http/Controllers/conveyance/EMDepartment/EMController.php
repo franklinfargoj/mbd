@@ -24,8 +24,7 @@ class EMController extends Controller
     }
 
 	public function ScrutinyRemark(Request $request,$applicationId){
-
-		$data = scApplication::with(['societyApplication','scApplicationLog', 'sc_form_request'])->where('id',$applicationId)->first();
+        $data = scApplication::with(['societyApplication','scApplicationLog', 'sc_form_request'])->where('id',$applicationId)->first();
         $data->folder = $this->conveyance_common->getCurrentRoleFolderName();
 
         $no_dues_certificate_docs_defined = config('commanConfig.documents.em_conveyance.no_dues_certificate');
@@ -60,14 +59,15 @@ class EMController extends Controller
             }
         }
         if(!empty($no_dues_certificate_docs['text_no_dues_certificate']['sc_document_status'])){
+//            dd($no_dues_certificate_docs['text_no_dues_certificate']['sc_document_status']->document_path);
             $content = $this->CommonController->getftpFileContent($no_dues_certificate_docs['text_no_dues_certificate']['sc_document_status']->document_path);
         }else{
             $content = "";
         }
 
 //        dd($no_dues_certificate_docs);
-		return view('admin.conveyance.em_department.scrutiny_remark',compact('data', 'content', 'no_dues_certificate_docs', 'bonafide_docs', 'covering_letter_docs'));
-	}
+        return view('admin.conveyance.em_department.scrutiny_remark',compact('data', 'content', 'no_dues_certificate_docs', 'bonafide_docs', 'covering_letter_docs'));
+    }
 
     public function saveNoDuesCertificate(Request $request){
         $folder_name = 'conveyance_no_dues_certificate';

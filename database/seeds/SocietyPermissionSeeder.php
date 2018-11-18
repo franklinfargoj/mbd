@@ -223,6 +223,26 @@ class SocietyPermissionSeeder extends Seeder
                     'display_name' => 'Download Application Form',
                     'description'  => 'Download Application Form'
                 ],
+                [
+                    'name' => 'show_sale_lease',
+                    'display_name' => 'Sale & Lease deed Agreement',
+                    'description' => 'Shows Sale & Lease deed Agreement form'
+                ],
+                [
+                    'name' => 'show_signed_sale_lease',
+                    'display_name' => 'Signed Sale & Lease deed Agreement',
+                    'description' => 'Shows Signed Sale & Lease deed Agreement form'
+                ],
+                [
+                    'name' => 'upload_sale_lease',
+                    'display_name' => 'Saves Sale & Lease deed Agreement',
+                    'description' => 'Uploads Shows Sale & Lease deed Agreement form'
+                ],
+                [
+                    'name' => 'upload_signed_sale_lease',
+                    'display_name' => 'Saves Signed Sale & Lease deed Agreement',
+                    'description' => 'Uploads Signed Sale & Lease deed Agreement'
+                ]
         ];
 
         if(count($society)==0){
