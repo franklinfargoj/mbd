@@ -54,6 +54,14 @@ class ServiceChargesController extends Controller
             DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
             $service_charges = ServiceChargesRate::selectRaw('@rownum  := @rownum  + 1 AS rownum,service_charges_rates.*')->where('society_id',$society->id)->where('building_id',$building->id);
             return $datatables->of($service_charges)
+            ->editColumn('tenant_type', function ($service_charges){               
+               $master_tenant_type = DB::table('master_tenant_type')->get();
+               foreach ($master_tenant_type as $key => $value) {
+                  if($value->id == $service_charges->tenant_type){
+                    return $value->name;
+                  }
+               }
+            })
             ->editColumn('actions', function ($service_charges){
 
                return "<div class='d-flex btn-icon-list'><a href='".url('service_charges/'.encrypt($service_charges->id).'/edit')."' class='d-flex flex-column align-items-center'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/edit-icon.svg')."'></span>Update</a></div>";

@@ -212,7 +212,7 @@
     $(document).ready(function () {
         /* Multi select with search data code start here */
         var json2 = JSON.parse('<?php echo $buildings; ?>');
-        //console.log(json2);
+        console.log(json2);
         $('.dropdown-sin-2').dropdown({
           data: json2,
           input: '<input type="text" maxLength="20" placeholder="Search">'

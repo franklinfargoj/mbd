@@ -174,7 +174,9 @@ class RCController extends Controller
         
         $buildings = MasterTenant::where('building_id', '=', $request->building_id)
                  ->select("id", DB::raw("CONCAT(first_name,' ',last_name)  AS name"))->get()->toArray();
-
+         array_unshift($buildings, array('id'=> '', 'name' => 'NA'));
+        //dd($buildings);
+       
         $buildings = json_encode($buildings);
 
         $building_detail = MasterBuilding::where('id', $request->building_id)->first();
@@ -245,31 +247,45 @@ class RCController extends Controller
                 $amount_paid = 0;
             }
 
-            if(count($request->except_tenaments) > 0){
-
-            } else{
-
-            }
-
             foreach ($bill as $key => $value) {
                 if(in_array( $value->tenant_id, $request->except_tenaments)){
                   $Akey = array_search($value->tenant_id, $request->except_tenaments);
                     $paid_amt = $request->tenant_credit_amt[$Akey];
                     //dd($value->total_bill);
                     //dd($paid_amt);
+                      //dd($value->arrear_id);
+                      if($value->arrear_id != ''){
+                      $ids = explode(',', $value->arrear_id);
+                        $tenant_arrear = ArrearCalculation::whereIn('id', $ids)->get();
+                        if(count($tenant_arrear) > 0){
+                          foreach ($tenant_arrear as $key => $value2) {
+                            if($value2->total_amount < $paid_amt){
+                              $update = ArrearCalculation::whereIn('id', $ids)->update(['payment_status' => 1]);
+                              $paid_amt -= $value2->total_amount;
+                            } else {                              
+
+                            }
+                          }
+                        }
+                       // dd($tenant_arrear);
+                       // $update = ArrearCalculation::whereIn('id', $ids)->update(['payment_status' => 1]);
+                      }
+
                       if($paid_amt > $value->total_bill){
                         $credit_amt = $paid_amt - $value->total_bill;
                         $balance = 0;
-                        $credit = MasterTenant::where('id', $value->tenant_id)->first();
+
+                        $credit = MasterTenant::where('id', $value->tenant_id)->first();                       
                         if(is_null($credit->credit)){
                           $credit->credit = $credit_amt;
                         } else {
                           $credit->credit = $credit->credit + $credit_amt;
-                        }                        
+                        }   
                         $credit->save(); 
 
                         $bill_status = TransBillGenerate::find($value->id)->update(array('status' => 'Paid')); 
                         //dd($credit);
+
                       } else {
                         $balance = $value->total_bill - $paid_amt;
                         $credit_amt = 0;
@@ -284,12 +300,13 @@ class RCController extends Controller
                             'dd_id'    => $dd,
                             'mode_of_payment' => $request->payment_mode,
                             'bill_amount' => $value->total_bill,
-                            'amount_paid' => $paid_amt,
+                            'amount_paid' => $request->tenant_credit_amt[$Akey],
                             'from_date' => $request->from_date,
                             'to_date' => $request->to_date,
                             'balance_amount' => $balance,
                             'credit_amount' => $credit_amt,
                           ]; 
+                    //dd($data);
 
                 } else {
 
@@ -308,6 +325,7 @@ class RCController extends Controller
                             'balance_amount' => 0,
                             'credit_amount' => 0,
                           ];   
+                          //dd($data);
                   $bill_status = TransBillGenerate::find($value->id)->update(array('status' => 'Paid')); 
 
                 }            
@@ -345,7 +363,9 @@ class RCController extends Controller
             } else {
               
                
-              $receipt1 = TransPayment::with('dd_details')->with('bill_details')->whereIn('bill_no', $bill_ids)->where('building_id', '=', $request->building_id)->where('society_id', '=', $request->society_id)->get();
+              $receipt1 = TransPayment::with('dd_details')->with(array('bill_details'=>function($query){
+                             $query->where('status', '=' ,'paid');
+                          }))->whereIn('bill_no', $bill_ids)->where('building_id', '=', $request->building_id)->where('society_id', '=', $request->society_id)->get();
 
                 //dd($receipt);
                 $data['bill_amount'] = 0;

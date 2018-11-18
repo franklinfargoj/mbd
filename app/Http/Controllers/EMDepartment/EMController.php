@@ -426,7 +426,7 @@ class EMController extends Controller
         $building->save();
 
        // return redirect()->back()->with('success', 'Building Details Updated Successfully.');
-        return redirect()->route('get_buildings', [$building->society_id])->with('success', 'Building Details Updated Successfully.');
+        return redirect()->route('get_buildings', [encrypt($building->society_id)])->with('success', 'Building Details Updated Successfully.');
     }
 
     /*
