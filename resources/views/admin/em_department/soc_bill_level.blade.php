@@ -38,12 +38,13 @@
                             <div class="col-md-9">
                                 <div class="form-group m-form__group">
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
-                                        id="soc_bill_level" name="soc_bill_level">
+                                        id="soc_bill_level" name="soc_bill_level" required>
                                         <option value="" style="font-weight: normal;">Select Layout</option>
                                         @foreach($soc_bill_level as $key => $value)
                                         <option value="{{ $value->id }}" {{ old("soc_bill_level", $society[0]->society_bill_level) == $value->id ? 'selected' : '' }} >{{ $value->name }}</option>
                                         @endforeach
                                     </select>
+                                    <span class="help-block error">{{$errors->first('soc_bill_level')}}</span>
                                 </div>
 
                             </div>                          

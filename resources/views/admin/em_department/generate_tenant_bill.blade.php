@@ -153,7 +153,7 @@
                         </tr>
                         @foreach($arreasCalculation as $calculation)
                             <tr>
-                                <td class="text-center">{{$calculation->year}}</td>
+                                <td class="text-center">{{$calculation->year}} <input name='arrear_id[]' type='text' value='{{$calculation->id}}' hidden> </td>
                                 <td class="text-center">{{date("M", strtotime("2001-" . $calculation->month . "-01"))}}</td>
                                 <td class="text-center">{{$calculation->total_amount - $calculation->old_intrest_amount - $calculation->difference_intrest_amount }}</td>
                                 <td class="text-center">{{$calculation->old_intrest_amount + $calculation->difference_intrest_amount}}</td>
@@ -196,6 +196,10 @@
                             <div class="col-sm-4">
                                 <div class="btn-list">
                                     <button type="submit" id="" class="btn btn-primary">Generate Society Bill</button>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="btn-list">
                                     <a onclick="goBack()" class="btn btn-secondary">Cancel</a>
                                 </div>
                             </div>
