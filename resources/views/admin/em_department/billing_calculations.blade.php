@@ -41,8 +41,8 @@
         </div>
         @endif
         <form role="form" id="Form" method="get" action="{{ route('billing_calculations') }}">
-            <input type="hidden" name="society_id" value="@if(!empty($society)){{$society->id}}@endif">
-            <input type="hidden" name="building_id" value="@if(!empty($building)){{$building->id}}@endif">
+            <input type="hidden" name="society_id" value="@if(!empty($society)){{encrypt($society->id)}}@endif">
+            <input type="hidden" name="building_id" value="@if(!empty($building)){{encrypt($building->id)}}@endif">
             <div class="row align-items-center mb-0">
                 <div class="col-md-3">
                     <div class="form-group m-form__group">

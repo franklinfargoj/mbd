@@ -34,7 +34,7 @@ class ArrearsServiceController extends Controller
 
         $society = SocietyDetail::find($society_id);
         $building = MasterBuilding::where('society_id', $society_id)->find($building_id);
-
+        
         $columns = [
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'year','name' => 'year','title' => 'Years'],
@@ -47,9 +47,20 @@ class ArrearsServiceController extends Controller
         ];
 
         if ($datatables->getRequest()->ajax()) {
+            
+            
+
             DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
             $arrears_charges = ArrearsChargesRate::selectRaw('@rownum  := @rownum  + 1 AS rownum,arrears_charges_rates.*')->where('society_id',$society->id)->where('building_id',$building->id);
             return $datatables->of($arrears_charges)
+            ->editColumn('tenant_type', function ($arrears_charges){               
+               $master_tenant_type = DB::table('master_tenant_type')->get();
+               foreach ($master_tenant_type as $key => $value) {
+                  if($value->id == $arrears_charges->tenant_type){
+                    return $value->name;
+                  }
+               }
+            })
             ->editColumn('actions', function ($arrears_charges){
                 
                 return "<div class='d-flex btn-icon-list'><a href='".url('arrears_charges/'.encrypt($arrears_charges->id).'/edit')."' class='d-flex flex-column align-items-center'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/edit-icon.svg')."'></span>Update</a></div>";
@@ -78,7 +89,7 @@ class ArrearsServiceController extends Controller
         $society_id = decrypt($society_id);
         $building_id = decrypt($building_id);
 
-    	$data['tenant_types'] = MasterTenantType::pluck('name','name')->toArray();
+    	$data['tenant_types'] = MasterTenantType::pluck('id','name');
     	$data['society'] = SocietyDetail::find($society_id);
         $data['building'] = MasterBuilding::where('society_id', $society_id)->find($building_id);
     	return view('admin.arrears_charges.create',$data);
@@ -126,7 +137,7 @@ class ArrearsServiceController extends Controller
 
     public function edit($id) {
         $id = decrypt($id);
-    	$data['tenant_types'] = MasterTenantType::pluck('name','name')->toArray();
+    	$data['tenant_types'] = MasterTenantType::pluck('id','name');
     	$data['arrears_charge'] = ArrearsChargesRate::find($id);
     	$data['society'] = SocietyDetail::find($data['arrears_charge']->society_id);
         $data['building'] = MasterBuilding::where('society_id', $data['arrears_charge']->society_id)->find($data['arrears_charge']->building_id);

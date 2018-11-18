@@ -19,7 +19,7 @@
                     <label class="col-form-label" for="year">Year:</label>
                     <select  id="year" name="year" class="form-control form-control--custom m-input" required>
                         <option value="">Select Year</option>
-                        <option value="{{date('Y') . '-' . (date('y') + 1)}}" {{ old('year') == date('Y') . '-' . (date('y') + 1) ? 'selected' : '' }}>{{date('Y') . '-' . (date('y') + 1)}}</option>
+                        <option value="{{date('Y')}}" {{ old('year') == date('Y') ? 'selected' : '' }}>{{date('Y')}}</option>
                     </select>
                     <span class="help-block error">{{$errors->first('year')}}</span>
                 </div>
@@ -29,8 +29,8 @@
                     <label class="col-form-label" for="case_year">Teanant Type:</label>
                     <select class="form-control form-control--custom m-input" name="tenant_type" required>
                         <option value="">Select Teanat Type</option>
-                        @foreach($tenant_types as $tenant_type)
-                            <option value="{{$tenant_type}}" {{ old('tenant_type') == $tenant_type ? 'selected' : '' }}>{{$tenant_type}}</option>
+                        @foreach($tenant_types as $tenant_type => $val)
+                            <option value="{{$val}}" {{ old('tenant_type') == $val ? 'selected' : '' }}>{{$tenant_type}}</option>
                         @endforeach
                     </select>
                     <span class="help-block error">{{$errors->first('tenant_type')}}</span>

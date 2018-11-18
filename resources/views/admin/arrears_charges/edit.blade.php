@@ -28,8 +28,8 @@
                     <label class="col-form-label" for="case_year">Teanant Type:</label>
                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" name="tenant_type" required>
                         <option value="">Select Teanat Type</option>
-                        @foreach($tenant_types as $tenant_type)
-                            <option value="{{$tenant_type}}" {{ old('tenant_type', $arrears_charge->tenant_type) == $tenant_type ? 'selected' : '' }} >{{$tenant_type}}</option>
+                        @foreach($tenant_types as $tenant_type => $val)
+                            <option value="{{$val}}" {{ old('tenant_type', $arrears_charge->tenant_type ) == $val ? 'selected' : '' }} >{{$tenant_type}}</option>
                         @endforeach
                     </select>
                     <span class="help-block error">{{$errors->first('tenant_type')}}</span>

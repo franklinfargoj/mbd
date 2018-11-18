@@ -53,7 +53,7 @@ class EMClerkController extends Controller
         
         $societies = SocietyDetail::whereIn('colony_id', $colonies)->pluck('id');
 
-        $societies_data = SocietyDetail::whereIn('colony_id', $colonies)->where('society_bill_level',$this->tenant_level_billing)->get();
+        $societies_data = SocietyDetail::whereIn('colony_id', $colonies)->get();
 
         $building_data = MasterBuilding::whereIn('society_id', $societies)->get();
 
@@ -65,7 +65,7 @@ class EMClerkController extends Controller
             $wards = MasterWard::where('layout_id', '=', decrypt($request->id))->pluck('id');
             $colonies = MasterColony::whereIn('ward_id', $wards)->pluck('id');
 
-            $societies = SocietyDetail::whereIn('colony_id', $colonies)->where('society_bill_level', $this->tenant_level_billing )->get();
+            $societies = SocietyDetail::whereIn('colony_id', $colonies)->get();
 
             $html = '<select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="society" name="society" required>
                                         <option value="" style="font-weight: normal;">Select Society</option>';
@@ -327,7 +327,7 @@ class EMClerkController extends Controller
         
         //return $request->all();
 
-        return redirect()->back()->with('message', 'Submitted Successfully.');
+        return redirect()->back()->with('success', 'Arreaer Calculation Submitted Successfully.');
        
 
     }
