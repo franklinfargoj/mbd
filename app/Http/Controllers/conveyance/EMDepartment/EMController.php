@@ -23,6 +23,12 @@ class EMController extends Controller
         $this->conveyance_common = new conveyanceCommonController();
     }
 
+
+    /**
+     * Display a scrutiny remark forms.
+     *
+     * @return \Illuminate\Http\Response
+     */
 	public function ScrutinyRemark(Request $request,$applicationId){
         $data = scApplication::with(['societyApplication','scApplicationLog', 'sc_form_request'])->where('id',$applicationId)->first();
         $data->folder = $this->conveyance_common->getCurrentRoleFolderName();
@@ -69,6 +75,11 @@ class EMController extends Controller
         return view('admin.conveyance.em_department.scrutiny_remark',compact('data', 'content', 'no_dues_certificate_docs', 'bonafide_docs', 'covering_letter_docs'));
     }
 
+    /**
+     * Uploads no dues certificate for conveyance.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function saveNoDuesCertificate(Request $request){
         $folder_name = 'conveyance_no_dues_certificate';
         $id = $request->applicationId;
@@ -129,10 +140,14 @@ class EMController extends Controller
             }
 
         }
-//        dd($message_status);
         return redirect()->route('em.scrutiny_remark',$id);
     }
 
+    /**
+     * Display renewal scrutiny forms.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function RenewalScrutinyRemark(Request $request,$applicationId){
 
 //        $data = scApplication::with(['societyApplication','scApplicationLog'])->where('id',$applicationId)->first();
@@ -140,8 +155,12 @@ class EMController extends Controller
         return view('admin.conveyance.em_department.renewal_scrutiny_remark');
     }
 
+    /**
+     * Uploads No dues certificate for renewal section.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function saveRenewalNoDuesCertificate(Request $request){
-//        die('here');
 
         $applicationId = 1;
         $id = $request->applicationId;
@@ -176,13 +195,21 @@ class EMController extends Controller
 //        return redirect('generate_offer_letter/'.$request->applicationId);
     }
 
-    // Uploads list of bonafide & no-bonafide allottees
+    /**
+     * Uploads list of bonafide & no-bonafide allottees
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function uploadListOfAllottees(Request $request){
         dd($request->all());
     }
 
+    /**
+     * Uploads covering letter
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function uploadCoveringLetter(Request $request){
-//        die('here');
         if($request->file('covering_letter'))
         {
             $file = $request->file('covering_letter');
