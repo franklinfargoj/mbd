@@ -80,14 +80,14 @@ $route=\Request::route()->getName();
                 in_array('architect_detail_dp_crz_remark_view', session()->get('permission')) ||
                 in_array('view_court_case_or_dispute_on_land', session()->get('permission')) ||
                 in_array('architect_layout_add_scrutiny_report', session()->get('permission')) ))
-                <li class="m-menu__item {{config('commanConfig.land_manager')==session()->get('role_name')?'collapsed':''}}" data-toggle="collapse"
+                <li class="m-menu__item {{($route=='architect_layout.index' || $route=='architect_layouts_layout_details.index')?'':'collapsed'}}" data-toggle="collapse"
                     data-target="#architect-layouts">
                     <a href="{{ route('architect_layout.index') }}" class="m-menu__link m-menu__toggle">
                         <i class="m-menu__link-icon flaticon-line-graph"></i>
                         <span class="m-menu__link-title">
                             <span class="m-menu__link-wrap">
                                 <span class="m-menu__link-text">
-                                    Architect Layouts 
+                                    Architect Layouts
                                 </span>
                                 <i class="m-menu__ver-arrow la la-angle-right"></i>
                             </span>
@@ -95,7 +95,7 @@ $route=\Request::route()->getName();
                     </a>
                 </li>
                
-                <li id="architect-layouts" class="collapse {{config('commanConfig.land_manager')==session()->get('role_name')?'':'show'}}">
+                <li id="architect-layouts" class="collapse {{($route=='architect_layout.index'|| $route=='architect_layouts_layout_details.index')?'show':''}}">
                     <ul class="list-unstyled">
                         @if(session()->get('role_name')=='junior_architect')
                         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='architect_layout.add')?'m-menu__item--active':''}}"
@@ -267,7 +267,7 @@ $route=\Request::route()->getName();
 
                 {{-- @if(!empty(array_intersect($land_permission, session()->get('permission'))))--}}
                 @if(session()->get('permission') && in_array('village_detail.index', session()->get('permission')))
-                <li class="m-menu__item" data-toggle="collapse" data-target="#land-module-actions">
+                <li class="m-menu__item {{($route!='architect_layout.index' && $route!='architect_layouts_layout_details.index')?'':'collapsed'}}" data-toggle="collapse" data-target="#land-module-actions">
                     <a href="{{url('/village_detail')}}" class="m-menu__link m-menu__toggle">
                         <i class="m-menu__link-icon flaticon-line-graph"></i>
                         <span class="m-menu__link-title">
@@ -279,7 +279,7 @@ $route=\Request::route()->getName();
                             </span>
                         </span>
                     </a>
-                    <!-- <div class="m-menu__submenu" m-hidden-height="160" style=""><span class="m-menu__arrow"></span>
+                     {{-- <div class="m-menu__submenu" m-hidden-height="160" style=""><span class="m-menu__arrow"></span>
                     <ul class="m-menu__subnav">
 
                         <li class="m-menu__item m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover">
@@ -293,9 +293,9 @@ $route=\Request::route()->getName();
                                     Detail</span></i></a>
                         </li>
                     </ul>
-                </div> -->
+                </div>  --}}
                 </li>
-                <li id="land-module-actions" class="collapse show">
+                <li id="land-module-actions" class="collapse {{($route!='architect_layout.index' && $route!='architect_layouts_layout_details.index')?'show':''}}">
                     <ul class="list-unstyled">
                         <li class="m-menu__item m-menu__item--level-2 {{($route=='village_detail.index' || $route=='village_detail.edit'|| $route=='village_detail.show' || $route=='village_detail.create')?  '' :'collapsed'}}"
                             data-toggle="collapse" data-target="#village-actions">
@@ -672,7 +672,7 @@ $route=\Request::route()->getName();
                         @if (isset($route) && ($route == 'co.index' || $route=='ee.index' || $route=='dyco.index' ||
                         $route=='ree_applications.index' || $route=='ree_applications.reval' || 
                         $route=='society_offer_letter.index' || $route=='society_offer_letter_dashboard' ||
-                        $route=='documents_uploaded' || $route=='documents_upload' || $route == 'architect_layout.index' || $route == 'hearing.index' || $route == 'conveyance.index' || $route == 'architect_application'))
+                        $route=='documents_uploaded' || $route=='documents_upload' || $route == 'hearing.index' || $route == 'conveyance.index'))
 
                         <li class="m-menu__item {{ ($route=='conveyance.index') ? 'm-menu__item--active' : '' }}">
                             <a href="{{ route('conveyance.index') }}" class="m-menu__link m-menu__toggle">
