@@ -546,7 +546,7 @@ Breadcrumbs::for('architect_application', function ($trail) {
 });
 Breadcrumbs::for('evaluate_application', function ($trail,$id) {
     $trail->parent('architect_application');
-    $trail->push('Evaluate', route('evaluate_architect_application',['id'=>$id]));
+    $trail->push('Evaluate Application', route('evaluate_architect_application',['id'=>$id]));
 });
 
 Breadcrumbs::for('view_architect_application', function ($trail,$id) {

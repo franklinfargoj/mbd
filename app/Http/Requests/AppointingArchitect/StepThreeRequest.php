@@ -36,6 +36,7 @@ class StepThreeRequest extends FormRequest
             'cad_facility_no_of_computers' => 'required_if:is_cad_facility,==,1',
             'cad_facility_no_of_printers' => 'required_if:is_cad_facility,==,1',
             'cad_facility_no_of_plotters' => 'required_if:is_cad_facility,==,1',
+            'cad_facility_no_of_operators'=>'required_if:is_cad_facility,==,1',
             'reg_with_council_of_architecture_principle' => 'required',
             'reg_with_council_of_architecture_associate' => 'required',
             'reg_with_council_of_architecture_partner' => 'required',

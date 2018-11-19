@@ -741,6 +741,11 @@ $(document).ready(function () {
                     return $('#is_cad_facility_yes').is(':checked')
                   }
             },
+            cad_facility_no_of_operators:{
+                required: function(element) {
+                    return $('#is_cad_facility_yes').is(':checked')
+                  }
+            },
             reg_with_council_of_architecture_principle:{
                 required:true,
                 number:true
