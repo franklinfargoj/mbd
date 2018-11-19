@@ -188,6 +188,61 @@ class SocietyPermissionSeeder extends Seeder
                     'display_name' => 'Downloads template in excel format',
                     'description'  => 'Downloads template in excel format'
                 ],
+                [
+                    'name'         => 'sc_upload_docs',
+                    'display_name' => 'Upload Documents',
+                    'description'  => 'Shows society conveyance docuemnts list'
+                ],
+                [
+                    'name'         => 'delete_sc_upload_docs',
+                    'display_name' => 'Deletes Uploaded Documents',
+                    'description'  => 'Deletes Uploaded Documents'
+                ],
+                [
+                    'name'         => 'upload_sc_docs',
+                    'display_name' => 'Uploads Documents',
+                    'description'  => 'Uploads Documents'
+                ],
+                [
+                    'name'         => 'society_bank_details',
+                    'display_name' => 'Submit society bank details',
+                    'description'  => 'Submit society bank details'
+                ],
+                [
+                    'name'         => 'sc_form_upload_show',
+                    'display_name' => 'Shows Upload Stamped Application Form',
+                    'description'  => 'Shows Upload Stamped Application Form'
+                ],
+                [
+                    'name'         => 'sc_form_upload',
+                    'display_name' => 'Uploads Stamped Application Form',
+                    'description'  => 'Uploads Stamped Application Form'
+                ],
+                [
+                    'name'         => 'sc_form_download',
+                    'display_name' => 'Download Application Form',
+                    'description'  => 'Download Application Form'
+                ],
+                [
+                    'name' => 'show_sale_lease',
+                    'display_name' => 'Sale & Lease deed Agreement',
+                    'description' => 'Shows Sale & Lease deed Agreement form'
+                ],
+                [
+                    'name' => 'show_signed_sale_lease',
+                    'display_name' => 'Signed Sale & Lease deed Agreement',
+                    'description' => 'Shows Signed Sale & Lease deed Agreement form'
+                ],
+                [
+                    'name' => 'upload_sale_lease',
+                    'display_name' => 'Saves Sale & Lease deed Agreement',
+                    'description' => 'Uploads Shows Sale & Lease deed Agreement form'
+                ],
+                [
+                    'name' => 'upload_signed_sale_lease',
+                    'display_name' => 'Saves Signed Sale & Lease deed Agreement',
+                    'description' => 'Uploads Signed Sale & Lease deed Agreement'
+                ]
         ];
 
         if(count($society)==0){

@@ -12,7 +12,7 @@
                 <span>ARCH/M.B/ARCH. PANEL/312/2018</span>
             </div>
             <div style="text-align: left;">
-                <span>Date:</span>
+                <span>Date:</span> {{date('d/m/Y')}}
             </div>
         </div>
         <div style="clear: both;"></div>
@@ -20,7 +20,7 @@
     <h3 style="text-decoration: underline; text-align: center; font-size: 24px; margin-top: 40px; text-transform: uppercase;">Certificate</h3>
 
     <div style="margin-top: 30px; line-height: 1.8;">
-        <p style="text-indent: 25px; margin-top: 10px; margin-bottom: 10px;">We are pleases to inform you that your <span style="font-weight: bold;">firm M / s. {{$ArchitectApplication->candidate_name}}</span> is selected as Grade - <span style="font-weight: bold;">{{ $ArchitectApplication->marks!=""?$ArchitectApplication->marks->sum('marks'):'-' }}</span>
+        <p style="text-indent: 25px; margin-top: 10px; margin-bottom: 10px;">We are pleases to inform you that your <span style="font-weight: bold;">firm M / s. {{$ArchitectApplication->name_of_applicant}}</span> is selected as Grade - <span style="font-weight: bold;"></span>
         Architect /COnsultant for the HOUSING panel of <span style="font-weight: bold;">Mumbai Housing and area Developement Board</span>, expiring on
         31/12/2022.</p>
         <p style="text-indent: 25px; margin-top: 10px; margin-bottom: 10px;">We expect your kine co-operation whenever any project is entrusted to you by MHADA during the above mentioned

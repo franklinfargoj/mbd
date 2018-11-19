@@ -8,7 +8,7 @@
         size: auto;
         margin: 0mm;
     }
-
+ 
 </style>
 <div class="col-md-12">
     <div class="m-subheader px-0 m-subheader--top">
@@ -102,7 +102,7 @@
                             अधिमुल्य आधारित
 
                             @elseif(isset($ol_application->application_master_id) && ($ol_application->application_master_id == 6 || $ol_application->application_master_id == 17))
-                            गृहसत्ता हिस्सेदारी
+                            गृहसाठा हिस्सेदारी
                              @endif
 
                              तत्वावर करु इच्छितो. आमच्या गृहनिर्माण संस्थेने दिनांक <input class="letter-form-input"

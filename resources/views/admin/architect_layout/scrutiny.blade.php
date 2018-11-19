@@ -6,7 +6,7 @@
 <div class="custom-wrapper">
     <div class="col-md-12">
         <div class="d-flex">
-            {{-- {{ Breadcrumbs::render('forward_application-dyce',$ol_application->id) }} --}}
+            {{ Breadcrumbs::render('architect_layout_scrutiny_remarks',$ArchitectLayout->id) }}
             <div class="ml-auto btn-list">
                 <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
             </div>
@@ -15,7 +15,7 @@
             <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom">
                 <li class="nav-item m-tabs__item" data-target="#document-scrunity">
                     <a class="nav-link m-tabs__link active show" data-toggle="tab" href="#scrutiny-history-tab">
-                        <i class="la la-cog"></i> Submit Report
+                        <i class="la la-cog"></i> Scrutiny Report
                     </a>
                 </li>
 
@@ -31,31 +31,72 @@
                 <div class="tab-pane active show" id="scrutiny-history-tab">
                     <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
                         <div class="portlet-body">
+                                @if(Session::has('success'))
+                                <div class="alert alert-success">
+                                    <p> {{ Session::get('success') }} </p>
+                                </div>
+                                @endif
+                                @if(Session::has('error'))
+                                <div class="alert alert-danger">
+                                    <p> {{ Session::get('error') }} </p>
+                                </div>
+                                @endif
                             <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
-                                <div class="">
+                                {{-- <div class="">
                                     <h3 class="section-title section-title--small">
                                         Scrutiny Report
                                     </h3>
-                                </div>
+                                </div> --}}
+                                {{-- {{$read_only}} --}}
+                                @if($read_only!=1)
                                 <a href="{{route('architect_layout_add_scrutiny_report',['layout_id'=>encrypt($ArchitectLayout->id)])}}"
                                     class="btn btn-primary mb-2">Add report</a>
+                                @endif
                                 <div class="remarks-suggestions">
-                                    <table class="table">
+                                    <table class="table" style="width:50%">
                                         <tr>
                                             <th>Date</th>
                                             <th>Name Of Document</th>
                                             <th>File</th>
+                                            @if($read_only!=1)
+                                            <th>Delete</th>
+                                            @endif
                                         </tr>
                                         @foreach($scrutiny_reports as $scrutiny_report)
-                                        @foreach($scrutiny_report as $report)
+                                        @forelse($scrutiny_report as $report)
                                         <tr>
                                             <td>{{
                                                 date('d/m/Y',strtotime($report->created_at))
                                                 }}</td>
                                             <td>{{ $report->name_of_document }}</td>
-                                            <td><a class="btn-link" target="_blank" href="{{config('commanConfig.storage_server').'/'.$report->file}}">file</a></td>
+                                            <td>
+                                                <a class="btn-link" target="_blank" href="{{config('commanConfig.storage_server').'/'.$report->file}}">file</a>
+                                            </td>
+                                            @if($read_only!=1)
+                                            <td>
+                                                <form method="post" action="{{route('delete_architect_layout_scrutiny_report')}}">
+                                                    @csrf
+                                                    <input type="hidden" name="report_id" value="{{encrypt($report->id)}}">
+                                                    <button type="submit" onclick="return confirm('are you sure?')" name="final" value="final" class="btn btn--unstyled p-0 btn--icon-wrap d-flex align-items-center flex-column">
+                                                        <span class="btn-icon btn-icon--delete">
+                                                            <img src="{{ asset('/img/delete-icon.svg')}}">
+                                                        </span>
+                                                    </button>
+                                                </form>
+                                                {{-- <a class="d-flex flex-column align-items-center" title="Delete"
+                                                    href="Javascript:void(0);">
+                                                    <span class="btn-icon btn-icon--delete">
+                                                        <img src="{{ asset('/img/delete-icon.svg')}}">
+                                                    </span>
+                                                </a> --}}
+                                            </td>
+                                            @endif
                                         </tr>
-                                        @endforeach
+                                        @empty
+                                        <tr>
+                                            <td colspan="{{$read_only!=1?4:3}}">No Record Found</td>
+                                        </tr>
+                                        @endforelse
                                         @endforeach
                                     </table>
                                 </div>
@@ -76,7 +117,7 @@
                                 <div class="remarks-suggestions scrutiny-checklist_and_remarks">
                                     <div id="wrapper">
                                         @if(isset($post_route_name) && isset($upload_file_route_name))
-                                        @include('admin.architect_layout.scrutiny.checklist_and_remark',compact('check_list_and_remarks','post_route_name','upload_file_route_name'))
+                                        @include('admin.architect_layout.scrutiny.checklist_and_remark',compact('read_only','check_list_and_remarks','post_route_name','upload_file_route_name'))
                                         @endif
                                         {{-- @if(session()->get('role_name')==config('commanConfig.land_manager'))
                                         @include('admin.architect_layout.scrutiny.lm_checklist_and_remark',compact('check_list_and_remarks',''))
@@ -128,6 +169,7 @@
             var count = $(".optionBox > div").length;
             count++;
             $('.block:last').after(
+                '<div class="block">' +
                 '<input type="hidden" name="report_id[]" id="report_id_' + count + '" value="">' +
                 '<div class="m-form__group row">' +
                 '<div class="col-lg-3 form-group">' +
@@ -154,14 +196,23 @@
                 '<input type="hidden" name="report_file_name[]" id="report_file_' + count +
                 '" value="">' +
                 '<a class="btn-link" target="_blank" id="report_file_link_' + count +
-                '" style="display:none">uploaded file</a>' +
+                '" style="display:none">download</a>' +
                 '</div>' +
+                '</div>' +
+                '<div class="col-lg-2 form-group mt-2">' +
+                '<a href="" class="removeChecklistAndRemark"><i class="fa fa-close btn--add-delete"></i></a>' +
                 '</div>' +
                 '</div>'
             );
             $('.m-bootstrap-select').selectpicker('refresh');
             showUploadedFileName();
         });
+
+        $('body').on('click', '.removeChecklistAndRemark', function (e) {
+            e.preventDefault()
+            //console.log($(this).parent().parent().parent().parent()[0])
+            $(this).parent().parent().parent()[0].remove()
+        })
 
         function showUploadedFileName() {
             $('.custom-file-input').change(function (e) {

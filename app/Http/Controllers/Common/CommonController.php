@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Common;
 
 use App\ArchitectApplication;
 use App\conveyance\scApplicationLog;
+use App\DashboardHeader;
 use App\EENote;
 use App\Http\Controllers\Controller;
 use App\Layout\ArchitectLayout;
@@ -30,6 +31,7 @@ use App\OlDemarcationVerificationQuestionMaster;
 use App\OlRgRelocationVerificationQuestionMaster;
 use App\OlSharingCalculationSheetDetail;
 use App\OlTitBitVerificationQuestionMaster;
+use App\Permission;
 use App\REENote;
 use App\Role;
 use App\SocietyOfferLetter;
@@ -39,6 +41,7 @@ use Carbon\Carbon;
 use Config;
 use DB;
 use Storage;
+use App\EmploymentOfArchitect\EoaApplication;
 
 class CommonController extends Controller
 {
@@ -134,18 +137,25 @@ class CommonController extends Controller
         return $applicationData;
     }
 
+
+
     public function architect_applications($request)
     {
-        $architect_applications = ArchitectApplication::with(['ArchitectApplicationStatusForLoginListing' => function ($query) {
+        
+        $architect_applications = EoaApplication::with(['ArchitectApplicationStatusForLoginListing' => function ($query) {
             return $query->where(['user_id' => auth()->user()->id, 'role_id' => session()->get('role_id')])->orderBy('id', 'desc');
-        }]);
-
+        }])->whereHas('ArchitectApplicationStatusForLoginListing', function ($q) {
+            $q->where('user_id', Auth::user()->id)
+                ->where('role_id', session()->get('role_id'))
+                ->orderBy('id', 'desc');
+        });
+        //dd($architect_applications->get());
         if ($request->keyword) {
             $architect_applications->where(function ($query) use ($request) {
                 $query->orWhere('application_number', 'like', '%' . $request->keyword . '%');
-                $query->orWhere('candidate_name', 'like', '%' . $request->keyword . '%');
-                $query->orWhere('candidate_email', 'like', '%' . $request->keyword . '%');
-                $query->orWhere('candidate_mobile_no', 'like', '%' . $request->keyword . '%');
+                $query->orWhere('name_of_applicant', 'like', '%' . $request->keyword . '%');
+                //$query->orWhere('candidate_email', 'like', '%' . $request->keyword . '%');
+                $query->orWhere('mobile', 'like', '%' . $request->keyword . '%');
             });
         }
         if ($request->application_status) {
@@ -153,7 +163,7 @@ class CommonController extends Controller
         }
 
         if ($request->from) {
-            $architect_applications->whereDate('application_date', '>=', date('Y-m-d', strtotime($request->from)));
+            $architect_applications->whereDate(DB::raw('DATE(created_at)'), '>=', date('Y-m-d', strtotime($request->from)));
         }
 
         if ($request->status) {
@@ -162,19 +172,62 @@ class CommonController extends Controller
                     ->select('status_id')
                     ->where('user_id', auth()->user()->id)
                     ->where('role_id', session()->get('role_id'))
-                    ->where('architect_application_id', '=', DB::raw('architect_application.id'))
+                    ->where('architect_application_id', '=', DB::raw('eoa_applications.id'))
                     ->limit(1)
                     ->orderBy('id', 'desc');
+                    //dd($q->get());
             });
         }
 
         if ($request->to) {
-            $architect_applications->whereDate('application_date', '<=', date('Y-m-d', strtotime($request->to)));
+            $architect_applications->whereDate(DB::raw('DATE(created_at)'), '<=', date('Y-m-d', strtotime($request->to)));
         }
         $architect_application = $architect_applications->get();
 
         return $architect_application;
     }
+
+    // public function architect_applications($request)
+    // {
+    //     $architect_applications = ArchitectApplication::with(['ArchitectApplicationStatusForLoginListing' => function ($query) {
+    //         return $query->where(['user_id' => auth()->user()->id, 'role_id' => session()->get('role_id')])->orderBy('id', 'desc');
+    //     }]);
+
+    //     if ($request->keyword) {
+    //         $architect_applications->where(function ($query) use ($request) {
+    //             $query->orWhere('application_number', 'like', '%' . $request->keyword . '%');
+    //             $query->orWhere('candidate_name', 'like', '%' . $request->keyword . '%');
+    //             $query->orWhere('candidate_email', 'like', '%' . $request->keyword . '%');
+    //             $query->orWhere('candidate_mobile_no', 'like', '%' . $request->keyword . '%');
+    //         });
+    //     }
+    //     if ($request->application_status) {
+    //         $architect_applications->where('application_status', '=', $request->application_status);
+    //     }
+
+    //     if ($request->from) {
+    //         $architect_applications->whereDate('application_date', '>=', date('Y-m-d', strtotime($request->from)));
+    //     }
+
+    //     if ($request->status) {
+    //         $architect_applications->where(DB::raw($request->status), '=', function ($q) {
+    //             $q->from('architect_application_status_logs')
+    //                 ->select('status_id')
+    //                 ->where('user_id', auth()->user()->id)
+    //                 ->where('role_id', session()->get('role_id'))
+    //                 ->where('architect_application_id', '=', DB::raw('architect_application.id'))
+    //                 ->limit(1)
+    //                 ->orderBy('id', 'desc');
+    //         });
+    //     }
+
+    //     if ($request->to) {
+    //         $architect_applications->whereDate('application_date', '<=', date('Y-m-d', strtotime($request->to)));
+    //     }
+    //     $architect_application = $architect_applications->get();
+
+    //     return $architect_application;
+    // }
 
     public function architect_layout_details($request)
     {
@@ -215,12 +268,12 @@ class CommonController extends Controller
         $ArchitectLayoutRevisionRequestsQuery = ArchitectLayout::with(['ArchitectLayoutStatusLogInListing' => function ($q) {
             $q->where('user_id', Auth::user()->id)
                 ->where('role_id', session()->get('role_id'))
-                ->limit(1)
+                //->limit(1)
                 ->orderBy('id', 'desc');
         }])->whereHas('ArchitectLayoutStatusLogInListing', function ($q) {
             $q->where('user_id', Auth::user()->id)
                 ->where('role_id', session()->get('role_id'))
-                ->limit(1)
+                //->limit(1)
                 ->orderBy('id', 'desc');
         });
         //dd($ArchitectLayoutRevisionRequestsQuery->get());
@@ -243,19 +296,19 @@ class CommonController extends Controller
             $ArchitectLayoutRevisionRequestsQuery->where('layout_no', $request->title);
         }
 
-        /** query replaced for optimization
-        *$ArchitectLayoutRevisionRequests = $ArchitectLayoutRevisionRequestsQuery->where(DB::raw(config('commanConfig.architect_layout_status.new_application')), '!=', function ($q) {
-        *    $q->from('architect_layout_status_logs')->select('status_id')->where('architect_layout_id', '=', DB::raw('architect_layouts.id'))->limit(1)->orderBy('id', 'desc');
-        *})->where(DB::raw(config('commanConfig.architect_layout_status.approved')), '!=', function ($q) {
-        *    $q->from('architect_layout_status_logs')->select('status_id')->where('architect_layout_id', '=', DB::raw('architect_layouts.id'))->limit(1)->orderBy('id', 'desc');
-        *})->get();
-        **/
+        // query replaced for optimization
         $ArchitectLayoutRevisionRequests = $ArchitectLayoutRevisionRequestsQuery->where(DB::raw(config('commanConfig.architect_layout_status.new_application')), '!=', function ($q) {
-            $q->from('architect_layout_status_logs')->select('status_id')->where('architect_layout_id', '=', DB::raw('architect_layouts.id'))->where('open',1);
+            $q->from('architect_layout_status_logs')->select('status_id')->where('architect_layout_id', '=', DB::raw('architect_layouts.id'))->limit(1)->orderBy('id', 'desc');
         })->where(DB::raw(config('commanConfig.architect_layout_status.approved')), '!=', function ($q) {
-            $q->from('architect_layout_status_logs')->select('status_id')->where('architect_layout_id', '=', DB::raw('architect_layouts.id'))->where('open',1);
+            $q->from('architect_layout_status_logs')->select('status_id')->where('architect_layout_id', '=', DB::raw('architect_layouts.id'))->limit(1)->orderBy('id', 'desc');
         })->get();
-
+        
+        // $ArchitectLayoutRevisionRequests = $ArchitectLayoutRevisionRequestsQuery->where(DB::raw(config('commanConfig.architect_layout_status.new_application')), '!=', function ($q) {
+        //     $q->from('architect_layout_status_logs')->select('status_id')->where('architect_layout_id', '=', DB::raw('architect_layouts.id'))->where('open',1);
+        // })->where(DB::raw(config('commanConfig.architect_layout_status.approved')), '!=', function ($q) {
+        //     $q->from('architect_layout_status_logs')->select('status_id')->where('architect_layout_id', '=', DB::raw('architect_layouts.id'))->where('open',1);
+        // })->get();
+        //dd($ArchitectLayoutRevisionRequests);
         return $ArchitectLayoutRevisionRequests;
     }
 
@@ -646,6 +699,23 @@ class CommonController extends Controller
         return Storage::disk('ftp')->putFileAs($folderName, $file, $fileName);
     }
 
+
+    // For drafting document
+    public function ftpGeneratedFileUpload($folder_name, $file, $file_path)
+    {
+        if (!(Storage::disk('ftp')->has($folder_name))) {
+            Storage::disk('ftp')->makeDirectory($folder_name, $mode = 0777, true, true);
+        }
+        return Storage::disk('ftp')->put($file_path, $file);
+    }
+
+    // For retrieving FTP file content
+    public function getftpFileContent($file_path)
+    {
+        return Storage::disk('ftp')->get($file_path);
+    }
+
+
     public function generateOfferLetterREE($request)
     {
         $forward_application = [[
@@ -720,7 +790,114 @@ class CommonController extends Controller
 
         $architectRoles = Role::whereIn('name', $roles)->pluck('id');
         $Architectlogs = ArchitectLayoutStatusLog::with('getRoleName')->where('architect_layout_id', $layout_id)->whereIn('role_id', $architectRoles)->whereIn('status_id', $status)->get();
+        //dd($Architectlogs);
+        return $Architectlogs;
+    }
 
+    public function getLogOfEmLayoutApplication($layout_id)
+    {
+        $roles = array(config('commanConfig.estate_manager'));
+
+        $status = array(config('commanConfig.architect_layout_status.forward'));
+
+        $architectRoles = Role::whereIn('name', $roles)->pluck('id');
+        $Architectlogs = ArchitectLayoutStatusLog::with('getRoleName')->where('architect_layout_id', $layout_id)->whereIn('role_id', $architectRoles)->whereIn('status_id', $status)->get();
+        //dd($Architectlogs);
+        return $Architectlogs;
+    }
+
+    public function getLogOfLmLayoutApplication($layout_id)
+    {
+        $roles = array(config('commanConfig.land_manager'));
+
+        $status = array(config('commanConfig.architect_layout_status.forward'));
+
+        $architectRoles = Role::whereIn('name', $roles)->pluck('id');
+        $Architectlogs = ArchitectLayoutStatusLog::with('getRoleName')->where('architect_layout_id', $layout_id)->whereIn('role_id', $architectRoles)->whereIn('status_id', $status)->get();
+        //dd($Architectlogs);
+        return $Architectlogs;
+    }
+
+    public function getLogOfEELayoutApplication($layout_id)
+    {
+        $roles = array(config('commanConfig.ee_junior_engineer'),config('commanConfig.ee_deputy_engineer'),config('commanConfig.ee_branch_head'));
+
+        $status = array(config('commanConfig.architect_layout_status.forward'));
+
+        $architectRoles = Role::whereIn('name', $roles)->pluck('id');
+        $Architectlogs = ArchitectLayoutStatusLog::with('getRoleName')->where('architect_layout_id', $layout_id)->whereIn('role_id', $architectRoles)->whereIn('status_id', $status)->get();
+        //dd($Architectlogs);
+        return $Architectlogs;
+    }
+
+    public function getLogOfReeLayoutApplication($layout_id)
+    {
+        $roles = array(config('commanConfig.ree_junior'),config('commanConfig.ree_deputy_engineer'),config('commanConfig.ree_assistant_engineer'),config('commanConfig.ree_branch_head'));
+
+        $status = array(config('commanConfig.architect_layout_status.forward'));
+
+        $architectRoles = Role::whereIn('name', $roles)->pluck('id');
+        $Architectlogs = ArchitectLayoutStatusLog::with('getRoleName')->where('architect_layout_id', $layout_id)->whereIn('role_id', $architectRoles)->whereIn('status_id', $status)->get();
+        //dd($Architectlogs);
+        return $Architectlogs;
+    }
+
+    public function getLogOfCoLayoutApplication($layout_id)
+    {
+        $roles = array(config('commanConfig.co_engineer'));
+
+        $status = array(config('commanConfig.architect_layout_status.forward'));
+
+        $architectRoles = Role::whereIn('name', $roles)->pluck('id');
+        $Architectlogs = ArchitectLayoutStatusLog::with('getRoleName')->where('architect_layout_id', $layout_id)->whereIn('role_id', $architectRoles)->whereIn('status_id', $status)->get();
+        //dd($Architectlogs);
+        return $Architectlogs;
+    }
+
+    public function getLogOfSapLayoutApplication($layout_id)
+    {
+        $roles = array(config('commanConfig.senior_architect_planner'));
+
+        $status = array(config('commanConfig.architect_layout_status.forward'));
+
+        $architectRoles = Role::whereIn('name', $roles)->pluck('id');
+        $Architectlogs = ArchitectLayoutStatusLog::with('getRoleName')->where('architect_layout_id', $layout_id)->whereIn('role_id', $architectRoles)->whereIn('status_id', $status)->get();
+        //dd($Architectlogs);
+        return $Architectlogs;
+    }
+    public function getLogOfCapLayoutApplication($layout_id)
+    {
+        $roles = array(config('commanConfig.cap_engineer'));
+
+        $status = array(config('commanConfig.architect_layout_status.forward'));
+
+        $architectRoles = Role::whereIn('name', $roles)->pluck('id');
+        $Architectlogs = ArchitectLayoutStatusLog::with('getRoleName')->where('architect_layout_id', $layout_id)->whereIn('role_id', $architectRoles)->whereIn('status_id', $status)->get();
+        //dd($Architectlogs);
+        return $Architectlogs;
+    }
+
+    public function getLogOfLALayoutApplication($layout_id)
+    {
+        $roles = array(config('commanConfig.legal_advisor'));
+
+        $status = array(config('commanConfig.architect_layout_status.forward'));
+
+        $architectRoles = Role::whereIn('name', $roles)->pluck('id');
+        $Architectlogs = ArchitectLayoutStatusLog::with('getRoleName')->where('architect_layout_id', $layout_id)->whereIn('role_id', $architectRoles)->whereIn('status_id', $status)->get();
+        //dd($Architectlogs);
+        return $Architectlogs;
+    }
+
+    public function getLogOfVPLayoutApplication($layout_id)
+    {
+        $roles = array(config('commanConfig.vp_engineer'));
+
+        $status = array(config('commanConfig.architect_layout_status.approved'));
+
+        $architectRoles = Role::whereIn('name', $roles)->pluck('id');
+        $Architectlogs = ArchitectLayoutStatusLog::with('getRoleName')->where('architect_layout_id', $layout_id)->whereIn('role_id', $architectRoles)->whereIn('status_id', $status)->get();
+        //dd($Architectlogs);
         return $Architectlogs;
     }
 
@@ -874,84 +1051,93 @@ class CommonController extends Controller
 
     public function get_lm_checklist_and_remarks($layout_id, $user_id)
     {
+        $latest_architect_layout_detail=ArchitectLayoutDetail::where(['architect_layout_id'=>$layout_id])->orderBy('id','desc')->first();
         $ArchitectLayoutLmScrtinyQuestionMaster = ArchitectLayoutLmScrtinyQuestionMaster::all();
         foreach ($ArchitectLayoutLmScrtinyQuestionMaster as $data) {
-            $detail = ArchitectLayoutLmScrtinyQuestionDetail::where(['user_id' => $user_id, 'architect_layout_id' => $layout_id, 'architect_layout_lm_scrunity_question_master_id' => $data->id])->first();
+            $detail = ArchitectLayoutLmScrtinyQuestionDetail::where(['user_id' => $user_id, 'architect_layout_id' => $layout_id,'architect_layout_detail_id'=>$latest_architect_layout_detail->id, 'architect_layout_lm_scrunity_question_master_id' => $data->id])->first();
             if ($detail) {
 
             } else {
                 $enter_detail = new ArchitectLayoutLmScrtinyQuestionDetail;
                 $enter_detail->user_id = $user_id;
                 $enter_detail->architect_layout_id = $layout_id;
+                $enter_detail->architect_layout_detail_id = $latest_architect_layout_detail->id;
                 $enter_detail->architect_layout_lm_scrunity_question_master_id = $data->id;
                 $enter_detail->save();
             }
         }
 
-        $final_detail = ArchitectLayoutLmScrtinyQuestionDetail::with(['question'])->where(['user_id' => $user_id, 'architect_layout_id' => $layout_id])->get();
+        $final_detail = ArchitectLayoutLmScrtinyQuestionDetail::with(['question'])->where(['user_id' => $user_id, 'architect_layout_id' => $layout_id,'architect_layout_detail_id'=>$latest_architect_layout_detail->id])->get();
         return $final_detail;
 
     }
 
     public function get_em_checklist_and_remarks($layout_id, $user_id)
     {
+        $latest_architect_layout_detail=ArchitectLayoutDetail::where(['architect_layout_id'=>$layout_id])->orderBy('id','desc')->first();
         $ArchitectLayoutLmScrtinyQuestionMaster = ArchitectLayoutEmScrtinyQuestionMaster::all();
         foreach ($ArchitectLayoutLmScrtinyQuestionMaster as $data) {
-            $detail = ArchitectLayoutEmScrtinyQuestionDetail::where(['user_id' => $user_id, 'architect_layout_id' => $layout_id, 'architect_layout_em_scrunity_question_master_id' => $data->id])->first();
+            $detail = ArchitectLayoutEmScrtinyQuestionDetail::where(['user_id' => $user_id, 'architect_layout_id' => $layout_id,'architect_layout_detail_id'=>$latest_architect_layout_detail->id, 'architect_layout_em_scrunity_question_master_id' => $data->id])->first();
             if ($detail) {
 
             } else {
                 $enter_detail = new ArchitectLayoutEmScrtinyQuestionDetail;
                 $enter_detail->user_id = $user_id;
                 $enter_detail->architect_layout_id = $layout_id;
+                $enter_detail->architect_layout_detail_id = $latest_architect_layout_detail->id;
                 $enter_detail->architect_layout_em_scrunity_question_master_id = $data->id;
                 $enter_detail->save();
             }
         }
 
-        $final_detail = ArchitectLayoutEmScrtinyQuestionDetail::with(['question'])->where(['user_id' => $user_id, 'architect_layout_id' => $layout_id])->get();
+        $final_detail = ArchitectLayoutEmScrtinyQuestionDetail::with(['question'])->where(['user_id' => $user_id, 'architect_layout_id' => $layout_id,'architect_layout_detail_id'=>$latest_architect_layout_detail->id])->get();
         return $final_detail;
 
     }
 
     public function get_ee_checklist_and_remarks($layout_id, $user_id)
     {
+        $latest_architect_layout_detail=ArchitectLayoutDetail::where(['architect_layout_id'=>$layout_id])->orderBy('id','desc')->first();
         $ArchitectLayoutLmScrtinyQuestionMaster = ArchitectLayoutEEScrtinyQuestionMaster::all();
         foreach ($ArchitectLayoutLmScrtinyQuestionMaster as $data) {
-            $detail = ArchitectLayoutEEScrtinyQuestionDetail::where(['user_id' => $user_id, 'architect_layout_id' => $layout_id, 'architect_layout_ee_scrunity_question_master_id' => $data->id])->first();
+            //$detail = ArchitectLayoutEEScrtinyQuestionDetail::where(['user_id' => $user_id, 'architect_layout_id' => $layout_id, 'architect_layout_ee_scrunity_question_master_id' => $data->id])->first();
+            $detail = ArchitectLayoutEEScrtinyQuestionDetail::where(['architect_layout_id' => $layout_id, 'architect_layout_detail_id'=>$latest_architect_layout_detail->id,'architect_layout_ee_scrunity_question_master_id' => $data->id])->first();
             if ($detail) {
 
             } else {
                 $enter_detail = new ArchitectLayoutEEScrtinyQuestionDetail;
                 $enter_detail->user_id = $user_id;
                 $enter_detail->architect_layout_id = $layout_id;
+                $enter_detail->architect_layout_detail_id = $latest_architect_layout_detail->id;
                 $enter_detail->architect_layout_ee_scrunity_question_master_id = $data->id;
                 $enter_detail->save();
             }
         }
 
-        $final_detail = ArchitectLayoutEEScrtinyQuestionDetail::with(['question'])->where(['user_id' => $user_id, 'architect_layout_id' => $layout_id])->get();
+        $final_detail = ArchitectLayoutEEScrtinyQuestionDetail::with(['question'])->where(['architect_layout_id' => $layout_id,'architect_layout_detail_id'=>$latest_architect_layout_detail->id])->get();
         return $final_detail;
 
     }
 
     public function get_ree_checklist_and_remarks($layout_id, $user_id)
     {
+        $latest_architect_layout_detail=ArchitectLayoutDetail::where(['architect_layout_id'=>$layout_id])->orderBy('id','desc')->first();
         $ArchitectLayoutLmScrtinyQuestionMaster = ArchitectLayoutReeScrtinyQuestionMaster::all();
         foreach ($ArchitectLayoutLmScrtinyQuestionMaster as $data) {
-            $detail = ArchitectLayoutReeScrtinyQuestionDetail::where(['user_id' => $user_id, 'architect_layout_id' => $layout_id, 'architect_layout_ree_scrunity_question_master_id' => $data->id])->first();
+            $detail = ArchitectLayoutReeScrtinyQuestionDetail::where(['architect_layout_id' => $layout_id,'architect_layout_detail_id'=>$latest_architect_layout_detail->id, 'architect_layout_ree_scrunity_question_master_id' => $data->id])->first();
             if ($detail) {
 
             } else {
                 $enter_detail = new ArchitectLayoutReeScrtinyQuestionDetail;
                 $enter_detail->user_id = $user_id;
                 $enter_detail->architect_layout_id = $layout_id;
+                $enter_detail->architect_layout_detail_id = $latest_architect_layout_detail->id;
                 $enter_detail->architect_layout_ree_scrunity_question_master_id = $data->id;
                 $enter_detail->save();
             }
         }
 
-        $final_detail = ArchitectLayoutReeScrtinyQuestionDetail::with(['question'])->where(['user_id' => $user_id, 'architect_layout_id' => $layout_id])->get();
+        $final_detail = ArchitectLayoutReeScrtinyQuestionDetail::with(['question'])->where(['architect_layout_id' => $layout_id,'architect_layout_detail_id'=>$latest_architect_layout_detail->id])->get();
         return $final_detail;
 
     }
@@ -967,19 +1153,29 @@ class CommonController extends Controller
 
         $fields = array(
             'text' => '<input type="text" id="'.$name.'" name="'.$name.'" class="form-control form-control--custom m-input" value="'.$value.'" '.$readonly.'>',
+            'hidden' => '<input type="hidden" id="'.$name.'" name="'.$name.'" class="form-control form-control--custom m-input" value="'.$value.'" '.$readonly.'>',
             'date' => '<input type="text" id="'.$name.'" name="'.$name.'" class="form-control form-control--custom m-input m_datepicker" value="'.$value.'" '.$readonly.'>',
             'textarea' => '<textarea id="'.$name.'" name="'.$name.'" class="form-control form-control--custom form-control--fixed-height m-input"'.$readonly.'>'.$value.'</textarea>',
+            'file' => '<div class="custom-file">
+                            <input class="custom-file-input pdfcheck" name="'.$name.'" type="file"
+                                   id="'.$name.'" required="required">
+                            <label class="custom-file-label" for="'.$name.'">Choose
+                                file...</label>
+                            <span class="text-danger" id="'.$name.'"></span>
+                        </div>',
         );
 
         return $fields[$type];
     }
 
-    public function sc_application_status_society($insert_arr, $status, $sc_application_id){
+    public function sc_application_status_society($insert_arr, $status, $sc_application){
         $status_in_words = array_flip(config('commanConfig.applicationStatus'))[$status];
-        $sc_application_last_id = $sc_application_id;
+        $sc_application_last_id = $sc_application->id;
+        $sc_application_master_id = $sc_application->sc_application_master_id;
         foreach($insert_arr['users'] as $key => $user){
             $i = 0;
             $insert_application_log[$status_in_words][$key]['application_id'] = $sc_application_last_id;
+            $insert_application_log[$status_in_words][$key]['application_master_id'] = $sc_application_master_id;
             $insert_application_log[$status_in_words][$key]['society_flag'] = 1;
             $insert_application_log[$status_in_words][$key]['user_id'] = Auth::user()->id;
             $insert_application_log[$status_in_words][$key]['role_id'] = Auth::user()->role_id;
@@ -992,6 +1188,7 @@ class CommonController extends Controller
             if($status == 2){
                 $status_in_words_1 = array_flip(config('commanConfig.applicationStatus'))[1];
                 $insert_application_log[$status_in_words_1][$key]['application_id'] = $sc_application_last_id;
+                $insert_application_log[$status_in_words_1][$key]['application_master_id'] = $sc_application_master_id;
                 $insert_application_log[$status_in_words_1][$key]['society_flag'] = 1;
                 $insert_application_log[$status_in_words_1][$key]['user_id'] = $user->id;
                 $insert_application_log[$status_in_words_1][$key]['role_id'] = $user->role_id;
@@ -1005,6 +1202,202 @@ class CommonController extends Controller
         }
         $inserted_application_log = scApplicationLog::insert($application_log_status);
         return $inserted_application_log;
+    }
+
+
+    // Reval society-REE documents
+    public function getRevalSocietyREEDocuments($applicationId)
+    {
+
+        $societyId = OlApplication::where('id', $applicationId)->value('society_id');
+        $societyDocuments = SocietyOfferLetter::with(['societyRevalDocuments.documents_Name'])->where('id', $societyId)->get();
+
+        return $societyDocuments;
+    }
+
+
+    /**
+     * Show the offer letter dashboard.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function dashboard()
+    {
+        $role_id = session()->get('role_id');
+        $user_id = Auth::id();
+
+        $applicationData = $this->getApplicationData($role_id,$user_id);
+//        dd($applicationData);
+
+        $statusCount = $this->getApplicationStatusCount($applicationData);
+
+        // EE Roles
+        $ee = $this->getEERoles();
+
+        // DYCE Roles
+        $dyce = $this->getDyceRoles();
+
+        // CAP
+        $cap = Role::where('name',config('commanConfig.cap_engineer'))->value('id');
+
+        // VP
+        $vp = Role::where('name',config('commanConfig.vp_engineer'))->value('id');
+
+        $dashboardData = [];
+
+
+        if(in_array($role_id ,$ee))
+            $dashboardData = $this->getEEDashboardData($role_id,$ee,$statusCount);
+
+        if(in_array($role_id ,$dyce))
+            $dashboardData = $this->getDyceDashboardData($role_id,$dyce,$statusCount);
+
+        if($cap)
+            $dashboardData = $this->getCapDashboardData($statusCount);
+
+        if($vp)
+            $dashboardData = $this->getVpDashboardData($statusCount);
+
+        return view('admin.common.ol_dashboard',compact('dashboardData'));
+
+    }
+
+
+    public function getApplicationData($role_id,$user_id){
+        $applicationData = OlApplication::with([
+            'olApplicationStatus' => function ($q) use ($role_id,$user_id) {
+                $q->where('user_id', $user_id)
+                    ->where('role_id', $role_id)
+                    ->where('society_flag', 0)
+                    ->orderBy('id', 'desc');
+            }])
+            ->whereHas('olApplicationStatus', function ($q) use ($role_id,$user_id) {
+                $q->where('user_id', $user_id)
+                    ->where('role_id', $role_id)
+                    ->where('society_flag', 0)
+                    ->orderBy('id', 'desc');
+            })->get()->toArray();
+//        dd($applicationData);
+        return $applicationData;
+    }
+
+    public function getApplicationStatusCount($applicationData){
+
+        $totalForwarded = $totalReverted = $totalPending = $totalInProcess = 0 ;
+
+        foreach ($applicationData as $application){
+
+            $status = $application['ol_application_status'][0]['status_id'];
+//            print_r($status);
+//            echo '=====';
+            switch ( $status )
+            {
+                case config('commanConfig.applicationStatus.in_process'): $totalPending += 1; break;
+                case config('commanConfig.applicationStatus.forwarded'): $totalForwarded += 1; break;
+                case config('commanConfig.applicationStatus.reverted'): $totalReverted += 1 ; break;
+                default:
+                    ; break;
+            }
+        }
+//        dd($totalForwarded);
+        $totalApplication = count($applicationData);
+
+        $count = ['totalPending' => $totalPending,
+                  'totalForwarded' => $totalForwarded,
+                  'totalReverted' => $totalReverted,
+                  'totalApplication' => $totalApplication
+        ];
+        return $count;
+
+    }
+
+    public function getEERoles(){
+        $ee_jr_id = Role::where('name',config('commanConfig.ee_junior_engineer'))->value('id');
+        $ee_head_id = Role::where('name',config('commanConfig.ee_branch_head'))->value('id');
+        $ee_deputy_id = Role::where('name', config('commanConfig.ee_deputy_engineer'))->value('id');
+        $ee = ['ee_jr_id'=>$ee_jr_id,
+            'ee_head_id'=>$ee_head_id,
+            'ee_deputy_id'=>$ee_deputy_id];
+        return $ee;
+    }
+
+    public function getDyceRoles(){
+        $dyce_jr_id = Role::where('name',config('commanConfig.dyce_jr_user'))->value('id');
+        $dyce_head_id = Role::where('name',config('commanConfig.dyce_branch_head'))->value('id');
+        $dyce_deputy_id = Role::where('name', config('commanConfig.dyce_deputy_engineer'))->value('id');
+        $dyce = ['dyce_jr_id' => $dyce_jr_id,
+                 'dyce_head_id' => $dyce_head_id,
+                 'dyce_deputy_id' => $dyce_deputy_id];
+        return $dyce;
+    }
+
+    public function getEEDashboardData($role_id,$ee,$statusCount)
+    {
+        switch ($role_id) {
+            case ($ee['ee_jr_id']):
+                $dashboardData['Total No of Application'] = $statusCount['totalApplication'];
+                $dashboardData['Application Pending'] = $statusCount['totalPending'];
+                $dashboardData['Application Forwarded to EE Deputy'] = $statusCount['totalForwarded'];
+                break;
+            case ($ee['ee_head_id']):
+                $dashboardData['Total No of Application'] = $statusCount['totalApplication'];
+                $dashboardData['Application Pending'] = $statusCount['totalPending'];
+                $dashboardData['Application Sent for Compliance'] = $statusCount['totalReverted'];
+                $dashboardData['Application Forwarded to DyCE Junior'] = $statusCount['totalForwarded'];
+                break;
+            case ($ee['ee_deputy_id']):
+                $dashboardData['Total No of Application'] = $statusCount['totalApplication'];
+                $dashboardData['Application Pending'] = $statusCount['totalPending'];
+                $dashboardData['Application Sent for Compliance'] = $statusCount['totalReverted'];
+                $dashboardData['Application Forwarded to EE Head'] = $statusCount['totalForwarded'];
+                break;
+            default:
+                ;
+                break;
+        }
+        return $dashboardData;
+    }
+
+    public function getDyceDashboardData($role_id,$dyce,$statusCount){
+        switch ($role_id)
+        {
+            case ($dyce['dyce_jr_id']):
+                $dashboardData['Total No of Application'] = $statusCount['totalApplication'];
+                $dashboardData['Application Pending'] = $statusCount['totalPending'];
+                $dashboardData['Application Forwarded to DYCE Deputy'] = $statusCount['totalForwarded'];
+                break;
+            case ($dyce['dyce_head_id']):
+                $dashboardData['Total No of Application'] = $statusCount['totalApplication'];
+                $dashboardData['Application Pending'] = $statusCount['totalPending'];
+                $dashboardData['Application Sent for Compliance'] = $statusCount['totalReverted'];
+                $dashboardData['Application Forwarded to REE Junior'] = $statusCount['totalForwarded'] ;
+                break;
+            case ($dyce['dyce_deputy_id']):
+                $dashboardData['Total No of Application'] = $statusCount['totalApplication'];
+                $dashboardData['Application Pending'] = $statusCount['totalPending'];
+                $dashboardData['Application Sent for Compliance'] = $statusCount['totalReverted'];
+                $dashboardData['Application Forwarded to DYCE Head'] = $statusCount['totalForwarded'] ;
+                break;
+            default:
+                ; break;
+        }
+        return $dashboardData;
+    }
+
+    public function getCapDashboardData($statusCount){
+        $dashboardData['Total No of Application'] = $statusCount['totalApplication'];
+        $dashboardData['Application Pending'] = $statusCount['totalPending'];
+        $dashboardData['Application Sent for Compliance To CO'] = $statusCount['totalReverted'];
+        $dashboardData['Application Forwarded to VP'] = $statusCount['totalForwarded'] ;
+        return $dashboardData;
+    }
+
+    public function getVpDashboardData($statusCount){
+        $dashboardData['Total No of Application'] = $statusCount['totalApplication'];
+        $dashboardData['Application Pending'] = $statusCount['totalPending'];
+        $dashboardData['Application Sent for Compliance To Cap'] = $statusCount['totalReverted'];
+        $dashboardData['Application Forwarded to REE Junior'] = $statusCount['totalForwarded'] ;
+        return $dashboardData;
     }
 
 }

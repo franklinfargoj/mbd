@@ -22,7 +22,7 @@ return [
 
     'senior_architect_planner'=>'senior_architect_planner',
 
-    //Branch Head
+    //Branch Head 
     'ee_branch_head' => 'ee_engineer',
     'dyce_branch_head' => 'dyce_engineer',
     'ree_branch_head' => 'ree_engineer',
@@ -53,21 +53,51 @@ return [
         'offer_letter_generation' => 5,
         'offer_letter_approved' => 6,
         'sent_to_society' => 7,
+        'Draft_sale_&_lease_deed' => 8,
+        'Aproved_sale_&_lease_deed' => 9,
+        'Sent_society_to_pay_stamp_duety' => 10,
+        'Stamped_sale_&_lease_deed' => 11,
+        'Stamped_signed_sale_&_lease_deed' => 12,
+        'Sent_society_for_registration_of_sale_&_lease' => 13,
+        'Registered_sale_&_lease_deed' => 14,
+        'NOC_Issued' => 15,
     ],
 
     // sc application agreements
      'scAgreements' => [
-        'draft_sale_agreement'       => 'draft_sale_agreement',
-        'draft_lease_agreement'      => 'draft_lease_agreement',
-        'approve_sale_agreement'     => 'approve_sale_agreement',
-        'approve_lease_agreement'    => 'approve_lease_agreement',
-        'stamp_sale_agreement'       => 'stamp_sale_agreement',
-        'stamp_lease_agreement'      => 'stamp_lease_agreement',
-        'stamp_sign_sale_agreement'  => 'stamp_sign_sale_agreement',
-        'stamp_sign_lease_agreement' => 'stamp_sign_lease_agreement',
-        'register_sale_agreement'    => 'register_sale_agreement',
-        'register_lease_agreement'   => 'register_lease_agreement',
+        'sale_deed_agreement'  => 'Sale Deed Agreement',
+        'lease_deed_agreement' => 'Lease Deed Agreement',
     ],   
+
+      // sc application Type
+     'applicationType' => [
+        'Conveyance'  => 'Conveyance',
+        'Renewal'     => 'Renewal',
+    ], 
+
+      // sc documents
+     'documents' => [
+        'dycdo_note'  => 'dycdo_note',
+        'architect_conveyance_map' => 'architect_conveyance_map',
+        'em_conveyance' => [
+            'no_dues_certificate' => [
+                'text_no_dues_certificate',
+                'drafted_no_dues_certificate',
+                'uploaded_no_dues_certificate',
+            ],
+            'bonafide' => [
+                'bonafide_list',
+            ],
+            'covering_letter' => [
+                'em_covering_letter'
+            ]
+        ]
+    ], 
+
+    // sc Application types 
+    //  'scApplication' => [
+    //     'draft_sale_agreement'       => 'draft_sale_agreement',
+    // ],      
 
     'applicationStatusColor' => [
         '1' => 'metal',
@@ -76,14 +106,22 @@ return [
         '4' => 'metal',
         '5' => 'purple',
         '6' => 'purple',
-        '7' => 'success',
+        '7' => 'success', 
+        '8' => 'purple', 
+        '9' => 'purple', 
+        '10' => 'success', 
+        '11' => 'purple', 
+        '12' => 'purple', 
+        '13' => 'success', 
+        '14' => 'purple', 
+        '15' => 'success', 
     ],
 
     'architect_applicationStatus' => [
         'new_application' => 1,
         'scrutiny_pending' => 2,
         'forward' => 3,
-        // 'shortListed' => 4,
+         'approved' => 4,
         // 'final' => 5
     ],
     'architect_layout_status' => [
@@ -155,5 +193,27 @@ return [
         'DR'=>'DOCTORATE'
     ],
 
-    'mhada_code' => 'MHD'
+    'mhada_code' => 'MHD',
+
+
+    'SOCIETY_LEVEL_BILLING' => '1',
+    'TENANT_LEVEL_BILLING' => '2',
+    'PAYMENT_STATUS_NOT_PAID' => '0',
+    'PAYMENT_STATUS_PAID' => '1',
+
+    'no_dues_certificate' => [
+        'db_columns' => [
+            'draft' => 'drafted_no_dues_certificate',
+            'text' => 'text_no_dues_certificate',
+            'upload' => 'uploaded_no_dues_certificate',
+        ],
+        'redirect_message' => [
+            'draft_text' => 'No dues certificate generated successfully.',
+            'upload' => 'Uploaded No dues certificate successfully.',
+        ],
+        'redirect_message_status' => [
+            'draft_text' => 'drafted',
+            'upload' => 'uploaded',
+        ]
+    ]
 ];

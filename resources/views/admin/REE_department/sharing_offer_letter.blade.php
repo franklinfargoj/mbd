@@ -13,7 +13,7 @@
     <form id="OfferLetterFRM" action="{{ route('ree.save_offer_letter')}}" method="post">
         @csrf
         <input type="hidden" id="applicationId" name="applicationId" value="{{$applicatonId}}">
-        <textarea id="ckeditorText" name="ckeditorText">
+        <textarea id="ckeditorText" name="ckeditorText" style="display:none">
     <div style="" id="">
         <div style="width: 100%;">
 
@@ -57,15 +57,15 @@
                         <tr>
                             <td valign="top" style="border: 1px solid #000; text-align: center; padding: 5px;">Sub:</td>
                             <td valign="top" style="border: 1px solid #000; padding: 5px;">
-                                Proposed redevelopment of existing building No. <span style="font-weight: bold;">{{($calculationData->eeApplicationSociety->building_no ? $calculationData->eeApplicationSociety->building_no : '')}}</span>, known as  <span style="font-weight: bold;"></span> ______________ under  DCR 33(5), 
+                                Proposed redevelopment of existing building No. <span style="font-weight: bold;">{{($calculationData->eeApplicationSociety->building_no ? $calculationData->eeApplicationSociety->building_no : '')}}</span>, known as <span style="font-weight: bold;"> {{($calculationData->eeApplicationSociety->name ? $calculationData->eeApplicationSociety->name : '')}} ( {{($calculationData->eeApplicationSociety->address ? $calculationData->eeApplicationSociety->address : '')}} )</span> under  DCR 33(5), 
                                 dated 08.10.2013 & it's modification dated 03.07.2017.
                             </td>
                         </tr>
                         <tr>
                             <td valign="top" style="border: 1px solid #000; text-align: center; padding: 5px;">Ref:</td>
                             <td valign="top" style="border: 1px solid #000; padding: 5px;">
-                                <span style="display: block; margin-bottom: 4px;">1. Society's proposal dt__________.</span>
-                                <span style="display: block;">2. Hon. VP/A's approval dt.__________.</span>
+                                <span style="display: block; margin-bottom: 4px;">1. Society's proposal dt. <span style="font-weight: bold;">{{($calculationData->submitted_at ? date('d-m-Y',strtotime($calculationData->submitted_at)) : '')}} </span></span>
+                                <span style="display: block;">2. Hon. VP/A's approval dt. <span style="font-weight: bold;"> {{($calculationData->vpDate ? date('d-m-Y',strtotime($calculationData->vpDate)) : '')}}. </span></span>.</span>
                             </td>
                         </tr>
                     </tbody>
@@ -115,9 +115,9 @@
                 <table style="width: 100%; text-align: center; border-collapse: collapse; table-layout: fixed;">
                     <thead style="text-align: center;">
                         <tr>
-                            <th style="width: 7%; border: 1px solid #000; padding: 5px 10px">Sr.No</th>
-                            <th style="width: 74%; border: 1px solid #000; padding: 5px 10px">Particular</th>
-                            <th style="width: 21%; border: 1px solid #000; padding: 5px 10px;">Area in m <sup>2</sup></th>
+                            <th style="width: 8%; border: 1px solid #000; padding: 5px 10px">Sr.No</th>
+                            <th style="width: 65%; border: 1px solid #000; padding: 5px 10px">Particular</th>
+                            <th style="width: 35%; border: 1px solid #000; padding: 5px 10px;">Area in m <sup>2</sup></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -265,9 +265,9 @@
                 <table style="width: 100%; text-align: center; border-collapse: collapse; table-layout: fixed;">
                     <thead style="text-align: center;">
                         <tr>
-                            <th style="width: 7%; border: 1px solid #000; padding: 5px 10px">Sr.No</th>
-                            <th style="width: 74%; border: 1px solid #000; padding: 5px 10px">Particular</th>
-                            <th style="width: 21%; border: 1px solid #000; padding: 5px 10px">Area in m <sup>2</sup></th>
+                            <th style="width: 8%; border: 1px solid #000; padding: 5px 10px">Sr.No</th>
+                            <th style="width: 65%; border: 1px solid #000; padding: 5px 10px">Particular</th>
+                            <th style="width: 35%; border: 1px solid #000; padding: 5px 10px">Area in m <sup>2</sup></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -319,12 +319,12 @@
                         </tr>
                         <tr>
                             <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;"></td>
-                            <td colspan="2" style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Rs. {{  converNumberToWord(($calculationData->sharingCalculationSheet) !="" ? $calculationData->sharingCalculationSheet->amount_to_b_paid_to_municipal_corporation : '' ) }}</td>
+                            <td colspan="2" style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Rs. {{  converNumberToWord(($calculationData->sharingCalculationSheet) !="" ? str_replace( ',', '',$calculationData->sharingCalculationSheet->amount_to_b_paid_to_municipal_corporation) : '' ) }}</td>
                         </tr>
                         <tr>
                             <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;"></td>
                             <td style="border: 1px solid #000; padding: 5px 10px; text-align: left;">Total Amount to be paid to MCGM (Sr.No._____)</td>
-                            <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;">{{ ($calculationData->sharingCalculationSheet) !="" ? $calculationData->sharingCalculationSheet->amount_to_b_paid_to_municipal_corporation : '_____' }}</td>
+                            <td style="border: 1px solid #000;padding: 5px 10px; text-align: center;">{{ ($calculationData->sharingCalculationSheet) !="" ? str_replace( ',', '',$calculationData->sharingCalculationSheet->amount_to_b_paid_to_municipal_corporation) : '_____' }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -372,12 +372,12 @@
 
                  Rs.{{ ($calculationData->sharingCalculationSheet) !="" ? $calculationData->sharingCalculationSheet->total_amount_in_rs : '_____' }}/- 
 
-                 (Rs. {{  converNumberToWord(($calculationData->sharingCalculationSheet) !="" ? $calculationData->sharingCalculationSheet->total_amount_in_rs : '' ) }}) may be paid in the office of the Chief Accounts Officer/ Mumbai Board, Third Floor, Griha Nirman Bhavan, Bandra (E), Mumbai – 400051 by Demand Draft/ Pay Order within SIX months from the date of issue of this letter and produce certified Xerox copy of the receipt in this office.</p> 
+                 (Rs. {{  converNumberToWord(($calculationData->sharingCalculationSheet) !="" ? str_replace( ',', '',$calculationData->sharingCalculationSheet->total_amount_in_rs) : '' ) }}) may be paid in the office of the Chief Accounts Officer/ Mumbai Board, Third Floor, Griha Nirman Bhavan, Bandra (E), Mumbai – 400051 by Demand Draft/ Pay Order within SIX months from the date of issue of this letter and produce certified Xerox copy of the receipt in this office.</p> 
                 <p style="text-indent: 25px; margin-top: 5px; margin-bottom: 5px;">The society should pay Rs. 
 
                 {{ ($calculationData->sharingCalculationSheet) !="" ? $calculationData->sharingCalculationSheet->amount_to_b_paid_to_municipal_corporation : '_____' }}/- 
 
-                (In words Rs. {{  converNumberToWord(($calculationData->sharingCalculationSheet) !="" ? $calculationData->sharingCalculationSheet->amount_to_b_paid_to_municipal_corporation : '' ) }}) in the office of the Executive Engineer, {{($calculationData->eeApplicationSociety->address ? $calculationData->eeApplicationSociety->address : '')}}., within SIX months from the date of issue of this letter  and produce certified Xerox copy of the receipt in this office.</p>                 
+                (In words Rs. {{  converNumberToWord(($calculationData->sharingCalculationSheet) !="" ? str_replace( ',', '',$calculationData->sharingCalculationSheet->amount_to_b_paid_to_municipal_corporation) : '' ) }}) in the office of the Executive Engineer, {{($calculationData->eeApplicationSociety->address ? $calculationData->eeApplicationSociety->address : '')}}., within SIX months from the date of issue of this letter  and produce certified Xerox copy of the receipt in this office.</p>                 
                 <p style="text-indent: 25px; margin-top: 5px; margin-bottom: 5px;">On receipt of the same & after execution of tripartite agreement as mentioned above  for surrender of constructed BUA as MHADA's share the NOC will be  processed under certain terms and condition, which may please, be noted.</p>                
                 <p style="margin-bottom: 5px; margin-top: 5px;">Encl.: Annexure-I </p>
                 <p style="margin-bottom: 5px; margin-top: 5px; font-weight: bold;">(Draft approved by CO/MB) </p>
@@ -396,7 +396,7 @@
                 </div>
             </div>
 
-            <div style="margin-top: 30px; line-height: 1.5;">
+            <div style="margin-top: 10px; line-height: 1.5;">
                 <p style="margin-bottom: 5px; margin-top: 5px;"><span style="font-weight: bold;">Copy to The Executive
                         Engineer, </span>Executive Engineer, ________________________________</p>
                 <p style="margin-bottom: 5px; margin-top: 5px;"><span style="font-weight: bold;">Copy to Architect for
@@ -641,7 +641,7 @@
                     <div style="width: 96%; float: left;">
                         <div>The developer will have to construct rehab share at lower side, MHADA share in middle & developer share on upper floors, where only one bldg. is proposed.</div>
                     </div>
-                    <div style="clear: both;"></div>
+                    <div style="clear: both;margin-top: 75px;"></div>
                     <div style="width: 4%; float: left;">32.</div>
                     <div style="width: 96%; float: left;">
                         <div>If more than one society, are proposed joint redevelopment, then 70% consent of  each society shall be necessary,  in prescribed format by MHADA.</div>

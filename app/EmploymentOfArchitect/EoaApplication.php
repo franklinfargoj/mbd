@@ -37,7 +37,8 @@ class EoaApplication extends Model
         'reg_with_council_of_architecture_total_registered_persons',
         'award_prizes_etc',
         'other_information',
-        'application_info_and_its_enclosures_verify'
+        'application_info_and_its_enclosures_verify',
+        'form_step'
     ];
     
     public function fee_payment_details()
@@ -68,5 +69,48 @@ class EoaApplication extends Model
     public function project_sheets()
     {
         return $this->hasMany(\App\EmploymentOfArchitect\EoaApplicationProjectSheetDetail::class,'eoa_application_id','id');
+    }
+
+    public function marks()
+    {
+        return $this->hasMany(\App\ArchitectApplicationMark::class,'architect_application_id','id');
+    }
+
+    public function statusLog()
+    {
+        return $this->hasMany(\App\ArchitectApplicationStatusLog::class,'architect_application_id','id');
+    }
+
+    public function getApplicationStatusAttribute($value)
+    {
+        switch ($value) {
+            case 0:
+                return "None";
+                break;
+            case 1:
+                return "Shortlisted";
+                break;
+            case 2:
+                return "Final";
+                break;
+            default:
+                return "None";
+                break;
+        }
+    }
+
+    public function ArchitectApplicationStatusForLoginListing()
+    {
+        return $this->hasMany('App\ArchitectApplicationStatusLog', 'architect_application_id', 'id');
+    }
+
+    public function supporting_documents()
+    {
+        return $this->hasMany(\App\ArchitectApplicationMark::class,'architect_application_id','id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(\App\User::class,'user_id','id');
     }
 }

@@ -360,15 +360,23 @@ var SnippetLogin = function() {
                         property_card: {
                             required: !0
                         },
+                        property_card_area: {
+                            required: true
+                        },
                         property_card_mhada_name: {
                             required: !0
                         },
-                        mhada_name: {
-                            required: !0
-                        },
+                        // mhada_name: {
+                        //     required: !0
+                        // },
                         extract: {
                             required: '.file_upload[value="1"]:checked',
                             accept: "pdf"
+                        },
+                        other_remark: {
+                            required:function(element) {
+                                return ($('#remark').val() == 'other');
+                            }
                         }
                     },
                     messages: {
@@ -432,18 +440,37 @@ var SnippetLogin = function() {
                         property_card: {
                             required: !0
                         },
+                        property_card_area: {
+                            required: true
+                        },
                         property_card_mhada_name: {
                             required: !0
                         },
-                        mhada_name: {
-                            required: !0
+                        extract: {
+                            required: function(element) {
+                                console.log($('#extract').data('value'));
+
+                                if($('#file_upload').is(':checked')){
+                                    if($('#extract').data('value') != ''){
+                                        return false;
+                                    }
+                                }else{
+                                    return false;
+                                }
+                            },
+                            accept: "pdf",
+                        },
+                        other_remark: {
+                            required:function(element) {
+                                return ($('#remark').val() == 'other');
+                            }
                         }
-                        // extract: {
-                        //     required: function(element) {
-                        //         return $('#file_upload').is(':checked')
-                        //     }
-                        // }
                     },
+                    messages: {
+                        extract:{
+                            accept: "Only pdf allowed",
+                        }
+                    }
                 }), t.valid() && (a.addClass("m-loader m-loader--right m-loader--light").attr("disabled", !0), setTimeout(function() {
                     $('#editVillageDetail').submit();
                 }, 500))
@@ -474,9 +501,6 @@ var SnippetLogin = function() {
                             required: !0,
                             number: true
                         },
-                        chairman: {
-                            required: !0
-                        },
                         society_address: {
                             required: !0
                         },
@@ -497,7 +521,39 @@ var SnippetLogin = function() {
                         other_land_id: {
                             required: !0
                         },
-                    }
+                        society_reg_no: {
+                            required: !0,
+                        },
+                        society_conveyed: {
+                            required: !0
+                        },
+                        date_of_conveyance: {
+                            required: '.society_conveyed[value="1"]:checked',
+                        },
+                        area_of_conveyance: {
+                            number:true,
+                            required: '.society_conveyed[value="1"]:checked',
+                        },
+                        village: {
+                            required: !0
+                        },
+                        chairman_mob_no: {
+                            minlength: 10,
+                            maxlength: 10,
+                            number: true
+                        },
+                        secretary_mob_no: {
+                            minlength: 10,
+                            maxlength: 10,
+                            number: true
+                        },
+                        layout : {
+                            required : true,
+                        },
+                        society_email_id: {
+                            email: !0
+                        },
+                    },
                 }), t.valid() && (a.addClass("m-loader m-loader--right m-loader--light").attr("disabled", !0), setTimeout(function() {
                     $('#addSocietyDetail').submit();
                 }, 500))
@@ -541,6 +597,9 @@ var SnippetLogin = function() {
                         date_on_service_tax: {
                             required: !0
                         },
+                        society_email_id: {
+                            email: !0
+                        },
                         surplus_charges: {
                             required: !0,
                             number: true
@@ -551,6 +610,35 @@ var SnippetLogin = function() {
                         other_land_id: {
                             required: !0
                         },
+                        society_reg_no: {
+                            required: !0,
+                        },
+                        society_conveyed: {
+                            required: !0
+                        },
+                        date_of_conveyance: {
+                            required: '.society_conveyed[value="1"]:checked',
+                        },
+                        area_of_conveyance: {
+                            required: '.society_conveyed[value="1"]:checked',
+                            number: true,
+                        },
+                        village: {
+                            required: !0
+                        },
+                        chairman_mob_no: {
+                            minlength: 10,
+                            maxlength: 10,
+                            number: true
+                        },
+                        secretary_mob_no: {
+                            minlength: 10,
+                            maxlength: 10,
+                            number: true
+                        },
+                        layout : {
+                            required : true,
+                        }
                     }
                 }), t.valid() && (a.addClass("m-loader m-loader--right m-loader--light").attr("disabled", !0), setTimeout(function() {
                     $('#editSocietyDetail').submit();

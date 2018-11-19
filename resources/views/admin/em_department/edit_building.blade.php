@@ -10,11 +10,16 @@
 </div>
 @endif
 
+@if(session()->has('warning'))
+    <div class="alert alert-danger display_msg">
+        {{ session()->get('warning') }}
+    </div>  
+@endif
 <div class="col-md-12">
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center" id="search_box">
-            <h3 class="m-subheader__title m-subheader__title--separator">Application for Offer Letter</h3>
+            <h3 class="m-subheader__title m-subheader__title--separator">Edit Building</h3>
             {{ Breadcrumbs::render('em') }}
          </div>
    <form method="post" enctype='multipart/form-data' action="{{route('update_building')}}">
@@ -25,7 +30,7 @@
         <div class="m-portlet m-portlet--compact filter-wrap">
             <div class="row align-items-center row--filter">
                 <div class="col-md-12">
-                    <h4 class="m-subheader__title">Add Building</h4>
+                    <h4 class="m-subheader__title">Edit Building</h4>
                 </div>
             
                 <div class="col-md-12" style="margin-top:40px;">
@@ -34,8 +39,8 @@
                                 <div class="form-group">
                                     <label class="col-md-4 control-label">Building / Chawl Name</label>
                                         <div class="col-md-8 @if($errors->has('name')) has-error @endif">
-                                        <div class="input-icon right">
-                                             <input type="text" name="name" id="name" class="form-control" value="{{old('name', $building->name)}}">
+                                        <div class="input-icon right" >
+                                             <input type="text" name="name" id="name" class="form-control" value="{{old('name', $building->name)}}" required>
                                             <span class="help-block">{{$errors->first('name')}}</span>
                                         </div>
                                         </div>
@@ -51,7 +56,7 @@
                                     <label class="col-md-4 control-label">Building / Chawl Number</label>
                                         <div class="col-md-8 @if($errors->has('building_no')) has-error @endif">
                                         <div class="input-icon right">
-                                             <input type="text" name="building_no" id="building_no" class="form-control" value="{{old('building_no', $building->building_no)}}">
+                                             <input type="text" name="building_no" id="building_no" class="form-control" value="{{old('building_no', $building->building_no)}}" required>
                                             <span class="help-block">{{$errors->first('building_no')}}</span>
                                         </div>
                                         </div>
@@ -63,9 +68,9 @@
                 <div class="col-md-12">
                     <div class="col-md-9">
                         <div class="form-group m-form__group">
-                            <input type="submit" class="btn btn-success" name="submit" value="submit">
+                            <input type="submit" class="btn m-btn--pill m-btn--custom btn-primary" name="submit" value="submit">
 
-                            <a  class="btn btn-info" href="{{ route('get_buildings', [$building->society_id]) }}">Cancel</a>
+                            <a  class="btn m-btn--pill m-btn--custom btn-metal" href="{{ route('get_buildings', [encrypt($building->society_id)]) }}">Cancel</a>
                         </div>
                     </div>
                 </div>

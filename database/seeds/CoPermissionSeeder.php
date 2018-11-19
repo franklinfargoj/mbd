@@ -107,12 +107,112 @@ class CoPermissionSeeder extends Seeder
                 'display_name' => 'post_forward_architect_layout',
                 'description' => 'post_forward_architect_layout',
             ],
+            [
+                'name'=>'conveyance.index',
+                'display_name'=>'conveyance',
+                'description'=>'conveyance'
+            ],           
+            [
+                'name'=>'conveyance.view_application',
+                'display_name'=>'view application',
+                'description'=>'view application'
+            ],            
+            [
+                'name'=>'conveyance.sale_lease_agreement',
+                'display_name'=>'sale lease agreement',
+                'description'=>'sale lease agreement'
+            ],
+            [
+                'name' => 'conveyance.save_agreement_comments',
+                'display_name' => 'save agreement comments',
+                'description' => 'save agreement comments',
+            ], 
+            [
+                'name' => 'conveyance.approved_sale_lease_agreement',
+                'display_name' => 'approved sale lease agreement',
+                'description' => 'approved sale lease agreement',
+            ],
+            [
+                'name' => 'conveyance.stamp_duty_agreement',
+                'display_name' => 'stamp duty agreement',
+                'description' => 'stamp duty agreement',
+            ],
+            [
+                'name' => 'conveyance.stamp_signed_duty_agreement',
+                'display_name' => 'stamp signed duty agreement',
+                'description' => 'stamp signed duty agreement',
+            ],
+            [
+                'name' => 'conveyance.register_sale_lease_agreement',
+                'display_name' => 'register sale lease agreement',
+                'description' => 'register sale lease agreement',
+            ], 
+            [
+                'name' => 'conveyance.checklist',
+                'display_name' => 'checklist',
+                'description' => 'checklist',
+            ], 
+            [
+                'name' => 'conveyance.forward_application_sc',
+                'display_name' => 'forward application data',
+                'description' => 'forward application data',
+            ],                       
+            [
+                'name' => 'conveyance.save_forward_application',
+                'display_name' => 'forward application data',
+                'description' => 'forward application data',
+            ],
+            [
+                'name' => 'conveyance.view_ee_documents',
+                'display_name' => 'view ee documents',
+                'description' => 'view ee documents',
+
+            ],
+            [
+                'name'=>'dashboard',
+                'display_name'=>'dashboard',
+                'description'=>'Dashboard'
+            ],
+            [
+                'name'=>'co_applications.reval',
+                'display_name'=>'Applications for revalidation',
+                'description'=>'Applications for revalidation'
+            ],
+            [
+                'name'=>'co.view_reval_application',
+                'display_name'=>'View Revalidation Application',
+                'description'=>'View Revalidation Application'
+
+            ],
+            [
+                'name'=>'co.society_reval_documents',
+                'display_name'=>'View Society Revalidation Documents',
+                'description'=>'View Society Revalidation Documents'
+
+            ],
+            [
+                'name' => 'co.show_reval_calculation_sheet',
+                'display_name' => 'show Revalidation calculation sheet',
+                'description' => 'show Revalidation calculation sheet',
+            ],
+            [
+                'name'=>'co.forward_reval_application',
+                'display_name'=>'Forward Revalidation Application',
+                'description'=>'Forward Revalidation Application'
+
+            ],
+            [
+                'name' => 'co.forward_reval_application_data',
+                'display_name' => 'Forward Revalidation Application Data',
+                'description' => 'Forward Revalidation Application Data',
+            ]
+
         ];
         $ree_role_id = Role::where('name', 'ree_engineer')->value('id');
         if ($ree_role_id == null) {
             $ree_role_id = Role::insertGetId([
                 'name' => 'ree_engineer',
-                'redirect_to' => '/ree_applications',
+                'redirect_to' => '/dashboard',
                 'parent_id' => null,
                 'display_name' => 'Residential Executive Engineer',
                 'description' => 'Login as Residential Executive Engineer',
@@ -125,7 +225,7 @@ class CoPermissionSeeder extends Seeder
         } else {
             $role_id = Role::insertGetId([
                 'name' => 'co_engineer',
-                'redirect_to' => '/co',
+                'redirect_to' => '/dashboard',
                 'parent_id' => null,
                 'display_name' => 'Co_Engineer',
                 'description' => 'Login as CO Engineer',

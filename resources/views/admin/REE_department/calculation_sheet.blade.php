@@ -16,6 +16,7 @@
 </div>
 @endif
 
+
 <div class="custom-wrapper">
     <div class="col-md-12">
         <div class="d-flex">
@@ -73,13 +74,14 @@
                                 <form class="nav-tabs-form" role="form" method="POST" action="{{ route('save_calculation_details') }}">
                                     <div class="d-flex justify-content-start align-items-center mb-4">
                                         <span class="flex-shrink-0 text-nowrap">Total Number of buildings:</span>
-                                        <input type="text" class="form-control form-control--xs form-control--custom flex-grow-0 ml-3"
-                                            name="total_no_of_buildings" id="total_no_of_buildings" value="{{ isset($calculationSheetDetails[0]->total_no_of_buildings) ? $calculationSheetDetails[0]->total_no_of_buildings : 0 }}" />
+                                        <input type="text" class="form-control form-control--xs form-control--custom flex-grow-0 ml-3" placeholder="0"
+                                            name="total_no_of_buildings" id="total_no_of_buildings" value="<?php if(isset($calculationSheetDetails[0]->total_no_of_buildings)) { echo $calculationSheetDetails[0]->total_no_of_buildings; }  ?>" />
                                     </div>
                                     <table id="one" class="table mb-0 table--box-input" style="padding-top: 10px;">
                                         <input name="_token" type="hidden" value="{!! csrf_token() !!}" />
                                         <input name="application_id" type="hidden" value="{{ $applicationId }}" />
                                         <input name="user_id" type="hidden" value="{{ $user->id }}" />
+                                        <input name="society_id" type="hidden" value="{{ $ol_application->society_id }}" />
                                         <input name="redirect_tab" type="hidden" value="two" />
                                         <div class="d-flex justify-content-between align-items-center mb-4">
                                             <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
@@ -164,7 +166,7 @@
                                             <tr>
                                                 <td>2.</td>
                                                 <td>
-                                                    अभिनण्यानुसार भूखंडाचे क्षेत्रफळ
+                                                    अभिन्यासानुसार भूखंडाचे क्षेत्रफळ
                                                 </td>
                                                 <td class="text-center">
                                                     <input type="text" placeholder="0" class="min_val_for_calculation form-control form-control--custom" name="area_as_per_introduction"
@@ -495,6 +497,71 @@
                                             <tr>
                                                 <td>23.</td>
                                                 <td>
+                                                    प्रा. ठराव क्र ६२६० दि. ०४.०६.२००७ व ठराव क्र. ६३४९ दि. २५.११.२००८ अन्वये आर. जी. स्थलांतरणाकरिता दर रु. ५,५३०/- (१० टक्के रे. रे. सन २०१७-१८ रु. ५५३००/- प्रति चौ. मी. ) (१५८४. ४१ चौ. मी. X ५५३०)
+                                                </td>
+                                                <td class="text-center">
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td>
+                                                    1. आर. जी. स्थलांतरणाचे क्षेत्रफळ
+                                                </td>
+                                                <td class="text-center">
+                                                    <input type="text" placeholder="0" class="form-control form-control--custom"
+                                                           name="area_of_rg_to_be_relocated" id="area_of_rg_to_be_relocated" value="<?php if(isset($calculationSheetDetails[0]->area_of_rg_to_be_relocated)) { echo $calculationSheetDetails[0]->area_of_rg_to_be_relocated; } ?>" />
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td>
+                                                    Total
+                                                </td>
+                                                <td class="text-center">
+                                                    <input type="text" readonly placeholder="0" class="total_amount form-control form-control--custom"
+                                                           name="total_area_of_rg_to_be_relocated" id="total_area_of_rg_to_be_relocated"
+                                                           value="<?php if(isset($calculationSheetDetails[0]->total_area_of_rg_to_be_relocated)) { echo $calculationSheetDetails[0]->total_area_of_rg_to_be_relocated; } ?>" />
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>24.</td>
+                                                <td>
+                                                    भुईभाड्याचे भांडवलीकरणे वार्षिक २.५ टक्के
+                                                </td>
+                                                <td class="text-center">
+                                                    <input type="text" readonly placeholder="0" class="total_amount form-control form-control--custom"
+                                                           name="groundrent_capitalization_yearly" id="groundrent_capitalization_yearly" value="<?php if(isset($calculationSheetDetails[0]->groundrent_capitalization_yearly)) { echo $calculationSheetDetails[0]->groundrent_capitalization_yearly; } ?>" />
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>25.</td>
+                                                <td>
+                                                    आगाऊ भुईभाडे (प्रति वर्ष ८ टक्के दराने)
+                                                </td>
+                                                <td class="text-center">
+                                                    <input type="text" readonly placeholder="0" class="total_amount form-control form-control--custom"
+                                                           name="advance_groundrent_per_year" id="advance_groundrent_per_year" value="<?php if(isset($calculationSheetDetails[0]->advance_groundrent_per_year)) { echo $calculationSheetDetails[0]->advance_groundrent_per_year; } ?>" />
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>26.</td>
+                                                <td>
+                                                    नाममात्र भुईभाडे (Rs. 1 per year)
+                                                </td>
+                                                <td class="text-center">
+                                                    <input type="text" placeholder="0" class="total_amount form-control form-control--custom"
+                                                           name="nominal_groundrent" id="nominal_groundrent" value="<?php if(isset($calculationSheetDetails[0]->nominal_groundrent)) { echo $calculationSheetDetails[0]->nominal_groundrent; } ?>" />
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>27.</td>
+                                                <td>
                                                     एकूण रक्कम रुपये (अ .क्र.१५+१८+१९+२०+२१+२२)
                                                 </td>
                                                 <td class="text-center">
@@ -504,7 +571,7 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>24.</td>
+                                                <td>28.</td>
                                                 <td>
                                                     बृहनमुंबई महानगर पालिकेकडे ऑफ साईट इन्फ्रास्ट्रक्चर शुल्क
                                                     रक्कमपैकी भरणा करावयाची ५/७ रक्कम
@@ -707,6 +774,7 @@
                                     <input name="_token" type="hidden" value="{!! csrf_token() !!}" />
                                     <input name="application_id" type="hidden" value="{{ $applicationId }}" />
                                     <input name="user_id" type="hidden" value="{{ $user->id }}" />
+                                    <input name="society_id" type="hidden" value="{{ $ol_application->society_id }}" />
                                     <input name="redirect_tab" type="hidden" value="three" />
                                     <div class="d-flex justify-content-between align-items-center mb-4">
                                         <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
@@ -848,6 +916,7 @@
                                     <input name="_token" type="hidden" value="{!! csrf_token() !!}" />
                                     <input name="application_id" type="hidden" value="{{ $applicationId }}" />
                                     <input name="user_id" type="hidden" value="{{ $user->id }}" />
+                                    <input name="society_id" type="hidden" value="{{ $ol_application->society_id }}" />
                                     <input name="redirect_tab" type="hidden" value="four" />
                                     <div class="d-flex justify-content-between align-items-center mb-4">
                                         <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
@@ -902,7 +971,7 @@
                                                 </td>
                                                 <td class="text-center">
                                                     <input type="text" readonly class="first_installment  form-control form-control--custom" placeholder="0"
-                                                        name="scrutiny_fee" id="scrutiny_fee" value="6000" />
+                                                        name="scrutiny_fee" id="scrutiny_fee" value="<?php if(isset($calculationSheetDetails[0]->scrutiny_fee)) { echo $calculationSheetDetails[0]->scrutiny_fee; } ?>"
 
                                                 </td>
                                             </tr>
@@ -941,6 +1010,71 @@
                                             </tr>
                                             <tr>
                                                 <td>7.</td>
+                                                <td>
+                                                    प्रा. ठराव क्र ६२६० दि. ०४.०६.२००७ व ठराव क्र. ६३४९ दि. २५.११.२००८ अन्वये आर. जी. स्थलांतरणाकरिता दर रु. ५,५३०/- (१० टक्के रे. रे. सन २०१७-१८ रु. ५५३००/- प्रति चौ. मी. ) (१५८४. ४१ चौ. मी. X ५५३०)
+                                                </td>
+                                                <td class="text-center">
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td>
+                                                    1. आर. जी. स्थलांतरणाचे क्षेत्रफळ
+                                                </td>
+                                                <td class="text-center">
+                                                    <input type="text" readonly placeholder="0" class="form-control form-control--custom"
+                                                           name="area_of_rg_to_be_relocated" id="area_of_rg_to_be_relocated" value="<?php if(isset($calculationSheetDetails[0]->area_of_rg_to_be_relocated)) { echo $calculationSheetDetails[0]->area_of_rg_to_be_relocated; } ?>" />
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td>
+                                                    Total
+                                                </td>
+                                                <td class="text-center">
+                                                    <input type="text" readonly placeholder="0" class="first_installment form-control form-control--custom"
+                                                           name="total_area_of_rg_to_be_relocated" id="total_area_of_rg_to_be_relocated"
+                                                           value="<?php if(isset($calculationSheetDetails[0]->total_area_of_rg_to_be_relocated)) { echo $calculationSheetDetails[0]->total_area_of_rg_to_be_relocated; } ?>" />
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>8.</td>
+                                                <td>
+                                                    भुईभाड्याचे भांडवलीकरणे वार्षिक २.५ टक्के
+                                                </td>
+                                                <td class="text-center">
+                                                    <input type="text" readonly placeholder="0" class="first_installment form-control form-control--custom"
+                                                           name="groundrent_capitalization_yearly" id="groundrent_capitalization_yearly" value="<?php if(isset($calculationSheetDetails[0]->groundrent_capitalization_yearly)) { echo $calculationSheetDetails[0]->groundrent_capitalization_yearly; } ?>" />
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>9.</td>
+                                                <td>
+                                                    आगाऊ भुईभाडे (प्रति वर्ष ८ टक्के दराने)
+                                                </td>
+                                                <td class="text-center">
+                                                    <input type="text" readonly placeholder="0" class="first_installment form-control form-control--custom"
+                                                           name="advance_groundrent_per_year" id="advance_groundrent_per_year" value="<?php if(isset($calculationSheetDetails[0]->advance_groundrent_per_year)) { echo $calculationSheetDetails[0]->advance_groundrent_per_year; } ?>" />
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>10.</td>
+                                                <td>
+                                                    नाममात्र भुईभाडे (Rs. 1 per year)
+                                                </td>
+                                                <td class="text-center">
+                                                    <input type="text" readonly placeholder="0" class="first_installment form-control form-control--custom"
+                                                           name="nominal_groundrent" id="nominal_groundrent" value="<?php if(isset($calculationSheetDetails[0]->nominal_groundrent)) { echo $calculationSheetDetails[0]->nominal_groundrent; } ?>" />
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>11.</td>
                                                 <td class="font-weight-bold">
                                                     एकूण मंडळाकडे भरणा करावयाची पहिल्या हप्त्याची रक्कम
                                                     पूर्णांकामधे
@@ -980,6 +1114,7 @@
                                     <input name="_token" type="hidden" value="{!! csrf_token() !!}" />
                                     <input name="application_id" type="hidden" value="{{ $applicationId }}" />
                                     <input name="user_id" type="hidden" value="{{ $user->id }}" />
+                                    <input name="society_id" type="hidden" value="{{ $ol_application->society_id }}" />
                                     <input name="redirect_tab" type="hidden" value="five" />
                                     <div class="d-flex justify-content-between align-items-center mb-4">
                                         <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
@@ -1135,7 +1270,7 @@
                                             <td class="text-center">
                                                 @if(isset($calculationSheetDetails[0]->payment_of_remaining_installment) || isset($calculationSheetDetails[0]->payment_of_first_installment))
 
-                                                  {{ (3 * $calculationSheetDetails[0]->payment_of_remaining_installment ) + $calculationSheetDetails[0]->payment_of_first_installment }}
+                                                  {{ (3 * (float)(str_replace( ',', '',$calculationSheetDetails[0]->payment_of_remaining_installment)) ) + (float)(str_replace( ',', '',$calculationSheetDetails[0]->payment_of_first_installment)) }}
                                                 @else
                                                     0
                                                 @endif
@@ -1410,6 +1545,7 @@
         $("#non_profit_duty_installment").attr('value',  numberWithCommas(Math.ceil(1 / 4 * remaining_area_of_resident_area_balance)));
         $("#non_profit_duty_val").attr('value', numberWithCommas(Math.ceil(1 / 4 * remaining_area_of_resident_area_balance)));
 
+        $("#payment_of_remaining_installment").attr('value',numberWithCommas((Math.ceil(1 / 4 * remaining_area_of_resident_area_balance)).toFixed(2)));
     }
 
     function calculateAmountForMhadaMuncipal()
@@ -1420,6 +1556,26 @@
         $("#offsite_infrastructure_charge_to_mhada1").attr('value',numberWithCommas((2 / 7 * off_site_infrastructure_fee).toFixed(2)));
         $("#offsite_infrastructure_charge_to_mhada1_installment").attr('value',numberWithCommas((2 / 7 * off_site_infrastructure_fee).toFixed(2)));
     }
+
+    function totalAreaOfRgToBeRelocated()
+    {
+        var area_of_rg_to_be_relocated = (!cleanNumber($("#area_of_rg_to_be_relocated").val()) || isNaN(cleanNumber($("#area_of_rg_to_be_relocated").val()))) ? 0 : cleanNumber($("#area_of_rg_to_be_relocated").val());
+        var lr_val = (!cleanNumber($("#redirekner_value").val()) || isNaN(cleanNumber($("#redirekner_value").val()))) ? 0 : cleanNumber($("#redirekner_value").val());
+
+        var total_area = area_of_rg_to_be_relocated * lr_val * 0.10;
+
+        $("#total_area_of_rg_to_be_relocated").attr('value',numberWithCommas((total_area).toFixed(2)));
+
+        $("#groundrent_capitalization_yearly").attr('value',numberWithCommas((total_area* 0.025 *12.5).toFixed(2)));
+
+        $("#advance_groundrent_per_year").attr('value',numberWithCommas((area_of_rg_to_be_relocated * lr_val  * 0.08 * 1.5).toFixed(2)));
+
+    }
+
+    $(document).on("keyup", "#area_of_rg_to_be_relocated", function () {
+
+        totalAreaOfRgToBeRelocated();
+    });
 
     $(document).on("keyup", "#total_no_of_buildings", function () {
 
@@ -1525,6 +1681,7 @@
 
         calculatedDcrBalanceOfRemainingArea();
 
+        totalAreaOfRgToBeRelocated();
     });
 
 
@@ -1554,6 +1711,8 @@
 
         calculatedDcrBalanceOfRemainingArea();
 
+        totalAreaOfRgToBeRelocated();
+
     });
 
     $(document).on("change paste keyup", ".total_amount", function () {
@@ -1570,6 +1729,16 @@
         calculateAmountForMhadaMuncipal();
     });
 
+
+    $(document).on("keyup", ".first_installment", function () {
+
+        var first_installment = 0;
+        $(".first_installment").each(function () {
+            var installmentVal = (!cleanNumber($(this).val()) || isNaN(cleanNumber($(this).val()))) ? 0 : cleanNumber($(this).val());
+            first_installment += +parseFloat(installmentVal);
+        });
+        $("#payment_of_first_installment").attr('value',numberWithCommas(Math.ceil(first_installment)));
+    });
 
     function PrintElem(elem) {
 
@@ -1624,7 +1793,7 @@
         });
         $("#payment_of_first_installment").attr('value',numberWithCommas(Math.ceil(first_installment)));
 
-        $("#payment_of_remaining_installment").attr('value',numberWithCommas(Math.ceil($("#non_profit_duty").val())));
+       // $("#payment_of_remaining_installment").attr('value',numberWithCommas(Math.ceil($("#non_profit_duty").val())));
 
 
     });

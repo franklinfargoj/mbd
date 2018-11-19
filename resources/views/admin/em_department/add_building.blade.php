@@ -14,7 +14,7 @@
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center" id="search_box">
-            <h3 class="m-subheader__title m-subheader__title--separator">Application for Offer Letter</h3>
+            <h3 class="m-subheader__title m-subheader__title--separator">Add Building</h3>
             {{ Breadcrumbs::render('em') }}
          </div>
    <form method="post" enctype='multipart/form-data' action="{{route('create_building')}}">
@@ -34,7 +34,7 @@
                                     <label class="col-md-4 control-label">Building / Chawl Name</label>
                                         <div class="col-md-8 @if($errors->has('name')) has-error @endif">
                                         <div class="input-icon right">
-                                             <input type="text" name="name" id="name" class="form-control" value="{{old('name')}}">
+                                             <input type="text" name="name" id="name" class="form-control" value="{{old('name')}}" required>
                                             <span class="help-block">{{$errors->first('name')}}</span>
                                         </div>
                                         </div>
@@ -50,7 +50,7 @@
                                     <label class="col-md-4 control-label">Building / Chawl Number</label>
                                         <div class="col-md-8 @if($errors->has('building_no')) has-error @endif">
                                         <div class="input-icon right">
-                                             <input type="text" name="building_no" id="building_no" class="form-control" value="{{old('building_no')}}">
+                                             <input type="text" name="building_no" id="building_no" class="form-control" value="{{old('building_no')}}" required>
                                             <span class="help-block">{{$errors->first('building_no')}}</span>
                                         </div>
                                         </div>
@@ -62,9 +62,9 @@
                 <div class="col-md-12">
                     <div class="col-md-9">
                         <div class="form-group m-form__group">
-                            <input type="submit" class="btn btn-success" name="submit" value="submit">
+                            <input type="submit" class="btn m-btn--pill m-btn--custom btn-primary" name="submit" value="submit">
 
-                            <a  class="btn btn-info" href="{{ route('get_buildings', [$society_id]) }}">Cancel</a>
+                            <a  class="btn m-btn--pill m-btn--custom btn-metal" href="{{ route('get_buildings', [encrypt($society_id)]) }}">Cancel</a>
                         </div>
                     </div>
                 </div>

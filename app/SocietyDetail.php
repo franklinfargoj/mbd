@@ -25,6 +25,7 @@ class SocietyDetail extends Model
         'district',
         'taluka',
         'village',
+        'layout_id',
         'survey_number',
         'cts_number',
         'chairman',
@@ -34,7 +35,15 @@ class SocietyDetail extends Model
         'surplus_charges',
         'surplus_charges_last_date',
         'village_id',
-        'other_land_id'
+        'other_land_id',
+        'chairman_mob_no',
+        'secretary',
+        'secretary_mob_no',
+        'society_email_id',
+        'society_reg_no',
+        'society_conveyed',
+        'date_of_conveyance',
+        'area_of_conveyance',
     ];
 
     public function societyVillage()

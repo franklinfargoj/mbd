@@ -39,6 +39,7 @@ class EEController extends Controller
     {
         $this->comman = new CommonController();
         $this->list_num_of_records_per_page = Config::get('commanConfig.list_num_of_records_per_page');
+        $this->society_level_billing = Config::get('commanConfig.SOCIETY_LEVEL_BILLING');
     }
 
     /**
@@ -630,25 +631,24 @@ class EEController extends Controller
 
         $columns = [
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
-            ['data' => 'name','name' => 'name','title' => 'Society Name'],
+            ['data' => 'society_name','name' => 'society_name','title' => 'Society Name'],
             ['data' => 'society_bill_level', 'name' => 'society_bill_level','title' => 'Billing Level'],
             ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
         ];
 
         if ($datatables->getRequest()->ajax()) {
             DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
-            $societies = SocietyDetail::selectRaw('@rownum  := @rownum  + 1 AS rownum, name,society_bill_level,id');
+            $societies = SocietyDetail::selectRaw('@rownum  := @rownum  + 1 AS rownum, society_name,society_bill_level,id');
             return $datatables->of($societies)
             ->editColumn('society_bill_level', function ($societies) {
-                if(SOCIETY_LEVEL_BILLING == $societies->society_bill_level) {
+                if($this->society_level_billing == $societies->society_bill_level) {
                     return 'Society level billing';
                 } else {
                     return 'Tenant level billing';
                 }
             })
             ->editColumn('actions', function ($societies) {
-                return "<div class='d-flex btn-icon-list'><a href='".url('society_details/'.$societies->id)."' class='d-flex flex-column align-items-center'><span class='btn-icon btn-icon--view'><img src='".asset('/img/view-icon.svg')."'></span>Society Details</a></div>";
-                
+                return "<div class='d-flex btn-icon-list'><a href='".url('society_details/'.encrypt($societies->id))."' class='d-flex flex-column align-items-center'><span class='btn-icon btn-icon--view'><img src='".asset('/img/view-icon.svg')."'></span>Society Details</a></div>";                
             })
             ->rawColumns(['actions','society_bill_level'])
             ->make(true);
@@ -660,6 +660,7 @@ class EEController extends Controller
     }
 
     public function getSocietyDetails($id, Request $request,Datatables $datatables) {
+        $id = decrypt($id);
         $society = SocietyDetail::find($id);
         $columns = [
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
@@ -674,7 +675,7 @@ class EEController extends Controller
             $societieDetails = MasterBuilding::selectRaw('@rownum  := @rownum  + 1 AS rownum, name,building_no,id,society_id')->withCount('tenants')->where('society_id',$id);
             return $datatables->of($societieDetails)
             ->editColumn('actions', function ($societieDetails) use($society){
-                return "<div class='d-flex btn-icon-list'><a href='".url('arrears_charges/'.$society->id.'/'.$societieDetails->id)."' class='d-flex flex-column align-items-center'><span class='btn-icon btn-icon--view'><img src='".asset('/img/view-icon.svg')."'></span>Define Arrears Charges</a><a href='".url('service_charges/'.$society->id.'/'.$societieDetails->id)."' class='d-flex flex-column align-items-center'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/edit-icon.svg')."'></span>Define Service Charges</a></div>";
+                return "<div class='d-flex btn-icon-list'><a href='".url('arrears_charges/'.encrypt($society->id).'/'.encrypt($societieDetails->id))."' class='d-flex flex-column align-items-center'><span class='btn-icon btn-icon--view'><img src='".asset('/img/view-icon.svg')."'></span>Define Arrears Charges</a><a href='".url('service_charges/'.encrypt($society->id).'/'.encrypt($societieDetails->id))."' class='d-flex flex-column align-items-center'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/edit-icon.svg')."'></span>Define Service Charges</a></div>";
                 
             })
             ->rawColumns(['actions'])

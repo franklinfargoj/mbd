@@ -1,25 +1,30 @@
-@extends('admin.layouts.app')
+@extends('admin.layouts.sidebarAction')
+@section('actions')
+@include('employment_of_architect.actions',compact('application'))
+@endsection
 @section('content')
 
 <div class="col-md-12">
     <div class="d-flex form-steps-wrap">
-        <button class="btn--unstyled flex-grow-1 form-step-tab active">Step 1</button>
-        <button class="btn--unstyled flex-grow-1 form-step-tab active">Step 2</button>
-        <button class="btn--unstyled flex-grow-1 form-step-tab">Step 3</button>
-        <button class="btn--unstyled flex-grow-1 form-step-tab">Step 4</button>
-        <button class="btn--unstyled flex-grow-1 form-step-tab">Step 5</button>
-        <button class="btn--unstyled flex-grow-1 form-step-tab">Step 6</button>
-        <button class="btn--unstyled flex-grow-1 form-step-tab">Step 7</button>
-        <button class="btn--unstyled flex-grow-1 form-step-tab">Step 8</button>
+        <button onclick="window.location='{{ route("appointing_architect.step1",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab active">Step 1</button>
+        <button onclick="window.location='{{ route("appointing_architect.step2",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab active">Step 2</button>
+        <button onclick="window.location='{{ route("appointing_architect.step3",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab">Step 3</button>
+        <button onclick="window.location='{{ route("appointing_architect.step4",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab">Step 4</button>
+        <button onclick="window.location='{{ route("appointing_architect.step5",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab">Step 5</button>
+        <button onclick="window.location='{{ route("appointing_architect.step6",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab">Step 6</button>
+        <button onclick="window.location='{{ route("appointing_architect.step7",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab">Step 7</button>
+        <button onclick="window.location='{{ route("appointing_architect.step8",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab">Step 8</button>
+        <button onclick="window.location='{{ route("appointing_architect.step9",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab ">Step 9</button>
+        <button onclick="window.location='{{ route("appointing_architect.step10",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab ">Step 10</button>
     </div>
     <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
-        <h3 class="section-title section-title--small">Form 2:</h3>
-        <form id="" role="form" method="post" class="m-form m-form--rows m-form--label-align-right"
-    action="{{route('appointing_architect.step2_post')}}" enctype="multipart/form-data">
+        <h3 class="section-title section-title--small">EMPANELMENT OF ARCHITECT/CONSULTANT WITH MHADA</h3>
+        <form id="appointing_architect_step2" role="form" method="post" class="m-form m-form--rows m-form--label-align-right"
+    action="{{route('appointing_architect.step2_post',['id'=>encrypt($application->id)])}}" enctype="multipart/form-data">
             @csrf
             <input type="hidden" name="application_id" value="{{$application->id}}">
-            @include('employment_of_architect.partial_personal_details',compact('application'))
-            @include('employment_of_architect.partial_payment_details',compact('application'))
+            {{-- @include('employment_of_architect.partial_personal_details',compact('application'))
+            @include('employment_of_architect.partial_payment_details',compact('application')) --}}
             <div class="m-portlet__head px-0 m-portlet__head--top">
                 <div class="m-portlet__head-caption">
                     <div class="m-portlet__head-title">
@@ -32,18 +37,31 @@
                     </div>
                 </div>
             </div>
-            @for($i=0;$i<15;$i++)
-            <div class="input-row-list">
-                <div class="d-flex align-items-end">
-                    <label class="mb-0 mr-4 font-weight-semi-bold" for="">{{$i+1}}.</label>
-                <input type="hidden" name="enclosure_id[]" value="{{isset($application->enclosures[$i])?$application->enclosures[$i]->id:''}}">
-                    <input type="text" id="" name="enclosures[]" class="form-control form-control--custom m-input w-100" value="{{isset($application->enclosures[$i])?$application->enclosures[$i]->enclosure:''}}">
+            @php
+                $enclosuers_count=0;
+                $enclosuers_count=$application->enclosures->count();
+                $enclosuers_count=$enclosuers_count>4?$enclosuers_count:4;
+            @endphp
+            <div class="enclosuers">
+            @for($i=0;$i<$enclosuers_count;$i++)
+            <div class="cloneme">
+                <div class="input-row-list">
+                    <div class="d-flex align-items-end">
+                        <label class="mb-0 mr-4 font-weight-semi-bold sr_no" for="">{{$i+1}}.</label>
+                    <input type="hidden" name="enclosure_id[{{$i}}]" value="{{isset($application->enclosures[$i])?$application->enclosures[$i]->id:''}}">
+                        <input type="text" id="" name="enclosures[{{$i}}]" class="form-control form-control--custom m-input w-100" value="{{isset($application->enclosures[$i])?$application->enclosures[$i]->enclosure:''}}">
+                    </div>
+                    <span class="help-block"></span>
+                    @if($i>3)
+                    <h2 class='m--font-danger'><i title='Delete' class='fa fa-remove'></i></h2>
+                    @endif
                 </div>
-                <span class="help-block"></span>
             </div>
-
             @endfor
-            
+            </div>
+            <div class="form-group mt-4">
+                <a id="add-more" class="btn--add-delete add">add more<a>
+            </div>
 
             <div class="m-checkbox-list mt-5">
                 <label class="m-checkbox m-checkbox--primary">
@@ -70,4 +88,56 @@
     </div>
 </div>
 
+@endsection
+@section('js')
+<script>
+    $(document).ready(function(){
+        $('#add-more').click(function (e) {
+            e.preventDefault();
+            var count=$('.cloneme').length+1;
+            var clone = $('.enclosuers .cloneme:first').clone().find('input').val('').end();
+            clone.find('input[name="enclosure_id[0]"]')[0].setAttribute('name','enclosure_id['+count+']-error')
+            clone.find('input[name="enclosures[0]"]')[0].setAttribute('name','enclosures['+count+']-error')
+            clone.find('.sr_no').html(count+'.')
+            clone.find(".help-block").append("<h2 class='m--font-danger'><i title='Delete' class='fa fa-remove'></i></h2>");
+            $('.enclosuers').append(clone);
+        });
+
+        $('.enclosuers').on('click', '.fa-remove', function () {
+            var delete_id=$(this).closest('div').find('input')[0].value;
+            if(delete_id!="")
+            {
+                if(confirm('are you sure?'))
+                {
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-Token': '{{csrf_token()}}'
+                        }
+                    });
+                    var thisInstance=$(this);
+                    $.ajax({
+                        url:"{{route('appointing_architect.delete_enclosure')}}",
+                        method:'POST',
+                        data:{delete_imp_project_id:delete_id},
+                        success:function(data){
+                            //console.log(data);
+                            if(data.status==0)
+                            {
+                                thisInstance.closest('div').parent().remove()
+                            }else
+                            {
+                                alert('something went wrong');
+                            }
+                        }
+                    })
+                }
+            }else
+            {
+                $(this).closest('div').parent().remove()
+            }
+            
+        })
+    })
+    
+</script>
 @endsection

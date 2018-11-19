@@ -105,6 +105,14 @@
                                         <option value="" style="font-weight: normal;">Select Year</option>
                                         <option value="<?php echo  date('Y');?>" {{ old("oir_year", $arrear_row->oir_year) == date('Y') ? 'selected' : '' }}  style="font-weight: normal;"><?php echo  date('Y'); ?></option>
                                         <option value="<?php echo date("Y",strtotime("-1 year")); ?>" {{ old("oir_year", $arrear_row->oir_year) == date("Y",strtotime("-1 year")) ? 'selected' : '' }} style="font-weight: normal;"><?php echo date("Y",strtotime("-1 year")); ?></option>
+                                        <option value="<?php echo date("Y",strtotime("-2 year")); ?>" {{ old("oir_year", $arrear_row->oir_year) == date("Y",strtotime("-2 year")) ? 'selected' : '' }} style="font-weight: normal;"><?php echo date("Y",strtotime("-2 year")); ?></option>
+                                        <option value="<?php echo date("Y",strtotime("-3 year")); ?>" {{ old("oir_year", $arrear_row->oir_year) == date("Y",strtotime("-3 year")) ? 'selected' : '' }} style="font-weight: normal;"><?php echo date("Y",strtotime("-3 year")); ?></option>
+                                        <option value="<?php echo date("Y",strtotime("-4 year")); ?>" {{ old("oir_year", $arrear_row->oir_year) == date("Y",strtotime("-4 year")) ? 'selected' : '' }} style="font-weight: normal;"><?php echo date("Y",strtotime("-4 year")); ?></option>
+                                        <option value="<?php echo date("Y",strtotime("-5 year")); ?>" {{ old("oir_year", $arrear_row->oir_year) == date("Y",strtotime("-5 year")) ? 'selected' : '' }} style="font-weight: normal;"><?php echo date("Y",strtotime("-5 year")); ?></option>
+                                        <option value="<?php echo date("Y",strtotime("-6 year")); ?>" {{ old("oir_year", $arrear_row->oir_year) == date("Y",strtotime("-6 year")) ? 'selected' : '' }} style="font-weight: normal;"><?php echo date("Y",strtotime("-6 year")); ?></option>
+                                        <option value="<?php echo date("Y",strtotime("-7 year")); ?>" {{ old("oir_year", $arrear_row->oir_year) == date("Y",strtotime("-7 year")) ? 'selected' : '' }} style="font-weight: normal;"><?php echo date("Y",strtotime("-7 year")); ?></option>
+                                        <option value="<?php echo date("Y",strtotime("-8 year")); ?>" {{ old("oir_year", $arrear_row->oir_year) == date("Y",strtotime("-8 year")) ? 'selected' : '' }} style="font-weight: normal;"><?php echo date("Y",strtotime("-8 year")); ?></option>
+                                        <option value="<?php echo date("Y",strtotime("-9 year")); ?>" {{ old("oir_year", $arrear_row->oir_year) == date("Y",strtotime("-9 year")) ? 'selected' : '' }} style="font-weight: normal;"><?php echo date("Y",strtotime("-9 year")); ?></option>
                                     </select>
                                 </div>
                             </div>       
@@ -158,6 +166,14 @@
                                         <option value="" style="font-weight: normal;">Select Year</option>
                                         <option value="<?php echo  date('Y');?>" {{ old("ida_year", $arrear_row->ida_year) == date('Y') ? 'selected' : '' }} style="font-weight: normal;"><?php echo  date('Y'); ?></option>
                                         <option value="<?php echo date("Y",strtotime("-1 year")); ?>" {{ old("ida_year", $arrear_row->ida_year) == date("Y",strtotime("-1 year")) ? 'selected' : '' }} style="font-weight: normal;"><?php echo date("Y",strtotime("-1 year")); ?></option>
+                                        <option value="<?php echo date("Y",strtotime("-2 year")); ?>" {{ old("ida_year", $arrear_row->ida_year) == date("Y",strtotime("-2 year")) ? 'selected' : '' }} style="font-weight: normal;"><?php echo date("Y",strtotime("-2 year")); ?></option>
+                                        <option value="<?php echo date("Y",strtotime("-3 year")); ?>" {{ old("ida_year", $arrear_row->ida_year) == date("Y",strtotime("-3 year")) ? 'selected' : '' }} style="font-weight: normal;"><?php echo date("Y",strtotime("-3 year")); ?></option>
+                                        <option value="<?php echo date("Y",strtotime("-4 year")); ?>" {{ old("ida_year", $arrear_row->ida_year) == date("Y",strtotime("-4 year")) ? 'selected' : '' }} style="font-weight: normal;"><?php echo date("Y",strtotime("-4 year")); ?></option>
+                                        <option value="<?php echo date("Y",strtotime("-5 year")); ?>" {{ old("ida_year", $arrear_row->ida_year) == date("Y",strtotime("-5 year")) ? 'selected' : '' }} style="font-weight: normal;"><?php echo date("Y",strtotime("-5 year")); ?></option>
+                                        <option value="<?php echo date("Y",strtotime("-6 year")); ?>" {{ old("ida_year", $arrear_row->ida_year) == date("Y",strtotime("-6 year")) ? 'selected' : '' }} style="font-weight: normal;"><?php echo date("Y",strtotime("-6 year")); ?></option>
+                                        <option value="<?php echo date("Y",strtotime("-7 year")); ?>" {{ old("ida_year", $arrear_row->ida_year) == date("Y",strtotime("-7 year")) ? 'selected' : '' }} style="font-weight: normal;"><?php echo date("Y",strtotime("-7 year")); ?></option>
+                                        <option value="<?php echo date("Y",strtotime("-8 year")); ?>" {{ old("ida_year", $arrear_row->ida_year) == date("Y",strtotime("-8 year")) ? 'selected' : '' }} style="font-weight: normal;"><?php echo date("Y",strtotime("-8 year")); ?></option>
+                                        <option value="<?php echo date("Y",strtotime("-9 year")); ?>" {{ old("ida_year", $arrear_row->ida_year) == date("Y",strtotime("-9 year")) ? 'selected' : '' }} style="font-weight: normal;"><?php echo date("Y",strtotime("-9 year")); ?></option>
                                     </select>
                                 </div>
                             </div>       
@@ -211,8 +227,8 @@
                 <div class="row align-items-center mb-0">           
                     <div class="col-md-9">
                         <div class="form-group m-form__group">
-                            <input type="submit" class="btn btn-success" name="save" value="Save">
-                            <a  class="btn btn-info" href="{{ route('em_clerk.index') }}">Cancel</a>
+                            <input type="submit" class="btn m-btn--pill m-btn--custom btn-primary" name="save" value="Save">
+                            <a  class="btn m-btn--pill m-btn--custom btn-metal" href="{{ route('em_clerk.index') }}">Cancel</a>
                         </div>
                     </div>
                 </div>
@@ -302,12 +318,12 @@
 
                 var months1 = monthDiff(
                                 new Date(ior_year, ior_month, 1),
-                                new Date(bill_year, bill_month, 30)  
+                                new Date(bill_year, (bill_month), 30)  
                              );
 
                 var months2 = monthDiff(
                                 new Date(ida_year, ida_month, 1),
-                                new Date(bill_year, bill_month, 30)  
+                                new Date(bill_year, (bill_month), 30)  
                              );
                 var iod_per = iod / 100;
                 var ior_per = ior / 100;
@@ -326,16 +342,16 @@
 
                  $('#total_amount').html(total);
                  $('#total_amount_val').val(total);
-/*
+
                  console.log(old_rate);
                  console.log(months1);
                  console.log(ior_per);
-            console.log(old_intrest_amount);
+                 console.log(old_intrest_amount);
                 
                  console.log(rate_diff)
                  console.log(months2);
                  console.log(iod_per);
-                 console.log(intrest_on_difference);*/
+                 console.log(intrest_on_difference);
     }
 
 function monthDiff(d1, d2) {

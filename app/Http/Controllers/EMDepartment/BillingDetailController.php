@@ -86,7 +86,10 @@ class BillingDetailController extends Controller
         		break;
         }
     	if($request->has('building_id') && $request->has('society_id') && '' != $request->building_id && '' != $request->society_id) {
-    		$data['society'] = SocietyDetail::find($request->society_id);
+    		$request->society_id = decrypt($request->society_id);
+            $request->building_id = decrypt($request->building_id);
+
+            $data['society'] = SocietyDetail::find($request->society_id);
     		$data['building'] = MasterBuilding::find($request->building_id);
 
 	    	$data['years'] = ServiceChargesRate::selectRaw('Distinct(year) as years')->where('society_id',$request->society_id)->where('building_id',$request->building_id)->pluck('years','years')->toArray();
@@ -97,6 +100,12 @@ class BillingDetailController extends Controller
 
 	        $data['service_charges'] = ServiceChargesRate::where('society_id',$request->society_id)->where('building_id',$request->building_id)->where('year',$data['select_year'])->first();
 
+            if($data['select_month'] <= 3){
+                $data['arrear_year'] = '20'.explode("-", $data['select_year'])[1];
+            } else {
+                $data['arrear_year'] = explode("-", $data['select_year'])[0];
+            }
+
 	        $data['arreas_calculations'] = ArrearCalculation::selectRaw("
 	        	sum(total_amount) as total_amount,
 	        	sum(old_intrest_amount+difference_amount) as balance_amount,
@@ -105,16 +114,17 @@ class BillingDetailController extends Controller
 	        	year")
 	        	->where('society_id',$request->society_id)
 	        	->where('building_id',$request->building_id)
-	        	->where('year',$data['select_year'])
+	        	->where('year',  $data['arrear_year'])
 	        	->whereIn('month',$data['select_month']);
 
         	if($request->has('tenant_id') && !empty($request->tenant_id)) {
+                $request->tenant_id = decrypt($request->tenant_id);
         		$data['tenant'] = MasterTenant::find($request->tenant_id);
             	$data['arreas_calculations'] =  $data['arreas_calculations']->where('tenant_id', $request->tenant_id)->groupBy('tenant_id','year','month');
             }  else {
             	$data['arreas_calculations'] = $data['arreas_calculations']->groupBy('year','month');
             }
-            $data['arreas_calculations'] = $data['arreas_calculations']->get();
+                $data['arreas_calculations'] = $data['arreas_calculations']->get();
     	}
 
         return view('admin.em_department.billing_calculations', $data);

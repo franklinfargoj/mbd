@@ -1,11 +1,26 @@
-@extends('admin.layouts.app')
+@extends('admin.layouts.sidebarAction')
+@section('actions')
+@include('admin.architect.actions',compact('ArchitectApplication'))
+@endsection
 @section('content')
 <div class="col-md-12">
+        <div class="m-subheader px-0 m-subheader--top">
+                <div class="d-flex align-items-center">
+                    <h3 class="m-subheader__title m-subheader__title--separator">Issue certificate to selected candidate</h3>
+                    {{ Breadcrumbs::render('architect_finalCertificateGenerate',$ArchitectApplication->id) }}
+                </div>
+                {{-- @if(session('error'))
+                <div class="alert alert-danger">{{ session('error') }}</div>
+                @endif
+                @if(session('success'))
+                <div class="alert alert-success">{{ session('success') }}</div>
+                @endif --}}
+            </div>
     <div id="show-offer-letter" style="display: block;">
         <div class="m-portlet m-portlet--mobile m_panel">
             <div class="m-portlet__body" style="padding-right: 0;">
                 @if(Session::has('success'))
-                <div class="note note-success">
+                <div class="alert alert-success">
                     <div class="caption">
                         <i class="fa fa-gift"></i> {{Session::get('success')}}
                     </div>
@@ -15,7 +30,7 @@
                 </div>
                 @endif
                 @if(Session::has('error'))
-                <div class="note note-error">
+                <div class="alert alert-error">
                     <div class="caption">
                         <i class="fa fa-gift"></i> {{Session::get('error')}}
                     </div>
@@ -24,8 +39,8 @@
                     </div>
                 </div>
                 @endif
-                <h3 class="section-title section-title--small mb-0">Offer Letter:</h3>
-                <div class="row-list">
+                <h3 class="section-title section-title--small mb-0">Certificate:</h3>
+                {{-- <div class="row-list">
                     <div class="row">
                         <div class="col-md-12">
                             <p class="font-weight-semi-bold">Edit Offer letter</p>
@@ -36,21 +51,21 @@
                             <!-- <button type="submit">Edit offer Letter </button> -->
                         </div>
                     </div>
-                </div>
+                </div> --}}
 
                 <div class="w-100 row-list">
                     <div class="">
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="d-flex flex-column h-100">
-                                    <h5>Download Offer Letter</h5>
-                                    <span class="hint-text">Want to make changes in offer letter, click
-                                        on below button to download offer letter in .doc format</span>
+                                    <h5>Download Certificate</h5>
+                                    <span class="hint-text">Want to make changes in Certificate, click
+                                        on below button to download Certificate</span>
                                     <div class="mt-3">
 
                                         @if($ArchitectApplication->drafted_certificate!="")
-                                        <a href="{{config('commanConfig.storage_server').'/'.$ArchitectApplication->certificate_path}}"
-                                            class="btn btn-primary">Download offer Letter</a>
+                                        <a target="_blank" href="{{config('commanConfig.storage_server').'/'.$ArchitectApplication->certificate_path}}"
+                                            class="btn btn-primary">Download Certificate</a>
                                         @else
                                         <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
                                             * Note : Offer Letter not available. </span>
@@ -61,8 +76,8 @@
                             @if(config('commanConfig.architect')==session()->get('role_name'))
                             <div class="col-sm-6 border-left">
                                 <div class="d-flex flex-column h-100">
-                                    <h5>Upload Offer Letter</h5>
-                                    <span class="hint-text">Click on 'Upload' to upload offer letter</span>
+                                    <h5>Upload Certificate</h5>
+                                    <span class="hint-text">Click on 'Upload' to upload Certificate</span>
                                     <form action="{{route('architect.post_final_signed_certificate')}}" method="post"
                                         enctype="multipart/form-data">
                                         @csrf
@@ -87,8 +102,13 @@
             </div>
         </div>
         @if(config('commanConfig.architect')==session()->get('role_name'))
+        @php 
+        $status_id=isset($ArchitectApplication->statusLog[0])?$ArchitectApplication->statusLog[0]->status_id:0; 
+        @endphp
+        
+        @if($status_id!=config('commanConfig.architect_applicationStatus.approved'))
         <form role="form" id="sendForApproval" style="margin-top: 30px;" name="sendForApproval" class="form-horizontal"
-            method="post" action="" enctype="multipart/form-data">
+    method="post" action="{{route('appointing_architect.send_to_candidate')}}" enctype="multipart/form-data">
             @csrf
             <input type="hidden" name="applicationId" value="{{$encryptedId}}">
             <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
@@ -100,8 +120,8 @@
                         <div class="remarks-suggestions">
                             <div class="mt-3 table--box-input">
                                 <label for="demarkation_comments">Comment:</label>
-                                <textarea id="demarkation_comments" rows="5" cols="30" class="form-control form-control--custom"
-                                    name="demarkation_comments"></textarea>
+                                <textarea required id="demarkation_comments" rows="5" cols="30" class="form-control form-control--custom"
+                                    name="comment"></textarea>
                             </div>
                             <div class="mt-3 btn-list">
                                 <button class="btn btn-primary" type="submit">Send</button>
@@ -111,6 +131,7 @@
                 </div>
             </div>
         </form>
+        @endif
         @endif
     </div>
 </div>

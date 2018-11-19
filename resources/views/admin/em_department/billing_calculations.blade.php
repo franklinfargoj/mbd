@@ -1,13 +1,27 @@
 @extends('admin.layouts.app')
+
 @section('actions')
-    @include('admin.em_department.action',compact('ol_application'))
+    
+@if(Auth::user()->role_id == 7)         
+      @include('admin.rc_department.action',compact('ol_application'))        
+@else
+     @include('admin.em_department.action',compact('ol_application'))     
+@endif
+
 @endsection
+
 @section('content')
 
 @if(session()->has('success'))
 <div class="alert alert-success display_msg">
     {{ session()->get('success') }}
 </div>
+@endif
+
+@if(session()->has('warning'))
+    <div class="alert alert-danger display_msg">
+        {{ session()->get('warning') }}
+    </div>  
 @endif
 <div class="col-md-12">
     <!-- BEGIN: Subheader -->
@@ -27,8 +41,8 @@
         </div>
         @endif
         <form role="form" id="Form" method="get" action="{{ route('billing_calculations') }}">
-            <input type="hidden" name="society_id" value="@if(!empty($society)){{$society->id}}@endif">
-            <input type="hidden" name="building_id" value="@if(!empty($building)){{$building->id}}@endif">
+            <input type="hidden" name="society_id" value="@if(!empty($society)){{encrypt($society->id)}}@endif">
+            <input type="hidden" name="building_id" value="@if(!empty($building)){{encrypt($building->id)}}@endif">
             <div class="row align-items-center mb-0">
                 <div class="col-md-3">
                     <div class="form-group m-form__group">
@@ -62,7 +76,7 @@
             </div>
         </form>
         <div class="m-portlet m-portlet--compact m-portlet--mobile">
-            <div class="m-portlet__body">
+            <div class="m-portlet__body table-responsive" style="overflow-x:auto;" >
                 <table id="billing_calculations" class="display table table-responsive table-bordered" style="width:100%">
                     <thead>
                         <tr>

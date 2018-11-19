@@ -154,6 +154,11 @@ class EEUserSeeder extends Seeder
                 'description' => 'architect_layout_post_scrutiny_report',
             ],
             [
+                'name'=>'delete_architect_layout_scrutiny_report',
+                'display_name'=>'delete_architect_layout_scrutiny_report',
+                'description'=>'delete_architect_layout_scrutiny_report'
+            ],
+            [
                 'name'=>'upload_ee_checklist_and_remark_report',
                 'display_name'=>'upload_ee_checklist_and_remark_report',
                 'description'=>'upload_ee_checklist_and_remark_report'
@@ -268,6 +273,16 @@ class EEUserSeeder extends Seeder
                 'display_name'  => 'send forward application',
                 'description'   => 'send forward application'
             ],
+            [
+                'name'=>'dashboard',
+                'display_name'=>'dashboard',
+                'description'=>'Dashboard'
+            ],
+            [
+                'name' => 'conveyance.architect_scrutiny_remark',
+                'display_name' => 'architect scrutiny remark',
+                'description' => 'architect scrutiny remark',
+            ],             
         ];
 
         // Role
@@ -278,7 +293,7 @@ class EEUserSeeder extends Seeder
         if ($ee_role_id == NULL)
             $ee_role_id = Role::insertGetId([
                 'name' => 'ee_engineer',
-                'redirect_to' => '/ee',
+                'redirect_to' => '/dashboard',
                 'parent_id' => NULL,
                 'display_name' => 'EE Engineer',
                 'description' => 'EE Engineer'
@@ -290,7 +305,7 @@ class EEUserSeeder extends Seeder
         if($ee_dy_role_id  == NULL)
             $ee_dy_role_id = Role::insertGetId([
                 'name' => 'ee_dy_engineer',
-                'redirect_to' => '/ee',
+                'redirect_to' => '/dashboard',
                 'parent_id' => $ee_role_id,
                 'display_name' => 'EE Deputy Engineer',
                 'description' => 'EE Deputy Engineer'
@@ -302,7 +317,7 @@ class EEUserSeeder extends Seeder
         if($ee_jr_role_id == NULL)
             $ee_jr_role_id = Role::insertGetId([
                 'name' => 'ee_junior_engineer',
-                'redirect_to' => '/ee',
+                'redirect_to' => '/dashboard',
                 'parent_id' => $ee_dy_role_id,
                 'display_name' => 'EE Junior Engineer',
                 'description' => 'EE Junior Engineer'

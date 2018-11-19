@@ -21,18 +21,21 @@ class EEController extends Controller
 	public function SalePriceCalculation(Request $request,$applicationId){
 	
 		$data = scApplication::with('ConveyanceSalePriceCalculation')->where('id',$applicationId)->first();
-        $data->status = $this->conveyance->getCurrentStatus($applicationId);
+        $data->status = $this->conveyance->getCurrentStatus($applicationId,$data->sc_application_master_id);
         $is_view = session()->get('role_name') == config('commanConfig.ee_junior_engineer');
         
         if ($is_view && $data->status->status_id == config('commanConfig.applicationStatus.in_process')){
+
             $route = 'admin.conveyance.ee_department.sale_price_calculation';
         }else{
-            $route = 'admin.conveyance.common.view_ee_sale_price_calculation';   
+            $route = 'admin.conveyance.common.view_ee_sale_price_calculation'; 
+            $data->folder = 'ee_department'; 
         }
 		return view($route, compact('data'));
 	}
 
 	public function SaveCalculationData(Request $request){
+
 		$applicationId = $request->application_id;
 		$arrData = $request->all();
 		unset($arrData['_token'],$arrData['pump_house'],$arrData['completion_date']);
@@ -107,8 +110,12 @@ class EEController extends Controller
 
 	public function forwardApplication(Request $request,$applicationId){
 
-		$data = $this->conveyance->getForwardApplicationData($applicationId);
-		return view('admin.conveyance.ee_department.forward_application', compact('data'));
+		$data     = $this->conveyance->getForwardApplicationData($applicationId);
+        $dycoLogs = $this->conveyance->getLogsOfDYCODepartment($applicationId,$data->sc_application_master_id);
+        $eelogs   = $this->conveyance->getLogsOfEEDepartment($applicationId,$data->sc_application_master_id);
+        $Architectlogs   = $this->conveyance->getLogsOfArchitectDepartment($applicationId,$data->sc_application_master_id);
+        
+		return view('admin.conveyance.ee_department.forward_application',compact('data','dycoLogs','eelogs','Architectlogs'));
 	}
 
     public function sendForwardApplication(Request $request){

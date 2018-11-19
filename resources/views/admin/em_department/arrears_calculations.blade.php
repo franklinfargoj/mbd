@@ -9,6 +9,12 @@
     {{ session()->get('success') }}
 </div>
 @endif
+
+@if(session()->has('warning'))
+    <div class="alert alert-danger display_msg">
+        {{ session()->get('warning') }}
+    </div>  
+@endif
 <div class="col-md-12">
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">
@@ -32,8 +38,8 @@
         </div>
         @endif
         <form role="form" id="Form" method="get" action="{{ route('arrears_calculations') }}">
-            <input type="hidden" name="society_id" value="{{$society->id}}">
-            <input type="hidden" name="building_id" value="{{$building->id}}">
+            <input type="hidden" name="society_id" value="{{encrypt($society->id)}}">
+            <input type="hidden" name="building_id" value="{{encrypt($building->id)}}">
             <div class="row align-items-center mb-0">
                 <div class="col-md-2">
                     <div class="form-group m-form__group">

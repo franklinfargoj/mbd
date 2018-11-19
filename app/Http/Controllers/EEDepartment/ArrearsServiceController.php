@@ -28,9 +28,13 @@ class ArrearsServiceController extends Controller
     }
 
     public function arrersChargesRate($society_id,$building_id,Request $request,Datatables $datatables) {
+        
+        $society_id = decrypt($society_id);
+        $building_id = decrypt($building_id);
+
         $society = SocietyDetail::find($society_id);
         $building = MasterBuilding::where('society_id', $society_id)->find($building_id);
-
+        
         $columns = [
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'year','name' => 'year','title' => 'Years'],
@@ -43,12 +47,24 @@ class ArrearsServiceController extends Controller
         ];
 
         if ($datatables->getRequest()->ajax()) {
+            
+            
+
             DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
             $arrears_charges = ArrearsChargesRate::selectRaw('@rownum  := @rownum  + 1 AS rownum,arrears_charges_rates.*')->where('society_id',$society->id)->where('building_id',$building->id);
             return $datatables->of($arrears_charges)
+            ->editColumn('tenant_type', function ($arrears_charges){               
+               $master_tenant_type = DB::table('master_tenant_type')->get();
+               foreach ($master_tenant_type as $key => $value) {
+                  if($value->id == $arrears_charges->tenant_type){
+                    return $value->name;
+                  }
+               }
+            })
             ->editColumn('actions', function ($arrears_charges){
-                return "<a href='".url('arrears_charges/'.$arrears_charges->id.'/edit')."' class='btn m-btn--pill m-btn--custom btn-primary'>Update</a>";
                 
+                return "<div class='d-flex btn-icon-list'><a href='".url('arrears_charges/'.encrypt($arrears_charges->id).'/edit')."' class='d-flex flex-column align-items-center'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/edit-icon.svg')."'></span>Update</a></div>";
+
             })
             ->rawColumns(['actions'])
             ->make(true);
@@ -69,16 +85,28 @@ class ArrearsServiceController extends Controller
     }
 
     public function create($society_id,$building_id) {
-    	$data['tenant_types'] = MasterTenantType::pluck('name','name')->toArray();
+
+        $society_id = decrypt($society_id);
+        $building_id = decrypt($building_id);
+
+    	$data['tenant_types'] = MasterTenantType::pluck('id','name');
     	$data['society'] = SocietyDetail::find($society_id);
         $data['building'] = MasterBuilding::where('society_id', $society_id)->find($building_id);
     	return view('admin.arrears_charges.create',$data);
     }
 
     public function store($society_id,$building_id,Request $request) {
-    	$rules = [
+
+    	$society_id = decrypt($society_id);
+        $building_id = decrypt($building_id);
+
+        $rules = [
     		'year' => 'required',
     		'tenant_type' => 'required',
+            'old_rate' => 'required|numeric',
+            'revise_rate' => 'required|numeric',
+            'interest_on_old_rate' => 'required|numeric|between:0,99.99',
+            'interest_on_differance' => 'required|numeric|between:0,99.99'
     	];
     	$messages = [
     		'tenant_type.required' => 'Select Tenant Type.'
@@ -86,7 +114,7 @@ class ArrearsServiceController extends Controller
     	$validator = Validator::make($request->all(),$rules,$messages);
 
     	if ($validator->fails()) {
-            return redirect('arrears_charges/'.$society_id.'/'.$building_id.'/create')->withErrors($validator)->withInput();
+            return redirect('arrears_charges/'.encrypt($society_id).'/'.encrypt($building_id).'/create')->withErrors($validator)->withInput();
         }
 
         $society = SocietyDetail::find($society_id);
@@ -104,11 +132,12 @@ class ArrearsServiceController extends Controller
         $arrears_charge->save();
 
         $request->session()->flash('success', 'Service rate added successfully!');
-        return redirect('arrears_charges/'.$society_id.'/'.$building_id);
+        return redirect('arrears_charges/'.encrypt($society_id).'/'.encrypt($building_id));
     }
 
     public function edit($id) {
-    	$data['tenant_types'] = MasterTenantType::pluck('name','name')->toArray();
+        $id = decrypt($id);
+    	$data['tenant_types'] = MasterTenantType::pluck('id','name');
     	$data['arrears_charge'] = ArrearsChargesRate::find($id);
     	$data['society'] = SocietyDetail::find($data['arrears_charge']->society_id);
         $data['building'] = MasterBuilding::where('society_id', $data['arrears_charge']->society_id)->find($data['arrears_charge']->building_id);
@@ -116,9 +145,16 @@ class ArrearsServiceController extends Controller
     }
 
     public function update($id, Request $request) {
+       // dd($request->all());
+       $id = decrypt($id);
+
     	$rules = [
     		'year' => 'required',
-    		'tenant_type' => 'required',
+            'tenant_type' => 'required',
+            'old_rate' => 'required|numeric',
+            'revise_rate' => 'required|numeric',
+            'interest_on_old_rate' => 'required|between:0,99.99',
+    		'interest_on_differance' => 'required|between:0,99.99'
     	];
     	$messages = [
     		'tenant_type.required' => 'Select Tenant Type.'
@@ -126,7 +162,8 @@ class ArrearsServiceController extends Controller
     	$validator = Validator::make($request->all(),$rules,$messages);
 
     	if ($validator->fails()) {
-            return redirect('arrears_charges/'.$id.'/edit')->withErrors($validator)->withInput();
+            //dd($validator->errors());
+            return redirect('arrears_charges/'.encrypt($id).'/edit')->withErrors($validator)->withInput();
         }
 
         $arrears_charge = ArrearsChargesRate::find($id);
@@ -139,6 +176,6 @@ class ArrearsServiceController extends Controller
         $arrears_charge->save();
 
         $request->session()->flash('success', 'Service rate updated successfully!');
-        return redirect('arrears_charges/'.$arrears_charge->society_id.'/'.$arrears_charge->building_id);
+        return redirect('arrears_charges/'.encrypt($arrears_charge->society_id).'/'.encrypt($arrears_charge->building_id));
     }
 }

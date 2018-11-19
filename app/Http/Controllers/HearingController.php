@@ -7,6 +7,7 @@ use App\Board;
 use App\DeletedHearing;
 use App\Department;
 use App\Hearing;
+use App\HearingSchedule;
 use App\HearingStatus;
 use App\HearingStatusLog;
 use App\Http\Requests\hearing\EditHearingRequest;
@@ -44,7 +45,6 @@ class HearingController extends Controller
                 $q->where('user_id', Auth::user()->id)
                     ->where('role_id', session()->get('role_id'));
             })->get()->toArray();
-
         return view('admin.hearing.print_data',compact('hearing_data'));
     }
 
@@ -254,19 +254,18 @@ class HearingController extends Controller
             'office_village' => $request->office_village,
             'office_remark' => $request->office_remark,
             /*'department_id' => $request->department,
-            'board_id' => $request->board_id,
-            'hearing_status_id' => $request->hearing_status_id,*/
+            'board_id' => $request->board_id,*/
+            'hearing_status_id' => config('commanConfig.hearingStatus.pending'),
             'role_id' => session()->get('role_id'),
             'user_id' => Auth::user()->id
         ];
-//        dd($data);
-        $hearing_id = Hearing::create($data)->id;
-
+        $hearing = Hearing::create($data);
+        $hearing->update(['case_number' => $hearing->id]);
         $parent_role_id = User::where('role_id', session()->get('parent'))->first();
 
         $hearing_status_log = [
             [
-                'hearing_id' => $hearing_id,
+                'hearing_id' => $hearing->id,
                 'user_id' => Auth::user()->id,
                 'role_id' => session()->get('role_id'),
                 'hearing_status_id' => config('commanConfig.hearingStatus.pending'),
@@ -277,7 +276,7 @@ class HearingController extends Controller
             ],
 
             [
-                'hearing_id' => $hearing_id,
+                'hearing_id' => $hearing->id,
                 'user_id' => $parent_role_id->id,
                 'role_id' => session()->get('parent'),
                 'hearing_status_id' => config('commanConfig.hearingStatus.pending'),
@@ -375,7 +374,7 @@ class HearingController extends Controller
             'office_remark' => $request->office_remark,
             'department_id' => $request->department,
             'board_id' => $request->board_id,
-            'hearing_status_id' => $request->hearing_status_id,
+            'hearing_status_id' => config('commanConfig.hearingStatus.pending'),
             'role_id' => session()->get('role_id'),
             'user_id' => Auth::user()->id
         ];
@@ -423,5 +422,53 @@ class HearingController extends Controller
     {
         $id = $request->id;
         return view('admin.hearing.hearingDeleteReason', compact('id'))->render();
+    }
+
+
+    /**
+     * Show the hearing dashboard.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function Dashboard() {
+
+        $role_id = session()->get('role_id');
+        $user_id = Auth::id();
+
+        $hearing_data = Hearing::with(['hearingStatusLog.hearingStatus','hearingStatusLog' => function($q) use ($user_id,$role_id){
+            $q->where('user_id', $user_id)
+                ->where('role_id', $role_id);
+        }, 'hearingSchedule.prePostSchedule', 'hearingForwardCase', 'hearingSendNoticeToAppellant', 'hearingUploadCaseJudgement'])
+            ->whereHas('hearingStatusLog' ,function($q) use ($user_id,$role_id) {
+                $q->where('user_id', $user_id)
+                    ->where('role_id', $role_id);
+            })->get()->toArray();
+
+        $totalPendingHearing = $totalClosedHearing = $totalScheduledHearing = $totalUnderJudgementHearing = $totalForwardedHearing = 0;
+
+        foreach ($hearing_data as $hearing){
+
+            $status = $hearing['hearing_status_log']['0']['hearing_status']['id'];
+
+            switch ( $status )
+            {
+                case config('commanConfig.hearingStatus.pending'): $totalPendingHearing += 1; break;
+                case config('commanConfig.hearingStatus.scheduled_meeting'): $totalScheduledHearing += 1; break;
+                case config('commanConfig.hearingStatus.case_under_judgement'): $totalUnderJudgementHearing += 1 ; break;
+                case config('commanConfig.hearingStatus.forwarded'): $totalForwardedHearing += 1; break;
+                case config('commanConfig.hearingStatus.case_closed'): $totalClosedHearing +=1 ; break;
+                default:
+                    ; break;
+            }
+
+        }
+
+        $totalHearing = count($hearing_data);
+
+        $today = Carbon::now()->format('d-m-Y');
+
+        $todaysHearing = HearingSchedule::with(['Hearing'])->where('preceding_date',$today)->get()->toArray();
+
+        return view('admin.hearing.dashboard',compact('totalHearing','totalClosedHearing','totalPendingHearing','totalUnderJudgementHearing','todaysHearing','totalScheduledHearing','totalForwardedHearing'));
     }
 }

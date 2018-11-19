@@ -1,15 +1,21 @@
+@php
+    $route_name=\Request::route()->getName();
+@endphp
+
 @extends('admin.layouts.sidebarAction')
 @section('actions')
-@include('admin.'.$ol_application->folder.'.action',compact('ol_application'))
+    @if($route_name=='ree.show_reval_calculation_sheet' || $route_name=='co.show_reval_calculation_sheet' || $route_name=='cap.show_reval_calculation_sheet' || $route_name=='vp.show_reval_calculation_sheet' )
+        @include('admin.'.$ol_application->folder.'.reval_action',compact('ol_application'))
+    @else
+        @include('admin.'.$ol_application->folder.'.action',compact('ol_application'))
+    @endif
 @endsection
 @section('content')
 
 <div class="custom-wrapper">
     <div class="col-md-12">
         <div class="d-flex">
-            @php
-            $route_name=\Request::route()->getName();
-            @endphp
+
             @if($route_name=='co.show_calculation_sheet')
             {{ Breadcrumbs::render('calculation_sheet_co',$ol_application->id) }}
             @elseif($route_name=='vp.show_calculation_sheet')

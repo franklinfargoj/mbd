@@ -106,7 +106,45 @@ class VpPermission extends Seeder
                 'name' => 'post_forward_architect_layout',
                 'display_name' => 'post_forward_architect_layout',
                 'description' => 'post_forward_architect_layout',
-            ],                                
+            ],
+            [
+                'name'=>'dashboard',
+                'display_name'=>'dashboard',
+                'description'=>'Dashboard'
+            ],
+            [
+                'name'=>'vp_applications.reval',
+                'display_name'=>'Applications for revalidation',
+                'description'=>'Applications for revalidation'
+            ],
+            [
+                'name'=>'vp.view_reval_application',
+                'display_name'=>'View Revalidation Application',
+                'description'=>'View Revalidation Application'
+
+            ],
+            [
+                'name'=>'vp.society_reval_documents',
+                'display_name'=>'View Society Revalidation Documents',
+                'description'=>'View Society Revalidation Documents'
+
+            ],
+            [
+                'name' => 'vp.show_reval_calculation_sheet',
+                'display_name' => 'show Revalidation calculation sheet',
+                'description' => 'show Revalidation calculation sheet',
+            ],
+            [
+                'name'=>'vp.forward_reval_application',
+                'display_name'=>'Forward Revalidation Application',
+                'description'=>'Forward Revalidation Application'
+
+            ],
+            [
+                'name' => 'vp.forward_reval_application_data',
+                'display_name' => 'Forward Revalidation Application Data',
+                'description' => 'Forward Revalidation Application Data',
+            ]
         ];
 
         $vp_manager = Role::where('name', '=', 'vp_engineer')->first();
@@ -117,7 +155,7 @@ class VpPermission extends Seeder
         {
             $role_id = Role::insertGetId([
                 'name'         => 'vp_engineer',
-                'redirect_to'  => '/vp',
+                'redirect_to'  => '/dashboard',
                 'parent_id'    => NULL,
                 'display_name' => 'VP_Engineer',
                 'description'  => 'Login as VP Engineer'

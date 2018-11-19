@@ -9,30 +9,16 @@ class scApplication extends Model
 	protected $table = 'sc_application';
 	public $timestamps = true;
 	protected $fillable = [
-	    'application_no',
+	    'sc_application_master_id',
+        'application_no',
+        'application_type',
+	    'application_status',
 		'society_id',
 	    'form_request_id',
 	    'layout_id',
-	    'draft_conveyance_application',
-	    'stamp_conveyance_application',
-	    'resolution',
-	    'undertaking',
-	    'sale_sub_register_name',
-	    'sale_registeration_year',
-	    'sale_registeration_no',
-	    'lease_sub_register_name',
-	    'lease_registeration_year',
-	    'lease_registeration_no',
-	    'service_charge_receipt',
-	    'is_allotement_available',
-	    'is_society_resolution',
-	    'no_due_certificate',
-	    'em_covering_letter',
-	    'bonafide_list',
 	    'riders',
-	    'noc_conveyance',
 	];
-
+ 
     public function applicationLayoutUser()
     {
         return $this->hasMany('App\LayoutUser', 'id','layout_id');
@@ -58,9 +44,9 @@ class scApplication extends Model
         return $this->hasOne('App\conveyance\scApplicationLog', 'application_id','id');
     }  
 
-    public function scApplicationAgreement()
+    public function scDocumentStatus()
     {
-        return $this->hasOne('App\conveyance\ScApplicationAgreements', 'application_id','id');
+        return $this->hasOne('App\conveyance\SocietyConveyanceDocumentStatus', 'application_id','id');
     }  
 
     public function ScAgreementComments()
@@ -70,6 +56,11 @@ class scApplication extends Model
     public function ConveyanceSalePriceCalculation()
     {
         return $this->hasOne('App\conveyance\ConveyanceSalePriceCalculation', 'application_id','id');
-    }   
-               	
+    }
+
+    public function scApplicationType()
+    {
+        return $this->hasOne('App\conveyance\scApplicationType', 'id','sc_application_master_id');
+    }
+
 }

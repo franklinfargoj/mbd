@@ -14,9 +14,18 @@
 
 $(document).ready(function () {
 
+    //trigger radio on table row click
+
     $("#dataTableBuilder tr").click(function(){
         $(this).find("input[type='radio']").first()[0].click()
-      })
+    })
+
+    //trigger accordion link on parent click
+
+    // $("#accordion .form-accordion").click(function(e){
+    //     console.log("click",  $(this).find('.form-count-title'));
+    //     $(this).find('.form-count-title').first()[0].click()
+    // })
 
     // disable collapse on active menu
 
@@ -244,8 +253,14 @@ $(document).ready(function () {
                 number: true
             },
             office_date: "required",
-            office_tehsil: "required",
-            office_village: "required",
+            office_tehsil: {
+                required : true,
+                lettersonly: true
+            },
+            office_village: {
+                required : true,
+                lettersonly : true,
+            },
             office_remark: "required",
             department_id: "required",
             hearing_status_id: "required"
@@ -282,8 +297,14 @@ $(document).ready(function () {
                 number: true
             },
             office_date: "required",
-            office_tehsil: "required",
-            office_village: "required",
+            office_tehsil: {
+                required : true,
+                lettersonly: true
+            },
+            office_village: {
+                required : true,
+                lettersonly : true,
+            },
             office_remark: "required",
             department_id: "required",
             hearing_status_id: "required"
@@ -542,6 +563,225 @@ $(document).ready(function () {
     $("#DeleteRoleReason").validate({
         rules: {
             delete_message: "required",
+        }
+    });
+
+    $("#appointing_architect_step1").validate({
+        rules:{
+            category_of_panel:"required",
+            name_of_applicant:"required",
+            address:"required",
+            city:"required",
+            pin:{
+                required:true,
+                number:true
+            },
+            off:{
+                required:true,
+                number:true
+            },
+            res:{
+                required:true,
+                number:true
+            },
+            mobile:{
+                required:true,
+                number:true
+            },
+            fax:{
+                required:true,
+                number:true
+            },
+            cash:{
+                required:true,
+                number:true
+            },
+            pay_order_no:{
+                required:true,
+                number:true
+            },
+            bank:"required",
+            branch:"required",
+            date_of_payment:"required",
+            receipt_no:{
+                required:true,
+                number:true
+            },
+            receipt_date:"required"
+        }
+    });
+
+    $("#appointing_architect_step2").validate({
+        rules:{
+            category_of_panel:"required",
+            name_of_applicant:"required",
+            address:"required",
+            city:"required",
+            pin:{
+                required:true,
+                number:true
+            },
+            off:{
+                required:true,
+                number:true
+            },
+            res:{
+                required:true,
+                number:true
+            },
+            mobile:{
+                required:true,
+                number:true
+            },
+            fax:{
+                required:true,
+                number:true
+            },
+            cash:{
+                required:true,
+                number:true
+            },
+            pay_order_no:{
+                required:true,
+                number:true
+            },
+            bank:"required",
+            branch:"required",
+            date_of_payment:"required",
+            receipt_no:{
+                required:true,
+                number:true
+            },
+            receipt_date:"required",
+            application_info_and_its_enclosures_verify:"required"
+        }
+    })
+
+    $("#appointing_architect_step3").validate({
+        rules:{
+            category_of_panel:"required",
+            name_of_applicant:"required",
+            address:"required",
+            city:"required",
+            pin:{
+                required:true,
+                number:true
+            },
+            off:{
+                required:true,
+                number:true
+            },
+            res:{
+                required:true,
+                number:true
+            },
+            mobile:{
+                required:true,
+                number:true
+            },
+            fax:{
+                required:true,
+                number:true
+            },
+            cash:{
+                required:true,
+                number:true
+            },
+            pay_order_no:{
+                required:true,
+                number:true
+            },
+            bank:"required",
+            branch:"required",
+            date_of_payment:"required",
+            receipt_no:{
+                required:true,
+                number:true
+            },
+            receipt_date:"required",
+            details_of_establishment:"required",
+            branch_office_details:"required",
+            staff_architects:{
+                required:true,
+                number:true
+            },
+            staff_engineers:{
+                required:true,
+                number:true
+            },
+            staff_supporting_tech:{
+                required:true,
+                number:true
+            },
+            staff_supporting_nontech:{
+                required:true,
+                number:true
+            },
+            staff_others:{
+                required:true,
+                number:true
+            },
+            staff_total:{
+                required:true,
+                number:true
+            },
+            is_cad_facility:"required",
+            cad_facility_no_of_computers:{
+                required: function(element) {
+                    return $('#is_cad_facility_yes').is(':checked')
+                  }
+            },
+            cad_facility_no_of_printers:{
+                required: function(element) {
+                    return $('#is_cad_facility_yes').is(':checked')
+                  }
+            },
+            cad_facility_no_of_plotters:{
+                required: function(element) {
+                    return $('#is_cad_facility_yes').is(':checked')
+                  }
+            },
+            reg_with_council_of_architecture_principle:{
+                required:true,
+                number:true
+            },
+            reg_with_council_of_architecture_associate:{
+                required:true,
+                number:true
+            },
+            reg_with_council_of_architecture_partner:{
+                required:true,
+                number:true
+            },
+            reg_with_council_of_architecture_total_registered_persons:{
+                required:true,
+                number:true
+            },
+            award_prizes_etc:"required",
+            other_information:"required"
+
+        }
+    });
+
+    
+
+    $("#appointing_architect_signup").validate({
+        rules:{
+            name:"required",
+            email:{
+                required: true,
+                email: true,
+            },
+            mobile_no:{
+                required: true,
+                minlength: 10,
+                maxlength: 10,
+                number: true
+            },
+            address:"required",
+            password:"required",
+            confirm_password:"required"
+            
         }
     });
 

@@ -19,8 +19,8 @@
                         <i class="la la-cog"></i> Scrutiny History
                     </a>
                 </li>
-                
-                @if($data->status->status_id == config('commanConfig.applicationStatus.in_process'))
+
+                @if((session()->get('role_name') == config('commanConfig.dycdo_engineer') && $data->status->status_id != config('commanConfig.applicationStatus.forwarded')) || $data->status->status_id == config('commanConfig.applicationStatus.Stamped_sale_&_lease_deed') || $data->status->status_id == config('commanConfig.applicationStatus.Draft_sale_&_lease_deed') || $data->status->status_id == config('commanConfig.applicationStatus.in_process') )
                 <li class="nav-item m-tabs__item">
                     <a class="nav-link m-tabs__link show" data-toggle="tab" href="#forward-application-tab">
                         <i class="la la-cog"></i> Forward Application
@@ -159,6 +159,111 @@
                                     </div>
                                 </div> 
                                 @endif 
+
+                                @if(count($eelogs) > 0)
+                                <div class="remark-body">
+                                    <div class="border-bottom pb-2">
+                                        <span class="hint-text d-block t-remark">Remark by EE Department</span>
+                                    </div>                                
+                                    <div class="remarks-section">
+                                        <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container"
+                                            data-scrollbar-shown="true" data-scrollable="true" data-max-height="200">
+
+                                        @foreach($eelogs as $log)
+
+                                            @if($log->status_id == config('commanConfig.applicationStatus.forwarded'))
+                                                @php $status = 'Forwarded'; @endphp
+                                            @elseif($log->status_id == config('commanConfig.applicationStatus.reverted'))
+                                                @php $status = 'Reverted'; @endphp
+                                            @endif
+
+                                            <div class="remarks-section__data">
+                                                <p class="remarks-section__data__row"><span>Date:</span><span>{{(isset($log) && $log->created_at != '' ? date("d-m-Y",
+                                                        strtotime($log->created_at)) : '')}}</span>
+
+                                                </p>
+                                                <p class="remarks-section__data__row"><span>Time:</span><span>{{(isset($log) && $log->created_at != '' ? date("H:i",
+                                                        strtotime($log->created_at)) : '')}}</span></p>
+                                                <p class="remarks-section__data__row"><span>Action:</span>
+
+                                                <span>{{$status}} to {{isset($log->getRoleName->display_name) ? $log->getRoleName->display_name : ''}} From {{isset($log->getRole->display_name) ? $log->getRole->display_name : ''}}</span></p>
+                                                <p class="remarks-section__data__row"><span>Description:</span><span>{{(isset($log) ? $log->remark : '')}}</span></p>
+                                            </div>
+                                        @endforeach                                         
+                                        </div>
+                                    </div>
+                                </div> 
+                                @endif    
+
+                                @if(count($Architectlogs) > 0)
+                                <div class="remark-body">
+                                    <div class="border-bottom pb-2">
+                                        <span class="hint-text d-block t-remark">Remark by Architect Department</span>
+                                    </div>                                
+                                    <div class="remarks-section">
+                                        <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container"
+                                            data-scrollbar-shown="true" data-scrollable="true" data-max-height="200">
+
+                                        @foreach($Architectlogs as $log)
+
+                                            @if($log->status_id == config('commanConfig.applicationStatus.forwarded'))
+                                                @php $status = 'Forwarded'; @endphp
+                                            @elseif($log->status_id == config('commanConfig.applicationStatus.reverted'))
+                                                @php $status = 'Reverted'; @endphp
+                                            @endif
+
+                                            <div class="remarks-section__data">
+                                                <p class="remarks-section__data__row"><span>Date:</span><span>{{(isset($log) && $log->created_at != '' ? date("d-m-Y",
+                                                        strtotime($log->created_at)) : '')}}</span>
+
+                                                </p>
+                                                <p class="remarks-section__data__row"><span>Time:</span><span>{{(isset($log) && $log->created_at != '' ? date("H:i",
+                                                        strtotime($log->created_at)) : '')}}</span></p>
+                                                <p class="remarks-section__data__row"><span>Action:</span>
+
+                                                <span>{{$status}} to {{isset($log->getRoleName->display_name) ? $log->getRoleName->display_name : ''}} From {{isset($log->getRole->display_name) ? $log->getRole->display_name : ''}}</span></p>
+                                                <p class="remarks-section__data__row"><span>Description:</span><span>{{(isset($log) ? $log->remark : '')}}</span></p>
+                                            </div>
+                                        @endforeach                                         
+                                        </div>
+                                    </div>
+                                </div> 
+                                @endif   
+
+                                @if(count($cologs) > 0)
+                                <div class="remark-body">
+                                    <div class="border-bottom pb-2">
+                                        <span class="hint-text d-block t-remark">Remark by CO and JTCO Department</span>
+                                    </div>                                
+                                    <div class="remarks-section">
+                                        <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container"
+                                            data-scrollbar-shown="true" data-scrollable="true" data-max-height="200">
+
+                                        @foreach($cologs as $log)
+
+                                            @if($log->status_id == config('commanConfig.applicationStatus.forwarded'))
+                                                @php $status = 'Forwarded'; @endphp
+                                            @elseif($log->status_id == config('commanConfig.applicationStatus.reverted'))
+                                                @php $status = 'Reverted'; @endphp
+                                            @endif
+
+                                            <div class="remarks-section__data">
+                                                <p class="remarks-section__data__row"><span>Date:</span><span>{{(isset($log) && $log->created_at != '' ? date("d-m-Y",
+                                                        strtotime($log->created_at)) : '')}}</span>
+
+                                                </p>
+                                                <p class="remarks-section__data__row"><span>Time:</span><span>{{(isset($log) && $log->created_at != '' ? date("H:i",
+                                                        strtotime($log->created_at)) : '')}}</span></p>
+                                                <p class="remarks-section__data__row"><span>Action:</span>
+
+                                                <span>{{$status}} to {{isset($log->getRoleName->display_name) ? $log->getRoleName->display_name : ''}} From {{isset($log->getRole->display_name) ? $log->getRole->display_name : ''}}</span></p>
+                                                <p class="remarks-section__data__row"><span>Description:</span><span>{{(isset($log) ? $log->remark : '')}}</span></p>
+                                            </div>
+                                        @endforeach                                         
+                                        </div>
+                                    </div>
+                                </div> 
+                                @endif                                                                                                
                             </div>
                         </div>
                     </div>
@@ -188,12 +293,13 @@
                                                         value="1" checked> Forward Application
                                                     <span></span>
                                                 </label>
-                                                
-                                                <label class="m-radio m-radio--primary">
-                                                    <input type="radio" name="remarks_suggestion" id="remark" class="forward-application"
-                                                        value="0"> Revert Application
-                                                    <span></span>
-                                                </label>                                                
+                                                @if($data->child != "")    
+                                                    <label class="m-radio m-radio--primary">
+                                                        <input type="radio" name="remarks_suggestion" id="remark" class="forward-application"
+                                                            value="0"> Revert Application
+                                                        <span></span>
+                                                    </label>  
+                                                @endif                                              
                                             </div>
 
                                             <div class="form-group m-form__group row mt-3 parent-data" id="select_dropdown">
@@ -211,7 +317,7 @@
                                                     </select>
                                                 </div>                                                 
                                             </div>
-                                             @if($data->child)
+                                             @if($data->child != "")
                                             <div class="form-group m-form__group row mt-3 child-data" style="display: none">
                                                 <label class="col-form-label col-lg-2 col-sm-12">
                                                     Revert To:
@@ -233,14 +339,40 @@
                                                 <textarea class="form-control form-control--custom" name="remark" id="remark"
                                                     cols="30" rows="5"></textarea>
                                             </div>
-                                            <div class="mt-3 btn-list">
-                                                <button type="submit" class="btn btn-primary">Save</button>
-                                                {{--<button type="submit" id="sign" class="btn btn-primary forwrdBtn">Sign</button>
-                                                <button type="submit" class="btn btn-primary forwrdBtn">Sign & Forward</button>
-                                                <button type="submit" class="btn btn-primary forwrdBtn">Forward</button>--}}
-                                                <button type="button" onclick=""
-                                                    class="btn btn-secondary">Cancel</button>
-                                            </div>
+                                            @php 
+                                            $error = '';
+                                                if(isset($data->application_status)){
+                                                    if ($data->application_status == config('commanConfig.applicationStatus.Draft_sale_&_lease_deed')){ 
+
+                                                            if (!(isset($data->DraftSaleAgreement) && isset($data->DraftLeaseAgreement))){
+                                                            $error = 'error';
+                                                        }
+                                                    }elseif($data->application_status == config('commanConfig.applicationStatus.Aproved_sale_&_lease_deed')){
+                                                        
+                                                        if (!(isset($data->ApprovedSaleAgreement) && isset($data->ApprovedLeaseAgreement))){
+                                                        
+                                                        $error = 'error';
+                                                        }
+                                                    }
+                                                }
+                                            
+                                            @endphp
+                                            
+                                            @if($error == '')
+                                                <div class="mt-3 btn-list">
+                                                    <button type="submit" class="btn btn-primary">Save</button>
+                                                    {{--<button type="submit" id="sign" class="btn btn-primary forwrdBtn">Sign</button>
+                                                    <button type="submit" class="btn btn-primary forwrdBtn">Sign & Forward</button>
+                                                    <button type="submit" class="btn btn-primary forwrdBtn">Forward</button>--}}
+                                                    <button type="button" onclick=""
+                                                        class="btn btn-secondary">Cancel</button>
+                                                </div>
+                                            @else
+                                                <div>
+                                                    <span class="error" style="display: block;color: #ce2323;margin-top: 13px;">* Note : Please Upload Sale and Lease Deed Agreements. 
+                                                    </span>
+                                                </div>      
+                                            @endif
                                         </div>
                                         <input type="hidden" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">
                                     </form>

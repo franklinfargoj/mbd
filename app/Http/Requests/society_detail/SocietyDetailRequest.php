@@ -24,18 +24,19 @@ class SocietyDetailRequest extends FormRequest
     public function rules()
     {
         return [
+            'layout' => 'required',
+            'society_reg_no' => 'required',
             'society_name' => "required",
             'district' => "required",
             'taluka' => "required",
             'survey_number' => "required",
             'cts_number' => "required",
-            'chairman' => "required",
             'society_address' => "required",
             'area' => "required",
             'date_on_service_tax' => "required",
             'surplus_charges' => "required",
             'surplus_charges_last_date' => "required",
-            'other_land_id => "required"'
+            'other_land_id' => 'required'
         ];
     }
 }

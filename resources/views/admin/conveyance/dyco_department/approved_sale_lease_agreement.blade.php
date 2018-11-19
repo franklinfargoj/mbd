@@ -9,7 +9,8 @@
     {{ session()->get('success') }}
 </div>
 @endif
-
+<form class="nav-tabs-form" id ="agreementFRM" role="form" method="POST" action="{{ route('dyco.save_approved_agreement')}}" enctype="multipart/form-data">
+@csrf
 <div class="col-md-12">
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">
@@ -19,8 +20,9 @@
             </h3> -->
             {{-- {{ Breadcrumbs::render('calculation_sheet',$ol_application->id) }} --}}
             <div class="ml-auto btn-list">
-                <a href="javascript:void(0);" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+                <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
             </div>
+
         </div>
         <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom" role="tablist">
             <li class="nav-item m-tabs__item">
@@ -37,8 +39,7 @@
             </li>
         </ul>
     </div>
-<form class="nav-tabs-form" id ="agreementFRM" role="form" method="POST" action="{{ route('dyco.save_agreement')}}" enctype="multipart/form-data">
-@csrf
+
 
 <input type="hidden" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">
     <div class="tab-content">
@@ -53,16 +54,31 @@
                                 </h5>
                             </div>
                         </div>
+
                         <div class="m-section__content mb-0 table-responsive">
                             <div class="container">
                                 <div class="row">
-                                    <div class="col-sm-12">
+                                    <div class="col-sm-6">
+                                        <div class="d-flex flex-column h-100 two-cols">
+                                            <h5>Upload</h5>
+                                            <span class="hint-text">Click to upload Sale Deed Agreement</span>
+                                                <div class="custom-file">
+                                                    <input class="custom-file-input" name="sale_agreement" type="file" id="test-upload1">
+                                                
+                                                        <label class="custom-file-label" for="test-upload1">Choose
+                                                        file...</label>   
+                                                </div>
+                                        </div>
+                                    </div> 
+
+                                    <div class="col-sm-6 border-left">
                                         <div class="d-flex flex-column h-100 two-cols">
                                             <h5>Download</h5>
-                                            <span class="hint-text">Click Download to download Sale Deed Agreement </span>
+                                            <span class="hint-text">Click to download Sale Deed Agreement </span>
                                             <div class="mt-auto">
-                                                @if(isset($data->scApplicationAgreement->draft_sale_agreement))
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->scApplicationAgreement->draft_sale_agreement }}">
+                                                @if(isset($data->ApprovedSaleAgreement->document_path))
+                                                <input type="hidden" name="oldSaleFile" value="{{ $data->ApprovedSaleAgreement->document_path }}">
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->ApprovedSaleAgreement->document_path }}">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>
@@ -82,7 +98,7 @@
 
             <!-- Add Send to JT CO here -->
         </div>
-
+ 
         <div class="tab-pane" id="lease-deed-agreement" role="tabpanel">
             <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
                 <div class="portlet-body">
@@ -98,14 +114,29 @@
                             <div class="container">
                                 <div class="row">
                                     <div class="col-sm-6">
+                                        <div class="d-flex flex-column h-100 two-cols">
+                                            <h5>Upload</h5>
+                                            <span class="hint-text">Click to upload Lease Deed Agreement</span>
+                                                <div class="custom-file">
+                                                    <!-- <input class="custom-file-input" name="lease_agreement" type="file" id="test-upload2"> -->
+                                                    
+                                                    <input class="custom-file-input" name="lease_agreement" type="file" id="test-upload2">
+   
+                                                    <label class="custom-file-label" for="test-upload2">Choose
+                                                        file...</label>
+                                                      
+                                                </div>
+                                        </div>
                                     </div>
-                                    <div class="col-sm-12">
+                                    <div class="col-sm-6 border-left">
                                         <div class="d-flex flex-column h-100 two-cols">
                                             <h5>Download</h5>
-                                            <span class="hint-text">Click Download to download Lease Deed Agreement</span>
-                                            <div class="mt-auto">
-                                                @if(isset($data->scApplicationAgreement->draft_lease_agreement))
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->scApplicationAgreement->draft_lease_agreement }}">
+                                            <span class="hint-text">Click to download Lease Deed Agreement</span>
+                                            <div class="mt-auto"> 
+                                                @if(isset($data->ApprovedLeaseAgreement->document_path))
+
+                                                <input type="hidden" name="oldLeaseFile" value="{{ $data->ApprovedLeaseAgreement->document_path }}">
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->ApprovedLeaseAgreement->document_path }}">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                        Download  </Button>
                                                 </a>
@@ -116,6 +147,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -124,24 +156,90 @@
             </div>
         </div>
     </div>
+  
     <div class="m-portlet m-portlet--mobile m_panel">
         <div class="m-portlet__body">
             <h3 class="section-title section-title--small">Letter to Pay Stamp  Duty</h3>
             <div class="col-xs-12 row">
                 <div class="col-md-12">
-                    <div class="col-md-6" style="display: inline;">
-                        <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
-                        Download  </Button>
-                    </div>
-                    <div class="col-md-6" style="display: inline;">
-                        <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
-                        send to society </Button>
-                    </div>    
+                        <input type="hidden" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">
+                        <div class="col-md-6" style="display: inline;">
+                            <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
+                            Download  </Button>
+                        </div>
+                        
+                        @if($data->is_view && $data->status->status_id == config('commanConfig.applicationStatus.in_process'))
+                    <form class="nav-tabs-form" id ="agreementFRM" role="form" method="POST" action="{{ route('dyco.send_to_society')}}" enctype="multipart/form-data">
+                        @csrf
+                            <div class="col-md-6" style="display: inline;">
+                                <Button type="submit" class="s_btn btn btn-primary" id="submitBtn">
+                                send to society </Button>
+                            </div>
+                    </form>    
+                        @endif
                 </div>
             </div>
         </div>
     </div>
- </form>   
 </div>
 
+    @if(count($data->AgreementComments) > 0)       
+        <div class="m-portlet m-portlet--mobile m_panel">
+            <div class="m-portlet__body">
+            <h3 class="section-title section-title--small">Remark History </h3>
+                <div class="remark-body">
+                    <div class="remarks-section">
+                        <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container"
+                            data-scrollbar-shown="true" data-scrollable="true" data-max-height="200">
+                            @foreach($data->AgreementComments as $comment)
+                                <div class="remarks-section__data">
+                                    <p class="remarks-section__data__row"><span>Remark By {{ isset($comment->Roles->display_name) ?  $comment->Roles->display_name : '' }}</p>
+                                    <p class="remarks-section__data__row"><span>Remark:</span><span>{{ isset($comment->remark) ? $comment->remark : '' }}</span></p>
+                                </div>
+                            @endforeach                                         
+                        </div>
+                    </div>
+                </div>               
+            </div>    
+        </div> 
+    @endif   
+
+    @if($data->status->status_id != config('commanConfig.applicationStatus.forwarded'))
+  
+             <input type="hidden" name="application_id" value="{{ isset($data->id) ? $data->id : '' }}">
+            <div class="m-portlet m-portlet--mobile m_panel">  
+                <div class="m-portlet__body">   
+                    <div class="col-xs-12 row">
+                        <div class="col-md-12">
+                            <h3 class="section-title section-title--small">Remark</h3>
+                                <textarea rows="4" cols="63" name="remark"></textarea>
+                                <button type="submit" class="btn btn-primary mt-3" style="display:block">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    @endif 
+
+@endsection
+@section('js')
+<script>
+    $("#agreementFRM").validate({
+        rules: {
+            sale_agreement: {
+                extension: "pdf"
+            },            
+            lease_agreement: {
+                extension: "pdf"
+            },
+        }, messages: {
+            sale_agreement: {
+                extension: "Invalid type of file uploaded (only pdf allowed)."
+            },            
+            lease_agreement: {
+                extension: "Invalid type of file uploaded (only pdf allowed)."
+            }
+        }
+    });  
+</script>
 @endsection

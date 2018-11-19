@@ -17,6 +17,8 @@ use App\OlDemarcationVerificationDetails;
 use App\OlTitBitVerificationDetails;
 use App\OlRelocationVerificationDetails;
 use App\OlApplicationCalculationSheetDetails;
+use App\OlCustomCalculationMasterModel;
+use App\OlCustomCalculationSheet;
 use App\OlChecklistScrutiny;
 use App\OlApplicationStatus;
 use App\User;
@@ -189,7 +191,47 @@ class REEController extends Controller
 
           // dd($ol_application->offer_letter_document_path);
         return view('admin.REE_department.forward_application',compact('applicationData','arrData','ol_application','eelogs','dyceLogs','reeLogs','coLogs','capLogs','vpLogs'));  
-    }             
+    }
+
+
+    // Forward Revalidation Application page
+    public function forwardRevalApplication(Request $request, $applicationId){
+
+        $ol_application = $this->CommonController->getOlApplication($applicationId);
+        $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
+        $applicationData = $this->CommonController->getForwardApplication($applicationId);
+
+        $parentData = $this->CommonController->getForwardApplicationParentData();
+        $arrData['parentData'] = $parentData['parentData'];
+        $arrData['role_name'] = $parentData['role_name'];
+
+//        $arrData['application_status'] = $this->CommonController->getCurrentApplicationStatus($applicationId);
+        if(session()->get('role_name') != config('commanConfig.ree_junior'))
+            $arrData['application_status'] = $this->CommonController->getCurrentLoggedInChild($applicationId);
+
+        $arrData['get_current_status'] = $this->CommonController->getCurrentStatus($applicationId);
+
+        // CO Forward Application
+
+        $co_id = Role::where('name', '=', config('commanConfig.co_engineer'))->first();
+        if($arrData['get_current_status']->status_id != config('commanConfig.applicationStatus.offer_letter_approved'))
+        {
+            $arrData['get_forward_co'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
+                ->where('lu.layout_id', session()->get('layout_id'))
+                ->where('role_id', $co_id->id)->get();
+            $arrData['co_role_name'] = strtoupper(str_replace('_', ' ', $co_id->name));
+        }
+
+        //remark and history
+        $reeLogs  = $this->CommonController->getLogsOfREEDepartment($applicationId);
+        $coLogs   = $this->CommonController->getLogsOfCODepartment($applicationId);
+        $capLogs  = $this->CommonController->getLogsOfCAPDepartment($applicationId);
+        $vpLogs   = $this->CommonController->getLogsOfVPDepartment($applicationId);
+
+        // dd($ol_application->offer_letter_document_path);
+        return view('admin.REE_department.forward_reval_application',compact('applicationData','arrData','ol_application','eelogs','dyceLogs','reeLogs','coLogs','capLogs','vpLogs'));
+    }
+
 
     public function sendForwardApplication(Request $request){
 
@@ -217,6 +259,32 @@ class REEController extends Controller
 
     }
 
+    public function sendForwardRevalApplication(Request $request){
+
+//        dd($request->all());
+        $arrData['get_current_status'] = $this->CommonController->getCurrentStatus($request->applicationId);
+
+        if($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.offer_letter_generation'))
+        {
+            $this->CommonController->generateOfferLetterREE($request);
+        }
+        // elseif((session()->get('role_name') == config('commanConfig.ree_branch_head')) && $arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.offer_letter_approved'))
+        // {
+        //     $this->CommonController->forwardApplicationToSociety($request);
+        // }
+        elseif($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.offer_letter_approved'))
+        {
+            $this->CommonController->forwardApprovedApplication($request);
+        }
+        else
+        {
+            $this->CommonController->forwardApplicationForm($request);
+        }
+
+        return redirect('/ree_reval_applications')->with('success','Application send successfully.');
+
+    }
+
     public function downloadCapNote(Request $request, $applicationId){
 
         $ol_application = $this->CommonController->getOlApplication($applicationId);
@@ -232,7 +300,6 @@ class REEController extends Controller
 
     public function uploadREENote(Request $request){
         $applicationId   = $request->application_id;
-
         if ($request->file('ree_note')){
 
             $file = $request->file('ree_note');
@@ -317,18 +384,41 @@ class REEController extends Controller
         }else{
            $content = ""; 
         }
+        $vpApprovedData = $this->CommonController->getLogsOfVPDepartment($applicatonId);
 
-        return view('admin.REE_department.'.$blade,compact('applicatonId','calculationData','content'));
+        $calculationData->vpDate = $vpApprovedData[0]->created_at;
+
+        //latest calculation data
+        $custom = '0';
+        $custom = OlCustomCalculationSheet::where('application_id',$applicatonId)->orderBy('updated_at','DESC')
+        ->value('updated_at');
+        $premium = OlApplicationCalculationSheetDetails::where('application_id',$applicatonId)
+        ->orderBy('updated_at','DESC')->value('updated_at');  
+
+        if ($custom > $premium){
+            $custom = '1';            
+        }   
+
+        $table1Id = OlCustomCalculationMasterModel::where('name','Calculation_Table-A')->value('id');       
+        $table1 = OlCustomCalculationSheet::where('application_id',$applicatonId)
+        ->where('parent_id',$table1Id)->get()->toArray();
+        $summary = $this->getSummaryData($applicatonId);
+
+        return view('admin.REE_department.'.$blade,compact('applicatonId','calculationData','content','table1','custom','summary'));
     }
-
+// 
     public function saveOfferLetter(Request $request){
 
         $id = $request->applicationId;
         $content = str_replace('_', "", $_POST['ckeditorText']);
         $folder_name = 'Draft_offer_letter';
 
+        $header_file = view('admin.REE_department.offer_letter_header');        
+        $footer_file = view('admin.REE_department.offer_letter_footer');
         $pdf = \App::make('dompdf.wrapper');
-        $pdf->loadHTML($content);
+
+        $pdf->loadHTML($header_file.$content.$footer_file);
+
         $fileName = time().'draft_offer_letter_'.$id.'.pdf';
         $filePath = $folder_name."/".$fileName;
 
@@ -336,6 +426,7 @@ class REEController extends Controller
             Storage::disk('ftp')->makeDirectory($folder_name, $mode = 0777, true, true);
         } 
         Storage::disk('ftp')->put($filePath, $pdf->output());
+        $file = $pdf->output();
 
         //text offer letter
 
@@ -350,6 +441,7 @@ class REEController extends Controller
         Storage::disk('ftp')->put($filePath1, $content);
 
         OlApplication::where('id',$request->applicationId)->update(["drafted_offer_letter" => $filePath, "text_offer_letter" => $filePath1]);
+         // OlApplication::where('id',$request->applicationId)->update(["drafted_offer_letter" => $filePath]);
 
         return redirect('generate_offer_letter/'.$request->applicationId);
     }
@@ -435,6 +527,43 @@ class REEController extends Controller
     {
         $applicationId = $id;
         $user = $this->CommonController->showCalculationSheet($applicationId);
+        $ol_application = $this->CommonController->getOlApplication($applicationId); 
+        $this->getCustomCalculationData($ol_application,$applicationId);
+        $summary = $this->getSummaryData($applicationId);
+        
+        // $ol_application->folder = 'REE_department';
+        $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
+        $calculationSheetDetails = $user->calculationSheetDetails;
+        $dcr_rates = $user->dcr_rates;
+        $blade = $user->blade;
+        $arrData['reeNote'] = $user->areeNote;
+
+        //latest calculation data
+        $custom = OlCustomCalculationSheet::where('application_id',$applicationId)->orderBy('updated_at','DESC')
+        ->value('updated_at');
+        $premium = OlApplicationCalculationSheetDetails::where('application_id',$applicationId)
+        ->orderBy('updated_at','DESC')->value('updated_at');  
+
+        if ($custom > $premium){
+            $route = 'admin.REE_department.view_custom_premium_calculation_sheet';            
+        }  else{
+            $route = 'admin.common.'.$blade;
+        }  
+        $status = $this->CommonController->getCurrentStatus($applicationId); 
+        $reeNote = REENote::where('application_id',$applicationId)->orderBy('id','DESC')->first(); 
+        $folder = $this->getCurrentRoleFolderName();
+        $buldingNumber = OlCustomCalculationSheet::where('application_id',$applicationId)
+            ->where('title','total_no_of_buildings')->value('amount');     
+          
+        return view($route,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application','summary','status','reeNote','folder','buldingNumber'));
+
+    }
+
+
+    public function showRevalCalculationSheet($id)
+    {
+        $applicationId = $id;
+        $user = $this->CommonController->showCalculationSheet($applicationId);
         $ol_application = $this->CommonController->getOlApplication($applicationId); //echo "<pre>";print_r($ol_application);exit;
         $ol_application->folder = 'REE_department';
         $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
@@ -444,6 +573,23 @@ class REEController extends Controller
         $arrData['reeNote'] = $user->areeNote;
         // dd($blade);
         return view('admin.common.'.$blade,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application'));
+
+    }
+    
+    public function getCurrentRoleFolderName(){
+
+        if (session()->get('role_name') == config('commanConfig.co_engineer')) {
+            $folder = 'co_department';
+
+        }else if (session()->get('role_name') == config('commanConfig.ree_junior') || session()->get('role_name') == config('commanConfig.ree_deputy_engineer') || session()->get('role_name') == config('commanConfig.ree_assistant_engineer') || session()->get('role_name') == config('commanConfig.ree_branch_head')) {
+            $folder = 'REE_department';
+
+        } else if (session()->get('role_name') == config('commanConfig.cap_engineer')) {
+            $folder = 'cap_department';
+        }  else if (session()->get('role_name') == config('commanConfig.vp_engineer')) {
+            $folder = 'vp_department';
+        } 
+        return $folder;
 
     }
 
@@ -534,10 +680,197 @@ class REEController extends Controller
     public function societyRevalDocuments(Request $request,$applicationId){
 
         $ol_application = $this->CommonController->getOlApplication($applicationId);
-        $societyDocument = $this->CommonController->getSocietyEEDocuments($applicationId);
+        $societyDocument = $this->CommonController->getRevalSocietyREEDocuments($applicationId);
+
         $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
 
         $ol_application->status = $this->CommonController->getCurrentStatus($applicationId);
         return view('admin.REE_department.society_reval_documents', compact('societyDocument','ol_application'));
+    }
+
+    //calculations option with formula and custom
+    public function displayCalculationSheetOptions(Request $request,$applicationId){
+        
+        $ol_application = $this->CommonController->getOlApplication($applicationId);
+        $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
+        return view('admin.REE_department.show_calculation_sheet',compact('ol_application'));
+    }
+    // display custom calculation sheet for premium
+    public function displayCustomCalculationSheet(Request $request,$applicationId){
+        
+        $user = Auth::user(); 
+        $ol_application = $this->CommonController->getOlApplication($applicationId);
+        $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
+
+        $table1Id = OlCustomCalculationMasterModel::where('name','Calculation_Table-A')->value('id');
+        $table2Id = OlCustomCalculationMasterModel::where('name','Part_Payment')->value('id');
+        $table3Id = OlCustomCalculationMasterModel::where('name','1st_Installment')->value('id');
+        $table4Id = OlCustomCalculationMasterModel::where('name','remaining_Installment')->value('id');
+        
+        $ol_application->table1 = OlCustomCalculationSheet::where('application_id',$applicationId)
+        ->where('parent_id',$table1Id)->get()->toArray();        
+        $ol_application->table2 = OlCustomCalculationSheet::where('application_id',$applicationId)
+        ->where('parent_id',$table2Id)->get()->toArray();
+        $ol_application->table3 = OlCustomCalculationSheet::where('application_id',$applicationId)
+        ->where('parent_id',$table3Id)->get()->toArray();
+        $ol_application->table4 = OlCustomCalculationSheet::where('application_id',$applicationId)
+        ->where('parent_id',$table4Id)->get()->toArray();
+        $summary = $this->getSummaryData($applicationId);
+        $status = $this->CommonController->getCurrentStatus($applicationId);
+        $reeNote = REENote::where('application_id',$applicationId)->orderBy('id','DESC')->first(); 
+
+        $buldingNumber = OlCustomCalculationSheet::where('application_id',$applicationId)
+            ->where('title','total_no_of_buildings')->value('amount');    
+         
+        if (session()->get('role_name') == config('commanConfig.ree_junior') && ($status->status_id == config('commanConfig.applicationStatus.offer_letter_generation') || $status->status_id == config('commanConfig.applicationStatus.in_process') )) {
+             $route = 'admin.REE_department.custom_premium_calculation_sheet';
+        }  else{
+            $route = 'admin.REE_department.view_custom_premium_calculation_sheet';
+        } 
+        $folder = $this->getCurrentRoleFolderName();
+        return view($route,compact('ol_application','user','summary','status','reeNote','buldingNumber','folder')); 
+    }
+
+    public function getCustomCalculationData($data,$applicationId){
+
+        $table1Id = OlCustomCalculationMasterModel::where('name','Calculation_Table-A')->value('id');
+        $table2Id = OlCustomCalculationMasterModel::where('name','Part_Payment')->value('id');
+        $table3Id = OlCustomCalculationMasterModel::where('name','1st_Installment')->value('id');
+        $table4Id = OlCustomCalculationMasterModel::where('name','remaining_Installment')->value('id');
+        
+        $data->table1 = OlCustomCalculationSheet::where('application_id',$applicationId)
+        ->where('parent_id',$table1Id)->get()->toArray();        
+        $data->table2 = OlCustomCalculationSheet::where('application_id',$applicationId)
+        ->where('parent_id',$table2Id)->get()->toArray();
+        $data->table3 = OlCustomCalculationSheet::where('application_id',$applicationId)
+        ->where('parent_id',$table3Id)->get()->toArray();
+        $data->table4 = OlCustomCalculationSheet::where('application_id',$applicationId)
+        ->where('parent_id',$table4Id)->get()->toArray(); 
+
+        return $data;    
+    }
+
+    public function getSummaryData($applicationId){
+        
+        $summary = array();
+        $table5Id = OlCustomCalculationMasterModel::where('name','Summary')->value('id');
+        $summary['within_6months'] = OlCustomCalculationSheet::where('application_id',$applicationId)
+        ->where('parent_id',$table5Id)->where('title','=','within_6months')->value('amount');        
+        $summary['within_1year'] = OlCustomCalculationSheet::where('application_id',$applicationId)
+        ->where('parent_id',$table5Id)->where('title','=','within_1year')->value('amount');        
+        $summary['within_2year'] = OlCustomCalculationSheet::where('application_id',$applicationId)
+        ->where('parent_id',$table5Id)->where('title','=','within_2year')->value('amount');        
+        $summary['within_3year'] = OlCustomCalculationSheet::where('application_id',$applicationId)
+        ->where('parent_id',$table5Id)->where('title','=','within_3year')->value('amount');        
+        $summary['total']        = OlCustomCalculationSheet::where('application_id',$applicationId)
+        ->where('parent_id',$table5Id)->where('title','=','total')->value('amount');
+
+        return $summary;
+    }
+
+    // public function getLatestCalculationData($applicationId){
+
+
+    // }
+
+    public function saveCustomCalculationData(Request $request){
+        
+        if ($request->total_no_of_buildings){
+
+            $buldingNumber = OlCustomCalculationSheet::where('application_id',$request->application_id)
+            ->where('title','total_no_of_buildings')
+            ->where('user_id',Auth::id())->first();    
+            
+            if(!isset($buldingNumber)){
+                $buldingNumber = new OlCustomCalculationSheet();
+            }
+
+            $buldingNumber->application_id =  $request->application_id;      
+            $buldingNumber->user_id =  Auth::id();      
+            $buldingNumber->title =  'total_no_of_buildings';      
+            $buldingNumber->amount =  $request->total_no_of_buildings; 
+            $buldingNumber->save(); 
+        } 
+
+        $tableData  = "";  $parentId = ""; $calculationData = ""; $deletedIds = ""; 
+        
+        if ($request->table1){
+            $tableData = $request->table1; 
+            $parentId = OlCustomCalculationMasterModel::where('name','Calculation_Table-A')->value('id'); 
+
+        }else if($request->table2){
+
+            $tableData = $request->table2; 
+            $parentId = OlCustomCalculationMasterModel::where('name','Part_Payment')->value('id');
+
+
+        }else if($request->table3){
+        
+            $tableData = $request->table3;
+            $parentId = OlCustomCalculationMasterModel::where('name','1st_Installment')->value('id');
+
+        }else if($request->table4){
+
+            $tableData = $request->table4; 
+            $parentId = OlCustomCalculationMasterModel::where('name','remaining_Installment')->value('id');
+
+        }else if($request->table5){
+            $tableData = $request->table5; 
+            $parentId = OlCustomCalculationMasterModel::where('name','Summary')->value('id');
+        }
+        
+        if ($request->table1_deletedIds){
+            $deletedIds = explode("#",$request->table1_deletedIds);
+
+        }elseif($request->table2_deletedIds){
+            $deletedIds = explode("#",$request->table2_deletedIds);
+
+        }elseif($request->table3_deletedIds){
+            $deletedIds = explode("#",$request->table3_deletedIds);
+
+        }elseif($request->table4_deletedIds){
+            $deletedIds = explode("#",$request->table4_deletedIds);
+        }
+
+        if ($deletedIds != ""){
+            OlCustomCalculationSheet::whereIn('id',$deletedIds)->delete();   
+        }
+       
+        if ($tableData != ""){
+            foreach($tableData as $data){
+                
+                if (isset($data['title']) && isset($data['amount'])){
+
+                    if($request->table5){
+
+                      $calculationData = OlCustomCalculationSheet::where('application_id',$request->application_id)
+                        ->where('user_id',Auth::id())->where('parent_id',$parentId)
+                        ->where('title',$data['title'])->first(); 
+                    }
+                    
+                    else if(isset($data['hiddenId'])){
+
+                        $calculationData = OlCustomCalculationSheet::where('id',$data['hiddenId'])
+                        ->where('application_id',$request->application_id)
+                        ->where('user_id',Auth::id())->where('parent_id',$parentId)->first();
+                    
+                    } 
+                    else{
+                         $calculationData = new OlCustomCalculationSheet();
+                    }
+                    if (!isset($calculationData)){
+                        $calculationData = new OlCustomCalculationSheet();
+                    }
+
+                    $calculationData->application_id = $request->application_id;
+                    $calculationData->user_id        = Auth::id();
+                    $calculationData->parent_id      = $parentId;
+                    $calculationData->title          = $data['title'];
+                    $calculationData->amount         = $data['amount'];
+                    $calculationData->save();                  
+                }                
+            }
+        }
+        return redirect("custom_calculation_sheet/" . $request->get('application_id')."#".$request->get('redirect_tab'));
     }
 }

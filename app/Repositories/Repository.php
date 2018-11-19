@@ -70,6 +70,11 @@ class Repository implements RepositoryInterface
        return $this->model->where($where)->first();
     }
 
+    public function whereAll(array $where)
+    {
+       return $this->model->where($where)->get();
+    }
+
     // Eager load database relationships
     public function whereWithFirst(array $relations,array $conditions)
     {

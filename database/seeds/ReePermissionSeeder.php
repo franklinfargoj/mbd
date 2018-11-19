@@ -148,6 +148,11 @@ class ReePermissionSeeder extends Seeder
                 'description' => 'architect_layout_post_scrutiny_report',
             ],
             [
+                'name'=>'delete_architect_layout_scrutiny_report',
+                'display_name'=>'delete_architect_layout_scrutiny_report',
+                'description'=>'delete_architect_layout_scrutiny_report'
+            ],
+            [
                 'name' => 'upload_ree_checklist_and_remark_report',
                 'display_name' => 'upload_ree_checklist_and_remark_report',
                 'description' => 'upload_ree_checklist_and_remark_report',
@@ -166,6 +171,66 @@ class ReePermissionSeeder extends Seeder
                 'name'=>'architect_layout_prepare_layout_excel',
                 'display_name'=>'architect_layout_prepare_layout_excel',
                 'description'=>'architect_layout_prepare_layout_excel'
+            ],
+            [
+                'name'=>'ree_applications.reval',
+                'display_name'=>'Applications for revalidation',
+                'description'=>'Applications for revalidation'
+            ],
+            [
+                'name'=>'ree.society_reval_documents',
+                'display_name'=>'Society Revalidation Documents',
+                'description'=>'Society Revalidation Documents'
+            ],
+            [
+                'name'=>'ree.forward_reval_application',
+                'display_name'=>'Forward Revalidation Application',
+                'description'=>'Forward Revalidation Application'
+            ],
+            [
+                'name'=>'save_reval_calculation_details',
+                'display_name'=>'Save Revalidation Calculation Details',
+                'description'=>'Save Revalidation Calculation Details'
+            ],
+            [
+                'name'=>'ol_reval_calculation_sheet.show',
+                'display_name'=>'Show Revalidation Calculation Sheet',
+                'description'=>'Show Revalidation Calculation Sheet'
+            ],
+            [
+                'name'=>'save_reval_sharing_calculation_details',
+                'display_name'=>'Save Revalidation Calculation Details',
+                'description'=>'Save Revalidation Calculation Details'
+            ],
+            [
+                'name'=>'ol_reval_sharing_calculation_sheet.show',
+                'display_name'=>'Show Revalidation Sharing Calculation Sheet',
+                'description'=>'Show Revalidation Sharing Calculation Sheet'
+            ],
+            [
+                'name'=>'dashboard',
+                'display_name'=>'dashboard',
+                'description'=>'Dashboard'
+            ],
+            [
+                'name'=>'ree.save_custom_calculation_data',
+                'display_name'=>'save custom calculation data',
+                'description'=>'save custom calculation data'
+            ],            
+            [
+                'name'=>'ree_applications.custom_calculation_sheet',
+                'display_name'=>'custom calculation sheet',
+                'description'=>'custom calculation sheet'
+            ],            
+            [
+                'name'=>'ree_applications.calculation_sheet_options',
+                'display_name'=>'calculation sheet options',
+                'description'=>'calculation sheet options'
+            ],
+            [
+                'name'=>'ree.forward_reval_application_data',
+                'display_name'=>'forward revalidation application',
+                'description'=>'forward revalidation application'
             ]
         ];
 
@@ -176,7 +241,7 @@ class ReePermissionSeeder extends Seeder
         if ($ree_role_id == null) {
             $ree_role_id = Role::insertGetId([
                 'name' => 'ree_engineer',
-                'redirect_to' => '/ree_applications',
+                'redirect_to' => '/dashboard',
                 'parent_id' => null,
                 'display_name' => 'Residential Executive Engineer',
                 'description' => 'Login as Residential Executive Engineer',
@@ -188,7 +253,7 @@ class ReePermissionSeeder extends Seeder
         if ($ree_as_role_id == null) {
             $ree_as_role_id = Role::insertGetId([
                 'name' => 'REE Assistant Engineer',
-                'redirect_to' => '/ree_applications',
+                'redirect_to' => '/dashboard',
                 'parent_id' => $ree_role_id,
                 'display_name' => 'REE Assistant Engineer',
                 'description' => 'Login as REE Assistant Engineer',
@@ -200,7 +265,7 @@ class ReePermissionSeeder extends Seeder
         if ($ree_deputy_role_id == null) {
             $ree_deputy_role_id = Role::insertGetId([
                 'name' => 'REE deputy Engineer',
-                'redirect_to' => '/ree_applications',
+                'redirect_to' => '/dashboard',
                 'parent_id' => $ree_as_role_id,
                 'display_name' => 'REE Deputy Engineer',
                 'description' => 'Login as REE Deputy Engineer',
@@ -212,7 +277,7 @@ class ReePermissionSeeder extends Seeder
         if ($ree_Jr_role_id == null) {
             $ree_Jr_role_id = Role::insertGetId([
                 'name' => 'REE Junior Engineer',
-                'redirect_to' => '/ree_applications',
+                'redirect_to' => '/dashboard',
                 'parent_id' => $ree_deputy_role_id,
                 'display_name' => 'REE Junior Engineer',
                 'description' => 'Login as REE Junior Engineer',

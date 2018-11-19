@@ -10,7 +10,7 @@
                 <a href="{{route('hearing.index',['excel'=>'excel'])}}" name="excel" value="excel" class="btn excel-icon">
                     <img src="{{asset('/img/excel-icon.svg')}}">
                 </a>
-                <a target="_blank" href="{{route('resolution.print',['published_from_date'=>app('request')->input('published_from_date'),'published_to_date'=>app('request')->input('published_to_date'),'resolution_type_id'=>app('request')->input('resolution_type_id'),'board_id'=>app('request')->input('board_id')])}}"
+                <a target="_blank" href="{{route('hearing.print',['published_from_date'=>app('request')->input('published_from_date'),'published_to_date'=>app('request')->input('published_to_date'),'resolution_type_id'=>app('request')->input('resolution_type_id'),'board_id'=>app('request')->input('board_id')])}}"
                     class="btn print-icon">
                     <img src="{{asset('/img/print-icon.svg')}}">
                 </a>
@@ -114,101 +114,27 @@
 @section('datatablejs')
 {!! $html->scripts() !!}
 <script>
-    {
-        {
-            -- function deleteHearing(id) --
-        }
-    } {
-        {
-            --{--
-            }
-        } {
-            {
-                --
-                if (confirm("Are you sure to delete?")) --
-            }
-        } {
-            {
-                --{--
-                }
-            } {
-                {
-                    --$.ajax({--
-                        }
-                    } {
-                        {
-                            --headers: {--
-                            }
-                        } {
-                            {
-                                --'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') --
-                            }
-                        } {
-                            {
-                                --
-                            }, --
-                        }
-                    } {
-                        {
-                            --type: "POST", --
-                        }
-                    } {
-                        {
-                            --data: {--
-                            }
-                        } {
-                            {
-                                --id: id--
-                            }
-                        } {
-                            {
-                                --
-                            }, --
-                        }
-                    } {
-                        {
-                            --url: "{{ route('loadDeleteReasonOfHearingUsingAjax') }}", --
-                        }
-                    } {
-                        {
-                            --success: function (res) --
-                        }
-                    } {
-                        {
-                            --{--
-                            }
-                        } {
-                            {
-                                --$("#myModal").html(res);
-                                --
-                            }
-                        } {
-                            {
-                                --$("#myModalBtn").click();
-                                --
-                            }
-                        } {
-                            {
-                                --
-                            }--
-                        }
-                    } {
-                    {
-                        --
-                    });
-                    --
-                }
-            } {
-                {
-                    --
-                }--
-            }
-        } {
-            {
-                --
-            }--
-        }
-    }
+    {{--function deleteHearing(id)--}}
+    {{--{--}}
+    {{--if(confirm("Are you sure to delete?"))--}}
+    {{--{--}}
+    {{--$.ajax({--}}
+    {{--headers: {--}}
+    {{--'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')--}}
+    {{--},--}}
+    {{--type:"POST",--}}
+    {{--data:{--}}
+    {{--id:id--}}
+    {{--},--}}
+    {{--url:"{{ route('loadDeleteReasonOfHearingUsingAjax') }}",--}}
+    {{--success:function(res)--}}
+    {{--{--}}
+    {{--$("#myModal").html(res);--}}
+    {{--$("#myModalBtn").click();--}}
+    {{--}--}}
+    {{--});--}}
+    {{--}--}}
+    {{--}--}}
 
     $(document).ready(function () {
         $(document).on("click", ".delete-hearing", function () {

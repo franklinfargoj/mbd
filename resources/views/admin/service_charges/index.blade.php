@@ -12,7 +12,7 @@
     <!-- END: Subheader -->
     <div class="m-portlet m-portlet--compact m-portlet--mobile">
         <div class="tools">
-            <a href="{{url('service_charges/'.$society->id.'/'.$building->id.'/create')}}" class='btn m-btn--pill m-btn--custom btn-primary'>Add Service Charge </a>
+            <a href="{{url('service_charges/'.encrypt($society->id).'/'.encrypt($building->id).'/create')}}" class='btn m-btn--pill m-btn--custom btn-primary'>Add Service Charge </a>
         </div>
         @if(Session::has('success'))
         <div class="alert alert-success fade in alert-dismissible show" style="margin-top:18px;">

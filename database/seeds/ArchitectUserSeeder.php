@@ -142,11 +142,11 @@ class ArchitectUserSeeder extends Seeder
                     'display_name' => 'post_forward_architect_layout',
                     'description' => 'post_forward_architect_layout',
                 ],
-                [
-                    'name' => 'architect_layout_get_scrtiny',
-                    'display_name' => 'architect_layout_get_scrtiny',
-                    'description' => 'architect_layout_get_scrtiny',
-                ],
+                // [
+                //     'name' => 'architect_layout_get_scrtiny',
+                //     'display_name' => 'architect_layout_get_scrtiny',
+                //     'description' => 'architect_layout_get_scrtiny',
+                // ],
                 [
                     'name' => 'architect_layout_add_scrutiny_report',
                     'display_name' => 'architect_layout_add_scrutiny_report',
@@ -166,9 +166,48 @@ class ArchitectUserSeeder extends Seeder
                     'name'=>'architect_layout_prepare_layout_excel',
                     'display_name'=>'architect_layout_prepare_layout_excel',
                     'description'=>'architect_layout_prepare_layout_excel'
+
+                ],
+                [
+                    'name'=>'appointing_architect.send_to_candidate',
+                    'display_name'=>'appointing_architect.send_to_candidate',
+                    'description'=>'appointing_architect.send_to_candidate'
+
+                ],                
+                [
+                    'name'=>'conveyance.index',
+                    'display_name'=>'conveyance Application',
+                    'description'=>'conveyance Application'
+                ],               
+                [
+                    'name'=>'conveyance.view_application',
+                    'display_name'=>'conveyance Application',
+                    'description'=>'conveyance Application'
+                ],                
+                [
+                    'name'=>'conveyance.architect_scrutiny_remark',
+                    'display_name'=>'architect scrutiny remark',
+                    'description'=>'architect scrutiny remark'
+                ],                
+                [
+                    'name'=>'conveyance.save_architect_scrutiny_remark',
+                    'display_name'=>'save architect scrutiny remark',
+                    'description'=>'save architect scrutiny remark'
+                ],                
+                [
+                    'name'=>'conveyance.forward_application_sc',
+                    'display_name'=>'forward application',
+                    'description'=>'forward application'
+                ],                
+                [
+                    'name'=>'conveyance.save_forward_application',
+                    'display_name'=>'save forward application',
+                    'description'=>'save forward application'
                 ]
                 
             ];
+
+            $delete_permission_id=Permission::where(['name'=>'architect_layout_get_scrtiny'])->first();
         // $architect=Role::where('name', '=', 'architect')->select('id')->first();
         // if(!$architect)
         // {
@@ -236,11 +275,27 @@ class ArchitectUserSeeder extends Seeder
                     ];
                 }
             }
+
+            if($delete_permission_id)
+            {
+               // dd($delete_permission_id->id);
+                $delete_permission_role=PermissionRole::where(['permission_id'=>$delete_permission_id->id,'role_id'=>$architect_id])->first();
+                if($delete_permission_role)
+                {
+                    $delete_permission_role->where(['permission_id'=>$delete_permission_id->id,'role_id'=>$architect_id])->delete();
+                }
+            }
             if(count($architect_permission_role)>0)
             {
                 PermissionRole::insert($architect_permission_role);
             }
-            
+
+            $layout_id = \App\MasterLayout::where("layout_name", '=', "Samata Nagar, Kandivali(E)")->first();
+            $layout_user =  \App\LayoutUser::where('user_id',$architect_user_id)->where('layout_id',$layout_id->id)->first();
+
+            if(!$layout_user){
+                \App\LayoutUser::insert(['user_id' => $architect_user_id, 'layout_id' => $layout_id->id]);          
+            }              
             //senior architect
             if(Role::where(['name'=>'senior_architect'])->first())
             {
@@ -302,10 +357,27 @@ class ArchitectUserSeeder extends Seeder
                     ];
                 }
             }
+
+            if($delete_permission_id)
+            {
+               // dd($delete_permission_id->id);
+                $delete_permission_role=PermissionRole::where(['permission_id'=>$delete_permission_id->id,'role_id'=>$senior_architect_id])->first();
+                if($delete_permission_role)
+                {
+                    $delete_permission_role->where(['permission_id'=>$delete_permission_id->id,'role_id'=>$senior_architect_id])->delete();
+                }
+            }
             if(count($architect_permission_role)>0)
             {
                 PermissionRole::insert($architect_permission_role);
             }
+
+            $layout_id = \App\MasterLayout::where("layout_name", '=', "Samata Nagar, Kandivali(E)")->first();
+            $layout_user =  \App\LayoutUser::where('user_id',$senior_architect_user_id)->where('layout_id',$layout_id->id)->first();
+
+            if(!$layout_user){
+                \App\LayoutUser::insert(['user_id' => $senior_architect_user_id, 'layout_id' => $layout_id->id]);          
+            }            
             
             //junior architect
             if(Role::where(['name'=>'junior_architect'])->first())
@@ -504,6 +576,37 @@ class ArchitectUserSeeder extends Seeder
                 'name'=>'uploadLayoutandExcelAjax',
                 'display_name'=>'uploadLayoutandExcelAjax',
                 'description'=>'uploadLayoutandExcelAjax'
+            ];            
+
+            $architect_permissions[]=[
+                'name'=>'conveyance.index',
+                'display_name'=>'conveyance Application',
+                'description'=>'conveyance Application'
+            ];            
+            $architect_permissions[]=[
+                'name'=>'conveyance.view_application',
+                'display_name'=>'conveyance Application',
+                'description'=>'conveyance Application'
+            ];            
+            $architect_permissions[]=[
+                'name'=>'conveyance.architect_scrutiny_remark',
+                'display_name'=>'architect scrutiny remark',
+                'description'=>'architect scrutiny remark'
+            ];            
+            $architect_permissions[]=[
+                'name'=>'conveyance.save_architect_scrutiny_remark',
+                'display_name'=>'save architect scrutiny remark',
+                'description'=>'save architect scrutiny remark'
+            ];            
+            $architect_permissions[]=[
+                'name'=>'conveyance.forward_application_sc',
+                'display_name'=>'forward application',
+                'description'=>'forward application'
+            ];            
+            $architect_permissions[]=[
+                'name'=>'conveyance.save_forward_application',
+                'display_name'=>'save forward application',
+                'description'=>'save forward application'
             ];
             
             //$architect_permission_role = [];
@@ -531,11 +634,28 @@ class ArchitectUserSeeder extends Seeder
                     ]);
                 }
             }
+
+            if($delete_permission_id)
+            {
+               // dd($delete_permission_id->id);
+                $delete_permission_role=PermissionRole::where(['permission_id'=>$delete_permission_id->id,'role_id'=>$junior_architect_id])->first();
+                if($delete_permission_role)
+                {
+                    $delete_permission_role->where(['permission_id'=>$delete_permission_id->id,'role_id'=>$junior_architect_id])->delete();
+                }
+            }
             if(count($architect_permission_role)>0)
             {
                // dd($architect_permission_role);
                 //PermissionRole::insert($architect_permission_role);
             }
+
+            $layout_id = \App\MasterLayout::where("layout_name", '=', "Samata Nagar, Kandivali(E)")->first();
+            $layout_user =  \App\LayoutUser::where('user_id',$junior_architect_user_id)->where('layout_id',$layout_id->id)->first();
+
+            if(!$layout_user){
+                \App\LayoutUser::insert(['user_id' => $junior_architect_user_id, 'layout_id' => $layout_id->id]);          
+            }            
 
             //dd('ok');
         //}
