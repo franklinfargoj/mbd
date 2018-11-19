@@ -1,7 +1,15 @@
 /* theme classes over ride starts here */
 
+.m-aside-menu .m-menu__nav .m-menu__item>.m-menu__link .m-menu__link-title {
+    display: block;
+}
+
 .modal-large .modal-dialog {
     max-width: 1200px;
+}
+
+.m-aside-menu .m-menu__nav {
+    height: calc(100vh - 70px);
 }
 
 .position-relative .btn--add-delete {
@@ -2556,13 +2564,13 @@ label.site-visit-label {
     color: #fff;
     font-size: 1.07rem;
     padding: 9px 30px 9px 60px !important;
-    display: flex;
-    justify-content: space-between;
+    /*display: flex;*/
+    /*justify-content: space-between;*/
 }
 
-.m-aside-menu .m-menu__nav .m-menu__item>.m-menu__link .m-menu__link-title {
-    flex-grow: 1;
-}
+/*.m-aside-menu .m-menu__nav .m-menu__item>.m-menu__link .m-menu__link-title {*/
+    /*flex-grow: 1;*/
+/*}*/
 
 .m-aside-menu .m-menu__nav>.m-menu__item>.m-menu__link .m-menu__link-text {
     font-size: inherit;
