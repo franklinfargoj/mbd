@@ -605,4 +605,9 @@ Breadcrumbs::for('architect_layout_prepare_layout_excel', function ($trail,$id) 
     $trail->push('Layout & Excel', route('architect_layout_prepare_layout_excel',['layout_id'=>$id]));
 });
 
+//Society Formation
+Breadcrumbs::for('society_formation',function($trail){
+    $trail->push('HOme',route('society_formation.index'));
+});
+
 

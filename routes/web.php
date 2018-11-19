@@ -562,6 +562,10 @@ Route::delete('destroy_architect_layout_detail_court_case_or_dispute_on_land/{id
     Route::resource('/society_conveyance','SocietyConveyanceController');
 
     //Society Conveyance END
+
+    //Society Formation
+    Route::get('society_formation','SocietyFormationController@index')->name('society_formation.index');
+    //Society Formation End
 });
 
 
