@@ -368,6 +368,23 @@ class COController extends Controller
         return view('admin.co_department.approve_offer_letter',compact('applicationData','ol_application'));
     }
 
+    public function approveRevalOfferLetter(Request $request, $applicationId){
+
+        $ol_application = $this->CommonController->getOlApplication($applicationId);
+        $ol_application->status = $this->CommonController->getCurrentStatus($applicationId);
+        // dd($ol_application->status->status_id);
+        $ree_branch_head = Role::where('name',config('commanConfig.ree_branch_head'))->value('id');
+        $co = Role::where('name',config('commanConfig.co_engineer'))->value('id');
+
+        $applicationData = OlApplication::where('id',$applicationId)->first();
+
+        $applicationData->ReeLog = OlApplicationStatus::where('application_id',$applicationId)->where('role_id',$ree_branch_head)->where('status_id', config('commanConfig.applicationStatus.forwarded'))->orderBy('id', 'desc')->first();
+
+        $applicationData->coLog = OlApplicationStatus::where('application_id',$applicationId)->where('role_id',$co)->where('status_id', config('commanConfig.applicationStatus.forwarded'))->orderBy('id', 'desc')->first();
+
+        return view('admin.co_department.approve_reval_offer_letter',compact('applicationData','ol_application'));
+    }
+
     public function approvedOfferLetter(Request $request){
 
         $ree_id = Role::where('name', '=', config('commanConfig.ree_junior'))->first();
@@ -380,6 +397,20 @@ class COController extends Controller
             return redirect('/co')->with('success','Approved Offer Letter successfully.');
 
         // $updateApplication = OlApplication::where('id',)           
+    }
+
+    public function approvedRevalOfferLetter(Request $request){
+
+        $ree_id = Role::where('name', '=', config('commanConfig.ree_junior'))->first();
+
+        $ree = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
+            ->where('lu.layout_id', session()->get('layout_id'))
+            ->where('role_id', $ree_id->id)->first();
+
+        $this->CommonController->generateOfferLetterForwardToREE($request,$ree);
+        return redirect('/co_reval_applications')->with('success','Approved Offer Letter successfully.');
+
+        // $updateApplication = OlApplication::where('id',)
     }
 
     public function viewApplication(Request $request, $applicationId){
@@ -434,11 +465,12 @@ class COController extends Controller
         $ol_application = $this->CommonController->getOlApplication($applicationId);
         $ol_application->status = $this->CommonController->getCurrentStatus($applicationId);
         $ol_application->folder = 'co_department';
+        $folder = 'co_department';
         $calculationSheetDetails = $user->calculationSheetDetails;
         $dcr_rates = $user->dcr_rates;
         $blade = $user->blade;
         $arrData['reeNote'] = $user->areeNote;
         // dd($blade);
-        return view('admin.common.'.$blade,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application'));
+        return view('admin.common.'.$blade,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application','folder'));
     }
 }

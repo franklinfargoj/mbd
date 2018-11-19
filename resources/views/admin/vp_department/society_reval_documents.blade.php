@@ -10,7 +10,7 @@
                 <div class="d-flex align-items-center">
                     <h3 class="m-subheader__title m-subheader__title--separator">
                         Society Revalidation Documents </h3>
-                    {{ Breadcrumbs::render('society_reval_documents_cap',$ol_application->id) }}
+                    {{ Breadcrumbs::render('society_reval_documents_vp',$ol_application->id) }}
                     <a href="{{ url()->previous() }}" class="btn btn-link ml-auto"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
                 </div>
             </div>
