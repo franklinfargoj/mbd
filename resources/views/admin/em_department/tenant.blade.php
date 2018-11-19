@@ -46,7 +46,7 @@
             <tr>
                 <th>Sr. No.</th>
                 <th>Flat No.</th>
-                <th>Saluation</th>
+                <th>Salutation</th>
                 <th>First Name</th>
                 <th>Middle Name</th>
                 <th>Last Name</th>
@@ -88,7 +88,7 @@
             <tr>
                 <th>Sr. No.</th>
                 <th>Flat No.</th>
-                <th>Saluation</th>
+                <th>Salutation</th>
                 <th>First Name</th>
                 <th>Middle Name</th>
                 <th>Last Name</th>

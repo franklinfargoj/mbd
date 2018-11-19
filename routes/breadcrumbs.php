@@ -556,7 +556,7 @@ Breadcrumbs::for('view_architect_application', function ($trail,$id) {
 
 Breadcrumbs::for('forward_architect_application', function ($trail,$id) {
     $trail->parent('architect_application');
-    $trail->push('Forward', route('architect.forward_application',['id'=>$id]));
+    $trail->push('Forward Application', route('architect.forward_application',['id'=>$id]));
 });
 
 Breadcrumbs::for('architect_generate_certificate', function ($trail,$id) {

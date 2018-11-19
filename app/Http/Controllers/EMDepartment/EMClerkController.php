@@ -121,8 +121,8 @@ class EMClerkController extends Controller
             ['data' => 'flat_no','name' => 'flat_no','title' => 'Room No'],
             ['data' => 'first_name', 'name' => 'first_name','title' => 'Tenant First Name'],
             ['data' => 'last_name', 'name' => 'last_name','title' => 'Tenant Last Name'],
-            ['data' => 'payment_status', 'name' => 'payment_status','title' => 'Payment Status'],
-            ['data' => 'total_amount', 'name' => 'total_amount','title' => 'Final Rent Amount'],
+            ['data' => 'payment_status', 'name' => 'payment_status','title' => 'Payment Status','searchable' => false],
+            ['data' => 'total_amount', 'name' => 'total_amount','title' => 'Final Rent Amount','searchable' => false],
             ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false, 'orderable' => false, 'exportable' => false, 'printable' => false]
             ];
 
@@ -176,7 +176,7 @@ class EMClerkController extends Controller
         $tenant = MasterTenant::leftJoin('arrear_calculation', 'master_tenants.id', '=', 'arrear_calculation.tenant_id')->where('master_tenants.id', '=', decrypt($request->id))
             ->select('*','master_tenants.id as id','master_tenants.building_id as building_id')->first();
         //dd($tenant);
-        $year = date('Y').'-'.(date('y') + 1);
+        $year = date('Y');
         if(empty($tenant) || is_null($tenant)){
            return redirect()->back()->with('warning', 'Arrear Calculation is not done for user.');
         }
@@ -338,8 +338,8 @@ class EMClerkController extends Controller
             'processing' => true,
             'ordering'   =>'isSorted',
             "order"=> [1, "asc" ],
-            'dom' => 'Bfrtip',
-            'buttons' => ['copy', 'csv', 'excel', 'pdf', 'print'],
+            // 'dom' => 'Bfrtip',
+            // 'buttons' => ['copy', 'csv', 'excel', 'pdf', 'print'],
             "pageLength" => $this->list_num_of_records_per_page
         ];
     }
