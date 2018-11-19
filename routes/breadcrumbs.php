@@ -261,6 +261,15 @@ Breadcrumbs::for('vp', function ($trail) {
     $trail->push('Home', route('vp.index'));
 });
 
+Breadcrumbs::for('vp_reval', function ($trail) {
+    $trail->push('Home', route('vp_applications.reval'));
+});
+
+Breadcrumbs::for('society_reval_documents_vp', function ($trail,$id) {
+    $trail->parent('vp_reval');
+    $trail->push('society reval documents vp', route('vp.society_reval_documents',$id));
+});
+
 Breadcrumbs::for('society_EE_documents_vp', function ($trail,$id) {
     $trail->parent('vp');
     $trail->push('society_EE_documents', route('vp.society_EE_documents',$id));
@@ -288,6 +297,10 @@ Breadcrumbs::for('calculation_sheet_vp', function ($trail,$id) {
 Breadcrumbs::for('Forward_Application_vp', function ($trail,$id) {
     $trail->parent('vp');
     $trail->push('Forward_Application', route('vp.forward_application',$id));
+});
+Breadcrumbs::for('Forward_Reval_Application_vp', function ($trail,$id) {
+    $trail->parent('vp_reval');
+    $trail->push('Forward_Reval_Application', route('vp.forward_reval_application',$id));
 });
 
 Breadcrumbs::for('cap_note_vp', function ($trail,$id) {
@@ -328,6 +341,10 @@ Breadcrumbs::for('DYCE_scrutiny_co', function ($trail,$id) {
 Breadcrumbs::for('Approve_offer_letter', function ($trail,$id) {
     $trail->parent('co');
     $trail->push('Approve_offer_letter', route('co.approve_offer_letter',$id));
+});
+Breadcrumbs::for('Approve_reval_offer_letter', function ($trail,$id) {
+    $trail->parent('co_reval');
+    $trail->push('Approve_reval_offer_letter', route('co.approve_reval_offer_letter',$id));
 });
 
 // Breadcrumbs::for('REE_calculation_cap', function ($trail,$id) {
@@ -393,6 +410,11 @@ Breadcrumbs::for('calculation_sheet', function ($trail,$id) {
 Breadcrumbs::for('approved_offer_letter', function ($trail,$id) {
     $trail->parent('ree');
     $trail->push('approved offer letter', route('ree.approved_offer_letter',$id));
+});
+
+Breadcrumbs::for('approved_reval_offer_letter', function ($trail,$id) {
+    $trail->parent('ree_reval');
+    $trail->push('approved reval offer letter', route('ree.approved_reval_offer_letter',$id));
 });
 
 Breadcrumbs::for('generate_offer_letter', function ($trail,$id) {

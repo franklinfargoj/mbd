@@ -1400,4 +1400,21 @@ class CommonController extends Controller
         return $dashboardData;
     }
 
+    public function getCurrentRoleFolderName(){
+
+        if (session()->get('role_name') == config('commanConfig.co_engineer')) {
+            $folder = 'co_department';
+
+        }else if (session()->get('role_name') == config('commanConfig.ree_junior') || session()->get('role_name') == config('commanConfig.ree_deputy_engineer') || session()->get('role_name') == config('commanConfig.ree_assistant_engineer') || session()->get('role_name') == config('commanConfig.ree_branch_head')) {
+            $folder = 'REE_department';
+
+        } else if (session()->get('role_name') == config('commanConfig.cap_engineer')) {
+            $folder = 'cap_department';
+        }  else if (session()->get('role_name') == config('commanConfig.vp_engineer')) {
+            $folder = 'vp_department';
+        }
+        return $folder;
+
+    }
+
 }

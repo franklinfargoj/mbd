@@ -345,7 +345,23 @@ class REEController extends Controller
         $societyData->drafted_offer_letter = OlApplication::where('id',$applicationId)->value('drafted_offer_letter');   
       
         return view('admin.REE_department.generate-offer-letter',compact('societyData','ol_application','applicationLog'));
-    }    
+    }
+
+    public function GenerateRevalOfferLetter(Request $request, $applicationId){
+
+        $ol_application = $this->CommonController->getOlApplication($applicationId);
+        $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
+        $applicationLog = $this->CommonController->getCurrentStatus($applicationId);
+        $societyData = OlApplication::with(['eeApplicationSociety'])
+            ->where('id',$applicationId)->orderBy('id','DESC')->first();
+
+        $societyData->ree_Jr_id = (session()->get('role_name') == config('commanConfig.ree_junior'));
+        $societyData->ree_branch_head = (session()->get('role_name') == config('commanConfig.ree_branch_head'));
+
+        $societyData->drafted_offer_letter = OlApplication::where('id',$applicationId)->value('drafted_offer_letter');
+
+        return view('admin.REE_department.generate-reval-offer-letter',compact('societyData','ol_application','applicationLog'));
+    }
 
     public function pdfMerge(Request $request){
 
@@ -406,6 +422,52 @@ class REEController extends Controller
 
         return view('admin.REE_department.'.$blade,compact('applicatonId','calculationData','content','table1','custom','summary'));
     }
+
+    public function editRevalOfferLetter(Request $request,$applicatonId){
+
+        $model = OlApplication::with('ol_application_master')->where('id',$applicatonId)->first();
+        if ($model->ol_application_master->model == 'Premium'){
+
+            $calculationData = OlApplication::with(['premiumCalculationSheet','eeApplicationSociety'])->where('id',$applicatonId)->first();
+            $blade =  "premiun_reval_offer_letter";
+
+        }else if($model->ol_application_master->model == 'Sharing') {
+            $calculationData = OlApplication::with(['sharingCalculationSheet','eeApplicationSociety'])->where('id',$applicatonId)->first();
+            // dd($calculationData);
+            $blade =  "sharing_reval_offer_letter";
+        }
+
+        // dd($calculationData);
+
+        if($model->text_offer_letter){
+
+            $content = Storage::disk('ftp')->get($model->text_offer_letter);
+
+        }else{
+            $content = "";
+        }
+        $vpApprovedData = $this->CommonController->getLogsOfVPDepartment($applicatonId);
+
+        $calculationData->vpDate = $vpApprovedData[0]->created_at;
+
+        //latest calculation data
+        $custom = '0';
+        $custom = OlCustomCalculationSheet::where('application_id',$applicatonId)->orderBy('updated_at','DESC')
+            ->value('updated_at');
+        $premium = OlApplicationCalculationSheetDetails::where('application_id',$applicatonId)
+            ->orderBy('updated_at','DESC')->value('updated_at');
+
+        if ($custom > $premium){
+            $custom = '1';
+        }
+
+        $table1Id = OlCustomCalculationMasterModel::where('name','Calculation_Table-A')->value('id');
+        $table1 = OlCustomCalculationSheet::where('application_id',$applicatonId)
+            ->where('parent_id',$table1Id)->get()->toArray();
+        $summary = $this->getSummaryData($applicatonId);
+
+        return view('admin.REE_department.'.$blade,compact('applicatonId','calculationData','content','table1','custom','summary'));
+    }
 // 
     public function saveOfferLetter(Request $request){
 
@@ -446,6 +508,45 @@ class REEController extends Controller
         return redirect('generate_offer_letter/'.$request->applicationId);
     }
 
+    public function saveRevalOfferLetter(Request $request){
+
+        $id = $request->applicationId;
+        $content = str_replace('_', "", $_POST['ckeditorText']);
+        $folder_name = 'Draft_offer_letter';
+
+        $header_file = view('admin.REE_department.offer_letter_header');
+        $footer_file = view('admin.REE_department.offer_letter_footer');
+        $pdf = \App::make('dompdf.wrapper');
+
+        $pdf->loadHTML($header_file.$content.$footer_file);
+
+        $fileName = time().'draft_offer_letter_'.$id.'.pdf';
+        $filePath = $folder_name."/".$fileName;
+
+        if (!(Storage::disk('ftp')->has($folder_name))) {
+            Storage::disk('ftp')->makeDirectory($folder_name, $mode = 0777, true, true);
+        }
+        Storage::disk('ftp')->put($filePath, $pdf->output());
+        $file = $pdf->output();
+
+        //text offer letter
+
+        $folder_name1 = 'text_offer_letter';
+
+        if (!(Storage::disk('ftp')->has($folder_name1))) {
+            Storage::disk('ftp')->makeDirectory($folder_name1, $mode = 0777, true, true);
+        }
+        $file_nm =  time()."text_offer_letter_".$id.'.txt';
+        $filePath1 = $folder_name1."/".$file_nm;
+
+        Storage::disk('ftp')->put($filePath1, $content);
+
+        OlApplication::where('id',$request->applicationId)->update(["drafted_offer_letter" => $filePath, "text_offer_letter" => $filePath1]);
+        // OlApplication::where('id',$request->applicationId)->update(["drafted_offer_letter" => $filePath]);
+
+        return redirect('generate_reval_offer_letter/'.$request->applicationId);
+    }
+
     public function uploadOfferLetter(Request $request,$applicationId){
         
         if ($request->file('offer_letter')) {
@@ -468,6 +569,28 @@ class REEController extends Controller
         }       
     }
 
+    public function uploadRevalOfferLetter(Request $request,$applicationId){
+
+        if ($request->file('offer_letter')) {
+            $file = $request->file('offer_letter');
+            $extension = $file->getClientOriginalExtension();
+            $file_name = time().'_uploaded_offer_letter_'.$applicationId.'.'.$extension;
+            $folder_name = "uploaded_offer_letter";
+
+            if ($extension == "pdf") {
+
+                $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$request->file('offer_letter'),$file_name);
+
+                $offerLetterPath = $folder_name."/".$file_name;
+                OlApplication::where('id',$applicationId)->update(["offer_letter_document_path" => $offerLetterPath]);
+
+                return redirect()->back()->with('success', 'Offer Letter uploaded successfully.');
+            } else {
+                return redirect()->back()->with('error', 'Invalid format. pdf file only.');
+            }
+        }
+    }
+
     public function approvedOfferLetter(Request $request,$applicationId){
 
         $ree_head = session()->get('role_name') == config('commanConfig.ree_branch_head'); 
@@ -483,6 +606,23 @@ class REEController extends Controller
         $applicationData->coLog = OlApplicationStatus::where('application_id',$applicationId)->where('role_id',$co)->where('status_id', config('commanConfig.applicationStatus.forwarded'))->orderBy('id', 'desc')->first();   
 
         return view('admin.REE_department.approved_offer_letter',compact('applicationData','ol_application','ree_head'));
+    }
+
+    public function approvedRevalOfferLetter(Request $request,$applicationId){
+
+        $ree_head = session()->get('role_name') == config('commanConfig.ree_branch_head');
+        $ol_application = $this->CommonController->getOlApplication($applicationId);
+        $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
+        $applicationData = OlApplication::with(['eeApplicationSociety'])
+            ->where('id',$applicationId)->orderBy('id','DESC')->first();
+
+        $this->CommonController->getREEForwardRevertLog($applicationData,$applicationId);
+
+        // get Co log
+        $co = Role::where('name',config('commanConfig.co_engineer'))->value('id');
+        $applicationData->coLog = OlApplicationStatus::where('application_id',$applicationId)->where('role_id',$co)->where('status_id', config('commanConfig.applicationStatus.forwarded'))->orderBy('id', 'desc')->first();
+
+        return view('admin.REE_department.approved_reval_offer_letter',compact('applicationData','ol_application','ree_head'));
     }
 
     public function getPermiumCalculationSheetData($applicationId){
@@ -510,7 +650,14 @@ class REEController extends Controller
 
         $this->CommonController->forwardApplicationToSociety($request);
         return redirect('/ree_applications')->with('success','send successfully.');
-        
+
+    }
+
+    public function sendRevalOfferLetterToSociety(Request $request){
+
+        $this->CommonController->forwardApplicationToSociety($request);
+        return redirect('/ree_reval_applications')->with('success','send successfully.');
+
     }
 
     public function viewApplication(Request $request, $applicationId){
@@ -566,13 +713,14 @@ class REEController extends Controller
         $user = $this->CommonController->showCalculationSheet($applicationId);
         $ol_application = $this->CommonController->getOlApplication($applicationId); //echo "<pre>";print_r($ol_application);exit;
         $ol_application->folder = 'REE_department';
+        $folder = 'REE_department';
         $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
         $calculationSheetDetails = $user->calculationSheetDetails;
         $dcr_rates = $user->dcr_rates;
         $blade = $user->blade;
         $arrData['reeNote'] = $user->areeNote;
         // dd($blade);
-        return view('admin.common.'.$blade,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application'));
+        return view('admin.common.'.$blade,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application','folder'));
 
     }
     

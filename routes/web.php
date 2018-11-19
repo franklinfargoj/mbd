@@ -598,11 +598,18 @@ Route::get('offer_letter','REEDepartment\REEController@offerLetter')->name('offe
 Route::get('approved_offer_letter/{id}','REEDepartment\REEController@approvedOfferLetter')->name('ree.approved_offer_letter');
 Route::get('generate_offer_letter/{id}', 'REEDepartment\REEController@GenerateOfferLetter')->name('ree.generate_offer_letter');
 
+Route::get('approved_reval_offer_letter/{id}','REEDepartment\REEController@approvedRevalOfferLetter')->name('ree.approved_reval_offer_letter');
+Route::get('generate_reval_offer_letter/{id}', 'REEDepartment\REEController@GenerateRevalOfferLetter')->name('ree.generate_reval_offer_letter');
+Route::get('edit_reval_offer_letter/{id}', 'REEDepartment\REEController@editRevalOfferLetter')->name('ree.edit_reval_offer_letter');
+Route::post('save_reval_offer_letter', 'REEDepartment\REEController@saveRevalOfferLetter')->name('ree.save_reval_offer_letter');
+Route::post('upload_reval_offer_letter/{id}', 'REEDepartment\REEController@uploadRevalOfferLetter')->name('ree.upload_reval_offer_letter');
+
 Route::get('edit_offer_letter/{id}', 'REEDepartment\REEController@editOfferLetter')->name('ree.edit_offer_letter');
 Route::post('save_offer_letter', 'REEDepartment\REEController@saveOfferLetter')->name('ree.save_offer_letter');
 Route::post('upload_offer_letter/{id}', 'REEDepartment\REEController@uploadOfferLetter')->name('ree.upload_offer_letter');
 Route::post('send_for_approval','REEDepartment\REEController@sendForApproval')->name('ree.send_for_approval');
 Route::post('send_letter_society','REEDepartment\REEController@sendOfferLetterToSociety')->name('ree.send_letter_society');
+Route::post('send_reval_letter_society','REEDepartment\REEController@sendRevalOfferLetterToSociety')->name('ree.send_reval_letter_society');
 Route::get('view_application_ree/{id}','REEDepartment\REEController@viewApplication')->name('ree.view_application');
 Route::get('view_reval_application_ree/{id}','REEDepartment\REEController@viewRevalApplication')->name('ree.view_reval_application');
 Route::get('calculation_sheet_ree/{id}','REEDepartment\REEController@showCalculationSheet')->name('ree.show_calculation_sheet');
@@ -610,6 +617,9 @@ Route::get('reval_calculation_sheet_ree/{id}','REEDepartment\REEController@showR
 
 Route::get('approve_offer_letter/{id}','CODepartment\COController@approveOfferLetter')->name('co.approve_offer_letter');
 Route::post('send_approved_offer_letter','CODepartment\COController@approvedOfferLetter')->name('co.send_approved_offer_letter');
+Route::get('approve_reval_offer_letter/{id}','CODepartment\COController@approveRevalOfferLetter')->name('co.approve_reval_offer_letter');
+Route::post('send_approved_reval_offer_letter','CODepartment\COController@approvedRevalOfferLetter')->name('co.send_approved_reval_offer_letter');
+
 Route::get('view_application_co/{id}','CODepartment\COController@viewApplication')->name('co.view_application');
 Route::get('calculation_sheet_co/{id}','REEDepartment\REEController@showCalculationSheet')->name('co.show_calculation_sheet');
 
