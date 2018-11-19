@@ -539,6 +539,7 @@ Route::delete('destroy_architect_layout_detail_court_case_or_dispute_on_land/{id
 //CRUD Routes
 
     Route::group(['namespace' => 'CRUDAdmin','prefix' => 'crudadmin'], function() {
+        Route::get('dashboard','DashboardController@index')->name('superadmin.dashboard');
         Route::post('loadDeleteRoleUsingAjax', 'RoleController@loadDeleteRoleUsingAjax')->name('loadDeleteRoleUsingAjax');
         Route::resource('roles','RoleController');
     });

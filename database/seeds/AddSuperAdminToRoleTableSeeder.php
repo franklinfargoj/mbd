@@ -15,6 +15,12 @@ class AddSuperAdminToRoleTableSeeder extends Seeder
 
         $super_admin_permissions = [
             [
+                'name' => 'superadmin.dashboard',
+                'display_name' => 'Super admin Dashboard',
+                'description' => 'Super admin Dashboard'
+
+            ],
+            [
                 'name' => 'roles.index',
                 'display_name' => 'List Roles',
                 'description' => 'Listing Roles'
