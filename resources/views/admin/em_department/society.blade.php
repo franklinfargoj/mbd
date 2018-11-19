@@ -27,7 +27,7 @@
             <div class="row align-items-center row--filter">
                 <div class="col-md-12">
                     <div class="row align-items-center mb-0">                            
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group m-form__group">
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
                                         id="layout" name="layout">
@@ -50,7 +50,7 @@
             <div class="m-portlet__head-caption">
                 {{-- <h3 class="m-portlet__head-text">List of societies</h3> --}}
                 <div class="m-portlet__head-text">
-                    <div id="filter" class="col-md-6 ml-auto pull-left"><input type="search" id="searchId" class="form-control input-lg input-large input-inline form-control--custom"
+                    <div id="filter" class="col-md-4 ml-auto pull-left"><input type="search" id="searchId" class="form-control input-lg input-large input-inline form-control--custom"
                     placeholder="Search ..."></div>    
                 </div>
             </div>

@@ -800,7 +800,7 @@ class EMController extends Controller
                 </div>
                 <div class="col-md-12" style="margin-top:10px;margin-bottom: 10px;">
                     <div class="row align-items-center mb-0">                            
-                            <div class="col-md-9">
+                            <div class="col-md-4">
                                 <div class="form-group m-form__group">
                 <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="building" name="building">';
                 $html .= '<option value="" style="font-weight: normal;">Select Building</option>';
