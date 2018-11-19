@@ -49,7 +49,7 @@
                                 <div class="form-group m-form__group">
                                     <label class="col-md-4 control-label">Saluation</label>
                                     <select class="col-md-8 form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="salutation" name="salutation" required>
-                                        <option value="" style="font-weight: normal;">Select Saluation</option>
+                                        <option value="" style="font-weight: normal;">Select Salutation</option>
                                         <option value="Shri">Shri</option>
                                         <option value="Smt">Smt</option>
                                         <option value="Kumari">Kumari</option>
