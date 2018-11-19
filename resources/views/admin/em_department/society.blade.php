@@ -49,9 +49,11 @@
         <div class="m-portlet__head px-0">
             <div class="m-portlet__head-caption">
                 {{-- <h3 class="m-portlet__head-text">List of societies</h3> --}}
-                <div class="m-portlet__head-text">
-                    <div id="filter" class="col-md-4 ml-auto pull-left"><input type="search" id="searchId" class="form-control input-lg input-large input-inline form-control--custom"
-                    placeholder="Search ..."></div>    
+                <div class="m-portlet__head-text">                   
+
+                    <div id="dataTableBuilder_filter" class="dataTables_filter col-md-4 ml-auto pull-left"><input type="search" id="searchId" class="form-control input-lg input-large input-inline form-control--custom"
+                    placeholder="Search ..."></div>  
+
                 </div>
             </div>
         </div>

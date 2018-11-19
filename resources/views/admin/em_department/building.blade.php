@@ -31,7 +31,7 @@
             <div class="m-portlet__head-caption">
                 <div class="m-portlet__head-text">
                     {{-- <h3 class="m-portlet__head-text"> List of buildings </h3> --}}
-                    <div id="filter" class="col-md-4 ml-auto pull-left"><input type="search" id="searchId" class="form-control input-sm input-small input-inline form-control--custom"
+                    <div id="dataTableBuilder_filter" class="col-md-4 ml-auto pull-left"><input type="search" id="searchId" class="form-control input-sm input-small input-inline form-control--custom"
                     placeholder="Search ..."></div>    
                 </div>
             </div>

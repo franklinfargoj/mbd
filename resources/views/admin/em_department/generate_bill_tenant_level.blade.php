@@ -215,6 +215,7 @@
                         success: function(response){
                         //console.log(response);
                         $('.building_select').html(response);
+                        $('.tenant-list').html('');
                         $('#building').selectpicker('refresh');
                     }
                 });             
