@@ -24,7 +24,6 @@
                  data-parent="#accordion">
                 <div class="row hearing-row">
                     @foreach($dashboardData as $header => $value)
-                    @if(in_array($header,$status))
                     <div class="col">
                         <div class="m-portlet app-card text-center">
                             <h2 class="app-heading">{{$header}}</h2>
@@ -32,10 +31,22 @@
                             <a href="" class="app-card__details mb-0">View Details</a>
                         </div>
                     </div>
-                    @endif
                     @endforeach
                 </div>
             </div>
         </div>
     </div>
 @endsection
+{{--@section('js')--}}
+    {{--<script>--}}
+        {{--$(".accordion-icon").on("click", function () {--}}
+            {{--var data = $('.hearing-accordion').children().children().attr('aria-expanded');--}}
+            {{--if(data == 'undefine' || data == 'false'){--}}
+                {{--alert('open');--}}
+            {{--}else{--}}
+                {{--alert('closed');--}}
+            {{--}--}}
+        {{--});--}}
+    {{--</script>--}}
+
+{{--@endsection--}}

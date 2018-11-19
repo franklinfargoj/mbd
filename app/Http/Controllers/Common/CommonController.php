@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Common;
 
 use App\ArchitectApplication;
 use App\conveyance\scApplicationLog;
+use App\DashboardHeader;
 use App\EENote;
 use App\Http\Controllers\Controller;
 use App\Layout\ArchitectLayout;
@@ -1217,107 +1218,178 @@ class CommonController extends Controller
         $role_id = session()->get('role_id');
         $user_id = Auth::id();
 
+        $applicationData = $this->getApplicationData($role_id,$user_id);
+//        dd($applicationData);
+
+        $statusCount = $this->getApplicationStatusCount($applicationData);
+
+        // EE Roles
+        $ee = $this->getEERoles();
+
+        // DYCE Roles
+        $dyce = $this->getDyceRoles();
+
+        // CAP
+        $cap = Role::where('name',config('commanConfig.cap_engineer'))->value('id');
+
+        // VP
+        $vp = Role::where('name',config('commanConfig.vp_engineer'))->value('id');
+
+        $dashboardData = [];
+
+
+        if(in_array($role_id ,$ee))
+            $dashboardData = $this->getEEDashboardData($role_id,$ee,$statusCount);
+
+        if(in_array($role_id ,$dyce))
+            $dashboardData = $this->getDyceDashboardData($role_id,$dyce,$statusCount);
+
+        if($cap)
+            $dashboardData = $this->getCapDashboardData($statusCount);
+
+        if($vp)
+            $dashboardData = $this->getVpDashboardData($statusCount);
+
+        return view('admin.common.ol_dashboard',compact('dashboardData'));
+
+    }
+
+
+    public function getApplicationData($role_id,$user_id){
         $applicationData = OlApplication::with([
-            'olApplicationStatusForLoginListing' => function ($q) use ($role_id,$user_id) {
-            $q->where('user_id', $user_id)
-                ->where('role_id', $role_id)
-                ->where('society_flag', 0)
-                ->orderBy('id', 'desc');
-        }])
-            ->whereHas('olApplicationStatusForLoginListing', function ($q) use ($role_id,$user_id) {
+            'olApplicationStatus' => function ($q) use ($role_id,$user_id) {
+                $q->where('user_id', $user_id)
+                    ->where('role_id', $role_id)
+                    ->where('society_flag', 0)
+                    ->orderBy('id', 'desc');
+            }])
+            ->whereHas('olApplicationStatus', function ($q) use ($role_id,$user_id) {
                 $q->where('user_id', $user_id)
                     ->where('role_id', $role_id)
                     ->where('society_flag', 0)
                     ->orderBy('id', 'desc');
             })->get()->toArray();
-
 //        dd($applicationData);
+        return $applicationData;
+    }
 
-        $totalInProcess = $totalForwarded = $totalReverted = $totalPending =
-        $totalOlGenerated = $totalOlApproved = $totalSentToSociety = $totalSentForApproval = $totalOlPendingForApproval = 0 ;
+    public function getApplicationStatusCount($applicationData){
+
+        $totalForwarded = $totalReverted = $totalPending = $totalInProcess = 0 ;
 
         foreach ($applicationData as $application){
 
-            $status = $application['ol_application_status_for_login_listing'][0]['status_id'];
-
-            $co_id = Role::where('name','Co')->value('id');
-            $status_role = $application['ol_application_status_for_login_listing'][0]['to_role_id'];
-//            print_r($co_id);print_r($status_role);die();
+            $status = $application['ol_application_status'][0]['status_id'];
+//            print_r($status);
+//            echo '=====';
             switch ( $status )
             {
-                case config('commanConfig.applicationStatus.in_process'): $totalInProcess += 1; break;
+                case config('commanConfig.applicationStatus.in_process'): $totalPending += 1; break;
                 case config('commanConfig.applicationStatus.forwarded'): $totalForwarded += 1; break;
                 case config('commanConfig.applicationStatus.reverted'): $totalReverted += 1 ; break;
-                case config('commanConfig.applicationStatus.pending'): $totalPending += 1; break;
-                case config('commanConfig.applicationStatus.offer_letter_generation'): $totalOlGenerated += 1 ; break;
-                case config('commanConfig.applicationStatus.offer_letter_approved'): $totalOlApproved += 1 ; break;
-                case config('commanConfig.applicationStatus.sent_to_society'): $totalSentToSociety += 1 ; break;
-                case ($co_id == $status_role) : $totalSentForApproval += 1 ; break;
-                case (($co_id == $role_id) && ($status == config('commanConfig.applicationStatus.offer_letter_generation'))) :
-                    $totalOlPendingForApproval += 1 ; break;
                 default:
                     ; break;
             }
-
         }
+//        dd($totalForwarded);
         $totalApplication = count($applicationData);
-        $dashboardData = [];
-        $dashboardData['Total No. of Applications'] = $totalApplication;
-        $dashboardData['Applications In Process'] = $totalInProcess;
-        $dashboardData['Application Forwarded'] = $totalForwarded;
-        $dashboardData['Application Sent for Revision'] = $totalReverted;
-        $dashboardData['Application Pending'] = $totalPending;
-        $dashboardData['Offer Letter Generated'] = $totalOlGenerated;
-        $dashboardData['Offer Letter Approved'] = $totalOlApproved;
-        $dashboardData['Sent To Society'] = $totalSentToSociety;
-        $dashboardData['Offer Letter sent for Approval'] = $totalSentForApproval ;
-        $dashboardData['Offer Letter Pending for Approval'] = $totalOlPendingForApproval;
 
-        $ee_roles = array(config('commanConfig.ee_junior_engineer'), config('commanConfig.ee_branch_head'), config('commanConfig.ee_deputy_engineer'));
-        $eeRoles = Role::whereIn('name', $ee_roles)->pluck('id')->toArray();
+        $count = ['totalPending' => $totalPending,
+                  'totalForwarded' => $totalForwarded,
+                  'totalReverted' => $totalReverted,
+                  'totalApplication' => $totalApplication
+        ];
+        return $count;
 
-        $ree_roles = array(config('commanConfig.ree_junior'), config('commanConfig.ree_branch_head'), config('commanConfig.ree_deputy_engineer'), config('commanConfig.ree_assistant_engineer'));
-        $reeRoles = Role::whereIn('name', $ree_roles)->pluck('id')->toArray();
+    }
 
-        $dyce_roles = array(config('commanConfig.dyce_branch_head'), config('commanConfig.dyce_jr_user'), config('commanConfig.dyce_deputy_engineer'));
-        $dyceRoles = Role::whereIn('name', $dyce_roles)->pluck('id')->toArray();
+    public function getEERoles(){
+        $ee_jr_id = Role::where('name',config('commanConfig.ee_junior_engineer'))->value('id');
+        $ee_head_id = Role::where('name',config('commanConfig.ee_branch_head'))->value('id');
+        $ee_deputy_id = Role::where('name', config('commanConfig.ee_deputy_engineer'))->value('id');
+        $ee = ['ee_jr_id'=>$ee_jr_id,
+            'ee_head_id'=>$ee_head_id,
+            'ee_deputy_id'=>$ee_deputy_id];
+        return $ee;
+    }
 
-        $co_roles = config('commanConfig.co_engineer');
-        $coRoles = Role::where('name', $co_roles)->value('id');
+    public function getDyceRoles(){
+        $dyce_jr_id = Role::where('name',config('commanConfig.dyce_jr_user'))->value('id');
+        $dyce_head_id = Role::where('name',config('commanConfig.dyce_branch_head'))->value('id');
+        $dyce_deputy_id = Role::where('name', config('commanConfig.dyce_deputy_engineer'))->value('id');
+        $dyce = ['dyce_jr_id' => $dyce_jr_id,
+                 'dyce_head_id' => $dyce_head_id,
+                 'dyce_deputy_id' => $dyce_deputy_id];
+        return $dyce;
+    }
 
-        $cap_roles = config('commanConfig.cap_engineer');
-        $capRoles = Role::where('name', $cap_roles)->value('id');
+    public function getEEDashboardData($role_id,$ee,$statusCount)
+    {
+        switch ($role_id) {
+            case ($ee['ee_jr_id']):
+                $dashboardData['Total No of Application'] = $statusCount['totalApplication'];
+                $dashboardData['Application Pending'] = $statusCount['totalPending'];
+                $dashboardData['Application Forwarded to EE Deputy'] = $statusCount['totalForwarded'];
+                break;
+            case ($ee['ee_head_id']):
+                $dashboardData['Total No of Application'] = $statusCount['totalApplication'];
+                $dashboardData['Application Pending'] = $statusCount['totalPending'];
+                $dashboardData['Application Sent for Compliance'] = $statusCount['totalReverted'];
+                $dashboardData['Application Forwarded to DyCE Junior'] = $statusCount['totalForwarded'];
+                break;
+            case ($ee['ee_deputy_id']):
+                $dashboardData['Total No of Application'] = $statusCount['totalApplication'];
+                $dashboardData['Application Pending'] = $statusCount['totalPending'];
+                $dashboardData['Application Sent for Compliance'] = $statusCount['totalReverted'];
+                $dashboardData['Application Forwarded to EE Head'] = $statusCount['totalForwarded'];
+                break;
+            default:
+                ;
+                break;
+        }
+        return $dashboardData;
+    }
 
-        $vp_roles = config('commanConfig.vp_engineer');
-        $vpRoles = Role::where('name', $vp_roles)->value('id');
-
-        switch ( $role_id )
+    public function getDyceDashboardData($role_id,$dyce,$statusCount){
+        switch ($role_id)
         {
-            case in_array($role_id,$eeRoles):
-                $status = ['Total No. of Applications','Applications In Process','Application Forwarded','Application Sent for Revision','Application Pending'];
+            case ($dyce['dyce_jr_id']):
+                $dashboardData['Total No of Application'] = $statusCount['totalApplication'];
+                $dashboardData['Application Pending'] = $statusCount['totalPending'];
+                $dashboardData['Application Forwarded to DYCE Deputy'] = $statusCount['totalForwarded'];
                 break;
-            case in_array($role_id,$reeRoles):
-                $status = ['Total No. of Applications','Applications In Process','Application Forwarded','Application Sent for Revision','Application Pending','Offer Letter sent for Approval','Offer Letter Approved','Offer Letter Generated'];
+            case ($dyce['dyce_head_id']):
+                $dashboardData['Total No of Application'] = $statusCount['totalApplication'];
+                $dashboardData['Application Pending'] = $statusCount['totalPending'];
+                $dashboardData['Application Sent for Compliance'] = $statusCount['totalReverted'];
+                $dashboardData['Application Forwarded to REE Junior'] = $statusCount['totalForwarded'] ;
                 break;
-            case in_array($role_id,$dyceRoles):
-                $status = ['Total No. of Applications','Applications In Process','Application Forwarded','Application Sent for Revision','Application Pending'];
-                break;
-            case ($role_id == $coRoles):
-                $status = ['Total No. of Applications','Applications In Process','Application Forwarded','Application Sent for Revision','Application Pending','Offer Letter Pending for Approval','Offer Letter Approved'];
-                break;
-            case ($role_id == $capRoles):
-                $status = ['Total No. of Applications','Applications In Process','Application Forwarded','Application Sent for Revision','Application Pending'];
-                break;
-            case ($role_id == $vpRoles):
-                $status = ['Total No. of Applications','Applications In Process','Application Forwarded','Application Sent for Revision','Application Pending'];
+            case ($dyce['dyce_deputy_id']):
+                $dashboardData['Total No of Application'] = $statusCount['totalApplication'];
+                $dashboardData['Application Pending'] = $statusCount['totalPending'];
+                $dashboardData['Application Sent for Compliance'] = $statusCount['totalReverted'];
+                $dashboardData['Application Forwarded to DYCE Head'] = $statusCount['totalForwarded'] ;
                 break;
             default:
                 ; break;
         }
-
-        return view('admin.common.ol_dashboard',compact('dashboardData','status'));
-
+        return $dashboardData;
     }
 
+    public function getCapDashboardData($statusCount){
+        $dashboardData['Total No of Application'] = $statusCount['totalApplication'];
+        $dashboardData['Application Pending'] = $statusCount['totalPending'];
+        $dashboardData['Application Sent for Compliance To CO'] = $statusCount['totalReverted'];
+        $dashboardData['Application Forwarded to VP'] = $statusCount['totalForwarded'] ;
+        return $dashboardData;
+    }
+
+    public function getVpDashboardData($statusCount){
+        $dashboardData['Total No of Application'] = $statusCount['totalApplication'];
+        $dashboardData['Application Pending'] = $statusCount['totalPending'];
+        $dashboardData['Application Sent for Compliance To Cap'] = $statusCount['totalReverted'];
+        $dashboardData['Application Forwarded to REE Junior'] = $statusCount['totalForwarded'] ;
+        return $dashboardData;
+    }
 
 }
