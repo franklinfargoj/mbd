@@ -47,19 +47,12 @@
                     <div class="row align-items-center mb-0">                            
                             <div class="col-md-9">
                                 <div class="form-group m-form__group">
-                                    <label class="col-md-4 control-label">Saluation</label>
+                                    <label class="col-md-4 control-label">Salutation</label>
                                     <select class="col-md-8 form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="salutation" name="salutation" required>
-<<<<<<< HEAD
                                         <option value="" style="font-weight: normal;">Select Salutation</option>
-                                        <option value="Shri">Shri</option>
-                                        <option value="Smt">Smt</option>
-                                        <option value="Kumari">Kumari</option>
-=======
-                                        <option value="" style="font-weight: normal;">Select Saluation</option>
                                         <option value="Shri" {{ old('salutation') == 'Shri' ? 'selected' : '' }} >Shri</option>
                                         <option value="Smt" {{ old('salutation') == 'Smt' ? 'selected' : '' }} >Smt</option>
                                         <option value="Kumari" {{ old('salutation') == 'Kumari' ? 'selected' : '' }} >Kumari</option>
->>>>>>> 15bd117ad059daecd0133c1afacda36c79a9667f
                                     </select>
                                     <span class="help-block error">{{$errors->first('salutation')}}</span>
                                 </div>
