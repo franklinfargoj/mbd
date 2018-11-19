@@ -93,9 +93,9 @@ $route=\Request::route()->getName();
         </li>
         @endif
         @if(session()->get('role_name')==config('commanConfig.junior_architect') ||
-        session()->get('role_name')==config('commanConfig.land_manager') ||
-        session()->get('role_name')==config('commanConfig.estate_manager') ||
-        session()->get('role_name')==config('commanConfig.ee_junior_engineer') ||
+        // session()->get('role_name')==config('commanConfig.land_manager') ||
+        // session()->get('role_name')==config('commanConfig.estate_manager') ||
+        // session()->get('role_name')==config('commanConfig.ee_junior_engineer') ||
         session()->get('role_name')==config('commanConfig.ree_junior') ||
         session()->get('role_name')==config('commanConfig.ree_assistant_engineer') ||
         session()->get('role_name')==config('commanConfig.ree_deputy_engineer') ||
@@ -145,6 +145,7 @@ $route=\Request::route()->getName();
         }
         @endphp
         @if($visible_layout_and_excel>0)
+        @if(($ArchitectLayout->upload_layout_in_pdf_format != "" && $ArchitectLayout->upload_layout_in_excel_format != "" && $ArchitectLayout->upload_architect_note != "") || session()->get('role_name')==config('commanConfig.junior_architect'))
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{($route=='architect_layout_prepare_layout_excel')?'m-menu__item--active':''}}">
             <a class="m-menu__link m-menu__toggle" title="Scrutiny & Remarks" href="{{route('architect_layout_prepare_layout_excel',encrypt($ArchitectLayout->id))}}">
                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
@@ -154,6 +155,7 @@ $route=\Request::route()->getName();
             <span class="m-menu__link-text">Layout & Excel</span>
             </a>
         </li>
+        @endif
         @endif
         @endif
 

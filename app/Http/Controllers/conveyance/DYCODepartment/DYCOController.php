@@ -50,8 +50,13 @@ class DYCOController extends Controller
         }else{
             $route = 'admin.conveyance.common.view_checklist_office_note';
         }
+
+        //get dycdo note from sc document status table
+        $document  = config('commanConfig.documents.dycdo_note');
+        $documentId = $this->common->getDocumentId($document,$data->sc_application_master_id);
+        $dycdo_note = $this->common->getDocumentStatus($applicationId,$documentId);
         
-        return view($route,compact('data','checklist'));
+        return view($route,compact('data','checklist','dycdo_note'));
     }
 
     // save/update checklist data
@@ -86,7 +91,7 @@ class DYCOController extends Controller
         if ($request->file('dycdo_note')){
 
             $file = $request->file('dycdo_note');
-            $file_name = time().'_dycdo_note'.'.'.$file->getClientOriginalExtension();
+            $file_name = time().'_dycdo_note_'.$applicationId.'.'.$file->getClientOriginalExtension();
 
             $extension = $file->getClientOriginalExtension();
             $folder_name = "conveyance_dycdo_note";
@@ -94,11 +99,12 @@ class DYCOController extends Controller
             if ($extension == "pdf"){
                 $path = $folder_name.'/'.$file_name;
                 $delete = Storage::disk('ftp')->delete($request->old_file_name);
-                $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$request->file('dycdo_note'),$file_name);
+                $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$file,$file_name);
 
-                $note = ConveyanceChecklistScrutiny::where('application_id',$applicationId)
-                ->update(['dyco_note' => $path]);
-                   
+                // save document to sc document status table
+                $document  = config('commanConfig.documents.dycdo_note');
+                $this->common->uploadDocumentStatus($applicationId,$document,$path);
+
                 return back()->with('success','Note uploaded successfully.');                         
             } else {
                 return back()->with('pdf_error', 'Invalid type of file uploaded (only pdf allowed).');
@@ -113,12 +119,10 @@ class DYCOController extends Controller
         ->where('id',$applicationId)->first();
         
         $Applicationtype= $data->sc_application_master_id;
-        $SaleAgreement  = config('commanConfig.scAgreements.sale_deed_agreement');
-        $LeaseAgreement = config('commanConfig.scAgreements.lease_deed_agreement');
         $Agreementstatus = ApplicationStatusMaster::where('status_name','=','Draft')->value('id');
       
-        $draftSaleId   = $this->common->getScAgreementId($SaleAgreement,$Applicationtype);
-        $draftLeaseId  = $this->common->getScAgreementId($LeaseAgreement,$Applicationtype);
+        $draftSaleId   = $this->common->getScAgreementId($this->SaleAgreement,$Applicationtype);
+        $draftLeaseId  = $this->common->getScAgreementId($this->LeaseAgreement,$Applicationtype);
 
         $data->DraftSaleAgreement  = $this->common->getScAgreement($draftSaleId,$applicationId,$Agreementstatus);
         $data->DraftLeaseAgreement = $this->common->getScAgreement($draftLeaseId,$applicationId,$Agreementstatus);
@@ -147,8 +151,7 @@ class DYCOController extends Controller
         
         $data = scApplication::where('id',$applicationId)->first();        
         $Applicationtype= $data->sc_application_master_id;
-        $SaleAgreement  = config('commanConfig.scAgreements.sale_deed_agreement');
-        $LeaseAgreement = config('commanConfig.scAgreements.lease_deed_agreement');  
+
         $Agrstatus = ApplicationStatusMaster::where('status_name','=','Draft')->value('id');          
 
         $sale_folder_name  = "Draft_Sale_Deed_Agreement";
@@ -158,7 +161,7 @@ class DYCOController extends Controller
             $sale_extension  = $sale_agreement->getClientOriginalExtension(); 
             $sale_file_name  = time().'_sale_'.$applicationId.'.'.$sale_extension; 
             $sale_file_path  = $sale_folder_name.'/'.$sale_file_name; 
-            $draftSaleId     = $this->common->getScAgreementId($SaleAgreement,$Applicationtype);
+            $draftSaleId     = $this->common->getScAgreementId($this->SaleAgreement,$Applicationtype);
            
 
             if ($sale_extension == "pdf"){
@@ -179,7 +182,7 @@ class DYCOController extends Controller
             $lease_extension = $lease_agreement->getClientOriginalExtension(); 
             $lease_file_name = time().'_lease_'.$applicationId.'.'.$lease_extension;
             $lease_file_path = $lease_folder_name.'/'.$lease_file_name;
-            $draftLeaseId = $this->common->getScAgreementId($LeaseAgreement,$Applicationtype);
+            $draftLeaseId = $this->common->getScAgreementId($this->LeaseAgreement,$Applicationtype);
             if ($lease_extension == "pdf") {
                 
                 Storage::disk('ftp')->delete($request->oldLeaseFile);

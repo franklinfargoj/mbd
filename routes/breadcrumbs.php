@@ -209,6 +209,13 @@ Breadcrumbs::for('cap', function ($trail) {
     $trail->push('Home', route('cap.index'));
 });
 
+Breadcrumbs::for('cap_reval', function ($trail) {
+    $trail->push('Home', route('cap_applications.reval'));
+});
+Breadcrumbs::for('society_reval_documents_cap', function ($trail,$id) {
+    $trail->parent('cap_reval');
+    $trail->push('society reval documents cap', route('cap.society_reval_documents',$id));
+});
 Breadcrumbs::for('society_EE_documents_cap', function ($trail,$id) {
     $trail->parent('cap');
     $trail->push('society EE documents', route('cap.society_EE_documents',$id));
@@ -236,6 +243,11 @@ Breadcrumbs::for('calculation_sheet_cap', function ($trail,$id) {
 Breadcrumbs::for('Forward_Application_cap', function ($trail,$id) {
     $trail->parent('cap');
     $trail->push('forward application', route('cap.forward_application',$id));
+});
+
+Breadcrumbs::for('Forward_Reval_Application_cap', function ($trail,$id) {
+    $trail->parent('cap_reval');
+    $trail->push('forward Reval application', route('cap.forward_reval_application',$id));
 });
 
 Breadcrumbs::for('cap_note_cap', function ($trail,$id) {
@@ -289,9 +301,18 @@ Breadcrumbs::for('co', function ($trail) {
     $trail->push('Home', route('co.index'));
 });
 
+Breadcrumbs::for('co_reval', function ($trail) {
+    $trail->push('Home', route('co_applications.reval'));
+});
+
 Breadcrumbs::for('society_EE_documents_co', function ($trail,$id) {
     $trail->parent('co');
     $trail->push('society_EE_documents', route('co.society_EE_documents',$id));
+});
+
+Breadcrumbs::for('society_reval_documents_co', function ($trail,$id) {
+    $trail->parent('co_reval');
+    $trail->push('society reval documents', route('co.society_reval_documents',$id));
 });
 
 Breadcrumbs::for('EE_scrutiny_co', function ($trail,$id) {
@@ -322,6 +343,11 @@ Breadcrumbs::for('calculation_sheet_co', function ($trail,$id) {
 Breadcrumbs::for('Forward_Application_co', function ($trail,$id) {
     $trail->parent('co');
     $trail->push('Forward_Application', route('co.forward_application',$id));
+});
+
+Breadcrumbs::for('Forward_Reval_Application_co', function ($trail,$id) {
+    $trail->parent('co_reval');
+    $trail->push('Forward_Application', route('co.forward_reval_application',$id));
 });
 
 Breadcrumbs::for('download_cap_note', function ($trail,$id) {

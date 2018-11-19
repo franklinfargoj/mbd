@@ -34,7 +34,7 @@
                                     <label class="col-md-4 control-label">Building / Chawl Name</label>
                                         <div class="col-md-8 @if($errors->has('name')) has-error @endif">
                                         <div class="input-icon right">
-                                             <input type="text" name="name" id="name" class="form-control" value="{{old('name')}}">
+                                             <input type="text" name="name" id="name" class="form-control" value="{{old('name')}}" required>
                                             <span class="help-block">{{$errors->first('name')}}</span>
                                         </div>
                                         </div>
@@ -50,7 +50,7 @@
                                     <label class="col-md-4 control-label">Building / Chawl Number</label>
                                         <div class="col-md-8 @if($errors->has('building_no')) has-error @endif">
                                         <div class="input-icon right">
-                                             <input type="text" name="building_no" id="building_no" class="form-control" value="{{old('building_no')}}">
+                                             <input type="text" name="building_no" id="building_no" class="form-control" value="{{old('building_no')}}" required>
                                             <span class="help-block">{{$errors->first('building_no')}}</span>
                                         </div>
                                         </div>
@@ -64,7 +64,7 @@
                         <div class="form-group m-form__group">
                             <input type="submit" class="btn m-btn--pill m-btn--custom btn-primary" name="submit" value="submit">
 
-                            <a  class="btn m-btn--pill m-btn--custom btn-metal" href="{{ route('get_buildings', [$society_id]) }}">Cancel</a>
+                            <a  class="btn m-btn--pill m-btn--custom btn-metal" href="{{ route('get_buildings', [encrypt($society_id)]) }}">Cancel</a>
                         </div>
                     </div>
                 </div>

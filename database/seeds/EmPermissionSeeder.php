@@ -118,6 +118,11 @@ class EmPermissionSeeder extends Seeder
                 'description' => 'architect_layout_post_scrutiny_report',
             ],
             [
+                'name'=>'delete_architect_layout_scrutiny_report',
+                'display_name'=>'delete_architect_layout_scrutiny_report',
+                'description'=>'delete_architect_layout_scrutiny_report'
+            ],
+            [
                 'name' => 'upload_em_checklist_and_remark_report',
                 'display_name' => 'upload_em_checklist_and_remark_report',
                 'description' => 'upload_em_checklist_and_remark_report',
@@ -316,6 +321,16 @@ class EmPermissionSeeder extends Seeder
                 'name' => 'em.save_conveyance_no_dues_certificate',
                 'display_name' => 'Save no dues certificate',
                 'description' => 'Saves no dues certificate'
+            ],
+            [
+                'name' => 'conveyance.forward_application_sc',
+                'display_name' => 'Forward Application',
+                'description' => 'Forwards conveyance Application'
+            ],
+            [
+                'name' => 'conveyance.save_forward_application',
+                'display_name' => 'Saves Forward Application',
+                'description' => 'Saves Forwards conveyance Application'
             ]
         ];
 

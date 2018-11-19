@@ -326,9 +326,15 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     // CO department route 
     Route::resource('co','CODepartment\COController');
+
     Route::get('co_reval_applications','CODepartment\COController@revalidationApplicationList')->name('co_applications.reval');
     Route::get('view_reval_application_co/{id}','CODepartment\COController@viewRevalApplication')->name('co.view_reval_application');
+
     Route::get('society_ee_documents/{id}','CODepartment\COController@societyEEDocuments')->name('co.society_EE_documents');
+    Route::get('co_society_reval_document/{id}','CODepartment\COController@societyRevalDocuments')->name('co.society_reval_documents');
+
+    Route::get('reval_calculation_sheet_co/{id}','CODepartment\COController@showRevalCalculationSheet')->name('co.show_reval_calculation_sheet');
+
     Route::get('ee_Scrutiny_Remark/{id}','CODepartment\COController@eeScrutinyRemark')->name('co.EE_Scrutiny_Remark');
 
     Route::get('scrutiny_remark_dyce/{id}','CODepartment\COController@dyceScrutinyRemark')->name('co.scrutiny_remark');
@@ -337,10 +343,22 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::post('save_forward_Application','CODepartment\COController@sendForwardApplication')->name('co.forward_application_data');
 
-    Route::get('download_note/{id}','CODepartment\COController@downloadCapNote')->name('co.download_cap_note');    
+    Route::get('download_note/{id}','CODepartment\COController@downloadCapNote')->name('co.download_cap_note');
 
-        // CAP department route 
+    Route::get('co_forward_reval_application/{id}','CODepartment\COController@forwardRevalApplication')->name('co.forward_reval_application');
+    Route::post('co_forward_reval_Application_data','CODepartment\COController@sendForwardRevalApplication')->name('co.forward_reval_application_data');
+
+
+    // CAP department route
     Route::resource('cap','CAPDepartment\CAPController');
+
+    Route::get('cap_reval_applications','CAPDepartment\CAPController@revalidationApplicationList')->name('cap_applications.reval');
+    Route::get('view_reval_application_cap/{id}','CAPDepartment\CAPController@viewRevalApplication')->name('cap.view_reval_application');
+
+    Route::get('cap_society_reval_document/{id}','CAPDepartment\CAPController@societyRevalDocuments')->name('cap.society_reval_documents');
+
+    Route::get('reval_calculation_sheet_cap/{id}','CAPDepartment\CAPController@showRevalCalculationSheet')->name('cap.show_reval_calculation_sheet');
+
     Route::get('society_EE_document/{id}','CAPDepartment\CAPController@societyEEDocuments')->name('cap.society_EE_documents');
     Route::get('ee_scrutiny_remarks/{id}','CAPDepartment\CAPController@eeScrutinyRemark')->name('cap.EE_scrutiny_remark');
 
@@ -351,9 +369,20 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::post('upload_cap_note','CAPDepartment\CAPController@uploadCAPNote')->name('cap.upload_cap_note');
     Route::post('cap_save_forward_Application','CAPDepartment\CAPController@sendForwardApplication')->name('cap.forward_application_data');
 
+    Route::get('cap_forward_reval_application/{id}','CAPDepartment\CAPController@forwardRevalApplication')->name('cap.forward_reval_application');
+    Route::post('cap_forward_reval_Application_data','CAPDepartment\CAPController@sendForwardRevalApplication')->name('cap.forward_reval_application_data');
 
         // VP department route 
     Route::resource('vp','VPDepartment\VPController');
+
+    Route::get('vp_reval_applications','VPDepartment\VPController@revalidationApplicationList')->name('vp_applications.reval');
+    Route::get('view_reval_application_vp/{id}','VPDepartment\VPController@viewRevalApplication')->name('vp.view_reval_application');
+
+    Route::get('vp_society_reval_document/{id}','VPDepartment\VPController@societyRevalDocuments')->name('vp.society_reval_documents');
+
+    Route::get('reval_calculation_sheet_vp/{id}','VPDepartment\VPController@showRevalCalculationSheet')->name('vp.show_reval_calculation_sheet');
+
+
     Route::get('society_EE_document_vp/{id}','VPDepartment\VPController@societyEEDocuments')->name('vp.society_EE_documents');
     Route::get('ee_scrutiny_remarks_vp/{id}','VPDepartment\VPController@eeScrutinyRemark')->name('vp.EE_scrutiny_remark');
 
@@ -363,7 +392,10 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::get('cap_notes_vp/{id}','VPDepartment\VPController@displayCAPNote')->name('vp.cap_notes');
 
-    Route::post('save_forward_Application_vp','VPDepartment\VPController@sendForwardApplication')->name('vp.forward_application_data');    
+    Route::post('save_forward_Application_vp','VPDepartment\VPController@sendForwardApplication')->name('vp.forward_application_data');
+
+    Route::get('vp_forward_reval_application/{id}','VPDepartment\VPController@forwardRevalApplication')->name('vp.forward_reval_application');
+    Route::post('vp_forward_reval_Application_data','VPDepartment\VPController@sendForwardRevalApplication')->name('vp.forward_reval_application_data');
 
     // Route::post('save_forward_Application','CODepartment\COController@sendForwardApplication')->name('co.forward_application_data');
 
@@ -444,7 +476,8 @@ Route::post('post_forward_architect_layout','ArchitectLayout\LayoutArchitectCont
 //Architect Layout EM LM EE REE Scrutiny
 Route::get('get_scrutiny/{layout_id}','ArchitectLayout\LayoutArchitectController@get_scrutiny')->name('architect_layout_get_scrtiny');
 Route::get('add_scrutiny_report/{layout_id}','ArchitectLayout\LayoutArchitectController@add_scrutiny_report')->name('architect_layout_add_scrutiny_report');
-Route::post('post_scrutiny_report','ArchitectLayout\LayoutArchitectController@post_scrutiny_report')->name('architect_layout_post_scrutiny_report');
+Route::post('post_architect_layout_scrutiny_report','ArchitectLayout\LayoutArchitectController@post_scrutiny_report')->name('architect_layout_post_scrutiny_report');
+Route::post('delete_architect_layout_scrutiny_report','ArchitectLayout\LayoutArchitectController@delete_scrutiny_report')->name('delete_architect_layout_scrutiny_report');
 Route::post('upload_lm_checklist_and_remark_report','ArchitectLayout\LayoutArchitectController@upload_lm_checklist_and_remark_report')->name('upload_lm_checklist_and_remark_report');
 Route::post('post_lm_checklist_and_remark_report','ArchitectLayout\LayoutArchitectController@post_lm_checklist_and_remark_report')->name('post_lm_checklist_and_remark_report');
 
@@ -520,6 +553,12 @@ Route::delete('destroy_architect_layout_detail_court_case_or_dispute_on_land/{id
     Route::get('sc_form_download', 'SocietyConveyanceController@generate_pdf')->name('sc_form_download');
     Route::get('sc_form_upload_show', 'SocietyConveyanceController@sc_form_upload_show')->name('sc_form_upload_show');
     Route::post('sc_form_upload', 'SocietyConveyanceController@sc_form_upload')->name('sc_form_upload');
+
+    //sale & lease deed alongwith pay stamp duty letter & resolution & undertaking
+    Route::get('sale_lease_deed/{id}', 'SocietyConveyanceController@show_sale_lease')->name('show_sale_lease');
+    Route::get('signed_sale_lease_deed/{id}', 'SocietyConveyanceController@show_signed_sale_lease')->name('show_signed_sale_lease');
+    Route::post('save_sale_lease_deed', 'SocietyConveyanceController@upload_sale_lease')->name('upload_sale_lease');
+    Route::post('save_signed_sale_lease_deed', 'SocietyConveyanceController@upload_signed_sale_lease')->name('upload_signed_sale_lease');
     Route::resource('/society_conveyance','SocietyConveyanceController');
 
     //Society Conveyance END
@@ -640,6 +679,8 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('register_sale_lease_agreement/{id}', 'conveyance\DYCODepartment\DYCOController@RegisterSaleLeaseAgreement')->name('conveyance.register_sale_lease_agreement'); 
 
     Route::get('checklist/{id}', 'conveyance\DYCODepartment\DYCOController@showChecklist')->name('conveyance.checklist');
+
+    Route::get('architect_scrutiny_remark/{id}', 'conveyance\conveyanceCommonController@ArchitectScrutinyRemark')->name('conveyance.architect_scrutiny_remark'); 
     
     //dyco
     
@@ -669,15 +710,13 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     //Architect
 
-    Route::get('architect_scrutiny_remark/{id}', 'conveyance\conveyanceCommonController@ArchitectScrutinyRemark')->name('conveyance.architect_scrutiny_remark'); 
-
     Route::post('save_architect_scrutiny_remark', 'conveyance\conveyanceCommonController@SaveArchitectScrutinyRemark')->name('conveyance.save_architect_scrutiny_remark');
     
 
     // Renewal
     Route::get('renewal_scrutiny_remark_em/{id}', 'conveyance\EMDepartment\EMController@RenewalScrutinyRemark')->name('em.renewal_scrutiny_remark');
     Route::post('save_renewal_letter', 'conveyance\EMDepartment\EMController@saveRenewalNoDuesCertificate')->name('em.save_renewal_no_dues_certificate');
-
+    Route::post('save_list_of_bonafide_allottees', 'conveyance\EMDepartment\EMController@saveRenewalNoDuesCertificate')->name('em.save_renewal_no_dues_certificate');
     Route::post('upload_covering_letter','conveyance\EMDepartment\EMController@uploadCoveringLetter')->name('em.upload_covering_letter');
 
 
@@ -723,6 +762,7 @@ Route::prefix('appointing_architect')->group(function () {
         Route::post('step1_post/{id}', 'EmploymentOfArchitectController@step1_post')->name('appointing_architect.step1_post');
         Route::get('step2/{id}', 'EmploymentOfArchitectController@step2')->name('appointing_architect.step2');
         Route::post('step2_post/{id}', 'EmploymentOfArchitectController@step2_post')->name('appointing_architect.step2_post');
+        Route::post('delete_enclosure', 'EmploymentOfArchitectController@delete_enclosure')->name('appointing_architect.delete_enclosure');
         Route::get('step3/{id}', 'EmploymentOfArchitectController@step3')->name('appointing_architect.step3');
         Route::post('step3_post/{id}', 'EmploymentOfArchitectController@step3_post')->name('appointing_architect.step3_post');
         Route::get('step4/{id}', 'EmploymentOfArchitectController@step4')->name('appointing_architect.step4');

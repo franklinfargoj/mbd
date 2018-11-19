@@ -23,7 +23,7 @@
             enctype="multipart/form-data">
             @csrf
             <input type="hidden" name="application_id" value="{{$application->id}}">
-            @include('employment_of_architect.partial_personal_details',compact('application'))
+            {{-- @include('employment_of_architect.partial_personal_details',compact('application')) --}}
             <div class="form-group m-form__group row">
                 <div class="col-sm-4 form-group">
                     <label class="col-form-label" for="">Details of Establishment:</label>

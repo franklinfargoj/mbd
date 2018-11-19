@@ -139,14 +139,15 @@
                                         </div>
                                     </div>
                                     @endif
+
                                     <div class="col-sm-6 border-left">
                                         <div class="d-flex flex-column h-100 two-cols">
                                             <h5>Download</h5>
                                             <span class="hint-text">Click to download Conveyance map </span>
                                             <div class="mt-auto">
-                                                @if(isset($data->architect_conveyance_map))
-                                                 <input type="hidden" name="oldFileName" value="{{ $data->architect_conveyance_map }}">
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->architect_conveyance_map }}">
+                                                @if(isset($data->conveyance_map->document_path))
+                                                 <input type="hidden" name="oldFileName" value="{{ $data->conveyance_map->document_path }}">
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->conveyance_map->document_path }}">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>

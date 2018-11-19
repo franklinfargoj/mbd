@@ -2,7 +2,7 @@
 $route="";
 $route=\Request::route()->getName();
 @endphp
-<li class="m-menu__item" data-toggle="collapse" data-target="#ee-actions">
+<!-- <li class="m-menu__item" data-toggle="collapse" data-target="#ee-actions">
     <a href="javascript:void(0);" class="m-menu__link m-menu__toggle">
         <i class="m-menu__link-icon flaticon-line-graph"></i>
         <span class="m-menu__link-title">
@@ -19,4 +19,4 @@ $route=\Request::route()->getName();
     <ul class="list-unstyled">
         
     </ul>
-</li>
+</li> -->

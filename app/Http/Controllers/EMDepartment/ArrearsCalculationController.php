@@ -27,11 +27,16 @@ class ArrearsCalculationController extends Controller
     {
         $this->comman = new CommonController();
         $this->list_num_of_records_per_page = Config::get('commanConfig.list_num_of_records_per_page');
+        $this->PAYMENT_STATUS_NOT_PAID = Config::get('commanConfig.PAYMENT_STATUS_NOT_PAID');
+        $this->PAYMENT_STATUS_PAID = Config::get('commanConfig.PAYMENT_STATUS_PAID');
     }
 
     public function index(Request $request, Datatables $datatables) {
 
     	if($request->has('society_id') && $request->has('building_id') && !empty($request->society_id) && !empty($request->building_id)) {
+
+    		$request->society_id = decrypt($request->society_id);
+            $request->building_id = decrypt($request->building_id);
 
     		$society  = SocietyDetail::find($request->society_id);
 	        $building = MasterBuilding::where('society_id', $request->society_id)->find($request->building_id);
@@ -56,6 +61,7 @@ class ArrearsCalculationController extends Controller
 	        ];
 
 	        if($request->has('tenant_id') && !empty($request->tenant_id)) {
+	        	 $request->tenant_id = decrypt($request->tenant_id);
 	            $tenant = MasterTenant::find($request->tenant_id);
 	        }  
 	        if ($datatables->getRequest()->ajax()) {
@@ -95,11 +101,11 @@ class ArrearsCalculationController extends Controller
 	            })
 	            ->editColumn('payment_status', function ($arrear_calculations){
 	                switch ($arrear_calculations->payment_status) {
-	                	case PAYMENT_STATUS_NOT_PAID:
+	                	case $this->PAYMENT_STATUS_NOT_PAID:
 	                		return 'Not Paid';
 	                		break;
 	                	
-	                	case PAYMENT_STATUS_PAID:
+	                	case $this->PAYMENT_STATUS_PAID:
 	                		return 'Paid';
 	                		break;
 

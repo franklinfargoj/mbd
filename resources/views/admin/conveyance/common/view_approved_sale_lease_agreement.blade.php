@@ -116,6 +116,32 @@
         </div>
     </div>
 
+    @if(session()->get('role_name') == config('commanConfig.dyco_engineer'))
+        <div class="m-portlet m-portlet--mobile m_panel">
+            <div class="m-portlet__body">
+                <h3 class="section-title section-title--small">Letter to Pay Stamp  Duty</h3>
+                <div class="col-xs-12 row">
+                    <div class="col-md-12">
+                        <form class="nav-tabs-form" id ="agreementFRM" role="form" method="POST" action="{{ route('dyco.send_to_society')}}" enctype="multipart/form-data">
+                            @csrf
+                            <input type="hidden" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">
+                            <div class="col-md-6" style="display: inline;">
+                                <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
+                                Download  </Button>
+                            </div>
+                            @if($data->status->status_id != config('commanConfig.applicationStatus.forwarded'))
+                                <div class="col-md-6" style="display: inline;">
+                                    <Button type="submit" class="s_btn btn btn-primary" id="submitBtn">
+                                    send to society </Button>
+                                </div>
+                            @endif    
+                        </form>    
+                    </div>
+                </div>
+            </div>
+        </div>  
+    @endif     
+
     @if(count($data->AgreementComments) > 0)       
         <div class="m-portlet m-portlet--mobile m_panel">
             <div class="m-portlet__body">
@@ -155,30 +181,5 @@
             </div>
         </form>
     @endif
-
-    @if(session()->get('role_name') == config('commanConfig.dyco_engineer'))
-        <div class="m-portlet m-portlet--mobile m_panel">
-            <div class="m-portlet__body">
-                <h3 class="section-title section-title--small">Letter to Pay Stamp  Duty</h3>
-                <div class="col-xs-12 row">
-                    <div class="col-md-12">
-                        <form class="nav-tabs-form" id ="agreementFRM" role="form" method="POST" action="{{ route('dyco.send_to_society')}}" enctype="multipart/form-data">
-                            @csrf
-                            <input type="hidden" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">
-                            <div class="col-md-6" style="display: inline;">
-                                <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
-                                Download  </Button>
-                            </div>
-                            @if($data->status->status_id != config('commanConfig.applicationStatus.forwarded'))
-                                <div class="col-md-6" style="display: inline;">
-                                    <Button type="submit" class="s_btn btn btn-primary" id="submitBtn">
-                                    send to society </Button>
-                                </div>
-                            @endif    
-                        </form>    
-                    </div>
-                </div>
-            </div>
-        </div>  
-    @endif         
+        
 @endsection

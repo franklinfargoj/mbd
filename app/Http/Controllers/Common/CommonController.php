@@ -1153,8 +1153,16 @@ class CommonController extends Controller
 
         $fields = array(
             'text' => '<input type="text" id="'.$name.'" name="'.$name.'" class="form-control form-control--custom m-input" value="'.$value.'" '.$readonly.'>',
+            'hidden' => '<input type="hidden" id="'.$name.'" name="'.$name.'" class="form-control form-control--custom m-input" value="'.$value.'" '.$readonly.'>',
             'date' => '<input type="text" id="'.$name.'" name="'.$name.'" class="form-control form-control--custom m-input m_datepicker" value="'.$value.'" '.$readonly.'>',
             'textarea' => '<textarea id="'.$name.'" name="'.$name.'" class="form-control form-control--custom form-control--fixed-height m-input"'.$readonly.'>'.$value.'</textarea>',
+            'file' => '<div class="custom-file">
+                            <input class="custom-file-input pdfcheck" name="'.$name.'" type="file"
+                                   id="'.$name.'" required="required">
+                            <label class="custom-file-label" for="'.$name.'">Choose
+                                file...</label>
+                            <span class="text-danger" id="'.$name.'"></span>
+                        </div>',
         );
 
         return $fields[$type];
