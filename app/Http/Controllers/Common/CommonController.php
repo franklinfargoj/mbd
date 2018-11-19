@@ -182,7 +182,7 @@ class CommonController extends Controller
         if ($request->to) {
             $architect_applications->whereDate(DB::raw('DATE(created_at)'), '<=', date('Y-m-d', strtotime($request->to)));
         }
-        $architect_application = $architect_applications->get();
+        $architect_application = $architect_applications->orderBY('id','desc')->get();
 
         return $architect_application;
     }
