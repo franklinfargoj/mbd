@@ -29,8 +29,8 @@
         <div class="m-portlet__head">
             <div class="m-portlet__head-caption">
                 <div class="m-portlet__head-text">
-                    <h3 class="m-portlet__head-text"> List of tenants</h3>
-                    <div id="filter" class="ml-auto"><input type="search" id="searchId" class="form-control input-sm input-small input-inline form-control--custom"
+                    {{-- <h3 class="m-portlet__head-text"> List of tenants</h3> --}}
+                    <div id="filter" class="col-md-8 pull-left ml-auto"><input type="search" id="searchId" class="form-control input-sm input-small input-inline form-control--custom"
                     placeholder="Search ..."></div>     
                 </div>
             </div>

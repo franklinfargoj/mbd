@@ -89,8 +89,10 @@
                             </div>                          
                     </div>
                 </div>
-
-                <div class="col-md-12" style="margin-top:10px;margin-bottom: 10px;">
+                <div class=" col-md-12 building_select">
+                    
+                </div>
+               {{--  <div class="col-md-12" style="margin-top:10px;margin-bottom: 10px;">
                     <div class="row align-items-center mb-0">                            
                             <div class="col-md-12">
                                 <div class="form-group m-form__group ">
@@ -113,7 +115,7 @@
                                 </div>
                             </div>                          
                     </div>
-                </div>
+                </div> --}}
 
                 
                 <div class="col-md-12" style="margin-top:10px;margin-bottom: 10px;">
@@ -207,7 +209,7 @@
                 //console.log(id);
                 //return false;
                 $.ajax({
-                    url:"{{URL::route('get_building_select')}}",
+                    url:"{{URL::route('get_building_select_updated')}}",
                     type: 'get',
                     data: {id: id},
                         success: function(response){

@@ -765,4 +765,56 @@ class EMController extends Controller
         }
     }
 
+     public function get_building_select_updated(Request $request){
+    
+        if($request->input('id')){
+            $society = SocietyDetail::find($request->input('id'));
+            if(Config::get('commanConfig.SOCIETY_LEVEL_BILLING') == $society->society_bill_level) {
+                $html ='<div class="col-md-12" style="margin-top:10px;margin-bottom: 10px;">
+                    <div class="row align-items-center mb-0">                            
+                            <div class="col-md-12">
+                                <div class="form-group m-form__group ">
+                                    Billing Level : Society Level Biiling
+                                </div>
+                            </div>                          
+                    </div>
+                </div>';
+                $society_id = $request->input('id');
+            $buildings = MasterBuilding::with('tenant_count')->where('society_id', '=', $request->input('id'))
+                        ->get();
+            //return $buildings;
+            $html .= view('admin.em_department.ajax_building_bill_generation', compact('buildings', 'society_id'))->render();
+            return $html;
+
+            } else {
+                
+                $building = MasterBuilding::where('society_id', '=', $request->input('id'))->get();
+                $html = '<div class="col-md-12" style="margin-top:10px;margin-bottom: 10px;">
+                    <div class="row align-items-center mb-0">                            
+                            <div class="col-md-12">
+                                <div class="form-group m-form__group ">
+                                    Billing Level : Tenant Level Biiling
+                                </div>
+                            </div>                          
+                    </div>
+                </div>
+                <div class="col-md-12" style="margin-top:10px;margin-bottom: 10px;">
+                    <div class="row align-items-center mb-0">                            
+                            <div class="col-md-9">
+                                <div class="form-group m-form__group">
+                <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="building" name="building">';
+                $html .= '<option value="" style="font-weight: normal;">Select Building</option>';
+
+                    foreach($building as $key => $value){
+                        $html .= '<option value="'.$value->id.'">'.$value->name.'</option>';
+                    }   
+                $html .= '</select></div>
+                            </div>                          
+                    </div>
+                </div>';         
+
+                return $html;
+            }
+        }
+    }
 }

@@ -787,47 +787,65 @@ $route=\Request::route()->getName();
                         </li> --}}
 
                         @if(Session::all()['role_name'] == 'EM')
-
-                        <li class="m-menu__item m-menu__item--submenu {{($route=='get_societies')?'m-menu__item--active':''}}">
-                            <a class="m-menu__link m-menu__toggle" title="view_Application" href="{{ route('get_societies') }}">
-                                 <i class="m-menu__link-icon flaticon-line-graph"></i>
-                                <span class="m-menu__link-title">
-                                    <span class="m-menu__link-wrap">
-                                        <span class="m-menu__link-text">
-                                          Manage Societies
-                                        </span>
-                                    </span>
-                                </span>                                
-                            </a>
-                        </li>
-
-                        <li class="m-menu__item m-menu__item--submenu {{($route=='generate_soc_bill')?'m-menu__item--active':''}}">
-                            <a class="m-menu__link m-menu__toggle" title="view_Application" href="{{ route('generate_soc_bill') }}">
+                        <li class="m-menu__item {{($route=='generate_tenant_bill' || $route=='get_societies')?'':'collapsed'}}" data-toggle="collapse"
+                            data-target="#e_billing">
+                            <a href="#" class="m-menu__link m-menu__toggle">
                                 <i class="m-menu__link-icon flaticon-line-graph"></i>
                                 <span class="m-menu__link-title">
                                     <span class="m-menu__link-wrap">
                                         <span class="m-menu__link-text">
-                                          Generate Bill (Society)
+                                            E Billing
                                         </span>
+                                        <i class="m-menu__ver-arrow la la-angle-right"></i>
                                     </span>
                                 </span>
                             </a>
                         </li>
+                       
+                        <li id="e_billing" class="collapse {{($route=='generate_tenant_bill' || $route=='get_societies')?'show':''}}">
+                            <ul class="list-unstyled">
+                                 <li class="m-menu__item m-menu__item--submenu {{($route=='get_societies')?'m-menu__item--active':''}}">
+                                    <a class="m-menu__link m-menu__toggle" title="view_Application" href="{{ route('get_societies') }}">
+                                         <i class="m-menu__link-icon flaticon-line-graph"></i>
+                                        <span class="m-menu__link-title">
+                                            <span class="m-menu__link-wrap">
+                                                <span class="m-menu__link-text">
+                                                  Manage Societies
+                                                </span>
+                                            </span>
+                                        </span>                                
+                                    </a>
+                                </li>
 
-                        <li class="m-menu__item m-menu__item--submenu {{($route=='generate_tenant_bill')?'m-menu__item--active':''}}">
-                           <a href="{{ route('generate_tenant_bill') }}" class="m-menu__link m-menu__toggle">
-                                <i class="m-menu__link-icon flaticon-line-graph"></i>
-                                <span class="m-menu__link-title">
-                                    <span class="m-menu__link-wrap">
-                                        <span class="m-menu__link-text">
-                                          Generate Bill (Tenant)
+                                {{-- <li class="m-menu__item m-menu__item--submenu {{($route=='generate_soc_bill')?'m-menu__item--active':''}}">
+                                    <a class="m-menu__link m-menu__toggle" title="view_Application" href="{{ route('generate_soc_bill') }}">
+                                        <i class="m-menu__link-icon flaticon-line-graph"></i>
+                                        <span class="m-menu__link-title">
+                                            <span class="m-menu__link-wrap">
+                                                <span class="m-menu__link-text">
+                                                  Generate Bill (Society)
+                                                </span>
+                                            </span>
                                         </span>
-                                    </span>
-                                </span>
-                            </a>                           
-                        </li>                      
+                                    </a>
+                                </li> --}}
+
+                                <li class="m-menu__item m-menu__item--submenu {{($route=='generate_tenant_bill')?'m-menu__item--active':''}}">
+                                   <a href="{{ route('generate_tenant_bill') }}" class="m-menu__link m-menu__toggle">
+                                        <i class="m-menu__link-icon flaticon-line-graph"></i>
+                                        <span class="m-menu__link-title">
+                                            <span class="m-menu__link-wrap">
+                                                <span class="m-menu__link-text">
+                                                  Generate Bill
+                                                </span>
+                                            </span>
+                                        </span>
+                                    </a>                           
+                                </li> 
+                            </ul>
+                        </li>
+                                              
                        @endif
-
 
                        @if(Session::all()['role_name'] == 'em_clerk')
 

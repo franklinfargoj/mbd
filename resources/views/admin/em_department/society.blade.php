@@ -27,7 +27,7 @@
             <div class="row align-items-center row--filter">
                 <div class="col-md-12">
                     <div class="row align-items-center mb-0">                            
-                            <div class="col-md-9">
+                            <div class="col-md-6">
                                 <div class="form-group m-form__group">
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
                                         id="layout" name="layout">
@@ -48,9 +48,9 @@
        
         <div class="m-portlet__head px-0">
             <div class="m-portlet__head-caption">
-                <h3 class="m-portlet__head-text">List of societies</h3>
+                {{-- <h3 class="m-portlet__head-text">List of societies</h3> --}}
                 <div class="m-portlet__head-text">
-                    <div id="filter" class="ml-auto"><input type="search" id="searchId" class="form-control input-lg input-large input-inline form-control--custom"
+                    <div id="filter" class="col-md-6 ml-auto pull-left"><input type="search" id="searchId" class="form-control input-lg input-large input-inline form-control--custom"
                     placeholder="Search ..."></div>    
                 </div>
             </div>
@@ -74,7 +74,7 @@
                 <td data-search="{{$value->society_name}}">{{$value->society_name}}</td>
                <td>
                     <div class='d-flex btn-icon-list'>
-                        <a href="{{route('get_buildings', [encrypt($value->id)])}}" class='d-flex flex-column align-items-center ' style="padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;"><span class='btn-icon btn-icon--view'><img src="{{asset('/img/view-icon.svg')}}"></span>Society Detail</a>
+                        <a href="{{route('get_buildings', [encrypt($value->id)])}}" class='d-flex flex-column align-items-center ' style="padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;"><span class='btn-icon btn-icon--view'><img src="{{asset('/img/view-icon.svg')}}"></span>Building Details</a>
                     
                         <a href="{{route('soc_bill_level', [encrypt($value->id)])}}" class='d-flex flex-column align-items-center' style="padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;"><span class='btn-icon btn-icon--edit'><img src="{{asset('/img/edit-icon.svg')}}"></span>Bill Level</a>
                        
