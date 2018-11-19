@@ -31,7 +31,7 @@ class conveyanceCommonController extends Controller
     public function index(Request $request, Datatables $datatables){
 
         $data = $this->listApplicationData($request);
-
+        $typeId = scApplicationType::where('application_type','=','Conveyance')->value('id');
         $columns = [
             ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
@@ -91,7 +91,7 @@ class conveyanceCommonController extends Controller
                     }
 
                 })
-                ->rawColumns(['radio','society_name', 'Status', 'building_name', 'societyApplication.address','date'])
+                ->rawColumns(['radio','society_name', 'Status', 'building_name', 'societyApplication.address','date','typeId'])
                 ->make(true);
 
         }  
@@ -294,9 +294,9 @@ class conveyanceCommonController extends Controller
         $data = scApplication::with('societyApplication','ConveyanceSalePriceCalculation')
         ->where('id',$applicationId)->first();
         $data->society_role_id = Role::where('name', config('commanConfig.society_offer_letter'))->value('id');
-        $data->status         = $this->getCurrentStatus($applicationId,$data->sc_application_master_id);
-        $data->parent          = $this->getForwardApplicationParentData();
-        $data->child           = $this->getRevertApplicationChildData();
+        $data->status = $this->getCurrentStatus($applicationId,$data->sc_application_master_id);
+        $data->parent = $this->getForwardApplicationParentData();
+        $data->child  = $this->getRevertApplicationChildData();
         return $data;        
     }
 

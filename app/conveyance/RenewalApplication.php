@@ -22,5 +22,10 @@ class RenewalApplication extends Model
     public function societyApplication()
     {
         return $this->hasOne('App\SocietyOfferLetter', 'id','society_id');
-    } 	
+    }
+
+    public function renewalApplicationLog()
+    {
+        return $this->hasOne('App\conveyance\RenewalApplicationLog', 'application_id','id');
+    }      	
 }

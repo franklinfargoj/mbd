@@ -67,6 +67,7 @@ return [
      'scAgreements' => [
         'sale_deed_agreement'  => 'Sale Deed Agreement',
         'lease_deed_agreement' => 'Lease Deed Agreement',
+        'renewal_lease_deed_agreement' => 'Renewal Lease Deed Agreement',
     ],   
 
       // sc application Type
