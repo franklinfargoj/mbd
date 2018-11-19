@@ -80,14 +80,14 @@ $route=\Request::route()->getName();
                 in_array('architect_detail_dp_crz_remark_view', session()->get('permission')) ||
                 in_array('view_court_case_or_dispute_on_land', session()->get('permission')) ||
                 in_array('architect_layout_add_scrutiny_report', session()->get('permission')) ))
-                <li class="m-menu__item" data-toggle="collapse"
+                <li class="m-menu__item {{config('commanConfig.land_manager')==session()->get('role_name')?'collapsed':''}}" data-toggle="collapse"
                     data-target="#architect-layouts">
                     <a href="{{ route('architect_layout.index') }}" class="m-menu__link m-menu__toggle">
                         <i class="m-menu__link-icon flaticon-line-graph"></i>
                         <span class="m-menu__link-title">
                             <span class="m-menu__link-wrap">
                                 <span class="m-menu__link-text">
-                                    Architect Layouts
+                                    Architect Layouts 
                                 </span>
                                 <i class="m-menu__ver-arrow la la-angle-right"></i>
                             </span>
@@ -95,7 +95,7 @@ $route=\Request::route()->getName();
                     </a>
                 </li>
                
-                <li id="architect-layouts" class="collapse show">
+                <li id="architect-layouts" class="collapse {{config('commanConfig.land_manager')==session()->get('role_name')?'':'show'}}">
                     <ul class="list-unstyled">
                         @if(session()->get('role_name')=='junior_architect')
                         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='architect_layout.add')?'m-menu__item--active':''}}"
@@ -594,8 +594,7 @@ $route=\Request::route()->getName();
                 in_array('society_offer_letter.index', session()->get('permission')) ||
                 in_array('architect_layout.index', session()->get('permission')) || in_array('dyco.index', session()->get('permission')) || in_array('hearing.index', session()->get('permission')) ))
 
-                @if (isset($route) && ($route == 'co.index' || $route=='society_detail.index' ||
-                $route=='village_detail.index' || $route=='ee.index' || $route=='dyce.index' || $route=='co_applications.reval' ||
+                @if (isset($route) && ($route == 'co.index' ||  $route=='ee.index' || $route=='dyce.index' || $route=='co_applications.reval' ||
                 $route=='ree_applications.index' || $route=='ree_applications.reval' || $route=='cap.index' || $route=='cap_applications.reval' || $route=='vp.index' ||
                 $route=='society_offer_letter.index' || $route=='society_offer_letter_dashboard' ||
                 $route=='documents_uploaded' || $route=='documents_upload'))
@@ -619,8 +618,7 @@ $route=\Request::route()->getName();
                 <li id="society-actions" class="collapse show">
                     <ul class="list-unstyled">
 
-                        @if (isset($route) && ($route == 'co.index' || $route=='society_detail.index' ||
-                        $route=='village_detail.index' || $route=='ee.index' || $route=='dyce.index' || $route=='co_applications.reval' || $route=='vp_applications.reval' ||
+                        @if (isset($route) && ($route == 'co.index' || $route=='ee.index' || $route=='dyce.index' || $route=='co_applications.reval' || $route=='vp_applications.reval' ||
                         $route=='ree_applications.index' || $route=='ree_applications.reval' || $route=='cap.index' || $route=='cap_applications.reval' ||$route=='vp.index' ||
                         $route=='society_offer_letter.index' || $route=='society_offer_letter_dashboard' ||
                         $route=='documents_uploaded' || $route=='documents_upload'))
