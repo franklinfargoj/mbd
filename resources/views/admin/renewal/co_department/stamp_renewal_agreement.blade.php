@@ -28,6 +28,10 @@
             </li>
         </ul>
     </div>
+<form class="nav-tabs-form" id ="agreementFRM" role="form" method="POST" action="{{ route('renewal.save_stamp_renewal_agreement')}}" enctype="multipart/form-data">
+@csrf
+
+<input type="hidden" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">
     <div class="tab-content">
         <div class="tab-pane active show" id="sale-deed-agreement" role="tabpanel">
             <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
@@ -44,6 +48,18 @@
                             <div class="container">
                                 <div class="row">
                                     <div class="col-sm-6">
+                                        <div class="d-flex flex-column h-100 two-cols">
+                                            <h5>Upload</h5>
+                                            <span class="hint-text">Click to upload Lease deed agreement</span>
+                                                <div class="custom-file">
+                                                    <input class="custom-file-input" name="lease_agreement" type="file" id="test-upload1">
+                                                
+                                                        <label class="custom-file-label" for="test-upload1">Choose
+                                                        file...</label>   
+                                                </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 border-left">
                                         <div class="d-flex flex-column h-100 two-cols">
                                             <h5>Download</h5>
                                             <span class="hint-text">Click to download Lease deed agreement </span>
@@ -71,7 +87,7 @@
             <!-- Add Send to JT CO here -->
         </div>
     </div>
-
+  
     @if(count($data->AgreementComments) > 0)       
         <div class="m-portlet m-portlet--mobile m_panel">
             <div class="m-portlet__body">
@@ -91,12 +107,7 @@
                 </div>               
             </div>    
         </div> 
-    @endif 
-
-     @if($data->status->status_id != config('commanConfig.applicationStatus.forwarded') && $data->status->status_id != config('commanConfig.applicationStatus.reverted')) 
-
-    <form class="nav-tabs-form" id ="CommentFRM" role="form" method="POST" action="{{ route('renewal.save_agreement_comments')}}">
-    @csrf        
+    @endif         
         <input type="hidden" name="application_id" value="{{ isset($data->id) ? $data->id : '' }}">   
         <div class="m-portlet m-portlet--mobile m_panel">
             <div class="m-portlet__body">
@@ -109,8 +120,7 @@
                 </div>
             </div>
         </div>
-    </form>
-    @endif   
+    </form>       
 </div>
 
 @endsection

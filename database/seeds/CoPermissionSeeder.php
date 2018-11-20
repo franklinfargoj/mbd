@@ -205,7 +205,52 @@ class CoPermissionSeeder extends Seeder
                 'name' => 'co.forward_reval_application_data',
                 'display_name' => 'Forward Revalidation Application Data',
                 'description' => 'Forward Revalidation Application Data',
-            ]
+            ],
+            [
+                'name' => 'renewal.index',
+                'display_name' => 'renewal',
+                'description' => 'renewal',
+            ],            
+            [
+                'name' => 'renewal.view_application',
+                'display_name' => 'renewal_view_application',
+                'description' => 'renewal_view_application',
+            ],            
+            [
+                'name' => 'renewal.prepare_renewal_agreement',
+                'display_name' => 'prepare renewal agreement',
+                'description' => 'prepare renewal agreement',
+            ],
+            [
+                'name' => 'renewal.approve_renewal_agreement',
+                'display_name' => 'approve renewal agreement',
+                'description' => 'approve renewal agreement',
+            ],
+            [
+                'name' => 'renewal.renewal_forward_application',
+                'display_name' => 'renewal forward application',
+                'description' => 'renewal forward application',
+            ],            
+            [
+                'name' => 'renewal.save_forward_application_renewal',
+                'display_name' => 'save forward application renewal',
+                'description' => 'save forward application renewal',
+            ],            
+            [
+                'name' => 'renewal.stamp_renewal_agreement',
+                'display_name' => 'stamp renewal agreement',
+                'description' => 'stamp renewal agreement',
+            ],             
+            [
+                'name' => 'renewal.save_stamp_renewal_agreement',
+                'display_name' => 'save stamp renewal agreement',
+                'description' => 'save stamp renewal agreement',
+            ],             
+            [
+                'name' => 'renewal.save_agreement_comments',
+                'display_name' => 'save agreement comments',
+                'description' => 'save agreement comments',
+            ],             
 
         ];
         $ree_role_id = Role::where('name', 'ree_engineer')->value('id');
