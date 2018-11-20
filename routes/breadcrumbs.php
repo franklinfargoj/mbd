@@ -549,8 +549,6 @@ Breadcrumbs::for('role_view', function ($trail,$id) {
 });
 
 //Application Status
-
-//Role
 Breadcrumbs::for('application_status', function ($trail) {
     $trail->push('Home', route('application_status.index'));
 });
@@ -574,6 +572,29 @@ Breadcrumbs::for('application_status_view', function ($trail,$id) {
     $trail->push('View Application Status', route('application_status.show',$id));
 });
 
+// Hearing Status
+Breadcrumbs::for('hearing_status', function ($trail) {
+    $trail->push('Home', route('hearing_status.index'));
+});
+
+Breadcrumbs::for('add_hearing_status', function ($trail) {
+    $trail->parent('hearing_status');
+    $trail->push('Create Hearing Status', route('hearing_status.create'));
+});
+
+Breadcrumbs::for('hearing_status_detail', function ($trail) {
+    $trail->push('Hearing Status Detail', route('hearing_status.index'));
+});
+
+Breadcrumbs::for('edit_hearing_status', function ($trail,$id) {
+    $trail->parent('hearing_status_detail');
+    $trail->push('Edit Hearing Status', route('hearing_status.edit',$id));
+});
+
+Breadcrumbs::for('hearing_status_view', function ($trail,$id) {
+    $trail->parent('hearing_status');
+    $trail->push('View Hearing Status', route('hearing_status.show',$id));
+});
 
 
 

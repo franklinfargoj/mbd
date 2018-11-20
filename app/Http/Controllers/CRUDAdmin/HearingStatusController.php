@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Controllers\CRUDAdmin;
-use App\ApplicationStatusMaster;
-use App\DeletedApplicationStatus;
+use App\HearingStatus;
+use App\DeletedHearingStatus;
 use Illuminate\Http\Request;
 use App\Role;
 use App\Permission;
@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Yajra\DataTables\DataTables;
 
 
-class ApplicationStatusController extends Controller
+class HearingStatusController extends Controller
 {
     protected $list_num_of_records_per_page;
 
@@ -30,35 +30,35 @@ class ApplicationStatusController extends Controller
 
         $columns = [
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
-            ['data' => 'status_name','name' => 'status_name','title' => 'Status Name'],
+            ['data' => 'status_title','name' => 'status_title','title' => 'Status Name'],
             ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
         ];
 //dd($datatables->getRequest()->ajax());
         if ($datatables->getRequest()->ajax()) {
             DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
 
-            $status_data = ApplicationStatusMaster::all();
+            $status_data = HearingStatus::all();
             return $datatables->of($status_data)
                 ->editColumn('rownum', function ($status_data) {
                     static $i = 0;
                     $i++;
                     return $i;
                 })
-                ->editColumn('status_name', function ($status_data) {
-                    return $status_data->status_name;
+                ->editColumn('status_title', function ($status_data) {
+                    return $status_data->status_title;
                 })
                 ->editColumn('actions', function ($status_data) {
-                    return view('admin.crud_admin.application_status.action', compact('status_data'))->render();
+                    return view('admin.crud_admin.hearing_status.action', compact('status_data'))->render();
                 })
 
-                ->rawColumns(['status_name','actions'])
+                ->rawColumns(['status_title','actions'])
                 ->make(true);
 
         }
 
         $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
 
-        return view('admin.crud_admin.application_status.index',compact('html'));
+        return view('admin.crud_admin.hearing_status.index',compact('html'));
 
     }
 
@@ -67,7 +67,7 @@ class ApplicationStatusController extends Controller
             'serverSide' => true,
             'processing' => true,
             'ordering'   =>'isSorted',
-//            "order"=> [2, "desc" ],
+            "order"=> [2, "desc" ],
             "pageLength" => $this->list_num_of_records_per_page
         ];
     }
@@ -78,7 +78,7 @@ class ApplicationStatusController extends Controller
      */
     public function create()
     {
-        return view('admin.crud_admin.application_status.create');
+        return view('admin.crud_admin.hearing_status.create');
 
     }
     /**
@@ -89,15 +89,15 @@ class ApplicationStatusController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'status_name' => 'required|unique:application_status_master,status_name',
+            'status_title' => 'required|unique:hearing_status,status_title',
         ]);
         //create the new role
-        $status = new ApplicationStatusMaster();
-        $status->status_name = $request->input('status_name');
+        $status = new HearingStatus();
+        $status->status_title = $request->input('status_title');
         $status->save();
 
-        return redirect()->route('application_status.index')
-            ->with('success','Application Status created successfully');
+        return redirect()->route('hearing_status.index')
+            ->with('success','hearing Status created successfully');
     }
     /**
      * Display the specified resource.
@@ -108,9 +108,9 @@ class ApplicationStatusController extends Controller
     public function show($id)
     {
 //        dd($id);
-        $status = ApplicationStatusMaster::FindOrFail($id)->toArray();
+        $status = HearingStatus::FindOrFail($id)->toArray();
 
-        return view('admin.crud_admin.application_status.show', compact( 'status'));
+        return view('admin.crud_admin.hearing_status.show', compact( 'status'));
     }
     /**
      * Show the form for editing the specified resource.
@@ -120,8 +120,8 @@ class ApplicationStatusController extends Controller
      */
     public function edit($id)
     {
-        $status = ApplicationStatusMaster::FindOrFail($id)->toArray();
-        return view('admin.crud_admin.application_status.edit',compact('status'));
+        $status = HearingStatus::FindOrFail($id)->toArray();
+        return view('admin.crud_admin.hearing_status.edit',compact('status'));
     }
     /**
      * Update the specified resource in storage.
@@ -132,17 +132,17 @@ class ApplicationStatusController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'status_name' => 'required',
+            'status_title' => 'required',
         ]);
 
-        $status = ApplicationStatusMaster::FindOrFail($id);
-        if($request->input('status_name') != $status['name'] ){
-            $status->status_name = $request->input('status_name');
+        $status = HearingStatus::FindOrFail($id);
+        if($request->input('status_title') != $status['name'] ){
+            $status->status_title = $request->input('status_title');
         }
 
         $status->save();
-        return redirect()->route('application_status.index')
-            ->with('success','Application Status updated successfully');
+        return redirect()->route('hearing_status.index')
+            ->with('success','hearing Status updated successfully');
     }
     /**
      * Remove the specified resource from storage.
@@ -152,23 +152,23 @@ class ApplicationStatusController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        $application_statusDetails = ApplicationStatusMaster::findOrfail($id);
-        $application_statusDetails->delete();
+        $hearing_statusDetails = HearingStatus::findOrfail($id);
+        $hearing_statusDetails->delete();
 
-        DeletedApplicationStatus::create([
-            'application_status_details_id' => $id,
-            'status_name'          => $application_statusDetails->status_name,
+        DeletedHearingStatus::create([
+            'hearing_status_details_id' => $id,
+            'status_title'          => $hearing_statusDetails->status_title,
             'day'                => date('l'),
             'date'               => date('Y-m-d'),
             'time'               => date("h:i:s"),
             'reason'             => $request->input('delete_message'),
         ]);
 
-        return redirect()->back()->with(['success'=> 'Application status deleted succesfully']);
+        return redirect()->back()->with(['success'=> 'Hearing status deleted succesfully']);
     }
 
-    public function loadDeleteApplicationStatusUsingAjax(Request $request){
+    public function DeleteHearingStatusUsingAjax(Request $request){
         $id = $request->id;
-        return view('admin.crud_admin.application_status.applicationstatusDeleteReason', compact('id'))->render();
+        return view('admin.crud_admin.hearing_status.hearingstatusDeleteReason', compact('id'))->render();
     }
 }
