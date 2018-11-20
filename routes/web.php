@@ -539,11 +539,19 @@ Route::delete('destroy_architect_layout_detail_court_case_or_dispute_on_land/{id
 //CRUD Routes
 
     Route::group(['namespace' => 'CRUDAdmin','prefix' => 'crudadmin'], function() {
+        // Superadmin Dashboard
         Route::get('dashboard','DashboardController@index')->name('superadmin.dashboard');
+        // Role
         Route::post('loadDeleteRoleUsingAjax', 'RoleController@loadDeleteRoleUsingAjax')->name('loadDeleteRoleUsingAjax');
         Route::resource('roles','RoleController');
+        // Application Status
         Route::post('loadDeleteApplicationStatusUsingAjax', 'ApplicationStatusController@loadDeleteApplicationStatusUsingAjax')->name('loadDeleteApplicationStatusUsingAjax');
         Route::resource('application_status','ApplicationStatusController');
+        // Hearing Status
+        Route::post('DeleteHearingStatusUsingAjax', 'HearingStatusController@DeleteHearingStatusUsingAjax')->name('DeleteHearingStatusUsingAjax');
+        Route::resource('hearing_status','HearingStatusController');
+
+
     });
 
     //Society Conveyance

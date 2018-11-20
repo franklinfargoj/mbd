@@ -97,6 +97,46 @@ class AddSuperAdminToRoleTableSeeder extends Seeder
                 'name' => 'loadDeleteApplicationStatusUsingAjax',
                 'display_name' => 'Delete Application Status Ajax',
                 'description' => 'Deleting Application Status using Ajax'
+            ],
+            [
+                'name' => 'hearing_status.index',
+                'display_name' => 'List Hearing Status',
+                'description' => 'Listing Hearing Status'
+            ],
+            [
+                'name' => 'hearing_status.create',
+                'display_name' => 'Create Hearing Status',
+                'description' => 'Creating Hearing Status'
+            ],
+            [
+                'name' => 'hearing_status.show',
+                'display_name' => 'Create Hearing Status',
+                'description' => 'Creating Hearing Status'
+            ],
+            [
+                'name' => 'hearing_status.store',
+                'display_name' => 'Store Hearing Status',
+                'description' => 'Storing Hearing Status'
+            ],
+            [
+                'name' => 'hearing_status.edit',
+                'display_name' => 'Edit Hearing Status',
+                'description' => 'EDiting Hearing Status'
+            ],
+            [
+                'name' => 'hearing_status.update',
+                'display_name' => 'Update Hearing Status',
+                'description' => 'updating Hearing Status'
+            ],
+            [
+                'name' => 'hearing_status.destroy',
+                'display_name' => 'Delete Hearing Status',
+                'description' => 'Deleting Hearing Status'
+            ],
+            [
+                'name' => 'DeleteHearingStatusUsingAjax',
+                'display_name' => 'Delete Hearing Status Ajax',
+                'description' => 'Deleting Hearing Status using Ajax'
             ]
         ];
 
