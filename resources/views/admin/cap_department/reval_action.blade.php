@@ -65,7 +65,7 @@
         </li>
 
 
-        @if($ol_application->status_offer_letter ==
+     <!--   @if($ol_application->status_offer_letter ==
         config('commanConfig.applicationStatus.offer_letter_generation'))
             <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{($route=='ree.generate_offer_letter')?'m-menu__item--active':''}}"
                 aria-haspopup="true">
@@ -91,7 +91,7 @@
             </li>
         @endif
 
-        @if($ol_application->cap_notes!="")
+       @if($ol_application->cap_notes!="")
 
             <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{($route=='ree.download_cap_note')?'m-menu__item--active':''}}"
                 aria-haspopup="true">
@@ -103,7 +103,7 @@
                     <span class="m-menu__link-text">CAP Notes</span>
                 </a>
             </li>
-        @endif
+        @endif -->
 
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{($route=='cap.forward_reval_application')?'m-menu__item--active':''}}"
             aria-haspopup="true">

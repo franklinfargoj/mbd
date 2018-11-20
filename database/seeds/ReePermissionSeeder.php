@@ -231,6 +231,11 @@ class ReePermissionSeeder extends Seeder
                 'name'=>'ree.forward_reval_application_data',
                 'display_name'=>'forward revalidation application',
                 'description'=>'forward revalidation application'
+            ],
+            [
+                'name'=>'ree.download_reval_cap_note',
+                'display_name'=>'Download revalidation application cap note',
+                'description'=>'Download revalidation application cap note'
             ]
         ];
 
