@@ -261,6 +261,15 @@ Breadcrumbs::for('vp', function ($trail) {
     $trail->push('Home', route('vp.index'));
 });
 
+Breadcrumbs::for('vp_reval', function ($trail) {
+    $trail->push('Home', route('vp_applications.reval'));
+});
+
+Breadcrumbs::for('society_reval_documents_vp', function ($trail,$id) {
+    $trail->parent('vp_reval');
+    $trail->push('society reval documents vp', route('vp.society_reval_documents',$id));
+});
+
 Breadcrumbs::for('society_EE_documents_vp', function ($trail,$id) {
     $trail->parent('vp');
     $trail->push('society_EE_documents', route('vp.society_EE_documents',$id));
@@ -288,6 +297,10 @@ Breadcrumbs::for('calculation_sheet_vp', function ($trail,$id) {
 Breadcrumbs::for('Forward_Application_vp', function ($trail,$id) {
     $trail->parent('vp');
     $trail->push('Forward_Application', route('vp.forward_application',$id));
+});
+Breadcrumbs::for('Forward_Reval_Application_vp', function ($trail,$id) {
+    $trail->parent('vp_reval');
+    $trail->push('Forward_Reval_Application', route('vp.forward_reval_application',$id));
 });
 
 Breadcrumbs::for('cap_note_vp', function ($trail,$id) {
@@ -328,6 +341,10 @@ Breadcrumbs::for('DYCE_scrutiny_co', function ($trail,$id) {
 Breadcrumbs::for('Approve_offer_letter', function ($trail,$id) {
     $trail->parent('co');
     $trail->push('Approve_offer_letter', route('co.approve_offer_letter',$id));
+});
+Breadcrumbs::for('Approve_reval_offer_letter', function ($trail,$id) {
+    $trail->parent('co_reval');
+    $trail->push('Approve_reval_offer_letter', route('co.approve_reval_offer_letter',$id));
 });
 
 // Breadcrumbs::for('REE_calculation_cap', function ($trail,$id) {
@@ -393,6 +410,11 @@ Breadcrumbs::for('calculation_sheet', function ($trail,$id) {
 Breadcrumbs::for('approved_offer_letter', function ($trail,$id) {
     $trail->parent('ree');
     $trail->push('approved offer letter', route('ree.approved_offer_letter',$id));
+});
+
+Breadcrumbs::for('approved_reval_offer_letter', function ($trail,$id) {
+    $trail->parent('ree_reval');
+    $trail->push('approved reval offer letter', route('ree.approved_reval_offer_letter',$id));
 });
 
 Breadcrumbs::for('generate_offer_letter', function ($trail,$id) {
@@ -526,6 +548,35 @@ Breadcrumbs::for('role_view', function ($trail,$id) {
     $trail->push('View Role', route('roles.show',$id));
 });
 
+//Application Status
+
+//Role
+Breadcrumbs::for('application_status', function ($trail) {
+    $trail->push('Home', route('application_status.index'));
+});
+
+Breadcrumbs::for('add_application_status', function ($trail) {
+    $trail->parent('application_status');
+    $trail->push('Create Application Status', route('application_status.create'));
+});
+
+Breadcrumbs::for('application_status_detail', function ($trail) {
+    $trail->push('Application Status Detail', route('application_status.index'));
+});
+
+Breadcrumbs::for('edit_application_status', function ($trail,$id) {
+    $trail->parent('application_status_detail');
+    $trail->push('Edit Application Status', route('application_status.edit',$id));
+});
+
+Breadcrumbs::for('application_status_view', function ($trail,$id) {
+    $trail->parent('application_status');
+    $trail->push('View Application Status', route('application_status.show',$id));
+});
+
+
+
+
 Breadcrumbs::for('em', function ($trail) {
     $trail->push('Home', route('em.index'));
 });
@@ -546,7 +597,7 @@ Breadcrumbs::for('architect_application', function ($trail) {
 });
 Breadcrumbs::for('evaluate_application', function ($trail,$id) {
     $trail->parent('architect_application');
-    $trail->push('Evaluate', route('evaluate_architect_application',['id'=>$id]));
+    $trail->push('Evaluate Application', route('evaluate_architect_application',['id'=>$id]));
 });
 
 Breadcrumbs::for('view_architect_application', function ($trail,$id) {
@@ -556,7 +607,7 @@ Breadcrumbs::for('view_architect_application', function ($trail,$id) {
 
 Breadcrumbs::for('forward_architect_application', function ($trail,$id) {
     $trail->parent('architect_application');
-    $trail->push('Forward', route('architect.forward_application',['id'=>$id]));
+    $trail->push('Forward Application', route('architect.forward_application',['id'=>$id]));
 });
 
 Breadcrumbs::for('architect_generate_certificate', function ($trail,$id) {
@@ -603,6 +654,11 @@ Breadcrumbs::for('architect_Layout_scrutiny_of_ee_em_lm_ree', function ($trail,$
 Breadcrumbs::for('architect_layout_prepare_layout_excel', function ($trail,$id) {
     $trail->parent('architect_layout');
     $trail->push('Layout & Excel', route('architect_layout_prepare_layout_excel',['layout_id'=>$id]));
+});
+
+//Society Formation
+Breadcrumbs::for('society_formation',function($trail){
+    $trail->push('HOme',route('society_formation.index'));
 });
 
 

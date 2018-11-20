@@ -220,6 +220,14 @@
                     <span class="text-danger">{{ $errors->first('cad_facility_no_of_plotters') }}</span>
                     @endif
                 </div>
+                <div class="col-sm-4 offset-sm-1 form-group">
+                    <label class="col-form-label" for="">Operators:</label>
+                    <input type="number" min="0" id="" name="cad_facility_no_of_operators" class="form-control form-control--custom m-input"
+                        value="{{$application->cad_facility_no_of_operators}}">
+                    @if ($errors->has('cad_facility_no_of_operators'))
+                    <span class="text-danger">{{ $errors->first('cad_facility_no_of_operators') }}</span>
+                    @endif
+                </div>
             </div>
             <div class="m-portlet__head px-0 m-portlet__head--top">
                 <div class="m-portlet__head-caption">
@@ -280,7 +288,7 @@
                         </span>
                         <div class="d-flex">
                             <h3 class="m-portlet__head-text">
-                                Extra
+                                Extra Details
                             </h3>
                         </div>
                     </div>

@@ -48,7 +48,7 @@
                         <textarea class="form-control form-control--custom" name="remark" id="remark" cols="30" rows="5"></textarea>
                     </div>
                     <div class="mt-4 btn-list">
-                        <button type="submit" class="btn btn-primary">Save</button>
+                        <button type="submit" class="btn btn-primary">Forward</button>
                         {{--<button type="submit" class="btn btn-primary">Sign & Forward</button>
                         <button type="submit" class="btn btn-primary">Forward</button>--}}
                         <button type="button" onclick="window.location.href='{{ url("/architect_application") }}'"

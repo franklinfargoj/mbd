@@ -16,6 +16,7 @@ class SocietyConveyanceDocumentMasterSeeder extends Seeder
     {
         $society = SocietyConveyanceDocumentMaster::all();
         $conveyanceId = scApplicationType::where('application_type','=','Conveyance')->value('id');
+        $renewalId = scApplicationType::where('application_type','=','Renewal')->value('id');
         $mLanguage = LanguageMaster::where('language','=','marathi')->value('id');
         $eLanguage = LanguageMaster::where('language','=','English')->value('id');
      
@@ -121,7 +122,13 @@ class SocietyConveyanceDocumentMasterSeeder extends Seeder
                 'application_type_id' => $conveyanceId,
                 'society_flag'        => '0',
                 'language_id'         => $eLanguage
-            ],            
+            ], 
+            [
+                'document_name'       => 'Renewal Lease Deed Agreement',
+                'application_type_id' => $renewalId,
+                'society_flag'        => '0',
+                'language_id'         => $eLanguage
+            ],                        
         ];
 
         if(count($society) == 0){

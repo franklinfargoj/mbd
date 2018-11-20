@@ -315,6 +315,7 @@ class EmploymentOfArchitectController extends Controller
             'cad_facility_no_of_computers' => $request->cad_facility_no_of_computers,
             'cad_facility_no_of_printers' => $request->cad_facility_no_of_printers,
             'cad_facility_no_of_plotters' => $request->cad_facility_no_of_plotters,
+            'cad_facility_no_of_operators'=>$request->cad_facility_no_of_operators,
             'reg_with_council_of_architecture_principle' => $request->reg_with_council_of_architecture_principle,
             'reg_with_council_of_architecture_associate' => $request->reg_with_council_of_architecture_associate,
             'reg_with_council_of_architecture_partner' => $request->reg_with_council_of_architecture_partner,

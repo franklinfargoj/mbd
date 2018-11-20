@@ -18,9 +18,9 @@
                         <div class="m-login__container m-login--right-box">
                             <div class="m-login__signin m-login__signin--box">
                                 <div class="m-login__head">
-                                    <h1 class="m-login__title mb-0 display-4">
+                                    {{-- <h1 class="m-login__title mb-0 display-4">
                                         Sign In
-                                    </h1>
+                                    </h1> --}}
                                     <p class="sub-title">
                                         @if (session('registered'))
                                             <div class="alert alert-success society_registered">

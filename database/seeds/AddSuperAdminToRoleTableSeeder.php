@@ -11,9 +11,13 @@ class AddSuperAdminToRoleTableSeeder extends Seeder
 {
     public function run()
     {
-        $super_admin = Role::where('name', '=', 'superadmin')->select('id')->get();
-
         $super_admin_permissions = [
+            [
+                'name' => 'superadmin.dashboard',
+                'display_name' => 'Super admin Dashboard',
+                'description' => 'Super admin Dashboard'
+
+            ],
             [
                 'name' => 'roles.index',
                 'display_name' => 'List Roles',
@@ -53,20 +57,65 @@ class AddSuperAdminToRoleTableSeeder extends Seeder
                 'name' => 'loadDeleteRoleUsingAjax',
                 'display_name' => 'Delete Roles Ajax',
                 'description' => 'Deleting Roles using Ajax'
+            ],
+            [
+                'name' => 'application_status.index',
+                'display_name' => 'List Application Status',
+                'description' => 'Listing Application Status'
+            ],
+            [
+                'name' => 'application_status.create',
+                'display_name' => 'Create Application Status',
+                'description' => 'Creating Application Status'
+            ],
+            [
+                'name' => 'application_status.show',
+                'display_name' => 'Create Application Status',
+                'description' => 'Creating Application Status'
+            ],
+            [
+                'name' => 'application_status.store',
+                'display_name' => 'Store Application Status',
+                'description' => 'Storing Application Status'
+            ],
+            [
+                'name' => 'application_status.edit',
+                'display_name' => 'Edit Application Status',
+                'description' => 'EDiting Application Status'
+            ],
+            [
+                'name' => 'application_status.update',
+                'display_name' => 'Update Application Status',
+                'description' => 'updating Application Status'
+            ],
+            [
+                'name' => 'application_status.destroy',
+                'display_name' => 'Delete Application Status',
+                'description' => 'Deleting Application Status'
+            ],
+            [
+                'name' => 'loadDeleteApplicationStatusUsingAjax',
+                'display_name' => 'Delete Application Status Ajax',
+                'description' => 'Deleting Application Status using Ajax'
             ]
         ];
 
-        if (count($super_admin) == 0) {
+        $super_admin_role_id = Role::where('name', '=', 'superadmin')->value('id');
 
+        if ($super_admin_role_id == NULL)
             // Super Admin
             $super_admin_role_id = Role::insertGetId([
                 'name' => 'superadmin',
-                'redirect_to' => '/crudadmin/roles',
+                'redirect_to' => '/crudadmin/dashboard',
                 'parent_id' => NULL,
                 'display_name' => 'Super Admin',
                 'description' => 'Super Admin'
             ]);
 
+
+        $super_admin_user_id = User::where('email','superadmin@gmail.com')->value('id');
+
+        if($super_admin_user_id == Null){
             $super_admin_user_id = User::insertGetId([
                 'name' => 'Super Admin',
                 'email' => 'superadmin@gmail.com',
@@ -77,45 +126,38 @@ class AddSuperAdminToRoleTableSeeder extends Seeder
                 'address' => 'Mumbai'
             ]);
 
-            $super_admin_role_user = RoleUser::insert([
+            RoleUser::insert([
                 'user_id' => $super_admin_user_id,
                 'role_id' => $super_admin_role_id,
                 'start_date' => \Carbon\Carbon::now()
             ]);
+        }
 
-            $super_admin_permission_role = [];
+        $permission_role = [];
 
-            foreach ($super_admin_permissions as $super) {
-                $super_admin_permission_id = Permission::insertGetId($super);
+        foreach ($super_admin_permissions as $super) {
+            $permission_id = Permission::where(['name' => $super['name']])->value('id');
+            if (!($permission_id))
+                $permission_id = Permission::insertGetId($super);
 
-                $super_admin_permission_role[] = [
-                    'permission_id' => $super_admin_permission_id,
+            $PermissionRole = PermissionRole::where(['permission_id' => $permission_id, 'role_id' => $super_admin_role_id])->first();
+            if (!$PermissionRole) {
+                $permission_role[] = [
+                    'permission_id' => $permission_id,
                     'role_id' => $super_admin_role_id,
                 ];
             }
 
-            PermissionRole::insert($super_admin_permission_role);
-
-        } else {
-
-            $super_admin_permission_role = [];
-
-            foreach ($super_admin_permissions as $super) {
-
-                $per = Permission::where('name', $super['name'])->first();
-                if ($per) {
-                    continue;
-                } else {
-
-                    $super_admin_permission_id = Permission::insertGetId($super);
-
-                    $super_admin_permission_role[] = [
-                        'permission_id' => $super_admin_permission_id,
-                        'role_id' => $super_admin[0]['id'],
-                    ];
-                    PermissionRole::insert($super_admin_permission_role);
-                }
-            }
         }
+
+        if(PermissionRole::where(['permission_id' => $permission_id,'role_id' => $super_admin_role_id])->first())
+        {
+
+        }else
+        {
+            PermissionRole::insert($permission_role);
+        }
+
+
     }
 }

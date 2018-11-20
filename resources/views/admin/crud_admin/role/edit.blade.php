@@ -1,4 +1,4 @@
-@extends('admin.layouts.sidebarAction')
+@extends('admin.crud_admin.app')
 @section('actions')
     @include('admin.crud_admin.role.actions')
 @endsection

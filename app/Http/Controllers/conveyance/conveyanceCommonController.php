@@ -12,6 +12,7 @@ use App\conveyance\SocietyConveyanceDocumentStatus;
 use App\ApplicationStatusMaster;
 use App\conveyance\ScAgreementComments;
 use App\conveyance\scApplicationType;
+use Illuminate\Support\Facades\Session;
 use Yajra\DataTables\DataTables;
 use App\Role;
 use Carbon\Carbon;
@@ -31,7 +32,7 @@ class conveyanceCommonController extends Controller
     public function index(Request $request, Datatables $datatables){
 
         $data = $this->listApplicationData($request);
-
+        $typeId = scApplicationType::where('application_type','=','Conveyance')->value('id');
         $columns = [
             ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
@@ -91,7 +92,7 @@ class conveyanceCommonController extends Controller
                     }
 
                 })
-                ->rawColumns(['radio','society_name', 'Status', 'building_name', 'societyApplication.address','date'])
+                ->rawColumns(['radio','society_name', 'Status', 'building_name', 'societyApplication.address','date','typeId'])
                 ->make(true);
 
         }  
@@ -294,9 +295,9 @@ class conveyanceCommonController extends Controller
         $data = scApplication::with('societyApplication','ConveyanceSalePriceCalculation')
         ->where('id',$applicationId)->first();
         $data->society_role_id = Role::where('name', config('commanConfig.society_offer_letter'))->value('id');
-        $data->status         = $this->getCurrentStatus($applicationId,$data->sc_application_master_id);
-        $data->parent          = $this->getForwardApplicationParentData();
-        $data->child           = $this->getRevertApplicationChildData();
+        $data->status = $this->getCurrentStatus($applicationId,$data->sc_application_master_id);
+        $data->parent = $this->getForwardApplicationParentData();
+        $data->child  = $this->getRevertApplicationChildData();
         return $data;        
     }
 
@@ -580,11 +581,17 @@ class conveyanceCommonController extends Controller
         
         $DocumentStatus = SocietyConveyanceDocumentStatus::where('application_id',$applicationId)->where('document_id',$documentId)->where('user_id',Auth::Id())->first();
 
+        if(Session::get('role_name') == config('commanConfig.society_offer_letter')){
+            $society_flag = 1;
+        }else{
+            $society_flag = 0;
+        }
         if (!$DocumentStatus){
             $DocumentStatus = new SocietyConveyanceDocumentStatus();
         }
         $DocumentStatus->application_id = $applicationId;
         $DocumentStatus->user_id        = Auth::Id();
+        $DocumentStatus->society_flag    = $society_flag;
         $DocumentStatus->document_id    = $documentId;
         $DocumentStatus->document_path  = $documentPath;
         $DocumentStatus->save();

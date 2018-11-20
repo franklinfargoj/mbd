@@ -67,6 +67,7 @@ return [
      'scAgreements' => [
         'sale_deed_agreement'  => 'Sale Deed Agreement',
         'lease_deed_agreement' => 'Lease Deed Agreement',
+        'renewal_lease_deed_agreement' => 'Renewal Lease Deed Agreement',
     ],   
 
       // sc application Type
@@ -77,6 +78,9 @@ return [
 
       // sc documents
      'documents' => [
+        'society' => [
+            'stamp_conveyance_application' => 'stamp_conveyance_application',
+        ],
         'dycdo_note'  => 'dycdo_note',
         'architect_conveyance_map' => 'architect_conveyance_map',
         'em_conveyance' => [

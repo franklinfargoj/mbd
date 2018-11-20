@@ -566,6 +566,31 @@ $(document).ready(function () {
         }
     });
 
+
+    // application status validations
+
+    $("#addapplicationstatus").validate({
+        // errorElement: "span",
+        //errorClass : "text-red",
+        rules: {
+            status_name: "required",
+        }
+    });
+
+    $("#editapplicationstatus").validate({
+        // errorElement: "span",
+        //errorClass : "text-red",
+        rules: {
+            status_name: "required",
+        }
+    });
+
+    $("#DeleteApplicationStatusReason").validate({
+        rules: {
+            delete_message: "required",
+        }
+    });
+
     $("#appointing_architect_step1").validate({
         rules:{
             category_of_panel:"required",
@@ -737,6 +762,11 @@ $(document).ready(function () {
                   }
             },
             cad_facility_no_of_plotters:{
+                required: function(element) {
+                    return $('#is_cad_facility_yes').is(':checked')
+                  }
+            },
+            cad_facility_no_of_operators:{
                 required: function(element) {
                     return $('#is_cad_facility_yes').is(':checked')
                   }

@@ -20,7 +20,7 @@ class CreateRenewalDocumentStatus extends Migration
             $table->tinyInteger('society_flag')->nullable();
             $table->integer('status_id')->nullable();
             $table->integer('document_id')->nullable();
-            $table->string('document_path',50)->nullable();          
+            $table->string('document_path')->nullable();          
             $table->timestamps();
         });
     }
