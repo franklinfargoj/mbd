@@ -526,6 +526,35 @@ Breadcrumbs::for('role_view', function ($trail,$id) {
     $trail->push('View Role', route('roles.show',$id));
 });
 
+//Application Status
+
+//Role
+Breadcrumbs::for('application_status', function ($trail) {
+    $trail->push('Home', route('application_status.index'));
+});
+
+Breadcrumbs::for('add_application_status', function ($trail) {
+    $trail->parent('application_status');
+    $trail->push('Create Application Status', route('application_status.create'));
+});
+
+Breadcrumbs::for('application_status_detail', function ($trail) {
+    $trail->push('Application Status Detail', route('application_status.index'));
+});
+
+Breadcrumbs::for('edit_application_status', function ($trail,$id) {
+    $trail->parent('application_status_detail');
+    $trail->push('Edit Application Status', route('application_status.edit',$id));
+});
+
+Breadcrumbs::for('application_status_view', function ($trail,$id) {
+    $trail->parent('application_status');
+    $trail->push('View Application Status', route('application_status.show',$id));
+});
+
+
+
+
 Breadcrumbs::for('em', function ($trail) {
     $trail->push('Home', route('em.index'));
 });
