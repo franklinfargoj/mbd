@@ -73,6 +73,7 @@ return [
      'applicationType' => [
         'Conveyance'  => 'Conveyance',
         'Renewal'     => 'Renewal',
+        'Formation' => 'Formation'
     ], 
 
       // sc documents

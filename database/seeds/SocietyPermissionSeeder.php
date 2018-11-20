@@ -245,11 +245,36 @@ class SocietyPermissionSeeder extends Seeder
                 ],
                 [
                     'name'=>'society_formation.index',
+                    'display_name'=>'Display list of society formation',
+                    'description' => 'Display list of society formation'
+                ],
+                [
+                    'name'=>'society_formation.create',
                     'display_name'=>'Display form for society formation',
                     'description' => 'Display form for society formation'
+                ],
+                [
+                    'name'=>'society_formation.store',
+                    'display_name'=>'store society formation',
+                    'description' => 'store society formation'
+                ],
+                [
+                    'name'=>'society_formation.view_application',
+                    'display_name'=>'view_application',
+                    'description'=>'view_application'
+                ],
+                [
+                    'name'=>'upload_sf_application_attachment',
+                    'display_name'=>'upload document one by one',
+                    'description'=>'upload document one by one'
+                ],
+                [
+                    'name'=>'sf_submit_application',
+                    'display_name'=>'application submit by society for SF',
+                    'description'=>'application submit by society for SF'
                 ]
         ];
-
+        
         if(count($society)==0){
             // Society Login
             //dd('if');
