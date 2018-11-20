@@ -26,7 +26,8 @@ class EMController extends Controller
 
     /**
      * Display a scrutiny remark forms.
-     *
+     * Author: Amar Prajapati
+     * @param $request, $applicationId
      * @return \Illuminate\Http\Response
      */
 	public function ScrutinyRemark(Request $request,$applicationId){
@@ -65,19 +66,17 @@ class EMController extends Controller
             }
         }
         if(!empty($no_dues_certificate_docs['text_no_dues_certificate']['sc_document_status'])){
-//            dd($no_dues_certificate_docs['text_no_dues_certificate']['sc_document_status']->document_path);
             $content = $this->CommonController->getftpFileContent($no_dues_certificate_docs['text_no_dues_certificate']['sc_document_status']->document_path);
         }else{
             $content = "";
         }
-
-//        dd($no_dues_certificate_docs);
         return view('admin.conveyance.em_department.scrutiny_remark',compact('data', 'content', 'no_dues_certificate_docs', 'bonafide_docs', 'covering_letter_docs'));
     }
 
     /**
      * Uploads no dues certificate for conveyance.
-     *
+     * Author: Amar Prajapati
+     * @param $request
      * @return \Illuminate\Http\Response
      */
     public function saveNoDuesCertificate(Request $request){
@@ -145,7 +144,8 @@ class EMController extends Controller
 
     /**
      * Display renewal scrutiny forms.
-     *
+     * Author: Amar Prajapati
+     * @param $request, $applicationId
      * @return \Illuminate\Http\Response
      */
     public function RenewalScrutinyRemark(Request $request,$applicationId){
@@ -157,7 +157,8 @@ class EMController extends Controller
 
     /**
      * Uploads No dues certificate for renewal section.
-     *
+     * Author: Amar Prajapati
+     * @param $request
      * @return \Illuminate\Http\Response
      */
     public function saveRenewalNoDuesCertificate(Request $request){
@@ -197,7 +198,8 @@ class EMController extends Controller
 
     /**
      * Uploads list of bonafide & no-bonafide allottees
-     *
+     * Author: Amar Prajapati
+     * @param $request
      * @return \Illuminate\Http\Response
      */
     public function uploadListOfAllottees(Request $request){
@@ -206,7 +208,8 @@ class EMController extends Controller
 
     /**
      * Uploads covering letter
-     *
+     * Author: Amar Prajapati
+     * @param $request
      * @return \Illuminate\Http\Response
      */
     public function uploadCoveringLetter(Request $request){
@@ -225,7 +228,6 @@ class EMController extends Controller
                     'application_path' => $path,
                     'submitted_at' => date('Y-m-d H-i-s')
                 );
-                die('uploaded');
             }else{
                 return redirect()->back()->with('error_uploaded_file', 'Invalid type of file uploaded (only pdf allowed)');
             }

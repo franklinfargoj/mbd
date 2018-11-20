@@ -19,6 +19,7 @@ use App\conveyance\scApplication;
 use App\conveyance\SocietyConveyanceDocumentMaster;
 use App\conveyance\SocietyConveyanceDocumentStatus;
 use App\conveyance\SocietyBankDetails;
+use App\conveyance\scApplicationType;
 use Storage;
 use Mpdf\Mpdf;
 use App\conveyance\scRegistrationDetails;
@@ -40,7 +41,7 @@ class SocietyConveyanceController extends Controller
 
     /**
      * Display a listing of the resource.
-     *
+     *Author: Amar Prajapati
      * @return \Illuminate\Http\Response
      */
     public function index(DataTables $datatables, Request $request)
@@ -57,6 +58,7 @@ class SocietyConveyanceController extends Controller
         $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $ol_application_count = count(SocietyConveyance::where('society_id', $society_details->id)->get());
         if ($datatables->getRequest()->ajax()) {
+            dd($datatables->getRequest()->ajax());
             $sc_applications = scApplication::where('society_id', $society_details->id)->with(['scApplicationType', 'scApplicationLog' => function($q){
                 $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
             } ])->orderBy('id', 'desc');
@@ -124,7 +126,7 @@ class SocietyConveyanceController extends Controller
 
     /**
      * Show the form for creating a new resource.
-     *
+     *Author: Amar Prajapati
      * @return \Illuminate\Http\Response
      */
     public function create()
@@ -134,18 +136,20 @@ class SocietyConveyanceController extends Controller
         $fillable_field_names = $sc->getFillable();
         if(in_array('language_id', $fillable_field_names) == true || in_array('society_id', $fillable_field_names) == true){
             $field_name = array_flip($fillable_field_names);
-            unset($field_name['language_id'], $field_name['society_id'], $field_name['template_file']);
+            unset($field_name['language_id'], $field_name['society_id'], $field_name['template_file'], $field_name['prev_lease_agreement_no']);
             $fields_names = array_flip($field_name);
             $field_names = array_values($fields_names);
         }
         $comm_func = $this->CommonController;
         $layouts = MasterLayout::all();
-        return view('frontend.society.conveyance.add', compact('layouts', 'field_names', 'society_details', 'comm_func'));
+        $application_master_id = scApplicationType::where('application_type', config('commanConfig.applicationType.Conveyance'))->first();
+
+        return view('frontend.society.conveyance.add', compact('layouts', 'field_names', 'society_details', 'comm_func', 'application_master_id'));
     }
 
     /**
      * Store a newly created resource in storage.
-     *
+     *Author: Amar Prajapati
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
@@ -254,7 +258,7 @@ class SocietyConveyanceController extends Controller
 
     /**
      * Display the specified resource.
-     *
+     *Author: Amar Prajapati
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -270,7 +274,7 @@ class SocietyConveyanceController extends Controller
 
     /**
      * Show the form for editing the specified resource.
-     *
+     *Author: Amar Prajapati
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -289,13 +293,13 @@ class SocietyConveyanceController extends Controller
         }
         $comm_func = $this->CommonController;
         $layouts = MasterLayout::all();
-//        dd($sc_application);
+
         return view('frontend.society.conveyance.edit', compact('layouts', 'field_names', 'society_details', 'comm_func', 'sc_application', 'id'));
     }
 
     /**
      * Update the specified resource in storage.
-     *
+     *Author: Amar Prajapati
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -386,7 +390,7 @@ class SocietyConveyanceController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
+     *Author: Amar Prajapati
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -397,7 +401,7 @@ class SocietyConveyanceController extends Controller
 
     /**
      * Download excel.
-     *
+     *Author: Amar Prajapati
      * @param  void
      * @return \Illuminate\Http\Response
      */
@@ -414,7 +418,7 @@ class SocietyConveyanceController extends Controller
 
     /**
      * Show upload documents & bank details form.
-     *
+     *Author: Amar Prajapati
      * @param  void
      * @return \Illuminate\Http\Response
      */
@@ -440,7 +444,7 @@ class SocietyConveyanceController extends Controller
 
     /**
      * Uploads documents.
-     *
+     *Author: Amar Prajapati
      * @param  void
      * @return \Illuminate\Http\Response
      */
@@ -529,7 +533,7 @@ class SocietyConveyanceController extends Controller
 
     /**
      * Deletes uploaded documents.
-     *
+     *Author: Amar Prajapati
      * @param  id
      * @return \Illuminate\Http\Response
      */
@@ -559,7 +563,7 @@ class SocietyConveyanceController extends Controller
 
     /**
      * Saves society bank details.
-     *
+     *Author: Amar Prajapati
      * @param  request
      * @return \Illuminate\Http\Response
      */
@@ -573,14 +577,14 @@ class SocietyConveyanceController extends Controller
         if(count($sc_bank_details->getFillable()) == count(array_merge($society_bank_detail, $society_bank_details))){
             SocietyBankDetails::create(array_merge($society_bank_detail, $society_bank_details));
         }
-//        dd('done');
+
         return redirect()->route('sc_form_upload_show');
     }
 
 
     /**
      * Shows society conveyance upload form.
-     *
+     *Author: Amar Prajapati
      * @param  void
      * @return \Illuminate\Http\Response
      */
@@ -596,7 +600,7 @@ class SocietyConveyanceController extends Controller
 
     /**
      * Shows society conveyance application form in pdf format.
-     *
+     *Author: Amar Prajapati
      * @param  void
      * @return \Illuminate\Http\Response
      */
@@ -615,7 +619,7 @@ class SocietyConveyanceController extends Controller
 
     /**
      * Uploads stamped society conveyance application form.
-     *
+     *Author: Amar Prajapati
      * @param  request
      * @return \Illuminate\Http\Response
      */
@@ -662,14 +666,26 @@ class SocietyConveyanceController extends Controller
         return redirect()->route('society_conveyance.index');
     }
 
+    /**
+     * Uploads stamped society conveyance application form.
+     *Author: Amar Prajapati
+     * @param  request
+     * @return \Illuminate\Http\Response
+     */
     public function show_sale_lease($id){
         $sc_application = scApplication::with(['sc_form_request', 'societyApplication', 'applicationLayout', 'scApplicationLog' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         }])->where('id', $id)->first();
-//        dd($sc_application);
+
         return view('frontend.society.conveyance.sale_lease_deed', compact('sc_application'));
     }
 
+    /**
+     * Uploads stamped society conveyance application form.
+     *Author: Amar Prajapati
+     * @param  request
+     * @return \Illuminate\Http\Response
+     */
     public function show_signed_sale_lease($id){
         $sc_application = scApplication::with(['sc_form_request', 'societyApplication', 'applicationLayout', 'scApplicationLog' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
@@ -684,14 +700,26 @@ class SocietyConveyanceController extends Controller
         $lease_agreement_type_id = $this->conveyance_common->getDocumentId('Lease Deed Agreement', '1');
         $status = config('commanConfig.applicationStatus.Stamped_signed_sale_&_lease_deed');
         $society_flag = 1;
-//        dd($status);
+
         return view('frontend.society.conveyance.signed_sale_lease_deed', compact('sc_application', 'society_flag','status', 'sale_agreement_type_id', 'lease_agreement_type_id', 'field_names', 'comm_func'));
     }
 
+    /**
+     * Uploads stamped society conveyance application form.
+     * Author: Amar Prajapati
+     * @param  request
+     * @return \Illuminate\Http\Response
+     */
     public function upload_sale_lease(Request $request){
 
     }
 
+    /**
+     * Uploads signed sale & lease deed agreement.
+     *Author: Amar Prajapati
+     * @param  request
+     * @return \Illuminate\Http\Response
+     */
     public function upload_signed_sale_lease(Request $request){
         $insert_arr = $request->all();
         if($request->hasFile('document_path')) {

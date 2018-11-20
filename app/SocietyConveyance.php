@@ -24,7 +24,8 @@ class SocietyConveyance extends Model
         'water_bill',
         'non_agricultural_tax',
         'society_address',
-        'template_file'
+        'template_file',
+        'prev_lease_agreement_no'
     ];
 
 }

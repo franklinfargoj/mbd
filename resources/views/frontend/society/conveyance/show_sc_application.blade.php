@@ -170,7 +170,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a href="{{ route('society_conveyance.edit', base64_encode($sc_application->id)) }}" class="btn btn-primary">
+                                <a href="@if($sc_application_master_id->id) route('society_conveyance.edit', base64_encode($sc_application->id)) }}" class="btn btn-primary">
                                     Back
                                 </a>
                                 <span style="float:right;margin-right: 20px">

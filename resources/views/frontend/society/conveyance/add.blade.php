@@ -3,15 +3,14 @@
     <div class="col-md-12">
         <div class="m-subheader px-0 m-subheader--top">
             <div class="d-flex align-items-center">
-                <h3 class="m-subheader__title m-subheader__title--separator">Society Conveyance Application Form</h3>
+                <h3 class="m-subheader__title m-subheader__title--separator">Society @if($application_master_id->id == 1) Conveyance @endif @if($application_master_id->id == 2) Renewal @endif Application Form</h3>
 {{--                {{ Breadcrumbs::render('society_offer_application_create', $id) }}--}}
 
             </div>
         </div>
         <!-- END: Subheader -->
         <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
-
-            <form id="save_sc_application" role="form" method="post" class="m-form m-form--rows m-form--label-align-right" action="{{ route('society_conveyance.store') }}" enctype="multipart/form-data">
+            <form id="save_sc_application" role="form" method="post" class="m-form m-form--rows m-form--label-align-right" action="@php if($application_master_id->id == 1){ echo route('society_conveyance.store'); } if($application_master_id->id == 2){ echo route('society_renewal.store'); } @endphp" enctype="multipart/form-data">
                 @csrf
                 <div class="m-portlet__body m-portlet__body--spaced">
                     <div class="form-group m-form__group row">
@@ -23,7 +22,7 @@
                                 @endforeach
                             </select>
                             <input type="hidden" name="society_id" value="{{ $society_details->id }}">
-                            <input type="hidden" name="sc_application_master_id" value="1">
+                            <input type="hidden" name="sc_application_master_id" value="{{ $application_master_id->id }}">
                             <span class="help-block">{{$errors->first('layout_id')}}</span>
                         </div>
                     </div>

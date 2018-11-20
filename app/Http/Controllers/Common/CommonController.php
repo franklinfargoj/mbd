@@ -1141,6 +1141,13 @@ class CommonController extends Controller
         return $final_detail;
 
     }
+
+    /**
+     * Common function for displaying form fields in frontend.
+     * Author: Amar Prajapati
+     * @param $name, $type, $select_arr, $select_arr_key, $value, $readonly
+     * @return \Illuminate\Http\Response
+     */
     public function form_fields($name, $type, $select_arr = NULL, $select_arr_key = NULL, $value = NULL, $readonly = NULL){
         if($type == 'select'){
             foreach($select_arr as $select_arr_key => $select_arr_value){
@@ -1168,6 +1175,12 @@ class CommonController extends Controller
         return $fields[$type];
     }
 
+    /**
+     * Updates status of society conveyance application.
+     * Author: Amar Prajapati
+     * @param $insert_arr, $status, $sc_application
+     * @return \Illuminate\Http\Response
+     */
     public function sc_application_status_society($insert_arr, $status, $sc_application){
         $status_in_words = array_flip(config('commanConfig.applicationStatus'))[$status];
         $sc_application_last_id = $sc_application->id;
