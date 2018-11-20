@@ -595,6 +595,7 @@ $route=\Request::route()->getName();
                 in_array('ree_applications.index', session()->get('permission')) || in_array('co.index',
                 session()->get('permission')) || in_array('cap.index', session()->get('permission')) ||
                 in_array('society_offer_letter.index', session()->get('permission')) ||
+<<<<<<< HEAD
                 in_array('architect_layout.index', session()->get('permission')) || in_array('dyco.index',
                 session()->get('permission')) || in_array('hearing.index', session()->get('permission')) ))
 
@@ -604,6 +605,9 @@ $route=\Request::route()->getName();
                 $route=='cap_applications.reval' || $route=='vp.index' ||
                 $route=='society_offer_letter.index' || $route=='society_offer_letter_dashboard' ||
                 $route=='documents_uploaded' || $route=='documents_upload'))
+=======
+                in_array('architect_layout.index', session()->get('permission')) || in_array('dyco.index', session()->get('permission')) ))
+>>>>>>> Bhavna_DYCE_Application
 
                 <li class="m-menu__item" data-toggle="collapse" data-target="#society-actions">
                     <a href="javascript:void(0);" class="m-menu__link m-menu__toggle">
@@ -617,19 +621,11 @@ $route=\Request::route()->getName();
                             </span>
                         </span>
                     </a>
-
                 </li>
-                @endif
 
                 <li id="society-actions" class="collapse show">
                     <ul class="list-unstyled">
 
-                        @if (isset($route) && ($route == 'co.index' || $route=='ee.index' || $route=='dyce.index' ||
-                        $route=='co_applications.reval' || $route=='vp_applications.reval' ||
-                        $route=='ree_applications.index' || $route=='ree_applications.reval' || $route=='cap.index' ||
-                        $route=='cap_applications.reval' ||$route=='vp.index' ||
-                        $route=='society_offer_letter.index' || $route=='society_offer_letter_dashboard' ||
-                        $route=='documents_uploaded' || $route=='documents_upload'))
                         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2  {{($route=='society_detail.index' || $route=='village_detail.index' || $route=='ee.index' || $route=='dyce.index' || $route=='ree_applications.index' || $route=='co.index' || $route=='cap.index' || $route=='vp.index' || $route=='society_offer_letter.index' || $route=='society_offer_letter_dashboard' || $route=='documents_uploaded' || $route=='documents_upload')?'m-menu__item--active':''}}">
                             <a href="{{ url(session()->get('redirect_to')) }}" class="m-menu__link m-menu__toggle">
                                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -642,7 +638,32 @@ $route=\Request::route()->getName();
                                 </span>
                             </a>
                         </li>
-                        @endif
+                    </ul>
+                </li>   
+                        <li class="m-menu__item {{ ($route=='conveyance.index') ? 'm-menu__item--active' : '' }}">
+                            <a href="{{ route('conveyance.index') }}" class="m-menu__link m-menu__toggle">
+                                <i class="m-menu__link-icon flaticon-line-graph"></i>
+                                <span class="m-menu__link-title">
+                                    <span class="m-menu__link-wrap">
+                                        <span class="m-menu__link-text">
+                                            Applications for Society Conveyance
+                                        </span>
+                                    </span>
+                                </span>
+                            </a>
+                        </li>                                                    
+                        <li class="m-menu__item {{($route=='renewal.index')?'m-menu__item--active':''}}">
+                            <a href="{{ route('renewal.index') }}" class="m-menu__link m-menu__toggle">
+                                <i class="m-menu__link-icon flaticon-line-graph"></i>
+                                <span class="m-menu__link-title">
+                                    <span class="m-menu__link-wrap">
+                                        <span class="m-menu__link-text">
+                                            Renewal of Lease Agreement
+                                        </span>
+                                    </span>
+                                </span>
+                            </a>
+                        </li>                        
 
                         @if (isset($route) && ($route == 'co.index' || $route=='society_detail.index' ||
                         $route=='village_detail.index' || $route=='ee.index' || $route=='dyce.index' ||
@@ -680,28 +701,6 @@ $route=\Request::route()->getName();
                         </li>
                         @endif
                         @endif
-
-                        @if (isset($route) && ($route == 'co.index' || $route=='ee.index' || $route=='dyco.index' ||
-                        $route=='ree_applications.index' || $route=='ree_applications.reval' ||
-                        $route=='society_offer_letter.index' || $route=='society_offer_letter_dashboard' ||
-                        $route=='documents_uploaded' || $route=='documents_upload' || $route == 'hearing.index' ||
-                        $route == 'conveyance.index'))
-
-                        <li class="m-menu__item {{ ($route=='conveyance.index') ? 'm-menu__item--active' : '' }}">
-                            <a href="{{ route('conveyance.index') }}" class="m-menu__link m-menu__toggle">
-                                <i class="m-menu__link-icon flaticon-line-graph"></i>
-                                <span class="m-menu__link-title">
-                                    <span class="m-menu__link-wrap">
-                                        <span class="m-menu__link-text">
-                                            Applications for Society Conveyance
-                                        </span>
-                                    </span>
-                                </span>
-                            </a>
-                        </li>
-                        @endif
-
-
 
                         @if(Session::all()['role_name'] == 'ee_engineer')
                         <li class="m-menu__item {{($route=='society_detail.billing_level')?'m-menu__item--active':''}}">

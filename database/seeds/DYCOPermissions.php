@@ -121,7 +121,46 @@ class DYCOPermissions extends Seeder
                 'name' => 'conveyance.architect_scrutiny_remark',
                 'display_name' => 'architect scrutiny remark',
                 'description' => 'architect scrutiny remark',
+            ],            
+            [
+                'name' => 'renewal.index',
+                'display_name' => 'renewal',
+                'description' => 'renewal',
+            ],            
+            [
+                'name' => 'renewal.view_application',
+                'display_name' => 'renewal_view_application',
+                'description' => 'renewal_view_application',
+            ],            
+            [
+                'name' => 'renewal.prepare_renewal_agreement',
+                'display_name' => 'prepare renewal agreement',
+                'description' => 'prepare renewal agreement',
+            ],            
+            [
+                'name' => 'dyco.save_renewal_agreement',
+                'display_name' => 'save renewal agreement',
+                'description' => 'save renewal agreement',
+            ],            
+            [
+                'name' => 'renewal.approve_renewal_agreement',
+                'display_name' => 'approve renewal agreement',
+                'description' => 'approve renewal agreement',
             ],
+            [
+                'name' => 'dyco.save_approve_renewal_agreement',
+                'display_name' => 'save approve renewal agreement',
+                'description' => 'save approve renewal agreement',
+            ],            
+            [
+                'name' => 'renewal.renewal_forward_application',
+                'display_name' => 'renewal forward application',
+                'description' => 'renewal forward application',
+            ],            [
+                'name' => 'renewal.save_forward_application_renewal',
+                'display_name' => 'save forward application renewal',
+                'description' => 'save forward application renewal',
+            ],             
         ];
 
         //dycdo
