@@ -12,6 +12,7 @@ use App\conveyance\SocietyConveyanceDocumentStatus;
 use App\ApplicationStatusMaster;
 use App\conveyance\ScAgreementComments;
 use App\conveyance\scApplicationType;
+use Illuminate\Support\Facades\Session;
 use Yajra\DataTables\DataTables;
 use App\Role;
 use Carbon\Carbon;
@@ -580,11 +581,17 @@ class conveyanceCommonController extends Controller
         
         $DocumentStatus = SocietyConveyanceDocumentStatus::where('application_id',$applicationId)->where('document_id',$documentId)->where('user_id',Auth::Id())->first();
 
+        if(Session::get('role_name') == config('commanConfig.society_offer_letter')){
+            $society_flag = 1;
+        }else{
+            $society_flag = 0;
+        }
         if (!$DocumentStatus){
             $DocumentStatus = new SocietyConveyanceDocumentStatus();
         }
         $DocumentStatus->application_id = $applicationId;
         $DocumentStatus->user_id        = Auth::Id();
+        $DocumentStatus->society_flag    = $society_flag;
         $DocumentStatus->document_id    = $documentId;
         $DocumentStatus->document_path  = $documentPath;
         $DocumentStatus->save();

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\SocietyConveyance;
 use App\SocietyOfferLetter;
 use App\OlApplication;
+use Illuminate\Support\Facades\Session;
 use Yajra\DataTables\DataTables;
 use Auth;
 use App\Http\Controllers\Common\CommonController;
@@ -58,8 +59,9 @@ class SocietyConveyanceController extends Controller
         $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $ol_application_count = count(SocietyConveyance::where('society_id', $society_details->id)->get());
         if ($datatables->getRequest()->ajax()) {
-            dd($datatables->getRequest()->ajax());
-            $sc_applications = scApplication::where('society_id', $society_details->id)->with(['scApplicationType', 'scApplicationLog' => function($q){
+            $sc_applications = scApplication::where('society_id', $society_details->id)->with(['scApplicationType' => function($q){
+               $q->where('application_type', config('commanConfig.applicationType.Conveyance'))->first();
+            }, 'scApplicationLog' => function($q){
                 $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
             } ])->orderBy('id', 'desc');
 
@@ -112,7 +114,7 @@ class SocietyConveyanceController extends Controller
             'serverSide' => true,
             'processing' => true,
             'ordering'   =>'isSorted',
-            "order"=> [4, "desc" ],
+//            "order"=> [4, "desc" ],
             "pageLength" => $this->list_num_of_records_per_page,
             // 'fixedHeader' => [
             //     'header' => true,
@@ -268,7 +270,7 @@ class SocietyConveyanceController extends Controller
         $sc_application = scApplication::with(['sc_form_request', 'societyApplication', 'applicationLayout', 'scApplicationLog' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         }])->where('id', $id)->first();
-
+//        dd($sc_application);
         return view('frontend.society.conveyance.show_sc_application', compact('sc_application'));
     }
 
@@ -640,11 +642,7 @@ class SocietyConveyanceController extends Controller
             $path = '/' . $folder_name . '/' . $name;
 
             $fileUpload = $this->CommonController->ftpFileUpload($folder_name, $file, $name);
-
-            $update_sc_application = array(
-                'stamp_conveyance_application' => $path,
-            );
-            scApplication::where('id', $request->id)->update($update_sc_application);
+            $this->conveyance_common->uploadDocumentStatus($request->id, config('commanConfig.documents.society.stamp_conveyance_application'), $path);
 
             $role_id = Role::where('name', config('commanConfig.dycdo_engineer'))->first();
             $user_ids = RoleUser::where('role_id', $role_id->id)->get();
