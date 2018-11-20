@@ -318,7 +318,6 @@ class SocietyPermissionSeeder extends Seeder
                     'display_name' => 'Download Application Form',
                     'description'  => 'Download Application Form'
                 ],
-                ],
         ];
 
         if(count($society)==0){
