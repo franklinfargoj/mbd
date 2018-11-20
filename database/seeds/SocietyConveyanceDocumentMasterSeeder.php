@@ -128,7 +128,49 @@ class SocietyConveyanceDocumentMasterSeeder extends Seeder
                 'application_type_id' => $renewalId,
                 'society_flag'        => '0',
                 'language_id'         => $eLanguage
-            ],                        
+            ],
+            [
+                'document_name'       => 'संस्थेचा अर्ज',
+                'application_type_id' => $renewalId,
+                'society_flag'        => '1',
+                'language_id'         => $eLanguage
+            ],
+            [
+                'document_name'       => 'old_lease_agreement',
+                'application_type_id' => $renewalId,
+                'society_flag'        => '1',
+                'language_id'         => $eLanguage
+            ],
+            [
+                'document_name'       => 'list_of_members_from_society',
+                'application_type_id' => $renewalId,
+                'society_flag'        => '1',
+                'language_id'         => $eLanguage
+            ],
+            [
+                'document_name'       => 'resolutions_of_society_for_renewal_of_lease_deed',
+                'application_type_id' => $renewalId,
+                'society_flag'        => '1',
+                'language_id'         => $eLanguage
+            ],
+            [
+                'document_name'       => "society's_approved_plan_from_concern_authority",
+                'application_type_id' => $renewalId,
+                'society_flag'        => '1',
+                'language_id'         => $eLanguage
+            ],
+            [
+                'document_name'       => 'receipts_of_payment_of_lease_rent_or_other_dues',
+                'application_type_id' => $renewalId,
+                'society_flag'        => '1',
+                'language_id'         => $eLanguage
+            ],
+            [
+                'document_name'       => 'others',
+                'application_type_id' => $renewalId,
+                'society_flag'        => '1',
+                'language_id'         => $eLanguage
+            ],
         ];
 
         if(count($society) == 0){
