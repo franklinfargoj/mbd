@@ -550,6 +550,9 @@ Route::delete('destroy_architect_layout_detail_court_case_or_dispute_on_land/{id
         // Hearing Status
         Route::post('DeleteHearingStatusUsingAjax', 'HearingStatusController@DeleteHearingStatusUsingAjax')->name('DeleteHearingStatusUsingAjax');
         Route::resource('hearing_status','HearingStatusController');
+        // RTI Status
+        Route::post('DeleteRTIStatusUsingAjax', 'RTIStatusController@DeleteRTIStatusUsingAjax')->name('DeleteRTIStatusUsingAjax');
+        Route::resource('rti_status','RTIStatusController');
 
 
     });

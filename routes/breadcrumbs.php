@@ -596,6 +596,30 @@ Breadcrumbs::for('hearing_status_view', function ($trail,$id) {
     $trail->push('View Hearing Status', route('hearing_status.show',$id));
 });
 
+// RTI Status
+Breadcrumbs::for('rti_status', function ($trail) {
+    $trail->push('Home', route('rti_status.index'));
+});
+
+Breadcrumbs::for('add_rti_status', function ($trail) {
+    $trail->parent('rti_status');
+    $trail->push('Create RTI Status', route('rti_status.create'));
+});
+
+Breadcrumbs::for('rti_status_detail', function ($trail) {
+    $trail->push('RTI Status Detail', route('rti_status.index'));
+});
+
+Breadcrumbs::for('edit_rti_status', function ($trail,$id) {
+    $trail->parent('rti_status_detail');
+    $trail->push('Edit RTI Status', route('rti_status.edit',$id));
+});
+
+Breadcrumbs::for('rti_status_view', function ($trail,$id) {
+    $trail->parent('rti_status');
+    $trail->push('View RTI Status', route('rti_status.show',$id));
+});
+
 
 
 Breadcrumbs::for('em', function ($trail) {

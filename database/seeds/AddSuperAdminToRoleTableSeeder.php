@@ -137,6 +137,46 @@ class AddSuperAdminToRoleTableSeeder extends Seeder
                 'name' => 'DeleteHearingStatusUsingAjax',
                 'display_name' => 'Delete Hearing Status Ajax',
                 'description' => 'Deleting Hearing Status using Ajax'
+            ],
+            [
+                'name' => 'rti_status.index',
+                'display_name' => 'List RTI Status',
+                'description' => 'Listing RTI Status'
+            ],
+            [
+                'name' => 'rti_status.create',
+                'display_name' => 'Create RTI Status',
+                'description' => 'Creating RTI Status'
+            ],
+            [
+                'name' => 'rti_status.show',
+                'display_name' => 'Create RTI Status',
+                'description' => 'Creating RTI Status'
+            ],
+            [
+                'name' => 'rti_status.store',
+                'display_name' => 'Store RTI Status',
+                'description' => 'Storing RTI Status'
+            ],
+            [
+                'name' => 'rti_status.edit',
+                'display_name' => 'Edit RTI Status',
+                'description' => 'EDiting RTI Status'
+            ],
+            [
+                'name' => 'rti_status.update',
+                'display_name' => 'Update RTI Status',
+                'description' => 'updating RTI Status'
+            ],
+            [
+                'name' => 'rti_status.destroy',
+                'display_name' => 'Delete RTI Status',
+                'description' => 'Deleting RTI Status'
+            ],
+            [
+                'name' => 'DeleteRTIStatusUsingAjax',
+                'display_name' => 'Delete RTI Status Ajax',
+                'description' => 'Deleting RTI Status using Ajax'
             ]
         ];
 

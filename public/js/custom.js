@@ -615,7 +615,30 @@ $(document).ready(function () {
         }
     });
 
-    
+    // RTI status validations
+
+    $("#addrtistatus").validate({
+        // errorElement: "span",
+        //errorClass : "text-red",
+        rules: {
+            status_title: "required",
+        }
+    });
+
+    $("#editrtistatus").validate({
+        // errorElement: "span",
+        //errorClass : "text-red",
+        rules: {
+            status_title: "required",
+        }
+    });
+
+    $("#DeleteRTIStatusReason").validate({
+        rules: {
+            delete_message: "required",
+        }
+    });
+
     $("#appointing_architect_step1").validate({
         rules:{
             category_of_panel:"required",
