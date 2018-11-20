@@ -21,6 +21,9 @@ class SocietyConveyanceApplicationTypeSeeder extends Seeder
             [
                 'application_type' => 'Renewal'
             ],
+            [
+                'application_type' => 'Formation'
+            ]
         ];
 
         if(count($society) == 0){

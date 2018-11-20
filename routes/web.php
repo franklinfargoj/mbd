@@ -581,6 +581,11 @@ Route::delete('destroy_architect_layout_detail_court_case_or_dispute_on_land/{id
 
     //Society Formation
     Route::get('society_formation','SocietyFormationController@index')->name('society_formation.index');
+    Route::get('society_formation/create','SocietyFormationController@create')->name('society_formation.create');
+    Route::post('society_formation/store','SocietyFormationController@store')->name('society_formation.store');
+    Route::get('view_society_formation/{id}','SocietyFormationController@view_application')->name('society_formation.view_application');
+    Route::post('upload_sf_application_attachment','SocietyFormationController@upload_sf_application_attachment')->name('upload_sf_application_attachment');
+    Route::post('sf_submit_application','SocietyFormationController@sf_submit_application')->name('sf_submit_application');
     //Society Formation End
 
 
@@ -604,6 +609,7 @@ Route::delete('destroy_architect_layout_detail_court_case_or_dispute_on_land/{id
 
     //Society Renewal END
 
+    
 });
 
 
