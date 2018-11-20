@@ -9,6 +9,7 @@ class scApplicationLog extends Model
 	protected $table = 'sc_application_log';
 	protected $fillable = [
 		'application_id',
+        'application_master_id',
 	    'society_flag',
 	    'user_id',
 	    'role_id',

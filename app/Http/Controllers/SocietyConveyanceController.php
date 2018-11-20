@@ -270,7 +270,7 @@ class SocietyConveyanceController extends Controller
         $sc_application = scApplication::with(['sc_form_request', 'societyApplication', 'applicationLayout', 'scApplicationLog' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         }])->where('id', $id)->first();
-//        dd($sc_application);
+
         return view('frontend.society.conveyance.show_sc_application', compact('sc_application'));
     }
 
