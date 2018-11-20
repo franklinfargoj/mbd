@@ -566,6 +566,31 @@ $(document).ready(function () {
         }
     });
 
+
+    // application status validations
+
+    $("#addapplicationstatus").validate({
+        // errorElement: "span",
+        //errorClass : "text-red",
+        rules: {
+            status_name: "required",
+        }
+    });
+
+    $("#editapplicationstatus").validate({
+        // errorElement: "span",
+        //errorClass : "text-red",
+        rules: {
+            status_name: "required",
+        }
+    });
+
+    $("#DeleteApplicationStatusReason").validate({
+        rules: {
+            delete_message: "required",
+        }
+    });
+
     $("#appointing_architect_step1").validate({
         rules:{
             category_of_panel:"required",

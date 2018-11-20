@@ -542,6 +542,8 @@ Route::delete('destroy_architect_layout_detail_court_case_or_dispute_on_land/{id
         Route::get('dashboard','DashboardController@index')->name('superadmin.dashboard');
         Route::post('loadDeleteRoleUsingAjax', 'RoleController@loadDeleteRoleUsingAjax')->name('loadDeleteRoleUsingAjax');
         Route::resource('roles','RoleController');
+        Route::post('loadDeleteApplicationStatusUsingAjax', 'ApplicationStatusController@loadDeleteApplicationStatusUsingAjax')->name('loadDeleteApplicationStatusUsingAjax');
+        Route::resource('application_status','ApplicationStatusController');
     });
 
     //Society Conveyance
