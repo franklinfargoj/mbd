@@ -407,6 +407,11 @@ Breadcrumbs::for('calculation_sheet', function ($trail,$id) {
     $trail->push('calculation sheet', route('ol_calculation_sheet.index',$id));
 });
 
+Breadcrumbs::for('reval_calculation_sheet', function ($trail,$id) {
+    $trail->parent('ree_reval');
+    $trail->push('reval calculation sheet', route('ol_reval_calculation_sheet.show',$id));
+});
+
 Breadcrumbs::for('approved_offer_letter', function ($trail,$id) {
     $trail->parent('ree');
     $trail->push('approved offer letter', route('ree.approved_offer_letter',$id));
@@ -435,6 +440,11 @@ Breadcrumbs::for('Forward_Application_ree', function ($trail,$id) {
 Breadcrumbs::for('cap_note_ree', function ($trail,$id) {
     $trail->parent('ree');
     $trail->push('cap note', route('ree.download_cap_note',$id));
+});
+
+Breadcrumbs::for('reval_cap_note_ree', function ($trail,$id) {
+    $trail->parent('ree_reval');
+    $trail->push('reval cap note', route('ree.download_reval_cap_note',$id));
 });
 
 Breadcrumbs::for('ee', function ($trail) {
@@ -547,6 +557,80 @@ Breadcrumbs::for('role_view', function ($trail,$id) {
     $trail->parent('role');
     $trail->push('View Role', route('roles.show',$id));
 });
+
+//Application Status
+Breadcrumbs::for('application_status', function ($trail) {
+    $trail->push('Home', route('application_status.index'));
+});
+
+Breadcrumbs::for('add_application_status', function ($trail) {
+    $trail->parent('application_status');
+    $trail->push('Create Application Status', route('application_status.create'));
+});
+
+Breadcrumbs::for('application_status_detail', function ($trail) {
+    $trail->push('Application Status Detail', route('application_status.index'));
+});
+
+Breadcrumbs::for('edit_application_status', function ($trail,$id) {
+    $trail->parent('application_status_detail');
+    $trail->push('Edit Application Status', route('application_status.edit',$id));
+});
+
+Breadcrumbs::for('application_status_view', function ($trail,$id) {
+    $trail->parent('application_status');
+    $trail->push('View Application Status', route('application_status.show',$id));
+});
+
+// Hearing Status
+Breadcrumbs::for('hearing_status', function ($trail) {
+    $trail->push('Home', route('hearing_status.index'));
+});
+
+Breadcrumbs::for('add_hearing_status', function ($trail) {
+    $trail->parent('hearing_status');
+    $trail->push('Create Hearing Status', route('hearing_status.create'));
+});
+
+Breadcrumbs::for('hearing_status_detail', function ($trail) {
+    $trail->push('Hearing Status Detail', route('hearing_status.index'));
+});
+
+Breadcrumbs::for('edit_hearing_status', function ($trail,$id) {
+    $trail->parent('hearing_status_detail');
+    $trail->push('Edit Hearing Status', route('hearing_status.edit',$id));
+});
+
+Breadcrumbs::for('hearing_status_view', function ($trail,$id) {
+    $trail->parent('hearing_status');
+    $trail->push('View Hearing Status', route('hearing_status.show',$id));
+});
+
+// RTI Status
+Breadcrumbs::for('rti_status', function ($trail) {
+    $trail->push('Home', route('rti_status.index'));
+});
+
+Breadcrumbs::for('add_rti_status', function ($trail) {
+    $trail->parent('rti_status');
+    $trail->push('Create RTI Status', route('rti_status.create'));
+});
+
+Breadcrumbs::for('rti_status_detail', function ($trail) {
+    $trail->push('RTI Status Detail', route('rti_status.index'));
+});
+
+Breadcrumbs::for('edit_rti_status', function ($trail,$id) {
+    $trail->parent('rti_status_detail');
+    $trail->push('Edit RTI Status', route('rti_status.edit',$id));
+});
+
+Breadcrumbs::for('rti_status_view', function ($trail,$id) {
+    $trail->parent('rti_status');
+    $trail->push('View RTI Status', route('rti_status.show',$id));
+});
+
+
 
 Breadcrumbs::for('em', function ($trail) {
     $trail->push('Home', route('em.index'));

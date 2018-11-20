@@ -292,6 +292,14 @@ class REEController extends Controller
         $capNote = $this->CommonController->downloadCapNote($applicationId);
         return view('admin.REE_department.cap_note',compact('capNote','ol_application'));
     }
+
+    public function downloadRevalCapNote(Request $request, $applicationId){
+
+        $ol_application = $this->CommonController->getOlApplication($applicationId);
+        $ol_application->model = OlApplication::with(['ol_application_master'])->where('id',$applicationId)->first();
+        $capNote = $this->CommonController->downloadCapNote($applicationId);
+        return view('admin.REE_department.reval_cap_note',compact('capNote','ol_application'));
+    }
     
     public function documentSubmittedBySociety()
     {

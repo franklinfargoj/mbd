@@ -11,8 +11,6 @@ class AddSuperAdminToRoleTableSeeder extends Seeder
 {
     public function run()
     {
-        $super_admin = Role::where('name', '=', 'superadmin')->select('id')->get();
-
         $super_admin_permissions = [
             [
                 'name' => 'superadmin.dashboard',
@@ -59,20 +57,145 @@ class AddSuperAdminToRoleTableSeeder extends Seeder
                 'name' => 'loadDeleteRoleUsingAjax',
                 'display_name' => 'Delete Roles Ajax',
                 'description' => 'Deleting Roles using Ajax'
+            ],
+            [
+                'name' => 'application_status.index',
+                'display_name' => 'List Application Status',
+                'description' => 'Listing Application Status'
+            ],
+            [
+                'name' => 'application_status.create',
+                'display_name' => 'Create Application Status',
+                'description' => 'Creating Application Status'
+            ],
+            [
+                'name' => 'application_status.show',
+                'display_name' => 'Create Application Status',
+                'description' => 'Creating Application Status'
+            ],
+            [
+                'name' => 'application_status.store',
+                'display_name' => 'Store Application Status',
+                'description' => 'Storing Application Status'
+            ],
+            [
+                'name' => 'application_status.edit',
+                'display_name' => 'Edit Application Status',
+                'description' => 'EDiting Application Status'
+            ],
+            [
+                'name' => 'application_status.update',
+                'display_name' => 'Update Application Status',
+                'description' => 'updating Application Status'
+            ],
+            [
+                'name' => 'application_status.destroy',
+                'display_name' => 'Delete Application Status',
+                'description' => 'Deleting Application Status'
+            ],
+            [
+                'name' => 'loadDeleteApplicationStatusUsingAjax',
+                'display_name' => 'Delete Application Status Ajax',
+                'description' => 'Deleting Application Status using Ajax'
+            ],
+            [
+                'name' => 'hearing_status.index',
+                'display_name' => 'List Hearing Status',
+                'description' => 'Listing Hearing Status'
+            ],
+            [
+                'name' => 'hearing_status.create',
+                'display_name' => 'Create Hearing Status',
+                'description' => 'Creating Hearing Status'
+            ],
+            [
+                'name' => 'hearing_status.show',
+                'display_name' => 'Create Hearing Status',
+                'description' => 'Creating Hearing Status'
+            ],
+            [
+                'name' => 'hearing_status.store',
+                'display_name' => 'Store Hearing Status',
+                'description' => 'Storing Hearing Status'
+            ],
+            [
+                'name' => 'hearing_status.edit',
+                'display_name' => 'Edit Hearing Status',
+                'description' => 'EDiting Hearing Status'
+            ],
+            [
+                'name' => 'hearing_status.update',
+                'display_name' => 'Update Hearing Status',
+                'description' => 'updating Hearing Status'
+            ],
+            [
+                'name' => 'hearing_status.destroy',
+                'display_name' => 'Delete Hearing Status',
+                'description' => 'Deleting Hearing Status'
+            ],
+            [
+                'name' => 'DeleteHearingStatusUsingAjax',
+                'display_name' => 'Delete Hearing Status Ajax',
+                'description' => 'Deleting Hearing Status using Ajax'
+            ],
+            [
+                'name' => 'rti_status.index',
+                'display_name' => 'List RTI Status',
+                'description' => 'Listing RTI Status'
+            ],
+            [
+                'name' => 'rti_status.create',
+                'display_name' => 'Create RTI Status',
+                'description' => 'Creating RTI Status'
+            ],
+            [
+                'name' => 'rti_status.show',
+                'display_name' => 'Create RTI Status',
+                'description' => 'Creating RTI Status'
+            ],
+            [
+                'name' => 'rti_status.store',
+                'display_name' => 'Store RTI Status',
+                'description' => 'Storing RTI Status'
+            ],
+            [
+                'name' => 'rti_status.edit',
+                'display_name' => 'Edit RTI Status',
+                'description' => 'EDiting RTI Status'
+            ],
+            [
+                'name' => 'rti_status.update',
+                'display_name' => 'Update RTI Status',
+                'description' => 'updating RTI Status'
+            ],
+            [
+                'name' => 'rti_status.destroy',
+                'display_name' => 'Delete RTI Status',
+                'description' => 'Deleting RTI Status'
+            ],
+            [
+                'name' => 'DeleteRTIStatusUsingAjax',
+                'display_name' => 'Delete RTI Status Ajax',
+                'description' => 'Deleting RTI Status using Ajax'
             ]
         ];
 
-        if (count($super_admin) == 0) {
+        $super_admin_role_id = Role::where('name', '=', 'superadmin')->value('id');
 
+        if ($super_admin_role_id == NULL)
             // Super Admin
             $super_admin_role_id = Role::insertGetId([
                 'name' => 'superadmin',
-                'redirect_to' => '/crudadmin/roles',
+                'redirect_to' => '/crudadmin/dashboard',
                 'parent_id' => NULL,
                 'display_name' => 'Super Admin',
                 'description' => 'Super Admin'
             ]);
 
+
+        $super_admin_user_id = User::where('email','superadmin@gmail.com')->value('id');
+
+        if($super_admin_user_id == Null){
             $super_admin_user_id = User::insertGetId([
                 'name' => 'Super Admin',
                 'email' => 'superadmin@gmail.com',
@@ -83,45 +206,38 @@ class AddSuperAdminToRoleTableSeeder extends Seeder
                 'address' => 'Mumbai'
             ]);
 
-            $super_admin_role_user = RoleUser::insert([
+            RoleUser::insert([
                 'user_id' => $super_admin_user_id,
                 'role_id' => $super_admin_role_id,
                 'start_date' => \Carbon\Carbon::now()
             ]);
+        }
 
-            $super_admin_permission_role = [];
+        $permission_role = [];
 
-            foreach ($super_admin_permissions as $super) {
-                $super_admin_permission_id = Permission::insertGetId($super);
+        foreach ($super_admin_permissions as $super) {
+            $permission_id = Permission::where(['name' => $super['name']])->value('id');
+            if (!($permission_id))
+                $permission_id = Permission::insertGetId($super);
 
-                $super_admin_permission_role[] = [
-                    'permission_id' => $super_admin_permission_id,
+            $PermissionRole = PermissionRole::where(['permission_id' => $permission_id, 'role_id' => $super_admin_role_id])->first();
+            if (!$PermissionRole) {
+                $permission_role[] = [
+                    'permission_id' => $permission_id,
                     'role_id' => $super_admin_role_id,
                 ];
             }
 
-            PermissionRole::insert($super_admin_permission_role);
-
-        } else {
-
-            $super_admin_permission_role = [];
-
-            foreach ($super_admin_permissions as $super) {
-
-                $per = Permission::where('name', $super['name'])->first();
-                if ($per) {
-                    continue;
-                } else {
-
-                    $super_admin_permission_id = Permission::insertGetId($super);
-
-                    $super_admin_permission_role[] = [
-                        'permission_id' => $super_admin_permission_id,
-                        'role_id' => $super_admin[0]['id'],
-                    ];
-                    PermissionRole::insert($super_admin_permission_role);
-                }
-            }
         }
+
+        if(PermissionRole::where(['permission_id' => $permission_id,'role_id' => $super_admin_role_id])->first())
+        {
+
+        }else
+        {
+            PermissionRole::insert($permission_role);
+        }
+
+
     }
 }

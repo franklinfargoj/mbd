@@ -297,6 +297,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('ree_forward_reval_application/{id}','REEDepartment\REEController@forwardRevalApplication')->name('ree.forward_reval_application');
 
     Route::get('download_cap_note/{id}','REEDepartment\REEController@downloadCapNote')->name('ree.download_cap_note');
+    Route::get('download_reval_cap_note/{id}','REEDepartment\REEController@downloadRevalCapNote')->name('ree.download_reval_cap_note');
     
     Route::post('ree_forward_Application_data','REEDepartment\REEController@sendForwardApplication')->name('ree.forward_application_data');
     Route::post('ree_forward_reval_Application_data','REEDepartment\REEController@sendForwardRevalApplication')->name('ree.forward_reval_application_data');
@@ -539,9 +540,22 @@ Route::delete('destroy_architect_layout_detail_court_case_or_dispute_on_land/{id
 //CRUD Routes
 
     Route::group(['namespace' => 'CRUDAdmin','prefix' => 'crudadmin'], function() {
+        // Superadmin Dashboard
         Route::get('dashboard','DashboardController@index')->name('superadmin.dashboard');
+        // Role
         Route::post('loadDeleteRoleUsingAjax', 'RoleController@loadDeleteRoleUsingAjax')->name('loadDeleteRoleUsingAjax');
         Route::resource('roles','RoleController');
+        // Application Status
+        Route::post('loadDeleteApplicationStatusUsingAjax', 'ApplicationStatusController@loadDeleteApplicationStatusUsingAjax')->name('loadDeleteApplicationStatusUsingAjax');
+        Route::resource('application_status','ApplicationStatusController');
+        // Hearing Status
+        Route::post('DeleteHearingStatusUsingAjax', 'HearingStatusController@DeleteHearingStatusUsingAjax')->name('DeleteHearingStatusUsingAjax');
+        Route::resource('hearing_status','HearingStatusController');
+        // RTI Status
+        Route::post('DeleteRTIStatusUsingAjax', 'RTIStatusController@DeleteRTIStatusUsingAjax')->name('DeleteRTIStatusUsingAjax');
+        Route::resource('rti_status','RTIStatusController');
+
+
     });
 
     //Society Conveyance

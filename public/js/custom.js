@@ -566,6 +566,79 @@ $(document).ready(function () {
         }
     });
 
+
+    // application status validations
+
+    $("#addapplicationstatus").validate({
+        // errorElement: "span",
+        //errorClass : "text-red",
+        rules: {
+            status_name: "required",
+        }
+    });
+
+    $("#editapplicationstatus").validate({
+        // errorElement: "span",
+        //errorClass : "text-red",
+        rules: {
+            status_name: "required",
+        }
+    });
+
+    $("#DeleteApplicationStatusReason").validate({
+        rules: {
+            delete_message: "required",
+        }
+    });
+
+    // Hearing status validations
+
+    $("#addhearingstatus").validate({
+        // errorElement: "span",
+        //errorClass : "text-red",
+        rules: {
+            status_title: "required",
+        }
+    });
+
+    $("#edithearingstatus").validate({
+        // errorElement: "span",
+        //errorClass : "text-red",
+        rules: {
+            status_title: "required",
+        }
+    });
+
+    $("#DeleteHearingStatusReason").validate({
+        rules: {
+            delete_message: "required",
+        }
+    });
+
+    // RTI status validations
+
+    $("#addrtistatus").validate({
+        // errorElement: "span",
+        //errorClass : "text-red",
+        rules: {
+            status_title: "required",
+        }
+    });
+
+    $("#editrtistatus").validate({
+        // errorElement: "span",
+        //errorClass : "text-red",
+        rules: {
+            status_title: "required",
+        }
+    });
+
+    $("#DeleteRTIStatusReason").validate({
+        rules: {
+            delete_message: "required",
+        }
+    });
+
     $("#appointing_architect_step1").validate({
         rules:{
             category_of_panel:"required",

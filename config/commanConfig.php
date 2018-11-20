@@ -78,6 +78,9 @@ return [
 
       // sc documents
      'documents' => [
+        'society' => [
+            'stamp_conveyance_application' => 'stamp_conveyance_application',
+        ],
         'dycdo_note'  => 'dycdo_note',
         'architect_conveyance_map' => 'architect_conveyance_map',
         'em_conveyance' => [
