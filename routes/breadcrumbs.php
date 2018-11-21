@@ -74,6 +74,26 @@ Breadcrumbs::for('society_detail', function ($trail) {
 	$trail->push('Society Detail', route('society_detail.index'));
 });
 
+Breadcrumbs::for('society_details', function ($trail,$id) {
+    $trail->parent('society_detail');
+    $trail->push('Society List', route('society.billing_level'));
+    $trail->push('Society Details', route('society.society_details',['id'=>$id]));
+});
+
+Breadcrumbs::for('arrears_charges', function ($trail,$id,$building_id) {
+    $trail->parent('society_detail');
+    $trail->push('Society List', route('society.billing_level'));
+    $trail->push('Society Details', route('society.society_details',['id'=>$id]));
+    $trail->push('Arrear Charges Rate', route('arrears_charges',['society_id'=>$id,'building_id'=>$building_id]));
+});
+
+Breadcrumbs::for('service_charges', function ($trail,$id,$building_id) {
+    $trail->parent('society_detail');
+    $trail->push('Society List', route('society.billing_level'));
+    $trail->push('Society Details', route('society.society_details',['id'=>$id]));
+    $trail->push('Service Charges Rate', route('service_charges',['society_id'=>$id,'building_id'=>$building_id]));
+});
+
 Breadcrumbs::for('society_create', function ($trail) {
 	$trail->parent('society_detail');
 	$trail->push('Add Society', route('society_detail.create'));
