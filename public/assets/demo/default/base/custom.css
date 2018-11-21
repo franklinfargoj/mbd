@@ -277,6 +277,21 @@ a[title="JavaScript charts"] {
     padding-right: 60px;
 }
 
+.m-portlet--forms-compact .m-form__group {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.m-portlet--forms-compact .m-portlet__head--top {
+    margin-top: 20px;
+    padding-bottom: 10px;
+}
+
+.m-portlet--forms-compact .m-form__actions {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
 .tab-pane .m-subheader {
     padding: 0 !important;
 }
