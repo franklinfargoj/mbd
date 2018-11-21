@@ -32,7 +32,7 @@
 
                 <div class="col-md-12" style="margin-top:10px;margin-bottom: 10px;">
                     <div class="row align-items-center mb-0">                            
-                            <div class="col-md-9">
+                            <div class="col-md-4">
                                 <div class="form-group m-form__group">
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="layout" name="layout" required>
                                         <option value="" style="font-weight: normal;">Select Layout</option>
@@ -47,7 +47,7 @@
 
                 <div class="col-md-12" style="margin-top:10px;margin-bottom: 10px;">
                     <div class="row align-items-center mb-0">                            
-                            <div class="col-md-9">
+                            <div class="col-md-4">
                                 <div class="form-group m-form__group ward-div">
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="wards" name="wards" required>
                                         <option value="" style="font-weight: normal;">Select Ward</option>
@@ -62,7 +62,7 @@
 
                 <div class="col-md-12" style="margin-top:10px;margin-bottom: 10px;">
                     <div class="row align-items-center mb-0">                            
-                            <div class="col-md-9">
+                            <div class="col-md-4">
                                 <div class="form-group m-form__group colony_select">
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="colony" name="colony" required>
                                         <option value="" style="font-weight: normal;">Select Colony</option>
@@ -77,7 +77,7 @@
 
                 <div class="col-md-12" style="margin-top:10px;margin-bottom: 10px;">
                     <div class="row align-items-center mb-0">                            
-                            <div class="col-md-9">
+                            <div class="col-md-4">
                                 <div class="form-group m-form__group society_select">
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="society" name="society" required>
                                         <option value="" style="font-weight: normal;">Select Societies</option>
@@ -89,8 +89,10 @@
                             </div>                          
                     </div>
                 </div>
-
-                <div class="col-md-12" style="margin-top:10px;margin-bottom: 10px;">
+                <div class=" col-md-12 building_select">
+                    
+                </div>
+               {{--  <div class="col-md-12" style="margin-top:10px;margin-bottom: 10px;">
                     <div class="row align-items-center mb-0">                            
                             <div class="col-md-12">
                                 <div class="form-group m-form__group ">
@@ -113,7 +115,7 @@
                                 </div>
                             </div>                          
                     </div>
-                </div>
+                </div> --}}
 
                 
                 <div class="col-md-12" style="margin-top:10px;margin-bottom: 10px;">
@@ -207,12 +209,13 @@
                 //console.log(id);
                 //return false;
                 $.ajax({
-                    url:"{{URL::route('get_building_select')}}",
+                    url:"{{URL::route('get_building_select_updated')}}",
                     type: 'get',
                     data: {id: id},
                         success: function(response){
                         //console.log(response);
                         $('.building_select').html(response);
+                        $('.tenant-list').html('');
                         $('#building').selectpicker('refresh');
                     }
                 });             

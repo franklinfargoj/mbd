@@ -16,7 +16,11 @@
     </div>  
 @endif
 <div class="col-md-12">
-    
+      <div class="m-subheader px-0 m-subheader--top">
+        <div class="d-flex align-items-center" id="search_box">
+           <h3 class="m-subheader__title"> </h3>          
+         </div>
+
     <div class="m-portlet m-portlet--compact m-portlet--mobile">
         {{--<div class="m-portlet__head">--}}
             {{--<div class="m-portlet__head-caption">--}}
@@ -35,6 +39,7 @@
             <!--end: Datatable -->
         </div>
     </div>
+</div>
     <input type="hidden" id="myModalBtn" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" />
 
     <!-- Modal -->

@@ -20,7 +20,7 @@
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center" id="search_box">
             <h3 class="m-subheader__title m-subheader__title--separator">Tenant List </h3>
-            {{ Breadcrumbs::render('em') }}
+            {{ Breadcrumbs::render('tenant_list',encrypt($society_id),encrypt($building_id)) }}
          </div>
 
     </div>
@@ -29,8 +29,8 @@
         <div class="m-portlet__head">
             <div class="m-portlet__head-caption">
                 <div class="m-portlet__head-text">
-                    <h3 class="m-portlet__head-text"> List of tenants</h3>
-                    <div id="filter" class="ml-auto"><input type="search" id="searchId" class="form-control input-sm input-small input-inline form-control--custom"
+                    {{-- <h3 class="m-portlet__head-text"> List of tenants</h3> --}}
+                    <div id="dataTableBuilder_filter" class="col-md-4 pull-left ml-auto"><input type="search" id="searchId" class="form-control input-sm input-small input-inline form-control--custom"
                     placeholder="Search ..."></div>     
                 </div>
             </div>
