@@ -15,7 +15,7 @@
         </div>
         <!-- END: Subheader -->
         <div class="m-portlet m-portlet--mobile">
-            <form id="addlayout" layout="form" method="post" class="m-form m-form--rows m-form--label-align-right" action="{{route('layouts.store')}}" enctype="multipart/form-data">
+            <form id="addlayout" role="form" method="post" class="m-form m-form--rows m-form--label-align-right" action="{{route('layouts.store')}}" enctype="multipart/form-data">
                 @csrf
                 <div class="m-portlet__body m-portlet__body--spaced">
                     <div class="form-group m-form__group row">

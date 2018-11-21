@@ -16,7 +16,7 @@
 
         <!-- END: Subheader -->
         <div class="m-portlet m-portlet--mobile">
-            <form id="editlayout" layout="form" method="post" class="m-form m-form--rows m-form--label-align-right" action="{{route('layouts.update',$layout['id'])}}" enctype="multipart/form-data">
+            <form id="editlayout" role="form" method="post" class="m-form m-form--rows m-form--label-align-right" action="{{route('layouts.update',$layout['id'])}}" enctype="multipart/form-data">
                 @csrf
                 @method("PUT")
                 <div class="m-portlet__body m-portlet__body--spaced">
