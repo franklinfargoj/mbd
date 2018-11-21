@@ -589,6 +589,10 @@ Route::delete('destroy_architect_layout_detail_court_case_or_dispute_on_land/{id
     Route::get('view_society_formation/{id}','SocietyFormationController@view_application')->name('society_formation.view_application');
     Route::post('upload_sf_application_attachment','SocietyFormationController@upload_sf_application_attachment')->name('upload_sf_application_attachment');
     Route::post('sf_submit_application','SocietyFormationController@sf_submit_application')->name('sf_submit_application');
+    
+    //admin side
+    Route::get('get_sf_applications','conveyance\FormationCommonController@index')->name('get_sf_applications.index');
+   
     //Society Formation End
 
 
