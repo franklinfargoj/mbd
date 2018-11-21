@@ -322,6 +322,11 @@ class EEUserSeeder extends Seeder
                 'name' => 'ee.save_scrutiny_remark',
                 'display_name' => 'save scrutiny remark',
                 'description' => 'save scrutiny remark',
+            ],             
+            [
+                'name' => 'ee.delete_ee_scrutiny_documents',
+                'display_name' => 'delete ee scrutiny documents',
+                'description' => 'delete ee scrutiny documents',
             ],                                      
         ];
 

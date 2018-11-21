@@ -156,6 +156,7 @@ class EEController extends Controller
         return $status;
     }
 
+    //save scrunity data fil by EE
     public function SaveScrutinyRemark(Request $request){
         
         $applicationId = $request->application_id; 
@@ -166,5 +167,18 @@ class EEController extends Controller
         }
         return back()->with('success','Data uploaded successfully.');
 
+    }
+
+    // delete ee scrutiny documents through ajax
+    public function deleteRenewalScrutinyDocument(Request $request){
+            
+        if (isset($request->oldFile) && isset($request->key)){
+            Storage::disk('ftp')->delete($request->oldFile);
+            RenewalEEScrutinyDocuments::where('id',$request->key)->delete(); 
+            $status = 'success';           
+        }else{
+             $status = 'error';
+        }
+        return $status;
     }
 }

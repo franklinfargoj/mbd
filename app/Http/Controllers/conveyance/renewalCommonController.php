@@ -315,14 +315,21 @@ class renewalCommonController extends Controller
         $data = $this->getForwardApplicationData($applicationId);
         $data->folder = $this->conveyance->getCurrentRoleFolderName();
         $data->status = $this->getCurrentStatus($applicationId,$data->application_master_id);
-        $route = 'admin.renewal.dyco_department.forward_application';
 
          // scrutiny logs       
         $societyLogs   = $this->getLogsOfSociety($applicationId,$data->application_master_id);
         $dycoLogs      = $this->getLogsOfDYCODepartment($applicationId,$data->application_master_id);
         $eelogs        = $this->getLogsOfEEDepartment($applicationId,$data->application_master_id);
         $Architectlogs = $this->getLogsOfArchitectDepartment($applicationId,$data->application_master_id);
-        $cologs        = $this->getLogsOfCODepartment($applicationId,$data->application_master_id);         
+        $cologs        = $this->getLogsOfCODepartment($applicationId,$data->application_master_id);
+
+    if (session()->get('role_name') == config('commanConfig.dyco_engineer') || session()->get('role_name') == config('commanConfig.dycdo_engineer')){
+
+            $route = 'admin.renewal.dyco_department.forward_application';
+        }     
+        else{
+        $route = 'admin.renewal.common.forward_application';
+      }                 
         // return view($route,compact('data','dycoLogs','eelogs','Architectlogs','cologs'));         
         return view($route,compact('data','societyLogs','dycoLogs','eelogs','Architectlogs','cologs'));         
     }  
@@ -529,6 +536,22 @@ class renewalCommonController extends Controller
         
         $data = RenewalApplication::with('societyApplication')->where('id',$applicationId)->first();
         $data->documents = RenewalEEScrutinyDocuments::where('application_id',$applicationId)->get();
-        return view('admin.renewal.ee_department.ee_scrutiny_remark', compact('data'));
-    }                         
+        $is_view = session()->get('role_name') == config('commanConfig.ee_junior_engineer');
+        $status = $this->getCurrentStatus($applicationId,$data->application_master_id);
+
+        if ($is_view && $status->status_id == config('commanConfig.applicationStatus.in_process')){
+            $route = 'admin.renewal.ee_department.ee_scrutiny_remark';
+        }else{
+            $route = 'admin.renewal.common.view_ee_scrutiny_remark';
+        }
+        return view($route, compact('data'));
+    }  
+
+    // Architect scrutiny page
+    public function RenewalArchitectScrunity(Request $request,$applicationId){
+
+        $data = RenewalApplication::with('societyApplication')->where('id',$applicationId)->first();
+        $route = 'admin.renewal.architect_department.architect_scrutiny_remark';
+        return view($route, compact('data'));
+    }                       
 }

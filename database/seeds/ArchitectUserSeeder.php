@@ -223,6 +223,11 @@ class ArchitectUserSeeder extends Seeder
                     'name' => 'renewal.save_forward_application_renewal',
                     'display_name' => 'save forward application renewal',
                     'description' => 'save forward application renewal',
+                ],                 
+                [
+                    'name' => 'renewal.architect_scrutiny',
+                    'display_name' => 'renewal architect scrutiny',
+                    'description' => 'renewal architect scrutiny',
                 ],                
                 
             ];
@@ -647,6 +652,11 @@ class ArchitectUserSeeder extends Seeder
                 'name'=>'renewal.save_forward_application_renewal',
                 'display_name'=>'save forward application renewal',
                 'description'=>'save forward application renewal'
+            ];            
+            $architect_permissions[]=[
+                'name'=>'renewal.architect_scrutiny',
+                'display_name'=>'renewal architect scrutiny',
+                'description'=>'renewal architect scrutiny'
             ];
             
             //$architect_permission_role = [];

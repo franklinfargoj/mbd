@@ -37,7 +37,7 @@
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
-            <h3 class="m-subheader__title m-subheader__title--separator">EE Scrutiny & Remark</h3>
+            <h3 class="m-subheader__title m-subheader__title--separator">Scrutiny & Remark</h3>
             
             <div class="ml-auto btn-list">
                 <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
@@ -137,40 +137,48 @@
                     <div class="">
                         <div class="row"> 
                             <div class="col-md-12 all_documents">  
-                            @php $i = 2; @endphp
-                            @foreach($data->documents as $document)                               
-                                <div class="align-items-center upload_doc_{{$i}}">
-                                    <div class="form-group m-form__group row mb-0">
-                                        <div class="col-lg-2 form-group">
-                                            <label class="site-visit-label">Uploaded a file:</label>
-                                        </div>
-                                        <div class="col-lg-5 form-group">                                            
-                                            <div class="custom-file"> 
-                                            <input type="hidden" name= "oldFile" id="oldFile" value="{{ isset($document->document_path) ? $document->document_path : '' }}">
-                                            <a href="{{config('commanConfig.storage_server').'/'.$document->document_path}}">
-                                            <img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"> 
-                                            </a>
-                                            <span>{{ isset(explode('/',$document->document_path)[1]) ? explode('/',$document->document_path)[1] : '' }}</span>
-                                            <span>
-                                                <i class="fa fa-close doc close-icon" id="document_{{$i}}" onclick="removeDocuments(this.id)"></i></span>
+                            @php $i = 1;
+                                if (count($data->documents) > 0) 
+                                 $id =  count($data->documents) + 1;
+                                 else
+                                 $id = '1';
+                             @endphp
+                            @if($data->documents) 
+                                @foreach($data->documents as $document)                              
+                                    <div class="align-items-center upload_doc_{{$i}}">
+                                        <div class="form-group m-form__group row mb-0">
+                                            <div class="col-lg-2 form-group">
+                                                <label class="site-visit-label">Uploaded a file:</label>
                                             </div>
-                                        </div>
-                                    </div>   
-                                </div>
-                                @php $i++; @endphp
-                            @endforeach    
-
-                                <div class="align-items-center upload_doc_1">
+                                            <div class="col-lg-5 form-group">                                            
+                                                <div class="custom-file"> 
+                                                <input type="hidden" name= "oldFile" id="oldFile_{{$i}}" value="{{ isset($document->document_path) ? $document->document_path : '' }}">
+                                                <input type="hidden" id="key_{{$i}}" value="{{ isset($document->id) ? $document->id : '' }}">
+                                                <a href="{{config('commanConfig.storage_server').'/'.$document->document_path}}">
+                                                <img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"> 
+                                                </a>
+                                                <span>{{ isset(explode('/',$document->document_path)[1]) ? explode('/',$document->document_path)[1] : '' }}</span>
+                                                <span>
+                                                    <i class="fa fa-close doc close-icon" id="close_{{$i}}" style="left: 76%;top: 32%;visibility: visible;" onclick="removeDocuments(this.id)"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>   
+                                    </div>
+                                    @php $i++; @endphp
+                                @endforeach 
+                            @endif       
+                            
+                                <div class="align-items-center upload_doc_{{$id}}">
                                     <div class="form-group m-form__group row mb-0">
                                         <div class="col-lg-2 form-group">
                                             <label class="site-visit-label">Upload a file:</label>
                                         </div>
                                         <div class="col-lg-5 form-group">                                            
                                             <div class="custom-file">
-                                                <input type="file" class="file custom-file-input file_ext upload_file_1" name="document[]" id="test-upload_1" onchange="uploadDocuments(this.id)">
-                                                <label class="custom-file-label" for="test-upload_1" id="file_label_1">Choose file ...</label>
-                                                <span id="file_error_1" class="text-danger"></span>
-                                                <i class="fa fa-close doc close-icon" id="document_1" onclick="removeDocuments(this.id)"></i>
+                                                <input type="file" class="file custom-file-input file_ext upload_file_{{$id}}" name="document[]" id="test-upload_{{$id}}" onchange="uploadDocuments(this.id)">
+                                                <label class="custom-file-label" for="test-upload_{{$id}}" id="file_label_{{$id}}">Choose file ...</label>
+                                                <span id="file_error_{{$id}}" class="text-danger"></span>
+                                                <!-- <i class="fa fa-close doc close-icon" id="document_{{$id}}" onclick="removeDocuments(this.id)"></i> -->
                                             </div>
                                         </div>
                                     </div>   
@@ -197,12 +205,12 @@
                             <span class="mr-3">Is plan according to sanctioned OC ?</span>
                             <label class="m-radio m-radio--primary">
                                 <input type="radio" class="radioBtn" name="is_sanctioned_oc" value="1" checked
-                                    >Yes
+                                    {{ (isset($data) && $data->is_sanctioned_oc == '1') ? 'checked' : '' }}>Yes
                                     <span></span>
                             </label>
                             <label class="m-radio m-radio--primary">
                                 <input type="radio" class="radioBtn" name="is_sanctioned_oc" value="0"
-                                    >No
+                                    {{ (isset($data) && $data->is_sanctioned_oc == '0') ? 'checked' : '' }}>No
                                 <span></span>
                             </label>
                         </div>
@@ -216,34 +224,34 @@
             </div>
         </div>
         <!-- end  -->
- 
+
         <!-- Encrochment verification -->
         <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
             <div class="portlet-body">
                 <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
                     <div class="m-form__group form-group">
-						<div class="m-radio-inline">
-							<span class="mr-3">Is there any additional FSI ?</span>
-							<label class="m-radio m-radio--primary">
-								<input type="radio" class="radioBtn" name="is_additional_fsi" value="1" checked
-									>Yes
-									<span></span>
-							</label>
-							<label class="m-radio m-radio--primary">
-								<input type="radio" class="radioBtn" name="is_additional_fsi" value="0"
-									>No
-								<span></span>
-							</label>
-						</div>
-						<div class="mt-3 table--box-input">
-							<label class="e_comments" for="comments">If Yes, Comments:</label>
-							<textarea rows="5" cols="30" class="form-control form-control--custom" id="additional_fsi_comments" name="additional_fsi_comments" > {{ isset($data->additional_fsi_comments) ? $data->additional_fsi_comments : '' }}</textarea>
-							<span class="error" id="encrochment_comments_error" style="display:none;color:#f4516c">This feild is required</span>
-						</div>
-						<div class="mt-3">
+                        <div class="m-radio-inline">
+                            <span class="mr-3">Is there any additional FSI ?</span>
+                            <label class="m-radio m-radio--primary">
+                                <input type="radio" class="radioBtn" name="is_additional_fsi" value="1" checked
+                                    {{ (isset($data) && $data->is_additional_fsi == '1') ? 'checked' : '' }}>Yes
+                                    <span></span>
+                            </label>
+                            <label class="m-radio m-radio--primary">
+                                <input type="radio" class="radioBtn" name="is_additional_fsi" value="0"
+                                    {{ (isset($data) && $data->is_additional_fsi == '0') ? 'checked' : '' }}>No
+                                <span></span>
+                            </label>
+                        </div>
+                        <div class="mt-3 table--box-input">
+                            <label class="e_comments" for="comments">If Yes, Comments:</label>
+                            <textarea rows="5" cols="30" class="form-control form-control--custom" id="additional_fsi_comments" name="additional_fsi_comments" > {{ isset($data->additional_fsi_comments) ? $data->additional_fsi_comments : '' }}</textarea>
+                            <span class="error" id="encrochment_comments_error" style="display:none;color:#f4516c">This feild is required</span>
+                        </div>
+                        <div class="mt-3">
                             <input type="submit" class="s_btn btn btn-primary" id="submitBtn" name="">
-							<button type="button" class="s_btn btn btn-primary" id="submitBtn" name="">Cancel</button>
-						</div>				
+                            <button type="button" class="s_btn btn btn-primary" id="submitBtn" name="">Cancel</button>
+                        </div>              
                     </div>
                 </div>
             </div>
@@ -259,16 +267,6 @@
 <script>
 
 var isError = 0;
-    $("#dyce_scrunity_Form").validate({
-        rules: {
-            demarkation_comments: "required",
-            officer_name: "required",
-            visit_date: "required",
-        	encrochment : "required",
-            "officer_name[]": "required",
-        }
-    });
-
     function selectFile() {
         $('.custom-file-input').change(function (e) {
             $(this).parents('.custom-file').find('.custom-file-label').text(e.target.files[0].name);
@@ -279,10 +277,9 @@ var isError = 0;
 
         var id = $("#documentCount").val();
         myfile = $("#test-upload_"+id).val();
-         console.log(id);           
         var ext = myfile.split('.').pop();
         if(myfile != ""){
-            
+                       
             if (ext != "pdf"){
                 $("#file_error_"+id).text("Invalid type of file uploaded.");
                 $("#test-upload_"+id).closest(".custom-file").addClass("has-error");
@@ -302,12 +299,12 @@ var isError = 0;
             if (id < 10){
                 $(".file_required").text("");
                 $('.doc').css("visibility", "visible");
-                $(".all_documents").append("<div class='align-items-center upload_doc_"+id+"'><div class='form-group m-form__group row mb-0'><div class='col-lg-2 form-group'><label class='site-visit-label'>Upload a file:</label></div><div class='col-lg-5 form-group'><div class='custom-file'><input type='file' class='file custom-file-input file_ext upload_file_"+id+"' name='document[]' id='test-upload_" + id + "' onchange='uploadDocuments(this.id)'><label class='custom-file-label' for='test-upload_"+id+"' id='file_label_"+id+"'> Choose file .. </label><span class='text-danger' id='file_error_"+id+"'></span><i class='fa fa-close doc close-icon' id='document_"+id+"' onclick='removeDocuments()'></i></div></div></div></div>"
+                $(".all_documents").append("<div class='align-items-center upload_doc_"+id+"'><div class='form-group m-form__group row mb-0'><div class='col-lg-2 form-group'><label class='site-visit-label'>Upload a file:</label></div><div class='col-lg-5 form-group'><div class='custom-file'><input type='file' class='file custom-file-input file_ext upload_file_"+id+"' name='document[]' id='test-upload_" + id + "' onchange='uploadDocuments(this.id)'><label class='custom-file-label' for='test-upload_"+id+"' id='file_label_"+id+"'> Choose file .. </label><span class='text-danger' id='file_error_"+id+"'></span></div></div></div></div>"
                 );
                 selectFile();
                 $("#documentCount").val(id);                                                     
-            }            
-         }
+            }           
+        }
     }
 
     function uploadDocuments(text){
@@ -337,7 +334,8 @@ var isError = 0;
                     processData: false,
                     success: function(data) {
                         $(".loader").hide();
-                        $("#file_error_"+id).css("display","none");
+                        if(data == 'success')
+                            $("#file_error_"+id).css("display","none");
                     }
                 });                     
             }else{
@@ -347,30 +345,30 @@ var isError = 0;
     }
 
     function removeDocuments(data) {
-        var id = data.substr(9, 2);
-        var id1 = $("#siteDocument").val();
-        id1--;
-        $("#siteDocument").val(id1); 
-        $('#deletedDoc').val($('#deletedDoc').val() + '#'+ $("#file_label_"+id).text());
-        // $(".upload_doc_" + id).css("visibility", "hidden");
-        $(".upload_doc_" + id).css("display", "none");
-        $(".upload_doc_" + id).attr("disabled", "disabled");
-        $(".upload_file_" + id).attr("disabled", "disabled");
+        var id = data.split('_')[1];
+        var key = $("#key_"+id).val();
+        var oldFile = $("#oldFile_"+id).val();
+        console.log(oldFile);
+        var form_data = new FormData();
+        form_data.append('key', key);
+        form_data.append('oldFile', oldFile);
+        form_data.append('_token', document.getElementsByName("_token")[0].value);
+        $(".loader").show();
+   
+            $.ajax({
+                url: "/delete_ee_scrutiny_documents",
+                data: form_data,
+                type: 'POST',
+                contentType: false,
+                cache: false, 
+                processData: false,
+                success: function(data) {
+                    $(".loader").hide();
+                    if (data == 'success'){
+                        $(".upload_doc_"+id).css("display","none");
+                    }
+                }
+            })        
     }
-
-    $("#submitBtn").click(function () {   
-        var id1 = $("#siteDocument").val();
-        var enrochComment = $("#encrochment_comments").val();
-        var isEnrochment = $("input[name=encrochment]:checked").val();
-
-        if (isEnrochment == '1' && enrochComment == "") {
-            $("#encrochment_comments_error").css("display", "block");
-        } else {
-            $("#encrochment_comments_error").css("display", "none");
-            $("#dyce_scrunity_Form").submit();
-        }
-
-    });
-
 </script>
 @endsection
