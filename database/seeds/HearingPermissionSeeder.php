@@ -578,7 +578,17 @@ class HearingPermissionSeeder extends Seeder
                 'name' => 'renewal.save_agreement_comments',
                 'display_name' => 'save agreement comments',
                 'description' => 'save agreement comments',
-            ],                                                
+            ],
+            [
+                'name' => 'renewal.ee_scrutiny',
+                'display_name' => 'renewal ee scrutiny',
+                'description' => 'renewal ee scrutiny',
+            ],            
+            [
+                'name' => 'renewal.architect_scrutiny',
+                'display_name' => 'renewal architect scrutiny',
+                'description' => 'renewal architect scrutiny',
+            ],                                                            
         ];
  
         foreach ($Jtco_permission as $permission) {

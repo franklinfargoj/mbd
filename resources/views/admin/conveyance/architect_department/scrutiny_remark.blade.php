@@ -1,6 +1,6 @@
 @extends('admin.layouts.sidebarAction')
 @section('actions')
-    @include('admin.conveyance.architect_department.action')
+    @include('admin.conveyance.'.$data->folder.'.action')
 @endsection
 @section('css')
 <!-- <style> -->

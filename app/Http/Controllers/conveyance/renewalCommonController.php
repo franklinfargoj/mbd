@@ -12,6 +12,7 @@ use App\conveyance\RenewalDocumentStatus;
 use App\conveyance\RenewalAgreementComments;
 use App\conveyance\RenewalApplicationLog;
 use App\conveyance\RenewalEEScrutinyDocuments;
+use App\conveyance\RenewalArchitectScrutinyDocuments;
 use App\ApplicationStatusMaster;
 use Yajra\DataTables\DataTables;
 use Carbon\Carbon;
@@ -347,7 +348,7 @@ class renewalCommonController extends Controller
 
     // forward and revert application
     public function saveForwardApplication(Request $request){
-    
+         // dd($request);
         $Scstatus = "";
         $data = RenewalApplication::where('id',$request->applicationId)->first();
 
@@ -364,7 +365,7 @@ class renewalCommonController extends Controller
         }
         
         if (session()->get('role_name') == config('commanConfig.ee_branch_head') && $request->to_role_id == $dycdoId) {
-            $Tostatus = config('commanConfig.applicationStatus.Draft_sale_&_lease_deed');
+            $Tostatus = config('commanConfig.applicationStatus.Draft_lease_deed');
             $Scstatus = $Tostatus;
 
         } elseif (session()->get('role_name') == config('commanConfig.joint_co') && $request->to_role_id == $dycdoId){
@@ -432,10 +433,11 @@ class renewalCommonController extends Controller
                 'created_at'    => Carbon::now(),
             ],
             ];
-
+            
             RenewalApplicationLog::insert($application); 
             if ($Scstatus != ""){
-                RenewalApplicationLog::where('id',$request->applicationId)->where('sc_application_master_id',$masterId)
+                
+                RenewalApplication::where('id',$request->applicationId)->where('application_master_id',$masterId)
                 ->update(['application_status' => $Tostatus]);                    
             }
 
@@ -538,6 +540,7 @@ class renewalCommonController extends Controller
         $data->documents = RenewalEEScrutinyDocuments::where('application_id',$applicationId)->get();
         $is_view = session()->get('role_name') == config('commanConfig.ee_junior_engineer');
         $status = $this->getCurrentStatus($applicationId,$data->application_master_id);
+        $data->folder = $this->conveyance->getCurrentRoleFolderName();
 
         if ($is_view && $status->status_id == config('commanConfig.applicationStatus.in_process')){
             $route = 'admin.renewal.ee_department.ee_scrutiny_remark';
@@ -551,7 +554,69 @@ class renewalCommonController extends Controller
     public function RenewalArchitectScrunity(Request $request,$applicationId){
 
         $data = RenewalApplication::with('societyApplication')->where('id',$applicationId)->first();
-        $route = 'admin.renewal.architect_department.architect_scrutiny_remark';
+        $data->documents = RenewalArchitectScrutinyDocuments::where('application_id',$applicationId)->get();
+
+        $is_view = session()->get('role_name') == config('commanConfig.junior_architect');
+        $status = $this->getCurrentStatus($applicationId,$data->application_master_id);
+        $data->folder = $this->conveyance->getCurrentRoleFolderName();
+
+        if ($is_view && $status->status_id == config('commanConfig.applicationStatus.in_process')){
+           $route = 'admin.renewal.architect_department.architect_scrutiny_remark';
+        }else{
+            $route = 'admin.renewal.common.view_architect_scrutiny_remark';
+        }
         return view($route, compact('data'));
-    }                       
+    } 
+
+    public function uploadArchitectDocuments(Request $request){
+
+        $file = $request->file('file');
+        $applicationId = $request->application_id;
+
+        if ($file->getClientMimeType() == 'application/pdf') {
+
+            $extension = $request->file('file')->getClientOriginalExtension();
+            $folderName = 'Renewal_Architect_documents';
+            $fileName = time().'_architect_'.$applicationId.'.'.$extension;
+
+            $this->CommonController->ftpFileUpload($folderName,$file,$fileName);
+            
+            $Documents = new RenewalArchitectScrutinyDocuments();
+            $Documents->application_id = $applicationId;
+            $Documents->user_id = Auth::id();
+            $Documents->document_path = $folderName.'/'.$fileName;
+            $Documents->save();
+
+            $status = 'success';  
+        }else{
+             $status = 'error';   
+        }
+        return $status;        
+    }
+
+    // delete Architect scrutiny documents through ajax
+    public function deleteRenewalArchitectDocument(Request $request){
+       
+        if (isset($request->oldFile) && isset($request->key)){
+            Storage::disk('ftp')->delete($request->oldFile);
+            RenewalArchitectScrutinyDocuments::where('id',$request->key)->delete(); 
+            $status = 'success';           
+        }else{
+             $status = 'error';
+        }
+        return $status;
+    }
+
+    //save scrunity data fil by Architect
+    public function SaveArchitectScrutinyRemark(Request $request){
+        
+        $applicationId = $request->application_id; 
+        
+        $data = RenewalApplication::where('id',$applicationId)->first();
+        if ($data){
+            RenewalApplication::where('id',$applicationId)->update(['is_sanctioned_oc' => $request->is_sanctioned_oc, 'sanctioned_comments' => $request->sanctioned_comments , 'is_additional_fsi' => $request->is_additional_fsi , 'additional_fsi_comments' => $request->additional_fsi_comments ]);   
+        }
+        return back()->with('success','Data uploaded successfully.');
+
+    }                              
 }

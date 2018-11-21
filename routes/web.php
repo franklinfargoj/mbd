@@ -818,6 +818,12 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::get('renewal_ee_scrutiny/{id}', 'conveyance\renewalCommonController@RenewalEEScrunityRemark')->name('renewal.ee_scrutiny');
 
+    Route::post('upload_architect_documents', 'conveyance\renewalCommonController@uploadArchitectDocuments')->name('renewal.upload_architect_documents');
+
+    Route::post('delete_architect_documents', 'conveyance\renewalCommonController@deleteRenewalArchitectDocument')->name('renewal.delete_architect_documents');
+
+    Route::post('save_architect_scrutiny', 'conveyance\renewalCommonController@SaveArchitectScrutinyRemark')->name('renewal.save_architect_scrutiny'); 
+
     Route::post('save_forward_application_renewal', 'conveyance\renewalCommonController@saveForwardApplication')->name('renewal.save_forward_application_renewal'); 
 
     Route::post('save_stamp_renewal_agreement', 'conveyance\renewalCommonController@saveStampRenewalAgreement')->name('renewal.save_stamp_renewal_agreement');   

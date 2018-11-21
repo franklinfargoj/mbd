@@ -161,12 +161,25 @@ class DYCOPermissions extends Seeder
                 'name' => 'renewal.save_forward_application_renewal',
                 'display_name' => 'save forward application renewal',
                 'description' => 'save forward application renewal',
+
             ],  
             [
                 'name'=>'get_sf_applications.index',
                 'display_name'=>'Display list of society formation application',
                 'description'=>'Display list of society formation application'
             ]           
+
+            ],            
+            [
+                'name' => 'renewal.ee_scrutiny',
+                'display_name' => 'renewal ee scrutiny',
+                'description' => 'renewal ee scrutiny',
+            ],            
+            [
+                'name' => 'renewal.architect_scrutiny',
+                'display_name' => 'renewal architect scrutiny',
+                'description' => 'renewal architect scrutiny',
+            ],             
         ];
 
         //dycdo
