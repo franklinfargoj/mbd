@@ -620,6 +620,30 @@ Breadcrumbs::for('rti_status_view', function ($trail,$id) {
     $trail->push('View RTI Status', route('rti_status.show',$id));
 });
 
+// Layouts
+Breadcrumbs::for('layout', function ($trail) {
+    $trail->push('Home', route('layouts.index'));
+});
+
+Breadcrumbs::for('add_layout', function ($trail) {
+    $trail->parent('layout');
+    $trail->push('Create Layout', route('layouts.create'));
+});
+
+Breadcrumbs::for('layout_detail', function ($trail) {
+    $trail->push('Layout Detail', route('layouts.index'));
+});
+
+Breadcrumbs::for('edit_layout', function ($trail,$id) {
+    $trail->parent('layout_detail');
+    $trail->push('Edit Layout', route('layouts.edit',$id));
+});
+
+Breadcrumbs::for('layout_view', function ($trail,$id) {
+    $trail->parent('layout');
+    $trail->push('View Layout', route('layouts.show',$id));
+});
+
 
 
 Breadcrumbs::for('em', function ($trail) {

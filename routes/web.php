@@ -553,7 +553,9 @@ Route::delete('destroy_architect_layout_detail_court_case_or_dispute_on_land/{id
         // RTI Status
         Route::post('DeleteRTIStatusUsingAjax', 'RTIStatusController@DeleteRTIStatusUsingAjax')->name('DeleteRTIStatusUsingAjax');
         Route::resource('rti_status','RTIStatusController');
-
+        // Role
+        Route::post('loadDeleteLayoutUsingAjax', 'LayoutController@loadDeleteLayoutUsingAjax')->name('loadDeleteLayoutUsingAjax');
+        Route::resource('layouts','LayoutController');
 
     });
 

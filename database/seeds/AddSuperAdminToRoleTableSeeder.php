@@ -178,6 +178,47 @@ class AddSuperAdminToRoleTableSeeder extends Seeder
                 'display_name' => 'Delete RTI Status Ajax',
                 'description' => 'Deleting RTI Status using Ajax'
             ]
+            ,
+            [
+                'name' => 'layouts.index',
+                'display_name' => 'List Layouts',
+                'description' => 'Listing Layouts'
+            ],
+            [
+                'name' => 'layouts.create',
+                'display_name' => 'Create Layout',
+                'description' => 'Creating Layout'
+            ],
+            [
+                'name' => 'layouts.show',
+                'display_name' => 'Create Layout',
+                'description' => 'Creating Layout'
+            ],
+            [
+                'name' => 'layouts.store',
+                'display_name' => 'Store Layout',
+                'description' => 'Storing Layout'
+            ],
+            [
+                'name' => 'layouts.edit',
+                'display_name' => 'Edit Layout',
+                'description' => 'EDiting Layout'
+            ],
+            [
+                'name' => 'layouts.update',
+                'display_name' => 'Update Layout',
+                'description' => 'updating Layout'
+            ],
+            [
+                'name' => 'layouts.destroy',
+                'display_name' => 'Delete Layout ',
+                'description' => 'Deleting Layout'
+            ],
+            [
+                'name' => 'loadDeleteLayoutUsingAjax',
+                'display_name' => 'Delete Layouts Ajax',
+                'description' => 'Deleting Layouts using Ajax'
+            ]
         ];
 
         $super_admin_role_id = Role::where('name', '=', 'superadmin')->value('id');
