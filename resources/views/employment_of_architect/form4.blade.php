@@ -34,7 +34,7 @@
     @endif --}}
     <form id="appointing_architect_step4" role="form" method="post" class="m-form m-form--rows m-form--label-align-right form-steps-box"
         action="{{route('appointing_architect.step4_post',['id'=>encrypt($application->id)])}}" enctype="multipart/form-data">
-        <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
+        <div class="m-portlet m-portlet--mobile m-portlet--forms-view m-portlet--forms-compact">
             <h3 class="section-title section-title--small">DETAIL OF 5 IMPORTANT PROJECTS</h3>
             @csrf
             <input type="hidden" name="application_id" value="{{$application->id}}">

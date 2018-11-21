@@ -92,14 +92,12 @@
                                     <td>
                                         <div class="d-flex justify-content-end">
                                             <div class="row">
-                                                <div class="col-md-12">
+                                                <div class="col-md-6">
                                                     <input required value="{{$application->imp_senior_professionals!=''?(isset($application->imp_senior_professionals[$j])?$application->imp_senior_professionals[$j]->len_of_service_with_firm_in_year:''):''}}"
                                                         name="len_of_service_with_firm_in_year[{{$j}}]" placeholder="Length (Firm)"
                                                         type="number" class="form-control form-control--custom select-box-list">
                                                 </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-12">
+                                                <div class="col-md-6">
                                                     <input required value="{{$application->imp_senior_professionals!=''?(isset($application->imp_senior_professionals[$j])?$application->imp_senior_professionals[$j]->len_of_service_with_firm_in_month:''):''}}"
                                                         name="len_of_service_with_firm_in_month[{{$j}}]" placeholder="Length (Total)"
                                                         type="number" class="form-control form-control--custom select-box-list">

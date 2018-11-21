@@ -40,7 +40,7 @@
 
 
         @for($j=0;$j<(1+$k);$j++)
-        <div class="m-portlet m-portlet--compact form-accordion">
+        <div class="m-portlet m-portlet--compact form-accordion m-portlet--forms-compact">
             <div class="d-flex justify-content-between align-items-center form-steps-toplinks">
                 <a class="btn--unstyled section-title section-title--small form-count-title d-flex justify-content-between collapsed" data-toggle="collapse"
                     href="#form_{{$j+1}}"><span class="form-accordion-title">PROJECT {{$j+1}}:</span><span class="accordion-icon"></span></a>
@@ -66,7 +66,7 @@
                                 }}</span>
                             @endif
                         </div>
-                        <div class="col-sm-4 offset-sm-1 form-group">
+                        <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="">Location:</label>
                             <input required type="text" id="" name="location" class="form-control form-control--custom m-input"
                                 value="{{isset($application->project_sheets[$j])?$application->project_sheets[$j]->location:old('location')}}">
@@ -75,8 +75,6 @@
                                 }}</span>
                             @endif
                         </div>
-                    </div>
-                    <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="">Name of Client:</label>
                             <input required type="text" id="" name="name_of_client" class="form-control form-control--custom m-input"
@@ -86,7 +84,7 @@
                                 }}</span>
                             @endif
                         </div>
-                        <div class="col-sm-4 offset-sm-1 form-group">
+                        <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="">Address:</label>
                             <input required type="text" id="" name="address" class="form-control form-control--custom m-input"
                                 value="{{isset($application->project_sheets[$j])?$application->project_sheets[$j]->address:old('address')}}">
@@ -95,8 +93,6 @@
                                 }}</span>
                             @endif
                         </div>
-                    </div>
-                    <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="">Phone Number:</label>
                             <input required type="text" id="" name="tel_no" class="form-control form-control--custom m-input"
@@ -106,7 +102,7 @@
                                 }}</span>
                             @endif
                         </div>
-                        <div class="col-sm-4 offset-sm-1 form-group">
+                        <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="extract">Upload copy of agreement:
                                 <!--<span class="star">*</span>--></label>
                             <div class="custom-file">
@@ -121,8 +117,6 @@
                                 <a style="display:{{$file!=''?'block':'none'}}" target="_blank" class="btn-link" href="{{config('commanConfig.storage_server').'/'.$file}}">download</a>
                             </div>
                         </div>
-                    </div>
-                    <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="">Build Up Area in m<sup>2</sup>:</label>
                             <input required type="text" id="" name="built_up_area_in_sq_m" class="form-control form-control--custom m-input"
@@ -132,7 +126,7 @@
                                 }}</span>
                             @endif
                         </div>
-                        <div class="col-sm-4 offset-sm-1 form-group">
+                        <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="">Land Area in m<sup>2</sup>:</label>
                             <input required type="text" id="" name="land_area_in_sq_m" class="form-control form-control--custom m-input"
                                 value="{{isset($application->project_sheets[$j])?$application->project_sheets[$j]->land_area_in_sq_m:old('land_area_in_sq_m')}}">
@@ -141,8 +135,6 @@
                                 }}</span>
                             @endif
                         </div>
-                    </div>
-                    <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="">Estimated Value of Projects:</label>
                             <input required type="text" id="" name="estimated_value_of_project" class="form-control form-control--custom m-input"
@@ -152,7 +144,7 @@
                                 }}</span>
                             @endif
                         </div>
-                        <div class="col-sm-4 offset-sm-1 form-group">
+                        <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="">Completed Value of Projects:</label>
                             <input required type="text" id="" name="completed_value_of_project" class="form-control form-control--custom m-input"
                                 value="{{isset($application->project_sheets[$j])?$application->project_sheets[$j]->completed_value_of_project:old('completed_value_of_project')}}">
@@ -161,8 +153,6 @@
                                 }}</span>
                             @endif
                         </div>
-                    </div>
-                    <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="">Date of Start:</label>
                             <input required type="text" id="" name="date_of_start" class="form-control form-control--custom m_datepicker"
@@ -172,7 +162,7 @@
                                 }}</span>
                             @endif
                         </div>
-                        <div class="col-sm-4 offset-sm-1 form-group">
+                        <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="">Date of Completion:</label>
                             <input required type="text" id="" name="date_of_completion" class="form-control form-control--custom m_datepicker"
                                 readonly value="{{isset($application->project_sheets[$j])?$application->project_sheets[$j]->date_of_completion:old('date_of_completion')}}">
@@ -181,8 +171,6 @@
                                 }}</span>
                             @endif
                         </div>
-                    </div>
-                    <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="">Whether Service Terminated by Client:</label>
                             <input required type="text" id="" name="whether_service_terminated_by_client" class="form-control form-control--custom m-input"
@@ -192,7 +180,7 @@
                                 }}</span>
                             @endif
                         </div>
-                        <div class="col-sm-4 offset-sm-1 form-group">
+                        <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="">Salient Features of Project:</label>
                             <input required type="text" id="" name="salient_features_of_project" class="form-control form-control--custom m-input"
                                 value="{{isset($application->project_sheets[$j])?$application->project_sheets[$j]->salient_features_of_project:old('salient_features_of_project')}}">
@@ -201,8 +189,6 @@
                                 }}</span>
                             @endif
                         </div>
-                    </div>
-                    <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="">Reasons for Delay (If any):</label>
                             <input required type="text" id="" name="reason_for_delay_if_any" class="form-control form-control--custom m-input"

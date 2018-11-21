@@ -17,7 +17,7 @@
         <button onclick="window.location='{{ route("appointing_architect.step9",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab ">Step 9</button>
         <button onclick="window.location='{{ route("appointing_architect.step10",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab ">Step 10</button>
     </div>
-    <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
+    <div class="m-portlet m-portlet--mobile m-portlet--forms-view m-portlet--forms-compact">
         <h3 class="section-title section-title--small">EMPANELMENT OF ARCHITECT/CONSULTANT WITH MHADA</h3>
         <form id="appointing_architect_step2" role="form" method="post" class="m-form m-form--rows m-form--label-align-right"
     action="{{route('appointing_architect.step2_post',['id'=>encrypt($application->id)])}}" enctype="multipart/form-data">
@@ -59,11 +59,11 @@
             </div>
             @endfor
             </div>
-            <div class="form-group mt-4">
+            <div class="form-group mt-3">
                 <a id="add-more" class="btn--add-delete add">add more<a>
             </div>
 
-            <div class="m-checkbox-list mt-5">
+            <div class="m-checkbox-list mt-2">
                 <label class="m-checkbox m-checkbox--primary">
                     <input {{$application->application_info_and_its_enclosures_verify==1?"checked":""}} type="checkbox" name="application_info_and_its_enclosures_verify" value="1"> Is verified by me and the same is correct by my knowledge
                     <span class=""></span>

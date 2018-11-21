@@ -31,15 +31,13 @@
             <span class="text-danger">{{ $errors->first('name_of_applicant') }}</span>
             @endif
         </div>
-        <div class="col-sm-4 offset-sm-1 form-group">
+        <div class="col-sm-4 form-group">
             <label class="col-form-label" for="">Address:</label>
             <input type="text" id="" name="address" class="form-control form-control--custom m-input" value="{{old('address')?old('address'):$application->address}}">
             @if ($errors->has('address'))
             <span class="text-danger">{{ $errors->first('address') }}</span>
             @endif
         </div>
-    </div>
-    <div class="form-group m-form__group row">
         <div class="col-sm-4 form-group">
             <label class="col-form-label" for="">City:</label>
             <input type="text" id="" name="city" class="form-control form-control--custom m-input" value="{{old('city')?old('city'):$application->city}}">
@@ -47,15 +45,13 @@
             <span class="text-danger">{{ $errors->first('city') }}</span>
             @endif
         </div>
-        <div class="col-sm-4 offset-sm-1 form-group">
+        <div class="col-sm-4 form-group">
             <label class="col-form-label" for="">PIN:</label>
             <input type="text" id="" name="pin" class="form-control form-control--custom m-input" value="{{old('pin')?old('pin'):$application->pin}}">
             @if ($errors->has('pin'))
             <span class="text-danger">{{ $errors->first('pin') }}</span>
             @endif
         </div>
-    </div>
-    <div class="form-group m-form__group row">
         <div class="col-sm-4 form-group">
             <label class="col-form-label" for="">Office No:</label>
             <input type="text" id="" name="off" class="form-control form-control--custom m-input" value="{{old('off')?old('off'):$application->off}}">
@@ -63,15 +59,13 @@
             <span class="text-danger">{{ $errors->first('off') }}</span>
             @endif
         </div>
-        <div class="col-sm-4 offset-sm-1 form-group">
+        <div class="col-sm-4 form-group">
             <label class="col-form-label" for="">Telephone No:</label>
             <input type="text" id="" name="res" class="form-control form-control--custom m-input" value="{{old('res')?old('res'):$application->res}}">
             @if ($errors->has('res'))
             <span class="text-danger">{{ $errors->first('res') }}</span>
             @endif
         </div>
-    </div>
-    <div class="form-group m-form__group row">
         <div class="col-sm-4 form-group">
             <label class="col-form-label" for="">Mobile No:</label>
             <input type="text" id="" name="mobile" class="form-control form-control--custom m-input" value="{{old('mobile')?old('mobile'):$application->mobile}}">
@@ -79,7 +73,7 @@
             <span class="text-danger">{{ $errors->first('mobile') }}</span>
             @endif
         </div>
-        <div class="col-sm-4 offset-sm-1 form-group">
+        <div class="col-sm-4 form-group">
             <label class="col-form-label" for="">Fax No:</label>
             <input type="text" id="" name="fax" class="form-control form-control--custom m-input" value="{{old('fax')?old('fax'):$application->fax}}">
             @if ($errors->has('fax'))

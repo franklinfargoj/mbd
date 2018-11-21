@@ -331,6 +331,11 @@ class EmPermissionSeeder extends Seeder
                 'name' => 'conveyance.save_forward_application',
                 'display_name' => 'Saves Forward Application',
                 'description' => 'Saves Forwards conveyance Application'
+            ],
+            [
+                'name' => 'get_building_select_updated',
+                'display_name' => 'Selected Building',
+                'description' => 'Selected Building'
             ]
         ];
 

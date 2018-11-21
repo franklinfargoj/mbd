@@ -24,7 +24,7 @@
                 <form method="get" enctype='multipart/form-data' action="{{route('tenant_payment_list')}}">
                     {{ csrf_field() }}
                     <div class="row align-items-center" style="margin-bottom: 1rem;">                            
-                            <div class="col-md-9">
+                            <div class="col-md-4">
                                 <div class="form-group m-form__group">
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="layout" name="layout" required>
                                         <option value="" style="font-weight: normal;">Select Layout</option>
@@ -38,7 +38,7 @@
                     </div>
 
                     <div class="row align-items-center" style="margin-bottom: 1rem;">
-                            <div class="col-md-9">
+                            <div class="col-md-4">
                                 <div class="form-group m-form__group society_list">
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="society" name="society" required>
                                         <option value="" style="font-weight: normal;">Select Society</option>
@@ -52,7 +52,7 @@
                     </div>
 
                     <div class="row align-items-center" style="margin-bottom: 1rem;">
-                            <div class="col-md-9">
+                            <div class="col-md-4">
                                 <div class="form-group m-form__group building_list">
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="building" name="building" required>
                                         <option value="" style="font-weight: normal;">Select Building</option>
