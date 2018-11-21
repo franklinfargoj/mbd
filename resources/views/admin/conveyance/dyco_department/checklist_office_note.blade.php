@@ -87,7 +87,7 @@
                                                     @if($value->is_date == '1')    
                                                         <input type="text" class="txtbox v_text form-control form-control--custom m-input m_datepicker" name="{{ isset($value->id) ? $value->id : '' }}"  value="{{ isset($value->checklistStatus) ? $value->checklistStatus->value : '' }}" aria-describedby="visit_date-error" aria-invalid="false" readonly>
                                                     @else
-                                                        <input type="text" name="{{ isset($value->id) ? $value->id : '' }}" class="form-control form-control--custom" value="{{ isset($value->checklistStatus) ? $value->checklistStatus->value : '' }}">    
+                                                        <input type="text" name="{{ isset($value->id) ? $value->id : '' }}" class="form-control form-control--custom" value="{{ isset($value->checklistStatus) ? $value->checklistStatus->value : '' }}" required>    
                                                     @endif 
                                                     </td>
                                                 </tr>  

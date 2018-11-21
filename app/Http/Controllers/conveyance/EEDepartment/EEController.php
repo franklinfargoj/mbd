@@ -26,6 +26,7 @@ class EEController extends Controller
 		$data = scApplication::with('ConveyanceSalePriceCalculation')->where('id',$applicationId)->first();
         $data->status = $this->conveyance->getCurrentStatus($applicationId,$data->sc_application_master_id);
         $is_view = session()->get('role_name') == config('commanConfig.ee_junior_engineer');
+        $data->conveyance_map = $this->conveyance->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
         
         if ($is_view && $data->status->status_id == config('commanConfig.applicationStatus.in_process')){
 
@@ -68,7 +69,7 @@ class EEController extends Controller
             $file 		 = $request->file('demarcation_plan');
             $file_name 	 = time().'_demarcation_plan_'.$applicationId.'.'.$file->getClientOriginalExtension();
             $extension 	 = $file->getClientOriginalExtension();
-            $folder_name = "demarcation_plan";
+            $folder_name = "Conveyance_Demarcation_Plan";
 
             if ($extension == "pdf"){
             	Storage::disk('ftp')->delete($request->oldFileName);
@@ -94,7 +95,7 @@ class EEController extends Controller
             $file 		 = $request->file('covering_letter');
             $file_name 	 = time().'_covering_letter_'.$applicationId.'.'.$file->getClientOriginalExtension();
             $extension 	 = $file->getClientOriginalExtension();
-            $folder_name = "EE_Covering_Letter";
+            $folder_name = "Conveyance_EE_Covering_Letter";
 
             if ($extension == "pdf"){
             	Storage::disk('ftp')->delete($request->oldFileName);
@@ -116,7 +117,8 @@ class EEController extends Controller
 		$data     = $this->conveyance->getForwardApplicationData($applicationId);
         $dycoLogs = $this->conveyance->getLogsOfDYCODepartment($applicationId,$data->sc_application_master_id);
         $eelogs   = $this->conveyance->getLogsOfEEDepartment($applicationId,$data->sc_application_master_id);
-        $Architectlogs   = $this->conveyance->getLogsOfArchitectDepartment($applicationId,$data->sc_application_master_id);
+        $Architectlogs = $this->conveyance->getLogsOfArchitectDepartment($applicationId,$data->sc_application_master_id);
+        $data->conveyance_map = $this->conveyance->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
         
 		return view('admin.conveyance.ee_department.forward_application',compact('data','dycoLogs','eelogs','Architectlogs'));
 	}

@@ -20,7 +20,7 @@
                     </a>
                 </li>
                 
-                @if($data->status->status_id != config('commanConfig.applicationStatus.forwarded'))
+                @if($data->status->status_id == config('commanConfig.applicationStatus.in_process'))
                 <li class="nav-item m-tabs__item">
                     <a class="nav-link m-tabs__link show" data-toggle="tab" href="#forward-application-tab">
                         <i class="la la-cog"></i> Forward Application
@@ -339,6 +339,7 @@
                                                 <textarea class="form-control form-control--custom" name="remark" id="remark"
                                                     cols="30" rows="5"></textarea>
                                             </div>
+                                            @if(isset($data->conveyance_map))
                                             <div class="mt-3 btn-list">
                                                 <button type="submit" class="btn btn-primary">Save</button>
                                                 {{--<button type="submit" id="sign" class="btn btn-primary forwrdBtn">Sign</button>
@@ -347,6 +348,9 @@
                                                 <button type="button" onclick=""
                                                     class="btn btn-secondary">Cancel</button>
                                             </div>
+                                            @else
+                                            <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">*Note : Please Fill Architect Scrutiny & Remark.</span>
+                                            @endif 
                                         </div>
                                         <input type="hidden" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">
                                     </form>

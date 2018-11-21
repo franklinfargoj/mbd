@@ -260,6 +260,11 @@ class CoPermissionSeeder extends Seeder
                 'name' => 'renewal.architect_scrutiny',
                 'display_name' => 'renewal architect scrutiny',
                 'description' => 'renewal architect scrutiny',
+            ],            
+            [
+                'name' => 'conveyance.architect_scrutiny_remark',
+                'display_name' => 'conveyance architect scrutiny remark',
+                'description' => 'conveyance architect scrutiny remark',
             ],                         
 
         ];

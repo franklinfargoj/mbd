@@ -548,7 +548,6 @@ class conveyanceCommonController extends Controller
         else{
         $route = 'admin.conveyance.common.forward_application';
       }
-
       return view($route,compact('data','dycoLogs','eelogs','Architectlogs','cologs'));         
     }
 

@@ -685,6 +685,23 @@ $route=\Request::route()->getName();
                             </a>
                         </li>                        
                         @endif
+
+                        @if(session()->get('permission') && (in_array('renewal.index', session()->get('permission')) ))
+
+                        <li class="m-menu__item {{ ($route=='renewal.index') ? 'm-menu__item--active' : '' }}">
+                            <a href="{{ route('renewal.index') }}" class="m-menu__link m-menu__toggle">
+                                <i class="m-menu__link-icon flaticon-line-graph"></i>
+                                <span class="m-menu__link-title">
+                                    <span class="m-menu__link-wrap">
+                                        <span class="m-menu__link-text">
+                                            Applications for Society Renewal
+                                        </span>
+                                    </span>
+                                </span>
+                            </a>
+                        </li>                        
+                        @endif
+
                         @if(in_array('get_sf_applications.index',session()->get('permission')))
                             <li class="m-menu__item {{ ($route=='get_sf_applications.index') ? 'm-menu__item--active' : '' }}">
                                 <a href="{{ route('get_sf_applications.index') }}" class="m-menu__link m-menu__toggle">
