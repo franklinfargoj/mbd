@@ -309,6 +309,11 @@ class SocietyPermissionSeeder extends Seeder
                     'description'  => 'Uploads Documents'
                 ],
                 [
+                    'name'         => 'society_doc_comment',
+                    'display_name' => 'Add society documents comments',
+                    'description'  => 'Add society documents comments'
+                ],
+                [
                     'name'         => 'sr_form_upload_show',
                     'display_name' => 'Stamped Application Form',
                     'description'  => 'Shows Upload Stamped Application Form'

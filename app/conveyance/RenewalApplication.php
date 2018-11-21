@@ -47,7 +47,7 @@ class RenewalApplication extends Model
 
     public function srApplicationType()
     {
-        return $this->hasOne('App\conveyance\scApplicationType', 'id','sc_application_master_id');
+        return $this->hasOne('App\conveyance\scApplicationType', 'id','application_master_id');
     }
 
     public function sr_form_request()
