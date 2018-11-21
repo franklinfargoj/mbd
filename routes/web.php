@@ -592,7 +592,10 @@ Route::delete('destroy_architect_layout_detail_court_case_or_dispute_on_land/{id
     
     //admin side
     Route::get('get_sf_applications','conveyance\FormationCommonController@index')->name('get_sf_applications.index');
-   
+    Route::get('sf_view_application/{id}','conveyance\FormationCommonController@ViewApplication')->name('formation.view_application');
+    Route::get('sf_forward_application/{id}','conveyance\FormationCommonController@commonForward')->name('formation.forward_application');
+    Route::post('sf_post_forward_application','conveyance\FormationCommonController@saveForwardApplication')->name('formation.post_forward_application');
+    
     //Society Formation End
 
 
