@@ -167,8 +167,6 @@ class DYCOPermissions extends Seeder
                 'name'=>'get_sf_applications.index',
                 'display_name'=>'Display list of society formation application',
                 'description'=>'Display list of society formation application'
-            ]           
-
             ],            
             [
                 'name' => 'renewal.ee_scrutiny',
