@@ -81,6 +81,7 @@ return [
      'documents' => [
         'society' => [
             'stamp_conveyance_application' => 'stamp_conveyance_application',
+            'list_of_members_from_society' => 'list_of_members_from_society',
         ],
         'dycdo_note'  => 'dycdo_note',
         'architect_conveyance_map' => 'architect_conveyance_map',

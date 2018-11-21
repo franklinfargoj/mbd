@@ -595,7 +595,7 @@ Route::delete('destroy_architect_layout_detail_court_case_or_dispute_on_land/{id
     Route::get('sr_upload_docs', 'SocietyRenewalController@sr_upload_docs')->name('sr_upload_docs');
     Route::post('upload_sr_docs', 'SocietyRenewalController@upload_sr_docs')->name('upload_sr_docs');
     Route::get('delete_sr_upload_docs/{id}', 'SocietyRenewalController@delete_sr_upload_docs')->name('delete_sr_upload_docs');
-    Route::post('society_bank_details', 'SocietyRenewalController@society_bank_details')->name('society_bank_details');
+    Route::post('add_society_documents_comment', 'SocietyRenewalController@add_society_documents_comment')->name('society_doc_comment');
     Route::get('sr_form_download', 'SocietyRenewalController@generate_pdf')->name('sr_form_download');
     Route::get('sr_form_upload_show', 'SocietyRenewalController@sr_form_upload_show')->name('sr_form_upload_show');
     Route::post('sr_form_upload', 'SocietyRenewalController@sr_form_upload')->name('sr_form_upload');
