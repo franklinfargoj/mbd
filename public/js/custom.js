@@ -639,6 +639,39 @@ $(document).ready(function () {
         }
     });
 
+    // Layout validations
+
+    $("#addlayout").validate({
+        // errorElement: "span",
+        //errorClass : "text-red",
+        rules: {
+            layout_name: "required",
+            // division: "required",
+            board: "required",
+            // redirect_to: "required",
+        }
+    });
+
+    $("#editlayout").validate({
+        // errorElement: "span",
+        //errorClass : "text-red",
+        rules: {
+            layout_name: "required",
+            // division: "required",
+            board: "required",
+            // redirect_to: "required",
+        }
+    });
+
+    $("#DeleteLayoutReason").validate({
+        rules: {
+            delete_message: "required",
+        }
+    });
+
+
+
+
     $("#appointing_architect_step1").validate({
         rules:{
             category_of_panel:"required",

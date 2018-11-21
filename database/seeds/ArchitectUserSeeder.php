@@ -203,10 +203,35 @@ class ArchitectUserSeeder extends Seeder
                     'name'=>'conveyance.save_forward_application',
                     'display_name'=>'save forward application',
                     'description'=>'save forward application'
-                ]
+                ],
+                [
+                    'name' => 'renewal.index',
+                    'display_name' => 'renewal',
+                    'description' => 'renewal',
+                ],            
+                [
+                    'name' => 'renewal.view_application',
+                    'display_name' => 'renewal_view_application',
+                    'description' => 'renewal_view_application',
+                ],
+                [
+                    'name' => 'renewal.renewal_forward_application',
+                    'display_name' => 'renewal forward application',
+                    'description' => 'renewal forward application',
+                ],            
+                [
+                    'name' => 'renewal.save_forward_application_renewal',
+                    'display_name' => 'save forward application renewal',
+                    'description' => 'save forward application renewal',
+                ],                 
+                [
+                    'name' => 'renewal.architect_scrutiny',
+                    'display_name' => 'renewal architect scrutiny',
+                    'description' => 'renewal architect scrutiny',
+                ],                
                 
             ];
-
+ 
             $delete_permission_id=Permission::where(['name'=>'architect_layout_get_scrtiny'])->first();
         // $architect=Role::where('name', '=', 'architect')->select('id')->first();
         // if(!$architect)
@@ -607,6 +632,31 @@ class ArchitectUserSeeder extends Seeder
                 'name'=>'conveyance.save_forward_application',
                 'display_name'=>'save forward application',
                 'description'=>'save forward application'
+            ];           
+            $architect_permissions[]=[
+                'name'=>'renewal.index',
+                'display_name'=>'renewal index',
+                'description'=>'renewal index'
+            ];            
+            $architect_permissions[]=[
+                'name'=>'renewal.view_application',
+                'display_name'=>'view application',
+                'description'=>'view application'
+            ];            
+            $architect_permissions[]=[
+                'name'=>'renewal.renewal_forward_application',
+                'display_name'=>'renewal forward application',
+                'description'=>'renewal forward application'
+            ];            
+            $architect_permissions[]=[
+                'name'=>'renewal.save_forward_application_renewal',
+                'display_name'=>'save forward application renewal',
+                'description'=>'save forward application renewal'
+            ];            
+            $architect_permissions[]=[
+                'name'=>'renewal.architect_scrutiny',
+                'display_name'=>'renewal architect scrutiny',
+                'description'=>'renewal architect scrutiny'
             ];
             
             //$architect_permission_role = [];
