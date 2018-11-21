@@ -17,6 +17,7 @@ class SocietyConveyanceDocumentMasterSeeder extends Seeder
         $society = SocietyConveyanceDocumentMaster::all();
         $conveyanceId = scApplicationType::where('application_type','=','Conveyance')->value('id');
         $renewalId = scApplicationType::where('application_type','=','Renewal')->value('id');
+        $formation = scApplicationType::where('application_type','=','Formation')->value('id');
         $mLanguage = LanguageMaster::where('language','=','marathi')->value('id');
         $eLanguage = LanguageMaster::where('language','=','English')->value('id');
      
@@ -171,6 +172,103 @@ class SocietyConveyanceDocumentMasterSeeder extends Seeder
                 'society_flag'        => '1',
                 'language_id'         => $eLanguage
             ],
+            //-----------------------------------------------------
+            [
+                'document_name'       => 'स्टेटमेंट सी पर्‍त १',
+                'application_type_id' => $formation,
+                'society_flag'        => '0',
+                'language_id'         => $mLanguage
+            ],
+            [
+                'document_name'       => 'फॉर्म [ ए ]',
+                'application_type_id' => $formation,
+                'society_flag'        => '0',
+                'language_id'         => $mLanguage
+            ],
+            [
+                'document_name'       => 'स्टेटमेंट ए, बी पर्‍त',
+                'application_type_id' => $formation,
+                'society_flag'        => '0',
+                'language_id'         => $mLanguage
+            ],
+            [
+                'document_name'       => '६६ फॉर्म एक्स - १',
+                'application_type_id' => $formation,
+                'society_flag'        => '0',
+                'language_id'         => $mLanguage
+            ],
+            [
+                'document_name' =>'सोसायटीच्या दहा पर्‍वर्तकाचे पर्‍तिज्ञापञ [ एफिडेव्हिड ]',
+                'application_type_id' => $formation,
+                'society_flag'        => '0',
+                'language_id'         => $mLanguage
+            ],
+            [
+                'document_name' => 'बाॅयलाॅन पर्‍ती',
+                'application_type_id' => $formation,
+                'society_flag'        => '0',
+                'language_id'         => $mLanguage
+            ],
+            [
+                'document_name' =>'रिझर्व्ह बँक चलनाची मूळ',
+                'application_type_id' => $formation,
+                'society_flag'        => '0',
+                'language_id'         => $mLanguage
+            ],
+            [
+                'document_name' =>'संस्थेच्या पाञ सभासदांची यादी',
+                'application_type_id' => $formation,
+                'society_flag'        => '0',
+                'language_id'         => $mLanguage
+            ],
+            [
+                'document_name' =>'ना हरकत पर्‍माणपतर्‍',
+                'application_type_id' => $formation,
+                'society_flag'        => '0',
+                'language_id'         => $mLanguage
+            ],
+            [
+                'document_name' =>'इमारतीचा नकाशा',
+                'application_type_id' => $formation,
+                'society_flag'        => '0',
+                'language_id'         => $mLanguage
+            ],
+            [
+                'document_name'=>'संस्थेच्या कामकाजाची योजना',
+                'application_type_id' => $formation,
+                'society_flag'        => '0',
+                'language_id'         => $mLanguage
+            ],
+            [
+                'document_name'=>'संस्थेच्या जमाखर्चाचा तक्ता',
+                'application_type_id' => $formation,
+                'society_flag'        => '0',
+                'language_id'         => $mLanguage
+            ],
+            [
+                'document_name'=>'बँक बॅलन्स पर्‍माणपतर्‍ मूळ पर्‍त',
+                'application_type_id' => $formation,
+                'society_flag'        => '0',
+                'language_id'         => $mLanguage
+            ],
+            [
+                'document_name'=>'नाव आरक्षण पञाचाी छायांकित पर्‍त',
+                'application_type_id' => $formation,
+                'society_flag'        => '0',
+                'language_id'         => $mLanguage
+            ],
+            [
+                'document_name'=>'मुख्य पर्‍वर्तकाचे अभिवचन [ सभासद झालेल्या गाळेधारकांच्या बाबतीत ]',
+                'application_type_id' => $formation,
+                'society_flag'        => '0',
+                'language_id'         => $mLanguage
+            ],
+            [
+                'document_name'=>'मुख्य पर्‍वर्तकाचा विनंती अर्ज',
+                'application_type_id' => $formation,
+                'society_flag'        => '0',
+                'language_id'         => $mLanguage
+            ]
         ];
 
         if(count($society) == 0){

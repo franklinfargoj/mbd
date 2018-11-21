@@ -61,7 +61,7 @@ class DatabaseSeeder extends Seeder
 //        $this->call(MasterTables::class);
          // $this->call(RtiFormTableSeeder::class);
 
-        $this->call(SocietyConveyanceDocumentMasterSeeder::class);
+        
         // $this->call(SocietyConveyanceDocumentMasterSeeder::class);
         $this->call(DYCOPermissions::class);
         $this->call(AppointingArchitectPermissionSeeder::class);
@@ -69,6 +69,7 @@ class DatabaseSeeder extends Seeder
         $this->call(LAPermission::class);
         $this->call(sc_checklist_master::class);
         $this->call(SocietyConveyanceApplicationTypeSeeder::class);
+        $this->call(SocietyConveyanceDocumentMasterSeeder::class);
         $this->call(ApplicationStatusMasterSeeder::class);
         $this->call(SapPermissionSeeder::class);
         $this->call(OlCustomCalculationMaster::class);
