@@ -158,12 +158,12 @@ class EEController extends Controller
 
     //save scrunity data fil by EE
     public function SaveScrutinyRemark(Request $request){
-        
+
         $applicationId = $request->application_id; 
         
         $data = RenewalApplication::where('id',$applicationId)->first();
         if ($data){
-            RenewalApplication::where('id',$applicationId)->update(['is_sanctioned_oc' => $request->is_sanctioned_oc, 'sanctioned_comments' => $request->sanctioned_comments , 'is_additional_fsi' => $request->is_additional_fsi , 'additional_fsi_comments' => $request->additional_fsi_comments ]);   
+            RenewalApplication::where('id',$applicationId)->update(['change_in_use' => $request->change_in_use, 'change_in_structure' => $request->change_in_structure , 'encroachment' => $request->encroachment]);   
         }
         return back()->with('success','Data uploaded successfully.');
 
