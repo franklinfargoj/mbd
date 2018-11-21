@@ -55,19 +55,19 @@
                                 </h3>
                             </div>
                             Building/Chawl No. 
-                            <input class="letter-form-input letter-form-input--md" type="text" name="chawl_no" value="{{ isset($data->ConveyanceSalePriceCalculation->chawl_no) ? $data->ConveyanceSalePriceCalculation->chawl_no : '' }}"> 
+                            <input class="letter-form-input letter-form-input--md" type="text" name="chawl_no" value="{{ isset($data->ConveyanceSalePriceCalculation->chawl_no) ? $data->ConveyanceSalePriceCalculation->chawl_no : '' }}" > 
                             Consisting 
                             <input class="letter-form-input letter-form-input--md" type="text"  name="consisting" 
-                            value="{{ isset($data->ConveyanceSalePriceCalculation->consisting) ? $data->ConveyanceSalePriceCalculation->consisting : '' }}"> 
+                            value="{{ isset($data->ConveyanceSalePriceCalculation->consisting) ? $data->ConveyanceSalePriceCalculation->consisting : '' }}" > 
                              T/S Out of Project of 
                              <input class="letter-form-input letter-form-input--md"
-                                    type="text" name="project_of" value="{{ isset($data->ConveyanceSalePriceCalculation->project_of) ? $data->ConveyanceSalePriceCalculation->project_of : '' }}">
+                                    type="text" name="project_of" value="{{ isset($data->ConveyanceSalePriceCalculation->project_of) ? $data->ConveyanceSalePriceCalculation->project_of : '' }}" >
                             T/S Under 
                             <input class="letter-form-input letter-form-input--md"
-                                    type="text" name="ts_under" value="{{ isset($data->ConveyanceSalePriceCalculation->ts_under) ? $data->ConveyanceSalePriceCalculation->ts_under : '' }}">  
+                                    type="text" name="ts_under" value="{{ isset($data->ConveyanceSalePriceCalculation->ts_under) ? $data->ConveyanceSalePriceCalculation->ts_under : '' }}" >  
                             Income Group at
                             <input class="letter-form-input letter-form-input--md"
-                                    type="text" name="income_group" value="{{ isset($data->ConveyanceSalePriceCalculation->income_group) ? $data->ConveyanceSalePriceCalculation->income_group : '' }}"> 
+                                    type="text" name="income_group" value="{{ isset($data->ConveyanceSalePriceCalculation->income_group) ? $data->ConveyanceSalePriceCalculation->income_group : '' }}" > 
                         </div>
                         <div class="m-section__content mb-0 table-responsive">
                             
@@ -99,42 +99,42 @@
                                                 service with reference to the common service with reference to the
                                                 common service being rendered by the board</td>
                                             <td class="text-center">
-                                                <input type="text" class="form-control form-control--custom" name="common_service_rate" value="{{ isset($data->ConveyanceSalePriceCalculation->common_service_rate) ? $data->ConveyanceSalePriceCalculation->common_service_rate : '' }}"/>
+                                                <input type="text" class="form-control form-control--custom" name="common_service_rate" value="{{ isset($data->ConveyanceSalePriceCalculation->common_service_rate) ? $data->ConveyanceSalePriceCalculation->common_service_rate : '' }}" required/>
                                             </td>
                                         </tr>                                        
                                         <tr>
                                             <td>2.</td>
                                             <td>Date of Handling over Pump House & Under Ground Tank to Society</td>
                                             <td class="text-center">
-                                                <input type="text" class="txtbox v_text form-control form-control--custom m-input m_datepicker" name="pump_house" id="pump_house" value="{{ isset($data->ConveyanceSalePriceCalculation->pump_house) ? date('d-m-Y',strtotime($data->ConveyanceSalePriceCalculation->pump_house)) : '' }}" aria-describedby="visit_date-error" aria-invalid="false" readonly>
+                                                <input type="text" class="txtbox v_text form-control form-control--custom m-input m_datepicker" name="pump_house" id="pump_house" value="{{ isset($data->ConveyanceSalePriceCalculation->pump_house) ? date('d-m-Y',strtotime($data->ConveyanceSalePriceCalculation->pump_house)) : '' }}" required aria-describedby="visit_date-error" aria-invalid="false" readonly >
                                             </td>
                                         </tr>                                       
                                          <tr>
                                             <td>3.</td>
                                             <td>The Plinith area of each tenement in Sq.Ft And Sq.Mtrs.</td>
                                             <td class="text-center">
-                                                <input type="text" class="form-control form-control--custom" name="tenement_plinth_area" value="{{ isset($data->ConveyanceSalePriceCalculation->tenement_plinth_area) ? $data->ConveyanceSalePriceCalculation->tenement_plinth_area : '' }}" />
+                                                <input type="text" class="form-control form-control--custom" name="tenement_plinth_area" value="{{ isset($data->ConveyanceSalePriceCalculation->tenement_plinth_area) ? $data->ConveyanceSalePriceCalculation->tenement_plinth_area : '' }}" required/>
                                             </td>
                                         </tr>                                        
                                         <tr>
                                             <td>4.</td>
                                             <td>The Carpet Area of each tenement in Sq.Ft.and Sq.Mtrs.</td>
                                             <td class="text-center">
-                                                <input type="text" class="form-control form-control--custom" name="tenement_carpet_area" value="{{ isset($data->ConveyanceSalePriceCalculation->tenement_carpet_area) ? $data->ConveyanceSalePriceCalculation->tenement_carpet_area : '' }}" />
+                                                <input type="text" class="form-control form-control--custom" name="tenement_carpet_area" value="{{ isset($data->ConveyanceSalePriceCalculation->tenement_carpet_area) ? $data->ConveyanceSalePriceCalculation->tenement_carpet_area : '' }}" required />
                                             </td>
                                         </tr>                                        
                                         <tr>
                                             <td>5.</td>
                                             <td>The Plinth area of Building Sq.Ft and Sq.Mtrs</td>
                                             <td class="text-center">
-                                                <input type="text" class="form-control form-control--custom" name="building_plinth_area" value="{{ isset($data->ConveyanceSalePriceCalculation->building_plinth_area) ? $data->ConveyanceSalePriceCalculation->building_plinth_area : '' }}" />
+                                                <input type="text" class="form-control form-control--custom" name="building_plinth_area" value="{{ isset($data->ConveyanceSalePriceCalculation->building_plinth_area) ? $data->ConveyanceSalePriceCalculation->building_plinth_area : '' }}" required/>
                                             </td>
                                         </tr>                                        
                                         <tr>
                                             <td>6.</td>
                                             <td>The Carpet Area of Building in Sq.FT and Sq.Mtrs.</td>
                                             <td class="text-center">
-                                                <input type="text" class="form-control form-control--custom" name="building_carpet_area" value="{{ isset($data->ConveyanceSalePriceCalculation->building_carpet_area) ? $data->ConveyanceSalePriceCalculation->building_carpet_area : '' }}" />
+                                                <input type="text" class="form-control form-control--custom" name="building_carpet_area" value="{{ isset($data->ConveyanceSalePriceCalculation->building_carpet_area) ? $data->ConveyanceSalePriceCalculation->building_carpet_area : '' }}" required/>
                                             </td>
                                         </tr>                                        
                                         <tr>
@@ -142,21 +142,21 @@
                                             <td>Cost of Construction</td>
                                             <td class="text-center">
                                                 <input type="text" class="form-control form-control--custom" 
-                                                name="construction_cost" value="{{ isset($data->ConveyanceSalePriceCalculation->construction_cost) ? $data->ConveyanceSalePriceCalculation->construction_cost : '' }}" />
+                                                name="construction_cost" value="{{ isset($data->ConveyanceSalePriceCalculation->construction_cost) ? $data->ConveyanceSalePriceCalculation->construction_cost : '' }}" required/>
                                             </td>
                                         </tr>                                       
                                          <tr>
                                             <td>7.2</td>
                                             <td>Premium of Land With Infrastructure (I.e Cost of land and Fillings) Lease Rent (Per Annum)</td>
                                             <td class="text-center">
-                                                <input type="text" class="form-control form-control--custom" name="land_premiun_infrastructure" value="{{ isset($data->ConveyanceSalePriceCalculation->land_premiun_infrastructure) ? $data->ConveyanceSalePriceCalculation->land_premiun_infrastructure : '' }}" />
+                                                <input type="text" class="form-control form-control--custom" name="land_premiun_infrastructure" value="{{ isset($data->ConveyanceSalePriceCalculation->land_premiun_infrastructure) ? $data->ConveyanceSalePriceCalculation->land_premiun_infrastructure : '' }}" required/>
                                             </td>
                                         </tr>                                        
                                          <tr>
                                             <td></td>
                                             <td>The Final Sale price of the tenement</td>
                                             <td class="text-center">
-                                                <input type="text" class="form-control form-control--custom" name="final_sale_price_tenement" value="{{ isset($data->ConveyanceSalePriceCalculation->final_sale_price_tenement) ? $data->ConveyanceSalePriceCalculation->final_sale_price_tenement : '' }}" />
+                                                <input type="text" class="form-control form-control--custom" name="final_sale_price_tenement" value="{{ isset($data->ConveyanceSalePriceCalculation->final_sale_price_tenement) ? $data->ConveyanceSalePriceCalculation->final_sale_price_tenement : '' }}" required/>
                                             </td>
                                         </tr>                                        
                                          <tr>
@@ -164,7 +164,7 @@
                                             <td>The Date of Completion of the above Building/Chawl</td>
                                             <td class="text-center">
                                     
-                                                <input type="text" class="txtbox v_text form-control form-control--custom m-input m_datepicker" name="completion_date" id="registration_date" value="{{ isset($data->ConveyanceSalePriceCalculation->completion_date) ? date('d-m-Y',strtotime($data->ConveyanceSalePriceCalculation->completion_date)) : '' }}" aria-describedby="visit_date-error" aria-invalid="false" readonly>
+                                                <input type="text" class="txtbox v_text form-control form-control--custom m-input m_datepicker" name="completion_date" id="registration_date" value="{{ isset($data->ConveyanceSalePriceCalculation->completion_date) ? date('d-m-Y',strtotime($data->ConveyanceSalePriceCalculation->completion_date)) : '' }}" aria-describedby="visit_date-error" aria-invalid="false" readonly required>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -330,7 +330,7 @@
                                                 </a>
                                                 @else
                                                 <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
-                                                    *Note : Demarcation Map is not available.</span>
+                                                    *Note : Covering Letter is not available.</span>
                                                 @endif
                                             </div>
                                         </div>

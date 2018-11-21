@@ -359,7 +359,19 @@ class SocietyOfferLetterController extends Controller
         $dev_premium = $dev_premium[0]->id;
         $dev_sharing = OlApplicationMaster::where('title', 'New - Offer Letter')->where('model', 'Premium')->where('parent_id', '12')->select('id')->get();
         $dev_sharing = $dev_sharing[0]->id;
-        return view('frontend.society.application', compact('id', 'self_premium', 'self_sharing', 'dev_premium', 'dev_sharing'));
+
+
+        $self_reval_premium = OlApplicationMaster::where('title', 'Revalidation Of Offer Letter')->where('model', 'Premium')->where('parent_id', '1')->select('id')->get();
+        $self_reval_premium = $self_reval_premium[0]->id;
+        $self_reval_sharing = OlApplicationMaster::where('title', 'Revalidation Of Offer Letter')->where('model', 'Sharing')->where('parent_id', '1')->select('id')->get();
+        $self_reval_sharing = $self_reval_sharing[0]->id;
+        $dev_reval_premium = OlApplicationMaster::where('title', 'Revalidation Of Offer Letter')->where('model', 'Sharing')->where('parent_id', '12')->select('id')->get();
+        $dev_reval_premium = $dev_reval_premium[0]->id;
+        $dev_reval_sharing = OlApplicationMaster::where('title', 'Revalidation Of Offer Letter')->where('model', 'Premium')->where('parent_id', '12')->select('id')->get();
+        $dev_reval_sharing = $dev_reval_sharing[0]->id;
+
+
+        return view('frontend.society.application', compact('id', 'self_premium', 'self_sharing', 'dev_premium', 'dev_sharing','self_reval_premium', 'self_reval_sharing', 'dev_reval_premium', 'dev_reval_sharing'));
     }
 
     /**
@@ -373,6 +385,13 @@ class SocietyOfferLetterController extends Controller
         $layouts = MasterLayout::all();
         // dd($society_details);
         return view('frontend.society.show_form_self', compact('society_details', 'id', 'layouts'));
+    }
+
+    public function show_reval_self($id){
+        $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
+        $layouts = MasterLayout::all();
+        // dd($society_details);
+        return view('frontend.society.show_reval_self', compact('society_details', 'id', 'layouts'));
     }
 
     /**
@@ -467,6 +486,13 @@ class SocietyOfferLetterController extends Controller
         $layouts = MasterLayout::all();
         // dd($society_details);
         return view('frontend.society.show_form_dev', compact('society_details', 'id', 'layouts'));
+    }
+
+    public function show_reval_dev($id){
+        $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
+        $layouts = MasterLayout::all();
+        // dd($society_details);
+        return view('frontend.society.show_reval_dev', compact('society_details', 'id', 'layouts'));
     }
 
     /**

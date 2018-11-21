@@ -229,6 +229,21 @@ class ArchitectUserSeeder extends Seeder
                     'display_name' => 'renewal architect scrutiny',
                     'description' => 'renewal architect scrutiny',
                 ],                
+                [
+                    'name' => 'renewal.upload_architect_documents',
+                    'display_name' => 'renewal upload architect documents',
+                    'description' => 'renewal upload architect documents',
+                ],                 
+                [
+                    'name' => 'renewal.delete_architect_documents',
+                    'display_name' => 'renewal delete architect documents',
+                    'description' => 'renewal delete architect documents',
+                ],                
+                [
+                    'name' => 'renewal.save_architect_scrutiny',
+                    'display_name' => 'renewal save architect scrutiny',
+                    'description' => 'renewal save architect scrutiny',
+                ],                
                 
             ];
  
@@ -657,6 +672,21 @@ class ArchitectUserSeeder extends Seeder
                 'name'=>'renewal.architect_scrutiny',
                 'display_name'=>'renewal architect scrutiny',
                 'description'=>'renewal architect scrutiny'
+            ];            
+            $architect_permissions[]=[
+                'name'=>'renewal.upload_architect_documents',
+                'display_name'=>'renewal upload architect documents',
+                'description'=>'renewal upload architect documents'
+            ];            
+            $architect_permissions[]=[
+                'name'=>'renewal.delete_architect_documents',
+                'display_name'=>'renewal delete architect documents',
+                'description'=>'renewal delete architect documents'
+            ];            
+            $architect_permissions[]=[
+                'name'=>'renewal.save_architect_scrutiny',
+                'display_name'=>'renewal save architect scrutiny',
+                'description'=>'renewal save architect scrutiny'
             ];
             
             //$architect_permission_role = [];

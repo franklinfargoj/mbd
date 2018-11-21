@@ -152,7 +152,7 @@ class conveyanceCommonController extends Controller
     public function ViewApplication(Request $request,$applicationId){
         $data = scApplication::where('id',$applicationId)->first();
         $data->folder = $this->getCurrentRoleFolderName();
-
+        $data->conveyance_map = $this->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
         return view('admin.conveyance.common.view_application',compact('data'));
     }             
 
@@ -318,6 +318,7 @@ class conveyanceCommonController extends Controller
         
         $data = scApplication::with('ConveyanceSalePriceCalculation')->where('id',$applicationId)->first();
         $data->folder = $this->getCurrentRoleFolderName();
+        $data->conveyance_map = $this->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
         return view('admin.conveyance.common.view_ee_sale_price_calculation', compact('data'));
     }
 
@@ -328,6 +329,7 @@ class conveyanceCommonController extends Controller
         $data->folder = $this->getCurrentRoleFolderName();
         $documents = SocietyConveyanceDocumentMaster::with(['sc_document_status' => function($q) use($data) { $q->where('application_id', $data->id)->get(); }])->where('application_type_id', $data->sc_application_master_id)->where('society_flag', '1')->where('language_id', '2')->get();
         $documents_uploaded = SocietyConveyanceDocumentStatus::where('application_id', $data->id)->get();
+        $data->conveyance_map = $this->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
 //        dd($documents);
         return view('admin.conveyance.common.view_documents', compact('data', 'documents', 'documents_uploaded'));
     }
@@ -484,6 +486,7 @@ class conveyanceCommonController extends Controller
         
         $data = scApplication::with('societyApplication')->where('id',$applicationId)->first();
         $data->status = $this->getCurrentStatus($applicationId,$data->sc_application_master_id);
+        $data->folder  = $this->getCurrentRoleFolderName();
         
         //get architect_conveyance_map from sc document status table
         $document  = config('commanConfig.documents.architect_conveyance_map');
@@ -531,6 +534,7 @@ class conveyanceCommonController extends Controller
       $eelogs        = $this->getLogsOfEEDepartment($applicationId,$data->sc_application_master_id);
       $Architectlogs = $this->getLogsOfArchitectDepartment($applicationId,$data->sc_application_master_id);
       $cologs        = $this->getLogsOfCODepartment($applicationId,$data->sc_application_master_id);
+      $data->conveyance_map = $this->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
       
       $this->getAllSaleLeaseAgreement($data,$applicationId,$data->sc_application_master_id);
 
@@ -544,7 +548,6 @@ class conveyanceCommonController extends Controller
         else{
         $route = 'admin.conveyance.common.forward_application';
       }
-
       return view($route,compact('data','dycoLogs','eelogs','Architectlogs','cologs'));         
     }
 
@@ -616,5 +619,14 @@ class conveyanceCommonController extends Controller
 
         $typeId = SocietyConveyanceDocumentMaster::with(['sc_document_status'])->whereIn('document_name',$documentNames)->where('application_type_id',$type)->get();
         return $typeId;
+    }
+
+    //get architect_conveyance_map 
+    public function getArchitectSrutiny($applicationId, $masterId){
+            
+        $document  = config('commanConfig.documents.architect_conveyance_map');
+        $documentId = $this->getDocumentId($document,$masterId);
+        $conveyance_map = $this->getDocumentStatus($applicationId,$documentId); 
+        return $conveyance_map;       
     }
 }

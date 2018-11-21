@@ -192,32 +192,16 @@
                 </div>
             </div>
         </div>    
-        <!-- end 
 
-        <!-- Demarkation verification -->
     <form role="form" id="ee_scrunity_Form" style="margin-top: 30px;" name="scrunityForm" class="form-horizontal" method="post" action="{{ route('ee.save_scrutiny_remark')}}" enctype="multipart/form-data">
         @csrf      
         <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
             <div class="portlet-body">
                 <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
                     <div class="m-form__group form-group">
-                        <div class="m-radio-inline">
-                            <span class="mr-3">Is plan according to sanctioned OC ?</span>
-                            <label class="m-radio m-radio--primary">
-                                <input type="radio" class="radioBtn" name="is_sanctioned_oc" value="1" checked
-                                    {{ (isset($data) && $data->is_sanctioned_oc == '1') ? 'checked' : '' }}>Yes
-                                    <span></span>
-                            </label>
-                            <label class="m-radio m-radio--primary">
-                                <input type="radio" class="radioBtn" name="is_sanctioned_oc" value="0"
-                                    {{ (isset($data) && $data->is_sanctioned_oc == '0') ? 'checked' : '' }}>No
-                                <span></span>
-                            </label>
-                        </div>
                         <div class="mt-3 table--box-input">
-                            <label class="e_comments" for="comments">If Yes, Comments:</label>
-                            <textarea rows="5" cols="30" class="form-control form-control--custom" id="sanctioned_comments" name="sanctioned_comments" >{{ isset($data->sanctioned_comments) ? $data->sanctioned_comments : '' }}</textarea>
-                      <!--       <span class="error" id="encrochment_comments_error" style="display:none;color:#f4516c">This feild is required</span> -->
+                            <label class="hint-text d-block t-remark">Change In Use:</label>
+                            <textarea rows="5" cols="30" class="form-control form-control--custom" id="change_in_use" name="change_in_use" >{{ isset($data->change_in_use) ? $data->change_in_use : '' }}</textarea>
                         </div>             
                     </div>
                 </div>
@@ -225,37 +209,38 @@
         </div>
         <!-- end  -->
 
-        <!-- Encrochment verification -->
         <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
             <div class="portlet-body">
                 <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
                     <div class="m-form__group form-group">
-						<div class="m-radio-inline">
-							<span class="mr-3">Is there any additional FSI ?</span>
-							<label class="m-radio m-radio--primary">
-								<input type="radio" class="radioBtn" name="is_additional_fsi" value="1" checked
-									{{ (isset($data) && $data->is_additional_fsi == '1') ? 'checked' : '' }}>Yes
-									<span></span>
-							</label>
-							<label class="m-radio m-radio--primary">
-								<input type="radio" class="radioBtn" name="is_additional_fsi" value="0"
-									{{ (isset($data) && $data->is_additional_fsi == '0') ? 'checked' : '' }}>No
-								<span></span>
-							</label>
-						</div>
 						<div class="mt-3 table--box-input">
-							<label class="e_comments" for="comments">If Yes, Comments:</label>
-							<textarea rows="5" cols="30" class="form-control form-control--custom" id="additional_fsi_comments" name="additional_fsi_comments" > {{ isset($data->additional_fsi_comments) ? $data->additional_fsi_comments : '' }}</textarea>
+							<label class="hint-text d-block t-remark">Change In  Structure:</label>
+							<textarea rows="5" cols="30" class="form-control form-control--custom" id="change_in_structure" name="change_in_structure" > {{ isset($data->change_in_structure) ? $data->change_in_structure : '' }}</textarea>
 							<span class="error" id="encrochment_comments_error" style="display:none;color:#f4516c">This feild is required</span>
-						</div>
-						<div class="mt-3">
-                            <input type="submit" class="s_btn btn btn-primary" id="submitBtn" name="">
-							<button type="button" class="s_btn btn btn-primary" id="submitBtn" name="">Cancel</button>
 						</div>				
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- Encrochment verification -->
+        <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
+            <div class="portlet-body">
+                <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
+                    <div class="m-form__group form-group">
+                        <div class="mt-3 table--box-input">
+                            <label class="hint-text d-block t-remark">Encroachment:</label>
+                            <textarea rows="5" cols="30" class="form-control form-control--custom" id="encroachment" name="encroachment" > {{ isset($data->encroachment) ? $data->encroachment : '' }}</textarea>
+                            <span class="error" id="encrochment_comments_error" style="display:none;color:#f4516c">This feild is required</span>
+                        </div>
+                        <div class="mt-3">
+                            <input type="submit" class="s_btn btn btn-primary" id="submitBtn" name="">
+                            <button type="button" class="s_btn btn btn-primary" id="submitBtn" name="">Cancel</button>
+                        </div>              
+                    </div>
+                </div>
+            </div>
+        </div>        
         <input type="hidden" name="application_id" id="application_id" value="{{ isset($data->id) ? $data->id : '' }}">
     </form>
  
