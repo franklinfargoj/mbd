@@ -208,6 +208,7 @@ class EMController extends Controller
          $tenament = DB::table('master_tenant_type')->get();
         if(!empty($request->input('search'))) {
             $building_id = $id;
+            $society_id = MasterBuilding::find(decrypt($id))->society_id;
             $buildings = MasterTenant::where('building_id', '=', decrypt($id))
                  ->where(function ($query) use ($request) {
                    $query->orWhere('first_name', 'like', '%'.$request->input('search').'%')
@@ -215,14 +216,15 @@ class EMController extends Controller
                         ->orWhere('flat_no', 'like', '%'.$request->input('search').'%')
                         ->orWhere('last_name', 'like', '%'.$request->input('search').'%');
                 })->paginate(10);
-            return view('admin.em_department.ajax_tenant', compact('tenament','buildings', 'building_id'));
+            return view('admin.em_department.ajax_tenant', compact('tenament','buildings', 'building_id','society_id'));
         } else {
             $building_id = $id;
+            $society_id = MasterBuilding::find(decrypt($id))->society_id;
             $buildings = MasterTenant::where('building_id', '=', decrypt($id))->paginate(10);
             if($request->has('search')) {
-                return view('admin.em_department.ajax_tenant', compact('tenament','buildings', 'building_id'));  
+                return view('admin.em_department.ajax_tenant', compact('tenament','buildings', 'building_id','society_id'));  
             } else {
-                return view('admin.em_department.tenant', compact('tenament','buildings', 'building_id'));
+                return view('admin.em_department.tenant', compact('tenament','buildings', 'building_id','society_id'));
             }
         }
         

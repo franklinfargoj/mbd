@@ -530,6 +530,24 @@ Breadcrumbs::for('em', function ($trail) {
     $trail->push('Home', route('em.index'));
 });
 
+Breadcrumbs::for('society_list',function($trail){
+    $trail->parent('em');
+    $trail->push('Society List',route('get_societies'));
+});
+
+Breadcrumbs::for('building_list',function($trail,$id){
+    $trail->parent('em');
+    $trail->push('Society List',route('get_societies'));
+    $trail->push('List of Buildings',route('get_buildings',['id' => $id]));
+});
+
+Breadcrumbs::for('tenant_list',function($trail,$id,$building_id){
+    $trail->parent('em');
+    $trail->push('Society List',route('get_societies'));
+    $trail->push('List of Buildings',route('get_buildings',['id' => $id]));
+    $trail->push('Tenant List',route('get_tenants',['id' => $building_id]));
+});
+
 Breadcrumbs::for('rc', function ($trail) {
     $trail->push('Home', route('rc.index'));
 });
