@@ -433,6 +433,10 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
    
     //Society Offer Letter END
 
+    Route::get('/show_reval_self/{id}', 'SocietyOfferLetterController@show_reval_self')->name('show_reval_self');
+    Route::get('/show_reval_dev/{id}', 'SocietyOfferLetterController@show_reval_dev')->name('show_reval_dev');
+
+
     //architect Module
     Route::get('architect_application','ArchitectApplicationController@index')->name('architect_application');
     Route::get('shortlisted_architect_application','ArchitectApplicationController@shortlistedIndex')->name('shortlisted_architect_application');
@@ -649,7 +653,7 @@ Route::get('sharing-calculation-sheet', 'REEDepartment\REEController@SharingCalc
 Route::get('offer_letter','REEDepartment\REEController@offerLetter')->name('offer_letter');
 
 // Route::get('pdfMerge', 'REEDepartment\REEController@pdfMerge')->name('ree.pdfMerge');
-Route::get('approved_offer_letter/{id}','REEDepartment\REEController@approvedOfferLetter')->name('ree.approved_offer_letter');
+Route::get('approved_offer_lettershow_form_dev/{id}','REEDepartment\REEController@approvedOfferLetter')->name('ree.approved_offer_letter');
 Route::get('generate_offer_letter/{id}', 'REEDepartment\REEController@GenerateOfferLetter')->name('ree.generate_offer_letter');
 
 Route::get('approved_reval_offer_letter/{id}','REEDepartment\REEController@approvedRevalOfferLetter')->name('ree.approved_reval_offer_letter');
