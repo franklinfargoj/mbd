@@ -5,7 +5,7 @@
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">Society Details</h3>
-            {{ Breadcrumbs::render('society_detail') }}
+            {{ Breadcrumbs::render('society_details',encrypt($society->id)) }}
         </div>
     </div>
     <!-- END: Subheader -->
