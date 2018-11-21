@@ -35,7 +35,7 @@ $route=\Request::route()->getName();
                     </li>
                 @endif
 
-
+                
                 @if(session()->get('permission') && (in_array('architect_application', session()->get('permission')) ||
                 in_array('view_architect_application',
                 session()->get('permission')) || in_array('evaluate_architect_application',
@@ -80,8 +80,8 @@ $route=\Request::route()->getName();
                 in_array('architect_detail_dp_crz_remark_view', session()->get('permission')) ||
                 in_array('view_court_case_or_dispute_on_land', session()->get('permission')) ||
                 in_array('architect_layout_add_scrutiny_report', session()->get('permission')) ))
-                <li class="m-menu__item {{config('commanConfig.land_manager')==session()->get('role_name')?'collapsed':''}}" data-toggle="collapse"
-                    data-target="#architect-layouts">
+                <li class="m-menu__item {{($route=='architect_layout.index' || $route=='architect_layouts_layout_details.index')?'':'collapsed'}}" data-toggle="collapse"
+                data-target="#architect-layouts">
                     <a href="{{ route('architect_layout.index') }}" class="m-menu__link m-menu__toggle">
                         <i class="m-menu__link-icon flaticon-line-graph"></i>
                         <span class="m-menu__link-title">
@@ -95,7 +95,7 @@ $route=\Request::route()->getName();
                     </a>
                 </li>
                
-                <li id="architect-layouts" class="collapse {{config('commanConfig.land_manager')==session()->get('role_name')?'':'show'}}">
+                <li id="architect-layouts" class="collapse {{($route=='architect_layout.index'|| $route=='architect_layouts_layout_details.index')?'show':''}}">
                     <ul class="list-unstyled">
                         @if(session()->get('role_name')=='junior_architect')
                         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='architect_layout.add')?'m-menu__item--active':''}}"
@@ -267,7 +267,7 @@ $route=\Request::route()->getName();
 
                 {{-- @if(!empty(array_intersect($land_permission, session()->get('permission'))))--}}
                 @if(session()->get('permission') && in_array('village_detail.index', session()->get('permission')))
-                <li class="m-menu__item" data-toggle="collapse" data-target="#land-module-actions">
+                <li class="m-menu__item {{($route!='architect_layout.index' && $route!='architect_layouts_layout_details.index')?'':'collapsed'}}" data-toggle="collapse" data-target="#land-module-actions">
                     <a href="{{url('/village_detail')}}" class="m-menu__link m-menu__toggle">
                         <i class="m-menu__link-icon flaticon-line-graph"></i>
                         <span class="m-menu__link-title">
@@ -279,7 +279,7 @@ $route=\Request::route()->getName();
                             </span>
                         </span>
                     </a>
-                    <!-- <div class="m-menu__submenu" m-hidden-height="160" style=""><span class="m-menu__arrow"></span>
+                     {{-- <div class="m-menu__submenu" m-hidden-height="160" style=""><span class="m-menu__arrow"></span>
                     <ul class="m-menu__subnav">
 
                         <li class="m-menu__item m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover">
@@ -293,26 +293,26 @@ $route=\Request::route()->getName();
                                     Detail</span></i></a>
                         </li>
                     </ul>
-                </div> -->
+                </div>  --}}
                 </li>
-                <li id="land-module-actions" class="collapse show">
-                    <ul class="list-unstyled">
-                        <li class="m-menu__item m-menu__item--level-2 {{($route=='village_detail.index' || $route=='village_detail.edit'|| $route=='village_detail.show' || $route=='village_detail.create')?  '' :'collapsed'}}"
-                            data-toggle="collapse" data-target="#village-actions">
-                            <a href="{{url('/village_detail')}}" class="m-menu__link m-menu__toggle">
-                                <i class="m-menu__link-icon flaticon-line-graph"></i>
-                                {{--<svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                    viewBox="0 0 510 510">--}}
-                                    {{--<path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
-                                        --}} {{--fill="#FFF" />--}} {{--</svg>--}} <span class="m-menu__link-title">
-                                        <span class="m-menu__link-wrap">
-                                            <span class="m-menu__link-text">
-                                                Land Details
+                <li id="land-module-actions" class="collapse {{($route!='architect_layout.index' && $route!='architect_layouts_layout_details.index')?'show':''}}">
+                        <ul class="list-unstyled">
+                            <li class="m-menu__item m-menu__item--level-2 {{($route=='village_detail.index' || $route=='village_detail.edit'|| $route=='village_detail.show' || $route=='village_detail.create')?  '' :'collapsed'}}"
+                                data-toggle="collapse" data-target="#village-actions">
+                                <a href="{{url('/village_detail')}}" class="m-menu__link m-menu__toggle">
+                                    <i class="m-menu__link-icon flaticon-line-graph"></i>
+                                    {{--<svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                        viewBox="0 0 510 510">--}}
+                                        {{--<path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
+                                            --}} {{--fill="#FFF" />--}} {{--</svg>--}} <span class="m-menu__link-title">
+                                            <span class="m-menu__link-wrap">
+                                                <span class="m-menu__link-text">
+                                                    Land Details
+                                                </span>
+                                                <i class="m-menu__ver-arrow la la-angle-right"></i>
                                             </span>
-                                            <i class="m-menu__ver-arrow la la-angle-right"></i>
-                                        </span>
-                                        </span>
-                            </a>
+                                            </span>
+                                </a>
                             <!-- <div class="m-menu__submenu" m-hidden-height="160" style=""><span class="m-menu__arrow"></span>
                     <ul class="m-menu__subnav">
 
@@ -585,14 +585,16 @@ $route=\Request::route()->getName();
                         </span>
                     </a>
                 </li>--}}
-                    
                 @if(session()->get('permission') && (in_array('vp.index', session()->get('permission')) ||
+                in_array('get_sf_applications.index',session()->get('permission')) ||
                 in_array('ee.index',
                 session()->get('permission')) || in_array('dyce.index', session()->get('permission')) ||
                 in_array('ree_applications.index', session()->get('permission')) || in_array('co.index',
                 session()->get('permission')) || in_array('cap.index', session()->get('permission')) ||
                 in_array('society_offer_letter.index', session()->get('permission')) ||
-                in_array('architect_layout.index', session()->get('permission')) || in_array('dyco.index', session()->get('permission')) || in_array('hearing.index', session()->get('permission')) ))
+                in_array('architect_layout.index', session()->get('permission')) || 
+                in_array('dyco.index', session()->get('permission')) || 
+                in_array('hearing.index', session()->get('permission')) ))
 
                 @if (isset($route) && ($route == 'co.index' ||  $route=='ee.index' || $route=='dyce.index' || $route=='co_applications.reval' ||
                 $route=='ree_applications.index' || $route=='ree_applications.reval' || $route=='cap.index' || $route=='cap_applications.reval' || $route=='vp.index' ||
@@ -614,10 +616,9 @@ $route=\Request::route()->getName();
 
                 </li>
                 @endif
-
+                
                 <li id="society-actions" class="collapse show">
                     <ul class="list-unstyled">
-
                         @if (isset($route) && ($route == 'co.index' || $route=='ee.index' || $route=='dyce.index' || $route=='co_applications.reval' || $route=='vp_applications.reval' ||
                         $route=='ree_applications.index' || $route=='ree_applications.reval' || $route=='cap.index' || $route=='cap_applications.reval' ||$route=='vp.index' ||
                         $route=='society_offer_letter.index' || $route=='society_offer_letter_dashboard' ||
@@ -669,10 +670,7 @@ $route=\Request::route()->getName();
                         @endif
                         @endif
                            
-                        @if (isset($route) && ($route == 'co.index' || $route=='ee.index' || $route=='dyco.index' ||
-                        $route=='ree_applications.index' || $route=='ree_applications.reval' || 
-                        $route=='society_offer_letter.index' || $route=='society_offer_letter_dashboard' ||
-                        $route=='documents_uploaded' || $route=='documents_upload' || $route == 'architect_layout.index' || $route == 'hearing.index' || $route == 'conveyance.index' || $route == 'architect_application'))
+                        @if(session()->get('permission') && (in_array('conveyance.index', session()->get('permission')) ))
 
                         <li class="m-menu__item {{ ($route=='conveyance.index') ? 'm-menu__item--active' : '' }}">
                             <a href="{{ route('conveyance.index') }}" class="m-menu__link m-menu__toggle">
@@ -687,8 +685,20 @@ $route=\Request::route()->getName();
                             </a>
                         </li>                        
                         @endif
-
-                       
+                        @if(in_array('get_sf_applications.index',session()->get('permission')))
+                            <li class="m-menu__item {{ ($route=='get_sf_applications.index') ? 'm-menu__item--active' : '' }}">
+                                <a href="{{ route('get_sf_applications.index') }}" class="m-menu__link m-menu__toggle">
+                                    <i class="m-menu__link-icon flaticon-line-graph"></i>
+                                    <span class="m-menu__link-title">
+                                        <span class="m-menu__link-wrap">
+                                            <span class="m-menu__link-text">
+                                                Applications for Society Formation
+                                            </span>
+                                        </span>
+                                    </span>
+                                </a>
+                            </li>        
+                        @endif
                         
                         @if(Session::all()['role_name'] == 'ee_engineer')
                         <li class="m-menu__item {{($route=='society_detail.billing_level')?'m-menu__item--active':''}}">
