@@ -28,10 +28,6 @@
             </li>
         </ul>
     </div>
-<form class="nav-tabs-form" id ="agreementFRM" role="form" method="POST" action="{{ route('dyco.save_approve_renewal_agreement')}}" enctype="multipart/form-data">
-@csrf
-
-<input type="hidden" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">
     <div class="tab-content">
         <div class="tab-pane active show" id="sale-deed-agreement" role="tabpanel">
             <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
@@ -75,6 +71,7 @@
             <!-- Add Send to JT CO here -->
         </div>
     </div>
+
     @if(count($data->AgreementComments) > 0)       
         <div class="m-portlet m-portlet--mobile m_panel">
             <div class="m-portlet__body">
@@ -96,20 +93,24 @@
         </div> 
     @endif 
 
-     @if($data->status->status_id != config('commanConfig.applicationStatus.forwarded'))     
-    <div class="m-portlet m-portlet--mobile m_panel">
-        <div class="m-portlet__body">
-            <h3 class="section-title section-title--small">Remark</h3>
-            <div class="col-xs-12 row">
-                <div class="col-md-12">
-                    <textarea rows="4" cols="63" name="remark"></textarea>
-                    <button type="submit" class="btn btn-primary mt-3" style="display:block">Save</button>
+     @if($data->status->status_id != config('commanConfig.applicationStatus.forwarded') && $data->status->status_id != config('commanConfig.applicationStatus.reverted')) 
+
+    <form class="nav-tabs-form" id ="CommentFRM" role="form" method="POST" action="{{ route('renewal.save_agreement_comments')}}">
+    @csrf        
+        <input type="hidden" name="application_id" value="{{ isset($data->id) ? $data->id : '' }}">   
+        <div class="m-portlet m-portlet--mobile m_panel">
+            <div class="m-portlet__body">
+                <h3 class="section-title section-title--small">Remark</h3>
+                <div class="col-xs-12 row">
+                    <div class="col-md-12">
+                        <textarea rows="4" cols="63" name="remark"></textarea>
+                        <button type="submit" class="btn btn-primary mt-3" style="display:block">Save</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    @endif
- </form>   
+    </form>
+    @endif   
 </div>
 
 @endsection

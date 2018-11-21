@@ -282,7 +282,52 @@ class EEUserSeeder extends Seeder
                 'name' => 'conveyance.architect_scrutiny_remark',
                 'display_name' => 'architect scrutiny remark',
                 'description' => 'architect scrutiny remark',
+            ],
+            [
+                'name' => 'renewal.index',
+                'display_name' => 'renewal',
+                'description' => 'renewal',
+            ],            
+            [
+                'name' => 'renewal.view_application',
+                'display_name' => 'renewal_view_application',
+                'description' => 'renewal_view_application',
+            ],
+            [
+                'name' => 'renewal.renewal_forward_application',
+                'display_name' => 'renewal forward application',
+                'description' => 'renewal forward application',
+            ],            
+            [
+                'name' => 'renewal.save_forward_application_renewal',
+                'display_name' => 'save forward application renewal',
+                'description' => 'save forward application renewal',
+            ],            
+            [
+                'name' => 'renewal.ee_scrutiny',
+                'display_name' => 'ee scrutiny page',
+                'description' => 'ee scrutiny page',
+            ],            
+            [
+                'name' => 'renewal.save_ee_scrutiny',
+                'display_name' => 'save renewal ee scrutiny',
+                'description' => 'save renewal ee scrutiny',
             ],             
+            [
+                'name' => 'ee.upload_ee_scrutiny_documents',
+                'display_name' => 'upload ee scrutiny documents',
+                'description' => 'upload ee scrutiny documents',
+            ],            
+            [
+                'name' => 'ee.save_scrutiny_remark',
+                'display_name' => 'save scrutiny remark',
+                'description' => 'save scrutiny remark',
+            ],             
+            [
+                'name' => 'ee.delete_ee_scrutiny_documents',
+                'display_name' => 'delete ee scrutiny documents',
+                'description' => 'delete ee scrutiny documents',
+            ],                                      
         ];
 
         // Role

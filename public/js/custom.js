@@ -591,6 +591,87 @@ $(document).ready(function () {
         }
     });
 
+    // Hearing status validations
+
+    $("#addhearingstatus").validate({
+        // errorElement: "span",
+        //errorClass : "text-red",
+        rules: {
+            status_title: "required",
+        }
+    });
+
+    $("#edithearingstatus").validate({
+        // errorElement: "span",
+        //errorClass : "text-red",
+        rules: {
+            status_title: "required",
+        }
+    });
+
+    $("#DeleteHearingStatusReason").validate({
+        rules: {
+            delete_message: "required",
+        }
+    });
+
+    // RTI status validations
+
+    $("#addrtistatus").validate({
+        // errorElement: "span",
+        //errorClass : "text-red",
+        rules: {
+            status_title: "required",
+        }
+    });
+
+    $("#editrtistatus").validate({
+        // errorElement: "span",
+        //errorClass : "text-red",
+        rules: {
+            status_title: "required",
+        }
+    });
+
+    $("#DeleteRTIStatusReason").validate({
+        rules: {
+            delete_message: "required",
+        }
+    });
+
+    // Layout validations
+
+    $("#addlayout").validate({
+        // errorElement: "span",
+        //errorClass : "text-red",
+        rules: {
+            layout_name: "required",
+            // division: "required",
+            board: "required",
+            // redirect_to: "required",
+        }
+    });
+
+    $("#editlayout").validate({
+        // errorElement: "span",
+        //errorClass : "text-red",
+        rules: {
+            layout_name: "required",
+            // division: "required",
+            board: "required",
+            // redirect_to: "required",
+        }
+    });
+
+    $("#DeleteLayoutReason").validate({
+        rules: {
+            delete_message: "required",
+        }
+    });
+
+
+
+
     $("#appointing_architect_step1").validate({
         rules:{
             category_of_panel:"required",

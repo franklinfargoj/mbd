@@ -4,7 +4,7 @@ $route=\Request::route()->getName();
 @endphp
 
 <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2" >
-    <a href="{{route('conveyance.index')}}" class="m-menu__link m-menu__toggle">
+    <a href="{{route('renewal.index')}}" class="m-menu__link m-menu__toggle">
         <i class="m-menu__link-icon flaticon-line-graph"></i>
         <span class="m-menu__link-title">
             <span class="m-menu__link-wrap">

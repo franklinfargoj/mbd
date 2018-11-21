@@ -64,7 +64,7 @@
                 <span class="m-menu__link-text">View Calculation Sheet</span></a>
         </li>
 
-
+    <!--
         @if($ol_application->status_offer_letter ==
         config('commanConfig.applicationStatus.offer_letter_generation'))
             <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{($route=='ree.generate_offer_letter')?'m-menu__item--active':''}}"
@@ -91,7 +91,7 @@
             </li>
         @endif
 
-        @if($ol_application->vp_notes!="")
+       @if($ol_application->vp_notes!="")
 
             <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{($route=='ree.download_vp_note')?'m-menu__item--active':''}}"
                 aria-haspopup="true">
@@ -103,7 +103,7 @@
                     <span class="m-menu__link-text">CAP Notes</span>
                 </a>
             </li>
-        @endif
+        @endif -->
 
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{($route=='vp.forward_reval_application')?'m-menu__item--active':''}}"
             aria-haspopup="true">

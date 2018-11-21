@@ -97,6 +97,127 @@ class AddSuperAdminToRoleTableSeeder extends Seeder
                 'name' => 'loadDeleteApplicationStatusUsingAjax',
                 'display_name' => 'Delete Application Status Ajax',
                 'description' => 'Deleting Application Status using Ajax'
+            ],
+            [
+                'name' => 'hearing_status.index',
+                'display_name' => 'List Hearing Status',
+                'description' => 'Listing Hearing Status'
+            ],
+            [
+                'name' => 'hearing_status.create',
+                'display_name' => 'Create Hearing Status',
+                'description' => 'Creating Hearing Status'
+            ],
+            [
+                'name' => 'hearing_status.show',
+                'display_name' => 'Create Hearing Status',
+                'description' => 'Creating Hearing Status'
+            ],
+            [
+                'name' => 'hearing_status.store',
+                'display_name' => 'Store Hearing Status',
+                'description' => 'Storing Hearing Status'
+            ],
+            [
+                'name' => 'hearing_status.edit',
+                'display_name' => 'Edit Hearing Status',
+                'description' => 'EDiting Hearing Status'
+            ],
+            [
+                'name' => 'hearing_status.update',
+                'display_name' => 'Update Hearing Status',
+                'description' => 'updating Hearing Status'
+            ],
+            [
+                'name' => 'hearing_status.destroy',
+                'display_name' => 'Delete Hearing Status',
+                'description' => 'Deleting Hearing Status'
+            ],
+            [
+                'name' => 'DeleteHearingStatusUsingAjax',
+                'display_name' => 'Delete Hearing Status Ajax',
+                'description' => 'Deleting Hearing Status using Ajax'
+            ],
+            [
+                'name' => 'rti_status.index',
+                'display_name' => 'List RTI Status',
+                'description' => 'Listing RTI Status'
+            ],
+            [
+                'name' => 'rti_status.create',
+                'display_name' => 'Create RTI Status',
+                'description' => 'Creating RTI Status'
+            ],
+            [
+                'name' => 'rti_status.show',
+                'display_name' => 'Create RTI Status',
+                'description' => 'Creating RTI Status'
+            ],
+            [
+                'name' => 'rti_status.store',
+                'display_name' => 'Store RTI Status',
+                'description' => 'Storing RTI Status'
+            ],
+            [
+                'name' => 'rti_status.edit',
+                'display_name' => 'Edit RTI Status',
+                'description' => 'EDiting RTI Status'
+            ],
+            [
+                'name' => 'rti_status.update',
+                'display_name' => 'Update RTI Status',
+                'description' => 'updating RTI Status'
+            ],
+            [
+                'name' => 'rti_status.destroy',
+                'display_name' => 'Delete RTI Status',
+                'description' => 'Deleting RTI Status'
+            ],
+            [
+                'name' => 'DeleteRTIStatusUsingAjax',
+                'display_name' => 'Delete RTI Status Ajax',
+                'description' => 'Deleting RTI Status using Ajax'
+            ]
+            ,
+            [
+                'name' => 'layouts.index',
+                'display_name' => 'List Layouts',
+                'description' => 'Listing Layouts'
+            ],
+            [
+                'name' => 'layouts.create',
+                'display_name' => 'Create Layout',
+                'description' => 'Creating Layout'
+            ],
+            [
+                'name' => 'layouts.show',
+                'display_name' => 'Create Layout',
+                'description' => 'Creating Layout'
+            ],
+            [
+                'name' => 'layouts.store',
+                'display_name' => 'Store Layout',
+                'description' => 'Storing Layout'
+            ],
+            [
+                'name' => 'layouts.edit',
+                'display_name' => 'Edit Layout',
+                'description' => 'EDiting Layout'
+            ],
+            [
+                'name' => 'layouts.update',
+                'display_name' => 'Update Layout',
+                'description' => 'updating Layout'
+            ],
+            [
+                'name' => 'layouts.destroy',
+                'display_name' => 'Delete Layout ',
+                'description' => 'Deleting Layout'
+            ],
+            [
+                'name' => 'loadDeleteLayoutUsingAjax',
+                'display_name' => 'Delete Layouts Ajax',
+                'description' => 'Deleting Layouts using Ajax'
             ]
         ];
 

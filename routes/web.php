@@ -297,6 +297,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('ree_forward_reval_application/{id}','REEDepartment\REEController@forwardRevalApplication')->name('ree.forward_reval_application');
 
     Route::get('download_cap_note/{id}','REEDepartment\REEController@downloadCapNote')->name('ree.download_cap_note');
+    Route::get('download_reval_cap_note/{id}','REEDepartment\REEController@downloadRevalCapNote')->name('ree.download_reval_cap_note');
     
     Route::post('ree_forward_Application_data','REEDepartment\REEController@sendForwardApplication')->name('ree.forward_application_data');
     Route::post('ree_forward_reval_Application_data','REEDepartment\REEController@sendForwardRevalApplication')->name('ree.forward_reval_application_data');
@@ -539,11 +540,24 @@ Route::delete('destroy_architect_layout_detail_court_case_or_dispute_on_land/{id
 //CRUD Routes
 
     Route::group(['namespace' => 'CRUDAdmin','prefix' => 'crudadmin'], function() {
+        // Superadmin Dashboard
         Route::get('dashboard','DashboardController@index')->name('superadmin.dashboard');
+        // Role
         Route::post('loadDeleteRoleUsingAjax', 'RoleController@loadDeleteRoleUsingAjax')->name('loadDeleteRoleUsingAjax');
         Route::resource('roles','RoleController');
+        // Application Status
         Route::post('loadDeleteApplicationStatusUsingAjax', 'ApplicationStatusController@loadDeleteApplicationStatusUsingAjax')->name('loadDeleteApplicationStatusUsingAjax');
         Route::resource('application_status','ApplicationStatusController');
+        // Hearing Status
+        Route::post('DeleteHearingStatusUsingAjax', 'HearingStatusController@DeleteHearingStatusUsingAjax')->name('DeleteHearingStatusUsingAjax');
+        Route::resource('hearing_status','HearingStatusController');
+        // RTI Status
+        Route::post('DeleteRTIStatusUsingAjax', 'RTIStatusController@DeleteRTIStatusUsingAjax')->name('DeleteRTIStatusUsingAjax');
+        Route::resource('rti_status','RTIStatusController');
+        // Role
+        Route::post('loadDeleteLayoutUsingAjax', 'LayoutController@loadDeleteLayoutUsingAjax')->name('loadDeleteLayoutUsingAjax');
+        Route::resource('layouts','LayoutController');
+
     });
 
     //Society Conveyance
@@ -569,6 +583,11 @@ Route::delete('destroy_architect_layout_detail_court_case_or_dispute_on_land/{id
 
     //Society Formation
     Route::get('society_formation','SocietyFormationController@index')->name('society_formation.index');
+    Route::get('society_formation/create','SocietyFormationController@create')->name('society_formation.create');
+    Route::post('society_formation/store','SocietyFormationController@store')->name('society_formation.store');
+    Route::get('view_society_formation/{id}','SocietyFormationController@view_application')->name('society_formation.view_application');
+    Route::post('upload_sf_application_attachment','SocietyFormationController@upload_sf_application_attachment')->name('upload_sf_application_attachment');
+    Route::post('sf_submit_application','SocietyFormationController@sf_submit_application')->name('sf_submit_application');
     //Society Formation End
 
 
@@ -592,6 +611,7 @@ Route::delete('destroy_architect_layout_detail_court_case_or_dispute_on_land/{id
 
     //Society Renewal END
 
+    
 });
 
 
@@ -768,6 +788,12 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::post('send_forward_application', 'conveyance\EEDepartment\EEController@sendForwardApplication')->name('ee.send_forward_application');
 
+    Route::post('upload_ee_scrutiny_documents', 'conveyance\EEDepartment\EEController@uploadRenewalScrutinyDocument')->name('ee.upload_ee_scrutiny_documents'); 
+
+    Route::post('delete_ee_scrutiny_documents', 'conveyance\EEDepartment\EEController@deleteRenewalScrutinyDocument')->name('ee.delete_ee_scrutiny_documents');
+
+    Route::post('save_scrutiny_remark', 'conveyance\EEDepartment\EEController@SaveScrutinyRemark')->name('ee.save_scrutiny_remark');
+
 // Renewal
 
     // common in renewal
@@ -777,11 +803,21 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::get('prepare_renewal_agreement/{id}', 'conveyance\renewalCommonController@PrepareRenewalAgreement')->name('renewal.prepare_renewal_agreement'); 
 
-    Route::get('approve_renewal_agreement/{id}', 'conveyance\renewalCommonController@ApproveRenewalAgreement')->name('renewal.approve_renewal_agreement'); 
+    Route::get('approve_renewal_agreement/{id}', 'conveyance\renewalCommonController@ApproveRenewalAgreement')->name('renewal.approve_renewal_agreement');    
 
-    Route::get('renewal_forward_application/{id}', 'conveyance\renewalCommonController@commonForwardApplication')->name('renewal.renewal_forward_application');
+     Route::get('stamp_renewal_agreement/{id}', 'conveyance\renewalCommonController@StampRenewalAgreement')->name('renewal.stamp_renewal_agreement'); 
 
-    Route::post('save_forward_application_renewal', 'conveyance\renewalCommonController@saveForwardApplication')->name('renewal.save_forward_application_renewal');    
+    Route::get('renewal_forward_application/{id}', 'conveyance\renewalCommonController@commonForwardApplication')->name('renewal.renewal_forward_application');    
+
+    Route::get('renewal_architect_scrutiny/{id}', 'conveyance\renewalCommonController@RenewalArchitectScrunity')->name('renewal.architect_scrutiny');
+
+    Route::get('renewal_ee_scrutiny/{id}', 'conveyance\renewalCommonController@RenewalEEScrunityRemark')->name('renewal.ee_scrutiny');
+
+    Route::post('save_forward_application_renewal', 'conveyance\renewalCommonController@saveForwardApplication')->name('renewal.save_forward_application_renewal'); 
+
+    Route::post('save_stamp_renewal_agreement', 'conveyance\renewalCommonController@saveStampRenewalAgreement')->name('renewal.save_stamp_renewal_agreement');   
+
+    Route::post('renewal_save_agreement_comments', 'conveyance\renewalCommonController@SaveAgreementComments')->name('renewal.save_agreement_comments');
 
 
     Route::get('renewal_scrutiny_remark_em/{id}', 'conveyance\EMDepartment\EMController@RenewalScrutinyRemark')->name('em.renewal_scrutiny_remark');

@@ -17,8 +17,8 @@
         <button onclick="window.location='{{ route("appointing_architect.step9",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab ">Step 9</button>
         <button onclick="window.location='{{ route("appointing_architect.step10",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab ">Step 10</button>
     </div>
-    <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
-        <h3 class="section-title section-title--small">APPLICATION FORM FOR EMPLOYMENT OF ARCHITECT</h3>
+    <div class="m-portlet m-portlet--mobile m-portlet--forms-view m-portlet--forms-compact">
+        <h3 class="section-title section-title--small mb-0">APPLICATION FORM FOR EMPLOYMENT OF ARCHITECT</h3>
         <form action="{{route('appointing_architect.step1_post',['id'=>encrypt($application->id)])}}" id="appointing_architect_step1" role="form" method="post" class="m-form m-form--rows m-form--label-align-right"
             action="" enctype="multipart/form-data">
             @csrf
