@@ -96,7 +96,7 @@
         </div> 
     @endif 
 
-    @if($data->status->status_id != config('commanConfig.applicationStatus.forwarded')) 
+     @if($data->status->status_id != config('commanConfig.applicationStatus.forwarded') && $data->status->status_id != config('commanConfig.applicationStatus.reverted')) 
 
     <div class="m-portlet m-portlet--mobile m_panel">
         <div class="m-portlet__body">

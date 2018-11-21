@@ -10,7 +10,6 @@ class RenewalApplicationLog extends Model
 	protected $table = 'renewal_application_log';
 	public $timestamps = true;
 
-    protected $table = 'renewal_application_log';
     protected $fillable = [
         'application_id',
         'application_master_id',

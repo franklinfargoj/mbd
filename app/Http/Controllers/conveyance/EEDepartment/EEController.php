@@ -8,7 +8,10 @@ use App\conveyance\ConveyanceSalePriceCalculation;
 use App\Http\Controllers\Common\CommonController;
 use App\Http\Controllers\conveyance\conveyanceCommonController;
 use App\conveyance\scApplication;
-use Storage;
+use App\conveyance\RenewalApplication;
+use App\conveyance\RenewalEEScrutinyDocuments;
+use Storage; 
+use Auth;
 
 class EEController extends Controller
 {
@@ -122,5 +125,60 @@ class EEController extends Controller
 
         $data = $this->conveyance->forwardApplication($request);   
         return redirect('/conveyance')->with('success','Application send successfully.');
+    }
+
+    // Renewal
+
+    // upload ee scrunity documents through ajax
+    public function uploadRenewalScrutinyDocument(Request $request){
+       
+        $file = $request->file('file');
+        $applicationId = $request->application_id;
+
+        if ($file->getClientMimeType() == 'application/pdf') {
+
+            $extension = $request->file('file')->getClientOriginalExtension();
+            $folderName = 'Renewal_ee_scrunity_documents';
+            $fileName = time().'_ee_scrutiny_'.$applicationId.'.'.$extension;
+
+            $this->CommonController->ftpFileUpload($folderName,$file,$fileName);
+            
+            $Documents = new RenewalEEScrutinyDocuments();
+            $Documents->application_id = $applicationId;
+            $Documents->user_id = Auth::id();
+            $Documents->document_path = $folderName.'/'.$fileName;
+            $Documents->save();
+
+            $status = 'success';  
+        }else{
+             $status = 'error';   
+        }
+        return $status;
+    }
+
+    //save scrunity data fil by EE
+    public function SaveScrutinyRemark(Request $request){
+        
+        $applicationId = $request->application_id; 
+        
+        $data = RenewalApplication::where('id',$applicationId)->first();
+        if ($data){
+            RenewalApplication::where('id',$applicationId)->update(['is_sanctioned_oc' => $request->is_sanctioned_oc, 'sanctioned_comments' => $request->sanctioned_comments , 'is_additional_fsi' => $request->is_additional_fsi , 'additional_fsi_comments' => $request->additional_fsi_comments ]);   
+        }
+        return back()->with('success','Data uploaded successfully.');
+
+    }
+
+    // delete ee scrutiny documents through ajax
+    public function deleteRenewalScrutinyDocument(Request $request){
+            
+        if (isset($request->oldFile) && isset($request->key)){
+            Storage::disk('ftp')->delete($request->oldFile);
+            RenewalEEScrutinyDocuments::where('id',$request->key)->delete(); 
+            $status = 'success';           
+        }else{
+             $status = 'error';
+        }
+        return $status;
     }
 }

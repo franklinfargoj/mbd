@@ -71,7 +71,7 @@
             <!-- Add Send to JT CO here -->
         </div>
     </div>
-
+  
     @if(count($data->AgreementComments) > 0)       
         <div class="m-portlet m-portlet--mobile m_panel">
             <div class="m-portlet__body">
@@ -91,13 +91,9 @@
                 </div>               
             </div>    
         </div> 
-    @endif 
+    @endif         
 
-     @if($data->status->status_id != config('commanConfig.applicationStatus.forwarded') && $data->status->status_id != config('commanConfig.applicationStatus.reverted')) 
-
-    <form class="nav-tabs-form" id ="CommentFRM" role="form" method="POST" action="{{ route('renewal.save_agreement_comments')}}">
-    @csrf        
-        <input type="hidden" name="application_id" value="{{ isset($data->id) ? $data->id : '' }}">   
+    @if($data->status->status_id != config('commanConfig.applicationStatus.forwarded') && $data->status->status_id != config('commanConfig.applicationStatus.reverted')) 
         <div class="m-portlet m-portlet--mobile m_panel">
             <div class="m-portlet__body">
                 <h3 class="section-title section-title--small">Remark</h3>
@@ -108,25 +104,9 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </form>
-    @endif   
+        </div> 
+    @endif         
 </div>
 
 @endsection
 
-@section('js')
-<script>
-    $("#agreementFRM").validate({
-        rules: {            
-            lease_agreement: {
-                extension: "pdf"
-            },
-        }, messages: {           
-            lease_agreement: {
-                extension: "Invalid type of file uploaded (only pdf allowed)."
-            }
-        }
-    });  
-</script>
-@endsection

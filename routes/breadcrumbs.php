@@ -407,6 +407,11 @@ Breadcrumbs::for('calculation_sheet', function ($trail,$id) {
     $trail->push('calculation sheet', route('ol_calculation_sheet.index',$id));
 });
 
+Breadcrumbs::for('reval_calculation_sheet', function ($trail,$id) {
+    $trail->parent('ree_reval');
+    $trail->push('reval calculation sheet', route('ol_reval_calculation_sheet.show',$id));
+});
+
 Breadcrumbs::for('approved_offer_letter', function ($trail,$id) {
     $trail->parent('ree');
     $trail->push('approved offer letter', route('ree.approved_offer_letter',$id));
@@ -435,6 +440,11 @@ Breadcrumbs::for('Forward_Application_ree', function ($trail,$id) {
 Breadcrumbs::for('cap_note_ree', function ($trail,$id) {
     $trail->parent('ree');
     $trail->push('cap note', route('ree.download_cap_note',$id));
+});
+
+Breadcrumbs::for('reval_cap_note_ree', function ($trail,$id) {
+    $trail->parent('ree_reval');
+    $trail->push('reval cap note', route('ree.download_reval_cap_note',$id));
 });
 
 Breadcrumbs::for('ee', function ($trail) {
