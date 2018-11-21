@@ -648,7 +648,7 @@ $(document).ready(function () {
             layout_name: "required",
             // division: "required",
             board: "required",
-            // redirect_to: "required",
+            is_active: "required",
         }
     });
 
@@ -659,7 +659,7 @@ $(document).ready(function () {
             layout_name: "required",
             // division: "required",
             board: "required",
-            // redirect_to: "required",
+            is_active: "required",
         }
     });
 
