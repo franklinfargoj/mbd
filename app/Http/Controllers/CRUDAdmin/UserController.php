@@ -63,7 +63,7 @@ class UserController extends Controller
                     return $user_data->email;
                 })
                 ->editColumn('role_id', function ($user_data) {
-                    return $user_data->role_id;
+                    return Role::where('id',$user_data->role_id)->value('name');
                 })
                 ->editColumn('mobile_no', function ($user_data) {
                     return $user_data->mobile_no;
