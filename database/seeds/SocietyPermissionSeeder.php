@@ -347,7 +347,27 @@ class SocietyPermissionSeeder extends Seeder
                     'name'=>'sf_submit_application',
                     'display_name'=>'application submit by society for SF',
                     'description'=>'application submit by society for SF'
-                ]
+                ],
+                [
+                    'name'         => 'show_reval_self',
+                    'display_name' => 'Shows self redevelopment revalidation form',
+                    'description'  => 'Shows self redevelopment revalidation form'
+                ],
+                [
+                    'name'         => 'show_reval_dev',
+                    'display_name' => 'Shows redevelopment through developer revalidation form',
+                    'description'  => 'Shows redevelopment through developer revalidation form'
+                ],
+                [
+                    'name'         => 'save_offer_letter_application_reval_self',
+                    'display_name' => 'Save self revalidation offer letter application',
+                    'description'  => 'Save self revalidation offer letter application'
+                ],
+                [
+                    'name'         => 'society_reval_offer_letter_preview',
+                    'display_name' => 'Society revalidation offer letter preview',
+                    'description'  => 'Society revalidation offer letter preview'
+                ],
         ];
         
         if(count($society)==0){
