@@ -86,6 +86,9 @@ class SocietyFormationController extends Controller
             $SfApplication->proposed_society_name = $request->proposed_society_name;
             $SfApplication->building_no = $request->building_no;
             $SfApplication->save();
+            $SfApplication=SfApplication::find($SfApplication->id);
+            $SfApplication->application_no=config('commanConfig.mhada_code').str_pad($SfApplication->id, 5, '0', STR_PAD_LEFT);
+            $SfApplication->save();
         }
 
         if ($SfApplication) {

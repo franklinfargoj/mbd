@@ -50,7 +50,7 @@ class FormationCommonController extends Controller
                 })
 
                 ->editColumn('radio', function ($data) {
-                    $url = route('formation.view_application', $data->id);
+                    $url = route('formation.view_application', ['id'=>encrypt($data->id)]);
                     return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" name="application_id" onclick="geturl(this.value);" value="'.$url.'" ><span></span></label>';
                 })  
                 ->editColumn('application_no', function ($data) {
@@ -139,7 +139,7 @@ class FormationCommonController extends Controller
         if ($request->update_status) {
 
             foreach ($applicationData as $app_data) {
-                if ($app_data->scApplicationLog[0]->status_id == $request->update_status) {
+                if ($app_data->sfApplicationLog[0]->status_id == $request->update_status) {
                     $listArray[] = $app_data;
                 }
             }
@@ -148,5 +148,196 @@ class FormationCommonController extends Controller
         } 
     
         return $listArray;       	
+    }
+
+    public function ViewApplication(Request $request,$applicationId){
+        $disabled=1;
+            $id = decrypt($applicationId);
+            $sf_documents = SocietyConveyanceDocumentMaster::with(['sf_document_status' => function ($q) use ($id) {
+                return $q->where(['application_id' => $id]);
+            }])->where(['application_type_id' => 3])->get();
+            $sf_application = SfApplication::find($id);
+            return view('admin.formation.view_application', compact('sf_application', 'sf_documents','disabled'));
+
+        //return view('admin.conveyance.common.view_application',compact('data'));
+    } 
+
+    //revert application child id
+    public function getRevertApplicationChildData(){
+        
+        $role_id = Role::where('id',Auth::user()->role_id)->first();
+        $result  = json_decode($role_id->conveyance_child_id);
+        $child   = "";
+        
+        if ($result){
+            $child = User::with(['roles','LayoutUser' => function($q){
+                $q->where('layout_id', session('layout_id'));
+            }])
+            ->whereHas('LayoutUser' ,function($q){
+                $q->where('layout_id', session('layout_id'));
+            })
+            ->whereIn('role_id',$result)->get();            
+        }
+        return $child;        
+    }   
+    
+    //forward Application parent Id 
+
+     public function getForwardApplicationParentData(){
+        
+        $role_id = Role::where('id',Auth::user()->role_id)->first();
+        $result  = json_decode($role_id->conveyance_parent_id);
+        //dd($result);
+        $parent  = "";
+
+        if ($result){
+            $parent = User::with(['roles','LayoutUser' => function($q){
+                $q->where('layout_id', session('layout_id'));
+            }])
+            ->whereHas('LayoutUser' ,function($q){
+                $q->where('layout_id', session('layout_id'));
+            })
+            ->whereHas('roles' ,function($q){
+                $q->where('name', config('commanConfig.estate_manager'));
+            })
+            ->whereIn('role_id',$result)->get();            
+        }
+        //dd($parent);
+        return $parent;
+    }
+
+    // get current status of application
+    public function getCurrentStatus($application_id,$masterId)
+    {
+        $current_status = SfApplicationStatusLog::where('application_id', $application_id)
+            ->where('application_master_id',$masterId)
+            ->where('user_id', Auth::user()->id)
+            ->where('role_id', session()->get('role_id'))
+            ->orderBy('id', 'desc')->first();
+   
+        return $current_status;
+    }
+
+    public function getForwardApplicationData($applicationId){
+       // dd($applicationId);
+        $data = SfApplication::with('societyApplication')
+        ->where('id',$applicationId)->first();
+        $data->society_role_id = Role::where('name', config('commanConfig.society_offer_letter'))->value('id');
+        $data->status = $this->getCurrentStatus($applicationId,$data->sc_application_master_id);
+        $data->parent = $this->getForwardApplicationParentData();
+        $data->child  = $this->getRevertApplicationChildData();
+        return $data;        
+    }
+
+    // get logs of DYCO dept
+    public function getLogsOfDYCODepartment($applicationId,$masterId)
+    {
+
+        $roles = array(config('commanConfig.dycdo_engineer'), config('commanConfig.dyco_engineer'));
+
+        $status = array(config('commanConfig.applicationStatus.forwarded'), config('commanConfig.applicationStatus.reverted'));
+
+        $dycoRoles = Role::whereIn('name', $roles)->pluck('id');
+        $dycologs  = SfApplicationStatusLog::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)
+        ->where('application_master_id',$masterId)->whereIn('role_id', $dycoRoles)->whereIn('status_id', $status)->get();
+
+        return $dycologs;
+    } 
+
+    // get logs of Society
+    public function getLogsOfSociety($applicationId,$masterId)
+    {
+        $roles = array(config('commanConfig.society_offer_letter'));
+
+        $status = array(config('commanConfig.applicationStatus.forwarded'), config('commanConfig.applicationStatus.reverted'));
+
+        $societyRoles = Role::whereIn('name', $roles)->pluck('id');
+        $ocietylogs  = SfApplicationStatusLog::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->where('society_flag','=','1')->where('application_master_id',$masterId)->whereIn('role_id', $societyRoles)->whereIn('status_id', $status)->get();
+        // dd($societyRoles);
+
+        return $ocietylogs;
+    } 
+
+    public function commonForward(Request $request,$applicationId){
+        $applicationId=decrypt($applicationId);
+        $sf_application = SfApplication::with('societyApplication')->where('id',$applicationId)->first();
+        $data          = $this->getForwardApplicationData($applicationId);
+        //dd($data);
+        //$data->folder  = $this->getCurrentRoleFolderName();
+        $societyLogs   = $this->getLogsOfSociety($applicationId,$data->sc_application_master_id);
+        $dycoLogs      = $this->getLogsOfDYCODepartment($applicationId,$data->sc_application_master_id);
+        //$eelogs        = $this->getLogsOfEEDepartment($applicationId,$data->sc_application_master_id);
+        //$Architectlogs = $this->getLogsOfArchitectDepartment($applicationId,$data->sc_application_master_id);
+        //$cologs        = $this->getLogsOfCODepartment($applicationId,$data->sc_application_master_id);
+        
+        //$this->getAllSaleLeaseAgreement($data,$applicationId,$data->sc_application_master_id);
+  
+        // if (session()->get('role_name') == config('commanConfig.co_engineer') || session()->get('role_name') == config('commanConfig.joint_co')){
+        //   $route = 'admin.conveyance.co_department.forward_application';
+  
+        // } elseif (session()->get('role_name') == config('commanConfig.dyco_engineer') || session()->get('role_name') == config('commanConfig.dycdo_engineer')){
+  
+        //        $route = 'admin.conveyance.dyco_department.forward_application';
+        //   }     
+        //   else{
+        //   $route = 'admin.conveyance.common.forward_application';
+        // }
+  
+        return view('admin.formation.forward_application',compact('data','societyLogs','dycoLogs','sf_application'));         
+      }
+
+      public function saveForwardApplication(Request $request){
+        //return $request->all();
+        $forwardData = $this->forwardApplication($request); 
+        return redirect()->route('get_sf_applications.index')->with('success','Application sent successfully.');
+    }
+
+    // forward and revert application
+    public function forwardApplication($request){
+        
+        $Scstatus = "";
+        $data = SfApplication::where('id',$request->applicationId)->first();
+        $applicationStatus = $data->application_status;
+        $masterId = $data->sc_application_master_id;
+
+        $dycdoId =  Role::where('name',config('commanConfig.dycdo_engineer'))->value('id');  
+        $dycoId =  Role::where('name',config('commanConfig.dyco_engineer'))->value('id'); 
+         
+        if ($request->check_status == 1) {
+            $status = config('commanConfig.applicationStatus.forwarded');                
+        }else{
+            $status = config('commanConfig.applicationStatus.reverted');
+        }
+        $Tostatus = config('commanConfig.applicationStatus.in_process');
+       
+            $application = [[
+                'application_id' => $request->applicationId,
+                'user_id'        => Auth::user()->id,
+                'role_id'        => session()->get('role_id'),
+                'status_id'      => $status,
+                'to_user_id'     => $request->to_user_id,
+                'to_role_id'     => $request->to_role_id,
+                'remark'         => $request->remark,
+                'application_master_id' => $masterId,
+                'created_at'     => Carbon::now(),
+            ],
+            [
+                'application_id' => $request->applicationId,
+                'user_id'       => $request->to_user_id,
+                'role_id'       => $request->to_role_id,
+                'status_id'     => $Tostatus,
+                'to_user_id'    => null,
+                'to_role_id'    => null,
+                'remark'        => $request->remark,
+                'application_master_id' => $masterId,
+                'created_at'    => Carbon::now(),
+            ],
+            ];
+
+            SfApplicationStatusLog::insert($application); 
+            if ($Scstatus != ""){
+                SfApplication::where('id',$request->applicationId)->where('sc_application_master_id',$masterId)
+                ->update(['application_status' => $Tostatus]);                    
+            }
     }
 }

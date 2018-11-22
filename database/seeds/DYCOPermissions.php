@@ -178,6 +178,21 @@ class DYCOPermissions extends Seeder
                 'display_name' => 'renewal architect scrutiny',
                 'description' => 'renewal architect scrutiny',
             ],             
+            [
+                'name'=>'formation.view_application',
+                'display_name'=>'View Application Submitted By society',
+                'description'=>'View Application Submitted By society'
+            ],
+            [
+                'name'=>'formation.forward_application',
+                'display_name'=>'dipaly Page for Forward SF application',
+                'description'=>'dipaly Page for Forward SF application'
+            ],
+            [
+                'name'=>'formation.post_forward_application',
+                'display_name'=>'post Forward SF application',
+                'description'=>'post Forward SF application'
+            ]      
         ];
 
         //dycdo

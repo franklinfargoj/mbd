@@ -600,7 +600,10 @@ Route::delete('destroy_architect_layout_detail_court_case_or_dispute_on_land/{id
     
     //admin side
     Route::get('get_sf_applications','conveyance\FormationCommonController@index')->name('get_sf_applications.index');
-   
+    Route::get('sf_view_application/{id}','conveyance\FormationCommonController@ViewApplication')->name('formation.view_application');
+    Route::get('sf_forward_application/{id}','conveyance\FormationCommonController@commonForward')->name('formation.forward_application');
+    Route::post('sf_post_forward_application','conveyance\FormationCommonController@saveForwardApplication')->name('formation.post_forward_application');
+    
     //Society Formation End
 
 
@@ -610,7 +613,7 @@ Route::delete('destroy_architect_layout_detail_court_case_or_dispute_on_land/{id
     Route::get('sr_upload_docs', 'SocietyRenewalController@sr_upload_docs')->name('sr_upload_docs');
     Route::post('upload_sr_docs', 'SocietyRenewalController@upload_sr_docs')->name('upload_sr_docs');
     Route::get('delete_sr_upload_docs/{id}', 'SocietyRenewalController@delete_sr_upload_docs')->name('delete_sr_upload_docs');
-    Route::post('society_bank_details', 'SocietyRenewalController@society_bank_details')->name('society_bank_details');
+    Route::post('add_society_documents_comment', 'SocietyRenewalController@add_society_documents_comment')->name('society_doc_comment');
     Route::get('sr_form_download', 'SocietyRenewalController@generate_pdf')->name('sr_form_download');
     Route::get('sr_form_upload_show', 'SocietyRenewalController@sr_form_upload_show')->name('sr_form_upload_show');
     Route::post('sr_form_upload', 'SocietyRenewalController@sr_form_upload')->name('sr_form_upload');

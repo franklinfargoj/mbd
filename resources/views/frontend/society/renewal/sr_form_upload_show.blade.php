@@ -1,6 +1,6 @@
 @extends('frontend.layouts.sidebarAction')
 @section('actions')
-    @include('frontend.society.conveyance.actions',compact('sc_application'))
+    @include('frontend.society.renewal.actions',compact('sc_application'))
 @endsection
 @section('content')
     <div class="panel" id="ee-note">
@@ -10,7 +10,7 @@
                     <div class="m-subheader" style="padding: 0;">
                         <div class="d-flex align-items-center justify-content-center">
                             <h4 class="section-title">
-                                Application for {{ $sc_application->scApplicationType->application_type }}
+                                Application for {{ $sc_application->srApplicationType->application_type }}
                             </h4>
                         </div>
                     </div>
@@ -19,10 +19,10 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="d-flex flex-column h-100 two-cols">
-                                        <h5>Download Conveyance Application</h5>
+                                        <h5>Download Renewal Application</h5>
                                         <span class="hint-text">Download submitted application in .pdf format</span>
                                         <div class="mt-auto">
-                                            <a title="Donwload Offer Letter Application" href="{{ route('sc_form_download') }}" target="_blank" class="btn btn-primary" rel="noopener"><i class="icon-pencil"></i>Donwload Offer Letter Application</a>
+                                            <a title="Donwload Renewal Application" href="{{ route('sr_form_download') }}" target="_blank" class="btn btn-primary" rel="noopener"><i class="icon-pencil"></i>Donwload Renewal Application</a>
                                         </div>
                                     </div>
                                 </div>
@@ -30,10 +30,10 @@
                                     <div class="d-flex flex-column h-100 two-cols">
                                         <h5>Upload Signed & Stamped Application here</h5>
                                         <span class="hint-text">Click on 'Upload' to upload signed & stamped application for society renewal.</span>
-                                        <form action="{{ route('sc_form_upload') }}" method="post" enctype="multipart/form-data">
+                                        <form action="{{ route('sr_form_upload') }}" method="post" enctype="multipart/form-data">
                                             @csrf
                                             <div class="custom-file">
-                                                <input class="custom-file-input" name="sc_application_form" type="file"
+                                                <input class="custom-file-input" name="sr_application_form" type="file"
                                                        id="test-upload" required="">
                                                 <label class="custom-file-label" for="test-upload">Choose
                                                     file...</label>

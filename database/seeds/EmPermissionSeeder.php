@@ -336,6 +336,26 @@ class EmPermissionSeeder extends Seeder
                 'name' => 'get_building_select_updated',
                 'display_name' => 'Selected Building',
                 'description' => 'Selected Building'
+            ],  
+            [
+                'name'=>'get_sf_applications.index',
+                'display_name'=>'Display list of society formation application',
+                'description'=>'Display list of society formation application'
+            ],
+            [
+                'name'=>'formation.view_application',
+                'display_name'=>'View Application Submitted By society',
+                'description'=>'View Application Submitted By society'
+            ],
+            [
+                'name'=>'formation.forward_application',
+                'display_name'=>'dipaly Page for Forward SF application',
+                'description'=>'dipaly Page for Forward SF application'
+            ],
+            [
+                'name'=>'formation.post_forward_application',
+                'display_name'=>'post Forward SF application',
+                'description'=>'post Forward SF application'
             ]
         ];
 
