@@ -192,6 +192,11 @@ class DYCOPermissions extends Seeder
                 'name'=>'formation.post_forward_application',
                 'display_name'=>'post Forward SF application',
                 'description'=>'post Forward SF application'
+            ],
+            [
+                'name'=>'formation.society_documents',
+                'display_name'=>'View Documents UPloaded by society',
+                'description'=>'View Documents UPloaded by society'
             ]      
         ];
 

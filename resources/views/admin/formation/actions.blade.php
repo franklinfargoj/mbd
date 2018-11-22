@@ -41,9 +41,19 @@ $route=\Request::route()->getName();
                 <span class="m-menu__link-text">View Applications </span>
             </a>
         </li>
-
-        {{-- <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3">
-            <a class="m-menu__link" title="Society Documents" href="">
+        @if(session()->get('role_name')==config('commanConfig.estate_manager'))
+        <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{($route=='formation.em_srutiny_and_remark')?'m-menu__item--active':''}}">
+            <a class="m-menu__link m-menu__toggle" title="architect_scrutiny" href="{{ route('formation.em_srutiny_and_remark', encrypt($sf_application->id)) }}">
+                <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
+                    <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
+                        fill="#FFF" />
+                </svg>
+                <span class="m-menu__link-text">Scrutiny & Remark</span>
+            </a>
+        </li>  
+        @endif
+        <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{($route=='formation.society_documents')?'m-menu__item--active':''}}">
+            <a class="m-menu__link" title="Society Documents" href="{{route('formation.society_documents',encrypt($sf_application->id))}}">
                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
                     <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
                         fill="#FFF" />
@@ -51,7 +61,7 @@ $route=\Request::route()->getName();
                 <span class="m-menu__link-text">Society Documents</span>
             </a>
         </li>
-
+{{-- 
     @if(isset($data->ConveyanceSalePriceCalculation))    
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{($route=='conveyance.view_ee_documents')?'m-menu__item--active':''}}">
             <a class="m-menu__link m-menu__toggle" title="EE Documents" href="{{ route('conveyance.view_ee_documents', $data->id) }}">
