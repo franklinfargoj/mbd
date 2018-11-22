@@ -74,8 +74,8 @@ class SocietyRenewalController extends Controller
 
             return $datatables->of($sr_applications)
                 ->editColumn('radio', function ($sr_applications) {
-                    $url = route('society_conveyance.show', base64_encode($sr_applications->id));
-                    return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="sc_applications_id"><span></span></label>';
+                    $url = route('society_renewal.show', base64_encode($sr_applications->id));
+                    return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="sr_applications_id"><span></span></label>';
                 })
                 ->editColumn('rownum', function ($sr_applications) {
                     static $i = 0;
@@ -86,13 +86,13 @@ class SocietyRenewalController extends Controller
                     return $sr_applications->application_no;
                 })
                 ->editColumn('application_master_id', function ($sr_applications) {
-                    return $sr_applications->scApplicationType->application_type;
+                    return $sr_applications->srApplicationType->application_type;
                 })
                 ->editColumn('created_at', function ($sr_applications) {
                     return date(config('commanConfig.dateFormat'), strtotime($sr_applications->created_at));
                 })
                 ->editColumn('status', function ($sr_applications) {
-                    $status = explode('_', array_keys(config('commanConfig.applicationStatus'), $sr_applications->scApplicationLog->status_id)[0]);
+                    $status = explode('_', array_keys(config('commanConfig.applicationStatus'), $sr_applications->srApplicationLog->status_id)[0]);
                     $status_display = '';
                     foreach($status as $status_value){ $status_display .= ucwords($status_value). ' ';}
                     $status_color = '';
@@ -100,7 +100,7 @@ class SocietyRenewalController extends Controller
                         $status_display = 'Approved';
                     }
 
-                    return '<span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$sr_applications->scApplicationLog->status_id) .' m-badge--wide">'.$status_display.'</span>';
+                    return '<span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$sr_applications->srApplicationLog->status_id) .' m-badge--wide">'.$status_display.'</span>';
                 })
                 ->rawColumns(['radio', 'application_no', 'application_master_id', 'created_at','status'])
                 ->make(true);
@@ -165,7 +165,7 @@ class SocietyRenewalController extends Controller
             if ($extension == "xls") {
                 $time = time();
                 $name = File::name(str_replace(' ', '_',$request->file('template')->getClientOriginalName())) . '_' . $time . '.' . $extension;
-                $folder_name = "society_conveyance_documents";
+                $folder_name = "society_renewal_documents";
                 $path = '/' . $folder_name . '/' . $name;
                 $fileUpload = $this->CommonController->ftpFileUpload($folder_name, $request->file('template'), $name);
                 $count = 0;
@@ -323,7 +323,7 @@ class SocietyRenewalController extends Controller
             if ($extension == "xls") {
                 $time = time();
                 $name = File::name(str_replace(' ', '_', $request->file('template')->getClientOriginalName())) . '_' . $time . '.' . $extension;
-                $folder_name = "society_conveyance_documents";
+                $folder_name = "society_renewal_documents";
                 $path = '/' . $folder_name . '/' . $name;
                 $fileUpload = $this->CommonController->ftpFileUpload($folder_name, $request->file('template'), $name);
                 $count = 0;
@@ -474,7 +474,7 @@ class SocietyRenewalController extends Controller
             $extension = $file->getClientOriginalExtension();
             $time = time();
             $name = File::name(str_replace(' ', '_', $file->getClientOriginalName())) . '_' . $time . '.' . $extension;
-            $folder_name = "society_conveyance_documents";
+            $folder_name = "society_renewal_documents";
             $path = '/' . $folder_name . '/' . $name;
 
             $is_doc_first = 0;
@@ -655,11 +655,11 @@ class SocietyRenewalController extends Controller
             $extension = $file->getClientOriginalExtension();
             $time = time();
             $name = File::name(str_replace(' ', '_', $file->getClientOriginalName())) . '_' . $time . '.' . $extension;
-            $folder_name = "society_conveyance_documents";
+            $folder_name = "society_renewal_documents";
             $path = '/' . $folder_name . '/' . $name;
 
             $fileUpload = $this->CommonController->ftpFileUpload($folder_name, $file, $name);
-            $this->conveyance_common->uploadDocumentStatus($request->id, config('commanConfig.documents.society.stamp_conveyance_application'), $path);
+            $this->conveyance_common->uploadDocumentStatus($request->id, config('commanConfig.documents.society.stamp_renewal_application'), $path);
 
             $role_id = Role::where('name', config('commanConfig.dycdo_engineer'))->first();
             $user_ids = RoleUser::where('role_id', $role_id->id)->get();
@@ -674,7 +674,7 @@ class SocietyRenewalController extends Controller
                 $insert_arr = array(
                     'users' => $users
                 );
-                $inserted_application_log = $this->CommonController->sc_application_status_society($insert_arr, config('commanConfig.applicationStatus.forwarded'), $sc_application);
+                $inserted_application_log = $this->CommonController->sr_application_status_society($insert_arr, config('commanConfig.applicationStatus.forwarded'), $sc_application);
             }
         }
 
@@ -743,7 +743,7 @@ class SocietyRenewalController extends Controller
             $extension = $file->getClientOriginalExtension();
             $time = time();
             $name = File::name(str_replace(' ', '_', $file->getClientOriginalName())) . '_' . $time . '.' . $extension;
-            $folder_name = "society_conveyance_documents";
+            $folder_name = "society_renewal_documents";
             $path = '/' . $folder_name . '/' . $name;
 //            $fileUpload = $this->CommonController->ftpFileUpload($folder_name, $file, $name);
             $insert_arr['document_path'] = $path;
