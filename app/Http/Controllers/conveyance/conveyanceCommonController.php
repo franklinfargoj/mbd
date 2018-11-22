@@ -258,22 +258,24 @@ class conveyanceCommonController extends Controller
                 $Tostatus = config('commanConfig.applicationStatus.in_process');                
             }
         }
+        foreach($request->to_user_id as $to_user_id){
+            $user_data = User::find($to_user_id);
 
             $application = [[
                 'application_id' => $request->applicationId,
                 'user_id'        => Auth::user()->id,
                 'role_id'        => session()->get('role_id'),
                 'status_id'      => $status,
-                'to_user_id'     => $request->to_user_id,
-                'to_role_id'     => $request->to_role_id,
+                'to_user_id'     => $to_user_id,
+                'to_role_id'     => $user_data->role_id,
                 'remark'         => $request->remark,
                 'application_master_id' => $masterId,
                 'created_at'     => Carbon::now(),
             ],
             [
                 'application_id' => $request->applicationId,
-                'user_id'       => $request->to_user_id,
-                'role_id'       => $request->to_role_id,
+                'user_id'       => $to_user_id,
+                'role_id'       => $user_data->role_id,
                 'status_id'     => $Tostatus,
                 'to_user_id'    => null,
                 'to_role_id'    => null,
@@ -288,6 +290,7 @@ class conveyanceCommonController extends Controller
                 scApplication::where('id',$request->applicationId)->where('sc_application_master_id',$masterId)
                 ->update(['application_status' => $Tostatus]);                    
             }
+        }    
     }
 
     public function getForwardApplicationData($applicationId){
@@ -505,7 +508,7 @@ class conveyanceCommonController extends Controller
         if ($file) {
             
             $extension  = $file->getClientOriginalExtension(); 
-            $folder_name = 'Architect_conveyance_map';
+            $folder_name = 'Conveyance_Architect_map';
             $file_name  = time().'_map_'.$applicationId.'.'.$extension; 
             $file_path  = $folder_name.'/'.$file_name; 
             

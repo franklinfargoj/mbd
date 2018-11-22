@@ -51,8 +51,7 @@ $route=\Request::route()->getName();
                 <span class="m-menu__link-text">Society Documents</span>
             </a>
         </li>
- 
-    
+        @if($data->application_status != config('commanConfig.applicationStatus.in_process'))
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{($route=='renewal.ee_scrutiny')?'m-menu__item--active':''}}">
             <a class="m-menu__link m-menu__toggle" title="EE Scrutiny" href="{{ route('renewal.ee_scrutiny',$data->id) }}">
                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
@@ -63,7 +62,6 @@ $route=\Request::route()->getName();
             </a>
         </li>
  
-
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{($route=='renewal.architect_scrutiny')?'m-menu__item--active':''}}">
             <a class="m-menu__link m-menu__toggle" title="Architect scrutiny" href="{{ route('renewal.architect_scrutiny',$data->id) }}">
                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
@@ -82,8 +80,11 @@ $route=\Request::route()->getName();
                 </svg>
                 <span class="m-menu__link-text">EM scrutiny</span>
             </a>
-        </li>   
+        </li>
 
+        @endif   
+
+        @if($data->application_status == config('commanConfig.applicationStatus.Draft_Renewal_of_Lease_deed'))
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{($route=='renewal.prepare_renewal_agreement')?'m-menu__item--active':''}}">
             <a class="m-menu__link m-menu__toggle" title="Prepar draft Renewal of lease Agreement" href="{{ route('renewal.prepare_renewal_agreement', $data->id) }}">
                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
@@ -92,7 +93,10 @@ $route=\Request::route()->getName();
                 </svg>
                 <span class="m-menu__link-text">Prepar draft Renewal of lease Agreement</span>
             </a> 
-        </li>   
+        </li> 
+        @endif
+
+        @if($data->application_status == config('commanConfig.applicationStatus.Aproved_Renewal_of_Lease'))  
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{($route=='renewal.approve_renewal_agreement')?'m-menu__item--active':''}}">
             <a class="m-menu__link m-menu__toggle" title="Approved  Renewal of lease Agreement" href="{{ route('renewal.approve_renewal_agreement', $data->id) }}">
                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
@@ -101,7 +105,8 @@ $route=\Request::route()->getName();
                 </svg>
                 <span class="m-menu__link-text">Approved  Renewal of lease Agreement</span>
             </a> 
-        </li>        
+        </li>  
+        @endif      
 
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{($route=='renewal.renewal_forward_application')?'m-menu__item--active':''}}">
             <a class="m-menu__link m-menu__toggle" title="Forward Application" href="{{ route('renewal.renewal_forward_application', $data->id) }}"">

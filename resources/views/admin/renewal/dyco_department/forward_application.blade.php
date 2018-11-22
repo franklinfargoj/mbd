@@ -20,7 +20,7 @@
                     </a>
                 </li>
 
-                @if((session()->get('role_name') == config('commanConfig.dycdo_engineer') && $data->status->status_id != config('commanConfig.applicationStatus.forwarded')) || $data->status->status_id == config('commanConfig.applicationStatus.Stamped_sale_&_lease_deed') || $data->status->status_id == config('commanConfig.applicationStatus.Draft_sale_&_lease_deed') || $data->status->status_id == config('commanConfig.applicationStatus.in_process') )
+                @if((session()->get('role_name') == config('commanConfig.dycdo_engineer') && $data->status->status_id != config('commanConfig.applicationStatus.forwarded')) || $data->status->status_id == config('commanConfig.applicationStatus.Draft_Renewal_of_Lease_deed'))
                 <li class="nav-item m-tabs__item">
                     <a class="nav-link m-tabs__link show" data-toggle="tab" href="#forward-application-tab">
                         <i class="la la-cog"></i> Forward Application
@@ -283,7 +283,7 @@
                                         @csrf
                                         <input type="hidden" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">
                                         <input type="hidden" name="to_role_id" id="to_role_id">
-                                        <input type="hidden" name="to_user_id" id="to_user_id">
+                                        <!-- <input type="hidden" name="to_user_id" id="to_user_id"> -->
                                         <input type="hidden" name="check_status" class="check_status" value="1">
 
                                         <div class="m-form__group form-group">
@@ -307,7 +307,7 @@
                                                     Forward To:
                                                 </label>
                                                 <div class="col-lg-4 col-md-9 col-sm-12">
-                                                    <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="to_user">
+                                                    <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="to_user" name="to_user_id[]" {{(session()->get('role_name') == config('commanConfig.dyco_engineer')) ? 'multiple' : '' }}>
                                                         
                                                         @if($data->parent)
                                                             @foreach($data->parent as $parent)
@@ -415,7 +415,7 @@
             }
 
             $("#to_role_id").val(id);
-            $("#to_user_id").val(user_id);
+            // $("#to_user_id").val(user_id);
         });
     });
 

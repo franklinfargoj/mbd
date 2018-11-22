@@ -63,6 +63,8 @@ return [
         'NOC_Issued' => 15,
         'Draft_lease_deed' => 16,
         'Aproved_lease_deed' => 17,
+        'Draft_Renewal_of_Lease_deed' => 18,
+        'Aproved_Renewal_of_Lease' => 19,
     ],
 
     // sc application agreements
