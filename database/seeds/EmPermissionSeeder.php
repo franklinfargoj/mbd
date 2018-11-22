@@ -356,6 +356,41 @@ class EmPermissionSeeder extends Seeder
                 'name'=>'formation.post_forward_application',
                 'display_name'=>'post Forward SF application',
                 'description'=>'post Forward SF application'
+            ],
+            [
+                'name'=>'formation.em_srutiny_and_remark',
+                'display_name'=>'display the scrutiny report of EM for SF',
+                'description'=>'display the scrutiny report of EM for SF'
+            ],
+            [
+                'name'=>'formation.post_em_srutiny_and_remark',
+                'display_name'=>'post scutiny and remark history',
+                'description'=>'post scutiny and remark history'
+            ],
+            [
+                'name'=>'formation.upload_em_scrutiny_document_for_sf',
+                'display_name'=>'upload em scrutinty doc file for SF application',
+                'description'=>'upload em scrutinty doc file for SF application'
+            ],
+            [
+                'name'=>'formation.get_no_dues_certificate',
+                'display_name'=>'Display ck editor for no dues certificate',
+                'description'=>'Display ck editor for no dues certificate'
+            ],
+            [
+                'name'=>'formation.post_no_dues_certificate',
+                'display_name'=>'post changes of ck editor for no dues certificate',
+                'description'=>'post changes of  for no dues certificate'
+            ],
+            [
+                'name'=>'formation.society_documents',
+                'display_name'=>'View Documents UPloaded by society',
+                'description'=>'View Documents UPloaded by society'
+            ],
+            [
+                'name'=>'formation.send_no_due_to_society',
+                'display_name'=>'No due Certiciate send to society',
+                'description'=>'No due Certiciate send to society'
             ]
         ];
 
