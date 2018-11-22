@@ -231,6 +231,7 @@ class SocietyConveyanceController extends Controller
                             $input_sc_application['application_no'] = config('commanConfig.mhada_code').str_pad($input_id->id, 5, '0', STR_PAD_LEFT);
                             $input_sc_application['form_request_id'] = $input_id->id;
                             $sc_application = scApplication::create($input_sc_application);
+
                             $inserted_application_log = $this->CommonController->sc_application_status_society($insert_arr, config('commanConfig.applicationStatus.pending'), $sc_application);
 
                             $sc_document_status = new SocietyConveyanceDocumentStatus;
@@ -674,7 +675,14 @@ class SocietyConveyanceController extends Controller
         $sc_application = scApplication::with(['sc_form_request', 'societyApplication', 'applicationLayout', 'scApplicationLog' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         }])->where('id', $id)->first();
-
+        $documents = array(
+            config('commanConfig.documents.society.pay_stamp_duty_letter'),
+            config('commanConfig.documents.society.Sale Deed Agreement'),
+            config('commanConfig.documents.society.Lease Deed Agreement'),
+            config('commanConfig.documents.society.sc_resolution'),
+            config('commanConfig.documents.society.sc_undertaking'),
+        );
+        dd();
         return view('frontend.society.conveyance.sale_lease_deed', compact('sc_application'));
     }
 
@@ -709,7 +717,36 @@ class SocietyConveyanceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function upload_sale_lease(Request $request){
+        dd($request->all());
+        if($request->hasFile('document_path')) {
 
+            $file = $request->file('document_path');
+            $extension = $file->getClientOriginalExtension();
+            $time = time();
+            $name = File::name(str_replace(' ', '_', $file->getClientOriginalName())) . '_' . $time . '.' . $extension;
+            $folder_name = "society_conveyance_documents";
+            $path = '/' . $folder_name . '/' . $name;
+            $fileUpload = $this->CommonController->ftpFileUpload($folder_name, $file, $name);
+            $insert_arr['document_path'] = $path;
+            unset($insert_arr['_token']);
+            $sc_registration_details = new scRegistrationDetails;
+            $sc_document_status = new SocietyConveyanceDocumentStatus;
+            $registration_details = $sc_registration_details->getFillable();
+            $sc_document_details = $sc_document_status->getFillable();
+            $insert_registrar_details = array_slice($insert_arr, 0, count($registration_details));
+            $insert_sc_document_detail = array_slice($insert_arr, count($registration_details), count($sc_document_details));
+            foreach($sc_document_details as $key => $value){
+                $keys = array_keys($insert_sc_document_detail);
+                if(array_key_exists($value, $keys) == false){
+                    $insert_sc_document_details[$value] = $insert_arr[$value];
+                }else{
+                    $insert_sc_document_details[$value] = $insert_arr[$value];
+                }
+            }
+            scRegistrationDetails::create($insert_registrar_details);
+            SocietyConveyanceDocumentStatus::create($insert_sc_document_details);
+            return redirect()->route('show_signed_sale_lease', $insert_arr['application_id']);
+        }
     }
 
     /**
@@ -720,6 +757,7 @@ class SocietyConveyanceController extends Controller
      */
     public function upload_signed_sale_lease(Request $request){
         $insert_arr = $request->all();
+        dd($insert_arr);
         if($request->hasFile('document_path')) {
 
             $file = $request->file('document_path');
@@ -728,7 +766,7 @@ class SocietyConveyanceController extends Controller
             $name = File::name(str_replace(' ', '_', $file->getClientOriginalName())) . '_' . $time . '.' . $extension;
             $folder_name = "society_conveyance_documents";
             $path = '/' . $folder_name . '/' . $name;
-//            $fileUpload = $this->CommonController->ftpFileUpload($folder_name, $file, $name);
+            $fileUpload = $this->CommonController->ftpFileUpload($folder_name, $file, $name);
             $insert_arr['document_path'] = $path;
             unset($insert_arr['_token']);
             $sc_registration_details = new scRegistrationDetails;

@@ -63,7 +63,13 @@ class SocietyConveyanceDocumentMasterSeeder extends Seeder
                 'application_type_id' => $conveyanceId,
                 'society_flag'        => '1',
                 'language_id'         => $eLanguage
-            ],            
+            ],
+            [
+                'document_name'       => 'pay_stamp_duty_letter',
+                'application_type_id' => $conveyanceId,
+                'society_flag'        => '1',
+                'language_id'         => $eLanguage
+            ],
             [
                 'document_name'       => 'sc_resolution',
                 'application_type_id' => $conveyanceId,
@@ -168,6 +174,12 @@ class SocietyConveyanceDocumentMasterSeeder extends Seeder
             ],
             [
                 'document_name'       => 'others',
+                'application_type_id' => $renewalId,
+                'society_flag'        => '1',
+                'language_id'         => $eLanguage
+            ],
+            [
+                'document_name'       => 'stamp_renewal_application',
                 'application_type_id' => $renewalId,
                 'society_flag'        => '1',
                 'language_id'         => $eLanguage

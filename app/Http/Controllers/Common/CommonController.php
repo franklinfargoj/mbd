@@ -1155,7 +1155,7 @@ class CommonController extends Controller
      * @param $name, $type, $select_arr, $select_arr_key, $value, $readonly
      * @return \Illuminate\Http\Response
      */
-    public function form_fields($name, $type, $select_arr = NULL, $select_arr_key = NULL, $value = NULL, $readonly = NULL){
+    public function form_fields($name, $type, $select_arr = NULL, $select_arr_key = NULL, $value = NULL, $readonly = NULL, $required = NULL){
         if($type == 'select'){
             foreach($select_arr as $select_arr_key => $select_arr_value){
                 $select_arr .= '<option value="'.$select_arr_value->id.'">'.$select_arr_value->$select_arr_key.'</option>';
@@ -1166,10 +1166,10 @@ class CommonController extends Controller
         }
 
         $fields = array(
-            'text' => '<input type="text" id="'.$name.'" name="'.$name.'" class="form-control form-control--custom m-input" value="'.$value.'" '.$readonly.'>',
-            'hidden' => '<input type="hidden" id="'.$name.'" name="'.$name.'" class="form-control form-control--custom m-input" value="'.$value.'" '.$readonly.'>',
-            'date' => '<input type="text" id="'.$name.'" name="'.$name.'" class="form-control form-control--custom m-input m_datepicker" value="'.$value.'" '.$readonly.'>',
-            'textarea' => '<textarea id="'.$name.'" name="'.$name.'" class="form-control form-control--custom form-control--fixed-height m-input"'.$readonly.'>'.$value.'</textarea>',
+            'text' => '<input type="text" id="'.$name.'" name="'.$name.'" class="form-control form-control--custom m-input" value="'.$value.'" '.$readonly.' '.$required.'>',
+            'hidden' => '<input type="hidden" id="'.$name.'" name="'.$name.'" class="form-control form-control--custom m-input" value="'.$value.'" '.$readonly.' '.$required.'>',
+            'date' => '<input type="text" id="'.$name.'" name="'.$name.'" class="form-control form-control--custom m-input m_datepicker" value="'.$value.'" '.$readonly.' '.$required.'>',
+            'textarea' => '<textarea id="'.$name.'" name="'.$name.'" class="form-control form-control--custom form-control--fixed-height m-input"'.$readonly.' '.$required.'>'.$value.'</textarea>',
             'file' => '<div class="custom-file">
                             <input class="custom-file-input pdfcheck" name="'.$name.'" type="file"
                                    id="'.$name.'" required="required">
@@ -1209,10 +1209,10 @@ class CommonController extends Controller
                 $status_in_words_1 = array_flip(config('commanConfig.applicationStatus'))[1];
                 $insert_application_log[$status_in_words_1][$key]['application_id'] = $sc_application_last_id;
                 $insert_application_log[$status_in_words_1][$key]['application_master_id'] = $sc_application_master_id;
-                $insert_application_log[$status_in_words_1][$key]['society_flag'] = 1;
+                $insert_application_log[$status_in_words_1][$key]['society_flag'] = 0;
                 $insert_application_log[$status_in_words_1][$key]['user_id'] = $user->id;
                 $insert_application_log[$status_in_words_1][$key]['role_id'] = $user->role_id;
-                $insert_application_log[$status_in_words_1][$key]['status_id'] = $status;
+                $insert_application_log[$status_in_words_1][$key]['status_id'] = config('commanConfig.applicationStatus.in_process');
                 $insert_application_log[$status_in_words_1][$key]['to_user_id'] = 0;
                 $insert_application_log[$status_in_words_1][$key]['to_role_id'] = 0;
                 $insert_application_log[$status_in_words_1][$key]['remark'] = '';
@@ -1220,6 +1220,7 @@ class CommonController extends Controller
             }
             $i++;
         }
+
         $inserted_application_log = scApplicationLog::insert($application_log_status);
         return $inserted_application_log;
     }
@@ -1251,10 +1252,10 @@ class CommonController extends Controller
                 $status_in_words_1 = array_flip(config('commanConfig.applicationStatus'))[1];
                 $insert_application_log[$status_in_words_1][$key]['application_id'] = $sc_application_last_id;
                 $insert_application_log[$status_in_words_1][$key]['application_master_id'] = $sc_application_master_id;
-                $insert_application_log[$status_in_words_1][$key]['society_flag'] = 1;
+                $insert_application_log[$status_in_words_1][$key]['society_flag'] = 0;
                 $insert_application_log[$status_in_words_1][$key]['user_id'] = $user->id;
                 $insert_application_log[$status_in_words_1][$key]['role_id'] = $user->role_id;
-                $insert_application_log[$status_in_words_1][$key]['status_id'] = config('commanConfig.in_process');
+                $insert_application_log[$status_in_words_1][$key]['status_id'] = config('commanConfig.applicationStatus.in_process');
                 $insert_application_log[$status_in_words_1][$key]['to_user_id'] = 0;
                 $insert_application_log[$status_in_words_1][$key]['to_role_id'] = 0;
                 $insert_application_log[$status_in_words_1][$key]['remark'] = '';
@@ -1293,10 +1294,10 @@ class CommonController extends Controller
                 $status_in_words_1 = array_flip(config('commanConfig.applicationStatus'))[1];
                 $insert_application_log[$status_in_words_1][$key]['application_id'] = $sc_application_last_id;
                 $insert_application_log[$status_in_words_1][$key]['application_master_id'] = $sc_application_master_id;
-                $insert_application_log[$status_in_words_1][$key]['society_flag'] = 1;
+                $insert_application_log[$status_in_words_1][$key]['society_flag'] = 0;
                 $insert_application_log[$status_in_words_1][$key]['user_id'] = $user->id;
                 $insert_application_log[$status_in_words_1][$key]['role_id'] = $user->role_id;
-                $insert_application_log[$status_in_words_1][$key]['status_id'] = $status;
+                $insert_application_log[$status_in_words_1][$key]['status_id'] = config('commanConfig.applicationStatus.in_process');
                 $insert_application_log[$status_in_words_1][$key]['to_user_id'] = 0;
                 $insert_application_log[$status_in_words_1][$key]['to_role_id'] = 0;
                 $insert_application_log[$status_in_words_1][$key]['remark'] = '';
