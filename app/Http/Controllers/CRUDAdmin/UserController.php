@@ -1,5 +1,6 @@
 <?php
 namespace App\Http\Controllers\CRUDAdmin;
+use App\DeletedUser;
 use App\Role;
 use App\User;
 use Illuminate\Http\Request;
@@ -230,9 +231,9 @@ class UserController extends Controller
         $userDetails = User::findOrfail($id);
         $userDetails->delete();
 
-        DeletedUsers::create([
+        DeletedUser::create([
             'user_details_id' => $id,
-            'name'          => $userDetails->name,
+            'email'          => $userDetails->email,
             'day'                => date('l'),
             'date'               => date('Y-m-d'),
             'time'               => date("h:i:s"),
