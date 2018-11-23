@@ -6,16 +6,15 @@
 
 <div class="col-md-12">
     <div class="d-flex form-steps-wrap">
-        <button onclick="window.location='{{ route("appointing_architect.step1",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab active">Step 1</button>
-        <button onclick="window.location='{{ route("appointing_architect.step2",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab active">Step 2</button>
-        <button onclick="window.location='{{ route("appointing_architect.step3",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab active">Step 3</button>
-        <button onclick="window.location='{{ route("appointing_architect.step4",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab">Step 4</button>
-        <button onclick="window.location='{{ route("appointing_architect.step5",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab">Step 5</button>
-        <button onclick="window.location='{{ route("appointing_architect.step6",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab">Step 6</button>
-        <button onclick="window.location='{{ route("appointing_architect.step7",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab">Step 7</button>
-        <button onclick="window.location='{{ route("appointing_architect.step8",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab">Step 8</button>
-        <button onclick="window.location='{{ route("appointing_architect.step9",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab ">Step 9</button>
-        <button onclick="window.location='{{ route("appointing_architect.step10",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab ">Step 10</button>
+            <a href="{{ route("appointing_architect.step1",['id'=>encrypt($application->id)]) }}" class="btn--unstyled flex-grow-1 form-step-tab active">Step 1<span>Basic Details</span></a>
+            <a href="{{ route("appointing_architect.step2",['id'=>encrypt($application->id)]) }}" class="btn--unstyled flex-grow-1 form-step-tab active">Step 2<span>Enclosuers</span></a>
+            <a href="{{ route("appointing_architect.step3",['id'=>encrypt($application->id)]) }}" class="btn--unstyled flex-grow-1 form-step-tab active">Step 3<span>Details of Consultants</span></a>
+            <a href="{{ route("appointing_architect.step4",['id'=>encrypt($application->id)]) }}" class="btn--unstyled flex-grow-1 form-step-tab">Step 4<span>Important Projects</span></a>
+            <a href="{{ route("appointing_architect.step5",['id'=>encrypt($application->id)]) }}" class="btn--unstyled flex-grow-1 form-step-tab">Step 5<span>Work Handled</span></a>
+            <a href="{{ route("appointing_architect.step6",['id'=>encrypt($application->id)]) }}" class="btn--unstyled flex-grow-1 form-step-tab">Step 6<span>Details of Firm</span></a>
+            <a href="{{ route("appointing_architect.step7",['id'=>encrypt($application->id)]) }}" class="btn--unstyled flex-grow-1 form-step-tab">Step 7<span>Work In Hand</span></a>
+            <a href="{{ route("appointing_architect.step8",['id'=>encrypt($application->id)]) }}" class="btn--unstyled flex-grow-1 form-step-tab">Step 8<span>Work Completed</span></a>
+            <a href="{{ route("appointing_architect.step9",['id'=>encrypt($application->id)]) }}" class="btn--unstyled flex-grow-1 form-step-tab ">Step 9<span>Supporting Documents</span></a>
     </div>
     <div class="m-portlet m-portlet--mobile m-portlet--forms-view m-portlet--forms-compact">
         <h3 class="section-title section-title--small">ARCHITECT/CONSULTANT</h3>
@@ -57,7 +56,7 @@
             <div class="form-group m-form__group row">
                 <div class="col-sm-4 form-group">
                     <label class="col-form-label" for="">Architects:</label>
-                    <input type="number" min="0" id="" name="staff_architects" class="form-control form-control--custom m-input"
+                    <input onchange="get_total_staff()" onkeyup="get_total_staff()" type="number" min="0" id="staff_architects" name="staff_architects" class="form-control form-control--custom m-input"
                         value="{{$application->staff_architects}}">
                     @if ($errors->has('staff_architects'))
                     <span class="text-danger">{{ $errors->first('staff_architects') }}</span>
@@ -65,7 +64,7 @@
                 </div>
                 <div class="col-sm-4 form-group">
                     <label class="col-form-label" for="">Engineer:</label>
-                    <input type="number" min="0" id="" name="staff_engineers" class="form-control form-control--custom m-input"
+                    <input onchange="get_total_staff()" onkeyup="get_total_staff()" type="number" min="0" id="staff_engineers" name="staff_engineers" class="form-control form-control--custom m-input"
                         value="{{$application->staff_engineers}}">
                     @if ($errors->has('staff_engineers'))
                     <span class="text-danger">{{ $errors->first('staff_engineers') }}</span>
@@ -73,7 +72,7 @@
                 </div>
                 <div class="col-sm-4 form-group">
                     <label class="col-form-label" for="">Supporting (Tech.):</label>
-                    <input type="number" min="0" id="" name="staff_supporting_tech" class="form-control form-control--custom m-input"
+                    <input onchange="get_total_staff()" onkeyup="get_total_staff()" type="number" min="0" id="staff_supporting_tech" name="staff_supporting_tech" class="form-control form-control--custom m-input"
                         value="{{$application->staff_supporting_tech}}">
                     @if ($errors->has('staff_supporting_tech'))
                     <span class="text-danger">{{ $errors->first('staff_supporting_tech') }}</span>
@@ -81,7 +80,7 @@
                 </div>
                 <div class="col-sm-4 form-group">
                     <label class="col-form-label" for="">Supporting (Non Tech.):</label>
-                    <input type="number" min="0" id="" name="staff_supporting_nontech" class="form-control form-control--custom m-input"
+                    <input onchange="get_total_staff()" onkeyup="get_total_staff()" type="number" min="0" id="staff_supporting_nontech" name="staff_supporting_nontech" class="form-control form-control--custom m-input"
                         value="{{$application->staff_supporting_nontech}}">
                     @if ($errors->has('staff_supporting_nontech'))
                     <span class="text-danger">{{ $errors->first('staff_supporting_nontech') }}</span>
@@ -89,7 +88,7 @@
                 </div>
                 <div class="col-sm-4 form-group">
                     <label class="col-form-label" for="">Others:</label>
-                    <input type="number" min="0" id="" name="staff_others" class="form-control form-control--custom m-input"
+                    <input onchange="get_total_staff()" onkeyup="get_total_staff()" type="number" min="0" id="staff_others" name="staff_others" class="form-control form-control--custom m-input"
                         value="{{$application->staff_others}}">
                     @if ($errors->has('staff_others'))
                     <span class="text-danger">{{ $errors->first('staff_others') }}</span>
@@ -97,7 +96,7 @@
                 </div>
                 <div class="col-sm-4 form-group">
                     <label class="col-form-label" for="">Total:</label>
-                    <input type="number" min="0" id="" name="staff_total" class="form-control form-control--custom m-input" value="{{$application->staff_total}}">
+                    <input readonly type="number" min="0" id="staff_total" name="staff_total" class="form-control form-control--custom m-input" value="{{$application->staff_total}}">
                     @if ($errors->has('staff_total'))
                     <span class="text-danger">{{ $errors->first('staff_total') }}</span>
                     @endif
@@ -132,7 +131,7 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group m-form__group row">
+            <div class="form-group m-form__group row  cad_facality">
                 <div class="col-sm-4 form-group">
                     <label class="col-form-label" for="">No of Computers:</label>
                     <input type="number" min="0" id="" name="cad_facility_no_of_computers" class="form-control form-control--custom m-input"
@@ -158,7 +157,7 @@
                     @endif
                 </div>
                 <div class="col-sm-4 form-group">
-                    <label class="col-form-label" for="">Operators:</label>
+                    <label class="col-form-label" for="">No of Operators:</label>
                     <input type="number" min="0" id="" name="cad_facility_no_of_operators" class="form-control form-control--custom m-input"
                         value="{{$application->cad_facility_no_of_operators}}">
                     @if ($errors->has('cad_facility_no_of_operators'))
@@ -236,11 +235,11 @@
                         <span class="m-portlet__head-icon m--hide">
                             <i class="la la-gear"></i>
                         </span>
-                        <div class="d-flex">
+                        {{-- <div class="d-flex">
                             <h3 class="m-portlet__head-text">
                                 Extra Details
                             </h3>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>
@@ -260,4 +259,36 @@
     </div>
 </div>
 
+@endsection
+@section('js')
+<script>
+var cas_facility=$('input[name=is_cad_facility]:checked').val();
+if(cas_facility==1)
+{
+    $('.cad_facality').show();
+}else
+{
+    $('.cad_facality').hide();
+}
+$('input[name=is_cad_facility]').click(function(){
+    var is_cad_facality=$('input[name=is_cad_facility]:checked').val();
+    if(is_cad_facality==1)
+    {
+        $('.cad_facality').show();
+    }else
+    {
+        $('.cad_facality').hide();
+    }
+})
+function get_total_staff()
+{
+    var staff_architects=$('#staff_architects').val();
+    var staff_engineers=$('#staff_engineers').val();
+    var staff_supporting_tech=$('#staff_supporting_tech').val();
+    var staff_supporting_nontech=$('#staff_supporting_nontech').val();
+    var staff_others=$('#staff_others').val();
+    var total_staff=+staff_architects+ +staff_engineers+ +staff_supporting_tech+ +staff_supporting_nontech+ +staff_others;
+    $('#staff_total').val(total_staff)
+}
+</script>
 @endsection

@@ -197,6 +197,11 @@ class DYCOPermissions extends Seeder
                 'name'=>'formation.society_documents',
                 'display_name'=>'View Documents UPloaded by society',
                 'description'=>'View Documents UPloaded by society'
+            ],
+            [
+                'name'=>'formation.em_srutiny_and_remark',
+                'display_name'=>'display the scrutiny report of EM for SF',
+                'description'=>'display the scrutiny report of EM for SF'
             ]      
         ];
 

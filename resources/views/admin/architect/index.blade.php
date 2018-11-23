@@ -22,7 +22,7 @@
                 <form class="form-group m-form__group row align-items-end" method="get" action="{{url('architect_application')}}">
                     <div class="col-md-2">
                         <input type="text" class="form-control form-control--custom m-input" placeholder="Application No, Candidate Name, Email ID OR Mobile No"
-                            title="Enter Application No, Candidate Name, Email ID OR Mobile No" id="m_form_search" name="keyword"
+                             id="m_form_search" name="keyword"
                             value="{{ (!empty($getData) ? (isset($getData['keyword'])?$getData['keyword']:'') : '') }}">
                     </div>
                     <div class="col-md-2">
@@ -66,7 +66,7 @@
     </div>
     <div class="m-portlet data-table--custom data-table--icons data-table--actions">
         <div class="d-flex justify-content-between">
-            <h3 class="section-title section-title--small">Revision Requests</h3>
+            {{-- <h3 class="section-title section-title--small">Revision Requests</h3> --}}
             <div class="topnav">
                 <a class="btn-link {{isset($_GET['application_status'])?($_GET['application_status']==0?'active':''):'active'}}"
                  href="?application_status=0">All</a>
