@@ -675,15 +675,26 @@ class SocietyConveyanceController extends Controller
         $sc_application = scApplication::with(['sc_form_request', 'societyApplication', 'applicationLayout', 'scApplicationLog' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         }])->where('id', $id)->first();
-        $documents = array(
+        $documents_req = array(
             config('commanConfig.documents.society.pay_stamp_duty_letter'),
             config('commanConfig.documents.society.Sale Deed Agreement'),
             config('commanConfig.documents.society.Lease Deed Agreement'),
             config('commanConfig.documents.society.sc_resolution'),
             config('commanConfig.documents.society.sc_undertaking'),
         );
-        dd();
-        return view('frontend.society.conveyance.sale_lease_deed', compact('sc_application'));
+        $application_type = scApplicationType::where('application_type', config('commanConfig.applicationType.Conveyance'))->value('id');
+        $document_ids = $this->conveyance_common->getDocumentIds($documents_req, $application_type);
+
+        foreach($document_ids as $document_id){
+            $documents[str_replace(' ', '_', strtolower($document_id->document_name))] = $document_id->document_name;
+
+            if($document_id->sc_document_status != null){
+                $uploaded_document_ids[str_replace(' ', '_', strtolower($document_id->document_name))] = $document_id->document_name;
+            }else{
+                $documents_remaining_ids[str_replace(' ', '_', strtolower($document_id->document_name))] = $document_id->document_name;
+            }
+        }
+        return view('frontend.society.conveyance.sale_lease_deed', compact('sc_application', 'documents', 'uploaded_document_ids', 'documents_remaining_ids'));
     }
 
     /**
@@ -717,9 +728,9 @@ class SocietyConveyanceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function upload_sale_lease(Request $request){
-        dd($request->all());
+//        dd($request->all());
         if($request->hasFile('document_path')) {
-
+            $insert_arr = $request->all();
             $file = $request->file('document_path');
             $extension = $file->getClientOriginalExtension();
             $time = time();
@@ -727,25 +738,10 @@ class SocietyConveyanceController extends Controller
             $folder_name = "society_conveyance_documents";
             $path = '/' . $folder_name . '/' . $name;
             $fileUpload = $this->CommonController->ftpFileUpload($folder_name, $file, $name);
-            $insert_arr['document_path'] = $path;
-            unset($insert_arr['_token']);
-            $sc_registration_details = new scRegistrationDetails;
-            $sc_document_status = new SocietyConveyanceDocumentStatus;
-            $registration_details = $sc_registration_details->getFillable();
-            $sc_document_details = $sc_document_status->getFillable();
-            $insert_registrar_details = array_slice($insert_arr, 0, count($registration_details));
-            $insert_sc_document_detail = array_slice($insert_arr, count($registration_details), count($sc_document_details));
-            foreach($sc_document_details as $key => $value){
-                $keys = array_keys($insert_sc_document_detail);
-                if(array_key_exists($value, $keys) == false){
-                    $insert_sc_document_details[$value] = $insert_arr[$value];
-                }else{
-                    $insert_sc_document_details[$value] = $insert_arr[$value];
-                }
+            $uploaded = $this->conveyance_common->uploadDocumentStatus($request->application_id, $request->document_name, $request->document_path);
+            if(count($uploaded) > 0){
+                return redirect()->route('show_sale_lease', $insert_arr['application_id']);
             }
-            scRegistrationDetails::create($insert_registrar_details);
-            SocietyConveyanceDocumentStatus::create($insert_sc_document_details);
-            return redirect()->route('show_signed_sale_lease', $insert_arr['application_id']);
         }
     }
 
