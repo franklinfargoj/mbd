@@ -19,11 +19,13 @@ use App\conveyance\ScAgreementTypeMasterModel;
 use App\conveyance\ScAgreementTypeStatus;
 use App\conveyance\scApplicationLog;
 use App\conveyance\RenewalDocumentStatus;
+use App\conveyance\RenewalApplicationLog;
 use Config;
 use Yajra\DataTables\DataTables;
 use Carbon\Carbon;
 use Storage;
 use Auth;
+use PDF;
 
 class DYCOController extends Controller
 {
@@ -510,6 +512,8 @@ class DYCOController extends Controller
             ],
             ];
             scApplicationLog::insert($application); 
+            scApplication::where('id',$applicationId)->where('sc_application_master_id',$data->sc_application_master_id)
+                ->update(['application_status' => $data->application_status]);
             return back()->with('success','Application Send Successfully.');        
     }
 
@@ -560,7 +564,7 @@ class DYCOController extends Controller
         }         
     }
 
-    //save Approve Lease Agreement
+    //save Renewal Approve Lease Agreement
     public function saveApproveRenewalAgreement(Request $request){
         
         $applicationId   = $request->applicationId;  
@@ -603,5 +607,140 @@ class DYCOController extends Controller
             return back()->with('error', 'Invalid type of file uploaded (only pdf allowed).');
         }          
     }
-}
 
+    public function SendRenewalApplicationToSociety(Request $request){
+
+        $applicationId = $request->applicationId; 
+        $data = RenewalApplication::with(['societyApplication.roleUser'])->where('id',$applicationId)->first();
+   
+        $to_role_id = $data->societyApplication->roleUser->role_id;    
+        $to_user_id = $data->societyApplication->roleUser->id;  
+
+            $application = [[
+                'application_id' => $request->applicationId,
+                'user_id'        => Auth::user()->id,
+                'role_id'        => session()->get('role_id'),
+                'status_id'      => config('commanConfig.applicationStatus.forwarded'),
+                'society_flag'   => '0',
+                'application_master_id' => $data->application_master_id,
+                'to_user_id'     => $to_user_id,
+                'to_role_id'     => $to_role_id,
+                'created_at'     => Carbon::now(),
+            ],
+            [
+                'application_id' => $request->applicationId,
+                'user_id'       => $to_user_id,
+                'role_id'       => $to_role_id,
+                'status_id'     => $data->application_status,
+                'society_flag'  => '1',
+                'application_master_id' => $data->application_master_id,
+                'to_user_id'    => null,
+                'to_role_id'    => null,
+                'created_at'    => Carbon::now(),
+            ],
+            ];
+
+            RenewalApplicationLog::insert($application); 
+            RenewalApplication::where('id',$applicationId)->where('application_master_id',$data->application_master_id)
+                ->update(['application_status' => $data->application_status]);            
+            return back()->with('success','Application Send Successfully.');     
+    }
+
+    public function GenerateStampDutyLetter(Request $request,$applicationId){
+
+        $data = RenewalApplication::with(['societyApplication'])->where('id',$applicationId)->first();
+        return view('admin.conveyance.dyco_department.generate_stamp_duty_letter',compact('applicationId','data'));
+    }
+
+    public function saveStampDutyLetter(Request $request){
+
+        $id = $request->applicationId;
+        $masterId = RenewalApplication::where('id',$id)->value('application_master_id');
+        $draft  = config('commanConfig.scAgreements.renewal_draft_stamp_duty_letter');        
+        $draftId = $this->common->getScAgreementId($draft,$masterId);
+        
+        $content = str_replace('_', "", $_POST['ckeditorText']);
+        $folder_name = 'Renewal_Draft_Stamp_duty_Letter';
+
+        $header_file = view('admin.REE_department.offer_letter_header');        
+        $footer_file = view('admin.REE_department.offer_letter_footer');
+        $pdf = \App::make('dompdf.wrapper');
+
+        $pdf->loadHTML($header_file.$content.$footer_file);
+    
+        $fileName = time().'_draft_stamp_duty_letter_'.$id.'.pdf';
+        $filePath = $folder_name."/".$fileName;
+
+        if (!(Storage::disk('ftp')->has($folder_name))) {            
+            Storage::disk('ftp')->makeDirectory($folder_name, $mode = 0777, true, true);
+        } 
+        Storage::disk('ftp')->put($filePath, $pdf->output());
+        $file = $pdf->output();
+
+        $draftLetter = $this->renewal->getRenewalAgreement($draftId,$id,NULL);
+       
+        if ($draftLetter){
+            $this->renewal->updateRenewalAgreement($id,$draftId,$filePath,NULL);                    
+        }else{
+            $this->renewal->createRenewalAgreement($id,$draftId,$filePath,NULL);
+        }
+
+        //text offer letter
+
+        $text  = config('commanConfig.scAgreements.renewal_text_stamp_duty_letter');
+        $textId = $this->common->getScAgreementId($text,$masterId);
+
+        $folder_name1 = 'Renewal_Text_Stamp_duty_Letter';
+
+        if (!(Storage::disk('ftp')->has($folder_name1))) {            
+            Storage::disk('ftp')->makeDirectory($folder_name1, $mode = 0777, true, true);
+        }        
+        $file_nm =  time()."_text_stamp_duty_letter_".$id.'.txt';
+        $filePath1 = $folder_name1."/".$file_nm;
+
+        Storage::disk('ftp')->put($filePath1, $content);
+
+        $textLetter = $this->renewal->getRenewalAgreement($textId,$id,NULL);
+       
+        if ($textLetter){
+            $this->renewal->updateRenewalAgreement($id,$textId,$filePath1,NULL);                    
+        }else{
+            $this->renewal->createRenewalAgreement($id,$textId,$filePath1,NULL);
+        } 
+        return redirect('approve_renewal_agreement/'.$request->applicationId)->with('success', 'Stamp Duty Letter generated successfully..');
+        // return redirect('');                      
+    }
+
+    public function uploadRenewalStampLetter(Request $request){
+        
+        $file = $request->file('file');
+        $applicationId = $request->application_id;
+        $masterId = RenewalApplication::where('id',$applicationId)->value('application_master_id');
+  
+        if ($file->getClientMimeType() == 'application/pdf') {
+
+            $extension = $request->file('file')->getClientOriginalExtension();
+            $folderName = 'Renewal_Stamp_Duty_Letter';
+            $fileName = time().'_stamp_letter_'.$applicationId.'.'.$extension;
+            $filePath = $folderName."/".$fileName;
+            $letter  = config('commanConfig.scAgreements.renewal_stamp_duty_letter');
+            $letterId = $this->common->getScAgreementId($letter,$masterId);            
+            $this->CommonController->ftpFileUpload($folderName,$file,$fileName);
+
+            $textLetter = $this->renewal->getRenewalAgreement($letterId,$applicationId,NULL);
+       
+        if ($textLetter){
+            $this->renewal->updateRenewalAgreement($applicationId,$letterId,$filePath,NULL);                    
+        }else{
+            $this->renewal->createRenewalAgreement($applicationId,$letterId,$filePath,NULL);
+        }            
+     
+
+            $status = 'success';  
+        }else{
+             $status = 'error';   
+        }
+        return $status;           
+    }
+}
+ 

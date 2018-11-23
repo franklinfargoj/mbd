@@ -72,8 +72,14 @@ return [
         'sale_deed_agreement'  => 'Sale Deed Agreement',
         'lease_deed_agreement' => 'Lease Deed Agreement',
         'renewal_lease_deed_agreement' => 'Renewal Lease Deed Agreement',
+        'conveyance_text_stamp_duty_letter' => 'conveyance_text_stamp_duty_letter',
+        'conveyance_draft_stamp_duty_letter' => 'conveyance_draft_stamp_duty_letter',
+        'conveyance_stamp_duty_letter' => 'conveyance_stamp_duty_letter',
+        'renewal_text_stamp_duty_letter' => 'renewal_text_stamp_duty_letter',
+        'renewal_draft_stamp_duty_letter' => 'renewal_draft_stamp_duty_letter',
+        'renewal_stamp_duty_letter' => 'renewal_stamp_duty_letter',
     ],   
-
+ 
       // sc application Type
      'applicationType' => [
         'Conveyance'  => 'Conveyance',
@@ -188,6 +194,14 @@ return [
 
     'optional_docs_sharing' => [
         '11', '13', '17'
+    ],
+
+    'optional_docs_premium_reval' => [
+        '82','90'
+    ],
+
+    'optional_docs_sharing_reval' => [
+        '86', '94'
     ],
 
     'storage_server' => 'http://storage.mhada.php-dev.in',

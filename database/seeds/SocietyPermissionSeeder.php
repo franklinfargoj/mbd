@@ -368,6 +368,16 @@ class SocietyPermissionSeeder extends Seeder
                     'display_name' => 'Society revalidation offer letter preview',
                     'description'  => 'Society revalidation offer letter preview'
                 ],
+                [
+                    'name'         => 'society_reval_offer_letter_edit',
+                    'display_name' => 'Edit self revalidation offer letter application',
+                    'description'  => 'Edit self revalidation offer letter application'
+                ],
+                [
+                    'name'         => 'society_reval_offer_letter_update',
+                    'display_name' => 'Update society revalidation offer letter',
+                    'description'  => 'Update society revalidation offer letter'
+                ],
         ];
         
         if(count($society)==0){

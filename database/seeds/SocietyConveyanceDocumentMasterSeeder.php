@@ -280,6 +280,42 @@ class SocietyConveyanceDocumentMasterSeeder extends Seeder
                 'application_type_id' => $formation,
                 'society_flag'        => '0',
                 'language_id'         => $mLanguage
+            ],            
+            [
+                'document_name'=>'conveyance_text_stamp_duty_letter',
+                'application_type_id' => $conveyanceId,
+                'society_flag'        => '0',
+                'language_id'         => $eLanguage
+            ],
+            [
+                'document_name'=>'conveyance_stamp_duty_letter',
+                'application_type_id' => $conveyanceId,
+                'society_flag'        => '0',
+                'language_id'         => $eLanguage
+            ],            
+            [
+                'document_name'=>'conveyance_draft_stamp_duty_letter',
+                'application_type_id' => $conveyanceId,
+                'society_flag'        => '0',
+                'language_id'         => $eLanguage
+            ],            
+            [
+                'document_name'=>'renewal_text_stamp_duty_letter',
+                'application_type_id' => $renewalId,
+                'society_flag'        => '0',
+                'language_id'         => $eLanguage
+            ],            
+            [
+                'document_name'=>'renewal_stamp_duty_letter',
+                'application_type_id' => $renewalId,
+                'society_flag'        => '0',
+                'language_id'         => $eLanguage
+            ],            
+            [
+                'document_name'=>'renewal_draft_stamp_duty_letter',
+                'application_type_id' => $renewalId,
+                'society_flag'        => '0',
+                'language_id'         => $eLanguage
             ]
         ];
 
