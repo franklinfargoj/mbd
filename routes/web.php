@@ -763,7 +763,9 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     
     Route::get('register_sale_lease_agreement/{id}', 'conveyance\DYCODepartment\DYCOController@RegisterSaleLeaseAgreement')->name('conveyance.register_sale_lease_agreement'); 
 
-    Route::get('checklist/{id}', 'conveyance\DYCODepartment\DYCOController@showChecklist')->name('conveyance.checklist');
+    Route::get('checklist/{id}', 'conveyance\DYCODepartment\DYCOController@showChecklist')->name('conveyance.checklist'); 
+
+    Route::get('generate_stamp_duty_letter/{id}', 'conveyance\DYCODepartment\DYCOController@GenerateStampDutyLetter')->name('dyco.generate_stamp_duty_letter');
 
     Route::get('architect_scrutiny_remark/{id}', 'conveyance\conveyanceCommonController@ArchitectScrutinyRemark')->name('conveyance.architect_scrutiny_remark'); 
     
@@ -790,6 +792,8 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::post('save_renewal_agreement', 'conveyance\DYCODepartment\DYCOController@saveRenewalAgreement')->name('dyco.save_renewal_agreement');
 
     Route::post('save_approve_renewal_agreement', 'conveyance\DYCODepartment\DYCOController@saveApproveRenewalAgreement')->name('dyco.save_approve_renewal_agreement');
+
+    Route::post('save_stamp_duty_letter', 'conveyance\DYCODepartment\DYCOController@saveStampDutyLetter')->name('dyco.save_stamp_duty_letter');
 
     //EM
 
@@ -850,6 +854,9 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::post('renewal_save_agreement_comments', 'conveyance\renewalCommonController@SaveAgreementComments')->name('renewal.save_agreement_comments');
 
+    Route::post('renewal_send_to_society', 'conveyance\DYCODepartment\DYCOController@SendRenewalApplicationToSociety')->name('dyco.renewal_send_to_society');    
+
+    Route::post('upload_renewal_stamp_letter', 'conveyance\DYCODepartment\DYCOController@uploadRenewalStampLetter')->name('dyco.upload_renewal_stamp_letter');
 
     Route::get('renewal_scrutiny_remark_em/{id}', 'conveyance\EMDepartment\EMController@RenewalScrutinyRemark')->name('em.renewal_scrutiny_remark');
     Route::post('save_renewal_letter', 'conveyance\EMDepartment\EMController@saveRenewalNoDuesCertificate')->name('em.save_renewal_no_dues_certificate');

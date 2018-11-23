@@ -96,7 +96,7 @@ $route=\Request::route()->getName();
         </li> 
         @endif
 
-        @if($data->application_status == config('commanConfig.applicationStatus.Aproved_Renewal_of_Lease'))  
+        @if($data->application_status == config('commanConfig.applicationStatus.Aproved_Renewal_of_Lease') || $data->application_status == config('commanConfig.applicationStatus.Sent_society_to_pay_stamp_duety'))  
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{($route=='renewal.approve_renewal_agreement')?'m-menu__item--active':''}}">
             <a class="m-menu__link m-menu__toggle" title="Approved  Renewal of lease Agreement" href="{{ route('renewal.approve_renewal_agreement', $data->id) }}">
                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">

@@ -72,8 +72,14 @@ return [
         'sale_deed_agreement'  => 'Sale Deed Agreement',
         'lease_deed_agreement' => 'Lease Deed Agreement',
         'renewal_lease_deed_agreement' => 'Renewal Lease Deed Agreement',
+        'conveyance_text_stamp_duty_letter' => 'conveyance_text_stamp_duty_letter',
+        'conveyance_draft_stamp_duty_letter' => 'conveyance_draft_stamp_duty_letter',
+        'conveyance_stamp_duty_letter' => 'conveyance_stamp_duty_letter',
+        'renewal_text_stamp_duty_letter' => 'renewal_text_stamp_duty_letter',
+        'renewal_draft_stamp_duty_letter' => 'renewal_draft_stamp_duty_letter',
+        'renewal_stamp_duty_letter' => 'renewal_stamp_duty_letter',
     ],   
-
+ 
       // sc application Type
      'applicationType' => [
         'Conveyance'  => 'Conveyance',
