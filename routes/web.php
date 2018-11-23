@@ -565,7 +565,9 @@ Route::delete('destroy_architect_layout_detail_court_case_or_dispute_on_land/{id
         // User
         Route::post('loadDeleteUserUsingAjax', 'UserController@loadDeleteUserUsingAjax')->name('loadDeleteUserUsingAjax');
         Route::resource('users','UserController');
-
+        // User Layout
+        Route::post('loadDeleteUserLayoutUsingAjax', 'UserLayoutController@loadDeleteUserLayoutUsingAjax')->name('loadDeleteUserLayoutUsingAjax');
+        Route::resource('user_layouts','UserLayoutController');
 
     });
 

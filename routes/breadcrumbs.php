@@ -698,6 +698,31 @@ Breadcrumbs::for('user_view', function ($trail,$id) {
     $trail->push('View User', route('users.show',$id));
 });
 
+// User Layouts
+Breadcrumbs::for('user_layout', function ($trail) {
+    $trail->push('Home', route('user_layouts.index'));
+});
+
+Breadcrumbs::for('add_user_layout', function ($trail) {
+    $trail->parent('user_layout');
+    $trail->push('Create User Layout', route('user_layouts.create'));
+});
+
+Breadcrumbs::for('user_layout_detail', function ($trail) {
+    $trail->push('User Layout Detail', route('user_layouts.index'));
+});
+
+Breadcrumbs::for('edit_user_layout', function ($trail,$id) {
+    $trail->parent('user_layout_detail');
+    $trail->push('Edit User Layout', route('user_layouts.edit',$id));
+});
+
+Breadcrumbs::for('user_layout_view', function ($trail,$id) {
+    $trail->parent('user_layout');
+    $trail->push('View User Layout', route('user_layouts.show',$id));
+});
+
+
 
 
 Breadcrumbs::for('em', function ($trail) {

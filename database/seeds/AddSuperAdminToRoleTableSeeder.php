@@ -258,6 +258,46 @@ class AddSuperAdminToRoleTableSeeder extends Seeder
                 'name' => 'loadDeleteUserUsingAjax',
                 'display_name' => 'Delete users Ajax',
                 'description' => 'Deleting users using Ajax'
+            ],
+            [
+                'name' => 'user_layouts.index',
+                'display_name' => 'List User Layouts',
+                'description' => 'Listing User Layouts'
+            ],
+            [
+                'name' => 'user_layouts.create',
+                'display_name' => 'Create User Layout',
+                'description' => 'Creating User Layout'
+            ],
+            [
+                'name' => 'user_layouts.show',
+                'display_name' => 'Create User Layout',
+                'description' => 'Creating User Layout'
+            ],
+            [
+                'name' => 'user_layouts.store',
+                'display_name' => 'Store User Layout',
+                'description' => 'Storing User Layout'
+            ],
+            [
+                'name' => 'user_layouts.edit',
+                'display_name' => 'Edit User Layout',
+                'description' => 'EDiting User Layout'
+            ],
+            [
+                'name' => 'user_layouts.update',
+                'display_name' => 'Update User Layout',
+                'description' => 'updating User Layout'
+            ],
+            [
+                'name' => 'user_layouts.destroy',
+                'display_name' => 'Delete User Layout ',
+                'description' => 'Deleting User Layout'
+            ],
+            [
+                'name' => 'loadDeleteUserLayoutUsingAjax',
+                'display_name' => 'Delete User Layouts Ajax',
+                'description' => 'Deleting User Layouts using Ajax'
             ]
         ];
 

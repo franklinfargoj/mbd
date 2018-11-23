@@ -724,6 +724,32 @@ $(document).ready(function () {
         }
     });
 
+    // User Layout
+    $("#adduserlayout").validate({
+        // errorElement: "span",
+        //errorClass : "text-red",
+        rules:{
+            user_id : 'required',
+            layout_id : 'required'
+        }
+    });
+
+    $("#edituserlayout").validate({
+        // errorElement: "span",
+        //errorClass : "text-red",
+        rules:{
+            rules:{
+                user_id : 'required',
+                layout_id : 'required'
+            }
+        }
+    });
+
+    $("#DeleteUserReason").validate({
+        rules: {
+            delete_message: "required",
+        }
+    });
 
 
 
