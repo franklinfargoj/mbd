@@ -190,6 +190,14 @@ return [
         '11', '13', '17'
     ],
 
+    'optional_docs_premium_reval' => [
+        '82','90'
+    ],
+
+    'optional_docs_sharing_reval' => [
+        '86', '94'
+    ],
+
     'storage_server' => 'http://storage.mhada.php-dev.in',
 
 
