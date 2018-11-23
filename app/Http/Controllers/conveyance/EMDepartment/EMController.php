@@ -23,6 +23,13 @@ class EMController extends Controller
         $this->conveyance_common = new conveyanceCommonController();
     }
 
+
+    /**
+     * Display a scrutiny remark forms.
+     * Author: Amar Prajapati
+     * @param $request, $applicationId
+     * @return \Illuminate\Http\Response
+     */
 	public function ScrutinyRemark(Request $request,$applicationId){
         $data = scApplication::with(['societyApplication','scApplicationLog', 'sc_form_request'])->where('id',$applicationId)->first();
         $data->folder = $this->conveyance_common->getCurrentRoleFolderName();
@@ -59,16 +66,19 @@ class EMController extends Controller
             }
         }
         if(!empty($no_dues_certificate_docs['text_no_dues_certificate']['sc_document_status'])){
-//            dd($no_dues_certificate_docs['text_no_dues_certificate']['sc_document_status']->document_path);
             $content = $this->CommonController->getftpFileContent($no_dues_certificate_docs['text_no_dues_certificate']['sc_document_status']->document_path);
         }else{
             $content = "";
         }
-
-//        dd($no_dues_certificate_docs);
         return view('admin.conveyance.em_department.scrutiny_remark',compact('data', 'content', 'no_dues_certificate_docs', 'bonafide_docs', 'covering_letter_docs'));
     }
 
+    /**
+     * Uploads no dues certificate for conveyance.
+     * Author: Amar Prajapati
+     * @param $request
+     * @return \Illuminate\Http\Response
+     */
     public function saveNoDuesCertificate(Request $request){
         $folder_name = 'conveyance_no_dues_certificate';
         $id = $request->applicationId;
@@ -129,10 +139,15 @@ class EMController extends Controller
             }
 
         }
-//        dd($message_status);
         return redirect()->route('em.scrutiny_remark',$id);
     }
 
+    /**
+     * Display renewal scrutiny forms.
+     * Author: Amar Prajapati
+     * @param $request, $applicationId
+     * @return \Illuminate\Http\Response
+     */
     public function RenewalScrutinyRemark(Request $request,$applicationId){
 
 //        $data = scApplication::with(['societyApplication','scApplicationLog'])->where('id',$applicationId)->first();
@@ -140,8 +155,13 @@ class EMController extends Controller
         return view('admin.conveyance.em_department.renewal_scrutiny_remark');
     }
 
+    /**
+     * Uploads No dues certificate for renewal section.
+     * Author: Amar Prajapati
+     * @param $request
+     * @return \Illuminate\Http\Response
+     */
     public function saveRenewalNoDuesCertificate(Request $request){
-//        die('here');
 
         $applicationId = 1;
         $id = $request->applicationId;
@@ -176,13 +196,23 @@ class EMController extends Controller
 //        return redirect('generate_offer_letter/'.$request->applicationId);
     }
 
-    // Uploads list of bonafide & no-bonafide allottees
+    /**
+     * Uploads list of bonafide & no-bonafide allottees
+     * Author: Amar Prajapati
+     * @param $request
+     * @return \Illuminate\Http\Response
+     */
     public function uploadListOfAllottees(Request $request){
         dd($request->all());
     }
 
+    /**
+     * Uploads covering letter
+     * Author: Amar Prajapati
+     * @param $request
+     * @return \Illuminate\Http\Response
+     */
     public function uploadCoveringLetter(Request $request){
-//        die('here');
         if($request->file('covering_letter'))
         {
             $file = $request->file('covering_letter');
@@ -198,7 +228,6 @@ class EMController extends Controller
                     'application_path' => $path,
                     'submitted_at' => date('Y-m-d H-i-s')
                 );
-                die('uploaded');
             }else{
                 return redirect()->back()->with('error_uploaded_file', 'Invalid type of file uploaded (only pdf allowed)');
             }

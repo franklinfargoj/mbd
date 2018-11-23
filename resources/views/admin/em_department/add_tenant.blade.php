@@ -29,7 +29,7 @@
             
                 <div class="col-md-12" style="margin-top:10px;">
                     <div class="row align-items-center mb-0">                                
-                            <div class="col-md-9">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="col-md-4 control-label">Flat No.</label>
                                         <div class="col-md-8 @if($errors->has('flat_no')) has-error @endif">
@@ -45,11 +45,11 @@
 
                 <div class="col-md-12" style="margin-top:10px;">
                     <div class="row align-items-center mb-0">                            
-                            <div class="col-md-9">
+                            <div class="col-md-4">
                                 <div class="form-group m-form__group">
-                                    <label class="col-md-4 control-label">Saluation</label>
+                                    <label class="col-md-4 control-label">Salutation</label>
                                     <select class="col-md-8 form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="salutation" name="salutation" required>
-                                        <option value="" style="font-weight: normal;">Select Saluation</option>
+                                        <option value="" style="font-weight: normal;">Select Salutation</option>
                                         <option value="Shri" {{ old('salutation') == 'Shri' ? 'selected' : '' }} >Shri</option>
                                         <option value="Smt" {{ old('salutation') == 'Smt' ? 'selected' : '' }} >Smt</option>
                                         <option value="Kumari" {{ old('salutation') == 'Kumari' ? 'selected' : '' }} >Kumari</option>
@@ -62,7 +62,7 @@
 
                 <div class="col-md-12" style="margin-top:10px;">
                     <div class="row align-items-center mb-0">                            
-                            <div class="col-md-9">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="col-md-4 control-label">First name</label>
                                         <div class="col-md-8 @if($errors->has('first_name')) has-error @endif">
@@ -78,7 +78,7 @@
 
                 <div class="col-md-12" style="margin-top:10px;">
                     <div class="row align-items-center mb-0">                            
-                            <div class="col-md-9">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="col-md-4 control-label">Middle name</label>
                                         <div class="col-md-8 @if($errors->has('middle_name')) has-error @endif">
@@ -94,7 +94,7 @@
 
                 <div class="col-md-12" style="margin-top:10px;">
                     <div class="row align-items-center mb-0">                            
-                            <div class="col-md-9">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="col-md-4 control-label">Last name</label>
                                         <div class="col-md-8 @if($errors->has('last_name')) has-error @endif">
@@ -110,7 +110,7 @@
 
                 <div class="col-md-12" style="margin-top:10px;">
                     <div class="row align-items-center mb-0">                            
-                            <div class="col-md-9">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="col-md-4 control-label">Mobile</label>
                                         <div class="col-md-8 @if($errors->has('mobile')) has-error @endif">
@@ -126,7 +126,7 @@
 
                 <div class="col-md-12" style="margin-top:10px;">
                     <div class="row align-items-center mb-0">                            
-                            <div class="col-md-9">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="col-md-4 control-label">Email ID</label>
                                         <div class="col-md-8 @if($errors->has('email_id')) has-error @endif">
@@ -142,7 +142,7 @@
 
                 <div class="col-md-12" style="margin-top:10px;">
                     <div class="row align-items-center mb-0">                            
-                            <div class="col-md-9">
+                            <div class="col-md-4">
                                 <div class="form-group m-form__group">
                                     <label class="col-md-4 control-label">Use</label>
                                     <select class="col-md-8 form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="use" name="use" required>
@@ -158,7 +158,7 @@
 
                 <div class="col-md-12" style="margin-top:10px;">
                     <div class="row align-items-center mb-0">                            
-                            <div class="col-md-9">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="col-md-4 control-label">Carpet Area</label>
                                         <div class="col-md-8 @if($errors->has('carpet_area')) has-error @endif">
@@ -174,7 +174,7 @@
 
                 <div class="col-md-12" style="margin-top:10px;">
                     <div class="row align-items-center mb-0">                            
-                            <div class="col-md-9">
+                            <div class="col-md-4">
                                 <div class="form-group m-form__group">
                                     <label class="col-md-4 control-label">Tenant Type</label>
                                     <select class=" col-md-8 form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="tenant_type" name="tenant_type" required>

@@ -365,12 +365,13 @@ class VPController extends Controller
         $user = $this->CommonController->showCalculationSheet($applicationId);
         $ol_application = $this->CommonController->getOlApplication($applicationId);
         $ol_application->folder = 'vp_department';
+        $folder = 'vp_department';
         $calculationSheetDetails = $user->calculationSheetDetails;
         $dcr_rates = $user->dcr_rates;
         $blade = $user->blade;
         $arrData['reeNote'] = $user->areeNote;
         // dd($blade);
-        return view('admin.common.'.$blade,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application'));
+        return view('admin.common.'.$blade,compact('calculationSheetDetails','applicationId','user','dcr_rates','arrData','ol_application','folder'));
     }
 
 

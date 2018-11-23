@@ -79,10 +79,10 @@
     <!-- END: Subheader -->
 
     <div class="m-portlet m-portlet--mobile">
-        <div class="btn-list mb-2">
+        {{-- <div class="btn-list mb-2">
             <a class="btn btn-primary" href="{{route('architect_layout.index')}}">Requests Revision</a>
             <a class="btn btn-primary" href="{{route('architect_layouts_layout_details.index')}}">Layout Details</a>
-        </div>
+        </div> --}}
         {{-- <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <ul class="navbar-nav">
                 <li class="nav-item {{$route_name=='architect_layout.index'?'active':''}}">

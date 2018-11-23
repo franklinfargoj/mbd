@@ -17,7 +17,7 @@
         <button onclick="window.location='{{ route("appointing_architect.step9",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab ">Step 9</button>
         <button onclick="window.location='{{ route("appointing_architect.step10",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab ">Step 10</button>
     </div>
-    <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
+    <div class="m-portlet m-portlet--mobile m-portlet--forms-view m-portlet--forms-compact">
         <h3 class="section-title section-title--small">ARCHITECT/CONSULTANT</h3>
         <form id="appointing_architect_step3" role="form" method="post" class="m-form m-form--rows m-form--label-align-right" action="{{route('appointing_architect.step3_post',['id'=>encrypt($application->id)])}}"
             enctype="multipart/form-data">
@@ -33,7 +33,7 @@
                     <span class="text-danger">{{ $errors->first('details_of_establishment') }}</span>
                     @endif
                 </div>
-                <div class="col-sm-4 offset-sm-1 form-group">
+                <div class="col-sm-4 form-group">
                     <label class="col-form-label" for="">Branch Office Details:</label>
                     <input type="text" id="" name="branch_office_details" class="form-control form-control--custom m-input"
                         value="{{$application->branch_office_details}}">
@@ -63,7 +63,7 @@
                     <span class="text-danger">{{ $errors->first('staff_architects') }}</span>
                     @endif
                 </div>
-                <div class="col-sm-4 offset-sm-1 form-group">
+                <div class="col-sm-4 form-group">
                     <label class="col-form-label" for="">Engineer:</label>
                     <input type="number" min="0" id="" name="staff_engineers" class="form-control form-control--custom m-input"
                         value="{{$application->staff_engineers}}">
@@ -71,8 +71,6 @@
                     <span class="text-danger">{{ $errors->first('staff_engineers') }}</span>
                     @endif
                 </div>
-            </div>
-            <div class="form-group m-form__group row">
                 <div class="col-sm-4 form-group">
                     <label class="col-form-label" for="">Supporting (Tech.):</label>
                     <input type="number" min="0" id="" name="staff_supporting_tech" class="form-control form-control--custom m-input"
@@ -81,7 +79,7 @@
                     <span class="text-danger">{{ $errors->first('staff_supporting_tech') }}</span>
                     @endif
                 </div>
-                <div class="col-sm-4 offset-sm-1 form-group">
+                <div class="col-sm-4 form-group">
                     <label class="col-form-label" for="">Supporting (Non Tech.):</label>
                     <input type="number" min="0" id="" name="staff_supporting_nontech" class="form-control form-control--custom m-input"
                         value="{{$application->staff_supporting_nontech}}">
@@ -89,8 +87,6 @@
                     <span class="text-danger">{{ $errors->first('staff_supporting_nontech') }}</span>
                     @endif
                 </div>
-            </div>
-            <div class="form-group m-form__group row">
                 <div class="col-sm-4 form-group">
                     <label class="col-form-label" for="">Others:</label>
                     <input type="number" min="0" id="" name="staff_others" class="form-control form-control--custom m-input"
@@ -99,7 +95,7 @@
                     <span class="text-danger">{{ $errors->first('staff_others') }}</span>
                     @endif
                 </div>
-                <div class="col-sm-4 offset-sm-1 form-group">
+                <div class="col-sm-4 form-group">
                     <label class="col-form-label" for="">Total:</label>
                     <input type="number" min="0" id="" name="staff_total" class="form-control form-control--custom m-input" value="{{$application->staff_total}}">
                     @if ($errors->has('staff_total'))
@@ -145,7 +141,7 @@
                     <span class="text-danger">{{ $errors->first('cad_facility_no_of_computers') }}</span>
                     @endif
                 </div>
-                <div class="col-sm-4 offset-sm-1 form-group">
+                <div class="col-sm-4 form-group">
                     <label class="col-form-label" for="">No of Printers:</label>
                     <input type="number" min="0" id="" name="cad_facility_no_of_printers" class="form-control form-control--custom m-input"
                         value="{{$application->cad_facility_no_of_printers}}">
@@ -153,14 +149,20 @@
                     <span class="text-danger">{{ $errors->first('cad_facility_no_of_printers') }}</span>
                     @endif
                 </div>
-            </div>
-            <div class="form-group m-form__group row">
                 <div class="col-sm-4 form-group">
                     <label class="col-form-label" for="">No of Plotters:</label>
                     <input type="number" min="0" id="" name="cad_facility_no_of_plotters" class="form-control form-control--custom m-input"
                         value="{{$application->cad_facility_no_of_plotters}}">
                     @if ($errors->has('cad_facility_no_of_plotters'))
                     <span class="text-danger">{{ $errors->first('cad_facility_no_of_plotters') }}</span>
+                    @endif
+                </div>
+                <div class="col-sm-4 form-group">
+                    <label class="col-form-label" for="">Operators:</label>
+                    <input type="number" min="0" id="" name="cad_facility_no_of_operators" class="form-control form-control--custom m-input"
+                        value="{{$application->cad_facility_no_of_operators}}">
+                    @if ($errors->has('cad_facility_no_of_operators'))
+                    <span class="text-danger">{{ $errors->first('cad_facility_no_of_operators') }}</span>
                     @endif
                 </div>
             </div>
@@ -187,7 +189,7 @@
                     <span class="text-danger">{{ $errors->first('reg_with_council_of_architecture_principle') }}</span>
                     @endif
                 </div>
-                <div class="col-sm-4 offset-sm-1 form-group">
+                <div class="col-sm-4 form-group">
                     <label class="col-form-label" for="">Associate:</label>
                     <input type="number" min="0" id="" name="reg_with_council_of_architecture_associate" class="form-control form-control--custom m-input"
                         value="{{$application->reg_with_council_of_architecture_associate}}">
@@ -195,8 +197,6 @@
                     <span class="text-danger">{{ $errors->first('reg_with_council_of_architecture_associate') }}</span>
                     @endif
                 </div>
-            </div>
-            <div class="form-group m-form__group row">
                 <div class="col-sm-4 form-group">
                     <label class="col-form-label" for="">Partner:</label>
                     <input type="number" min="0" id="" name="reg_with_council_of_architecture_partner" class="form-control form-control--custom m-input"
@@ -205,12 +205,28 @@
                     <span class="text-danger">{{ $errors->first('reg_with_council_of_architecture_partner') }}</span>
                     @endif
                 </div>
-                <div class="col-sm-4 offset-sm-1 form-group">
+                <div class="col-sm-4 form-group">
                     <label class="col-form-label" for="">Total Registered Persons:</label>
                     <input type="number" min="0" id="" name="reg_with_council_of_architecture_total_registered_persons" class="form-control form-control--custom m-input"
                         value="{{$application->reg_with_council_of_architecture_total_registered_persons}}">
                     @if ($errors->has('reg_with_council_of_architecture_total_registered_persons'))
                     <span class="text-danger">{{ $errors->first('reg_with_council_of_architecture_total_registered_persons') }}</span>
+                    @endif
+                </div>
+                <div class="col-sm-4 form-group">
+                    <label class="col-form-label" for="">Awards, Prizes Etc:</label>
+                    <input type="text" id="" name="award_prizes_etc" class="form-control form-control--custom m-input"
+                        value="{{$application->award_prizes_etc}}">
+                    @if ($errors->has('award_prizes_etc'))
+                    <span class="text-danger">{{ $errors->first('award_prizes_etc') }}</span>
+                    @endif
+                </div>
+                <div class="col-sm-4 form-group">
+                    <label class="col-form-label" for="">Other Information:</label>
+                    <input type="text" id="" name="other_information" class="form-control form-control--custom m-input"
+                        value="{{$application->other_information}}">
+                    @if ($errors->has('other_information'))
+                    <span class="text-danger">{{ $errors->first('other_information') }}</span>
                     @endif
                 </div>
             </div>
@@ -222,28 +238,10 @@
                         </span>
                         <div class="d-flex">
                             <h3 class="m-portlet__head-text">
-                                Extra
+                                Extra Details
                             </h3>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="form-group m-form__group row">
-                <div class="col-sm-4 form-group">
-                    <label class="col-form-label" for="">Awards, Prizes Etc:</label>
-                    <input type="text" id="" name="award_prizes_etc" class="form-control form-control--custom m-input"
-                        value="{{$application->award_prizes_etc}}">
-                    @if ($errors->has('award_prizes_etc'))
-                    <span class="text-danger">{{ $errors->first('award_prizes_etc') }}</span>
-                    @endif
-                </div>
-                <div class="col-sm-4 offset-sm-1 form-group">
-                    <label class="col-form-label" for="">Other Information:</label>
-                    <input type="text" id="" name="other_information" class="form-control form-control--custom m-input"
-                        value="{{$application->other_information}}">
-                    @if ($errors->has('other_information'))
-                    <span class="text-danger">{{ $errors->first('other_information') }}</span>
-                    @endif
                 </div>
             </div>
             <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">

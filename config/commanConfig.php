@@ -61,22 +61,38 @@ return [
         'Sent_society_for_registration_of_sale_&_lease' => 13,
         'Registered_sale_&_lease_deed' => 14,
         'NOC_Issued' => 15,
+        'Draft_lease_deed' => 16,
+        'Aproved_lease_deed' => 17,
+        'Draft_Renewal_of_Lease_deed' => 18,
+        'Aproved_Renewal_of_Lease' => 19,
     ],
 
     // sc application agreements
      'scAgreements' => [
         'sale_deed_agreement'  => 'Sale Deed Agreement',
         'lease_deed_agreement' => 'Lease Deed Agreement',
+        'renewal_lease_deed_agreement' => 'Renewal Lease Deed Agreement',
     ],   
 
       // sc application Type
      'applicationType' => [
         'Conveyance'  => 'Conveyance',
         'Renewal'     => 'Renewal',
+        'Formation' => 'Formation'
     ], 
 
       // sc documents
      'documents' => [
+        'society' => [
+            'stamp_conveyance_application' => 'stamp_conveyance_application',
+            'stamp_renewal_application' => 'stamp_renewal_application',
+            'list_of_members_from_society' => 'list_of_members_from_society',
+            'pay_stamp_duty_letter' => 'pay_stamp_duty_letter',
+            'Sale Deed Agreement' => 'Sale Deed Agreement',
+            'Lease Deed Agreement' => 'Lease Deed Agreement',
+            'sc_resolution' => 'sc_resolution',
+            'sc_undertaking' => 'sc_undertaking',
+        ],
         'dycdo_note'  => 'dycdo_note',
         'architect_conveyance_map' => 'architect_conveyance_map',
         'em_conveyance' => [

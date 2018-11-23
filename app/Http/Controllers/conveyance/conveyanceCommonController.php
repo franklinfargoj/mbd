@@ -12,6 +12,7 @@ use App\conveyance\SocietyConveyanceDocumentStatus;
 use App\ApplicationStatusMaster;
 use App\conveyance\ScAgreementComments;
 use App\conveyance\scApplicationType;
+use Illuminate\Support\Facades\Session;
 use Yajra\DataTables\DataTables;
 use App\Role;
 use Carbon\Carbon;
@@ -31,7 +32,7 @@ class conveyanceCommonController extends Controller
     public function index(Request $request, Datatables $datatables){
 
         $data = $this->listApplicationData($request);
-
+        $typeId = scApplicationType::where('application_type','=','Conveyance')->value('id');
         $columns = [
             ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
@@ -91,7 +92,7 @@ class conveyanceCommonController extends Controller
                     }
 
                 })
-                ->rawColumns(['radio','society_name', 'Status', 'building_name', 'societyApplication.address','date'])
+                ->rawColumns(['radio','society_name', 'Status', 'building_name', 'societyApplication.address','date','typeId'])
                 ->make(true);
 
         }  
@@ -151,7 +152,7 @@ class conveyanceCommonController extends Controller
     public function ViewApplication(Request $request,$applicationId){
         $data = scApplication::where('id',$applicationId)->first();
         $data->folder = $this->getCurrentRoleFolderName();
-
+        $data->conveyance_map = $this->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
         return view('admin.conveyance.common.view_application',compact('data'));
     }             
 
@@ -257,22 +258,24 @@ class conveyanceCommonController extends Controller
                 $Tostatus = config('commanConfig.applicationStatus.in_process');                
             }
         }
+        foreach($request->to_user_id as $to_user_id){
+            $user_data = User::find($to_user_id);
 
             $application = [[
                 'application_id' => $request->applicationId,
                 'user_id'        => Auth::user()->id,
                 'role_id'        => session()->get('role_id'),
                 'status_id'      => $status,
-                'to_user_id'     => $request->to_user_id,
-                'to_role_id'     => $request->to_role_id,
+                'to_user_id'     => $to_user_id,
+                'to_role_id'     => $user_data->role_id,
                 'remark'         => $request->remark,
                 'application_master_id' => $masterId,
                 'created_at'     => Carbon::now(),
             ],
             [
                 'application_id' => $request->applicationId,
-                'user_id'       => $request->to_user_id,
-                'role_id'       => $request->to_role_id,
+                'user_id'       => $to_user_id,
+                'role_id'       => $user_data->role_id,
                 'status_id'     => $Tostatus,
                 'to_user_id'    => null,
                 'to_role_id'    => null,
@@ -287,6 +290,7 @@ class conveyanceCommonController extends Controller
                 scApplication::where('id',$request->applicationId)->where('sc_application_master_id',$masterId)
                 ->update(['application_status' => $Tostatus]);                    
             }
+        }    
     }
 
     public function getForwardApplicationData($applicationId){
@@ -294,9 +298,9 @@ class conveyanceCommonController extends Controller
         $data = scApplication::with('societyApplication','ConveyanceSalePriceCalculation')
         ->where('id',$applicationId)->first();
         $data->society_role_id = Role::where('name', config('commanConfig.society_offer_letter'))->value('id');
-        $data->status         = $this->getCurrentStatus($applicationId,$data->sc_application_master_id);
-        $data->parent          = $this->getForwardApplicationParentData();
-        $data->child           = $this->getRevertApplicationChildData();
+        $data->status = $this->getCurrentStatus($applicationId,$data->sc_application_master_id);
+        $data->parent = $this->getForwardApplicationParentData();
+        $data->child  = $this->getRevertApplicationChildData();
         return $data;        
     }
 
@@ -317,6 +321,7 @@ class conveyanceCommonController extends Controller
         
         $data = scApplication::with('ConveyanceSalePriceCalculation')->where('id',$applicationId)->first();
         $data->folder = $this->getCurrentRoleFolderName();
+        $data->conveyance_map = $this->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
         return view('admin.conveyance.common.view_ee_sale_price_calculation', compact('data'));
     }
 
@@ -327,6 +332,7 @@ class conveyanceCommonController extends Controller
         $data->folder = $this->getCurrentRoleFolderName();
         $documents = SocietyConveyanceDocumentMaster::with(['sc_document_status' => function($q) use($data) { $q->where('application_id', $data->id)->get(); }])->where('application_type_id', $data->sc_application_master_id)->where('society_flag', '1')->where('language_id', '2')->get();
         $documents_uploaded = SocietyConveyanceDocumentStatus::where('application_id', $data->id)->get();
+        $data->conveyance_map = $this->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
 //        dd($documents);
         return view('admin.conveyance.common.view_documents', compact('data', 'documents', 'documents_uploaded'));
     }
@@ -483,6 +489,7 @@ class conveyanceCommonController extends Controller
         
         $data = scApplication::with('societyApplication')->where('id',$applicationId)->first();
         $data->status = $this->getCurrentStatus($applicationId,$data->sc_application_master_id);
+        $data->folder  = $this->getCurrentRoleFolderName();
         
         //get architect_conveyance_map from sc document status table
         $document  = config('commanConfig.documents.architect_conveyance_map');
@@ -501,7 +508,7 @@ class conveyanceCommonController extends Controller
         if ($file) {
             
             $extension  = $file->getClientOriginalExtension(); 
-            $folder_name = 'Architect_conveyance_map';
+            $folder_name = 'Conveyance_Architect_map';
             $file_name  = time().'_map_'.$applicationId.'.'.$extension; 
             $file_path  = $folder_name.'/'.$file_name; 
             
@@ -530,6 +537,7 @@ class conveyanceCommonController extends Controller
       $eelogs        = $this->getLogsOfEEDepartment($applicationId,$data->sc_application_master_id);
       $Architectlogs = $this->getLogsOfArchitectDepartment($applicationId,$data->sc_application_master_id);
       $cologs        = $this->getLogsOfCODepartment($applicationId,$data->sc_application_master_id);
+      $data->conveyance_map = $this->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
       
       $this->getAllSaleLeaseAgreement($data,$applicationId,$data->sc_application_master_id);
 
@@ -543,7 +551,6 @@ class conveyanceCommonController extends Controller
         else{
         $route = 'admin.conveyance.common.forward_application';
       }
-
       return view($route,compact('data','dycoLogs','eelogs','Architectlogs','cologs'));         
     }
 
@@ -580,11 +587,17 @@ class conveyanceCommonController extends Controller
         
         $DocumentStatus = SocietyConveyanceDocumentStatus::where('application_id',$applicationId)->where('document_id',$documentId)->where('user_id',Auth::Id())->first();
 
+        if(Session::get('role_name') == config('commanConfig.society_offer_letter')){
+            $society_flag = 1;
+        }else{
+            $society_flag = 0;
+        }
         if (!$DocumentStatus){
             $DocumentStatus = new SocietyConveyanceDocumentStatus();
         }
         $DocumentStatus->application_id = $applicationId;
         $DocumentStatus->user_id        = Auth::Id();
+        $DocumentStatus->society_flag    = $society_flag;
         $DocumentStatus->document_id    = $documentId;
         $DocumentStatus->document_path  = $documentPath;
         $DocumentStatus->save();
@@ -609,5 +622,14 @@ class conveyanceCommonController extends Controller
 
         $typeId = SocietyConveyanceDocumentMaster::with(['sc_document_status'])->whereIn('document_name',$documentNames)->where('application_type_id',$type)->get();
         return $typeId;
+    }
+
+    //get architect_conveyance_map 
+    public function getArchitectSrutiny($applicationId, $masterId){
+            
+        $document  = config('commanConfig.documents.architect_conveyance_map');
+        $documentId = $this->getDocumentId($document,$masterId);
+        $conveyance_map = $this->getDocumentStatus($applicationId,$documentId); 
+        return $conveyance_map;       
     }
 }

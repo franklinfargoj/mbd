@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\conveyance\RenewalApplication;
+use App\conveyance\RenewalDocumentStatus;
+use App\conveyance\RenewalSocietyDocumentComment;
 use App\SocietyConveyance;
 use App\SocietyOfferLetter;
+use Session;
 use App\OlApplication;
 use Yajra\DataTables\DataTables;
 use Auth;
@@ -20,6 +24,7 @@ use App\conveyance\scApplication;
 use App\conveyance\SocietyConveyanceDocumentMaster;
 use App\conveyance\SocietyConveyanceDocumentStatus;
 use App\conveyance\SocietyBankDetails;
+use App\conveyance\scApplicationType;
 use Storage;
 use Mpdf\Mpdf;
 use App\conveyance\scRegistrationDetails;
@@ -40,7 +45,7 @@ class SocietyRenewalController extends Controller
 
     /**
      * Display a listing of the resource.
-     *
+     * Author: Amar Prajapati
      * @return \Illuminate\Http\Response
      */
     public function index(DataTables $datatables, Request $request)
@@ -57,37 +62,37 @@ class SocietyRenewalController extends Controller
         $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $ol_application_count = count(SocietyConveyance::where('society_id', $society_details->id)->get());
         if ($datatables->getRequest()->ajax()) {
-            $sc_applications = scApplication::where('society_id', $society_details->id)->with(['scApplicationType', 'scApplicationLog' => function($q){
+            $sr_applications = RenewalApplication::where('society_id', $society_details->id)->with(['srApplicationType', 'srApplicationLog' => function($q){
                 $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
             } ])->orderBy('id', 'desc');
 
             if($request->application_master_id)
             {
-                $sc_applications = $sc_applications->where('application_master_id', 'like', '%'.$request->application_master_id.'%');
+                $sr_applications = $sr_applications->where('application_master_id', 'like', '%'.$request->application_master_id.'%');
             }
-            $sc_applications = $sc_applications->get();
+            $sr_applications = $sr_applications->get();
 
-            return $datatables->of($sc_applications)
-                ->editColumn('radio', function ($sc_applications) {
-                    $url = route('society_conveyance.show', base64_encode($sc_applications->id));
-                    return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="sc_applications_id"><span></span></label>';
+            return $datatables->of($sr_applications)
+                ->editColumn('radio', function ($sr_applications) {
+                    $url = route('society_renewal.show', base64_encode($sr_applications->id));
+                    return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="sr_applications_id"><span></span></label>';
                 })
-                ->editColumn('rownum', function ($sc_applications) {
+                ->editColumn('rownum', function ($sr_applications) {
                     static $i = 0;
                     $i++;
                     return $i;
                 })
-                ->editColumn('application_no', function ($sc_applications) {
-                    return $sc_applications->application_no;
+                ->editColumn('application_no', function ($sr_applications) {
+                    return $sr_applications->application_no;
                 })
-                ->editColumn('application_master_id', function ($sc_applications) {
-                    return $sc_applications->scApplicationType->application_type;
+                ->editColumn('application_master_id', function ($sr_applications) {
+                    return $sr_applications->srApplicationType->application_type;
                 })
-                ->editColumn('created_at', function ($sc_applications) {
-                    return date(config('commanConfig.dateFormat'), strtotime($sc_applications->created_at));
+                ->editColumn('created_at', function ($sr_applications) {
+                    return date(config('commanConfig.dateFormat'), strtotime($sr_applications->created_at));
                 })
-                ->editColumn('status', function ($sc_applications) {
-                    $status = explode('_', array_keys(config('commanConfig.applicationStatus'), $sc_applications->scApplicationLog->status_id)[0]);
+                ->editColumn('status', function ($sr_applications) {
+                    $status = explode('_', array_keys(config('commanConfig.applicationStatus'), $sr_applications->srApplicationLog->status_id)[0]);
                     $status_display = '';
                     foreach($status as $status_value){ $status_display .= ucwords($status_value). ' ';}
                     $status_color = '';
@@ -95,7 +100,7 @@ class SocietyRenewalController extends Controller
                         $status_display = 'Approved';
                     }
 
-                    return '<span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$sc_applications->scApplicationLog->status_id) .' m-badge--wide">'.$status_display.'</span>';
+                    return '<span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$sr_applications->srApplicationLog->status_id) .' m-badge--wide">'.$status_display.'</span>';
                 })
                 ->rawColumns(['radio', 'application_no', 'application_master_id', 'created_at','status'])
                 ->make(true);
@@ -124,7 +129,7 @@ class SocietyRenewalController extends Controller
 
     /**
      * Show the form for creating a new resource.
-     *
+     * Author: Amar Prajapati
      * @return \Illuminate\Http\Response
      */
     public function create()
@@ -140,12 +145,13 @@ class SocietyRenewalController extends Controller
         }
         $comm_func = $this->CommonController;
         $layouts = MasterLayout::all();
-        return view('frontend.society.conveyance.add', compact('layouts', 'field_names', 'society_details', 'comm_func'));
+        $application_master_id = scApplicationType::where('application_type', config('commanConfig.applicationType.Renewal'))->first();
+        return view('frontend.society.renewal.add', compact('layouts', 'field_names', 'society_details', 'comm_func', 'application_master_id'));
     }
 
     /**
      * Store a newly created resource in storage.
-     *
+     * Author: Amar Prajapati
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
@@ -159,7 +165,7 @@ class SocietyRenewalController extends Controller
             if ($extension == "xls") {
                 $time = time();
                 $name = File::name(str_replace(' ', '_',$request->file('template')->getClientOriginalName())) . '_' . $time . '.' . $extension;
-                $folder_name = "society_conveyance_documents";
+                $folder_name = "society_renewal_documents";
                 $path = '/' . $folder_name . '/' . $name;
                 $fileUpload = $this->CommonController->ftpFileUpload($folder_name, $request->file('template'), $name);
                 $count = 0;
@@ -201,11 +207,11 @@ class SocietyRenewalController extends Controller
                         $sc_application = array_slice($sc_appn->getFillable(), 0, 5);
 
                         $input_sc_application = array(
-                            "sc_application_master_id" => $request->sc_application_master_id,
-                            "application_no" => str_pad($sc_form_last_id, 5, '0', STR_PAD_LEFT),
-                            "society_id" => $request->society_id,
+                            "application_master_id" => $request->sc_application_master_id,
                             "form_request_id" => $sc_form_last_id,
-                            "layout_id" => $request->layout_id
+                            "layout_id" => $request->layout_id,
+                            "society_id" => $request->society_id,
+                            "application_no" => str_pad($sc_form_last_id, 5, '0', STR_PAD_LEFT),
                         );
                         $sc_application_last_id = '';
                         $role_id = Role::where('name', config('commanConfig.dycdo_engineer'))->first();
@@ -224,53 +230,58 @@ class SocietyRenewalController extends Controller
                             $input_id = SocietyConveyance::create($input);
                             $input_sc_application['application_no'] = config('commanConfig.mhada_code').str_pad($input_id->id, 5, '0', STR_PAD_LEFT);
                             $input_sc_application['form_request_id'] = $input_id->id;
-                            $sc_application = scApplication::create($input_sc_application);
-                            $inserted_application_log = $this->CommonController->sc_application_status_society($insert_arr, config('commanConfig.applicationStatus.pending'), $sc_application);
+//                            dd($input_sc_application);
+                            $sc_application = RenewalApplication::create($input_sc_application);
+                            $inserted_application_log = $this->CommonController->sr_application_status_society($insert_arr, config('commanConfig.applicationStatus.pending'), $sc_application);
 
-                            $sc_document_status = new SocietyConveyanceDocumentStatus;
+                            $sc_document_status = new RenewalDocumentStatus;
                             $sc_document_status_arr = array_flip($sc_document_status->getFillable());
+                            $application_type = scApplicationType::where('application_type', config('commanConfig.applicationType.Renewal'))->value('id');
+                            $document_id = $this->conveyance_common->getDocumentId(config('commanConfig.documents.society.list_of_members_from_society'), $application_type);
+
                             $sc_document_status_arr['application_id'] = $sc_application->id;
                             $sc_document_status_arr['society_flag'] = 1;
-                            $sc_document_status_arr['document_id'] = 1;
+                            $sc_document_status_arr['document_id'] = $document_id;
                             $sc_document_status_arr['document_path'] = $path;
 
-                            SocietyConveyanceDocumentStatus::create($sc_document_status_arr);
+                            $renewal_document_status = RenewalDocumentStatus::create($sc_document_status_arr);
 
-                            if($inserted_application_log == true){
-                                return redirect()->route('society_conveyance.show', base64_encode($sc_application->id));
+                            if(!empty($renewal_document_status->id)){
+                                return redirect()->route('society_renewal.show', base64_encode($sc_application->id));
                             }
                         }
                     }else{
-                        return redirect()->route('society_conveyance.create')->withErrors('error', "Excel file headers doesn't match")->withInput();
+                        return redirect()->route('society_renewal.create')->withErrors('error', "Excel file headers doesn't match")->withInput();
                     }
                 }else{
-                    return redirect()->route('society_conveyance.create')->withErrors('error', "Excel file is empty.")->withInput();
+                    return redirect()->route('society_renewal.create')->withErrors('error', "Excel file is empty.")->withInput();
                 }
             }
         }else{
-            return redirect()->route('society_conveyance.create')->withErrors('error', "Excel file headers doesn't match")->withInput();
+            return redirect()->route('society_renewal.create')->withErrors('error', "Excel file headers doesn't match")->withInput();
         }
     }
 
     /**
      * Display the specified resource.
-     *
+     * Author: Amar Prajapati
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
         $id = base64_decode($id);
-        $sc_application = scApplication::with(['sc_form_request', 'societyApplication', 'applicationLayout', 'scApplicationLog' => function($q){
+
+        $sc_application = RenewalApplication::with(['sr_form_request', 'societyApplication', 'applicationLayout', 'srApplicationLog' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         }])->where('id', $id)->first();
 
-        return view('frontend.society.conveyance.show_sc_application', compact('sc_application'));
+        return view('frontend.society.renewal.show_sr_application', compact('sc_application'));
     }
 
     /**
      * Show the form for editing the specified resource.
-     *
+     * Author: Amar Prajapati
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -278,7 +289,7 @@ class SocietyRenewalController extends Controller
     {
         $id = base64_decode($id);
         $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
-        $sc_application = scApplication::with(['sc_form_request', 'societyApplication', 'applicationLayout'])->where('id', $id)->first();
+        $sc_application = RenewalApplication::with(['sr_form_request', 'societyApplication', 'applicationLayout'])->where('id', $id)->first();
         $sc = new SocietyConveyance;
         $fillable_field_names = $sc->getFillable();
         if(in_array('language_id', $fillable_field_names) == true || in_array('society_id', $fillable_field_names) == true){
@@ -289,13 +300,13 @@ class SocietyRenewalController extends Controller
         }
         $comm_func = $this->CommonController;
         $layouts = MasterLayout::all();
-//        dd($sc_application);
-        return view('frontend.society.conveyance.edit', compact('layouts', 'field_names', 'society_details', 'comm_func', 'sc_application', 'id'));
+//        dd($field_names);
+        return view('frontend.society.renewal.edit', compact('layouts', 'field_names', 'society_details', 'comm_func', 'sc_application', 'id'));
     }
 
     /**
      * Update the specified resource in storage.
-     *
+     * Author: Amar Prajapati
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -312,7 +323,7 @@ class SocietyRenewalController extends Controller
             if ($extension == "xls") {
                 $time = time();
                 $name = File::name(str_replace(' ', '_', $request->file('template')->getClientOriginalName())) . '_' . $time . '.' . $extension;
-                $folder_name = "society_conveyance_documents";
+                $folder_name = "society_renewal_documents";
                 $path = '/' . $folder_name . '/' . $name;
                 $fileUpload = $this->CommonController->ftpFileUpload($folder_name, $request->file('template'), $name);
                 $count = 0;
@@ -341,24 +352,25 @@ class SocietyRenewalController extends Controller
                 if ($count != 0) {
                     if ($count == count($sc_excel_headers)) {
                         $is_match = 1;
-                        $sc_application = scApplication::with('sc_form_request')->where('id', $id)->first();
+                        $sc_application = RenewalApplication::with('sr_form_request')->where('id', $id)->first();
                     }else{
-                        return redirect()->route('society_conveyance.edit', base64_encode($id))->withErrors('error', "Excel file headers doesn't match")->withInput();
+                        return redirect()->route('society_renewal.edit', base64_encode($id))->withErrors('error', "Excel file headers doesn't match")->withInput();
                     }
                 }else{
-                    return redirect()->route('society_conveyance.edit', base64_encode($id))->withErrors('error', "Excel file is empty.")->withInput();
+                    return redirect()->route('society_renewal.edit', base64_encode($id))->withErrors('error', "Excel file is empty.")->withInput();
                 }
             }
         }else{
             $is_old_match = 1;
-            $sc_application = scApplication::with('sc_form_request')->where('id', $id)->first();
-            $path = $sc_application->sc_form_request->template_file;
+            $sc_application = RenewalApplication::with('sr_form_request')->where('id', $id)->first();
+            $path = $sc_application->sr_form_request->template_file;
         }
         if($is_match == 1 || $is_old_match == 1){
             $update_scApplication = array(
                 'layout_id' => $request->layout_id
             );
-            $updated_sc_application = scApplication::where('id', $id)->update($update_scApplication);
+
+            $updated_sc_application = RenewalApplication::where('id', $id)->update($update_scApplication);
 
             $input = $request->all();
             $input['first_flat_issue_date'] = date('Y-m-d', strtotime($request->first_flat_issue_date));
@@ -368,25 +380,27 @@ class SocietyRenewalController extends Controller
 
             $sc = new SocietyConveyance;
             $sc_application_form =  $sc->getFillable();
-            $sc_document_status = new SocietyConveyanceDocumentStatus;
+            $sc_document_status = new RenewalDocumentStatus;
             $sc_document_status_arr = array_flip($sc_document_status->getFillable());
             $sc_document_status_arr['application_id'] = $sc_application->id;
             $sc_document_status_arr['society_flag'] = 1;
             $sc_document_status_arr['document_id'] = 1;
             $sc_document_status_arr['document_path'] = $path;
 //            dd($sc_document_status_arr);
-            SocietyConveyanceDocumentStatus::where('document_id', '1')->update($sc_document_status_arr);
+            $application_type = scApplicationType::where('application_type', config('commanConfig.applicationType.Renewal'))->value('application_type');
+            $document_id = $this->conveyance_common->getDocumentId(config('commanConfig.documents.society.list_of_members_from_society'), $application_type);
+            RenewalDocumentStatus::where('document_id', $document_id)->update($sc_document_status_arr);
 
             if(count($input) < count($sc_application_form)){
-                SocietyConveyance::where('id', $sc_application->sc_form_request->id)->update($input);
+                SocietyConveyance::where('id', $sc_application->sr_form_request->id)->update($input);
             }
         }
-        return redirect()->route('society_conveyance.show', base64_encode($id));
+        return redirect()->route('society_renewal.show', base64_encode($id));
     }
 
     /**
      * Remove the specified resource from storage.
-     *
+     * Author: Amar Prajapati
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -397,7 +411,7 @@ class SocietyRenewalController extends Controller
 
     /**
      * Download excel.
-     *
+     * Author: Amar Prajapati
      * @param  void
      * @return \Illuminate\Http\Response
      */
@@ -413,41 +427,44 @@ class SocietyRenewalController extends Controller
     }
 
     /**
-     * Show upload documents & bank details form.
-     *
+     * Show upload documents form.
+     * Author: Amar Prajapati
      * @param  void
      * @return \Illuminate\Http\Response
      */
-    public function sc_upload_docs()
+    public function sr_upload_docs()
     {
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
-        $sc_application = scApplication::where('society_id', $society->id)->with(['scApplicationType', 'scApplicationLog' => function($q){
+        $sc_application = RenewalApplication::where('society_id', $society->id)->with(['srApplicationType', 'srApplicationLog' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         } ])->orderBy('id', 'desc')->first();
         $society_bank_details = SocietyBankDetails::where('society_id', $society->id)->first();
+//        dd($sc_application);
+        $documents = SocietyConveyanceDocumentMaster::with(['sr_document_status' => function($q) use($sc_application) { $q->where('application_id', $sc_application->id)->get(); }])->where('application_type_id', $sc_application->application_master_id)->where('society_flag', '1')->get();
+        $documents_uploaded =   RenewalDocumentStatus::where('application_id', $sc_application->id)->get();
 
-        $documents = SocietyConveyanceDocumentMaster::with(['sc_document_status' => function($q) use($sc_application) { $q->where('application_id', $sc_application->id)->get(); }])->where('application_type_id', $sc_application->sc_application_master_id)->where('society_flag', '1')->where('language_id', '2')->get();
-        $documents_uploaded = SocietyConveyanceDocumentStatus::where('application_id', $sc_application->id)->get();
+        $application_type = scApplicationType::where('application_type', config('commanConfig.applicationType.Renewal'))->value('id');
+        $uploaded_document_id = $this->conveyance_common->getDocumentId(config('commanConfig.documents.society.list_of_members_from_society'), $application_type);
+
         $sc_bank_details = new SocietyBankDetails;
         $sc_bank_details_fields_name = $sc_bank_details->getFillable();
         $sc_bank_details_fields_name = array_flip($sc_bank_details_fields_name);
         unset($sc_bank_details_fields_name['society_id']);
         $sc_bank_details_fields = array_values(array_flip($sc_bank_details_fields_name));
         $comm_func = $this->CommonController;
-
-        return view('frontend.society.conveyance.show_doc_bank_details', compact('documents', 'sc_application', 'society', 'documents_uploaded', 'sc_bank_details_fields', 'comm_func', 'society_bank_details'));
+        return view('frontend.society.renewal.show_doc_bank_details', compact('documents', 'sc_application', 'society', 'documents_uploaded', 'sc_bank_details_fields', 'comm_func', 'society_bank_details', 'uploaded_document_id'));
     }
 
     /**
-     * Uploads documents.
-     *
+     * Uploads society renewal documents.
+     * Author: Amar Prajapati
      * @param  void
      * @return \Illuminate\Http\Response
      */
-    public function upload_sc_docs(Request $request)
+    public function upload_sr_docs(Request $request)
     {
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
-        $sc_application = scApplication::where('society_id', $society->id)->with(['scApplicationType', 'scApplicationLog' => function($q){
+        $sc_application = RenewalApplication::where('society_id', $society->id)->with(['srApplicationType', 'srApplicationLog' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         } ])->orderBy('id', 'desc')->first();
         $document_id = $request->document_id;
@@ -457,13 +474,16 @@ class SocietyRenewalController extends Controller
             $extension = $file->getClientOriginalExtension();
             $time = time();
             $name = File::name(str_replace(' ', '_', $file->getClientOriginalName())) . '_' . $time . '.' . $extension;
-            $folder_name = "society_conveyance_documents";
+            $folder_name = "society_renewal_documents";
             $path = '/' . $folder_name . '/' . $name;
 
             $is_doc_first = 0;
             $is_doc = 0;
 
-            if($document_id == 1){
+            $application_type = scApplicationType::where('application_type', config('commanConfig.applicationType.Renewal'))->value('id');
+            $uploaded_document_id = $this->conveyance_common->getDocumentId(config('commanConfig.documents.society.list_of_members_from_society'), $application_type);
+
+            if($document_id == $uploaded_document_id){
                 $is_doc_first = 1;
                 if ($extension == "xls") {
                     $count = 0;
@@ -496,118 +516,121 @@ class SocietyRenewalController extends Controller
                             );
                             $updated_sc_application = SocietyConveyance::where('id', $sc_application->id)->update($update_scApplication);
                         }else{
-                            return redirect()->route('sc_upload_docs')->with('error_'.$document_id, "Excel file headers doesn't match");
+                            return redirect()->route('sr_upload_docs')->with('error_'.$document_id, "Excel file headers doesn't match");
                         }
                     }else{
-                        return redirect()->route('sc_upload_docs')->with('error_'.$document_id, "Excel file is empty.");
+                        return redirect()->route('sr_upload_docs')->with('error_'.$document_id, "Excel file is empty.");
                     }
                 }
             }else{
                 if($extension == 'pdf'){
                     $is_doc = 1;
                 }else{
-                    return redirect()->route('sc_upload_docs')->with('error_'.$document_id, "Only files with .pdf extension required.");
+                    return redirect()->route('sr_upload_docs')->with('error_'.$document_id, "Only files with .pdf extension required.");
                 }
             }
 
             if($is_doc_first == 1 || $is_doc == 1){
                 $fileUpload = $this->CommonController->ftpFileUpload($folder_name, $file, $name);
-                $sc_doc_status = array(
+                $sr_doc_status = array(
                     'application_id' => $sc_application->id,
                     'document_id' => $document_id,
                     'document_path' => $path
                 );
-                $documents_uploaded = SocietyConveyanceDocumentStatus::create($sc_doc_status);
+                $documents_uploaded = RenewalDocumentStatus::create($sr_doc_status);
             }
 
         }else{
-            return redirect()->route('sc_upload_docs')->with('error_'.$document_id, "File upload is required.");
+            return redirect()->route('sr_upload_docs')->with('error_'.$document_id, "File upload is required.");
         }
 
-        return redirect()->route('sc_upload_docs');
+        return redirect()->route('sr_upload_docs');
     }
 
     /**
      * Deletes uploaded documents.
-     *
+     * Author: Amar Prajapati
      * @param  id
      * @return \Illuminate\Http\Response
      */
-    public function delete_sc_upload_docs($id)
+    public function delete_sr_upload_docs($id)
     {
         $id = base64_decode($id);
 
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
-        $sc_application = scApplication::where('society_id', $society->id)->with(['scApplicationType', 'scApplicationLog' => function($q){
+        $sc_application = RenewalApplication::where('society_id', $society->id)->with(['srApplicationType', 'srApplicationLog' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         } ])->orderBy('id', 'desc')->first();
 
-        $documents = SocietyConveyanceDocumentMaster::with(['sc_document_status' => function($q) use($sc_application) { $q->where('application_id', $sc_application->id)->get(); }])->where('application_type_id', $sc_application->sc_application_master_id)->get();
-        $documents_uploaded = SocietyConveyanceDocumentStatus::where('application_id', $sc_application->id)->where('document_id', $id)->first();
+        $documents = SocietyConveyanceDocumentMaster::with(['sr_document_status' => function($q) use($sc_application) { $q->where('application_id', $sc_application->id)->get(); }])->where('application_type_id', $sc_application->application_master_id)->get();
+        $documents_uploaded = RenewalDocumentStatus::where('application_id', $sc_application->id)->where('document_id', $id)->first();
 
         $path = $documents_uploaded->document_path;
         $deleted = Storage::disk('ftp')->delete($path);
-        SocietyConveyanceDocumentStatus::where('application_id', $sc_application->id)->where('document_id', $id)->delete();
+        RenewalDocumentStatus::where('application_id', $sc_application->id)->where('document_id', $id)->delete();
         $update_template_file = array(
             'template_file' => ''
         );
         SocietyConveyance::where('society_id', $society->id)->where('id', $sc_application->form_request_id)->update($update_template_file);
 
-        return redirect()->route('sc_upload_docs');
+        return redirect()->route('sr_upload_docs');
     }
 
 
     /**
-     * Saves society bank details.
-     *
+     * Saves society document comments.
+     * Author: Amar Prajapati
      * @param  request
      * @return \Illuminate\Http\Response
      */
-    public function society_bank_details(Request $request)
+    public function add_society_documents_comment(Request $request)
     {
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
-        $society_bank_detail['society_id'] = $society->id;
-        $society_bank_details = $request->all();
-        unset($society_bank_details['_token']);
-        $sc_bank_details = new SocietyBankDetails;
-        if(count($sc_bank_details->getFillable()) == count(array_merge($society_bank_detail, $society_bank_details))){
-            SocietyBankDetails::create(array_merge($society_bank_detail, $society_bank_details));
+        $comments = '';
+        if(!empty($request->input('society_documents_comment'))){
+            $comments = $request->input('society_documents_comment');
+        }else{
+            $comments = 'N.A.';
         }
-//        dd('done');
-        return redirect()->route('sc_form_upload_show');
+        $input = array(
+            'society_id' => $society->id,
+            'society_documents_comment' => $comments,
+        );
+
+        RenewalSocietyDocumentComment::where('society_id', $society->id)->update($input);
+        return redirect()->route('sr_form_upload_show');
     }
 
 
     /**
-     * Shows society conveyance upload form.
-     *
+     * Shows society renewal upload form.
+     * Author: Amar Prajapati
      * @param  void
      * @return \Illuminate\Http\Response
      */
-    public function sc_form_upload_show()
+    public function sr_form_upload_show ()
     {
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
-        $sc_application = scApplication::where('society_id', $society->id)->with(['scApplicationType', 'scApplicationLog' => function($q){
+        $sc_application = RenewalApplication::where('society_id', $society->id)->with(['srApplicationType', 'srApplicationLog' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         } ])->orderBy('id', 'desc')->first();
 
-        return view('frontend.society.conveyance.sc_form_upload_show', compact('sc_application'));
+        return view('frontend.society.renewal.sr_form_upload_show', compact('sc_application'));
     }
 
     /**
      * Shows society conveyance application form in pdf format.
-     *
+     * Author: Amar Prajapati
      * @param  void
      * @return \Illuminate\Http\Response
      */
     public function generate_pdf(){
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
-        $sc_application = scApplication::with(['sc_form_request', 'societyApplication', 'applicationLayout'])->where('society_id', $society->id)->first();
-        // dd($id);
+        $sc_application = RenewalApplication::with(['sr_form_request', 'societyApplication', 'applicationLayout'])->where('society_id', $society->id)->first();
         $mpdf = new Mpdf();
         $mpdf->autoScriptToLang = true;
         $mpdf->autoLangToFont = true;
-        $contents = view('frontend.society.conveyance.sc_application_form_preview', compact('society_details', 'sc_application'));
+        $contents = view('frontend.society.renewal.sr_application_form_preview', compact('society_details', 'sc_application'));
         $mpdf->WriteHTML($contents);
         $mpdf->Output();
     }
@@ -615,32 +638,28 @@ class SocietyRenewalController extends Controller
 
     /**
      * Uploads stamped society conveyance application form.
-     *
+     * Author: Amar Prajapati
      * @param  request
      * @return \Illuminate\Http\Response
      */
-    public function sc_form_upload(Request $request)
+    public function sr_form_upload(Request $request)
     {
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
-        $sc_application = scApplication::where('society_id', $society->id)->with(['scApplicationType', 'scApplicationLog' => function($q){
+        $sc_application = RenewalApplication::where('society_id', $society->id)->with(['srApplicationType', 'srApplicationLog' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         } ])->orderBy('id', 'desc')->first();
 
-        if($request->hasFile('sc_application_form')){
+        if($request->hasFile('sr_application_form')){
 
-            $file = $request->file('sc_application_form');
+            $file = $request->file('sr_application_form');
             $extension = $file->getClientOriginalExtension();
             $time = time();
             $name = File::name(str_replace(' ', '_', $file->getClientOriginalName())) . '_' . $time . '.' . $extension;
-            $folder_name = "society_conveyance_documents";
+            $folder_name = "society_renewal_documents";
             $path = '/' . $folder_name . '/' . $name;
 
             $fileUpload = $this->CommonController->ftpFileUpload($folder_name, $file, $name);
-
-            $update_sc_application = array(
-                'stamp_conveyance_application' => $path,
-            );
-            scApplication::where('id', $request->id)->update($update_sc_application);
+            $this->conveyance_common->uploadDocumentStatus($request->id, config('commanConfig.documents.society.stamp_renewal_application'), $path);
 
             $role_id = Role::where('name', config('commanConfig.dycdo_engineer'))->first();
             $user_ids = RoleUser::where('role_id', $role_id->id)->get();
@@ -655,23 +674,35 @@ class SocietyRenewalController extends Controller
                 $insert_arr = array(
                     'users' => $users
                 );
-                $inserted_application_log = $this->CommonController->sc_application_status_society($insert_arr, config('commanConfig.applicationStatus.forwarded'), $sc_application);
+                $inserted_application_log = $this->CommonController->sr_application_status_society($insert_arr, config('commanConfig.applicationStatus.forwarded'), $sc_application);
             }
         }
 
-        return redirect()->route('society_conveyance.index');
+        return redirect()->route('society_renewal.index');
     }
 
+    /**
+     * Shows sale & lease deed agreement forms.
+     * Author: Amar Prajapati
+     * @param  id
+     * @return \Illuminate\Http\Response
+     */
     public function show_sale_lease($id){
-        $sc_application = scApplication::with(['sc_form_request', 'societyApplication', 'applicationLayout', 'scApplicationLog' => function($q){
+        $sc_application = scApplication::with(['sr_form_request', 'societyApplication', 'applicationLayout', 'scApplicationLog' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         }])->where('id', $id)->first();
-//        dd($sc_application);
+
         return view('frontend.society.conveyance.sale_lease_deed', compact('sc_application'));
     }
 
+    /**
+     * Shows signed sale & lease deed agreement forms.
+     * Author: Amar Prajapati
+     * @param  id
+     * @return \Illuminate\Http\Response
+     */
     public function show_signed_sale_lease($id){
-        $sc_application = scApplication::with(['sc_form_request', 'societyApplication', 'applicationLayout', 'scApplicationLog' => function($q){
+        $sc_application = scApplication::with(['sr_form_request', 'societyApplication', 'applicationLayout', 'scApplicationLog' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         }])->where('id', $id)->first();
         $sc_registration_details = new scRegistrationDetails;
@@ -684,14 +715,26 @@ class SocietyRenewalController extends Controller
         $lease_agreement_type_id = $this->conveyance_common->getDocumentId('Lease Deed Agreement', '1');
         $status = config('commanConfig.applicationStatus.Stamped_signed_sale_&_lease_deed');
         $society_flag = 1;
-//        dd($status);
+
         return view('frontend.society.conveyance.signed_sale_lease_deed', compact('sc_application', 'society_flag','status', 'sale_agreement_type_id', 'lease_agreement_type_id', 'field_names', 'comm_func'));
     }
 
+    /**
+     * Uploads stamped sale & lease deed agreements.
+     * Author: Amar Prajapati
+     * @param  request
+     * @return \Illuminate\Http\Response
+     */
     public function upload_sale_lease(Request $request){
 
     }
 
+    /**
+     * Uploads stamped & signed sale & lease deed agreements.
+     * Author: Amar Prajapati
+     * @param  request
+     * @return \Illuminate\Http\Response
+     */
     public function upload_signed_sale_lease(Request $request){
         $insert_arr = $request->all();
         if($request->hasFile('document_path')) {
@@ -700,7 +743,7 @@ class SocietyRenewalController extends Controller
             $extension = $file->getClientOriginalExtension();
             $time = time();
             $name = File::name(str_replace(' ', '_', $file->getClientOriginalName())) . '_' . $time . '.' . $extension;
-            $folder_name = "society_conveyance_documents";
+            $folder_name = "society_renewal_documents";
             $path = '/' . $folder_name . '/' . $name;
 //            $fileUpload = $this->CommonController->ftpFileUpload($folder_name, $file, $name);
             $insert_arr['document_path'] = $path;

@@ -566,6 +566,193 @@ $(document).ready(function () {
         }
     });
 
+
+    // application status validations
+
+    $("#addapplicationstatus").validate({
+        // errorElement: "span",
+        //errorClass : "text-red",
+        rules: {
+            status_name: "required",
+        }
+    });
+
+    $("#editapplicationstatus").validate({
+        // errorElement: "span",
+        //errorClass : "text-red",
+        rules: {
+            status_name: "required",
+        }
+    });
+
+    $("#DeleteApplicationStatusReason").validate({
+        rules: {
+            delete_message: "required",
+        }
+    });
+
+    // Hearing status validations
+
+    $("#addhearingstatus").validate({
+        // errorElement: "span",
+        //errorClass : "text-red",
+        rules: {
+            status_title: "required",
+        }
+    });
+
+    $("#edithearingstatus").validate({
+        // errorElement: "span",
+        //errorClass : "text-red",
+        rules: {
+            status_title: "required",
+        }
+    });
+
+    $("#DeleteHearingStatusReason").validate({
+        rules: {
+            delete_message: "required",
+        }
+    });
+
+    // RTI status validations
+
+    $("#addrtistatus").validate({
+        // errorElement: "span",
+        //errorClass : "text-red",
+        rules: {
+            status_title: "required",
+        }
+    });
+
+    $("#editrtistatus").validate({
+        // errorElement: "span",
+        //errorClass : "text-red",
+        rules: {
+            status_title: "required",
+        }
+    });
+
+    $("#DeleteRTIStatusReason").validate({
+        rules: {
+            delete_message: "required",
+        }
+    });
+
+    // Layout validations
+
+    $("#addlayout").validate({
+        // errorElement: "span",
+        //errorClass : "text-red",
+        rules: {
+            layout_name: "required",
+            // division: "required",
+            board: "required",
+            is_active: "required",
+        }
+    });
+
+    $("#editlayout").validate({
+        // errorElement: "span",
+        //errorClass : "text-red",
+        rules: {
+            layout_name: "required",
+            // division: "required",
+            board: "required",
+            is_active: "required",
+        }
+    });
+
+    $("#DeleteLayoutReason").validate({
+        rules: {
+            delete_message: "required",
+        }
+    });
+
+    //User
+    $("#adduser").validate({
+        // errorElement: "span",
+        //errorClass : "text-red",
+        rules:{
+            name:"required",
+            email:{
+                required: true,
+                email: true,
+            },
+            mobile_no:{
+                required: true,
+                minlength: 10,
+                maxlength: 10,
+                number: true
+            },
+            address:"required",
+            password:"required",
+            password_confirmation:"required",
+            service_start_date:"required",
+            service_end_date:"required",
+            role_id:"required"
+
+        }
+    });
+
+    $("#edituser").validate({
+        // errorElement: "span",
+        //errorClass : "text-red",
+        rules:{
+            name:"required",
+            email:{
+                required: true,
+                email: true,
+            },
+            mobile_no:{
+                required: true,
+                minlength: 10,
+                maxlength: 10,
+                number: true
+            },
+            address:"required",
+            service_start_date:"required",
+            service_end_date:"required",
+            role_id:"required"
+
+        }
+    });
+
+    $("#DeleteUserReason").validate({
+        rules: {
+            delete_message: "required",
+        }
+    });
+
+    // User Layout
+    $("#adduserlayout").validate({
+        // errorElement: "span",
+        //errorClass : "text-red",
+        rules:{
+            user_id : 'required',
+            layout_id : 'required'
+        }
+    });
+
+    $("#edituserlayout").validate({
+        // errorElement: "span",
+        //errorClass : "text-red",
+        rules:{
+            rules:{
+                user_id : 'required',
+                layout_id : 'required'
+            }
+        }
+    });
+
+    $("#DeleteUserReason").validate({
+        rules: {
+            delete_message: "required",
+        }
+    });
+
+
+
     $("#appointing_architect_step1").validate({
         rules:{
             category_of_panel:"required",
@@ -737,6 +924,11 @@ $(document).ready(function () {
                   }
             },
             cad_facility_no_of_plotters:{
+                required: function(element) {
+                    return $('#is_cad_facility_yes').is(':checked')
+                  }
+            },
+            cad_facility_no_of_operators:{
                 required: function(element) {
                     return $('#is_cad_facility_yes').is(':checked')
                   }

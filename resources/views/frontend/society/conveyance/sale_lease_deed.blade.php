@@ -59,7 +59,7 @@
                                         {{--</div>--}}
                                         {{--@endif--}}
                                     </p>
-                                    <form action="" id="no_dues_certi_upload" method="post" enctype="multipart/form-data">
+                                    <form action="{{ route('upload_sale_lease') }}" id="no_dues_certi_upload" method="post" enctype="multipart/form-data">
                                         @csrf
                                         <div class="custom-file">
                                             <input class="custom-file-input pdfcheck" name="no_dues_certificate" type="file"
@@ -68,6 +68,7 @@
                                                 file...</label>
                                             <span class="text-danger" id="file_error"></span>
                                             <input type="hidden" id="applicationId" name="applicationId" value="{{ $sc_application->id }}">
+                                            <input type="hidden" id="document_id" name="document_id" value="{{ $sc_application->id }}">
                                         </div>
                                         <div class="mt-auto">
                                             <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>

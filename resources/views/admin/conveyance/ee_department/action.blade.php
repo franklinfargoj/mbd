@@ -51,6 +51,7 @@ $route=\Request::route()->getName();
             </a>
         </li>
 
+        @if($data->conveyance_map)
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{($route=='conveyance.architect_scrutiny_remark')?'m-menu__item--active':''}}">
             <a class="m-menu__link m-menu__toggle" title="architect_scrutiny" href="{{ route('conveyance.architect_scrutiny_remark', $data->id) }}">
                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
@@ -59,8 +60,10 @@ $route=\Request::route()->getName();
                 </svg>
                 <span class="m-menu__link-text">Architect Scrutiny Remark</span>
             </a>
-        </li>         
+        </li> 
+        @endif   
 
+        @if($data->conveyance_map)
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{($route=='ee.sale_price_calculation')?'m-menu__item--active':''}}">
             <a class="m-menu__link m-menu__toggle" title="EE Documents" href="{{ route('ee.sale_price_calculation', $data->id) }}">
                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
@@ -70,6 +73,7 @@ $route=\Request::route()->getName();
                 <span class="m-menu__link-text">Calculation of sale price</span>
             </a>
         </li>
+        @endif
 
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{($route=='ee.forward_application_sc')?'m-menu__item--active':''}}">
             <a class="m-menu__link m-menu__toggle" title="Forward Application" href="{{ route('ee.forward_application_sc',$data->id) }}">

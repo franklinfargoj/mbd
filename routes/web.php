@@ -222,6 +222,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('get_society_select', 'EMDepartment\EMController@get_society_select')->name('get_society_select');
     Route::get('get_building_ajax', 'EMDepartment\EMController@get_building_ajax')->name('get_building_ajax');
     Route::get('get_building_select', 'EMDepartment\EMController@get_building_select')->name('get_building_select');
+    Route::get('get_building_select_updated', 'EMDepartment\EMController@get_building_select_updated')->name('get_building_select_updated');
     Route::get('get_tenant_ajax', 'EMDepartment\EMController@get_tenant_ajax')->name('get_tenant_ajax');
 
 
@@ -297,6 +298,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('ree_forward_reval_application/{id}','REEDepartment\REEController@forwardRevalApplication')->name('ree.forward_reval_application');
 
     Route::get('download_cap_note/{id}','REEDepartment\REEController@downloadCapNote')->name('ree.download_cap_note');
+    Route::get('download_reval_cap_note/{id}','REEDepartment\REEController@downloadRevalCapNote')->name('ree.download_reval_cap_note');
     
     Route::post('ree_forward_Application_data','REEDepartment\REEController@sendForwardApplication')->name('ree.forward_application_data');
     Route::post('ree_forward_reval_Application_data','REEDepartment\REEController@sendForwardRevalApplication')->name('ree.forward_reval_application_data');
@@ -431,6 +433,13 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
    
     //Society Offer Letter END
 
+    Route::get('/show_reval_self/{id}', 'SocietyOfferLetterController@show_reval_self')->name('show_reval_self');
+    Route::get('/show_reval_dev/{id}', 'SocietyOfferLetterController@show_reval_dev')->name('show_reval_dev');
+    Route::post('/save_offer_letter_application_reval_self', 'SocietyOfferLetterController@save_offer_letter_application_reval_self')->name('save_offer_letter_application_reval_self');
+    Route::post('/save_offer_letter_application_reval_dev', 'SocietyOfferLetterController@save_offer_letter_application_reval_dev')->name('save_offer_letter_application_reval_dev');
+    Route::get('society_reval_offer_letter_preview','SocietyOfferLetterController@showOfferLetterRevalApplication')->name('society_reval_offer_letter_preview');
+
+
     //architect Module
     Route::get('architect_application','ArchitectApplicationController@index')->name('architect_application');
     Route::get('shortlisted_architect_application','ArchitectApplicationController@shortlistedIndex')->name('shortlisted_architect_application');
@@ -539,8 +548,30 @@ Route::delete('destroy_architect_layout_detail_court_case_or_dispute_on_land/{id
 //CRUD Routes
 
     Route::group(['namespace' => 'CRUDAdmin','prefix' => 'crudadmin'], function() {
+        // Superadmin Dashboard
+        Route::get('dashboard','DashboardController@index')->name('superadmin.dashboard');
+        // Role
         Route::post('loadDeleteRoleUsingAjax', 'RoleController@loadDeleteRoleUsingAjax')->name('loadDeleteRoleUsingAjax');
         Route::resource('roles','RoleController');
+        // Application Status
+        Route::post('loadDeleteApplicationStatusUsingAjax', 'ApplicationStatusController@loadDeleteApplicationStatusUsingAjax')->name('loadDeleteApplicationStatusUsingAjax');
+        Route::resource('application_status','ApplicationStatusController');
+        // Hearing Status
+        Route::post('DeleteHearingStatusUsingAjax', 'HearingStatusController@DeleteHearingStatusUsingAjax')->name('DeleteHearingStatusUsingAjax');
+        Route::resource('hearing_status','HearingStatusController');
+        // RTI Status
+        Route::post('DeleteRTIStatusUsingAjax', 'RTIStatusController@DeleteRTIStatusUsingAjax')->name('DeleteRTIStatusUsingAjax');
+        Route::resource('rti_status','RTIStatusController');
+        // Layout
+        Route::post('loadDeleteLayoutUsingAjax', 'LayoutController@loadDeleteLayoutUsingAjax')->name('loadDeleteLayoutUsingAjax');
+        Route::resource('layouts','LayoutController');
+        // User
+        Route::post('loadDeleteUserUsingAjax', 'UserController@loadDeleteUserUsingAjax')->name('loadDeleteUserUsingAjax');
+        Route::resource('users','UserController');
+        // User Layout
+        Route::post('loadDeleteUserLayoutUsingAjax', 'UserLayoutController@loadDeleteUserLayoutUsingAjax')->name('loadDeleteUserLayoutUsingAjax');
+        Route::resource('user_layouts','UserLayoutController');
+
     });
 
     //Society Conveyance
@@ -562,6 +593,52 @@ Route::delete('destroy_architect_layout_detail_court_case_or_dispute_on_land/{id
     Route::resource('/society_conveyance','SocietyConveyanceController');
 
     //Society Conveyance END
+
+
+    //Society Formation
+    Route::get('society_formation','SocietyFormationController@index')->name('society_formation.index');
+    Route::get('society_formation/create','SocietyFormationController@create')->name('society_formation.create');
+    Route::post('society_formation/store','SocietyFormationController@store')->name('society_formation.store');
+    Route::get('view_society_formation/{id}','SocietyFormationController@view_application')->name('society_formation.view_application');
+    Route::post('upload_sf_application_attachment','SocietyFormationController@upload_sf_application_attachment')->name('upload_sf_application_attachment');
+    Route::post('sf_submit_application','SocietyFormationController@sf_submit_application')->name('sf_submit_application');
+    
+    //admin side
+    Route::get('get_sf_applications','conveyance\FormationCommonController@index')->name('get_sf_applications.index');
+    Route::get('sf_view_application/{id}','conveyance\FormationCommonController@ViewApplication')->name('formation.view_application');
+    Route::get('sf_forward_application/{id}','conveyance\FormationCommonController@commonForward')->name('formation.forward_application');
+    Route::post('sf_post_forward_application','conveyance\FormationCommonController@saveForwardApplication')->name('formation.post_forward_application');
+    Route::get('get_em_scrutiny_and_remark_by_em/{id}','conveyance\FormationCommonController@get_sf_em_srutiny_and_remark')->name('formation.em_srutiny_and_remark');
+    Route::post('post_em_scrutiny_and_remark_by_em','conveyance\FormationCommonController@post_sf_em_srutiny_and_remark')->name('formation.post_em_srutiny_and_remark');
+    Route::post('upload_em_scrutiny_document_for_sf','conveyance\FormationCommonController@upload_em_scrutiny_document_for_sf')->name('formation.upload_em_scrutiny_document_for_sf');
+    Route::get('get_no_dues_certificate/{id}','conveyance\FormationCommonController@get_no_dues_certificate')->name('formation.get_no_dues_certificate');
+    Route::post('post_no_dues_certificate','conveyance\FormationCommonController@post_no_dues_certificate')->name('formation.post_no_dues_certificate');
+    Route::get('get_society_formation_documents/{id}','conveyance\FormationCommonController@society_documents')->name('formation.society_documents');
+    Route::post('formation.send_no_due_to_society','conveyance\FormationCommonController@send_no_due_to_society')->name('formation.send_no_due_to_society');
+    //Society Formation End
+
+
+    //Society Renewal
+
+    Route::get('sr_download_template', 'SocietyRenewalController@download_excel')->name('sr_download');
+    Route::get('sr_upload_docs', 'SocietyRenewalController@sr_upload_docs')->name('sr_upload_docs');
+    Route::post('upload_sr_docs', 'SocietyRenewalController@upload_sr_docs')->name('upload_sr_docs');
+    Route::get('delete_sr_upload_docs/{id}', 'SocietyRenewalController@delete_sr_upload_docs')->name('delete_sr_upload_docs');
+    Route::post('add_society_documents_comment', 'SocietyRenewalController@add_society_documents_comment')->name('society_doc_comment');
+    Route::get('sr_form_download', 'SocietyRenewalController@generate_pdf')->name('sr_form_download');
+    Route::get('sr_form_upload_show', 'SocietyRenewalController@sr_form_upload_show')->name('sr_form_upload_show');
+    Route::post('sr_form_upload', 'SocietyRenewalController@sr_form_upload')->name('sr_form_upload');
+
+    //sale & lease deed alongwith pay stamp duty letter & resolution & undertaking
+//    Route::get('sale_lease_deed/{id}', 'SocietyRenewalController@show_sale_lease')->name('show_sale_lease');
+//    Route::get('signed_sale_lease_deed/{id}', 'SocietyRenewalController@show_signed_sale_lease')->name('show_signed_sale_lease');
+//    Route::post('save_sale_lease_deed', 'SocietyRenewalController@upload_sale_lease')->name('upload_sale_lease');
+//    Route::post('save_signed_sale_lease_deed', 'SocietyRenewalController@upload_signed_sale_lease')->name('upload_signed_sale_lease');
+    Route::resource('/society_renewal','SocietyRenewalController');
+
+    //Society Renewal END
+
+    
 });
 
 
@@ -594,14 +671,21 @@ Route::get('sharing-calculation-sheet', 'REEDepartment\REEController@SharingCalc
 Route::get('offer_letter','REEDepartment\REEController@offerLetter')->name('offer_letter');
 
 // Route::get('pdfMerge', 'REEDepartment\REEController@pdfMerge')->name('ree.pdfMerge');
-Route::get('approved_offer_letter/{id}','REEDepartment\REEController@approvedOfferLetter')->name('ree.approved_offer_letter');
+Route::get('approved_offer_lettershow_form_dev/{id}','REEDepartment\REEController@approvedOfferLetter')->name('ree.approved_offer_letter');
 Route::get('generate_offer_letter/{id}', 'REEDepartment\REEController@GenerateOfferLetter')->name('ree.generate_offer_letter');
+
+Route::get('approved_reval_offer_letter/{id}','REEDepartment\REEController@approvedRevalOfferLetter')->name('ree.approved_reval_offer_letter');
+Route::get('generate_reval_offer_letter/{id}', 'REEDepartment\REEController@GenerateRevalOfferLetter')->name('ree.generate_reval_offer_letter');
+Route::get('edit_reval_offer_letter/{id}', 'REEDepartment\REEController@editRevalOfferLetter')->name('ree.edit_reval_offer_letter');
+Route::post('save_reval_offer_letter', 'REEDepartment\REEController@saveRevalOfferLetter')->name('ree.save_reval_offer_letter');
+Route::post('upload_reval_offer_letter/{id}', 'REEDepartment\REEController@uploadRevalOfferLetter')->name('ree.upload_reval_offer_letter');
 
 Route::get('edit_offer_letter/{id}', 'REEDepartment\REEController@editOfferLetter')->name('ree.edit_offer_letter');
 Route::post('save_offer_letter', 'REEDepartment\REEController@saveOfferLetter')->name('ree.save_offer_letter');
 Route::post('upload_offer_letter/{id}', 'REEDepartment\REEController@uploadOfferLetter')->name('ree.upload_offer_letter');
 Route::post('send_for_approval','REEDepartment\REEController@sendForApproval')->name('ree.send_for_approval');
 Route::post('send_letter_society','REEDepartment\REEController@sendOfferLetterToSociety')->name('ree.send_letter_society');
+Route::post('send_reval_letter_society','REEDepartment\REEController@sendRevalOfferLetterToSociety')->name('ree.send_reval_letter_society');
 Route::get('view_application_ree/{id}','REEDepartment\REEController@viewApplication')->name('ree.view_application');
 Route::get('view_reval_application_ree/{id}','REEDepartment\REEController@viewRevalApplication')->name('ree.view_reval_application');
 Route::get('calculation_sheet_ree/{id}','REEDepartment\REEController@showCalculationSheet')->name('ree.show_calculation_sheet');
@@ -609,6 +693,9 @@ Route::get('reval_calculation_sheet_ree/{id}','REEDepartment\REEController@showR
 
 Route::get('approve_offer_letter/{id}','CODepartment\COController@approveOfferLetter')->name('co.approve_offer_letter');
 Route::post('send_approved_offer_letter','CODepartment\COController@approvedOfferLetter')->name('co.send_approved_offer_letter');
+Route::get('approve_reval_offer_letter/{id}','CODepartment\COController@approveRevalOfferLetter')->name('co.approve_reval_offer_letter');
+Route::post('send_approved_reval_offer_letter','CODepartment\COController@approvedRevalOfferLetter')->name('co.send_approved_reval_offer_letter');
+
 Route::get('view_application_co/{id}','CODepartment\COController@viewApplication')->name('co.view_application');
 Route::get('calculation_sheet_co/{id}','REEDepartment\REEController@showCalculationSheet')->name('co.show_calculation_sheet');
 
@@ -695,35 +782,31 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::post('upload_note', 'conveyance\DYCODepartment\DYCOController@uploadNote')->name('dyco.uploadDycoNote');    
 
     Route::post('save_agreement', 'conveyance\DYCODepartment\DYCOController@saveAgreement')->name('dyco.save_agreement');
+
     Route::post('save_stamp_sign_agreement', 'conveyance\DYCODepartment\DYCOController@SaveStampSignAgreement')->name('dyco.save_stamp_sign_agreement');
     Route::post('forward_application_dyco', 'conveyance\DYCODepartment\DYCOController@saveForwardApplication')->name('dyco.forward_application_data');   
 
      Route::post('send_to_society', 'conveyance\DYCODepartment\DYCOController@SendToSociety')->name('dyco.send_to_society');  
      Route::post('save_approved_agreement', 'conveyance\DYCODepartment\DYCOController@saveApprovedAgreement')->name('dyco.save_approved_agreement');  
 
+    Route::post('save_renewal_agreement', 'conveyance\DYCODepartment\DYCOController@saveRenewalAgreement')->name('dyco.save_renewal_agreement');
+
+    Route::post('save_approve_renewal_agreement', 'conveyance\DYCODepartment\DYCOController@saveApproveRenewalAgreement')->name('dyco.save_approve_renewal_agreement');
+
     //EM
 
     Route::get('scrutiny_remark_em/{id}', 'conveyance\EMDepartment\EMController@ScrutinyRemark')->name('em.scrutiny_remark');
     Route::post('save_conveyance_letter', 'conveyance\EMDepartment\EMController@saveNoDuesCertificate')->name('em.save_conveyance_no_dues_certificate');
 
-    Route::get('sale_price_calculation/{id}', 'conveyance\EEDepartment\EEController@SalePriceCalculation')->name('ee.sale_price_calculation');
+    // Route::get('sale_price_calculation/{id}', 'conveyance\EEDepartment\EEController@SalePriceCalculation')->name('ee.sale_price_calculation');
 
     //Architect
 
     Route::post('save_architect_scrutiny_remark', 'conveyance\conveyanceCommonController@SaveArchitectScrutinyRemark')->name('conveyance.save_architect_scrutiny_remark');
-    
-
-    // Renewal
-    Route::get('renewal_scrutiny_remark_em/{id}', 'conveyance\EMDepartment\EMController@RenewalScrutinyRemark')->name('em.renewal_scrutiny_remark');
-    Route::post('save_renewal_letter', 'conveyance\EMDepartment\EMController@saveRenewalNoDuesCertificate')->name('em.save_renewal_no_dues_certificate');
-    Route::post('save_list_of_bonafide_allottees', 'conveyance\EMDepartment\EMController@saveRenewalNoDuesCertificate')->name('em.save_renewal_no_dues_certificate');
-    Route::post('upload_covering_letter','conveyance\EMDepartment\EMController@uploadCoveringLetter')->name('em.upload_covering_letter');
-
 
     //EE 
 
      Route::get('sale_price_calculation/{id}', 'conveyance\EEDepartment\EEController@SalePriceCalculation')->name('ee.sale_price_calculation');
-
 
     Route::post('save_calculation_data', 'conveyance\EEDepartment\EEController@SaveCalculationData')->name('ee.save_calculation_data');
     Route::post('save_demarcation_plan', 'conveyance\EEDepartment\EEController@SaveDemarcationPlan')->name('ee.save_demarcation_plan');
@@ -731,6 +814,51 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('forward_application_ee/{id}', 'conveyance\EEDepartment\EEController@forwardApplication')->name('ee.forward_application_sc'); 
 
     Route::post('send_forward_application', 'conveyance\EEDepartment\EEController@sendForwardApplication')->name('ee.send_forward_application');
+
+    Route::post('upload_ee_scrutiny_documents', 'conveyance\EEDepartment\EEController@uploadRenewalScrutinyDocument')->name('ee.upload_ee_scrutiny_documents'); 
+
+    Route::post('delete_ee_scrutiny_documents', 'conveyance\EEDepartment\EEController@deleteRenewalScrutinyDocument')->name('ee.delete_ee_scrutiny_documents');
+
+    Route::post('save_scrutiny_remark', 'conveyance\EEDepartment\EEController@SaveScrutinyRemark')->name('ee.save_scrutiny_remark');
+
+// Renewal
+
+    // common in renewal
+    Route::resource('renewal', 'conveyance\renewalCommonController');  
+    Route::get('renewal_application/{id}', 'conveyance\renewalCommonController@ViewApplication')
+    ->name('renewal.view_application'); 
+
+    Route::get('prepare_renewal_agreement/{id}', 'conveyance\renewalCommonController@PrepareRenewalAgreement')->name('renewal.prepare_renewal_agreement'); 
+
+    Route::get('approve_renewal_agreement/{id}', 'conveyance\renewalCommonController@ApproveRenewalAgreement')->name('renewal.approve_renewal_agreement');    
+
+     Route::get('stamp_renewal_agreement/{id}', 'conveyance\renewalCommonController@StampRenewalAgreement')->name('renewal.stamp_renewal_agreement'); 
+
+    Route::get('renewal_forward_application/{id}', 'conveyance\renewalCommonController@commonForwardApplication')->name('renewal.renewal_forward_application');    
+
+    Route::get('renewal_architect_scrutiny/{id}', 'conveyance\renewalCommonController@RenewalArchitectScrunity')->name('renewal.architect_scrutiny');
+
+    Route::get('renewal_ee_scrutiny/{id}', 'conveyance\renewalCommonController@RenewalEEScrunityRemark')->name('renewal.ee_scrutiny');
+
+    Route::post('upload_architect_documents', 'conveyance\renewalCommonController@uploadArchitectDocuments')->name('renewal.upload_architect_documents');
+
+    Route::post('delete_architect_documents', 'conveyance\renewalCommonController@deleteRenewalArchitectDocument')->name('renewal.delete_architect_documents');
+
+    Route::post('save_architect_scrutiny', 'conveyance\renewalCommonController@SaveArchitectScrutinyRemark')->name('renewal.save_architect_scrutiny'); 
+
+    Route::post('save_forward_application_renewal', 'conveyance\renewalCommonController@saveForwardApplication')->name('renewal.save_forward_application_renewal'); 
+
+    Route::post('save_stamp_renewal_agreement', 'conveyance\renewalCommonController@saveStampRenewalAgreement')->name('renewal.save_stamp_renewal_agreement');   
+
+    Route::post('renewal_save_agreement_comments', 'conveyance\renewalCommonController@SaveAgreementComments')->name('renewal.save_agreement_comments');
+
+
+    Route::get('renewal_scrutiny_remark_em/{id}', 'conveyance\EMDepartment\EMController@RenewalScrutinyRemark')->name('em.renewal_scrutiny_remark');
+    Route::post('save_renewal_letter', 'conveyance\EMDepartment\EMController@saveRenewalNoDuesCertificate')->name('em.save_renewal_no_dues_certificate');
+    Route::post('save_list_of_bonafide_allottees', 'conveyance\EMDepartment\EMController@saveRenewalNoDuesCertificate')->name('em.save_renewal_no_dues_certificate');
+    Route::post('upload_covering_letter','conveyance\EMDepartment\EMController@uploadCoveringLetter')->name('em.upload_covering_letter');    
+
+//dashboard    
 
     Route::get('/dashboard','Common\CommonController@dashboard')->name('dashboard');
 

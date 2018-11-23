@@ -5,10 +5,12 @@ namespace App\Http\Controllers\conveyance\DYCODepartment;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\conveyance\conveyanceCommonController;
+use App\Http\Controllers\conveyance\renewalCommonController;
 use App\Http\Controllers\Common\CommonController;
 // use App\conveyance\ConveyanceChecklistScrutiny;
 use App\conveyance\scApplication;
 use App\conveyance\ScApplicationAgreements;
+use App\conveyance\RenewalApplication;
 use App\ApplicationStatusMaster;
 use App\conveyance\ScAgreementComments;
 use App\conveyance\ScChecklistMaster;
@@ -16,6 +18,7 @@ use App\conveyance\ScChecklistScrutinyStatus;
 use App\conveyance\ScAgreementTypeMasterModel;
 use App\conveyance\ScAgreementTypeStatus;
 use App\conveyance\scApplicationLog;
+use App\conveyance\RenewalDocumentStatus;
 use Config;
 use Yajra\DataTables\DataTables;
 use Carbon\Carbon;
@@ -28,6 +31,7 @@ class DYCOController extends Controller
     {
         $this->common = new conveyanceCommonController();
         $this->CommonController = new CommonController();
+        $this->renewal = new renewalCommonController();
         $this->SaleAgreement  = config('commanConfig.scAgreements.sale_deed_agreement');
         $this->LeaseAgreement = config('commanConfig.scAgreements.lease_deed_agreement');
     }   
@@ -44,6 +48,7 @@ class DYCOController extends Controller
 
         $is_view = session()->get('role_name') == config('commanConfig.dycdo_engineer');
         $data->status = $this->common->getCurrentStatus($applicationId,$data->sc_application_master_id);
+        $data->conveyance_map = $this->common->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
 
         if ($is_view && $data->status->status_id == config('commanConfig.applicationStatus.Draft_sale_&_lease_deed')) {
             $route = 'admin.conveyance.dyco_department.checklist_office_note';
@@ -133,6 +138,7 @@ class DYCOController extends Controller
         $data->AgreementComments = ScAgreementComments::with('Roles')->where('application_id',$applicationId)->where('agreement_type_id',$Applicationtype)->whereNotNull('remark')->get();
 
         $data->folder = $this->common->getCurrentRoleFolderName();
+        $data->conveyance_map = $this->common->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
 
         if ($is_view && $data->status->status_id == config('commanConfig.applicationStatus.Draft_sale_&_lease_deed')) {
             $route = 'admin.conveyance.dyco_department.sale_lease_agreement';
@@ -154,8 +160,8 @@ class DYCOController extends Controller
 
         $Agrstatus = ApplicationStatusMaster::where('status_name','=','Draft')->value('id');          
 
-        $sale_folder_name  = "Draft_Sale_Deed_Agreement";
-        $lease_folder_name = "Draft_Lease_Deed_Agreement";
+        $sale_folder_name  = "Conveyance_Draft_Sale_Agreement";
+        $lease_folder_name = "Conveyance_Draft_Lease_Agreement";
         
         if ($sale_agreement) {
             $sale_extension  = $sale_agreement->getClientOriginalExtension(); 
@@ -226,6 +232,7 @@ class DYCOController extends Controller
         $data->AgreementComments = ScAgreementComments::with('Roles')->where('application_id',$applicationId)->where('agreement_type_id',$Applicationtype)->whereNotNull('remark')->get();  
 
         $data->folder = $this->common->getCurrentRoleFolderName();
+        $data->conveyance_map = $this->common->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
 
         if ($data->is_view && $data->status->status_id == config('commanConfig.applicationStatus.Aproved_sale_&_lease_deed')) {
             $route = 'admin.conveyance.dyco_department.approved_sale_lease_agreement';
@@ -246,8 +253,8 @@ class DYCOController extends Controller
         $data = scApplication::where('id',$applicationId)->first();           
         $Applicationtype= $data->sc_application_master_id; 
        
-        $sale_folder_name  = "Approved_sale_deed_agreement";
-        $lease_folder_name = "Approved_lease_deed_agreement";
+        $sale_folder_name  = "Conveyance_Approved_sale_agreement";
+        $lease_folder_name = "Conveyance_Approved_lease_agreement";
 
         $Agrstatus = ApplicationStatusMaster::where('status_name','=','Approved')->value('id'); 
         
@@ -320,6 +327,7 @@ class DYCOController extends Controller
         $data->AgreementComments = ScAgreementComments::with('Roles')->where('application_id',$applicationId)->where('agreement_type_id',$Applicationtype)->whereNotNull('remark')->get();   
 
         $data->folder = $this->common->getCurrentRoleFolderName(); 
+        $data->conveyance_map = $this->common->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
 
         $data->is_view = session()->get('role_name') == config('commanConfig.dycdo_engineer'); 
         $data->status = $this->common->getCurrentStatus($applicationId,$data->sc_application_master_id);                     
@@ -344,6 +352,7 @@ class DYCOController extends Controller
         $data->AgreementComments = ScAgreementComments::with('Roles')->where('application_id',$applicationId)->where('agreement_type_id',$Applicationtype)->whereNotNull('remark')->get(); 
 
         $data->folder = $this->common->getCurrentRoleFolderName();
+        $data->conveyance_map = $this->common->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
 
         if ($is_view && $status->status_id == config('commanConfig.applicationStatus.Stamped_signed_sale_&_lease_deed')) {
             $route = 'admin.conveyance.dyco_department.stamp_sign_agreements';
@@ -360,8 +369,8 @@ class DYCOController extends Controller
         $sale_agreement  = $request->file('sale_agreement');   
         $lease_agreement = $request->file('lease_agreement'); 
         
-        $sale_folder_name  = "Stamp_Sign_Sale_deed_agreement";
-        $lease_folder_name = "Stamp_Sign_Lease_deed_agreement";
+        $sale_folder_name  = "Conveyance_Stamp_Sign_Sale_agreement";
+        $lease_folder_name = "Conveyance_Stamp_Sign_Lease_agreement";
         
         $data = scApplication::where('id',$applicationId)->first();
         $Applicationtype= $data->sc_application_master_id; 
@@ -441,6 +450,7 @@ class DYCOController extends Controller
         $data->folder = $this->common->getCurrentRoleFolderName(); 
         $data->is_view = session()->get('role_name') == config('commanConfig.dycdo_engineer'); 
         $data->status = $this->common->getCurrentStatus($applicationId,$data->sc_application_master_id);
+        $data->conveyance_map = $this->common->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
 
         if ($data->is_view && $data->status->status_id == config('commanConfig.applicationStatus.in_process')) {
             $route = 'admin.conveyance.dyco_department.register_sale_lease_agreements';
@@ -463,6 +473,7 @@ class DYCOController extends Controller
         $data = scApplication::with(['scApplicationLog','ConveyanceSalePriceCalculation'])->where('id',$applicationId)->first();  
         $data->is_view = session()->get('role_name') == config('commanConfig.dyco_engineer'); 
         $data->status = $this->common->getCurrentStatus($applicationId,$data->sc_application_master_id); 
+        $data->conveyance_map = $this->common->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
         return view('admin.conveyance.dyco_department.conveyance_noc',compact('data'));
     }
 
@@ -500,6 +511,97 @@ class DYCOController extends Controller
             ];
             scApplicationLog::insert($application); 
             return back()->with('success','Application Send Successfully.');        
+    }
+
+    // Renewal start header_remove
+
+    public function saveRenewalAgreement(Request $request){
+        
+        $applicationId   = $request->applicationId;  
+        $file = $request->file('lease_agreement'); 
+        $LeaseAgreement = config('commanConfig.scAgreements.renewal_lease_deed_agreement');
+        
+        $data = RenewalApplication::where('id',$applicationId)->first();        
+        $Applicationtype = $data->application_master_id;
+
+        $Agrstatus = ApplicationStatusMaster::where('status_name','=','Draft')->value('id');          
+        $folderName = "renewal_prepare_Lease_Agreement";
+        
+        if ($file) {
+
+            $extension = $file->getClientOriginalExtension(); 
+            $fileName = time().'_lease_'.$applicationId.'.'.$extension;
+            $path = $folderName.'/'.$fileName;
+
+            $draftLeaseId = $this->common->getScAgreementId($LeaseAgreement,$Applicationtype);
+            
+            if ($extension == "pdf") {
+                
+                Storage::disk('ftp')->delete($request->oldLeaseFile);
+                $this->CommonController->ftpFileUpload($folderName,$file,$fileName);
+                $leaseData = $this->renewal->getRenewalAgreement($draftLeaseId,$applicationId,$Agrstatus);
+               
+                if ($leaseData){
+                    $this->renewal->updateRenewalAgreement($applicationId,$draftLeaseId,$path,$Agrstatus);                    
+                }else{
+                    $this->renewal->createRenewalAgreement($applicationId,$draftLeaseId,$path,$Agrstatus);
+                }
+                $status = 'success';                
+            }            
+        }
+        if ($request->remark){
+          $this->renewal->renewalAgreementComment($applicationId,$request->remark,$Applicationtype);  
+        }
+        
+        if (isset($status) && $status == 'success'){
+            return back()->with('success', 'Agreements uploaded successfully.'); 
+        } else{
+            return back()->with('error', 'Invalid type of file uploaded (only pdf allowed).');
+        }         
+    }
+
+    //save Approve Lease Agreement
+    public function saveApproveRenewalAgreement(Request $request){
+        
+        $applicationId   = $request->applicationId;  
+        $file = $request->file('lease_agreement'); 
+        $LeaseAgreement = config('commanConfig.scAgreements.renewal_lease_deed_agreement');  
+        $data = RenewalApplication::where('id',$applicationId)->first();        
+        $Applicationtype = $data->application_master_id;  
+        
+        $Agrstatus = ApplicationStatusMaster::where('status_name','=','Approved')->value('id');          
+        $folderName = "renewal_Approve_Lease_Agreement";            
+
+        if ($file) {
+            $extension = $file->getClientOriginalExtension(); 
+            $fileName = time().'_lease_'.$applicationId.'.'.$extension;
+            $path = $folderName.'/'.$fileName;
+
+            $LeaseId = $this->common->getScAgreementId($LeaseAgreement,$Applicationtype);
+            
+            if ($extension == "pdf") {
+                
+                Storage::disk('ftp')->delete($request->oldLeaseFile);
+                $this->CommonController->ftpFileUpload($folderName,$file,$fileName);
+                $leaseData = $this->renewal->getRenewalAgreement($LeaseId,$applicationId,$Agrstatus);
+               
+                if ($leaseData){
+                    $this->renewal->updateRenewalAgreement($applicationId,$LeaseId,$path,$Agrstatus);                    
+                }else{
+                    $this->renewal->createRenewalAgreement($applicationId,$LeaseId,$path,$Agrstatus);
+                }
+                $status = 'success';                
+            }            
+        }
+        if ($request->remark){
+          $this->renewal->renewalAgreementComment($applicationId,$request->remark,$Applicationtype);  
+        }
+        
+        if (isset($status) && $status == 'success'){
+            return back()->with('success', 'Agreements uploaded successfully.'); 
+        } else{
+            return back()->with('error', 'Invalid type of file uploaded (only pdf allowed).');
+        }          
     }
 }
 

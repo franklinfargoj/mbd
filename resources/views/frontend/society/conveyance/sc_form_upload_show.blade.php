@@ -19,7 +19,7 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="d-flex flex-column h-100 two-cols">
-                                        <h5>Download Offer Letter Application</h5>
+                                        <h5>Download Conveyance Application</h5>
                                         <span class="hint-text">Download submitted application in .pdf format</span>
                                         <div class="mt-auto">
                                             <a title="Donwload Offer Letter Application" href="{{ route('sc_form_download') }}" target="_blank" class="btn btn-primary" rel="noopener"><i class="icon-pencil"></i>Donwload Offer Letter Application</a>
@@ -29,7 +29,7 @@
                                 <div class="col-sm-6 border-left">
                                     <div class="d-flex flex-column h-100 two-cols">
                                         <h5>Upload Signed & Stamped Application here</h5>
-                                        <span class="hint-text">Click on 'Upload' to upload signed & stamped application for offer letter.</span>
+                                        <span class="hint-text">Click on 'Upload' to upload signed & stamped application for society renewal.</span>
                                         <form action="{{ route('sc_form_upload') }}" method="post" enctype="multipart/form-data">
                                             @csrf
                                             <div class="custom-file">

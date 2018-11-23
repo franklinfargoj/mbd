@@ -74,6 +74,26 @@ Breadcrumbs::for('society_detail', function ($trail) {
 	$trail->push('Society Detail', route('society_detail.index'));
 });
 
+Breadcrumbs::for('society_details', function ($trail,$id) {
+    $trail->parent('society_detail');
+    $trail->push('Society List', route('society.billing_level'));
+    $trail->push('Society Details', route('society.society_details',['id'=>$id]));
+});
+
+Breadcrumbs::for('arrears_charges', function ($trail,$id,$building_id) {
+    $trail->parent('society_detail');
+    $trail->push('Society List', route('society.billing_level'));
+    $trail->push('Society Details', route('society.society_details',['id'=>$id]));
+    $trail->push('Arrear Charges Rate', route('arrears_charges',['society_id'=>$id,'building_id'=>$building_id]));
+});
+
+Breadcrumbs::for('service_charges', function ($trail,$id,$building_id) {
+    $trail->parent('society_detail');
+    $trail->push('Society List', route('society.billing_level'));
+    $trail->push('Society Details', route('society.society_details',['id'=>$id]));
+    $trail->push('Service Charges Rate', route('service_charges',['society_id'=>$id,'building_id'=>$building_id]));
+});
+
 Breadcrumbs::for('society_create', function ($trail) {
 	$trail->parent('society_detail');
 	$trail->push('Add Society', route('society_detail.create'));
@@ -261,6 +281,15 @@ Breadcrumbs::for('vp', function ($trail) {
     $trail->push('Home', route('vp.index'));
 });
 
+Breadcrumbs::for('vp_reval', function ($trail) {
+    $trail->push('Home', route('vp_applications.reval'));
+});
+
+Breadcrumbs::for('society_reval_documents_vp', function ($trail,$id) {
+    $trail->parent('vp_reval');
+    $trail->push('society reval documents vp', route('vp.society_reval_documents',$id));
+});
+
 Breadcrumbs::for('society_EE_documents_vp', function ($trail,$id) {
     $trail->parent('vp');
     $trail->push('society_EE_documents', route('vp.society_EE_documents',$id));
@@ -288,6 +317,10 @@ Breadcrumbs::for('calculation_sheet_vp', function ($trail,$id) {
 Breadcrumbs::for('Forward_Application_vp', function ($trail,$id) {
     $trail->parent('vp');
     $trail->push('Forward_Application', route('vp.forward_application',$id));
+});
+Breadcrumbs::for('Forward_Reval_Application_vp', function ($trail,$id) {
+    $trail->parent('vp_reval');
+    $trail->push('Forward_Reval_Application', route('vp.forward_reval_application',$id));
 });
 
 Breadcrumbs::for('cap_note_vp', function ($trail,$id) {
@@ -328,6 +361,10 @@ Breadcrumbs::for('DYCE_scrutiny_co', function ($trail,$id) {
 Breadcrumbs::for('Approve_offer_letter', function ($trail,$id) {
     $trail->parent('co');
     $trail->push('Approve_offer_letter', route('co.approve_offer_letter',$id));
+});
+Breadcrumbs::for('Approve_reval_offer_letter', function ($trail,$id) {
+    $trail->parent('co_reval');
+    $trail->push('Approve_reval_offer_letter', route('co.approve_reval_offer_letter',$id));
 });
 
 // Breadcrumbs::for('REE_calculation_cap', function ($trail,$id) {
@@ -390,9 +427,19 @@ Breadcrumbs::for('calculation_sheet', function ($trail,$id) {
     $trail->push('calculation sheet', route('ol_calculation_sheet.index',$id));
 });
 
+Breadcrumbs::for('reval_calculation_sheet', function ($trail,$id) {
+    $trail->parent('ree_reval');
+    $trail->push('reval calculation sheet', route('ol_reval_calculation_sheet.show',$id));
+});
+
 Breadcrumbs::for('approved_offer_letter', function ($trail,$id) {
     $trail->parent('ree');
     $trail->push('approved offer letter', route('ree.approved_offer_letter',$id));
+});
+
+Breadcrumbs::for('approved_reval_offer_letter', function ($trail,$id) {
+    $trail->parent('ree_reval');
+    $trail->push('approved reval offer letter', route('ree.approved_reval_offer_letter',$id));
 });
 
 Breadcrumbs::for('generate_offer_letter', function ($trail,$id) {
@@ -413,6 +460,11 @@ Breadcrumbs::for('Forward_Application_ree', function ($trail,$id) {
 Breadcrumbs::for('cap_note_ree', function ($trail,$id) {
     $trail->parent('ree');
     $trail->push('cap note', route('ree.download_cap_note',$id));
+});
+
+Breadcrumbs::for('reval_cap_note_ree', function ($trail,$id) {
+    $trail->parent('ree_reval');
+    $trail->push('reval cap note', route('ree.download_reval_cap_note',$id));
 });
 
 Breadcrumbs::for('ee', function ($trail) {
@@ -526,8 +578,173 @@ Breadcrumbs::for('role_view', function ($trail,$id) {
     $trail->push('View Role', route('roles.show',$id));
 });
 
+//Application Status
+Breadcrumbs::for('application_status', function ($trail) {
+    $trail->push('Home', route('application_status.index'));
+});
+
+Breadcrumbs::for('add_application_status', function ($trail) {
+    $trail->parent('application_status');
+    $trail->push('Create Application Status', route('application_status.create'));
+});
+
+Breadcrumbs::for('application_status_detail', function ($trail) {
+    $trail->push('Application Status Detail', route('application_status.index'));
+});
+
+Breadcrumbs::for('edit_application_status', function ($trail,$id) {
+    $trail->parent('application_status_detail');
+    $trail->push('Edit Application Status', route('application_status.edit',$id));
+});
+
+Breadcrumbs::for('application_status_view', function ($trail,$id) {
+    $trail->parent('application_status');
+    $trail->push('View Application Status', route('application_status.show',$id));
+});
+
+// Hearing Status
+Breadcrumbs::for('hearing_status', function ($trail) {
+    $trail->push('Home', route('hearing_status.index'));
+});
+
+Breadcrumbs::for('add_hearing_status', function ($trail) {
+    $trail->parent('hearing_status');
+    $trail->push('Create Hearing Status', route('hearing_status.create'));
+});
+
+Breadcrumbs::for('hearing_status_detail', function ($trail) {
+    $trail->push('Hearing Status Detail', route('hearing_status.index'));
+});
+
+Breadcrumbs::for('edit_hearing_status', function ($trail,$id) {
+    $trail->parent('hearing_status_detail');
+    $trail->push('Edit Hearing Status', route('hearing_status.edit',$id));
+});
+
+Breadcrumbs::for('hearing_status_view', function ($trail,$id) {
+    $trail->parent('hearing_status');
+    $trail->push('View Hearing Status', route('hearing_status.show',$id));
+});
+
+// RTI Status
+Breadcrumbs::for('rti_status', function ($trail) {
+    $trail->push('Home', route('rti_status.index'));
+});
+
+Breadcrumbs::for('add_rti_status', function ($trail) {
+    $trail->parent('rti_status');
+    $trail->push('Create RTI Status', route('rti_status.create'));
+});
+
+Breadcrumbs::for('rti_status_detail', function ($trail) {
+    $trail->push('RTI Status Detail', route('rti_status.index'));
+});
+
+Breadcrumbs::for('edit_rti_status', function ($trail,$id) {
+    $trail->parent('rti_status_detail');
+    $trail->push('Edit RTI Status', route('rti_status.edit',$id));
+});
+
+Breadcrumbs::for('rti_status_view', function ($trail,$id) {
+    $trail->parent('rti_status');
+    $trail->push('View RTI Status', route('rti_status.show',$id));
+});
+
+// Layouts
+Breadcrumbs::for('layout', function ($trail) {
+    $trail->push('Home', route('layouts.index'));
+});
+
+Breadcrumbs::for('add_layout', function ($trail) {
+    $trail->parent('layout');
+    $trail->push('Create Layout', route('layouts.create'));
+});
+
+Breadcrumbs::for('layout_detail', function ($trail) {
+    $trail->push('Layout Detail', route('layouts.index'));
+});
+
+Breadcrumbs::for('edit_layout', function ($trail,$id) {
+    $trail->parent('layout_detail');
+    $trail->push('Edit Layout', route('layouts.edit',$id));
+});
+
+Breadcrumbs::for('layout_view', function ($trail,$id) {
+    $trail->parent('layout');
+    $trail->push('View Layout', route('layouts.show',$id));
+});
+
+// Users
+Breadcrumbs::for('user', function ($trail) {
+    $trail->push('Home', route('users.index'));
+});
+
+Breadcrumbs::for('add_user', function ($trail) {
+    $trail->parent('user');
+    $trail->push('Create User', route('users.create'));
+});
+
+Breadcrumbs::for('user_detail', function ($trail) {
+    $trail->push('User Detail', route('users.index'));
+});
+
+Breadcrumbs::for('edit_user', function ($trail,$id) {
+    $trail->parent('user_detail');
+    $trail->push('Edit User', route('users.edit',$id));
+});
+
+Breadcrumbs::for('user_view', function ($trail,$id) {
+    $trail->parent('user');
+    $trail->push('View User', route('users.show',$id));
+});
+
+// User Layouts
+Breadcrumbs::for('user_layout', function ($trail) {
+    $trail->push('Home', route('user_layouts.index'));
+});
+
+Breadcrumbs::for('add_user_layout', function ($trail) {
+    $trail->parent('user_layout');
+    $trail->push('Create User Layout', route('user_layouts.create'));
+});
+
+Breadcrumbs::for('user_layout_detail', function ($trail) {
+    $trail->push('User Layout Detail', route('user_layouts.index'));
+});
+
+Breadcrumbs::for('edit_user_layout', function ($trail,$id) {
+    $trail->parent('user_layout_detail');
+    $trail->push('Edit User Layout', route('user_layouts.edit',$id));
+});
+
+Breadcrumbs::for('user_layout_view', function ($trail,$id) {
+    $trail->parent('user_layout');
+    $trail->push('View User Layout', route('user_layouts.show',$id));
+});
+
+
+
+
 Breadcrumbs::for('em', function ($trail) {
     $trail->push('Home', route('em.index'));
+});
+
+Breadcrumbs::for('society_list',function($trail){
+    $trail->parent('em');
+    $trail->push('Society List',route('get_societies'));
+});
+
+Breadcrumbs::for('building_list',function($trail,$id){
+    $trail->parent('em');
+    $trail->push('Society List',route('get_societies'));
+    $trail->push('List of Buildings',route('get_buildings',['id' => $id]));
+});
+
+Breadcrumbs::for('tenant_list',function($trail,$id,$building_id){
+    $trail->parent('em');
+    $trail->push('Society List',route('get_societies'));
+    $trail->push('List of Buildings',route('get_buildings',['id' => $id]));
+    $trail->push('Tenant List',route('get_tenants',['id' => $building_id]));
 });
 
 Breadcrumbs::for('rc', function ($trail) {
@@ -546,7 +763,7 @@ Breadcrumbs::for('architect_application', function ($trail) {
 });
 Breadcrumbs::for('evaluate_application', function ($trail,$id) {
     $trail->parent('architect_application');
-    $trail->push('Evaluate', route('evaluate_architect_application',['id'=>$id]));
+    $trail->push('Evaluate Application', route('evaluate_architect_application',['id'=>$id]));
 });
 
 Breadcrumbs::for('view_architect_application', function ($trail,$id) {
@@ -556,7 +773,7 @@ Breadcrumbs::for('view_architect_application', function ($trail,$id) {
 
 Breadcrumbs::for('forward_architect_application', function ($trail,$id) {
     $trail->parent('architect_application');
-    $trail->push('Forward', route('architect.forward_application',['id'=>$id]));
+    $trail->push('Forward Application', route('architect.forward_application',['id'=>$id]));
 });
 
 Breadcrumbs::for('architect_generate_certificate', function ($trail,$id) {
@@ -603,6 +820,11 @@ Breadcrumbs::for('architect_Layout_scrutiny_of_ee_em_lm_ree', function ($trail,$
 Breadcrumbs::for('architect_layout_prepare_layout_excel', function ($trail,$id) {
     $trail->parent('architect_layout');
     $trail->push('Layout & Excel', route('architect_layout_prepare_layout_excel',['layout_id'=>$id]));
+});
+
+//Society Formation
+Breadcrumbs::for('society_formation',function($trail){
+    $trail->push('HOme',route('society_formation.index'));
 });
 
 

@@ -1,4 +1,4 @@
-@extends('admin.layouts.sidebarAction')
+@extends('admin.crud_admin.app')
 @section('actions')
     @include('admin.crud_admin.role.actions')
 @endsection
@@ -19,7 +19,7 @@
                 @csrf
                 <div class="m-portlet__body m-portlet__body--spaced">
                     <div class="form-group m-form__group row">
-                        <div class="col-lg-6 form-group">
+                        <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="name">Name:</label>
                             <div class="m-input-icon m-input-icon--right">
                                 <input type="text" id="name" name="name" class="form-control form-control--custom m-input"  value="{{ old('name') }}">
@@ -27,7 +27,7 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-6 form-group">
+                        <div class="col-sm-4 offset-sm-1 form-group">
                             <label class="col-form-label" for="display_name">Display Name:</label>
                             <div class="m-input-icon m-input-icon--right">
                                 <input type="text" id="display_name" name="display_name" class="form-control form-control--custom m-input"  value="{{ old('display_name') }}">
@@ -36,7 +36,7 @@
                         </div>
                     </div>
                     <div class="form-group m-form__group row">
-                        <div class="col-lg-6 form-group">
+                        <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="description">Description:</label>
                             <div class="m-input-icon m-input-icon--right">
                                 <input type="text" id="description" name="description" class="form-control form-control--custom m-input"  value="{{ old('description') }}">
@@ -44,7 +44,7 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-6 form-group">
+                        <div class="col-sm-4 offset-sm-1 form-group">
                             <label class="col-form-label" for="redirect_to">Redirect To:</label>
                             <div class="m-input-icon m-input-icon--right">
                                 <input type="text" id="redirect_to" name="redirect_to" class="form-control form-control--custom m-input"  value="{{ old('redirect_to') }}">

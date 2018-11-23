@@ -121,7 +121,83 @@ class DYCOPermissions extends Seeder
                 'name' => 'conveyance.architect_scrutiny_remark',
                 'display_name' => 'architect scrutiny remark',
                 'description' => 'architect scrutiny remark',
+            ],            
+            [
+                'name' => 'renewal.index',
+                'display_name' => 'renewal',
+                'description' => 'renewal',
+            ],            
+            [
+                'name' => 'renewal.view_application',
+                'display_name' => 'renewal_view_application',
+                'description' => 'renewal_view_application',
+            ],            
+            [
+                'name' => 'renewal.prepare_renewal_agreement',
+                'display_name' => 'prepare renewal agreement',
+                'description' => 'prepare renewal agreement',
+            ],            
+            [
+                'name' => 'dyco.save_renewal_agreement',
+                'display_name' => 'save renewal agreement',
+                'description' => 'save renewal agreement',
+            ],            
+            [
+                'name' => 'renewal.approve_renewal_agreement',
+                'display_name' => 'approve renewal agreement',
+                'description' => 'approve renewal agreement',
             ],
+            [
+                'name' => 'dyco.save_approve_renewal_agreement',
+                'display_name' => 'save approve renewal agreement',
+                'description' => 'save approve renewal agreement',
+            ],            
+            [
+                'name' => 'renewal.renewal_forward_application',
+                'display_name' => 'renewal forward application',
+                'description' => 'renewal forward application',
+            ],            
+            [
+                'name' => 'renewal.save_forward_application_renewal',
+                'display_name' => 'save forward application renewal',
+                'description' => 'save forward application renewal',
+
+            ],  
+            [
+                'name'=>'get_sf_applications.index',
+                'display_name'=>'Display list of society formation application',
+                'description'=>'Display list of society formation application'
+            ],            
+            [
+                'name' => 'renewal.ee_scrutiny',
+                'display_name' => 'renewal ee scrutiny',
+                'description' => 'renewal ee scrutiny',
+            ],            
+            [
+                'name' => 'renewal.architect_scrutiny',
+                'display_name' => 'renewal architect scrutiny',
+                'description' => 'renewal architect scrutiny',
+            ],             
+            [
+                'name'=>'formation.view_application',
+                'display_name'=>'View Application Submitted By society',
+                'description'=>'View Application Submitted By society'
+            ],
+            [
+                'name'=>'formation.forward_application',
+                'display_name'=>'dipaly Page for Forward SF application',
+                'description'=>'dipaly Page for Forward SF application'
+            ],
+            [
+                'name'=>'formation.post_forward_application',
+                'display_name'=>'post Forward SF application',
+                'description'=>'post Forward SF application'
+            ],
+            [
+                'name'=>'formation.society_documents',
+                'display_name'=>'View Documents UPloaded by society',
+                'description'=>'View Documents UPloaded by society'
+            ]      
         ];
 
         //dycdo

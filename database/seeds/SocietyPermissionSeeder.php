@@ -242,9 +242,134 @@ class SocietyPermissionSeeder extends Seeder
                     'name' => 'upload_signed_sale_lease',
                     'display_name' => 'Saves Signed Sale & Lease deed Agreement',
                     'description' => 'Uploads Signed Sale & Lease deed Agreement'
-                ]
+                ],
+                [
+                    'name'=>'society_formation.index',
+                    'display_name'=>'Display list of society formation',
+                    'description' => 'Display list of society formation'
+                ],
+                [
+                    'name'=>'society_formation.create',
+                    'display_name'=>'Display form for society formation',
+                    'description' => 'Display form for society formation'
+                ],
+                [
+                    'name'         => 'society_renewal.index',
+                    'display_name' => 'Applications for Renewal of lease',
+                    'description'  => 'Society renewal application listing'
+                ],
+                [
+                    'name'         => 'society_renewal.store',
+                    'display_name' => 'Stores society renewal application data',
+                    'description'  => 'Stores society renewal application data'
+                ],
+                [
+                    'name'         => 'society_renewal.create',
+                    'display_name' => 'Apply for Renewal of Lease',
+                    'description'  => 'Shows society renewal application form'
+                ],
+                [
+                    'name'         => 'society_renewal.show',
+                    'display_name' => 'View Application',
+                    'description'  => 'Shows society renewal application form'
+                ],
+                [
+                    'name'         => 'society_renewal.destroy',
+                    'display_name' => 'Deletes society renewal application',
+                    'description'  => 'Deletes society renewal application'
+                ],
+                [
+                    'name'         => 'society_renewal.update',
+                    'display_name' => 'Updates society renewal application form data',
+                    'description'  => 'Updates society renewal application form data'
+                ],
+                [
+                    'name'         => 'society_renewal.edit',
+                    'display_name' => 'Edit Application',
+                    'description'  => 'Shows edit form for society renewal application'
+                ],
+                [
+                    'name'         => 'sr_download',
+                    'display_name' => 'Downloads template in excel format',
+                    'description'  => 'Downloads template in excel format'
+                ],
+                [
+                    'name'         => 'sr_upload_docs',
+                    'display_name' => 'Upload Documents',
+                    'description'  => 'Shows society renewal docuemnts list'
+                ],
+                [
+                    'name'         => 'delete_sr_upload_docs',
+                    'display_name' => 'Deletes Uploaded Documents',
+                    'description'  => 'Deletes Uploaded Documents'
+                ],
+                [
+                    'name'         => 'upload_sr_docs',
+                    'display_name' => 'Uploads Documents',
+                    'description'  => 'Uploads Documents'
+                ],
+                [
+                    'name'         => 'society_doc_comment',
+                    'display_name' => 'Add society documents comments',
+                    'description'  => 'Add society documents comments'
+                ],
+                [
+                    'name'         => 'sr_form_upload_show',
+                    'display_name' => 'Stamped Application Form',
+                    'description'  => 'Shows Upload Stamped Application Form'
+                ],
+                [
+                    'name'         => 'sr_form_upload',
+                    'display_name' => 'Uploads Stamped Application Form',
+                    'description'  => 'Uploads Stamped Application Form'
+                ],
+                [
+                    'name'         => 'sr_form_download',
+                    'display_name' => 'Download Application Form',
+                    'description'  => 'Download Application Form'
+                ],
+                [
+                    'name'=>'society_formation.store',
+                    'display_name'=>'store society formation',
+                    'description' => 'store society formation'
+                ],
+                [
+                    'name'=>'society_formation.view_application',
+                    'display_name'=>'view_application',
+                    'description'=>'view_application'
+                ],
+                [
+                    'name'=>'upload_sf_application_attachment',
+                    'display_name'=>'upload document one by one',
+                    'description'=>'upload document one by one'
+                ],
+                [
+                    'name'=>'sf_submit_application',
+                    'display_name'=>'application submit by society for SF',
+                    'description'=>'application submit by society for SF'
+                ],
+                [
+                    'name'         => 'show_reval_self',
+                    'display_name' => 'Shows self redevelopment revalidation form',
+                    'description'  => 'Shows self redevelopment revalidation form'
+                ],
+                [
+                    'name'         => 'show_reval_dev',
+                    'display_name' => 'Shows redevelopment through developer revalidation form',
+                    'description'  => 'Shows redevelopment through developer revalidation form'
+                ],
+                [
+                    'name'         => 'save_offer_letter_application_reval_self',
+                    'display_name' => 'Save self revalidation offer letter application',
+                    'description'  => 'Save self revalidation offer letter application'
+                ],
+                [
+                    'name'         => 'society_reval_offer_letter_preview',
+                    'display_name' => 'Society revalidation offer letter preview',
+                    'description'  => 'Society revalidation offer letter preview'
+                ],
         ];
-
+        
         if(count($society)==0){
             // Society Login
             //dd('if');
