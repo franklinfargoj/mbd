@@ -33,8 +33,20 @@
         <span class="btn-icon btn-icon--edit">
             <img src="{{ asset('/img/edit-icon.svg')}}">
         </span>Edit
-        </a>
+    </a>
+    @if($architect_applications->form_step==10 && $architect_applications->ArchitectApplicationStatusForLoginListing->count()<=0)
+    <form method="post" action="{{route('appointing_architect.send_to_architect')}}">
+        @csrf
+        <input type="hidden" name="app_id" value="{{$architect_applications->id}}">
+        <button type="submit" name="remove_shortlist" value="remove_shortlist" class="btn btn--unstyled p-0 btn--icon-wrap d-flex align-items-center flex-column">
+            <span class="btn-icon btn-icon--delete">
+                    <img style="position: relative; left: -1.3px;" src="{{ asset('/img/submit-icon.svg')}}">
+            </span>Submit<span class="d-block">Application</span>
+    </button>
+    </form>
+    @endif
    @endif
+
    @if($architect_applications->ArchitectApplicationStatusForLoginListing->count() > 0)
     @php
        $status_id=\App\ArchitectApplicationStatusLog::where(['user_id'=>auth()->user()->id,'role_id'=>session()->get('role_id')])->orderBy('id','desc')->get()[0]->status_id;

@@ -196,7 +196,7 @@ class FormationCommonController extends Controller
         $result = json_decode($role_id->conveyance_parent_id);
         //dd($result);
         $parent = "";
-
+        
         if ($result) {
             $parent = User::with(['roles', 'LayoutUser' => function ($q) {
                 $q->where('layout_id', session('layout_id'));
@@ -204,9 +204,9 @@ class FormationCommonController extends Controller
                 ->whereHas('LayoutUser', function ($q) {
                     $q->where('layout_id', session('layout_id'));
                 })
-                ->whereHas('roles', function ($q) {
-                    $q->where('name', config('commanConfig.estate_manager'));
-                })
+                // ->whereHas('roles', function ($q) {
+                //     $q->where('name', config('commanConfig.estate_manager'));
+                // })
                 ->whereIn('role_id', $result)->get();
         }
         //dd($parent);
@@ -376,10 +376,18 @@ class FormationCommonController extends Controller
     public function get_sf_em_srutiny_and_remark($id)
     {
         $read_only=0;
+        if(session()->get('role_name')!=config('commanConfig.estate_manager'))
+        {
+            $read_only=1;
+        }
         $applicationId = decrypt($id);
         $SfScrtinyByEmMaster=SfScrtinyByEmMaster::all();
-        $sf_application = SfApplication::with('societyApplication')->where('id', $applicationId)->first();
+        $sf_application = SfApplication::with(['societyApplication','sfScrutinyByEM'])->where('id', $applicationId)->first();
+        //dd($sf_application->sfScrutinyByEM);
+        if(session()->get('role_name')==config('commanConfig.estate_manager') || $sf_application->sfScrutinyByEM->count()>0)
+        {
         $check_list_and_remarks=$this->get_em_checklist_and_remarks_for_sf($sf_application->id, auth()->user()->id);
+        }
         //dd($check_list_and_remarks);
         $data = $this->getForwardApplicationData($applicationId);
         return view('admin.formation.scrutiny_and_remark',compact('check_list_and_remarks','sf_application','data','SfScrtinyByEmMaster','read_only'));

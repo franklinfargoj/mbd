@@ -32,18 +32,27 @@ class SocietyFormationController extends Controller
     {
         $disabled=1;
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
+        //dd($society);
         $sf_application = SfApplication::where('society_id', $society->id)->with(['scApplicationType', 'sfApplicationLog' => function ($q) {
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         }])->orderBy('id', 'desc')->first();
-        if($sf_application->sfApplicationLog)
+        //dd($sf_application);
+        if($sf_application)
         {
-            $id = $sf_application->id;
-            $sf_documents = SocietyConveyanceDocumentMaster::with(['sf_document_status' => function ($q) use ($id) {
-                return $q->where(['application_id' => $id]);
-            }])->where(['application_type_id' => 3])->get();
-            //dd($sf_documents);
-            $sf_application = SfApplication::find($id);
-            return view('frontend.society.society_formation.sf_application', compact('sf_application', 'sf_documents','disabled'));    
+            if($sf_application->sfApplicationLog!="")
+            {
+                $id = $sf_application->id;
+                $sf_documents = SocietyConveyanceDocumentMaster::with(['sf_document_status' => function ($q) use ($id) {
+                    return $q->where(['application_id' => $id]);
+                }])->where(['application_type_id' => 3])->get();
+                //dd($sf_documents);
+                $sf_application = SfApplication::find($id);
+                return view('frontend.society.society_formation.sf_application', compact('sf_application', 'sf_documents','disabled'));    
+    
+            }else
+            {
+                return redirect()->route('society_formation.view_application',['id'=>encrypt($sf_application->id)]);
+            }
         }else
         {
             return redirect()->route('society_formation.create');

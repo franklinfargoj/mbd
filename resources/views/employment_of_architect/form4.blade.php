@@ -6,26 +6,15 @@
 
 <div class="col-md-12">
     <div class="d-flex form-steps-wrap">
-        <button onclick="window.location='{{ route("appointing_architect.step1",['id'=>encrypt($application->id)]) }}'"
-            class="btn--unstyled flex-grow-1 form-step-tab active">Step 1</button>
-        <button onclick="window.location='{{ route("appointing_architect.step2",['id'=>encrypt($application->id)]) }}'"
-            class="btn--unstyled flex-grow-1 form-step-tab active">Step 2</button>
-        <button onclick="window.location='{{ route("appointing_architect.step3",['id'=>encrypt($application->id)]) }}'"
-            class="btn--unstyled flex-grow-1 form-step-tab active">Step 3</button>
-        <button onclick="window.location='{{ route("appointing_architect.step4",['id'=>encrypt($application->id)]) }}'"
-            class="btn--unstyled flex-grow-1 form-step-tab active">Step 4</button>
-        <button onclick="window.location='{{ route("appointing_architect.step5",['id'=>encrypt($application->id)]) }}'"
-            class="btn--unstyled flex-grow-1 form-step-tab">Step 5</button>
-        <button onclick="window.location='{{ route("appointing_architect.step6",['id'=>encrypt($application->id)]) }}'"
-            class="btn--unstyled flex-grow-1 form-step-tab">Step 6</button>
-        <button onclick="window.location='{{ route("appointing_architect.step7",['id'=>encrypt($application->id)]) }}'"
-            class="btn--unstyled flex-grow-1 form-step-tab">Step 7</button>
-        <button onclick="window.location='{{ route("appointing_architect.step8",['id'=>encrypt($application->id)]) }}'"
-            class="btn--unstyled flex-grow-1 form-step-tab">Step 8</button>
-        <button onclick="window.location='{{ route("appointing_architect.step9",['id'=>encrypt($application->id)]) }}'"
-            class="btn--unstyled flex-grow-1 form-step-tab ">Step 9</button>
-        <button onclick="window.location='{{ route("appointing_architect.step10",['id'=>encrypt($application->id)]) }}'"
-            class="btn--unstyled flex-grow-1 form-step-tab ">Step 10</button>
+            <a href="{{ route("appointing_architect.step1",['id'=>encrypt($application->id)]) }}" class="btn--unstyled flex-grow-1 form-step-tab active">Step 1<span>Basic Details</span></a>
+            <a href="{{ route("appointing_architect.step2",['id'=>encrypt($application->id)]) }}" class="btn--unstyled flex-grow-1 form-step-tab active">Step 2<span>Enclosuers</span></a>
+            <a href="{{ route("appointing_architect.step3",['id'=>encrypt($application->id)]) }}" class="btn--unstyled flex-grow-1 form-step-tab active">Step 3<span>Details of Consultants</span></a>
+            <a href="{{ route("appointing_architect.step4",['id'=>encrypt($application->id)]) }}" class="btn--unstyled flex-grow-1 form-step-tab active">Step 4<span>Important Projects</span></a>
+            <a href="{{ route("appointing_architect.step5",['id'=>encrypt($application->id)]) }}" class="btn--unstyled flex-grow-1 form-step-tab">Step 5<span>Work Handled</span></a>
+            <a href="{{ route("appointing_architect.step6",['id'=>encrypt($application->id)]) }}" class="btn--unstyled flex-grow-1 form-step-tab">Step 6<span>Details of Firm</span></a>
+            <a href="{{ route("appointing_architect.step7",['id'=>encrypt($application->id)]) }}" class="btn--unstyled flex-grow-1 form-step-tab">Step 7<span>Work In Hand</span></a>
+            <a href="{{ route("appointing_architect.step8",['id'=>encrypt($application->id)]) }}" class="btn--unstyled flex-grow-1 form-step-tab">Step 8<span>Work Completed</span></a>
+            <a href="{{ route("appointing_architect.step9",['id'=>encrypt($application->id)]) }}" class="btn--unstyled flex-grow-1 form-step-tab ">Step 9<span>Supporting Documents</span></a>
     </div>
     {{-- @if ($errors->any())
     @foreach ($errors->all() as $error)
@@ -41,6 +30,7 @@
             <div class="m-portlet__body m-portlet__body--table">
                 <div class="">
                     <div class="table-responsive">
+                        <span class="text-danger 5_rows_validation" style="display:none">Add atleast 5 rows</span>
                         <table id="table-form-4" class="table table--box-input imp_projects">
                             <thead class="thead-default">
                                 <tr>
@@ -93,7 +83,7 @@
                 <div class="row">
                     <div class="col">
                         <div class="btn-list d-flex justify-content-end">
-                            <button type="submit" id="" class="btn btn-primary">Next</button>
+                            <button onclick="return checkNumRows()" type="submit" id="" class="btn btn-primary">Next</button>
                         </div>
                     </div>
                 </div>
@@ -191,6 +181,19 @@
             "category_of_client[]": "required"
         }
     });
+
+    function checkNumRows()
+    {
+        var count = $('.cloneme').length;
+        if(count>=5)
+        {
+            return true;
+        }else
+        {
+            $('.5_rows_validation').css('display','block')
+            return false;
+        }
+    }
 
 </script>
 @endsection

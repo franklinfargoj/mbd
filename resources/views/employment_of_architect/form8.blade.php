@@ -6,16 +6,15 @@
 
 <div class="col-md-12">
     <div class="d-flex form-steps-wrap">
-        <button onclick="window.location='{{ route("appointing_architect.step1",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab active">Step 1</button>
-        <button onclick="window.location='{{ route("appointing_architect.step2",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab active">Step 2</button>
-        <button onclick="window.location='{{ route("appointing_architect.step3",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab active">Step 3</button>
-        <button onclick="window.location='{{ route("appointing_architect.step4",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab active">Step 4</button>
-        <button onclick="window.location='{{ route("appointing_architect.step5",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab active">Step 5</button>
-        <button onclick="window.location='{{ route("appointing_architect.step6",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab active">Step 6</button>
-        <button onclick="window.location='{{ route("appointing_architect.step7",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab active">Step 7</button>
-        <button onclick="window.location='{{ route("appointing_architect.step8",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab active">Step 8</button>
-        <button onclick="window.location='{{ route("appointing_architect.step9",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab ">Step 9</button>
-        <button onclick="window.location='{{ route("appointing_architect.step10",['id'=>encrypt($application->id)]) }}'" class="btn--unstyled flex-grow-1 form-step-tab ">Step 10</button>
+            <a href="{{ route("appointing_architect.step1",['id'=>encrypt($application->id)]) }}" class="btn--unstyled flex-grow-1 form-step-tab active">Step 1<span>Basic Details</span></a>
+            <a href="{{ route("appointing_architect.step2",['id'=>encrypt($application->id)]) }}" class="btn--unstyled flex-grow-1 form-step-tab active">Step 2<span>Enclosuers</span></a>
+            <a href="{{ route("appointing_architect.step3",['id'=>encrypt($application->id)]) }}" class="btn--unstyled flex-grow-1 form-step-tab active">Step 3<span>Details of Consultants</span></a>
+            <a href="{{ route("appointing_architect.step4",['id'=>encrypt($application->id)]) }}" class="btn--unstyled flex-grow-1 form-step-tab active">Step 4<span>Important Projects</span></a>
+            <a href="{{ route("appointing_architect.step5",['id'=>encrypt($application->id)]) }}" class="btn--unstyled flex-grow-1 form-step-tab active">Step 5<span>Work Handled</span></a>
+            <a href="{{ route("appointing_architect.step6",['id'=>encrypt($application->id)]) }}" class="btn--unstyled flex-grow-1 form-step-tab active">Step 6<span>Details of Firm</span></a>
+            <a href="{{ route("appointing_architect.step7",['id'=>encrypt($application->id)]) }}" class="btn--unstyled flex-grow-1 form-step-tab active">Step 7<span>Work In Hand</span></a>
+            <a href="{{ route("appointing_architect.step8",['id'=>encrypt($application->id)]) }}" class="btn--unstyled flex-grow-1 form-step-tab active">Step 8<span>Work Completed</span></a>
+            <a href="{{ route("appointing_architect.step9",['id'=>encrypt($application->id)]) }}" class="btn--unstyled flex-grow-1 form-step-tab ">Step 9<span>Supporting Documents</span></a>
     </div>
     <div id="accordion" class="mt-4">
         @php
@@ -95,7 +94,7 @@
                         </div>
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="">Phone Number:</label>
-                            <input type="text" id="" name="tel_no" class="form-control form-control--custom m-input"
+                            <input onkeypress="return isNumberKey(event)" type="text" id="" name="tel_no" class="form-control form-control--custom m-input"
                                 value="{{isset($application->project_sheets[$j])?$application->project_sheets[$j]->tel_no:old('tel_no')}}">
                             @if ($errors->has('tel_no') && $prev_form_number==$j+1)
                             <span class="text-danger">{{ $errors->first('tel_no')
@@ -119,7 +118,7 @@
                         </div>
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="">Build Up Area in m<sup>2</sup>:</label>
-                            <input type="text" id="" name="built_up_area_in_sq_m" class="form-control form-control--custom m-input"
+                            <input onkeypress="return isNumberKey(event)" type="text" id="" name="built_up_area_in_sq_m" class="form-control form-control--custom m-input"
                                 value="{{isset($application->project_sheets[$j])?$application->project_sheets[$j]->built_up_area_in_sq_m:old('built_up_area_in_sq_m')}}">
                             @if ($errors->has('built_up_area_in_sq_m') && $prev_form_number==$j+1)
                             <span class="text-danger">{{ $errors->first('built_up_area_in_sq_m')
@@ -128,7 +127,7 @@
                         </div>
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="">Land Area in m<sup>2</sup>:</label>
-                            <input type="text" id="" name="land_area_in_sq_m" class="form-control form-control--custom m-input"
+                            <input onkeypress="return isNumberKey(event)" type="text" id="" name="land_area_in_sq_m" class="form-control form-control--custom m-input"
                                 value="{{isset($application->project_sheets[$j])?$application->project_sheets[$j]->land_area_in_sq_m:old('land_area_in_sq_m')}}">
                             @if ($errors->has('land_area_in_sq_m') && $prev_form_number==$j+1)
                             <span class="text-danger">{{ $errors->first('land_area_in_sq_m')
@@ -137,7 +136,7 @@
                         </div>
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="">Estimated Value of Projects:</label>
-                            <input type="text" id="" name="estimated_value_of_project" class="form-control form-control--custom m-input"
+                            <input onkeypress="return isNumberKey(event)" type="text" id="" name="estimated_value_of_project" class="form-control form-control--custom m-input"
                                 value="{{isset($application->project_sheets[$j])?$application->project_sheets[$j]->estimated_value_of_project:old('estimated_value_of_project')}}">
                             @if ($errors->has('estimated_value_of_project') && $prev_form_number==$j+1)
                             <span class="text-danger">{{ $errors->first('estimated_value_of_project')
@@ -146,7 +145,7 @@
                         </div>
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="">Completed Value of Projects:</label>
-                            <input type="text" id="" name="completed_value_of_project" class="form-control form-control--custom m-input"
+                            <input onkeypress="return isNumberKey(event)" type="text" id="" name="completed_value_of_project" class="form-control form-control--custom m-input"
                                 value="{{isset($application->project_sheets[$j])?$application->project_sheets[$j]->completed_value_of_project:old('completed_value_of_project')}}">
                             @if ($errors->has('completed_value_of_project') && $prev_form_number==$j+1)
                             <span class="text-danger">{{ $errors->first('completed_value_of_project')
@@ -309,7 +308,12 @@
                     location:"required",
                     name_of_client:"required",
                     address:"required",
-                    tel_no:"required",
+                    tel_no:{
+                        required:true,
+                        number:true,
+                        minlength: 10,
+                        maxlength: 10,
+                    },
                     built_up_area_in_sq_m:{
                         required:true,
                         number:true
@@ -405,7 +409,9 @@ $('form').each(function() {  // attach to all form elements on page
           address:"required",
           tel_no:{
                         required:true,
-                        number:true
+                        number:true,
+                        minlength: 10,
+                        maxlength: 10,
                     },
           built_up_area_in_sq_m:{
                         required:true,
@@ -432,6 +438,14 @@ $('form').each(function() {  // attach to all form elements on page
     });
 });
 });
+function isNumberKey(evt)
+    {
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if (charCode != 46 && charCode > 31 
+        && (charCode < 48 || charCode > 57))
+            return false;
 
+        return true;
+    }
 </script>
 @endsection

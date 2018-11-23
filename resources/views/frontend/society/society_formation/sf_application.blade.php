@@ -8,7 +8,9 @@
             <div class="d-flex align-items-center">
                 <h3 class="m-subheader__title m-subheader__title--separator">Application</h3>
                 <div class="ml-auto btn-list">
-                    <a href="{{ route('society_conveyance.index') }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+                    @if($disabled==0)
+                    <a href="{{ route('society_formation.create') }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+                    @endif
                     <a href="#" target="_blank" id="download_application_form" class="btn print-icon" rel="noopener"
                        onclick="printContent('printdiv')"><img src="{{asset('/img/print-icon.svg')}}" title="print"></a>
                 </div>
@@ -83,7 +85,7 @@
                                     </div>
                                 </div>
                                 @if($disabled==0)
-                                <a href="{{ route('society_conveyance.edit', base64_encode($sf_application->id)) }}" class="btn btn-primary">
+                                <a href="{{ route('society_formation.create') }}" class="btn btn-primary">
                                     Back
                                 </a>
                                 <span style="float:right;margin-right: 20px">

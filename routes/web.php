@@ -11,7 +11,7 @@
 |
 */
 Route::post('test','Auth\LoginController@test')->name('testing');
-
+Route::post('check_user_email_duplicate','Auth\LoginController@check_user_email_duplicate')->name('check_user_email_duplicate');
 Route::get('/', function () {
     return redirect('/login-user');
 });

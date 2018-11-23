@@ -184,7 +184,7 @@ class SocietyConveyanceDocumentMasterSeeder extends Seeder
                 'society_flag'        => '1',
                 'language_id'         => $eLanguage
             ],
-            //-----------------------------------------------------
+            //-------------- society formation docs ---------------------------------------
             [
                 'document_name'       => 'स्टेटमेंट सी पर्‍त १',
                 'application_type_id' => $formation,
@@ -316,6 +316,12 @@ class SocietyConveyanceDocumentMasterSeeder extends Seeder
                 'application_type_id' => $renewalId,
                 'society_flag'        => '0',
                 'language_id'         => $eLanguage
+            ],
+            [
+                'document_name'=>'संस्थेचा ठराव',
+                'application_type_id' => $formation,
+                'society_flag'        => '0',
+                'language_id'         => $mLanguage
             ]
         ];
 

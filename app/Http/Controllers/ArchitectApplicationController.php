@@ -133,7 +133,7 @@ class ArchitectApplicationController extends Controller
             'serverSide' => true,
             'processing' => true,
            'ordering' => 'isSorted',
-            "order" => [1, "asc"],
+            "order" => [0, "asc"],
             "pageLength" => $this->list_num_of_records_per_page,
             // 'fixedHeader' => [
             //     'header' => true,
@@ -157,12 +157,12 @@ class ArchitectApplicationController extends Controller
         //if (is_array($request->application_id)) {
             if ($request->final == 'final') {
                 EoaApplication::where('id', $request->application_id)->update(['application_status' => config('commanConfig.architect_application_status.final')]);
-                return back()->withSuccess('added to final list');
+                return redirect()->route('architect_application',['application_status'=>2])->withSuccess('added to final list');
             }
 
             if ($request->remove_final == 'remove_final') {
                 EoaApplication::where('id', $request->application_id)->update(['application_status' => config('commanConfig.architect_application_status.shortListed')]);
-                return back()->withSuccess('removed from final list');
+                return redirect()->route('architect_application')->withSuccess('removed from final list');
             }
         // } else {
         //     return back()->withError('select atlease one application');
@@ -175,12 +175,12 @@ class ArchitectApplicationController extends Controller
         //if (is_array($request->application_id)) {
             if ($request->shortlist == 'shortlist') {
                 EoaApplication::where('id', $request->application_id)->update(['application_status' => config('commanConfig.architect_application_status.shortListed')]);
-                return back()->withSuccess('shortlisted');
+                return redirect()->route('architect_application',['application_status'=>1])->withSuccess('shortlisted');
             }
 
             if ($request->remove_shortlist == 'remove_shortlist') {
                 EoaApplication::where('id', $request->application_id)->update(['application_status' => config('commanConfig.architect_application_status.none')]);
-                return back()->withSuccess('removed from shortlisted');
+                return redirect()->route('architect_application')->withSuccess('removed from shortlisted');
             }
 
       //  } else {
@@ -222,7 +222,13 @@ class ArchitectApplicationController extends Controller
         $ArchitectApplication = EoaApplication::find(decrypt($encryptedId));
         // $architect_application_id = ArchitectApplication::find($id);
         // $architect_application_id = $architect_application_id->id;
+        $app=\DB::table('eoa_applications')->where('id',$id)->first();
         $is_view = session()->get('role_name') == config('commanConfig.junior_architect');
+        if($app->application_status >= config('commanConfig.architect_application_status.shortListed'))
+        {
+            $is_view=false;
+        }
+        
         $application = ArchitectApplicationMark::where('architect_application_id', $id)->get();
         $header_data = $this->header_data;
         return view('admin.architect.evaluate', compact('application', 'header_data', 'is_view','ArchitectApplication'));

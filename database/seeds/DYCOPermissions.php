@@ -222,6 +222,11 @@ class DYCOPermissions extends Seeder
                 'name'=>'dyco.upload_renewal_stamp_letter',
                 'display_name'=>'dyco upload renewal stamp letter',
                 'description'=>'dyco upload renewal stamp letter'
+            ],
+            [
+                'name'=>'formation.em_srutiny_and_remark',
+                'display_name'=>'display the scrutiny report of EM for SF',
+                'description'=>'display the scrutiny report of EM for SF'
             ]      
         ];
 
