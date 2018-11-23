@@ -44,7 +44,7 @@ class REEController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request, Datatables $datatables){
-
+        
         $getData = $request->all();
         $columns = [
             ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],

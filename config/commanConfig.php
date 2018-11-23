@@ -174,6 +174,10 @@ return [
         '11', '13', '17'
     ],
 
+    'optional_docs_society_noc' => [
+        '6', '12', '18', '24'
+    ],
+
     'storage_server' => 'http://storage.mhada.php-dev.in',
 
 

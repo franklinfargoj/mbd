@@ -405,10 +405,12 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('/society_offer_letter_dashboard', 'SocietyOfferLetterController@dashboard')->name('society_offer_letter_dashboard');
 
     Route::get('/show_form_self/{id}', 'SocietyOfferLetterController@show_form_self')->name('show_form_self');
+
     Route::get('/offer_letter_application_form_self/{id}', 'SocietyOfferLetterController@show_offer_letter_application_self')->name('offer_letter_application_self');
     Route::post('/save_offer_letter_application_form_self', 'SocietyOfferLetterController@save_offer_letter_application_self')->name('save_offer_letter_application_self');
 
     Route::get('/show_form_dev/{id}', 'SocietyOfferLetterController@show_form_dev')->name('show_form_dev');
+    Route::get('/show_form_dev_noc/{id}', 'SocietyNocController@show_form_dev_noc')->name('show_form_dev_noc');
     Route::get('/offer_letter_application_form_dev/{id}', 'SocietyOfferLetterController@show_offer_letter_application_dev')->name('offer_letter_application_dev');
     Route::post('/save_offer_letter_application_form_dev', 'SocietyOfferLetterController@save_offer_letter_application_dev')->name('save_offer_letter_application_dev');
 
@@ -784,3 +786,23 @@ Route::prefix('appointing_architect')->group(function () {
     });
     
 });
+
+//Noc -- /* Created by: Sayan Pal */
+
+Route::get('/show_form_self_noc/{id}', 'SocietyNocController@show_form_self_noc')->name('show_form_self_noc');
+Route::get('/show_form_dev_noc/{id}', 'SocietyNocController@show_form_dev_noc')->name('show_form_dev_noc');
+Route::post('/save_noc_application_self', 'SocietyNocController@save_noc_application_self')->name('save_noc_application_self');
+Route::get('society_noc_preview','SocietyNocController@showNocApplication')->name('society_noc_preview');
+Route::get('society_noc_edit','SocietyNocController@editNocApplication')->name('society_noc_edit');
+Route::post('society_noc_update','SocietyNocController@updateNocApplication')->name('society_noc_update');
+Route::get('documents_upload_noc','SocietyNocController@displaySocietyDocuments')->name('documents_upload_noc');
+Route::post('uploaded_documents_noc','SocietyNocController@uploadSocietyDocuments')->name('uploaded_documents_noc');
+Route::get('delete_uploaded_documents_noc/{id}','SocietyNocController@deleteSocietyDocuments')->name('delete_uploaded_documents_noc');
+Route::get('upload_noc_application','SocietyNocController@showuploadNoc')->name('upload_noc_application');
+Route::post('add_uploaded_documents_comment_noc','SocietyNocController@addSocietyDocumentsComment')->name('add_documents_comment_noc');
+Route::get('society_noc_application_download','SocietyNocController@download_noc_application')->name('society_noc_application_download');
+Route::post('upload_society_noc','SocietyNocController@uploadNocAfterSign')->name('upload_society_noc');
+
+//NOC --REE Department Routes
+
+Route::get('ree_reval_applications','REEDepartment\REEController@revalidationApplicationList')->name('ree_applications.reval');
