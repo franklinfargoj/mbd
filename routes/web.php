@@ -435,6 +435,9 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::get('/show_reval_self/{id}', 'SocietyOfferLetterController@show_reval_self')->name('show_reval_self');
     Route::get('/show_reval_dev/{id}', 'SocietyOfferLetterController@show_reval_dev')->name('show_reval_dev');
+    Route::post('/save_offer_letter_application_reval_self', 'SocietyOfferLetterController@save_offer_letter_application_reval_self')->name('save_offer_letter_application_reval_self');
+    Route::post('/save_offer_letter_application_reval_dev', 'SocietyOfferLetterController@save_offer_letter_application_reval_dev')->name('save_offer_letter_application_reval_dev');
+    Route::get('society_reval_offer_letter_preview','SocietyOfferLetterController@showOfferLetterRevalApplication')->name('society_reval_offer_letter_preview');
 
 
     //architect Module
@@ -605,7 +608,13 @@ Route::delete('destroy_architect_layout_detail_court_case_or_dispute_on_land/{id
     Route::get('sf_view_application/{id}','conveyance\FormationCommonController@ViewApplication')->name('formation.view_application');
     Route::get('sf_forward_application/{id}','conveyance\FormationCommonController@commonForward')->name('formation.forward_application');
     Route::post('sf_post_forward_application','conveyance\FormationCommonController@saveForwardApplication')->name('formation.post_forward_application');
-    
+    Route::get('get_em_scrutiny_and_remark_by_em/{id}','conveyance\FormationCommonController@get_sf_em_srutiny_and_remark')->name('formation.em_srutiny_and_remark');
+    Route::post('post_em_scrutiny_and_remark_by_em','conveyance\FormationCommonController@post_sf_em_srutiny_and_remark')->name('formation.post_em_srutiny_and_remark');
+    Route::post('upload_em_scrutiny_document_for_sf','conveyance\FormationCommonController@upload_em_scrutiny_document_for_sf')->name('formation.upload_em_scrutiny_document_for_sf');
+    Route::get('get_no_dues_certificate/{id}','conveyance\FormationCommonController@get_no_dues_certificate')->name('formation.get_no_dues_certificate');
+    Route::post('post_no_dues_certificate','conveyance\FormationCommonController@post_no_dues_certificate')->name('formation.post_no_dues_certificate');
+    Route::get('get_society_formation_documents/{id}','conveyance\FormationCommonController@society_documents')->name('formation.society_documents');
+    Route::post('formation.send_no_due_to_society','conveyance\FormationCommonController@send_no_due_to_society')->name('formation.send_no_due_to_society');
     //Society Formation End
 
 
@@ -621,10 +630,10 @@ Route::delete('destroy_architect_layout_detail_court_case_or_dispute_on_land/{id
     Route::post('sr_form_upload', 'SocietyRenewalController@sr_form_upload')->name('sr_form_upload');
 
     //sale & lease deed alongwith pay stamp duty letter & resolution & undertaking
-    Route::get('sale_lease_deed/{id}', 'SocietyRenewalController@show_sale_lease')->name('show_sale_lease');
-    Route::get('signed_sale_lease_deed/{id}', 'SocietyRenewalController@show_signed_sale_lease')->name('show_signed_sale_lease');
-    Route::post('save_sale_lease_deed', 'SocietyRenewalController@upload_sale_lease')->name('upload_sale_lease');
-    Route::post('save_signed_sale_lease_deed', 'SocietyRenewalController@upload_signed_sale_lease')->name('upload_signed_sale_lease');
+//    Route::get('sale_lease_deed/{id}', 'SocietyRenewalController@show_sale_lease')->name('show_sale_lease');
+//    Route::get('signed_sale_lease_deed/{id}', 'SocietyRenewalController@show_signed_sale_lease')->name('show_signed_sale_lease');
+//    Route::post('save_sale_lease_deed', 'SocietyRenewalController@upload_sale_lease')->name('upload_sale_lease');
+//    Route::post('save_signed_sale_lease_deed', 'SocietyRenewalController@upload_signed_sale_lease')->name('upload_signed_sale_lease');
     Route::resource('/society_renewal','SocietyRenewalController');
 
     //Society Renewal END

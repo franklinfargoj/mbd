@@ -235,7 +235,7 @@
                         </div>
                         <div class="mt-3">
                             <input type="submit" class="s_btn btn btn-primary" id="submitBtn" name="">
-                            <button type="button" class="s_btn btn btn-primary" id="submitBtn" name="">Cancel</button>
+                           <!--  <button type="button" class="s_btn btn btn-primary" id="submitBtn" name="">Cancel</button> -->
                         </div>              
                     </div>
                 </div>

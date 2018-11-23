@@ -19,6 +19,7 @@ use Carbon\Carbon;
 use App\Role;
 use Config;
 use Storage;
+use App\User;
 use Auth;
 
 class renewalCommonController extends Controller
@@ -147,7 +148,6 @@ class renewalCommonController extends Controller
     public function ViewApplication(Request $request,$applicationId){
         $data = RenewalApplication::where('id',$applicationId)->first();
         $data->folder = $this->conveyance->getCurrentRoleFolderName();
-
         return view('admin.renewal.common.view_application',compact('data'));
     }
 
@@ -166,12 +166,11 @@ class renewalCommonController extends Controller
         $is_view = session()->get('role_name') == config('commanConfig.dycdo_engineer');
         $data->status = $this->getCurrentStatus($applicationId,$data->application_master_id);
 
-        if ($is_view && $data->status->status_id == config('commanConfig.applicationStatus.Draft_sale_&_lease_deed')) {
+        if ($is_view && $data->status->status_id == config('commanConfig.applicationStatus.Draft_Renewal_of_Lease_deed')) {
             $route = 'admin.renewal.dyco_department.draft_renewal_agreement';
         }else{
             $route = 'admin.renewal.common.view_draft_renewal_agreement';
         }
-
         return view($route,compact('data'));  
     }
 
@@ -365,7 +364,8 @@ class renewalCommonController extends Controller
         }
         
         if (session()->get('role_name') == config('commanConfig.ee_branch_head') && $request->to_role_id == $dycdoId) {
-            $Tostatus = config('commanConfig.applicationStatus.Draft_lease_deed');
+    
+            $Tostatus = config('commanConfig.applicationStatus.Draft_Renewal_of_Lease');
             $Scstatus = $Tostatus;
 
         } elseif (session()->get('role_name') == config('commanConfig.joint_co') && $request->to_role_id == $dycdoId){
@@ -403,28 +403,28 @@ class renewalCommonController extends Controller
                 $Tostatus = $applicationStatus;
                 $Scstatus = $Tostatus;
             }
+        }else{
+            $Tostatus = $applicationStatus;
         }
-            if (isset($applicationStatus)){
-                $Tostatus = $applicationStatus;
-            }else{
-                $Tostatus = config('commanConfig.applicationStatus.in_process');                
-            }
 
+        foreach($request->to_user_id as $to_user_id){
+            $user_data = User::find($to_user_id);
+          
             $application = [[
                 'application_id' => $request->applicationId,
                 'user_id'        => Auth::user()->id,
                 'role_id'        => session()->get('role_id'),
                 'status_id'      => $status,
-                'to_user_id'     => $request->to_user_id,
-                'to_role_id'     => $request->to_role_id,
+                'to_user_id'     => $to_user_id,
+                'to_role_id'     => $user_data->role_id,
                 'remark'         => $request->remark,
                 'application_master_id' => $masterId,
                 'created_at'     => Carbon::now(),
             ],
             [
                 'application_id' => $request->applicationId,
-                'user_id'       => $request->to_user_id,
-                'role_id'       => $request->to_role_id,
+                'user_id'       => $to_user_id,
+                'role_id'       => $user_data->role_id,
                 'status_id'     => $Tostatus,
                 'to_user_id'    => null,
                 'to_role_id'    => null,
@@ -440,6 +440,7 @@ class renewalCommonController extends Controller
                 RenewalApplication::where('id',$request->applicationId)->where('application_master_id',$masterId)
                 ->update(['application_status' => $Tostatus]);                    
             }
+        }
 
             return back()->with('success','Application send successfully..');
     }     

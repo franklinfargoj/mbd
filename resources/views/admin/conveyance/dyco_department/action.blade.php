@@ -132,7 +132,7 @@ $route=\Request::route()->getName();
             </a> 
         </li>   
     @endif
-
+    
     @if(isset($data->application_status) && $data->application_status == config('commanConfig.applicationStatus.Registered_sale_&_lease_deed'))    
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{($route=='conveyance.register_sale_lease_agreement')?'m-menu__item--active':''}}">
             <a class="m-menu__link m-menu__toggle" title="Registered Sale & Leae deed" href="{{ route('conveyance.register_sale_lease_agreement', $data->id) }}">
