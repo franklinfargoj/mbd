@@ -601,6 +601,8 @@ class conveyanceCommonController extends Controller
         $DocumentStatus->document_id    = $documentId;
         $DocumentStatus->document_path  = $documentPath;
         $DocumentStatus->save();
+
+        return $DocumentStatus;
     } 
 
     //fetch documents from sc_document status
