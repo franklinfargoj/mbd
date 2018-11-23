@@ -3,6 +3,15 @@
 $route="";
 $route=\Request::route()->getName();
 @endphp
+
+{{--@php--}}
+    {{--dd((\Illuminate\Support\Facades\Request::is('lease_detail/*')--}}
+                                            {{--&& (isset($count) && ($count==0)))--}}
+                                            {{--|| \Illuminate\Support\Facades\Request::is('lease_detail/create/*')--}}
+                                            {{--|| \Illuminate\Support\Facades\Request::is('lease_detail/view-lease/*')--}}
+                                            {{--|| \Illuminate\Support\Facades\Request::is('lease_detail/edit-lease/*'));--}}
+{{--@endphp--}}
+
 <button class="m-aside-left-close  m-aside-left-close--skin-dark " id="m_aside_left_close_btn"><i class="la la-close"></i></button>
 <div id="m_aside_left" class="m-grid__item  m-aside-left  m-aside-left--skin-dark ">
     <!-- BEGIN: Aside Menu -->
@@ -407,7 +416,9 @@ $route=\Request::route()->getName();
                                 </li>
                             </ul>
                         </li>
-                        @if(\Illuminate\Support\Facades\Request::is('lease_detail/*'))
+
+
+                        @if(\Illuminate\Support\Facades\Request::is('lease_detail/*') || (strpos($route,'village_detail') !== false))
                         <li class="m-menu__item m-menu__item--level-2 {{($route=='lease_detail.index' || $route=='view-lease.view' || $route=='edit-lease.edit' || $route=='lease_detail.create')? '' : 'collapsed'}}"
                             data-toggle="collapse" data-target="#lease-actions">
                             <a href="{{url('/village_detail')}}" class="m-menu__link m-menu__toggle">
@@ -421,173 +432,96 @@ $route=\Request::route()->getName();
                                     </span>
                                 </span>
                             </a>
-                            <!-- <div class="m-menu__submenu" m-hidden-height="160" style=""><span class="m-menu__arrow"></span>
-                                    <ul class="m-menu__subnav">
-
-                                        <li class="m-menu__item m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover">
-                                            <a href="{{url('/village_detail')}}" class="m-menu__link m-menu__toggle"><img class="radio-icon"
-                                                    src="{{ asset('/img/radio-icon.svg')}}"><span class="m-menu__link-text">Land Detail
-                                                    {{$route}}</span></i></a>
-                                        </li>
-                                        <li class="m-menu__item m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover">
-                                            <a href="{{route('society_detail.index')}}" class="m-menu__link m-menu__toggle"><img class="radio-icon"
-                                                    src="{{ asset('/img/radio-icon.svg')}}"><span class="m-menu__link-text">Society
-                                                    Detail</span></i></a>
-                                        </li>
-                                    </ul>
-                                </div> -->
                         </li>
                         @endif
                         <li id="lease-actions" class="collapse m-menu__item--level-3 {{($route=='lease_detail.index' || $route=='view-lease.view' || $route=='edit-lease.edit' || $route=='lease_detail.create')? 'show' : ''}}">
                             <ul class="list-unstyled">
 
-                                {{--<li class="m-menu__item m-menu__item--submenu {{($route=='village_detail.index' || $route=='village_detail.edit'|| $route=='village_detail.show')?'m-menu__item--active':''}}">--}}
-                                    {{--<a class="m-menu__link m-menu__toggle" href="{{url('/village_detail')}}" class="m-menu__link m-menu__toggle">--}}
-                                        {{--<svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16"
-                                            height="16" viewBox="0 0 510 510">--}}
-                                            {{--<path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
-                                                --}} {{--fill="#FFF" />--}} {{--</svg>--}}
-                                                {{--<span class="m-menu__link-text">Land Detail</span></a>--}}
-                                                {{--</li>--}}
-                                                {{--<li class="m-menu__item m-menu__item--submenu {{($route=='society_detail.index' || $route=='society_detail.show' || $route=='society_detail.edit')?'m-menu__item--active':''}}">--}}
-                        {{--<a class="m-menu__link m-menu__toggle" href="{{route('society_detail.index')}}"
-                                                class="m-menu__link m-menu__toggle">--}}
-                                                {{--<svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16"
-                                                    height="16" viewBox="0 0 510 510">--}}
-                                                    {{--<path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
-                                                        --}} {{--fill="#FFF" />--}} {{--</svg>--}}
-                                                        {{--<span class="m-menu__link-text">Society Detail</span></a>--}}
-                                                        {{--</li>--}}
-                                                        @if(\Illuminate\Support\Facades\Request::is('village_detail')
-                                                        || \Illuminate\Support\Facades\Request::is('village_detail/*'))
-                                                        {{--<li class="m-menu__item m-menu__item--submenu {{$route=='village_detail.create'?'m-menu__item--active':''}}">--}}
-                        {{--<a class="m-menu__link m-menu__toggle" href="{{route('village_detail.create')}}"
-                                                        class="m-menu__link m-menu__toggle">--}}
-                                                        {{--<svg class="radio-icon" xmlns="http://www.w3.org/2000/svg"
-                                                            width="16" height="16" viewBox="0 0 510 510">--}}
-                                                            {{--<path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
-                                                                --}} {{--fill="#FFF" />--}} {{--</svg>--}}
-                                                                {{--<span class="m-menu__link-text">Add Land</span></a>--}}
-                                                                {{--</li>--}} @endif
-                                                                @if(\Illuminate\Support\Facades\Request::is('society_detail')
-                                                                ||
-                                                                \Illuminate\Support\Facades\Request::is('society_detail/*'))
-                                                                {{--<li class="m-menu__item m-menu__item--submenu {{$route=='society_detail.create'?'m-menu__item--active':''}}">--}}
-                        {{--<a class="m-menu__link m-menu__toggle" href="{{route('society_detail.create')}}"
-                                                                class="m-menu__link m-menu__toggle">--}}
-                                                                {{--<svg class="radio-icon" xmlns="http://www.w3.org/2000/svg"
-                                                                    width="16" height="16" viewBox="0 0 510 510">--}}
-                                                                    {{--<path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
-                                                                        --}} {{--fill="#FFF" />--}} {{--</svg>--}}
-                                                                        {{--<span class="m-menu__link-text">Add Society</span></i></a>--}}
-                                                                        {{--</li>--}} @endif
-                                                                        @if((\Illuminate\Support\Facades\Request::is('society_detail/*')
-                                                                        ||
-                                                                        \Illuminate\Support\Facades\Request::is('lease_detail/*')
-                                                                        ||
-                                                                        \Illuminate\Support\Facades\Request::is('lease_detail/create/*'))
-                                                                        &&
-                                                                        (\Illuminate\Support\Facades\Request::is('lease_detail/create')
-                                                                        ||
-                                                                        \Illuminate\Support\Facades\Request::is('lease_detail/*')))
-                                                                        @if((\Illuminate\Support\Facades\Request::is('lease_detail/*')
-                                                                        && (isset($count) && ($count==0))) ||
-                                                                        \Illuminate\Support\Facades\Request::is('lease_detail/create/*')
-                                                                        ||
-                                                                        \Illuminate\Support\Facades\Request::is('lease_detail/view-lease/*')
-                                                                        ||
-                                                                        \Illuminate\Support\Facades\Request::is('lease_detail/edit-lease/*'))
-                                                                        @php $id=collect(request()->segments())->last();
-                                                                        @endphp
-                                <li class="m-menu__item m-menu__item--submenu {{($route=='lease_detail.index' || $route=='view-lease.view' || $route=='edit-lease.edit')?'m-menu__item--active':''}}">
-                                    <a class="m-menu__link m-menu__toggle" href="{{route('lease_detail.index', $id)}}"
-                                        class="m-menu__link m-menu__toggle">
-                                        <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                            viewBox="0 0 510 510">
-                                            <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
-                                                fill="#FFF" />
-                                        </svg>
-                                        <span class="m-menu__link-text">List of Lease</span></a>
-                                </li>
 
-                                <li class="m-menu__item m-menu__item--submenu {{$route=='lease_detail.create'?'m-menu__item--active':''}}">
-                                    <a class="m-menu__link m-menu__toggle" href="{{route('lease_detail.create', $id)}}"
-                                        class="m-menu__link m-menu__toggle">
-                                        <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                            viewBox="0 0 510 510">
-                                            <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
-                                                fill="#FFF" />
-                                        </svg>
-                                        <span class="m-menu__link-text">Add/Renew Lease</span></a>
-                                </li>
-                                @else
-                                @php $id = collect(request()->segments())->last(); @endphp
-                                <li class="m-menu__item m-menu__item--submenu {{$route=='lease_detail.index'?'m-menu__item--active':''}}">
-                                    <a class="m-menu__link m-menu__toggle" href="{{route('lease_detail.index', $id)}}"
-                                        class="m-menu__link m-menu__toggle">
-                                        <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                            viewBox="0 0 510 510">
-                                            <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
-                                                fill="#FFF" />
-                                        </svg>
-                                        <span class="m-menu__link-text">Lease Details</span></i></a>
-                                </li>
-                                <li class="m-menu__item m-menu__item--submenu {{$route=='renew-lease.renew'?'m-menu__item--active':''}}">
-                                    <a class="m-menu__link m-menu__toggle" href="{{route('renew-lease.renew', $id)}}"
-                                        class="m-menu__link m-menu__toggle">
-                                        <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                            viewBox="0 0 510 510">
-                                            <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
-                                                fill="#FFF" />
-                                        </svg>
-                                        <span class="m-menu__link-text">Renew Lease</span></a>
-                                </li>
-                                @endif
-                                @endif
+                                {{--@if(\Illuminate\Support\Facades\Request::is('village_detail')--}}
+                                 {{--|| \Illuminate\Support\Facades\Request::is('village_detail/*'))--}}
+                                {{--@endif--}}
+
+                                {{--@if(\Illuminate\Support\Facades\Request::is('society_detail')--}}
+                                     {{--|| \Illuminate\Support\Facades\Request::is('society_detail/*'))--}}
+                                {{--@endif--}}
+
+
+                                {{--@if((\Illuminate\Support\Facades\Request::is('society_detail/*')--}}
+                                  {{--|| (strpos($route,'village_detail') !== false)--}}
+                                  {{--|| \Illuminate\Support\Facades\Request::is('lease_detail/*')--}}
+                                  {{--|| \Illuminate\Support\Facades\Request::is('village_detail/*')--}}
+                                  {{--|| \Illuminate\Support\Facades\Request::is('lease_detail/create/*'))--}}
+                                  {{--&& (\Illuminate\Support\Facades\Request::is('lease_detail/create')--}}
+                                        {{--|| (strpos($route,'village_detail') !== false)--}}
+                                        {{--|| \Illuminate\Support\Facades\Request::is('village_detail/*')--}}
+                                       {{--|| \Illuminate\Support\Facades\Request::is('lease_detail/*')))--}}
+                                    {{--@if((\Illuminate\Support\Facades\Request::is('lease_detail/*')--}}
+                                            {{--&& (isset($count) && ($count==0)))--}}
+                                            {{--|| \Illuminate\Support\Facades\Request::is('lease_detail/create/*')--}}
+                                            {{--|| \Illuminate\Support\Facades\Request::is('lease_detail/view-lease/*')--}}
+                                            {{--|| \Illuminate\Support\Facades\Request::is('lease_detail/edit-lease/*'))--}}
+                                            {{--@php $id=collect(request()->segments())->last();--}}
+                                            {{--@endphp--}}
+                                            {{--<li class="m-menu__item m-menu__item--submenu {{($route=='lease_detail.index' || $route=='view-lease.view' || $route=='edit-lease.edit')?'m-menu__item--active':''}}">--}}
+                                                {{--<a class="m-menu__link m-menu__toggle" href="{{route('lease_detail.index', $id)}}"--}}
+                                                    {{--class="m-menu__link m-menu__toggle">--}}
+                                                    {{--<svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"--}}
+                                                        {{--viewBox="0 0 510 510">--}}
+                                                        {{--<path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"--}}
+                                                            {{--fill="#FFF" />--}}
+                                                    {{--</svg>--}}
+                                                    {{--<span class="m-menu__link-text">List of Lease</span></a>--}}
+                                            {{--</li>--}}
+                                            {{--<li class="m-menu__item m-menu__item--submenu {{$route=='lease_detail.create'?'m-menu__item--active':''}}">--}}
+                                                {{--<a class="m-menu__link m-menu__toggle" href="{{route('lease_detail.create', $id)}}"--}}
+                                                    {{--class="m-menu__link m-menu__toggle">--}}
+                                                    {{--<svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"--}}
+                                                        {{--viewBox="0 0 510 510">--}}
+                                                        {{--<path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"--}}
+                                                            {{--fill="#FFF" />--}}
+                                                    {{--</svg>--}}
+                                                    {{--<span class="m-menu__link-text">Add/Renew Lease</span></a>--}}
+                                            {{--</li>--}}
+
+                                    {{--@else--}}
+                                            @php
+                                                if((strpos($route,'village_detail') !== false)){
+                                                    $id = '0' ;
+                                                }else{
+                                                    $id = collect(request()->segments())->last();
+                                                }
+                                                 @endphp
+                                            <li class="m-menu__item m-menu__item--submenu {{$route=='lease_detail.index'?'m-menu__item--active':''}}">
+                                                <a class="m-menu__link m-menu__toggle"
+                                                   href="{{ route('lease_detail.index', $id)}}"
+                                                    class="m-menu__link m-menu__toggle">
+                                                    <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                        viewBox="0 0 510 510">
+                                                        <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
+                                                            fill="#FFF" />
+                                                    </svg>
+                                                    <span class="m-menu__link-text">Lease Details</span></a>
+                                            </li>
+                                            <li class="m-menu__item m-menu__item--submenu {{$route=='renew-lease.renew'?'m-menu__item--active':''}}">
+                                                <a class="m-menu__link m-menu__toggle" href="{{route('renew-lease.renew', $id)}}"
+                                                    class="m-menu__link m-menu__toggle">
+                                                    <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                        viewBox="0 0 510 510">
+                                                        <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
+                                                            fill="#FFF" />
+                                                    </svg>
+                                                    <span class="m-menu__link-text">Renew Lease</span></a>
+                                            </li>
+                                        {{--@endif--}}
+                                {{--@endif--}}
 
                             </ul>
                         </li>
                     </ul>
                 </li>
                 @endif
-                <!-- <li class="m-menu__item m-menu__item--active" aria-haspopup="true">
-                <a href="" class="m-menu__link ">
-                    <i class="m-menu__link-icon flaticon-line-graph"></i>
-                    <span class="m-menu__link-title">
-                        <span class="m-menu__link-wrap">
-                            <span class="m-menu__link-text">
-                                Dashboard
-                            </span>
-                        </span>
-                    </span>
-                </a>
-            </li> -->
 
-                {{--<li class="m-menu__item m-menu__item--active" aria-haspopup="true">
-                    <a href="{{url('/application')}}" class="m-menu__link ">
-                        <i class="m-menu__link-icon flaticon-line-graph"></i>
-                        <span class="m-menu__link-title">
-                            <span class="m-menu__link-wrap">
-                                <span class="m-menu__link-text">
-                                    Application
-                                </span>
-                            </span>
-                        </span>
-                    </a>
-                </li>--}}
-
-                {{--<li class="m-menu__item m-menu__item--active" aria-haspopup="true">
-                    <a href="" class="m-menu__link ">
-                        <i class="m-menu__link-icon flaticon-line-graph"></i>
-                        <span class="m-menu__link-title">
-                            <span class="m-menu__link-wrap">
-                                <span class="m-menu__link-text">
-                                    Profile
-                                </span>
-                            </span>
-                        </span>
-                    </a>
-                </li>--}}
                 @if(session()->get('permission') && (in_array('vp.index', session()->get('permission')) ||
                 in_array('get_sf_applications.index',session()->get('permission')) ||
                 in_array('ee.index',
@@ -757,25 +691,7 @@ $route=\Request::route()->getName();
                         @endif
 
                         @if(Session::all()['role_name'] == 'society')
-                        {{--@if(isset($ol_application_count))--}}
-                        {{--@if($ol_application_count == 0)--}}
-                        {{--<li class="m-menu__item m-menu__item--submenu">--}}
-                            {{--<a href="{{route('society_detail.application')}}" class="m-menu__link m-menu__toggle">--}}
-                                {{--<svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                    viewBox="0 0 510 510">--}}
-                                    {{--<path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
-                                        --}} {{--fill="#FFF" />--}} {{--</svg>--}}
-                                        {{--<span class="m-menu__link-text">--}} {{--Apply for Offer Letter--}}
-                                        {{--</span>--}} {{--</a>--}} {{--</li>--}} {{--@endif--}} {{--@endif--}}
-                                        {{--<li class="m-menu__item m-menu__item--submenu {{($route=='society_conveyance.index' )?'m-menu__item--active':''}}">--}}
-                                {{--<a href="{{ route('society_conveyance.index') }}"
-                                        class="m-menu__link m-menu__toggle">--}}
-                                        {{--<svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16"
-                                            height="16" viewBox="0 0 510 510">--}}
-                                            {{--<path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
-                                                --}} {{--fill="#FFF" />--}} {{--</svg>--}}
-                                                {{--<span class="m-menu__link-text">--}} {{--Society Conveyance--}}
-                                                {{--</span>--}} {{--</a>--}} {{--</li>--}} </ul> </li> <li class="m-menu__item {{($route=='society_conveyance.create' )?'m-menu__item--active':''}}">
+                    </ul> </li> <li class="m-menu__item {{($route=='society_conveyance.create' )?'m-menu__item--active':''}}">
                                                 <a href="{{ route('society_conveyance.create') }}" class="m-menu__link m-menu__toggle">
                                                     <i class="m-menu__link-icon flaticon-line-graph"></i>
                                                     <span class="m-menu__link-title">
@@ -806,25 +722,6 @@ $route=\Request::route()->getName();
                         @endif
                         @endif
 
-                        {{-- <li class="m-menu__item m-menu__item--active m-menu__item--submenu" id="sub-menu"
-                            aria-haspopup="true" m-menu-submenu-toggle="hover">
-                            <a href="javascript:void(0);" class="m-menu__link m-menu__toggle">
-                                <i class="m-menu__link-icon flaticon-line-graph"></i>
-                                <span class="m-menu__link-title">
-                                    <span class="m-menu__link-wrap">
-                                        <span class="m-menu__link-text">
-                                            Actions
-                                        </span>
-                                        <i class="m-menu__ver-arrow la la-angle-right"></i>
-                                    </span>
-                                </span>
-                            </a>
-                            <div class="m-menu__submenu" m-hidden-height="160" style=""><span class="m-menu__arrow"></span>
-                                <ul class="m-menu__subnav">
-                                    @yield('actions')
-                                </ul>
-                            </div>
-                        </li> --}}
 
                         @if(Session::all()['role_name'] == 'EM')
                         <li class="m-menu__item {{($route=='generate_tenant_bill' || $route=='get_societies')?'':'collapsed'}}"
@@ -850,11 +747,7 @@ $route=\Request::route()->getName();
                                         </span> 
                                     </a> 
                                 </li> 
-                                    {{-- <li class="m-menu__item m-menu__item--submenu {{($route=='generate_soc_bill')?'m-menu__item--active':''}}">
-                                    <a class="m-menu__link m-menu__toggle" title="view_Application" href="{{ route('generate_soc_bill') }}">
-                                        <i class="m-menu__link-icon flaticon-line-graph"></i> <span class="m-menu__link-title">
-                                            <span class="m-menu__link-wrap"> <span class="m-menu__link-text"> Generate
-                                                    Bill (Society) </span> </span> </span> </a> </li> --}} 
+
                                 <li class="m-menu__item m-menu__item--submenu {{($route=='generate_tenant_bill')?'m-menu__item--active':''}}">
                                     <a href="{{ route('generate_tenant_bill') }}" class="m-menu__link m-menu__toggle">
                                         <i class="m-menu__link-icon flaticon-line-graph"></i> 
