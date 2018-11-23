@@ -678,6 +678,7 @@ $route=\Request::route()->getName();
 
                         @php
                         $reval_redirect_to = "";
+                        
                         if(Session::all()['role_name'] == 'REE Junior Engineer' || Session::all()['role_name'] ==  'REE deputy Engineer' || Session::all()['role_name'] == 'REE Assistant Engineer' || Session::all()['role_name'] == 'ree_engineer')
                             $reval_redirect_to = "ree_applications.noc";
                         elseif(Session::all()['role_name'] == 'co_engineer' )
