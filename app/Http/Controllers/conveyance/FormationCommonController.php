@@ -191,12 +191,18 @@ class FormationCommonController extends Controller
 
     public function getForwardApplicationParentData()
     {
-
-        $role_id = Role::where('id', Auth::user()->role_id)->first();
-        $result = json_decode($role_id->conveyance_parent_id);
-        //dd($result);
+        $result=array();
+        if(session()->get('role_name')==config('commanConfig.dyco_engineer'))
+        {
+            $role_id = Role::where('name', config('commanConfig.estate_manager'))->first();
+            $result[]=$role_id->id;
+        }else
+        {
+            $role_id = Role::where('id', Auth::user()->role_id)->first();
+            $result = json_decode($role_id->conveyance_parent_id);
+        }
+       // dd($result);
         $parent = "";
-        
         if ($result) {
             $parent = User::with(['roles', 'LayoutUser' => function ($q) {
                 $q->where('layout_id', session('layout_id'));
