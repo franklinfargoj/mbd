@@ -41,7 +41,7 @@
                 $enclosuers_count=$application->enclosures->count();
                 $enclosuers_count=$enclosuers_count>4?$enclosuers_count:4;
             @endphp
-            <div class="enclosuers">
+            <div class="enclosuers col-md-6">
             @for($i=0;$i<$enclosuers_count;$i++)
             <div class="cloneme">
                 <div class="input-row-list">
