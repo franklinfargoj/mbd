@@ -783,7 +783,7 @@ Breadcrumbs::for('architect_generate_certificate', function ($trail,$id) {
 
 Breadcrumbs::for('architect_finalCertificateGenerate', function ($trail,$id) {
     $trail->parent('architect_application');
-    $trail->push('Download Certificate', route('finalCertificateGenerate',['id'=>$id]));
+    $trail->push('View Certificate', route('finalCertificateGenerate',['id'=>$id]));
 });
 
 //architect layouts

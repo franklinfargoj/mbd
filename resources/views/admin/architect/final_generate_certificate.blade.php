@@ -6,7 +6,7 @@
 <div class="col-md-12">
         <div class="m-subheader px-0 m-subheader--top">
                 <div class="d-flex align-items-center">
-                    <h3 class="m-subheader__title m-subheader__title--separator">Issue certificate to selected candidate</h3>
+                    <h3 class="m-subheader__title m-subheader__title--separator">View certificate</h3>
                     {{ Breadcrumbs::render('architect_finalCertificateGenerate',$ArchitectApplication->id) }}
                 </div>
                 {{-- @if(session('error'))

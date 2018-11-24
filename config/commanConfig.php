@@ -146,6 +146,13 @@ return [
          'approved' => 4,
         // 'final' => 5
     ],
+    'architect_applicationStatusColor' => [
+        '1' => 'metal',
+        '2' => 'metal',
+        '3' => 'info',
+        '4' => 'success',
+        // 'final' => 5
+    ],
     'architect_layout_status' => [
         'new_application' => 1,
         'scrutiny_pending' => 2,

@@ -64,7 +64,7 @@ class ArchitectApplicationController extends Controller
             ['data' => 'candidate_name', 'name' => 'candidate_name', 'title' => 'Candidate Name'],
             ['data' => 'email_and_mobile', 'name' => 'email_and_mobile', 'title' => 'Email ID & Mobile No'],
             ['data' => 'grand_total', 'name' => 'grand_total', 'title' => 'Grand Total'],
-            ['data' => 'status', 'name' => 'status', 'title' => 'Status'],
+            ['data' => 'Status', 'name' => 'Status', 'title' => 'Status'],
             ['data' => 'view', 'name' => 'view', 'title' => 'Action']
         ];
 
@@ -103,7 +103,7 @@ class ArchitectApplicationController extends Controller
                     }
                     return  ($architect_applications->application_marks+$total_marks)==0?'-':($architect_applications->application_marks+$total_marks);
                 })
-                ->editColumn('status', function ($architect_applications) {
+                ->editColumn('Status', function ($architect_applications) {
 
                     //return isset($architect_applications->ArchitectApplicationStatusForLoginListing[0])?$architect_applications->ArchitectApplicationStatusForLoginListing[0]->status_id:config('commanConfig.architect_applicationStatus.new_application');
                     $status = isset($architect_applications->ArchitectApplicationStatusForLoginListing[0]) ? $architect_applications->ArchitectApplicationStatusForLoginListing[0]->status_id : '1';
@@ -112,13 +112,14 @@ class ArchitectApplicationController extends Controller
                     if ($architect_applications->application_status == 'Final' && $status == 1) {
                         return $architect_applications->application_status;
                     }
-                    return $value . ($architect_applications->application_status == 'None' ? '' : ' & ' . $architect_applications->application_status);
+                    return '<span class="m-badge m-badge--' . config('commanConfig.architect_applicationStatusColor.' . $status) . ' m-badge--wide">' . $value . ($architect_applications->application_status == 'None' ? '' : ' & ' . $architect_applications->application_status) . '</span>';
+                    //return $value . ($architect_applications->application_status == 'None' ? '' : ' & ' . $architect_applications->application_status);
                 })
                 ->editColumn('view', function ($architect_applications) use($is_commitee,$is_view){
                      return view('admin.architect.view_layout', compact('architect_applications','is_commitee','is_view'))->render();
                 })
                 
-                ->rawColumns(['application_number', 'application_date', 'candidate_name','email_and_mobile', 'grand_total','view'])
+                ->rawColumns(['application_number', 'application_date', 'candidate_name','email_and_mobile', 'grand_total','Status','view'])
                 ->make(true);
         }
 
