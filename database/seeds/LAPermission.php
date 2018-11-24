@@ -82,6 +82,51 @@ class LAPermission extends Seeder
                 'display_name' => 'post_forward_architect_layout',
                 'description' => 'post_forward_architect_layout',
             ],
+            [
+                'name' => 'conveyance.index',
+                'display_name' => 'List of Conveyance Applications',
+                'description' => 'List of Conveyance Applications',
+            ],
+            [
+                'name' => 'conveyance.view_documents',
+                'display_name' => 'View Documents',
+                'description' => 'View Documents Submitted'
+            ],
+            [
+                'name' => 'em.save_conveyance_no_dues_certificate',
+                'display_name' => 'Save no dues certificate',
+                'description' => 'Saves no dues certificate'
+            ],
+            [
+                'name'         => 'conveyance.view_application',
+                'display_name' => 'conveyance application',
+                'description'  => 'conveyance application'
+            ],
+            [
+                'name' => 'conveyance.forward_application_sc',
+                'display_name' => 'Forward Application',
+                'description' => 'Forwards conveyance Application'
+            ],
+            [
+                'name' => 'conveyance.save_forward_application',
+                'display_name' => 'Saves Forward Application',
+                'description' => 'Saves Forwards conveyance Application'
+            ],
+            [
+                'name'         => 'sc_upload_docs',
+                'display_name' => 'Upload Documents',
+                'description'  => 'Shows society conveyance docuemnts list'
+            ],
+            [
+                'name'         => 'conveyance.la_agreement_riders',
+                'display_name' => 'Sale & Lease deed agreements',
+                'description'  => 'Sale & Lease deed agreements'
+            ],
+            [
+                'name'         => 'conveyance.upload_la_agreement_riders',
+                'display_name' => 'Uploads Sale & Lease deed agreements riders',
+                'description'  => 'Uploads Sale & Lease deed agreements riders'
+            ],
         ];
 
         $role_id = Role::where('name', '=', 'la_engineer')->first();

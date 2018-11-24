@@ -62,7 +62,9 @@ class SocietyRenewalController extends Controller
         $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $ol_application_count = count(SocietyConveyance::where('society_id', $society_details->id)->get());
         if ($datatables->getRequest()->ajax()) {
-            $sr_applications = RenewalApplication::where('society_id', $society_details->id)->with(['srApplicationType', 'srApplicationLog' => function($q){
+            $sr_applications = RenewalApplication::where('society_id', $society_details->id)->with(['srApplicationType' => function($q){
+                $q->where('application_type', config('commanConfig.applicationType.Renewal'))->first();
+            }, 'srApplicationLog' => function($q){
                 $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
             } ])->orderBy('id', 'desc');
 

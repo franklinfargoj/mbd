@@ -70,6 +70,7 @@ class EMController extends Controller
         }else{
             $content = "";
         }
+
         return view('admin.conveyance.em_department.scrutiny_remark',compact('data', 'content', 'no_dues_certificate_docs', 'bonafide_docs', 'covering_letter_docs'));
     }
 
@@ -204,6 +205,106 @@ class EMController extends Controller
      */
     public function uploadListOfAllottees(Request $request){
         dd($request->all());
+        if($request->file('template')) {
+            $file = $request->file('template');
+            $file_name = time() . $file->getFileName() . '.' . $file->getClientOriginalExtension();
+            $extension = $request->file('template')->getClientOriginalExtension();
+            $request->flash();
+            if ($extension == "xls") {
+                $time = time();
+                $name = File::name(str_replace(' ', '_',$request->file('template')->getClientOriginalName())) . '_' . $time . '.' . $extension;
+                $folder_name = "society_conveyance_documents";
+                $path = '/' . $folder_name . '/' . $name;
+                $fileUpload = $this->CommonController->ftpFileUpload($folder_name, $request->file('template'), $name);
+                $count = 0;
+                $sc_excel_headers = [];
+                Excel::load($request->file('template')->getRealPath(), function ($reader)use(&$count, &$sc_excel_headers) {
+                    if(count($reader->toArray()) > 0){
+                        $excel_headers = $reader->first()->keys()->toArray();
+                        $sc_excel_headers = config('commanConfig.sc_excel_headers');
+
+                        foreach($excel_headers as $excel_headers_key => $excel_headers_val){
+                            $excel_headers_value = strtolower(str_replace(str_split('\\/- '), '_', $sc_excel_headers[$excel_headers_key]));
+                            if($excel_headers_value == $excel_headers_val){
+                                $count++;
+                            }else{
+                                $exploded = explode('_', $excel_headers_value);
+                                foreach($exploded as $exploded_key => $exploded_value){
+                                    if(!empty(strpos($excel_headers_val, $exploded_value))){
+                                        $count++;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+
+                if($count != 0){
+                    if($count == count($sc_excel_headers)){
+                        $input = $request->all();
+                        $input['first_flat_issue_date'] = date('Y-m-d', strtotime($request->first_flat_issue_date));
+                        $input['society_registration_date'] = date('Y-m-d', strtotime($request->society_registration_date));
+                        $input['template_file'] = $path;
+                        unset($input['layout_id'], $input['template'], $input['_token'], $input['sc_application_master_id']);
+
+                        $sc = new SocietyConveyance;
+                        $sc_application_form =  $sc->getFillable();
+
+                        $sc_form_last_id = '';
+                        $sc_appn = new scApplication;
+                        $sc_application = array_slice($sc_appn->getFillable(), 0, 5);
+
+                        $input_sc_application = array(
+                            "sc_application_master_id" => $request->sc_application_master_id,
+                            "application_no" => str_pad($sc_form_last_id, 5, '0', STR_PAD_LEFT),
+                            "society_id" => $request->society_id,
+                            "form_request_id" => $sc_form_last_id,
+                            "layout_id" => $request->layout_id
+                        );
+                        $sc_application_last_id = '';
+                        $role_id = Role::where('name', config('commanConfig.dycdo_engineer'))->first();
+                        $user_ids = RoleUser::where('role_id', $role_id->id)->get();
+                        $layout_user_ids = LayoutUser::where('layout_id', $request->input('layout_id'))->whereIn('user_id', $user_ids)->get();
+
+                        foreach ($layout_user_ids as $key => $value) {
+                            $select_user_ids[] = $value['user_id'];
+                        }
+                        $users = User::whereIn('id', $select_user_ids)->get();
+
+                        if(count($sc_application_form) > count($input) && count($sc_application) == count($input_sc_application) && count($users) > 0){
+                            $insert_arr = array(
+                                'users' => $users
+                            );
+//                            $input_id = SocietyConveyance::create($input);
+                            $input_sc_application['application_no'] = config('commanConfig.mhada_code').str_pad($input_id->id, 5, '0', STR_PAD_LEFT);
+                            $input_sc_application['form_request_id'] = $input_id->id;
+//                            $sc_application = scApplication::create($input_sc_application);
+
+                            $inserted_application_log = $this->CommonController->sc_application_status_society($insert_arr, config('commanConfig.applicationStatus.pending'), $sc_application);
+
+                            $sc_document_status = new SocietyConveyanceDocumentStatus;
+                            $sc_document_status_arr = array_flip($sc_document_status->getFillable());
+                            $sc_document_status_arr['application_id'] = $sc_application->id;
+                            $sc_document_status_arr['society_flag'] = 1;
+                            $sc_document_status_arr['document_id'] = $this->conveyance_common->getDocumentId();
+                            $sc_document_status_arr['document_path'] = $path;
+
+                            SocietyConveyanceDocumentStatus::create($sc_document_status_arr);
+
+                            if($inserted_application_log == true){
+                                return redirect()->route('society_conveyance.show', base64_encode($sc_application->id));
+                            }
+                        }
+                    }else{
+                        return redirect()->route('society_conveyance.create')->withErrors('error', "Excel file headers doesn't match")->withInput();
+                    }
+                }else{
+                    return redirect()->route('society_conveyance.create')->withErrors('error', "Excel file is empty.")->withInput();
+                }
+            }
+        }else{
+            return redirect()->route('society_conveyance.create')->withErrors('error', "Excel file headers doesn't match")->withInput();
+        }
     }
 
     /**

@@ -1,6 +1,6 @@
 @extends('frontend.layouts.sidebarAction')
 @section('actions')
-    @include('frontend.society.conveyance.actions',compact('sc_application'))
+    @include('admin.conveyance.la_department.action',compact('sc_application'))
 @endsection
 @section('content')
 
@@ -15,81 +15,20 @@
             </div>
             <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom" role="tablist">
                 <li class="nav-item m-tabs__item em_tabs" id="section-1">
-                    <a class="nav-link m-tabs__link active show" data-toggle="tab" href="#stamp-duty-letter" role="tab"
-                       aria-selected="false">
-                        <i class="la la-cog"></i> Letter to Pay Stamp Duty
-                    </a>
-                </li>
-                <li class="nav-item m-tabs__item em_tabs" id="section-2">
                     <a class="nav-link m-tabs__link" data-toggle="tab" href="#sale-deed-agreement" role="tab" aria-selected="true">
                         <i class="la la-bell-o"></i> Sale Deed Agreement
                     </a>
                 </li>
-                <li class="nav-item m-tabs__item em_tabs" id="section-3">
+                <li class="nav-item m-tabs__item em_tabs" id="section-2">
                     <a class="nav-link m-tabs__link" data-toggle="tab" href="#lease-deed-agreement" role="tab" aria-selected="true">
                         <i class="la la-bell-o"></i> Lease Deed Agreement
-                    </a>
-                </li>
-                <li class="nav-item m-tabs__item em_tabs" id="section-4">
-                    <a class="nav-link m-tabs__link" data-toggle="tab" href="#society-resolution-undertaking" role="tab" aria-selected="true">
-                        <i class="la la-bell-o"></i> Society Resolution & Undertalking
                     </a>
                 </li>
             </ul>
         </div>
 
         <div class="tab-content">
-            <div class="tab-pane section-1 active show" id="stamp-duty-letter" role="tabpanel">
-                <div class="m-portlet m-portlet--mobile m_panel">
-                    <div class="m-portlet__body" style="padding-right: 0;">
-                        <div class=" row-list">
-                            <div class="row">
-                                @if(count($uploaded_document_ids) > 0 && isset($uploaded_document_ids['pay_stamp_duty_letter']))
-                                    <div class="col-sm-6">
-                                        <div class="d-flex flex-column h-100">
-                                            <span class="hint-text">Click on 'Download' to download Pay Stamp Duty Letter</span>
-                                            <p></p>
-                                                <a href="{{ config('commanConfig.storage_server') .'/'. $uploaded_document_ids['pay_stamp_duty_letter']->sc_document_status->document_path }}" target="_blank" class="btn btn-primary btn-custom" rel="noopener">Download Pay Stamp Duty Letter</a>
-                                        </div>
-                                    </div>
-                                @endif
-                                <div class="col-md-6 @if(count($uploaded_document_ids) > 0 && isset($uploaded_document_ids['pay_stamp_duty_letter'])) border-left @endif">
-                                    {{--<h5>Letter to Pay Stamp Duty</h5>--}}
-                                    <span class="hint-text">Click on 'Upload' to Letter to Pay Stamp Duty</span>
-                                    <p>
-                                        {{--@if (session(config('commanConfig.no_dues_certificate.redirect_message_status.upload')))--}}
-                                        {{--<div class="alert alert-success society_registered">--}}
-                                        {{--<div class="text-center">{{ session(config('commanConfig.no_dues_certificate.redirect_message_status.upload')) }}</div>--}}
-                                        {{--</div>--}}
-                                        {{--@endif--}}
-                                        {{--@if (session('error'))--}}
-                                        {{--<div class="alert alert-danger society_registered">--}}
-                                        {{--<div class="text-center">{{ session('error') }}</div>--}}
-                                        {{--</div>--}}
-                                        {{--@endif--}}
-                                    </p>
-                                    <form action="{{ route('upload_sale_lease') }}" id="stamp_duty_letter" method="post" enctype="multipart/form-data">
-                                        @csrf
-                                        <div class="custom-file">
-                                            <input class="custom-file-input pdfcheck" name="document_path" type="file"
-                                                   id="test-upload" required="required">
-                                            <label class="custom-file-label" for="test-upload">Choose
-                                                file...</label>
-                                            <span class="text-danger" id="file_error"></span>
-                                            <input type="hidden" id="application_id" name="application_id" value="{{ $sc_application->id }}">
-                                            <input type="hidden" id="document_name" name="document_name" value="{{ $documents['pay_stamp_duty_letter'] }}">
-                                        </div>
-                                        <div class="mt-auto">
-                                            <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="tab-pane section-2" id="sale-deed-agreement" role="tabpanel">
+            <div class="tab-pane section-1 active show" id="sale-deed-agreement" role="tabpanel">
                 <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
                     <div class="portlet-body">
                         <div class="m-portlet__body" style="padding-right: 0;">
@@ -152,7 +91,7 @@
                                     <div class="row">
                                         <div class="col-sm-12">
                                             <div class="d-flex flex-column h-100">
-                                                <h5>Comments</h5>
+                                                <h5>Remarks</h5>
                                                 <p>
                                                 @if (session(config('commanConfig.no_dues_certificate.redirect_message_status.upload')))
                                                     <div class="alert alert-success society_registered">
@@ -165,13 +104,16 @@
                                                     </div>
                                                     @endif
                                                     </p>
-                                                    <form action="{{ route('upload_sale_lease') }}" id="sale_deed_agreement_comment" method="post" enctype="multipart/form-data">
+                                                    <form action="{{ route('conveyance.upload_la_agreement_riders') }}" id="upload_sale_lease_deed_riders" method="post" enctype="multipart/form-data">
                                                         @csrf
-                                                        <textarea name="remark" rows="5" cols="30" id="remark" class="form-control form-control--custom"></textarea>
+                                                        <label class="col-form-label" for="remark">Riders:</label>
+                                                        <textarea name="remark" rows="5" cols="30" id="remark" class="form-control form-control--custom" @if($sc_application->riders != null) {{ "readonly" }} @endif>@if($sc_application->riders != null) {{ $sc_application->riders }} @endif</textarea>
                                                         <input type="hidden" id="application_id" name="application_id" value="{{ $sc_application->id }}">
-                                                        <input type="hidden" id="document_name" name="document_name" value="{{ $documents['sale_deed_agreement']}}">
+                                                        <input type="hidden" id="document_name" name="document_name" value="{{ $documents['lease_deed_agreement']}}">
                                                         <div class="mt-auto">
-                                                            <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
+                                                            @if($sc_application->riders == null)
+                                                                <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
+                                                            @endif
                                                         </div>
                                                     </form>
                                             </div>
@@ -183,7 +125,7 @@
                     </div>
                 </div>
             </div>
-            <div class="tab-pane section-3" id="lease-deed-agreement" role="tabpanel">
+            <div class="tab-pane section-2" id="lease-deed-agreement" role="tabpanel">
                 <!-- Society Resolution div here -->
                 <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
                     <div class="portlet-body">
@@ -247,7 +189,7 @@
                                     <div class="row">
                                         <div class="col-sm-12">
                                             <div class="d-flex flex-column h-100">
-                                                <h5>Comments</h5>
+                                                <h5>Remarks</h5>
                                                 <p>
                                                 @if (session(config('commanConfig.no_dues_certificate.redirect_message_status.upload')))
                                                     <div class="alert alert-success society_registered">
@@ -260,125 +202,19 @@
                                                     </div>
                                                     @endif
                                                     </p>
-                                                    <form action="{{ route('upload_sale_lease') }}" id="lease_deed_agreement_comment" method="post" enctype="multipart/form-data">
+                                                    <form action="{{ route('conveyance.upload_la_agreement_riders') }}" id="upload_sale_lease_deed_riders" method="post" enctype="multipart/form-data">
                                                         @csrf
-                                                        <textarea name="remark" rows="5" cols="30" id="remark" class="form-control form-control--custom"></textarea>
+                                                        <label class="col-form-label" for="remark">Riders:</label>
+                                                        <textarea name="remark" rows="5" cols="30" id="remark" class="form-control form-control--custom" @if($sc_application->riders != null) {{ "readonly" }} @endif>@if($sc_application->riders != null) {{ $sc_application->riders }} @endif</textarea>
                                                         <input type="hidden" id="application_id" name="application_id" value="{{ $sc_application->id }}">
                                                         <input type="hidden" id="document_name" name="document_name" value="{{ $documents['lease_deed_agreement']}}">
                                                         <div class="mt-auto">
-                                                            <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
+                                                            @if($sc_application->riders == null)
+                                                                <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
+                                                            @endif
                                                         </div>
                                                     </form>
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="tab-pane section-4" id="society-resolution-undertaking" role="tabpanel">
-                <!-- Society Resolution div here -->
-                <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
-                    <div class="portlet-body">
-                        <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
-                            <div class="m-subheader">
-                                {{--<h4>Society Resolution</h4>--}}
-                                <div class="row">
-                                    @if(count($uploaded_document_ids) > 0 && isset($uploaded_document_ids['sc_resolution']))
-                                        <div class="col-sm-6">
-                                            <div class="d-flex flex-column h-100">
-                                                <span class="hint-text">Click on 'Download' to downaload Society Resolution</span>
-                                                <p></p>
-                                                <a href="{{ config('commanConfig.storage_server') .'/'. $uploaded_document_ids['sc_resolution']->sc_document_status->document_path }}" target="_blank" class="btn btn-primary btn-custom" rel="noopener">Download Society Resolution</a>
-                                            </div>
-                                        </div>
-                                    @endif
-                                    <div class="col-sm-6 @if(count($uploaded_document_ids) > 0 && isset($uploaded_document_ids['sc_resolution'])) border-left @endif">
-                                        <div class="d-flex flex-column h-100">
-                                            {{--<h5>Upload Signed & Stamped society resolution here</h5>--}}
-                                            <span class="hint-text">Click on 'Upload' to upload signed & stamped society resolution.</span>
-                                            <p>
-                                            @if (session(config('commanConfig.no_dues_certificate.redirect_message_status.upload')))
-                                                <div class="alert alert-success society_registered">
-                                                    <div class="text-center">{{ session(config('commanConfig.no_dues_certificate.redirect_message_status.upload')) }}</div>
-                                                </div>
-                                            @endif
-                                            @if (session('error'))
-                                                <div class="alert alert-danger society_registered">
-                                                    <div class="text-center">{{ session('error') }}</div>
-                                                </div>
-                                                @endif
-                                                </p>
-                                                <form action="{{ route('upload_sale_lease') }}" id="society_resolution" method="post" enctype="multipart/form-data">
-                                                    @csrf
-                                                    <div class="custom-file">
-                                                        <input class="custom-file-input pdfcheck" name="document_path" type="file"
-                                                               id="test-upload" required="required">
-                                                        <label class="custom-file-label" for="test-upload">Choose
-                                                            file...</label>
-                                                        <span class="text-danger" id="file_error"></span>
-                                                        <input type="hidden" id="application_id" name="application_id" value="{{ $sc_application->id }}">
-                                                        <input type="hidden" id="document_name" name="document_name" value="{{ $documents['sc_resolution']}}">
-                                                    </div>
-                                                    <div class="mt-auto">
-                                                        <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
-                                                    </div>
-                                                </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
-                    <div class="portlet-body">
-                        <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
-                            <div class="w-100 row-list">
-                                {{--<h4>Society undertaking</h4>--}}
-                                <div class="row">
-                                    @if(count($uploaded_document_ids) > 0 && isset($uploaded_document_ids['sc_undertaking']))
-                                        <div class="col-sm-6">
-                                            <div class="d-flex flex-column h-100">
-                                                <span class="hint-text">Click on 'download' to download Society Undertaking</span>
-                                                <p></p>
-                                                <a href="{{ config('commanConfig.storage_server') .'/'. $uploaded_document_ids['sc_undertaking']->sc_document_status->document_path }}" target="_blank" class="btn btn-primary btn-custom" rel="noopener">Download Society Undertaking</a>
-                                            </div>
-                                        </div>
-                                    @endif
-                                    <div class="col-sm-6 @if(count($uploaded_document_ids) > 0 && isset($uploaded_document_ids['sc_undertaking'])) border-left @endif">
-                                        <div class="d-flex flex-column h-100">
-                                            {{--<h5>Upload Signed & Stamped society undertaking here</h5>--}}
-                                            <span class="hint-text">Click on 'Upload' to upload signed & stamped society undertaking</span>
-                                            <p>
-                                            @if (session(config('commanConfig.no_dues_certificate.redirect_message_status.upload')))
-                                                <div class="alert alert-success society_registered">
-                                                    <div class="text-center">{{ session(config('commanConfig.no_dues_certificate.redirect_message_status.upload')) }}</div>
-                                                </div>
-                                            @endif
-                                            @if (session('error'))
-                                                <div class="alert alert-danger society_registered">
-                                                    <div class="text-center">{{ session('error') }}</div>
-                                                </div>
-                                                @endif
-                                                </p>
-                                                <form action="{{ route('upload_sale_lease') }}" id="society_undertaking" method="post" enctype="multipart/form-data">
-                                                    @csrf
-                                                    <div class="custom-file">
-                                                        <input class="custom-file-input pdfcheck" name="document_path" type="file"
-                                                               id="test-upload" required="required">
-                                                        <label class="custom-file-label" for="test-upload">Choose
-                                                            file...</label>
-                                                        <span class="text-danger" id="file_error"></span>
-                                                        <input type="hidden" id="application_id" name="application_id" value="{{ $sc_application->id }}">
-                                                        <input type="hidden" id="document_name" name="document_name" value="{{ $documents['sc_undertaking']}}">
-                                                    </div>
-                                                    <div class="mt-auto">
-                                                        <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
-                                                    </div>
-                                                </form>
                                         </div>
                                     </div>
                                 </div>
