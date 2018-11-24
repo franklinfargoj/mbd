@@ -339,7 +339,7 @@
                                                 <textarea class="form-control form-control--custom" name="remark" id="remark"
                                                     cols="30" rows="5"></textarea>
                                             </div>
-                                            @if(isset($data->conveyance_map))
+                                            @if($data->conveyance_map == null)
                                             <div class="mt-3 btn-list">
                                                 <button type="submit" class="btn btn-primary">Save</button>
                                                 {{--<button type="submit" id="sign" class="btn btn-primary forwrdBtn">Sign</button>

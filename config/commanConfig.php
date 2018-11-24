@@ -19,6 +19,7 @@ return [
     'ree_junior' => 'REE Junior Engineer',
     'dycdo_engineer' => 'dycdo_engineer',
     'dyco_engineer' => 'dyco_engineer',
+    'la_engineer' => 'la_engineer',
 
     'senior_architect_planner'=>'senior_architect_planner',
 
@@ -112,7 +113,8 @@ return [
             ],
             'covering_letter' => [
                 'em_covering_letter'
-            ]
+            ],
+            'stamp_conveyance_application' => 'stamp_conveyance_application'
         ]
     ], 
 

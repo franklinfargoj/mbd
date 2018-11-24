@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\SocietyConveyance;
 use App\SocietyOfferLetter;
+use App\conveyance\ScAgreementComments;
 use App\OlApplication;
 use Illuminate\Support\Facades\Session;
 use Yajra\DataTables\DataTables;
@@ -290,7 +291,7 @@ class SocietyConveyanceController extends Controller
         $fillable_field_names = $sc->getFillable();
         if(in_array('language_id', $fillable_field_names) == true || in_array('society_id', $fillable_field_names) == true){
             $field_name = array_flip($fillable_field_names);
-            unset($field_name['language_id'], $field_name['society_id'], $field_name['template_file']);
+            unset($field_name['language_id'], $field_name['society_id'], $field_name['template_file'], $field_name['prev_lease_agreement_no']);
             $fields_names = array_flip($field_name);
             $field_names = array_values($fields_names);
         }
@@ -684,17 +685,19 @@ class SocietyConveyanceController extends Controller
         );
         $application_type = scApplicationType::where('application_type', config('commanConfig.applicationType.Conveyance'))->value('id');
         $document_ids = $this->conveyance_common->getDocumentIds($documents_req, $application_type);
-
+        $uploaded_document_ids = [];
+        $documents_remaining_ids = [];
         foreach($document_ids as $document_id){
             $documents[str_replace(' ', '_', strtolower($document_id->document_name))] = $document_id->document_name;
-
-            if($document_id->sc_document_status != null){
-                $uploaded_document_ids[str_replace(' ', '_', strtolower($document_id->document_name))] = $document_id->document_name;
+            if($document_id->sc_document_status !== null){
+                $uploaded_document_ids[str_replace(' ', '_', strtolower($document_id->document_name))] = $document_id;
             }else{
-                $documents_remaining_ids[str_replace(' ', '_', strtolower($document_id->document_name))] = $document_id->document_name;
+                $documents_remaining_ids[str_replace(' ', '_', strtolower($document_id->document_name))] = $document_id;
             }
         }
-        return view('frontend.society.conveyance.sale_lease_deed', compact('sc_application', 'documents', 'uploaded_document_ids', 'documents_remaining_ids'));
+        $sc_agreement_comment = ScAgreementComments::with('scAgreementId')->get();
+
+        return view('frontend.society.conveyance.sale_lease_deed', compact('sc_application', 'documents', 'uploaded_document_ids', 'documents_remaining_ids', 'sc_agreement_comment'));
     }
 
     /**
@@ -738,9 +741,25 @@ class SocietyConveyanceController extends Controller
             $folder_name = "society_conveyance_documents";
             $path = '/' . $folder_name . '/' . $name;
             $fileUpload = $this->CommonController->ftpFileUpload($folder_name, $file, $name);
-            $uploaded = $this->conveyance_common->uploadDocumentStatus($request->application_id, $request->document_name, $request->document_path);
+            $uploaded = $this->conveyance_common->uploadDocumentStatus($request->application_id, $request->document_name, $path);
             if(count($uploaded) > 0){
                 return redirect()->route('show_sale_lease', $insert_arr['application_id']);
+            }
+        }else{
+            if(!empty($request->remark)){
+                $application_master_id = scApplicationType::where('application_type', config('commanConfig.applicationType.Conveyance'))->first();
+                $document_id = $this->conveyance_common->getDocumentId($request->document_name, $application_master_id->id);
+                $input = array(
+                    'application_id' => $request->application_id,
+                    'user_id' => Auth::user()->id,
+                    'role_id' => Session::get('role_id'),
+                    'agreement_type_id' => $document_id,
+                    'remark' => $request->remark
+                );
+                $inserted_data = ScAgreementComments::create($input);
+                if(count($inserted_data) > 0){
+                    return redirect()->route('show_sale_lease', $input['application_id']);
+                }
             }
         }
     }
