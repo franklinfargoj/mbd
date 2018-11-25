@@ -479,6 +479,10 @@ class DYCOController extends Controller
         return view('admin.conveyance.dyco_department.conveyance_noc',compact('data'));
     }
 
+    public function GenerateConveyanceNOC(Request $request,$applicationId){
+        
+    }
+
     //send application to society
     public function SendToSociety(Request $request){
 
