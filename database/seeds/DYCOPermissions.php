@@ -227,6 +227,16 @@ class DYCOPermissions extends Seeder
                 'name'=>'formation.em_srutiny_and_remark',
                 'display_name'=>'display the scrutiny report of EM for SF',
                 'description'=>'display the scrutiny report of EM for SF'
+            ],             
+            [
+                'name'=>'dyco.generate_canveyance_noc',
+                'display_name'=>'generate canveyance noc',
+                'description'=>'generate canveyance noc'
+            ],             
+            [
+                'name'=>'dyco.save_noc',
+                'display_name'=>'save noc',
+                'description'=>'save noc'
             ]      
         ];
 

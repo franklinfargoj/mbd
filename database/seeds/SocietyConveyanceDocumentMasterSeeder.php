@@ -322,7 +322,43 @@ class SocietyConveyanceDocumentMasterSeeder extends Seeder
                 'application_type_id' => $formation,
                 'society_flag'        => '0',
                 'language_id'         => $mLanguage
-            ]
+            ],
+            [
+                'document_name'=>'conveynace_draft_NOC',
+                'application_type_id' => $conveyanceId,
+                'society_flag'        => '0',
+                'language_id'         => $eLanguage
+            ],            
+            [
+                'document_name'=>'conveynace_text_NOC',
+                'application_type_id' => $conveyanceId,
+                'society_flag'        => '0',
+                'language_id'         => $eLanguage
+            ],            
+            [
+                'document_name'=>'conveynace_uploaded_NOC',
+                'application_type_id' => $conveyanceId,
+                'society_flag'        => '0',
+                'language_id'         => $eLanguage
+            ],            
+            [
+                'document_name'=>'renewal_draft_NOC',
+                'application_type_id' => $renewalId,
+                'society_flag'        => '0',
+                'language_id'         => $eLanguage
+            ],           
+            [
+                'document_name'=>'renewal_text_NOC',
+                'application_type_id' => $renewalId,
+                'society_flag'        => '0',
+                'language_id'         => $eLanguage
+            ],            
+            [
+                'document_name'=>'renewal_uploaded_NOC',
+                'application_type_id' => $renewalId,
+                'society_flag'        => '0',
+                'language_id'         => $eLanguage
+            ]            
         ];
 
         if(count($society) == 0){

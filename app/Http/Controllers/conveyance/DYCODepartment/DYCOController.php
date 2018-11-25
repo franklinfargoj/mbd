@@ -476,13 +476,80 @@ class DYCOController extends Controller
         $data->is_view = session()->get('role_name') == config('commanConfig.dyco_engineer'); 
         $data->status = $this->common->getCurrentStatus($applicationId,$data->sc_application_master_id); 
         $data->conveyance_map = $this->common->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
+
+        $masterId = $data->sc_application_master_id;
+        $draft  = config('commanConfig.scAgreements.conveynace_draft_NOC');        
+        $draftId = $this->common->getScAgreementId($draft,$masterId);
+        $data->draftNOC = $this->common->getScAgreement($draftId,$applicationId,NULL);
+        // dd($data);
         return view('admin.conveyance.dyco_department.conveyance_noc',compact('data'));
     }
 
     public function GenerateConveyanceNOC(Request $request,$applicationId){
-        
+        // dd("hi");
+        $data = scApplication::with(['societyApplication'])->where('id',$applicationId)
+        ->first();
+        return view('admin.conveyance.dyco_department.generate_noc',compact('applicationId','data'));        
     }
 
+    public function saveNOC(Request $request){
+        $id = $request->applicationId;
+        $masterId = scApplication::where('id',$id)->value('sc_application_master_id');
+        $draft  = config('commanConfig.scAgreements.conveynace_draft_NOC');        
+        $draftId = $this->common->getScAgreementId($draft,$masterId);
+        
+        $content = str_replace('_', "", $_POST['ckeditorText']);
+        $folder_name = 'Conveynace_Draft_NOC';
+
+        $header_file = view('admin.REE_department.offer_letter_header');        
+        $footer_file = view('admin.REE_department.offer_letter_footer');
+        $pdf = \App::make('dompdf.wrapper');
+
+        $pdf->loadHTML($header_file.$content.$footer_file);
+    
+        $fileName = time().'_draft_noc_'.$id.'.pdf';
+        $filePath = $folder_name."/".$fileName;
+
+        if (!(Storage::disk('ftp')->has($folder_name))) {            
+            Storage::disk('ftp')->makeDirectory($folder_name, $mode = 0777, true, true);
+        } 
+        Storage::disk('ftp')->put($filePath, $pdf->output());
+        $file = $pdf->output();
+
+        $draftLetter = $this->common->getScAgreement($draftId,$id,NULL);
+       
+        if ($draftLetter){
+            $this->common->updateScAgreement($id,$draftId,$filePath,NULL);                    
+        }else{
+            $this->common->createScAgreement($id,$draftId,$filePath,NULL);
+        }
+        
+        //text offer letter
+
+        $text  = config('commanConfig.scAgreements.conveynace_text_NOC');
+        $textId = $this->common->getScAgreementId($text,$masterId);
+
+        $folder_name1 = 'Conveynace_Text_NOC';
+
+        if (!(Storage::disk('ftp')->has($folder_name1))) {            
+            Storage::disk('ftp')->makeDirectory($folder_name1, $mode = 0777, true, true);
+        }        
+        $file_nm =  time()."_text_noc_".$id.'.txt';
+        $filePath1 = $folder_name1."/".$file_nm;
+
+        Storage::disk('ftp')->put($filePath1, $content);
+
+        $textLetter = $this->common->getScAgreement($textId,$id,NULL);
+       
+        if ($textLetter){
+            $this->common->updateScAgreement($id,$textId,$filePath1,NULL);                    
+        }else{
+            $this->common->createScAgreement($id,$textId,$filePath1,NULL);
+        } 
+        // dd($draftLetter);
+        return redirect('conveyance_noc/'.$request->applicationId)->with('success', 'NOC Generated Successfully..');        
+    }
+ 
     //send application to society
     public function SendToSociety(Request $request){
 

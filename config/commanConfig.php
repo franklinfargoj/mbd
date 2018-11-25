@@ -79,6 +79,12 @@ return [
         'renewal_text_stamp_duty_letter' => 'renewal_text_stamp_duty_letter',
         'renewal_draft_stamp_duty_letter' => 'renewal_draft_stamp_duty_letter',
         'renewal_stamp_duty_letter' => 'renewal_stamp_duty_letter',
+        'conveynace_draft_NOC' => 'conveynace_draft_NOC',
+        'conveynace_text_NOC' => 'conveynace_text_NOC',
+        'conveynace_uploaded_NOC' => 'conveynace_uploaded_NOC',        
+        'renewal_draft_NOC' => 'renewal_draft_NOC',
+        'renewal_text_NOC' => 'renewal_text_NOC',
+        'renewal_uploaded_NOC' => 'renewal_uploaded_NOC',
     ],   
  
       // sc application Type

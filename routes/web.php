@@ -790,7 +790,9 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     // Route::get('architect_scrutiny_remark/{id}', 'conveyance\conveyanceCommonController@ArchitectScrutinyRemark')->name('conveyance.architect_scrutiny_remark')
 
-    Route::get('generate_canveyance_noc/{id}', 'coconveyance\DYCODepartment\DYCOController@GenerateConveyanceNOC')->name('dyco.generate_canveyance_noc'); 
+    Route::get('generate_canveyance_noc/{id}', 'conveyance\DYCODepartment\DYCOController@GenerateConveyanceNOC')->name('dyco.generate_canveyance_noc');
+
+    Route::post('save_noc', 'conveyance\DYCODepartment\DYCOController@saveNOC')->name('dyco.save_noc'); 
     
     //dyco
     
