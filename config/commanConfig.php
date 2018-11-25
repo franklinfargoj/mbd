@@ -115,7 +115,24 @@ return [
                 'em_covering_letter'
             ],
             'stamp_conveyance_application' => 'stamp_conveyance_application'
-        ]
+        ],
+         'em_renewal' => [
+             'stamp_renewal_application' => 'stamp_renewal_application',
+             'no_dues_certificate' => [
+                 'renewal_text_no_dues_certificate',
+                 'renewal_drafted_no_dues_certificate',
+                 'renewal_uploaded_no_dues_certificate',
+             ],
+             'bonafide' => [
+                 'renewal_bonafide_list',
+             ],
+             'covering_letter' => [
+                 'renewal_em_covering_letter'
+             ],
+         ],
+         'la_renewal' => [
+             'Lease Deed Agreement' => 'renewal_Lease Deed Agreement'
+         ]
     ], 
 
     // sc Application types 

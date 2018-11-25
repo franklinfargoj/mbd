@@ -12,5 +12,10 @@ class RenewalAgreementComments extends Model
     public function Roles()
     {
         return $this->hasOne('App\Role', 'id', 'role_id');
-    } 	
+    }
+
+    public function srAgreementId()
+    {
+        return $this->hasOne('App\conveyance\SocietyConveyanceDocumentMaster', 'id', 'agreement_type_id');
+    }
 }
