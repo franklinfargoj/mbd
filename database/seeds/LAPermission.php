@@ -127,6 +127,46 @@ class LAPermission extends Seeder
                 'display_name' => 'Uploads Sale & Lease deed agreements riders',
                 'description'  => 'Uploads Sale & Lease deed agreements riders'
             ],
+            [
+                'name'=>'renewal.index',
+                'display_name'=>'List of Applications for Renewal',
+                'description'=>'Shows Lists of Applications for Renewal'
+            ],
+            [
+                'name'=>'renewal.show',
+                'display_name'=>'View Application',
+                'description'=>'View Application in pdf format.'
+            ],
+            [
+                'name'=>'renewal.view_application',
+                'display_name'=>'View Application',
+                'description'=>'View Application in pdf format.'
+            ],
+            [
+                'name'=>'renewal.view_documents',
+                'display_name'=>'View Society Documents',
+                'description'=>'View Society Documents.'
+            ],
+            [
+                'name'=>'renewal.la_agreement_riders',
+                'display_name'=>'Agreement',
+                'description'=>'Agreement riders.'
+            ],
+            [
+                'name'=>'renewal.upload_la_agreement_riders',
+                'display_name'=>'Uploads Agreement and riders',
+                'description'=>'Uploads Agreement and riders.'
+            ],
+            [
+                'name'=>'renewal.renewal_forward_application',
+                'display_name'=>'Forward Application',
+                'description'=>'Forwards Application'
+            ],
+            [
+                'name'=>'renewal.save_forward_application_renewal',
+                'display_name'=>'Forward Application',
+                'description'=>'Forwards Application'
+            ]
         ];
 
         $role_id = Role::where('name', '=', 'la_engineer')->first();

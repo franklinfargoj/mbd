@@ -408,9 +408,29 @@ class EmPermissionSeeder extends Seeder
                 'description'=>'View Application in pdf format.'
             ],
             [
-                'name'=>'renewal_application',
+                'name'=>'renewal.view_application',
                 'display_name'=>'View Application',
                 'description'=>'View Application in pdf format.'
+            ],
+            [
+                'name'=>'renewal.view_documents',
+                'display_name'=>'View Society Documents',
+                'description'=>'View Society Documents.'
+            ],
+            [
+                'name'=>'em.renewal_scrutiny_remark',
+                'display_name'=>'Scrutiny & Remarks',
+                'description'=>'Scrutiny & Remarks'
+            ],
+            [
+                'name'=>'renewal.save_forward_application_renewal',
+                'display_name'=>'Forward Application',
+                'description'=>'Forwards Application'
+            ],
+            [
+                'name'=>'em.save_covering_letter',
+                'display_name'=>'Uploads covering letter',
+                'description'=>'Uploads covering letter'
             ]
         ];
 

@@ -825,6 +825,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('scrutiny_remark_em/{id}', 'conveyance\EMDepartment\EMController@ScrutinyRemark')->name('em.scrutiny_remark');
     Route::post('save_conveyance_letter', 'conveyance\EMDepartment\EMController@saveNoDuesCertificate')->name('em.save_conveyance_no_dues_certificate');
     Route::post('save_list_of_allottees', 'conveyance\EMDepartment\EMController@uploadListOfAllottees')->name('em.save_list_of_allottees');
+    Route::post('save_covering_letter', 'conveyance\EMDepartment\EMController@uploadCoveringLetter')->name('em.save_covering_letter');
 
     // Route::get('sale_price_calculation/{id}', 'conveyance\EEDepartment\EEController@SalePriceCalculation')->name('ee.sale_price_calculation');
 
@@ -854,7 +855,9 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     // common in renewal
     Route::resource('renewal', 'conveyance\renewalCommonController');  
     Route::get('renewal_application/{id}', 'conveyance\renewalCommonController@ViewApplication')
-    ->name('renewal.view_application'); 
+    ->name('renewal.view_application');
+
+    Route::get('view_renewal_documents/{id}', 'conveyance\renewalCommonController@ViewDocuments')->name('renewal.view_documents');
 
     Route::get('prepare_renewal_agreement/{id}', 'conveyance\renewalCommonController@PrepareRenewalAgreement')->name('renewal.prepare_renewal_agreement'); 
 
@@ -886,9 +889,16 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::get('renewal_scrutiny_remark_em/{id}', 'conveyance\EMDepartment\EMController@RenewalScrutinyRemark')->name('em.renewal_scrutiny_remark');
     Route::post('save_renewal_letter', 'conveyance\EMDepartment\EMController@saveRenewalNoDuesCertificate')->name('em.save_renewal_no_dues_certificate');
-    Route::post('save_list_of_bonafide_allottees', 'conveyance\EMDepartment\EMController@saveRenewalNoDuesCertificate')->name('em.save_renewal_no_dues_certificate');
-    Route::post('upload_covering_letter','conveyance\EMDepartment\EMController@uploadCoveringLetter')->name('em.upload_covering_letter');    
+    Route::post('save_list_of_bonafide_allottees', 'conveyance\EMDepartment\EMController@uploadRenewalListOfAllottees')->name('em.save_renewal_list_of_allottees');
+    Route::post('upload_covering_letter','conveyance\EMDepartment\EMController@uploadRenewalCoveringLetter')->name('em.upload_renewal_covering_letter');
 
+    Route::get('la_agreement_riders_renewal/{id}', 'conveyance\renewalCommonController@la_agreement_riders')->name('renewal.la_agreement_riders');
+
+    Route::post('upload_la_agreement_riders_renewal', 'conveyance\renewalCommonController@upload_la_agreement_riders')->name('renewal.upload_la_agreement_riders');
+
+    Route::get('forward_application_sc/{id}', 'conveyance\renewalCommonController@commonForward')->name('renewal.forward_application_sc');
+
+    Route::post('save_forward_application_sc', 'conveyance\renewalCommonController@saveForwardApplication')->name('renewal.save_forward_application');
 //dashboard    
 
     Route::get('/dashboard','Common\CommonController@dashboard')->name('dashboard');

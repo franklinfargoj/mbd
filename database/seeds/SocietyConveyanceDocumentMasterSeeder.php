@@ -358,7 +358,43 @@ class SocietyConveyanceDocumentMasterSeeder extends Seeder
                 'application_type_id' => $renewalId,
                 'society_flag'        => '0',
                 'language_id'         => $eLanguage
-            ]            
+            ],
+            [
+                'document_name'       => 'renewal_bonafide_list',
+                'application_type_id' => $renewalId,
+                'society_flag'        => '0',
+                'language_id'         => $eLanguage
+            ],
+            [
+                'document_name'       => 'renewal_em_covering_letter',
+                'application_type_id' => $renewalId,
+                'society_flag'        => '0',
+                'language_id'         => $eLanguage
+            ],
+            [
+                'document_name'       => 'renewal_text_no_dues_certificate',
+                'application_type_id' => $renewalId,
+                'society_flag'        => '0',
+                'language_id'         => $eLanguage
+            ],
+            [
+                'document_name'       => 'renewal_drafted_no_dues_certificate',
+                'application_type_id' => $renewalId,
+                'society_flag'        => '0',
+                'language_id'         => $eLanguage
+            ],
+            [
+                'document_name'       => 'renewal_uploaded_no_dues_certificate',
+                'application_type_id' => $renewalId,
+                'society_flag'        => '0',
+                'language_id'         => $eLanguage
+            ],
+            [
+                'document_name'       => 'renewal_Lease Deed Agreement',
+                'application_type_id' => $renewalId,
+                'society_flag'        => '0',
+                'language_id'         => $eLanguage
+            ],
         ];
 
         if(count($society) == 0){

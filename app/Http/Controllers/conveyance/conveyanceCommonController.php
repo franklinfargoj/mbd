@@ -336,7 +336,7 @@ class conveyanceCommonController extends Controller
         $documents = SocietyConveyanceDocumentMaster::with(['sc_document_status' => function($q) use($data) { $q->where('application_id', $data->id)->get(); }])->where('application_type_id', $data->sc_application_master_id)->where('society_flag', '1')->where('language_id', '2')->get();
         $documents_uploaded = SocietyConveyanceDocumentStatus::where('application_id', $data->id)->get();
         $data->conveyance_map = $this->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
-//        dd($documents);
+
         return view('admin.conveyance.common.view_documents', compact('data', 'documents', 'documents_uploaded'));
     }
 
