@@ -61,6 +61,7 @@ return [
         'Sent_society_for_registration_of_sale_&_lease' => 13,
         'Registered_sale_&_lease_deed' => 14,
         'NOC_Issued' => 15,
+        'NOC_Generation' => 16
     ],
 
     // sc application agreements

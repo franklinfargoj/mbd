@@ -802,7 +802,34 @@ Route::get('upload_noc_application','SocietyNocController@showuploadNoc')->name(
 Route::post('add_uploaded_documents_comment_noc','SocietyNocController@addSocietyDocumentsComment')->name('add_documents_comment_noc');
 Route::get('society_noc_application_download','SocietyNocController@download_noc_application')->name('society_noc_application_download');
 Route::post('upload_society_noc','SocietyNocController@uploadNocAfterSign')->name('upload_society_noc');
+Route::get('documents_uploaded_noc','SocietyNocController@viewSocietyDocuments')->name('documents_uploaded_noc');
+Route::post('resubmit_noc_application','SocietyNocController@resubmitNocApplication')->name('resubmit_noc_application');
 
 //NOC --REE Department Routes
 
-Route::get('ree_reval_applications','REEDepartment\REEController@revalidationApplicationList')->name('ree_applications.reval');
+Route::get('ree_noc_applications','REEDepartment\REEController@nocApplicationList')->name('ree_applications.noc');
+Route::get('view_application_noc/{id}','REEDepartment\REEController@viewApplicationNoc')->name('ree.view_application_noc');
+Route::get('society_noc_documents/{id}','REEDepartment\REEController@societyNocDocuments')->name('ree.society_noc_documents');
+Route::get('generate_noc/{id}', 'REEDepartment\REEController@GenerateNoc')->name('ree.generate_noc');
+Route::get('create_edit_noc/{id}', 'REEDepartment\REEController@createEditNoc')->name('ree.create_edit_noc');
+Route::post('save_draft_noc', 'REEDepartment\REEController@saveDraftNoc')->name('ree.save_draft_noc');
+Route::post('upload_draft_noc/{id}', 'REEDepartment\REEController@uploadDraftNoc')->name('ree.upload_draft_noc');
+Route::get('/scrutiny-remark-noc/{application_id}', 'REEDepartment\REEController@scrutinyRemarkNocByREE')->name('ree.scrutiny-remark-noc');
+Route::post('/noc-scrutiny-verfication', 'REEDepartment\REEController@nocScrutinyVerification')->name('ree.scrutiny_verification');
+Route::post('upload_ree_note_noc','REEDepartment\REEController@uploadOfficeNoteNocRee')->name('ree.upload_office-note-noc');
+Route::get('ree_forward_application_noc/{id}','REEDepartment\REEController@forwardApplicationNoc')->name('ree.forward_application_noc');
+Route::post('ree_forward_noc_application_data','REEDepartment\REEController@sendForwardNocApplication')->name('ree.forward_noc_application_data');
+Route::get('approved_noc_letter/{id}','REEDepartment\REEController@approvedNOCletter')->name('ree.approved_noc_letter');
+Route::post('send_noc_issued_society','REEDepartment\REEController@sendissuedNOCToSociety')->name('ree.send_noc_issued_society');
+
+//NOC --CO Department routes
+
+Route::get('co_noc_applications','CODepartment\COController@nocApplicationList')->name('co_applications.noc');
+Route::get('view_noc_application_co/{id}','CODepartment\COController@viewNocApplication')->name('co.view_noc_application');
+Route::get('society_noc_documents_co/{id}','CODepartment\COController@societyNocDocuments')->name('co.society_noc_documents');
+Route::get('ree_scrutiny_remark_co/{id}','CODepartment\COController@nocScrutinyRemarks')->name('co.noc_scrutiny_remarks');
+Route::get('approve_noc_co/{id}','CODepartment\COController@issueNoc')->name('co.approve_noc');
+Route::post('issue_noc_letter_to_ree','CODepartment\COController@approveNoctoRee')->name('co.issue_noc_letter_to_ree');
+Route::get('co_forward_noc_application/{id}','CODepartment\COController@forwardNOCApplication')->name('co.forward_noc_application');
+Route::post('save_forward_noc_Application','CODepartment\COController@sendForwardNocApplication')->name('co.forward_noc_application_data');
+

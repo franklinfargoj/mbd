@@ -479,7 +479,8 @@ class SocietyNocController extends Controller
                 $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$request->file('noc_application_form'),$name);
                 $input = array(
                     'application_path' => $path,
-                    'submitted_at' => date('Y-m-d H-i-s')
+                    'submitted_at' => date('Y-m-d H-i-s'),
+                    'noc_generation_status' => 0
                 );
                 NocApplication::where('society_id', $society->id)->where('id', $request->input('id'))->update($input);
                 $role_id = Role::where('name', 'REE Junior Engineer')->first();
@@ -525,6 +526,81 @@ class SocietyNocController extends Controller
                 return redirect()->back()->with('error_uploaded_file', 'Invalid type of file uploaded (only pdf allowed)');
             }
         }
+        return redirect()->route('society_offer_letter_dashboard');
+    }
+
+    public function viewSocietyDocuments(){
+        $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();      
+        $application = NocApplication::where('society_id', $society->id)->with(['nocApplicationStatus' => function($q){
+            $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
+        }])->first();
+        
+        $documents = NocSocietyDocumentsMaster::where('application_id', $application->application_master_id)->with(['documents_uploaded' => function($q) use ($society){
+            $q->where('society_id', $society->id)->get();
+        }])->get();
+
+        foreach ($documents as $key => $value) {
+            $document_ids[] = $value->id;
+        }
+        $optional_docs = config('commanConfig.optional_docs_society_noc');
+//        dd($documents);
+        $docs_uploaded_count = 0;
+        $docs_count = 0;
+        foreach($documents as $documents_key => $documents_val) {
+            if (in_array($documents_key + 1, $optional_docs) == false) {
+                $docs_count++;
+                if (count($documents_val->documents_uploaded) > 0) {
+                    $docs_uploaded_count++;
+                }
+            }
+        }
+        $noc_applications = $application;
+        $documents_uploaded = NocSocietyDocumentsStatus::where('society_id', $society->id)->whereIn('document_id', $document_ids)->get();
+        $documents_comment = NocSocietyDocumentsComment::where('society_id', $society->id)->first();
+        
+        return view('frontend.society.view_society_uploaded_documents_noc', compact('documents', 'optional_docs', 'docs_uploaded_count','docs_count', 'noc_applications','documents_uploaded', 'documents_comment', 'society'));
+    }
+
+    public function resubmitNocApplication(Request $request){
+        $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
+        $application = NocApplication::where('society_id', $society->id)->first();
+        $user = NocApplicationStatus::where('application_id', $application->id)->first();
+
+        if(!empty($request->input('remark'))){
+            $remark = $request->input('remark');
+        }else{
+            $remark = 'N.A.';
+        }
+        $input_forwarded = array(
+            'application_id' => $application->id,
+            'society_flag' => 1,
+            'user_id' => Auth::user()->id,
+            'role_id' => Auth::user()->role_id,
+            'status_id' => config('commanConfig.applicationStatus.forwarded'),
+            'to_user_id' => $user->to_user_id,
+            'to_role_id' => $user->to_role_id,
+            'remark' => $remark,
+            'created_at' => date('Y-m-d H-i-s'),
+            'updated_at' => date('Y-m-d H-i-s'),
+        );
+        $input_in_process = array(
+            'application_id' => $application->id,
+            'society_flag' => 0,
+            'user_id' => $user->to_user_id,
+            'role_id' => $user->to_role_id,
+            'status_id' => config('commanConfig.applicationStatus.in_process'),
+            'to_user_id' => 0,
+            'to_role_id' => 0,
+            'remark' => $remark,
+            'created_at' => date('Y-m-d H-i-s'),
+            'updated_at' => date('Y-m-d H-i-s'),
+        );
+        
+        NocApplicationStatus::create($input_forwarded);
+        NocApplicationStatus::create($input_in_process);
+
+        NocApplication::where('id',$application->id)->update(["noc_generation_status" => 0]);
+
         return redirect()->route('society_offer_letter_dashboard');
     }
 }

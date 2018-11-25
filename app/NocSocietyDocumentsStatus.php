@@ -18,6 +18,6 @@ class NocSocietyDocumentsStatus extends Model
     } 
 
     public function documents_Name(){
-    	return $this->hasmany('App\NocSocietyDocumentsStatus','id','document_id');
+    	return $this->hasmany('App\NocSocietyDocumentsMaster','id','document_id');
     }         
 }

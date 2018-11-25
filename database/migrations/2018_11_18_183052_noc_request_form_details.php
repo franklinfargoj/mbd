@@ -18,7 +18,7 @@ class NocRequestFormDetails extends Migration
             $table->integer('society_id');
             $table->date('offer_letter_date')->nullable();
             $table->string('offer_letter_number')->nullable();
-            $table->decimal('demand_draft_amount')->nullable();
+            $table->decimal('demand_draft_amount', 15, 2)->nullable();
             $table->string('demand_draft_number')->nullable();
             $table->date('demand_draft_date')->nullable();
             $table->string('demand_draft_bank')->nullable();

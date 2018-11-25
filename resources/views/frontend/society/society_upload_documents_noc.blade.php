@@ -149,7 +149,7 @@
                                 <h3 class="section-title section-title--small mb-2">
                                     Remark History:
                                 </h3>
-                                <span class="hint-text d-block">Remark by EE</span>
+                                <span class="hint-text d-block">Remark by REE</span>
                             </div>
                             <div class="remarks-section">
                                 <div class="remarks-section__data">
@@ -164,7 +164,7 @@
                                 </div>
 
                                 <div class="remarks-section__data">
-                                    <form action="{{ route('add_uploaded_documents_remark') }}" method="post" enctype='multipart/form-data'>
+                                    <form action="{{ route('resubmit_noc_application') }}" method="post" enctype='multipart/form-data'>
                                         @csrf
                                         <div class="form-group">
                                             <label class="col-form-label">Remark</label>
@@ -173,9 +173,9 @@
                                                     <textarea name="remark" id="remark" class="form-control m-input">{{old('remark')}}</textarea>
                                                     <span class="help-block">{{$errors->first('remark')}}</span>
                                                     <input type="hidden" name="user_id" id="user_id" class="form-control m-input"
-                                                        value="{{ $application->olApplicationStatus[0]->user_id }}">
+                                                        value="{{ $application->nocApplicationStatus[0]->user_id }}">
                                                     <input type="hidden" name="role_id" id="role_id" class="form-control m-input"
-                                                        value="{{ $application->olApplicationStatus[0]->role_id }}">
+                                                        value="{{ $application->nocApplicationStatus[0]->role_id }}">
                                                 </div>
                                             </div>
                                         </div>

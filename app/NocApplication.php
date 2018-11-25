@@ -37,4 +37,19 @@ class NocApplication extends Model
     public function noc_application_master(){
        return $this->hasOne(OlApplicationMaster::class, 'id', 'application_master_id'); 
     }
+
+    public function applicationLayoutUser()
+    {
+        return $this->hasMany('App\LayoutUser', 'layout_id','layout_id');
+    }
+
+    public function eeApplicationSociety()
+    {
+        return $this->hasOne('App\SocietyOfferLetter', 'id','society_id');
+    }
+
+    public function nocApplicationStatusForLoginListing()
+    {
+        return $this->hasMany('App\NocApplicationStatus', 'application_id', 'id');
+    }
 }
