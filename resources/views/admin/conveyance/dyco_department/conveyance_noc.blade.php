@@ -27,12 +27,61 @@
 @csrf
 
 <input type="hidden" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">
-
+   <!-- Generate stamp duty letter      -->
+<div class="m-portlet m-portlet--mobile m_panel">
+    <div class="m-portlet__body">
+        <h3 class="section-title section-title--small">Generate NOC</h3>
+        <div class="col-xs-12 row">
+            <div class="col-md-12">
+                <!-- <input type="hidden" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}"> -->
+                <div class="col-md-6" style="display: inline; margin-left: 20px;">
+                    <a href="{{ route('dyco.generate_canveyance_noc',$data->id) }}" class="btn btn-primary">Generate </a>
+                   <!--  <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
+                      </Button> -->
+                </div> 
+            </div>
+        </div>
+        <div class="m-section__content mb-0 table-responsive" style="margin-top: 30px;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="d-flex flex-column h-100 two-cols">
+                            <h5>Download</h5>
+                            <span class="hint-text">Click to download Lease deed agreement </span>
+                            <div class="mt-auto">
+                                @if(isset($data->draftStampLetter->document_path))
+                                <input type="hidden" name="oldLeaseFile" value="{{ $data->draftStampLetter->document_path }}">
+                                <a href="{{ config('commanConfig.storage_server').'/'.$data->draftStampLetter->document_path }}">
+                                <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
+                                        Download </Button>
+                                </a>
+                                @else
+                                <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
+                                    *Note : Lease deed agreement is not available.</span>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 border-left">
+                        <div class="d-flex flex-column h-100 two-cols">
+                            <h5>Upload</h5>
+                            <span class="hint-text">Click to upload Lease deed agreement</span>
+                                <div class="custom-file">
+                                    <input class="custom-file-input stamp_letter" name="stamp_letter" type="file" id="test-upload1"><label class="custom-file-label" for="test-upload1">Choose
+                                        file...</label>   
+                                </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>                   
+    </div>
+</div> 
     <div class="m-portlet m-portlet--mobile m_panel">
         <div class="m-portlet__body">
             <h3 class="section-title section-title--small">NOC for Conveyance</h3>
             <!-- <div class="col-xs-12 row"> -->
-               
+                
                 <div class="col-md-12">
                     <span class="hint-text d-block t-remark section-title"></h5>Please Download copy of NOC for Conveyance from here.</span>
                     <div class="col-md-6" style="display: inline;">
