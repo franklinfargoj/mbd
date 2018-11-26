@@ -17,6 +17,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Storage;
 use Yajra\DataTables\DataTables;
+use Mpdf\Mpdf;
 
 class FormationCommonController extends Controller
 {
@@ -499,9 +500,14 @@ class FormationCommonController extends Controller
 
         $header_file = view('admin.REE_department.offer_letter_header');
         $footer_file = view('admin.REE_department.offer_letter_footer');
-        $pdf = \App::make('dompdf.wrapper');
-
-        $pdf->loadHTML($header_file . $content . $footer_file);
+        //$pdf = \App::make('dompdf.wrapper');
+        $pdf=new Mpdf();
+        $pdf->autoScriptToLang = true;
+        $pdf->autoLangToFont = true;
+        $pdf->SetHTMLHeader($header_file);
+        $pdf->SetHTMLFooter($footer_file);
+        $pdf->WriteHTML($content);
+        //$pdf->loadHTML($header_file . $content . $footer_file);
 
         $fileName = $no_due_certificate_pdf_file != "" ? $no_due_certificate_pdf_file : (time() . 'no_dues_certificate_' . $id . '.pdf');
         $filePath = $folder_name . "/" . $fileName;
@@ -509,8 +515,8 @@ class FormationCommonController extends Controller
         if (!(Storage::disk('ftp')->has($folder_name))) {
             Storage::disk('ftp')->makeDirectory($folder_name, $mode = 0777, true, true);
         }
-        Storage::disk('ftp')->put($filePath, $pdf->output());
-        $file = $pdf->output();
+        Storage::disk('ftp')->put($filePath, $pdf->Output($fileName, 'S'));
+       // $file = $pdf->output();
 
         //text offer letter
 
