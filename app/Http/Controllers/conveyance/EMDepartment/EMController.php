@@ -2,17 +2,21 @@
 
 namespace App\Http\Controllers\conveyance\EMDepartment;
 
+use App\conveyance\RenewalDocumentStatus;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\conveyance\conveyanceCommonController;
+use App\Http\Controllers\conveyance\renewalCommonController;
 use App\Http\Controllers\Common\CommonController;
 use App\conveyance\scApplication;
+use App\conveyance\RenewalApplication;
 use App\conveyance\ScApplicationAgreements;
 use Illuminate\Support\Facades\Storage;
 use File;
 use App\conveyance\SocietyConveyanceDocumentStatus;
+use App\conveyance\scApplicationType;
 use Auth;
-
+use Maatwebsite\Excel\Facades\Excel;
 
 class EMController extends Controller
 {
@@ -21,6 +25,7 @@ class EMController extends Controller
         $this->common = new conveyanceCommonController();
         $this->CommonController = new CommonController();
         $this->conveyance_common = new conveyanceCommonController();
+        $this->renewal_common = new renewalCommonController();
     }
 
 
@@ -70,6 +75,7 @@ class EMController extends Controller
         }else{
             $content = "";
         }
+
         return view('admin.conveyance.em_department.scrutiny_remark',compact('data', 'content', 'no_dues_certificate_docs', 'bonafide_docs', 'covering_letter_docs'));
     }
 
@@ -150,9 +156,47 @@ class EMController extends Controller
      */
     public function RenewalScrutinyRemark(Request $request,$applicationId){
 
-//        $data = scApplication::with(['societyApplication','scApplicationLog'])->where('id',$applicationId)->first();
-//        dd($data);
-        return view('admin.conveyance.em_department.renewal_scrutiny_remark');
+        $data = RenewalApplication::with(['societyApplication','srApplicationLog', 'sr_form_request'])->where('id',$applicationId)->first();
+        $data->folder = $this->conveyance_common->getCurrentRoleFolderName();
+
+        $no_dues_certificate_docs_defined = config('commanConfig.documents.em_renewal.no_dues_certificate');
+        $bonafide_docs_defined = config('commanConfig.documents.em_renewal.bonafide');
+        $covering_letter_docs_defined = config('commanConfig.documents.em_renewal.covering_letter');
+        $documents = $this->renewal_common->getDocumentIds(array_merge($no_dues_certificate_docs_defined, $bonafide_docs_defined, $covering_letter_docs_defined), $data->application_master_id);
+
+        foreach($documents as $document){
+            if(in_array($document->document_name, $no_dues_certificate_docs_defined) == 1){
+                $no_dues_certificate_docs[$document->document_name] = $document;
+                if($document->sr_document_status != null){
+                    $no_dues_certificate_docs[$document->document_name]['sr_document_status'] = $document->sr_document_status;
+                }else{
+                    $no_dues_certificate_docs[$document->document_name]['sr_document_status'] = '';
+                }
+            }
+            if(in_array($document->document_name, $bonafide_docs_defined) == 1){
+                $bonafide_docs[$document->document_name] = $document;
+                if($document->sc_document_status != null){
+                    $bonafide_docs[$document->document_name]['sr_document_status'] = $document->sr_document_status;
+                }else{
+                    $bonafide_docs[$document->document_name]['sr_document_status'] = '';
+                }
+            }
+            if(in_array($document->document_name, $covering_letter_docs_defined) == 1){
+                $covering_letter_docs[$document->document_name] = $document;
+                if($document->sr_document_status != null){
+                    $covering_letter_docs[$document->document_name]['sr_document_status'] = $document->sr_document_status;
+                }else{
+                    $covering_letter_docs[$document->document_name]['sr_document_status'] = '';
+                }
+            }
+        }
+        if(!empty($no_dues_certificate_docs['text_no_dues_certificate']['sr_document_status'])){
+            $content = $this->CommonController->getftpFileContent($no_dues_certificate_docs['text_no_dues_certificate']['sr_document_status']->document_path);
+        }else{
+            $content = "";
+        }
+
+        return view('admin.renewal.em_department.scrutiny_remark',compact('data', 'content', 'no_dues_certificate_docs', 'bonafide_docs', 'covering_letter_docs'));
     }
 
     /**
@@ -162,12 +206,11 @@ class EMController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function saveRenewalNoDuesCertificate(Request $request){
-
-        $applicationId = 1;
         $id = $request->applicationId;
         $content = str_replace('_', "", $_POST['ckeditorText']);
-        $folder_name = 'Renewal_no_dues_certificate';
+//        dd(config('commanConfig.documents.em_renewal.no_dues_certificate'));
 
+        $folder_name = 'renewal_no_dues_certificate';
         $pdf = \App::make('dompdf.wrapper');
         $pdf->loadHTML($content);
         $fileName = time().'renewal_no_dues_certificate_'.$id.'.pdf';
@@ -177,23 +220,38 @@ class EMController extends Controller
             Storage::disk('local')->makeDirectory($folder_name, $mode = 0777, true, true);
         }
         Storage::disk('local')->put($filePath, $pdf->output());
-        die('end');
 
         //text offer letter
 
         $folder_name1 = 'text_renewal_no_dues_certificate';
 
-        if (!(Storage::disk('ftp')->has($folder_name1))) {
-            Storage::disk('ftp')->makeDirectory($folder_name1, $mode = 0777, true, true);
+        if (!(Storage::disk('local')->has($folder_name1))) {
+            Storage::disk('local')->makeDirectory($folder_name1, $mode = 0777, true, true);
         }
         $file_nm =  time()."text_renewal_no_dues_certificate_".$id.'.txt';
         $filePath1 = $folder_name1."/".$file_nm;
 
-        Storage::disk('ftp')->put($filePath1, $content);
+        Storage::disk('local')->put($filePath1, $content);
+        foreach(config('commanConfig.documents.em_renewal.no_dues_certificate') as $document){
+            $documents_required[$document] = $document;
+        }
+        unset($documents_required['renewal_uploaded_no_dues_certificate']);
 
-//        OlApplication::where('id',$request-> )->update(["drafted_offer_letter" => $filePath, "text_offer_letter" => $filePath1]);
+        $application_type = scApplicationType::where('application_type', config('commanConfig.applicationType.Renewal'))->value('id');
+        $document_ids = $this->renewal_common->getDocumentIds($documents_required, $application_type);
 
-//        return redirect('generate_offer_letter/'.$request->applicationId);
+        foreach($document_ids as $document_id){
+            $input_arr[] = array(
+                'application_id' => $id,
+                'user_id' => Auth::user()->id,
+                'society_flag' => 0,
+                'document_id' => $document_id->id,
+            );
+        }
+
+        RenewalDocumentStatus::insert($input_arr);
+
+        return redirect()->route('em.renewal_scrutiny_remark', $request->applicationId);
     }
 
     /**
@@ -203,7 +261,145 @@ class EMController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function uploadListOfAllottees(Request $request){
-        dd($request->all());
+//        dd($request->all());
+        if($request->file('document_path')) {
+            $file = $request->file('document_path');
+            $file_name = time() . $file->getFileName() . '.' . $file->getClientOriginalExtension();
+            $extension = $request->file('document_path')->getClientOriginalExtension();
+            $request->flash();
+            if ($extension == "xls") {
+                $time = time();
+                $name = File::name(str_replace(' ', '_',$request->file('document_path')->getClientOriginalName())) . '_' . $time . '.' . $extension;
+                $folder_name = "society_conveyance_documents";
+                $path = '/' . $folder_name . '/' . $name;
+                $fileUpload = $this->CommonController->ftpFileUpload($folder_name, $request->file('document_path'), $name);
+                $count = 0;
+                $sc_excel_headers = [];
+                Excel::load($request->file('document_path')->getRealPath(), function ($reader)use(&$count, &$sc_excel_headers) {
+                    if(count($reader->toArray()) > 0){
+                        $excel_headers = $reader->first()->keys()->toArray();
+                        $sc_excel_headers = config('commanConfig.sc_excel_headers');
+
+                        foreach($excel_headers as $excel_headers_key => $excel_headers_val){
+                            $excel_headers_value = strtolower(str_replace(str_split('\\/- '), '_', $sc_excel_headers[$excel_headers_key]));
+                            if($excel_headers_value == $excel_headers_val){
+                                $count++;
+                            }else{
+                                $exploded = explode('_', $excel_headers_value);
+                                foreach($exploded as $exploded_key => $exploded_value){
+                                    if(!empty(strpos($excel_headers_val, $exploded_value))){
+                                        $count++;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+
+                if($count != 0){
+                    if($count == count($sc_excel_headers)){
+                        $application_type = scApplicationType::where('application_type', config('commanConfig.applicationType.Renewal'))->value('id');
+                        $document = $this->conveyance_common->getDocumentId(config('commanConfig.documents.em_renewal.bonafide')[0], $application_type);
+
+                        $sc_document_status = new RenewalDocumentStatus;
+                        $sc_document_status_arr = array_flip($sc_document_status->getFillable());
+
+                        $sc_document_status_arr['application_id'] = $request->application_id;
+                        $sc_document_status_arr['user_id'] = Auth::user()->id;
+                        $sc_document_status_arr['society_flag'] = 0;
+                        $sc_document_status_arr['status_id'] = null;
+                        $sc_document_status_arr['document_id'] = $document;
+                        $sc_document_status_arr['document_path'] = $path;
+
+                        $inserted_document_log = RenewalDocumentStatus::create($sc_document_status_arr);
+
+                        if($inserted_document_log == true){
+                            return redirect()->route('em.renewal_scrutiny_remark', $request->application_id);
+                        }
+                    }else{
+                        return redirect()->route('society_conveyance.create')->withErrors('error', "Excel file headers doesn't match")->withInput();
+                    }
+                }else{
+                    return redirect()->route('society_conveyance.create')->withErrors('error', "Excel file is empty.")->withInput();
+                }
+            }
+        }else{
+            return redirect()->route('society_conveyance.create')->withErrors('error', "Excel file headers doesn't match")->withInput();
+        }
+    }
+
+    /**
+     * Uploads list of bonafide & no-bonafide allottees
+     * Author: Amar Prajapati
+     * @param $request
+     * @return \Illuminate\Http\Response
+     */
+    public function uploadRenewalListOfAllottees(Request $request){
+//        dd($request->all());
+        if($request->file('document_path')) {
+            $file = $request->file('document_path');
+            $file_name = time() . $file->getFileName() . '.' . $file->getClientOriginalExtension();
+            $extension = $request->file('document_path')->getClientOriginalExtension();
+            $request->flash();
+            if ($extension == "xls") {
+                $time = time();
+                $name = File::name(str_replace(' ', '_',$request->file('document_path')->getClientOriginalName())) . '_' . $time . '.' . $extension;
+                $folder_name = "society_conveyance_documents";
+                $path = '/' . $folder_name . '/' . $name;
+                $fileUpload = $this->CommonController->ftpFileUpload($folder_name, $request->file('document_path'), $name);
+                $count = 0;
+                $sc_excel_headers = [];
+                Excel::load($request->file('document_path')->getRealPath(), function ($reader)use(&$count, &$sc_excel_headers) {
+                    if(count($reader->toArray()) > 0){
+                        $excel_headers = $reader->first()->keys()->toArray();
+                        $sc_excel_headers = config('commanConfig.sc_excel_headers');
+
+                        foreach($excel_headers as $excel_headers_key => $excel_headers_val){
+                            $excel_headers_value = strtolower(str_replace(str_split('\\/- '), '_', $sc_excel_headers[$excel_headers_key]));
+                            if($excel_headers_value == $excel_headers_val){
+                                $count++;
+                            }else{
+                                $exploded = explode('_', $excel_headers_value);
+                                foreach($exploded as $exploded_key => $exploded_value){
+                                    if(!empty(strpos($excel_headers_val, $exploded_value))){
+                                        $count++;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+
+                if($count != 0){
+                    if($count == count($sc_excel_headers)){
+                        $application_type = scApplicationType::where('application_type', config('commanConfig.applicationType.Renewal'))->value('id');
+                        $document = $this->conveyance_common->getDocumentId(config('commanConfig.documents.em_renewal.bonafide')[0], $application_type);
+
+                        $sc_document_status = new RenewalDocumentStatus;
+                        $sc_document_status_arr = array_flip($sc_document_status->getFillable());
+
+                        $sc_document_status_arr['application_id'] = $request->application_id;
+                        $sc_document_status_arr['user_id'] = Auth::user()->id;
+                        $sc_document_status_arr['society_flag'] = 0;
+                        $sc_document_status_arr['status_id'] = null;
+                        $sc_document_status_arr['document_id'] = $document;
+                        $sc_document_status_arr['document_path'] = $path;
+
+                        $inserted_document_log = RenewalDocumentStatus::create($sc_document_status_arr);
+
+                        if($inserted_document_log == true){
+                            return redirect()->route('em.renewal_scrutiny_remark', $request->application_id);
+                        }
+                    }else{
+                        return redirect()->route('society_conveyance.create')->withErrors('error', "Excel file headers doesn't match")->withInput();
+                    }
+                }else{
+                    return redirect()->route('society_conveyance.create')->withErrors('error', "Excel file is empty.")->withInput();
+                }
+            }
+        }else{
+            return redirect()->route('society_conveyance.create')->withErrors('error', "Excel file headers doesn't match")->withInput();
+        }
     }
 
     /**
@@ -215,6 +411,7 @@ class EMController extends Controller
     public function uploadCoveringLetter(Request $request){
         if($request->file('covering_letter'))
         {
+//            dd($request->all());
             $file = $request->file('covering_letter');
             $file_name = time().$file->getFileName().'.'.$file->getClientOriginalExtension();
             $extension = $request->file('covering_letter')->getClientOriginalExtension();
@@ -224,18 +421,75 @@ class EMController extends Controller
                 $folder_name = "covering_letter_documents";
                 $path = config('commanConfig.storage_server').'/'.$folder_name.'/'.$name;
                 $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$request->file('covering_letter'),$name);
-                $input = array(
-                    'application_path' => $path,
-                    'submitted_at' => date('Y-m-d H-i-s')
-                );
+
+                $application_type = scApplicationType::where('application_type', config('commanConfig.applicationType.Conveyance'))->value('id');
+                $document = $this->conveyance_common->getDocumentId(config('commanConfig.documents.em_conveyance.covering_letter')[0], $application_type);
+
+                $sc_document_status = new RenewalDocumentStatus;
+                $sc_document_status_arr = array_flip($sc_document_status->getFillable());
+
+                $sc_document_status_arr['application_id'] = $request->application_id;
+                $sc_document_status_arr['user_id'] = Auth::user()->id;
+                $sc_document_status_arr['society_flag'] = 0;
+                $sc_document_status_arr['status_id'] = null;
+                $sc_document_status_arr['document_id'] = $document;
+                $sc_document_status_arr['document_path'] = $path;
+
+                $inserted_document_log = RenewalDocumentStatus::create($sc_document_status_arr);
+
+                if($inserted_document_log == true){
+                    return redirect()->route('em.scrutiny_remark', $request->application_id);
+                }
+
             }else{
                 return redirect()->back()->with('error_uploaded_file', 'Invalid type of file uploaded (only pdf allowed)');
             }
         }
-        return redirect()->route('renewal_scrutiny_remark_em/1');
     }
 
+    /**
+     * Uploads covering letter
+     * Author: Amar Prajapati
+     * @param $request
+     * @return \Illuminate\Http\Response
+     */
+    public function uploadRenewalCoveringLetter(Request $request){
+        if($request->file('covering_letter'))
+        {
+//            dd($request->all());
+            $file = $request->file('covering_letter');
+            $file_name = time().$file->getFileName().'.'.$file->getClientOriginalExtension();
+            $extension = $request->file('covering_letter')->getClientOriginalExtension();
+            if ($extension == "pdf") {
+                $time = time();
+                $name = File::name($request->file('covering_letter')->getClientOriginalName()) . '_' . $time . '.' . $extension;
+                $folder_name = "covering_letter_documents";
+                $path = config('commanConfig.storage_server').'/'.$folder_name.'/'.$name;
+                $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$request->file('covering_letter'),$name);
 
+                $application_type = scApplicationType::where('application_type', config('commanConfig.applicationType.Renewal'))->value('id');
+                $document = $this->conveyance_common->getDocumentId(config('commanConfig.documents.em_renewal.covering_letter')[0], $application_type);
 
+                $sc_document_status = new RenewalDocumentStatus;
+                $sc_document_status_arr = array_flip($sc_document_status->getFillable());
+
+                $sc_document_status_arr['application_id'] = $request->application_id;
+                $sc_document_status_arr['user_id'] = Auth::user()->id;
+                $sc_document_status_arr['society_flag'] = 0;
+                $sc_document_status_arr['status_id'] = null;
+                $sc_document_status_arr['document_id'] = $document;
+                $sc_document_status_arr['document_path'] = $path;
+
+                $inserted_document_log = RenewalDocumentStatus::create($sc_document_status_arr);
+
+                if($inserted_document_log == true){
+                    return redirect()->route('em.renewal_scrutiny_remark', $request->application_id);
+                }
+
+            }else{
+                return redirect()->back()->with('error_uploaded_file', 'Invalid type of file uploaded (only pdf allowed)');
+            }
+        }
+    }
 
 }

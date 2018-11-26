@@ -7,7 +7,7 @@
     <div class="m-subheader px-0">
         <div class="d-flex">
             {{ Breadcrumbs::render('forward_architect_application',$ArchitectApplication->id) }}
-            <div class="ml-auto btn-list">
+            <div class="ml-auto btn-list mb-3">
                 <a href="{{route('architect_application')}}" class="btn btn-link"><i
                         class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
             </div>

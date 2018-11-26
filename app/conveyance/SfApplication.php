@@ -32,6 +32,11 @@ class SfApplication extends Model
         return $this->hasMany('App\MasterLayout', 'id','layout_id');
     }
 
+    public function sfScrutinyByEM()
+    {
+        return $this->hasMany(\App\conveyance\SfScrtinyByEmMasterDetail::class, 'sf_application','id');
+    }
+
     public function sfApplicationLog()
     {
         return $this->hasOne(\App\conveyance\SfApplicationStatusLog::class, 'application_id','id');

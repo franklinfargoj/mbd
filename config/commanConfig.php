@@ -19,6 +19,7 @@ return [
     'ree_junior' => 'REE Junior Engineer',
     'dycdo_engineer' => 'dycdo_engineer',
     'dyco_engineer' => 'dyco_engineer',
+    'la_engineer' => 'la_engineer',
 
     'senior_architect_planner'=>'senior_architect_planner',
 
@@ -72,8 +73,20 @@ return [
         'sale_deed_agreement'  => 'Sale Deed Agreement',
         'lease_deed_agreement' => 'Lease Deed Agreement',
         'renewal_lease_deed_agreement' => 'Renewal Lease Deed Agreement',
+        'conveyance_text_stamp_duty_letter' => 'conveyance_text_stamp_duty_letter',
+        'conveyance_draft_stamp_duty_letter' => 'conveyance_draft_stamp_duty_letter',
+        'conveyance_stamp_duty_letter' => 'conveyance_stamp_duty_letter',
+        'renewal_text_stamp_duty_letter' => 'renewal_text_stamp_duty_letter',
+        'renewal_draft_stamp_duty_letter' => 'renewal_draft_stamp_duty_letter',
+        'renewal_stamp_duty_letter' => 'renewal_stamp_duty_letter',
+        'conveynace_draft_NOC' => 'conveynace_draft_NOC',
+        'conveynace_text_NOC' => 'conveynace_text_NOC',
+        'conveynace_uploaded_NOC' => 'conveynace_uploaded_NOC',        
+        'renewal_draft_NOC' => 'renewal_draft_NOC',
+        'renewal_text_NOC' => 'renewal_text_NOC',
+        'renewal_uploaded_NOC' => 'renewal_uploaded_NOC',
     ],   
-
+ 
       // sc application Type
      'applicationType' => [
         'Conveyance'  => 'Conveyance',
@@ -106,8 +119,26 @@ return [
             ],
             'covering_letter' => [
                 'em_covering_letter'
-            ]
-        ]
+            ],
+            'stamp_conveyance_application' => 'stamp_conveyance_application'
+        ],
+         'em_renewal' => [
+             'stamp_renewal_application' => 'stamp_renewal_application',
+             'no_dues_certificate' => [
+                 'renewal_text_no_dues_certificate',
+                 'renewal_drafted_no_dues_certificate',
+                 'renewal_uploaded_no_dues_certificate',
+             ],
+             'bonafide' => [
+                 'renewal_bonafide_list',
+             ],
+             'covering_letter' => [
+                 'renewal_em_covering_letter'
+             ],
+         ],
+         'la_renewal' => [
+             'Lease Deed Agreement' => 'renewal_Lease Deed Agreement'
+         ]
     ], 
 
     // sc Application types 
@@ -138,6 +169,13 @@ return [
         'scrutiny_pending' => 2,
         'forward' => 3,
          'approved' => 4,
+        // 'final' => 5
+    ],
+    'architect_applicationStatusColor' => [
+        '1' => 'metal',
+        '2' => 'metal',
+        '3' => 'info',
+        '4' => 'success',
         // 'final' => 5
     ],
     'architect_layout_status' => [
@@ -188,6 +226,14 @@ return [
 
     'optional_docs_sharing' => [
         '11', '13', '17'
+    ],
+
+    'optional_docs_premium_reval' => [
+        '82','90'
+    ],
+
+    'optional_docs_sharing_reval' => [
+        '86', '94'
     ],
 
     'storage_server' => 'http://storage.mhada.php-dev.in',

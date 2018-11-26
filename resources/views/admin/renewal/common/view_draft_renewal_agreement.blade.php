@@ -28,8 +28,6 @@
             </li>
         </ul>
     </div>
-<form class="nav-tabs-form" id ="agreementFRM" role="form" method="POST" action="{{ route('dyco.save_renewal_agreement')}}" enctype="multipart/form-data">
-@csrf
 
 <input type="hidden" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">
     <div class="tab-content">
@@ -97,7 +95,8 @@
     @endif 
 
      @if($data->status->status_id != config('commanConfig.applicationStatus.forwarded') && $data->status->status_id != config('commanConfig.applicationStatus.reverted')) 
-
+<form class="nav-tabs-form" id ="agreementFRM" role="form" method="POST" action="{{ route('renewal.save_agreement_comments')}}" enctype="multipart/form-data">
+@csrf 
     <div class="m-portlet m-portlet--mobile m_panel">
         <div class="m-portlet__body">
             <h3 class="section-title section-title--small">Remark</h3>
@@ -115,18 +114,3 @@
 
 @endsection
 
-@section('js')
-<script>
-    $("#agreementFRM").validate({
-        rules: {            
-            lease_agreement: {
-                extension: "pdf"
-            },
-        }, messages: {           
-            lease_agreement: {
-                extension: "Invalid type of file uploaded (only pdf allowed)."
-            }
-        }
-    });  
-</script>
-@endsection

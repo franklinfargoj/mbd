@@ -13,6 +13,7 @@ use App\conveyance\RenewalAgreementComments;
 use App\conveyance\RenewalApplicationLog;
 use App\conveyance\RenewalEEScrutinyDocuments;
 use App\conveyance\RenewalArchitectScrutinyDocuments;
+use App\conveyance\SocietyConveyanceDocumentMaster;
 use App\ApplicationStatusMaster;
 use Yajra\DataTables\DataTables;
 use Carbon\Carbon;
@@ -21,6 +22,7 @@ use Config;
 use Storage;
 use App\User;
 use Auth;
+use File;
 
 class renewalCommonController extends Controller
 {
@@ -148,7 +150,10 @@ class renewalCommonController extends Controller
     public function ViewApplication(Request $request,$applicationId){
         $data = RenewalApplication::where('id',$applicationId)->first();
         $data->folder = $this->conveyance->getCurrentRoleFolderName();
-        return view('admin.renewal.common.view_application',compact('data'));
+        $document_id = $this->conveyance->getDocumentId(config('commanConfig.documents.em_renewal.stamp_renewal_application'), $data->application_master_id);
+        $document = RenewalDocumentStatus::where('document_id', $document_id)->first();
+
+        return view('admin.renewal.common.view_application',compact('data', 'document'));
     }
 
     //prepare renewal lease Agreement
@@ -178,23 +183,30 @@ class renewalCommonController extends Controller
     public function ApproveRenewalAgreement(Request $request,$applicationId){
         
         $data = RenewalApplication::where('id',$applicationId)->first();
+        
         $LeaseAgreement  = config('commanConfig.scAgreements.renewal_lease_deed_agreement');
-        $Agreementstatus = ApplicationStatusMaster::where('status_name','=','Approved')->value('id');
+        $Agreementstatus = ApplicationStatusMaster::where('status_name','=','Draft')->value('id');
         $LeaseId = $this->conveyance->getScAgreementId($LeaseAgreement,$data->application_master_id);
         $data->renewalAgreement = $this->getRenewalAgreement($LeaseId,$applicationId,$Agreementstatus);
         $data->folder = $this->conveyance->getCurrentRoleFolderName();  
-
+        
         $data->AgreementComments = RenewalAgreementComments::with('Roles')->where('application_id',$applicationId)->where('agreement_type_id',$data->application_master_id)->whereNotNull('remark')->get(); 
 
         $is_view = session()->get('role_name') == config('commanConfig.dycdo_engineer');
         $data->status = $this->getCurrentStatus($applicationId,$data->application_master_id);
 
-        if ($is_view && $data->status->status_id == config('commanConfig.applicationStatus.Draft_sale_&_lease_deed')) {
-            $route = 'admin.renewal.dyco_department.approve_renewal_agreement';
-        }else{
-            $route = 'admin.renewal.common.view_approve_renewal_agreement';
-        }        
+        // if ($is_view && $data->status->status_id == config('commanConfig.applicationStatus.Draft_sale_&_lease_deed')) {
+        //     $route = 'admin.renewal.dyco_department.approve_renewal_agreement';
+        // }else{
+            
+        // } 
 
+        //get Draft stamp duty letter 
+        $draft  = config('commanConfig.scAgreements.renewal_draft_stamp_duty_letter');
+        $draftId = $this->conveyance->getScAgreementId($draft,$data->application_master_id);
+        $data->draftStampLetter = $this->getRenewalAgreement($draftId,$applicationId,NULL);
+
+        $route = 'admin.renewal.common.view_approve_renewal_agreement';
         return view($route,compact('data'));   
     }
     
@@ -365,17 +377,14 @@ class renewalCommonController extends Controller
         
         if (session()->get('role_name') == config('commanConfig.ee_branch_head') && $request->to_role_id == $dycdoId) {
     
-            $Tostatus = config('commanConfig.applicationStatus.Draft_Renewal_of_Lease');
+            $Tostatus = config('commanConfig.applicationStatus.Draft_Renewal_of_Lease_deed');
             $Scstatus = $Tostatus;
 
         } elseif (session()->get('role_name') == config('commanConfig.joint_co') && $request->to_role_id == $dycdoId){
-            
-            if ($applicationStatus == config('commanConfig.applicationStatus.Draft_sale_&_lease_deed')){
-                $Tostatus = config('commanConfig.applicationStatus.Aproved_sale_&_lease_deed');
-                $Scstatus = $Tostatus;
+               
+            if ($applicationStatus == config('commanConfig.applicationStatus.Draft_Renewal_of_Lease_deed')){
 
-            }elseif($applicationStatus == config('commanConfig.applicationStatus.Stamped_sale_&_lease_deed')){
-                $Tostatus = config('commanConfig.applicationStatus.Stamped_signed_sale_&_lease_deed');
+                $Tostatus = config('commanConfig.applicationStatus.Aproved_Renewal_of_Lease');
                 $Scstatus = $Tostatus;
                 
             }else{
@@ -383,22 +392,12 @@ class renewalCommonController extends Controller
                 $Scstatus = $Tostatus;
             }
         }elseif((session()->get('role_name') == config('commanConfig.dycdo_engineer') && $request->to_role_id == $dycoId)){
-            if ($applicationStatus == config('commanConfig.applicationStatus.Aproved_sale_&_lease_deed')){
+            if ($applicationStatus == config('commanConfig.applicationStatus.Aproved_Renewal_of_Lease')){
 
                 $Tostatus = config('commanConfig.applicationStatus.Sent_society_to_pay_stamp_duety');
                 $Scstatus = $Tostatus;
 
-            }elseif($applicationStatus == config('commanConfig.applicationStatus.Stamped_signed_sale_&_lease_deed')){
-                
-                $Tostatus = config('commanConfig.applicationStatus.Sent_society_for_registration_of_sale_&_lease');
-                $Scstatus = $Tostatus; 
-
-            }elseif($applicationStatus == config('commanConfig.applicationStatus.Registered_sale_&_lease_deed')){
-                
-                $Tostatus = config('commanConfig.applicationStatus.NOC_Issued');
-                $Scstatus = $Tostatus;                
-            }
-            else{
+            }else{
 
                 $Tostatus = $applicationStatus;
                 $Scstatus = $Tostatus;
@@ -619,5 +618,97 @@ class renewalCommonController extends Controller
         }
         return back()->with('success','Data uploaded successfully.');
 
-    }                              
+    }
+
+    //view documents in readonly format
+    public function ViewDocuments($applicationId){
+        $data = RenewalApplication::where('id',$applicationId)->first();
+        $data->folder = $this->conveyance->getCurrentRoleFolderName();
+        $documents = SocietyConveyanceDocumentMaster::with(['sr_document_status' => function($q) use($data) { $q->where('application_id', $data->id)->get(); }])->where('application_type_id', $data->application_master_id)->where('society_flag', '1')->get();
+        $documents_uploaded = RenewalDocumentStatus::where('application_id', $data->id)->get();
+//        dd($documents);
+        return view('admin.renewal.common.view_documents', compact('data', 'documents', 'documents_uploaded'));
+    }
+
+    // get document id as per document name
+    public function getDocumentIds($documentNames,$type){
+
+        $typeId = SocietyConveyanceDocumentMaster::with(['sr_document_status'])->whereIn('document_name',$documentNames)->where('application_type_id',$type)->get();
+        return $typeId;
+    }
+
+    /**
+     * Displays the sale & lease deed agreements riders forms.
+     *Author: Amar Prajapati
+     * @param  int  $applicationId
+     * @return \Illuminate\Http\Response
+     */
+    public function la_agreement_riders($applicationId){
+//        dd($applicationId);
+        $sc_application = RenewalApplication::with(['sr_form_request', 'societyApplication', 'applicationLayout', 'srApplicationLog' => function($q){
+            $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
+        }])->where('id', $applicationId)->first();
+        $documents_req = array(
+            config('commanConfig.documents.la_renewal.Lease Deed Agreement')
+        );
+
+        $application_type = scApplicationType::where('application_type', config('commanConfig.applicationType.Renewal'))->value('id');
+        $document_id = $this->conveyance->getDocumentId(config('commanConfig.documents.la_renewal.Lease Deed Agreement'), $application_type);
+//        dd($document_id);
+        $uploaded_document_ids = RenewalDocumentStatus::where('document_id', $document_id)->get();
+        $sc_agreement_comment = RenewalAgreementComments::with('srAgreementId')->get();
+        $data = $sc_application;
+//        dd($uploaded_document_ids);
+        return view('admin.renewal.la_department.sale_lease_deed', compact('sc_application','uploaded_document_ids', 'documents', 'document_id', 'sc_agreement_comment', 'data'));
+    }
+
+    /**
+     * Uploads the sale & lease deed agreements riders.
+     *Author: Amar Prajapati
+     * @param  int  $applicationId
+     * @return \Illuminate\Http\Response
+     */
+    public function upload_la_agreement_riders(Request $request){
+        if($request->hasFile('document_path')){
+//            dd($request->all());
+            $file = $request->file('document_path');
+            $file_name = time().$file->getFileName().'.'.$file->getClientOriginalExtension();
+            $extension = $request->file('document_path')->getClientOriginalExtension();
+            if ($extension == "pdf") {
+                $time = time();
+                $name = File::name($request->file('document_path')->getClientOriginalName()) . '_' . $time . '.' . $extension;
+                $folder_name = "la_agreements";
+                $path = config('commanConfig.storage_server').'/'.$folder_name.'/'.$name;
+                $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$request->file('document_path'),$name);
+
+                $sc_document_status = new RenewalDocumentStatus;
+                $sc_document_status_arr = array_flip($sc_document_status->getFillable());
+
+                $sc_document_status_arr['application_id'] = $request->application_id;
+                $sc_document_status_arr['user_id'] = Auth::user()->id;
+                $sc_document_status_arr['society_flag'] = 0;
+                $sc_document_status_arr['status_id'] = null;
+                $sc_document_status_arr['document_id'] = $request->document_id;
+                $sc_document_status_arr['document_path'] = $path;
+
+                $inserted_document_log = RenewalDocumentStatus::create($sc_document_status_arr);
+
+                if($inserted_document_log == true){
+                    return redirect()->route('renewal.la_agreement_riders', $request->application_id);
+                }
+
+            }else{
+                return redirect()->back()->with('error_uploaded_file', 'Invalid type of file uploaded (only pdf allowed)');
+            }
+        }else{
+            $update_arr = array(
+                'riders' => $request->remark
+            );
+
+            $updated_rides = RenewalApplication::where('id', $request->application_id)->update($update_arr);
+            if($updated_rides == 1){
+                return redirect()->route('renewal.la_agreement_riders', $request->application_id);
+            }
+        }
+    }
 }

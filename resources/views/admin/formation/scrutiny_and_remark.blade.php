@@ -187,7 +187,7 @@
                                                         @if($read_only!=1)
                                                         <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Save</Button>
                                                         @endif
-                                                        <a href="{{ url()->previous() }}" class="btn btn-primary btn-custom">Back</a>
+                                                        {{-- <a href="{{ url()->previous() }}" class="btn btn-primary btn-custom">Back</a> --}}
                                                     </div>
                                                 </div>
                                             </div>
@@ -223,8 +223,10 @@
                                                     <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
                                                         * Note : No Dues Certificate not available. </span>
                                                     @endif
+                                                    @if($read_only!=1 && $sf_application->no_dues_certificate_sent_to_society==0)
                                                     <a href="{{route('formation.get_no_dues_certificate',['id'=>encrypt($sf_application->id)])}}"
                                                         class="btn btn-primary">Generate No Due Certificate</a>
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>

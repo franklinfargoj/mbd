@@ -391,6 +391,46 @@ class EmPermissionSeeder extends Seeder
                 'name'=>'formation.send_no_due_to_society',
                 'display_name'=>'No due Certiciate send to society',
                 'description'=>'No due Certiciate send to society'
+            ],
+            [
+                'name'=>'em.save_list_of_allottees',
+                'display_name'=>'Upload list of allottees',
+                'description'=>'Uploads list of allottees'
+            ],
+            [
+                'name'=>'renewal.index',
+                'display_name'=>'List of Applications for Renewal',
+                'description'=>'Shows Lists of Applications for Renewal'
+            ],
+            [
+                'name'=>'renewal.show',
+                'display_name'=>'View Application',
+                'description'=>'View Application in pdf format.'
+            ],
+            [
+                'name'=>'renewal.view_application',
+                'display_name'=>'View Application',
+                'description'=>'View Application in pdf format.'
+            ],
+            [
+                'name'=>'renewal.view_documents',
+                'display_name'=>'View Society Documents',
+                'description'=>'View Society Documents.'
+            ],
+            [
+                'name'=>'em.renewal_scrutiny_remark',
+                'display_name'=>'Scrutiny & Remarks',
+                'description'=>'Scrutiny & Remarks'
+            ],
+            [
+                'name'=>'renewal.save_forward_application_renewal',
+                'display_name'=>'Forward Application',
+                'description'=>'Forwards Application'
+            ],
+            [
+                'name'=>'em.save_covering_letter',
+                'display_name'=>'Uploads covering letter',
+                'description'=>'Uploads covering letter'
             ]
         ];
 

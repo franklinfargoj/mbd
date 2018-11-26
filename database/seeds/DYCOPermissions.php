@@ -197,6 +197,46 @@ class DYCOPermissions extends Seeder
                 'name'=>'formation.society_documents',
                 'display_name'=>'View Documents UPloaded by society',
                 'description'=>'View Documents UPloaded by society'
+            ],            
+            [
+                'name'=>'renewal.save_agreement_comments',
+                'display_name'=>'renewal save agreement comments',
+                'description'=>'renewal save agreement comments'
+            ],            
+            [
+                'name'=>'dyco.renewal_send_to_society',
+                'display_name'=>'dyco renewal send to society',
+                'description'=>'dyco renewal send to society'
+            ],             
+            [
+                'name'=>'dyco.generate_stamp_duty_letter',
+                'display_name'=>'dyco generate stamp duty letter',
+                'description'=>'dyco generate stamp duty letter'
+            ],            
+            [
+                'name'=>'dyco.save_stamp_duty_letter',
+                'display_name'=>'dyco save stamp duty letter',
+                'description'=>'dyco save stamp duty letter'
+            ],            
+            [
+                'name'=>'dyco.upload_renewal_stamp_letter',
+                'display_name'=>'dyco upload renewal stamp letter',
+                'description'=>'dyco upload renewal stamp letter'
+            ],
+            [
+                'name'=>'formation.em_srutiny_and_remark',
+                'display_name'=>'display the scrutiny report of EM for SF',
+                'description'=>'display the scrutiny report of EM for SF'
+            ],             
+            [
+                'name'=>'dyco.generate_canveyance_noc',
+                'display_name'=>'generate canveyance noc',
+                'description'=>'generate canveyance noc'
+            ],             
+            [
+                'name'=>'dyco.save_noc',
+                'display_name'=>'save noc',
+                'description'=>'save noc'
             ]      
         ];
 

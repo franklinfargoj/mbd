@@ -88,6 +88,7 @@ class LeaseDetailController extends Controller
      */
     public function index(Request $request, Datatables $datatables, $id)
     {
+
         $header_data = $this->header_data;
         $getData = $request->all();
 
@@ -103,12 +104,54 @@ class LeaseDetailController extends Controller
             ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
         ];
 
-
         if($request->excel)
         {
-            $lease_data = LeaseDetail::where(['society_id' => $id])
-            ->join('lm_society_detail','lm_lease_detail.society_id','=','lm_society_detail.id')->selectRaw(DB::raw('lm_lease_detail.id as id, lm_lease_detail.lease_rule_16_other,lm_lease_detail.lease_basis,lm_lease_detail.area,lm_lease_detail.lease_period,lm_lease_detail.lease_start_date,lm_lease_detail.lease_rent,lm_lease_detail.lease_rent_start_month,lm_lease_detail.interest_per_lease_agreement,lm_lease_detail.interest_per_lease_agreement,lm_lease_detail.lease_renewal_date,lm_lease_detail.lease_renewed_period,lm_lease_detail.rent_per_renewed_lease,lm_lease_detail.interest_per_renewed_lease_agreement,lm_lease_detail.month_rent_per_renewed_lease,lm_lease_detail.payment_detail,lm_lease_detail.lease_status,lm_society_detail.society_name'));
+            if($id){
+                $lease_data = LeaseDetail::where(['society_id' => $id])
+                    ->join('lm_society_detail','lm_lease_detail.society_id','=','lm_society_detail.id')
+                    ->selectRaw(DB::raw('lm_lease_detail.id as id, 
+                    lm_lease_detail.lease_rule_16_other,
+                    lm_lease_detail.lease_basis,
+                    lm_lease_detail.area,
+                    lm_lease_detail.lease_period,
+                    lm_lease_detail.lease_start_date,
+                    lm_lease_detail.lease_rent,
+                    lm_lease_detail.lease_rent_start_month,
+                    lm_lease_detail.interest_per_lease_agreement,
+                    lm_lease_detail.interest_per_lease_agreement,
+                    lm_lease_detail.lease_renewal_date,
+                    lm_lease_detail.lease_renewed_period,
+                    lm_lease_detail.rent_per_renewed_lease,
+                    lm_lease_detail.interest_per_renewed_lease_agreement,
+                    lm_lease_detail.month_rent_per_renewed_lease,
+                    lm_lease_detail.payment_detail,
+                    lm_lease_detail.lease_status,
+                    lm_society_detail.society_name'));
+                dd($lease_data);
+            }else{
+                $lease_data = LeaseDetail::join('lm_society_detail','lm_lease_detail.society_id','=','lm_society_detail.id')
+                    ->selectRaw(DB::raw('lm_lease_detail.id as id, 
+                    lm_lease_detail.lease_rule_16_other,
+                    lm_lease_detail.lease_basis,
+                    lm_lease_detail.area,
+                    lm_lease_detail.lease_period,
+                    lm_lease_detail.lease_start_date,
+                    lm_lease_detail.lease_rent,
+                    lm_lease_detail.lease_rent_start_month,
+                    lm_lease_detail.interest_per_lease_agreement,
+                    lm_lease_detail.interest_per_lease_agreement,
+                    lm_lease_detail.lease_renewal_date,
+                    lm_lease_detail.lease_renewed_period,
+                    lm_lease_detail.rent_per_renewed_lease,
+                    lm_lease_detail.interest_per_renewed_lease_agreement,
+                    lm_lease_detail.month_rent_per_renewed_lease,
+                    lm_lease_detail.payment_detail,
+                    lm_lease_detail.lease_status,
+                    lm_society_detail.society_name'));
+            }
+
             $dataLists=$lease_data->orderBy('lm_lease_detail.created_at','desc')->get();
+
             if(count($dataLists) == 0){
                 $dataListMaster = [];
                 $dataList = [];
@@ -165,8 +208,12 @@ class LeaseDetailController extends Controller
 
             DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
 
-            $lease_data = LeaseDetail::with('leaseSociety')->where(['society_id' => $id])->orderBy('created_at','desc');
+            if($id) {
+                $lease_data = LeaseDetail::with('leaseSociety')->where(['society_id' => $id])->orderBy('created_at', 'desc');
 
+            }else{
+                $lease_data = LeaseDetail::with('leaseSociety')->orderBy('created_at', 'desc');
+            }
 //            $lease_count = 0;
 //            foreach($lease_detail as $lease_detail_val){
 //                $lease_start_date = $lease_detail_val->lease_start_date;
@@ -218,7 +265,6 @@ class LeaseDetailController extends Controller
         }
 
         $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
-
         return view('admin.lease_detail.index', compact('html','header_data','getData', 'count', 'id', 'village_id'));
     }
 

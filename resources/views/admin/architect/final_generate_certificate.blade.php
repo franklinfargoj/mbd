@@ -6,7 +6,7 @@
 <div class="col-md-12">
         <div class="m-subheader px-0 m-subheader--top">
                 <div class="d-flex align-items-center">
-                    <h3 class="m-subheader__title m-subheader__title--separator">Issue certificate to selected candidate</h3>
+                    <h3 class="m-subheader__title m-subheader__title--separator">View certificate</h3>
                     {{ Breadcrumbs::render('architect_finalCertificateGenerate',$ArchitectApplication->id) }}
                 </div>
                 {{-- @if(session('error'))
@@ -58,14 +58,18 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="d-flex flex-column h-100">
-                                    <h5>Download Certificate</h5>
+                                    {{-- <h5>Download Certificate</h5>
                                     <span class="hint-text">Want to make changes in Certificate, click
-                                        on below button to download Certificate</span>
+                                        on below button to download Certificate</span> --}}
                                     <div class="mt-3">
 
                                         @if($ArchitectApplication->drafted_certificate!="")
                                         <a target="_blank" href="{{config('commanConfig.storage_server').'/'.$ArchitectApplication->certificate_path}}"
-                                            class="btn btn-primary">Download Certificate</a>
+                                            class="btn btn-primary">@if($ArchitectApplication->certificate_path!="")
+                                            View Certificate
+                                            @else
+                                            Generate Certificate
+                                            @endif</a>
                                         @else
                                         <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
                                             * Note : Offer Letter not available. </span>
