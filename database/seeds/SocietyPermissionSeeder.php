@@ -378,6 +378,36 @@ class SocietyPermissionSeeder extends Seeder
                     'display_name' => 'Update society revalidation offer letter',
                     'description'  => 'Update society revalidation offer letter'
                 ],
+                [
+                    'name'         => 'uploaded_reval_documents',
+                    'display_name' => 'Upload society revalidation documents',
+                    'description'  => 'Upload society revalidation documents'
+                ],
+                [
+                    'name'         => 'delete_uploaded_reval_documents',
+                    'display_name' => 'Delete uploaded revalidation documents',
+                    'description'  => 'Delete uploaded revalidation documents'
+                ],
+                [
+                    'name'         => 'upload_society_reval_offer_letter_application',
+                    'display_name' => 'upload revalidation offer letter application',
+                    'description'  => 'upload revalidation offer letter application'
+                ],
+                [
+                    'name'         => 'upload_society_reval_offer_letter',
+                    'display_name' => 'upload revalidation offer letter',
+                    'description'  => 'upload revalidation offer letter'
+                ],
+                [
+                    'name'         => 'society_reval_offer_letter_application_download',
+                    'display_name' => 'Revalidation offer letter application download',
+                    'description'  => 'Revalidation offer letter application download'
+                ],
+                [
+                    'name'         => 'add_reval_documents_comment',
+                    'display_name' => 'Add uploaded revalidation documents comment',
+                    'description'  => 'Add uploaded revalidation documents comment'
+                ]
         ];
         
         if(count($society)==0){
