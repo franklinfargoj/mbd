@@ -219,11 +219,6 @@ class DYCOPermissions extends Seeder
                 'description'=>'dyco save stamp duty letter'
             ],            
             [
-                'name'=>'dyco.upload_renewal_stamp_letter',
-                'display_name'=>'dyco upload renewal stamp letter',
-                'description'=>'dyco upload renewal stamp letter'
-            ],
-            [
                 'name'=>'formation.em_srutiny_and_remark',
                 'display_name'=>'display the scrutiny report of EM for SF',
                 'description'=>'display the scrutiny report of EM for SF'
@@ -237,6 +232,11 @@ class DYCOPermissions extends Seeder
                 'name'=>'dyco.save_noc',
                 'display_name'=>'save noc',
                 'description'=>'save noc'
+            ],            
+            [
+                'name'=>'dyco.save_renewal_stamp_duty',
+                'display_name'=>'save renewal stamp duty',
+                'description'=>'save renewal stamp duty'
             ]      
         ];
 

@@ -167,7 +167,7 @@ $route=\Request::route()->getName();
                 <span class="m-menu__link-text">Checklist & office note</span>
             </a>
         </li>   
-    @endif         
+    @endif          
 
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{($route=='conveyance.forward_application_sc')?'m-menu__item--active':''}}">
             <a class="m-menu__link m-menu__toggle" title="Forward Application" href="{{ route('conveyance.forward_application_sc', $data->id) }}">
