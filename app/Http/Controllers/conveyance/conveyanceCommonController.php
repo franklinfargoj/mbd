@@ -157,7 +157,7 @@ class conveyanceCommonController extends Controller
         $document = SocietyConveyanceDocumentStatus::where('document_id', $document_id)->first();
 
         return view('admin.conveyance.common.view_application',compact('data', 'document'));
-    }             
+    } 
 
     //revert application child id
     public function getRevertApplicationChildData(){
@@ -329,8 +329,9 @@ class conveyanceCommonController extends Controller
     }
 
 
-    //view documents in readonly format
-    public function ViewDocuments($applicationId){
+    //view society documents in readonly format
+    public function ViewSocietyDocuments($applicationId){
+        
         $data = scApplication::where('id',$applicationId)->first();
         $data->folder = $this->getCurrentRoleFolderName();
         $documents = SocietyConveyanceDocumentMaster::with(['sc_document_status' => function($q) use($data) { $q->where('application_id', $data->id)->get(); }])->where('application_type_id', $data->sc_application_master_id)->where('society_flag', '1')->where('language_id', '2')->get();

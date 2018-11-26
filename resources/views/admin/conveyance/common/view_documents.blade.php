@@ -7,28 +7,13 @@
         <!-- BEGIN: Subheader -->
         <div class="m-subheader px-0 m-subheader--top">
             <div class="d-flex align-items-center">
-                <h3 class="m-subheader__title m-subheader__title--separator">Submitted Documents</h3>
-                {{ Breadcrumbs::render('documents_upload') }}
+                <h3 class="m-subheader__title m-subheader__title--separator">Society Documents</h3>
+               
                 <a href="{{ url()->previous() }}" class="btn btn-link ml-auto"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
             </div>
         </div>
         <!-- END: Subheader -->
         <div class="m-portlet m-portlet--creative m-portlet--first m-portlet--bordered-semi mb-0">
-            <!-- <div class="m-portlet__head main-sub-title">
-                <div class="m-portlet__head-caption">
-                    <div class="m-portlet__head-title">
-                        <span class="m-portlet__head-icon m--hide">
-                            <i class="flaticon-statistics"></i>
-                        </span>
-                        <h2 class="m-portlet__head-label m-portlet__head-label--custom">
-                            <span>
-                                Upload Attachments
-                            </span>
-                        </h2>
-                    </div>
-                </div>
-            </div> -->
-
             <div class="m-portlet__body m-portlet__body--table">
                 <div class="m-section mb-0">
                     <div class="m-section__content mb-0 table-responsive">
@@ -85,46 +70,8 @@
                                                            class="upload_documents"></a>
                                                     @endif
                                     </span>
-                                            @else
-                                                <form action="{{ route('upload_sc_docs') }}" method="post" enctype='multipart/form-data' class="sc_upload_documents_form"
-                                                      id="sc_upload_documents_form_{{ $document->id }}">
-                                                    @csrf
-                                                    <div class="custom-file">
-                                                        <input class="custom-file-input" name="document_name" type="file" class=""
-                                                               id="test-upload_{{ $document->id }}" required>
-                                                        <input class="form-control m-input" type="hidden" name="document_id" value="{{ $document->id }}">
-                                                        <label class="custom-file-label" for="test-upload_{{ $document->id }}">Choose
-                                                            file ...</label>
-                                                        <span class="help-block">
-                                                @if(session('error_'.$document->id))
-                                                                session('error_'.$document->id)
-                                                            @endif
-                                            </span>
-                                                    </div>
-                                                    <br>
-                                                    <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
-                                                </form>
                                             @endif
                                             {{--@endforeach--}}
-                                        @else
-                                            <form action="{{ route('upload_sc_docs') }}" method="post" enctype='multipart/form-data' class="sc_upload_documents_form"
-                                                  id="sc_upload_documents_form_{{ $document->id }}">
-                                                @csrf
-                                                <div class="custom-file @if(session('error_'.$document->id)) has-error @endif">
-                                                    <input class="custom-file-input" name="document_name" type="file" id="test-upload_{{ $document->id }}"
-                                                           required>
-                                                    <input class="form-control m-input" type="hidden" name="document_id" value="{{ $document->id }}">
-                                                    <label class="custom-file-label" for="test-upload_{{ $document->id }}">Choose
-                                                        file ...</label>
-                                                    <span class="help-block text-danger">
-                                                @if(session('error_'.$document->id))
-                                                            {{session('error_'.$document->id)}}
-                                                        @endif
-                                            </span>
-                                                </div>
-                                                <br>
-                                                <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn_{{ $document->id }}">Upload</button>
-                                            </form>
                                         @endif
                                     </td>
                                 </tr>
