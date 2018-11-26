@@ -13,6 +13,8 @@
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">
                 Application for Formation</h3>
+                
+                {{ Breadcrumbs::render('society_formation_list') }}
             <!-- <button type="button" class="btn btn-transparent ml-auto" data-toggle="collapse" data-target="#filter">
                 <img class="filter-icon" src="{{asset('/img/filter-icon.svg')}}">Filter
             </button> -->
@@ -58,7 +60,7 @@
                                 <div class="form-group m-form__group">
                                     <div class="btn-list">
                                         <button type="submit" class="btn m-btn--pill m-btn--custom btn-primary">Search</button>
-                                        <button type="reset" onclick="window.location.href='{{ url("/dyce") }}'" class="btn m-btn--pill m-btn--custom btn-metal">Reset</button>
+                                        <button type="reset" onclick="window.location.href='{{ route("get_sf_applications.index") }}'" class="btn m-btn--pill m-btn--custom btn-metal">Reset</button>
                                     </div>
                                 </div>
                             </div>

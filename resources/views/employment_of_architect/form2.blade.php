@@ -98,7 +98,7 @@
             clone.find('input[name="enclosure_id[0]"]')[0].setAttribute('name','enclosure_id['+count+']-error')
             clone.find('input[name="enclosures[0]"]')[0].setAttribute('name','enclosures['+count+']-error')
             clone.find('.sr_no').html(count+'.')
-            clone.find(".help-block").append("<h2 class='m--font-danger'><i title='Delete' class='fa fa-remove'></i></h2>");
+            clone.find(".input-row-list").append("<h2 class='m--font-danger'><i title='Delete' class='fa fa-remove'></i></h2>");
             $('.enclosuers').append(clone);
         });
 

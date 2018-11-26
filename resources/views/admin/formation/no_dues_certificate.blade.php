@@ -20,96 +20,71 @@
         @else
         <div style="" id="">
             <div style="float: left; padding-left: 15px;">
-                <span style="font-weight: bold; font-size: 20px; ">Subject:</span>
-                <div style="float: left;line-height: 2.0; padding-left: 20px;">
-                <p style="font-size: 15px; ">It is to certify that Building No. {{$sf_application->societyApplication->building_no}} consisting of _____________ T/S under the _____________ Scheme at __________ In favour of ___________
+                <p style="font-weight: bold; font-size: 20px; margin-bottom: 10px;">Subject:</p>
+                <div style="width: 100%; float: left;line-height: 2.0; padding-left: 20px;">
+                <p style="font-size: 15px;">It is to certify that Building No. {{$sf_application->societyApplication->building_no}} consisting of _____________ T/S under the _____________ Scheme at __________ In favour of ___________
                     Co-op. Housing Society Ltd. Have paid all the dues in respect of above bldg./bldgs. Including the final sale price for the bldg. and premium of the land as
                     follow:</p>
                 </div>
+                <div style="clear: both;"></div>
                 <p style="float: left;line-height: 2.0; padding-left: 20px; font-size: 15px; ">
                     5. Final Sale Price of the Bldg/bldgs.<br/>
-
                     (A) Cost of Construction<span style="padding-left: 30px;">________________</span><br/>
-
                     (B) Premium Land<span style="padding-left: 68px;">________________</span><br/>
-
-                    <span style="padding-left: 70px;">Total<span style="padding-left: 88px;">________________</span></span>
+                    <span>Total<span style="padding-left: 88px;">________________</span></span>
                 </p>
-                
+                <div style="clear: both;"></div>
             </div>
-            <p style="float: left;line-height: 2.0; padding-left: 20px; font-size: 15px; ">
-                    6. Charges for Common Services are paid upto ___________<br/>
-
-                    <span> The rate of Charges of Common Services payable by the said Society is Rs._________ Per Quarter.</span>
-
-            </p>
-
-            <p style="float: left;line-height: 2.0; padding-left: 20px; font-size: 15px; ">
-                    7. Lease Rent Paid Upto ___________<br/>
-
-                    <span> The Rate of the Lease rent payable by the said society is Rs._______ Per Annum</span>
-
-            </p>
-            <p style="float: left;line-height: 2.0; padding-left: 20px; font-size: 15px; ">
-                    5. Whether Municipal Taxes ____________ are paid upto date (In Case the Society is Paying the Municipal Taxes directly to the Municipal Corporation of
-
- 
-
-                    <span>__________ the same stated and accordingly.</span>
-
-            </p>
-            
-
-
-            <p style="float: left;line-height: 2.0; padding-left: 20px; font-size: 15px; ">
-                    8. N.A .Assessment Paid Upto    __________<br/>
-
-                    <span> The Rate of N.A Assessment Payable by the said Society is Rs.____________ Per Tenement/Per Month.</span>
-
-            </p>
-
-            <p style="float: left;line-height: 2.0; padding-left: 20px; font-size: 15px; ">
-                    5. Whether Municipal Taxes ____________ are paid upto date (In Case the Society is Paying the Municipal Taxes directly to the Municipal Corporation of
-
- 
-
-                    <span>__________ the same stated and accordingly.</span>
-
-            </p>
-            <p style="float: left;line-height: 2.0; padding-left: 20px; font-size: 15px; ">
-                    <span> 6. Date of Allotment dt. _______________</span>
-
-            </p>
-            <p style="float: left;line-height: 2.0; padding-left: 20px; font-size: 15px; ">
-                    <span> 7. Date of Handling over of Pump House ___________and underground tank to the society.</span>
-
-            </p>
-            <p style="float: left;line-height: 2.0; padding-left: 20px; font-size: 15px; ">
-                    <span>9. Remarks if any __________________________________________________________________________________________________________________________________________________________________________</span>
-
-            </p>
-            <p style="float: left;line-height: 2.0; padding-left: 20px; font-size: 15px; ">
-                    It is confirmed that no litigation with the board involving the society or/ and it’s any member is pending. So also there are no court order/ Injunction restraining. The Board from conveying the above said building or any tenement and from leasing the land.
-
-                    There is no objection whatsoever to convey the building and lease the land to the above said society.
-                    
-                    Encl: Bonifide Tenements List.
-            </p>
-            <p style="float: right;line-height: 2.0; padding-right: 20px; font-size: 15px; ">
-
-                                                                                            Estate Manager <br>
-
-                                                                                            ___________ Hsg. & Area Dev.  <br>                
-
-                                                                                            Board, Mumbai
-            </p>
-            <p style="float: left;line-height: 2.0; padding-left: 20px; font-size: 15px; ">
-            To,<br>
-
-            EM-II /Conveyance<br>
-
-            --------------  Board, Mumbai.400051
-            </p>
+            <div style="clear: both;"></div>
+            <div>
+                    <p style="float: left;line-height: 2.0; padding-left: 20px; font-size: 15px; ">
+                            6. Charges for Common Services are paid upto ___________<br/>
+                            <span> The rate of Charges of Common Services payable by the said Society is Rs._________ Per Quarter.</span>
+                    </p>
+        
+                    <p style="float: left;line-height: 2.0; padding-left: 20px; font-size: 15px; ">
+                            7. Lease Rent Paid Upto ___________<br/>
+                            <span> The Rate of the Lease rent payable by the said society is Rs._______ Per Annum</span>
+                    </p>
+                    <p style="float: left;line-height: 2.0; padding-left: 20px; font-size: 15px; ">
+                            5. Whether Municipal Taxes ____________ are paid upto date (In Case the Society is Paying the Municipal Taxes directly to the Municipal Corporation of
+                            <span>__________ the same stated and accordingly.</span>
+                    </p>
+                    <p style="float: left;line-height: 2.0; padding-left: 20px; font-size: 15px; ">
+                            8. N.A .Assessment Paid Upto    __________<br/>
+                            <span> The Rate of N.A Assessment Payable by the said Society is Rs.____________ Per Tenement/Per Month.</span>
+                    </p>
+        
+                    <p style="float: left;line-height: 2.0; padding-left: 20px; font-size: 15px; ">
+                            5. Whether Municipal Taxes ____________ are paid upto date (In Case the Society is Paying the Municipal Taxes directly to the Municipal Corporation of
+                            <span>__________ the same stated and accordingly.</span>
+                    </p>
+                    <p style="float: left;line-height: 2.0; padding-left: 20px; font-size: 15px; ">
+                            <span> 6. Date of Allotment dt. _______________</span>
+                    </p>
+                    <p style="float: left;line-height: 2.0; padding-left: 20px; font-size: 15px; ">
+                            <span> 7. Date of Handling over of Pump House ___________and underground tank to the society.</span>
+                    </p>
+                    <p style="float: left;line-height: 2.0; padding-left: 20px; font-size: 15px; ">
+                        <span>9. Remarks if any __________________________________________________________________________________________________________________________________________________________________________</span>
+                    </p>
+                    <p style="float: left;line-height: 2.0; padding-left: 20px; font-size: 15px; ">
+                            It is confirmed that no litigation with the board involving the society or/ and it’s any member is pending. So also there are no court order/ Injunction restraining. The Board from conveying the above said building or any tenement and from leasing the land.
+                            There is no objection whatsoever to convey the building and lease the land to the above said society.
+                            Encl: Bonifide Tenements List.
+                    </p>
+                    <p style="float: right;line-height: 2.0; padding-right: 20px; font-size: 15px; ">
+                        Estate Manager <br> ___________ Hsg. & Area Dev.  <br> Board, Mumbai
+                    </p>
+                    <p style="float: left;line-height: 2.0; padding-left: 20px; font-size: 15px; ">
+                    To,<br>
+        
+                    EM-II /Conveyance<br>
+        
+                    --------------  Board, Mumbai.400051
+                    </p>
+                    <div style="clear: both;"></div>
+            </div>
         </div>
         @endif
         </textarea>
