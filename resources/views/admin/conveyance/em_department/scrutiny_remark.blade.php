@@ -274,8 +274,8 @@
                                                 @csrf
                                                 <div class="custom-file">
                                                     <input class="custom-file-input pdfcheck" name="no_dues_certificate" type="file"
-                                                           id="test-upload" required="required">
-                                                    <label class="custom-file-label" for="test-upload">Choose
+                                                           id="test-upload_1" required="required">
+                                                    <label class="custom-file-label" for="test-upload_1">Choose
                                                         file...</label>
                                                     <span class="text-danger" id="file_error"></span>
                                                     <input type="hidden" id="applicationId" name="applicationId" value="{{ $data->id }}">
@@ -294,12 +294,12 @@
             {{--</div>--}}
         </div>
         <div class="tab-pane section-2" id="list-of-allottes" role="tabpanel">
-        <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
+            <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
                 <div class="portlet-body">
                     <div class="m-portlet__body" style="padding-right: 0;">
                         <div class=" row-list">
                             <div class="row">
-                                @if(isset($data->sc_form_request) && $data->sc_form_request->template_file)
+                                @if($bonafide_docs['bonafide_list']->sc_document_status != null)
                                     <div class="col-md-6">
                                         <h5 class="section-title section-title--small mb-0">Download List of Allottees uploaded by Society:</h5>
                                         <p>
@@ -317,7 +317,7 @@
                                             <p>Click to download generated list of allottees in xls format</p>
                                             {{--<button class="btn btn-primary btn-custom" id="uploadBtn" data-toggle="modal" data-target="#myModal">Edit</button>--}}
 
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->sc_form_request->template_file }}" class="btn btn-primary">
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$bonafide_docs['bonafide_list']->sc_document_status->document_path }}" class="btn btn-primary">
                                                 Download</a>
                                     </div>
                                 @endif
@@ -341,8 +341,8 @@
                                                 @csrf
                                                 <div class="custom-file">
                                                     <input class="custom-file-input pdfcheck" name="document_path" type="file"
-                                                           id="test-upload" required="required">
-                                                    <label class="custom-file-label" for="test-upload">Choose
+                                                           id="test-upload_2" required="required">
+                                                    <label class="custom-file-label" for="test-upload_2">Choose
                                                         file...</label>
                                                     <span class="text-danger" id="file_error"></span>
                                                     <input type="hidden" id="application_id" name="application_id" value="{{ $data->id }}">
@@ -384,8 +384,8 @@
                                         </p>
                                         <p>Click to download Covering Letter in pdf format</p><p></p>
                                         {{--<button class="btn btn-primary btn-custom" id="uploadBtn" data-toggle="modal" data-target="#myModal">Edit</button>--}}
-                                        @if($data->sc_form_request->template_file)
-                                            <a href="{{ config('commanConfig.storage_server').'/'.$data->sc_form_request->template_file }}" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                                        @if(!empty($covering_letter_docs['em_covering_letter']->sc_document_status))
+                                            <a href="{{ $covering_letter_docs['em_covering_letter']->sc_document_status->document_path }}" class="btn btn-primary" target="_blank" rel="noopener">
                                                 Download</a>
                                         @endif
                                     </div>
@@ -406,12 +406,12 @@
                                         </div>
                                         @endif
                                         </p>
-                                        <form action="{{ route('em.save_conveyance_no_dues_certificate') }}" id="no_dues_certi_upload" method="post" enctype="multipart/form-data">
+                                        <form action="{{ route('em.save_covering_letter') }}" id="no_dues_certi_upload" method="post" enctype="multipart/form-data">
                                             @csrf
                                             <div class="custom-file">
-                                                <input class="custom-file-input pdfcheck" name="no_dues_certificate" type="file"
-                                                       id="test-upload" required="required">
-                                                <label class="custom-file-label" for="test-upload">Choose
+                                                <input class="custom-file-input pdfcheck" name="covering_letter" type="file"
+                                                       id="test-upload_3" required="required">
+                                                <label class="custom-file-label" for="test-upload_3">Choose
                                                     file...</label>
                                                 <span class="text-danger" id="file_error"></span>
                                                 <input type="hidden" id="applicationId" name="applicationId" value="{{ $data->id }}">
@@ -531,6 +531,13 @@ Co-op. Housing Society Ltd. Have paid all the dues in respect of above bldg./bld
                 $(".nav-link").removeClass('active');
                 Cookies.set('sectionId', this.id);
             });
+
+            function showUploadedFileName() {
+                $('.custom-file-input').change(function (e) {
+                    $(this).parents('.custom-file').find('.custom-file-label').text(e.target.files[0].name);
+                });
+            }
+            showUploadedFileName();
 
             // $('#no_dues_certi_upload').validate({
             //     rules:{

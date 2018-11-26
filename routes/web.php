@@ -838,7 +838,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('scrutiny_remark_em/{id}', 'conveyance\EMDepartment\EMController@ScrutinyRemark')->name('em.scrutiny_remark');
     Route::post('save_conveyance_letter', 'conveyance\EMDepartment\EMController@saveNoDuesCertificate')->name('em.save_conveyance_no_dues_certificate');
     Route::post('save_list_of_allottees', 'conveyance\EMDepartment\EMController@uploadListOfAllottees')->name('em.save_list_of_allottees');
-    Route::post('save_covering_letter', 'conveyance\EMDepartment\EMController@uploadCoveringLetter')->name('em.save_covering_letter');
+    Route::post('save_covering_letter_em', 'conveyance\EMDepartment\EMController@uploadCoveringLetter')->name('em.save_covering_letter');
 
     // Route::get('sale_price_calculation/{id}', 'conveyance\EEDepartment\EEController@SalePriceCalculation')->name('ee.sale_price_calculation');
 
@@ -911,9 +911,9 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::post('upload_la_agreement_riders_renewal', 'conveyance\renewalCommonController@upload_la_agreement_riders')->name('renewal.upload_la_agreement_riders');
 
-    Route::get('forward_application_sc/{id}', 'conveyance\renewalCommonController@commonForward')->name('renewal.forward_application_sc');
+    Route::get('forward_application_sr/{id}', 'conveyance\renewalCommonController@commonForward')->name('renewal.forward_application_sc');
 
-    Route::post('save_forward_application_sc', 'conveyance\renewalCommonController@saveForwardApplication')->name('renewal.save_forward_application');
+    Route::post('save_forward_application_sr', 'conveyance\renewalCommonController@saveForwardApplication')->name('renewal.save_forward_application');
 //dashboard    
 
     Route::get('/dashboard','Common\CommonController@dashboard')->name('dashboard');
