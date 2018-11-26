@@ -138,11 +138,11 @@ class FormationCommonController extends Controller
 
         $applicationData = $applicationData->orderBy('sf_applications.id', 'desc')->get();
         $listArray = [];
-
+            //dd($applicationData);
         if ($request->update_status) {
 
             foreach ($applicationData as $app_data) {
-                if ($app_data->sfApplicationLog[0]->status_id == $request->update_status) {
+                if ($app_data->sfApplicationLog->status_id == $request->update_status) {
                     $listArray[] = $app_data;
                 }
             }
@@ -512,7 +512,7 @@ class FormationCommonController extends Controller
         $filePath1 = $folder_name1."/".$file_nm;
 
         Storage::disk('ftp')->put($filePath1, $content);
-
+        $filePath1="";
         SfApplication::where('id',$request->applicationId)->update(["no_due_certificate" => $filePath, "no_dues_certificate_in_text" => $filePath1]);
          // OlApplication::where('id',$request->applicationId)->update(["drafted_offer_letter" => $filePath]);
         return redirect()->route('formation.em_srutiny_and_remark',['id'=>encrypt($request->applicationId)])->withSuccess('Certificate Generated!');
