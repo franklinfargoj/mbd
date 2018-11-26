@@ -5,6 +5,8 @@ namespace App\Http\Controllers\conveyance;
 use App\conveyance\scApplicationType;
 use App\conveyance\SfApplication;
 use App\conveyance\SfApplicationStatusLog;
+use App\conveyance\SfScrtinyByEmMaster;
+use App\conveyance\SfScrtinyByEmMasterDetail;
 use App\conveyance\SocietyConveyanceDocumentMaster;
 use App\Http\Controllers\Common\CommonController;
 use App\Http\Controllers\Controller;
@@ -13,11 +15,8 @@ use App\User;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Yajra\DataTables\DataTables;
-
-use App\conveyance\SfScrtinyByEmMaster;
-use App\conveyance\SfScrtinyByEmMasterDetail;
 use Storage;
+use Yajra\DataTables\DataTables;
 
 class FormationCommonController extends Controller
 {
@@ -138,7 +137,7 @@ class FormationCommonController extends Controller
 
         $applicationData = $applicationData->orderBy('sf_applications.id', 'desc')->get();
         $listArray = [];
-            //dd($applicationData);
+        //dd($applicationData);
         if ($request->update_status) {
 
             foreach ($applicationData as $app_data) {
@@ -191,17 +190,15 @@ class FormationCommonController extends Controller
 
     public function getForwardApplicationParentData()
     {
-        $result=array();
-        if(session()->get('role_name')==config('commanConfig.dyco_engineer'))
-        {
+        $result = array();
+        if (session()->get('role_name') == config('commanConfig.dyco_engineer')) {
             $role_id = Role::where('name', config('commanConfig.estate_manager'))->first();
-            $result[]=$role_id->id;
-        }else
-        {
+            $result[] = $role_id->id;
+        } else {
             $role_id = Role::where('id', Auth::user()->role_id)->first();
             $result = json_decode($role_id->conveyance_parent_id);
         }
-       // dd($result);
+        // dd($result);
         $parent = "";
         if ($result) {
             $parent = User::with(['roles', 'LayoutUser' => function ($q) {
@@ -210,9 +207,9 @@ class FormationCommonController extends Controller
                 ->whereHas('LayoutUser', function ($q) {
                     $q->where('layout_id', session('layout_id'));
                 })
-                // ->whereHas('roles', function ($q) {
-                //     $q->where('name', config('commanConfig.estate_manager'));
-                // })
+            // ->whereHas('roles', function ($q) {
+            //     $q->where('name', config('commanConfig.estate_manager'));
+            // })
                 ->whereIn('role_id', $result)->get();
         }
         //dd($parent);
@@ -358,7 +355,7 @@ class FormationCommonController extends Controller
         }
     }
 
-    public function get_em_checklist_and_remarks_for_sf($application_id,$user_id)
+    public function get_em_checklist_and_remarks_for_sf($application_id, $user_id)
     {
         $SfScrtinyByEmMaster = SfScrtinyByEmMaster::all();
         foreach ($SfScrtinyByEmMaster as $data) {
@@ -374,29 +371,27 @@ class FormationCommonController extends Controller
             }
         }
 
-        $final_detail = SfScrtinyByEmMasterDetail::with(['question'])->where([ 'sf_application' => $application_id])->get();
+        $final_detail = SfScrtinyByEmMasterDetail::with(['question'])->where(['sf_application' => $application_id])->get();
         return $final_detail;
 
     }
 
     public function get_sf_em_srutiny_and_remark($id)
     {
-        $read_only=0;
+        $read_only = 0;
         $applicationId = decrypt($id);
-        $SfScrtinyByEmMaster=SfScrtinyByEmMaster::all();
-        $sf_application = SfApplication::with(['societyApplication','sfScrutinyByEM'])->where('id', $applicationId)->first();
+        $SfScrtinyByEmMaster = SfScrtinyByEmMaster::all();
+        $sf_application = SfApplication::with(['societyApplication', 'sfScrutinyByEM'])->where('id', $applicationId)->first();
         //dd($sf_application->sfScrutinyByEM);
-        if(session()->get('role_name')!=config('commanConfig.estate_manager') || $sf_application->no_dues_certificate_sent_to_society!=0)
-        {
-            $read_only=1;
+        if (session()->get('role_name') != config('commanConfig.estate_manager') || $sf_application->no_dues_certificate_sent_to_society != 0) {
+            $read_only = 1;
         }
-        if(session()->get('role_name')==config('commanConfig.estate_manager') || $sf_application->sfScrutinyByEM->count()>0)
-        {
-        $check_list_and_remarks=$this->get_em_checklist_and_remarks_for_sf($sf_application->id, auth()->user()->id);
+        if (session()->get('role_name') == config('commanConfig.estate_manager') || $sf_application->sfScrutinyByEM->count() > 0) {
+            $check_list_and_remarks = $this->get_em_checklist_and_remarks_for_sf($sf_application->id, auth()->user()->id);
         }
         //dd($check_list_and_remarks);
         $data = $this->getForwardApplicationData($applicationId);
-        return view('admin.formation.scrutiny_and_remark',compact('check_list_and_remarks','sf_application','data','SfScrtinyByEmMaster','read_only'));
+        return view('admin.formation.scrutiny_and_remark', compact('check_list_and_remarks', 'sf_application', 'data', 'SfScrtinyByEmMaster', 'read_only'));
     }
 
     public function upload_em_scrutiny_document_for_sf(Request $request)
@@ -413,7 +408,7 @@ class FormationCommonController extends Controller
                     $enter_detail->file = $storage;
                     $enter_detail->save();
 
-                } 
+                }
 
                 $response_array = array(
                     'status' => true,
@@ -467,44 +462,53 @@ class FormationCommonController extends Controller
 
     public function get_no_dues_certificate($id)
     {
-        $content="";
+        $content = "";
         $applicationId = decrypt($id);
         $sf_application = SfApplication::with('societyApplication')->where('id', $applicationId)->first();
         //dd($sf_application->societyApplication->building_no);
-        if($sf_application->no_dues_certificate_in_text!="")
-        {
-            
-            $content=Storage::disk('ftp')->get($sf_application->no_dues_certificate_in_text);
+        if ($sf_application->no_dues_certificate_in_text != "") {
+
+            $content = Storage::disk('ftp')->get($sf_application->no_dues_certificate_in_text);
         }
-        
-        return view('admin.formation.no_dues_certificate',compact('content','sf_application'));
+
+        return view('admin.formation.no_dues_certificate', compact('content', 'sf_application'));
     }
 
     public function post_no_dues_certificate(Request $request)
     {
+        $no_due_certificate_pdf_file = "";
+        $no_due_certificate_txt_file = "";
         $id = $request->applicationId;
-        // $applicaion_data=SfApplication::where('id',$request->applicationId)->first();
-        // if($applicaion_data)
-        // {
-        //     $file=$applicaion_data->no_due_certificate;
-        //    $no_due_certificate_file=end(explode('/',$file));
-        // }
-        // dd($no_due_certificate_file);
+        $applicaion_data = SfApplication::where('id', $request->applicationId)->first();
+        if ($applicaion_data) {
+            $pdf_file = $applicaion_data->no_due_certificate;
+            if ($pdf_file) {
+                $no_due_certificate_pdf_file = explode('/', $pdf_file);
+                $no_due_certificate_pdf_file = end($no_due_certificate_pdf_file);
+            }
+
+            $text_file = $applicaion_data->no_due_certificate;
+            if ($text_file) {
+                $no_due_certificate_txt_file = explode('/', $text_file);
+                $no_due_certificate_txt_file = end($no_due_certificate_txt_file);
+            }
+        }
+        //dd($no_due_certificate_file);
         $content = str_replace('_', "", $_POST['ckeditorText']);
         $folder_name = 'society_formation_no_dues';
 
-        $header_file = view('admin.REE_department.offer_letter_header');        
+        $header_file = view('admin.REE_department.offer_letter_header');
         $footer_file = view('admin.REE_department.offer_letter_footer');
         $pdf = \App::make('dompdf.wrapper');
 
-        $pdf->loadHTML($header_file.$content.$footer_file);
+        $pdf->loadHTML($header_file . $content . $footer_file);
 
-        $fileName = time().'no_dues_certificate_'.$id.'.pdf';
-        $filePath = $folder_name."/".$fileName;
+        $fileName = $no_due_certificate_pdf_file != "" ? $no_due_certificate_pdf_file : (time() . 'no_dues_certificate_' . $id . '.pdf');
+        $filePath = $folder_name . "/" . $fileName;
 
-        if (!(Storage::disk('ftp')->has($folder_name))) {            
+        if (!(Storage::disk('ftp')->has($folder_name))) {
             Storage::disk('ftp')->makeDirectory($folder_name, $mode = 0777, true, true);
-        } 
+        }
         Storage::disk('ftp')->put($filePath, $pdf->output());
         $file = $pdf->output();
 
@@ -512,17 +516,17 @@ class FormationCommonController extends Controller
 
         $folder_name1 = 'sf_no_dues_certificate';
 
-        if (!(Storage::disk('ftp')->has($folder_name1))) {            
+        if (!(Storage::disk('ftp')->has($folder_name1))) {
             Storage::disk('ftp')->makeDirectory($folder_name1, $mode = 0777, true, true);
-        }        
-        $file_nm =  time()."no_dues_certificate_in_text_".$id.'.txt';
-        $filePath1 = $folder_name1."/".$file_nm;
+        }
+        $file_nm = $no_due_certificate_txt_file != "" ? $no_due_certificate_txt_file : (time() . "no_dues_certificate_in_text_" . $id . '.txt');
+        $filePath1 = $folder_name1 . "/" . $file_nm;
 
         Storage::disk('ftp')->put($filePath1, $content);
         //$filePath1="";
-        SfApplication::where('id',$request->applicationId)->update(["no_due_certificate" => $filePath, "no_dues_certificate_in_text" => $filePath1]);
-         // OlApplication::where('id',$request->applicationId)->update(["drafted_offer_letter" => $filePath]);
-        return redirect()->route('formation.em_srutiny_and_remark',['id'=>encrypt($request->applicationId)])->withSuccess('Certificate Generated!');
+        SfApplication::where('id', $request->applicationId)->update(["no_due_certificate" => $filePath, "no_dues_certificate_in_text" => $filePath1]);
+        // OlApplication::where('id',$request->applicationId)->update(["drafted_offer_letter" => $filePath]);
+        return redirect()->route('formation.em_srutiny_and_remark', ['id' => encrypt($request->applicationId)])->withSuccess('Certificate Generated!');
     }
 
     public function society_documents($id)
@@ -539,15 +543,13 @@ class FormationCommonController extends Controller
 
     public function send_no_due_to_society(Request $request)
     {
-        $application_id=decrypt($request->application_id);
+        $application_id = decrypt($request->application_id);
         $sf_application = SfApplication::find($application_id);
-        $sf_application->no_dues_certificate_sent_to_society=1;
+        $sf_application->no_dues_certificate_sent_to_society = 1;
         $sf_application->save();
-        if($sf_application)
-        {
+        if ($sf_application) {
             return back()->withSuccess('sent to society');
-        }else
-        {
+        } else {
             return back()->withError('Something went wrong!!!');
         }
         //dd($sf_application);
