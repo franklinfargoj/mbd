@@ -13,11 +13,11 @@
             <a href="{{ route("appointing_architect.step5",['id'=>encrypt($application->id)]) }}" class="btn--unstyled flex-grow-1 form-step-tab">Step 5<span>Work Handled</span></a>
             <a href="{{ route("appointing_architect.step6",['id'=>encrypt($application->id)]) }}" class="btn--unstyled flex-grow-1 form-step-tab">Step 6<span>Details of Firm</span></a>
             <a href="{{ route("appointing_architect.step7",['id'=>encrypt($application->id)]) }}" class="btn--unstyled flex-grow-1 form-step-tab">Step 7<span>Work In Hand</span></a>
-            <a href="{{ route("appointing_architect.step8",['id'=>encrypt($application->id)]) }}" class="btn--unstyled flex-grow-1 form-step-tab">Step 8<span>Work Completed</span></a>
+            <a href="{{ route("appointing_architect.step8",['id'=>encrypt($application->id)]) }}" class="btn--unstyled flex-grow-1 form-step-tab">Step 8<span>Works Completed</span></a>
             <a href="{{ route("appointing_architect.step9",['id'=>encrypt($application->id)]) }}" class="btn--unstyled flex-grow-1 form-step-tab ">Step 9<span>Supporting Documents</span></a>
     </div>
     <div class="m-portlet m-portlet--mobile m-portlet--forms-view m-portlet--forms-compact">
-        <h3 class="section-title section-title--small">ARCHITECT/CONSULTANT</h3>
+        {{-- <h3 class="section-title section-title--small">ARCHITECT/CONSULTANT</h3> --}}
         <form id="appointing_architect_step3" role="form" method="post" class="m-form m-form--rows m-form--label-align-right" action="{{route('appointing_architect.step3_post',['id'=>encrypt($application->id)])}}"
             enctype="multipart/form-data">
             @csrf
@@ -25,7 +25,7 @@
             {{-- @include('employment_of_architect.partial_personal_details',compact('application')) --}}
             <div class="form-group m-form__group row">
                 <div class="col-sm-4 form-group">
-                    <label class="col-form-label" for="">Details of Establishment:</label>
+                    <label class="col-form-label" for="">Consultant's details of Establishment:</label>
                     <input type="text" id="" name="details_of_establishment" class="form-control form-control--custom m-input"
                         value="{{$application->details_of_establishment}}">
                     @if ($errors->has('details_of_establishment'))
@@ -33,7 +33,7 @@
                     @endif
                 </div>
                 <div class="col-sm-4 form-group">
-                    <label class="col-form-label" for="">Branch Office Details:</label>
+                    <label class="col-form-label" for="">Consultant's Branch Details:</label>
                     <input type="text" id="" name="branch_office_details" class="form-control form-control--custom m-input"
                         value="{{$application->branch_office_details}}">
                     @if ($errors->has('branch_office_details'))
@@ -55,7 +55,7 @@
             </div>
             <div class="form-group m-form__group row">
                 <div class="col-sm-4 form-group">
-                    <label class="col-form-label" for="">Architects:</label>
+                    <label class="col-form-label" for="">No of Architects:</label>
                     <input onchange="get_total_staff()" onkeyup="get_total_staff()" type="number" min="0" id="staff_architects" name="staff_architects" class="form-control form-control--custom m-input"
                         value="{{$application->staff_architects}}">
                     @if ($errors->has('staff_architects'))
@@ -63,7 +63,7 @@
                     @endif
                 </div>
                 <div class="col-sm-4 form-group">
-                    <label class="col-form-label" for="">Engineer:</label>
+                    <label class="col-form-label" for="">No of Engineer:</label>
                     <input onchange="get_total_staff()" onkeyup="get_total_staff()" type="number" min="0" id="staff_engineers" name="staff_engineers" class="form-control form-control--custom m-input"
                         value="{{$application->staff_engineers}}">
                     @if ($errors->has('staff_engineers'))
@@ -71,7 +71,7 @@
                     @endif
                 </div>
                 <div class="col-sm-4 form-group">
-                    <label class="col-form-label" for="">Supporting (Tech.):</label>
+                    <label class="col-form-label" for="">No of Supporting (Tech.):</label>
                     <input onchange="get_total_staff()" onkeyup="get_total_staff()" type="number" min="0" id="staff_supporting_tech" name="staff_supporting_tech" class="form-control form-control--custom m-input"
                         value="{{$application->staff_supporting_tech}}">
                     @if ($errors->has('staff_supporting_tech'))
@@ -79,7 +79,7 @@
                     @endif
                 </div>
                 <div class="col-sm-4 form-group">
-                    <label class="col-form-label" for="">Supporting (Non Tech.):</label>
+                    <label class="col-form-label" for="">No of Supporting (Non Tech.):</label>
                     <input onchange="get_total_staff()" onkeyup="get_total_staff()" type="number" min="0" id="staff_supporting_nontech" name="staff_supporting_nontech" class="form-control form-control--custom m-input"
                         value="{{$application->staff_supporting_nontech}}">
                     @if ($errors->has('staff_supporting_nontech'))
@@ -181,7 +181,7 @@
             </div>
             <div class="form-group m-form__group row">
                 <div class="col-sm-4 form-group">
-                    <label class="col-form-label" for="">Principle:</label>
+                    <label class="col-form-label" for="">No of Principle:</label>
                     <input type="number" min="0" id="" name="reg_with_council_of_architecture_principle" class="form-control form-control--custom m-input"
                         value="{{$application->reg_with_council_of_architecture_principle}}">
                     @if ($errors->has('reg_with_council_of_architecture_principle'))
@@ -189,7 +189,7 @@
                     @endif
                 </div>
                 <div class="col-sm-4 form-group">
-                    <label class="col-form-label" for="">Associate:</label>
+                    <label class="col-form-label" for="">No of Associate:</label>
                     <input type="number" min="0" id="" name="reg_with_council_of_architecture_associate" class="form-control form-control--custom m-input"
                         value="{{$application->reg_with_council_of_architecture_associate}}">
                     @if ($errors->has('reg_with_council_of_architecture_associate'))
@@ -197,7 +197,7 @@
                     @endif
                 </div>
                 <div class="col-sm-4 form-group">
-                    <label class="col-form-label" for="">Partner:</label>
+                    <label class="col-form-label" for="">No of Partner:</label>
                     <input type="number" min="0" id="" name="reg_with_council_of_architecture_partner" class="form-control form-control--custom m-input"
                         value="{{$application->reg_with_council_of_architecture_partner}}">
                     @if ($errors->has('reg_with_council_of_architecture_partner'))

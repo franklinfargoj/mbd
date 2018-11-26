@@ -20,6 +20,7 @@ use File;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Storage;
+use Mpdf\Mpdf;
 
 class ArchitectApplicationController extends Controller
 {
@@ -293,8 +294,24 @@ class ArchitectApplicationController extends Controller
             if ($ArchitectApplication->drafted_certificate == null) {
                 
                 $content = view('admin.architect.certificate', compact('ArchitectApplication'));
-                $pdf = \App::make('dompdf.wrapper');
-                $pdf->loadHTML($content);
+
+                $header_file = view('admin.REE_department.offer_letter_header');
+                $footer_file = view('admin.REE_department.offer_letter_footer');
+                //$pdf = \App::make('dompdf.wrapper');
+                $pdf=new Mpdf([
+                    'default_font_size' => 9,
+                    'default_font' => 'Times New Roman'
+                ]);
+                $pdf->autoScriptToLang = true;
+                $pdf->autoLangToFont = true;
+                $pdf->setAutoBottomMargin = 'stretch';
+                $pdf->setAutoTopMargin = 'stretch';
+                $pdf->SetHTMLHeader($header_file);
+                $pdf->SetHTMLFooter($footer_file);
+                $pdf->WriteHTML($content);
+
+                // $pdf = \App::make('dompdf.wrapper');
+                // $pdf->loadHTML($content);
                 $fileName = $ArchitectApplication->id . $ArchitectApplication->application_number . '.pdf';
                 $folder_name = 'temp_certificate';
                 if (!(\Storage::disk('ftp')->has($folder_name))) {
@@ -302,7 +319,7 @@ class ArchitectApplicationController extends Controller
                 }
                 $filePath = $folder_name . "/" . $fileName;
                 // $file_local = \Storage::disk('local')->get($filePath);
-                \Storage::disk('ftp')->put($filePath, $pdf->output());
+                \Storage::disk('ftp')->put($filePath, $pdf->Output($fileName, 'S'));
                 $ArchitectApplication->drafted_certificate = $filePath;
                 $ArchitectApplication->certificate_path = $filePath;
                 $ArchitectApplication->save();

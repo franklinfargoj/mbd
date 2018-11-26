@@ -21,7 +21,7 @@
 
     <div style="margin-top: 30px; line-height: 1.8;">
         <p style="text-indent: 25px; margin-top: 10px; margin-bottom: 10px;">We are pleased to inform you that your <span style="font-weight: bold;">firm M/s. {{$ArchitectApplication->name_of_applicant}}</span> is selected as Grade - <span style="font-weight: bold;"></span>
-        Architect /COnsultant for the HOUSING panel of <span style="font-weight: bold;">Mumbai Housing and Area Development Board (MHADB)</span>, expiring on
+        Architect /Consultant for the HOUSING panel of <span style="font-weight: bold;">Mumbai Housing and Area Development Board (MHADB)</span>, expiring on
         31/12/2022.</p>
         <p style="text-indent: 25px; margin-top: 10px; margin-bottom: 10px;">We expect your kind co-operation whenever any project is entrusted to you by MHADA during the above mentioned
         period</p>

@@ -18,9 +18,10 @@
     </div>
     <div id="accordion" class="mt-4">
         @php
-        $prev_form_number=old('form_number')?old('form_number'):0;
+        $prev_form_number=old('form_number')?old('form_number'):1;
         @endphp
-        <h3 class="section-title section-title--small mb-4">PROJECT DETAIL SHEET - WORK IN HAND</h3>
+        <h3 class="section-title section-title--small mb-4">&nbsp;</h3>
+        {{-- <h3 class="section-title section-title--small mb-4">PROJECT DETAIL SHEET - WORK IN HAND</h3> --}}
         {{-- <h3 class="section-title section-title--small mb-4">Name of Applicant: {{$application->name_of_applicant}}</h3> --}}
 
         @php
@@ -135,7 +136,7 @@
                             @endif
                         </div>
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="">Estimated Value of Projects:</label>
+                            <label class="col-form-label" for="">Estimated Value of Projects in Rs:</label>
                             <input onkeypress="return isNumberKey(event)" required type="text" id="" name="estimated_value_of_project" class="form-control form-control--custom m-input"
                                 value="{{isset($application->project_sheets[$j])?$application->project_sheets[$j]->estimated_value_of_project:old('estimated_value_of_project')}}">
                             @if ($errors->has('estimated_value_of_project') && $prev_form_number==$j+1)
@@ -144,7 +145,7 @@
                             @endif
                         </div>
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="">Completed Value of Projects:</label>
+                            <label class="col-form-label" for="">Completed Value of Projects in Rs:</label>
                             <input required onkeypress="return isNumberKey(event)" type="text" id="" name="completed_value_of_project" class="form-control form-control--custom m-input"
                                 value="{{isset($application->project_sheets[$j])?$application->project_sheets[$j]->completed_value_of_project:old('completed_value_of_project')}}">
                             @if ($errors->has('completed_value_of_project') && $prev_form_number==$j+1)
