@@ -501,9 +501,14 @@ class FormationCommonController extends Controller
         $header_file = view('admin.REE_department.offer_letter_header');
         $footer_file = view('admin.REE_department.offer_letter_footer');
         //$pdf = \App::make('dompdf.wrapper');
-        $pdf=new Mpdf();
+        $pdf=new Mpdf([
+            'default_font_size' => 9,
+            'default_font' => 'Times New Roman'
+        ]);
         $pdf->autoScriptToLang = true;
         $pdf->autoLangToFont = true;
+        $pdf->setAutoBottomMargin = 'stretch';
+        $pdf->setAutoTopMargin = 'stretch';
         $pdf->SetHTMLHeader($header_file);
         $pdf->SetHTMLFooter($footer_file);
         $pdf->WriteHTML($content);

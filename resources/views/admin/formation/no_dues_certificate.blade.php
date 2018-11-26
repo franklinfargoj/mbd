@@ -33,7 +33,7 @@
                     <span>Total<span style="padding-left: 88px;font-size: 15px;"><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></span></span>
                 </p>
             </div>
-            <div>
+            <div style="padding-left: 15px;">
                     <p style="line-height: 2.0; padding-left: 20px; font-size: 15px; ">
                             6. Charges for Common Services are paid upto <span style="font-weight: bold;"><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></span><br/>
                             <span> The rate of Charges of Common Services payable by the said Society is Rs.<span style="font-weight: bold;"><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></span> Per Quarter.</span>
