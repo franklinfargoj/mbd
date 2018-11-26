@@ -218,6 +218,86 @@ class AddSuperAdminToRoleTableSeeder extends Seeder
                 'name' => 'loadDeleteLayoutUsingAjax',
                 'display_name' => 'Delete Layouts Ajax',
                 'description' => 'Deleting Layouts using Ajax'
+            ],
+            [
+                'name' => 'users.index',
+                'display_name' => 'List users',
+                'description' => 'Listing users'
+            ],
+            [
+                'name' => 'users.create',
+                'display_name' => 'Create user',
+                'description' => 'Creating user'
+            ],
+            [
+                'name' => 'users.show',
+                'display_name' => 'Create user',
+                'description' => 'Creating user'
+            ],
+            [
+                'name' => 'users.store',
+                'display_name' => 'Store user',
+                'description' => 'Storing user'
+            ],
+            [
+                'name' => 'users.edit',
+                'display_name' => 'Edit user',
+                'description' => 'EDiting user'
+            ],
+            [
+                'name' => 'users.update',
+                'display_name' => 'Update user',
+                'description' => 'updating user'
+            ],
+            [
+                'name' => 'users.destroy',
+                'display_name' => 'Delete user ',
+                'description' => 'Deleting user'
+            ],
+            [
+                'name' => 'loadDeleteUserUsingAjax',
+                'display_name' => 'Delete users Ajax',
+                'description' => 'Deleting users using Ajax'
+            ],
+            [
+                'name' => 'user_layouts.index',
+                'display_name' => 'List User Layouts',
+                'description' => 'Listing User Layouts'
+            ],
+            [
+                'name' => 'user_layouts.create',
+                'display_name' => 'Create User Layout',
+                'description' => 'Creating User Layout'
+            ],
+            [
+                'name' => 'user_layouts.show',
+                'display_name' => 'Create User Layout',
+                'description' => 'Creating User Layout'
+            ],
+            [
+                'name' => 'user_layouts.store',
+                'display_name' => 'Store User Layout',
+                'description' => 'Storing User Layout'
+            ],
+            [
+                'name' => 'user_layouts.edit',
+                'display_name' => 'Edit User Layout',
+                'description' => 'EDiting User Layout'
+            ],
+            [
+                'name' => 'user_layouts.update',
+                'display_name' => 'Update User Layout',
+                'description' => 'updating User Layout'
+            ],
+            [
+                'name' => 'user_layouts.destroy',
+                'display_name' => 'Delete User Layout ',
+                'description' => 'Deleting User Layout'
+            ],
+            [
+                'name' => 'loadDeleteUserLayoutUsingAjax',
+                'display_name' => 'Delete User Layouts Ajax',
+                'description' => 'Deleting User Layouts using Ajax'
             ]
         ];
 

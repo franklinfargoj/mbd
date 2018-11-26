@@ -64,7 +64,7 @@ class ArchitectApplicationController extends Controller
             ['data' => 'candidate_name', 'name' => 'candidate_name', 'title' => 'Candidate Name'],
             ['data' => 'email_and_mobile', 'name' => 'email_and_mobile', 'title' => 'Email ID & Mobile No'],
             ['data' => 'grand_total', 'name' => 'grand_total', 'title' => 'Grand Total'],
-            ['data' => 'status', 'name' => 'status', 'title' => 'Status'],
+            ['data' => 'Status', 'name' => 'Status', 'title' => 'Status'],
             ['data' => 'view', 'name' => 'view', 'title' => 'Action']
         ];
 
@@ -103,7 +103,7 @@ class ArchitectApplicationController extends Controller
                     }
                     return  ($architect_applications->application_marks+$total_marks)==0?'-':($architect_applications->application_marks+$total_marks);
                 })
-                ->editColumn('status', function ($architect_applications) {
+                ->editColumn('Status', function ($architect_applications) {
 
                     //return isset($architect_applications->ArchitectApplicationStatusForLoginListing[0])?$architect_applications->ArchitectApplicationStatusForLoginListing[0]->status_id:config('commanConfig.architect_applicationStatus.new_application');
                     $status = isset($architect_applications->ArchitectApplicationStatusForLoginListing[0]) ? $architect_applications->ArchitectApplicationStatusForLoginListing[0]->status_id : '1';
@@ -112,13 +112,14 @@ class ArchitectApplicationController extends Controller
                     if ($architect_applications->application_status == 'Final' && $status == 1) {
                         return $architect_applications->application_status;
                     }
-                    return $value . ($architect_applications->application_status == 'None' ? '' : ' & ' . $architect_applications->application_status);
+                    return '<span class="m-badge m-badge--' . config('commanConfig.architect_applicationStatusColor.' . $status) . ' m-badge--wide">' . $value . ($architect_applications->application_status == 'None' ? '' : ' & ' . $architect_applications->application_status) . '</span>';
+                    //return $value . ($architect_applications->application_status == 'None' ? '' : ' & ' . $architect_applications->application_status);
                 })
                 ->editColumn('view', function ($architect_applications) use($is_commitee,$is_view){
                      return view('admin.architect.view_layout', compact('architect_applications','is_commitee','is_view'))->render();
                 })
                 
-                ->rawColumns(['application_number', 'application_date', 'candidate_name','email_and_mobile', 'grand_total','view'])
+                ->rawColumns(['application_number', 'application_date', 'candidate_name','email_and_mobile', 'grand_total','Status','view'])
                 ->make(true);
         }
 
@@ -133,7 +134,7 @@ class ArchitectApplicationController extends Controller
             'serverSide' => true,
             'processing' => true,
            'ordering' => 'isSorted',
-            "order" => [1, "asc"],
+            "order" => [0, "asc"],
             "pageLength" => $this->list_num_of_records_per_page,
             // 'fixedHeader' => [
             //     'header' => true,
@@ -157,12 +158,12 @@ class ArchitectApplicationController extends Controller
         //if (is_array($request->application_id)) {
             if ($request->final == 'final') {
                 EoaApplication::where('id', $request->application_id)->update(['application_status' => config('commanConfig.architect_application_status.final')]);
-                return back()->withSuccess('added to final list');
+                return redirect()->route('architect_application',['application_status'=>2])->withSuccess('added to final list');
             }
 
             if ($request->remove_final == 'remove_final') {
                 EoaApplication::where('id', $request->application_id)->update(['application_status' => config('commanConfig.architect_application_status.shortListed')]);
-                return back()->withSuccess('removed from final list');
+                return redirect()->route('architect_application')->withSuccess('removed from final list');
             }
         // } else {
         //     return back()->withError('select atlease one application');
@@ -175,12 +176,12 @@ class ArchitectApplicationController extends Controller
         //if (is_array($request->application_id)) {
             if ($request->shortlist == 'shortlist') {
                 EoaApplication::where('id', $request->application_id)->update(['application_status' => config('commanConfig.architect_application_status.shortListed')]);
-                return back()->withSuccess('shortlisted');
+                return redirect()->route('architect_application',['application_status'=>1])->withSuccess('shortlisted');
             }
 
             if ($request->remove_shortlist == 'remove_shortlist') {
                 EoaApplication::where('id', $request->application_id)->update(['application_status' => config('commanConfig.architect_application_status.none')]);
-                return back()->withSuccess('removed from shortlisted');
+                return redirect()->route('architect_application')->withSuccess('removed from shortlisted');
             }
 
       //  } else {
@@ -222,7 +223,13 @@ class ArchitectApplicationController extends Controller
         $ArchitectApplication = EoaApplication::find(decrypt($encryptedId));
         // $architect_application_id = ArchitectApplication::find($id);
         // $architect_application_id = $architect_application_id->id;
+        $app=\DB::table('eoa_applications')->where('id',$id)->first();
         $is_view = session()->get('role_name') == config('commanConfig.junior_architect');
+        if($app->application_status >= config('commanConfig.architect_application_status.shortListed'))
+        {
+            $is_view=false;
+        }
+        
         $application = ArchitectApplicationMark::where('architect_application_id', $id)->get();
         $header_data = $this->header_data;
         return view('admin.architect.evaluate', compact('application', 'header_data', 'is_view','ArchitectApplication'));

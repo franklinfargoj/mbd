@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
 use Session;
 
+use App\User;
+
 class LoginController extends Controller
 {
     /*
@@ -47,6 +49,25 @@ class LoginController extends Controller
     {
         dd($request->all());
     }
+
+    public function check_user_email_duplicate(Request $request)
+    {
+        $user=User::where(['email'=>$request->email])->first();
+        if($user)
+        {
+            $response=array(
+                'status'=>1,
+                'message'=>'Email Id already exist'
+            );
+        }else
+        {
+            $response=array(
+                'status'=>0,
+                'message'=>'Success'
+            );
+        }
+        return response()->json($response);
+    }   
 
     public function logout(Request $request)
     {

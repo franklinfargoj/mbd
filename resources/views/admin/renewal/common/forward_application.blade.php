@@ -282,7 +282,7 @@
                                         @csrf
                                         <input type="hidden" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">
                                         <input type="hidden" name="to_role_id" id="to_role_id">
-                                        <input type="hidden" name="to_user_id" id="to_user_id">
+                                        <!-- <input type="hidden" name="to_user_id" id="to_user_id"> -->
                                         <input type="hidden" name="check_status" class="check_status" value="1">
 
                                         <div class="m-form__group form-group">
@@ -306,7 +306,7 @@
                                                     Forward To:
                                                 </label>
                                                 <div class="col-lg-4 col-md-9 col-sm-12">
-                                                    <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="to_user">
+                                                    <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="to_user" name="to_user_id[]">
                                                         
                                                         @if($data->parent)
                                                             @foreach($data->parent as $parent)
@@ -338,26 +338,7 @@
                                                 <textarea class="form-control form-control--custom" name="remark" id="remark"
                                                     cols="30" rows="5"></textarea>
                                             </div>
-                                            @php 
-                                            $error = '';
-                                                if(isset($data->application_status)){
-                                                    if ($data->application_status == config('commanConfig.applicationStatus.Draft_sale_&_lease_deed')){ 
-
-                                                            if (!(isset($data->DraftSaleAgreement) && isset($data->DraftLeaseAgreement))){
-                                                            $error = 'error';
-                                                        }
-                                                    }elseif($data->application_status == config('commanConfig.applicationStatus.Aproved_sale_&_lease_deed')){
-                                                        
-                                                        if (!(isset($data->ApprovedSaleAgreement) && isset($data->ApprovedLeaseAgreement))){
-                                                        
-                                                        $error = 'error';
-                                                        }
-                                                    }
-                                                }
-                                            
-                                            @endphp
-                                            
-                                            @if($error == '')
+        
                                                 <div class="mt-3 btn-list">
                                                     <button type="submit" class="btn btn-primary">Save</button>
                                                     {{--<button type="submit" id="sign" class="btn btn-primary forwrdBtn">Sign</button>
@@ -366,12 +347,6 @@
                                                     <button type="button" onclick=""
                                                         class="btn btn-secondary">Cancel</button>
                                                 </div>
-                                            @else
-                                                <div>
-                                                    <span class="error" style="display: block;color: #ce2323;margin-top: 13px;">* Note : Please Upload Sale and Lease Deed Agreements. 
-                                                    </span>
-                                                </div>      
-                                            @endif
                                         </div>
                                         <input type="hidden" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">
                                     </form>
@@ -414,7 +389,7 @@
             }
 
             $("#to_role_id").val(id);
-            $("#to_user_id").val(user_id);
+            // $("#to_user_id").val(user_id);
         });
     });
 

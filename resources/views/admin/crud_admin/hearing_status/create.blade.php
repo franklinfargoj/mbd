@@ -19,7 +19,7 @@
                 @csrf
                 <div class="m-portlet__body m-portlet__body--spaced">
                     <div class="form-group m-form__group row">
-                        <div class="col-lg-6 form-group">
+                        <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="status_title">Status Name:</label>
                             <div class="m-input-icon m-input-icon--right">
                                 <input type="text" id="status_title" name="status_title" class="form-control form-control--custom m-input"  value="{{ old('status_title') }}">

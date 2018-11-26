@@ -107,7 +107,7 @@
             {{--</form>--}}
         {{--</div>--}}
     {{--</div>--}}
-    <iframe src="{{ config('commanConfig.storage_server').'/'.$data->stamp_conveyance_application }}" width="1000" height="482"></iframe>
+    <iframe src="{{ config('commanConfig.storage_server').'/'.$document->document_path}}" width="1000" height="482"></iframe>
 </div>
 @endsection
 @section('download_application_form_js')

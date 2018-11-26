@@ -297,97 +297,61 @@
         <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
                 <div class="portlet-body">
                     <div class="m-portlet__body" style="padding-right: 0;">
-                        <h3 class="section-title section-title--small mb-0">Download List of Allottees uploaded by Society:</h3>
                         <div class=" row-list">
                             <div class="row">
-                                <div class="col-md-12">
-                                    <p>
-                                        @if (session(config('commanConfig.no_dues_certificate.redirect_message_status.draft_text')))
+                                @if(isset($data->sc_form_request) && $data->sc_form_request->template_file)
+                                    <div class="col-md-6">
+                                        <h5 class="section-title section-title--small mb-0">Download List of Allottees uploaded by Society:</h5>
+                                        <p>
+                                            @if (session(config('commanConfig.no_dues_certificate.redirect_message_status.draft_text')))
+                                                <div class="alert alert-success society_registered">
+                                                    <div class="text-center">{{ session(config('commanConfig.no_dues_certificate.redirect_message_status.draft_text')) }}</div>
+                                                </div>
+                                            @endif
+                                            @if (session('error'))
+                                                <div class="alert alert-danger society_registered">
+                                                    <div class="text-center">{{ session('error') }}</div>
+                                                </div>
+                                            @endif
+                                        </p>
+                                            <p>Click to download generated list of allottees in xls format</p>
+                                            {{--<button class="btn btn-primary btn-custom" id="uploadBtn" data-toggle="modal" data-target="#myModal">Edit</button>--}}
+
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->sc_form_request->template_file }}" class="btn btn-primary">
+                                                Download</a>
+                                    </div>
+                                @endif
+                                <div class="col-sm-6 @if(isset($data->sc_form_request) && $data->sc_form_request->template_file) border-left @endif">
+                                    <div class="d-flex flex-column h-100">
+                                        <h5>Upload List of Bonafide Allottees</h5>
+                                        <span class="hint-text">Click on 'Upload' to upload List of Bonafide Allottees</span>
+                                        <p>
+                                        @if (session(config('commanConfig.no_dues_certificate.redirect_message_status.upload')))
                                             <div class="alert alert-success society_registered">
-                                                <div class="text-center">{{ session(config('commanConfig.no_dues_certificate.redirect_message_status.draft_text')) }}</div>
+                                                <div class="text-center">{{ session(config('commanConfig.no_dues_certificate.redirect_message_status.upload')) }}</div>
                                             </div>
                                         @endif
                                         @if (session('error'))
                                             <div class="alert alert-danger society_registered">
                                                 <div class="text-center">{{ session('error') }}</div>
                                             </div>
-                                        @endif
-                                    </p>
-                                        <p>Click to download generated list of allottees in xls format</p>
-                                        {{--<button class="btn btn-primary btn-custom" id="uploadBtn" data-toggle="modal" data-target="#myModal">Edit</button>--}}
-                                        @if($data->sc_form_request->template_file)
-                                            <a href="{{ config('commanConfig.storage_server').'/'.$data->sc_form_request->template_file }}" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-                                            Download</a>
-                                        @endif
-                                </div>
-                            </div>
-                        </div>
-                        <div class="w-100 row-list">
-                            <div class="">
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="d-flex flex-column h-100">
-                                            <h5>Upload List of Bonafide Allottees</h5>
-                                            <span class="hint-text">Click on 'Upload' to upload List of Non-Bonafide Allottees</span>
-                                            <p>
-                                                @if (session(config('commanConfig.no_dues_certificate.redirect_message_status.upload')))
-                                                    <div class="alert alert-success society_registered">
-                                                        <div class="text-center">{{ session(config('commanConfig.no_dues_certificate.redirect_message_status.upload')) }}</div>
-                                                    </div>
-                                                @endif
-                                                @if (session('error'))
-                                                    <div class="alert alert-danger society_registered">
-                                                        <div class="text-center">{{ session('error') }}</div>
-                                                    </div>
-                                                @endif
+                                            @endif
                                             </p>
-                                            <form action="{{ route('em.save_conveyance_no_dues_certificate') }}" id="no_dues_certi_upload" method="post" enctype="multipart/form-data">
+                                            <form action="{{ route('em.save_list_of_allottees') }}" id="list_of_allottees" method="post" enctype="multipart/form-data">
                                                 @csrf
                                                 <div class="custom-file">
-                                                    <input class="custom-file-input pdfcheck" name="no_dues_certificate" type="file"
+                                                    <input class="custom-file-input pdfcheck" name="document_path" type="file"
                                                            id="test-upload" required="required">
                                                     <label class="custom-file-label" for="test-upload">Choose
                                                         file...</label>
                                                     <span class="text-danger" id="file_error"></span>
-                                                    <input type="hidden" id="applicationId" name="applicationId" value="{{ $data->id }}">
+                                                    <input type="hidden" id="application_id" name="application_id" value="{{ $data->id }}">
+                                                    <input type="hidden" id="document_name" name="document_name" value="bonafide_list">
                                                 </div>
                                                 <div class="mt-auto">
                                                     <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
                                                 </div>
                                             </form>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6 border-left">
-                                        <div class="d-flex flex-column h-100">
-                                            <h5>Upload List of Non-Bonafide Allottees</h5>
-                                            <span class="hint-text">Click on 'Upload' to upload List of Non-Bonafide Allottees</span>
-                                            <p>
-                                                @if (session(config('commanConfig.no_dues_certificate.redirect_message_status.upload')))
-                                                    <div class="alert alert-success society_registered">
-                                                        <div class="text-center">{{ session(config('commanConfig.no_dues_certificate.redirect_message_status.upload')) }}</div>
-                                                    </div>
-                                                @endif
-                                                @if (session('error'))
-                                                    <div class="alert alert-danger society_registered">
-                                                        <div class="text-center">{{ session('error') }}</div>
-                                                    </div>
-                                                @endif
-                                            </p>
-                                            <form action="{{ route('em.save_conveyance_no_dues_certificate') }}" id="no_dues_certi_upload" method="post" enctype="multipart/form-data">
-                                                @csrf
-                                                <div class="custom-file">
-                                                    <input class="custom-file-input pdfcheck" name="no_dues_certificate" type="file"
-                                                           id="test-upload" required="required">
-                                                    <label class="custom-file-label" for="test-upload">Choose
-                                                        file...</label>
-                                                    <span class="text-danger" id="file_error"></span>
-                                                    <input type="hidden" id="applicationId" name="applicationId" value="{{ $data->id }}">
-                                                </div>
-                                                <div class="mt-auto">
-                                                    <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
-                                                </div>
-                                            </form>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -568,36 +532,36 @@ Co-op. Housing Society Ltd. Have paid all the dues in respect of above bldg./bld
                 Cookies.set('sectionId', this.id);
             });
 
-            $('#no_dues_certi_upload').validate({
-                rules:{
-                    no_dues_certificate: {
-                        required:true,
-                        extension:'pdf'
-                    }
-                },
-                messages:{
-                    no_dues_certificate: {
-                        required: 'File is required to upload.',
-                        extension: 'File only in pdf format is required.'
-                    }
-                }
-            });
+            // $('#no_dues_certi_upload').validate({
+            //     rules:{
+            //         no_dues_certificate: {
+            //             required:true,
+            //             extension:'pdf'
+            //         }
+            //     },
+            //     messages:{
+            //         no_dues_certificate: {
+            //             required: 'File is required to upload.',
+            //             extension: 'File only in pdf format is required.'
+            //         }
+            //     }
+            // });
 
-            $('#no_dues_certi_upload').validate({
-                rules:{
-                    no_dues_certificate: {
-                        required:true,
-                        extension:'pdf'
-                    }
-                },
-                messages:{
-                    no_dues_certificate: {
-                        required: 'File is required to upload.',
-                        extension: 'File only in pdf format is required.'
-                    }
-                }
-            });
-            list_of_allottees_upload
+            // $('#no_dues_certi_upload').validate({
+            //     rules:{
+            //         no_dues_certificate: {
+            //             required:true,
+            //             extension:'pdf'
+            //         }
+            //     },
+            //     messages:{
+            //         no_dues_certificate: {
+            //             required: 'File is required to upload.',
+            //             extension: 'File only in pdf format is required.'
+            //         }
+            //     }
+            // });
+
             $('.society_registered').delay("slow").slideUp("slow");
 
         });

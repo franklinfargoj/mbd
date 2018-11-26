@@ -20,7 +20,7 @@
                     </a>
                 </li>
                 
-                @if($data->status->status_id != config('commanConfig.applicationStatus.forwarded'))
+                @if($data->status->status_id == config('commanConfig.applicationStatus.in_process'))
                 <li class="nav-item m-tabs__item">
                     <a class="nav-link m-tabs__link show" data-toggle="tab" href="#forward-application-tab">
                         <i class="la la-cog"></i> Forward Application
@@ -283,7 +283,7 @@
                                         @csrf
                                         <input type="hidden" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">
                                         <input type="hidden" name="to_role_id" id="to_role_id">
-                                        <input type="hidden" name="to_user_id" id="to_user_id">
+                                        <!-- <input type="hidden" name="to_user_id" id="to_user_id"> -->
                                         <input type="hidden" name="check_status" class="check_status" value="1">
 
                                         <div class="m-form__group form-group">
@@ -307,7 +307,7 @@
                                                     Forward To:
                                                 </label>
                                                 <div class="col-lg-4 col-md-9 col-sm-12">
-                                                    <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="to_user">
+                                                    <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="to_user" name="to_user_id[]">
                                                         
                                                         @if($data->parent)
                                                             @foreach($data->parent as $parent)
@@ -339,6 +339,7 @@
                                                 <textarea class="form-control form-control--custom" name="remark" id="remark"
                                                     cols="30" rows="5"></textarea>
                                             </div>
+                                            @if($data->conveyance_map == null)
                                             <div class="mt-3 btn-list">
                                                 <button type="submit" class="btn btn-primary">Save</button>
                                                 {{--<button type="submit" id="sign" class="btn btn-primary forwrdBtn">Sign</button>
@@ -347,6 +348,9 @@
                                                 <button type="button" onclick=""
                                                     class="btn btn-secondary">Cancel</button>
                                             </div>
+                                            @else
+                                            <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">*Note : Please Fill Architect Scrutiny & Remark.</span>
+                                            @endif 
                                         </div>
                                         <input type="hidden" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">
                                     </form>
@@ -389,7 +393,7 @@
             }
 
             $("#to_role_id").val(id);
-            $("#to_user_id").val(user_id);
+            // $("#to_user_id").val(user_id);
         });
     });
 

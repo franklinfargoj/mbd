@@ -5,7 +5,7 @@
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">Service Charges Rate - {{$society->name}} {{$building->name}}</h3>
-            {{-- {{ Breadcrumbs::render('society_detail') }} --}}
+            {{ Breadcrumbs::render('service_charges',encrypt($society->id),encrypt($building->id)) }}
         </div>
         
     </div>

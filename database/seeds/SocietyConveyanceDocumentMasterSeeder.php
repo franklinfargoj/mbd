@@ -63,7 +63,13 @@ class SocietyConveyanceDocumentMasterSeeder extends Seeder
                 'application_type_id' => $conveyanceId,
                 'society_flag'        => '1',
                 'language_id'         => $eLanguage
-            ],            
+            ],
+            [
+                'document_name'       => 'pay_stamp_duty_letter',
+                'application_type_id' => $conveyanceId,
+                'society_flag'        => '1',
+                'language_id'         => $eLanguage
+            ],
             [
                 'document_name'       => 'sc_resolution',
                 'application_type_id' => $conveyanceId,
@@ -172,7 +178,13 @@ class SocietyConveyanceDocumentMasterSeeder extends Seeder
                 'society_flag'        => '1',
                 'language_id'         => $eLanguage
             ],
-            //-----------------------------------------------------
+            [
+                'document_name'       => 'stamp_renewal_application',
+                'application_type_id' => $renewalId,
+                'society_flag'        => '1',
+                'language_id'         => $eLanguage
+            ],
+            //-------------- society formation docs ---------------------------------------
             [
                 'document_name'       => 'स्टेटमेंट सी पर्‍त १',
                 'application_type_id' => $formation,
@@ -268,7 +280,121 @@ class SocietyConveyanceDocumentMasterSeeder extends Seeder
                 'application_type_id' => $formation,
                 'society_flag'        => '0',
                 'language_id'         => $mLanguage
-            ]
+            ],            
+            [
+                'document_name'=>'conveyance_text_stamp_duty_letter',
+                'application_type_id' => $conveyanceId,
+                'society_flag'        => '0',
+                'language_id'         => $eLanguage
+            ],
+            [
+                'document_name'=>'conveyance_stamp_duty_letter',
+                'application_type_id' => $conveyanceId,
+                'society_flag'        => '0',
+                'language_id'         => $eLanguage
+            ],            
+            [
+                'document_name'=>'conveyance_draft_stamp_duty_letter',
+                'application_type_id' => $conveyanceId,
+                'society_flag'        => '0',
+                'language_id'         => $eLanguage
+            ],            
+            [
+                'document_name'=>'renewal_text_stamp_duty_letter',
+                'application_type_id' => $renewalId,
+                'society_flag'        => '0',
+                'language_id'         => $eLanguage
+            ],            
+            [
+                'document_name'=>'renewal_stamp_duty_letter',
+                'application_type_id' => $renewalId,
+                'society_flag'        => '0',
+                'language_id'         => $eLanguage
+            ],            
+            [
+                'document_name'=>'renewal_draft_stamp_duty_letter',
+                'application_type_id' => $renewalId,
+                'society_flag'        => '0',
+                'language_id'         => $eLanguage
+            ],
+            [
+                'document_name'=>'संस्थेचा ठराव',
+                'application_type_id' => $formation,
+                'society_flag'        => '0',
+                'language_id'         => $mLanguage
+            ],
+            [
+                'document_name'=>'conveynace_draft_NOC',
+                'application_type_id' => $conveyanceId,
+                'society_flag'        => '0',
+                'language_id'         => $eLanguage
+            ],            
+            [
+                'document_name'=>'conveynace_text_NOC',
+                'application_type_id' => $conveyanceId,
+                'society_flag'        => '0',
+                'language_id'         => $eLanguage
+            ],            
+            [
+                'document_name'=>'conveynace_uploaded_NOC',
+                'application_type_id' => $conveyanceId,
+                'society_flag'        => '0',
+                'language_id'         => $eLanguage
+            ],            
+            [
+                'document_name'=>'renewal_draft_NOC',
+                'application_type_id' => $renewalId,
+                'society_flag'        => '0',
+                'language_id'         => $eLanguage
+            ],           
+            [
+                'document_name'=>'renewal_text_NOC',
+                'application_type_id' => $renewalId,
+                'society_flag'        => '0',
+                'language_id'         => $eLanguage
+            ],            
+            [
+                'document_name'=>'renewal_uploaded_NOC',
+                'application_type_id' => $renewalId,
+                'society_flag'        => '0',
+                'language_id'         => $eLanguage
+            ],
+            [
+                'document_name'       => 'renewal_bonafide_list',
+                'application_type_id' => $renewalId,
+                'society_flag'        => '0',
+                'language_id'         => $eLanguage
+            ],
+            [
+                'document_name'       => 'renewal_em_covering_letter',
+                'application_type_id' => $renewalId,
+                'society_flag'        => '0',
+                'language_id'         => $eLanguage
+            ],
+            [
+                'document_name'       => 'renewal_text_no_dues_certificate',
+                'application_type_id' => $renewalId,
+                'society_flag'        => '0',
+                'language_id'         => $eLanguage
+            ],
+            [
+                'document_name'       => 'renewal_drafted_no_dues_certificate',
+                'application_type_id' => $renewalId,
+                'society_flag'        => '0',
+                'language_id'         => $eLanguage
+            ],
+            [
+                'document_name'       => 'renewal_uploaded_no_dues_certificate',
+                'application_type_id' => $renewalId,
+                'society_flag'        => '0',
+                'language_id'         => $eLanguage
+            ],
+            [
+                'document_name'       => 'renewal_Lease Deed Agreement',
+                'application_type_id' => $renewalId,
+                'society_flag'        => '0',
+                'language_id'         => $eLanguage
+            ],
         ];
 
         if(count($society) == 0){

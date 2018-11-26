@@ -327,6 +327,11 @@ class EEUserSeeder extends Seeder
                 'name' => 'ee.delete_ee_scrutiny_documents',
                 'display_name' => 'delete ee scrutiny documents',
                 'description' => 'delete ee scrutiny documents',
+            ],            
+            [
+                'name' => 'renewal.architect_scrutiny',
+                'display_name' => 'renewal architect scrutiny',
+                'description' => 'renewal architect scrutiny',
             ],                                      
         ];
 

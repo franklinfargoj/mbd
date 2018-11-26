@@ -648,7 +648,7 @@ $(document).ready(function () {
             layout_name: "required",
             // division: "required",
             board: "required",
-            // redirect_to: "required",
+            is_active: "required",
         }
     });
 
@@ -659,7 +659,7 @@ $(document).ready(function () {
             layout_name: "required",
             // division: "required",
             board: "required",
-            // redirect_to: "required",
+            is_active: "required",
         }
     });
 
@@ -669,6 +669,87 @@ $(document).ready(function () {
         }
     });
 
+    //User
+    $("#adduser").validate({
+        // errorElement: "span",
+        //errorClass : "text-red",
+        rules:{
+            name:"required",
+            email:{
+                required: true,
+                email: true,
+            },
+            mobile_no:{
+                required: true,
+                minlength: 10,
+                maxlength: 10,
+                number: true
+            },
+            address:"required",
+            password:"required",
+            password_confirmation:"required",
+            service_start_date:"required",
+            service_end_date:"required",
+            role_id:"required"
+
+        }
+    });
+
+    $("#edituser").validate({
+        // errorElement: "span",
+        //errorClass : "text-red",
+        rules:{
+            name:"required",
+            email:{
+                required: true,
+                email: true,
+            },
+            mobile_no:{
+                required: true,
+                minlength: 10,
+                maxlength: 10,
+                number: true
+            },
+            address:"required",
+            service_start_date:"required",
+            service_end_date:"required",
+            role_id:"required"
+
+        }
+    });
+
+    $("#DeleteUserReason").validate({
+        rules: {
+            delete_message: "required",
+        }
+    });
+
+    // User Layout
+    $("#adduserlayout").validate({
+        // errorElement: "span",
+        //errorClass : "text-red",
+        rules:{
+            user_id : 'required',
+            layout_id : 'required'
+        }
+    });
+
+    $("#edituserlayout").validate({
+        // errorElement: "span",
+        //errorClass : "text-red",
+        rules:{
+            rules:{
+                user_id : 'required',
+                layout_id : 'required'
+            }
+        }
+    });
+
+    $("#DeleteUserReason").validate({
+        rules: {
+            delete_message: "required",
+        }
+    });
 
 
 

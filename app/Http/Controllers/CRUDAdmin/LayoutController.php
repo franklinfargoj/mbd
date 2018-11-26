@@ -109,14 +109,14 @@ class LayoutController extends Controller
             'layout_name' => 'required|unique:master_layout,layout_name',
 //            'division' => 'required',
             'board' => 'required',
-//            'redirect_to' => 'required',
+            'is_active' => 'required',
         ]);
         //create the new layout
         $layout = new MasterLayout();
         $layout->layout_name = $request->input('layout_name');
         $layout->division = $request->input('division');
         $layout->board = $request->input('board');
-//        $layout->redirect_to = $request->input('redirect_to');
+        $layout->is_active = $request->input('is_active');
         $layout->save();
 
         return redirect()->route('layouts.index')
@@ -159,7 +159,7 @@ class LayoutController extends Controller
             'layout_name'=> 'required',
 //            'division' => 'required',
             'board' => 'required',
-//            'redirect_to' => 'required',
+            'is_active' => 'required',
         ]);
 
 
@@ -169,7 +169,7 @@ class LayoutController extends Controller
         }
         $layout->division = $request->input('division');
         $layout->board = $request->input('board');
-//        $layout->redirect_to = $request->input('redirect_to');
+        $layout->is_active = $request->input('is_active');
         $layout->save();
         return redirect()->route('layouts.index')
             ->with('success','Layout updated successfully');

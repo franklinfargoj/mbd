@@ -1,6 +1,6 @@
 @extends('admin.layouts.sidebarAction')
 @section('actions')
-    @include('admin.renewal.ee_department.action')
+@include('admin.renewal.'.$data->folder.'.action')
 @endsection
 @section('css')
 <!-- <style> -->
@@ -195,7 +195,7 @@
         <!-- end 
 
         <!-- Demarkation verification -->
-    <form role="form" id="ee_scrunity_Form" style="margin-top: 30px;" name="scrunityForm" class="form-horizontal" method="post" action="{{ route('ee.save_scrutiny_remark')}}" enctype="multipart/form-data">
+    <form role="form" id="ee_scrunity_Form" style="margin-top: 30px;" name="scrunityForm" class="form-horizontal" method="post" action="{{ route('renewal.save_architect_scrutiny')}}" enctype="multipart/form-data">
         @csrf      
         <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
             <div class="portlet-body">
@@ -326,7 +326,7 @@ var isError = 0;
                 
                 // ajax call to save file    
                 $.ajax({
-                    url: "/upload_ee_scrutiny_documents", // point to server-side PHP script
+                    url: "/upload_architect_documents", // point to server-side PHP script
                     data: form_data,
                     type: 'POST',
                     contentType: false, // The content type used when sending data to the server.
@@ -356,7 +356,7 @@ var isError = 0;
         $(".loader").show();
    
             $.ajax({
-                url: "/delete_ee_scrutiny_documents",
+                url: "/delete_architect_documents",
                 data: form_data,
                 type: 'POST',
                 contentType: false,

@@ -156,11 +156,88 @@ class DYCOPermissions extends Seeder
                 'name' => 'renewal.renewal_forward_application',
                 'display_name' => 'renewal forward application',
                 'description' => 'renewal forward application',
-            ],            [
+            ],            
+            [
                 'name' => 'renewal.save_forward_application_renewal',
                 'display_name' => 'save forward application renewal',
                 'description' => 'save forward application renewal',
+
+            ],  
+            [
+                'name'=>'get_sf_applications.index',
+                'display_name'=>'Display list of society formation application',
+                'description'=>'Display list of society formation application'
+            ],            
+            [
+                'name' => 'renewal.ee_scrutiny',
+                'display_name' => 'renewal ee scrutiny',
+                'description' => 'renewal ee scrutiny',
+            ],            
+            [
+                'name' => 'renewal.architect_scrutiny',
+                'display_name' => 'renewal architect scrutiny',
+                'description' => 'renewal architect scrutiny',
             ],             
+            [
+                'name'=>'formation.view_application',
+                'display_name'=>'View Application Submitted By society',
+                'description'=>'View Application Submitted By society'
+            ],
+            [
+                'name'=>'formation.forward_application',
+                'display_name'=>'dipaly Page for Forward SF application',
+                'description'=>'dipaly Page for Forward SF application'
+            ],
+            [
+                'name'=>'formation.post_forward_application',
+                'display_name'=>'post Forward SF application',
+                'description'=>'post Forward SF application'
+            ],
+            [
+                'name'=>'formation.society_documents',
+                'display_name'=>'View Documents UPloaded by society',
+                'description'=>'View Documents UPloaded by society'
+            ],            
+            [
+                'name'=>'renewal.save_agreement_comments',
+                'display_name'=>'renewal save agreement comments',
+                'description'=>'renewal save agreement comments'
+            ],            
+            [
+                'name'=>'dyco.renewal_send_to_society',
+                'display_name'=>'dyco renewal send to society',
+                'description'=>'dyco renewal send to society'
+            ],             
+            [
+                'name'=>'dyco.generate_stamp_duty_letter',
+                'display_name'=>'dyco generate stamp duty letter',
+                'description'=>'dyco generate stamp duty letter'
+            ],            
+            [
+                'name'=>'dyco.save_stamp_duty_letter',
+                'display_name'=>'dyco save stamp duty letter',
+                'description'=>'dyco save stamp duty letter'
+            ],            
+            [
+                'name'=>'dyco.upload_renewal_stamp_letter',
+                'display_name'=>'dyco upload renewal stamp letter',
+                'description'=>'dyco upload renewal stamp letter'
+            ],
+            [
+                'name'=>'formation.em_srutiny_and_remark',
+                'display_name'=>'display the scrutiny report of EM for SF',
+                'description'=>'display the scrutiny report of EM for SF'
+            ],             
+            [
+                'name'=>'dyco.generate_canveyance_noc',
+                'display_name'=>'generate canveyance noc',
+                'description'=>'generate canveyance noc'
+            ],             
+            [
+                'name'=>'dyco.save_noc',
+                'display_name'=>'save noc',
+                'description'=>'save noc'
+            ]      
         ];
 
         //dycdo

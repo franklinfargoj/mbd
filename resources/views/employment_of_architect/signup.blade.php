@@ -37,7 +37,7 @@
                                             <div class="col-sm-6">
                                                 <div class="form-group m-form__group">
                                                     <input class="form-control form-control--custom m-input" type="text"
-                                                        name="email" value="{{old('email')}}" placeholder="Email">
+                                                    onblur="duplicateEmail(this)" name="email" value="{{old('email')}}" placeholder="Email">
                                                     @if ($errors->has('email'))
                                                     <span class="text-danger">{{ $errors->first('email') }}</span>
                                                     @endif
@@ -63,7 +63,7 @@
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="form-group m-form__group">
-                                                    <input class="form-control form-control--custom m-input" type="password" name="password" placeholder="Password">
+                                                    <input class="form-control form-control--custom m-input" type="password" name="password" value="{{old('password')}}" placeholder="Password">
                                                     <a class="input-hint" href="#" data-toggle="tooltip" data-placement="top" title="Password should be minimum 6 & maximum 10 characters."><i class="fa fa-info-circle" style="color: orange;float: right;"></i></a>
                                                     @if ($errors->has('password'))
                                                     <span class="text-danger">{{ $errors->first('password') }}</span>
@@ -72,7 +72,7 @@
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="form-group m-form__group">
-                                                    <input class="form-control form-control--custom m-input" type="password" name="confirm_password" placeholder="Confirm Password">
+                                                    <input class="form-control form-control--custom m-input" type="password" name="confirm_password" value="{{old('confirm_password')}}" placeholder="Confirm Password">
                                                     @if ($errors->has('confirm_password'))
                                                     <span class="text-danger">{{ $errors->first('confirm_password') }}</span>
                                                     @endif
@@ -93,4 +93,39 @@
         </div>
     </div>
 </div>
+@endsection
+@section('js')
+<script>
+    $(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();   
+});
+    function duplicateEmail(element){
+            var email=$('input[name="email"]').val();
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-Token': '{{csrf_token()}}'
+                }
+            });
+            $.ajax({
+                url:"{{route('check_user_email_duplicate')}}",
+                data:{email:email},
+                type:"POST",
+                success:function(data){
+                    if(data.status==1)
+                    {
+                        $.validator.addMethod('email', function(value, element) {
+                        return false
+                        }, data.message);   
+                        
+                    }else{
+                        $.validator.addMethod('email', function(value, element) {
+                        return true
+                        }, '');
+                    }
+                }
+            })
+        }
+            
+    
+</script>
 @endsection

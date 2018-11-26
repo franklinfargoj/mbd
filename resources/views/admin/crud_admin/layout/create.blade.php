@@ -15,11 +15,11 @@
         </div>
         <!-- END: Subheader -->
         <div class="m-portlet m-portlet--mobile">
-            <form id="addlayout" layout="form" method="post" class="m-form m-form--rows m-form--label-align-right" action="{{route('layouts.store')}}" enctype="multipart/form-data">
+            <form id="addlayout" role="form" method="post" class="m-form m-form--rows m-form--label-align-right" action="{{route('layouts.store')}}" enctype="multipart/form-data">
                 @csrf
                 <div class="m-portlet__body m-portlet__body--spaced">
                     <div class="form-group m-form__group row">
-                        <div class="col-lg-6 form-group">
+                        <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="layout_name">Layout Name:</label>
                             <div class="m-input-icon m-input-icon--right">
                                 <input type="text" id="layout_name" name="layout_name" class="form-control form-control--custom m-input"  value="{{ old('layout_name') }}">
@@ -27,7 +27,7 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-6 form-group">
+                        <div class="col-sm-4 offset-sm-1 form-group">
                             <label class="col-form-label" for="division">Division:</label>
                             <div class="m-input-icon m-input-icon--right">
                                 <input type="text" id="division" name="division" class="form-control form-control--custom m-input"  value="{{ old('division') }}">
@@ -36,7 +36,7 @@
                         </div>
                     </div>
                     <div class="form-group m-form__group row">
-                        <div class="col-lg-6 form-group">
+                        <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="board">Board:<span class="star">*</span></label>
                             <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="board" name="board">
                                 @foreach($arrData['board'] as $board_details)
@@ -47,13 +47,19 @@
 
                         </div>
 
-                        {{--<div class="col-lg-6 form-group">--}}
-                            {{--<label class="col-form-label" for="redirect_to">Redirect To:</label>--}}
-                            {{--<div class="m-input-icon m-input-icon--right">--}}
-                                {{--<input type="text" id="redirect_to" name="redirect_to" class="form-control form-control--custom m-input"  value="{{ old('redirect_to') }}">--}}
-                                {{--<span class="text-danger">{{$errors->first('redirect_to')}}</span>--}}
-                            {{--</div>--}}
-                        {{--</div>--}}
+                        <div class="col-sm-4  offset-sm-1 form-group">
+                            <label class="col-form-label" for="is_active">Status:<span class="star">*</span></label>
+                            <div class="m-radio-inline">
+                                <label class="m-radio m-radio--primary">
+                                    <input type="radio" name="is_active" value="1"> Yes
+                                    <span></span>
+                                </label>
+                                <label class="m-radio m-radio--primary">
+                                    <input type="radio" name="is_active" value="0" checked=""> No
+                                    <span class="help-block"></span>
+                                </label>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">

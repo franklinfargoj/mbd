@@ -420,8 +420,7 @@ class HearingPermissionSeeder extends Seeder
 
         // Board
 
-        $board_id = \App\Board::where('board_name', '=', "Mumbai Board")->get(['id'])->first();
-
+        $board_id = \App\Board::where('board_name', '=', "Mumbai")->get(['id'])->first();
         $department1 = \App\Department::create([
             'department_name' => "Joint CO",
             'status' => 1
@@ -578,7 +577,22 @@ class HearingPermissionSeeder extends Seeder
                 'name' => 'renewal.save_agreement_comments',
                 'display_name' => 'save agreement comments',
                 'description' => 'save agreement comments',
-            ],                                                
+            ],
+            [
+                'name' => 'renewal.ee_scrutiny',
+                'display_name' => 'renewal ee scrutiny',
+                'description' => 'renewal ee scrutiny',
+            ],            
+            [
+                'name' => 'renewal.architect_scrutiny',
+                'display_name' => 'renewal architect scrutiny',
+                'description' => 'renewal architect scrutiny',
+            ],
+            [
+                'name'=>'renewal.save_agreement_comments',
+                'display_name'=>'renewal save agreement comments',
+                'description'=>'renewal save agreement comments'
+            ],                                                                        
         ];
  
         foreach ($Jtco_permission as $permission) {

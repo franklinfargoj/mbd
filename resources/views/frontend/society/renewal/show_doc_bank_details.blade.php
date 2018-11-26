@@ -59,8 +59,8 @@
                             </td>
                             <td class="text-center">
                                 <h2 class="m--font-danger">
-                                    @if($document->sc_document_status != null)
-                                        @php $document_uploaded = $document->sc_document_status; @endphp
+                                    @if($document->sr_document_status != null)
+                                        @php $document_uploaded = $document->sr_document_status; @endphp
                                     @if($document_uploaded['application_id'] == $sc_application->id)
                                     <i class="fa fa-check"></i>
                                     @else
@@ -72,23 +72,23 @@
                                 </h2>
                             </td>
                             <td>
-                                @if($document->sc_document_status != null)
-                                    @php $document_uploaded = $document->sc_document_status; @endphp
-                                {{--@foreach($document->sc_document_status as $document_uploaded)--}}
+                                @if($document->sr_document_status != null)
+                                    @php $document_uploaded = $document->sr_document_status; @endphp
+                                {{--@foreach($document->sr_document_status as $document_uploaded)--}}
                                 @if($document_uploaded['application_id'] == $sc_application->id)
                                 <span>
                                         <a href="{{ config('commanConfig.storage_server').'/'.$document_uploaded['document_path'] }}" data-value='{{ $document->id }}'
                                            class="upload_documents" target="_blank" rel="noopener" download><button type="submit" class="btn btn-primary btn-custom">
                                                 Download</button></a>
-                                        @if($sc_application->scApplicationLog->status_id == 4)
-                                            <a href="{{ route('delete_sc_upload_docs', base64_encode($document->id)) }}" data-value='{{ $document->id }}'
+                                        @if($sc_application->srApplicationLog->status_id == 4)
+                                            <a href="{{ route('delete_sr_upload_docs', base64_encode($document->id)) }}" data-value='{{ $document->id }}'
                                                class="upload_documents"><button type="submit" class="btn btn-primary btn-custom">
                                                     <i class="fa fa-trash"></i></button></a>
                                         @endif
                                     </span>
                                 @else
-                                <form action="{{ route('upload_sc_docs') }}" method="post" enctype='multipart/form-data' class="sc_upload_documents_form"
-                                      id="sc_upload_documents_form_{{ $document->id }}">
+                                <form action="{{ route('upload_sr_docs') }}" method="post" enctype='multipart/form-data' class="sr_upload_documents_form"
+                                      id="sr_upload_documents_form_{{ $document->id }}">
                                     @csrf
                                     <div class="custom-file">
                                         <input class="custom-file-input" name="document_name" type="file" class=""
@@ -108,8 +108,8 @@
                                 @endif
                                 {{--@endforeach--}}
                                 @else
-                                <form action="{{ route('upload_sc_docs') }}" method="post" enctype='multipart/form-data' class="sc_upload_documents_form"
-                                      id="sc_upload_documents_form_{{ $document->id }}">
+                                <form action="{{ route('upload_sr_docs') }}" method="post" enctype='multipart/form-data' class="sr_upload_documents_form"
+                                      id="sr_upload_documents_form_{{ $document->id }}">
                                     @csrf
                                     <div class="custom-file @if(session('error_'.$document->id)) has-error @endif">
                                         <input class="custom-file-input" name="document_name" type="file" id="test-upload_{{ $document->id }}"
@@ -133,6 +133,7 @@
                         @endforeach
                         </tbody>
                     </table>
+                    <input type="hidden" id="uploaded_id" value="{{ $uploaded_document_id }}">
                 </div>
             </div>
         </div>
@@ -140,45 +141,27 @@
     @if(!empty($documents) && !empty($documents_uploaded))
         @if(count($documents) == count($documents_uploaded))
             <div class="m-portlet">
-                <div>
-                    <div>
-                        <div class="portlet-body">
-                            <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
-                                <div class="">
-                                    <h3 class="section-title section-title--small">Enter Bank Details:</h3>
+                <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
+                    <div class="">
+                        <h3 class="section-title section-title--small">Submit Application:</h3>
+                    </div>
+                    <form action="{{ route('society_doc_comment') }}" method="post" enctype='multipart/form-data'>
+                        @csrf
+                        <div class="remarks-suggestions table--box-input">
+                            <div class="mt-3">
+                                <label for="society_documents_comment">Additional Information:</label>
+                                <div class="@if($errors->has('society_documents_comment')) has-error @endif">
+                                    <textarea name="society_documents_comment" rows="5" cols="30" id="society_documents_comment" class="form-control form-control--custom">{{old('society_documents_comment')}}</textarea>
+                                    <span class="help-block">{{$errors->first('society_documents_comment')}}</span>
                                 </div>
-                                <form action="{{ route('society_bank_details') }}" id="society_bank_details" method="post" enctype='multipart/form-data'>
-                                    @csrf
-                                    <div class="m-portlet__body m-portlet__body--spaced">
-                                        @for($i=0; $i < count($sc_bank_details_fields); $i++)
-                                            @if($i != 0) @php $i++; @endphp @endif
-                                                <div class="form-group m-form__group row">
-                                                    @if(isset($sc_bank_details_fields[$i]))
-                                                        <div class="col-sm-4 form-group">
-                                                            <label class="col-form-label" for="{{ $sc_bank_details_fields[$i] }}">@php $labels = implode(' ', explode('_', $sc_bank_details_fields[$i])); echo ucwords($labels); @endphp:</label>
-                                                            @php if($sc_application->scApplicationLog->status_id == 2 || (count($society_bank_details) > 0 && $sc_application->scApplicationLog->status_id == 4)){ $readonly = 'readonly'; $value = $society_bank_details[$sc_bank_details_fields[$i]]; }else{ $readonly = ''; $value = ''; }; echo $comm_func->form_fields($sc_bank_details_fields[$i], 'text','' , '', $value, $readonly); @endphp
-                                                            <span id="error_{{ $sc_bank_details_fields[$i] }}" class="help-block">{{$errors->first($sc_bank_details_fields[$i])}}</span>
-                                                        </div>
-                                                    @endif
-                                                    @if(isset($sc_bank_details_fields[$i+1]))
-                                                        <div class="col-sm-4 offset-sm-1 form-group">
-                                                            <label class="col-form-label" for="{{ $sc_bank_details_fields[$i+1] }}">@php $labels = implode(' ', explode('_', $sc_bank_details_fields[$i+1])); echo ucwords($labels); @endphp:</label>
-                                                            @php if($sc_application->scApplicationLog->status_id == 2 || (count($society_bank_details) > 0 && $sc_application->scApplicationLog->status_id == 4)){ $readonly = 'readonly'; $value = $society_bank_details[$sc_bank_details_fields[$i+1]]; }else{ $readonly = ''; $value = ''; }; echo $comm_func->form_fields($sc_bank_details_fields[$i+1], 'text','' , '', $value, $readonly); @endphp
-                                                            <span id="error_{{ $sc_bank_details_fields[$i+1] }}" class="help-block">{{$errors->first($sc_bank_details_fields[$i+1])}}</span>
-                                                        </div>
-                                                    @endif
-                                                </div>
-                                        @endfor
-                                        <div class="mt-3 btn-list">
-                                            <button class="btn btn-primary" type="submit" id="uploadBtn">Submit</button>
-                                            <a href="{{route('society_offer_letter_dashboard')}}" class="btn btn-secondary">Cancel</a>
-                                        </div>
-                                    </div>
-                                    <!-- <a href="{{ route('society_offer_letter_dashboard') }}" class="btn btn-primary btn-custom" id="">Cancel</a> -->
-                                </form>
+                            </div>
+                            <div class="mt-3 btn-list">
+                                <button class="btn btn-primary" type="submit" id="uploadBtn">Submit</button>
+                                <a href="{{route('society_offer_letter_dashboard')}}" class="btn btn-secondary">Cancel</a>
                             </div>
                         </div>
-                    </div>
+                    <!-- <a href="{{ route('society_offer_letter_dashboard') }}" class="btn btn-primary btn-custom" id="">Cancel</a> -->
+                    </form>
                 </div>
             </div>
         @endif
@@ -188,10 +171,12 @@
 @section('datatablejs')
     <script>
         $(document).ready(function(){
-            $('.sc_upload_documents_form').on('change', function(){
-                var id = $(this).closest('tr').find("input[name='document_id']")[0].value;
+            $('.sr_upload_documents_form').on('change', function(){
 
-                if(id == 1){
+                var id = $(this).closest('tr').find("input[name='document_id']")[0].value;
+                var uploaded_id = $('#uploaded_id').val();
+
+                if(id == uploaded_id){
                     $(this).validate({
                         rules:{
                             document_name : {

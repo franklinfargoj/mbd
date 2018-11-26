@@ -36,7 +36,12 @@ class ScAgreementComments extends Model
     public function Roles()
     {
         return $this->hasOne('App\Role', 'id', 'role_id');
-    }    
+    }
+
+    public function scAgreementId()
+    {
+        return $this->hasOne('App\conveyance\SocietyConveyanceDocumentMaster', 'id', 'agreement_type_id');
+    }
 
     /**
      * Indicates if the model has update and creation timestamps.

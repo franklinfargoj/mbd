@@ -83,7 +83,7 @@
                         </span>
                     </a>
                 </li>
-                <li id="applicationstatus-actions" class="collapse show">
+                <li id="applicationstatus-actions" class="collapse">
                     <ul class="list-unstyled">
                         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='application_status.index')?'m-menu__item--active':''}}">
                             <a class="m-menu__link m-menu__toggle" title="Listing Application Status" href="{{ route('application_status.index')}}">
@@ -122,7 +122,7 @@
                         </span>
                     </a>
                 </li>
-                <li id="hearingstatus-actions" class="collapse show">
+                <li id="hearingstatus-actions" class="collapse">
                     <ul class="list-unstyled">
                         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='hearing_status.index')?'m-menu__item--active':''}}">
                             <a class="m-menu__link m-menu__toggle" title="Listing Hearing Status" href="{{ route('hearing_status.index')}}">
@@ -162,7 +162,7 @@
                         </span>
                     </a>
                 </li>
-                <li id="rtistatus-actions" class="collapse show">
+                <li id="rtistatus-actions" class="collapse ">
                     <ul class="list-unstyled">
                         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='rti_status.index')?'m-menu__item--active':''}}">
                             <a class="m-menu__link m-menu__toggle" title="Listing RTI Status" href="{{ route('rti_status.index')}}">
@@ -226,6 +226,87 @@
 
                     </ul>
                 </li>
+
+                {{--user--}}
+                <li class="m-menu__item collapsed" data-toggle="collapse" data-target="#user-actions">
+                    <a href="javascript:void(0);" class="m-menu__link m-menu__toggle">
+                        <i class="m-menu__link-icon flaticon-line-graph"></i>
+                        <span class="m-menu__link-title">
+                            <span class="m-menu__link-wrap">
+                                <span class="m-menu__link-text">
+                                    Users
+                                </span>
+                                <i class="m-menu__ver-arrow la la-angle-right"></i>
+                            </span>
+                        </span>
+                    </a>
+                </li>
+                <li id="user-actions" class="collapse">
+                    <ul class="list-unstyled">
+                        <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='users.index')?'m-menu__item--active':''}}">
+                            <a class="m-menu__link m-menu__toggle" title="Listing user" href="{{ route('users.index')}}">
+                                <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
+                                    <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
+                                          fill="#FFF" />
+                                </svg>
+                                <span class="m-menu__link-text">User Listing</span>
+                            </a>
+                        </li>
+                        <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='users.create')?'m-menu__item--active':''}}">
+                            <a class="m-menu__link m-menu__toggle" title="Create User" href="{{ route('users.create')}}">
+                                <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
+                                    <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
+                                          fill="#FFF" />
+                                </svg>
+                                <span class="m-menu__link-text">Add User</span>
+                            </a>
+                        </li>
+                        {{--if radio button comes in picture--}}
+                        {{--@include('admin.crud_admin.user.actions')--}}
+
+                    </ul>
+                </li>
+
+                {{--USER LAYOUTS--}}
+                <li class="m-menu__item collapsed" data-toggle="collapse" data-target="#user_layout-actions">
+                    <a href="javascript:void(0);" class="m-menu__link m-menu__toggle">
+                        <i class="m-menu__link-icon flaticon-line-graph"></i>
+                        <span class="m-menu__link-title">
+                            <span class="m-menu__link-wrap">
+                                <span class="m-menu__link-text">
+                                    User Layouts
+                                </span>
+                                <i class="m-menu__ver-arrow la la-angle-right"></i>
+                            </span>
+                        </span>
+                    </a>
+                </li>
+                <li id="user_layout-actions" class="collapse show">
+                    <ul class="list-unstyled">
+                        <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='user_layouts.index')?'m-menu__item--active':''}}">
+                            <a class="m-menu__link m-menu__toggle" title="Listing User Layout" href="{{ route('user_layouts.index')}}">
+                                <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
+                                    <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
+                                          fill="#FFF" />
+                                </svg>
+                                <span class="m-menu__link-text">User Layout Listing</span>
+                            </a>
+                        </li>
+                        <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='user_layouts.create')?'m-menu__item--active':''}}">
+                            <a class="m-menu__link m-menu__toggle" title="Create User Layout" href="{{ route('user_layouts.create')}}">
+                                <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
+                                    <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
+                                          fill="#FFF" />
+                                </svg>
+                                <span class="m-menu__link-text">Add User Layout</span>
+                            </a>
+                        </li>
+                        {{--if radio button comes in picture--}}
+                        {{--@include('admin.crud_admin.layout.actions')--}}
+
+                    </ul>
+                </li>
+
 
             </ul>
         </div>

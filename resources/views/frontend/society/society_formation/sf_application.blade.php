@@ -1,11 +1,16 @@
 @extends('admin.layouts.app')
 @section('content')
+@php 
+    $disabled=isset($disabled)?$disabled:0;
+@endphp
     <div class="col-md-12">
         <div class="m-subheader px-0 m-subheader--top">
             <div class="d-flex align-items-center">
                 <h3 class="m-subheader__title m-subheader__title--separator">Application</h3>
                 <div class="ml-auto btn-list">
-                    <a href="{{ route('society_conveyance.index') }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+                    @if($disabled==0)
+                    <a href="{{ route('society_formation.create') }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+                    @endif
                     <a href="#" target="_blank" id="download_application_form" class="btn print-icon" rel="noopener"
                        onclick="printContent('printdiv')"><img src="{{asset('/img/print-icon.svg')}}" title="print"></a>
                 </div>
@@ -35,9 +40,9 @@
                     <!-- END: Subheader -->
                     <div class="m-content letter-form-content">
                         <div class="letter-form-subject">
-                            <p><span class="font-weight-semi-bold">विषय :- </span> <input class="letter-form-input" type="text" id="" name="layout_name" value="{{ $sf_application->applicationLayout[0]->layout_name }}"> येथील <input class="letter-form-input" type="text" id="" name="society_name" value="{{ $sf_application->societyApplication->name }}"> सहकारी गृहनिर्माण संस्था चे पंजीकरण करणेबाबत.</p>
+                            <p><span class="font-weight-semi-bold">विषय :- </span> <input class="letter-form-input" type="text" id="" name="layout_name" value="{{ $sf_application->applicationLayout[0]->layout_name }}" readonly> येथील <input class="letter-form-input" type="text" id="" name="society_name" value="{{ $sf_application->societyApplication->name }}" readonly> सहकारी गृहनिर्माण संस्था चे पंजीकरण करणेबाबत.</p>
                             <p class="font-weight-semi-bold">महोदय,</p>
-                            <p>मुंबई मंडळाच्या <input class="letter-form-input" type="text" id="" name="layout_name" value="{{ $sf_application->applicationLayout[0]->layout_name }}"> या वसाहतीतील इमारत कर्‍मांक <input class="letter-form-input" type="text" id="" name="society_no"
+                            <p>मुंबई मंडळाच्या <input class="letter-form-input" type="text" id="" name="layout_name" value="{{ $sf_application->applicationLayout[0]->layout_name }}" readonly> या वसाहतीतील इमारत कर्‍मांक <input readonly class="letter-form-input" type="text" id="" name="society_no"
                                 value="{{ $sf_application->societyApplication->building_no }}" readonly> येथील गाळेधारकांना संस्थेचे नाव आरक्षण करण्यासाठी सादर केलेल्या पर्‍स्थावानुसार आपले <input class="letter-form-input" type="text" id="" name="society_no"
                                 value="{{ $sf_application->proposed_society_name }}" readonly>  सहकारी गृहनिर्माण संस्था असे मिळाले आहे. सादर सोसाटीचा संस्था पंजीकरणा पर्‍स्थाव योग्य त्या कागतपञासह पुढील कार्यवाहीसाठी आपल्याकडे पाठवित आहोत. </p>
         
@@ -45,16 +50,26 @@
                         <div>
                             <div class="loader" style="display:none;"></div>
                             <p>सोबत :- </p>
-                            @include('frontend.society.society_formation._application_attachments',compact('sf_documents','sf_application'))
+                            @include('frontend.society.society_formation._application_attachments',compact('sf_documents','sf_application','disabled'))
                         </div>
                         <div class="letter-form-footer d-flex font-weight-semi-bold mt-5">
                             <div class="ml-auto text-right">
-                                <p class="mb-5">आपला विश्वासू,</p>
+                                <p class="mb-5">
+                                    <span class="d-flex">
+                                        आपला विश्वासू,
+                                    </span>
+                                </p>
                                 <p>
-                                <span class="d-flex">अध्यक्ष <input class="letter-form-input letter-form-input--xl"
+                                    <span class="d-flex">
+                                            मिळकत व्यवस्थापक - ४ 
+                                    </span>
+                                    <span class="d-flex">
+                                            मुंबई मंडळ, मुंबई 
+                                    </span>
+                                {{-- <span class="d-flex">अध्यक्ष <input class="letter-form-input letter-form-input--xl"
                                                                     type="text" id="" name="" value=""></span>
                                     <span class="d-flex mt-3">सचिव <input class="letter-form-input letter-form-input--xl"
-                                                                          type="text" id="" name="" value=""></span>
+                                                                          type="text" id="" name="" value=""></span> --}}
                                 </p>
                             </div>
                         </div>
@@ -69,7 +84,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a href="{{ route('society_conveyance.edit', base64_encode($sf_application->id)) }}" class="btn btn-primary">
+                                @if($disabled==0)
+                                <a href="{{ route('society_formation.create') }}" class="btn btn-primary">
                                     Back
                                 </a>
                                 <span style="float:right;margin-right: 20px">
@@ -77,6 +93,7 @@
                                         Submit Application
                                     </button>
                                 </span>
+                                @endif
                             </div>
                         </div>
                     </div>

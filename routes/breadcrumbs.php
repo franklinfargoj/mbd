@@ -74,6 +74,26 @@ Breadcrumbs::for('society_detail', function ($trail) {
 	$trail->push('Society Detail', route('society_detail.index'));
 });
 
+Breadcrumbs::for('society_details', function ($trail,$id) {
+    $trail->parent('society_detail');
+    $trail->push('Society List', route('society.billing_level'));
+    $trail->push('Society Details', route('society.society_details',['id'=>$id]));
+});
+
+Breadcrumbs::for('arrears_charges', function ($trail,$id,$building_id) {
+    $trail->parent('society_detail');
+    $trail->push('Society List', route('society.billing_level'));
+    $trail->push('Society Details', route('society.society_details',['id'=>$id]));
+    $trail->push('Arrear Charges Rate', route('arrears_charges',['society_id'=>$id,'building_id'=>$building_id]));
+});
+
+Breadcrumbs::for('service_charges', function ($trail,$id,$building_id) {
+    $trail->parent('society_detail');
+    $trail->push('Society List', route('society.billing_level'));
+    $trail->push('Society Details', route('society.society_details',['id'=>$id]));
+    $trail->push('Service Charges Rate', route('service_charges',['society_id'=>$id,'building_id'=>$building_id]));
+});
+
 Breadcrumbs::for('society_create', function ($trail) {
 	$trail->parent('society_detail');
 	$trail->push('Add Society', route('society_detail.create'));
@@ -654,6 +674,55 @@ Breadcrumbs::for('layout_view', function ($trail,$id) {
     $trail->push('View Layout', route('layouts.show',$id));
 });
 
+// Users
+Breadcrumbs::for('user', function ($trail) {
+    $trail->push('Home', route('users.index'));
+});
+
+Breadcrumbs::for('add_user', function ($trail) {
+    $trail->parent('user');
+    $trail->push('Create User', route('users.create'));
+});
+
+Breadcrumbs::for('user_detail', function ($trail) {
+    $trail->push('User Detail', route('users.index'));
+});
+
+Breadcrumbs::for('edit_user', function ($trail,$id) {
+    $trail->parent('user_detail');
+    $trail->push('Edit User', route('users.edit',$id));
+});
+
+Breadcrumbs::for('user_view', function ($trail,$id) {
+    $trail->parent('user');
+    $trail->push('View User', route('users.show',$id));
+});
+
+// User Layouts
+Breadcrumbs::for('user_layout', function ($trail) {
+    $trail->push('Home', route('user_layouts.index'));
+});
+
+Breadcrumbs::for('add_user_layout', function ($trail) {
+    $trail->parent('user_layout');
+    $trail->push('Create User Layout', route('user_layouts.create'));
+});
+
+Breadcrumbs::for('user_layout_detail', function ($trail) {
+    $trail->push('User Layout Detail', route('user_layouts.index'));
+});
+
+Breadcrumbs::for('edit_user_layout', function ($trail,$id) {
+    $trail->parent('user_layout_detail');
+    $trail->push('Edit User Layout', route('user_layouts.edit',$id));
+});
+
+Breadcrumbs::for('user_layout_view', function ($trail,$id) {
+    $trail->parent('user_layout');
+    $trail->push('View User Layout', route('user_layouts.show',$id));
+});
+
+
 
 
 Breadcrumbs::for('em', function ($trail) {
@@ -714,7 +783,7 @@ Breadcrumbs::for('architect_generate_certificate', function ($trail,$id) {
 
 Breadcrumbs::for('architect_finalCertificateGenerate', function ($trail,$id) {
     $trail->parent('architect_application');
-    $trail->push('Download Certificate', route('finalCertificateGenerate',['id'=>$id]));
+    $trail->push('View Certificate', route('finalCertificateGenerate',['id'=>$id]));
 });
 
 //architect layouts
@@ -755,7 +824,30 @@ Breadcrumbs::for('architect_layout_prepare_layout_excel', function ($trail,$id) 
 
 //Society Formation
 Breadcrumbs::for('society_formation',function($trail){
-    $trail->push('HOme',route('society_formation.index'));
+    $trail->push('Home',route('society_formation.index'));
 });
 
 
+Breadcrumbs::for('society_formation_list',function($trail){
+    $trail->push('Home',route('get_sf_applications.index'));
+});
+
+Breadcrumbs::for('sf_view_application', function ($trail,$id) {
+    $trail->parent('society_formation_list');
+    $trail->push('View Application', route('formation.view_application',['layout_id'=>$id]));
+});
+
+Breadcrumbs::for('sf_documents', function ($trail,$id) {
+    $trail->parent('society_formation_list');
+    $trail->push('Society Documents', route('formation.society_documents',['layout_id'=>$id]));
+});
+
+Breadcrumbs::for('sf_srutiny_and_remark', function ($trail,$id) {
+    $trail->parent('society_formation_list');
+    $trail->push('Srutiny & Remark', route('formation.em_srutiny_and_remark',['layout_id'=>$id]));
+});
+
+Breadcrumbs::for('sf_forward_application', function ($trail,$id) {
+    $trail->parent('society_formation_list');
+    $trail->push('Forward Application', route('formation.forward_application',['layout_id'=>$id]));
+});
