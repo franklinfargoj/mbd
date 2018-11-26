@@ -65,8 +65,8 @@
         </div>
     </div>
     <div class="m-portlet data-table--custom data-table--icons data-table--actions">
-        <div class="d-flex justify-content-between">
-            {{-- <h3 class="section-title section-title--small">Revision Requests</h3> --}}
+        <div class="d-flex justify-content-between ">
+            <h3 class="section-title section-title--small">&nbsp;</h3>
             <div class="topnav">
                 <a class="btn-link {{isset($_GET['application_status'])?($_GET['application_status']==0?'active':''):'active'}}"
                  href="?application_status=0">All</a>

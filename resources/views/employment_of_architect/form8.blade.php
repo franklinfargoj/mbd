@@ -13,15 +13,15 @@
             <a href="{{ route("appointing_architect.step5",['id'=>encrypt($application->id)]) }}" class="btn--unstyled flex-grow-1 form-step-tab active">Step 5<span>Work Handled</span></a>
             <a href="{{ route("appointing_architect.step6",['id'=>encrypt($application->id)]) }}" class="btn--unstyled flex-grow-1 form-step-tab active">Step 6<span>Details of Firm</span></a>
             <a href="{{ route("appointing_architect.step7",['id'=>encrypt($application->id)]) }}" class="btn--unstyled flex-grow-1 form-step-tab active">Step 7<span>Work In Hand</span></a>
-            <a href="{{ route("appointing_architect.step8",['id'=>encrypt($application->id)]) }}" class="btn--unstyled flex-grow-1 form-step-tab active">Step 8<span>Work Completed</span></a>
+            <a href="{{ route("appointing_architect.step8",['id'=>encrypt($application->id)]) }}" class="btn--unstyled flex-grow-1 form-step-tab active">Step 8<span>Works Completed</span></a>
             <a href="{{ route("appointing_architect.step9",['id'=>encrypt($application->id)]) }}" class="btn--unstyled flex-grow-1 form-step-tab ">Step 9<span>Supporting Documents</span></a>
     </div>
     <div id="accordion" class="mt-4">
         @php
-        $prev_form_number=old('form_number')?old('form_number'):0;
+        $prev_form_number=old('form_number')?old('form_number'):1;
         @endphp
-
-<h3 class="section-title section-title--small mb-4">PROJECT DETAIL SHEET - WORK COMPLETED</h3>
+    <h3 class="section-title section-title--small mb-4">&nbsp;</h3>
+{{-- <h3 class="section-title section-title--small mb-4">PROJECT DETAIL SHEET - WORK COMPLETED</h3> --}}
         {{-- <h3 class="section-title section-title--small mb-4">Name of Applicant: {{$application->name_of_applicant}}</h3> --}}
 
         @php
@@ -135,7 +135,7 @@
                             @endif
                         </div>
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="">Estimated Value of Projects:</label>
+                            <label class="col-form-label" for="">Estimated Value of Projects in Rs:</label>
                             <input onkeypress="return isNumberKey(event)" type="text" id="" name="estimated_value_of_project" class="form-control form-control--custom m-input"
                                 value="{{isset($application->project_sheets[$j])?$application->project_sheets[$j]->estimated_value_of_project:old('estimated_value_of_project')}}">
                             @if ($errors->has('estimated_value_of_project') && $prev_form_number==$j+1)
@@ -144,7 +144,7 @@
                             @endif
                         </div>
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="">Completed Value of Projects:</label>
+                            <label class="col-form-label" for="">Completed Value of Projects in Rs:</label>
                             <input onkeypress="return isNumberKey(event)" type="text" id="" name="completed_value_of_project" class="form-control form-control--custom m-input"
                                 value="{{isset($application->project_sheets[$j])?$application->project_sheets[$j]->completed_value_of_project:old('completed_value_of_project')}}">
                             @if ($errors->has('completed_value_of_project') && $prev_form_number==$j+1)
