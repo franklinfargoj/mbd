@@ -32,54 +32,54 @@ class LeaseDetailController extends Controller
     {
         $lease_data = LeaseDetail::with(['lease_rent_start_month_rel', 'month_rent_per_renewed_lease_rel'])->where(['lm_lease_detail.society_id' => $id])
             ->join('lm_society_detail','lm_lease_detail.society_id','=','lm_society_detail.id')->selectRaw(DB::raw('lm_lease_detail.id as id, lm_lease_detail.lease_rule_16_other,lm_lease_detail.lease_basis,lm_lease_detail.area,lm_lease_detail.lease_period,lm_lease_detail.lease_start_date,lm_lease_detail.lease_rent,lm_lease_detail.lease_rent_start_month,lm_lease_detail.interest_per_lease_agreement,lm_lease_detail.interest_per_lease_agreement,lm_lease_detail.lease_renewal_date,lm_lease_detail.lease_renewed_period,lm_lease_detail.rent_per_renewed_lease,lm_lease_detail.interest_per_renewed_lease_agreement,lm_lease_detail.month_rent_per_renewed_lease,lm_lease_detail.payment_detail,lm_lease_detail.lease_status,lm_society_detail.society_name'));
-            $dataLists=$lease_data->orderBy('lm_lease_detail.created_at','desc')->get();
-            // dd($dataLists);
-            if(count($dataLists) == 0){
-                $dataListMaster = [];
+        $dataLists=$lease_data->orderBy('lm_lease_detail.created_at','desc')->get();
+        // dd($dataLists);
+        if(count($dataLists) == 0){
+            $dataListMaster = [];
+            $dataList = [];
+            $dataList['id'] = '';
+            $dataList['Lease rule 16 & other'] = '';
+            $dataList['School/society/ others on lease basis'] = '';
+            $dataList['Area'] = '';
+            $dataList['Lease Period'] = '';
+            $dataList['Start date of lease'] = '';
+            $dataList['Land rent / lease rent'] = '';
+            $dataList['Month to start collection of lease rent'] = '';
+            $dataList['Interest as per Lease agreement, in %'] = '';
+            $dataList['Date of Renewal of lease'] = '';
+            $dataList['Period of renewed Lease'] = '';
+            $dataList['Lease rent as per renewed lease'] = '';
+            $dataList['Interest as per renewed Lease agreement, in %'] = '';
+            $dataList['Month to start collection of lease rent as per renewed lease'] = '';
+            $dataListMaster[]=$dataList;
+        }else{
+            $i=1;
+            foreach ($dataLists as $dataList_key => $dataList_value) {
+
+                // dd($dataList_value->month_rent_per_renewed_lease_rel->month_name);
                 $dataList = [];
-                $dataList['id'] = '';
-                $dataList['Lease rule 16 & other'] = '';
-                $dataList['School/society/ others on lease basis'] = '';
-                $dataList['Area'] = '';
-                $dataList['Lease Period'] = '';
-                $dataList['Start date of lease'] = '';
-                $dataList['Land rent / lease rent'] = '';
-                $dataList['Month to start collection of lease rent'] = '';
-                $dataList['Interest as per Lease agreement, in %'] = '';
-                $dataList['Date of Renewal of lease'] = '';
-                $dataList['Period of renewed Lease'] = '';
-                $dataList['Lease rent as per renewed lease'] = '';
-                $dataList['Interest as per renewed Lease agreement, in %'] = '';
-                $dataList['Month to start collection of lease rent as per renewed lease'] = '';
+                $dataList['id'] = $i;
+                $dataList['Lease rule 16 & other'] = $dataList_value['lease_rule_16_other'];
+                $dataList['School/society/ others on lease basis'] = $dataList_value['lease_basis'];
+                $dataList['Area'] = $dataList_value['area'];
+                $dataList['Lease Period'] = $dataList_value['lease_period'];
+                $dataList['Start date of lease'] = $dataList_value['lease_start_date'];
+                $dataList['Land rent / lease rent'] = $dataList_value['lease_rent'];
+                $dataList['Month to start collection of lease rent'] = $dataList_value->lease_rent_start_month_rel->month_name;
+                $dataList['Interest as per Lease agreement, in %'] = $dataList_value['interest_per_lease_agreement'];
+                $dataList['Date of Renewal of lease'] = $dataList_value['lease_renewal_date'];
+                $dataList['Period of renewed Lease'] = $dataList_value['lease_renewed_period'];
+                $dataList['Lease rent as per renewed lease'] = $dataList_value['rent_per_renewed_lease'];
+                $dataList['Interest as per renewed Lease agreement, in %'] = $dataList_value['interest_per_renewed_lease_agreement'];
+                $dataList['Month to start collection of lease rent as per renewed lease'] = $dataList_value->month_rent_per_renewed_lease_rel->month_name;
+
+                $dataListKeys = array_keys($dataList);
                 $dataListMaster[]=$dataList;
-            }else{
-                $i=1;
-                foreach ($dataLists as $dataList_key => $dataList_value) {
-                    
-                    // dd($dataList_value->month_rent_per_renewed_lease_rel->month_name);
-                    $dataList = [];
-                    $dataList['id'] = $i;
-                    $dataList['Lease rule 16 & other'] = $dataList_value['lease_rule_16_other'];
-                    $dataList['School/society/ others on lease basis'] = $dataList_value['lease_basis'];
-                    $dataList['Area'] = $dataList_value['area'];
-                    $dataList['Lease Period'] = $dataList_value['lease_period'];
-                    $dataList['Start date of lease'] = $dataList_value['lease_start_date'];
-                    $dataList['Land rent / lease rent'] = $dataList_value['lease_rent'];
-                    $dataList['Month to start collection of lease rent'] = $dataList_value->lease_rent_start_month_rel->month_name;
-                    $dataList['Interest as per Lease agreement, in %'] = $dataList_value['interest_per_lease_agreement'];
-                    $dataList['Date of Renewal of lease'] = $dataList_value['lease_renewal_date'];
-                    $dataList['Period of renewed Lease'] = $dataList_value['lease_renewed_period'];
-                    $dataList['Lease rent as per renewed lease'] = $dataList_value['rent_per_renewed_lease'];
-                    $dataList['Interest as per renewed Lease agreement, in %'] = $dataList_value['interest_per_renewed_lease_agreement'];
-                    $dataList['Month to start collection of lease rent as per renewed lease'] = $dataList_value->month_rent_per_renewed_lease_rel->month_name;
-                    
-                    $dataListKeys = array_keys($dataList);
-                    $dataListMaster[]=$dataList;
-                    $i++;
-                }
+                $i++;
             }
-            
-        return view('admin.print_data',compact('dataListMaster', 'dataListKeys')); 
+        }
+
+        return view('admin.print_data',compact('dataListMaster', 'dataListKeys'));
     }
     /**
      * Display a listing of the resource.
@@ -173,7 +173,7 @@ class LeaseDetailController extends Controller
             }else{
                 $i=1;
                 foreach ($dataLists as $dataList_key => $dataList_value) {
-                    
+
                     // dd($dataList_key);
                     $dataList = [];
                     $dataList['id'] = $i;
@@ -190,10 +190,10 @@ class LeaseDetailController extends Controller
                     $dataList['Lease rent as per renewed lease'] = $dataList_value['rent_per_renewed_lease'];
                     $dataList['Interest as per renewed Lease agreement, in %'] = $dataList_value['interest_per_renewed_lease_agreement'];
                     $dataList['Month to start collection of lease rent as per renewed lease'] = $dataList_value['month_rent_per_renewed_lease'];
-                   $dataListMaster[]=$dataList;
+                    $dataListMaster[]=$dataList;
                     $i++;
                 }
-            // dd($dataListMaster);
+                // dd($dataListMaster);
             }
             // dd($dataListMaster);
             return Excel::create('lease_detail_'.date('Y_m_d_H_i_s'), function($excel) use($dataListMaster){
@@ -204,6 +204,7 @@ class LeaseDetailController extends Controller
                 });
             })->download('csv');
         }
+
         if ($datatables->getRequest()->ajax()) {
 
             DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
@@ -224,16 +225,22 @@ class LeaseDetailController extends Controller
 //            dd($id);
             $lease_data = $lease_data->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').',lease_rule_16_other, lm_lease_detail.id as id, lm_lease_detail.area as area, society_id, lease_period, lease_renewed_period, lease_start_date, lease_renewal_date, lease_status');
 
+//            echo "<pre>";
+//            DB::enableQueryLog();
+//            print_r(DB::getQueryLog());
+//            dd($lease_data);
+
+
             return $datatables->of($lease_data)
                 // ->editColumn('radio', function ($lease_data) {
                 //     $url = route('view-lease.view', [$lease_data->id, $lease_data->society_id]);
                 //     return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
                 // })
                 ->editColumn('rownum', function ($lease_data) {
-                        static $i = 0;
-                        $i++;
-                        return $i;
-                    })
+                    static $i = 0;
+                    $i++;
+                    return $i;
+                })
                 ->editColumn('lease_start_date', function ($lease_data) {
                     if($lease_data->lease_renewed_period != null){
                         $lease_start_date = $lease_data->lease_renewal_date;
@@ -255,7 +262,8 @@ class LeaseDetailController extends Controller
                     return date(config('commanConfig.dateFormat'), strtotime($lease_end_date));
                 })
                 ->editColumn('leaseSociety', function ($lease_data) {
-                    return $lease_data->leaseSociety->society_name;
+//                    dd($lease_data->leaseSociety->society_name);
+                    return $lease_data->leaseSociety['society_name'];
                 })
                 ->editColumn('actions', function ($lease_data) {
                     return view('admin.lease_detail.actions', compact('lease_data'))->render();
@@ -329,7 +337,11 @@ class LeaseDetailController extends Controller
     {
         $header_data = $this->header_data;
         $arrData['month_data'] = MasterMonth::all();
-        $arrData['lease_data'] = LeaseDetail::where(['society_id' => $id, 'lease_status' => 1])->first();
+        if($id)
+            $arrData['lease_data'] = LeaseDetail::where(['society_id' => $id, 'lease_status' => 1])->first();
+
+        else
+            $arrData['lease_data'] = LeaseDetail::where( ['lease_status' => 1])->first();
 
         return view('admin.lease_detail.renew-lease', compact('header_data', 'arrData', 'id', 'village_id'));
     }
@@ -400,7 +412,7 @@ class LeaseDetailController extends Controller
         $header_data = $this->header_data;
         $arrData['month_data'] = MasterMonth::all();
         $arrData['lease_data'] = LeaseDetail::where(['id' => $id,'society_id' => $society_id])->first();
-         //dd($arrData['lease_data']);
+        //dd($arrData['lease_data']);
         $village = SocietyDetail::where('id', $society_id)->first();
         $village_id = $village->village_id;
         return view('admin.lease_detail.view-lease', compact('header_data', 'arrData', 'id', 'society_id', 'village_id'));

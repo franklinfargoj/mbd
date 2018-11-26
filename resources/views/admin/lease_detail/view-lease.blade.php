@@ -1,7 +1,4 @@
-@extends('admin.layouts.sidebarAction')
-@section('actions')
-    @include('admin.lease_detail.action',compact('society_id'))
-@endsection
+@extends('admin.layouts.app')
 @section('content')
 <div class="col-md-12">
     <div class="m-subheader px-0 m-subheader--top">

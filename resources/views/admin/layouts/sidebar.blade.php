@@ -418,7 +418,7 @@ $route=\Request::route()->getName();
                         </li>
 
 
-                        @if(\Illuminate\Support\Facades\Request::is('lease_detail/*') || (strpos($route,'village_detail') !== false))
+                        @if(\Illuminate\Support\Facades\Request::is('lease_detail/*') || (strpos($route,'village_detail') !== false) || (strpos($route,'society_detail') !== false))
                         <li class="m-menu__item m-menu__item--level-2 {{($route=='lease_detail.index' || $route=='view-lease.view' || $route=='edit-lease.edit' || $route=='lease_detail.create')? '' : 'collapsed'}}"
                             data-toggle="collapse" data-target="#lease-actions">
                             <a href="{{url('/village_detail')}}" class="m-menu__link m-menu__toggle">
@@ -486,7 +486,7 @@ $route=\Request::route()->getName();
 
                                     {{--@else--}}
                                             @php
-                                                if((strpos($route,'village_detail') !== false)){
+                                                if((strpos($route,'village_detail') !== false) || (strpos($route,'society_detail') !== false)){
                                                     $id = '0' ;
                                                 }else{
                                                     $id = collect(request()->segments())->last();
@@ -503,6 +503,8 @@ $route=\Request::route()->getName();
                                                     </svg>
                                                     <span class="m-menu__link-text">Lease Details</span></a>
                                             </li>
+
+                                            @if((strpos($route,'lease_detail') !== false))
                                             <li class="m-menu__item m-menu__item--submenu {{$route=='renew-lease.renew'?'m-menu__item--active':''}}">
                                                 <a class="m-menu__link m-menu__toggle" href="{{route('renew-lease.renew', $id)}}"
                                                     class="m-menu__link m-menu__toggle">
@@ -513,6 +515,7 @@ $route=\Request::route()->getName();
                                                     </svg>
                                                     <span class="m-menu__link-text">Renew Lease</span></a>
                                             </li>
+                                            @endif
                                         {{--@endif--}}
                                 {{--@endif--}}
 
