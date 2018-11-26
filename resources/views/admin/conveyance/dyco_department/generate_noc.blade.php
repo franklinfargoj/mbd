@@ -1,18 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-
-<body>
 <div class="m_portlet">
-    <form id="OfferLetterFRM" action="{{ route('dyco.save_noc') }}" method="post">
+    <form id="OfferLetterFRM" action="{{ route('dyco.save_draft_NOC') }}" method="post">
         @csrf
-        <input type="hidden" id="applicationId" name="applicationId" value="{{$applicationId}}">
+        <input type="hidden" id="applicationId" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">
         <div style="margin-left: 130px">
         <textarea id="ckeditorText" name="ckeditorText" style="display:none;">
         <div style="" id="">
@@ -79,9 +69,6 @@
 
     </form>
     </div>
-</body>
-
-</html>
 
 <script src="{{ asset('/js/jquery-3.3.1.min.js') }}"></script>
 <script src="{{ asset('vendor/unisharp/laravel-ckeditor/ckeditor.js') }}"></script>

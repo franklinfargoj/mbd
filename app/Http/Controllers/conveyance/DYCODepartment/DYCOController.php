@@ -477,23 +477,30 @@ class DYCOController extends Controller
         $data->is_view = session()->get('role_name') == config('commanConfig.dyco_engineer'); 
         $data->status = $this->common->getCurrentStatus($applicationId,$data->sc_application_master_id); 
         $data->conveyance_map = $this->common->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
-
         $masterId = $data->sc_application_master_id;
+
+        //get draft NOC
         $draft  = config('commanConfig.scAgreements.conveynace_draft_NOC');        
         $draftId = $this->common->getScAgreementId($draft,$masterId);
-        $data->draftNOC = $this->common->getScAgreement($draftId,$applicationId,NULL);
-        // dd($data);
+        $data->draftNOC = $this->common->getScAgreement($draftId,$applicationId,NULL);        
+
+        //get uploaded NOC
+        $noc  = config('commanConfig.scAgreements.conveynace_uploaded_NOC');        
+        $nocId = $this->common->getScAgreementId($noc,$masterId);
+        $data->NOC = $this->common->getScAgreement($nocId,$applicationId,NULL);
+
         return view('admin.conveyance.dyco_department.conveyance_noc',compact('data'));
     }
 
     public function GenerateConveyanceNOC(Request $request,$applicationId){
-        // dd("hi");
+
         $data = scApplication::with(['societyApplication'])->where('id',$applicationId)
         ->first();
-        return view('admin.conveyance.dyco_department.generate_noc',compact('applicationId','data'));        
+        return view('admin.conveyance.dyco_department.generate_noc',compact('data'));        
     }
 
-    public function saveNOC(Request $request){
+    public function saveDraftNOC(Request $request){
+        
         $id = $request->applicationId;
         $masterId = scApplication::where('id',$id)->value('sc_application_master_id');
         $draft  = config('commanConfig.scAgreements.conveynace_draft_NOC');        
@@ -510,7 +517,9 @@ class DYCOController extends Controller
         $pdf->autoScriptToLang = true;
         $pdf->autoLangToFont = true;
 
-        $pdf->loadHTML($header_file.$content.$footer_file);
+        $pdf->SetHTMLHeader($header_file);
+        $pdf->SetHTMLFooter($footer_file);
+        $pdf->WriteHTML($content);        
     
         $fileName = time().'_draft_noc_'.$id.'.pdf';
         $filePath = $folder_name."/".$fileName;
@@ -518,9 +527,7 @@ class DYCOController extends Controller
         if (!(Storage::disk('ftp')->has($folder_name))) {            
             Storage::disk('ftp')->makeDirectory($folder_name, $mode = 0777, true, true);
         } 
-        Storage::disk('ftp')->put($filePath, $pdf->output());
-        $file = $pdf->output();
-
+        Storage::disk('ftp')->put($filePath, $pdf->Output($fileName, 'S'));
         $draftLetter = $this->common->getScAgreement($draftId,$id,NULL);
        
         if ($draftLetter){
@@ -553,6 +560,47 @@ class DYCOController extends Controller
         } 
         // dd($draftLetter);
         return redirect('conveyance_noc/'.$request->applicationId)->with('success', 'NOC Generated Successfully..');        
+    }
+
+    public function saveUploadedNOC(Request $request){
+        
+        $applicationId = $request->applicationId;
+        $masterId = scApplication::where('id',$applicationId)->value('sc_application_master_id');
+        $nocDOC  = config('commanConfig.scAgreements.conveynace_uploaded_NOC');
+        
+        $file  = $request->file('NOC');
+        $folder_name  = "Conveyance_uploaded_NOC";
+
+        if ($file) {
+            $extension  = $file->getClientOriginalExtension(); 
+            $file_name  = time().'_noc_'.$applicationId.'.'.$extension; 
+            $file_path  = $folder_name.'/'.$file_name; 
+            $nocId = $this->common->getScAgreementId($nocDOC,$masterId);
+
+            if ($extension == "pdf"){
+                
+                Storage::disk('ftp')->delete($request->oldNOC);
+                $upload = $this->CommonController->ftpFileUpload($folder_name,$file,$file_name); 
+                $Data = $this->common->getScAgreement($nocId,$applicationId,NULL);
+
+                if ($Data){
+                    $this->common->updateScAgreement($applicationId,$nocId,$file_path,NULL);
+                }else{
+                    $this->common->createScAgreement($applicationId,$nocId,$file_path,NULL);               
+                }
+                $status = 'success';
+            } else{
+                $status = 'error';
+            }           
+        }else{
+            $status = 'error';    
+        } 
+
+        if (isset($status) && $status == 'success'){
+            return back()->with('success', 'NOC uploaded successfully.'); 
+        } else{
+            return back()->with('error', 'Invalid type of file uploaded (only pdf allowed).');
+        }                 
     }
  
     //send application to society
@@ -730,7 +778,7 @@ class DYCOController extends Controller
     }
 
     // save draft and text stamp duty letter for Renewal Application
-    public function saveDraftStampDutyLetter(Request $request){
+    public function saveRenewalDraftStampDuty(Request $request){
 
         $id = $request->applicationId;
         $masterId = RenewalApplication::where('id',$id)->value('application_master_id');
@@ -833,5 +881,76 @@ class DYCOController extends Controller
             return back()->with('error', 'Invalid type of file uploaded (only pdf allowed).');
         }         
     }
+
+    // generate stamp duty letter in ckeditor for conveyance Application
+    public function GenerateConveyanceStampDuty(Request $request,$applicationId){
+
+        $data = scApplication::with(['societyApplication'])->where('id',$applicationId)->first();
+        return view('admin.conveyance.dyco_department.generate_stamp_duty_letter',compact('applicationId','data'));
+    }
+
+    // save draft and text stamp duty letter for conveyance Application
+    public function saveDraftConveyanceStampDuty(Request $request){
+
+        $id = $request->applicationId;
+        $masterId = scApplication::where('id',$id)->value('sc_application_master_id');
+        $draft  = config('commanConfig.scAgreements.conveyance_draft_stamp_duty_letter');        
+        $draftId = $this->common->getScAgreementId($draft,$masterId);
+        // dd($draftId);    
+        $content = str_replace('_', "", $_POST['ckeditorText']);
+        $folder_name = 'Conveyance_Draft_Stamp_duty_Letter';
+
+        $header_file = view('admin.REE_department.offer_letter_header');        
+        $footer_file = view('admin.REE_department.offer_letter_footer');
+
+        $pdf = new Mpdf();
+        // $pdf = \App::make('dompdf.wrapper');
+        $pdf->autoScriptToLang = true;
+        $pdf->autoLangToFont = true;
+
+        $pdf->SetHTMLHeader($header_file);
+        $pdf->SetHTMLFooter($footer_file);
+        $pdf->WriteHTML($content);
+    
+        $fileName = time().'_draft_stamp_duty_letter_'.$id.'.pdf';
+        $filePath = $folder_name."/".$fileName;
+
+        if (!(Storage::disk('ftp')->has($folder_name))) {            
+            Storage::disk('ftp')->makeDirectory($folder_name, $mode = 0777, true, true);
+        } 
+        Storage::disk('ftp')->put($filePath, $pdf->Output($fileName, 'S'));
+        $draftLetter = $this->renewal->getScAgreement($draftId,$id,NULL);
+       
+        if ($draftLetter){
+            $this->renewal->updateScAgreement($id,$draftId,$filePath,NULL);                    
+        }else{
+            $this->renewal->createScAgreement($id,$draftId,$filePath,NULL);
+        }
+
+        //text offer letter
+
+        $text  = config('commanConfig.scAgreements.conveyance_text_stamp_duty_letter');
+        $textId = $this->common->getScAgreementId($text,$masterId);
+
+        $folder_name1 = 'Conveyance_Text_Stamp_duty_Letter';
+
+        if (!(Storage::disk('ftp')->has($folder_name1))) {            
+            Storage::disk('ftp')->makeDirectory($folder_name1, $mode = 0777, true, true);
+        }        
+        $file_nm =  time()."_text_stamp_duty_letter_".$id.'.txt';
+        $filePath1 = $folder_name1."/".$file_nm;
+
+        Storage::disk('ftp')->put($filePath1, $content);
+
+        $textLetter = $this->renewal->getScAgreement($textId,$id,NULL);
+       
+        if ($textLetter){
+            $this->renewal->updateScAgreement($id,$textId,$filePath1,NULL);                    
+        }else{
+            $this->renewal->createScAgreement($id,$textId,$filePath1,NULL);
+        } 
+        return redirect('approved_sale_lease_agreement/'.$request->applicationId)->with('success', 'Stamp Duty Letter generated successfully..');
+        // return redirect('');                      
+    }    
 }
  

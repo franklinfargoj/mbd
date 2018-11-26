@@ -10,14 +10,14 @@
 
 <body>
 <div class="m_portlet">
-    <form id="OfferLetterFRM" action="{{ route('dyco.save_stamp_duty_letter') }}" method="post">
+    <form id="OfferLetterFRM" action="{{ route('dyco.save_draft_conveyance_stamp_duty') }}" method="post">
         @csrf
         <input type="hidden" id="applicationId" name="applicationId" value="{{$applicationId}}">
         <div style="margin-left: 130px">
         <textarea id="ckeditorText" name="ckeditorText" style="display:none;">
         <div style="" id="">
 
-
+ 
                 <!-- Header starts here -->
                 <div>
                     <div style="margin-top: 30px; text-align: right;">
