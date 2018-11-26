@@ -417,8 +417,7 @@ $route=\Request::route()->getName();
                             </ul>
                         </li>
 
-
-                        @if(\Illuminate\Support\Facades\Request::is('lease_detail/*') || (strpos($route,'village_detail') !== false) || (strpos($route,'society_detail') !== false))
+                        @if(\Illuminate\Support\Facades\Request::is('lease_detail/*') || (strpos($route,'village_detail') !== false) || (strpos($route,'architect_layouts') !== false) || (strpos($route,'society_detail') !== false))
                         <li class="m-menu__item m-menu__item--level-2 {{($route=='lease_detail.index' || $route=='view-lease.view' || $route=='edit-lease.edit' || $route=='lease_detail.create')? '' : 'collapsed'}}"
                             data-toggle="collapse" data-target="#lease-actions">
                             <a href="{{url('/village_detail')}}" class="m-menu__link m-menu__toggle">
@@ -486,7 +485,7 @@ $route=\Request::route()->getName();
 
                                     {{--@else--}}
                                             @php
-                                                if((strpos($route,'village_detail') !== false) || (strpos($route,'society_detail') !== false)){
+                                                if((strpos($route,'village_detail') !== false) || (strpos($route,'society_detail') !== false || (strpos($route,'architect_layouts') !== false))){
                                                     $id = '0' ;
                                                 }else{
                                                     $id = collect(request()->segments())->last();
