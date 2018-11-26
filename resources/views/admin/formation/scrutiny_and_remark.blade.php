@@ -6,7 +6,7 @@
 <div class="custom-wrapper">
     <div class="col-md-12">
         <div class="d-flex">
-
+                {{ Breadcrumbs::render('sf_srutiny_and_remark',$sf_application->id) }}
             <div class="ml-auto btn-list">
                 <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
             </div>
@@ -208,7 +208,7 @@
                                             No dues certificate
                                         </h3>
                                     </div>
-                                    <div class="w-100 row-list">
+                                    <div class="row">
                                         <div class="col-sm-6">
                                             <div class="d-flex flex-column h-100">
                                                 <h5>Download No Dues Certificate</h5>
@@ -230,10 +230,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    @if($sf_application->no_due_certificate!= "")
-                                    <div class="w-100 row-list">
-                                        <div class="col-sm-6">
+                                        @if($sf_application->no_due_certificate!= "")
+                                        <div class="col-sm-6 border-left">
                                             <div class="d-flex flex-column h-100">
                                                 <h5>Send to Society</h5>
                                                 <div class="mt-auto">
@@ -251,8 +249,8 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        @endif
                                     </div>
-                                    @endif
                                 </div>
                             </div>
                         </div>

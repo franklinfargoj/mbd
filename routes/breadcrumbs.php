@@ -824,7 +824,30 @@ Breadcrumbs::for('architect_layout_prepare_layout_excel', function ($trail,$id) 
 
 //Society Formation
 Breadcrumbs::for('society_formation',function($trail){
-    $trail->push('HOme',route('society_formation.index'));
+    $trail->push('Home',route('society_formation.index'));
 });
 
 
+Breadcrumbs::for('society_formation_list',function($trail){
+    $trail->push('Home',route('get_sf_applications.index'));
+});
+
+Breadcrumbs::for('sf_view_application', function ($trail,$id) {
+    $trail->parent('society_formation_list');
+    $trail->push('View Application', route('formation.view_application',['layout_id'=>$id]));
+});
+
+Breadcrumbs::for('sf_documents', function ($trail,$id) {
+    $trail->parent('society_formation_list');
+    $trail->push('Society Documents', route('formation.society_documents',['layout_id'=>$id]));
+});
+
+Breadcrumbs::for('sf_srutiny_and_remark', function ($trail,$id) {
+    $trail->parent('society_formation_list');
+    $trail->push('Srutiny & Remark', route('formation.em_srutiny_and_remark',['layout_id'=>$id]));
+});
+
+Breadcrumbs::for('sf_forward_application', function ($trail,$id) {
+    $trail->parent('society_formation_list');
+    $trail->push('Forward Application', route('formation.forward_application',['layout_id'=>$id]));
+});

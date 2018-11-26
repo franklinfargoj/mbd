@@ -62,8 +62,7 @@ a[title="JavaScript charts"] {
 }
 
 .m-portlet + .tab-content,
-.tab-content + .m-portlet,
-.form-steps-wrap + .m-portlet {
+.tab-content + .m-portlet {
     margin-top: 30px;
 }
 
@@ -2992,7 +2991,6 @@ label.site-visit-label {
 .form-steps-wrap {
     border-radius: 4px;
     border: 2px solid #8c8c8c;
-    overflow: hidden;
 }
 
 .form-step-tab {
@@ -3001,12 +2999,23 @@ label.site-visit-label {
     padding: 20px 0;
     position: relative;
     cursor: default;
+    text-align: center;
+}
+
+.form-step-tab:hover,
+.form-step-tab:focus {
+    text-decoration: none;
+    color: #767678;
 }
 
 .form-step-tab.active {
     background-color: #ff754e;
     color: #fff;
     cursor: pointer;
+}
+
+.form-step-tab.active span {
+    color: #767678
 }
 
 .form-step-tab.active + .form-step-tab.active {
@@ -3026,11 +3035,20 @@ label.site-visit-label {
 }
 
 .form-step-tab.active::before {
-    border-width: 35px;
+    border-width: 33px;
     border-left-width: 12px;
     top: -4px;
     left: 100%;
     border-left-color: #ff754e;
+}
+
+.form-step-tab span {
+    display: block;
+    font-size: 11px;
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 50%;
+    transform: translate(-50%);
 }
 
 /* .form-step-tab.active::after {
@@ -3043,6 +3061,10 @@ label.site-visit-label {
 
 .form-step-tab:last-child.active::after {
     display: none;
+}
+
+.form-steps-wrap ~ .m-portlet {
+    margin-top: 45px;
 }
 
 .accordion-icon {
@@ -3066,8 +3088,20 @@ label.site-visit-label {
     width: 100%;
 }
 
+.input-row-list {
+    position: relative;
+}
+
 .input-row-list + .input-row-list {
     margin-top: 15px;
+}
+
+.input-row-list .m--font-danger {
+    position: absolute;
+    left: calc(100% + 15px);
+    top: calc(50% + 5px);
+    transform: translateY(-50%);
+    font-size: 18px;
 }
 
 .cloneme td {

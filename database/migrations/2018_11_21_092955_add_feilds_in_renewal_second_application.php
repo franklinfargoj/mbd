@@ -14,9 +14,17 @@ class AddFeildsInRenewalSecondApplication extends Migration
     public function up()
     {
         Schema::table('renewal_application', function (Blueprint $table) {
-            $table->string('change_in_use')->after('additional_fsi_comments')->nullable();
-            $table->string('change_in_structure')->after('change_in_use')->nullable();
-            $table->string('encroachment')->after('change_in_structure')->nullable();
+            if (!Schema::hasColumn('renewal_application', 'change_in_use')){
+                $table->string('change_in_use')->nullable();                
+            }            
+            if (!Schema::hasColumn('renewal_application', 'change_in_structure')){
+                $table->string('change_in_structure')->nullable();                
+            }            
+            if (!Schema::hasColumn('renewal_application', 'encroachment')){
+                $table->string('encroachment')->nullable();                
+            }
+            // $table->string('change_in_structure')->after('change_in_use')->nullable();
+            // $table->string('encroachment')->after('change_in_structure')->nullable();
         });
     }
 

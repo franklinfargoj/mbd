@@ -206,6 +206,10 @@ class renewalCommonController extends Controller
         $draftId = $this->conveyance->getScAgreementId($draft,$data->application_master_id);
         $data->draftStampLetter = $this->getRenewalAgreement($draftId,$applicationId,NULL);
 
+        //get upload stamp duty letter 
+        $stamp  = config('commanConfig.scAgreements.renewal_stamp_duty_letter');
+        $stampId = $this->conveyance->getScAgreementId($stamp,$data->application_master_id);
+        $data->StampLetter = $this->getRenewalAgreement($stampId,$applicationId,NULL);
         $route = 'admin.renewal.common.view_approve_renewal_agreement';
         return view($route,compact('data'));   
     }

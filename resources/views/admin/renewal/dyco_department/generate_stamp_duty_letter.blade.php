@@ -1,8 +1,8 @@
 
 <div class="m_portlet">
-    <form id="OfferLetterFRM" action="{{ route('dyco.save_draft_NOC') }}" method="post">
+    <form id="OfferLetterFRM" action="{{ route('dyco.save_renewal_stamp_duty') }}" method="post">
         @csrf
-        <input type="hidden" id="applicationId" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">
+        <input type="hidden" id="applicationId" name="applicationId" value="{{$applicationId}}">
         <div style="margin-left: 130px">
         <textarea id="ckeditorText" name="ckeditorText" style="display:none;">
         <div style="" id="">
@@ -22,9 +22,10 @@
                         </div>
                         <div style="clear: both;"></div>
                     </div>
-                    <h3 style="text-decoration: underline; text-align: center;">Stamp Duty Letter</h3>
+                    
                         <p > </p>
                     <div style="margin-top: -15px;">
+                    <h3 style="text-decoration: underline; text-align: center;">Stamp Duty Letter</h3>
                         <p style="margin-bottom:0; line-height:0.25;">To,</p>
                         <span style="margin-bottom:0; line-height:0.25;">The Secretary,</span>
                         <p style="margin-bottom:0; line-height:0.25;">{{ isset($data->societyApplication->address) ? $data->societyApplication->address : '' }}</p>
