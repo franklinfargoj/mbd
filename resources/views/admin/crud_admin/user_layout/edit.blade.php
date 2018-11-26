@@ -29,7 +29,7 @@
                                     <option value="{{$user['id']}}" {{ ($user['id'] == $user_layout['user_id']) ? "selected" : "" }}>{{ $user['name']}}</option>
                                 @endforeach
                             </select>
-                            <span class="help-block">{{$errors->first('user_id')}}</span>
+                            <span class="error">{{$errors->first('user_id')}}</span>
 
                         </div>
 
@@ -40,11 +40,14 @@
                                     <option value="{{ $layout['id']  }}"  {{ ($layout['id'] == $user_layout['layout_id']) ? "selected" : "" }}>{{ $layout['layout_name'] }}</option>
                                 @endforeach
                             </select>
-                            <span class="help-block">{{$errors->first('layout_id')}}</span>
+                            <span class="error">{{$errors->first('layout_id')}}</span>
 
                         </div>
                     </div>
                 </div>
+                @if(Session::has('error'))
+                    <div><span class="error">{{Session::get('error')}}</span></div>
+                @endif
                 <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
                     <div class="m-form__actions px-0">
                         <div class="row">
