@@ -382,14 +382,14 @@ class FormationCommonController extends Controller
     public function get_sf_em_srutiny_and_remark($id)
     {
         $read_only=0;
-        if(session()->get('role_name')!=config('commanConfig.estate_manager'))
-        {
-            $read_only=1;
-        }
         $applicationId = decrypt($id);
         $SfScrtinyByEmMaster=SfScrtinyByEmMaster::all();
         $sf_application = SfApplication::with(['societyApplication','sfScrutinyByEM'])->where('id', $applicationId)->first();
         //dd($sf_application->sfScrutinyByEM);
+        if(session()->get('role_name')!=config('commanConfig.estate_manager') || $sf_application->no_dues_certificate_sent_to_society!=0)
+        {
+            $read_only=1;
+        }
         if(session()->get('role_name')==config('commanConfig.estate_manager') || $sf_application->sfScrutinyByEM->count()>0)
         {
         $check_list_and_remarks=$this->get_em_checklist_and_remarks_for_sf($sf_application->id, auth()->user()->id);
@@ -483,6 +483,13 @@ class FormationCommonController extends Controller
     public function post_no_dues_certificate(Request $request)
     {
         $id = $request->applicationId;
+        // $applicaion_data=SfApplication::where('id',$request->applicationId)->first();
+        // if($applicaion_data)
+        // {
+        //     $file=$applicaion_data->no_due_certificate;
+        //    $no_due_certificate_file=end(explode('/',$file));
+        // }
+        // dd($no_due_certificate_file);
         $content = str_replace('_', "", $_POST['ckeditorText']);
         $folder_name = 'society_formation_no_dues';
 
@@ -512,7 +519,7 @@ class FormationCommonController extends Controller
         $filePath1 = $folder_name1."/".$file_nm;
 
         Storage::disk('ftp')->put($filePath1, $content);
-        $filePath1="";
+        //$filePath1="";
         SfApplication::where('id',$request->applicationId)->update(["no_due_certificate" => $filePath, "no_dues_certificate_in_text" => $filePath1]);
          // OlApplication::where('id',$request->applicationId)->update(["drafted_offer_letter" => $filePath]);
         return redirect()->route('formation.em_srutiny_and_remark',['id'=>encrypt($request->applicationId)])->withSuccess('Certificate Generated!');
