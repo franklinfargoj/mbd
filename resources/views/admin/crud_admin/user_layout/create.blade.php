@@ -26,7 +26,7 @@
                                     <option value="{{$user['id']  }}">{{ $user['name']}}</option>
                                 @endforeach
                             </select>
-                            <span class="help-block">{{$errors->first('user_id')}}</span>
+                            <span class="error">{{$errors->first('user_id')}}</span>
 
                         </div>
 
@@ -37,7 +37,7 @@
                                     <option value="{{ $layout['id']  }}">{{ $layout['layout_name'] }}</option>
                                 @endforeach
                             </select>
-                            <span class="help-block">{{$errors->first('layout_id')}}</span>
+                            <span class="error">{{$errors->first('layout_id')}}</span>
 
                         </div>
                     </div>

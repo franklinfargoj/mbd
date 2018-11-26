@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use Config;
 use App\Board;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 use Yajra\DataTables\DataTables;
 use Illuminate\Database\Eloquent\SoftDeletes;
 class UserLayoutController extends Controller
@@ -149,29 +150,30 @@ class UserLayoutController extends Controller
      */
     public function update(Request $request, $id)
     {
-        die('need to work');
         $this->validate($request, [
             'layout_id'=> 'required',
             'user_id' => 'required',
         ]);
 
-        $user_layout = LayoutUser::where('user_id',$request->input('user_id'))->where('layout_id',$request->input('layout_id'))->first();
-//        dd($user_layout == NULL);
-        if($user_layout == NULL){
+        $user_layout = LayoutUser::FindOrFail($id);
+        if(!($request->user_id == $user_layout['user_id']) || !($request->layout_id == $user_layout['layout_id']) ){
+            $user_layout = LayoutUser::where('user_id',$request->input('user_id'))->where('layout_id',$request->input('layout_id'))->first();
+            if($user_layout == NULL){
+                $user_layout = LayoutUser::FindOrFail($id);
+                $user_layout->layout_id = $request->input('layout_id');
+                $user_layout->user_id = $request->input('user_id');
+                $user_layout->save();
 
-            $user_layout_data =
-
-            $user_layout = new LayoutUser();
-            $user_layout->layout_id = $request->input('layout_id');
-            $user_layout->user_id = $request->input('user_id');
-            $user_layout->save();
-
+                return redirect()->route('user_layouts.index')
+                    ->with('success','User Layout Mapping Updated Successfully');
+            }
+            else{
+                return Redirect::back()->with('error','User Layout Mapping Already Exist');
+            }
+        }
+        else{
             return redirect()->route('user_layouts.index')
                 ->with('success','User Layout Mapping Updated Successfully');
-        }else{
-            $this->validate($request, [
-                'user_id'=> 'required|unique:layout_user,user_id',
-            ]);
         }
     }
     /**
