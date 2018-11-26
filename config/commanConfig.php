@@ -66,6 +66,7 @@ return [
         'Aproved_lease_deed' => 17,
         'Draft_Renewal_of_Lease_deed' => 18,
         'Aproved_Renewal_of_Lease' => 19,
+        'NOC_Generation' => 20
     ],
 
     // sc application agreements
@@ -234,6 +235,10 @@ return [
 
     'optional_docs_sharing_reval' => [
         '86', '94'
+    ],
+
+    'optional_docs_society_noc' => [
+        '6', '12', '18', '24'
     ],
 
     'storage_server' => 'http://storage.mhada.php-dev.in',

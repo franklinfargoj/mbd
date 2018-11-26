@@ -75,5 +75,7 @@ class DatabaseSeeder extends Seeder
         $this->call(SapPermissionSeeder::class);
         $this->call(OlCustomCalculationMaster::class);
 //        $this->call(SfScrtinyByEmMasterSeeder::class);
+        $this->call(NocScrutinyQuestionMasterTable::class);
+        $this->call(NocSocietyDocumentsMasterTableSeeder::class);
     }
 }
