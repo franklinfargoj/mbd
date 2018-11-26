@@ -1,6 +1,6 @@
 
 <div class="m_portlet">
-    <form id="OfferLetterFRM" action="{{ route('dyco.save_stamp_duty_letter') }}" method="post">
+    <form id="OfferLetterFRM" action="{{ route('dyco.save_renewal_stamp_duty') }}" method="post">
         @csrf
         <input type="hidden" id="applicationId" name="applicationId" value="{{$applicationId}}">
         <div style="margin-left: 130px">
