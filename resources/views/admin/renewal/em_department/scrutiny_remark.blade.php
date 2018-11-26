@@ -385,8 +385,7 @@
                                         <p>Click to download Covering Letter in pdf format</p><p></p>
                                         {{--<button class="btn btn-primary btn-custom" id="uploadBtn" data-toggle="modal" data-target="#myModal">Edit</button>--}}
                                         @if($data->sr_form_request->template_file)
-                                            <a href="{{ config('commanConfig.storage_server').'/'.$data->sr_form_request->template_file }}" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-                                                Download</a>
+                                            <a href="{{ config('commanConfig.storage_server').'/'.$data->sr_form_request->template_file }}" class="btn btn-primary">Download</a>
                                         @endif
                                     </div>
                                 </div>
@@ -511,12 +510,7 @@ Co-op. Housing Society Ltd. Have paid all the dues in respect of above bldg./bld
             //     }
             // });
 
-            function showUploadedFileName() {
-                $('.custom-file-input').change(function (e) {
-                    $(this).parents('.custom-file').find('.custom-file-label').text(e.target.files[0].name);
-                });
-            }
-            showUploadedFileName();
+
 
             //cookies setting for tabs
             $(".display_msg").delay("slow").slideUp("slow");
@@ -538,6 +532,13 @@ Co-op. Housing Society Ltd. Have paid all the dues in respect of above bldg./bld
                 $(".nav-link").removeClass('active');
                 Cookies.set('sectionId', this.id);
             });
+
+            function showUploadedFileName() {
+                $('.custom-file-input').change(function (e) {
+                    $(this).parents('.custom-file').find('.custom-file-label').text(e.target.files[0].name);
+                });
+            }
+            showUploadedFileName();
 
             // $('#no_dues_certi_upload').validate({
             //     rules:{

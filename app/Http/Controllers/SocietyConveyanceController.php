@@ -611,7 +611,7 @@ class SocietyConveyanceController extends Controller
     public function generate_pdf(){
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $sc_application = scApplication::with(['sc_form_request', 'societyApplication', 'applicationLayout'])->where('society_id', $society->id)->first();
-        // dd($id);
+
         $mpdf = new Mpdf();
         $mpdf->autoScriptToLang = true;
         $mpdf->autoLangToFont = true;
