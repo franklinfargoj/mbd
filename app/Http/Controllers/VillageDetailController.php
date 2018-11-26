@@ -142,7 +142,7 @@ lm_village_detail.updated_at'))->get();
         $columns = [
             // ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
-            ['data' => 'villageBoard','name' => 'villageBoard.board_name','title' => 'Board Name'],
+//            ['data' => 'villageBoard','name' => 'villageBoard.board_name','title' => 'Board Name'],
             ['data' => 'village_name','name' => 'village_name','title' => 'Village Name'],
             ['data' => 'sr_no','name' => 'sr_no','title' => 'Survey Number'],
             ['data' => 'villageLandSource','name' => 'villageLandSource.source_name','title' => 'Type of Land'],
@@ -157,7 +157,7 @@ lm_village_detail.updated_at'))->get();
             $village_data = VillageDetail::with(['villageLandSource', 'villageBoard'])
                                             ->where('user_id', Auth::user()->id)
                                             ->where('role_id', session()->get('role_id'))->join('boards', 'lm_village_detail.board_id', '=', 'boards.id')->join('land_source', 'lm_village_detail.land_source_id', '=', 'land_source.id');
-            
+
             $village_data = $village_data->selectRaw( DB::raw('lm_village_detail.id, boards.board_name as board,lm_village_detail.sr_no,lm_village_detail.village_name,land_source.source_name as source,lm_village_detail.land_address
             ,lm_village_detail.district
             ,lm_village_detail.taluka,
@@ -245,15 +245,21 @@ lm_village_detail.updated_at'))->get();
                                             ->where('role_id', session()->get('role_id'))
                                             ->orderBy('id', 'desc');
 
-//            if($request->office_date_from)
-//            {
-//                $hearing_data = $hearing_data->whereDate('office_date', '>=', date('Y-m-d', strtotime($request->office_date_from)));
-//            }
-//
-//            if($request->office_date_to)
-//            {
-//                $hearing_data = $hearing_data->whereDate('office_date', '<=', date('Y-m-d', strtotime($request->office_date_to)));
-//            }
+//            dd($village_data->get()->toArray());
+            if($request->village_name)
+            {
+                $village_data = $village_data->where('village_name', 'like', '%'.$request->village_name.'%');
+            }
+
+            if($request->sr_no)
+            {
+                $village_data = $village_data->where('sr_no', 'like', '%'.$request->sr_no.'%');
+            }
+
+            if($request->villageLandSource)
+            {
+                $village_data = $village_data->where('land_source_id', 'like', '%'.$request->villageLandSource.'%');
+            }
 
             $village_data = $village_data->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').',village_name, lm_village_detail.id as id, board_id, sr_no, land_source_id, land_address, possession_date');
 
@@ -274,9 +280,9 @@ lm_village_detail.updated_at'))->get();
                 ->editColumn('sr_no', function ($village_data) {
                     return $village_data->sr_no;
                 })
-                ->editColumn('villageBoard', function ($village_data) {
-                    return $village_data->villageBoard->board_name;
-                })
+//                ->editColumn('villageBoard', function ($village_data) {
+//                    return $village_data->villageBoard->board_name;
+//                })
                 ->editColumn('possession_date', function ($village_data) {
                     return date(config('commanConfig.dateFormat'), strtotime($village_data->possession_date));
                 })
@@ -286,13 +292,14 @@ lm_village_detail.updated_at'))->get();
                 ->editColumn('actions', function ($village_data) {
                     return view('admin.village_detail.actions', compact('village_data'))->render();
                 })
-                ->rawColumns(['villageBoard', 'sr_no', 'villageLandSource', 'village_name', 'actions'])
+                ->rawColumns(['sr_no', 'villageLandSource', 'village_name', 'actions'])
                 ->make(true);
         }
 
+        $lands = LandSource::get();
         $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
 
-        return view('admin.village_detail.index', compact('html','header_data','getData'));
+        return view('admin.village_detail.index', compact('html','lands' ,'header_data','getData'));
     }
 
     protected function getParameters() {
@@ -300,7 +307,7 @@ lm_village_detail.updated_at'))->get();
             'serverSide' => true,
             'processing' => true,
             'ordering'   =>'isSorted',
-            "order"=> [6, "desc" ],
+            "order"=> [5, "desc" ],
             "pageLength" => $this->list_num_of_records_per_page
         ];
     }

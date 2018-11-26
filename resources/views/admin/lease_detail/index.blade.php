@@ -19,34 +19,34 @@
                 <div class="col-md-12">
                     <form role="form" id="eeForm" method="get" action="">
                         <div class="row align-items-center mb-0">
-                            <div class="col-md-2">
+                            <div class="col-md-3">
                                 <div class="form-group m-form__group">
-                                    <input type="text" id="title" name="title" class="form-control form-control--custom m-input"
-                                           placeholder="Layout No" value="">
+                                    <input type="text" id="society_name" name="society_name" class="form-control form-control--custom m-input"
+                                           placeholder="Society Name" value="">
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-3">
                                 <div class="form-group m-form__group">
-                                    <input type="text" id="submitted_at_from" name="submitted_at_from" class="form-control form-control--custom m-input m_datepicker"
-                                           placeholder="From Date" value="">
+                                    <input type="text" id="lease_start_date" name="lease_start_date" class="form-control form-control--custom m-input m_datepicker"
+                                           placeholder="Lease Start Date" value="">
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-3">
                                 <div class="form-group m-form__group">
-                                    <input type="text" id="submitted_at_to" name="submitted_at_to" class="form-control form-control--custom m-input m_datepicker"
-                                           placeholder="To Date" value="">
+                                    <input type="text" id="lease_end_date" name="lease_end_date" class="form-control form-control--custom m-input m_datepicker"
+                                           placeholder="Lease End Date" value="">
                                 </div>
                             </div>
 
-                            <div class="col-md-3">
-                                <div class="form-group m-form__group">
-                                    <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
-                                            id="update_status" name="update_status">
-                                        <option value="" style="font-weight: normal;">Select Status</option>
-                                            <option value="">ABC</option>
-                                    </select>
-                                </div>
-                            </div>
+                            {{--<div class="col-md-3">--}}
+                                {{--<div class="form-group m-form__group">--}}
+                                    {{--<select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"--}}
+                                            {{--id="update_status" name="update_status">--}}
+                                        {{--<option value="" style="font-weight: normal;">Select Status</option>--}}
+                                            {{--<option value="">ABC</option>--}}
+                                    {{--</select>--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
 
                             <div class="col">
                                 <div class="form-group m-form__group">
