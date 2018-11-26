@@ -1,26 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-
-<body>
-  
+<hr>  
 <div class="m_portlet">
-        <div style="" id="">
-
-            <div style="width: 100%;">
-            <div class="heading" id="header_start" >
-                <h3 style="text-decoration: underline; text-align: center;" > Footer OF MUMBAI HOUSING AND AREA DEVELOPMENT BOARD</h3>
+    <div style="" id="">
+        <div>
+        <div class="heading" id="header_start">
+            <div style="width: 49%; float: left;">
+                <div style="margin-bottom: 5px;">गृहनिर्माण भवन, कलानगर, वांद्रे पूर्व ,मुंबई -४०००५१ </div>
+                <div style="margin-bottom: 5px;">दुरध्वनी:६६४०  ५०००, २६५९२८७७, २६५९२८८१</div>
+                <div style="margin-bottom: 5px;">फॅक्स नं.०२२ -२६५९२०५८ / पत्रपेटी क्र :८१३५</div>
+                <!-- <div style="margin-bottom: 5px;">Website: mhada.maharshtra.gov.in</div> -->
             </div>
+            <div style="width: 49%; float: left; margin-left: 2%;">
+                <div style="margin-bottom: 5px;">Griha Nirman Bhavan, Kalanagar, Bandra (East), Mumbai - 400 051.</div>
+                <div style="margin-bottom: 5px;">Phone: 66405000, 26592877, 26592881.</div>
+                <div style="margin-bottom: 5px;">FAX No: 022-26592058 / Post Box No. 8135</div>
+                <div style="margin-bottom: 5px;">Website: mhada.maharshtra.gov.in</div>
             </div>
-        </div>   
-</div>         
-
-
-
-
+        </div>
+        </div>
+    </div> 
+</div>

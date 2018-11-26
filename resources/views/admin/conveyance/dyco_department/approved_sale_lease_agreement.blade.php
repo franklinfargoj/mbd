@@ -157,7 +157,7 @@
         </div>
     </div>
   
-    <div class="m-portlet m-portlet--mobile m_panel">
+<!--     <div class="m-portlet m-portlet--mobile m_panel">
         <div class="m-portlet__body">
             <h3 class="section-title section-title--small">Letter to Pay Stamp  Duty</h3>
             <div class="col-xs-12 row">
@@ -180,7 +180,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 </div>
 
     @if(count($data->AgreementComments) > 0)       

@@ -26,6 +26,7 @@ use Carbon\Carbon;
 use Storage;
 use Auth;
 use PDF;
+use Mpdf\Mpdf;
 
 class DYCOController extends Controller
 {
@@ -503,7 +504,11 @@ class DYCOController extends Controller
 
         $header_file = view('admin.REE_department.offer_letter_header');        
         $footer_file = view('admin.REE_department.offer_letter_footer');
-        $pdf = \App::make('dompdf.wrapper');
+        // $pdf = \App::make('dompdf.wrapper');
+        $pdf = new Mpdf();
+
+        $pdf->autoScriptToLang = true;
+        $pdf->autoLangToFont = true;
 
         $pdf->loadHTML($header_file.$content.$footer_file);
     
@@ -717,13 +722,15 @@ class DYCOController extends Controller
             return back()->with('success','Application Send Successfully.');     
     }
 
+    // generate stamp duty letter in ckeditor for Renewal Application
     public function GenerateStampDutyLetter(Request $request,$applicationId){
 
         $data = RenewalApplication::with(['societyApplication'])->where('id',$applicationId)->first();
-        return view('admin.conveyance.dyco_department.generate_stamp_duty_letter',compact('applicationId','data'));
+        return view('admin.renewal.dyco_department.generate_stamp_duty_letter',compact('applicationId','data'));
     }
 
-    public function saveStampDutyLetter(Request $request){
+    // save draft and text stamp duty letter for Renewal Application
+    public function saveDraftStampDutyLetter(Request $request){
 
         $id = $request->applicationId;
         $masterId = RenewalApplication::where('id',$id)->value('application_master_id');
@@ -735,9 +742,15 @@ class DYCOController extends Controller
 
         $header_file = view('admin.REE_department.offer_letter_header');        
         $footer_file = view('admin.REE_department.offer_letter_footer');
-        $pdf = \App::make('dompdf.wrapper');
 
-        $pdf->loadHTML($header_file.$content.$footer_file);
+        $pdf = new Mpdf();
+        // $pdf = \App::make('dompdf.wrapper');
+        $pdf->autoScriptToLang = true;
+        $pdf->autoLangToFont = true;
+
+        $pdf->SetHTMLHeader($header_file);
+        $pdf->SetHTMLFooter($footer_file);
+        $pdf->WriteHTML($content);
     
         $fileName = time().'_draft_stamp_duty_letter_'.$id.'.pdf';
         $filePath = $folder_name."/".$fileName;
@@ -745,9 +758,7 @@ class DYCOController extends Controller
         if (!(Storage::disk('ftp')->has($folder_name))) {            
             Storage::disk('ftp')->makeDirectory($folder_name, $mode = 0777, true, true);
         } 
-        Storage::disk('ftp')->put($filePath, $pdf->output());
-        $file = $pdf->output();
-
+        Storage::disk('ftp')->put($filePath, $pdf->Output($fileName, 'S'));
         $draftLetter = $this->renewal->getRenewalAgreement($draftId,$id,NULL);
        
         if ($draftLetter){
@@ -782,36 +793,45 @@ class DYCOController extends Controller
         // return redirect('');                      
     }
 
-    public function uploadRenewalStampLetter(Request $request){
+    //save renewal stamp duty 
+    public function saveRenewalStampDuty(Request $request){
         
-        $file = $request->file('file');
-        $applicationId = $request->application_id;
+        $file = $request->file('stamp_letter');
+        $applicationId = $request->applicationId;
         $masterId = RenewalApplication::where('id',$applicationId)->value('application_master_id');
-  
-        if ($file->getClientMimeType() == 'application/pdf') {
+        if ($file) {
+            $extension = $file->getClientOriginalExtension();
 
-            $extension = $request->file('file')->getClientOriginalExtension();
-            $folderName = 'Renewal_Stamp_Duty_Letter';
-            $fileName = time().'_stamp_letter_'.$applicationId.'.'.$extension;
-            $filePath = $folderName."/".$fileName;
-            $letter  = config('commanConfig.scAgreements.renewal_stamp_duty_letter');
-            $letterId = $this->common->getScAgreementId($letter,$masterId);            
-            $this->CommonController->ftpFileUpload($folderName,$file,$fileName);
+            if($extension == 'pdf'){
+                $folderName = 'Renewal_Stamp_Duty_Letter';
+                $fileName = time().'_stamp_letter_'.$applicationId.'.'.$extension;
+                $filePath = $folderName."/".$fileName;
+                $letter  = config('commanConfig.scAgreements.renewal_stamp_duty_letter');
+                $letterId = $this->common->getScAgreementId($letter,$masterId);            
+                
+                $delete = Storage::disk('ftp')->delete($request->oldStamp);
+                $this->CommonController->ftpFileUpload($folderName,$file,$fileName);
 
-            $textLetter = $this->renewal->getRenewalAgreement($letterId,$applicationId,NULL);
-       
-        if ($textLetter){
-            $this->renewal->updateRenewalAgreement($applicationId,$letterId,$filePath,NULL);                    
+                $textLetter = $this->renewal->getRenewalAgreement($letterId,$applicationId,NULL);
+                
+                if ($textLetter){
+                    $this->renewal->updateRenewalAgreement($applicationId,$letterId,$filePath,NULL);                    
+                }else{
+                    $this->renewal->createRenewalAgreement($applicationId,$letterId,$filePath,NULL);
+                }
+                $status =  'success';                           
+            } else{
+                $status =  'error'; 
+            }           
         }else{
-            $this->renewal->createRenewalAgreement($applicationId,$letterId,$filePath,NULL);
-        }            
-     
-
-            $status = 'success';  
-        }else{
-             $status = 'error';   
+            $status =  'error';
         }
-        return $status;           
+
+        if (isset($status) && $status == 'success'){
+            return back()->with('success', 'Stamp Duty Letter uploaded successfully.'); 
+        } else{
+            return back()->with('error', 'Invalid type of file uploaded (only pdf allowed).');
+        }         
     }
 }
  
