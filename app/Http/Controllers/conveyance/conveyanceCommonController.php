@@ -20,6 +20,8 @@ use Config;
 use App\User;
 use Storage;
 use Auth;
+use App\conveyance\ScChecklistMaster;
+use App\conveyance\ScChecklistScrutinyStatus;
 
 class conveyanceCommonController extends Controller
 {	 
@@ -690,5 +692,32 @@ class conveyanceCommonController extends Controller
         if($updated_rides == 1){
             return redirect()->route('conveyance.la_agreement_riders', $request->application_id);
         }
+    }
+
+    public function show_checklist(Request $request,$applicationId){
+
+        $data = scApplication::with('ConveyanceSalePriceCalculation')->where('id',$applicationId)->first();
+        $type = '1';
+        $language_id = '2';
+        $checklist = ScChecklistMaster::with(['checklistStatus' => function ($q) use ($applicationId) {
+            $q->where('application_id', $applicationId);
+        }])->where('type_id',$type)->where('language_id',$language_id)->get();
+
+        $is_view = session()->get('role_name') == config('commanConfig.dycdo_engineer');
+        $data->status = $this->getCurrentStatus($applicationId,$data->sc_application_master_id);
+        $data->conveyance_map = $this->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
+
+        if ($is_view && $data->status->status_id == config('commanConfig.applicationStatus.Draft_sale_&_lease_deed')) {
+            $route = 'admin.conveyance.dyco_department.checklist_office_note';
+        }else{
+            $route = 'admin.conveyance.common.view_checklist_office_note';
+        }
+
+        //get dycdo note from sc document status table
+        $document  = config('commanConfig.documents.dycdo_note');
+        $documentId = $this->getDocumentId($document,$data->sc_application_master_id);
+        $dycdo_note = $this->getDocumentStatus($applicationId,$documentId);
+
+        return view($route,compact('data','checklist','dycdo_note'));
     }
 }

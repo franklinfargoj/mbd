@@ -786,6 +786,8 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::get('generate_stamp_duty_letter/{id}', 'conveyance\DYCODepartment\DYCOController@GenerateStampDutyLetter')->name('dyco.generate_stamp_duty_letter');
 
+    Route::get('checklist_note/{id}', 'conveyance\conveyanceCommonController@show_checklist')->name('conveyance.checklist_note');
+
 
     Route::get('architect_scrutiny_remark/{id}', 'conveyance\conveyanceCommonController@ArchitectScrutinyRemark')->name('conveyance.architect_scrutiny_remark');
 

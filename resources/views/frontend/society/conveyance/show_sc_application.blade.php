@@ -159,7 +159,8 @@
                                 </p>
                             </div>
                         </div>
-                        <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+                        @if($sc_application->scApplicationLog->status_id == config('commanConfig.applicationStatus.pending'))
+                            <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
                             <div class="m-form__actions px-0">
                                 <div class="row">
                                     <div class="col-sm-4">
@@ -180,6 +181,7 @@
                                 </span>
                             </div>
                         </div>
+                        @endif
                     </div>
                 </form>
             </div>
