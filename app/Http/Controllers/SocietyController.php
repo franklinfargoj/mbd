@@ -46,9 +46,36 @@ class SocietyController extends Controller
 
     public function print_data()
     {
+        $getData = [
+            'society_name' =>session()->get('society_name'),
+            'sr_no' =>session()->get('sr_no'),
+            'village' =>session()->get('village')
+
+        ];
+
         $society_data = SocietyDetail::join('other_land','lm_society_detail.other_land_id', '=', 'other_land.id')
             ->join('village_societies','village_societies.society_id','=','lm_society_detail.id');
-            $society_data = $society_data->selectRaw( DB::raw('lm_society_detail.id,
+
+        if($getData['society_name'])
+        {
+            $society_data = $society_data->where('society_name', 'like', '%'.$getData['society_name'].'%');
+        }
+
+//
+        if($getData['village'])
+        {
+            $society_data = $society_data->whereHas('Villages', function($qu) use ($getData){
+                $qu->where('id',$getData['village']);
+            });
+        }
+
+        if($getData['sr_no'])
+        {
+            $society_data = $society_data->where('survey_number', 'like', '%'.$getData['sr_no'].'%');
+        }
+
+
+        $society_data = $society_data->selectRaw( DB::raw('lm_society_detail.id,
             lm_society_detail.society_name,
             lm_society_detail.district,
             lm_society_detail.taluka,
