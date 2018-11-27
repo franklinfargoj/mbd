@@ -263,7 +263,7 @@ class CommonController extends Controller
             $ArchitectLayoutLayoutdetailsQuery->whereBetween('added_date', [date('Y-m-d', strtotime($request->submitted_at_from)), date('Y-m-d', strtotime($request->submitted_at_to))]);
         }
 
-        $ArchitectLayoutLayoutdetails = $ArchitectLayoutLayoutdetailsQuery->get();
+        $ArchitectLayoutLayoutdetails = $ArchitectLayoutLayoutdetailsQuery->orderBy('id','desc')->get();
 
         return $ArchitectLayoutLayoutdetails;
     }
@@ -305,7 +305,7 @@ class CommonController extends Controller
             $q->from('architect_layout_status_logs')->select('status_id')->where('architect_layout_id', '=', DB::raw('architect_layouts.id'))->limit(1)->orderBy('id', 'desc');
         })->where(DB::raw(config('commanConfig.architect_layout_status.approved')), '!=', function ($q) {
             $q->from('architect_layout_status_logs')->select('status_id')->where('architect_layout_id', '=', DB::raw('architect_layouts.id'))->limit(1)->orderBy('id', 'desc');
-        })->get();
+        })->orderBY('id','desc')->get();
         
         // $ArchitectLayoutRevisionRequests = $ArchitectLayoutRevisionRequestsQuery->where(DB::raw(config('commanConfig.architect_layout_status.new_application')), '!=', function ($q) {
         //     $q->from('architect_layout_status_logs')->select('status_id')->where('architect_layout_id', '=', DB::raw('architect_layouts.id'))->where('open',1);

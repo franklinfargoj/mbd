@@ -32,9 +32,15 @@ class LayoutArchitectDetailController extends Controller
 
     public function add_detail($layout_id)
     {
+        $add_detail=1;
         $layout_id = decrypt($layout_id);
-
-        if (count($this->common->check_layout_details_complete_status($layout_id)) == 0) {
+        $status=getLastStatusIdArchitectLayout($layout_id);
+        if($status->status_id!=config('commanConfig.architect_layout_status.new_application') || $status->status_id==config('commanConfig.architect_layout_status.approved'))
+        {
+            $add_detail=0;
+            
+        }
+        if (count($this->common->check_layout_details_complete_status($layout_id)) == 0 && $add_detail==1) {
             $ArchitectLayoutDetail = new ArchitectLayoutDetail;
             $ArchitectLayoutDetail->architect_layout_id = $layout_id;
             $ArchitectLayoutDetail->save();
@@ -67,7 +73,9 @@ class LayoutArchitectDetailController extends Controller
                 }
             }
         } else {
-            $ArchitectLayoutDetail = ArchitectLayoutDetail::where(['id' => $layout_id])->orderBy('id', 'desc')->first();
+            //dd($layout_id);
+            $ArchitectLayoutDetail = ArchitectLayoutDetail::where(['architect_layout_id' => $layout_id])->orderBy('id', 'desc')->first();
+            //dd($ArchitectLayoutDetail);
         }
         return redirect(route('architect_layout_detail.edit', ['layout_detail_id' => encrypt($ArchitectLayoutDetail->id)]));
     }
@@ -378,8 +386,8 @@ class LayoutArchitectDetailController extends Controller
             }
             $k++;
         }
-
-        return back()->withSuccess('Data added successfully');
+        return redirect()->route('architect_layout_detail.edit',['layout_detail_id'=>encrypt($request->architect_layout_detail_id),'#prc-tab'])->withSuccess('data added successfully!!');
+        //return back()->withSuccess('Data added successfully');
 
     }
 
@@ -451,7 +459,8 @@ class LayoutArchitectDetailController extends Controller
                 $i++;
             }
         }
-        return back()->withSuccess('Data added successfully');
+        return redirect()->route('architect_layout_detail.edit',['layout_detail_id'=>encrypt($request->architect_layout_detail_id),'#dp-remark-tab'])->withSuccess('data uploaded successfully!!');
+        //return back()->withSuccess('Data added successfully');
     }
 
     public function delete_prc_detail(Request $request)
@@ -558,7 +567,7 @@ class LayoutArchitectDetailController extends Controller
         $ArchitectLayoutDetail->crz_comment = $request->crz_comment;
         $ArchitectLayoutDetail->save();
         if ($ArchitectLayoutDetail) {
-            return back()->withSuccess('data uploaded successfully!!');
+            return redirect()->route('architect_layout_detail.edit',['layout_detail_id'=>encrypt($ArchitectLayoutDetail->id),'#layouts_upload'])->withSuccess('data uploaded successfully!!');
         } else {
             return back()->withError('Something went wrong');
         }
