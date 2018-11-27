@@ -42,7 +42,7 @@ class ArrearsCalculationController extends Controller
 	        $building = MasterBuilding::where('society_id', $request->society_id)->find($request->building_id);
 	        $years 	  = ArrearsChargesRate::selectRaw('Distinct(year) as years')->where('society_id',$request->society_id)->where('building_id',$request->building_id)->pluck('years','years')->toArray();
 
-	        $select_year = date('Y') . '-' . (date('y') + 1);
+	        $select_year = date('Y');
 	        if($request->has('year') && '' != $request->year) {
 	        	$select_year = $request->year;
 	        }
@@ -138,8 +138,8 @@ class ArrearsCalculationController extends Controller
             'ordering'   =>'isSorted',
             "order"      => [1, "asc" ],
             "pageLength" => $this->list_num_of_records_per_page,
-            "dom" => 'Bfrtip',
-            "buttons" => ['csv', 'excel', 'pdf', 'print'],
+            // "dom" => 'Bfrtip',
+            // "buttons" => ['csv', 'excel', 'pdf', 'print'],
         ];
     }
 }

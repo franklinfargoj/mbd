@@ -11,6 +11,9 @@
     <!-- END: Subheader -->
     
     <div class="m-portlet m-portlet--mobile">
+        <div class="tools">
+            <a href="{{url('service_charges/'.encrypt($society->id).'/'.encrypt($building->id))}}" class='btn m-btn--pill m-btn--custom btn-primary pull-right'>Back</a>
+        </div>
         <form id="service_charges" role="form" method="post" class="m-form m-form--rows m-form--label-align-right"
             action="{{url('service_charges/'.encrypt($service_charge->id).'/update')}}">
             @csrf

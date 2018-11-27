@@ -30,7 +30,7 @@
         <div class="m-portlet m-portlet--compact filter-wrap">
             <div class="row align-items-center row--filter">
                 <div class="col-md-12">
-                    <h4 class="m-subheader__title">Edit Building</h4>
+                    {{-- <h4 class="m-subheader__title">Edit Building</h4> --}}
                 </div>
             
                 <div class="col-md-12" style="margin-top:40px;">
@@ -40,7 +40,7 @@
                                     <label class="col-md-4 control-label">Building / Chawl Name</label>
                                         <div class="col-md-8 @if($errors->has('name')) has-error @endif">
                                         <div class="input-icon right" >
-                                             <input type="text" name="name" id="name" class="form-control" value="{{old('name', $building->name)}}" required>
+                                             <input type="text" name="name" id="name" class="form-control form-control--custom m-input" value="{{old('name', $building->name)}}" required>
                                             <span class="help-block">{{$errors->first('name')}}</span>
                                         </div>
                                         </div>
@@ -56,7 +56,7 @@
                                     <label class="col-md-4 control-label">Building / Chawl Number</label>
                                         <div class="col-md-8 @if($errors->has('building_no')) has-error @endif">
                                         <div class="input-icon right">
-                                             <input type="text" name="building_no" id="building_no" class="form-control" value="{{old('building_no', $building->building_no)}}" required>
+                                             <input type="text" name="building_no" id="building_no" class="form-control form-control--custom m-input" value="{{old('building_no', $building->building_no)}}" required>
                                             <span class="help-block">{{$errors->first('building_no')}}</span>
                                         </div>
                                         </div>

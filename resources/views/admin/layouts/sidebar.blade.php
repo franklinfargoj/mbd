@@ -758,7 +758,9 @@ $route=\Request::route()->getName();
                                     <span class="m-menu__link-wrap"> 
                                         <span class="m-menu__link-text"> E Billing </span>
                                         <i class="m-menu__ver-arrow la la-angle-right"></i> 
-                                    </span> </span> </a> 
+                                    </span> 
+                                </span> 
+                            </a> 
                         </li>
                         <li id="e_billing" class="collapse {{($route=='generate_tenant_bill' || $route=='get_societies')?'show':''}}">
                             <ul class="list-unstyled">
@@ -774,16 +776,17 @@ $route=\Request::route()->getName();
                                     </a> 
                                 </li> 
 
-                                <li class="m-menu__item m-menu__item--submenu {{($route=='generate_tenant_bill')?'m-menu__item--active':''}}">
+                                <li class="m-menu__item m-menu__item--submenu {{($route=='generate_tenant_bill')?'m-menu__item--active':''}}" id="e_billing">
                                     <a href="{{ route('generate_tenant_bill') }}" class="m-menu__link m-menu__toggle">
                                         <i class="m-menu__link-icon flaticon-line-graph"></i> 
                                         <span class="m-menu__link-title">
                                             <span class="m-menu__link-wrap"> 
                                                 <span class="m-menu__link-text"> Generate
-                                                    Bill </span> 
+                                                    Bill 
                                                 </span> 
                                             </span> 
-                                        </a> 
+                                        </span> 
+                                    </a> 
                                 </li>
                             </ul>
                         </li> 
