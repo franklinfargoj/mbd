@@ -37,13 +37,14 @@ class LayoutArchitectController extends Controller
         $getData = $request->all();
         //return $this->architect_layouts->architect_layout_data($request);
         $columns = [
-            ['data' => 'radio', 'name' => 'radio', 'title' => '', 'searchable' => false],
+            // ['data' => 'radio', 'name' => 'radio', 'title' => '', 'searchable' => false],
             ['data' => 'rownum', 'name' => 'rownum', 'title' => 'Sr No.', 'searchable' => false],
             ['data' => 'layout_no', 'name' => 'layout_no', 'title' => 'Layout No'],
             ['data' => 'date', 'name' => 'date', 'title' => 'Date'],
             ['data' => 'layout_name', 'name' => 'layout_name', 'title' => 'Layout Name', 'class' => 'datatable-date'],
             ['data' => 'address', 'name' => 'address', 'title' => 'Society Name'],
             ['data' => 'Status', 'name' => 'Status', 'title' => 'Status'],
+            ['data' => 'view', 'name' => 'view', 'title' => 'Action']
         ];
         $this->architect_layouts->architect_layout_request_revision($request);
         if ($datatables->getRequest()->ajax()) {
@@ -73,16 +74,22 @@ class LayoutArchitectController extends Controller
                 ->editColumn('Status', function ($listArray) use ($request) {
                     $status = $listArray->ArchitectLayoutStatusLogInListing[0]->status_id;
                     $config_array = array_flip(config('commanConfig.architect_layout_status'));
-                    return $value = ucwords(str_replace('_', ' ', $config_array[$status]));
+                    $value = ucwords(str_replace('_', ' ', $config_array[$status]));
+                    return '<span class="m-badge m-badge--' . config('commanConfig.architect_layout_status_color.' . $status) . ' m-badge--wide">' . $value . '</span>';
+                    // $config_array = array_flip(config('commanConfig.architect_layout_status'));
+                    // return $value = ucwords(str_replace('_', ' ', $config_array[$status]));
 
                 })
                 ->editColumn('added_date', function ($listArray) {
                     return date(config('commanConfig.dateFormat'), strtotime($listArray->added_date));
                 })
+                ->editColumn('view', function ($listArray){
+                    return view('admin.architect_layout.view_application_page', compact('listArray'))->render();
+               })
             // ->editColumn('actions', function ($ee_application_data) use($request) {
             //     return view('admin.ee_department.actions', compact('ee_application_data', 'request'))->render();
             // })
-                ->rawColumns(['radio', 'layout_no', 'added_date', 'layout_name', 'address', 'Status', 'added_date'])
+                ->rawColumns(['radio', 'layout_no', 'added_date', 'layout_name', 'address', 'Status', 'view'])
                 ->make(true);
         }
 
@@ -96,13 +103,14 @@ class LayoutArchitectController extends Controller
         $getData = $request->all();
         //return $this->architect_layouts->architect_layout_data($request);
         $columns = [
-            ['data' => 'radio', 'name' => 'radio', 'title' => '', 'searchable' => false],
+            // ['data' => 'radio', 'name' => 'radio', 'title' => '', 'searchable' => false],
             ['data' => 'rownum', 'name' => 'rownum', 'title' => 'Sr No.', 'searchable' => false],
             ['data' => 'layout_no', 'name' => 'layout_no', 'title' => 'Layout No'],
             ['data' => 'date', 'name' => 'date', 'title' => 'Date'],
             ['data' => 'layout_name', 'name' => 'layout_name', 'title' => 'Layout Name', 'class' => 'datatable-date'],
             ['data' => 'address', 'name' => 'address', 'title' => 'Society Name'],
             ['data' => 'Status', 'name' => 'Status', 'title' => 'Status'],
+            ['data' => 'view', 'name' => 'view', 'title' => 'Action']
         ];
         //$this->architect_layouts->architect_layout_details($request);
         if ($datatables->getRequest()->ajax()) {
@@ -110,10 +118,10 @@ class LayoutArchitectController extends Controller
             $architect_layout_data = $this->architect_layouts->architect_layout_details($request);
             $layout_details = $architect_layout_data;
             return $datatables->of($layout_details)
-                ->editColumn('radio', function ($listArray) {
-                    $url = route('architect_layout_details.view', encrypt($listArray->id));
-                    return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="' . $url . '" name="village_data_id"><span></span></label>';
-                })
+                // ->editColumn('radio', function ($listArray) {
+                //     $url = route('architect_layout_details.view', encrypt($listArray->id));
+                //     return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="' . $url . '" name="village_data_id"><span></span></label>';
+                // })
                 ->editColumn('rownum', function ($listArray) {
                     static $i = 0; $i++;return $i;
                 })
@@ -132,16 +140,22 @@ class LayoutArchitectController extends Controller
                 ->editColumn('Status', function ($listArray) use ($request) {
                     $status = $listArray->ArchitectLayoutStatusLogInListing[0]->status_id;
                     $config_array = array_flip(config('commanConfig.architect_layout_status'));
-                    return $value = ucwords(str_replace('_', ' ', $config_array[$status]));
+                    $value = ucwords(str_replace('_', ' ', $config_array[$status]));
+                    return '<span class="m-badge m-badge--' . config('commanConfig.architect_layout_status_color.' . $status) . ' m-badge--wide">' . $value . '</span>';
+                    // $config_array = array_flip(config('commanConfig.architect_layout_status'));
+                    // return $value = ucwords(str_replace('_', ' ', $config_array[$status]));
 
                 })
                 ->editColumn('added_date', function ($listArray) {
                     return date(config('commanConfig.dateFormat'), strtotime($listArray->added_date));
                 })
+                ->editColumn('view', function ($listArray){
+                    return view('admin.architect_layout.view_application_page', compact('listArray'))->render();
+               })
             // ->editColumn('actions', function ($ee_application_data) use($request) {
             //     return view('admin.ee_department.actions', compact('ee_application_data', 'request'))->render();
             // })
-                ->rawColumns(['radio', 'layout_no', 'added_date', 'layout_name', 'address', 'Status', 'added_date'])
+                ->rawColumns(['layout_no', 'added_date', 'layout_name', 'address', 'Status', 'view'])
                 ->make(true);
         }
 
@@ -161,7 +175,7 @@ class LayoutArchitectController extends Controller
             'serverSide' => true,
             'processing' => true,
             'ordering' => 'isSorted',
-            "order" => [2, "asc"],
+            "order" => [0, "asc"],
             "pageLength" => $this->list_num_of_records_per_page,
         ];
     }
@@ -174,12 +188,14 @@ class LayoutArchitectController extends Controller
     public function store_layout(AddLayout $request)
     {
         $layout_data = array(
-            'layout_no' => $this->genRand(),
+            //'layout_no' => $this->genRand(),
             'layout_name' => $request->layout_name,
             'address' => $request->layout_address,
             'added_date' => Carbon::now(),
         );
         $ArchitectLayout = ArchitectLayout::create($layout_data);
+        $ArchitectLayout->layout_no=str_pad($ArchitectLayout->id, 5, '0', STR_PAD_LEFT);
+        $ArchitectLayout->save();
         if ($ArchitectLayout) {
             $ArchitectLayoutDetail = new ArchitectLayoutDetail;
             $ArchitectLayoutDetail->architect_layout_id = $ArchitectLayout->id;

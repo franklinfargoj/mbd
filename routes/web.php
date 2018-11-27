@@ -501,7 +501,7 @@ Route::post('post_forward_architect_layout','ArchitectLayout\LayoutArchitectCont
 
 //Architect Layout EM LM EE REE Scrutiny
 Route::get('get_scrutiny/{layout_id}','ArchitectLayout\LayoutArchitectController@get_scrutiny')->name('architect_layout_get_scrtiny');
-Route::get('add_scrutiny_report/{layout_id}','ArchitectLayout\LayoutArchitectController@add_scrutiny_report')->name('architect_layout_add_scrutiny_report');
+Route::get('architect_layout_add_scrutiny_report/{layout_id}','ArchitectLayout\LayoutArchitectController@add_scrutiny_report')->name('architect_layout_add_scrutiny_report');
 Route::post('post_architect_layout_scrutiny_report','ArchitectLayout\LayoutArchitectController@post_scrutiny_report')->name('architect_layout_post_scrutiny_report');
 Route::post('delete_architect_layout_scrutiny_report','ArchitectLayout\LayoutArchitectController@delete_scrutiny_report')->name('delete_architect_layout_scrutiny_report');
 Route::post('upload_lm_checklist_and_remark_report','ArchitectLayout\LayoutArchitectController@upload_lm_checklist_and_remark_report')->name('upload_lm_checklist_and_remark_report');

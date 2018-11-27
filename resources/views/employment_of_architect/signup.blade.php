@@ -19,7 +19,7 @@
                 <div class="m-grid__item m-grid__item--fluid m-login__wrapper align-items-center signup-wrapper">
                     <div class="m-login__container h-100 d-flex align-items-center">
                         <div class="align-items-center">
-                            <h3 class="block-title">Appointing Architect</h3>
+                            <h3 class="block-title">Registration of Architect</h3>
                             <div class="m-portlet mb-0">
                                 <div class="d-block">
                                     <form id="appointing_architect_signup" method="post" class="m-login__form m-form m-login__signup" action="{{route('appointing_architect.post_signup')}}">
