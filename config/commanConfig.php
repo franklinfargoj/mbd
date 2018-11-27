@@ -187,6 +187,16 @@ return [
         'reverted' => 5,
         'approved'=> 6
     ],
+
+    'architect_layout_status_color' => [
+        '1' => 'metal',
+        '2' => 'metal',
+        '3' => 'info',
+        '4' => 'metal',
+        '5' => 'danger',
+        '6' => 'success'
+    ],
+
     'architect_application_status' => [
         'none' => 0,
         'shortListed' => 1,
