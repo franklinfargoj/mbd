@@ -21,13 +21,13 @@
                             <div class="col-md-3">
                                 <div class="form-group m-form__group">
                                     <input type="text" id="society_name" name="society_name" class="form-control form-control--custom m-input"
-                                           placeholder="Society Name" value="">
+                                           placeholder="Society Name" value="{{ isset($getData['society_name'])? $getData['society_name'] : '' }}">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group m-form__group">
                                     <input type="text" id="sr_no" name="sr_no" class="form-control form-control--custom m-input"
-                                           placeholder="Survey Number" value="">
+                                           placeholder="Survey Number" value="{{ isset($getData['sr_no'])? $getData['sr_no'] : '' }}">
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -36,7 +36,7 @@
                                             data-live-search="true" id="village" name="village">
                                         <option value="" style="font-weight: normal;">Select Village</option>
                                         @foreach($villages as $village)
-                                            <option value="{{$village->id}}">{{$village->village_name}}</option>
+                                            <option value="{{$village->id}}" {{ isset($getData['village'])? (($getData['village'] == $village->id ) ? 'selected' : '') : '' }} >{{$village->village_name}}</option>
                                         @endforeach
                                     </select>
                                 </div>

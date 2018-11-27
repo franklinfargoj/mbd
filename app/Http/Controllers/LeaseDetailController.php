@@ -33,8 +33,9 @@ class LeaseDetailController extends Controller
         $lease_data = LeaseDetail::with(['lease_rent_start_month_rel', 'month_rent_per_renewed_lease_rel'])->where(['lm_lease_detail.society_id' => $id])
             ->join('lm_society_detail','lm_lease_detail.society_id','=','lm_society_detail.id')
             ->selectRaw(DB::raw('lm_lease_detail.id as id, lm_lease_detail.lease_rule_16_other,lm_lease_detail.lease_basis,lm_lease_detail.area,lm_lease_detail.lease_period,lm_lease_detail.lease_start_date,lm_lease_detail.lease_rent,lm_lease_detail.lease_rent_start_month,lm_lease_detail.interest_per_lease_agreement,lm_lease_detail.interest_per_lease_agreement,lm_lease_detail.lease_renewal_date,lm_lease_detail.lease_renewed_period,lm_lease_detail.rent_per_renewed_lease,lm_lease_detail.interest_per_renewed_lease_agreement,lm_lease_detail.month_rent_per_renewed_lease,lm_lease_detail.payment_detail,lm_lease_detail.lease_status,lm_society_detail.society_name'));
+
         $dataLists=$lease_data->orderBy('lm_lease_detail.created_at','desc')->get();
-        // dd($dataLists);
+
         if(count($dataLists) == 0){
             $dataListMaster = [];
             $dataList = [];
@@ -175,9 +176,7 @@ class LeaseDetailController extends Controller
                     $dataListMaster[]=$dataList;
                     $i++;
                 }
-                // dd($dataListMaster);
             }
-            // dd($dataListMaster);
             return Excel::create('lease_detail_'.date('Y_m_d_H_i_s'), function($excel) use($dataListMaster){
 
                 $excel->sheet('mySheet', function($sheet) use($dataListMaster)
@@ -200,15 +199,13 @@ class LeaseDetailController extends Controller
 
             if($request->society_name){
                 //code for society name
+                $lease_data = $lease_data->whereHas('leaseSociety',function ($q) use ($request){
+                    $q->where('society_name', 'like', '%' . $request->society_name . '%');
+                });
+
             }
 
             $lease_data = $lease_data->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').',lease_rule_16_other, lm_lease_detail.id as id, lm_lease_detail.area as area, society_id, lease_period, lease_renewed_period, lease_start_date, lease_renewal_date, lease_status');
-
-//            echo "<pre>";
-//            DB::enableQueryLog();
-//            print_r(DB::getQueryLog());
-//            dd($lease_data);
-
 
             return $datatables->of($lease_data)
 

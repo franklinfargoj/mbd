@@ -22,19 +22,19 @@
                             <div class="col-md-3">
                                 <div class="form-group m-form__group">
                                     <input type="text" id="society_name" name="society_name" class="form-control form-control--custom m-input"
-                                           placeholder="Society Name" value="">
+                                           placeholder="Society Name" value="{{ isset($getData['society_name'])? $getData['society_name'] : '' }}">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group m-form__group">
                                     <input type="text" id="lease_start_date" name="lease_start_date" class="form-control form-control--custom m-input m_datepicker"
-                                           placeholder="Lease Start Date" value="">
+                                           placeholder="Lease Start Date" value="{{ isset($getData['lease_start_date'])? $getData['lease_start_date'] : '' }}">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group m-form__group">
                                     <input type="text" id="lease_end_date" name="lease_end_date" class="form-control form-control--custom m-input m_datepicker"
-                                           placeholder="Lease End Date" value="">
+                                           placeholder="Lease End Date" value="{{ isset($getData['lease_end_date'])? $getData['lease_end_date'] : '' }}">
                                 </div>
                             </div>
 
