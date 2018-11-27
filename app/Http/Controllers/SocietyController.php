@@ -378,7 +378,7 @@ class SocietyController extends Controller
             'serverSide' => true,
             'processing' => true,
             'ordering'   =>'isSorted',
-            "order"=> [5, "desc" ],
+            "order"=> [0, "asc" ],
             "pageLength" => $this->list_num_of_records_per_page
         ];
     }
