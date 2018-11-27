@@ -269,16 +269,23 @@ class SocietyController extends Controller
 //
             if($request->village)
             {
-                $society_data = $society_data->with(['Villages' => function($qu) use ($request){
+                $society_data = $society_data->whereHas('Villages', function($qu) use ($request){
                     $qu->where('id',$request->village);
-                }]);
-//                dd($society_data);
-
-//                with(['villages' =>function($qu) use($request){
-//                    $qu->where('village_name' ,'like', '%'.$request->village_name.'%')->get()->toArray();
-//                }]);
-
+                });
             }
+
+            /*$architect_applications->where(DB::raw($request->status), '=', function ($q) {
+                $q->from('architect_application_status_logs')
+                    ->select('status_id')
+                    ->where('user_id', auth()->user()->id)
+                    ->where('role_id', session()->get('role_id'))
+                    ->where('architect_application_id', '=', DB::raw('eoa_applications.id'))
+                    ->limit(1)
+                    ->orderBy('id', 'desc');
+                    //dd($q->get());
+            });*/
+
+
 
             if($request->sr_no)
             {
@@ -286,12 +293,8 @@ class SocietyController extends Controller
             }
 
             $society_data = $society_data->get();
-//dd($society_data->toArray());
             return $datatables->of($society_data)
-                // ->editColumn('radio', function ($society_data) {
-                //     $url = route('society_detail.show', $society_data->id);
-                //     return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
-                // })
+
                 ->editColumn('rownum', function ($society_data) {
                     static $i = 0;
                     $i++;
@@ -314,7 +317,6 @@ class SocietyController extends Controller
                 ->rawColumns(['societyVillage', 'society_name', 'actions'])
                 ->make(true);
         }
-
         $villages = VillageDetail::get();
         $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
 
