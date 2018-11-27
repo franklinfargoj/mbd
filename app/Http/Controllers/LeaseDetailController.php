@@ -218,7 +218,18 @@ class LeaseDetailController extends Controller
                 session()->forget('society_name');
             }
 
+            if($request->lease_date_from){
+                $lease_data = $lease_data->whereDate(DB::raw('lease_start_date'), date('Y-m-d', strtotime($request->lease_date_from)));
+            }
+
+            if($request->lease_date_to){
+                $lease_data = $lease_data->whereDate(DB::raw('lease_renewal_date'),date('Y-m-d', strtotime($request->lease_date_to)));
+            }
+
             $lease_data = $lease_data->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').',lease_rule_16_other, lm_lease_detail.id as id, lm_lease_detail.area as area, society_id, lease_period, lease_renewed_period, lease_start_date, lease_renewal_date, lease_status');
+
+
+
 
             return $datatables->of($lease_data)
 
@@ -229,9 +240,9 @@ class LeaseDetailController extends Controller
                 })
                 ->editColumn('lease_start_date', function ($lease_data) {
                     if($lease_data->lease_renewed_period != null){
+//                        dd($lease_data->lease_renewal_date);
                         $lease_start_date = $lease_data->lease_renewal_date;
                     }else{
-//                        dd($lease_data->lease_renewed_period);
                         $lease_start_date = $lease_data->lease_start_date;
                     }
                     return date(config('commanConfig.dateFormat'), strtotime($lease_start_date));
