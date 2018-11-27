@@ -784,6 +784,22 @@ $route=\Request::route()->getName();
 
                         @endif
 
+                        @if(Session::all()['role_name'] == 'Account')
+
+                        <li class="m-menu__item m-menu__item--submenu {{($route=='search_accounts')?'m-menu__item--active':''}}">
+                            <a class="m-menu__link m-menu__toggle" title="view_Application" href="{{ route('search_accounts') }}">
+                                <i class="m-menu__link-icon flaticon-line-graph"></i>
+                                <span class="m-menu__link-title">
+                                    <span class="m-menu__link-wrap">
+                                        <span class="m-menu__link-text">
+                                            List Of Society/Search Accounts
+                                        </span>
+                                    </span>
+                                </span>
+                            </a>
+                        </li>
+
+                        @endif
 
                         @if(Session::all()['role_name'] == 'rc_collector')
                         <li class="m-menu__item m-menu__item--submenu {{($route=='bill_collection_society')?'m-menu__item--active':''}}">

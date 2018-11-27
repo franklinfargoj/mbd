@@ -271,6 +271,13 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('view_bill_tenant', 'RCDepartment\RCController@view_bill_tenant')->name('view_bill_tenant');
     Route::get('view_bill_building', 'RCDepartment\RCController@view_bill_building')->name('view_bill_building');
 
+    //Account Department routes 
+    Route::get('search_accounts','AccountDepartment\AccountController@index')->name('search_accounts');
+    Route::get('get_building_select_society','AccountDepartment\AccountController@getBuildingSelectSociety')->name('get_building_select_society');
+    Route::get('get_societies_select_layout','AccountDepartment\AccountController@getSocietySelectLayout')->name('get_societies_select_layout');
+    Route::get('account_search','AccountDepartment\AccountController@search')->name('account_search');
+    Route::get('view_calculations/{tenant_id}/{year}','AccountDepartment\AccountController@viewCalculations')->name('view_calculations');
+    Route::get('payment_details/{tenant_id}','AccountDepartment\AccountController@paymentDetails')->name('payment_details');
 
 	//DYCE Department routes
 	Route::resource('dyce','DYCEDepartment\DYCEController');

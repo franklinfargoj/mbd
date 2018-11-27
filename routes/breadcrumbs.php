@@ -851,3 +851,25 @@ Breadcrumbs::for('sf_forward_application', function ($trail,$id) {
     $trail->parent('society_formation_list');
     $trail->push('Forward Application', route('formation.forward_application',['layout_id'=>$id]));
 });
+
+//Accou nts
+Breadcrumbs::for('search_accounts',function($trail){
+    $trail->push('Home',route('search_accounts'));
+});
+
+Breadcrumbs::for('account_search', function ($trail) {
+    $trail->parent('search_accounts');
+    $trail->push('Tenantment Calculations');
+});
+
+Breadcrumbs::for('calculations', function ($trail,$layout_id,$society_id,$building_id) {
+    $trail->parent('search_accounts');
+    $trail->push('Tenantment Calculations', route('account_search',['layout_id'=>$layout_id,'society_id'=>$society_id,'building_id'=>$building_id]));
+    $trail->push('Calculations');
+});
+
+Breadcrumbs::for('payment_details', function ($trail,$layout_id,$society_id,$building_id) {
+    $trail->parent('search_accounts');
+    $trail->push('Tenantment Calculations', route('account_search',['layout_id'=>$layout_id,'society_id'=>$society_id,'building_id'=>$building_id]));
+    $trail->push('Payment Details');
+});

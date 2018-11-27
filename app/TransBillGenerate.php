@@ -36,4 +36,8 @@ class TransBillGenerate extends Model
     {
         return $this->belongsTo('App\SocietyDetail', 'society_id');
     }
+
+    public function trans_payment() {
+        return $this->hasMany('App\TransPayment','bill_no');
+    }
 }
