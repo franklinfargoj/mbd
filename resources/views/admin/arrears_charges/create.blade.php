@@ -6,15 +6,16 @@
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">Add Arrears Charge Rate</h3>
             {{-- {{ Breadcrumbs::render('society_detail') }} --}}
+            <div class="ml-auto btn-list">
+            <a href="{{ url()->previous() }}" class="btn btn-link pull-right"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+        </div>
         </div>
     </div>
     <!-- END: Subheader -->
     
     <div class="m-portlet m-portlet--mobile">
         <h4 class="box-subheading ml-0">{{$society->name}} {{$building->name}}</h4>
-        <div class="tools">
-            <a href="{{url('arrears_charges/'.encrypt($society->id).'/'.encrypt($building->id))}}" class='btn m-btn--pill m-btn--custom btn-primary pull-right'>Back</a>
-        </div>
+
         <form id="service_charges" role="form" method="post" class="m-form m-form--rows m-form--label-align-right"
             action="{{url('arrears_charges/'.encrypt($society->id).'/'.encrypt($building->id).'/store')}}">
             @csrf

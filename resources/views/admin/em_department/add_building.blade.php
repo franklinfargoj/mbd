@@ -16,6 +16,9 @@
         <div class="d-flex align-items-center" id="search_box">
             <h3 class="m-subheader__title m-subheader__title--separator">Add Building</h3>
             {{ Breadcrumbs::render('em') }}
+            <div class="ml-auto btn-list">
+            <a href="{{ url()->previous() }}" class="btn btn-link pull-right"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+        </div>
          </div>
    <form method="post" enctype='multipart/form-data' action="{{route('create_building')}}">
         {{ csrf_field() }}
