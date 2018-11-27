@@ -219,11 +219,12 @@ class LeaseDetailController extends Controller
             }
 
             if($request->lease_date_from){
-                $lease_data = $lease_data->whereDate(DB::raw('lease_start_date'), date('Y-m-d', strtotime($request->lease_date_from)));
+//                dd($request->lease_date_from);
+                $lease_data = $lease_data->whereDate(DB::raw('lease_start_date'), $request->lease_date_from);
             }
 
             if($request->lease_date_to){
-                $lease_data = $lease_data->whereDate(DB::raw('lease_renewal_date'),date('Y-m-d', strtotime($request->lease_date_to)));
+                $lease_data = $lease_data->whereDate(DB::raw('lease_renewal_date'),date('d-m-Y', strtotime($request->lease_date_to)));
             }
 
             $lease_data = $lease_data->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').',lease_rule_16_other, lm_lease_detail.id as id, lm_lease_detail.area as area, society_id, lease_period, lease_renewed_period, lease_start_date, lease_renewal_date, lease_status');
