@@ -922,7 +922,7 @@ $(window).on('popstate', function () {
         </div>
         <!----  ---  ee em ree lm report-------------------------------------------------------- -->
 
-        <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom nav-tabs--steps">
+        <ul id="layouts_upload" class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom nav-tabs--steps">
                 <li class="nav-item m-tabs__item " data-target="#document-scrunity">
                     <a class="nav-link m-tabs__link active" data-toggle="tab" href="#ee-report">EE Report
                             <i class="fa fa-check"></i>

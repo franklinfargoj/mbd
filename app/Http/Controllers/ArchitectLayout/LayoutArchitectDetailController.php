@@ -35,11 +35,14 @@ class LayoutArchitectDetailController extends Controller
         $add_detail=1;
         $layout_id = decrypt($layout_id);
         $status=getLastStatusIdArchitectLayout($layout_id);
-        if($status->status_id!=config('commanConfig.architect_layout_status.new_application') || $status->status_id==config('commanConfig.architect_layout_status.approved'))
+        
+        if($status->status_id==config('commanConfig.architect_layout_status.sent_for_revision') || $status->status_id==config('commanConfig.architect_layout_status.forward') || $status->status_id=!config('commanConfig.architect_layout_status.approved'))
         {
+            //dd('ok');
             $add_detail=0;
             
         }
+        //dd($add_detail);
         if (count($this->common->check_layout_details_complete_status($layout_id)) == 0 && $add_detail==1) {
             $ArchitectLayoutDetail = new ArchitectLayoutDetail;
             $ArchitectLayoutDetail->architect_layout_id = $layout_id;
