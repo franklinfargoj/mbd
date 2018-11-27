@@ -12,13 +12,16 @@
 
 <div class="col-md-12">
     <!-- BEGIN: Subheader -->
-    <div class="m-subheader px-0">
-        <div class="d-flex">
-            {{-- {{ Breadcrumbs::render('calculation_sheet',$ol_application->id) }} --}}
-            <div class="ml-auto btn-list">
-                <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
-            </div>
-        </div>
+    <div class="m-subheader px-0 m-subheader--top">
+        <div class="d-flex align-items-center">
+            <h3 class="m-subheader__title m-subheader__title--separator">
+                Sale & Lease Deed Agreement</h3>
+                 {{ Breadcrumbs::render('conveyance_stamp_sign_sale_lease',$data->id) }}
+                <div class="ml-auto btn-list">
+                    <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+                </div>
+        </div> 
+    </div> 
         <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom" role="tablist">
             <li class="nav-item m-tabs__item">
                 <a class="nav-link m-tabs__link active show" data-toggle="tab" href="#sale-deed-agreement" role="tab"
@@ -35,7 +38,7 @@
         </ul>
     </div>
 <form class="nav-tabs-form" id ="StampSignAgreementFRM" role="form" method="POST" action="{{ route('dyco.save_stamp_sign_agreement')}}" enctype="multipart/form-data">
-@csrf
+@csrf 
 
 <input type="hidden" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">
     <div class="tab-content">
@@ -182,4 +185,26 @@
  </form>   
 </div>
 
+@endsection
+
+@section('js')
+<script>
+    $("#StampSignAgreementFRM").validate({
+        rules: {
+            sale_agreement: {
+                extension: "pdf"
+            },            
+            lease_agreement: {
+                extension: "pdf"
+            },
+        }, messages: {
+            sale_agreement: {
+                extension: "Invalid type of file uploaded (only pdf allowed)."
+            },            
+            lease_agreement: {
+                extension: "Invalid type of file uploaded (only pdf allowed)."
+            }
+        }
+    });  
+</script>
 @endsection

@@ -243,6 +243,11 @@ class ArchitectUserSeeder extends Seeder
                     'name' => 'renewal.save_architect_scrutiny',
                     'display_name' => 'renewal save architect scrutiny',
                     'description' => 'renewal save architect scrutiny',
+                ],                 
+                [
+                    'name' => 'conveyance.view_documents',
+                    'display_name' => 'view society documents',
+                    'description' => 'view society documents ',
                 ],                
                 
             ];
@@ -687,6 +692,11 @@ class ArchitectUserSeeder extends Seeder
                 'name'=>'renewal.save_architect_scrutiny',
                 'display_name'=>'renewal save architect scrutiny',
                 'description'=>'renewal save architect scrutiny'
+            ];            
+            $architect_permissions[]=[
+                'name'=>'conveyance.view_documents',
+                'display_name'=>'view society documents',
+                'description'=>'view society documents'
             ];
             
             //$architect_permission_role = [];

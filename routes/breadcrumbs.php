@@ -911,3 +911,65 @@ Breadcrumbs::for('sf_forward_application', function ($trail,$id) {
     $trail->parent('society_formation_list');
     $trail->push('Forward Application', route('formation.forward_application',['layout_id'=>$id]));
 });
+
+//Conveyance 
+
+Breadcrumbs::for('society_conveyance',function($trail){
+    $trail->push('Home',route('conveyance.index'));
+});
+
+Breadcrumbs::for('conveyance_view_application', function ($trail,$id) {
+    $trail->parent('society_conveyance');
+    $trail->push('View Application', route('conveyance.view_application',$id));
+});
+
+Breadcrumbs::for('conveyance_society_document', function ($trail,$id) {
+    $trail->parent('society_conveyance');
+    $trail->push('Society Document', route('conveyance.view_documents',$id));
+});
+
+Breadcrumbs::for('conveyance_forward_application', function ($trail,$id) {
+    $trail->parent('society_conveyance');
+    $trail->push('Forward Application', route('conveyance.forward_application_sc',$id));
+});
+
+Breadcrumbs::for('conveyance_architect_scrutiny', function ($trail,$id) {
+    $trail->parent('society_conveyance');
+    $trail->push('Architect Scrutiny', route('conveyance.architect_scrutiny_remark',$id));
+});
+
+Breadcrumbs::for('conveyance_ee_calculation', function ($trail,$id) {
+    $trail->parent('society_conveyance');
+    $trail->push('Sale Price Calculation', route('ee.sale_price_calculation',$id));
+});
+
+Breadcrumbs::for('conveyance_draft_sale_lease', function ($trail,$id) {
+    $trail->parent('society_conveyance');
+    $trail->push('Draft Sale & Lease Deed', route('conveyance.sale_lease_agreement',$id));
+});
+
+Breadcrumbs::for('conveyance_approve_sale_lease', function ($trail,$id) {
+    $trail->parent('society_conveyance');
+    $trail->push('Approved Sale & Lease Deed', route('conveyance.approved_sale_lease_agreement',$id));
+});
+
+Breadcrumbs::for('conveyance_checklist', function ($trail,$id) {
+    $trail->parent('society_conveyance');
+    $trail->push('Checklist & Office Note', route('conveyance.checklist',$id));
+});
+
+Breadcrumbs::for('conveyance_stamp_sale_lease', function ($trail,$id) {
+    $trail->parent('society_conveyance');
+    $trail->push('Stamp Sale & Lease Deed', route('conveyance.stamp_duty_agreement',$id));
+});
+
+Breadcrumbs::for('conveyance_stamp_sign_sale_lease', function ($trail,$id) {
+    $trail->parent('society_conveyance');
+    $trail->push('Stamp Sign Sale & Lease Deed', route('conveyance.stamp_signed_duty_agreement',$id));
+});
+
+Breadcrumbs::for('conveyance_registered_sale_lease', function ($trail,$id) {
+    $trail->parent('society_conveyance');
+    $trail->push('Registered Sale & Lease Deed', route('conveyance.register_sale_lease_agreement',$id));
+});
+ 

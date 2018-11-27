@@ -91,6 +91,11 @@ class DYCOPermissions extends Seeder
                 'name' => 'conveyance.view_ee_documents',
                 'display_name' => 'view ee documents',
                 'description' => 'view ee documents',
+            ],            
+            [
+                'name' => 'conveyance.view_ee_documents',
+                'display_name' => 'view ee documents',
+                'description' => 'view ee documents',
             ],
             [
                 'name' => 'dyco.save_stamp_sign_agreement',
@@ -262,6 +267,11 @@ class DYCOPermissions extends Seeder
                 'name'=>'conveyance.view_documents',
                 'display_name'=>'view conveyance documents',
                 'description'=>'view conveyance documents'
+            ],            
+            [
+                'name'=>'dyco.forward_application_data',
+                'display_name'=>'forward application data',
+                'description'=>'forward application data'
             ]      
         ];
 

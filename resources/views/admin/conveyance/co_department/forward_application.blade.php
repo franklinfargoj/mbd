@@ -6,12 +6,16 @@
      
 <div class="custom-wrapper">
     <div class="col-md-12">
-        <div class="d-flex">
-            
-            <div class="ml-auto btn-list">
-                <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+        <div class="m-subheader px-0 m-subheader--top">
+            <div class="d-flex align-items-center">
+                <h3 class="m-subheader__title m-subheader__title--separator">
+                    Forward Application </h3>
+                     {{ Breadcrumbs::render('conveyance_forward_application',$data->id) }}
+                    <div class="ml-auto btn-list">
+                        <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+                    </div>
             </div>
-        </div>
+        </div> 
         <div class="">
             <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom">
                 <li class="nav-item m-tabs__item" data-target="#document-scrunity">
@@ -20,13 +24,13 @@
                     </a>
                 </li>
                 
-                @if($data->status->status_id != config('commanConfig.applicationStatus.forwarded'))
+                @if($data->status->status_id != config('commanConfig.applicationStatus.forwarded') && $data->status->status_id != config('commanConfig.applicationStatus.reverted') )
                 <li class="nav-item m-tabs__item">
                     <a class="nav-link m-tabs__link show" data-toggle="tab" href="#forward-application-tab">
                         <i class="la la-cog"></i> Forward Application
                     </a>
                 </li>
-                @endif
+                @endif 
             </ul>
             <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
                 <div class="portlet-body">
@@ -74,7 +78,7 @@
                                             ? $data->societyApplication->building_no : '')}}</span>
                                     </div>
                                 </div>
-                            </div>
+                            </div> 
                         </div>
                         <div class="m-subheader">
                             <div class="d-flex align-items-center">
@@ -126,10 +130,45 @@
                                     <h3 class="section-title section-title--small mb-2">
                                         Remark History:
                                     </h3>
-                                    <span class="hint-text d-block t-remark">Remark by DYCO Department</span>
+                                    <span class="hint-text d-block t-remark">Remark by Society</span>
                                 </div> 
+                                @if(count($societyLogs) > 0)
+                                <div class="remark-body">
+                                    <div class="remarks-section">
+                                        <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container"
+                                            data-scrollbar-shown="true" data-scrollable="true" data-max-height="130">
+
+                                        @foreach($societyLogs as $log)
+
+                                            @if($log->status_id == config('commanConfig.applicationStatus.forwarded'))
+                                                @php $status = 'Forwarded'; @endphp
+                                            @elseif($log->status_id == config('commanConfig.applicationStatus.reverted'))
+                                                @php $status = 'Reverted'; @endphp
+                                            @endif
+
+                                            <div class="remarks-section__data">
+                                                <p class="remarks-section__data__row"><span>Date:</span><span>{{(isset($log) && $log->created_at != '' ? date("d-m-Y",
+                                                        strtotime($log->created_at)) : '')}}</span>
+
+                                                </p>
+                                                <p class="remarks-section__data__row"><span>Time:</span><span>{{(isset($log) && $log->created_at != '' ? date("H:i",
+                                                        strtotime($log->created_at)) : '')}}</span></p>
+                                                <p class="remarks-section__data__row"><span>Action:</span>
+
+                                                <span>{{$status}} to {{isset($log->getRoleName->display_name) ? $log->getRoleName->display_name : ''}} From {{isset($log->getRole->display_name) ? $log->getRole->display_name : ''}}</span></p>
+                                                <p class="remarks-section__data__row"><span>Description:</span><span>{{(isset($log) ? $log->remark : '')}}</span></p>
+                                            </div>
+                                        @endforeach                                         
+                                        </div>
+                                    </div>
+                                </div> 
+                                @endif 
+
                                 @if(count($dycoLogs) > 0)
                                 <div class="remark-body">
+                                    <div class="border-bottom pb-2">
+                                        <span class="hint-text d-block t-remark">Remark by DYCO Department</span>
+                                    </div>                                 
                                     <div class="remarks-section">
                                         <div class="m-scrollable m-scroller ps ps--active-y remarks-section-container"
                                             data-scrollbar-shown="true" data-scrollable="true" data-max-height="200">
@@ -308,7 +347,7 @@
                                                     Forward To:
                                                 </label>
                                                 <div class="col-lg-4 col-md-9 col-sm-12">
-                                                    <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="to_user">
+                                                    <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="to_user" name="to_user_id[]">
                                                         
                                                         @if($data->parent)
                                                             @foreach($data->parent as $parent)
@@ -324,7 +363,7 @@
                                                     Revert To:
                                                 </label>
                                                 <div class="col-lg-4 col-md-9 col-sm-12">
-                                                    <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="to_child_id">
+                                                    <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="to_child_id" name="to_child_id[]">
                                                        
                                                             @foreach($data->child as $child)
                                                                 <option value="{{ $child->id }}" data-society="{{ ($child->role_id == $data->society_role_id) ? 1 : 0 }}"
