@@ -166,6 +166,11 @@ class LAPermission extends Seeder
                 'name'=>'renewal.save_forward_application_renewal',
                 'display_name'=>'Forward Application',
                 'description'=>'Forwards Application'
+            ],
+            [
+                'name'=>'conveyance.checklist_note',
+                'display_name'=>'Checklist & Note',
+                'description'=>'Shows Checklist & Note'
             ]
         ];
 

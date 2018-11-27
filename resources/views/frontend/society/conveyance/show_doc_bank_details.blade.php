@@ -50,7 +50,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @php $i=1; @endphp
+                        @php $i=1; $doc_uploaded = 0;@endphp
                         @foreach($documents as $document)
                         <tr>
                             <td>{{ $i }}</td>
@@ -60,7 +60,7 @@
                             <td class="text-center">
                                 <h2 class="m--font-danger">
                                     @if($document->sc_document_status != null)
-                                        @php $document_uploaded = $document->sc_document_status; @endphp
+                                        @php $doc_uploaded++; $document_uploaded = $document->sc_document_status; @endphp
                                     @if($document_uploaded['application_id'] == $sc_application->id)
                                     <i class="fa fa-check"></i>
                                     @else
@@ -137,8 +137,8 @@
             </div>
         </div>
     </div>
-    @if(!empty($documents) && !empty($documents_uploaded))
-        @if(count($documents) == count($documents_uploaded))
+    @if(!empty($documents) && !empty($doc_uploaded))
+    @if(count($documents) == $doc_uploaded)
             <div class="m-portlet">
                 <div>
                     <div>
