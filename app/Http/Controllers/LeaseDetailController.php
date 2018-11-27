@@ -110,6 +110,9 @@ class LeaseDetailController extends Controller
         {
             $getData = [
                 'society_name' =>session()->get('society_name'),
+                'lease_date_to' =>session()->get('lease_date_to'),
+                'lease_date_from' =>session()->get('lease_date_from'),
+
             ];
             if($id){
                 $lease_data = LeaseDetail::where(['society_id' => $id])
@@ -142,6 +145,13 @@ class LeaseDetailController extends Controller
                     $q->where('society_name', 'like', '%' . $getData['society_name'] . '%');
                 });
 
+            }
+            if($request->lease_date_from){
+                $lease_data = $lease_data->whereDate( DB::raw("(STR_TO_DATE(lease_start_date,'%d-%m-%Y'))"),'>=' ,date('Y-m-d', strtotime($request->lease_date_from)));
+            }
+
+            if($request->lease_date_to){
+                $lease_data = $lease_data->whereDate( DB::raw("(STR_TO_DATE(lease_start_date,'%d-%m-%Y'))"),'<=' ,date('Y-m-d', strtotime($request->lease_date_to)));
             }
 
             $dataLists=$lease_data->orderBy('lm_lease_detail.created_at','desc')->get();
@@ -218,20 +228,24 @@ class LeaseDetailController extends Controller
                 session()->forget('society_name');
             }
 
+
             if($request->lease_date_from){
-//                dd($request->lease_date_from);
-                $lease_data = $lease_data->whereDate(DB::raw('lease_start_date'), $request->lease_date_from);
+                session()->put('lease_date_from',$request->lease_date_from);
+                $lease_data = $lease_data->whereDate( DB::raw("(STR_TO_DATE(lease_start_date,'%d-%m-%Y'))"),'>=' ,date('Y-m-d', strtotime($request->lease_date_from)));
+            }else{
+                session()->forget('lease_date_from');
             }
+
 
             if($request->lease_date_to){
-                $lease_data = $lease_data->whereDate(DB::raw('lease_renewal_date'),date('d-m-Y', strtotime($request->lease_date_to)));
+                session()->put('lease_date_to',$request->lease_date_to);
+                $lease_data = $lease_data->whereDate( DB::raw("(STR_TO_DATE(lease_start_date,'%d-%m-%Y'))"),'<=' ,date('Y-m-d', strtotime($request->lease_date_to)));
+            }else{
+                session()->forget('lease_date_to');
             }
 
+
             $lease_data = $lease_data->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').',lease_rule_16_other, lm_lease_detail.id as id, lm_lease_detail.area as area, society_id, lease_period, lease_renewed_period, lease_start_date, lease_renewal_date, lease_status');
-
-
-
-
             return $datatables->of($lease_data)
 
                 ->editColumn('rownum', function ($lease_data) {
@@ -279,7 +293,7 @@ class LeaseDetailController extends Controller
             'serverSide' => true,
             'processing' => true,
             'ordering'   =>'isSorted',
-            "order"=> [5, "desc" ],
+            "order"=> [0, "desc" ],
             "pageLength" => $this->list_num_of_records_per_page
         ];
     }

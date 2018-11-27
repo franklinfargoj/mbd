@@ -28,13 +28,13 @@
                             <div class="col-md-3">
                                 <div class="form-group m-form__group">
                                     <input type="text" id="lease_date_from" name="lease_date_from" class="form-control form-control--custom m-input m_datepicker"
-                                           placeholder="Lease Start Date" value="{{ isset($getData['lease_date_from'])? $getData['lease_date_from'] : '' }}">
+                                           placeholder="From Date" value="{{ isset($getData['lease_date_from'])? $getData['lease_date_from'] : '' }}">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group m-form__group">
                                     <input type="text" id="lease_date_to" name="lease_date_to" class="form-control form-control--custom m-input m_datepicker"
-                                           placeholder="Lease Renewal Date" value="{{ isset($getData['lease_date_to'])? $getData['lease_date_to'] : '' }}">
+                                           placeholder="To Date" value="{{ isset($getData['lease_date_to'])? $getData['lease_date_to'] : '' }}">
                                 </div>
                             </div>
 
