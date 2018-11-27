@@ -237,6 +237,16 @@ class DYCOController extends Controller
         $data->folder = $this->common->getCurrentRoleFolderName();
         $data->conveyance_map = $this->common->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
 
+        // get draft stamp duty Letter
+        $draft  = config('commanConfig.scAgreements.conveyance_draft_stamp_duty_letter');        
+        $draftId = $this->common->getScAgreementId($draft,$data->sc_application_master_id); 
+        $data->draftStampLetter = $this->common->getScAgreement($draftId,$applicationId,NULL); 
+
+        // get Approve stamp duty Letter
+        $stamp  = config('commanConfig.scAgreements.conveyance_stamp_duty_letter'); 
+        $stampId = $this->common->getScAgreementId($stamp,$data->sc_application_master_id); 
+        $data->approveStampLetter = $this->common->getScAgreement($stampId,$applicationId,NULL);
+
         if ($data->is_view && $data->status->status_id == config('commanConfig.applicationStatus.Aproved_sale_&_lease_deed')) {
             $route = 'admin.conveyance.dyco_department.approved_sale_lease_agreement';
         }else{
@@ -408,7 +418,7 @@ class DYCOController extends Controller
            
             
             if ($lease_extension == "pdf") {
-                Storage::disk('ftp')->delete($request->oldSaleFile);
+                Storage::disk('ftp')->delete($request->oldLeaseFile);
                 $lease_upload = $this->CommonController->ftpFileUpload($lease_folder_name,$lease_agreement,$lease_file_name);
                 $leaseData = $this->common->getScAgreement($stampSignLeaseId,$applicationId,$Agrstatus);
                 if ($leaseData){
@@ -455,7 +465,7 @@ class DYCOController extends Controller
         $data->status = $this->common->getCurrentStatus($applicationId,$data->sc_application_master_id);
         $data->conveyance_map = $this->common->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
 
-        if ($data->is_view && $data->status->status_id == config('commanConfig.applicationStatus.in_process')) {
+        if ($data->is_view && $data->status->status_id == config('commanConfig.applicationStatus.Registered_sale_&_lease_deed')) {
             $route = 'admin.conveyance.dyco_department.register_sale_lease_agreements';
         }else{
             $route = 'admin.conveyance.common.view_register_sale_lease_agreements';
@@ -911,7 +921,7 @@ class DYCOController extends Controller
         $pdf->SetHTMLHeader($header_file);
         $pdf->SetHTMLFooter($footer_file);
         $pdf->WriteHTML($content);
-    
+        
         $fileName = time().'_draft_stamp_duty_letter_'.$id.'.pdf';
         $filePath = $folder_name."/".$fileName;
 
@@ -919,12 +929,12 @@ class DYCOController extends Controller
             Storage::disk('ftp')->makeDirectory($folder_name, $mode = 0777, true, true);
         } 
         Storage::disk('ftp')->put($filePath, $pdf->Output($fileName, 'S'));
-        $draftLetter = $this->renewal->getScAgreement($draftId,$id,NULL);
-       
+
+        $draftLetter = $this->common->getScAgreement($draftId,$id,NULL);
         if ($draftLetter){
-            $this->renewal->updateScAgreement($id,$draftId,$filePath,NULL);                    
+            $this->common->updateScAgreement($id,$draftId,$filePath,NULL);                    
         }else{
-            $this->renewal->createScAgreement($id,$draftId,$filePath,NULL);
+            $this->common->createScAgreement($id,$draftId,$filePath,NULL);
         }
 
         //text offer letter
@@ -942,15 +952,54 @@ class DYCOController extends Controller
 
         Storage::disk('ftp')->put($filePath1, $content);
 
-        $textLetter = $this->renewal->getScAgreement($textId,$id,NULL);
+        $textLetter = $this->common->getScAgreement($textId,$id,NULL);
        
         if ($textLetter){
-            $this->renewal->updateScAgreement($id,$textId,$filePath1,NULL);                    
+            $this->common->updateScAgreement($id,$textId,$filePath1,NULL);                    
         }else{
-            $this->renewal->createScAgreement($id,$textId,$filePath1,NULL);
+            $this->common->createScAgreement($id,$textId,$filePath1,NULL);
         } 
-        return redirect('approved_sale_lease_agreement/'.$request->applicationId)->with('success', 'Stamp Duty Letter generated successfully..');
-        // return redirect('');                      
-    }    
+        return redirect('approved_sale_lease_agreement/'.$request->applicationId)->with('success', 'Stamp Duty Letter generated successfully..');                      
+    }
+
+    public function saveConveyanceStampDuty(Request $request){
+        
+        $applicationId = $request->applicationId;
+        $masterId = scApplication::where('id',$applicationId)->value('sc_application_master_id');
+        $stamp  = config('commanConfig.scAgreements.conveyance_stamp_duty_letter');
+        $file  = $request->file('stamp_letter');
+        $folder_name  = "Conveyance_Stamp_Duty_Letter";
+
+        if ($file) {
+            $extension  = $file->getClientOriginalExtension(); 
+            $file_name  = time().'_stamp_'.$applicationId.'.'.$extension; 
+            $file_path  = $folder_name.'/'.$file_name; 
+            $letterId = $this->common->getScAgreementId($stamp,$masterId);
+   
+            if ($extension == "pdf"){
+                
+                Storage::disk('ftp')->delete($request->oldStamp);
+                $upload = $this->CommonController->ftpFileUpload($folder_name,$file,$file_name); 
+                $Data = $this->common->getScAgreement($letterId,$applicationId,NULL);
+
+                if ($Data){
+                    $this->common->updateScAgreement($applicationId,$letterId,$file_path,NULL);
+                }else{
+                    $this->common->createScAgreement($applicationId,$letterId,$file_path,NULL);               
+                }
+                $status = 'success';
+            } else{
+                $status = 'error';
+            }           
+        }else{
+            $status = 'error';    
+        } 
+
+        if (isset($status) && $status == 'success'){
+            return back()->with('success', 'Stamp duty Letter uploaded successfully.'); 
+        } else{
+            return back()->with('error', 'Invalid type of file uploaded (only pdf allowed).');
+        }                 
+    }        
 }
  

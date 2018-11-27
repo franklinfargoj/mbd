@@ -264,7 +264,7 @@ class EEUserSeeder extends Seeder
                 'description'   => 'save covering letter'
             ],            
             [
-                'name'          => 'ee.forward_application_sc',
+                'name'          => 'conveyance.forward_application_sc',
                 'display_name'  => 'forward application sc',
                 'description'   => 'forward application sc'
             ],            
@@ -332,6 +332,11 @@ class EEUserSeeder extends Seeder
                 'name' => 'renewal.architect_scrutiny',
                 'display_name' => 'renewal architect scrutiny',
                 'description' => 'renewal architect scrutiny',
+            ],             
+            [
+                'name' => 'conveyance.view_documents',
+                'display_name' => 'view conveyance documents',
+                'description' => 'view conveyance documents',
             ],                                      
         ];
 

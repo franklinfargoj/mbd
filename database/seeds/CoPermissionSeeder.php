@@ -265,7 +265,12 @@ class CoPermissionSeeder extends Seeder
                 'name' => 'conveyance.architect_scrutiny_remark',
                 'display_name' => 'conveyance architect scrutiny remark',
                 'description' => 'conveyance architect scrutiny remark',
-            ],                         
+            ],
+            [
+                'name'=>'conveyance.view_documents',
+                'display_name'=>'view conveyance documents',
+                'description'=>'view conveyance documents'
+            ],                                      
 
         ];
         $ree_role_id = Role::where('name', 'ree_engineer')->value('id');

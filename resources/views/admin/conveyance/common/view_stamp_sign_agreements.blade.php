@@ -12,13 +12,14 @@
 
 <div class="col-md-12">
     <!-- BEGIN: Subheader -->
-    <div class="m-subheader px-0">
-        <div class="d-flex">
-            {{-- {{ Breadcrumbs::render('calculation_sheet',$ol_application->id) }} --}}
-            <div class="ml-auto btn-list">
-                <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
-            </div>
-
+    <div class="m-subheader px-0 m-subheader--top">
+        <div class="d-flex align-items-center">
+            <h3 class="m-subheader__title m-subheader__title--separator">
+                Sale & Lease Deed Agreement</h3>
+                 {{ Breadcrumbs::render('conveyance_stamp_sign_sale_lease',$data->id) }}
+                <div class="ml-auto btn-list">
+                    <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+                </div>
         </div>
         <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom" role="tablist">
             <li class="nav-item m-tabs__item">
@@ -140,7 +141,7 @@
             </div>    
         </div> 
     @endif      
-    @if($status->status_id == config('commanConfig.applicationStatus.in_process'))
+    @if(session()->get('role_name') == config('commanConfig.dyco_engineer') && $status->status_id != config('commanConfig.applicationStatus.forwarded'))
         <div class="m-portlet m-portlet--mobile m_panel">  
             <div class="m-portlet__body">   
                 <div class="col-xs-12 row">

@@ -112,17 +112,6 @@ class EEController extends Controller
         } 				
 	}	
 
-	public function forwardApplication(Request $request,$applicationId){
-
-		$data     = $this->conveyance->getForwardApplicationData($applicationId);
-        $dycoLogs = $this->conveyance->getLogsOfDYCODepartment($applicationId,$data->sc_application_master_id);
-        $eelogs   = $this->conveyance->getLogsOfEEDepartment($applicationId,$data->sc_application_master_id);
-        $Architectlogs = $this->conveyance->getLogsOfArchitectDepartment($applicationId,$data->sc_application_master_id);
-        $data->conveyance_map = $this->conveyance->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
-        
-		return view('admin.conveyance.ee_department.forward_application',compact('data','dycoLogs','eelogs','Architectlogs'));
-	}
-
     public function sendForwardApplication(Request $request){
 
         $data = $this->conveyance->forwardApplication($request);   
