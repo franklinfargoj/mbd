@@ -52,7 +52,7 @@
                                 <div class="form-group m-form__group">
                                     <div class="btn-list">
                                         <button type="submit" class="btn m-btn--pill m-btn--custom btn-primary">Search</button>
-                                        <button type="reset" onclick="window.location.href='{{ route("architect_layout.index") }}'"
+                                        <button type="reset" onclick="window.location.href='{{ route("lease_detail.index",'0') }}'"
                                                 class="btn m-btn--pill m-btn--custom btn-metal">Reset</button>
                                     </div>
                                 </div>
