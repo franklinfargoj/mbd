@@ -12,6 +12,9 @@ class OlRequestForm extends Model
         'date_of_meeting',
         'resolution_no',
         'architect_name',
-        'developer_name'
+        'developer_name',
+        'ol_vide_no',
+        'ol_issue_date',
+        'reason_for_revalidation'
     ];
 }

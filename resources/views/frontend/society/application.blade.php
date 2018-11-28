@@ -44,8 +44,7 @@
             <div class="options">
               <p> @if(Session::all()['ol_application_count'] == 1) New - Offer Letter @else <a href="@if($id == '2') {{  route('show_form_self', $id) }}@endif @if($id == '13') {{  route('show_form_dev', $id) }}@endif"> New - Offer Letter </a> @endif</p>
               <p> @if($self_reval_premium) <a href="{{  route('show_reval_self', $self_reval_premium) }}">Revalidation of offer Letter</a>  @elseif($self_reval_sharing)  <a href="{{  route('show_reval_dev', $self_reval_sharing) }}">Revalidation of offer Letter</a> @endif </p>
-              <p> Application for NOC </p>
-              <p> Revalidation of offer Letter </p>
+
               <p> @if(Session::all()['noc_application_count'] == 1) Application for NOC @else <a href="@if($id == '2') {{  route('show_form_self_noc', $id) }}@endif @if($id == '13') {{  route('show_form_self_noc', $id) }}@endif"> Application for NOC </a> @endif</p>
               <p> Consent for OC </p>
             </div>
@@ -58,8 +57,7 @@
             <div class="options">
               <p> @if(Session::all()['ol_application_count'] == 1) New - Offer Letter @else <a href="@if($id == '6') {{  route('show_form_self', $id) }}@endif @if($id == '17') {{  route('show_form_dev', $id) }}@endif"> New - Offer Letter </a> @endif</p>
               <p> @if($dev_reval_premium) <a href="{{  route('show_reval_self', $dev_reval_premium) }}">Revalidation of offer Letter</a>  @elseif($dev_reval_sharing)  <a href="{{  route('show_reval_dev', $dev_reval_sharing) }}">Revalidation of offer Letter</a> @endif </p>
-              <p> Application for NOC - IOD </p>
-              <p> Revalidation of offer Letter </p>
+
               <p> @if(Session::all()['noc_application_count'] == 1) Application for NOC - IOD @else <a href="@if($id == '6') {{  route('show_form_self_noc', $id) }}@endif @if($id == '17') {{  route('show_form_self_noc', $id) }}@endif"> Application for NOC - IOD </a> @endif</p>
               <p> Tripartite Agreement </p>
               <p> Application for CC </p>
