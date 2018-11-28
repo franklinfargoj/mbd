@@ -277,8 +277,8 @@ class LeaseDetailController extends Controller
 //                    dd($lease_data->leaseSociety->society_name);
                     return $lease_data->leaseSociety['society_name'];
                 })
-                ->editColumn('actions', function ($lease_data) {
-                    return view('admin.lease_detail.actions', compact('lease_data'))->render();
+                ->editColumn('actions', function ($lease_data) use ($id) {
+                    return view('admin.lease_detail.actions', compact('lease_data', 'id'))->render();
                 })
                 ->rawColumns(['lease_start_date', 'lease_renewal_date', 'leaseSociety', 'actions'])
                 ->make(true);
