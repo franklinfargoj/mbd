@@ -21,8 +21,7 @@ class NocScrutinyAnswers extends Migration
             $table->integer('question_id')->nullable();
             $table->tinyInteger('answer')->nullable(); //0 => no, 1 => yes
             $table->string('remark')->nullable();
-            $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
+            $table->timestamps();
         });
     }
 
