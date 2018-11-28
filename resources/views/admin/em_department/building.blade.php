@@ -37,7 +37,7 @@
             </div>
 
             <div class='btn-icon-list'>
-                <a href="{{route('add_building', [$society_id])}}" class='d-flex flex-column align-items-center' style="padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px; float: right;margin-top: 3%"><span class='btn-icon btn-icon--edit'><img src="{{asset('/img/add-icon.svg')}}"></span>Add Building</a>
+                <a href="{{route('add_building', [$society_id])}}" class='btn m-btn--pill m-btn--custom btn-primary pull-right' style="">Add Building</a>
             </div>
  
            </div>

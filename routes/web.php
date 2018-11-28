@@ -501,7 +501,7 @@ Route::post('post_forward_architect_layout','ArchitectLayout\LayoutArchitectCont
 
 //Architect Layout EM LM EE REE Scrutiny
 Route::get('get_scrutiny/{layout_id}','ArchitectLayout\LayoutArchitectController@get_scrutiny')->name('architect_layout_get_scrtiny');
-Route::get('add_scrutiny_report/{layout_id}','ArchitectLayout\LayoutArchitectController@add_scrutiny_report')->name('architect_layout_add_scrutiny_report');
+Route::get('architect_layout_add_scrutiny_report/{layout_id}','ArchitectLayout\LayoutArchitectController@add_scrutiny_report')->name('architect_layout_add_scrutiny_report');
 Route::post('post_architect_layout_scrutiny_report','ArchitectLayout\LayoutArchitectController@post_scrutiny_report')->name('architect_layout_post_scrutiny_report');
 Route::post('delete_architect_layout_scrutiny_report','ArchitectLayout\LayoutArchitectController@delete_scrutiny_report')->name('delete_architect_layout_scrutiny_report');
 Route::post('upload_lm_checklist_and_remark_report','ArchitectLayout\LayoutArchitectController@upload_lm_checklist_and_remark_report')->name('upload_lm_checklist_and_remark_report');
@@ -764,7 +764,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::get('view_ee_documents/{id}', 'conveyance\conveyanceCommonController@ViewEEDocuments')->name('conveyance.view_ee_documents'); 
 
-    Route::get('renewal_forward_application_sc/{id}', 'conveyance\conveyanceCommonController@commonForward')->name('conveyance.forward_application_sc');
+    Route::get('forward_application_sc/{id}', 'conveyance\conveyanceCommonController@commonForward')->name('conveyance.forward_application_sc');
 
     Route::post('save_forward_application_sc', 'conveyance\conveyanceCommonController@saveForwardApplication')->name('conveyance.save_forward_application');
 
@@ -786,14 +786,14 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::get('generate_stamp_duty_letter/{id}', 'conveyance\DYCODepartment\DYCOController@GenerateStampDutyLetter')->name('dyco.generate_stamp_duty_letter');
 
+    Route::get('checklist_note/{id}', 'conveyance\conveyanceCommonController@show_checklist')->name('conveyance.checklist_note');
+
 
     Route::get('architect_scrutiny_remark/{id}', 'conveyance\conveyanceCommonController@ArchitectScrutinyRemark')->name('conveyance.architect_scrutiny_remark');
 
     Route::get('la_agreement_riders/{id}', 'conveyance\conveyanceCommonController@la_agreement_riders')->name('conveyance.la_agreement_riders');
 
     Route::post('upload_la_agreement_riders', 'conveyance\conveyanceCommonController@upload_la_agreement_riders')->name('conveyance.upload_la_agreement_riders');
-
-    // Route::get('architect_scrutiny_remark/{id}', 'conveyance\conveyanceCommonController@ArchitectScrutinyRemark')->name('conveyance.architect_scrutiny_remark')
 
     Route::get('generate_noc/{id}', 'conveyance\DYCODepartment\DYCOController@GenerateConveyanceNOC')->name('dyco.generate_canveyance_noc');
 
@@ -803,9 +803,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     
     //dyco
     
-   Route::get('conveyance_noc/{id}', 'conveyance\DYCODepartment\DYCOController@conveyanceNoc')->name('dyco.conveyance_noc');
-    
-    // Route::get('forward_application/{id}', 'conveyance\DYCODepartment\DYCOController@displayForwardApplication')->name('dyco.forward_application');   
+   Route::get('conveyance_noc/{id}', 'conveyance\DYCODepartment\DYCOController@conveyanceNoc')->name('dyco.conveyance_noc'); 
 
     Route::get('conveyance_noc/{id}', 'conveyance\DYCODepartment\DYCOController@conveyanceNOC')->name('dyco.conveyance_noc');
 
@@ -853,7 +851,6 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::post('save_calculation_data', 'conveyance\EEDepartment\EEController@SaveCalculationData')->name('ee.save_calculation_data');
     Route::post('save_demarcation_plan', 'conveyance\EEDepartment\EEController@SaveDemarcationPlan')->name('ee.save_demarcation_plan');
     Route::post('save_covering_letter', 'conveyance\EEDepartment\EEController@SaveCoveringLetter')->name('ee.save_covering_letter');
-    Route::get('forward_application_ee/{id}', 'conveyance\EEDepartment\EEController@forwardApplication')->name('ee.forward_application_sc'); 
 
     Route::post('send_forward_application', 'conveyance\EEDepartment\EEController@sendForwardApplication')->name('ee.send_forward_application');
 

@@ -226,9 +226,9 @@ class EMClerkController extends Controller
 
             DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
           
-            $arrear = ArrearCalculation::leftjoin('arrears_charges_rates', function($join) use ($tenant){
+            $arrear = ArrearCalculation::leftjoin('arrears_charges_rates', function($join) use ($tenant,$year){
                                         $join->on('arrears_charges_rates.building_id', '=', 'arrear_calculation.building_id')
-                                            ->where('arrears_charges_rates.year', '=', '2018-19');
+                                            ->where('arrears_charges_rates.year', '=', $year);
                                     })
                                     ->where('tenant_id', '=', $tenant->id)
                                     ->whereIn('arrear_calculation.month', $months)

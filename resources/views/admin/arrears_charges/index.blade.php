@@ -12,7 +12,7 @@
     <div class="m-portlet m-portlet--compact m-portlet--mobile">
         <h4 class="box-subheading">{{$society->name}} {{$building->name}}</h4>
         <div class="tools">
-            <a href="{{url('arrears_charges/'.encrypt($society->id).'/'.encrypt($building->id).'/create')}}" class='btn m-btn--pill m-btn--custom btn-primary' id="arrears_charges">Add Arrears Charge </a>
+            <a href="{{url('arrears_charges/'.encrypt($society->id).'/'.encrypt($building->id).'/create')}}" class='btn m-btn--pill m-btn--custom btn-primary pull-right' id="arrears_charges">Add Arrears Charge </a>
         </div>
         @if(Session::has('success'))
         <div class="alert alert-success fade in alert-dismissible show" style="margin-top:18px;">

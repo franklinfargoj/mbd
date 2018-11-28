@@ -164,7 +164,7 @@
         </div> 
     @endif   
 
-    @if($data->status->status_id == config('commanConfig.applicationStatus.in_process'))
+    @if($data->status->status_id != config('commanConfig.applicationStatus.forwarded') && $data->status->status_id != config('commanConfig.applicationStatus.reverted') )
 
         <form class="nav-tabs-form" id ="CommentFRM" role="form" method="POST" action="{{ route('conveyance.save_agreement_comments')}}">
             @csrf   

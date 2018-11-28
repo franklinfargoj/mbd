@@ -14,6 +14,7 @@ use App\Http\Controllers\Common\CommonController;
 use DB;
 use File;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
 use function PHPSTORM_META\elementType;
 use Storage;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -41,9 +42,30 @@ class VillageDetailController extends Controller
 
     public function print_data(Request $request)
     {
+        $getData = [
+            'village_name' =>session()->get('village_name'),
+            'sr_no' =>session()->get('sr_no'),
+            'villageLandSource' =>session()->get('villageLandSource')
+
+        ];
         $village_data = VillageDetail::with(['villageLandSource', 'villageBoard'])
         ->where('user_id', Auth::user()->id)
         ->where('role_id', session()->get('role_id'))->join('boards', 'lm_village_detail.board_id', '=', 'boards.id')->join('land_source', 'lm_village_detail.land_source_id', '=', 'land_source.id');
+
+        if($getData['village_name'])
+        {
+            $village_data = $village_data->where('village_name', 'like', '%'.$getData['village_name'].'%');
+        }
+
+        if($getData['sr_no'])
+        {
+            $village_data = $village_data->where('sr_no', 'like', '%'.$getData['sr_no'].'%');
+        }
+
+        if($getData['villageLandSource'])
+        {
+            $village_data = $village_data->where('land_source_id',$getData['villageLandSource']);
+        }
 
 $village_data = $village_data->selectRaw( DB::raw('lm_village_detail.id, boards.board_name as board,lm_village_detail.sr_no,lm_village_detail.village_name,land_source.source_name as source,lm_village_detail.land_address
 ,lm_village_detail.district,
@@ -153,10 +175,33 @@ lm_village_detail.updated_at'))->get();
 
         if($request->excel)
         {
-            //dd('ok');
+            $getData = [
+                'village_name' =>session()->get('village_name'),
+                'sr_no' =>session()->get('sr_no'),
+                'villageLandSource' =>session()->get('villageLandSource')
+
+            ];
+
             $village_data = VillageDetail::with(['villageLandSource', 'villageBoard'])
                                             ->where('user_id', Auth::user()->id)
                                             ->where('role_id', session()->get('role_id'))->join('boards', 'lm_village_detail.board_id', '=', 'boards.id')->join('land_source', 'lm_village_detail.land_source_id', '=', 'land_source.id');
+
+            if($getData['village_name'])
+            {
+                $village_data = $village_data->where('village_name', 'like', '%'.$getData['village_name'].'%');
+            }
+
+            if($getData['sr_no'])
+            {
+                $village_data = $village_data->where('sr_no', 'like', '%'.$getData['sr_no'].'%');
+            }
+
+            if($getData['villageLandSource'])
+            {
+                $village_data = $village_data->where('land_source_id',$getData['villageLandSource']);
+            }
+
+//            dd($village_data->get()->toArray());
 
             $village_data = $village_data->selectRaw( DB::raw('lm_village_detail.id, boards.board_name as board,lm_village_detail.sr_no,lm_village_detail.village_name,land_source.source_name as source,lm_village_detail.land_address
             ,lm_village_detail.district
@@ -245,20 +290,28 @@ lm_village_detail.updated_at'))->get();
                                             ->where('role_id', session()->get('role_id'))
                                             ->orderBy('id', 'desc');
 
-//            dd($village_data->get()->toArray());
             if($request->village_name)
             {
+                session()->put('village_name',$request->village_name);
                 $village_data = $village_data->where('village_name', 'like', '%'.$request->village_name.'%');
+            }else{
+                session()->forget('village_name');
             }
 
             if($request->sr_no)
             {
+                session()->put('sr_no',$request->sr_no);
                 $village_data = $village_data->where('sr_no', 'like', '%'.$request->sr_no.'%');
+            }else{
+                session()->forget('sr_no');
             }
 
             if($request->villageLandSource)
             {
-                $village_data = $village_data->where('land_source_id', 'like', '%'.$request->villageLandSource.'%');
+                session()->put('villageLandSource',$request->villageLandSource);
+                $village_data = $village_data->where('land_source_id',$request->villageLandSource);
+            }else{
+                session()->forget('villageLandSource');
             }
 
             $village_data = $village_data->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').',village_name, lm_village_detail.id as id, board_id, sr_no, land_source_id, land_address, possession_date');

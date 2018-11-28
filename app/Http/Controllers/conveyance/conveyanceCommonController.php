@@ -14,12 +14,15 @@ use App\conveyance\ScAgreementComments;
 use App\conveyance\scApplicationType;
 use Illuminate\Support\Facades\Session;
 use Yajra\DataTables\DataTables;
+use App\LanguageMaster;
 use App\Role;
 use Carbon\Carbon;
 use Config;
 use App\User;
 use Storage;
 use Auth;
+use App\conveyance\ScChecklistMaster;
+use App\conveyance\ScChecklistScrutinyStatus;
 
 class conveyanceCommonController extends Controller
 {	 
@@ -150,11 +153,13 @@ class conveyanceCommonController extends Controller
     }
 
     public function ViewApplication(Request $request,$applicationId){
+        
         $data = scApplication::where('id',$applicationId)->first();
         $data->folder = $this->getCurrentRoleFolderName();
         $data->conveyance_map = $this->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
         $document_id = $this->getDocumentId(config('commanConfig.documents.em_conveyance.stamp_conveyance_application'), $data->sc_application_master_id);
-        $document = SocietyConveyanceDocumentStatus::where('document_id', $document_id)->first();
+        $document = SocietyConveyanceDocumentStatus::where('document_id', $document_id)
+        ->where('society_flag',1)->where('application_id',$applicationId)->first();
 
         return view('admin.conveyance.common.view_application',compact('data', 'document'));
     } 
@@ -202,17 +207,20 @@ class conveyanceCommonController extends Controller
     public function forwardApplication($request){
         
         $Scstatus = "";
+        $toUsers = "";
         $data = scApplication::where('id',$request->applicationId)->first();
         $applicationStatus = $data->application_status;
         $masterId = $data->sc_application_master_id;
 
         $dycdoId =  Role::where('name',config('commanConfig.dycdo_engineer'))->value('id');  
-        $dycoId =  Role::where('name',config('commanConfig.dyco_engineer'))->value('id'); 
+        $dycoId  =  Role::where('name',config('commanConfig.dyco_engineer'))->value('id'); 
          
         if ($request->check_status == 1) {
-            $status = config('commanConfig.applicationStatus.forwarded');                
+            $status = config('commanConfig.applicationStatus.forwarded'); 
+            $toUsers = $request->to_user_id;        
         }else{
             $status = config('commanConfig.applicationStatus.reverted');
+            $toUsers = $request->to_child_id;
         }
         
         if (session()->get('role_name') == config('commanConfig.ee_branch_head') && $request->to_role_id == $dycdoId) {
@@ -255,13 +263,10 @@ class conveyanceCommonController extends Controller
             }
         }
         else {
-            if (isset($applicationStatus)){
-                $Tostatus = $applicationStatus;
-            }else{
-                $Tostatus = config('commanConfig.applicationStatus.in_process');                
+                $Tostatus = $applicationStatus;               
             }
-        }
-        foreach($request->to_user_id as $to_user_id){
+
+        foreach($toUsers as $to_user_id){
             $user_data = User::find($to_user_id);
 
             $application = [[
@@ -334,10 +339,11 @@ class conveyanceCommonController extends Controller
         
         $data = scApplication::where('id',$applicationId)->first();
         $data->folder = $this->getCurrentRoleFolderName();
-        $documents = SocietyConveyanceDocumentMaster::with(['sc_document_status' => function($q) use($data) { $q->where('application_id', $data->id)->get(); }])->where('application_type_id', $data->sc_application_master_id)->where('society_flag', '1')->where('language_id', '2')->get();
+        $mLanguage = LanguageMaster::where('language','=','marathi')->value('id');
+        $documents = SocietyConveyanceDocumentMaster::with(['sc_document_status' => function($q) use($data) { $q->where('application_id', $data->id)->get(); }])->where('application_type_id', $data->sc_application_master_id)->where('society_flag', '1')->where('language_id', $mLanguage)->get();
         $documents_uploaded = SocietyConveyanceDocumentStatus::where('application_id', $data->id)->get();
         $data->conveyance_map = $this->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
-
+       
         return view('admin.conveyance.common.view_documents', compact('data', 'documents', 'documents_uploaded'));
     }
 
@@ -375,8 +381,6 @@ class conveyanceCommonController extends Controller
 
         $societyRoles = Role::whereIn('name', $roles)->pluck('id');
         $ocietylogs  = scApplicationLog::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->where('society_flag','=','1')->where('application_master_id',$masterId)->whereIn('role_id', $societyRoles)->whereIn('status_id', $status)->get();
-        // dd($societyRoles);
-
         return $ocietylogs;
     }     
 
@@ -552,14 +556,17 @@ class conveyanceCommonController extends Controller
         $route = 'admin.conveyance.co_department.forward_application';
 
       } elseif (session()->get('role_name') == config('commanConfig.dyco_engineer') || session()->get('role_name') == config('commanConfig.dycdo_engineer')){
-
              $route = 'admin.conveyance.dyco_department.forward_application';
+
+        }elseif (session()->get('role_name') == config('commanConfig.ee_branch_head') || session()->get('role_name') == config('commanConfig.ee_deputy_engineer') || session()->get('role_name') == config('commanConfig.ee_junior_engineer') ) {
+
+             $route = 'admin.conveyance.ee_department.forward_application';
         }     
         else{
         $route = 'admin.conveyance.common.forward_application';
       }
-      // dd($route);
-      return view($route,compact('data','dycoLogs','eelogs','Architectlogs','cologs'));         
+
+      return view($route,compact('data','societyLogs','dycoLogs','eelogs','Architectlogs','cologs'));         
     }
 
     public function saveForwardApplication(Request $request){
@@ -690,5 +697,32 @@ class conveyanceCommonController extends Controller
         if($updated_rides == 1){
             return redirect()->route('conveyance.la_agreement_riders', $request->application_id);
         }
+    }
+
+    public function show_checklist(Request $request,$applicationId){
+
+        $data = scApplication::with('ConveyanceSalePriceCalculation')->where('id',$applicationId)->first();
+        $type = '1';
+        $language_id = '2';
+        $checklist = ScChecklistMaster::with(['checklistStatus' => function ($q) use ($applicationId) {
+            $q->where('application_id', $applicationId);
+        }])->where('type_id',$type)->where('language_id',$language_id)->get();
+
+        $is_view = session()->get('role_name') == config('commanConfig.dycdo_engineer');
+        $data->status = $this->getCurrentStatus($applicationId,$data->sc_application_master_id);
+        $data->conveyance_map = $this->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
+
+        if ($is_view && $data->status->status_id == config('commanConfig.applicationStatus.Draft_sale_&_lease_deed')) {
+            $route = 'admin.conveyance.dyco_department.checklist_office_note';
+        }else{
+            $route = 'admin.conveyance.common.view_checklist_office_note';
+        }
+
+        //get dycdo note from sc document status table
+        $document  = config('commanConfig.documents.dycdo_note');
+        $documentId = $this->getDocumentId($document,$data->sc_application_master_id);
+        $dycdo_note = $this->getDocumentStatus($applicationId,$documentId);
+
+        return view($route,compact('data','checklist','dycdo_note'));
     }
 }

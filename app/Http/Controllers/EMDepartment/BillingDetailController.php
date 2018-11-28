@@ -46,7 +46,7 @@ class BillingDetailController extends Controller
     		'2'  => 'Feb',
     	];
     	$data['years'] = [];
-    	$data['select_year'] = date('Y') . '-' . (date('y') + 1);
+    	$data['select_year'] = date('Y');
     	$data['select_month'] = [date('m')];
     	$data['real_select_month'] = date('m');
     	$data['society']  = '';

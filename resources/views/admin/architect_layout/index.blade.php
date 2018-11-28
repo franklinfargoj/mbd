@@ -77,8 +77,24 @@
         </div>
     </div>
     <!-- END: Subheader -->
-
+    @php
+$route="";
+$route=\Request::route()->getName();
+@endphp
     <div class="m-portlet m-portlet--mobile">
+            <div class="d-flex justify-content-between ">
+                    <h3 class="section-title section-title--small">&nbsp;</h3>
+                    <div class="topnav">
+                        {{-- <a class="btn-link {{isset($_GET['application_status'])?($_GET['application_status']==0?'active':''):'active'}}"
+                         href="?application_status=0">All</a> --}}
+                    <a class="btn-link {{$route=='architect_layout.index'?'active':''}}" href="{{route('architect_layout.index')}}">Requests Revision</a>
+                        {{-- <a class="btn-link {{isset($_GET['application_status'])?($_GET['application_status']==1?'active':''):''}}"
+                            href="?application_status=1">Shortlisted</a> --}}
+                    <a class="btn-link {{$route=='architect_layouts_layout_details.index'?'active':''}}" href="{{route('architect_layouts_layout_details.index')}}">Layout Details</a>
+                        {{-- <a class="btn-link {{isset($_GET['application_status'])?($_GET['application_status']==2?'active':''):''}}"
+                            href="?application_status=2">Final</a> --}}
+                    </div>
+                </div>
         {{-- <div class="btn-list mb-2">
             <a class="btn btn-primary" href="{{route('architect_layout.index')}}">Requests Revision</a>
             <a class="btn btn-primary" href="{{route('architect_layouts_layout_details.index')}}">Layout Details</a>

@@ -12,13 +12,16 @@
 
 <div class="col-md-12">
     <!-- BEGIN: Subheader -->
-    <div class="m-subheader px-0">
-        <div class="d-flex">
-            {{-- {{ Breadcrumbs::render('calculation_sheet',$ol_application->id) }} --}}
-            <div class="ml-auto btn-list">
-                <a href="javascript:void(0);" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
-            </div>
+    <div class="m-subheader px-0 m-subheader--top">
+        <div class="d-flex align-items-center">
+            <h3 class="m-subheader__title m-subheader__title--separator">
+                Sale & Lease Deed Agreement</h3>
+                 {{ Breadcrumbs::render('conveyance_approve_sale_lease',$data->id) }}
+                <div class="ml-auto btn-list">
+                    <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+                </div>
         </div>
+    </div> 
         <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom" role="tablist">
             <li class="nav-item m-tabs__item">
                 <a class="nav-link m-tabs__link active show" data-toggle="tab" href="#sale-deed-agreement" role="tab"
@@ -160,7 +163,7 @@
             </div>                   
         </div>
     </div> 
-@endif    
+@endif     
 
     <!-- Letter to pay stamp duty -->
     @if(session()->get('role_name') == config('commanConfig.dyco_engineer') && $data->status->status_id != config('commanConfig.applicationStatus.forwarded'))
@@ -172,18 +175,18 @@
                             Letter to Pay Stamp  Duty
                         </h4>
                     </div>
-                </div>    
+                </div>     
                 <div class="m-section__content mb-0 table-responsive" style="margin-top: 30px;">
                     <div class="container">
                         <div class="row">
                             <div class="col-sm-6">
-                                <form class="nav-tabs-form" id ="stampFRM" role="form" method="POST" action="{{ route('dyco.save_renewal_stamp_duty')}}" enctype="multipart/form-data">
+                                <form class="nav-tabs-form" id ="stampFRM" role="form" method="POST" action="{{ route('dyco.save_conveyance_stamp_duty')}}" enctype="multipart/form-data">
                                 @csrf
                                 <input type="hidden" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">
                                     <div class="d-flex flex-column h-100 two-cols">
                                         <h5>Upload</h5>
                                         <span class="hint-text">Click to upload Stamp Duty Letter</span>
-                                            <input type="hidden" name="oldStamp" value="{{ isset($data->StampLetter->document_path) ? $data->StampLetter->document_path : '' }}">
+                                            <input type="hidden" name="oldStamp" value="{{ isset($data->approveStampLetter->document_path) ? $data->approveStampLetter->document_path : '' }}">
                                                 <div class="custom-file">
                                                     <input class="custom-file-input stamp_letter" name="stamp_letter" type="file" id="test-upload1">
                                                     <label class="custom-file-label" for="test-upload1">Choose
@@ -200,7 +203,7 @@
                                     <h5>Send to Society</h5>
                                     <span class="hint-text">Send to Stamp Duty Letter Society </span>
                                     <div class="mt-auto">
-                                        <form class="nav-tabs-form" id ="agreementFRM" role="form" method="POST" action="{{ route('dyco.renewal_send_to_society')}}" enctype="multipart/form-data">
+                                        <form class="nav-tabs-form" id ="agreementFRM" role="form" method="POST" action="{{ route('dyco.send_to_society')}}" enctype="multipart/form-data">
                                         @csrf
                                         <input type="hidden" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">
                                                 <input type="submit" class="s_btn btn btn-primary" id="submitBtn" value="Send to Society">
@@ -236,7 +239,7 @@
         </div> 
     @endif   
 
-    @if($data->status->status_id != config('commanConfig.applicationStatus.forwarded'))
+    @if($data->status->status_id != config('commanConfig.applicationStatus.forwarded') && $data->status->status_id != config('commanConfig.applicationStatus.reverted') )
 
         <form class="nav-tabs-form" id ="CommentFRM" role="form" method="POST" action="{{ route('conveyance.save_agreement_comments')}}">
             @csrf   

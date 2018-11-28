@@ -22,19 +22,19 @@
                             <div class="col-md-3">
                                 <div class="form-group m-form__group">
                                     <input type="text" id="society_name" name="society_name" class="form-control form-control--custom m-input"
-                                           placeholder="Society Name" value="">
+                                           placeholder="Society Name" value="{{ isset($getData['society_name'])? $getData['society_name'] : '' }}">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group m-form__group">
-                                    <input type="text" id="lease_start_date" name="lease_start_date" class="form-control form-control--custom m-input m_datepicker"
-                                           placeholder="Lease Start Date" value="">
+                                    <input type="text" id="lease_date_from" name="lease_date_from" class="form-control form-control--custom m-input m_datepicker"
+                                           placeholder="From Date" value="{{ isset($getData['lease_date_from'])? $getData['lease_date_from'] : '' }}">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group m-form__group">
-                                    <input type="text" id="lease_end_date" name="lease_end_date" class="form-control form-control--custom m-input m_datepicker"
-                                           placeholder="Lease End Date" value="">
+                                    <input type="text" id="lease_date_to" name="lease_date_to" class="form-control form-control--custom m-input m_datepicker"
+                                           placeholder="To Date" value="{{ isset($getData['lease_date_to'])? $getData['lease_date_to'] : '' }}">
                                 </div>
                             </div>
 
@@ -52,7 +52,7 @@
                                 <div class="form-group m-form__group">
                                     <div class="btn-list">
                                         <button type="submit" class="btn m-btn--pill m-btn--custom btn-primary">Search</button>
-                                        <button type="reset" onclick="window.location.href='{{ route("architect_layout.index") }}'"
+                                        <button type="reset" onclick="window.location.href='{{ route("lease_detail.index",'0') }}'"
                                                 class="btn m-btn--pill m-btn--custom btn-metal">Reset</button>
                                     </div>
                                 </div>

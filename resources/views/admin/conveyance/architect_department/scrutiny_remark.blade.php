@@ -15,7 +15,7 @@
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">
                 Scrutiny & Remark </h3>
-                 
+                 {{ Breadcrumbs::render('conveyance_architect_scrutiny',$data->id) }}
                 <div class="ml-auto btn-list">
                     <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
                 </div>
@@ -153,7 +153,7 @@
                                                 </a>
                                                 @else
                                                 <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
-                                                    *Note : Sale Deed Agreement is not available.</span>
+                                                    *Note : Conveyance map is not available.</span>
                                                 @endif
                                             </div>
                                         </div>

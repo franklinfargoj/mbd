@@ -70,7 +70,7 @@
                                                 }}</td>
                                             <td>{{ $report->name_of_document }}</td>
                                             <td>
-                                                <a class="btn-link" target="_blank" href="{{config('commanConfig.storage_server').'/'.$report->file}}">file</a>
+                                                <a class="btn-link" target="_blank" href="{{config('commanConfig.storage_server').'/'.$report->file}}">download</a>
                                             </td>
                                             @if($read_only!=1)
                                             <td>
@@ -110,9 +110,9 @@
                         <div class="portlet-body">
                             <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
                                 <div class="">
-                                    <h3 class="section-title section-title--small">
+                                    {{-- <h3 class="section-title section-title--small">
                                         Checklist & Remarks
-                                    </h3>
+                                    </h3> --}}
                                 </div>
                                 <div class="remarks-suggestions scrutiny-checklist_and_remarks">
                                     <div id="wrapper">
@@ -267,6 +267,54 @@
         }
 
     }
+
+            //tab localstorage
+$(document).ready(function () {
+
+// **Start** Save tabs location on window refresh or submit
+
+// Set first tab to active if user visits page for the first time
+
+if (localStorage.getItem("activeTab") === null) {
+    document.querySelector(".nav-link.m-tabs__link").classList.add("active", "show");
+} else {
+    document.querySelector(".nav-link.m-tabs__link").classList.remove("active", "show");
+}
+
+if (location.hash) {
+    $('a[href=\'' + location.hash + '\']').tab('show');
+}
+var activeTab = localStorage.getItem('activeTab');
+if (activeTab) {
+    $('a[href="' + activeTab + '"]').tab('show');
+}
+
+$('body').on('click', 'a[data-toggle=\'tab\']', function (e) {
+    e.preventDefault()
+    var tab_name = this.getAttribute('href')
+    if (history.pushState) {
+        history.pushState(null, null, tab_name)
+    } else {
+        location.hash = tab_name
+    }
+    localStorage.setItem('activeTab', tab_name)
+
+    $(this).tab('show');
+
+    localStorage.clear();
+    return false;
+});
+
+$(window).on('popstate', function () {
+    var anchor = location.hash ||
+        $('a[data-toggle=\'tab\']').first().attr('href');
+    $('a[href=\'' + anchor + '\']').tab('show');
+    window.scrollTo(0, 0);
+});
+
+// // **End** Save tabs location on window refresh or submit
+
+})
 
 </script>
 
