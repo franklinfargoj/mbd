@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 use App\Board;
 use App\Role;
+use App\Permission;
 
 class ChnageSomeFieldValuesInDatabase extends Seeder
 {
@@ -94,5 +95,15 @@ class ChnageSomeFieldValuesInDatabase extends Seeder
             $data->redirect_to ='/hearing-dashboard';
             $data->save();
         }
+
+        // Changing hearing dashboard route to 'hearing.dashboard'
+
+        $hearing_permission_id = Permission::where('name','hearing-dashboard')->value('id');
+        if($hearing_permission_id){
+            $data = Permission::findOrFail($hearing_permission_id);
+            $data->name ='hearing.dashboard';
+            $data->save();
+        }
+
     }
 }
