@@ -167,7 +167,7 @@
                         <div class="row">
                             <div class="col-sm-4">
                                 <div class="btn-list">
-                                    <a href="{{url('/lease_detail/'.$society_id)}}" class="btn btn-secondary">Back</a>
+                                    <a href="{{ url()->previous() }}" class="btn btn-secondary">Back</a>
                                 </div>
                             </div>
                         </div>

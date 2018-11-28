@@ -2765,6 +2765,7 @@ label.site-visit-label {
 .dataTables_wrapper table.dataTable .btn-icon-list a {
     font-size: 10px;
     color: #252525;
+    text-align: center;
 }
 
 .dataTables_wrapper table.dataTable .btn-icon-list a:hover {
