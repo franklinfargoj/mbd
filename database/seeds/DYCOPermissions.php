@@ -73,11 +73,6 @@ class DYCOPermissions extends Seeder
                 'description' => 'register sale lease agreement',
             ],
             [
-                'name' => 'dyco.conveyance_noc',
-                'display_name' => 'conveyance noc',
-                'description' => 'conveyance noc',
-            ],
-            [
                 'name' => 'dyco.save_agreement',
                 'display_name' => 'save Agreement',
                 'description' => 'save Agreement',
@@ -101,11 +96,6 @@ class DYCOPermissions extends Seeder
                 'name' => 'dyco.save_stamp_sign_agreement',
                 'display_name' => 'save stamp sign agreement',
                 'description' => 'save stamp sign agreement',
-            ],
-            [
-                'name' => 'dyco.conveyance_noc',
-                'display_name' => 'conveyance noc',
-                'description' => 'conveyance noc',
             ],
             [
                 'name' => 'conveyance.save_agreement_comments',
@@ -227,7 +217,12 @@ class DYCOPermissions extends Seeder
                 'name'=>'formation.em_srutiny_and_remark',
                 'display_name'=>'display the scrutiny report of EM for SF',
                 'description'=>'display the scrutiny report of EM for SF'
-            ],             
+            ], 
+            [
+                'name' => 'dyco.conveyance_noc',
+                'display_name' => 'conveyance noc',
+                'description' => 'conveyance noc',
+            ],                        
             [
                 'name'=>'dyco.generate_canveyance_noc',
                 'display_name'=>'generate canveyance noc',

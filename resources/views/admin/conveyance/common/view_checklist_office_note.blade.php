@@ -1,8 +1,8 @@
 @extends('admin.layouts.sidebarAction')
 @section('actions')
-@include('admin.conveyance.dyco_department.action',compact('applicationId'))
+@include('admin.conveyance.'.$data->folder.'.action')
 @endsection
-
+ 
 @section('content')
 
 @if(session()->has('success'))
