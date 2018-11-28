@@ -84,6 +84,15 @@
 
                     <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group">
+                            <label class="col-form-label" for="reason_for_revalidation">Reason For Revalidation</label>
+                            <textarea id="reason_for_revalidation" name="reason_for_revalidation" class="form-control form-control--custom m-input" >{{ $ol_application->request_form->reason_for_revalidation }}</textarea>
+                            <span class="help-block">{{$errors->first('reason_for_revalidation')}}</span>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group m-form__group row">
+                        <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="architect_name">Architect Name:</label>
                             <input type="text" id="architect_name" name="architect_name" class="form-control form-control--custom m-input" value="{{ $ol_application->request_form->architect_name }}">
                             <span class="help-block">{{$errors->first('architect_name')}}</span>
