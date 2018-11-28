@@ -555,6 +555,7 @@ class SocietyOfferLetterController extends Controller
             'created_at' => date('Y-m-d H-i-s'),
             'ol_issue_date' => date('Y-m-d', strtotime($request->input('ol_issue_date'))),
             'ol_vide_no' => $request->input('ol_vide_no'),
+            'reason_for_revalidation' => $request->input('reason_for_revalidation'),
             'updated_at' => null
         );
         $last_inserted_id = OlRequestForm::create($input);
