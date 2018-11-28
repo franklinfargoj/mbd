@@ -20,6 +20,7 @@ use App\conveyance\ScAgreementTypeStatus;
 use App\conveyance\scApplicationLog;
 use App\conveyance\RenewalDocumentStatus;
 use App\conveyance\RenewalApplicationLog;
+use App\conveyance\scRegistrationDetails;
 use Config;
 use Yajra\DataTables\DataTables;
 use Carbon\Carbon;
@@ -58,7 +59,7 @@ class DYCOController extends Controller
         }else{
             $route = 'admin.conveyance.common.view_checklist_office_note';
         }
-
+        $data->folder = $this->common->getCurrentRoleFolderName();
         //get dycdo note from sc document status table
         $document  = config('commanConfig.documents.dycdo_note');
         $documentId = $this->common->getDocumentId($document,$data->sc_application_master_id);
@@ -327,7 +328,7 @@ class DYCOController extends Controller
     public function StampedSaleLeaseAgreement(Request $request,$applicationId){
     
         $data = scApplication::with('ConveyanceSalePriceCalculation')->where('id',$applicationId)->first();
-        $Applicationtype= $data->sc_application_master_id;
+        $Applicationtype = $data->sc_application_master_id;
         $Agreementstatus = ApplicationStatusMaster::where('status_name','=','Stamped')->value('id');
         $data->status = $this->common->getCurrentStatus($applicationId,$data->sc_application_master_id);
 
@@ -337,6 +338,15 @@ class DYCOController extends Controller
         $data->StampSaleAgreement  = $this->common->getScAgreement($StampSaleId,$applicationId,$Agreementstatus);
         $data->StampLeaseAgreement = $this->common->getScAgreement($StampLeaseId,$applicationId,$Agreementstatus);
 
+        // get resoluation and undertaking
+        $resolutionDoc  = config('commanConfig.documents.society.sc_resolution');
+        $resolutionId = $this->common->getScAgreementId($resolutionDoc,$Applicationtype);
+        $data->resolution = $this->common->getScAgreement($resolutionId,$applicationId,NULL);        
+
+        $Doc1  = config('commanConfig.documents.society.sc_undertaking');
+        $docId = $this->common->getScAgreementId($Doc1,$Applicationtype);
+        $data->undertaking = $this->common->getScAgreement($docId,$applicationId,NULL);
+ 
         $data->AgreementComments = ScAgreementComments::with('Roles')->where('application_id',$applicationId)->where('agreement_type_id',$Applicationtype)->whereNotNull('remark')->get();   
 
         $data->folder = $this->common->getCurrentRoleFolderName(); 
@@ -447,7 +457,7 @@ class DYCOController extends Controller
         $data = scApplication::with(['scApplicationLog','ConveyanceSalePriceCalculation'])
         ->where('id',$applicationId)->first();
         $Applicationtype= $data->sc_application_master_id;
-        $Agreementstatus = ApplicationStatusMaster::where('status_name','=','Stamped_Signed')->value('id');        
+        $Agreementstatus = ApplicationStatusMaster::where('status_name','=','Register')->value('id');        
 
         $RegSaleId  = $this->common->getScAgreementId($this->SaleAgreement,$Applicationtype,$Agreementstatus);
         $RegLeaseId = $this->common->getScAgreementId($this->LeaseAgreement,$Applicationtype,$Agreementstatus);
@@ -465,6 +475,15 @@ class DYCOController extends Controller
         $data->status = $this->common->getCurrentStatus($applicationId,$data->sc_application_master_id);
         $data->conveyance_map = $this->common->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
 
+        //get Registered Agreement details
+        $SaleId  = $this->common->getScAgreementId($this->SaleAgreement,$Applicationtype,NULL);
+        $LeaseId  = $this->common->getScAgreementId($this->LeaseAgreement,$Applicationtype,NULL);
+        $data->sale_registration = scRegistrationDetails::where('application_id',$applicationId)
+        ->where('agreement_type_id',$SaleId)->first();
+        $data->lease_registration = scRegistrationDetails::where('application_id',$applicationId)
+        ->where('agreement_type_id',$LeaseId)->first();
+        
+        // dd($data);
         if ($data->is_view && $data->status->status_id == config('commanConfig.applicationStatus.Registered_sale_&_lease_deed')) {
             $route = 'admin.conveyance.dyco_department.register_sale_lease_agreements';
         }else{
@@ -503,9 +522,18 @@ class DYCOController extends Controller
     }
 
     public function GenerateConveyanceNOC(Request $request,$applicationId){
-
+       
         $data = scApplication::with(['societyApplication'])->where('id',$applicationId)
         ->first();
+        $Applicationtype= $data->sc_application_master_id;
+        //get Registered Agreement details
+        $SaleId  = $this->common->getScAgreementId($this->SaleAgreement,$Applicationtype,NULL);
+        $LeaseId  = $this->common->getScAgreementId($this->LeaseAgreement,$Applicationtype,NULL);
+        $data->sale_registration = scRegistrationDetails::where('application_id',$applicationId)
+        ->where('agreement_type_id',$SaleId)->first();
+        $data->lease_registration = scRegistrationDetails::where('application_id',$applicationId)
+        ->where('agreement_type_id',$LeaseId)->first();
+
         return view('admin.conveyance.dyco_department.generate_noc',compact('data'));        
     }
 

@@ -133,7 +133,7 @@ $route=\Request::route()->getName();
         </li>   
     @endif
     
-    @if(isset($data->application_status) && ($data->application_status == config('commanConfig.applicationStatus.Registered_sale_&_lease_deed') || $data->application_status == config('commanConfig.applicationStatus.NOC_Issued') ))    
+    @if(isset($data->application_status) && ($data->application_status == config('commanConfig.applicationStatus.Registered_sale_&_lease_deed') || (session()->get('role_name') == config('commanConfig.dycdo_engineer') && $data->application_status == config('commanConfig.applicationStatus.NOC_Issued')) ))    
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{($route=='conveyance.register_sale_lease_agreement')?'m-menu__item--active':''}}">
             <a class="m-menu__link m-menu__toggle" title="Registered Sale & Lease Deed" href="{{ route('conveyance.register_sale_lease_agreement', $data->id) }}">
                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">

@@ -23,7 +23,7 @@
             </div>
         </div>
     </div>
-
+ 
   <!-- Generate NOC-->    
     @if(session()->get('role_name') == config('commanConfig.dyco_engineer'))
         <div class="m-portlet m-portlet--mobile m_panel">
@@ -34,7 +34,7 @@
                             Generate NOC
                         </h4>
                     </div>
-                </div>
+                </div> 
                 <div class="m-section__content mb-0 table-responsive" style="margin-top: 30px;">
                     <div class="container">
                         <div class="row">
@@ -69,7 +69,7 @@
             </div>
         </div> 
     @endif   
-
+ 
     <!-- Send NOC to society -->
     @if(session()->get('role_name') == config('commanConfig.dyco_engineer') && $data->status->status_id != config('commanConfig.applicationStatus.forwarded'))
         <div class="m-portlet m-portlet--mobile m_panel">

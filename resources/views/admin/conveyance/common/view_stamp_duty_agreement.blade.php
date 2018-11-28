@@ -63,8 +63,8 @@
                                             <h5>Download</h5>
                                             <span class="hint-text">Click to download Sale Deed Agreement </span>
                                             <div class="mt-auto">
-                                                @if(isset($data->DraftSaleAgreement->document_path))
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->DraftSaleAgreement->document_path }}">
+                                                @if(isset($data->StampSaleAgreement->document_path))
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->StampSaleAgreement->document_path }}">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>
@@ -104,8 +104,8 @@
                                             <h5>Download Note</h5>
                                             <span class="hint-text">Click to download Lease Deed Agreement</span>
                                             <div class="mt-auto">
-                                                @if(isset($data->DraftLeaseAgreement->document_path))
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->DraftLeaseAgreement->document_path }}">
+                                                @if(isset($data->StampLeaseAgreement->document_path))
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->StampLeaseAgreement->document_path }}">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>
@@ -144,8 +144,8 @@
                                             <h5>Download Note</h5>
                                             <span class="hint-text">Download Society resolution format</span>
                                             <div class="mt-auto">
-                                                @if(isset($data->DraftLeaseAgreement->document_path))
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->DraftLeaseAgreement->document_path }}">
+                                                @if(isset($data->resolution->document_path))
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->resolution->document_path }}">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>
@@ -180,8 +180,8 @@
                                             <h5>Download Note</h5>
                                             <span class="hint-text">Download Society undertaking format</span>
                                             <div class="mt-auto">
-                                                @if(isset($data->DraftLeaseAgreement->document_path))
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->DraftLeaseAgreement->document_path }}">
+                                                @if(isset($data->undertaking->document_path))
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->undertaking->document_path }}">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>
@@ -197,11 +197,8 @@
                         </div>
                     </div>
                 </div>
-            </div>>
-
-
+            </div>
         </div>
-
     </div>
 
     <div id="sale-lease-aggrement" style="margin-top: 30px;">
@@ -226,6 +223,19 @@
             </div>    
         </div> 
     @endif   
+
+    @if($data->riders)
+        <div class="m-portlet m-portlet--mobile m_panel">  
+            <div class="m-portlet__body">   
+                <div class="col-xs-12 row">
+                    <div class="col-md-12">
+                        <h3 class="section-title section-title--small">Riders</h3>
+                        <textarea rows="4" cols="63" name="remark" readonly>{{ isset($data->riders) ? $data->riders : '' }}</textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif     
 
     @if($data->status->status_id != config('commanConfig.applicationStatus.forwarded') && $data->status->status_id != config('commanConfig.applicationStatus.reverted') )
 
