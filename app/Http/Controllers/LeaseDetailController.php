@@ -319,6 +319,8 @@ class LeaseDetailController extends Controller
      */
     public function store(LeaseDetailRequest $request)
     {
+//        dd($request->lease_start_date);
+
         $lease_start_date = $request->lease_start_date;
         $lease_period = '+'.$request->lease_period.' years';
         $lease_end_date = date('Y-m-d', strtotime($lease_period, strtotime($lease_start_date)));
