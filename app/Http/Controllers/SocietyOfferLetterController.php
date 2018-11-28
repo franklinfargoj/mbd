@@ -553,6 +553,8 @@ class SocietyOfferLetterController extends Controller
             'architect_name' => $request->input('architect_name'),
             'developer_name' => $request->input('developer_name'),
             'created_at' => date('Y-m-d H-i-s'),
+            'ol_issue_date' => date('Y-m-d', strtotime($request->input('ol_issue_date'))),
+            'ol_vide_no' => $request->input('ol_vide_no'),
             'updated_at' => null
         );
         $last_inserted_id = OlRequestForm::create($input);
