@@ -44,7 +44,7 @@
                             <div class="col-lg-6">
                                 <div class="btn-list">
                                     <button type="submit" class="btn btn-primary">Save & Add Layout Details</button>
-                                    <a href="{{route('architect_layout.index')}}" role="button" class="btn btn-secondary">Cancel</a>
+                                    <a href="{{route('architect_layout.add')}}" role="button" class="btn btn-secondary">Cancel</a>
                                 </div>
                             </div>
                         </div>

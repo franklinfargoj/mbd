@@ -8,6 +8,8 @@ use App\MasterEmailTemplates;
 use App\OlRequestForm;
 use App\OlApplicationMaster;
 use App\OlApplication;
+use App\NocApplication;
+use App\NocolApplication;
 use App\OlApplicationStatus;
 use App\OlSocietyDocumentsMaster;
 use App\OlSocietyDocumentsStatus;
@@ -276,6 +278,34 @@ class SocietyOfferLetterController extends Controller
         $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $ol_application_count = count(OlApplication::where('society_id', $society_details->id)->get());
         Session::put('ol_application_count', $ol_application_count);
+
+//        dd(Session::get('applications_tab')['self_premium']);
+
+        //NOC changed added by <--Sayan Pal--> Start >>
+
+            $noc_application_count = count(NocApplication::where('society_id', $society_details->id)->get());
+            Session::put('noc_application_count', $noc_application_count);
+
+            $self_premium_noc = OlApplicationMaster::where('title', 'Application for NOC')->where('model', 'Premium')->where('parent_id', '1')->select('id')->get();
+            $self_premium_noc = $self_premium_noc[0]->id;
+            $self_sharing_noc = OlApplicationMaster::where('title', 'Application for NOC - IOD')->where('model', 'Sharing')->where('parent_id', '1')->select('id')->get();
+            $self_sharing_noc = $self_sharing_noc[0]->id;
+            $dev_premium_noc = OlApplicationMaster::where('title', 'Application for NOC')->where('model', 'Premium')->where('parent_id', '12')->select('id')->get();
+            $dev_premium_noc = $dev_premium_noc[0]->id;
+            $dev_sharing_noc = OlApplicationMaster::where('title', 'Application for NOC - IOD')->where('model', 'Sharing')->where('parent_id', '12')->select('id')->get();
+            $dev_sharing_noc = $dev_sharing_noc[0]->id;
+
+            $getRequest = $request->all();
+            $applications_tab_noc = array(
+                'self_premium_noc' => $self_premium_noc,
+                'self_sharing_noc' => $self_sharing_noc,
+                'dev_premium_noc' => $dev_premium_noc,
+                'dev_sharing_noc' => $dev_sharing_noc
+            );
+            Session::put('applications_tab_noc', $applications_tab);
+
+        //NOC changed added by <--Sayan Pal--> << End
+
         if ($datatables->getRequest()->ajax()) {
 
             $application_master_arr = OlApplicationMaster::Where('title', 'like', '%New - Offer Letter%')->pluck('id')->toArray();
@@ -289,10 +319,38 @@ class SocietyOfferLetterController extends Controller
                 $ol_applications = $ol_applications->where('application_master_id', 'like', '%'.$request->application_master_id.'%');
             }
             $ol_applications = $ol_applications->get();
+
+            //NOC changed added by <--Sayan Pal--> Start >>
+
+            $noc_applications = NocolApplication::select('*')->where('society_id', $society_details->id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
+                $q->where('society_flag', '1')->orderBy('id', 'desc');
+            } ]);
+
+            $noc_applications = $noc_applications->addSelect(DB::raw("'1' as is_noc_application"));
+
+            if($request->application_master_id)
+            {
+                $noc_applications = $noc_applications->where('application_master_id', 'like', '%'.$request->application_master_id.'%');
+            }
+            $noc_applications = $noc_applications->get();
+
+            $ol_applications = $ol_applications->toBase()->merge($noc_applications);
+
+            //NOC changed added by <--Sayan Pal--> << End
+
+//             dd($ol_applications);
             return $datatables->of($ol_applications)
                 ->editColumn('radio', function ($ol_applications) {
                     $url = route('society_offer_letter_preview');
-                    return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="ol_applications_id"><span></span></label>';
+                    $url_noc = route('society_noc_preview');
+
+                    if(isset($ol_applications->is_noc_application))
+                    {
+                        return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url_noc.'" name="ol_applications_id"><span></span></label>';
+                    }else{
+
+                        return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="ol_applications_id"><span></span></label>';
+                    }
                 })
                 ->editColumn('rownum', function ($ol_applications) {
                     static $i = 0;
@@ -300,7 +358,15 @@ class SocietyOfferLetterController extends Controller
                     return $i;
                 })
                 ->editColumn('application_no', function ($ol_applications) {
-                    return $ol_applications->application_no;
+
+                    $app_type = "<br><span class='m-badge m-badge--success'>Application for Offer letter</span>";
+
+                    if(isset($ol_applications->is_noc_application))
+                    {
+                        $app_type = "<br><span class='m-badge m-badge--danger'>Application for Noc</span>";
+                    }
+
+                    return $ol_applications->application_no . $app_type;
                 })
                 ->editColumn('application_master_id', function ($ol_applications) {
                     return $ol_applications->ol_application_master->model;

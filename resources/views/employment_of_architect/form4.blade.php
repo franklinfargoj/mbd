@@ -13,7 +13,7 @@
             <a href="{{ route("appointing_architect.step5",['id'=>encrypt($application->id)]) }}" class="btn--unstyled flex-grow-1 form-step-tab">Step 5<span>Work Handled</span></a>
             <a href="{{ route("appointing_architect.step6",['id'=>encrypt($application->id)]) }}" class="btn--unstyled flex-grow-1 form-step-tab">Step 6<span>Details of Firm</span></a>
             <a href="{{ route("appointing_architect.step7",['id'=>encrypt($application->id)]) }}" class="btn--unstyled flex-grow-1 form-step-tab">Step 7<span>Work In Hand</span></a>
-            <a href="{{ route("appointing_architect.step8",['id'=>encrypt($application->id)]) }}" class="btn--unstyled flex-grow-1 form-step-tab">Step 8<span>Work Completed</span></a>
+            <a href="{{ route("appointing_architect.step8",['id'=>encrypt($application->id)]) }}" class="btn--unstyled flex-grow-1 form-step-tab">Step 8<span>Works Completed</span></a>
             <a href="{{ route("appointing_architect.step9",['id'=>encrypt($application->id)]) }}" class="btn--unstyled flex-grow-1 form-step-tab ">Step 9<span>Supporting Documents</span></a>
     </div>
     {{-- @if ($errors->any())
@@ -24,7 +24,7 @@
     <form id="appointing_architect_step4" role="form" method="post" class="m-form m-form--rows m-form--label-align-right form-steps-box"
         action="{{route('appointing_architect.step4_post',['id'=>encrypt($application->id)])}}" enctype="multipart/form-data">
         <div class="m-portlet m-portlet--mobile m-portlet--forms-view m-portlet--forms-compact">
-            <h3 class="section-title section-title--small">DETAIL OF 5 IMPORTANT PROJECTS</h3>
+            {{-- <h3 class="section-title section-title--small">DETAIL OF 5 IMPORTANT PROJECTS</h3> --}}
             @csrf
             <input type="hidden" name="application_id" value="{{$application->id}}">
             <div class="m-portlet__body m-portlet__body--table">

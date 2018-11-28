@@ -6,11 +6,15 @@
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">Add Service Charge Rate - {{$society->name}} | {{$building->name}}</h3>
             {{-- {{ Breadcrumbs::render('society_detail') }} --}}
+            <div class="ml-auto btn-list">
+            <a href="{{ url()->previous() }}" class="btn btn-link pull-right"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+        </div>
         </div>
     </div>
     <!-- END: Subheader -->
     
     <div class="m-portlet m-portlet--mobile">
+    
         <form id="service_charges" role="form" method="post" class="m-form m-form--rows m-form--label-align-right"
             action="{{url('service_charges/'.encrypt($service_charge->id).'/update')}}">
             @csrf

@@ -19,7 +19,7 @@ class BoardsAndDepartmentsTableSeeder extends Seeder
         if(count($boards) == 0)
         {
         	$createdBoard = Board::create([
-				        		'board_name' => 'Mumbai Board',
+				        		'board_name' => 'Mumbai',
 				        		'status' => 1
 				        	]);
 

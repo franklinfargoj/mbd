@@ -19,6 +19,12 @@
 @section('js')
 <script>
     $(document).ready(function(){
+    function scrollToElement(ele) {
+        $(window).scrollTop(ele.offset().top - 75).scrollLeft(ele.offset().left);
+    }
+    var layoutUploadElement = $(window.location.hash);
+    scrollToElement(layoutUploadElement);
+
     //latest layout upload
     $("#latest_layout").change(function() {
         $(".loader").show();
@@ -758,7 +764,54 @@ function showUploadedFileName() {
     });
 
     
-    
+    //tab localstorage
+    $(document).ready(function () {
+
+// **Start** Save tabs location on window refresh or submit
+
+// Set first tab to active if user visits page for the first time
+
+if (localStorage.getItem("activeTab") === null) {
+    document.querySelector(".nav-link.m-tabs__link").classList.add("active", "show");
+} else {
+    document.querySelector(".nav-link.m-tabs__link").classList.remove("active", "show");
+}
+
+if (location.hash) {
+    $('a[href=\'' + location.hash + '\']').tab('show');
+}
+var activeTab = localStorage.getItem('activeTab');
+if (activeTab) {
+    $('a[href="' + activeTab + '"]').tab('show');
+}
+
+$('body').on('click', 'a[data-toggle=\'tab\']', function (e) {
+    e.preventDefault()
+    var tab_name = this.getAttribute('href')
+    if (history.pushState) {
+        history.pushState(null, null, tab_name)
+    } else {
+        location.hash = tab_name
+    }
+    localStorage.setItem('activeTab', tab_name)
+
+    $(this).tab('show');
+
+    localStorage.clear();
+    return false;
+});
+
+$(window).on('popstate', function () {
+    var anchor = location.hash ||
+        $('a[data-toggle=\'tab\']').first().attr('href');
+    $('a[href=\'' + anchor + '\']').tab('show');
+    window.scrollTo(0, 0);
+});
+
+// // **End** Save tabs location on window refresh or submit
+
+})
+
     </script>
 @endsection
 @section('content')
@@ -786,13 +839,16 @@ function showUploadedFileName() {
         <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom nav-tabs--steps">
             <li class="nav-item m-tabs__item {{$ArchitectLayoutDetail->cts_plan_details->count()>0?'filled':''}}"
                 data-target="#document-scrunity">
-                <a class="nav-link m-tabs__link active" data-toggle="tab" href="#cts-plan-tab">CTS Plan <i class="fa fa-check"></i></a>
+                <a class="nav-link m-tabs__link active" data-toggle="tab" href="#cts-plan-tab">CTS Plan
+                    {!!$ArchitectLayoutDetail->cts_plan_details->count()>0?'<i class="fa fa-check"></i>':''!!}</a>
             </li>
             <li class="nav-item m-tabs__item {{$ArchitectLayoutDetail->pr_card_details->count()>0?'filled':''}}">
-                <a class="nav-link m-tabs__link " data-toggle="tab" href="#prc-tab">PRC <i class="fa fa-check"></i></a>
+                <a class="nav-link m-tabs__link " data-toggle="tab" href="#prc-tab">PRC
+                    {!!$ArchitectLayoutDetail->pr_card_details->count()>0?'<i class="fa fa-check"></i>':''!!}</a>
             </li>
             <li class="nav-item m-tabs__item {{$ArchitectLayoutDetail->dp_letter!=''?'filled':''}}">
-                <a class="nav-link m-tabs__link " data-toggle="tab" href="#dp-remark-tab">DP Remark, CRZ Remark and other <i class="fa fa-check"></i></a>
+                <a class="nav-link m-tabs__link " data-toggle="tab" href="#dp-remark-tab">DP Remark, CRZ Remark and
+                    other {!!$ArchitectLayoutDetail->dp_letter!=''?'<i class="fa fa-check"></i>':''!!}</a>
             </li>
         </ul>
     </div>
@@ -864,65 +920,458 @@ function showUploadedFileName() {
                 </div>
             </div>
         </div>
-        <div class="m-portlet m-portlet--mobile m_panel">
+        <!----  ---  ee em ree lm report-------------------------------------------------------- -->
+
+        <ul id="layouts_upload" class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom nav-tabs--steps">
+                <li class="nav-item m-tabs__item " data-target="#document-scrunity">
+                    <a class="nav-link m-tabs__link active" data-toggle="tab" href="#ee-report">EE Report
+                            <i class="fa fa-check"></i>
+                    </a>
+                </li>
+                <li class="nav-item m-tabs__item">
+                    <a class="nav-link m-tabs__link " data-toggle="tab" href="#em-report">EM Report
+                            <i class="fa fa-check"></i>
+                    </a>
+                </li>
+                <li class="nav-item m-tabs__item">
+                    <a class="nav-link m-tabs__link " data-toggle="tab" href="#ree-report">REE Report
+                            <i class="fa fa-check"></i>
+                    </a>
+                </li>
+                <li class="nav-item m-tabs__item">
+                    <a class="nav-link m-tabs__link " data-toggle="tab" href="#land-report">Land Report
+                            <i class="fa fa-check"></i>
+                    </a>
+                </li>
+            </ul>
+    
+            <div class="tab-content">
+                <div class="tab-pane active show" id="ee-report">
+                    <div class="m-portlet m-portlet--mobile m_panel">
+                        <div class="portlet-body">
+                            <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
+                                <div class="m-subheader">
+                                    <div class="d-flex align-items-center">
+                                        <h3 class="section-title section-title--small">
+                                            Executive Engineering report
+                                        </h3>
+                                    </div>
+                                    <div class="optionBoxEE">
+                                        <div class="blockEE">
+                                            <div class="form-group m-form__group row mb-0">
+                                                <div class="col-lg-4 form-group">
+                                                    <input type="hidden" class="ee_doc_name" id="ee_doc_name" name="document_name[]"
+                                                        value="Area certificate">
+                                                    <label>Area certificate</label>
+                                                    <input type="hidden" id="ee_report_doc_id" value="{{isset($ArchitectLayoutDetail->ee_reports[0])?$ArchitectLayoutDetail->ee_reports[0]->id:''}}">
+                                                </div>
+                                                <div class="col-lg-4 form-group">
+                                                    <div class="custom-file">
+                                                        <input type="file" id="ee_extract" name="ee_report" onchange="getEEReportData(this.id,'ee_doc_name','ee_doc_error','ee_report_uploaded_file','ee_report_doc_id')"
+                                                            class="custom-file-input">
+                                                        <label title="" class="custom-file-label" for="ee_extract">Choose
+                                                            file</label>
+                                                        <a class="btn-link" target="_blank" style="display:{{isset($ArchitectLayoutDetail->ee_reports[0])?'block':'none'}}"
+                                                            id="ee_report_uploaded_file" href="{{config('commanConfig.storage_server').'/'.(isset($ArchitectLayoutDetail->ee_reports[0])?$ArchitectLayoutDetail->ee_reports[0]->upload_file:'')}}">download</a>
+                                                        <span class="text-danger" id="ee_doc_error"></span>
+                                                    </div>
+                                                </div>
+                                                <!-- <div class="col-lg-2 form-group mt-2">
+                                                        <i class="fa fa-close btn--add-delete" id=""></i>
+                                                    </div> -->
+                                            </div>
+                                        </div>
+                                        <div class="blockEE">
+                                            <div class="form-group m-form__group row mb-0">
+                                                <div class="col-lg-4 form-group">
+                                                    <input type="hidden" class="ee_doc_name" id="ee_doc_name_1" name="ee_document_name[]"
+                                                        value="Area of Encroachmente">
+                                                    <label>Area of Encroachment</label>
+                                                    <input type="hidden" id="ee_report_doc_id_1" value="{{isset($ArchitectLayoutDetail->ee_reports[1])?$ArchitectLayoutDetail->ee_reports[1]->id:''}}">
+                                                </div>
+                                                <div class="col-lg-4 form-group">
+                                                    <div class="custom-file">
+                                                        <input type="file" id="ee_extract_1" name="ee_report_1" class="custom-file-input"
+                                                            onchange="getEEReportData(this.id,'ee_doc_name_1','ee_doc_error_1','ee_report_uploaded_file_1','ee_report_doc_id_1')">
+                                                        <label title="" class="custom-file-label" for="ee_extract_1">Choose
+                                                            file</label>
+                                                        <a class="btn-link" target="_blank" style="display:{{isset($ArchitectLayoutDetail->ee_reports[1])?'block':'none'}}"
+                                                            id="ee_report_uploaded_file_1" href="{{config('commanConfig.storage_server').'/'.(isset($ArchitectLayoutDetail->ee_reports[1])?$ArchitectLayoutDetail->ee_reports[1]->upload_file:'')}}">download</a>
+                                                        <span class="text-danger" id="ee_doc_error_1"></span>
+                                                    </div>
+                                                </div>
+                                                <!-- <div class="col-lg-2 form-group mt-2">
+                                                        <i class="fa fa-close btn--add-delete" id=""></i>
+                                                    </div> -->
+                                            </div>
+                                        </div>
+                                        <div class="blockEE">
+                                            <div class="form-group m-form__group row mb-0">
+                                                <div class="col-lg-4 form-group">
+                                                    <input type="hidden" class="ee_doc_name" id="ee_doc_name_2" name="document_name[]"
+                                                        value="Heading Over reservation">
+                                                    <label>Heading Over reservation</label>
+                                                    <input type="hidden" id="ee_report_doc_id_2" value="{{isset($ArchitectLayoutDetail->ee_reports[2])?$ArchitectLayoutDetail->ee_reports[2]->id:''}}">
+                                                </div>
+                                                <div class="col-lg-4 form-group">
+                                                    <div class="custom-file">
+                                                        <input type="file" id="ee_extract_2" name="ee_report_2" class="custom-file-input ee_doc_file"
+                                                            onchange="getEEReportData(this.id,'ee_doc_name_2','ee_doc_error_2','ee_report_uploaded_file_2','ee_report_doc_id_2')">
+                                                        <label title="" class="custom-file-label" for="ee_extract_2">Choose
+                                                            file</label>
+                                                        <a class="btn-link" target="_blank" style="display:{{isset($ArchitectLayoutDetail->ee_reports[2])?'block':'none'}}"
+                                                            id="ee_report_uploaded_file_2" href="{{config('commanConfig.storage_server').'/'.(isset($ArchitectLayoutDetail->ee_reports[2])?$ArchitectLayoutDetail->ee_reports[2]->upload_file:'')}}">download</a>
+                                                        <span class="text-danger" id="ee_doc_error_2"></span>
+                                                    </div>
+                                                </div>
+                                                <!-- <div class="col-lg-2 form-group mt-2">
+                                                        <i class="fa fa-close btn--add-delete" id=""></i>
+                                                    </div> -->
+                                            </div>
+                                        </div>
+                                        @php $i=1; @endphp
+                                        @foreach ($ArchitectLayoutDetail->ee_reports as $ee_report)
+                                        @if($i>3)
+                                        <div class="blockEE">
+                                            <div class="form-group m-form__group row mb-0">
+                                                <div class="col-lg-4 form-group">
+                                                    <input type="hidden" class="ee_doc_name" id="ee_doc_name_{{$i}}" name="document_name[]"
+                                                        value="Heading Over reservation">
+                                                    <label>{{$ee_report->name_of_documents}}</label>
+                                                    <input type="hidden" id="ee_report_doc_id_{{$i}}" value="{{isset($ee_report->id)?$ee_report->id:''}}">
+                                                </div>
+                                                <div class="col-lg-4 form-group">
+                                                    <div class="custom-file">
+                                                        <input type="file" id="ee_extract_{{$i}}" name="ee_report_{{$i}}"
+                                                            class="custom-file-input ee_doc_file" onchange="getEEReportData(this.id,'ee_doc_name_{{$i}}','ee_doc_error_{{$i}}','ee_report_uploaded_file_{{$i}}','ee_report_doc_id_{{$i}}')">
+                                                        <label title="" class="custom-file-label" for="ee_extract_{{$i}}">Choose
+                                                            file</label>
+                                                        <a class="btn-link" target="_blank" style="display:{{isset($ee_report->upload_file)?'block':'none'}}"
+                                                            id="ee_report_uploaded_file_{{$i}}" href="{{config('commanConfig.storage_server').'/'.(isset($ee_report->upload_file)?$ee_report->upload_file:'')}}">download</a>
+                                                        <span class="text-danger" id="ee_doc_error_{{$i}}"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-2 form-group mt-2">
+                                                    <i class="fa fa-close btn--add-delete" id="delete_ee_doc_{{$i}}"
+                                                        onclick="delete_ee_doc('ee_report_doc_id_{{$i}}','delete_ee_doc_{{$i}}')"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @endif
+                                        @php $i++ @endphp
+                                        @endforeach
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <a class="btn--add-delete add_ee_report">add more </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="em-report">
+                    <div class="m-portlet m-portlet--mobile m_panel">
+                        <div class="portlet-body">
+                            <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
+                                <div class="m-subheader">
+                                    <div class="d-flex align-items-center">
+                                        <h3 class="section-title section-title--small">
+                                            EM report
+                                        </h3>
+                                    </div>
+                                    <div class="optionBoxEM">
+                                        <div class="blockEM">
+                                            <div class="form-group m-form__group row mb-0">
+                                                <div class="col-lg-4 form-group">
+                                                    <input type="hidden" class="em_doc_name" id="em_doc_name" name="document_name[]"
+                                                        value="Number of tenants">
+                                                    <label>Number of tenants</label>
+                                                    <input type="hidden" id="em_report_doc_id" value="{{isset($ArchitectLayoutDetail->em_reports[0])?$ArchitectLayoutDetail->em_reports[0]->id:''}}">
+                                                </div>
+                                                <div class="col-lg-4 form-group">
+                                                    <div class="custom-file">
+                                                        <input type="file" id="em_extract" name="em_report" onchange="getEMReportData(this.id,'em_doc_name','em_doc_error','em_report_uploaded_file','em_report_doc_id')"
+                                                            class="custom-file-input">
+                                                        <label title="" class="custom-file-label" for="em_extract">Choose
+                                                            file</label>
+                                                        <a class="btn-link" target="_blank" style="display:{{isset($ArchitectLayoutDetail->em_reports[0])?'block':'none'}}"
+                                                            id="em_report_uploaded_file" href="{{config('commanConfig.storage_server').'/'.(isset($ArchitectLayoutDetail->em_reports[0])?$ArchitectLayoutDetail->em_reports[0]->upload_file:'')}}">download</a>
+                                                        <span class="text-danger" id="em_doc_error"></span>
+                                                    </div>
+                                                </div>
+                                                <!-- <div class="col-lg-2 form-group mt-2">
+                                                        <i class="fa fa-close btn--add-delete" id=""></i>
+                                                    </div> -->
+                                            </div>
+                                        </div>
+                                        <div class="blockEM">
+                                            <div class="form-group m-form__group row mb-0">
+                                                <div class="col-lg-4 form-group">
+                                                    <input type="hidden" class="em_doc_name" id="em_doc_name_1" name="em_document_name[]"
+                                                        value="Category">
+                                                    <label>Category</label>
+                                                    <input type="hidden" id="em_report_doc_id_1" value="{{isset($ArchitectLayoutDetail->em_reports[1])?$ArchitectLayoutDetail->em_reports[1]->id:''}}">
+                                                </div>
+                                                <div class="col-lg-4 form-group">
+                                                    <div class="custom-file">
+                                                        <input type="file" id="em_extract_1" name="em_report_1" class="custom-file-input"
+                                                            onchange="getEMReportData(this.id,'em_doc_name_1','em_doc_error_1','em_report_uploaded_file_1','em_report_doc_id_1')">
+                                                        <label title="" class="custom-file-label" for="em_extract_1">Choose
+                                                            file</label>
+                                                        <a class="btn-link" target="_blank" style="display:{{isset($ArchitectLayoutDetail->em_reports[1])?'block':'none'}}"
+                                                            id="em_report_uploaded_file_1" href="{{config('commanConfig.storage_server').'/'.(isset($ArchitectLayoutDetail->em_reports[1])?$ArchitectLayoutDetail->em_reports[1]->upload_file:'')}}">download</a>
+                                                        <span class="text-danger" id="em_doc_error_1"></span>
+                                                    </div>
+                                                </div>
+                                                <!-- <div class="col-lg-2 form-group mt-2">
+                                                        <i class="fa fa-close btn--add-delete" id=""></i>
+                                                    </div> -->
+                                            </div>
+                                        </div>
+                                        @php $i=1; @endphp
+                                        @foreach ($ArchitectLayoutDetail->em_reports as $em_report)
+                                        @if($i>2)
+                                        <div class="blockEM">
+                                            <div class="form-group m-form__group row mb-0">
+                                                <div class="col-lg-4 form-group">
+                                                    <input type="hidden" class="em_doc_name" id="em_doc_name_{{$i}}" name="document_name[]"
+                                                        value="{{isset($em_report->name_of_documents)?$em_report->name_of_documents:''}}">
+                                                    <label>{{$em_report->name_of_documents}}</label>
+                                                    <input type="hidden" id="em_report_doc_id_{{$i}}" value="{{isset($em_report->id)?$em_report->id:''}}">
+                                                </div>
+                                                <div class="col-lg-4 form-group">
+                                                    <div class="custom-file">
+                                                        <input type="file" id="em_extract_{{$i}}" name="em_report_{{$i}}"
+                                                            class="custom-file-input em_doc_file" onchange="getEMReportData(this.id,'em_doc_name_{{$i}}','em_doc_error_{{$i}}','em_report_uploaded_file_{{$i}}','em_report_doc_id_{{$i}}')">
+                                                        <label title="" class="custom-file-label" for="em_extract_{{$i}}">Choose
+                                                            file</label>
+                                                        <a class="btn-link" target="_blank" style="display:{{isset($em_report->upload_file)?'block':'none'}}"
+                                                            id="em_report_uploaded_file_{{$i}}" href="{{config('commanConfig.storage_server').'/'.(isset($em_report->upload_file)?$em_report->upload_file:'')}}">download</a>
+                                                        <span class="text-danger" id="em_doc_error_{{$i}}"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-2 form-group mt-2">
+                                                    <i class="fa fa-close btn--add-delete" id="delete_em_doc_{{$i}}"
+                                                        onclick="delete_em_doc('em_report_doc_id_{{$i}}','delete_em_doc_{{$i}}')"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @endif
+                                        @php $i++ @endphp
+                                        @endforeach
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <a class="btn--add-delete add_em_report">add more </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="ree-report">
+                    <div class="m-portlet m-portlet--mobile m_panel">
+                        <div class="portlet-body">
+                            <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
+                                <div class="m-subheader">
+                                    <div class="d-flex align-itrees-center">
+                                        <h3 class="section-title section-title--small">
+                                            REE report
+                                        </h3>
+                                    </div>
+                                    <div class="optionBoxREE">
+                                        <div class="blockREE">
+                                            <div class="form-group m-form__group row mb-0">
+                                                <div class="col-lg-4 form-group">
+                                                    <input type="hidden" class="ree_doc_name" id="ree_doc_name" name="document_name[]"
+                                                        value="NOC given for redevelopment">
+                                                    <label>NOC given for redevelopment</label>
+                                                    <input type="hidden" id="ree_report_doc_id" value="{{isset($ArchitectLayoutDetail->ree_reports[0])?$ArchitectLayoutDetail->ree_reports[0]->id:''}}">
+                                                </div>
+                                                <div class="col-lg-4 form-group">
+                                                    <div class="custom-file">
+                                                        <input type="file" id="ree_extract" name="ree_report" onchange="getREEReportData(this.id,'ree_doc_name','ree_doc_error','ree_report_uploaded_file','ree_report_doc_id')"
+                                                            class="custom-file-input">
+                                                        <label title="" class="custom-file-label" for="ree_extract">Choose
+                                                            file</label>
+                                                        <a class="btn-link" target="_blank" style="display:{{isset($ArchitectLayoutDetail->ree_reports[0])?'block':'none'}}"
+                                                            id="ree_report_uploaded_file" href="{{config('commanConfig.storage_server').'/'.(isset($ArchitectLayoutDetail->ree_reports[0])?$ArchitectLayoutDetail->ree_reports[0]->upload_file:'')}}">download</a>
+                                                        <span class="text-danger" id="ree_doc_error"></span>
+                                                    </div>
+                                                </div>
+                                                <!-- <div class="col-lg-2 form-group mt-2">
+                                                        <i class="fa fa-close btn--add-delete" id=""></i>
+                                                    </div> -->
+                                            </div>
+                                        </div>
+                                        <div class="blockREE">
+                                            <div class="form-group m-form__group row mb-0">
+                                                <div class="col-lg-4 form-group">
+                                                    <input type="hidden" class="ree_doc_name" id="ree_doc_name_1" name="ree_document_name[]"
+                                                        value="Proposal distribution">
+                                                    <label>Proposal distribution</label>
+                                                    <input type="hidden" id="ree_report_doc_id_1" value="{{isset($ArchitectLayoutDetail->ree_reports[1])?$ArchitectLayoutDetail->ree_reports[1]->id:''}}">
+                                                </div>
+                                                <div class="col-lg-4 form-group">
+                                                    <div class="custom-file">
+                                                        <input type="file" id="ree_extract_1" name="ree_report_1" class="custom-file-input"
+                                                            onchange="getREEReportData(this.id,'ree_doc_name_1','ree_doc_error_1','ree_report_uploaded_file_1','ree_report_doc_id_1')">
+                                                        <label title="" class="custom-file-label" for="ree_extract_1">Choose
+                                                            file</label>
+                                                        <a class="btn-link" target="_blank" style="display:{{isset($ArchitectLayoutDetail->ree_reports[1])?'block':'none'}}"
+                                                            id="ree_report_uploaded_file_1" href="{{config('commanConfig.storage_server').'/'.(isset($ArchitectLayoutDetail->ree_reports[1])?$ArchitectLayoutDetail->ree_reports[1]->upload_file:'')}}">download</a>
+                                                        <span class="text-danger" id="ree_doc_error_1"></span>
+                                                    </div>
+                                                </div>
+                                                <!-- <div class="col-lg-2 form-group mt-2">
+                                                        <i class="fa fa-close btn--add-delete" id=""></i>
+                                                    </div> -->
+                                            </div>
+                                        </div>
+                                        @php $i=1; @endphp
+                                        @foreach ($ArchitectLayoutDetail->ree_reports as $ree_report)
+                                        @if($i>2)
+                                        <div class="blockREE">
+                                            <div class="form-group m-form__group row mb-0">
+                                                <div class="col-lg-4 form-group">
+                                                    <input type="hidden" class="ree_doc_name" id="ree_doc_name_{{$i}}" name="document_name[]"
+                                                        value="{{isset($ree_report->name_of_documents)?$ree_report->name_of_documents:''}}">
+                                                    <label>{{$ree_report->name_of_documents}}</label>
+                                                    <input type="hidden" id="ree_report_doc_id_{{$i}}" value="{{isset($ree_report->id)?$ree_report->id:''}}">
+                                                </div>
+                                                <div class="col-lg-4 form-group">
+                                                    <div class="custom-file">
+                                                        <input type="file" id="ree_extract_{{$i}}" name="ree_report_{{$i}}"
+                                                            class="custom-file-input ree_doc_file" onchange="getREEReportData(this.id,'ree_doc_name_{{$i}}','ree_doc_error_{{$i}}','ree_report_uploaded_file_{{$i}}','ree_report_doc_id_{{$i}}')">
+                                                        <label title="" class="custom-file-label" for="ree_extract_{{$i}}">Choose
+                                                            file</label>
+                                                        <a class="btn-link" target="_blank" style="display:{{isset($ree_report->upload_file)?'block':'none'}}"
+                                                            id="ree_report_uploaded_file_{{$i}}" href="{{config('commanConfig.storage_server').'/'.(isset($ree_report->upload_file)?$ree_report->upload_file:'')}}">download</a>
+                                                        <span class="text-danger" id="ree_doc_error_{{$i}}"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-2 form-group mt-2">
+                                                    <i class="fa fa-close btn--add-delete" id="delete_ree_doc_{{$i}}"
+                                                        onclick="delete_ree_doc('ree_report_doc_id_{{$i}}','delete_ree_doc_{{$i}}')"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @endif
+                                        @php $i++ @endphp
+                                        @endforeach
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <a class="btn--add-delete add_ree_report">add more </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="land-report">
+                    <div class="m-portlet m-portlet--mobile m_panel">
+                        <div class="portlet-body">
+                            <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
+                                <div class="m-subheader">
+                                    <div class="d-flex align-itrees-center">
+                                        <h3 class="section-title section-title--small">
+                                            Land report
+                                        </h3>
+                                    </div>
+                                    <div class="optionBoxLand">
+                                        <div class="blockLand">
+                                            <div class="form-group m-form__group row mb-0">
+                                                <div class="col-lg-4 form-group">
+                                                    <input type="hidden" class="land_doc_name" id="land_doc_name" name="document_name[]"
+                                                        value="Total area">
+                                                    <label>Total area</label>
+                                                    <input type="hidden" id="land_report_doc_id" value="{{isset($ArchitectLayoutDetail->land_reports[0])?$ArchitectLayoutDetail->land_reports[0]->id:''}}">
+                                                </div>
+                                                <div class="col-lg-4 form-group">
+                                                    <div class="custom-file">
+                                                        <input type="file" id="land_extract" name="land_report" onchange="getLandReportData(this.id,'land_doc_name','land_doc_error','land_report_uploaded_file','land_report_doc_id')"
+                                                            class="custom-file-input">
+                                                        <label title="" class="custom-file-label" for="land_extract">Choose
+                                                            file</label>
+                                                        <a class="btn-link" target="_blank" style="display:{{isset($ArchitectLayoutDetail->land_reports[0])?'block':'none'}}"
+                                                            id="land_report_uploaded_file" href="{{config('commanConfig.storage_server').'/'.(isset($ArchitectLayoutDetail->land_reports[0])?$ArchitectLayoutDetail->land_reports[0]->upload_file:'')}}">download</a>
+                                                        <span class="text-danger" id="land_doc_error"></span>
+                                                    </div>
+                                                </div>
+                                                <!-- <div class="col-lg-2 form-group mt-2">
+                                                        <i class="fa fa-close btn--add-delete" id=""></i>
+                                                    </div> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{-- <div class="row">
+                                        <div class="col-sm-12">
+                                            <a class="btn--add-delete add_land_report">add more </a>
+                                        </div>
+                                    </div> --}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <div class="m-portlet m-portlet--mobile m_panel" id="layouts_upload">
             <div class="portlet-body">
                 <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
                     <div class="m-subheader">
-                        <div class="d-flex align-items-center">
-                            <h3 class="section-title section-title--small">
-                                Latest Layout:
-                            </h3>
-                        </div>
                         <div class="row">
-                            <div class="col-sm-4">
-                                <div class="custom-file">
-                                    <input type="hidden" id="latest_layout_field_name" value="latest_layout">
-                                    <input class="custom-file-input" name="latest_layout" type="file" id="latest_layout"
-                                        required="">
-                                    <label class="custom-file-label" for="latest_layout">Choose file...</label>
+                            <div class="col-sm-6">
+                                <div class="d-flex align-items-center">
+                                    <h3 class="section-title section-title--small">
+                                        Old Approved Layout:
+                                    </h3>
                                 </div>
-                            </div>
-                            <a class="btn-link" target="_blank" id="latest_layout_file" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->latest_layout}}"
-                                style="display:{{$ArchitectLayoutDetail->latest_layout!=''?'block':'none'}};">download</a>
-                        </div>
-                        <span class="text-danger" id="latest_layout_error"></span>
-                        <!-- <div class="mt-auto">
-                            <button type="submit" style="btn btn-primary" class="btn btn-primary btn-custom upload_note"
-                                id="uploadBtn">Upload</button>
-                        </div> -->
-                    </div>
-                    <div class="m-subheader">
-                        <div class="d-flex align-items-center">
-                            <h3 class="section-title section-title--small">
-                                Old Approved Layout:
-                            </h3>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-4">
                                 <div class="custom-file">
                                     <input type="hidden" id="old_approved_layout_field_name" id="old_approved_layout_field_name"
                                         value="old_approved_layout">
                                     <input class="custom-file-input" type="file" id="old_approved_layout" name="old_approved_layout">
                                     <label class="custom-file-label" for="old_approved_layout">Choose file...</label>
                                 </div>
+                                <a class="btn-link" target="_blank" id="old_approved_layout_file" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->old_approved_layout}}"
+                                    style="display:{{$ArchitectLayoutDetail->old_approved_layout!=''?'block':'none'}};">download</a>
+                                <span class="text-danger" id="old_approved_layout_error"></span>
                             </div>
-                            <a class="btn-link" target="_blank" id="old_approved_layout_file" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->old_approved_layout}}"
-                                style="display:{{$ArchitectLayoutDetail->old_approved_layout!=''?'block':'none'}};">download</a>
+                            <div class="col-sm-6">
+                                <div class="d-flex align-items-center">
+                                    <h3 class="section-title section-title--small">
+                                        Latest Layout:
+                                    </h3>
+                                </div>
+                                <div class="custom-file">
+                                    <input type="hidden" id="latest_layout_field_name" value="latest_layout">
+                                    <input class="custom-file-input" name="latest_layout" type="file" id="latest_layout"
+                                        required="">
+                                    <label class="custom-file-label" for="latest_layout">Choose file...</label>
+                                </div>
+                                <a class="btn-link" target="_blank" id="latest_layout_file" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->latest_layout}}"
+                                    style="display:{{$ArchitectLayoutDetail->latest_layout!=''?'block':'none'}};">download</a>
+                                <span class="text-danger" id="latest_layout_error"></span>
+                            </div>
                         </div>
-                        <span class="text-danger" id="old_approved_layout_error"></span>
+
                         <!-- <div class="mt-auto">0].name)
-                            <button type="submit" style="btn btn-primary" class="btn btn-primary btn-custom upload_note"
-                                id="uploadBtn">Upload</button>
-                        </div> -->
+                                    <button type="submit" style="btn btn-primary" class="btn btn-primary btn-custom upload_note"
+                                        id="uploadBtn">Upload</button>
+                                </div> -->
                     </div>
                     <div class="m-subheader">
-                        <div class="d-flex align-items-center">
-                            <h3 class="section-title section-title--small">
-                                Last submitted layout for approval:
-                            </h3>
-                        </div>
                         <div class="row">
-                            <div class="col-sm-4">
+                            <div class="col-sm-6">
+                                <div class="d-flex align-items-center">
+                                    <h3 class="section-title section-title--small">
+                                        Last submitted layout for approval:
+                                    </h3>
+                                </div>
                                 <div class="custom-file">
                                     <input type="hidden" id="last_submitted_layout_field_name" id="last_submitted_layout_field_name"
                                         value="last_submitted_layout_for_approval">
@@ -930,41 +1379,27 @@ function showUploadedFileName() {
                                         required="">
                                     <label class="custom-file-label" for="last_submitted_layout">Choose file...</label>
                                 </div>
+                                <a class="btn-link" target="_blank" id="last_submitted_layout_file" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->last_submitted_layout_for_approval}}"
+                                    style="display:{{$ArchitectLayoutDetail->last_submitted_layout_for_approval!=''?'block':'none'}};">download</a>
+                                <span class="text-danger" id="last_submitted_layout_file_error"></span>
                             </div>
-                            <a class="btn-link" target="_blank" id="last_submitted_layout_file" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->last_submitted_layout_for_approval}}"
-                                style="display:{{$ArchitectLayoutDetail->last_submitted_layout_for_approval!=''?'block':'none'}};">download</a>
-                        </div>
-                        <span class="text-danger" id="last_submitted_layout_file_error"></span>
-                        <!-- <div class="mt-auto">
-                            <button type="submit" style="btn btn-primary" class="btn btn-primary btn-custom upload_note"
-                                id="uploadBtn">Upload</button>
-                        </div> -->
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="m-portlet m-portlet--mobile m_panel">
-            <div class="portlet-body">
-                <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
-                    <div class="m-subheader">
-                        <div class="d-flex align-items-center">
-                            <h3 class="section-title section-title--small">
-                                Survey report:
-                            </h3>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-4">
+                            <div class="col-sm-6">
+                                <div class="d-flex align-items-center">
+                                    <h3 class="section-title section-title--small">
+                                        Survey report:
+                                    </h3>
+                                </div>
                                 <div class="custom-file">
                                     <input type="hidden" id="survey_report_field_name" value="survey_report">
                                     <input class="custom-file-input" name="survey_report" type="file" id="survey_report"
                                         required="">
                                     <label class="custom-file-label" for="survey_report">Choose file...</label>
                                 </div>
+                                <a class="btn-link" target="_blank" id="survey_report_file" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->latest_layout}}"
+                                    style="display:{{$ArchitectLayoutDetail->survey_report!=''?'block':'none'}};">download</a>
+                                <span class="text-danger" id="survey_report_file_error"></span>
                             </div>
-                            <a class="btn-link" target="_blank" id="survey_report_file" href="{{config('commanConfig.storage_server').'/'.$ArchitectLayoutDetail->latest_layout}}"
-                                style="display:{{$ArchitectLayoutDetail->survey_report!=''?'block':'none'}};">download</a>
                         </div>
-                        <span class="text-danger" id="survey_report_file_error"></span>
                         <!-- <div class="mt-auto">
                             <button type="submit" style="btn btn-primary" class="btn btn-primary btn-custom upload_note"
                                 id="uploadBtn">Upload</button>
@@ -973,123 +1408,16 @@ function showUploadedFileName() {
                 </div>
             </div>
         </div>
+
+        
+
+        <!--  ----------------------------------------------------------------- -->
+        {{--
         <!-- Add EE Report -->
         <div class="m-portlet m-portlet--mobile m_panel">
             <div class="portlet-body">
                 <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
-                    <div class="m-subheader">
-                        <div class="d-flex align-items-center">
-                            <h3 class="section-title section-title--small">
-                                Executive Engineering report
-                            </h3>
-                        </div>
-                        <div class="optionBoxEE">
-                            <div class="blockEE">
-                                <div class="form-group m-form__group row mb-0">
-                                    <div class="col-lg-4 form-group">
-                                        <input type="hidden" class="ee_doc_name" id="ee_doc_name" name="document_name[]"
-                                            value="Area certificate">
-                                        <label>Area certificate</label>
-                                        <input type="hidden" id="ee_report_doc_id" value="{{isset($ArchitectLayoutDetail->ee_reports[0])?$ArchitectLayoutDetail->ee_reports[0]->id:''}}">
-                                    </div>
-                                    <div class="col-lg-4 form-group">
-                                        <div class="custom-file">
-                                            <input type="file" id="ee_extract" name="ee_report" onchange="getEEReportData(this.id,'ee_doc_name','ee_doc_error','ee_report_uploaded_file','ee_report_doc_id')"
-                                                class="custom-file-input">
-                                            <label title="" class="custom-file-label" for="ee_extract">Choose file</label>
-                                            <a class="btn-link" target="_blank" style="display:{{isset($ArchitectLayoutDetail->ee_reports[0])?'block':'none'}}"
-                                                id="ee_report_uploaded_file" href="{{config('commanConfig.storage_server').'/'.(isset($ArchitectLayoutDetail->ee_reports[0])?$ArchitectLayoutDetail->ee_reports[0]->upload_file:'')}}">download</a>
-                                            <span class="text-danger" id="ee_doc_error"></span>
-                                        </div>
-                                    </div>
-                                    <!-- <div class="col-lg-2 form-group mt-2">
-                                    <i class="fa fa-close btn--add-delete" id=""></i>
-                                </div> -->
-                                </div>
-                            </div>
-                            <div class="blockEE">
-                                <div class="form-group m-form__group row mb-0">
-                                    <div class="col-lg-4 form-group">
-                                        <input type="hidden" class="ee_doc_name" id="ee_doc_name_1" name="ee_document_name[]"
-                                            value="Area of Encroachmente">
-                                        <label>Area of Encroachment</label>
-                                        <input type="hidden" id="ee_report_doc_id_1" value="{{isset($ArchitectLayoutDetail->ee_reports[1])?$ArchitectLayoutDetail->ee_reports[1]->id:''}}">
-                                    </div>
-                                    <div class="col-lg-4 form-group">
-                                        <div class="custom-file">
-                                            <input type="file" id="ee_extract_1" name="ee_report_1" class="custom-file-input"
-                                                onchange="getEEReportData(this.id,'ee_doc_name_1','ee_doc_error_1','ee_report_uploaded_file_1','ee_report_doc_id_1')">
-                                            <label title="" class="custom-file-label" for="ee_extract_1">Choose file</label>
-                                            <a class="btn-link" target="_blank" style="display:{{isset($ArchitectLayoutDetail->ee_reports[1])?'block':'none'}}"
-                                                id="ee_report_uploaded_file_1" href="{{config('commanConfig.storage_server').'/'.(isset($ArchitectLayoutDetail->ee_reports[1])?$ArchitectLayoutDetail->ee_reports[1]->upload_file:'')}}">download</a>
-                                            <span class="text-danger" id="ee_doc_error_1"></span>
-                                        </div>
-                                    </div>
-                                    <!-- <div class="col-lg-2 form-group mt-2">
-                                    <i class="fa fa-close btn--add-delete" id=""></i>
-                                </div> -->
-                                </div>
-                            </div>
-                            <div class="blockEE">
-                                <div class="form-group m-form__group row mb-0">
-                                    <div class="col-lg-4 form-group">
-                                        <input type="hidden" class="ee_doc_name" id="ee_doc_name_2" name="document_name[]"
-                                            value="Heading Over reservation">
-                                        <label>Heading Over reservation</label>
-                                        <input type="hidden" id="ee_report_doc_id_2" value="{{isset($ArchitectLayoutDetail->ee_reports[2])?$ArchitectLayoutDetail->ee_reports[2]->id:''}}">
-                                    </div>
-                                    <div class="col-lg-4 form-group">
-                                        <div class="custom-file">
-                                            <input type="file" id="ee_extract_2" name="ee_report_2" class="custom-file-input ee_doc_file"
-                                                onchange="getEEReportData(this.id,'ee_doc_name_2','ee_doc_error_2','ee_report_uploaded_file_2','ee_report_doc_id_2')">
-                                            <label title="" class="custom-file-label" for="ee_extract_2">Choose file</label>
-                                            <a class="btn-link" target="_blank" style="display:{{isset($ArchitectLayoutDetail->ee_reports[2])?'block':'none'}}"
-                                                id="ee_report_uploaded_file_2" href="{{config('commanConfig.storage_server').'/'.(isset($ArchitectLayoutDetail->ee_reports[2])?$ArchitectLayoutDetail->ee_reports[2]->upload_file:'')}}">download</a>
-                                            <span class="text-danger" id="ee_doc_error_2"></span>
-                                        </div>
-                                    </div>
-                                    <!-- <div class="col-lg-2 form-group mt-2">
-                                    <i class="fa fa-close btn--add-delete" id=""></i>
-                                </div> -->
-                                </div>
-                            </div>
-                            @php $i=1; @endphp
-                            @foreach ($ArchitectLayoutDetail->ee_reports as $ee_report)
-                            @if($i>3)
-                            <div class="blockEE">
-                                <div class="form-group m-form__group row mb-0">
-                                    <div class="col-lg-4 form-group">
-                                        <input type="hidden" class="ee_doc_name" id="ee_doc_name_{{$i}}" name="document_name[]"
-                                            value="Heading Over reservation">
-                                        <label>{{$ee_report->name_of_documents}}</label>
-                                        <input type="hidden" id="ee_report_doc_id_{{$i}}" value="{{isset($ee_report->id)?$ee_report->id:''}}">
-                                    </div>
-                                    <div class="col-lg-4 form-group">
-                                        <div class="custom-file">
-                                            <input type="file" id="ee_extract_{{$i}}" name="ee_report_{{$i}}" class="custom-file-input ee_doc_file"
-                                                onchange="getEEReportData(this.id,'ee_doc_name_{{$i}}','ee_doc_error_{{$i}}','ee_report_uploaded_file_{{$i}}','ee_report_doc_id_{{$i}}')">
-                                            <label title="" class="custom-file-label" for="ee_extract_{{$i}}">Choose
-                                                file</label>
-                                            <a class="btn-link" target="_blank" style="display:{{isset($ee_report->upload_file)?'block':'none'}}"
-                                                id="ee_report_uploaded_file_{{$i}}" href="{{config('commanConfig.storage_server').'/'.(isset($ee_report->upload_file)?$ee_report->upload_file:'')}}">download</a>
-                                            <span class="text-danger" id="ee_doc_error_{{$i}}"></span>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-2 form-group mt-2">
-                                        <i class="fa fa-close btn--add-delete" id="delete_ee_doc_{{$i}}" onclick="delete_ee_doc('ee_report_doc_id_{{$i}}','delete_ee_doc_{{$i}}')"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            @endif
-                            @php $i++ @endphp
-                            @endforeach
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <a class="btn--add-delete add_ee_report">add more </a>
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
             </div>
         </div>
@@ -1097,96 +1425,7 @@ function showUploadedFileName() {
         <div class="m-portlet m-portlet--mobile m_panel">
             <div class="portlet-body">
                 <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
-                    <div class="m-subheader">
-                        <div class="d-flex align-items-center">
-                            <h3 class="section-title section-title--small">
-                                EM report
-                            </h3>
-                        </div>
-                        <div class="optionBoxEM">
-                            <div class="blockEM">
-                                <div class="form-group m-form__group row mb-0">
-                                    <div class="col-lg-4 form-group">
-                                        <input type="hidden" class="em_doc_name" id="em_doc_name" name="document_name[]"
-                                            value="Number of tenants">
-                                        <label>Number of tenants</label>
-                                        <input type="hidden" id="em_report_doc_id" value="{{isset($ArchitectLayoutDetail->em_reports[0])?$ArchitectLayoutDetail->em_reports[0]->id:''}}">
-                                    </div>
-                                    <div class="col-lg-4 form-group">
-                                        <div class="custom-file">
-                                            <input type="file" id="em_extract" name="em_report" onchange="getEMReportData(this.id,'em_doc_name','em_doc_error','em_report_uploaded_file','em_report_doc_id')"
-                                                class="custom-file-input">
-                                            <label title="" class="custom-file-label" for="em_extract">Choose file</label>
-                                            <a class="btn-link" target="_blank" style="display:{{isset($ArchitectLayoutDetail->em_reports[0])?'block':'none'}}"
-                                                id="em_report_uploaded_file" href="{{config('commanConfig.storage_server').'/'.(isset($ArchitectLayoutDetail->em_reports[0])?$ArchitectLayoutDetail->em_reports[0]->upload_file:'')}}">download</a>
-                                            <span class="text-danger" id="em_doc_error"></span>
-                                        </div>
-                                    </div>
-                                    <!-- <div class="col-lg-2 form-group mt-2">
-                                    <i class="fa fa-close btn--add-delete" id=""></i>
-                                </div> -->
-                                </div>
-                            </div>
-                            <div class="blockEM">
-                                <div class="form-group m-form__group row mb-0">
-                                    <div class="col-lg-4 form-group">
-                                        <input type="hidden" class="em_doc_name" id="em_doc_name_1" name="em_document_name[]"
-                                            value="Category">
-                                        <label>Category</label>
-                                        <input type="hidden" id="em_report_doc_id_1" value="{{isset($ArchitectLayoutDetail->em_reports[1])?$ArchitectLayoutDetail->em_reports[1]->id:''}}">
-                                    </div>
-                                    <div class="col-lg-4 form-group">
-                                        <div class="custom-file">
-                                            <input type="file" id="em_extract_1" name="em_report_1" class="custom-file-input"
-                                                onchange="getEMReportData(this.id,'em_doc_name_1','em_doc_error_1','em_report_uploaded_file_1','em_report_doc_id_1')">
-                                            <label title="" class="custom-file-label" for="em_extract_1">Choose file</label>
-                                            <a class="btn-link" target="_blank" style="display:{{isset($ArchitectLayoutDetail->em_reports[1])?'block':'none'}}"
-                                                id="em_report_uploaded_file_1" href="{{config('commanConfig.storage_server').'/'.(isset($ArchitectLayoutDetail->em_reports[1])?$ArchitectLayoutDetail->em_reports[1]->upload_file:'')}}">download</a>
-                                            <span class="text-danger" id="em_doc_error_1"></span>
-                                        </div>
-                                    </div>
-                                    <!-- <div class="col-lg-2 form-group mt-2">
-                                    <i class="fa fa-close btn--add-delete" id=""></i>
-                                </div> -->
-                                </div>
-                            </div>
-                            @php $i=1; @endphp
-                            @foreach ($ArchitectLayoutDetail->em_reports as $em_report)
-                            @if($i>2)
-                            <div class="blockEM">
-                                <div class="form-group m-form__group row mb-0">
-                                    <div class="col-lg-4 form-group">
-                                        <input type="hidden" class="em_doc_name" id="em_doc_name_{{$i}}" name="document_name[]"
-                                            value="{{isset($em_report->name_of_documents)?$em_report->name_of_documents:''}}">
-                                        <label>{{$em_report->name_of_documents}}</label>
-                                        <input type="hidden" id="em_report_doc_id_{{$i}}" value="{{isset($em_report->id)?$em_report->id:''}}">
-                                    </div>
-                                    <div class="col-lg-4 form-group">
-                                        <div class="custom-file">
-                                            <input type="file" id="em_extract_{{$i}}" name="em_report_{{$i}}" class="custom-file-input em_doc_file"
-                                                onchange="getEMReportData(this.id,'em_doc_name_{{$i}}','em_doc_error_{{$i}}','em_report_uploaded_file_{{$i}}','em_report_doc_id_{{$i}}')">
-                                            <label title="" class="custom-file-label" for="em_extract_{{$i}}">Choose
-                                                file</label>
-                                            <a class="btn-link" target="_blank" style="display:{{isset($em_report->upload_file)?'block':'none'}}"
-                                                id="em_report_uploaded_file_{{$i}}" href="{{config('commanConfig.storage_server').'/'.(isset($em_report->upload_file)?$em_report->upload_file:'')}}">download</a>
-                                            <span class="text-danger" id="em_doc_error_{{$i}}"></span>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-2 form-group mt-2">
-                                        <i class="fa fa-close btn--add-delete" id="delete_em_doc_{{$i}}" onclick="delete_em_doc('em_report_doc_id_{{$i}}','delete_em_doc_{{$i}}')"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            @endif
-                            @php $i++ @endphp
-                            @endforeach
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <a class="btn--add-delete add_em_report">add more </a>
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
             </div>
         </div>
@@ -1194,96 +1433,7 @@ function showUploadedFileName() {
         <div class="m-portlet m-portlet--mobile m_panel">
             <div class="portlet-body">
                 <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
-                    <div class="m-subheader">
-                        <div class="d-flex align-itrees-center">
-                            <h3 class="section-title section-title--small">
-                                REE report
-                            </h3>
-                        </div>
-                        <div class="optionBoxREE">
-                            <div class="blockREE">
-                                <div class="form-group m-form__group row mb-0">
-                                    <div class="col-lg-4 form-group">
-                                        <input type="hidden" class="ree_doc_name" id="ree_doc_name" name="document_name[]"
-                                            value="NOC given for redevelopment">
-                                        <label>NOC given for redevelopment</label>
-                                        <input type="hidden" id="ree_report_doc_id" value="{{isset($ArchitectLayoutDetail->ree_reports[0])?$ArchitectLayoutDetail->ree_reports[0]->id:''}}">
-                                    </div>
-                                    <div class="col-lg-4 form-group">
-                                        <div class="custom-file">
-                                            <input type="file" id="ree_extract" name="ree_report" onchange="getREEReportData(this.id,'ree_doc_name','ree_doc_error','ree_report_uploaded_file','ree_report_doc_id')"
-                                                class="custom-file-input">
-                                            <label title="" class="custom-file-label" for="ree_extract">Choose file</label>
-                                            <a class="btn-link" target="_blank" style="display:{{isset($ArchitectLayoutDetail->ree_reports[0])?'block':'none'}}"
-                                                id="ree_report_uploaded_file" href="{{config('commanConfig.storage_server').'/'.(isset($ArchitectLayoutDetail->ree_reports[0])?$ArchitectLayoutDetail->ree_reports[0]->upload_file:'')}}">download</a>
-                                            <span class="text-danger" id="ree_doc_error"></span>
-                                        </div>
-                                    </div>
-                                    <!-- <div class="col-lg-2 form-group mt-2">
-                                    <i class="fa fa-close btn--add-delete" id=""></i>
-                                </div> -->
-                                </div>
-                            </div>
-                            <div class="blockREE">
-                                <div class="form-group m-form__group row mb-0">
-                                    <div class="col-lg-4 form-group">
-                                        <input type="hidden" class="ree_doc_name" id="ree_doc_name_1" name="ree_document_name[]"
-                                            value="Proposal distribution">
-                                        <label>Proposal distribution</label>
-                                        <input type="hidden" id="ree_report_doc_id_1" value="{{isset($ArchitectLayoutDetail->ree_reports[1])?$ArchitectLayoutDetail->ree_reports[1]->id:''}}">
-                                    </div>
-                                    <div class="col-lg-4 form-group">
-                                        <div class="custom-file">
-                                            <input type="file" id="ree_extract_1" name="ree_report_1" class="custom-file-input"
-                                                onchange="getREEReportData(this.id,'ree_doc_name_1','ree_doc_error_1','ree_report_uploaded_file_1','ree_report_doc_id_1')">
-                                            <label title="" class="custom-file-label" for="ree_extract_1">Choose file</label>
-                                            <a class="btn-link" target="_blank" style="display:{{isset($ArchitectLayoutDetail->ree_reports[1])?'block':'none'}}"
-                                                id="ree_report_uploaded_file_1" href="{{config('commanConfig.storage_server').'/'.(isset($ArchitectLayoutDetail->ree_reports[1])?$ArchitectLayoutDetail->ree_reports[1]->upload_file:'')}}">download</a>
-                                            <span class="text-danger" id="ree_doc_error_1"></span>
-                                        </div>
-                                    </div>
-                                    <!-- <div class="col-lg-2 form-group mt-2">
-                                    <i class="fa fa-close btn--add-delete" id=""></i>
-                                </div> -->
-                                </div>
-                            </div>
-                            @php $i=1; @endphp
-                            @foreach ($ArchitectLayoutDetail->ree_reports as $ree_report)
-                            @if($i>2)
-                            <div class="blockREE">
-                                <div class="form-group m-form__group row mb-0">
-                                    <div class="col-lg-4 form-group">
-                                        <input type="hidden" class="ree_doc_name" id="ree_doc_name_{{$i}}" name="document_name[]"
-                                            value="{{isset($ree_report->name_of_documents)?$ree_report->name_of_documents:''}}">
-                                        <label>{{$ree_report->name_of_documents}}</label>
-                                        <input type="hidden" id="ree_report_doc_id_{{$i}}" value="{{isset($ree_report->id)?$ree_report->id:''}}">
-                                    </div>
-                                    <div class="col-lg-4 form-group">
-                                        <div class="custom-file">
-                                            <input type="file" id="ree_extract_{{$i}}" name="ree_report_{{$i}}" class="custom-file-input ree_doc_file"
-                                                onchange="getREEReportData(this.id,'ree_doc_name_{{$i}}','ree_doc_error_{{$i}}','ree_report_uploaded_file_{{$i}}','ree_report_doc_id_{{$i}}')">
-                                            <label title="" class="custom-file-label" for="ree_extract_{{$i}}">Choose
-                                                file</label>
-                                            <a class="btn-link" target="_blank" style="display:{{isset($ree_report->upload_file)?'block':'none'}}"
-                                                id="ree_report_uploaded_file_{{$i}}" href="{{config('commanConfig.storage_server').'/'.(isset($ree_report->upload_file)?$ree_report->upload_file:'')}}">download</a>
-                                            <span class="text-danger" id="ree_doc_error_{{$i}}"></span>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-2 form-group mt-2">
-                                        <i class="fa fa-close btn--add-delete" id="delete_ree_doc_{{$i}}" onclick="delete_ree_doc('ree_report_doc_id_{{$i}}','delete_ree_doc_{{$i}}')"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            @endif
-                            @php $i++ @endphp
-                            @endforeach
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <a class="btn--add-delete add_ree_report">add more </a>
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
             </div>
         </div>
@@ -1291,48 +1441,12 @@ function showUploadedFileName() {
         <div class="m-portlet m-portlet--mobile m_panel">
             <div class="portlet-body">
                 <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
-                    <div class="m-subheader">
-                        <div class="d-flex align-itrees-center">
-                            <h3 class="section-title section-title--small">
-                                Land report
-                            </h3>
-                        </div>
-                        <div class="optionBoxLand">
-                            <div class="blockLand">
-                                <div class="form-group m-form__group row mb-0">
-                                    <div class="col-lg-4 form-group">
-                                        <input type="hidden" class="land_doc_name" id="land_doc_name" name="document_name[]"
-                                            value="Total area">
-                                        <label>Total area</label>
-                                        <input type="hidden" id="land_report_doc_id" value="{{isset($ArchitectLayoutDetail->land_reports[0])?$ArchitectLayoutDetail->land_reports[0]->id:''}}">
-                                    </div>
-                                    <div class="col-lg-4 form-group">
-                                        <div class="custom-file">
-                                            <input type="file" id="land_extract" name="land_report" onchange="getLandReportData(this.id,'land_doc_name','land_doc_error','land_report_uploaded_file','land_report_doc_id')"
-                                                class="custom-file-input">
-                                            <label title="" class="custom-file-label" for="land_extract">Choose file</label>
-                                            <a class="btn-link" target="_blank" style="display:{{isset($ArchitectLayoutDetail->land_reports[0])?'block':'none'}}"
-                                                id="land_report_uploaded_file" href="{{config('commanConfig.storage_server').'/'.(isset($ArchitectLayoutDetail->land_reports[0])?$ArchitectLayoutDetail->land_reports[0]->upload_file:'')}}">download</a>
-                                            <span class="text-danger" id="land_doc_error"></span>
-                                        </div>
-                                    </div>
-                                    <!-- <div class="col-lg-2 form-group mt-2">
-                                    <i class="fa fa-close btn--add-delete" id=""></i>
-                                </div> -->
-                                </div>
-                            </div>
-                        </div>
-                        {{-- <div class="row">
-                            <div class="col-sm-12">
-                                <a class="btn--add-delete add_land_report">add more </a>
-                            </div>
-                        </div> --}}
-                    </div>
+
                 </div>
             </div>
-        </div>
+        </div> --}}
         <!-- Court case or dispute on land -->
-        <div class="m-portlet m-portlet--mobile m_panel">
+        <div class="m-portlet m-portlet--mobile m_panel" id="court-case-or-dispute-on-land-section">
             <div class="portlet-body">
                 <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
                     <div class="m-subheader">

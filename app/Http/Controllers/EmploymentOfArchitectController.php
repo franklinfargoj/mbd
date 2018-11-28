@@ -559,7 +559,7 @@ class EmploymentOfArchitectController extends Controller
             $this->model->updateWhere(['form_step' => ($app_data->form_step > 8 ? $app_data->form_step : 8)], ['id' => $application_id]);
         }
 
-        return back()->withSuccess('data saved successfully!!!');
+        return back()->withSuccess('data saved successfully!!!')->withInput($request->only('form_number'));
     }
 
     public function step8($id)
@@ -614,7 +614,7 @@ class EmploymentOfArchitectController extends Controller
             $this->model->updateWhere(['form_step' => ($app_data->form_step > 9 ? $app_data->form_step : 9)], ['id' => $application_id]);
         }
 
-        return back()->withSuccess('data saved successfully!!!');
+        return back()->withSuccess('data saved successfully!!!')->withInput($request->only('form_number'));
     }
 
     public function step9($id)

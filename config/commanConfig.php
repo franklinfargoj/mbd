@@ -66,6 +66,7 @@ return [
         'Aproved_lease_deed' => 17,
         'Draft_Renewal_of_Lease_deed' => 18,
         'Aproved_Renewal_of_Lease' => 19,
+        'NOC_Generation' => 20
     ],
 
     // sc application agreements
@@ -186,6 +187,16 @@ return [
         'reverted' => 5,
         'approved'=> 6
     ],
+
+    'architect_layout_status_color' => [
+        '1' => 'metal',
+        '2' => 'metal',
+        '3' => 'info',
+        '4' => 'metal',
+        '5' => 'danger',
+        '6' => 'success'
+    ],
+
     'architect_application_status' => [
         'none' => 0,
         'shortListed' => 1,
@@ -220,6 +231,10 @@ return [
         'Sr No', 'Tenament No', 'Tenament Name', 'Residential/Non-Residential'
     ],
 
+    'sc_excel_headers_em' => [
+        'Sr No', 'Tenament No', 'Tenament Name', 'Residential/Non-Residential', 'Carpet area of Each Tenement (Sq.Mtrs)', 'Cost of Construction of each tenement (In Rs.)', 'Premium of Land of Each Tenement (In Rs.)'
+    ],
+
     'optional_docs_premium' => [
         '8', '13', '15', '19'
     ],
@@ -234,6 +249,10 @@ return [
 
     'optional_docs_sharing_reval' => [
         '86', '94'
+    ],
+
+    'optional_docs_society_noc' => [
+        '6', '12', '18', '24'
     ],
 
     'storage_server' => 'http://storage.mhada.php-dev.in',

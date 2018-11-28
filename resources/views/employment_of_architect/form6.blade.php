@@ -13,7 +13,7 @@
             <a href="{{ route("appointing_architect.step5",['id'=>encrypt($application->id)]) }}" class="btn--unstyled flex-grow-1 form-step-tab active">Step 5<span>Work Handled</span></a>
             <a href="{{ route("appointing_architect.step6",['id'=>encrypt($application->id)]) }}" class="btn--unstyled flex-grow-1 form-step-tab active">Step 6<span>Details of Firm</span></a>
             <a href="{{ route("appointing_architect.step7",['id'=>encrypt($application->id)]) }}" class="btn--unstyled flex-grow-1 form-step-tab">Step 7<span>Work In Hand</span></a>
-            <a href="{{ route("appointing_architect.step8",['id'=>encrypt($application->id)]) }}" class="btn--unstyled flex-grow-1 form-step-tab">Step 8<span>Work Completed</span></a>
+            <a href="{{ route("appointing_architect.step8",['id'=>encrypt($application->id)]) }}" class="btn--unstyled flex-grow-1 form-step-tab">Step 8<span>Works Completed</span></a>
             <a href="{{ route("appointing_architect.step9",['id'=>encrypt($application->id)]) }}" class="btn--unstyled flex-grow-1 form-step-tab ">Step 9<span>Supporting Documents</span></a>
     </div>
 
@@ -38,7 +38,7 @@
                                     <th>Name</th>
                                     <th>Qualifications</th>
                                     <th>Year of Qualification</th>
-                                    <th>Length of Service Firm Total</th>
+                                    <th>Length of Service Firm Total <br>( Year's & Month's)</th>
                                 </tr>
                             </thead>
                             <tbody>

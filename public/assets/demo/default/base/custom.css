@@ -2985,7 +2985,7 @@ label.site-visit-label {
 } */
 
 .form-steps-wrap + .form-steps-box {
-    margin-top: 30px;
+    margin-top: 45px;
 }
 
 .form-steps-wrap {
@@ -3102,6 +3102,7 @@ label.site-visit-label {
     top: calc(50% + 5px);
     transform: translateY(-50%);
     font-size: 18px;
+    cursor: pointer;
 }
 
 .cloneme td {

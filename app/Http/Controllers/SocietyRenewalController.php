@@ -444,7 +444,10 @@ class SocietyRenewalController extends Controller
 //        dd($sc_application);
         $documents = SocietyConveyanceDocumentMaster::with(['sr_document_status' => function($q) use($sc_application) { $q->where('application_id', $sc_application->id)->get(); }])->where('application_type_id', $sc_application->application_master_id)->where('society_flag', '1')->get();
         $documents_uploaded =   RenewalDocumentStatus::where('application_id', $sc_application->id)->get();
-
+//        foreach($documents as $document){
+//            if($document->sr_document_status != null)
+//            $documents_uploaded[] = $document;
+//        }
         $application_type = scApplicationType::where('application_type', config('commanConfig.applicationType.Renewal'))->value('id');
         $uploaded_document_id = $this->conveyance_common->getDocumentId(config('commanConfig.documents.society.list_of_members_from_society'), $application_type);
 
@@ -558,7 +561,6 @@ class SocietyRenewalController extends Controller
     public function delete_sr_upload_docs($id)
     {
         $id = base64_decode($id);
-
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $sc_application = RenewalApplication::where('society_id', $society->id)->with(['srApplicationType', 'srApplicationLog' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
@@ -570,9 +572,14 @@ class SocietyRenewalController extends Controller
         $path = $documents_uploaded->document_path;
         $deleted = Storage::disk('ftp')->delete($path);
         RenewalDocumentStatus::where('application_id', $sc_application->id)->where('document_id', $id)->delete();
+//        $this->conveyance_common->getDocumentId(config('commanConfig.'));
+//        if(){
+//
+//        }
         $update_template_file = array(
             'template_file' => ''
         );
+//        dd($id);
         SocietyConveyance::where('society_id', $society->id)->where('id', $sc_application->form_request_id)->update($update_template_file);
 
         return redirect()->route('sr_upload_docs');

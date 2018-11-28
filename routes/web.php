@@ -407,10 +407,12 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('/society_offer_letter_dashboard', 'SocietyOfferLetterController@dashboard')->name('society_offer_letter_dashboard');
 
     Route::get('/show_form_self/{id}', 'SocietyOfferLetterController@show_form_self')->name('show_form_self');
+
     Route::get('/offer_letter_application_form_self/{id}', 'SocietyOfferLetterController@show_offer_letter_application_self')->name('offer_letter_application_self');
     Route::post('/save_offer_letter_application_form_self', 'SocietyOfferLetterController@save_offer_letter_application_self')->name('save_offer_letter_application_self');
 
     Route::get('/show_form_dev/{id}', 'SocietyOfferLetterController@show_form_dev')->name('show_form_dev');
+    Route::get('/show_form_dev_noc/{id}', 'SocietyNocController@show_form_dev_noc')->name('show_form_dev_noc');
     Route::get('/offer_letter_application_form_dev/{id}', 'SocietyOfferLetterController@show_offer_letter_application_dev')->name('offer_letter_application_dev');
     Route::post('/save_offer_letter_application_form_dev', 'SocietyOfferLetterController@save_offer_letter_application_dev')->name('save_offer_letter_application_dev');
 
@@ -499,7 +501,7 @@ Route::post('post_forward_architect_layout','ArchitectLayout\LayoutArchitectCont
 
 //Architect Layout EM LM EE REE Scrutiny
 Route::get('get_scrutiny/{layout_id}','ArchitectLayout\LayoutArchitectController@get_scrutiny')->name('architect_layout_get_scrtiny');
-Route::get('add_scrutiny_report/{layout_id}','ArchitectLayout\LayoutArchitectController@add_scrutiny_report')->name('architect_layout_add_scrutiny_report');
+Route::get('architect_layout_add_scrutiny_report/{layout_id}','ArchitectLayout\LayoutArchitectController@add_scrutiny_report')->name('architect_layout_add_scrutiny_report');
 Route::post('post_architect_layout_scrutiny_report','ArchitectLayout\LayoutArchitectController@post_scrutiny_report')->name('architect_layout_post_scrutiny_report');
 Route::post('delete_architect_layout_scrutiny_report','ArchitectLayout\LayoutArchitectController@delete_scrutiny_report')->name('delete_architect_layout_scrutiny_report');
 Route::post('upload_lm_checklist_and_remark_report','ArchitectLayout\LayoutArchitectController@upload_lm_checklist_and_remark_report')->name('upload_lm_checklist_and_remark_report');
@@ -762,13 +764,13 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::get('view_ee_documents/{id}', 'conveyance\conveyanceCommonController@ViewEEDocuments')->name('conveyance.view_ee_documents'); 
 
-    Route::get('renewal_forward_application_sc/{id}', 'conveyance\conveyanceCommonController@commonForward')->name('conveyance.forward_application_sc');
+    Route::get('forward_application_sc/{id}', 'conveyance\conveyanceCommonController@commonForward')->name('conveyance.forward_application_sc');
 
     Route::post('save_forward_application_sc', 'conveyance\conveyanceCommonController@saveForwardApplication')->name('conveyance.save_forward_application');
 
     Route::post('save_agreement_comments', 'conveyance\conveyanceCommonController@SaveAgreementComments')->name('conveyance.save_agreement_comments');
 
-    Route::get('view_documents/{id}', 'conveyance\conveyanceCommonController@ViewDocuments')->name('conveyance.view_documents');
+    Route::get('view_documents/{id}', 'conveyance\conveyanceCommonController@ViewSocietyDocuments')->name('conveyance.view_documents');
 
     Route::get('sale_lease_agreement/{id}', 'conveyance\DYCODepartment\DYCOController@saleLeaseAgreement')->name('conveyance.sale_lease_agreement');
     
@@ -784,6 +786,8 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::get('generate_stamp_duty_letter/{id}', 'conveyance\DYCODepartment\DYCOController@GenerateStampDutyLetter')->name('dyco.generate_stamp_duty_letter');
 
+    Route::get('checklist_note/{id}', 'conveyance\conveyanceCommonController@show_checklist')->name('conveyance.checklist_note');
+
 
     Route::get('architect_scrutiny_remark/{id}', 'conveyance\conveyanceCommonController@ArchitectScrutinyRemark')->name('conveyance.architect_scrutiny_remark');
 
@@ -791,17 +795,15 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::post('upload_la_agreement_riders', 'conveyance\conveyanceCommonController@upload_la_agreement_riders')->name('conveyance.upload_la_agreement_riders');
 
-    // Route::get('architect_scrutiny_remark/{id}', 'conveyance\conveyanceCommonController@ArchitectScrutinyRemark')->name('conveyance.architect_scrutiny_remark')
+    Route::get('generate_noc/{id}', 'conveyance\DYCODepartment\DYCOController@GenerateConveyanceNOC')->name('dyco.generate_canveyance_noc');
 
-    Route::get('generate_canveyance_noc/{id}', 'conveyance\DYCODepartment\DYCOController@GenerateConveyanceNOC')->name('dyco.generate_canveyance_noc');
+    Route::post('save_draft_NOC', 'conveyance\DYCODepartment\DYCOController@saveDraftNOC')->name('dyco.save_draft_NOC');
 
-    Route::post('save_noc', 'conveyance\DYCODepartment\DYCOController@saveNOC')->name('dyco.save_noc'); 
+    Route::post('save_noc', 'conveyance\DYCODepartment\DYCOController@saveUploadedNOC')->name('dyco.save_noc'); 
     
     //dyco
     
-   Route::get('conveyance_noc/{id}', 'conveyance\DYCODepartment\DYCOController@conveyanceNoc')->name('dyco.conveyance_noc');
-    
-    // Route::get('forward_application/{id}', 'conveyance\DYCODepartment\DYCOController@displayForwardApplication')->name('dyco.forward_application');   
+   Route::get('conveyance_noc/{id}', 'conveyance\DYCODepartment\DYCOController@conveyanceNoc')->name('dyco.conveyance_noc'); 
 
     Route::get('conveyance_noc/{id}', 'conveyance\DYCODepartment\DYCOController@conveyanceNOC')->name('dyco.conveyance_noc');
 
@@ -821,14 +823,20 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::post('save_approve_renewal_agreement', 'conveyance\DYCODepartment\DYCOController@saveApproveRenewalAgreement')->name('dyco.save_approve_renewal_agreement');
 
-    Route::post('save_stamp_duty_letter', 'conveyance\DYCODepartment\DYCOController@saveDraftStampDutyLetter')->name('dyco.save_stamp_duty_letter');
+    Route::post('save_renewal_stamp_duty', 'conveyance\DYCODepartment\DYCOController@saveRenewalDraftStampDuty')->name('dyco.save_renewal_stamp_duty');
+
+    Route::get('generate_conveyance_stamp_duty/{id}', 'conveyance\DYCODepartment\DYCOController@GenerateConveyanceStampDuty')->name('dyco.generate_conveyance_stamp_duty');
+
+    Route::post('save_draft_conveyance_stamp_duty', 'conveyance\DYCODepartment\DYCOController@saveDraftConveyanceStampDuty')->name('dyco.save_draft_conveyance_stamp_duty'); 
+
+    Route::post('save_conveyance_stamp_duty', 'conveyance\DYCODepartment\DYCOController@saveConveyanceStampDuty')->name('dyco.save_conveyance_stamp_duty');
 
     //EM
 
     Route::get('scrutiny_remark_em/{id}', 'conveyance\EMDepartment\EMController@ScrutinyRemark')->name('em.scrutiny_remark');
     Route::post('save_conveyance_letter', 'conveyance\EMDepartment\EMController@saveNoDuesCertificate')->name('em.save_conveyance_no_dues_certificate');
     Route::post('save_list_of_allottees', 'conveyance\EMDepartment\EMController@uploadListOfAllottees')->name('em.save_list_of_allottees');
-    Route::post('save_covering_letter', 'conveyance\EMDepartment\EMController@uploadCoveringLetter')->name('em.save_covering_letter');
+    Route::post('save_covering_letter_em', 'conveyance\EMDepartment\EMController@uploadCoveringLetter')->name('em.save_covering_letter');
 
     // Route::get('sale_price_calculation/{id}', 'conveyance\EEDepartment\EEController@SalePriceCalculation')->name('ee.sale_price_calculation');
 
@@ -843,7 +851,6 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::post('save_calculation_data', 'conveyance\EEDepartment\EEController@SaveCalculationData')->name('ee.save_calculation_data');
     Route::post('save_demarcation_plan', 'conveyance\EEDepartment\EEController@SaveDemarcationPlan')->name('ee.save_demarcation_plan');
     Route::post('save_covering_letter', 'conveyance\EEDepartment\EEController@SaveCoveringLetter')->name('ee.save_covering_letter');
-    Route::get('forward_application_ee/{id}', 'conveyance\EEDepartment\EEController@forwardApplication')->name('ee.forward_application_sc'); 
 
     Route::post('send_forward_application', 'conveyance\EEDepartment\EEController@sendForwardApplication')->name('ee.send_forward_application');
 
@@ -901,9 +908,9 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::post('upload_la_agreement_riders_renewal', 'conveyance\renewalCommonController@upload_la_agreement_riders')->name('renewal.upload_la_agreement_riders');
 
-    Route::get('forward_application_sc/{id}', 'conveyance\renewalCommonController@commonForward')->name('renewal.forward_application_sc');
+    Route::get('forward_application_sr/{id}', 'conveyance\renewalCommonController@commonForward')->name('renewal.forward_application_sc');
 
-    Route::post('save_forward_application_sc', 'conveyance\renewalCommonController@saveForwardApplication')->name('renewal.save_forward_application');
+    Route::post('save_forward_application_sr', 'conveyance\renewalCommonController@saveForwardApplication')->name('renewal.save_forward_application');
 //dashboard    
 
     Route::get('/dashboard','Common\CommonController@dashboard')->name('dashboard');
@@ -964,3 +971,50 @@ Route::prefix('appointing_architect')->group(function () {
     });
     
 });
+
+//Noc -- /* Created by: Sayan Pal */
+
+Route::get('/show_form_self_noc/{id}', 'SocietyNocController@show_form_self_noc')->name('show_form_self_noc');
+Route::get('/show_form_dev_noc/{id}', 'SocietyNocController@show_form_dev_noc')->name('show_form_dev_noc');
+Route::post('/save_noc_application_self', 'SocietyNocController@save_noc_application_self')->name('save_noc_application_self');
+Route::get('society_noc_preview','SocietyNocController@showNocApplication')->name('society_noc_preview');
+Route::get('society_noc_edit','SocietyNocController@editNocApplication')->name('society_noc_edit');
+Route::post('society_noc_update','SocietyNocController@updateNocApplication')->name('society_noc_update');
+Route::get('documents_upload_noc','SocietyNocController@displaySocietyDocuments')->name('documents_upload_noc');
+Route::post('uploaded_documents_noc','SocietyNocController@uploadSocietyDocuments')->name('uploaded_documents_noc');
+Route::get('delete_uploaded_documents_noc/{id}','SocietyNocController@deleteSocietyDocuments')->name('delete_uploaded_documents_noc');
+Route::get('upload_noc_application','SocietyNocController@showuploadNoc')->name('upload_noc_application');
+Route::post('add_uploaded_documents_comment_noc','SocietyNocController@addSocietyDocumentsComment')->name('add_documents_comment_noc');
+Route::get('society_noc_application_download','SocietyNocController@download_noc_application')->name('society_noc_application_download');
+Route::post('upload_society_noc','SocietyNocController@uploadNocAfterSign')->name('upload_society_noc');
+Route::get('documents_uploaded_noc','SocietyNocController@viewSocietyDocuments')->name('documents_uploaded_noc');
+Route::post('resubmit_noc_application','SocietyNocController@resubmitNocApplication')->name('resubmit_noc_application');
+
+//NOC --REE Department Routes
+
+Route::get('ree_noc_applications','REEDepartment\REEController@nocApplicationList')->name('ree_applications.noc');
+Route::get('view_application_noc/{id}','REEDepartment\REEController@viewApplicationNoc')->name('ree.view_application_noc');
+Route::get('society_noc_documents/{id}','REEDepartment\REEController@societyNocDocuments')->name('ree.society_noc_documents');
+Route::get('generate_noc/{id}', 'REEDepartment\REEController@GenerateNoc')->name('ree.generate_noc');
+Route::get('create_edit_noc/{id}', 'REEDepartment\REEController@createEditNoc')->name('ree.create_edit_noc');
+Route::post('save_draft_noc', 'REEDepartment\REEController@saveDraftNoc')->name('ree.save_draft_noc');
+Route::post('upload_draft_noc/{id}', 'REEDepartment\REEController@uploadDraftNoc')->name('ree.upload_draft_noc');
+Route::get('/scrutiny-remark-noc/{application_id}', 'REEDepartment\REEController@scrutinyRemarkNocByREE')->name('ree.scrutiny-remark-noc');
+Route::post('/noc-scrutiny-verfication', 'REEDepartment\REEController@nocScrutinyVerification')->name('ree.scrutiny_verification');
+Route::post('upload_ree_note_noc','REEDepartment\REEController@uploadOfficeNoteNocRee')->name('ree.upload_office-note-noc');
+Route::get('ree_forward_application_noc/{id}','REEDepartment\REEController@forwardApplicationNoc')->name('ree.forward_application_noc');
+Route::post('ree_forward_noc_application_data','REEDepartment\REEController@sendForwardNocApplication')->name('ree.forward_noc_application_data');
+Route::get('approved_noc_letter/{id}','REEDepartment\REEController@approvedNOCletter')->name('ree.approved_noc_letter');
+Route::post('send_noc_issued_society','REEDepartment\REEController@sendissuedNOCToSociety')->name('ree.send_noc_issued_society');
+
+//NOC --CO Department routes
+
+Route::get('co_noc_applications','CODepartment\COController@nocApplicationList')->name('co_applications.noc');
+Route::get('view_noc_application_co/{id}','CODepartment\COController@viewNocApplication')->name('co.view_noc_application');
+Route::get('society_noc_documents_co/{id}','CODepartment\COController@societyNocDocuments')->name('co.society_noc_documents');
+Route::get('ree_scrutiny_remark_co/{id}','CODepartment\COController@nocScrutinyRemarks')->name('co.noc_scrutiny_remarks');
+Route::get('approve_noc_co/{id}','CODepartment\COController@issueNoc')->name('co.approve_noc');
+Route::post('issue_noc_letter_to_ree','CODepartment\COController@approveNoctoRee')->name('co.issue_noc_letter_to_ree');
+Route::get('co_forward_noc_application/{id}','CODepartment\COController@forwardNOCApplication')->name('co.forward_noc_application');
+Route::post('save_forward_noc_Application','CODepartment\COController@sendForwardNocApplication')->name('co.forward_noc_application_data');
+

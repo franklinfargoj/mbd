@@ -44,7 +44,7 @@
                             आहे.</p>
                         <div >
                             <div style="font-size: 16px;">
-                                <div style="margin-bottom: 10px;">
+                                <div style="margin-bottom: 5px;">
                                     <div style="width: 50%; float: left;">
                                         <label  for="">१. वसाहितीचे नाव:</label>
                                         <span style="font-weight: bold;"> &nbsp; {{ $sc_application->societyApplication->name }} &nbsp; </span>
@@ -55,7 +55,7 @@
                                     </div>
                                     <div style="clear: both;"></div>
                                 </div>
-                                <div>
+                                <div style="">
                                     <div style="width: 50%; float: left;">
                                         <label  for="">३. योजनेचे नाव:</label>
                                         <span style="font-weight: bold;"> &nbsp; {{ $sc_application->sc_form_request->scheme_name }} &nbsp; </span>
@@ -64,11 +64,12 @@
                                         <label  for="">४. प्रथम सदनिका वितरणाचा दिनांक:</label>
                                         <span style="font-weight: bold;"> &nbsp; {{ date(config('commanConfig.dateFormat'), strtotime($sc_application->sc_form_request->first_flat_issue_date)) }} &nbsp; </span>
                                     </div>
+                                    <div style="clear: both;"></div>
                                 </div>
                             </div>
-                            <div style="font-size: 16px; margin-bottom: 10px;">
+                            <div style="font-size: 16px;">
                                 <p style="margin-bottom: 10px;">६. एकूण सदनिका</p>
-                                <div style="margin-bottom: 10px;">
+                                <div style="margin-bottom: 5px;">
                                     <div style="width: 50%; float: left;">
                                         <label  for="">A. निवासी:</label>
                                         <span style="font-weight: bold;"> &nbsp; {{ $sc_application->sc_form_request->residential_flat }} &nbsp; </span>
@@ -78,7 +79,7 @@
                                         <span style="font-weight: bold;"> &nbsp; {{ $sc_application->sc_form_request->non_residential_flat }} &nbsp; </span>
                                     </div>
                                 </div>
-                                <div style="margin-bottom: 10px;">
+                                <div style="">
                                     <div style="width: 50%; float: left;">
                                         <label  for="">C. एकूण:</label>
                                         <span style="font-weight: bold;"> &nbsp;{{ $sc_application->sc_form_request->total_flat }} &nbsp; </span>
@@ -120,16 +121,16 @@
                                 {{--</div>--}}
                             <div style="font-size: 16px;">
                                 <p style="margin-bottom: 10px;">९. सेवा हस्तांकरण झाल्याचा दिनांक:</p>
-                                <div style="margin-bottom: 10px;">
-                                    <div style="width: 50%; float: left; margin-bottom: 10px;">
+                                <div style="">
+                                    <div style="width: 50%; float: left; margin-bottom: 5px;">
                                         <label  for="">१. मालमत्ता कर:</label>
                                         <span style="font-weight: bold;"> &nbsp;{{ $sc_application->sc_form_request->property_tax }} &nbsp; </span>
                                     </div>
-                                    <div style="width: 50%; float: left; margin-bottom: 10px;">
+                                    <div style="width: 50%; float: left; margin-bottom: 5px;">
                                         <label  for="">२. पाणी बिल:</label>
                                         <span style="font-weight: bold;"> &nbsp; {{ $sc_application->sc_form_request->water_bill }} &nbsp; </span>
                                     </div>
-                                    <div style="width: 50%; float: left; margin-bottom: 10px;">
+                                    <div style="width: 50%; float: left; margin-bottom: 5px;">
                                         <label  for="">३. अकृषिक कर:</label>
                                         <span style="font-weight: bold;"> &nbsp; {{ $sc_application->sc_form_request->non_agricultural_tax }} &nbsp; </span>
                                     </div>
@@ -143,7 +144,7 @@
                                                {{--name="society_address" value="{{ $sc_application->societyApplication->address }}">--}}
                                     {{--</div>--}}
                                 {{--</div>--}}
-                            <div style="margin-bottom: 10px;">
+                            <div style="margin-bottom: 5px;">
                                 <div style="font-size: 16px;">
                                     <p style="margin-bottom: 10px;">११. संस्थेचा अधिकृत पत्ता</p>
                                     <span style="font-weight: bold;"> &nbsp; {{ $sc_application->societyApplication->address }} &nbsp; </span>
@@ -151,7 +152,7 @@
                             </div>
                         </div>
                     </div>
-                    <div style="margin-bottom: 10px;">
+                    <div>
                         <div style="font-size: 16px;">
                             <p style="font-size: 16px;" >आपला विश्वासू,</p>
                             <p style="font-size: 16px;" >

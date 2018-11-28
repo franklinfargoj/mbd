@@ -49,7 +49,7 @@
                             @php $i = 0; @endphp
                             <tr>
                                 <td>Application form</td>
-                                <td><a target="_blank" href="{{route('view_architect_application',['id'=>encrypt($ArchitectApplication->id)])}}">download</a></td>
+                                <td><a target="_blank" href="{{route('view_architect_application',['id'=>encrypt($ArchitectApplication->id)])}}">view</a></td>
                                 <td class="text-center">
                                     <div class="@if($errors->has('marks')) has-error @endif">
                                         <input required {{ $disable }} type="number" step="0.01" name="application_marks" class="form-control form-control--custom marks"

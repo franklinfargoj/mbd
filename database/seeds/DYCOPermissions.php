@@ -91,6 +91,11 @@ class DYCOPermissions extends Seeder
                 'name' => 'conveyance.view_ee_documents',
                 'display_name' => 'view ee documents',
                 'description' => 'view ee documents',
+            ],            
+            [
+                'name' => 'conveyance.view_ee_documents',
+                'display_name' => 'view ee documents',
+                'description' => 'view ee documents',
             ],
             [
                 'name' => 'dyco.save_stamp_sign_agreement',
@@ -213,11 +218,11 @@ class DYCOPermissions extends Seeder
                 'display_name'=>'dyco generate stamp duty letter',
                 'description'=>'dyco generate stamp duty letter'
             ],            
-            [
-                'name'=>'dyco.save_stamp_duty_letter',
-                'display_name'=>'dyco save stamp duty letter',
-                'description'=>'dyco save stamp duty letter'
-            ],            
+            // [
+            //     'name'=>'dyco.save_stamp_duty_letter',
+            //     'display_name'=>'dyco save stamp duty letter',
+            //     'description'=>'dyco save stamp duty letter'
+            // ],            
             [
                 'name'=>'formation.em_srutiny_and_remark',
                 'display_name'=>'display the scrutiny report of EM for SF',
@@ -227,6 +232,11 @@ class DYCOPermissions extends Seeder
                 'name'=>'dyco.generate_canveyance_noc',
                 'display_name'=>'generate canveyance noc',
                 'description'=>'generate canveyance noc'
+            ],            
+            [
+                'name'=>'dyco.save_draft_NOC',
+                'display_name'=>'save draft NOC',
+                'description'=>'save draft NOC'
             ],             
             [
                 'name'=>'dyco.save_noc',
@@ -237,6 +247,31 @@ class DYCOPermissions extends Seeder
                 'name'=>'dyco.save_renewal_stamp_duty',
                 'display_name'=>'save renewal stamp duty',
                 'description'=>'save renewal stamp duty'
+            ],             
+            [
+                'name'=>'dyco.generate_conveyance_stamp_duty',
+                'display_name'=>'generate conveyance stamp duty',
+                'description'=>'generate conveyance stamp duty'
+            ],             
+            [
+                'name'=>'dyco.save_draft_conveyance_stamp_duty',
+                'display_name'=>'save draft conveyance stamp_duty',
+                'description'=>'save draft conveyance stamp_duty'
+            ],            
+            [
+                'name'=>'dyco.save_conveyance_stamp_duty',
+                'display_name'=>'save conveyance stamp_duty',
+                'description'=>'save conveyance stamp_duty'
+            ],            
+            [
+                'name'=>'conveyance.view_documents',
+                'display_name'=>'view conveyance documents',
+                'description'=>'view conveyance documents'
+            ],            
+            [
+                'name'=>'dyco.forward_application_data',
+                'display_name'=>'forward application data',
+                'description'=>'forward application data'
             ]      
         ];
 

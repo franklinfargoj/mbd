@@ -15,33 +15,35 @@
         <div class="m-portlet m-portlet--compact filter-wrap">
             <div class="row align-items-center row--filter">
                 <div class="col-md-12">
-                    <form role="form" id="eeForm" method="get" action="">
+                    <form role="form" id="villageForm" method="get" action="{{route('village_detail.index')}}">
                         <div class="row align-items-center mb-0">
-                            <div class="col-md-2">
+                            <div class="col-md-3">
                                 <div class="form-group m-form__group">
-                                    <input type="text" id="title" name="title" class="form-control form-control--custom m-input"
-                                           placeholder="Layout No" value="">
+                                    <input type="text" id="village_name" name="village_name" class="form-control form-control--custom m-input"
+                                           placeholder="Village Name" value="{{ isset($getData['village_name'])? $getData['village_name'] : '' }}">
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-3">
                                 <div class="form-group m-form__group">
-                                    <input type="text" id="submitted_at_from" name="submitted_at_from" class="form-control form-control--custom m-input m_datepicker"
-                                           placeholder="From Date" value="">
+                                    <input type="text" id="sr_no" name="sr_no" class="form-control form-control--custom m-input"
+                                           placeholder="Survey Number" value="{{ isset($getData['sr_no'])? $getData['sr_no'] : '' }}">
                                 </div>
                             </div>
-                            <div class="col-md-2">
-                                <div class="form-group m-form__group">
-                                    <input type="text" id="submitted_at_to" name="submitted_at_to" class="form-control form-control--custom m-input m_datepicker"
-                                           placeholder="To Date" value="">
-                                </div>
-                            </div>
+                            {{--<div class="col-md-2">--}}
+                                {{--<div class="form-group m-form__group">--}}
+                                    {{--<input type="text" id="submitted_at_to" name="submitted_at_to" class="form-control form-control--custom m-input m_datepicker"--}}
+                                           {{--placeholder="To Date" value="">--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
 
                             <div class="col-md-3">
                                 <div class="form-group m-form__group">
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
-                                            id="update_status" name="update_status">
-                                        <option value="" style="font-weight: normal;">Select Status</option>
-                                        <option value="">ABC</option>
+                                            id="villageLandSource" name="villageLandSource">
+                                        <option value="" style="font-weight: normal;">Select Land</option>
+                                        @foreach($lands as $land)
+                                            <option value="{{$land->id}}"  {{ isset($getData['villageLandSource'])? (($getData['villageLandSource'] == $land->id) ? 'selected' : '') : '' }}>{{$land->source_name}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -50,7 +52,7 @@
                                 <div class="form-group m-form__group">
                                     <div class="btn-list">
                                         <button type="submit" class="btn m-btn--pill m-btn--custom btn-primary">Search</button>
-                                        <button type="reset" onclick="window.location.href='{{ route("architect_layout.index") }}'"
+                                        <button type="reset" onclick="window.location.href='{{ route("village_detail.index") }}'"
                                                 class="btn m-btn--pill m-btn--custom btn-metal">Reset</button>
                                     </div>
                                 </div>

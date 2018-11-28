@@ -51,12 +51,14 @@
                                 </div>
                                 <div class="remarks-suggestions">
                                     <table class="table" style="width:50%">
-                                        @foreach($ArchitectLayout->ee_scrutiny_reports as $ee_scrutiny_report)
+                                        @forelse($ArchitectLayout->ee_scrutiny_reports as $ee_scrutiny_report)
                                         <tr>
                                             <td style="width: 25%">{{$ee_scrutiny_report->name_of_document}}</td>
                                             <td style="width:25%"><a target="_blank" class="btn-link" href="{{ config('commanConfig.storage_server')."/".$ee_scrutiny_report->file}}">Download</a></td>
                                         </tr>
-                                        @endforeach
+                                        @empty
+                                        No reports found
+                                        @endforelse
                                     </table>
                                 </div>
                                 <div class="">
@@ -65,7 +67,7 @@
                                     </h3>
                                 </div>
                                 <div class="remarks-suggestions">
-                                    @foreach ($ArchitectLayout->ee_scrutiny_checklist_and_remarks as $item)
+                                    @forelse ($ArchitectLayout->ee_scrutiny_checklist_and_remarks as $item)
                                     <div class="block">
                                         <input type="hidden" name="report_id[]" value="{{$item->id}}">
                                         @if($item->question!="")
@@ -102,7 +104,9 @@
                                             </div>
                                         </div>
                                     </div>
-                                    @endforeach
+                                    @empty
+                                    No checklist and remark found
+                                    @endforelse
                                 </div>
                             </div>
                         </div>
@@ -121,12 +125,14 @@
                                 <div class="remarks-suggestions scrutiny-checklist_and_remarks">
                                     <div id="wrapper">
                                         <table class="table" style="width:50%">
-                                            @foreach($ArchitectLayout->land_scrutiny_reports as $lm_scrutiny_report)
+                                            @forelse($ArchitectLayout->land_scrutiny_reports as $lm_scrutiny_report)
                                             <tr>
                                                 <td style="width: 25%">{{$lm_scrutiny_report->name_of_document}}</td>
                                                 <td style="width:25%"><a target="_blank" class="btn-link" href="{{ config('commanConfig.storage_server')."/".$lm_scrutiny_report->file}}">Download</a></td>
                                             </tr>
-                                            @endforeach
+                                            @empty
+                                            No reports found
+                                            @endforelse
                                         </table>
                                     </div>
                                 </div>
@@ -136,7 +142,7 @@
                                     </h3>
                                 </div>
                                 <div class="remarks-suggestions">
-                                    @foreach ($ArchitectLayout->land_scrutiny_checklist_and_remarks as $item)
+                                    @forelse ($ArchitectLayout->land_scrutiny_checklist_and_remarks as $item)
                                     <div class="block">
                                         <input type="hidden" name="report_id[]" value="{{$item->id}}">
                                         @if($item->question!="")
@@ -173,7 +179,9 @@
                                             </div>
                                         </div>
                                     </div>
-                                    @endforeach
+                                    @empty
+                                    No checklist and remark found
+                                    @endforelse
                                 </div>
                             </div>
                         </div>
@@ -192,12 +200,14 @@
                                 <div class="remarks-suggestions scrutiny-checklist_and_remarks">
                                     <div id="wrapper">
                                         <table class="table" style="width:50%">
-                                            @foreach($ArchitectLayout->em_scrutiny_reports as $em_scrutiny_report)
+                                            @forelse($ArchitectLayout->em_scrutiny_reports as $em_scrutiny_report)
                                             <tr>
                                                 <td style="width: 25%">{{$em_scrutiny_report->name_of_document}}</td>
                                                 <td style="width:25%"><a target="_blank" class="btn-link" href="{{ config('commanConfig.storage_server')."/".$em_scrutiny_report->file}}">Download</a></td>
                                             </tr>
-                                            @endforeach
+                                            @empty
+                                            No reports found
+                                            @endforelse
                                         </table>
                                     </div>
                                 </div>
@@ -207,7 +217,7 @@
                                     </h3>
                                 </div>
                                 <div class="remarks-suggestions">
-                                        @foreach ($ArchitectLayout->em_scrutiny_checklist_and_remarks as $item)
+                                        @forelse ($ArchitectLayout->em_scrutiny_checklist_and_remarks as $item)
                                         <div class="block">
                                             <input type="hidden" name="report_id[]" value="{{$item->id}}">
                                             @if($item->question!="")
@@ -244,7 +254,9 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        @endforeach
+                                        @empty
+                                        No checklist and remark found
+                                        @endforelse
                                     </div>
                             </div>
                         </div>
@@ -263,12 +275,14 @@
                                 <div class="remarks-suggestions scrutiny-checklist_and_remarks">
                                     <div id="wrapper">
                                         <table class="table" style="width:50%">
-                                            @foreach($ArchitectLayout->ree_scrutiny_reports as $ree_scrutiny_report)
+                                            @forelse($ArchitectLayout->ree_scrutiny_reports as $ree_scrutiny_report)
                                             <tr>
                                                 <td style="width: 25%">{{$ree_scrutiny_report->name_of_document}}</td>
                                                 <td style="width:25%"><a target="_blank" class="btn-link" href="{{ config('commanConfig.storage_server')."/".$ree_scrutiny_report->file}}">Download</a></td>
                                             </tr>
-                                            @endforeach
+                                            @empty
+                                            No reports found
+                                            @endforelse
                                         </table>
                                     </div>
                                 </div>
@@ -278,7 +292,7 @@
                                     </h3>
                                 </div>
                                 <div class="remarks-suggestions">
-                                        @foreach ($ArchitectLayout->ree_scrutiny_checklist_and_remarks as $item)
+                                        @forelse ($ArchitectLayout->ree_scrutiny_checklist_and_remarks as $item)
                                         <div class="block">
                                             <input type="hidden" name="report_id[]" value="{{$item->id}}">
                                             @if($item->question!="")
@@ -315,7 +329,9 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        @endforeach
+                                        @empty
+                                        No checklist and remark found
+                                        @endforelse
                                     </div>
                             </div>
                         </div>
