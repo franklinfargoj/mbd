@@ -356,8 +356,9 @@ class LeaseDetailController extends Controller
 
         else
             $arrData['lease_data'] = LeaseDetail::where( ['lease_status' => 1])->first();
-
-        return view('admin.lease_detail.renew-lease', compact('header_data', 'arrData', 'id', 'village_id'));
+        $count = count($arrData['lease_data']);
+//        dd($count);
+        return view('admin.lease_detail.renew-lease', compact('header_data', 'arrData', 'id', 'village_id', 'count'));
     }
 
     public function updateLease(LeaseDetailRequest $request, $id)

@@ -341,7 +341,7 @@ $route=\Request::route()->getName();
                             </ul>
                         </li>
 
-                        @if(\Illuminate\Support\Facades\Request::is('lease_detail/*') || (strpos($route,'village_detail') !== false) || (strpos($route,'architect_layout') !== false) || (strpos($route,'society_detail') !== false))
+                        @if(\Illuminate\Support\Facades\Request::is('lease_detail/*') || (strpos($route,'village_detail') !== false) || (strpos($route,'renew-lease') !== false) || (strpos($route,'architect_layout') !== false) || (strpos($route,'society_detail') !== false))
                         <li class="m-menu__item m-menu__item--level-2 {{($route=='lease_detail.index' || $route=='view-lease.view' || $route=='edit-lease.edit' || $route=='lease_detail.create')? '' : 'collapsed'}}"
                             data-toggle="collapse" data-target="#lease-actions">
                             <a href="{{url('/village_detail')}}" class="m-menu__link m-menu__toggle">
@@ -357,21 +357,23 @@ $route=\Request::route()->getName();
                             </a>
                         </li>
                         @endif
-                        <li id="lease-actions" class="collapse m-menu__item--level-3 {{($route=='lease_detail.index' || $route=='view-lease.view' || $route=='edit-lease.edit' || $route=='lease_detail.create')? 'show' : ''}}">
+                        <li id="lease-actions" class="collapse m-menu__item--level-3 {{($route=='lease_detail.index' || $route=='view-lease.view' || $route=='edit-lease.edit' || $route=='lease_detail.create' || strpos($route,'renew-lease') !== false)? 'show' : ''}}">
                             <ul class="list-unstyled">
 
 
-                                @if(\Illuminate\Support\Facades\Request::is('village_detail')
-                                 || \Illuminate\Support\Facades\Request::is('village_detail/*'))
-                                @endif
+                                {{--@if(\Illuminate\Support\Facades\Request::is('village_detail')--}}
+                                 {{--|| \Illuminate\Support\Facades\Request::is('village_detail/*'))--}}
+                                {{--@endif--}}
 
-                                @if(\Illuminate\Support\Facades\Request::is('society_detail')
-                                     || \Illuminate\Support\Facades\Request::is('society_detail/*'))
-                                @endif
+                                {{--@if(\Illuminate\Support\Facades\Request::is('society_detail')--}}
+                                     {{--|| \Illuminate\Support\Facades\Request::is('society_detail/*'))--}}
+                                {{--@endif--}}
+                                    {{--@php dd($route); @endphp--}}
                                 @if((strpos($route,'village_detail') !== false)
                                     || (strpos($route,'lease_detail') !== false)
                                     || (strpos($route,'society_detail') !== false)
                                     || (strpos($route,'architect_layout') !== false)
+                                    || (strpos($route,'renew-lease') !== false)
                                   )
 
                                         @php
@@ -394,9 +396,9 @@ $route=\Request::route()->getName();
                                                 <span class="m-menu__link-text">List of Lease</span></a>
                                         </li>
 
-                                        @if((strpos($route,'lease_detail') !== false))
-                                            @if(isset($count) && ($count==0) && ($id != 0))
-                                                <li class="m-menu__item m-menu__item--submenu ">
+                                        @if((strpos($route,'lease_detail') !== false)|| (strpos($route,'renew-lease') !== false))
+                                            @if(isset($count) && ($count==0) && ($id != 0) || ($route=='lease_detail.create'))
+                                                <li class="m-menu__item m-menu__item--submenu {{($route=='lease_detail.create')?'m-menu__item--active':''}}">
                                                     <a class="m-menu__link m-menu__toggle" href="{{route('lease_detail.create', $id)}}"
                                                        class="m-menu__link m-menu__toggle">
                                                         <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
