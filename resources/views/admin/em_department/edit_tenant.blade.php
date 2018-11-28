@@ -21,13 +21,11 @@
         <div class="d-flex align-items-center" id="search_box">
             <h3 class="m-subheader__title m-subheader__title--separator">Edit Tenant</h3>
             {{ Breadcrumbs::render('em') }}
-         </div>
-    </div>
-    <div class="m-portlet m-portlet--mobile">
-        <div class="tools">
-            <a href="{{ route('get_tenants', [encrypt($tenant->building_id)]) }}" class='btn m-btn--pill m-btn--custom btn-primary pull-right'>Back</a>
+            <div class="ml-auto btn-list">
+            <a href="{{ url()->previous() }}" class="btn btn-link pull-right"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
         </div>
-        <form method="post" enctype='multipart/form-data' action="{{route('update_tenant')}}" class="m-form m-form--rows m-form--label-align-right">
+         </div>
+        <form method="post" enctype='multipart/form-data' action="{{route('update_tenant')}}">
             {{ csrf_field() }}
              <input type="hidden" value="{{ old('id', $tenant->id) }}" name="id" />
             <input type="hidden" value="{{ old('building_id', $tenant->building_id) }}" name="building_id" />

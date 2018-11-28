@@ -16,12 +16,13 @@
         <div class="d-flex align-items-center" id="search_box">
             <h3 class="m-subheader__title m-subheader__title--separator">Add Building</h3>
             {{ Breadcrumbs::render('em') }}
-         </div>
-    </div>
-    <div class="m-portlet m-portlet--mobile">
-        <div class="tools">
-            <a href="{{ route('get_tenants', [$building_id]) }}" class='btn m-btn--pill m-btn--custom btn-primary pull-right'>Back</a>
+            <div class="ml-auto btn-list">
+            <a href="{{ url()->previous() }}" class="btn btn-link pull-right"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
         </div>
+         </div>
+    {{-- </div>
+    <div class="m-portlet m-portlet--mobile"> --}}
+        
        <form method="post" enctype='multipart/form-data' action="{{route('create_tenant')}}">
             {{ csrf_field() }}
             <input type="hidden" value="{{ old('building_id', decrypt($building_id)) }}" name="building_id" />
@@ -181,8 +182,8 @@
                         <div class="row align-items-center mb-0">                            
                                 <div class="col-md-4">
                                     <div class="form-group m-form__group">
-                                        <label class="col-md-6 control-label">Tenant Type</label>
-                                        <select class=" col-md-6 form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="tenant_type" name="tenant_type" required>
+                                        <label class="col-md-5 control-label">Tenant Type</label>
+                                        <select class=" col-md-7 form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="tenant_type" name="tenant_type" required>
                                             <option value="" style="font-weight: normal;">Select Tenament</option>
                                             @foreach($tenament as $key => $value)
                                             <option value="{{ $value->id }}" {{ old('tenant_type') == $value->id ? 'selected' : '' }} >{{ $value->name }}</option>
