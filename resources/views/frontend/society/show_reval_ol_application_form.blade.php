@@ -38,7 +38,7 @@
 
                 <p class="font-weight-semi-bold">Sir,</p>
                 <p>
-                    With referance to above subject, MHADA have issued offer letter vide no ____________ dated ______. for additional biltup area. We request you to consider our request for extension of the offer letter period for further six months as per policy of MHADA.
+                    With referance to above subject, MHADA have issued offer letter vide no {{ $ol_application->request_form->ol_ }} dated {{ date(config('commanConfig.dateFormat'), strtotime($ol_application->request_form->ol_issue_date)) }}. for additional biltup area. We request you to consider our request for extension of the offer letter period for further six months as per policy of MHADA.
                 </p>
 
                 <p>
