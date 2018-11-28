@@ -71,11 +71,24 @@
 
                     <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group">
+                            <label class="col-form-label" for="ol_vide_no">Offer Letter Vide No</label>
+                            <input type="text" id="ol_vide_no" name="ol_vide_no" class="form-control form-control--custom m-input" value="{{ $ol_application->request_form->ol_vide_no }}">
+                            <span class="help-block">{{$errors->first('ol_vide_no')}}</span>
+                        </div>
+                         <div class="col-sm-4 offset-sm-1 form-group">
+                                <label class="col-form-label" for="ol_issue_date">Offer Letter Issue Date</label>
+                                <input type="text" id="ol_issue_date" name="ol_issue_date" class="form-control form-control--custom m-input m_datepicker" value="{{ date(config('commanConfig.dateFormat'), strtotime($ol_application->request_form->ol_issue_date)) }}">
+                                <span class="help-block">{{$errors->first('ol_issue_date')}}</span>
+                         </div>
+                    </div>
+
+                    <div class="form-group m-form__group row">
+                        <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="architect_name">Architect Name:</label>
                             <input type="text" id="architect_name" name="architect_name" class="form-control form-control--custom m-input" value="{{ $ol_application->request_form->architect_name }}">
                             <span class="help-block">{{$errors->first('architect_name')}}</span>
                         </div>
-                        @if($id == '13' || $id == '17')
+                        @if($id == '14' || $id == '18')
                             <div class="col-sm-4 offset-sm-1 form-group">
                                 <label class="col-form-label" for="developer_name">Developer Name:</label>
                                 <input type="text" id="developer_name" name="developer_name" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ $ol_application->request_form->developer_name }}">
