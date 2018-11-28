@@ -754,6 +754,7 @@ class SocietyOfferLetterController extends Controller
 
 
     public function displaySocietyRevalDocuments(){
+
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $application = OlApplication::where('society_id', $society->id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
@@ -1353,7 +1354,7 @@ class SocietyOfferLetterController extends Controller
     public function editRevalOfferLetterApplication(){
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $society_details = SocietyOfferLetter::find($society->id);
-        $ol_application = OlApplication::where('user_id', Auth::user()->id)->with(['request_form', 'applicationMasterLayout'])->first();
+        $ol_application = OlApplication::where('user_id', Auth::user()->id)->with(['request_form', 'applicationMasterLayout'])->orderBy('id','desc')->first();
         $layouts = MasterLayout::all();
         $id = $ol_application->application_master_id;
         $ol_applications = $ol_application;
@@ -1387,6 +1388,8 @@ class SocietyOfferLetterController extends Controller
             'resolution_no' => $request->resolution_no,
             'architect_name' => $request->architect_name,
             'developer_name' => $request->developer_name,
+            'ol_vide_no' => $request->ol_vide_no,
+            'ol_issue_date' => date('Y-m-d', strtotime($request->ol_issue_date)),
         );
         OlRequestForm::where('society_id', $society->id)->where('id', $request->request_form_id)->update($update_input);
         return redirect()->route('society_reval_offer_letter_preview');

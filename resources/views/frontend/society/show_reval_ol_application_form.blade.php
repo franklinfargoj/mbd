@@ -42,7 +42,7 @@
                 </p>
 
                 <p>
-                    <textarea name="revalidation_reason" placeholder="Type reason for not able to make offer letter payment within 6 months of time"></textarea>
+                    <textarea name="revalidation_reason" id="revalidation_reason" placeholder="Type reason for not able to make offer letter payment within 6 months of time"></textarea>
                 </p>
                 <p>
                     It is also understood that, MHADA has passed a Resolution No. <input class="letter-form-input" type="text" id="" name="resolution_no" value="{{ $ol_application->request_form->resolution_no }}" readonly> dated  <input class="letter-form-input" type="text" name="date_of_meeting" value="{{ date(config('commanConfig.dateFormat'), strtotime($ol_application->request_form->date_of_meeting)) }}" readonly> for allowing Co-oprative Housing Societies to pay the amoount of premium for additional Build-up area in three equal instalments over a period of two years. We are ready to pay interrest as per policy of MHADA.
