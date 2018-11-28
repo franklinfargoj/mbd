@@ -375,6 +375,7 @@ $route=\Request::route()->getName();
                                     || (strpos($route,'architect_layout') !== false)
                                     || (strpos($route,'renew-lease') !== false)
                                     || (strpos($route,'view-lease') !== false)
+                                    || (strpos($route,'edit-lease') !== false)
                                   )
 
                                         @php
@@ -385,7 +386,7 @@ $route=\Request::route()->getName();
                                                 $id = collect(request()->segments())->last();
                                             }
                                         @endphp
-                                        <li class="m-menu__item m-menu__item--submenu {{ ($route=='lease_detail.index' || (strpos($route,'view-lease') !== false))?'m-menu__item--active':''}}">
+                                        <li class="m-menu__item m-menu__item--submenu {{ ($route=='lease_detail.index' || (strpos($route,'view-lease') !== false) || $route=='edit-lease.edit')?'m-menu__item--active':''}}">
                                             <a class="m-menu__link m-menu__toggle"
                                                href="{{ route('lease_detail.index', $id)}}"
                                                class="m-menu__link m-menu__toggle">
@@ -397,7 +398,7 @@ $route=\Request::route()->getName();
                                                 <span class="m-menu__link-text">List of Lease</span></a>
                                         </li>
 
-                                        @if((strpos($route,'lease_detail') !== false)|| (strpos($route,'renew-lease') !== false) || (strpos($route,'view-lease') !== false))
+                                        @if((strpos($route,'lease_detail') !== false)|| (strpos($route,'renew-lease') !== false) || (strpos($route,'view-lease') !== false) || (strpos($route,'edit-lease') !== false))
                                             @if(isset($count) && ($count==0) && ($id != 0) || ($route=='lease_detail.create'))
                                                 <li class="m-menu__item m-menu__item--submenu {{($route=='lease_detail.create')?'m-menu__item--active':''}}">
                                                     <a class="m-menu__link m-menu__toggle" href="{{route('lease_detail.create', $id)}}"
