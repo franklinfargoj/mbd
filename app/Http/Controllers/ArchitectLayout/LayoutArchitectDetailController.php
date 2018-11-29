@@ -36,7 +36,7 @@ class LayoutArchitectDetailController extends Controller
         $layout_id = decrypt($layout_id);
         $status=getLastStatusIdArchitectLayout($layout_id);
 
-        if($status->status_id==config('commanConfig.architect_layout_status.sent_for_revision') || $status->status_id==config('commanConfig.architect_layout_status.forward') || $status->status_id=!config('commanConfig.architect_layout_status.approved'))
+        if($status->status_id==config('commanConfig.architect_layout_status.sent_for_revision') || $status->status_id==config('commanConfig.architect_layout_status.forward') || $status->status_id=!config('commanConfig.architect_layout_status.approved') || $status->status_id==config('commanConfig.architect_layout_status.scrutiny_pending'))
         {
             //dd('ok');
             $add_detail=0;
