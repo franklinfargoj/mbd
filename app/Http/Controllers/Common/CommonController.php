@@ -407,8 +407,7 @@ class CommonController extends Controller
             DB::beginTransaction();
             try {
                 OlApplicationStatus::where('application_id',$request->applicationId)
-                    ->where('user_id',Auth::user()->id)
-                    ->orWhere('user_id',$request->to_user_id)
+                    ->whereIn('user_id', [Auth::user()->id,$request->to_user_id ])
                     ->update(array('is_active' => 0));
 
                 OlApplicationStatus::insert($forward_application);
@@ -479,10 +478,9 @@ class CommonController extends Controller
             DB::beginTransaction();
             try {
                 OlApplicationStatus::where('application_id',$request->applicationId)
-                    ->where('user_id',Auth::user()->id)
-                    ->orWhere('user_id',$request->to_child_id)
+                    ->whereIn('user_id', [Auth::user()->id,$request->to_child_id ])
                     ->update(array('is_active' => 0));
-                //EOC
+
                 OlApplicationStatus::insert($revert_application);
 
                 DB::commit();
@@ -1426,26 +1424,6 @@ class CommonController extends Controller
                     ->orderBy('id', 'desc');
             })->get()->toArray();
 
-
-        $applicationDataCount = OlApplication::with([
-            'olApplicationStatus' => function ($q) use ($role_id,$user_id) {
-                $q->where('user_id', $user_id)
-                    ->where('role_id', $role_id)
-                    ->where('society_flag', 0)
-                    ->orderBy('id', 'desc');
-            }])
-            ->whereHas('olApplicationStatus', function ($q) use ($role_id,$user_id) {
-                $q->where('user_id', $user_id)
-                    ->where('role_id', $role_id)
-                    ->where('society_flag', 0)
-                    ->orderBy('id', 'desc');
-            })->get()->count();
-
-        dd($applicationDataCount);
-
-
-
-//        dd($applicationData);
         return $applicationData;
     }
 

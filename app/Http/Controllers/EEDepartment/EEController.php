@@ -214,8 +214,7 @@ class EEController extends Controller
             DB::beginTransaction();
             try {
                 OlApplicationStatus::where('application_id',$request->application_id)
-                    ->where('user_id',Auth::user()->id)
-                    ->orWhere('user_id',$request->to_user_id)
+                    ->whereIn('user_id', [Auth::user()->id,$request->to_user_id ])
                     ->update(array('is_active' => 0));
 
                 OlApplicationStatus::insert($forward_application);
@@ -225,7 +224,6 @@ class EEController extends Controller
                 DB::rollback();
 //                return response()->json(['error' => $ex->getMessage()], 500);
             }
-
            //EOC
         }
         else{
@@ -300,8 +298,7 @@ class EEController extends Controller
             DB::beginTransaction();
             try {
                 OlApplicationStatus::where('application_id',$request->application_id)
-                    ->where('user_id',Auth::user()->id)
-                    ->orWhere('user_id',$request->to_child_id)
+                    ->whereIn('user_id', [Auth::user()->id,$request->to_child_id ])
                     ->update(array('is_active' => 0));
 
                 OlApplicationStatus::insert($revert_application);
