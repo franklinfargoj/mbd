@@ -37,7 +37,10 @@ class EMController extends Controller
      * @return \Illuminate\Http\Response
      */
 	public function ScrutinyRemark(Request $request,$applicationId){
-        $data = scApplication::with(['societyApplication','scApplicationLog', 'sc_form_request'])->where('id',$applicationId)->first();
+        $data = scApplication::with(['societyApplication','scApplicationLog', 'sc_form_request', 'scDocumentStatus' => function($q) use($applicationId){
+            $q->where('application_id', $applicationId);
+            $q->where('society_flag', 0)->get();
+        }])->where('id',$applicationId)->first();
         $data->folder = $this->conveyance_common->getCurrentRoleFolderName();
 
         $no_dues_certificate_docs_defined = config('commanConfig.documents.em_conveyance.no_dues_certificate');
@@ -71,6 +74,7 @@ class EMController extends Controller
                 }
             }
         }
+
         if(!empty($no_dues_certificate_docs['text_no_dues_certificate']['sc_document_status'])){
             $content = $this->CommonController->getftpFileContent($no_dues_certificate_docs['text_no_dues_certificate']['sc_document_status']->document_path);
         }else{
@@ -89,15 +93,15 @@ class EMController extends Controller
     public function saveNoDuesCertificate(Request $request){
         $folder_name = 'conveyance_no_dues_certificate';
         $id = $request->applicationId;
-
         if($request->hasFile('no_dues_certificate')){
 
             $fileName = time().'no_dues_certificate_'.$id.'.pdf';
             $filePath = $folder_name."/".$fileName;
             $file_uploaded = $this->CommonController->ftpFileUpload($folder_name, $request->file('no_dues_certificate'), $filePath);
-
             if($file_uploaded){
-                scApplication::where('id',$request->applicationId)->update([config('commanConfig.no_dues_certificate.db_columns.upload') => $file_uploaded]);
+                $this->conveyance_common->uploadDocumentStatus($request->applicationId, config('commanConfig.no_dues_certificate.db_columns.upload'), $filePath);
+//                scApplication::where('id',$request->applicationId)->update([config('commanConfig.no_dues_certificate.db_columns.upload') => $file_uploaded]);
+
                 $message = config('commanConfig.no_dues_certificate.redirect_message.upload');
                 $message_status = config('commanConfig.no_dues_certificate.redirect_message_status.upload');
             }
