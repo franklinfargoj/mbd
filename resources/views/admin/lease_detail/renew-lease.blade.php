@@ -183,8 +183,10 @@
     <script>
         var lease_renewal_date = $('#lease_renewal_date').val();
         $("#lease_renewal_date").datepicker({
-            startDate:lease_renewal_date,
+            // startDate:lease_renewal_date,
+            autoclose:true,
             format: 'dd-mm-yyyy',
+            endDate: lease_renewal_date,
         });
     </script>
 @endsection

@@ -114,3 +114,16 @@
         </div>
     </div>
 @endsection
+@section('datatablejs')
+    <script>
+        $('#society_registration_date').click(function(){
+            var date = $('#first_flat_issue_date').val();
+
+            $('#society_registration_date').datepicker({
+                format: 'dd-mm-yyyy',
+                autoclose:true,
+                endDate: date,
+            });
+        });
+    </script>
+@endsection
