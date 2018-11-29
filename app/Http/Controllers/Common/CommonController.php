@@ -386,6 +386,7 @@ class CommonController extends Controller
                 'to_user_id' => $request->to_user_id,
                 'to_role_id' => $request->to_role_id,
                 'remark' => $request->remark,
+                'is_active' => 1,
                 'created_at' => Carbon::now(),
             ],
 
@@ -397,9 +398,17 @@ class CommonController extends Controller
                     'to_user_id' => null,
                     'to_role_id' => null,
                     'remark' => $request->remark,
+                    'is_active' => 1,
                     'created_at' => Carbon::now(),
                 ],
             ];
+
+            //Code added by Prajakta
+            OlApplicationStatus::where('application_id',$request->applicationId)
+                ->where('user_id',Auth::user()->id)
+                ->orWhere('user_id',$request->to_user_id)
+                ->update(array('is_active' => 0));
+            //EOC
 
             OlApplicationStatus::insert($forward_application);
         } else {
@@ -413,6 +422,7 @@ class CommonController extends Controller
                         'to_user_id' => $request->user_id,
                         'to_role_id' => $request->role_id,
                         'remark' => $request->remark,
+                        'is_active' => 1,
                         'created_at' => Carbon::now(),
                     ],
 
@@ -424,6 +434,7 @@ class CommonController extends Controller
                         'to_user_id' => null,
                         'to_role_id' => null,
                         'remark' => $request->remark,
+                        'is_active' => 1,
                         'created_at' => Carbon::now(),
                     ],
                 ];
@@ -437,6 +448,7 @@ class CommonController extends Controller
                         'to_user_id' => $request->to_child_id,
                         'to_role_id' => $request->to_role_id,
                         'remark' => $request->remark,
+                        'is_active' => 1,
                         'created_at' => Carbon::now(),
                     ],
 
@@ -448,10 +460,13 @@ class CommonController extends Controller
                         'to_user_id' => null,
                         'to_role_id' => null,
                         'remark' => $request->remark,
+                        'is_active' => 1,
                         'created_at' => Carbon::now(),
                     ],
                 ];
             }
+
+
 //            echo "in revert";
             //            dd($revert_application);
             OlApplicationStatus::insert($revert_application);
