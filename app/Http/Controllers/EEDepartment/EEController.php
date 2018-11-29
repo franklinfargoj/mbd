@@ -211,13 +211,22 @@ class EEController extends Controller
             ];
 
             //Code added by Prajakta
-            OlApplicationStatus::where('application_id',$request->application_id)
-                ->where('user_id',Auth::user()->id)
-                ->orWhere('user_id',$request->to_user_id)
-                ->update(array('is_active' => 0));
-            //EOC
+            DB::beginTransaction();
+            try {
+                OlApplicationStatus::where('application_id',$request->application_id)
+                    ->where('user_id',Auth::user()->id)
+                    ->orWhere('user_id',$request->to_user_id)
+                    ->update(array('is_active' => 0));
 
-            OlApplicationStatus::insert($forward_application);
+                OlApplicationStatus::insert($forward_application);
+
+                DB::commit();
+            } catch (\Exception $ex) {
+                DB::rollback();
+//                return response()->json(['error' => $ex->getMessage()], 500);
+            }
+
+           //EOC
         }
         else{
             /*if(session()->get('role_name') == config('commanConfig.ee_junior_engineer'))
@@ -288,13 +297,21 @@ class EEController extends Controller
 //            }
 
             //Code added by Prajakta
-            OlApplicationStatus::where('application_id',$request->application_id)
-                ->where('user_id',Auth::user()->id)
-                ->orWhere('user_id',$request->to_child_id)
-                ->update(array('is_active' => 0));
-            //EOC
+            DB::beginTransaction();
+            try {
+                OlApplicationStatus::where('application_id',$request->application_id)
+                    ->where('user_id',Auth::user()->id)
+                    ->orWhere('user_id',$request->to_child_id)
+                    ->update(array('is_active' => 0));
 
-            OlApplicationStatus::insert($revert_application);
+                OlApplicationStatus::insert($revert_application);
+
+                DB::commit();
+            } catch (\Exception $ex) {
+                DB::rollback();
+//                return response()->json(['error' => $ex->getMessage()], 500);
+            }
+            //EOC
         }
 
         return redirect('/ee')->with('success','Application send successfully.');
