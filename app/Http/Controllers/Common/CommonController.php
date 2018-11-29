@@ -1360,12 +1360,13 @@ class CommonController extends Controller
         if(in_array($role_id ,$dyce))
             $dashboardData = $this->getDyceDashboardData($role_id,$dyce,$statusCount);
 
-        if($cap)
+        if($cap == $role_id)
             $dashboardData = $this->getCapDashboardData($statusCount);
 
-        if($vp)
+        if($vp == $role_id)
             $dashboardData = $this->getVpDashboardData($statusCount);
 
+//        dd($dashboardData);
         return view('admin.common.ol_dashboard',compact('dashboardData'));
 
     }
@@ -1377,12 +1378,14 @@ class CommonController extends Controller
                 $q->where('user_id', $user_id)
                     ->where('role_id', $role_id)
                     ->where('society_flag', 0)
+                    ->where('is_active',1)
                     ->orderBy('id', 'desc');
             }])
             ->whereHas('olApplicationStatus', function ($q) use ($role_id,$user_id) {
                 $q->where('user_id', $user_id)
                     ->where('role_id', $role_id)
                     ->where('society_flag', 0)
+                    ->where('is_active',1)
                     ->orderBy('id', 'desc');
             })->get()->toArray();
 //        dd($applicationData);
@@ -1395,6 +1398,7 @@ class CommonController extends Controller
 
         foreach ($applicationData as $application){
 
+//            dd($application['ol_application_status'][0]['status_id']);
             $status = $application['ol_application_status'][0]['status_id'];
 //            print_r($status);
 //            echo '=====';
