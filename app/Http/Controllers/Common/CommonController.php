@@ -404,13 +404,22 @@ class CommonController extends Controller
             ];
 
             //Code added by Prajakta
-            OlApplicationStatus::where('application_id',$request->applicationId)
-                ->where('user_id',Auth::user()->id)
-                ->orWhere('user_id',$request->to_user_id)
-                ->update(array('is_active' => 0));
+            DB::beginTransaction();
+            try {
+                OlApplicationStatus::where('application_id',$request->applicationId)
+                    ->where('user_id',Auth::user()->id)
+                    ->orWhere('user_id',$request->to_user_id)
+                    ->update(array('is_active' => 0));
+
+                OlApplicationStatus::insert($forward_application);
+
+                DB::commit();
+            } catch (\Exception $ex) {
+                DB::rollback();
+//                return response()->json(['error' => $ex->getMessage()], 500);
+            }
             //EOC
 
-            OlApplicationStatus::insert($forward_application);
         } else {
             if (session()->get('role_name') == config('commanConfig.cap_engineer') || session()->get('role_name') == config('commanConfig.vp_engineer')) {
                 $revert_application = [
@@ -466,10 +475,23 @@ class CommonController extends Controller
                 ];
             }
 
+            //Code added by Prajakta
+            DB::beginTransaction();
+            try {
+                OlApplicationStatus::where('application_id',$request->applicationId)
+                    ->where('user_id',Auth::user()->id)
+                    ->orWhere('user_id',$request->to_child_id)
+                    ->update(array('is_active' => 0));
+                //EOC
+                OlApplicationStatus::insert($revert_application);
 
-//            echo "in revert";
-            //            dd($revert_application);
-            OlApplicationStatus::insert($revert_application);
+                DB::commit();
+            } catch (\Exception $ex) {
+                DB::rollback();
+//                return response()->json(['error' => $ex->getMessage()], 500);
+            }
+            //EOC
+
         }
 
         return true;
