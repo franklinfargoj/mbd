@@ -211,11 +211,12 @@ class EEController extends Controller
             ];
 
             //Code added by Prajakta
-            OlApplicationStatus::where('application_id',$request->application_id)->update(array('is_active' => 0));
+            OlApplicationStatus::where('application_id',$request->application_id)
+                ->where('user_id',Auth::user()->id)
+                ->orWhere('user_id',$request->to_user_id)
+                ->update(array('is_active' => 0));
             //EOC
 
-//            echo "in forward";
-//            dd($forward_application);
             OlApplicationStatus::insert($forward_application);
         }
         else{
@@ -285,12 +286,12 @@ class EEController extends Controller
                     ]
                 ];
 //            }
-                // dd($revert_application);
-//            echo "in revert";
-//            dd($revert_application);
 
             //Code added by Prajakta
-            OlApplicationStatus::where('application_id',$request->application_id)->update(array('is_active' => 0));
+            OlApplicationStatus::where('application_id',$request->application_id)
+                ->where('user_id',Auth::user()->id)
+                ->orWhere('user_id',$request->to_child_id)
+                ->update(array('is_active' => 0));
             //EOC
 
             OlApplicationStatus::insert($revert_application);
