@@ -1425,6 +1425,26 @@ class CommonController extends Controller
                     ->where('is_active',1)
                     ->orderBy('id', 'desc');
             })->get()->toArray();
+
+
+        $applicationDataCount = OlApplication::with([
+            'olApplicationStatus' => function ($q) use ($role_id,$user_id) {
+                $q->where('user_id', $user_id)
+                    ->where('role_id', $role_id)
+                    ->where('society_flag', 0)
+                    ->orderBy('id', 'desc');
+            }])
+            ->whereHas('olApplicationStatus', function ($q) use ($role_id,$user_id) {
+                $q->where('user_id', $user_id)
+                    ->where('role_id', $role_id)
+                    ->where('society_flag', 0)
+                    ->orderBy('id', 'desc');
+            })->get()->count();
+
+        dd($applicationDataCount);
+
+
+
 //        dd($applicationData);
         return $applicationData;
     }
