@@ -25,7 +25,7 @@
                     </a>
                 </li>
 
-                @if((session()->get('role_name') == config('commanConfig.dycdo_engineer') && $data->status->status_id != config('commanConfig.applicationStatus.forwarded')) || $data->status->status_id == config('commanConfig.applicationStatus.Stamped_sale_&_lease_deed') || $data->status->status_id == config('commanConfig.applicationStatus.Draft_sale_&_lease_deed') || $data->status->status_id == config('commanConfig.applicationStatus.in_process') )
+                @if((session()->get('role_name') == config('commanConfig.dycdo_engineer') && $data->status->status_id != config('commanConfig.conveyance_status.forwarded')) || $data->status->status_id == config('commanConfig.conveyance_status.Stamped_sale_&_lease_deed') || $data->status->status_id == config('commanConfig.conveyance_status.Draft_sale_&_lease_deed') || $data->status->status_id == config('commanConfig.conveyance_status.in_process') )
                 <li class="nav-item m-tabs__item">
                     <a class="nav-link m-tabs__link show" data-toggle="tab" href="#forward-application-tab">
                         <i class="la la-cog"></i> Forward Application
@@ -141,9 +141,9 @@
 
                                         @foreach($societyLogs as $log)
 
-                                            @if($log->status_id == config('commanConfig.applicationStatus.forwarded'))
+                                            @if($log->status_id == config('commanConfig.conveyance_status.forwarded'))
                                                 @php $status = 'Forwarded'; @endphp
-                                            @elseif($log->status_id == config('commanConfig.applicationStatus.reverted'))
+                                            @elseif($log->status_id == config('commanConfig.conveyance_status.reverted'))
                                                 @php $status = 'Reverted'; @endphp
                                             @endif
 
@@ -176,9 +176,9 @@
 
                                         @foreach($dycoLogs as $log)
 
-                                            @if($log->status_id == config('commanConfig.applicationStatus.forwarded'))
+                                            @if($log->status_id == config('commanConfig.conveyance_status.forwarded'))
                                                 @php $status = 'Forwarded'; @endphp
-                                            @elseif($log->status_id == config('commanConfig.applicationStatus.reverted'))
+                                            @elseif($log->status_id == config('commanConfig.conveyance_status.reverted'))
                                                 @php $status = 'Reverted'; @endphp
                                             @endif
 
@@ -211,9 +211,9 @@
 
                                         @foreach($eelogs as $log)
 
-                                            @if($log->status_id == config('commanConfig.applicationStatus.forwarded'))
+                                            @if($log->status_id == config('commanConfig.conveyance_status.forwarded'))
                                                 @php $status = 'Forwarded'; @endphp
-                                            @elseif($log->status_id == config('commanConfig.applicationStatus.reverted'))
+                                            @elseif($log->status_id == config('commanConfig.conveyance_status.reverted'))
                                                 @php $status = 'Reverted'; @endphp
                                             @endif
 
@@ -246,9 +246,9 @@
 
                                         @foreach($Architectlogs as $log)
 
-                                            @if($log->status_id == config('commanConfig.applicationStatus.forwarded'))
+                                            @if($log->status_id == config('commanConfig.conveyance_status.forwarded'))
                                                 @php $status = 'Forwarded'; @endphp
-                                            @elseif($log->status_id == config('commanConfig.applicationStatus.reverted'))
+                                            @elseif($log->status_id == config('commanConfig.conveyance_status.reverted'))
                                                 @php $status = 'Reverted'; @endphp
                                             @endif
 
@@ -281,9 +281,9 @@
 
                                         @foreach($cologs as $log)
 
-                                            @if($log->status_id == config('commanConfig.applicationStatus.forwarded'))
+                                            @if($log->status_id == config('commanConfig.conveyance_status.forwarded'))
                                                 @php $status = 'Forwarded'; @endphp
-                                            @elseif($log->status_id == config('commanConfig.applicationStatus.reverted'))
+                                            @elseif($log->status_id == config('commanConfig.conveyance_status.reverted'))
                                                 @php $status = 'Reverted'; @endphp
                                             @endif
 
@@ -365,7 +365,7 @@
                                                 </label>
                                                 <div class="col-lg-4 col-md-9 col-sm-12">
                                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="to_child_id" name="to_child_id[]">
-                                                       
+                                                        
                                                             @foreach($data->child as $child)
                                                                 <option value="{{ $child->id }}" data-society="{{ ($child->role_id == $data->society_role_id) ? 1 : 0 }}"
                                                                 data-role="{{ $child->role_id }}">{{ $child->name }} ({{ $child->roles[0]->display_name }}) </option>
@@ -383,12 +383,12 @@
                                             @php 
                                             $error = '';
                                                 if(isset($data->application_status)){
-                                                    if ($data->application_status == config('commanConfig.applicationStatus.Draft_sale_&_lease_deed')){ 
+                                                    if ($data->application_status == config('commanConfig.conveyance_status.Draft_sale_&_lease_deed')){ 
 
                                                             if (!(isset($data->DraftSaleAgreement) && isset($data->DraftLeaseAgreement))){
                                                             $error = 'error';
                                                         }
-                                                    }elseif($data->application_status == config('commanConfig.applicationStatus.Aproved_sale_&_lease_deed')){
+                                                    }elseif($data->application_status == config('commanConfig.conveyance_status.Aproved_sale_&_lease_deed')){
                                                         
                                                         if (!(isset($data->ApprovedSaleAgreement) && isset($data->ApprovedLeaseAgreement))){
                                                         

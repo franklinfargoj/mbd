@@ -82,7 +82,7 @@ $route=\Request::route()->getName();
             </a>
         </li>          
       
-    @if(isset($data->application_status) && ($data->application_status == config('commanConfig.applicationStatus.Draft_sale_&_lease_deed') ))
+    @if(isset($data->application_status) && ($data->application_status == config('commanConfig.conveyance_status.Draft_sale_&_lease_deed') ))
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{($route=='conveyance.sale_lease_agreement')?'m-menu__item--active':''}}">
             <a class="m-menu__link m-menu__toggle" title="Prepar Draft Sale & Lease Deed" href="{{ route('conveyance.sale_lease_agreement', $data->id) }}">
                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
@@ -94,7 +94,7 @@ $route=\Request::route()->getName();
         </li>
     @endif    
     
-    @if(isset($data->application_status) && $data->application_status == config('commanConfig.applicationStatus.Aproved_sale_&_lease_deed'))    
+    @if(isset($data->application_status) && $data->application_status == config('commanConfig.conveyance_status.Aproved_sale_&_lease_deed'))    
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{($route=='conveyance.approved_sale_lease_agreement')?'m-menu__item--active':''}}">
             <a class="m-menu__link m-menu__toggle" title="Approved  Sale & Lease Deed" href="{{ route('conveyance.approved_sale_lease_agreement', $data->id) }}">
                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
@@ -106,7 +106,7 @@ $route=\Request::route()->getName();
         </li> 
     @endif
     
-    @if(isset($data->application_status) && $data->application_status == config('commanConfig.applicationStatus.Stamped_sale_&_lease_deed'))                
+    @if(isset($data->application_status) && $data->application_status == config('commanConfig.conveyance_status.Stamped_sale_&_lease_deed'))                
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{($route=='conveyance.stamp_duty_agreement')?'m-menu__item--active':''}}">
             <a class="m-menu__link m-menu__toggle" title="Stamp Duty Agreement" href="{{ route('conveyance.stamp_duty_agreement', $data->id) }}">
                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
@@ -118,7 +118,7 @@ $route=\Request::route()->getName();
         </li> 
     @endif
     
-    @if(isset($data->application_status) && $data->application_status == config('commanConfig.applicationStatus.Stamped_signed_sale_&_lease_deed'))                          
+    @if(isset($data->application_status) && $data->application_status == config('commanConfig.conveyance_status.Stamped_signed_sale_&_lease_deed'))                          
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{($route=='conveyance.stamp_signed_duty_agreement')?'m-menu__item--active':''}}">
             <a class="m-menu__link m-menu__toggle" title="Approved  Sale & Lease Deed" href="{{ route('conveyance.stamp_signed_duty_agreement', $data->id) }}">
                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
@@ -130,7 +130,7 @@ $route=\Request::route()->getName();
         </li> 
     @endif      
   
-    @if(isset($data->application_status) && $data->application_status == config('commanConfig.applicationStatus.Registered_sale_&_lease_deed'))
+    @if(isset($data->application_status) && $data->application_status == config('commanConfig.conveyance_status.Registered_sale_&_lease_deed'))
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{($route=='conveyance.register_sale_lease_agreement')?'m-menu__item--active':''}}">
             <a class="m-menu__link m-menu__toggle" title="Registered Sale & Lease Deed" href="{{ route('conveyance.register_sale_lease_agreement', $data->id) }}">
                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">

@@ -784,8 +784,6 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::get('checklist/{id}', 'conveyance\DYCODepartment\DYCOController@showChecklist')->name('conveyance.checklist'); 
 
-    Route::get('generate_stamp_duty_letter/{id}', 'conveyance\DYCODepartment\DYCOController@GenerateStampDutyLetter')->name('dyco.generate_stamp_duty_letter');
-
     Route::get('checklist_note/{id}', 'conveyance\conveyanceCommonController@show_checklist')->name('conveyance.checklist_note');
 
 
@@ -822,13 +820,15 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::post('save_approve_renewal_agreement', 'conveyance\DYCODepartment\DYCOController@saveApproveRenewalAgreement')->name('dyco.save_approve_renewal_agreement');
 
-    Route::post('save_renewal_stamp_duty', 'conveyance\DYCODepartment\DYCOController@saveRenewalDraftStampDuty')->name('dyco.save_renewal_stamp_duty');
+    Route::post('save_renewal_draft_stamp_duty', 'conveyance\DYCODepartment\DYCOController@saveRenewalDraftStampDuty')->name('dyco.save_renewal_draft_stamp_duty');
 
     Route::get('generate_conveyance_stamp_duty/{id}', 'conveyance\DYCODepartment\DYCOController@GenerateConveyanceStampDuty')->name('dyco.generate_conveyance_stamp_duty');
 
     Route::post('save_draft_conveyance_stamp_duty', 'conveyance\DYCODepartment\DYCOController@saveDraftConveyanceStampDuty')->name('dyco.save_draft_conveyance_stamp_duty'); 
 
     Route::post('save_conveyance_stamp_duty', 'conveyance\DYCODepartment\DYCOController@saveConveyanceStampDuty')->name('dyco.save_conveyance_stamp_duty');
+
+    Route::get('generate_renewal_stamp_duty_letter/{id}', 'conveyance\DYCODepartment\DYCOController@GenerateStampDutyLetter')->name('dyco.generate_stamp_duty_letter');
 
     //EM
 
@@ -864,7 +864,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('renewal_application/{id}', 'conveyance\renewalCommonController@ViewApplication')
     ->name('renewal.view_application');
 
-    Route::get('view_renewal_documents/{id}', 'conveyance\renewalCommonController@ViewDocuments')->name('renewal.view_documents');
+    Route::get('view_renewal_society_documents/{id}', 'conveyance\renewalCommonController@ViewDocuments')->name('renewal.view_documents');
 
     Route::get('prepare_renewal_agreement/{id}', 'conveyance\renewalCommonController@PrepareRenewalAgreement')->name('renewal.prepare_renewal_agreement'); 
 

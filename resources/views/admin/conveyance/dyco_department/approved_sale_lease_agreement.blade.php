@@ -190,7 +190,7 @@
         </div>
     @endif        
 
-    @if($data->status->status_id != config('commanConfig.applicationStatus.forwarded'))
+    @if($data->status->status_id != config('commanConfig.conveyance_status.forwarded'))
   
              <input type="hidden" name="application_id" value="{{ isset($data->id) ? $data->id : '' }}">
             <div class="m-portlet m-portlet--mobile m_panel">  

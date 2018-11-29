@@ -817,7 +817,7 @@ class DYCOController extends Controller
 
     // save draft and text stamp duty letter for Renewal Application
     public function saveRenewalDraftStampDuty(Request $request){
-
+       
         $id = $request->applicationId;
         $masterId = RenewalApplication::where('id',$id)->value('application_master_id');
         $draft  = config('commanConfig.scAgreements.renewal_draft_stamp_duty_letter');        
@@ -877,47 +877,6 @@ class DYCOController extends Controller
         } 
         return redirect('approve_renewal_agreement/'.$request->applicationId)->with('success', 'Stamp Duty Letter generated successfully..');
         // return redirect('');                      
-    }
-
-    //save renewal stamp duty 
-    public function saveRenewalStampDuty(Request $request){
-        
-        $file = $request->file('stamp_letter');
-        $applicationId = $request->applicationId;
-        $masterId = RenewalApplication::where('id',$applicationId)->value('application_master_id');
-        if ($file) {
-            $extension = $file->getClientOriginalExtension();
-
-            if($extension == 'pdf'){
-                $folderName = 'Renewal_Stamp_Duty_Letter';
-                $fileName = time().'_stamp_letter_'.$applicationId.'.'.$extension;
-                $filePath = $folderName."/".$fileName;
-                $letter  = config('commanConfig.scAgreements.renewal_stamp_duty_letter');
-                $letterId = $this->common->getScAgreementId($letter,$masterId);            
-                
-                $delete = Storage::disk('ftp')->delete($request->oldStamp);
-                $this->CommonController->ftpFileUpload($folderName,$file,$fileName);
-
-                $textLetter = $this->renewal->getRenewalAgreement($letterId,$applicationId,NULL);
-                
-                if ($textLetter){
-                    $this->renewal->updateRenewalAgreement($applicationId,$letterId,$filePath,NULL);                    
-                }else{
-                    $this->renewal->createRenewalAgreement($applicationId,$letterId,$filePath,NULL);
-                }
-                $status =  'success';                           
-            } else{
-                $status =  'error'; 
-            }           
-        }else{
-            $status =  'error';
-        }
-
-        if (isset($status) && $status == 'success'){
-            return back()->with('success', 'Stamp Duty Letter uploaded successfully.'); 
-        } else{
-            return back()->with('error', 'Invalid type of file uploaded (only pdf allowed).');
-        }         
     }
 
     // generate stamp duty letter in ckeditor for conveyance Application
@@ -989,6 +948,47 @@ class DYCOController extends Controller
         } 
         return redirect('approved_sale_lease_agreement/'.$request->applicationId)->with('success', 'Stamp Duty Letter generated successfully..');                      
     }
+
+    //save renewal uploaded stamp duty 
+    public function saveRenewalStampDuty(Request $request){
+        
+        $file = $request->file('stamp_letter');
+        $applicationId = $request->applicationId;
+        $masterId = RenewalApplication::where('id',$applicationId)->value('application_master_id');
+        if ($file) {
+            $extension = $file->getClientOriginalExtension();
+
+            if($extension == 'pdf'){
+                $folderName = 'Renewal_Stamp_Duty_Letter';
+                $fileName = time().'_stamp_letter_'.$applicationId.'.'.$extension;
+                $filePath = $folderName."/".$fileName;
+                $letter  = config('commanConfig.scAgreements.renewal_stamp_duty_letter');
+                $letterId = $this->common->getScAgreementId($letter,$masterId);            
+                
+                $delete = Storage::disk('ftp')->delete($request->oldStamp);
+                $this->CommonController->ftpFileUpload($folderName,$file,$fileName);
+
+                $textLetter = $this->renewal->getRenewalAgreement($letterId,$applicationId,NULL);
+                
+                if ($textLetter){
+                    $this->renewal->updateRenewalAgreement($applicationId,$letterId,$filePath,NULL);                    
+                }else{
+                    $this->renewal->createRenewalAgreement($applicationId,$letterId,$filePath,NULL);
+                }
+                $status =  'success';                           
+            } else{
+                $status =  'error'; 
+            }           
+        }else{
+            $status =  'error';
+        }
+
+        if (isset($status) && $status == 'success'){
+            return back()->with('success', 'Stamp Duty Letter uploaded successfully.'); 
+        } else{
+            return back()->with('error', 'Invalid type of file uploaded (only pdf allowed).');
+        }         
+    }    
 
     public function saveConveyanceStampDuty(Request $request){
         
