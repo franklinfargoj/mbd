@@ -122,7 +122,7 @@
                         <div class="m-section__content mb-0 table-responsive">
                             <div class="container">
                                 <div class="row">
-                                @if(session()->get('role_name') == config('commanConfig.junior_architect') && $data->status->status_id == config('commanConfig.applicationStatus.in_process'))
+                                @if(session()->get('role_name') == config('commanConfig.junior_architect') && $data->status->status_id == config('commanConfig.conveyance_status.in_process'))
                                     <div class="col-sm-6">
                                         <div class="d-flex flex-column h-100 two-cols">
                                             <h5>Upload Map</h5>

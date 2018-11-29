@@ -1,6 +1,6 @@
 
 <div class="m_portlet">
-    <form id="OfferLetterFRM" action="{{ route('dyco.save_draft_conveyance_stamp_duty') }}" method="post">
+    <form id="StampFRM" action="{{ route('dyco.save_draft_conveyance_stamp_duty') }}" method="post">
         @csrf
         <input type="hidden" id="applicationId" name="applicationId" value="{{$applicationId}}">
         <div style="margin-left: 130px">
@@ -80,11 +80,6 @@
         width:900,
         allowedContent: true
     });
-$(document)
-// $("#OfferLetterFRM").submit(function(){
-//     $("#header_start").css("display","block !important");
-//     alert();
-// });
 </script>
 <script>
 

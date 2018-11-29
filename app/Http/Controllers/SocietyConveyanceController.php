@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\conveyance\scApplicationLog;
 use App\SocietyConveyance;
 use App\SocietyOfferLetter;
 use App\conveyance\ScAgreementComments;
@@ -66,6 +67,7 @@ class SocietyConveyanceController extends Controller
                 $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
             } ])->orderBy('id', 'desc');
 
+            dd($sc_applications);
             if($request->application_master_id)
             {
                 $sc_applications = $sc_applications->where('application_master_id', 'like', '%'.$request->application_master_id.'%');
@@ -86,13 +88,14 @@ class SocietyConveyanceController extends Controller
                     return $sc_applications->application_no;
                 })
                 ->editColumn('application_master_id', function ($sc_applications) {
+                    dd($sc_applications->scApplicationType->application_type);
                     return $sc_applications->scApplicationType->application_type;
                 })
                 ->editColumn('created_at', function ($sc_applications) {
                     return date(config('commanConfig.dateFormat'), strtotime($sc_applications->created_at));
                 })
                 ->editColumn('status', function ($sc_applications) {
-                    $status = explode('_', array_keys(config('commanConfig.applicationStatus'), $sc_applications->scApplicationLog->status_id)[0]);
+                    $status = explode('_', array_keys(config('commanConfig.conveyance_status'), $sc_applications->scApplicationLog->status_id)[0]);
                     $status_display = '';
                     foreach($status as $status_value){ $status_display .= ucwords($status_value). ' ';}
                     $status_color = '';
@@ -146,7 +149,7 @@ class SocietyConveyanceController extends Controller
         $comm_func = $this->CommonController;
         $layouts = MasterLayout::all();
         $application_master_id = scApplicationType::where('application_type', config('commanConfig.applicationType.Conveyance'))->first();
-
+//        dd($fillable_field_names);
         return view('frontend.society.conveyance.add', compact('layouts', 'field_names', 'society_details', 'comm_func', 'application_master_id'));
     }
 
@@ -234,7 +237,7 @@ class SocietyConveyanceController extends Controller
                             $input_sc_application['form_request_id'] = $input_id->id;
                             $sc_application = scApplication::create($input_sc_application);
 
-                            $inserted_application_log = $this->CommonController->sc_application_status_society($insert_arr, config('commanConfig.applicationStatus.pending'), $sc_application);
+                            $inserted_application_log = $this->CommonController->sc_application_status_society($insert_arr, config('commanConfig.conveyance_status.pending'), $sc_application);
 
                             $sc_document_status = new SocietyConveyanceDocumentStatus;
                             $sc_document_status_arr = array_flip($sc_document_status->getFillable());
@@ -443,7 +446,7 @@ class SocietyConveyanceController extends Controller
         unset($sc_bank_details_fields_name['society_id']);
         $sc_bank_details_fields = array_values(array_flip($sc_bank_details_fields_name));
         $comm_func = $this->CommonController;
-//        dd($documents);
+//        dd($society_bank_details);
         return view('frontend.society.conveyance.show_doc_bank_details', compact('documents', 'sc_application', 'society', 'documents_uploaded', 'sc_bank_details_fields', 'comm_func', 'society_bank_details'));
     }
 
@@ -575,12 +578,18 @@ class SocietyConveyanceController extends Controller
     public function society_bank_details(Request $request)
     {
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
+        $inserted_society_bank_details = SocietyBankDetails::where('society_id', $society->id)->first();
         $society_bank_detail['society_id'] = $society->id;
         $society_bank_details = $request->all();
         unset($society_bank_details['_token']);
         $sc_bank_details = new SocietyBankDetails;
-        if(count($sc_bank_details->getFillable()) == count(array_merge($society_bank_detail, $society_bank_details))){
-            SocietyBankDetails::create(array_merge($society_bank_detail, $society_bank_details));
+
+        if(count($inserted_society_bank_details) > 0 && count($sc_bank_details->getFillable()) == count(array_merge($society_bank_detail, $society_bank_details))){
+            SocietyBankDetails::where('id', $inserted_society_bank_details->id)->update(array_merge($society_bank_detail, $society_bank_details));
+        }else{
+            if(count($sc_bank_details->getFillable()) == count(array_merge($society_bank_detail, $society_bank_details))){
+                SocietyBankDetails::create(array_merge($society_bank_detail, $society_bank_details));
+            }
         }
 
         return redirect()->route('sc_form_upload_show');
@@ -660,8 +669,8 @@ class SocietyConveyanceController extends Controller
                 $insert_arr = array(
                     'users' => $users
                 );
-                $inserted_application_log = $this->CommonController->sc_application_status_society($insert_arr, config('commanConfig.applicationStatus.forwarded'), $sc_application);
-                scApplication::where('id', $sc_application->id)->update(['application_status' => config('commanConfig.applicationStatus.in_process')]);
+                $inserted_application_log = $this->CommonController->sc_application_status_society($insert_arr, config('commanConfig.conveyance_status.forwarded'), $sc_application);
+                scApplication::where('id', $sc_application->id)->update(['application_status' => config('commanConfig.conveyance_status.in_process')]);
             }
         }
 
@@ -698,7 +707,7 @@ class SocietyConveyanceController extends Controller
             }
         }
         $sc_agreement_comment = ScAgreementComments::with('scAgreementId')->get();
-
+//        dd(count($uploaded_document_ids));
         return view('frontend.society.conveyance.sale_lease_deed', compact('sc_application', 'documents', 'uploaded_document_ids', 'documents_remaining_ids', 'sc_agreement_comment'));
     }
 
@@ -720,7 +729,7 @@ class SocietyConveyanceController extends Controller
         $comm_func = $this->CommonController;
         $sale_agreement_type_id = $this->conveyance_common->getDocumentId('Sale Deed Agreement', '1');
         $lease_agreement_type_id = $this->conveyance_common->getDocumentId('Lease Deed Agreement', '1');
-        $status = config('commanConfig.applicationStatus.Stamped_signed_sale_&_lease_deed');
+        $status = config('commanConfig.conveyance_status.Stamped_signed_sale_&_lease_deed');
         $society_flag = 1;
 
         return view('frontend.society.conveyance.signed_sale_lease_deed', compact('sc_application', 'society_flag','status', 'sale_agreement_type_id', 'lease_agreement_type_id', 'field_names', 'comm_func'));

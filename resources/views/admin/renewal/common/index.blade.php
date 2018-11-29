@@ -13,6 +13,7 @@
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">
                 Application for Renewal</h3>
+                {{ Breadcrumbs::render('society_renewal') }}
             <!-- <button type="button" class="btn btn-transparent ml-auto" data-toggle="collapse" data-target="#filter">
                 <img class="filter-icon" src="{{asset('/img/filter-icon.svg')}}">Filter
             </button> -->
@@ -44,7 +45,7 @@
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
                                         id="update_status" name="update_status">
                                         <option value="" style="font-weight: normal;">Select Status</option>
-                                        @foreach(config('commanConfig.applicationStatus') as $key =>
+                                        @foreach(config('commanConfig.renewal_status') as $key =>
                                         $application_status)
                                         <option value="{{ $application_status }}"
                                             {{ ($status == $application_status) ? 'selected' : '' }}>{{
@@ -58,7 +59,7 @@
                                 <div class="form-group m-form__group">
                                     <div class="btn-list">
                                         <button type="submit" class="btn m-btn--pill m-btn--custom btn-primary">Search</button>
-                                        <button type="reset" onclick="window.location.href='{{ url("/dyce") }}'" class="btn m-btn--pill m-btn--custom btn-metal">Reset</button>
+                                        <button type="reset" onclick="window.location.href='{{ url("/renewal") }}'" class="btn m-btn--pill m-btn--custom btn-metal">Reset</button>
                                     </div>
                                 </div>
                             </div>

@@ -597,7 +597,12 @@ class HearingPermissionSeeder extends Seeder
                 'name'=>'conveyance.view_documents',
                 'display_name'=>'view conveyance documents',
                 'description'=>'view conveyance documents'
-            ],                                                                                    
+            ], 
+            [
+                'name'=>'renewal.view_documents',
+                'display_name'=>'view renewal society documents',
+                'description'=>'view renewal society documents'
+            ]                                                                                            
         ];
   
         foreach ($Jtco_permission as $permission) {

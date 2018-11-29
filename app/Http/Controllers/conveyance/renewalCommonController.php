@@ -81,12 +81,12 @@ class renewalCommonController extends Controller
                     if($request->update_status)
                     {
                         if($request->update_status == $status){
-                            $config_array = array_flip(config('commanConfig.applicationStatus'));
+                            $config_array = array_flip(config('commanConfig.renewal_status'));
                             $value = ucwords(str_replace('_', ' ', $config_array[$status]));
                             return '<span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$status) .' m-badge--wide">'.$value.'</span>';
                         }
                     }else{
-                        $config_array = array_flip(config('commanConfig.applicationStatus'));
+                        $config_array = array_flip(config('commanConfig.renewal_status'));
 
                         $value = ucwords(str_replace('_', ' ', $config_array[$status]));
                         return '<span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$status) .' m-badge--wide">'.$value.'</span>';
@@ -133,11 +133,11 @@ class renewalCommonController extends Controller
         });
         $applicationData = $applicationData->orderBy('renewal_application.id', 'desc')->get();
         $listArray = [];
-
+        
         if ($request->update_status) {
 
             foreach ($applicationData as $app_data) {
-                if ($app_data->scApplicationLog[0]->status_id == $request->update_status) {
+                if ($app_data->RenewalApplicationLog->status_id == $request->update_status) {
                     $listArray[] = $app_data;
                 }
             }
@@ -148,6 +148,7 @@ class renewalCommonController extends Controller
     }
 
     public function ViewApplication(Request $request,$applicationId){
+        
         $data = RenewalApplication::where('id',$applicationId)->first();
         $data->folder = $this->conveyance->getCurrentRoleFolderName();
         $document_id = $this->conveyance->getDocumentId(config('commanConfig.documents.em_renewal.stamp_renewal_application'), $data->application_master_id);
@@ -171,7 +172,7 @@ class renewalCommonController extends Controller
         $is_view = session()->get('role_name') == config('commanConfig.dycdo_engineer');
         $data->status = $this->getCurrentStatus($applicationId,$data->application_master_id);
 
-        if ($is_view && $data->status->status_id == config('commanConfig.applicationStatus.Draft_Renewal_of_Lease_deed')) {
+        if ($is_view && $data->status->status_id == config('commanConfig.renewal_status.Draft_Renewal_of_Lease_deed')) {
             $route = 'admin.renewal.dyco_department.draft_renewal_agreement';
         }else{
             $route = 'admin.renewal.common.view_draft_renewal_agreement';
@@ -228,7 +229,7 @@ class renewalCommonController extends Controller
         $is_view = session()->get('role_name') == config('commanConfig.co_engineer'); 
         $data->status = $this->getCurrentStatus($applicationId,$data->application_master_id); 
 
-        if ($is_view && $data->status->status_id == config('commanConfig.applicationStatus.Stamped_signed_sale_&_lease_deed')) {
+        if ($is_view && $data->status->status_id == config('commanConfig.renewal_status.Stamped_signed_sale_&_lease_deed')) {
             
             $route = 'admin.renewal.co_department.stamp_renewal_agreement';
         }else{
@@ -345,8 +346,8 @@ class renewalCommonController extends Controller
         }     
         else{
         $route = 'admin.renewal.common.forward_application';
-      }                 
-        // return view($route,compact('data','dycoLogs','eelogs','Architectlogs','cologs'));         
+      }    
+                  
         return view($route,compact('data','societyLogs','dycoLogs','eelogs','Architectlogs','cologs'));         
     }  
 
@@ -374,21 +375,23 @@ class renewalCommonController extends Controller
         $dycoId =  Role::where('name',config('commanConfig.dyco_engineer'))->value('id'); 
          
         if ($request->check_status == 1) {
-            $status = config('commanConfig.applicationStatus.forwarded');                
+            $status = config('commanConfig.renewal_status.forwarded');   
+            $toUsers = $request->to_user_id;             
         }else{
-            $status = config('commanConfig.applicationStatus.reverted');
+            $status = config('commanConfig.renewal_status.reverted');
+            $toUsers = $request->to_child_id;
         }
         
         if (session()->get('role_name') == config('commanConfig.ee_branch_head') && $request->to_role_id == $dycdoId) {
-    
-            $Tostatus = config('commanConfig.applicationStatus.Draft_Renewal_of_Lease_deed');
+       
+            $Tostatus = config('commanConfig.renewal_status.Draft_Renewal_of_Lease_deed');
             $Scstatus = $Tostatus;
 
         } elseif (session()->get('role_name') == config('commanConfig.joint_co') && $request->to_role_id == $dycdoId){
                
-            if ($applicationStatus == config('commanConfig.applicationStatus.Draft_Renewal_of_Lease_deed')){
+            if ($applicationStatus == config('commanConfig.renewal_status.Draft_Renewal_of_Lease_deed')){
 
-                $Tostatus = config('commanConfig.applicationStatus.Aproved_Renewal_of_Lease');
+                $Tostatus = config('commanConfig.renewal_status.Aproved_Renewal_of_Lease');
                 $Scstatus = $Tostatus;
                 
             }else{
@@ -396,9 +399,9 @@ class renewalCommonController extends Controller
                 $Scstatus = $Tostatus;
             }
         }elseif((session()->get('role_name') == config('commanConfig.dycdo_engineer') && $request->to_role_id == $dycoId)){
-            if ($applicationStatus == config('commanConfig.applicationStatus.Aproved_Renewal_of_Lease')){
+            if ($applicationStatus == config('commanConfig.renewal_status.Aproved_Renewal_of_Lease')){
 
-                $Tostatus = config('commanConfig.applicationStatus.Sent_society_to_pay_stamp_duety');
+                $Tostatus = config('commanConfig.renewal_status.Sent_society_to_pay_stamp_duety');
                 $Scstatus = $Tostatus;
 
             }else{
@@ -410,7 +413,7 @@ class renewalCommonController extends Controller
             $Tostatus = $applicationStatus;
         }
 
-        foreach($request->to_user_id as $to_user_id){
+        foreach($toUsers as $to_user_id){
             $user_data = User::find($to_user_id);
           
             $application = [[
@@ -465,7 +468,7 @@ class renewalCommonController extends Controller
     {
         $roles = array(config('commanConfig.society_offer_letter'));
 
-        $status = array(config('commanConfig.applicationStatus.forwarded'), config('commanConfig.applicationStatus.reverted'));
+        $status = array(config('commanConfig.renewal_status.forwarded'), config('commanConfig.renewal_status.reverted'));
 
         $societyRoles = Role::whereIn('name', $roles)->pluck('id');
         $ocietylogs  = RenewalApplicationLog::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->where('society_flag','=','1')->where('application_master_id',$masterId)->whereIn('role_id', $societyRoles)->whereIn('status_id', $status)->get();
@@ -478,7 +481,7 @@ class renewalCommonController extends Controller
     {
 
         $roles = array(config('commanConfig.dycdo_engineer'), config('commanConfig.dyco_engineer'));
-        $status = array(config('commanConfig.applicationStatus.forwarded'), config('commanConfig.applicationStatus.reverted'));
+        $status = array(config('commanConfig.renewal_status.forwarded'), config('commanConfig.renewal_status.reverted'));
 
         $dycoRoles = Role::whereIn('name', $roles)->pluck('id');
         $dycologs  = RenewalApplicationLog::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)
@@ -492,7 +495,7 @@ class renewalCommonController extends Controller
     {
 
         $roles = array(config('commanConfig.ee_junior_engineer'), config('commanConfig.ee_deputy_engineer'), config('commanConfig.ee_branch_head'));
-        $status = array(config('commanConfig.applicationStatus.forwarded'), config('commanConfig.applicationStatus.reverted'));
+        $status = array(config('commanConfig.renewal_status.forwarded'), config('commanConfig.renewal_status.reverted'));
 
         $eeRoles = Role::whereIn('name', $roles)->pluck('id');
         $eelogs  = RenewalApplicationLog::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->where('application_master_id',$masterId)->whereIn('role_id', $eeRoles)->whereIn('status_id', $status)->get();
@@ -505,7 +508,7 @@ class renewalCommonController extends Controller
     {
 
         $roles = array(config('commanConfig.junior_architect'), config('commanConfig.senior_architect'), config('commanConfig.architect'));
-        $status = array(config('commanConfig.applicationStatus.forwarded'), config('commanConfig.applicationStatus.reverted'));
+        $status = array(config('commanConfig.renewal_status.forwarded'), config('commanConfig.renewal_status.reverted'));
 
         $ArchitectRoles = Role::whereIn('name', $roles)->pluck('id');
         $Architectlogs  = RenewalApplicationLog::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->where('application_master_id',$masterId)->whereIn('role_id', $ArchitectRoles)->whereIn('status_id', $status)->get();
@@ -517,7 +520,7 @@ class renewalCommonController extends Controller
     public function getLogsOfCODepartment($applicationId,$masterId)
     {
         $roles = array(config('commanConfig.co_engineer'), config('commanConfig.joint_co'));
-        $status = array(config('commanConfig.applicationStatus.forwarded'), config('commanConfig.applicationStatus.reverted'));
+        $status = array(config('commanConfig.renewal_status.forwarded'), config('commanConfig.renewal_status.reverted'));
 
         $coRoles = Role::whereIn('name', $roles)->pluck('id');
         $cologs  = RenewalApplicationLog::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->where('application_master_id',$masterId)->whereIn('role_id', $coRoles)->whereIn('status_id', $status)->get();
@@ -546,7 +549,7 @@ class renewalCommonController extends Controller
         $status = $this->getCurrentStatus($applicationId,$data->application_master_id);
         $data->folder = $this->conveyance->getCurrentRoleFolderName();
 
-        if ($is_view && $status->status_id == config('commanConfig.applicationStatus.in_process')){
+        if ($is_view && $status->status_id == config('commanConfig.renewal_status.in_process')){
             $route = 'admin.renewal.ee_department.ee_scrutiny_remark';
         }else{
             $route = 'admin.renewal.common.view_ee_scrutiny_remark';
@@ -564,7 +567,7 @@ class renewalCommonController extends Controller
         $status = $this->getCurrentStatus($applicationId,$data->application_master_id);
         $data->folder = $this->conveyance->getCurrentRoleFolderName();
 
-        if ($is_view && $status->status_id == config('commanConfig.applicationStatus.in_process')){
+        if ($is_view && $status->status_id == config('commanConfig.renewal_status.in_process')){
            $route = 'admin.renewal.architect_department.architect_scrutiny_remark';
         }else{
             $route = 'admin.renewal.common.view_architect_scrutiny_remark';
@@ -630,7 +633,7 @@ class renewalCommonController extends Controller
         $data->folder = $this->conveyance->getCurrentRoleFolderName();
         $documents = SocietyConveyanceDocumentMaster::with(['sr_document_status' => function($q) use($data) { $q->where('application_id', $data->id)->get(); }])->where('application_type_id', $data->application_master_id)->where('society_flag', '1')->get();
         $documents_uploaded = RenewalDocumentStatus::where('application_id', $data->id)->get();
-//        dd($documents);
+   
         return view('admin.renewal.common.view_documents', compact('data', 'documents', 'documents_uploaded'));
     }
 
