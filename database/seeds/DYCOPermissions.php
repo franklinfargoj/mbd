@@ -267,6 +267,16 @@ class DYCOPermissions extends Seeder
                 'name'=>'dyco.forward_application_data',
                 'display_name'=>'forward application data',
                 'description'=>'forward application data'
+            ],             
+            [
+                'name'=>'renewal.view_documents',
+                'display_name'=>'view renewal society documents',
+                'description'=>'view renewal society documents'
+            ],            
+            [
+                'name'=>'dyco.save_renewal_draft_stamp_duty',
+                'display_name'=>'save renewal draft stamp duty',
+                'description'=>'save renewal draft stamp duty'
             ]      
         ];
 

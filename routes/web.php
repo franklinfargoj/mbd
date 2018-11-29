@@ -445,7 +445,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::post('society_reval_offer_letter_update','SocietyOfferLetterController@updateRevalOfferLetterApplication')->name('society_reval_offer_letter_update');
 
     Route::get('reval_documents_upload','SocietyOfferLetterController@displaySocietyRevalDocuments')->name('reval_documents_upload');
-    Route::post('add_uploaded_reval_documents_remark','SocietyOfferLetterController@addSocietyRevalDocumentsRemark')->name('add_uploaded_reval_documents_remark');
+    Route::post('add_uploaded_reval_documents_remark','Sosociety_offer_letter_dashboardcietyOfferLetterController@addSocietyRevalDocumentsRemark')->name('add_uploaded_reval_documents_remark');
     Route::get('reval_documents_uploaded','SocietyOfferLetterController@viewSocietyRevalDocuments')->name('reval_documents_uploaded');
     Route::post('uploaded_reval_documents','SocietyOfferLetterController@uploadSocietyRevalDocuments')->name('uploaded_reval_documents');
     Route::get('delete_uploaded_reval_documents/{id}','SocietyOfferLetterController@deleteSocietyRevalDocuments')->name('delete_uploaded_reval_documents');
@@ -784,8 +784,6 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::get('checklist/{id}', 'conveyance\DYCODepartment\DYCOController@showChecklist')->name('conveyance.checklist'); 
 
-    Route::get('generate_stamp_duty_letter/{id}', 'conveyance\DYCODepartment\DYCOController@GenerateStampDutyLetter')->name('dyco.generate_stamp_duty_letter');
-
     Route::get('checklist_note/{id}', 'conveyance\conveyanceCommonController@show_checklist')->name('conveyance.checklist_note');
 
 
@@ -822,13 +820,15 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::post('save_approve_renewal_agreement', 'conveyance\DYCODepartment\DYCOController@saveApproveRenewalAgreement')->name('dyco.save_approve_renewal_agreement');
 
-    Route::post('save_renewal_stamp_duty', 'conveyance\DYCODepartment\DYCOController@saveRenewalDraftStampDuty')->name('dyco.save_renewal_stamp_duty');
+    Route::post('save_renewal_draft_stamp_duty', 'conveyance\DYCODepartment\DYCOController@saveRenewalDraftStampDuty')->name('dyco.save_renewal_draft_stamp_duty');
 
     Route::get('generate_conveyance_stamp_duty/{id}', 'conveyance\DYCODepartment\DYCOController@GenerateConveyanceStampDuty')->name('dyco.generate_conveyance_stamp_duty');
 
     Route::post('save_draft_conveyance_stamp_duty', 'conveyance\DYCODepartment\DYCOController@saveDraftConveyanceStampDuty')->name('dyco.save_draft_conveyance_stamp_duty'); 
 
     Route::post('save_conveyance_stamp_duty', 'conveyance\DYCODepartment\DYCOController@saveConveyanceStampDuty')->name('dyco.save_conveyance_stamp_duty');
+
+    Route::get('generate_renewal_stamp_duty_letter/{id}', 'conveyance\DYCODepartment\DYCOController@GenerateStampDutyLetter')->name('dyco.generate_stamp_duty_letter');
 
     //EM
 
@@ -864,7 +864,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('renewal_application/{id}', 'conveyance\renewalCommonController@ViewApplication')
     ->name('renewal.view_application');
 
-    Route::get('view_renewal_documents/{id}', 'conveyance\renewalCommonController@ViewDocuments')->name('renewal.view_documents');
+    Route::get('view_renewal_society_documents/{id}', 'conveyance\renewalCommonController@ViewDocuments')->name('renewal.view_documents');
 
     Route::get('prepare_renewal_agreement/{id}', 'conveyance\renewalCommonController@PrepareRenewalAgreement')->name('renewal.prepare_renewal_agreement'); 
 

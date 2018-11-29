@@ -24,7 +24,7 @@
                     </a>
                 </li>
                 
-                @if($data->status->status_id != config('commanConfig.applicationStatus.forwarded') && $data->status->status_id != config('commanConfig.applicationStatus.reverted') )
+                @if($data->status->status_id != config('commanConfig.conveyance_status.forwarded') && $data->status->status_id != config('commanConfig.conveyance_status.reverted') )
                 <li class="nav-item m-tabs__item">
                     <a class="nav-link m-tabs__link show" data-toggle="tab" href="#forward-application-tab">
                         <i class="la la-cog"></i> Forward Application
@@ -140,9 +140,9 @@
 
                                         @foreach($societyLogs as $log)
 
-                                            @if($log->status_id == config('commanConfig.applicationStatus.forwarded'))
+                                            @if($log->status_id == config('commanConfig.conveyance_status.forwarded'))
                                                 @php $status = 'Forwarded'; @endphp
-                                            @elseif($log->status_id == config('commanConfig.applicationStatus.reverted'))
+                                            @elseif($log->status_id == config('commanConfig.conveyance_status.reverted'))
                                                 @php $status = 'Reverted'; @endphp
                                             @endif
 
@@ -175,9 +175,9 @@
 
                                         @foreach($dycoLogs as $log)
 
-                                            @if($log->status_id == config('commanConfig.applicationStatus.forwarded'))
+                                            @if($log->status_id == config('commanConfig.conveyance_status.forwarded'))
                                                 @php $status = 'Forwarded'; @endphp
-                                            @elseif($log->status_id == config('commanConfig.applicationStatus.reverted'))
+                                            @elseif($log->status_id == config('commanConfig.conveyance_status.reverted'))
                                                 @php $status = 'Reverted'; @endphp
                                             @endif
 
@@ -210,9 +210,9 @@
 
                                         @foreach($eelogs as $log)
 
-                                            @if($log->status_id == config('commanConfig.applicationStatus.forwarded'))
+                                            @if($log->status_id == config('commanConfig.conveyance_status.forwarded'))
                                                 @php $status = 'Forwarded'; @endphp
-                                            @elseif($log->status_id == config('commanConfig.applicationStatus.reverted'))
+                                            @elseif($log->status_id == config('commanConfig.conveyance_status.reverted'))
                                                 @php $status = 'Reverted'; @endphp
                                             @endif
 
@@ -245,9 +245,9 @@
 
                                         @foreach($Architectlogs as $log)
 
-                                            @if($log->status_id == config('commanConfig.applicationStatus.forwarded'))
+                                            @if($log->status_id == config('commanConfig.conveyance_status.forwarded'))
                                                 @php $status = 'Forwarded'; @endphp
-                                            @elseif($log->status_id == config('commanConfig.applicationStatus.reverted'))
+                                            @elseif($log->status_id == config('commanConfig.conveyance_status.reverted'))
                                                 @php $status = 'Reverted'; @endphp
                                             @endif
 
@@ -280,9 +280,9 @@
 
                                         @foreach($cologs as $log)
 
-                                            @if($log->status_id == config('commanConfig.applicationStatus.forwarded'))
+                                            @if($log->status_id == config('commanConfig.conveyance_status.forwarded'))
                                                 @php $status = 'Forwarded'; @endphp
-                                            @elseif($log->status_id == config('commanConfig.applicationStatus.reverted'))
+                                            @elseif($log->status_id == config('commanConfig.conveyance_status.reverted'))
                                                 @php $status = 'Reverted'; @endphp
                                             @endif
 
