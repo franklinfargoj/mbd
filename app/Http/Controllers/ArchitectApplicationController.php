@@ -119,7 +119,7 @@ class ArchitectApplicationController extends Controller
                 ->editColumn('view', function ($architect_applications) use($is_commitee,$is_view){
                      return view('admin.architect.view_layout', compact('architect_applications','is_commitee','is_view'))->render();
                 })
-                
+
                 ->rawColumns(['application_number', 'application_date', 'candidate_name','email_and_mobile', 'grand_total','Status','view'])
                 ->make(true);
         }
@@ -211,7 +211,7 @@ class ArchitectApplicationController extends Controller
             'fee_payment_details',
             'imp_projects',
             'imp_project_work_handled'
-        ], 
+        ],
         ['id' => $id]);
         $work_in_hand=$application->project_sheets->where('work_completed',0);
         $work_completed=$application->project_sheets->where('work_completed',1);
@@ -230,7 +230,7 @@ class ArchitectApplicationController extends Controller
         {
             $is_view=false;
         }
-        
+
         $application = ArchitectApplicationMark::where('architect_application_id', $id)->get();
         $header_data = $this->header_data;
         return view('admin.architect.evaluate', compact('application', 'header_data', 'is_view','ArchitectApplication'));
@@ -282,7 +282,7 @@ class ArchitectApplicationController extends Controller
 
     public function getFinalCertificateGenerate($encryptedId)
     {
-        
+
         $uploadPath = '/uploads/temp_certificate';
         $destination = public_path($uploadPath);
         $certificate_generated = 0;
@@ -292,7 +292,7 @@ class ArchitectApplicationController extends Controller
         //dd($ArchitectApplication->statusLog);
         if ($ArchitectApplication) {
             if ($ArchitectApplication->drafted_certificate == null) {
-                
+
                 $content = view('admin.architect.certificate', compact('ArchitectApplication'));
 
                 $header_file = view('admin.REE_department.offer_letter_header');
@@ -510,7 +510,7 @@ class ArchitectApplicationController extends Controller
         {
             return back()->withError('something went wrong');
         }
-         
-    }   
+
+    }
 
 }

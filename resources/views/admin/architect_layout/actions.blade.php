@@ -48,7 +48,7 @@ $route=\Request::route()->getName();
         $show=0;
         if($status)
         {
-        $show=$status[0]->status_id==config('commanConfig.architect_layout_status.forward')?1:0;
+        $show=$status[0]->status_id==config('commanConfig.architect_layout_status.forward')?($status[0]->status_id==config('commanConfig.architect_layout_status.approved')?0:1):0;
         }else
         {
         $show=1;
@@ -66,7 +66,7 @@ $route=\Request::route()->getName();
             </a>
         </li>
         @endif
-         @php 
+         @php
         $visible_layout_and_excel=0;
              //get latest detail
         $latest_architect_layout_detail_id = \App\Layout\ArchitectLayoutDetail::where(['architect_layout_id' => $ArchitectLayout->id])->orderBy('id', 'desc')->first();
@@ -149,7 +149,7 @@ $route=\Request::route()->getName();
         @php $status=getLastStatusIdArchitectLayout($ArchitectLayout->id); @endphp
         {{-- @if($status!="") --}}
         @if($status->status_id!=config('commanConfig.architect_layout_status.new_application') ||
-        ($status->status_id==config('commanConfig.architect_layout_status.scrutiny_pending'))) 
+        ($status->status_id==config('commanConfig.architect_layout_status.scrutiny_pending')))
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{($route=='forward_architect_layout')?'m-menu__item--active':''}}">
                 <a class="m-menu__link" title="Society & EE Documents" href="{{route('forward_architect_layout',encrypt($ArchitectLayout->id))}}">
                     <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
