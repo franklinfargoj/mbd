@@ -252,7 +252,7 @@ return [
     ],
 
     'optional_docs_society_noc' => [
-        '6', '12', '18', '24'
+        '5', '11', '17', '23'
     ],
 
     'storage_server' => 'http://storage.mhada.php-dev.in',

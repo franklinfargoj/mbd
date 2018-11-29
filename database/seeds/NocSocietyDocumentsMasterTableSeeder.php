@@ -19,11 +19,6 @@ class NocSocietyDocumentsMasterTableSeeder extends Seeder
         	$doc_mas_entry= [
                 [
                     'application_id'   => 4,
-                    'language_id'   => 2,
-                    'name' => "संस्थेचा अर्ज परिशिष्ट अ प्रमाणे"
-                ],
-                [
-                    'application_id'   => 4,
                     'language_id'   => 1,
                     'name' => "Offer letter"
                 ],
@@ -59,11 +54,6 @@ class NocSocietyDocumentsMasterTableSeeder extends Seeder
 
         if(count($data1) == 0){
         	$doc_mas_entry1= [
-                [
-                    'application_id'   => 8,
-                    'language_id'   => 2,
-                    'name' => "संस्थेचा अर्ज परिशिष्ट अ प्रमाणे"
-                ],
                 [
                     'application_id'   => 8,
                     'language_id'   => 1,
@@ -103,11 +93,6 @@ class NocSocietyDocumentsMasterTableSeeder extends Seeder
         	$doc_mas_entry2= [
                 [
                     'application_id'   => 15,
-                    'language_id'   => 2,
-                    'name' => "संस्थेचा अर्ज परिशिष्ट अ प्रमाणे"
-                ],
-                [
-                    'application_id'   => 15,
                     'language_id'   => 1,
                     'name' => "Offer letter"
                 ],
@@ -143,11 +128,6 @@ class NocSocietyDocumentsMasterTableSeeder extends Seeder
 
         if(count($data3) == 0){
         	$doc_mas_entry3= [
-                [
-                    'application_id'   => 19,
-                    'language_id'   => 2,
-                    'name' => "संस्थेचा अर्ज परिशिष्ट अ प्रमाणे"
-                ],
                 [
                     'application_id'   => 19,
                     'language_id'   => 1,
