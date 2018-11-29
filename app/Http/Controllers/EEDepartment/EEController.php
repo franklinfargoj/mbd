@@ -193,6 +193,7 @@ class EEController extends Controller
                 'to_user_id' => $request->to_user_id,
                 'to_role_id' => $request->to_role_id,
                 'remark' => $request->remark,
+                'is_active' => 1,
                 'created_at' => Carbon::now()
             ],
 
@@ -204,9 +205,14 @@ class EEController extends Controller
                 'to_user_id' => NULL,
                 'to_role_id' => NULL,
                 'remark' => $request->remark,
+                'is_active' => 1,
                 'created_at' => Carbon::now()
             ]
             ];
+
+            //Code added by Prajakta
+            OlApplicationStatus::where('application_id',$request->application_id)->update(array('is_active' => 0));
+            //EOC
 
 //            echo "in forward";
 //            dd($forward_application);
@@ -261,6 +267,7 @@ class EEController extends Controller
                         'to_user_id' => $request->to_child_id,
                         'to_role_id' => $request->to_role_id,
                         'remark' => $request->remark,
+                        'is_active' => 1,
                         'created_at' => Carbon::now()
                     ],
 
@@ -273,6 +280,7 @@ class EEController extends Controller
                         'to_user_id' => NULL,
                         'to_role_id' => NULL,
                         'remark' => $request->remark,
+                        'is_active' => 1,
                         'created_at' => Carbon::now()
                     ]
                 ];
@@ -280,6 +288,11 @@ class EEController extends Controller
                 // dd($revert_application);
 //            echo "in revert";
 //            dd($revert_application);
+
+            //Code added by Prajakta
+            OlApplicationStatus::where('application_id',$request->application_id)->update(array('is_active' => 0));
+            //EOC
+
             OlApplicationStatus::insert($revert_application);
         }
 
