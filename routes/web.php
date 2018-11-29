@@ -795,17 +795,16 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::post('upload_la_agreement_riders', 'conveyance\conveyanceCommonController@upload_la_agreement_riders')->name('conveyance.upload_la_agreement_riders');
 
-    Route::get('generate_noc/{id}', 'conveyance\DYCODepartment\DYCOController@GenerateConveyanceNOC')->name('dyco.generate_canveyance_noc');
-
-    Route::post('save_draft_NOC', 'conveyance\DYCODepartment\DYCOController@saveDraftNOC')->name('dyco.save_draft_NOC');
-
-    Route::post('save_noc', 'conveyance\DYCODepartment\DYCOController@saveUploadedNOC')->name('dyco.save_noc'); 
     
     //dyco
     
    Route::get('conveyance_noc/{id}', 'conveyance\DYCODepartment\DYCOController@conveyanceNoc')->name('dyco.conveyance_noc'); 
 
-    Route::get('conveyance_noc/{id}', 'conveyance\DYCODepartment\DYCOController@conveyanceNOC')->name('dyco.conveyance_noc');
+    Route::get('generate_canveyance_noc/{id}', 'conveyance\DYCODepartment\DYCOController@GenerateConveyanceNOC')->name('dyco.generate_canveyance_noc');
+
+    Route::post('save_draft_NOC', 'conveyance\DYCODepartment\DYCOController@saveDraftNOC')->name('dyco.save_draft_NOC');
+
+    Route::post('save_canveyance_noc', 'conveyance\DYCODepartment\DYCOController@saveUploadedNOC')->name('dyco.save_noc'); 
 
     Route::post('storeChecklistData', 'conveyance\DYCODepartment\DYCOController@storeChecklistData')->name('dyco.storeChecklistData'); 
 
@@ -837,8 +836,6 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::post('save_conveyance_letter', 'conveyance\EMDepartment\EMController@saveNoDuesCertificate')->name('em.save_conveyance_no_dues_certificate');
     Route::post('save_list_of_allottees', 'conveyance\EMDepartment\EMController@uploadListOfAllottees')->name('em.save_list_of_allottees');
     Route::post('save_covering_letter_em', 'conveyance\EMDepartment\EMController@uploadCoveringLetter')->name('em.save_covering_letter');
-
-    // Route::get('sale_price_calculation/{id}', 'conveyance\EEDepartment\EEController@SalePriceCalculation')->name('ee.sale_price_calculation');
 
     //Architect
 

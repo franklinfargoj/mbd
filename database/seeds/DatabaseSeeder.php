@@ -59,7 +59,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ArchitectLayoutEEScrtinyQuestionMasterSeeder::class);
         // $this->call(RtiFormTableSeeder::class);
 
-//        $this->call(MasterTables::class);
+        $this->call(MasterTables::class);
          // $this->call(RtiFormTableSeeder::class);
 
         
@@ -77,5 +77,7 @@ class DatabaseSeeder extends Seeder
 //        $this->call(SfScrtinyByEmMasterSeeder::class);
         $this->call(NocScrutinyQuestionMasterTable::class);
         $this->call(NocSocietyDocumentsMasterTableSeeder::class);
+        $this->call(MasterLayoutSeeder::class);
+
     }
 }

@@ -95,7 +95,7 @@
                         @if($id == '14' || $id == '18')
                             <div class="col-sm-4 offset-sm-1 form-group">
                                 <label class="col-form-label" for="developer_name">Developer Name:</label>
-                                <input type="text" id="developer_name" name="developer_name" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ $ol_application->request_form->developer_name }}">
+                                <input type="text" id="developer_name" name="developer_name" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ $society_details->developer_name }}">
                                 <span class="help-block">{{$errors->first('developer_name')}}</span>
                             </div>
                         @endif

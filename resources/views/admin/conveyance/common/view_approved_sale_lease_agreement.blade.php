@@ -216,7 +216,7 @@
                 </div>  
             </div> 
         </div>       
- @endif    
+ @endif     
 
     @if(count($data->AgreementComments) > 0)       
         <div class="m-portlet m-portlet--mobile m_panel">
@@ -237,7 +237,20 @@
                 </div>               
             </div>    
         </div> 
-    @endif   
+    @endif  
+
+    @if($data->riders)
+        <div class="m-portlet m-portlet--mobile m_panel">  
+            <div class="m-portlet__body">   
+                <div class="col-xs-12 row">
+                    <div class="col-md-12">
+                        <h3 class="section-title section-title--small">Riders</h3>
+                        <textarea rows="4" cols="63" name="remark" readonly>{{ isset($data->riders) ? $data->riders : '' }}</textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif      
 
     @if($data->status->status_id != config('commanConfig.applicationStatus.forwarded') && $data->status->status_id != config('commanConfig.applicationStatus.reverted') )
 
@@ -258,4 +271,20 @@
         </form>
     @endif
         
+@endsection
+@section('js')
+<script>
+    $("#stampFRM").validate({
+        rules: {
+            stamp_letter: {
+                extension: "pdf",
+                required : true
+            },            
+        }, messages: {
+            stamp_letter: {
+                extension: "Invalid type of file uploaded (only pdf allowed)."
+            },            
+        }
+    });  
+</script>
 @endsection

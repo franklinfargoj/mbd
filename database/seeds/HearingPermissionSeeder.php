@@ -293,7 +293,7 @@ class HearingPermissionSeeder extends Seeder
                 'description' => 'Shows scheduled hearing data'
             ],
             [
-                'name' => 'hearing-dashboard',
+                'name' => 'hearing.dashboard',
                 'display_name' => 'Shows hearing dashboard',
                 'description' => 'Shows hearing dashboard'
             ],

@@ -14,15 +14,14 @@
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
-            <!-- <h3 class="m-subheader__title m-subheader__title--separator"> -->
-            <!-- Registered Sale & Lease Deed Agreement -->
-            <!-- </h3> -->
-            {{-- {{ Breadcrumbs::render('calculation_sheet',$ol_application->id) }} --}}
-            <div class="ml-auto btn-list">
-                <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
-            </div>
-
+            <h3 class="m-subheader__title m-subheader__title--separator">
+                Sale & Lease Deed</h3>
+                 {{ Breadcrumbs::render('conveyance_registered_sale_lease',$data->id) }}
+                <div class="ml-auto btn-list">
+                    <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+                </div>
         </div>
+    </div> 
         <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom" role="tablist">
             <li class="nav-item m-tabs__item">
                 <a class="nav-link m-tabs__link active show" data-toggle="tab" href="#sale-deed-agreement" role="tab"
@@ -62,8 +61,8 @@
                                             <h5>Download</h5>
                                             <span class="hint-text">Click Download to download Sale Deed Agreement </span>
                                             <div class="mt-auto">
-                                                @if(isset($data->scApplicationAgreement->draft_sale_agreement))
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->scApplicationAgreement->draft_sale_agreement }}">
+                                                @if(isset($data->RegisterSaleAgreement->document_path))
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->RegisterSaleAgreement->document_path }}">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>
@@ -80,8 +79,29 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Add Send to JT CO here -->
+            <div class="m-portlet m-portlet--mobile m_panel">
+                <div class="m-portlet__body">
+                    <h3 class="section-title section-title--small">Sub registrar Details</h3>
+                      <div class="form-group row">
+                            <label for="inputPassword" class="col-sm-3 col-form-label">Sub Registrar Name - </label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control" id="inputPassword" value="{{ isset($data->sale_registration->sub_registrar_name) ? $data->sale_registration->sub_registrar_name : '' }}" readonly>
+                            </div>
+                      </div> 
+                      <div class="form-group row">
+                            <label for="inputPassword" class="col-sm-3 col-form-label">Year -</label>
+                            <div class="col-sm-5">
+                               <input type="text" class="form-control" id="inputPassword" value="{{ isset($data->sale_registration->registration_year) ? $data->sale_registration->registration_year : '' }}" readonly>
+                            </div>
+                      </div>
+                        <div class="form-group row">
+                            <label for="inputPassword" class="col-sm-3 col-form-label">Registration No -</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control" id="inputPassword" value="{{ isset($data->sale_registration->registration_no) ? $data->sale_registration->registration_no : '' }}" readonly>
+                            </div>
+                      </div>              
+                </div>
+            </div>                
         </div>
 
         <div class="tab-pane" id="lease-deed-agreement" role="tabpanel">
@@ -105,8 +125,8 @@
                                             <h5>Download</h5>
                                             <span class="hint-text">Click Download to download Lease Deed Agreement</span>
                                             <div class="mt-auto">
-                                                @if(isset($data->scApplicationAgreement->draft_lease_agreement))
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->scApplicationAgreement->draft_lease_agreement }}">
+                                                @if(isset($data->RegisterLeaseAgreement->document_path))
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->RegisterLeaseAgreement->document_path }}">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                        Download  </Button>
                                                 </a>
@@ -123,26 +143,39 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="m-portlet m-portlet--mobile m_panel">
-        <div class="m-portlet__body">
-            <h3 class="section-title section-title--small">Sub registrar Details</h3>
-<!--             <div class="col-xs-12 row">
-                <div class="col-md-12">
-                    <div class="col-md-6" style="display: inline;">
-                        <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
-                        Download  </Button>
-                    </div>
-                    <div class="col-md-6" style="display: inline;">
-                        <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
-                        send to society </Button>
-                    </div>    
+            <div class="m-portlet m-portlet--mobile m_panel">
+                <div class="m-portlet__body">
+                    <h3 class="section-title section-title--small">Sub registrar Details</h3>
+                      <div class="form-group row">
+                            <label for="inputPassword" class="col-sm-3 col-form-label">Sub Registrar Name - </label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control" id="inputPassword" value="{{ isset($data->sale_registration->sub_registrar_name) ? $data->lease_registration->sub_registrar_name : '' }}" readonly>
+                            </div>
+                      </div> 
+                      <div class="form-group row">
+                            <label for="inputPassword" class="col-sm-3 col-form-label">Year -</label>
+                            <div class="col-sm-5">
+                               <input type="text" class="form-control" id="inputPassword" value="{{ isset($data->sale_registration->registration_year) ? $data->lease_registration->registration_year : '' }}" readonly>
+                            </div>
+                      </div>
+                        <div class="form-group row">
+                            <label for="inputPassword" class="col-sm-3 col-form-label">Registration No -</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control" id="inputPassword" value="{{ isset($data->sale_registration->registration_no) ? $data->lease_registration->registration_no : '' }}" readonly>
+                            </div>
+                      </div>              
                 </div>
-            </div> -->
+            </div>             
         </div>
     </div>
 
+ <!--    <div class="m-portlet m-portlet--mobile m_panel">
+        <div class="m-portlet__body">
+            <h3 class="section-title section-title--small">Sub registrar Details</h3>
+            <input type="text" name="" class="form-control form-control--custom" value="{{ isset($value->checklistStatus) ? $value->checklistStatus->value : '' }}"> 
+        </div>
+    </div> -->
+ 
     @if(count($data->AgreementComments) > 0)       
         <div class="m-portlet m-portlet--mobile m_panel">
             <div class="m-portlet__body">
@@ -162,7 +195,20 @@
                 </div>               
             </div>    
         </div> 
-    @endif   
+    @endif 
+
+    @if($data->riders)
+        <div class="m-portlet m-portlet--mobile m_panel">  
+            <div class="m-portlet__body">   
+                <div class="col-xs-12 row">
+                    <div class="col-md-12">
+                        <h3 class="section-title section-title--small">Riders</h3>
+                        <textarea rows="4" cols="63" name="remark" readonly>{{ isset($data->riders) ? $data->riders : '' }}</textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif       
 
     @if($data->status->status_id != config('commanConfig.applicationStatus.forwarded') && $data->status->status_id != config('commanConfig.applicationStatus.reverted') )
 

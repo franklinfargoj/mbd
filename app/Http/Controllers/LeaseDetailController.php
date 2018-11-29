@@ -277,8 +277,8 @@ class LeaseDetailController extends Controller
 //                    dd($lease_data->leaseSociety->society_name);
                     return $lease_data->leaseSociety['society_name'];
                 })
-                ->editColumn('actions', function ($lease_data) {
-                    return view('admin.lease_detail.actions', compact('lease_data'))->render();
+                ->editColumn('actions', function ($lease_data) use ($id) {
+                    return view('admin.lease_detail.actions', compact('lease_data', 'id'))->render();
                 })
                 ->rawColumns(['lease_start_date', 'lease_renewal_date', 'leaseSociety', 'actions'])
                 ->make(true);
@@ -319,6 +319,8 @@ class LeaseDetailController extends Controller
      */
     public function store(LeaseDetailRequest $request)
     {
+//        dd($request->lease_start_date);
+
         $lease_start_date = $request->lease_start_date;
         $lease_period = '+'.$request->lease_period.' years';
         $lease_end_date = date('Y-m-d', strtotime($lease_period, strtotime($lease_start_date)));
@@ -354,8 +356,9 @@ class LeaseDetailController extends Controller
 
         else
             $arrData['lease_data'] = LeaseDetail::where( ['lease_status' => 1])->first();
-
-        return view('admin.lease_detail.renew-lease', compact('header_data', 'arrData', 'id', 'village_id'));
+        $count = count($arrData['lease_data']);
+//        dd($count);
+        return view('admin.lease_detail.renew-lease', compact('header_data', 'arrData', 'id', 'village_id', 'count'));
     }
 
     public function updateLease(LeaseDetailRequest $request, $id)

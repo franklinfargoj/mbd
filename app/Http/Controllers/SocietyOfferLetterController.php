@@ -555,6 +555,7 @@ class SocietyOfferLetterController extends Controller
             'created_at' => date('Y-m-d H-i-s'),
             'ol_issue_date' => date('Y-m-d', strtotime($request->input('ol_issue_date'))),
             'ol_vide_no' => $request->input('ol_vide_no'),
+            'reason_for_revalidation' => $request->input('reason_for_revalidation'),
             'updated_at' => null
         );
         $last_inserted_id = OlRequestForm::create($input);
@@ -1392,6 +1393,7 @@ class SocietyOfferLetterController extends Controller
             'developer_name' => $request->developer_name,
             'ol_vide_no' => $request->ol_vide_no,
             'ol_issue_date' => date('Y-m-d', strtotime($request->ol_issue_date)),
+            'reason_for_revalidation' => $request->reason_for_revalidation,
         );
         OlRequestForm::where('society_id', $society->id)->where('id', $request->request_form_id)->update($update_input);
         return redirect()->route('society_reval_offer_letter_preview');
@@ -1553,7 +1555,7 @@ class SocietyOfferLetterController extends Controller
                     'submitted_at' => date('Y-m-d H-i-s')
                 );
                 OlApplication::where('society_id', $society->id)->where('id', $request->input('id'))->update($input);
-                $role_id = Role::where('name', 'ee_junior_engineer')->first();
+                $role_id = Role::where('name','like', 'ree_junior_engineer')->first();
                 $application = OlApplication::where('society_id', $society->id)->where('id', $request->input('id'))->first();
 
                 $user_ids = RoleUser::where('role_id', $role_id->id)->get();
