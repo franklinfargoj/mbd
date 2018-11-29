@@ -248,7 +248,12 @@ class ArchitectUserSeeder extends Seeder
                     'name' => 'conveyance.view_documents',
                     'display_name' => 'view society documents',
                     'description' => 'view society documents ',
-                ],                
+                ],
+                [
+                    'name'=>'renewal.view_documents',
+                    'display_name'=>'view renewal society documents',
+                    'description'=>'view renewal society documents'
+                ]                                 
                 
             ];
  
@@ -698,6 +703,11 @@ class ArchitectUserSeeder extends Seeder
                 'display_name'=>'view society documents',
                 'description'=>'view society documents'
             ];
+            $architect_permissions[]= [
+                'name'=>'renewal.view_documents',
+                'display_name'=>'view renewal society documents',
+                'description'=>'view renewal society documents'
+            ];             
             
             //$architect_permission_role = [];
             foreach ($architect_permissions as $ee) {

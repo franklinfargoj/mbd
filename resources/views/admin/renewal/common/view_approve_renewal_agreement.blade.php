@@ -12,13 +12,16 @@
 
 <div class="col-md-12">
     <!-- BEGIN: Subheader -->
-    <div class="m-subheader px-0">
-        <div class="d-flex">
-            {{-- {{ Breadcrumbs::render('calculation_sheet',$ol_application->id) }} --}}
-            <div class="ml-auto btn-list">
-                <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+         <div class="m-subheader px-0 m-subheader--top">
+            <div class="d-flex align-items-center">
+                <h3 class="m-subheader__title m-subheader__title--separator">
+                    Lease Agreement </h3>
+                     {{ Breadcrumbs::render('renewal_approve_sale_lease',$data->id) }}
+                    <div class="ml-auto btn-list">
+                        <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+                    </div>
             </div>
-        </div>
+        </div>  
         <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom" role="tablist">
             <li class="nav-item m-tabs__item">
                 <a class="nav-link m-tabs__link active show" data-toggle="tab" href="#sale-deed-agreement" role="tab"
@@ -84,7 +87,7 @@
             <div class="m-section__content mb-0 table-responsive" style="margin-top: 30px;">
                 <div class="container">
                     <div class="row">
-                    @if($data->status->status_id != config('commanConfig.applicationStatus.forwarded'))
+                    @if($data->status->status_id != config('commanConfig.renewal_status.forwarded'))
                         <div class="col-sm-6">
                             <div class="d-flex flex-column h-100 two-cols">
                                 <h5>Generate</h5>
@@ -117,7 +120,7 @@
 @endif    
 
     <!-- Letter to pay stamp duty -->
-    @if(session()->get('role_name') == config('commanConfig.dyco_engineer') && $data->status->status_id != config('commanConfig.applicationStatus.forwarded'))
+    @if(session()->get('role_name') == config('commanConfig.dyco_engineer') && $data->status->status_id != config('commanConfig.renewal_status.forwarded'))
         <div class="m-portlet m-portlet--mobile m_panel">
             <div class="m-portlet__body">
                 <div class="m-subheader" style="padding: 0;">
@@ -192,7 +195,7 @@
     @endif  
 
     <!-- Add your remark -->
-    @if($data->status->status_id != config('commanConfig.applicationStatus.forwarded') && $data->status->status_id != config('commanConfig.applicationStatus.reverted'))    
+    @if($data->status->status_id != config('commanConfig.renewal_status.forwarded') && $data->status->status_id != config('commanConfig.renewal_status.reverted'))    
     <form class="nav-tabs-form" id ="CommentFRM" role="form" method="POST" action="{{ route('renewal.save_agreement_comments')}}">
     @csrf        
         <input type="hidden" name="application_id" id="application_id" value="{{ isset($data->id) ? $data->id : '' }}">  

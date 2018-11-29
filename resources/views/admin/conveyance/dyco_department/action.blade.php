@@ -85,7 +85,7 @@ $route=\Request::route()->getName();
         </li> 
         @endif  
 
-    @if(isset($data->application_status) && $data->application_status == config('commanConfig.applicationStatus.Draft_sale_&_lease_deed'))
+    @if(isset($data->application_status) && $data->application_status == config('commanConfig.conveyance_status.Draft_sale_&_lease_deed'))
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{($route=='conveyance.sale_lease_agreement')?'m-menu__item--active':''}}">
             <a class="m-menu__link m-menu__toggle" title="Prepar Draft Sale & Lease Deed" href="{{ route('conveyance.sale_lease_agreement', $data->id) }}">
                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
@@ -97,7 +97,7 @@ $route=\Request::route()->getName();
         </li>
     @endif
 
-    @if(isset($data->application_status) && ($data->application_status == config('commanConfig.applicationStatus.Aproved_sale_&_lease_deed') || $data->application_status == config('commanConfig.applicationStatus.Sent_society_to_pay_stamp_duety')) )    
+    @if(isset($data->application_status) && ($data->application_status == config('commanConfig.conveyance_status.Aproved_sale_&_lease_deed') || $data->application_status == config('commanConfig.conveyance_status.Sent_society_to_pay_stamp_duety')) )    
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{($route=='conveyance.approved_sale_lease_agreement')?'m-menu__item--active':''}}">
             <a class="m-menu__link m-menu__toggle" title="Approved Sale & Lease Deed" href="{{ route('conveyance.approved_sale_lease_agreement', $data->id) }}">
                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
@@ -109,7 +109,7 @@ $route=\Request::route()->getName();
         </li>
     @endif  
         
-    @if(isset($data->application_status) && $data->application_status == config('commanConfig.applicationStatus.Stamped_sale_&_lease_deed'))
+    @if(isset($data->application_status) && $data->application_status == config('commanConfig.conveyance_status.Stamped_sale_&_lease_deed'))
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{($route=='conveyance.stamp_duty_agreement')?'m-menu__item--active':''}}">
             <a class="m-menu__link m-menu__toggle" title="Stamp Duty Agreement" href="{{ route('conveyance.stamp_duty_agreement', $data->id) }}">
                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
@@ -121,7 +121,7 @@ $route=\Request::route()->getName();
         </li>              
     @endif
 
-    @if(isset($data->application_status) && ($data->application_status == config('commanConfig.applicationStatus.Stamped_signed_sale_&_lease_deed') || $data->application_status == config('commanConfig.applicationStatus.Sent_society_for_registration_of_sale_&_lease')) )       
+    @if(isset($data->application_status) && ($data->application_status == config('commanConfig.conveyance_status.Stamped_signed_sale_&_lease_deed') || $data->application_status == config('commanConfig.conveyance_status.Sent_society_for_registration_of_sale_&_lease')) )       
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{($route=='conveyance.stamp_signed_duty_agreement')?'m-menu__item--active':''}}">
             <a class="m-menu__link m-menu__toggle" title="Stamped and Signed Sale & Lease Deed" href="{{ route('conveyance.stamp_signed_duty_agreement', $data->id) }}">
                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
@@ -133,7 +133,7 @@ $route=\Request::route()->getName();
         </li>   
     @endif
     
-    @if(isset($data->application_status) && ($data->application_status == config('commanConfig.applicationStatus.Registered_sale_&_lease_deed') || (session()->get('role_name') == config('commanConfig.dycdo_engineer') && $data->application_status == config('commanConfig.applicationStatus.NOC_Issued')) ))    
+    @if(isset($data->application_status) && ($data->application_status == config('commanConfig.conveyance_status.Registered_sale_&_lease_deed') || (session()->get('role_name') == config('commanConfig.dycdo_engineer') && $data->application_status == config('commanConfig.conveyance_status.NOC_Issued')) ))    
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{($route=='conveyance.register_sale_lease_agreement')?'m-menu__item--active':''}}">
             <a class="m-menu__link m-menu__toggle" title="Registered Sale & Lease Deed" href="{{ route('conveyance.register_sale_lease_agreement', $data->id) }}">
                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
@@ -145,7 +145,7 @@ $route=\Request::route()->getName();
         </li> 
     @endif            
 
-    @if(session()->get('role_name') == config('commanConfig.dyco_engineer') && isset($data->application_status) && $data->application_status == config('commanConfig.applicationStatus.NOC_Issued'))    
+    @if(session()->get('role_name') == config('commanConfig.dyco_engineer') && isset($data->application_status) && $data->application_status == config('commanConfig.conveyance_status.NOC_Issued'))    
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{($route=='dyco.conveyance_noc')?'m-menu__item--active':''}}">
             <a class="m-menu__link m-menu__toggle" title="NOC for Conveyance" href="{{ route('dyco.conveyance_noc', $data->id) }}">
                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
@@ -157,7 +157,7 @@ $route=\Request::route()->getName();
         </li>
     @endif    
 
-    @if(isset($data->application_status) && $data->application_status != config('commanConfig.applicationStatus.in_process'))
+    @if(isset($data->application_status) && $data->application_status != config('commanConfig.conveyance_status.in_process'))
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{($route=='conveyance.checklist')?'m-menu__item--active':''}}">
             <a class="m-menu__link m-menu__toggle" title="Checklist & Office Note" href="{{ route('conveyance.checklist', $data->id) }}">
                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">

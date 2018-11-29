@@ -448,6 +448,7 @@ $route=\Request::route()->getName();
                     in_array('architect_detail_dp_crz_remark_view', session()->get('permission')) ||
                     in_array('view_court_case_or_dispute_on_land', session()->get('permission')) ||
                     in_array('architect_layout_add_scrutiny_report', session()->get('permission')) ))
+                        
                         <li class="m-menu__item {{($route=='architect_layout.index' || $route=='architect_layouts_layout_details.index' || $route=='architect_layout.add')?'':'collapsed'}}"
                             data-toggle="collapse" data-target="#architect-layouts">
                             <a href="{{ route('architect_layout.index') }}" class="m-menu__link m-menu__toggle">
@@ -509,10 +510,11 @@ $route=\Request::route()->getName();
                             </ul>
                         </li>
                     @endif
+                                     
 
 <!-- Tabs for Estate and Conveyance -->
  @if(session()->get('permission') && (( in_array('conveyance.index', session()->get('permission')) || in_array('renewal.index', session()->get('permission')) || in_array('get_sf_applications.index', session()->get('permission')) ) ))
-    <li class="m-menu__item" data-toggle="collapse" data-target="#estate-actions">
+    <li class="m-menu__item {{($route=='conveyance.index' || $route=='renewal.index' || $route=='get_sf_applications.index')?'':'collapsed'}}" data-toggle="collapse" data-target="#estate-actions">
         <a href="javascript:void(0);" class="m-menu__link m-menu__toggle">
             <i class="m-menu__link-icon flaticon-line-graph"></i>
             <span class="m-menu__link-title">
@@ -526,7 +528,7 @@ $route=\Request::route()->getName();
         </a>
     </li>
 
-    <li id="estate-actions" class="collapse show"> 
+    <li id="estate-actions" class="collapse {{($route=='conveyance.index' || $route=='renewal.index' || $route=='get_sf_applications.index')? 'show' : ''}}"> 
         <ul class="list-unstyled">           
             @if(session()->get('permission') && (in_array('conveyance.index', session()->get('permission')) ))
                 <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{ ($route=='conveyance.index') ? 'm-menu__item--active' : '' }}">
