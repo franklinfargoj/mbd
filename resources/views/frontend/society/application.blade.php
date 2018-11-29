@@ -40,7 +40,8 @@
           {{--</div>--}}
         @if($id == '2' || $id == '13')
           <div class="col-xs-12 self_premium" id="">
-            <span class="App_head"> List of Applications for Redevelopment - @if($id == '2') Self Redevelopment @endif @if($id == '13') Redevelopment Through Developer @endif</span>
+            <span class="App_head"> List of Applications for Redevelopment - @if($id == '2') Self Redevelopment @endif @if($id == '6') Redevelopment Through Developer @endif</span>
+
             <div class="options">
               <p> @if(Session::all()['ol_application_count'] == 1) New - Offer Letter @else <a href="@if($id == '2') {{  route('show_form_self', $id) }}@endif @if($id == '13') {{  route('show_form_dev', $id) }}@endif"> New - Offer Letter </a> @endif</p>
               <p> @if($self_reval_premium) <a href="{{  route('show_reval_self', $self_reval_premium) }}">Revalidation of offer Letter</a>  @elseif($self_reval_sharing)  <a href="{{  route('show_reval_dev', $self_reval_sharing) }}">Revalidation of offer Letter</a> @endif </p>
