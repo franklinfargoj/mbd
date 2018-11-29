@@ -248,7 +248,7 @@ class SocietyOfferLetterController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function dashboard(DataTables $datatables, Request $request)
-    {   
+    {
         $columns = [
             ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
@@ -1511,6 +1511,7 @@ class SocietyOfferLetterController extends Controller
                         $insert_application_log_forwarded[$key]['to_user_id'] = $user->id;
                         $insert_application_log_forwarded[$key]['to_role_id'] = $user->role_id;
                         $insert_application_log_forwarded[$key]['remark'] = isset($society_remark->society_documents_comment) ? $society_remark->society_documents_comment : '' ;
+                        $insert_application_log_forwarded[$key]['is_active'] = 1;
                         $insert_application_log_forwarded[$key]['created_at'] = date('Y-m-d H-i-s');
                         $insert_application_log_forwarded[$key]['updated_at'] = date('Y-m-d H-i-s');
 
@@ -1522,11 +1523,15 @@ class SocietyOfferLetterController extends Controller
                         $insert_application_log_in_process[$key]['to_user_id'] = 0;
                         $insert_application_log_in_process[$key]['to_role_id'] = 0;
                         $insert_application_log_in_process[$key]['remark'] = isset($society_remark->society_documents_comment) ? $society_remark->society_documents_comment : '' ;
+                        $insert_application_log_in_process[$key]['is_active'] = 1;
                         $insert_application_log_in_process[$key]['created_at'] = date('Y-m-d H-i-s');
                         $insert_application_log_in_process[$key]['updated_at'] = date('Y-m-d H-i-s');
                         $i++;
                     }
                 }
+                //Code added by Prajakta
+                    OlApplicationStatus::where('application_id',$application->id)->update(array('is_active' => 0));
+                //EOC
                     OlApplicationStatus::insert(array_merge($insert_application_log_forwarded, $insert_application_log_in_process));
             }else{
                 return redirect()->back()->with('error_uploaded_file', 'Invalid type of file uploaded (only pdf allowed)');

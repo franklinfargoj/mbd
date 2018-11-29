@@ -386,6 +386,7 @@ class CommonController extends Controller
                 'to_user_id' => $request->to_user_id,
                 'to_role_id' => $request->to_role_id,
                 'remark' => $request->remark,
+                'is_active' => 1,
                 'created_at' => Carbon::now(),
             ],
 
@@ -397,11 +398,28 @@ class CommonController extends Controller
                     'to_user_id' => null,
                     'to_role_id' => null,
                     'remark' => $request->remark,
+                    'is_active' => 1,
                     'created_at' => Carbon::now(),
                 ],
             ];
 
-            OlApplicationStatus::insert($forward_application);
+            //Code added by Prajakta
+            DB::beginTransaction();
+            try {
+                OlApplicationStatus::where('application_id',$request->applicationId)
+                    ->where('user_id',Auth::user()->id)
+                    ->orWhere('user_id',$request->to_user_id)
+                    ->update(array('is_active' => 0));
+
+                OlApplicationStatus::insert($forward_application);
+
+                DB::commit();
+            } catch (\Exception $ex) {
+                DB::rollback();
+//                return response()->json(['error' => $ex->getMessage()], 500);
+            }
+            //EOC
+
         } else {
             if (session()->get('role_name') == config('commanConfig.cap_engineer') || session()->get('role_name') == config('commanConfig.vp_engineer')) {
                 $revert_application = [
@@ -413,6 +431,7 @@ class CommonController extends Controller
                         'to_user_id' => $request->user_id,
                         'to_role_id' => $request->role_id,
                         'remark' => $request->remark,
+                        'is_active' => 1,
                         'created_at' => Carbon::now(),
                     ],
 
@@ -424,6 +443,7 @@ class CommonController extends Controller
                         'to_user_id' => null,
                         'to_role_id' => null,
                         'remark' => $request->remark,
+                        'is_active' => 1,
                         'created_at' => Carbon::now(),
                     ],
                 ];
@@ -437,6 +457,7 @@ class CommonController extends Controller
                         'to_user_id' => $request->to_child_id,
                         'to_role_id' => $request->to_role_id,
                         'remark' => $request->remark,
+                        'is_active' => 1,
                         'created_at' => Carbon::now(),
                     ],
 
@@ -448,13 +469,29 @@ class CommonController extends Controller
                         'to_user_id' => null,
                         'to_role_id' => null,
                         'remark' => $request->remark,
+                        'is_active' => 1,
                         'created_at' => Carbon::now(),
                     ],
                 ];
             }
-//            echo "in revert";
-            //            dd($revert_application);
-            OlApplicationStatus::insert($revert_application);
+
+            //Code added by Prajakta
+            DB::beginTransaction();
+            try {
+                OlApplicationStatus::where('application_id',$request->applicationId)
+                    ->where('user_id',Auth::user()->id)
+                    ->orWhere('user_id',$request->to_child_id)
+                    ->update(array('is_active' => 0));
+                //EOC
+                OlApplicationStatus::insert($revert_application);
+
+                DB::commit();
+            } catch (\Exception $ex) {
+                DB::rollback();
+//                return response()->json(['error' => $ex->getMessage()], 500);
+            }
+            //EOC
+
         }
 
         return true;
@@ -1360,12 +1397,13 @@ class CommonController extends Controller
         if(in_array($role_id ,$dyce))
             $dashboardData = $this->getDyceDashboardData($role_id,$dyce,$statusCount);
 
-        if($cap)
+        if($cap == $role_id)
             $dashboardData = $this->getCapDashboardData($statusCount);
 
-        if($vp)
+        if($vp == $role_id)
             $dashboardData = $this->getVpDashboardData($statusCount);
 
+//        dd($dashboardData);
         return view('admin.common.ol_dashboard',compact('dashboardData'));
 
     }
@@ -1377,6 +1415,23 @@ class CommonController extends Controller
                 $q->where('user_id', $user_id)
                     ->where('role_id', $role_id)
                     ->where('society_flag', 0)
+                    ->where('is_active',1)
+                    ->orderBy('id', 'desc');
+            }])
+            ->whereHas('olApplicationStatus', function ($q) use ($role_id,$user_id) {
+                $q->where('user_id', $user_id)
+                    ->where('role_id', $role_id)
+                    ->where('society_flag', 0)
+                    ->where('is_active',1)
+                    ->orderBy('id', 'desc');
+            })->get()->toArray();
+
+
+        $applicationDataCount = OlApplication::with([
+            'olApplicationStatus' => function ($q) use ($role_id,$user_id) {
+                $q->where('user_id', $user_id)
+                    ->where('role_id', $role_id)
+                    ->where('society_flag', 0)
                     ->orderBy('id', 'desc');
             }])
             ->whereHas('olApplicationStatus', function ($q) use ($role_id,$user_id) {
@@ -1384,7 +1439,12 @@ class CommonController extends Controller
                     ->where('role_id', $role_id)
                     ->where('society_flag', 0)
                     ->orderBy('id', 'desc');
-            })->get()->toArray();
+            })->get()->count();
+
+        dd($applicationDataCount);
+
+
+
 //        dd($applicationData);
         return $applicationData;
     }
@@ -1395,6 +1455,7 @@ class CommonController extends Controller
 
         foreach ($applicationData as $application){
 
+//            dd($application['ol_application_status'][0]['status_id']);
             $status = $application['ol_application_status'][0]['status_id'];
 //            print_r($status);
 //            echo '=====';
