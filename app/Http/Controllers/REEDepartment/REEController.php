@@ -1411,9 +1411,125 @@ class REEController extends Controller
     }
 
     public function dashboard(){
-        die('dfsdfsdf');
+        $role_id = session()->get('role_id');
+        $user_id = Auth::id();
 
+        $applicationData = $this->getApplicationData($role_id,$user_id);
+
+        $statusCount = $this->getApplicationStatusCount($applicationData);
+
+        // REE Roles
+        $ree = $this->getREERoles();
+
+        $dashboardData = $this->getREEDashboardData($role_id,$ree,$statusCount);
+
+        return view('admin.REE_department.dashboard',compact('dashboardData'));
+
+//        dd($ree);
+//
+//        die('dfsdfsdf');
 
     }
+
+    public function getApplicationData($role_id,$user_id){
+        $applicationData = OlApplication::with([
+            'olApplicationStatus' => function ($q) use ($role_id,$user_id) {
+                $q->where('user_id', $user_id)
+                    ->where('role_id', $role_id)
+                    ->where('society_flag', 0)
+//                    ->where('is_active',1)
+                    ->orderBy('id', 'desc');
+            }])
+            ->whereHas('olApplicationStatus', function ($q) use ($role_id,$user_id) {
+                $q->where('user_id', $user_id)
+                    ->where('role_id', $role_id)
+                    ->where('society_flag', 0)
+//                    ->where('is_active',1)
+                    ->orderBy('id', 'desc');
+            })->get()->toArray();
+
+        return $applicationData;
+    }
+
+    public function getApplicationStatusCount($applicationData){
+
+        $totalForwarded = $totalReverted = $totalPending = $totalInProcess = 0 ;
+
+        foreach ($applicationData as $application){
+
+//            dd($application['ol_application_status'][0]['status_id']);
+            $status = $application['ol_application_status'][0]['status_id'];
+//            print_r($status);
+//            echo '=====';
+            switch ( $status )
+            {
+                case config('commanConfig.applicationStatus.in_process'): $totalPending += 1; break;
+                case config('commanConfig.applicationStatus.forwarded'): $totalForwarded += 1; break;
+                case config('commanConfig.applicationStatus.reverted'): $totalReverted += 1 ; break;
+                default:
+                    ; break;
+            }
+        }
+//        dd($totalForwarded);
+        $totalApplication = count($applicationData);
+
+        $count = ['totalPending' => $totalPending,
+            'totalForwarded' => $totalForwarded,
+            'totalReverted' => $totalReverted,
+            'totalApplication' => $totalApplication
+        ];
+        return $count;
+
+    }
+
+    public function getREERoles(){
+        $ree_jr_id = Role::where('name',config('commanConfig.ree_junior'))->value('id');
+        $ree_head_id = Role::where('name',config('commanConfig.ree_branch_head'))->value('id');
+        $ree_deputy_id = Role::where('name', config('commanConfig.ree_deputy_engineer'))->value('id');
+        $ree_ass_id = Role::where('name', config('commanConfig.ree_assistant_engineer'))->value('id');
+
+        $ree = ['ree_jr_id' => $ree_jr_id,
+            'ree_head_id' => $ree_head_id,
+            'ree_deputy_id' => $ree_deputy_id,
+            'ree_ass_id' => $ree_ass_id];
+
+        return $ree;
+    }
+
+    public function getREEDashboardData($role_id,$ree,$statusCount)
+    {
+//        dd($ree);
+//        dd('perparing for dashboard data');
+        switch ($role_id) {
+            case ($ree['ree_jr_id']):
+                $dashboardData['Total No of Application'] = $statusCount['totalApplication'];
+                $dashboardData['Application Pending'] = $statusCount['totalPending'];
+                $dashboardData['Application Forwarded to REE Deputy'] = $statusCount['totalForwarded'];
+                break;
+            case ($ree['ree_head_id']):
+                $dashboardData['Total No of Application'] = $statusCount['totalApplication'];
+                $dashboardData['Application Pending'] = $statusCount['totalPending'];
+                $dashboardData['Application Sent for Compliance'] = $statusCount['totalReverted'];
+                $dashboardData['Application Forwarded to CO'] = $statusCount['totalForwarded'];
+                break;
+            case ($ree['ree_deputy_id']):
+                $dashboardData['Total No of Application'] = $statusCount['totalApplication'];
+                $dashboardData['Application Pending'] = $statusCount['totalPending'];
+                $dashboardData['Application Sent for Compliance'] = $statusCount['totalReverted'];
+                $dashboardData['Application Forwarded to REE Assistant'] = $statusCount['totalForwarded'];
+                break;
+            case ($ree['ree_ass_id']):
+                $dashboardData['Total No of Application'] = $statusCount['totalApplication'];
+                $dashboardData['Application Pending'] = $statusCount['totalPending'];
+                $dashboardData['Application Sent for Compliance'] = $statusCount['totalReverted'];
+                $dashboardData['Application Forwarded to REE Head'] = $statusCount['totalForwarded'];
+                break;
+            default:
+                ;
+                break;
+        }
+        return $dashboardData;
+    }
+
 
 }
