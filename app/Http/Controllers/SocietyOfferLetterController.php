@@ -1613,9 +1613,11 @@ class SocietyOfferLetterController extends Controller
                         $i++;
                     }
                 }
-                //Code added by Prajakta
+                //Code added by Prajakta >>start
+                    $application->phase = 1;
+                    $application->save;
                     OlApplicationStatus::where('application_id',$application->id)->update(array('is_active' => 0));
-                //EOC
+                //Code added by Prajakta >>end
                     OlApplicationStatus::insert(array_merge($insert_application_log_forwarded, $insert_application_log_in_process));
             }else{
                 return redirect()->back()->with('error_uploaded_file', 'Invalid type of file uploaded (only pdf allowed)');
