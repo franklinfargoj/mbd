@@ -1408,11 +1408,16 @@ class SocietyOfferLetterController extends Controller
         $ol_application = OlApplication::where('user_id', Auth::user()->id)->where('society_id', $society->id)->with(['request_form', 'applicationMasterLayout', 'olApplicationStatus' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc');
         }])->orderBy('id', 'desc')->first();
+
+        $old_ol_application = OlApplication::where('user_id', Auth::user()->id)->where('society_id', $society->id)->with(['request_form', 'applicationMasterLayout', 'olApplicationStatus' => function($q){
+            $q->where('society_flag', '1')->orderBy('id', 'desc');
+        }])->first();
+
         $layouts = MasterLayout::all();
         $id = $ol_application->application_master_id;
         $ol_applications = $ol_application;
 
-        return view('frontend.society.show_reval_ol_application_form', compact('society_details', 'ol_applications', 'ol_application', 'layouts', 'id'));
+        return view('frontend.society.show_reval_ol_application_form', compact('society_details', 'ol_applications', 'ol_application', 'layouts', 'id','old_ol_application'));
     }
 
     /**
