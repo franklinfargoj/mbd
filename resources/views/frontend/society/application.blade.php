@@ -68,16 +68,19 @@
         {{--@endif--}}
 
         <div class="col-xs-12 self_premium" id="">
-          <span class="App_head"> List of Applications for Redevelopment - @if($id == $self_premium || $id == $self_sharing) Self Redevelopment @endif @if($id == $dev_premium || $id == $dev_sharing) Redevelopment Through Developer @endif</span>
+          {{--<span class="App_head"> List of Applications for Redevelopment - @if($id == $self_premium || $id == $self_sharing) Self Redevelopment @endif @if($id == $dev_premium || $id == $dev_sharing) Redevelopment Through Developer @endif</span>--}}
           <div class="options">
-            <p> @if(Session::all()['ol_application_count'] == 1) New - Offer Letter @else <a href="@if($id == $self_premium || $id == $self_sharing) {{  route('show_form_self', $id) }}@endif @if($id == $dev_premium || $id == $dev_sharing) {{  route('show_form_dev', $id) }}@endif"> New - Offer Letter </a> @endif</p>
-            <p> @if($id == $self_reval_premium || $id == $self_reval_sharing) <a href="{{  route('show_reval_self', $dev_reval_premium) }}">Revalidation of offer Letter</a>  @elseif($dev_reval_sharing)  <a href="{{  route('show_reval_dev', $dev_reval_sharing) }}">Revalidation of offer Letter</a> @endif </p>
-            <p> @if(Session::all()['noc_application_count'] == 1) Application for NOC - IOD @else <a href="@if($id == '6') {{  route('show_form_self_noc', $id) }}@endif @if($id == '17') {{  route('show_form_self_noc', $id) }}@endif"> Application for NOC - IOD </a> @endif</p>
-            @if($id == $dev_premium || $id == $dev_sharing)
-              <p> Tripartite Agreement </p>
-              <p> Application for CC </p>
-            @endif
-            <p> Consent for OC </p>
+            {{--<p> @if(Session::has('ol_application_count') && Session::all()['ol_application_count'] == 1) New - Offer Letter @else <a href="@if($id == $self_premium || $id == $self_sharing) {{  route('show_form_self', $id) }}@endif @if($id == $dev_premium || $id == $dev_sharing) {{  route('show_form_dev', $id) }}@endif"> New - Offer Letter </a> @endif</p>--}}
+            {{--<p> @if($id == $self_reval_premium || $id == $self_reval_sharing) <a href="{{  route('show_reval_self', $dev_reval_premium) }}">Revalidation of offer Letter</a>  @elseif($dev_reval_sharing)  <a href="{{  route('show_reval_dev', $dev_reval_sharing) }}">Revalidation of offer Letter</a> @endif </p>--}}
+            {{--<p> @if(Session::all()['noc_application_count'] == 1) Application for NOC - IOD @else <a href="@if($id == '6') {{  route('show_form_self_noc', $id) }}@endif @if($id == '17') {{  route('show_form_self_noc', $id) }}@endif"> Application for NOC - IOD </a> @endif</p>--}}
+            {{--@if($id == $dev_premium || $id == $dev_sharing)--}}
+              {{--<p> Tripartite Agreement </p>--}}
+              {{--<p> Application for CC </p>--}}
+            {{--@endif--}}
+            {{--<p> Consent for OC </p>--}}
+            @foreach($data as $application)
+              <p><a href="{{ route($form_route_arr[$ids[0]], $application->id) }}">{{ $application->title }}</a></p>
+            @endforeach
           </div>
         </div>
       </div>
