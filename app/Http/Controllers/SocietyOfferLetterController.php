@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\RevalOlSocietyDocumentStatus;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Auth\SessionGuard;
 use App\SocietyOfferLetter;
@@ -1171,7 +1172,7 @@ class SocietyOfferLetterController extends Controller
             'document_id' => $request->input('document_id'),
             'society_document_path' => $path,
         );
-        OlSocietyDocumentsStatus::create($input);
+        RevalOlSocietyDocumentStatus::create($input);
         $documents_master = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->with(['documents_uploaded' => function($q) use ($society){
             $q->where('society_id', $society->id)->get();
         }])->get();
