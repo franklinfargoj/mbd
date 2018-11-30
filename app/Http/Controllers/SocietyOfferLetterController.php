@@ -1614,11 +1614,19 @@ class SocietyOfferLetterController extends Controller
                     }
                 }
                 //Code added by Prajakta >>start
-                    $application->phase = 1;
-                    $application->save;
+                DB::beginTransaction();
+                try {
+                    OlApplication::where('id',$application->id)->update(array('phase' => 1));
+
                     OlApplicationStatus::where('application_id',$application->id)->update(array('is_active' => 0));
-                //Code added by Prajakta >>end
+                    //Code added by Prajakta >>end
                     OlApplicationStatus::insert(array_merge($insert_application_log_forwarded, $insert_application_log_in_process));
+
+                    DB::commit();
+                } catch (\Exception $ex) {
+                    DB::rollback();
+//                return response()->json(['error' => $ex->getMessage()], 500);
+                }
             }else{
                 return redirect()->back()->with('error_uploaded_file', 'Invalid type of file uploaded (only pdf allowed)');
             }
