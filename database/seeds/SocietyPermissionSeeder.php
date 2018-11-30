@@ -412,6 +412,11 @@ class SocietyPermissionSeeder extends Seeder
                     'name'         => 'reval_documents_uploaded',
                     'display_name' => 'View uploaded revalidation documents',
                     'description'  => 'View uploaded revalidation documents'
+                ],
+                [
+                    'name'         => 'reval_documents_upload',
+                    'display_name' => 'Upload revalidation documents',
+                    'description'  => 'Upload revalidation documents'
                 ]
         ];
         
