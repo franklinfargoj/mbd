@@ -1195,7 +1195,7 @@ class SocietyOfferLetterController extends Controller
         }
 
         if($docs_count == $docs_uploaded_count){
-            $role_id = Role::where('name', 'ree_junior_engineer')->first();
+            $role_id = Role::where('name','like', 'ree_junior_engineer')->first();
 
             $user_ids = RoleUser::where('role_id', $role_id->id)->get();
 
@@ -1330,7 +1330,7 @@ class SocietyOfferLetterController extends Controller
         }
 
         if($docs_count == $docs_uploaded_count){
-            $role_id = Role::where('name', 'ree_junior_engineer')->first();
+            $role_id = Role::where('name','like', 'ree_junior_engineer')->first();
             $user_ids = RoleUser::where('role_id', $role_id->id)->get();
             $layout_user_ids = LayoutUser::where('layout_id', $application->layout_id)->whereIn('user_id', $user_ids)->get();
             foreach ($layout_user_ids as $key => $value) {
