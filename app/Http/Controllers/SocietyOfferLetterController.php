@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\RevalOlSocietyDocumentStatus;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Auth\SessionGuard;
 use App\SocietyOfferLetter;
@@ -1171,15 +1172,15 @@ class SocietyOfferLetterController extends Controller
             'document_id' => $request->input('document_id'),
             'society_document_path' => $path,
         );
-        OlSocietyDocumentsStatus::create($input);
+        RevalOlSocietyDocumentStatus::create($input);
         $documents_master = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->with(['documents_uploaded' => function($q) use ($society){
             $q->where('society_id', $society->id)->get();
         }])->get();
 
-        if($application->application_master_id == '2' || $application->application_master_id == '13'){
+        if($application->application_master_id == '3' || $application->application_master_id == '14'){
             $optional_docs = config('commanConfig.optional_docs_premium_reval');
         }
-        if($application->application_master_id == '6' || $application->application_master_id == '17'){
+        if($application->application_master_id == '7' || $application->application_master_id == '18 '){
             $optional_docs = config('commanConfig.optional_docs_sharing_reval');
         }
         $docs_uploaded_count = 0;
@@ -1195,7 +1196,7 @@ class SocietyOfferLetterController extends Controller
         }
 
         if($docs_count == $docs_uploaded_count){
-            $role_id = Role::where('name', 'ree_junior_engineer')->first();
+            $role_id = Role::where('name','like', 'ree_junior_engineer')->first();
 
             $user_ids = RoleUser::where('role_id', $role_id->id)->get();
 
@@ -1311,10 +1312,10 @@ class SocietyOfferLetterController extends Controller
             $q->where('society_id', $society->id)->get();
         }])->get();
 
-        if($application->application_master_id == '2' || $application->application_master_id == '13'){
+        if($application->application_master_id == '3' || $application->application_master_id == '14' ){
             $optional_docs = config('commanConfig.optional_docs_premium_reval');
         }
-        if($application->application_master_id == '6' || $application->application_master_id == '17'){
+        if($application->application_master_id == '7' || $application->application_master_id == '18' ){
             $optional_docs = config('commanConfig.optional_docs_sharing_reval');
         }
         $docs_uploaded_count = 0;
@@ -1330,7 +1331,7 @@ class SocietyOfferLetterController extends Controller
         }
 
         if($docs_count == $docs_uploaded_count){
-            $role_id = Role::where('name', 'ree_junior_engineer')->first();
+            $role_id = Role::where('name','like', 'ree_junior_engineer')->first();
             $user_ids = RoleUser::where('role_id', $role_id->id)->get();
             $layout_user_ids = LayoutUser::where('layout_id', $application->layout_id)->whereIn('user_id', $user_ids)->get();
             foreach ($layout_user_ids as $key => $value) {
@@ -1408,11 +1409,16 @@ class SocietyOfferLetterController extends Controller
         $ol_application = OlApplication::where('user_id', Auth::user()->id)->where('society_id', $society->id)->with(['request_form', 'applicationMasterLayout', 'olApplicationStatus' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc');
         }])->orderBy('id', 'desc')->first();
+
+        $old_ol_application = OlApplication::where('user_id', Auth::user()->id)->where('society_id', $society->id)->with(['request_form', 'applicationMasterLayout', 'olApplicationStatus' => function($q){
+            $q->where('society_flag', '1')->orderBy('id', 'desc');
+        }])->first();
+
         $layouts = MasterLayout::all();
         $id = $ol_application->application_master_id;
         $ol_applications = $ol_application;
 
-        return view('frontend.society.show_reval_ol_application_form', compact('society_details', 'ol_applications', 'ol_application', 'layouts', 'id'));
+        return view('frontend.society.show_reval_ol_application_form', compact('society_details', 'ol_applications', 'ol_application', 'layouts', 'id','old_ol_application'));
     }
 
     /**

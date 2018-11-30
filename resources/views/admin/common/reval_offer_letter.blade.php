@@ -62,7 +62,7 @@
                         <p>
                             <span class="d-block font-weight-semi-bold">प्रति,</span>
                             <span class="d-block">कार्यकारी अभियंता, <input class="letter-form-input letter-form-input--md"
-                                    type="text" id="" name="department_name" value="EE" readonly> विभाग,</span>
+                                    type="text" id="" name="department_name" value="REE" readonly> विभाग,</span>
                             <span class="d-block">मुंबई गृहनिर्माण व क्षेत्रविकास मंडळ,</span>
                             <span class="d-block">गृहनिर्माण भवन, वांद्रे (पुर्व),</span>
                             <span class="d-block">मुंबई -४०००५१.</span>
