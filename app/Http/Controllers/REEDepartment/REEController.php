@@ -1082,11 +1082,19 @@ class REEController extends Controller
                     if ($request->update_status == $status){
                         $config_array = array_flip(config('commanConfig.applicationStatus'));
                         $value = ucwords(str_replace('_', ' ', $config_array[$status]));
+                        if($value == 'NOC Issued')
+                        {
+                            $value = 'NOC Approved';
+                        }
                         return '<span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$status) .' m-badge--wide">'.$value.'</span>';
                     }
                 }else{
                     $config_array = array_flip(config('commanConfig.applicationStatus'));
                     $value = ucwords(str_replace('_', ' ', $config_array[$status]));
+                    if($value == 'NOC Issued')
+                    {
+                        $value = 'NOC Approved';
+                    }
                     return '<span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$status) .' m-badge--wide">'.$value.'</span>';
                 }
 
@@ -1144,7 +1152,7 @@ class REEController extends Controller
         if ($model->noc_application_master->model == 'Premium'){
             $blade =  "premum_noc_letter";
         }elseif($model->noc_application_master->model == 'Sharing'){
-            $blade =  "premum_noc_letter";
+            $blade =  "sharing_iod_noc_letter";
         }
 
         if($model->draft_noc_text_path){
@@ -1159,6 +1167,8 @@ class REEController extends Controller
     }
 
     public function saveDraftNoc(Request $request){
+
+        $noc_application = $this->CommonController->getNocApplication($request->applicationId);
 
         $id = $request->applicationId;
         $content = str_replace('_', "", $_POST['ckeditorText']);
@@ -1195,6 +1205,11 @@ class REEController extends Controller
         NocApplication::where('id',$request->applicationId)->update(["draft_noc_path" => $filePath, "draft_noc_text_path" => $filePath1]);
 
         \Session::flash('success_msg', 'Changes in Noc draft has been saved successfully..');
+
+        if((session()->get('role_name') == config('commanConfig.ree_junior')) && !empty($noc_application->final_draft_noc_path) && ($noc_application->noc_generation_status != config('commanConfig.applicationStatus.NOC_Issued')))
+        {
+            return redirect('approved_noc_letter/'.$request->applicationId)->with('success', 'Changes in NOC has been incorporated successfully.');
+        }
 
         return redirect('generate_noc/'.$request->applicationId);
     }
@@ -1344,6 +1359,8 @@ class REEController extends Controller
         if(session()->get('role_name') == config('commanConfig.ree_junior') && $noc_application->noc_generation_status == 0 && !empty($noc_application->final_draft_noc_path))
         {
             NocApplication::where('id',$request->applicationId)->update(["noc_generation_status" => config('commanConfig.applicationStatus.NOC_Generation')]);
+
+            $noc_application = $this->CommonController->getNocApplication($request->applicationId);
         }
 
         if($noc_application->noc_generation_status == '0' && (session()->get('role_name') == config('commanConfig.ree_branch_head')) && empty($noc_application->final_draft_noc_path))
@@ -1374,6 +1391,8 @@ class REEController extends Controller
         $noc_application->model = NocApplication::with(['noc_application_master'])->where('id',$applicationId)->first();
         $applicationData = NocApplication::with(['eeApplicationSociety'])
                 ->where('id',$applicationId)->orderBy('id','DESC')->first();
+
+        $applicationData->ree_Jr_id = (session()->get('role_name') == config('commanConfig.ree_junior'));
 
         $this->CommonController->getREEForwardRevertLogNoc($applicationData,$applicationId); 
        

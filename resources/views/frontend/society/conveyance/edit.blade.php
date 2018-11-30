@@ -91,11 +91,13 @@
                         </div>
                         <div class="col-sm-4 offset-sm-1 form-group">
                             <label class="col-form-label" for="template">Upload File:</label>
-                            <input class="custom-file-input" name="template" type="file"
-                                   id="test-upload">
-                            <label class="custom-file-label" for="test-upload">Choose
-                                file ...</label>
-                            <span class="help-block">@if(session('error')) {{ session('error') }} @endif {{$errors->first('template')}}</span>
+                            <div class="custom-file">
+                                <input class="custom-file-input" name="template" type="file"
+                                       id="test-upload">
+                                <label class="custom-file-label" for="test-upload">Choose
+                                    file ...</label>
+                                <span class="help-block">@if(session('error')) {{ session('error') }} @endif {{$errors->first('template')}}</span>
+                            </div>
                             <span><a href="{{ config('commanConfig.storage_server').'/'.$sc_application->sc_form_request->template_file }}">{{ str_replace('/', '', strrchr($sc_application->sc_form_request->template_file, '/')) }}</a></span>
                         </div>
                     </div>

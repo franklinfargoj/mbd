@@ -1176,10 +1176,10 @@ class SocietyOfferLetterController extends Controller
             $q->where('society_id', $society->id)->get();
         }])->get();
 
-        if($application->application_master_id == '2' || $application->application_master_id == '13'){
+        if($application->application_master_id == '3' || $application->application_master_id == '14'){
             $optional_docs = config('commanConfig.optional_docs_premium_reval');
         }
-        if($application->application_master_id == '6' || $application->application_master_id == '17'){
+        if($application->application_master_id == '7' || $application->application_master_id == '18 '){
             $optional_docs = config('commanConfig.optional_docs_sharing_reval');
         }
         $docs_uploaded_count = 0;
@@ -1311,10 +1311,10 @@ class SocietyOfferLetterController extends Controller
             $q->where('society_id', $society->id)->get();
         }])->get();
 
-        if($application->application_master_id == '2' || $application->application_master_id == '13'){
+        if($application->application_master_id == '3' || $application->application_master_id == '14' ){
             $optional_docs = config('commanConfig.optional_docs_premium_reval');
         }
-        if($application->application_master_id == '6' || $application->application_master_id == '17'){
+        if($application->application_master_id == '7' || $application->application_master_id == '18' ){
             $optional_docs = config('commanConfig.optional_docs_sharing_reval');
         }
         $docs_uploaded_count = 0;
@@ -1408,11 +1408,16 @@ class SocietyOfferLetterController extends Controller
         $ol_application = OlApplication::where('user_id', Auth::user()->id)->where('society_id', $society->id)->with(['request_form', 'applicationMasterLayout', 'olApplicationStatus' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc');
         }])->orderBy('id', 'desc')->first();
+
+        $old_ol_application = OlApplication::where('user_id', Auth::user()->id)->where('society_id', $society->id)->with(['request_form', 'applicationMasterLayout', 'olApplicationStatus' => function($q){
+            $q->where('society_flag', '1')->orderBy('id', 'desc');
+        }])->first();
+
         $layouts = MasterLayout::all();
         $id = $ol_application->application_master_id;
         $ol_applications = $ol_application;
 
-        return view('frontend.society.show_reval_ol_application_form', compact('society_details', 'ol_applications', 'ol_application', 'layouts', 'id'));
+        return view('frontend.society.show_reval_ol_application_form', compact('society_details', 'ol_applications', 'ol_application', 'layouts', 'id','old_ol_application'));
     }
 
     /**
