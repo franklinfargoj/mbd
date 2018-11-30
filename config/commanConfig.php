@@ -101,8 +101,9 @@ return [
         'in_process' => 1,
         'forwarded' => 2,
         'reverted' => 3,
-        'Draft_lease_deed' => 16,
-        'Aproved_lease_deed' => 17,
+        'Sent_society_to_pay_stamp_duety' => 10,
+        // 'Draft_lease_deed' => 16,
+        // 'Aproved_lease_deed' => 17,
         'Draft_Renewal_of_Lease_deed' => 18,
         'Aproved_Renewal_of_Lease' => 19,
         'NOC_Generation' => 20
