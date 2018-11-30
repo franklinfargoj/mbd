@@ -1409,4 +1409,11 @@ class REEController extends Controller
         return redirect('/ree_noc_applications')->with('success','Issued Noc has been successfully sent to society.');
         
     }
+
+    public function dashboard(){
+        die('dfsdfsdf');
+
+
+    }
+
 }
