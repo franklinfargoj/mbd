@@ -7,6 +7,10 @@
  * @author   Taylor Otwell <taylor@laravel.com>
  */
 
+
+//echo "Site is under maintainence";
+//die;
+
 define('LARAVEL_START', microtime(true));
 
 /*
