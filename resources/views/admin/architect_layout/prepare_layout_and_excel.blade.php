@@ -42,16 +42,18 @@
             cache: false, // To unable request pages to be cached
             processData: false,
             success: function(data) {
-                console.log(data)
+                //console.log(data)
                 $(".loader").hide();
                 if(data.status==true)
                 {
                     $("#upload_layout_in_pdf_format_file").prop("href", data.file_path)
                     $("#upload_layout_in_pdf_format_file").css("display", "block");
                     $("#upload_layout_in_pdf_format_error").html('');
+                    $('.custom-file-label').html('Choose file...');
                 }else
                 {
                     $("#upload_layout_in_pdf_format_error").html(data.message);
+                    $('.custom-file-label').html('Choose file...');
                     //console.log(data.status+" "+data.message)
                 }
             }
@@ -81,7 +83,7 @@
             cache: false, // To unable request pages to be cached
             processData: false,
             success: function(data) {
-                console.log(data)
+                //console.log(data)
                 $(".loader").hide();
                 if(data.status==true)
                 {
@@ -89,8 +91,10 @@
                     $("#upload_layout_in_excel_format_file").css("display", "block");
                     $("#upload_layout_in_excel_format_file_display").css("display", "block");
                     $("#upload_layout_in_excel_format_error").html('');
+                    $('.custom-file-label').html('Choose file...');
                 }else
                 {
+                    $('.custom-file-label').html('Choose file...');
                     $("#upload_layout_in_excel_format_error").html(data.message);
                     //console.log(data.status+" "+data.message)
                 }
@@ -121,7 +125,7 @@
             cache: false, // To unable request pages to be cached
             processData: false,
             success: function(data) {
-                console.log(data)
+                //console.log(data)
                 $(".loader").hide();
                 if(data.status==true)
                 {
@@ -129,9 +133,11 @@
                     $("#upload_architect_note_file").css("display", "block");
                     $("#upload_architect_note_display").css("display", "block");
                     $("#upload_architect_note_error").html('');
+                    $('.custom-file-label').html('Choose file...');
                 }else
                 {
                     $("#upload_architect_note_error").html(data.message);
+                    $('.custom-file-label').html('Choose file...');
                     //console.log(data.status+" "+data.message)
                 }
             }

@@ -148,7 +148,7 @@ class EmploymentOfArchitectController extends Controller
                     if ($architect_applications->ArchitectApplicationStatusForLoginListing->count() > 0) {
                         $status_id = \App\ArchitectApplicationStatusLog::where(['user_id' => auth()->user()->id, 'role_id' => session()->get('role_id')])->orderBy('id', 'desc')->get()[0]->status_id;
                         $config_array = array_flip(config('commanConfig.architect_applicationStatus'));
-                        return $value = ucwords(str_replace('_', ' ', $config_array[$status_id]));
+                        return $value = ucwords(str_replace('_', ' ', $config_array[$status_id]=='forward'?'forwarded':$config_array[$status_id]));
                     } else {
                         return 'New Application & details pending';
                     }
