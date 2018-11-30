@@ -1176,10 +1176,10 @@ class SocietyOfferLetterController extends Controller
             $q->where('society_id', $society->id)->get();
         }])->get();
 
-        if($application->application_master_id == '2' || $application->application_master_id == '13'){
+        if($application->application_master_id == '3' || $application->application_master_id == '14'){
             $optional_docs = config('commanConfig.optional_docs_premium_reval');
         }
-        if($application->application_master_id == '6' || $application->application_master_id == '17'){
+        if($application->application_master_id == '7' || $application->application_master_id == '18 '){
             $optional_docs = config('commanConfig.optional_docs_sharing_reval');
         }
         $docs_uploaded_count = 0;
