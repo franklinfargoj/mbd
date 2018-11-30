@@ -45,12 +45,14 @@
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
                                         id="update_status" name="update_status">
                                         <option value="" style="font-weight: normal;">Select Status</option>
-                                        @foreach(config('commanConfig.conveyance_status') as $key =>
-                                        $application_status)
-                                                                                <option value="{{ $application_status }}"
-                                            {{ ($status == $application_status) ? 'selected' : '' }}>{{
-                                            ucwords(str_replace('_', ' ', $key)) }}</option>
-                                        @endforeach
+                                        @if(config('commanConfig.conveyance_status'))
+                                            @foreach(config('commanConfig.conveyance_status') as $key =>
+                                            $application_status)
+                                                                                    <option value="{{ $application_status }}"
+                                                {{ ($status == $application_status) ? 'selected' : '' }}>{{
+                                                ucwords(str_replace('_', ' ', $key)) }}</option>
+                                            @endforeach
+                                        @endif
                                     </select>
                                 </div>
                             </div>
