@@ -50,6 +50,11 @@ class Handler extends ExceptionHandler
         // {
         //     return redirect(route('appointing_architect.login'));
         // }
+
+//        if(\Request::segment(1)=='society_offer_letter')
+//         {
+//             return redirect(route('society_offer_letter.index'));
+//         }
         return parent::render($request, $exception);
     }
 }
