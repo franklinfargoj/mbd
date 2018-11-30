@@ -295,6 +295,11 @@ return [
         '5', '11', '17', '23'
     ],
 
+
+    'revalidation_master_ids' => [
+        '3', '7', '14', '18'
+    ],
+
     'storage_server' => 'http://storage.mhada.php-dev.in',
 
 

@@ -911,6 +911,8 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 //dashboard    
 
     Route::get('/dashboard','Common\CommonController@dashboard')->name('dashboard');
+    // Ree Dashboard
+    Route::get('/ree_dashboard','REEDepartment\REEController@dashboard')->name('ree.dashboard');
 
 });
 
