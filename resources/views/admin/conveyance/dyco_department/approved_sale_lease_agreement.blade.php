@@ -15,15 +15,14 @@
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
-            <!-- <h3 class="m-subheader__title m-subheader__title--separator">
-            Approved Sale & Lease Deed Agreement
-            </h3> -->
-            {{-- {{ Breadcrumbs::render('calculation_sheet',$ol_application->id) }} --}}
-            <div class="ml-auto btn-list">
-                <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
-            </div>
-
+            <h3 class="m-subheader__title m-subheader__title--separator">
+                Sale & Lease Deed Agreement</h3>
+                 {{ Breadcrumbs::render('conveyance_approve_sale_lease',$data->id) }}
+                <div class="ml-auto btn-list">
+                    <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+                </div>
         </div>
+    </div> 
         <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom" role="tablist">
             <li class="nav-item m-tabs__item">
                 <a class="nav-link m-tabs__link active show" data-toggle="tab" href="#sale-deed-agreement" role="tab"
@@ -156,32 +155,6 @@
             </div>
         </div>
     </div>
-  
-    <div class="m-portlet m-portlet--mobile m_panel">
-        <div class="m-portlet__body">
-            <h3 class="section-title section-title--small">Letter to Pay Stamp  Duty</h3>
-            <div class="col-xs-12 row">
-                <div class="col-md-12">
-                        <input type="hidden" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">
-                        <div class="col-md-6" style="display: inline;">
-                            <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
-                            Download  </Button>
-                        </div>
-                        
-                        @if($data->is_view && $data->status->status_id == config('commanConfig.applicationStatus.in_process'))
-                    <form class="nav-tabs-form" id ="agreementFRM" role="form" method="POST" action="{{ route('dyco.send_to_society')}}" enctype="multipart/form-data">
-                        @csrf
-                            <div class="col-md-6" style="display: inline;">
-                                <Button type="submit" class="s_btn btn btn-primary" id="submitBtn">
-                                send to society </Button>
-                            </div>
-                    </form>    
-                        @endif
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
     @if(count($data->AgreementComments) > 0)       
         <div class="m-portlet m-portlet--mobile m_panel">
@@ -202,7 +175,20 @@
                 </div>               
             </div>    
         </div> 
-    @endif   
+    @endif 
+
+    @if($data->riders)
+        <div class="m-portlet m-portlet--mobile m_panel">  
+            <div class="m-portlet__body">   
+                <div class="col-xs-12 row">
+                    <div class="col-md-12">
+                        <h3 class="section-title section-title--small">Riders</h3>
+                        <textarea rows="4" cols="63" name="remark" readonly>{{ isset($data->riders) ? $data->riders : '' }}</textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif        
 
     @if($data->status->status_id != config('commanConfig.applicationStatus.forwarded'))
   

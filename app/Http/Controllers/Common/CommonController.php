@@ -21,9 +21,11 @@ use App\Layout\ArchitectLayoutReeScrtinyQuestionMaster;
 use App\Layout\ArchitectLayoutStatusLog;
 use App\MasterLayout;
 use App\OlApplication;
+use App\NocApplication;
 use App\OlApplicationCalculationSheetDetails;
 use App\OlApplicationMaster;
 use App\OlApplicationStatus;
+use App\NocApplicationStatus;
 use App\OlCapNotes;
 use App\OlChecklistScrutiny;
 use App\OlConsentVerificationQuestionMaster;
@@ -261,7 +263,7 @@ class CommonController extends Controller
             $ArchitectLayoutLayoutdetailsQuery->whereBetween('added_date', [date('Y-m-d', strtotime($request->submitted_at_from)), date('Y-m-d', strtotime($request->submitted_at_to))]);
         }
 
-        $ArchitectLayoutLayoutdetails = $ArchitectLayoutLayoutdetailsQuery->get();
+        $ArchitectLayoutLayoutdetails = $ArchitectLayoutLayoutdetailsQuery->orderBy('id','desc')->get();
 
         return $ArchitectLayoutLayoutdetails;
     }
@@ -303,7 +305,7 @@ class CommonController extends Controller
             $q->from('architect_layout_status_logs')->select('status_id')->where('architect_layout_id', '=', DB::raw('architect_layouts.id'))->limit(1)->orderBy('id', 'desc');
         })->where(DB::raw(config('commanConfig.architect_layout_status.approved')), '!=', function ($q) {
             $q->from('architect_layout_status_logs')->select('status_id')->where('architect_layout_id', '=', DB::raw('architect_layouts.id'))->limit(1)->orderBy('id', 'desc');
-        })->get();
+        })->orderBY('id','desc')->get();
         
         // $ArchitectLayoutRevisionRequests = $ArchitectLayoutRevisionRequestsQuery->where(DB::raw(config('commanConfig.architect_layout_status.new_application')), '!=', function ($q) {
         //     $q->from('architect_layout_status_logs')->select('status_id')->where('architect_layout_id', '=', DB::raw('architect_layouts.id'))->where('open',1);
@@ -1521,6 +1523,404 @@ class CommonController extends Controller
         }
         return $folder;
 
+    }
+
+    public function listApplicationDataNoc($request, $application_type = null)
+    {
+        $applicationData = NocApplication::with(['applicationLayoutUser', 'noc_application_master', 'eeApplicationSociety', 'nocApplicationStatusForLoginListing' => function ($q) {
+            $q->where('user_id', Auth::user()->id)
+                ->where('role_id', session()->get('role_id'))
+                ->where('society_flag', 0)
+                ->orderBy('id', 'desc');
+        }])
+            ->whereHas('nocApplicationStatusForLoginListing', function ($q) {
+                $q->where('user_id', Auth::user()->id)
+                    ->where('role_id', session()->get('role_id'))
+                    ->where('society_flag', 0)
+                    ->orderBy('id', 'desc');
+            });
+
+        if ($request->submitted_at_from) {
+            $applicationData = $applicationData->whereDate('submitted_at', '>=', date('Y-m-d', strtotime($request->submitted_at_from)));
+        }
+
+        if ($request->submitted_at_to) {
+            $applicationData = $applicationData->whereDate('submitted_at', '<=', date('Y-m-d', strtotime($request->submitted_at_to)));
+        }
+
+/*        if ($application_type != null && $application_type == "reval") {
+            $application_master_arr = OlApplicationMaster::Where('title', 'like', '%Revalidation Of Offer Letter%')->pluck('id')->toArray();
+            $applicationData = $applicationData->whereIn('application_master_id', $application_master_arr);
+        }*/
+
+        $applicationDataDefine = $applicationData->orderBy('noc_applications.id', 'desc')
+            ->select()->get();
+
+        $listArray = [];
+        if ($request->update_status) {
+
+            foreach ($applicationDataDefine as $app_data) {
+                if ($app_data->nocApplicationStatusForLoginListing[0]->status_id == $request->update_status) {
+                    $listArray[] = $app_data;
+                }
+            }
+        } else {
+            $listArray = $applicationDataDefine;
+        }
+
+        return $listArray;
+    }
+
+    public function downloadNoc($applicationId)
+    {
+
+        $noc_application = NocApplication::where('id', $applicationId)->with(['request_form', 'applicationMasterLayout', 'eeApplicationSociety'])->first();
+        $noc_application->layouts = MasterLayout::all();
+
+        return $noc_application;
+    }
+
+    public function getNocApplication($applicationId)
+    {
+
+        $noc_application = NocApplication::where('id', $applicationId)->with(['request_form', 'applicationMasterLayout', 'eeApplicationSociety', 'noc_application_master'])->first();
+
+        return $noc_application;
+    }
+
+    public function getSocietyNocDocuments($applicationId)
+    {
+
+        $societyId = NocApplication::where('id', $applicationId)->value('society_id');
+        $societyDocuments = SocietyOfferLetter::with(['societyNocDocuments.documents_Name'
+            , 'documentCommentsNoc' => function ($q) {
+                $q->orderBy('id', 'desc');
+            }])->where('id', $societyId)->get();
+
+        return $societyDocuments;
+    }
+
+    public function getCurrentStatusNoc($application_id)
+    {
+        $current_status = NocApplicationStatus::where('application_id', $application_id)
+            ->where('user_id', Auth::user()->id)
+            ->where('role_id', session()->get('role_id'))
+            ->orderBy('id', 'desc')->first();
+
+        return $current_status;
+    }
+
+    public function getForwardNocApplication($applicationId)
+    {
+
+        $applicationData = NocApplication::with(['eeApplicationSociety'])
+            ->where('id', $applicationId)->orderBy('id', 'DESC')->first();
+
+        return $applicationData;
+    }
+
+    public function getCurrentLoggedInChildNoc($application_id)
+    {
+        $child_role_id = Role::where('id', session()->get('role_id'))->get(['child_id']);
+        $result = json_decode($child_role_id[0]->child_id);
+        $status_user = NocApplicationStatus::where(['application_id' => $application_id, 'society_flag' => 0])->pluck('user_id')->toArray();
+
+        $final_child = User::with('roles')->whereIn('id', array_unique($status_user))->whereIn('role_id', $result)->get();
+
+        return $final_child;
+    }
+
+    public function getLogsOfREEDepartmentForNOC($applicationId)
+    {
+
+        $roles = array(config('commanConfig.ree_junior'), config('commanConfig.ree_branch_head'), config('commanConfig.ree_deputy_engineer'), config('commanConfig.ree_assistant_engineer'));
+
+        $status = array(config('commanConfig.applicationStatus.forwarded'), config('commanConfig.applicationStatus.reverted'));
+
+        $reeRoles = Role::whereIn('name', $roles)->pluck('id');
+        $reelogs = NocApplicationStatus::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->whereIn('role_id', $reeRoles)->whereIn('status_id', $status)->get();
+
+        return $reelogs;
+    }
+
+    public function getLogsOfCODepartmentForNOC($applicationId)
+    {
+
+        $roles = config('commanConfig.co_engineer');
+
+        $status = array(config('commanConfig.applicationStatus.forwarded'), config('commanConfig.applicationStatus.reverted'));
+
+        $coRoles = Role::where('name', $roles)->value('id');
+        $cologs = NocApplicationStatus::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->where('role_id', $coRoles)->whereIn('status_id', $status)->get();
+
+        return $cologs;
+    }
+
+    public function generateNOCREE($request)
+    {
+        if ($request->check_status == 1) {
+            $forward_application = [[
+                'application_id' => $request->applicationId,
+                'user_id' => Auth::user()->id,
+                'role_id' => session()->get('role_id'),
+                'status_id' => config('commanConfig.applicationStatus.forwarded'),
+                'to_user_id' => $request->to_user_id,
+                'to_role_id' => $request->to_role_id,
+                'remark' => $request->remark,
+                'created_at' => Carbon::now(),
+            ],
+
+            [
+                'application_id' => $request->applicationId,
+                'user_id' => $request->to_user_id,
+                'role_id' => $request->to_role_id,
+                'status_id' => config('commanConfig.applicationStatus.NOC_Generation'),
+                'to_user_id' => null,
+                'to_role_id' => null,
+                'remark' => $request->remark,
+                'created_at' => Carbon::now(),
+            ],
+            ];
+
+            NocApplicationStatus::insert($forward_application);
+
+        }else {
+            $revert_application = [
+                [
+                    'application_id' => $request->applicationId,
+                    'user_id' => Auth::user()->id,
+                    'role_id' => session()->get('role_id'),
+                    'status_id' => config('commanConfig.applicationStatus.reverted'),
+                    'to_user_id' => $request->to_child_id,
+                    'to_role_id' => $request->to_role_id,
+                    'remark' => $request->remark,
+                    'created_at' => Carbon::now(),
+                ],
+
+                [
+                    'application_id' => $request->applicationId,
+                    'user_id' => $request->to_child_id,
+                    'role_id' => $request->to_role_id,
+                    'status_id' => config('commanConfig.applicationStatus.NOC_Generation'),
+                    'to_user_id' => null,
+                    'to_role_id' => null,
+                    'remark' => $request->remark,
+                    'created_at' => Carbon::now(),
+                ],
+            ];
+            NocApplicationStatus::insert($revert_application);
+        }
+        
+        NocApplication::where('id', $request->applicationId)->update(['noc_generation_status' => config('commanConfig.applicationStatus.NOC_Generation')]);
+
+        return true;
+    }
+
+    public function forwardApprovedNocApplication($request)
+    {
+        if ($request->check_status == 1) {
+            $forward_application = [[
+                'application_id' => $request->applicationId,
+                'user_id' => Auth::user()->id,
+                'role_id' => session()->get('role_id'),
+                'status_id' => config('commanConfig.applicationStatus.forwarded'),
+                'to_user_id' => $request->to_user_id,
+                'to_role_id' => $request->to_role_id,
+                'remark' => $request->remark,
+                'created_at' => Carbon::now(),
+            ],
+
+            [
+                'application_id' => $request->applicationId,
+                'user_id' => $request->to_user_id,
+                'role_id' => $request->to_role_id,
+                'status_id' => config('commanConfig.applicationStatus.NOC_Issued'),
+                'to_user_id' => null,
+                'to_role_id' => null,
+                'remark' => $request->remark,
+                'created_at' => Carbon::now(),
+            ],
+        ];
+
+//            echo "in forward";
+            //            dd($forward_application);
+            NocApplicationStatus::insert($forward_application);
+            NocApplication::where('id', $request->applicationId)->update(['noc_generation_status' => config('commanConfig.applicationStatus.NOC_Issued')]);
+        }
+
+        return true;
+    }
+
+    public function forwardNocApplicationForm($request)
+    {
+        if ($request->check_status == 1) {
+            $forward_application = [[
+                'application_id' => $request->applicationId,
+                'user_id' => Auth::user()->id,
+                'role_id' => session()->get('role_id'),
+                'status_id' => config('commanConfig.applicationStatus.forwarded'),
+                'to_user_id' => $request->to_user_id,
+                'to_role_id' => $request->to_role_id,
+                'remark' => $request->remark,
+                'created_at' => Carbon::now(),
+            ],
+
+            [
+                'application_id' => $request->applicationId,
+                'user_id' => $request->to_user_id,
+                'role_id' => $request->to_role_id,
+                'status_id' => config('commanConfig.applicationStatus.in_process'),
+                'to_user_id' => null,
+                'to_role_id' => null,
+                'remark' => $request->remark,
+                'created_at' => Carbon::now(),
+            ],
+            ];
+
+            NocApplicationStatus::insert($forward_application);
+        } else {
+            $revert_application = [
+                [
+                    'application_id' => $request->applicationId,
+                    'user_id' => Auth::user()->id,
+                    'role_id' => session()->get('role_id'),
+                    'status_id' => config('commanConfig.applicationStatus.reverted'),
+                    'to_user_id' => $request->to_child_id,
+                    'to_role_id' => $request->to_role_id,
+                    'remark' => $request->remark,
+                    'created_at' => Carbon::now(),
+                ],
+
+                [
+                    'application_id' => $request->applicationId,
+                    'user_id' => $request->to_child_id,
+                    'role_id' => $request->to_role_id,
+                    'status_id' => config('commanConfig.applicationStatus.in_process'),
+                    'to_user_id' => null,
+                    'to_role_id' => null,
+                    'remark' => $request->remark,
+                    'created_at' => Carbon::now(),
+                ],
+            ];
+            NocApplicationStatus::insert($revert_application);
+        }
+
+        return true;
+    }
+
+    public function generateNOCforwardToREE($request, $ree)
+    {
+        $forward_application = [[
+            'application_id' => $request->applicationId,
+            'user_id' => Auth::user()->id,
+            'role_id' => session()->get('role_id'),
+            'status_id' => config('commanConfig.applicationStatus.forwarded'),
+            'to_user_id' => $ree->user_id,
+            'to_role_id' => $ree->role_id,
+            'remark' => $request->remark,
+            'created_at' => Carbon::now(),
+        ],
+
+        [
+            'application_id' => $request->applicationId,
+            'user_id' => $ree->user_id,
+            'role_id' => $ree->role_id,
+            'status_id' => config('commanConfig.applicationStatus.NOC_Issued'),
+            'to_user_id' => null,
+            'to_role_id' => null,
+            'remark' => $request->remark,
+            'created_at' => Carbon::now(),
+        ],
+        ];
+
+        NocApplicationStatus::insert($forward_application);
+        NocApplication::where('id', $request->applicationId)->update(['noc_generation_status' => config('commanConfig.applicationStatus.NOC_Issued')]);
+
+        return true;
+    }
+
+    public function getREEForwardRevertLogNoc($applicationData, $applicationId)
+    {
+
+        $ree_branch_head = Role::where('name', config('commanConfig.ree_branch_head'))->value('id');
+        $ree_jr_user = Role::where('name', config('commanConfig.ree_junior'))
+            ->value('id');
+        $applicationData->reeForwardLog = NocApplicationStatus::where('application_id', $applicationId)->where('role_id', $ree_branch_head)->where('status_id', config('commanConfig.applicationStatus.forwarded'))->orderBy('id', 'desc')->first();
+
+        $applicationData->reeRevertLog = NocApplicationStatus::where('application_id', $applicationId)->where('role_id', $ree_jr_user)->where('status_id', config('commanConfig.applicationStatus.reverted'))->orderBy('id', 'desc')->first();
+        return $applicationData;
+    }
+
+    public function forwardNocApplicationToSociety($request)
+    {
+        $society_details = NocApplicationStatus::where(['society_flag' => 1, 'application_id' => $request->applicationId])->orderBy('id', 'desc')->first();
+
+        $forward_application = [
+            [
+                'application_id' => $request->applicationId,
+                'user_id' => Auth::user()->id,
+                'role_id' => session()->get('role_id'),
+                'status_id' => config('commanConfig.applicationStatus.sent_to_society'),
+                'to_user_id' => $society_details->user_id,
+                'society_flag' => 0,
+                'to_role_id' => $society_details->role_id,
+                'remark' => $request->remark,
+                'created_at' => Carbon::now(),
+            ],
+
+            [
+                'application_id' => $request->applicationId,
+                'user_id' => $society_details->user_id,
+                'role_id' => $society_details->role_id,
+                'status_id' => config('commanConfig.applicationStatus.sent_to_society'),
+                'to_user_id' => null,
+                'society_flag' => 1,
+                'to_role_id' => null,
+                'remark' => $request->remark,
+                'created_at' => Carbon::now(),
+            ],
+        ];
+
+        NocApplicationStatus::insert($forward_application);
+        NocApplication::where('id', $request->applicationId)->update(['noc_generation_status' => config('commanConfig.applicationStatus.sent_to_society') , 'is_issued_to_society' => 1]);
+
+        return true;
+    }
+
+    public function revertNocApplicationToSociety($request)
+    {
+        $society_details = NocApplicationStatus::where(['society_flag' => 1, 'application_id' => $request->applicationId])->orderBy('id', 'desc')->first();
+
+        $revert_application = [
+            [
+                'application_id' => $request->applicationId,
+                'user_id' => Auth::user()->id,
+                'role_id' => session()->get('role_id'),
+                'status_id' => config('commanConfig.applicationStatus.reverted'),
+                'to_user_id' => $society_details->user_id,
+                'society_flag' => 0,
+                'to_role_id' => $society_details->role_id,
+                'remark' => $request->remark,
+                'created_at' => Carbon::now(),
+            ],
+
+            [
+                'application_id' => $request->applicationId,
+                'user_id' => $society_details->user_id,
+                'role_id' => $society_details->role_id,
+                'status_id' => config('commanConfig.applicationStatus.reverted'),
+                'to_user_id' => null,
+                'society_flag' => 1,
+                'to_role_id' => null,
+                'remark' => $request->remark,
+                'created_at' => Carbon::now(),
+            ],
+        ];
+
+        NocApplicationStatus::insert($revert_application);
+        NocApplication::where('id', $request->applicationId)->update(['noc_generation_status' => config('commanConfig.applicationStatus.reverted')]);
+
+        return true;
     }
 
 }

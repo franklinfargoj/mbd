@@ -6,12 +6,16 @@
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">Add Arrears Charge Rate</h3>
             {{-- {{ Breadcrumbs::render('society_detail') }} --}}
+            <div class="ml-auto btn-list">
+            <a href="{{ url()->previous() }}" class="btn btn-link pull-right"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+        </div>
         </div>
     </div>
     <!-- END: Subheader -->
     
     <div class="m-portlet m-portlet--mobile">
-        <h4 class="box-subheading ml-0">{{$society->name}} {{$building->name}}</h4>
+        <h4 class="box-subheading ml-0">{{$society->society_name}} - {{$building->name}}</h4>
+
         <form id="service_charges" role="form" method="post" class="m-form m-form--rows m-form--label-align-right"
             action="{{url('arrears_charges/'.encrypt($society->id).'/'.encrypt($building->id).'/store')}}">
             @csrf
@@ -20,7 +24,11 @@
                     <label class="col-form-label" for="year">Year:</label>
                     <select  id="year" name="year" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" required >
                         <option value="">Select Year</option>
-                        <option value="{{date('Y')}}" {{ old('year') == date('Y') ? 'selected' : '' }} >{{date('Y')}}</option>
+                        @php $earliest_year = '2000'; @endphp
+
+                        @foreach(range(date('Y'), $earliest_year) as $x)
+                            <option value="{{date('Y')}}" {{ old('year') == date('Y') || $x == date('Y')? 'selected' : '' }} >{{$x}}</option>
+                        @endforeach
                     </select>
                     <span class="help-block error">{{$errors->first('year')}}</span>
                 </div>

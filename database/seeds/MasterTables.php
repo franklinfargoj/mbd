@@ -119,7 +119,7 @@ class MasterTables extends Seeder
 
         $tenant_type = MasterTenantType::select('id')->get();
 
-        if(count($tenant_type)==0) {
+        if(count($tenant_type) <= 0) {
            App\MasterTenantType::insert($tenant);
         }
 

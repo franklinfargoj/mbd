@@ -27,7 +27,7 @@ class HomeController extends Controller
     {
         $user = User::with(['roles'])->where('id', Auth::user()->id)->first();
         $roles = array_get($user, 'roles')->first();
-
+        
         $role_name = $roles->name;
 
         if(isset($roles->redirect_to))

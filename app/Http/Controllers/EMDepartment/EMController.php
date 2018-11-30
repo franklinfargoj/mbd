@@ -180,7 +180,6 @@ class EMController extends Controller
     public function getbuildings($id, Request $request){
         //$societies = SocietyDetail::whereIn('colony_id', $colonies)->get();
        // dd($id);
-
         if(!empty($request->input('search'))) {
             $society_id = $id;
             $buildings = MasterBuilding::with('tenant_count')->where('society_id', '=', decrypt($id))
@@ -192,13 +191,25 @@ class EMController extends Controller
             //dd($buildings);
             return view('admin.em_department.ajax_building', compact('buildings', 'society_id'));
         } else {
-            $society_id = $id;
-            $buildings = MasterBuilding::with('tenant_count')->where('society_id', '=', decrypt($id))->paginate(10);
+            $society_id =decrypt($id);
+            $building_name = '';
+            $building_no   = '';
+
+            if($request->has('building_name') && !empty($request->building_name)) {
+                $building_name = $request->building_name;
+            }
+            if($request->has('building_no') && !empty($request->building_no)) {
+                $building_no = $request->building_no;
+            }
+            $buildings = MasterBuilding::with('tenant_count')->where('society_id', '=', decrypt($id))->where(function ($query) use ($request) {
+                  $query->orWhere('name', 'like', '%'.$request->building_name.'%')
+                       ->orWhere('building_no', 'like', '%'.$request->building_no.'%');
+                })->paginate(10);
             //dd($buildings);
             if($request->has('search')) {
                 return view('admin.em_department.ajax_building', compact('buildings', 'society_id'));  
             } else {
-                return view('admin.em_department.building', compact('buildings', 'society_id'));
+                return view('admin.em_department.building', compact('buildings', 'society_id','building_name','building_no'));
             }            
         }
         
@@ -596,24 +607,30 @@ class EMController extends Controller
 
             $data['building'] = MasterBuilding::find($request->building_id);
             $data['society'] = SocietyDetail::find($data['building']->society_id);
-            $data['serviceChargesRate'] = ServiceChargesRate::selectRaw('Sum(water_charges) as water_charges,sum(electric_city_charge) as electric_city_charge,sum(pump_man_and_repair_charges) as  pump_man_and_repair_charges,sum(external_expender_charge) as external_expender_charge,sum(administrative_charge) as administrative_charge, sum(lease_rent) as lease_rent,sum(na_assessment) as na_assessment, sum(other) as other')->where('building_id',$request->building_id)->where('year',date('Y') . '-' . (date('y') + 1))->first();
+            $data['serviceChargesRate'] = ServiceChargesRate::selectRaw('Sum(water_charges) as water_charges,sum(electric_city_charge) as electric_city_charge,sum(pump_man_and_repair_charges) as  pump_man_and_repair_charges,sum(external_expender_charge) as external_expender_charge,sum(administrative_charge) as administrative_charge, sum(lease_rent) as lease_rent,sum(na_assessment) as na_assessment, sum(other) as other')->where('building_id',$request->building_id)->where('year',date('Y'))->first();
 
          //  dd($data['serviceChargesRate']); 
-        if(!$data['serviceChargesRate']){
-            return redirect()->back()->with('warning', 'Service charge Rates Not added into system.');
-        }
+            if(!$data['serviceChargesRate']){
+                return redirect()->back()->with('warning', 'Service charge Rates Not added into system.');
+            }
 
-         $data['arreasCalculation'] = ArrearCalculation::where('building_id',$request->building_id)->where('payment_status','0')->orderby('year','month')->get();
-            
-         $data['number_of_tenants'] = MasterBuilding::with('tenant_count')->where('id',$request->building_id)->first();
-         //dd($data['number_of_tenants']->tenant_count()->first());
+            $data['arreasCalculation'] = ArrearCalculation::where('building_id',$request->building_id)->where('payment_status','0')->orderby('year','month')->get();
+                
+            $data['number_of_tenants'] = MasterBuilding::with('tenant_count')->where('id',$request->building_id)->first();
+             //dd($data['number_of_tenants']->tenant_count()->first());
             if(!$data['number_of_tenants']->tenant_count()->first()) {
                 return redirect()->back()->with('warning', 'Number of Tenants Is zero.');
             }
 
             $data['month'] = date('m');
-            $data['year'] = date('Y') . '-' . (date('y') + 1);
+            $data['year'] = date('Y');
             $data['consumer_number'] = substr(sprintf('%08d', $data['building']->society_id),0,8).'|'.substr(sprintf('%08d', $data['building']->id),0,8);
+
+            $data['check'] = TransBillGenerate::where('building_id', '=', $request->building_id)
+                                ->where('society_id', '=', $request->society_id)
+                                ->where('bill_month', '=', $data['month'])
+                                ->where('bill_year', '=', $data['year'])
+                                ->first();
 
             return view('admin.em_department.generate_building_bill',$data);
 
@@ -630,7 +647,7 @@ class EMController extends Controller
             $data['society'] = SocietyDetail::find($data['building']->society_id);
             $data['tenant'] = MasterTenant::where('building_id',$data['building']->id)->where('id',$request->tenant_id)->first();
 
-            $data['serviceChargesRate'] = ServiceChargesRate::selectRaw('Sum(water_charges) as water_charges,sum(electric_city_charge) as electric_city_charge,sum(pump_man_and_repair_charges) as  pump_man_and_repair_charges,sum(external_expender_charge) as external_expender_charge,sum(administrative_charge) as administrative_charge, sum(lease_rent) as lease_rent,sum(na_assessment) as na_assessment, sum(other) as other')->where('building_id',$request->building_id)->where('year',date('Y') . '-' . (date('y') + 1))->first();
+            $data['serviceChargesRate'] = ServiceChargesRate::selectRaw('Sum(water_charges) as water_charges,sum(electric_city_charge) as electric_city_charge,sum(pump_man_and_repair_charges) as  pump_man_and_repair_charges,sum(external_expender_charge) as external_expender_charge,sum(administrative_charge) as administrative_charge, sum(lease_rent) as lease_rent,sum(na_assessment) as na_assessment, sum(other) as other')->where('building_id',$request->building_id)->where('year',date('Y') )->first();
 
             if(!$data['serviceChargesRate']){
                 //dd($data);
@@ -640,8 +657,13 @@ class EMController extends Controller
             $data['arreasCalculation'] = ArrearCalculation::where('tenant_id',$request->tenant_id)->where('payment_status','0')->get();
 
             $data['month'] = date('m');
-            $data['year'] = date('Y') . '-' . (date('y') + 1);
+            $data['year'] = date('Y');
             $data['consumer_number'] = substr(sprintf('%08d', $data['building']->id),0,8).'|'.substr(sprintf('%08d', $data['tenant']->id),0,8);
+
+            $data['check'] = TransBillGenerate::where('tenant_id', '=', $request->tenant_id)
+                                    ->where('bill_month', '=', $data['month'])
+                                    ->where('bill_year', '=', $data['year'])
+                                    ->first();
 
             return view('admin.em_department.generate_tenant_bill',$data);
         }

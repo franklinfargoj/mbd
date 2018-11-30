@@ -4,13 +4,17 @@
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
-            <h3 class="m-subheader__title m-subheader__title--separator">Add Service Charge Rate - {{$society->name}} | {{$building->name}}</h3>
+            <h3 class="m-subheader__title m-subheader__title--separator">Add Service Charge Rate</h3>
             {{-- {{ Breadcrumbs::render('society_detail') }} --}}
+            <div class="ml-auto btn-list">
+            <a href="{{ url()->previous() }}" class="btn btn-link pull-right"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+        </div>
         </div>
     </div>
     <!-- END: Subheader -->
     
     <div class="m-portlet m-portlet--mobile">
+        <h4 class="box-subheading ml-0">{{$society->society_name}} - {{$building->name}}</h4>
         <form id="service_charges" role="form" method="post" class="m-form m-form--rows m-form--label-align-right"
             action="{{url('service_charges/'.encrypt($service_charge->id).'/update')}}">
             @csrf

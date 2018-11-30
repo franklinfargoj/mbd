@@ -16,6 +16,7 @@ use File;
 use App\conveyance\SocietyConveyanceDocumentStatus;
 use App\conveyance\scApplicationType;
 use Auth;
+use Mpdf\Mpdf;
 use Maatwebsite\Excel\Facades\Excel;
 
 class EMController extends Controller
@@ -36,7 +37,10 @@ class EMController extends Controller
      * @return \Illuminate\Http\Response
      */
 	public function ScrutinyRemark(Request $request,$applicationId){
-        $data = scApplication::with(['societyApplication','scApplicationLog', 'sc_form_request'])->where('id',$applicationId)->first();
+        $data = scApplication::with(['societyApplication','scApplicationLog', 'sc_form_request', 'scDocumentStatus' => function($q) use($applicationId){
+            $q->where('application_id', $applicationId);
+            $q->where('society_flag', 0)->get();
+        }])->where('id',$applicationId)->first();
         $data->folder = $this->conveyance_common->getCurrentRoleFolderName();
 
         $no_dues_certificate_docs_defined = config('commanConfig.documents.em_conveyance.no_dues_certificate');
@@ -70,12 +74,13 @@ class EMController extends Controller
                 }
             }
         }
+
         if(!empty($no_dues_certificate_docs['text_no_dues_certificate']['sc_document_status'])){
             $content = $this->CommonController->getftpFileContent($no_dues_certificate_docs['text_no_dues_certificate']['sc_document_status']->document_path);
         }else{
             $content = "";
         }
-
+//        dd($bonafide_docs['bonafide_list']->sc_document_status->document_path);
         return view('admin.conveyance.em_department.scrutiny_remark',compact('data', 'content', 'no_dues_certificate_docs', 'bonafide_docs', 'covering_letter_docs'));
     }
 
@@ -93,15 +98,16 @@ class EMController extends Controller
             $fileName = time().'no_dues_certificate_'.$id.'.pdf';
             $filePath = $folder_name."/".$fileName;
             $file_uploaded = $this->CommonController->ftpFileUpload($folder_name, $request->file('no_dues_certificate'), $filePath);
-
             if($file_uploaded){
-                scApplication::where('id',$request->applicationId)->update([config('commanConfig.no_dues_certificate.db_columns.upload') => $file_uploaded]);
+                $this->conveyance_common->uploadDocumentStatus($request->applicationId, config('commanConfig.no_dues_certificate.db_columns.upload'), $filePath);
+//                scApplication::where('id',$request->applicationId)->update([config('commanConfig.no_dues_certificate.db_columns.upload') => $file_uploaded]);
+
                 $message = config('commanConfig.no_dues_certificate.redirect_message.upload');
                 $message_status = config('commanConfig.no_dues_certificate.redirect_message_status.upload');
             }
         }else{
             //pdf format no dues certificate
-
+//            dd($request->all());
             $content = str_replace('_', "", $_POST['ckeditorText']);
 
             $pdf = \App::make('dompdf.wrapper');
@@ -261,7 +267,7 @@ class EMController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function uploadListOfAllottees(Request $request){
-//        dd($request->all());
+
         if($request->file('document_path')) {
             $file = $request->file('document_path');
             $file_name = time() . $file->getFileName() . '.' . $file->getClientOriginalExtension();
@@ -275,17 +281,23 @@ class EMController extends Controller
                 $fileUpload = $this->CommonController->ftpFileUpload($folder_name, $request->file('document_path'), $name);
                 $count = 0;
                 $sc_excel_headers = [];
-                Excel::load($request->file('document_path')->getRealPath(), function ($reader)use(&$count, &$sc_excel_headers) {
+                $broken_word_count = 0;
+
+//                dd($request->file('document_path'));
+                Excel::load($request->file('document_path')->getRealPath(), function ($reader)use(&$count, &$sc_excel_headers, &$broken_word_count) {
                     if(count($reader->toArray()) > 0){
                         $excel_headers = $reader->first()->keys()->toArray();
-                        $sc_excel_headers = config('commanConfig.sc_excel_headers');
-
+                        $sc_excel_headers = config('commanConfig.sc_excel_headers_em');
+//                        dd(($sc_excel_headers));
                         foreach($excel_headers as $excel_headers_key => $excel_headers_val){
                             $excel_headers_value = strtolower(str_replace(str_split('\\/- '), '_', $sc_excel_headers[$excel_headers_key]));
+                            $excel_headers_value = str_replace(str_split('\\() '), '', $excel_headers_value);
+
                             if($excel_headers_value == $excel_headers_val){
                                 $count++;
                             }else{
                                 $exploded = explode('_', $excel_headers_value);
+
                                 foreach($exploded as $exploded_key => $exploded_value){
                                     if(!empty(strpos($excel_headers_val, $exploded_value))){
                                         $count++;
@@ -295,13 +307,12 @@ class EMController extends Controller
                         }
                     }
                 });
-
                 if($count != 0){
                     if($count == count($sc_excel_headers)){
-                        $application_type = scApplicationType::where('application_type', config('commanConfig.applicationType.Renewal'))->value('id');
-                        $document = $this->conveyance_common->getDocumentId(config('commanConfig.documents.em_renewal.bonafide')[0], $application_type);
+                        $application_type = scApplicationType::where('application_type', config('commanConfig.applicationType.Conveyance'))->value('id');
+                        $document = $this->conveyance_common->getDocumentId(config('commanConfig.documents.em_conveyance.bonafide')[0], $application_type);
 
-                        $sc_document_status = new RenewalDocumentStatus;
+                        $sc_document_status = new SocietyConveyanceDocumentStatus;
                         $sc_document_status_arr = array_flip($sc_document_status->getFillable());
 
                         $sc_document_status_arr['application_id'] = $request->application_id;
@@ -311,10 +322,10 @@ class EMController extends Controller
                         $sc_document_status_arr['document_id'] = $document;
                         $sc_document_status_arr['document_path'] = $path;
 
-                        $inserted_document_log = RenewalDocumentStatus::create($sc_document_status_arr);
+                        $inserted_document_log = SocietyConveyanceDocumentStatus::create($sc_document_status_arr);
 
                         if($inserted_document_log == true){
-                            return redirect()->route('em.renewal_scrutiny_remark', $request->application_id);
+                            return redirect()->route('em.scrutiny_remark', $request->application_id);
                         }
                     }else{
                         return redirect()->route('society_conveyance.create')->withErrors('error', "Excel file headers doesn't match")->withInput();
@@ -352,7 +363,7 @@ class EMController extends Controller
                 Excel::load($request->file('document_path')->getRealPath(), function ($reader)use(&$count, &$sc_excel_headers) {
                     if(count($reader->toArray()) > 0){
                         $excel_headers = $reader->first()->keys()->toArray();
-                        $sc_excel_headers = config('commanConfig.sc_excel_headers');
+                        $sc_excel_headers = config('commanConfig.sc_excel_headers_em');
 
                         foreach($excel_headers as $excel_headers_key => $excel_headers_val){
                             $excel_headers_value = strtolower(str_replace(str_split('\\/- '), '_', $sc_excel_headers[$excel_headers_key]));
@@ -409,9 +420,9 @@ class EMController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function uploadCoveringLetter(Request $request){
+
         if($request->file('covering_letter'))
         {
-//            dd($request->all());
             $file = $request->file('covering_letter');
             $file_name = time().$file->getFileName().'.'.$file->getClientOriginalExtension();
             $extension = $request->file('covering_letter')->getClientOriginalExtension();
@@ -428,17 +439,17 @@ class EMController extends Controller
                 $sc_document_status = new RenewalDocumentStatus;
                 $sc_document_status_arr = array_flip($sc_document_status->getFillable());
 
-                $sc_document_status_arr['application_id'] = $request->application_id;
+                $sc_document_status_arr['application_id'] = $request->applicationId;
                 $sc_document_status_arr['user_id'] = Auth::user()->id;
                 $sc_document_status_arr['society_flag'] = 0;
                 $sc_document_status_arr['status_id'] = null;
                 $sc_document_status_arr['document_id'] = $document;
                 $sc_document_status_arr['document_path'] = $path;
 
-                $inserted_document_log = RenewalDocumentStatus::create($sc_document_status_arr);
+                $inserted_document_log = SocietyConveyanceDocumentStatus::create($sc_document_status_arr);
 
                 if($inserted_document_log == true){
-                    return redirect()->route('em.scrutiny_remark', $request->application_id);
+                    return redirect()->route('em.scrutiny_remark', $request->applicationId);
                 }
 
             }else{

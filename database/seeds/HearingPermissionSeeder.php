@@ -16,7 +16,7 @@ class HearingPermissionSeeder extends Seeder
      */
     public function run()
     {
-
+ 
         //Role
         // Joint CO
         $joint_co_role_id = Role::where('name', '=', 'Joint CO')->value('id');
@@ -24,7 +24,7 @@ class HearingPermissionSeeder extends Seeder
             $joint_co_role_id = Role::insertGetId([
                 'name' => 'Joint CO',
                 'parent_id' => NULL,
-                'redirect_to' => '/hearing.dashboard',
+                'redirect_to' => '/hearing-dashboard',
                 'display_name' => 'joint_co',
                 'description' => 'Login as Joint CO'
             ]);
@@ -592,9 +592,14 @@ class HearingPermissionSeeder extends Seeder
                 'name'=>'renewal.save_agreement_comments',
                 'display_name'=>'renewal save agreement comments',
                 'description'=>'renewal save agreement comments'
-            ],                                                                        
+            ], 
+            [
+                'name'=>'conveyance.view_documents',
+                'display_name'=>'view conveyance documents',
+                'description'=>'view conveyance documents'
+            ],                                                                                    
         ];
- 
+  
         foreach ($Jtco_permission as $permission) {
             $permission_role = [];
             $permission_ids = Permission::where('name', $permission['name'])->value('id');

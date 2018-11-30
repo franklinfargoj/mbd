@@ -39,7 +39,7 @@ class DatabaseSeeder extends Seeder
         $this->call(DYCEPermissionSeeder::class);
         $this->call(LmPermissionSeeder::class);
 
-//        $this->call(HearingPermissionSeeder::class);
+       $this->call(HearingPermissionSeeder::class);
         $this->call(ReePermissionSeeder::class);
         $this->call(CapPermissionSeeder::class);
         $this->call(CoPermissionSeeder::class);
@@ -59,7 +59,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ArchitectLayoutEEScrtinyQuestionMasterSeeder::class);
         // $this->call(RtiFormTableSeeder::class);
 
-//        $this->call(MasterTables::class);
+        $this->call(MasterTables::class);
          // $this->call(RtiFormTableSeeder::class);
 
         
@@ -75,6 +75,10 @@ class DatabaseSeeder extends Seeder
         $this->call(SapPermissionSeeder::class);
         $this->call(OlCustomCalculationMaster::class);
 //        $this->call(SfScrtinyByEmMasterSeeder::class);
+
         $this->call(AccountPermissionSeeder::class);
+        $this->call(NocScrutinyQuestionMasterTable::class);
+        $this->call(NocSocietyDocumentsMasterTableSeeder::class);
+        $this->call(MasterLayoutSeeder::class);
     }
 }

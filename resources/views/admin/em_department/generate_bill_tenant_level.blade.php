@@ -27,7 +27,7 @@
         <div class="m-portlet m-portlet--compact filter-wrap">
             <div class="row align-items-center row--filter">
                 <div class="col-md-12">
-                    <h4 class="m-subheader__title"> Bill Generation </h4>
+                    {{-- <h4 class="m-subheader__title"> Bill Generation </h4> --}}
                 </div>
 
                 <div class="col-md-12" style="margin-top:10px;margin-bottom: 10px;">

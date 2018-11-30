@@ -72,8 +72,8 @@
                                         @csrf
                                         <div class="custom-file">
                                             <input class="custom-file-input pdfcheck" name="document_path" type="file"
-                                                   id="test-upload" required="required">
-                                            <label class="custom-file-label" for="test-upload">Choose
+                                                   id="test-upload_stamp_duty" required="required">
+                                            <label class="custom-file-label" for="test-upload_stamp_duty">Choose
                                                 file...</label>
                                             <span class="text-danger" id="file_error"></span>
                                             <input type="hidden" id="application_id" name="application_id" value="{{ $sc_application->id }}">
@@ -125,8 +125,8 @@
                                                         @csrf
                                                         <div class="custom-file">
                                                             <input class="custom-file-input pdfcheck" name="document_path" type="file"
-                                                                   id="test-upload" required="required">
-                                                            <label class="custom-file-label" for="test-upload">Choose
+                                                                   id="test-upload_sale_dee" required="required">
+                                                            <label class="custom-file-label" for="test-upload_sale_dee">Choose
                                                                 file...</label>
                                                             <span class="text-danger" id="file_error"></span>
                                                             <input type="hidden" id="application_id" name="application_id" value="{{ $sc_application->id }}">
@@ -220,8 +220,8 @@
                                                         @csrf
                                                         <div class="custom-file">
                                                             <input class="custom-file-input pdfcheck" name="document_path" type="file"
-                                                                   id="test-upload" required="required">
-                                                            <label class="custom-file-label" for="test-upload">Choose
+                                                                   id="test-upload_lease_deed" required="required">
+                                                            <label class="custom-file-label" for="test-upload_lease_deed">Choose
                                                                 file...</label>
                                                             <span class="text-danger" id="file_error"></span>
                                                             <input type="hidden" id="application_id" name="application_id" value="{{ $sc_application->id }}">
@@ -315,8 +315,8 @@
                                                     @csrf
                                                     <div class="custom-file">
                                                         <input class="custom-file-input pdfcheck" name="document_path" type="file"
-                                                               id="test-upload" required="required">
-                                                        <label class="custom-file-label" for="test-upload">Choose
+                                                               id="test-upload_society resolution" required="required">
+                                                        <label class="custom-file-label" for="test-upload_society resolution">Choose
                                                             file...</label>
                                                         <span class="text-danger" id="file_error"></span>
                                                         <input type="hidden" id="application_id" name="application_id" value="{{ $sc_application->id }}">
@@ -368,8 +368,8 @@
                                                     @csrf
                                                     <div class="custom-file">
                                                         <input class="custom-file-input pdfcheck" name="document_path" type="file"
-                                                               id="test-upload" required="required">
-                                                        <label class="custom-file-label" for="test-upload">Choose
+                                                               id="test-upload_society_undertaking" required="required">
+                                                        <label class="custom-file-label" for="test-upload_society_undertaking">Choose
                                                             file...</label>
                                                         <span class="text-danger" id="file_error"></span>
                                                         <input type="hidden" id="application_id" name="application_id" value="{{ $sc_application->id }}">

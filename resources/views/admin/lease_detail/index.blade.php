@@ -6,7 +6,7 @@
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">Lease Details</h3>
-            {{--{{ Breadcrumbs::render('lease_detail',$id) }}--}}
+            {{ Breadcrumbs::render('lease_detail',$id) }}
             <div class="ml-auto btn-list">
                 <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
                     <a href="?excel=excel" name="excel" value="excel" class="btn excel-icon"><img src="{{asset('/img/excel-icon.svg')}}"></a>
@@ -19,40 +19,40 @@
                 <div class="col-md-12">
                     <form role="form" id="eeForm" method="get" action="">
                         <div class="row align-items-center mb-0">
-                            <div class="col-md-2">
+                            <div class="col-md-3">
                                 <div class="form-group m-form__group">
-                                    <input type="text" id="title" name="title" class="form-control form-control--custom m-input"
-                                           placeholder="Layout No" value="">
+                                    <input type="text" id="society_name" name="society_name" class="form-control form-control--custom m-input"
+                                           placeholder="Society Name" value="{{ isset($getData['society_name'])? $getData['society_name'] : '' }}">
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-3">
                                 <div class="form-group m-form__group">
-                                    <input type="text" id="submitted_at_from" name="submitted_at_from" class="form-control form-control--custom m-input m_datepicker"
-                                           placeholder="From Date" value="">
+                                    <input type="text" id="lease_date_from" name="lease_date_from" class="form-control form-control--custom m-input m_datepicker"
+                                           placeholder="From Date" value="{{ isset($getData['lease_date_from'])? $getData['lease_date_from'] : '' }}">
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-3">
                                 <div class="form-group m-form__group">
-                                    <input type="text" id="submitted_at_to" name="submitted_at_to" class="form-control form-control--custom m-input m_datepicker"
-                                           placeholder="To Date" value="">
+                                    <input type="text" id="lease_date_to" name="lease_date_to" class="form-control form-control--custom m-input m_datepicker"
+                                           placeholder="To Date" value="{{ isset($getData['lease_date_to'])? $getData['lease_date_to'] : '' }}">
                                 </div>
                             </div>
 
-                            <div class="col-md-3">
-                                <div class="form-group m-form__group">
-                                    <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
-                                            id="update_status" name="update_status">
-                                        <option value="" style="font-weight: normal;">Select Status</option>
-                                            <option value="">ABC</option>
-                                    </select>
-                                </div>
-                            </div>
+                            {{--<div class="col-md-3">--}}
+                                {{--<div class="form-group m-form__group">--}}
+                                    {{--<select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"--}}
+                                            {{--id="update_status" name="update_status">--}}
+                                        {{--<option value="" style="font-weight: normal;">Select Status</option>--}}
+                                            {{--<option value="">ABC</option>--}}
+                                    {{--</select>--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
 
                             <div class="col">
                                 <div class="form-group m-form__group">
                                     <div class="btn-list">
                                         <button type="submit" class="btn m-btn--pill m-btn--custom btn-primary">Search</button>
-                                        <button type="reset" onclick="window.location.href='{{ route("architect_layout.index") }}'"
+                                        <button type="reset" onclick="window.location.href='{{ route("lease_detail.index",'0') }}'"
                                                 class="btn m-btn--pill m-btn--custom btn-metal">Reset</button>
                                     </div>
                                 </div>

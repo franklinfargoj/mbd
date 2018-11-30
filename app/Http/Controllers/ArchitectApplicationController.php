@@ -20,6 +20,7 @@ use File;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Storage;
+use Mpdf\Mpdf;
 
 class ArchitectApplicationController extends Controller
 {
@@ -118,7 +119,7 @@ class ArchitectApplicationController extends Controller
                 ->editColumn('view', function ($architect_applications) use($is_commitee,$is_view){
                      return view('admin.architect.view_layout', compact('architect_applications','is_commitee','is_view'))->render();
                 })
-                
+
                 ->rawColumns(['application_number', 'application_date', 'candidate_name','email_and_mobile', 'grand_total','Status','view'])
                 ->make(true);
         }
@@ -210,7 +211,7 @@ class ArchitectApplicationController extends Controller
             'fee_payment_details',
             'imp_projects',
             'imp_project_work_handled'
-        ], 
+        ],
         ['id' => $id]);
         $work_in_hand=$application->project_sheets->where('work_completed',0);
         $work_completed=$application->project_sheets->where('work_completed',1);
@@ -229,7 +230,7 @@ class ArchitectApplicationController extends Controller
         {
             $is_view=false;
         }
-        
+
         $application = ArchitectApplicationMark::where('architect_application_id', $id)->get();
         $header_data = $this->header_data;
         return view('admin.architect.evaluate', compact('application', 'header_data', 'is_view','ArchitectApplication'));
@@ -281,7 +282,7 @@ class ArchitectApplicationController extends Controller
 
     public function getFinalCertificateGenerate($encryptedId)
     {
-        
+
         $uploadPath = '/uploads/temp_certificate';
         $destination = public_path($uploadPath);
         $certificate_generated = 0;
@@ -291,10 +292,26 @@ class ArchitectApplicationController extends Controller
         //dd($ArchitectApplication->statusLog);
         if ($ArchitectApplication) {
             if ($ArchitectApplication->drafted_certificate == null) {
-                
+
                 $content = view('admin.architect.certificate', compact('ArchitectApplication'));
-                $pdf = \App::make('dompdf.wrapper');
-                $pdf->loadHTML($content);
+
+                $header_file = view('admin.REE_department.offer_letter_header');
+                $footer_file = view('admin.REE_department.offer_letter_footer');
+                //$pdf = \App::make('dompdf.wrapper');
+                $pdf=new Mpdf([
+                    'default_font_size' => 9,
+                    'default_font' => 'Times New Roman'
+                ]);
+                $pdf->autoScriptToLang = true;
+                $pdf->autoLangToFont = true;
+                $pdf->setAutoBottomMargin = 'stretch';
+                $pdf->setAutoTopMargin = 'stretch';
+                $pdf->SetHTMLHeader($header_file);
+                $pdf->SetHTMLFooter($footer_file);
+                $pdf->WriteHTML($content);
+
+                // $pdf = \App::make('dompdf.wrapper');
+                // $pdf->loadHTML($content);
                 $fileName = $ArchitectApplication->id . $ArchitectApplication->application_number . '.pdf';
                 $folder_name = 'temp_certificate';
                 if (!(\Storage::disk('ftp')->has($folder_name))) {
@@ -302,7 +319,7 @@ class ArchitectApplicationController extends Controller
                 }
                 $filePath = $folder_name . "/" . $fileName;
                 // $file_local = \Storage::disk('local')->get($filePath);
-                \Storage::disk('ftp')->put($filePath, $pdf->output());
+                \Storage::disk('ftp')->put($filePath, $pdf->Output($fileName, 'S'));
                 $ArchitectApplication->drafted_certificate = $filePath;
                 $ArchitectApplication->certificate_path = $filePath;
                 $ArchitectApplication->save();
@@ -493,7 +510,7 @@ class ArchitectApplicationController extends Controller
         {
             return back()->withError('something went wrong');
         }
-         
-    }   
+
+    }
 
 }

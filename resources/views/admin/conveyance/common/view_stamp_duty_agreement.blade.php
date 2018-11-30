@@ -10,16 +10,18 @@
 </div>
 @endif
 
-<div class="col-md-12">
+<div class="col-md-12"> 
     <!-- BEGIN: Subheader -->
-    <div class="m-subheader px-0">
-        <div class="d-flex">
-            {{-- {{ Breadcrumbs::render('calculation_sheet',$ol_application->id) }} --}}
-            <div class="ml-auto btn-list">
-                <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
-            </div>
-
+    <div class="m-subheader px-0 m-subheader--top">
+        <div class="d-flex align-items-center">
+            <h3 class="m-subheader__title m-subheader__title--separator">
+                Sale & Lease Deed Agreement</h3>
+                 {{ Breadcrumbs::render('conveyance_stamp_sale_lease',$data->id) }}
+                <div class="ml-auto btn-list">
+                    <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+                </div>
         </div>
+    </div> 
         <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom nav-tabs--stamp-duty" role="tablist">
             <li class="nav-item m-tabs__item">
                 <a class="nav-link m-tabs__link active show" data-toggle="tab" href="#sale-deed-agreement" role="tab"
@@ -61,8 +63,8 @@
                                             <h5>Download</h5>
                                             <span class="hint-text">Click to download Sale Deed Agreement </span>
                                             <div class="mt-auto">
-                                                @if(isset($data->DraftSaleAgreement->document_path))
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->DraftSaleAgreement->document_path }}">
+                                                @if(isset($data->StampSaleAgreement->document_path))
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->StampSaleAgreement->document_path }}">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>
@@ -102,8 +104,8 @@
                                             <h5>Download Note</h5>
                                             <span class="hint-text">Click to download Lease Deed Agreement</span>
                                             <div class="mt-auto">
-                                                @if(isset($data->DraftLeaseAgreement->document_path))
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->DraftLeaseAgreement->document_path }}">
+                                                @if(isset($data->StampLeaseAgreement->document_path))
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->StampLeaseAgreement->document_path }}">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>
@@ -142,8 +144,8 @@
                                             <h5>Download Note</h5>
                                             <span class="hint-text">Download Society resolution format</span>
                                             <div class="mt-auto">
-                                                @if(isset($data->DraftLeaseAgreement->document_path))
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->DraftLeaseAgreement->document_path }}">
+                                                @if(isset($data->resolution->document_path))
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->resolution->document_path }}">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>
@@ -178,8 +180,8 @@
                                             <h5>Download Note</h5>
                                             <span class="hint-text">Download Society undertaking format</span>
                                             <div class="mt-auto">
-                                                @if(isset($data->DraftLeaseAgreement->document_path))
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->DraftLeaseAgreement->document_path }}">
+                                                @if(isset($data->undertaking->document_path))
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->undertaking->document_path }}">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>
@@ -195,11 +197,8 @@
                         </div>
                     </div>
                 </div>
-            </div>>
-
-
+            </div>
         </div>
-
     </div>
 
     <div id="sale-lease-aggrement" style="margin-top: 30px;">
@@ -225,7 +224,20 @@
         </div> 
     @endif   
 
-    @if($data->status->status_id != config('commanConfig.applicationStatus.forwarded'))
+    @if($data->riders)
+        <div class="m-portlet m-portlet--mobile m_panel">  
+            <div class="m-portlet__body">   
+                <div class="col-xs-12 row">
+                    <div class="col-md-12">
+                        <h3 class="section-title section-title--small">Riders</h3>
+                        <textarea rows="4" cols="63" name="remark" readonly>{{ isset($data->riders) ? $data->riders : '' }}</textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif     
+
+    @if($data->status->status_id != config('commanConfig.applicationStatus.forwarded') && $data->status->status_id != config('commanConfig.applicationStatus.reverted') )
 
         <form class="nav-tabs-form" id ="CommentFRM" role="form" method="POST" action="{{ route('conveyance.save_agreement_comments')}}">
             @csrf   

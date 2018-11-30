@@ -21,6 +21,9 @@
         <div class="d-flex align-items-center" id="search_box">
             <h3 class="m-subheader__title m-subheader__title--separator">Tenant List </h3>
             {{ Breadcrumbs::render('tenant_list',encrypt($society_id),encrypt($building_id)) }}
+            <div class="ml-auto btn-list">
+                <a href="{{ url()->previous() }}" class="btn btn-link pull-right"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+            </div>
          </div>
 
     </div>
@@ -35,7 +38,7 @@
                 </div>
             </div>
              <div class='btn-icon-list'>
-                <a href="{{route('add_tenant', [$building_id])}}" class='d-flex flex-column align-items-center' style="padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px; float: right;margin-top: 3%"><span class='btn-icon btn-icon--edit'><img src="{{asset('/img/add-icon.svg')}}"></span>Add Tenant</a>
+                <a href="{{route('add_tenant', [$building_id])}}" class='btn m-btn--pill m-btn--custom btn-primary pull-right' style="">Add Tenant</a>
             </div>
 
         </div>

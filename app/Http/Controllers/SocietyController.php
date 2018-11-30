@@ -46,9 +46,36 @@ class SocietyController extends Controller
 
     public function print_data()
     {
+        $getData = [
+            'society_name' =>session()->get('society_name'),
+            'sr_no' =>session()->get('sr_no'),
+            'village' =>session()->get('village')
+
+        ];
+
         $society_data = SocietyDetail::join('other_land','lm_society_detail.other_land_id', '=', 'other_land.id')
             ->join('village_societies','village_societies.society_id','=','lm_society_detail.id');
-            $society_data = $society_data->selectRaw( DB::raw('lm_society_detail.id,
+
+        if($getData['society_name'])
+        {
+            $society_data = $society_data->where('society_name', 'like', '%'.$getData['society_name'].'%');
+        }
+
+//
+        if($getData['village'])
+        {
+            $society_data = $society_data->whereHas('Villages', function($qu) use ($getData){
+                $qu->where('id',$getData['village']);
+            });
+        }
+
+        if($getData['sr_no'])
+        {
+            $society_data = $society_data->where('survey_number', 'like', '%'.$getData['sr_no'].'%');
+        }
+
+
+        $society_data = $society_data->selectRaw( DB::raw('lm_society_detail.id,
             lm_society_detail.society_name,
             lm_society_detail.district,
             lm_society_detail.taluka,
@@ -156,8 +183,35 @@ class SocietyController extends Controller
         ];
         if($request->excel)
         {
+            $getData = [
+                'society_name' =>session()->get('society_name'),
+                'sr_no' =>session()->get('sr_no'),
+                'village' =>session()->get('village')
+
+            ];
+
             $society_data = SocietyDetail::join('other_land','lm_society_detail.other_land_id', '=', 'other_land.id')
             ->join('village_societies','village_societies.society_id','=','lm_society_detail.id');
+
+            if($getData['society_name'])
+            {
+                $society_data = $society_data->where('society_name', 'like', '%'.$getData['society_name'].'%');
+            }
+
+//
+            if($getData['village'])
+            {
+                $society_data = $society_data->whereHas('Villages', function($qu) use ($getData){
+                    $qu->where('id',$getData['village']);
+                });
+            }
+
+            if($getData['sr_no'])
+            {
+                $society_data = $society_data->where('survey_number', 'like', '%'.$getData['sr_no'].'%');
+            }
+
+
             $society_data = $society_data->selectRaw( DB::raw('lm_society_detail.id,
             lm_society_detail.society_name,
             lm_society_detail.district,
@@ -257,19 +311,40 @@ class SocietyController extends Controller
         if ($datatables->getRequest()->ajax()) {
 
             // DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
-            $society_data = SocietyDetail::orderBy('id', 'desc')->get();
-            // $society_data = VillageDetail::with('Societies')->whereHas('Societies')->where('id',$id);
-            //$society_data= array_get($society_data, 'Societies')!=null?array_get($society_data, 'Societies'):[];
+            $society_data = SocietyDetail::orderBy('id', 'desc');
 
-            // $society_data = $society_data->selectRaw( DB::raw('@rownum  := @rownum  + 1 AS rownum').',society_name, lm_society_detail.id as id, village_id, survey_number, society_address, surplus_charges');
-//            dd($society_data);
+//            dd($society_data->toArray());
 
-//            dd($society_data);
+            if($request->society_name)
+            {
+                session()->put('society_name',$request->society_name);
+                $society_data = $society_data->where('society_name', 'like', '%'.$request->society_name.'%');
+            }else{
+                session()->forget('society_name');
+            }
+
+//
+            if($request->village)
+            {
+                session()->put('village',$request->village);
+                $society_data = $society_data->whereHas('Villages', function($qu) use ($request){
+                    $qu->where('id',$request->village);
+                });
+            }else{
+                session()->forget('village');
+            }
+
+            if($request->sr_no)
+            {
+                session()->put('sr_no',$request->sr_no);
+                $society_data = $society_data->where('survey_number', 'like', '%'.$request->sr_no.'%');
+            }else{
+                session()->forget('sr_no');
+            }
+
+            $society_data = $society_data->get();
             return $datatables->of($society_data)
-                // ->editColumn('radio', function ($society_data) {
-                //     $url = route('society_detail.show', $society_data->id);
-                //     return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
-                // })
+
                 ->editColumn('rownum', function ($society_data) {
                     static $i = 0;
                     $i++;
@@ -277,9 +352,9 @@ class SocietyController extends Controller
                 })
                 ->editColumn('societyVillage', function ($society_data) {
                     $village_string="";
-                    foreach($society_data->Villages as $viilage)
+                    foreach($society_data->Villages as $village)
                      {
-                        $village_string.= $viilage->village_name.",";
+                        $village_string.= $village->village_name.",";
                      }
                     return "<span>".trim($village_string,',')."</span>";
                 })
@@ -292,10 +367,10 @@ class SocietyController extends Controller
                 ->rawColumns(['societyVillage', 'society_name', 'actions'])
                 ->make(true);
         }
-
+        $villages = VillageDetail::get();
         $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
 
-        return view('admin.society_detail.index', compact('html','header_data','getData', 'id'));
+        return view('admin.society_detail.index', compact('html','header_data','villages','getData', 'id'));
     }
 
     protected function getParameters() {
@@ -303,7 +378,7 @@ class SocietyController extends Controller
             'serverSide' => true,
             'processing' => true,
             'ordering'   =>'isSorted',
-            "order"=> [6, "desc" ],
+            "order"=> [0, "asc" ],
             "pageLength" => $this->list_num_of_records_per_page
         ];
     }

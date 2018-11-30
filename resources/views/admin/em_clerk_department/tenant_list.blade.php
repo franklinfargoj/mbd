@@ -18,10 +18,15 @@
 <div class="col-md-12">
       <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center" id="search_box">
-           <h3 class="m-subheader__title"> </h3>          
+           <h3 class="m-subheader__title m-subheader__title--separator">Payment List</h3>
+            {{ Breadcrumbs::render('arrear_payment_details') }}        
+            <div class="ml-auto btn-list">
+                <a href="{{ url()->previous() }}" class="btn btn-link pull-right"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+            </div>
          </div>
 
     <div class="m-portlet m-portlet--compact m-portlet--mobile">
+        {{$society->society_name}} - {{$building->name}}
         {{--<div class="m-portlet__head">--}}
             {{--<div class="m-portlet__head-caption">--}}
                 {{--<div class="m-portlet__head-title">--}}
