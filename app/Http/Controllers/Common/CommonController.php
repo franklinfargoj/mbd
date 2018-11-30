@@ -403,7 +403,7 @@ class CommonController extends Controller
                 ],
             ];
 
-            //Code added by Prajakta
+            //Code added by Prajakta >>start
             DB::beginTransaction();
             try {
                 OlApplicationStatus::where('application_id',$request->applicationId)
@@ -417,17 +417,22 @@ class CommonController extends Controller
                 DB::rollback();
 //                return response()->json(['error' => $ex->getMessage()], 500);
             }
-            //EOC
+            //Code added by Prajakta >>end
 
         } else {
             if (session()->get('role_name') == config('commanConfig.cap_engineer') || session()->get('role_name') == config('commanConfig.vp_engineer')) {
+
+                //Code added by Prajakta >>start
+                $to_user_id = $request->user_id;
+                //Code added by Prajakta >>end
+
                 $revert_application = [
                     [
                         'application_id' => $request->applicationId,
                         'user_id' => Auth::user()->id,
                         'role_id' => session()->get('role_id'),
                         'status_id' => config('commanConfig.applicationStatus.reverted'),
-                        'to_user_id' => $request->user_id,
+                        'to_user_id' => $to_user_id,
                         'to_role_id' => $request->role_id,
                         'remark' => $request->remark,
                         'is_active' => 1,
@@ -446,14 +451,19 @@ class CommonController extends Controller
                         'created_at' => Carbon::now(),
                     ],
                 ];
-            } else {
+            }
+            else {
+                //Code added by Prajakta >>start
+                $to_user_id = $request->to_child_id;
+                //Code added by Prajakta >>end
+
                 $revert_application = [
                     [
                         'application_id' => $request->applicationId,
                         'user_id' => Auth::user()->id,
                         'role_id' => session()->get('role_id'),
                         'status_id' => config('commanConfig.applicationStatus.reverted'),
-                        'to_user_id' => $request->to_child_id,
+                        'to_user_id' => $to_user_id,
                         'to_role_id' => $request->to_role_id,
                         'remark' => $request->remark,
                         'is_active' => 1,
@@ -474,11 +484,11 @@ class CommonController extends Controller
                 ];
             }
 
-            //Code added by Prajakta
+            //Code added by Prajakta >>start
             DB::beginTransaction();
             try {
                 OlApplicationStatus::where('application_id',$request->applicationId)
-                    ->whereIn('user_id', [Auth::user()->id,$request->to_child_id ])
+                    ->whereIn('user_id', [Auth::user()->id,$to_user_id ])
                     ->update(array('is_active' => 0));
 
                 OlApplicationStatus::insert($revert_application);
@@ -488,7 +498,7 @@ class CommonController extends Controller
                 DB::rollback();
 //                return response()->json(['error' => $ex->getMessage()], 500);
             }
-            //EOC
+            //Code added by Prajakta >>end
 
         }
 
