@@ -270,7 +270,12 @@ class CoPermissionSeeder extends Seeder
                 'name'=>'conveyance.view_documents',
                 'display_name'=>'view conveyance documents',
                 'description'=>'view conveyance documents'
-            ],                                      
+            ],
+            [
+                'name'=>'em.scrutiny_remark',
+                'display_name'=>'EM scrutiny remark',
+                'description'=>'EM scrutiny remark'
+            ]                                                  
 
         ];
         $ree_role_id = Role::where('name', 'ree_engineer')->value('id');

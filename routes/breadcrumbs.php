@@ -972,6 +972,11 @@ Breadcrumbs::for('conveyance_registered_sale_lease', function ($trail,$id) {
     $trail->parent('society_conveyance');
     $trail->push('Registered Sale & Lease Deed', route('conveyance.register_sale_lease_agreement',$id));
 });
+
+Breadcrumbs::for('conveyance_em_scrutiny', function ($trail,$id) {
+    $trail->parent('society_conveyance');
+    $trail->push('EM Scrutiny Remark', route('em.scrutiny_remark',$id));
+});
  
 //Renewal 
 Breadcrumbs::for('society_renewal',function($trail){

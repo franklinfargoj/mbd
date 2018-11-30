@@ -277,6 +277,11 @@ class DYCOPermissions extends Seeder
                 'name'=>'dyco.save_renewal_draft_stamp_duty',
                 'display_name'=>'save renewal draft stamp duty',
                 'description'=>'save renewal draft stamp duty'
+            ],             
+            [
+                'name'=>'em.scrutiny_remark',
+                'display_name'=>'EM scrutiny remark',
+                'description'=>'EM scrutiny remark'
             ]      
         ];
 

@@ -74,14 +74,28 @@ class EMController extends Controller
                 }
             }
         }
+ 
+        
 
         if(!empty($no_dues_certificate_docs['text_no_dues_certificate']['sc_document_status'])){
             $content = $this->CommonController->getftpFileContent($no_dues_certificate_docs['text_no_dues_certificate']['sc_document_status']->document_path);
         }else{
             $content = "";
         }
+
+        //if current role is not EM then open EM scrutiny in readonly format(Bhavana)
+        $is_view = session()->get('role_name') == config('commanConfig.estate_manager');
+        $status = $this->common->getCurrentStatus($applicationId,$data->sc_application_master_id);
+        $data->folder = $this->common->getCurrentRoleFolderName();
+
+        if ($is_view && $status->status_id == config('commanConfig.applicationStatus.Draft_sale_&_lease_deed')) {
+            $route = 'admin.conveyance.em_department.scrutiny_remark';
+        }else{
+            $route = 'admin.conveyance.common.view_em_scrutiny_remark';
+        }
+
 //        dd($bonafide_docs['bonafide_list']->sc_document_status->document_path);
-        return view('admin.conveyance.em_department.scrutiny_remark',compact('data', 'content', 'no_dues_certificate_docs', 'bonafide_docs', 'covering_letter_docs'));
+        return view($route,compact('data', 'content', 'no_dues_certificate_docs', 'bonafide_docs', 'covering_letter_docs'));
     }
 
     /**

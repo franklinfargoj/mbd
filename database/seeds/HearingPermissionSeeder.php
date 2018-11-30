@@ -602,6 +602,11 @@ class HearingPermissionSeeder extends Seeder
                 'name'=>'renewal.view_documents',
                 'display_name'=>'view renewal society documents',
                 'description'=>'view renewal society documents'
+            ],             
+            [
+                'name'=>'em.scrutiny_remark',
+                'display_name'=>'EM scrutiny remark',
+                'description'=>'EM scrutiny remark'
             ]                                                                                            
         ];
   
