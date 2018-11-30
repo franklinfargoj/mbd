@@ -50,8 +50,8 @@
                                 </td>
                                 <td class="text-center">
                                     <h2 class="m--font-danger">
-                                        @if(count($document->documents_uploaded) > 0 )
-                                        @foreach($document->documents_uploaded as $document_uploaded)
+                                        @if(count($document->reval_documents_uploaded) > 0 )
+                                        @foreach($document->reval_documents_uploaded as $document_uploaded)
                                         @if($document_uploaded['society_id'] == $society->id)
                                         <i class="fa fa-check"></i>
                                         @else
@@ -64,8 +64,8 @@
                                     </h2>
                                 </td>
                                 <td>
-                                    @if(count($document->documents_uploaded) > 0 )
-                                    @foreach($document->documents_uploaded as $document_uploaded)
+                                    @if(count($document->reval_documents_uploaded) > 0 )
+                                    @foreach($document->reval_documents_uploaded as $document_uploaded)
                                     @if($document_uploaded['society_id'] == $society->id)
                                     <span>
                                         <a href="{{ asset($document_uploaded['society_document_path']) }}" data-value='{{ $document->id }}'
