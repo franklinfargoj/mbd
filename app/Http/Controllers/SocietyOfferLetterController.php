@@ -1306,16 +1306,16 @@ class SocietyOfferLetterController extends Controller
 
     public function deleteSocietyRevalDocuments($id){
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
-        $application = OlApplication::where('society_id', $society->id)->first();
+        $application = OlApplication::where('society_id', $society->id)->orderBy('id','desc')->first();
 
         $documents_master = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->with(['documents_uploaded' => function($q) use ($society){
             $q->where('society_id', $society->id)->get();
         }])->get();
 
-        if($application->application_master_id == '3' || $application->application_master_id == '14' ){
+        if($application->application_master_id == '3' || $application->application_master_id == '14'){
             $optional_docs = config('commanConfig.optional_docs_premium_reval');
         }
-        if($application->application_master_id == '7' || $application->application_master_id == '18' ){
+        if($application->application_master_id == '7' || $application->application_master_id == '18'){
             $optional_docs = config('commanConfig.optional_docs_sharing_reval');
         }
         $docs_uploaded_count = 0;

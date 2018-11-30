@@ -8,6 +8,12 @@ class RevalOlSocietyDocumentStatus extends Model
 {
     protected $table = 'reval_ol_society_document_status';
 
+    protected $fillable = [
+        'society_id',
+        'document_id',
+        'society_document_path',
+    ];
+
     public function documents_uploaded(){
         return $this->hasMany(RevalOlSocietyDocumentStatus::class, 'document_id', 'id');
     }
