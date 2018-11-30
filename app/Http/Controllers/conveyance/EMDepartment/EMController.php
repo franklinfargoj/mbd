@@ -87,6 +87,7 @@ class EMController extends Controller
         $is_view = session()->get('role_name') == config('commanConfig.estate_manager');
         $status = $this->common->getCurrentStatus($applicationId,$data->sc_application_master_id);
         $data->folder = $this->common->getCurrentRoleFolderName();
+        $data->conveyance_map = $this->common->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
 
         if ($is_view && $status->status_id == config('commanConfig.applicationStatus.Draft_sale_&_lease_deed')) {
             $route = 'admin.conveyance.em_department.scrutiny_remark';

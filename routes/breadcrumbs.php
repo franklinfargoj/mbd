@@ -945,7 +945,7 @@ Breadcrumbs::for('conveyance_ee_calculation', function ($trail,$id) {
 
 Breadcrumbs::for('conveyance_draft_sale_lease', function ($trail,$id) {
     $trail->parent('society_conveyance');
-    $trail->push('Draft Sale & Lease Deed', route('conveyance.sale_lease_agreement',$id));
+    $trail->push('Sale & Lease Deed', route('conveyance.sale_lease_agreement',$id));
 });
 
 Breadcrumbs::for('conveyance_approve_sale_lease', function ($trail,$id) {

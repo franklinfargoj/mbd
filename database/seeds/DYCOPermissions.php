@@ -88,11 +88,6 @@ class DYCOPermissions extends Seeder
                 'description' => 'view ee documents',
             ],            
             [
-                'name' => 'conveyance.view_ee_documents',
-                'display_name' => 'view ee documents',
-                'description' => 'view ee documents',
-            ],
-            [
                 'name' => 'dyco.save_stamp_sign_agreement',
                 'display_name' => 'save stamp sign agreement',
                 'description' => 'save stamp sign agreement',
@@ -282,7 +277,17 @@ class DYCOPermissions extends Seeder
                 'name'=>'em.scrutiny_remark',
                 'display_name'=>'EM scrutiny remark',
                 'description'=>'EM scrutiny remark'
-            ]      
+            ],
+            [
+                'name'=>'conveyance.save_draft_sign_conveyance_agreement',
+                'display_name'=>'save draft sign conveyance agreement',
+                'description'=>'save draft sign conveyance agreement'
+            ],             
+            [
+                'name'=>'conveyance.draft_sign_conveyance_agreement',
+                'display_name'=>'draft sign conveyance agreement',
+                'description'=>'draft sign conveyance agreement'
+            ]                  
         ];
 
         //dycdo
