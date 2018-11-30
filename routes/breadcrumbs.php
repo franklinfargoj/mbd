@@ -945,7 +945,7 @@ Breadcrumbs::for('conveyance_ee_calculation', function ($trail,$id) {
 
 Breadcrumbs::for('conveyance_draft_sale_lease', function ($trail,$id) {
     $trail->parent('society_conveyance');
-    $trail->push('Draft Sale & Lease Deed', route('conveyance.sale_lease_agreement',$id));
+    $trail->push('Sale & Lease Deed', route('conveyance.sale_lease_agreement',$id));
 });
 
 Breadcrumbs::for('conveyance_approve_sale_lease', function ($trail,$id) {
@@ -971,6 +971,11 @@ Breadcrumbs::for('conveyance_stamp_sign_sale_lease', function ($trail,$id) {
 Breadcrumbs::for('conveyance_registered_sale_lease', function ($trail,$id) {
     $trail->parent('society_conveyance');
     $trail->push('Registered Sale & Lease Deed', route('conveyance.register_sale_lease_agreement',$id));
+});
+
+Breadcrumbs::for('conveyance_em_scrutiny', function ($trail,$id) {
+    $trail->parent('society_conveyance');
+    $trail->push('EM Scrutiny Remark', route('em.scrutiny_remark',$id));
 });
  
 //Renewal 
