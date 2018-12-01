@@ -40,7 +40,7 @@ class OlApplicationMasterTableSeeder extends Seeder
             ]);
             OlApplicationMaster::create([
                 'parent_id'       =>  $application->id,
-                'route_name' => 'show_reval_dev',
+                'route_name' => 'show_form_self_noc',
                 'title'   => "Application for NOC",
                 'model'   => "Premium",
             ]);
@@ -68,7 +68,7 @@ class OlApplicationMasterTableSeeder extends Seeder
             OlApplicationMaster::create([
                 'parent_id'       =>  $application->id,
                 'title'   => "Application for NOC - IOD",
-                'route_name' => 'show_reval_dev',
+                'route_name' => 'show_form_self_noc',
                 'model'   => "Sharing",
             ]);
             OlApplicationMaster::create([
