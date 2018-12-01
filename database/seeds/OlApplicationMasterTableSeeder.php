@@ -14,9 +14,10 @@ class OlApplicationMasterTableSeeder extends Seeder
     {
         $applicationArr= [
             [
-            'title'   => "Self Redevelopment",
-            'model'   => "null",
-            ],[
+                'title'   => "Self Redevelopment",
+                'model'   => "null",
+            ],
+            [
                 'title'   => "Redevelopment Through Developer",
                 'model'   => "null",
             ]
@@ -28,20 +29,24 @@ class OlApplicationMasterTableSeeder extends Seeder
             OlApplicationMaster::create([
                 'parent_id'       =>  $application->id,
                 'title'   => "New - Offer Letter",
+                'route_name' => 'show_form_self',
                 'model'   => "Premium",
             ]);
             OlApplicationMaster::create([
                 'parent_id'       =>  $application->id,
+                'route_name' => 'show_reval_dev',
                 'title'   => "Revalidation Of Offer Letter",
                 'model'   => "Premium",
             ]);
             OlApplicationMaster::create([
                 'parent_id'       =>  $application->id,
+                'route_name' => 'show_reval_dev',
                 'title'   => "Application for NOC",
                 'model'   => "Premium",
             ]);
             OlApplicationMaster::create([
                 'parent_id'       =>  $application->id,
+                'route_name' => 'show_form_self',
                 'title'   => "Consent for OC",
                 'model'   => "Premium",
             ]);
@@ -51,30 +56,36 @@ class OlApplicationMasterTableSeeder extends Seeder
             OlApplicationMaster::create([
                 'parent_id'       =>  $application->id,
                 'title'   => "New - Offer Letter",
+                'route_name' => 'show_form_dev',
                 'model'   => "Sharing",
             ]);
             OlApplicationMaster::create([
                 'parent_id'       =>  $application->id,
+                'route_name' => 'show_reval_dev',
                 'title'   => "Revalidation Of Offer Letter",
                 'model'   => "Sharing",
             ]);
             OlApplicationMaster::create([
                 'parent_id'       =>  $application->id,
                 'title'   => "Application for NOC - IOD",
+                'route_name' => 'show_reval_dev',
                 'model'   => "Sharing",
             ]);
             OlApplicationMaster::create([
                 'parent_id'       =>  $application->id,
+                'route_name' => 'show_form_self',
                 'title'   => "Tripartite Agreement",
                 'model'   => "Sharing",
             ]);
             OlApplicationMaster::create([
                 'parent_id'       =>  $application->id,
+                'route_name' => 'show_form_self',
                 'title'   => "Application for CC",
                 'model'   => "Sharing",
             ]);
             OlApplicationMaster::create([
                 'parent_id'       =>  $application->id,
+                'route_name' => 'show_form_self',
                 'title'   => "Consent for OC",
                 'model'   => "Sharing",
             ]);
