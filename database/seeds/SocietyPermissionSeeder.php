@@ -430,7 +430,7 @@ class SocietyPermissionSeeder extends Seeder
             //dd('if');
             $role_id = Role::insertGetId([
                 'name'         => 'society',
-                'redirect_to'  => '/society_offer_letter/society_offer_letter_dashboard',
+                'redirect_to'  => '/society/society_offer_letter_dashboard',
                 'parent_id'    => NULL,
                 'display_name' => 'Society Offer Letter',
                 'description'  => 'Login as Society'

@@ -66,9 +66,14 @@
             {{--</div>--}}
           {{--</div>--}}
         {{--@endif--}}
-        @foreach($data as $application)
-          <p><a href="{{ route($application->route_name, $application->id) }}">{{ $application->title }}</a></p>
-        @endforeach
+        <div class="col-xs-12" id="">
+            <span class="App_head"> List of Applications for Redevelopment - {{ $data[0]->ol_application_type[0]->title }}</span>
+            <div class="options">
+                @foreach($data as $application)
+                  <p><a href="{{ route($application->route_name, $application->id) }}" disabled>{{ $application->title }}</a></p>
+                @endforeach
+            </div>
+        </div>
 
         {{--<div class="col-xs-12 self_premium" id="">--}}
           {{--<span class="App_head"> List of Applications for Redevelopment - @if($id == $self_premium || $id == $self_sharing || $id == $self_reval_premium || $id == $self_reval_sharing) Self Redevelopment @endif @if($id == $dev_premium || $id == $dev_sharing || $id == $dev_reval_premium || $id == $dev_reval_sharing) Redevelopment Through Developer @endif</span>--}}

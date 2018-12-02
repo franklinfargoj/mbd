@@ -467,8 +467,8 @@ class SocietyOfferLetterController extends Controller
      */
     public function ViewApplications($id){
         $ids = explode('_', $id);
-        $data = OlApplicationMaster::where('model', ucfirst($ids[1]))->where('parent_id', $ids[0])->get();
-//        dd($data);
+        $data = OlApplicationMaster::with('ol_application_type')->where('model', ucfirst($ids[1]))->where('parent_id', $ids[0])->get();
+//        dd($data[0]->ol_application_type[0]->title);
         return view('frontend.society.application', compact('ids', 'data'));
     }
 
