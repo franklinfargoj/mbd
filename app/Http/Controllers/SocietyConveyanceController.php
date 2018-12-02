@@ -253,13 +253,16 @@ class SocietyConveyanceController extends Controller
                             }
                         }
                     }else{
+                        dd('1');
                         return redirect()->route('society_conveyance.create')->withErrors('error', "Excel file headers doesn't match")->withInput();
                     }
                 }else{
+//                    dd('2');
                     return redirect()->route('society_conveyance.create')->withErrors('error', "Excel file is empty.")->withInput();
                 }
             }
         }else{
+//            dd('3');
             return redirect()->route('society_conveyance.create')->withErrors('error', "Excel file headers doesn't match")->withInput();
         }
     }
