@@ -70,7 +70,7 @@
             <span class="App_head"> List of Applications for Redevelopment - {{ $data[0]->ol_application_type[0]->title }}</span>
             <div class="options">
                 @foreach($data as $application)
-                  <p><a href="{{ route($application->route_name, $application->id) }}" disabled>{{ $application->title }}</a></p>
+                  <p><a @if(count($application->ol_application_id) == 0) href="{{ route($application->route_name, $application->id) }}" @endif>{{ $application->title }}</a></p>
                 @endforeach
             </div>
         </div>
