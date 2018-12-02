@@ -399,7 +399,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     // Route::post('save_forward_Application','CODepartment\COController@sendForwardApplication')->name('co.forward_application_data');
 
 
-    Route::group(['prefix'=>'society_offer_letter'], function(){
+    Route::group(['prefix'=>'society'], function(){
 
         //Society Offer Letter
         Route::get('/application/{id}','SocietyOfferLetterController@ViewApplications')->name('society_detail.application');
