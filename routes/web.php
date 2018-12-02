@@ -55,12 +55,15 @@ Route::get('download_applicant_form/{id}','RtiFormController@download_applicant_
 
  Route::get('download_society_offer_letter/{id}','Common\CommonController@downloadOfferLetter')->name('society_offer_download');
 
+Route::group(['middleware' => ['check_society_offer_letter_permission']], function(){
+       
+});
 
+Route::get('/application/{id}','SocietyOfferLetterController@ViewApplications')->name('society_detail.application');
+Route::get('refresh_captcha','SocietyOfferLetterController@RefreshCaptcha')->name('refresh_captcha');
+Route::post('UserAuthentication','SocietyOfferLetterController@UserAuthentication')->name('society_detail.UserAuthentication');
 
-    Route::get('refresh_captcha','SocietyOfferLetterController@RefreshCaptcha')->name('refresh_captcha');
-    Route::post('UserAuthentication','SocietyOfferLetterController@UserAuthentication')->name('society_detail.UserAuthentication');
-
-
+Route::resource('/society_offer_letter', 'SocietyOfferLetterController');
 
 
 
@@ -114,11 +117,11 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('rti_forward_application/{id}','RtiFormController@show_forward_application_form')->name('rti_forwarded_application');
     Route::post('rti_forwarded_application/{id}','RtiFormController@forward_application')->name('rti_forwarded_application_data');
     // Resolution routes
-
+    
     Route::get('/resolution/delete/{id}', 'ResolutionController@destroy')->name('resolution.delete');
 
 
-//resolutions backend
+//resolutions backend   
 //Route::get('/resolution/delete/{id}', 'ResolutionController@destroy')->name('resolution.delete');
     Route::resource('/resolution', 'ResolutionController');
     Route::post('loadDeleteReasonOfResolutionUsingAjax', 'ResolutionController@loadDeleteReasonOfResolutionUsingAjax')->name('loadDeleteReasonOfResolutionUsingAjax');
@@ -153,7 +156,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::post('/send_notice_to_appellant/update/{id}', 'SendNoticeToAppellantController@update')->name('send_notice_to_appellant.update');
 
     // Land Manager Routes
-
+    
     Route::resource('/village_detail', 'VillageDetailController');
     Route::get('/society_detail', 'SocietyController@index')->name("society_detail.index");
     //Route::get('/society_detail/{id}', 'SocietyController@index')->name("society_detail.index");
@@ -198,7 +201,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::post('/consent-verfication', 'EEDepartment\EEController@consentVerification')->name('consent-verfication');
     Route::post('/ee-demarcation', 'EEDepartment\EEController@eeDemarcation')->name('ee-demarcation');
     Route::post('/ee-tit-bit', 'EEDepartment\EEController@titBit')->name('ee-tit-bit');
-    Route::post('/ee-rg-relocation', 'EEDepartment\EEController@rgRelocation')->name('ee-rg-relocation');
+    Route::post('/ee-rg-relocation', 'EEDepartment\EEController@rgRelocation')->name('ee-rg-relocation');    
 
 
    // EM Department Routes
@@ -210,7 +213,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('soc_bill_level/{id}', 'EMDepartment\EMController@soc_bill_level')->name('soc_bill_level');
     Route::post('update_soc_bill_level', 'EMDepartment\EMController@update_soc_bill_level')->name('update_soc_bill_level');
     Route::get('soc_ward_colony/{id}', 'EMDepartment\EMController@soc_ward_colony')->name('soc_ward_colony');
-
+    
     Route::post('update_soc_ward_colony', 'EMDepartment\EMController@update_soc_ward_colony')->name('update_soc_ward_colony');
 
     Route::get('get_wards', 'EMDepartment\EMController@get_wards')->name('get_wards');
@@ -296,7 +299,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::get('download_cap_note/{id}','REEDepartment\REEController@downloadCapNote')->name('ree.download_cap_note');
     Route::get('download_reval_cap_note/{id}','REEDepartment\REEController@downloadRevalCapNote')->name('ree.download_reval_cap_note');
-
+    
     Route::post('ree_forward_Application_data','REEDepartment\REEController@sendForwardApplication')->name('ree.forward_application_data');
     Route::post('ree_forward_reval_Application_data','REEDepartment\REEController@sendForwardRevalApplication')->name('ree.forward_reval_application_data');
 
@@ -323,7 +326,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::post('upload_ree_note','REEDepartment\REEController@uploadREENote')->name('ree.upload_ree_note');
 
-    // CO department route
+    // CO department route 
     Route::resource('co','CODepartment\COController');
 
     Route::get('co_reval_applications','CODepartment\COController@revalidationApplicationList')->name('co_applications.reval');
@@ -371,7 +374,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('cap_forward_reval_application/{id}','CAPDepartment\CAPController@forwardRevalApplication')->name('cap.forward_reval_application');
     Route::post('cap_forward_reval_Application_data','CAPDepartment\CAPController@sendForwardRevalApplication')->name('cap.forward_reval_application_data');
 
-        // VP department route
+        // VP department route 
     Route::resource('vp','VPDepartment\VPController');
 
     Route::get('vp_reval_applications','VPDepartment\VPController@revalidationApplicationList')->name('vp_applications.reval');
@@ -399,62 +402,60 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     // Route::post('save_forward_Application','CODepartment\COController@sendForwardApplication')->name('co.forward_application_data');
 
 
-    Route::group(['prefix'=>'society_offer_letter'], function(){
+     //Society Offer Letter
+    Route::post('society_offer_letter/forgot_password','SocietyOfferLetterController@forgot_password')->name('society_offer_letter_forgot_password');
+    Route::get('/society_offer_letter_dashboard', 'SocietyOfferLetterController@dashboard')->name('society_offer_letter_dashboard');
 
-        //Society Offer Letter
-        Route::get('/application/{id}','SocietyOfferLetterController@ViewApplications')->name('society_detail.application');
-        Route::post('society_offer_letter/forgot_password','SocietyOfferLetterController@forgot_password')->name('society_offer_letter_forgot_password');
-        Route::get('/society_offer_letter_dashboard', 'SocietyOfferLetterController@dashboard')->name('society_offer_letter_dashboard');
+    Route::get('/show_form_self/{id}', 'SocietyOfferLetterController@show_form_self')->name('show_form_self');
 
-        Route::get('/show_form_self/{id}', 'SocietyOfferLetterController@show_form_self')->name('show_form_self');
+    Route::get('/offer_letter_application_form_self/{id}', 'SocietyOfferLetterController@show_offer_letter_application_self')->name('offer_letter_application_self');
+    Route::post('/save_offer_letter_application_form_self', 'SocietyOfferLetterController@save_offer_letter_application_self')->name('save_offer_letter_application_self');
 
-        Route::get('/offer_letter_application_form_self/{id}', 'SocietyOfferLetterController@show_offer_letter_application_self')->name('offer_letter_application_self');
-        Route::post('/save_offer_letter_application_form_self', 'SocietyOfferLetterController@save_offer_letter_application_self')->name('save_offer_letter_application_self');
+    Route::get('/show_form_dev/{id}', 'SocietyOfferLetterController@show_form_dev')->name('show_form_dev');
+    Route::get('/show_form_dev_noc/{id}', 'SocietyNocController@show_form_dev_noc')->name('show_form_dev_noc');
+    Route::get('/offer_letter_application_form_dev/{id}', 'SocietyOfferLetterController@show_offer_letter_application_dev')->name('offer_letter_application_dev');
+    Route::post('/save_offer_letter_application_form_dev', 'SocietyOfferLetterController@save_offer_letter_application_dev')->name('save_offer_letter_application_dev');
 
-        Route::get('/show_form_dev/{id}', 'SocietyOfferLetterController@show_form_dev')->name('show_form_dev');
-        Route::get('/show_form_dev_noc/{id}', 'SocietyNocController@show_form_dev_noc')->name('show_form_dev_noc');
-        Route::get('/offer_letter_application_form_dev/{id}', 'SocietyOfferLetterController@show_offer_letter_application_dev')->name('offer_letter_application_dev');
-        Route::post('/save_offer_letter_application_form_dev', 'SocietyOfferLetterController@save_offer_letter_application_dev')->name('save_offer_letter_application_dev');
+    Route::get('documents_upload','SocietyOfferLetterController@displaySocietyDocuments')->name('documents_upload');
+    Route::post('add_uploaded_documents_remark','SocietyOfferLetterController@addSocietyDocumentsRemark')->name('add_uploaded_documents_remark');
+    Route::get('documents_uploaded','SocietyOfferLetterController@viewSocietyDocuments')->name('documents_uploaded');
+    Route::post('uploaded_documents','SocietyOfferLetterController@uploadSocietyDocuments')->name('uploaded_documents');
+    Route::get('delete_uploaded_documents/{id}','SocietyOfferLetterController@deleteSocietyDocuments')->name('delete_uploaded_documents');
+    Route::post('add_uploaded_documents_comment','SocietyOfferLetterController@addSocietyDocumentsComment')->name('add_documents_comment');
+    Route::get('society_offer_letter_download','SocietyOfferLetterController@displayOfferLetterApplication')->name('society_offer_letter_download');
 
-        Route::get('documents_upload','SocietyOfferLetterController@displaySocietyDocuments')->name('documents_upload');
-        Route::post('add_uploaded_documents_remark','SocietyOfferLetterController@addSocietyDocumentsRemark')->name('add_uploaded_documents_remark');
-        Route::get('documents_uploaded','SocietyOfferLetterController@viewSocietyDocuments')->name('documents_uploaded');
-        Route::post('uploaded_documents','SocietyOfferLetterController@uploadSocietyDocuments')->name('uploaded_documents');
-        Route::get('delete_uploaded_documents/{id}','SocietyOfferLetterController@deleteSocietyDocuments')->name('delete_uploaded_documents');
-        Route::post('add_uploaded_documents_comment','SocietyOfferLetterController@addSocietyDocumentsComment')->name('add_documents_comment');
-        Route::get('society_offer_letter_download','SocietyOfferLetterController@displayOfferLetterApplication')->name('society_offer_letter_download');
+    Route::get('society_offer_letter_preview','SocietyOfferLetterController@showOfferLetterApplication')->name('society_offer_letter_preview');
+    Route::get('society_offer_letter_edit','SocietyOfferLetterController@editOfferLetterApplication')->name('society_offer_letter_edit');
+    Route::post('society_offer_letter_update','SocietyOfferLetterController@updateOfferLetterApplication')->name('society_offer_letter_update');
 
-        Route::get('society_offer_letter_preview','SocietyOfferLetterController@showOfferLetterApplication')->name('society_offer_letter_preview');
-        Route::get('society_offer_letter_edit','SocietyOfferLetterController@editOfferLetterApplication')->name('society_offer_letter_edit');
-        Route::post('society_offer_letter_update','SocietyOfferLetterController@updateOfferLetterApplication')->name('society_offer_letter_update');
+    Route::get('society_offer_letter_application_download','SocietyOfferLetterController@generate_pdf')->name('society_offer_letter_application_download');
+    Route::get('upload_society_offer_letter_application','SocietyOfferLetterController@showuploadOfferLetterAfterSign')->name('upload_society_offer_letter_application');
+    Route::post('upload_society_offer_letter','SocietyOfferLetterController@uploadOfferLetterAfterSign')->name('upload_society_offer_letter');
+    //route for society Application Page
+   
+    //Society Offer Letter END
 
-        Route::get('society_offer_letter_application_download','SocietyOfferLetterController@generate_pdf')->name('society_offer_letter_application_download');
-        Route::get('upload_society_offer_letter_application','SocietyOfferLetterController@showuploadOfferLetterAfterSign')->name('upload_society_offer_letter_application');
-        Route::post('upload_society_offer_letter','SocietyOfferLetterController@uploadOfferLetterAfterSign')->name('upload_society_offer_letter');
-        //route for society Application Page
+    Route::get('/show_reval_self/{id}', 'SocietyOfferLetterController@show_reval_self')->name('show_reval_self');
+    Route::get('/show_reval_dev/{id}', 'SocietyOfferLetterController@show_reval_dev')->name('show_reval_dev');
+    Route::post('/save_offer_letter_application_reval_self', 'SocietyOfferLetterController@save_offer_letter_application_reval_self')->name('save_offer_letter_application_reval_self');
+    Route::post('/save_offer_letter_application_reval_dev', 'SocietyOfferLetterController@save_offer_letter_application_reval_dev')->name('save_offer_letter_application_reval_dev');
 
-        //Society Offer Letter END
+    Route::get('society_reval_offer_letter_preview','SocietyOfferLetterController@showOfferLetterRevalApplication')->name('society_reval_offer_letter_preview');
+    Route::get('society_reval_offer_letter_edit','SocietyOfferLetterController@editRevalOfferLetterApplication')->name('society_reval_offer_letter_edit');
+    Route::post('society_reval_offer_letter_update','SocietyOfferLetterController@updateRevalOfferLetterApplication')->name('society_reval_offer_letter_update');
 
-        Route::get('/show_reval_self/{id}', 'SocietyOfferLetterController@show_reval_self')->name('show_reval_self');
-        Route::get('/show_reval_dev/{id}', 'SocietyOfferLetterController@show_reval_dev')->name('show_reval_dev');
-        Route::post('/save_offer_letter_application_reval_self', 'SocietyOfferLetterController@save_offer_letter_application_reval_self')->name('save_offer_letter_application_reval_self');
-        Route::post('/save_offer_letter_application_reval_dev', 'SocietyOfferLetterController@save_offer_letter_application_reval_dev')->name('save_offer_letter_application_reval_dev');
+    Route::get('reval_documents_upload','SocietyOfferLetterController@displaySocietyRevalDocuments')->name('reval_documents_upload');
+    Route::post('add_uploaded_reval_documents_remark','Sosociety_offer_letter_dashboardcietyOfferLetterController@addSocietyRevalDocumentsRemark')->name('add_uploaded_reval_documents_remark');
+    Route::get('reval_documents_uploaded','SocietyOfferLetterController@viewSocietyRevalDocuments')->name('reval_documents_uploaded');
+    Route::post('uploaded_reval_documents','SocietyOfferLetterController@uploadSocietyRevalDocuments')->name('uploaded_reval_documents');
+    Route::get('delete_uploaded_reval_documents/{id}','SocietyOfferLetterController@deleteSocietyRevalDocuments')->name('delete_uploaded_reval_documents');
+    Route::post('add_uploaded_reval_documents_comment','SocietyOfferLetterController@addSocietyRevalDocumentsComment')->name('add_reval_documents_comment');
+    Route::get('upload_society_reval_offer_letter_application','SocietyOfferLetterController@showuploadRevalOfferLetterAfterSign')->name('upload_society_reval_offer_letter_application');
+    Route::post('upload_society_reval_offer_letter','SocietyOfferLetterController@uploadRevalOfferLetterAfterSign')->name('upload_society_reval_offer_letter');
+    Route::get('society_reval_offer_letter_application_download','SocietyOfferLetterController@generate_reval_pdf')->name('society_reval_offer_letter_application_download');
 
-        Route::get('society_reval_offer_letter_preview','SocietyOfferLetterController@showOfferLetterRevalApplication')->name('society_reval_offer_letter_preview');
-        Route::get('society_reval_offer_letter_edit','SocietyOfferLetterController@editRevalOfferLetterApplication')->name('society_reval_offer_letter_edit');
-        Route::post('society_reval_offer_letter_update','SocietyOfferLetterController@updateRevalOfferLetterApplication')->name('society_reval_offer_letter_update');
 
-        Route::get('reval_documents_upload','SocietyOfferLetterController@displaySocietyRevalDocuments')->name('reval_documents_upload');
-        Route::post('add_uploaded_reval_documents_remark','Sosociety_offer_letter_dashboardcietyOfferLetterController@addSocietyRevalDocumentsRemark')->name('add_uploaded_reval_documents_remark');
-        Route::get('reval_documents_uploaded','SocietyOfferLetterController@viewSocietyRevalDocuments')->name('reval_documents_uploaded');
-        Route::post('uploaded_reval_documents','SocietyOfferLetterController@uploadSocietyRevalDocuments')->name('uploaded_reval_documents');
-        Route::get('delete_uploaded_reval_documents/{id}','SocietyOfferLetterController@deleteSocietyRevalDocuments')->name('delete_uploaded_reval_documents');
-        Route::post('add_uploaded_reval_documents_comment','SocietyOfferLetterController@addSocietyRevalDocumentsComment')->name('add_reval_documents_comment');
-        Route::get('upload_society_reval_offer_letter_application','SocietyOfferLetterController@showuploadRevalOfferLetterAfterSign')->name('upload_society_reval_offer_letter_application');
-        Route::post('upload_society_reval_offer_letter','SocietyOfferLetterController@uploadRevalOfferLetterAfterSign')->name('upload_society_reval_offer_letter');
-        Route::get('society_reval_offer_letter_application_download','SocietyOfferLetterController@generate_reval_pdf')->name('society_reval_offer_letter_application_download');
 
-    });
 
     //architect Module
     Route::get('architect_application','ArchitectApplicationController@index')->name('architect_application');
@@ -472,9 +473,9 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('architect_edit_certificate/{id}','ArchitectApplicationController@edit_certificate')->name('architect.edit_certificate');
     Route::post('architect_update_certificate','ArchitectApplicationController@update_certificate')->name('architect.update_certificate');
     Route::post('shortlist_architect_application','ArchitectApplicationController@shortlist_architect_application')->name('shortlist_architect_application');
-
+    
     Route::post('finalise_architect_application','ArchitectApplicationController@finalise_architect_application')->name('finalise_architect_application');
-
+    
     Route::post('send_to_candidate','ArchitectApplicationController@send_to_candidate')->name('appointing_architect.send_to_candidate');
     //architect module end
 
@@ -618,7 +619,7 @@ Route::delete('destroy_architect_layout_detail_court_case_or_dispute_on_land/{id
     Route::get('view_society_formation/{id}','SocietyFormationController@view_application')->name('society_formation.view_application');
     Route::post('upload_sf_application_attachment','SocietyFormationController@upload_sf_application_attachment')->name('upload_sf_application_attachment');
     Route::post('sf_submit_application','SocietyFormationController@sf_submit_application')->name('sf_submit_application');
-
+    
     //admin side
     Route::get('get_sf_applications','conveyance\FormationCommonController@index')->name('get_sf_applications.index');
     Route::get('sf_view_application/{id}','conveyance\FormationCommonController@ViewApplication')->name('formation.view_application');
@@ -654,13 +655,11 @@ Route::delete('destroy_architect_layout_detail_court_case_or_dispute_on_land/{id
 
     //Society Renewal END
 
-
+    
 });
 
-Route::resource('/society_offer_letter', 'SocietyOfferLetterController');
-//Route::get('/society_offer_letter', 'SocietyOfferLetterController@index')->name('society_offer_letter.index');
-//Route::get('/society_offer_letter', 'SocietyOfferLetterController@create')->name('society_offer_letter.create');
-//Route::post('/society_offer_letter', 'SocietyOfferLetterController@store')->name('society_offer_letter.store');
+
+
 
 
 // Route::get('refresh_captcha','SocietyOfferLetterController@RefreshCaptcha')->name('refresh_captcha');
@@ -793,10 +792,6 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('la_agreement_riders/{id}', 'conveyance\conveyanceCommonController@la_agreement_riders')->name('conveyance.la_agreement_riders');
 
     Route::post('upload_la_agreement_riders', 'conveyance\conveyanceCommonController@upload_la_agreement_riders')->name('conveyance.upload_la_agreement_riders');
-
-    Route::get('draft_sign_conveyance_agreement/{id}', 'conveyance\conveyanceCommonController@DraftSignsaleLeaseAgreement')->name('conveyance.draft_sign_conveyance_agreement');
-
-    Route::post('save_draft_sign_conveyance_agreement', 'conveyance\conveyanceCommonController@SaveDraftSignAgreement')->name('conveyance.save_draft_sign_conveyance_agreement');
 
     
     //dyco
@@ -1021,4 +1016,49 @@ Route::get('approve_noc_co/{id}','CODepartment\COController@issueNoc')->name('co
 Route::post('issue_noc_letter_to_ree','CODepartment\COController@approveNoctoRee')->name('co.issue_noc_letter_to_ree');
 Route::get('co_forward_noc_application/{id}','CODepartment\COController@forwardNOCApplication')->name('co.forward_noc_application');
 Route::post('save_forward_noc_Application','CODepartment\COController@sendForwardNocApplication')->name('co.forward_noc_application_data');
+
+//NOC FOR CC -- Sayan Pal
+
+Route::get('/show_form_self_noc_cc/{id}', 'SocietyNocforCCController@show_form_self_noc_cc')->name('show_form_self_noc_cc');
+Route::post('/save_noc_cc_application_self', 'SocietyNocforCCController@save_noc_cc_application_self')->name('save_noc_cc_application_self');
+Route::get('society_noc_cc_preview','SocietyNocforCCController@showNocApplication')->name('society_noc_cc_preview');
+Route::get('society_noc_cc_edit','SocietyNocforCCController@editNocApplication')->name('society_noc_cc_edit');
+Route::post('society_noc_cc_update','SocietyNocforCCController@updateNocApplication')->name('society_noc_cc_update');
+Route::get('documents_upload_noc_cc','SocietyNocforCCController@displaySocietyDocuments')->name('documents_upload_noc_cc');
+Route::post('uploaded_documents_noc_cc','SocietyNocforCCController@uploadSocietyDocuments')->name('uploaded_documents_noc_cc');
+Route::get('delete_uploaded_documents_noc_cc/{id}','SocietyNocforCCController@deleteSocietyDocuments')->name('delete_uploaded_documents_noc_cc');
+Route::post('add_uploaded_documents_comment_noc_cc','SocietyNocforCCController@addSocietyDocumentsComment')->name('add_documents_comment_noc_cc');
+Route::get('upload_noc_application_cc','SocietyNocforCCController@showuploadNoc')->name('upload_noc_application_cc');
+Route::get('society_noc_cc_application_download','SocietyNocforCCController@download_noc_application')->name('society_noc_cc_application_download');
+Route::post('upload_society_noc_cc','SocietyNocforCCController@uploadNocAfterSign')->name('upload_society_noc_cc');
+Route::get('documents_uploaded_noc_cc','SocietyNocforCCController@viewSocietyDocuments')->name('documents_uploaded_noc_cc');
+Route::post('resubmit_noc_application_cc','SocietyNocforCCController@resubmitNocApplication')->name('resubmit_noc_application_cc');
+
+// NOC for CC -- REE Department routes
+
+Route::get('ree_noc_cc_applications','REEDepartment\REEController@nocforCCApplicationList')->name('ree_applications.noc_cc');
+Route::get('view_application_noc_cc/{id}','REEDepartment\REEController@viewApplicationNocforCC')->name('ree.view_application_noc_cc');
+Route::get('society_noc_cc_documents/{id}','REEDepartment\REEController@societyNocforCCDocuments')->name('ree.society_noc_cc_documents');
+Route::get('generate_noc_cc/{id}', 'REEDepartment\REEController@GenerateNocforCC')->name('ree.generate_noc_cc');
+Route::get('create_edit_noc_cc/{id}', 'REEDepartment\REEController@createEditNocforCC')->name('ree.create_edit_noc_cc');
+Route::post('save_draft_noc_cc', 'REEDepartment\REEController@saveDraftNocforCC')->name('ree.save_draft_noc_cc');
+Route::post('upload_draft_noc_cc/{id}', 'REEDepartment\REEController@uploadDraftNocforCC')->name('ree.upload_draft_noc_cc');
+Route::get('/scrutiny-remark-noc-cc/{application_id}', 'REEDepartment\REEController@scrutinyRemarkNocforCCByREE')->name('ree.scrutiny-remark-noc-cc');
+Route::post('upload_ree_note_noc_cc','REEDepartment\REEController@uploadOfficeNoteNocforCCRee')->name('ree.upload_office-note-noc-cc');
+Route::get('ree_forward_application_noc_cc/{id}','REEDepartment\REEController@forwardApplicationNocCC')->name('ree.forward_application_noc_cc');
+Route::post('ree_forward_noc_cc_application_data','REEDepartment\REEController@sendForwardNocforCCApplication')->name('ree.forward_noc_cc_application_data');
+Route::get('approved_noc_cc_letter/{id}','REEDepartment\REEController@approvedNOCforCCletter')->name('ree.approved_noc_cc_letter');
+Route::post('send_noc_cc_issued_society','REEDepartment\REEController@sendissuedNOCforCCToSociety')->name('ree.send_noc_cc_issued_society');
+
+// NOC for CC -- CO Department Routes
+
+Route::get('co_noc_cc_applications','CODepartment\COController@nocforCCApplicationList')->name('co_applications.noc_cc');
+Route::get('view_noc_cc_application_co/{id}','CODepartment\COController@viewNocforCCApplication')->name('co.view_noc_cc_application');
+Route::get('society_noc_cc_documents_co/{id}','CODepartment\COController@societyNocforCCDocuments')->name('co.society_noc_cc_documents');
+Route::get('ree_scrutiny_remark_co_noc_cc/{id}','CODepartment\COController@nocforCCScrutinyRemarks')->name('co.noc_cc_scrutiny_remarks');
+Route::get('approve_noc_cc_co/{id}','CODepartment\COController@issueNocforCC')->name('co.approve_noc_cc');
+Route::post('issue_noc_cc_letter_to_ree','CODepartment\COController@approveNocforCCtoRee')->name('co.issue_noc_cc_letter_to_ree');
+Route::get('co_forward_noc_cc_application/{id}','CODepartment\COController@forwardNOCforCCApplication')->name('co.forward_noc_cc_application');
+Route::post('save_forward_noc_cc_Application','CODepartment\COController@sendForwardNocforCCApplication')->name('co.forward_noc_cc_application_data');
+
 

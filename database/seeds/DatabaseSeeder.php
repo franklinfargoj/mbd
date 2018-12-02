@@ -78,6 +78,7 @@ class DatabaseSeeder extends Seeder
         $this->call(NocScrutinyQuestionMasterTable::class);
         $this->call(NocSocietyDocumentsMasterTableSeeder::class);
         $this->call(MasterLayoutSeeder::class);
+        $this->call(NocCCSocietyDocumentsMasterTableSeeder::class);
 
     }
 }

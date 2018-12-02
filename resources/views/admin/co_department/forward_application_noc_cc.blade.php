@@ -1,12 +1,12 @@
 @extends('admin.layouts.sidebarAction')
 @section('actions')
-@include('admin.co_department.action_noc',compact('noc_application'))
+@include('admin.co_department.action_noc_cc',compact('noc_application'))
 @endsection
 @section('content')
 <div class="custom-wrapper">
    <div class="col-md-12">
       <div class="d-flex">
-         {{ Breadcrumbs::render('Forward_noc_Application_co',$noc_application->id) }}
+         {{ Breadcrumbs::render('Forward_noc_cc_Application_co',$noc_application->id) }}
          <div class="ml-auto btn-list">
             <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
          </div>
@@ -269,7 +269,7 @@
                         </h3>
                      </div>
                      <div class="remarks-suggestions">
-                        <form action="{{ route('co.forward_noc_application_data') }}"
+                        <form action="{{ route('co.forward_noc_cc_application_data') }}"
                            id="forwardApplication" method="post">
                            @csrf
                            <input type="hidden" name="to_role_id" id="to_role_id">

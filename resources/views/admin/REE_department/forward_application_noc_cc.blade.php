@@ -1,12 +1,12 @@
 @extends('admin.layouts.sidebarAction')
 @section('actions')
-@include('admin.co_department.action_noc',compact('noc_application'))
+@include('admin.REE_department.action_noc_cc',compact('noc_application'))
 @endsection
 @section('content')
 <div class="custom-wrapper">
    <div class="col-md-12">
       <div class="d-flex">
-         {{ Breadcrumbs::render('Forward_noc_Application_co',$noc_application->id) }}
+         {{ Breadcrumbs::render('Forward_Application_ree_noc_cc',$noc_application->id) }}
          <div class="ml-auto btn-list">
             <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
          </div>
@@ -20,12 +20,9 @@
             </li>
             @if($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.in_process') ||
             ($arrData['get_current_status']->status_id ==
-            config('commanConfig.applicationStatus.NOC_Generation') && session()->get('role_name') !=
-            config('commanConfig.co_engineer')) || ($arrData['get_current_status']->status_id ==
+            config('commanConfig.applicationStatus.NOC_Generation')) || ($arrData['get_current_status']->status_id ==
             config('commanConfig.applicationStatus.NOC_Issued') && session()->get('role_name') !=
-            config('commanConfig.ree_branch_head')) || ($arrData['get_current_status']->status_id ==
-            config('commanConfig.applicationStatus.NOC_Issued') && session()->get('role_name') !=
-            config('commanConfig.co_engineer')))
+            config('commanConfig.ree_branch_head')))
             <li class="nav-item m-tabs__item">
                <a class="nav-link m-tabs__link show" data-toggle="tab" href="#forward-application-tab">
                <i class="la la-cog"></i> Forward Application
@@ -269,7 +266,7 @@
                         </h3>
                      </div>
                      <div class="remarks-suggestions">
-                        <form action="{{ route('co.forward_noc_application_data') }}"
+                        <form action="{{ route('ree.forward_noc_cc_application_data') }}"
                            id="forwardApplication" method="post">
                            @csrf
                            <input type="hidden" name="to_role_id" id="to_role_id">
@@ -279,7 +276,11 @@
                               <div class="m-radio-inline">
                                  @if($arrData['get_current_status']->status_id
                                  !=
-                                 config('commanConfig.applicationStatus.NOC_Issued'))
+                                 config('commanConfig.applicationStatus.NOC_Issued') && !($noc_application->noc_generation_status
+                                 == '0'
+                                 && (session()->get('role_name')
+                                 ==
+                                 config('commanConfig.ree_branch_head')) && empty($noc_application->final_draft_noc_path)))
                                  <label class="m-radio m-radio--primary">
                                  <input type="hidden" name="user_id">
                                  <input type="hidden" name="role_id">
@@ -296,9 +297,7 @@
                                  &&
                                  $arrData['get_current_status']->status_id
                                  !=
-                                 config('commanConfig.applicationStatus.NOC_Issued') && session()->get('role_name')
-                                 !=
-                                 config('commanConfig.co_engineer'))
+                                 config('commanConfig.applicationStatus.NOC_Issued'))
                                  <label class="m-radio m-radio--primary">
                                  <input type="radio" name="remarks_suggestion"
                                     id="remark" class="forward-application"
@@ -308,16 +307,15 @@
                                  </label>
                                  @endif
                               </div>
-                              @if($arrData['get_current_status']->status_id
-                              ==
-                              config('commanConfig.applicationStatus.NOC_Issued')
+                              @if($noc_application->noc_generation_status
+                              == '0'
                               && (session()->get('role_name')
                               ==
-                              config('commanConfig.ree_branch_head')))
+                              config('commanConfig.ree_branch_head')) && empty($noc_application->final_draft_noc_path))
                               <label class="m-radio m-radio--primary">
                               <input type="radio" name="remarks_suggestion"
-                                 id="remark" class="forward-application"
-                                 value="1" checked> Send
+                                 id="remark"
+                                 value="1" checked> Send back 
                               To Society
                               <span></span>
                               </label>
@@ -330,14 +328,14 @@
                                  <div class="col-lg-4 col-md-9 col-sm-12">
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
                                        name="to_user_id" id="to_user_id">
-                                       @if($arrData['get_forward_ree'])
-                                       @foreach($arrData['get_forward_ree']
+                                       @if($arrData['parentData'])
+                                       @foreach($arrData['parentData']
                                        as $parent)
                                        <option value="{{ $parent->user_id }}"
                                           data-role="{{ $parent->role_id }}">{{
                                           $parent->name
                                           }} ({{
-                                          $arrData['ree_role_name']
+                                          $arrData['role_name']
                                           }})
                                        </option>
                                        @endforeach
@@ -359,16 +357,13 @@
                                  </div>
                                  @endif
                               </div>
-                              @if(
-                              session()->get('role_name')
+                              @if(session()->get('role_name')
                                  !=
                                  config('commanConfig.ree_junior')
                               &&
                               $arrData['get_current_status']->status_id
                               !=
-                              config('commanConfig.applicationStatus.NOC_Issued') && session()->get('role_name')
-                                 !=
-                              config('commanConfig.co_engineer'))
+                              config('commanConfig.applicationStatus.NOC_Issued'))
                               <div class="form-group m-form__group row mt-3 child-data"
                                  style="display: none">
                                  <label class="col-form-label col-lg-2 col-sm-12">
@@ -409,7 +404,7 @@
                                  <button type="submit" class="btn btn-primary forwrdBtn">Sign
                                  & Forward</button>
                                  <button type="submit" class="btn btn-primary forwrdBtn">Forward</button>--}}
-                                 <button type="button" onclick="window.location.href='{{ url("/co_noc_cc_applications") }}'"
+                                 <button type="button" onclick="window.location.href='{{ url("/ree_noc_cc_applications") }}'"
                                  class="btn btn-secondary">Cancel</button>
                               </div>
                               @elseif($noc_application->noc_generation_status != 0 && isset($noc_application->final_draft_noc_path))
@@ -420,7 +415,7 @@
                                  <button type="submit" class="btn btn-primary forwrdBtn">Sign
                                  & Forward</button>
                                  <button type="submit" class="btn btn-primary forwrdBtn">Forward</button>--}}
-                                 <button type="button" onclick="window.location.href='{{ url("/co_noc_cc_applications") }}'"
+                                 <button type="button" onclick="window.location.href='{{ url("/ree_noc_cc_applications") }}'"
                                  class="btn btn-secondary">Cancel</button>
                               </div>
                               @else                                    

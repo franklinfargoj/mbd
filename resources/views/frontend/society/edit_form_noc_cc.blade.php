@@ -1,20 +1,22 @@
-@extends('admin.layouts.app')
+@extends('frontend.layouts.sidebarAction')
+@section('actions')
+    @include('frontend.society.actions_noc_cc',compact('noc_applications'))
+@endsection
 @section('content')
     <div class="col-md-12">
         <div class="m-subheader px-0 m-subheader--top">
             <div class="d-flex align-items-center">
-                <h3 class="m-subheader__title m-subheader__title--separator">Self Redevelopment</h3>
-                {{ Breadcrumbs::render('society_noc_application_create', $id) }}
+                <h3 class="m-subheader__title m-subheader__title--separator">Redevelopment Application Form</h3>
+                {{ Breadcrumbs::render('society_offer_letter_edit') }}
 
             </div>
         </div>
         <!-- END: Subheader -->
         <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
 
-            <form id="save_noc_application_self" role="form" method="post" class="m-form m-form--rows m-form--label-align-right" action="{{ route('save_noc_application_self') }}">
+            <form id="save_noc_application_dev" role="form" method="post" class="m-form m-form--rows m-form--label-align-right" action="{{ route('society_noc_cc_update') }}">
                 @csrf
-                <div class="m-portlet__body m-portlet__body--spaced">
-                    <div class="form-group m-form__group row">
+                <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="application_type_id">Application Type:</label>
                             <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="layouts" name="layout_id" required>
@@ -30,6 +32,7 @@
                             <label class="col-form-label" for="preceding_officer_name">Department:</label>
                             <input type="text" id="department_name" name="department_name" class="form-control form-control--custom m-input" value="EE" readonly>
                             <input type="hidden" name="application_master_id" value="{{ $id }}" required>
+                            <input type="hidden" name="request_form_id" value="{{ $noc_application->request_form->id }}">
                             <span class="help-block">{{$errors->first('department_name')}}</span>
                         </div>
                         <div class="col-sm-4 offset-sm-1 form-group">
@@ -55,39 +58,52 @@
                     <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="offer_letter_number">Offer letter number:</label>
-                            <input type="text" id="offer_letter_number" name="offer_letter_number" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ old('offer_letter_number') }}" required>
+                            <input type="text" id="offer_letter_number" name="offer_letter_number" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ $noc_application->request_form->offer_letter_number }}" required>
                             <span class="help-block">{{$errors->first('offer_letter_number')}}</span>
                         </div>
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="offer_letter_date">Offer letter date:</label>
-                            <input type="text" id="m_datepicker" name="offer_letter_date" class="form-control form-control--custom m-input m_datepicker" value="{{ old('offer_letter_date') }}" required>
+                            <input type="text" id="m_datepicker" name="offer_letter_date" class="form-control form-control--custom m-input m_datepicker" value="{{ date(config('commanConfig.dateFormat'), strtotime($noc_application->request_form->offer_letter_date)) }}" required>
                             <span class="help-block">{{$errors->first('offer_letter_date')}}</span>
                         </div>
                     </div>
 
+
                     <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group"> <!-- offset-sm-1 -->
-                            <label class="col-form-label" for="demand_draft_amount">Demand Draft / Pay order amount :</label>
-                            <input type="text" id="demand_draft_amount" name="demand_draft_amount" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ old('demand_draft_amount') }}" required>
-                            <span class="help-block">{{$errors->first('demand_draft_amount')}}</span>
+                            <label class="col-form-label" for="no_dues_certificate_number">No dues certificate number :</label>
+                            <input type="text" id="no_dues_certificate_number" name="no_dues_certificate_number" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ $noc_application->request_form->no_dues_certificate_number }}" required>
+                            <span class="help-block">{{$errors->first('no_dues_certificate_number')}}</span>
                         </div>
                         <div class="col-sm-4 form-group"> <!-- offset-sm-1 -->
-                            <label class="col-form-label" for="demand_draft_number">Demand draft / Pay order number :</label>
-                            <input type="text" id="demand_draft_number" name="demand_draft_number" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ old('demand_draft_number') }}" required>
-                            <span class="help-block">{{$errors->first('demand_draft_number')}}</span>
+                            <label class="col-form-label" for="no_dues_certificate_date">No dues certificate date :</label>
+                            <input type="text" id="m_datepicker" name="no_dues_certificate_date" class="form-control form-control--custom m-input m_datepicker" value="{{ date(config('commanConfig.dateFormat'), strtotime($noc_application->request_form->no_dues_certificate_date)) }}" required>
+                            <span class="help-block">{{$errors->first('no_dues_certificate_date')}}</span>
                         </div>
                     </div>
 
                     <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group"> <!-- offset-sm-1 -->
-                            <label class="col-form-label" for="demand_draft_date">Demand Draft / Pay order date :</label>
-                            <input type="text" id="m_datepicker" name="demand_draft_date" class="form-control form-control--custom m-input m_datepicker" value="{{ old('demand_draft_date') }}" required>
-                            <span class="help-block">{{$errors->first('demand_draft_date')}}</span>
+                            <label class="col-form-label" for="noc_no">NOC no :</label>
+                            <input type="text" id="noc_no" name="noc_no" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ $noc_application->request_form->noc_no }}" required>
+                            <span class="help-block">{{$errors->first('noc_no')}}</span>
                         </div>
                         <div class="col-sm-4 form-group"> <!-- offset-sm-1 -->
-                            <label class="col-form-label" for="demand_draft_bank">Bank name :</label>
-                            <input type="text" id="demand_draft_bank" name="demand_draft_bank" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ old('demand_draft_bank') }}" required>
-                            <span class="help-block">{{$errors->first('demand_draft_bank')}}</span>
+                            <label class="col-form-label" for="noc_date">NOC date :</label>
+                            <input type="text" id="m_datepicker" name="noc_date" class="form-control form-control--custom m-input m_datepicker" value="{{ date(config('commanConfig.dateFormat'), strtotime($noc_application->request_form->noc_date)) }}" required>
+                            <span class="help-block">{{$errors->first('noc_date')}}</span>
+                        </div>
+                    </div>
+                    <div class="form-group m-form__group row">
+                        <div class="col-sm-4 form-group"> <!-- offset-sm-1 -->
+                            <label class="col-form-label" for="tripartite_agreement_number">Tripartite agreement number :</label>
+                            <input type="text" id="tripartite_agreement_number" name="tripartite_agreement_number" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ $noc_application->request_form->tripartite_agreement_number }}" required>
+                            <span class="help-block">{{$errors->first('tripartite_agreement_number')}}</span>
+                        </div>
+                        <div class="col-sm-4 form-group"> <!-- offset-sm-1 -->
+                            <label class="col-form-label" for="tripartite_agreement_date">Tripartite agreement date :</label>
+                            <input type="text" id="m_datepicker" name="tripartite_agreement_date" class="form-control form-control--custom m-input m_datepicker" value="{{ date(config('commanConfig.dateFormat'), strtotime($noc_application->request_form->tripartite_agreement_date)) }}" required>
+                            <span class="help-block">{{$errors->first('tripartite_agreement_date')}}</span>
                         </div>
                     </div>
 
@@ -96,8 +112,8 @@
                             <div class="row">
                                 <div class="col-sm-4">
                                     <div class="btn-list">
-                                        <a href="{{URL::previous()}}" class="btn btn-secondary">Cancel</a>
-                                        <button type="submit"  class="btn btn-primary">Save</button>
+                                        <button type="submit"  class="btn btn-primary">Update</button>
+                                        <a href="{{route('society_offer_letter_dashboard')}}" class="btn btn-secondary">Cancel</a>
                                     </div>
                                 </div>
                             </div>

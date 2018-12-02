@@ -79,7 +79,7 @@ class OlApplicationMasterTableSeeder extends Seeder
             ]);
             OlApplicationMaster::create([
                 'parent_id'       =>  $application->id,
-                'route_name' => 'show_form_self',
+                'route_name' => 'show_form_self_noc_cc',
                 'title'   => "Application for CC",
                 'model'   => "Sharing",
             ]);

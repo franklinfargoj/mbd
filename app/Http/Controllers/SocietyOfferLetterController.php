@@ -11,6 +11,8 @@ use App\OlApplicationMaster;
 use App\OlApplication;
 use App\NocApplication;
 use App\NocolApplication;
+use App\NocCCApplication;
+use App\NocCColApplication;
 use App\OlApplicationStatus;
 use App\OlSocietyDocumentsMaster;
 use App\OlSocietyDocumentsStatus;
@@ -317,6 +319,9 @@ class SocietyOfferLetterController extends Controller
             $noc_application_count = count(NocApplication::where('society_id', $society_details->id)->get());
             Session::put('noc_application_count', $noc_application_count);
 
+            $noc_cc_application_count = count(NocCCApplication::where('society_id', $society_details->id)->get());
+            Session::put('noc_cc_application_count', $noc_cc_application_count);
+
 //            $self_premium_noc = OlApplicationMaster::where('title', 'Application for NOC')->where('model', 'Premium')->where('parent_id', '1')->select('id')->get();
 //            $self_premium_noc = $self_premium_noc[0]->id;
 //            $self_sharing_noc = OlApplicationMaster::where('title', 'Application for NOC - IOD')->where('model', 'Sharing')->where('parent_id', '1')->select('id')->get();
@@ -367,6 +372,20 @@ class SocietyOfferLetterController extends Controller
 
             $ol_applications = $ol_applications->toBase()->merge($noc_applications);
 
+            $noc_cc_applications = NocCColApplication::select('*')->where('society_id', $society_details->id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
+                $q->where('society_flag', '1')->orderBy('id', 'desc');
+            } ]);
+
+            $noc_cc_applications = $noc_cc_applications->addSelect(DB::raw("'1' as is_noc_cc_application"));
+
+            if($request->application_master_id)
+            {
+                $noc_cc_applications = $noc_cc_applications->where('application_master_id', 'like', '%'.$request->application_master_id.'%');
+            }
+            $noc_cc_applications = $noc_cc_applications->get();
+
+            $ol_applications = $ol_applications->toBase()->merge($noc_cc_applications);
+
             //NOC changed added by <--Sayan Pal--> << End
 
             // dd($ol_applications);exit;
@@ -375,10 +394,15 @@ class SocietyOfferLetterController extends Controller
                     $url = route('society_offer_letter_preview');
                     $reval_url = route('society_reval_offer_letter_preview');
                     $url_noc = route('society_noc_preview');
+                    $url_noc_cc = route('society_noc_cc_preview');
 
                     if(isset($ol_applications->is_noc_application))
                     {
                         return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url_noc.'" name="ol_applications_id"><span></span></label>';
+                    }
+                    elseif($ol_applications->is_noc_cc_application)
+                    {
+                        return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url_noc_cc.'" name="ol_applications_id"><span></span></label>';
                     }
                     elseif(in_array($ol_applications->application_master_id,$reval_master_ids_arr))
                     {
@@ -402,6 +426,10 @@ class SocietyOfferLetterController extends Controller
                     if(isset($ol_applications->is_noc_application))
                     {
                         $app_type = "<br><span class='m-badge m-badge--danger'>Application for Noc</span>";
+                    }
+                    elseif($ol_applications->is_noc_cc_application)
+                    {
+                        $app_type = "<br><span class='m-badge m-badge--warning'>Application for Noc (CC)</span>";
                     }
                     elseif(in_array($ol_applications->application_master_id,$reval_master_ids_arr))
                     {

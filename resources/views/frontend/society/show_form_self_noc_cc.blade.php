@@ -4,14 +4,14 @@
         <div class="m-subheader px-0 m-subheader--top">
             <div class="d-flex align-items-center">
                 <h3 class="m-subheader__title m-subheader__title--separator">Self Redevelopment</h3>
-                {{ Breadcrumbs::render('society_noc_application_create', $id) }}
+                {{ Breadcrumbs::render('society_noc_cc_application_create', $id) }}
 
             </div>
         </div>
         <!-- END: Subheader -->
         <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
 
-            <form id="save_noc_application_self" role="form" method="post" class="m-form m-form--rows m-form--label-align-right" action="{{ route('save_noc_application_self') }}">
+            <form id="save_noc_application_self" role="form" method="post" class="m-form m-form--rows m-form--label-align-right" action="{{ route('save_noc_cc_application_self') }}">
                 @csrf
                 <div class="m-portlet__body m-portlet__body--spaced">
                     <div class="form-group m-form__group row">
@@ -67,27 +67,39 @@
 
                     <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group"> <!-- offset-sm-1 -->
-                            <label class="col-form-label" for="demand_draft_amount">Demand Draft / Pay order amount :</label>
-                            <input type="text" id="demand_draft_amount" name="demand_draft_amount" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ old('demand_draft_amount') }}" required>
-                            <span class="help-block">{{$errors->first('demand_draft_amount')}}</span>
+                            <label class="col-form-label" for="no_dues_certificate_number">No dues certificate number :</label>
+                            <input type="text" id="no_dues_certificate_number" name="no_dues_certificate_number" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ old('no_dues_certificate_number') }}" required>
+                            <span class="help-block">{{$errors->first('no_dues_certificate_number')}}</span>
                         </div>
                         <div class="col-sm-4 form-group"> <!-- offset-sm-1 -->
-                            <label class="col-form-label" for="demand_draft_number">Demand draft / Pay order number :</label>
-                            <input type="text" id="demand_draft_number" name="demand_draft_number" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ old('demand_draft_number') }}" required>
-                            <span class="help-block">{{$errors->first('demand_draft_number')}}</span>
+                            <label class="col-form-label" for="no_dues_certificate_date">No dues certificate date :</label>
+                            <input type="text" id="m_datepicker" name="no_dues_certificate_date" class="form-control form-control--custom m-input m_datepicker" value="{{ old('no_dues_certificate_date') }}" required>
+                            <span class="help-block">{{$errors->first('no_dues_certificate_date')}}</span>
                         </div>
                     </div>
 
                     <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group"> <!-- offset-sm-1 -->
-                            <label class="col-form-label" for="demand_draft_date">Demand Draft / Pay order date :</label>
-                            <input type="text" id="m_datepicker" name="demand_draft_date" class="form-control form-control--custom m-input m_datepicker" value="{{ old('demand_draft_date') }}" required>
-                            <span class="help-block">{{$errors->first('demand_draft_date')}}</span>
+                            <label class="col-form-label" for="noc_no">NOC no :</label>
+                            <input type="text" id="noc_no" name="noc_no" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ old('noc_no') }}" required>
+                            <span class="help-block">{{$errors->first('noc_no')}}</span>
                         </div>
                         <div class="col-sm-4 form-group"> <!-- offset-sm-1 -->
-                            <label class="col-form-label" for="demand_draft_bank">Bank name :</label>
-                            <input type="text" id="demand_draft_bank" name="demand_draft_bank" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ old('demand_draft_bank') }}" required>
-                            <span class="help-block">{{$errors->first('demand_draft_bank')}}</span>
+                            <label class="col-form-label" for="noc_date">NOC date :</label>
+                            <input type="text" id="m_datepicker" name="noc_date" class="form-control form-control--custom m-input m_datepicker" value="{{ old('noc_date') }}" required>
+                            <span class="help-block">{{$errors->first('noc_date')}}</span>
+                        </div>
+                    </div>
+                    <div class="form-group m-form__group row">
+                        <div class="col-sm-4 form-group"> <!-- offset-sm-1 -->
+                            <label class="col-form-label" for="tripartite_agreement_number">Tripartite agreement number :</label>
+                            <input type="text" id="tripartite_agreement_number" name="tripartite_agreement_number" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ old('tripartite_agreement_number') }}" required>
+                            <span class="help-block">{{$errors->first('tripartite_agreement_number')}}</span>
+                        </div>
+                        <div class="col-sm-4 form-group"> <!-- offset-sm-1 -->
+                            <label class="col-form-label" for="tripartite_agreement_date">Tripartite agreement date :</label>
+                            <input type="text" id="m_datepicker" name="tripartite_agreement_date" class="form-control form-control--custom m-input m_datepicker" value="{{ old('tripartite_agreement_date') }}" required>
+                            <span class="help-block">{{$errors->first('tripartite_agreement_date')}}</span>
                         </div>
                     </div>
 

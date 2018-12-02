@@ -1,6 +1,6 @@
 @extends('frontend.layouts.sidebarAction')
 @section('actions')
-    @include('frontend.society.actions_noc',compact('noc_applications'))
+    @include('frontend.society.actions_noc_cc',compact('noc_applications'))
 @endsection
 @section('content')
 <style>
@@ -27,7 +27,7 @@
                                     <h5>Download Noc Application</h5>
                                     <span class="hint-text">Download submitted application in .pdf format</span>
                                     <div class="mt-auto">
-                                        <a title="Donwload Noc Application" href="{{ route('society_noc_application_download') }}" target="_blank" class="btn btn-primary" rel="noopener"><i class="icon-pencil"></i>Donwload Noc Application</a>
+                                        <a title="Donwload NOC Application" href="{{ route('society_noc_cc_application_download') }}" target="_blank" class="btn btn-primary" rel="noopener"><i class="icon-pencil"></i>Donwload Noc Application</a>
                                     </div>
                                 </div>
                             </div>
@@ -35,7 +35,7 @@
                                 <div class="d-flex flex-column h-100 two-cols">
                                     <h5>Upload Signed & Stamped Application here</h5>
                                     <span class="hint-text">Click on 'Upload' to upload signed & stamped application of Noc.</span>
-                                    <form action="{{ route('upload_society_noc') }}" method="post" enctype="multipart/form-data">
+                                    <form action="{{ route('upload_society_noc_cc') }}" method="post" enctype="multipart/form-data">
                                     @csrf
                                         <div class="custom-file">
                                             <input class="custom-file-input" name="noc_application_form" type="file"

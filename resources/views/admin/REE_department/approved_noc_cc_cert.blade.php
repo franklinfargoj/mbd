@@ -1,6 +1,6 @@
 @extends('admin.layouts.sidebarAction')
 @section('actions')
-@include('admin.REE_department.action_noc',compact('noc_application'))
+@include('admin.REE_department.action_noc_cc',compact('noc_application'))
 @endsection
 @section('css')
 <!-- <style> -->
@@ -24,7 +24,7 @@
             <h3 class="m-subheader__title m-subheader__title--separator">
                 Approved NOC 
             </h3>
-            {{ Breadcrumbs::render('approved_noc',$noc_application->id) }}
+            {{ Breadcrumbs::render('approved_noc_cc',$noc_application->id) }}
             <div class="ml-auto btn-list">
                 <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
             </div>
@@ -136,7 +136,7 @@
                         <p></p>
                         @if($applicationData->ree_Jr_id && !empty($applicationData->final_draft_noc_path) && $applicationData->noc_generation_status == config('commanConfig.applicationStatus.NOC_Issued'))
                         <hr>
-                        <a href="{{route('ree.create_edit_noc',$applicationData->id)}}" class="btn btn-primary">
+                        <a href="{{route('ree.create_edit_noc_cc',$applicationData->id)}}" class="btn btn-primary">
                         Edit Draft NOC
                         </a>
                         <a target="_blank" href="{{config('commanConfig.storage_server').'/'.$noc_application->draft_noc_path}}" class="btn btn-primary">Download Draft NOC</a> 
@@ -147,7 +147,7 @@
                         <div class="d-flex flex-column h-100">
                             <h5>Upload Noc</h5>
                             <span class="hint-text">Click on 'Upload' to upload Noc</span>
-                            <form action="{{route('ree.upload_draft_noc',$applicationData->id)}}" method="post"
+                            <form action="{{route('ree.upload_draft_noc_cc',$applicationData->id)}}" method="post"
                                 enctype="multipart/form-data">
                             @csrf
                             <div class="custom-file">
@@ -189,7 +189,7 @@
     </div>
     <!-- end  -->
     <!-- Encrochment verification -->
-    <form role="form" id="approved_letter" name="approved_letter" class="form-horizontal" method="post" action="{{route('ree.send_noc_issued_society')}}"
+    <form role="form" id="approved_letter" name="approved_letter" class="form-horizontal" method="post" action="{{route('ree.send_noc_cc_issued_society')}}"
         enctype="multipart/form-data">
         @csrf
     @if($ree_head && $applicationData->noc_generation_status != config('commanConfig.applicationStatus.sent_to_society'))
