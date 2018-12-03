@@ -793,7 +793,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::get('checklist/{id}', 'conveyance\DYCODepartment\DYCOController@showChecklist')->name('conveyance.checklist'); 
 
-    Route::get('checklist_note/{id}', 'conveyance\conveyanceCommonController@show_checklist')->name('conveyance.checklist_note');
+    // Route::get('checklist_note/{id}', 'conveyance\conveyanceCommonController@show_checklist')->name('conveyance.checklist_note');
 
 
     Route::get('architect_scrutiny_remark/{id}', 'conveyance\conveyanceCommonController@ArchitectScrutinyRemark')->name('conveyance.architect_scrutiny_remark');
@@ -805,6 +805,10 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::post('save_draft_sign_conveyance_agreement', 'conveyance\conveyanceCommonController@SaveDraftSignAgreement')->name('conveyance.save_draft_sign_conveyance_agreement');    
 
     Route::post('upload_la_agreement_riders', 'conveyance\conveyanceCommonController@upload_la_agreement_riders')->name('conveyance.upload_la_agreement_riders');
+
+    Route::get('view_draft_sign_conveyance_agreement/{id}', 'conveyance\conveyanceCommonController@DraftSignsaleLeaseAgreement')->name('conveyance.draft_sign_conveyance_agreement');
+
+    Route::post('save_draft_sign_conveyance_agreement', 'conveyance\conveyanceCommonController@SaveDraftSignAgreement')->name('conveyance.save_draft_sign_conveyance_agreement');
 
     
     //dyco

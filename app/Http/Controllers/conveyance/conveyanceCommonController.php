@@ -161,6 +161,7 @@ class conveyanceCommonController extends Controller
         $document_id = $this->getDocumentId(config('commanConfig.documents.em_conveyance.stamp_conveyance_application'), $data->sc_application_master_id);
         $document = SocietyConveyanceDocumentStatus::where('document_id', $document_id)
         ->where('society_flag',1)->where('application_id',$applicationId)->first();
+        $data->em_document = $this->getEMNoDueCertificate($data->sc_application_master_id,$applicationId);
 
         return view('admin.conveyance.common.view_application',compact('data', 'document'));
     } 
@@ -331,6 +332,7 @@ class conveyanceCommonController extends Controller
         $data = scApplication::with('ConveyanceSalePriceCalculation')->where('id',$applicationId)->first();
         $data->folder = $this->getCurrentRoleFolderName();
         $data->conveyance_map = $this->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
+        $data->em_document = $this->getEMNoDueCertificate($data->sc_application_master_id,$applicationId);
         return view('admin.conveyance.common.view_ee_sale_price_calculation', compact('data'));
     }
 
@@ -344,6 +346,7 @@ class conveyanceCommonController extends Controller
         $documents = SocietyConveyanceDocumentMaster::with(['sc_document_status' => function($q) use($data) { $q->where('application_id', $data->id)->get(); }])->where('application_type_id', $data->sc_application_master_id)->where('society_flag', '1')->where('language_id', $mLanguage)->get();
         // $documents_uploaded = SocietyConveyanceDocumentStatus::where('application_id', $data->id)->get();
         $data->conveyance_map = $this->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
+        $data->em_document = $this->getEMNoDueCertificate($data->sc_application_master_id,$applicationId);
        
         return view('admin.conveyance.common.view_documents', compact('data', 'documents', 'documents_uploaded'));
     }
@@ -506,7 +509,8 @@ class conveyanceCommonController extends Controller
         //get architect_conveyance_map from sc document status table
         $document  = config('commanConfig.documents.architect_conveyance_map');
         $documentId = $this->getDocumentId($document,$data->sc_application_master_id);
-        $data->conveyance_map = $this->getDocumentStatus($applicationId,$documentId);        
+        $data->conveyance_map = $this->getDocumentStatus($applicationId,$documentId); 
+        $data->em_document = $this->getEMNoDueCertificate($data->sc_application_master_id,$applicationId);       
 
         return view('admin.conveyance.architect_department.scrutiny_remark',compact('data'));
     }  
@@ -550,6 +554,7 @@ class conveyanceCommonController extends Controller
       $Architectlogs = $this->getLogsOfArchitectDepartment($applicationId,$data->sc_application_master_id);
       $cologs        = $this->getLogsOfCODepartment($applicationId,$data->sc_application_master_id);
       $data->conveyance_map = $this->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
+      $data->em_document = $this->getEMNoDueCertificate($data->sc_application_master_id,$applicationId);
       
       $this->getAllSaleLeaseAgreement($data,$applicationId,$data->sc_application_master_id);
 
@@ -691,13 +696,29 @@ class conveyanceCommonController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function upload_la_agreement_riders(Request $request){
-        $update_arr = array(
-            'riders' => $request->remark
-        );
-        $updated_rides = scApplication::where('id', $request->application_id)->update($update_arr);
-        if($updated_rides == 1){
-            return redirect()->route('conveyance.la_agreement_riders', $request->application_id);
+        
+        $applicationId = $request->application_id;   
+        $data = scApplication::where('id',$applicationId)->first();           
+        $Applicationtype= $data->sc_application_master_id; 
+
+        if ($request->riders){
+            $update_arr = array(
+                'riders' => $request->riders
+            );
+            $updated_rides = scApplication::where('id', $request->application_id)->update($update_arr);
         }
+
+        if ($request->remark){
+          $this->ScAgreementComment($applicationId,$request->remark,$Applicationtype);  
+        }
+        return back()->with('success', 'Submitted successfully.');
+
+        // if($updated_rides == 1){
+        //     return redirect()->route('conveyance.la_agreement_riders', $request->application_id);
+        // }
+
+        //changes made to save remark and riders for LA (BHAVANA)
+
     }
 
     public function show_checklist(Request $request,$applicationId){
@@ -749,7 +770,8 @@ class conveyanceCommonController extends Controller
         $data->SignSaleAgreement  = $this->getScAgreement($signSaleId,$applicationId,$signstatus);
         $data->SignLeaseAgreement = $this->getScAgreement($signLeaseId,$applicationId,$signstatus);        
 
-        // $is_view = session()->get('role_name') == config('commanConfig.dycdo_engineer');
+        $is_view = session()->get('role_name') == config('commanConfig.joint_co');
+        $is_la = session()->get('role_name') == config('commanConfig.la_engineer');
         $data->status = $this->getCurrentStatus($applicationId,$data->sc_application_master_id);
 
         $data->AgreementComments = ScAgreementComments::with('Roles')->where('application_id',$applicationId)->where('agreement_type_id',$Applicationtype)->whereNotNull('remark')->get();
@@ -757,14 +779,17 @@ class conveyanceCommonController extends Controller
         $data->folder = $this->getCurrentRoleFolderName();
         $data->conveyance_map = $this->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
 
-        // if ($is_view && $data->status->status_id == config('commanConfig.conveyance_status.Draft_sale_&_lease_deed')) {
-        //     $route = 'admin.conveyance.dyco_department.sale_lease_agreement';
-        // }else{
-        //     $route = 'admin.conveyance.common.view_draft_sign_sale_lease';
-        // }
-        // dd($route);
+        if ($is_view && $data->status->status_id == config('commanConfig.conveyance_status.Draft_sale_&_lease_deed')) {
+            $route = 'admin.conveyance.co_department.draft_sign_sale_lease';
+        }
+        else if($is_la && $data->status->status_id == config('commanConfig.conveyance_status.Draft_sale_&_lease_deed')){
 
-        return view('admin.conveyance.common.view_draft_sign_sale_lease',compact('data','is_view','status'));
+            $route = 'admin.conveyance.la_department.sale_lease_deed';
+        }else{
+            $route = 'admin.conveyance.common.view_draft_sign_sale_lease';
+        }
+       
+        return view($route,compact('data','is_view','status'));
     }    
 
     //save draft sign lease and sale Agreement by JTCO
@@ -834,5 +859,14 @@ class conveyanceCommonController extends Controller
         } else{
             return back()->with('error', 'Invalid type of file uploaded (only pdf allowed).');
         }        
-    }     
+    }  
+
+    //get em no due certificate
+    public function getEMNoDueCertificate($masterId,$applicationId){
+        
+        $em_doc = config('commanConfig.no_dues_certificate.db_columns.upload');
+        $docId = $this->getDocumentId($em_doc,$masterId);
+        $em_document = $this->getDocumentStatus($applicationId,$docId);
+        return $em_document;
+    }       
 }
