@@ -101,42 +101,42 @@
                                                 service with reference to the common service with reference to the
                                                 common service being rendered by the board</td>
                                             <td class="text-center">
-                                                <input type="text" class="form-control form-control--custom" name="common_service_rate" value="{{ isset($data->ConveyanceSalePriceCalculation->common_service_rate) ? $data->ConveyanceSalePriceCalculation->common_service_rate : '' }}" required/>
+                                                <input type="text" class="form-control form-control--custom" name="common_service_rate" value="{{ isset($data->ConveyanceSalePriceCalculation->common_service_rate) ? $data->ConveyanceSalePriceCalculation->common_service_rate : '' }}" />
                                             </td>
                                         </tr>                                        
                                         <tr>
                                             <td>2.</td>
                                             <td>Date of Handling over Pump House & Under Ground Tank to Society</td>
                                             <td class="text-center">
-                                                <input type="text" class="txtbox v_text form-control form-control--custom m-input m_datepicker" name="pump_house" id="pump_house" value="{{ isset($data->ConveyanceSalePriceCalculation->pump_house) ? date('d-m-Y',strtotime($data->ConveyanceSalePriceCalculation->pump_house)) : '' }}" required aria-describedby="visit_date-error" aria-invalid="false" readonly >
+                                                <input type="text" class="txtbox v_text form-control form-control--custom m-input m_datepicker" name="pump_house" id="pump_house" value="{{ isset($data->ConveyanceSalePriceCalculation->pump_house) ? date('d-m-Y',strtotime($data->ConveyanceSalePriceCalculation->pump_house)) : '' }}" aria-describedby="visit_date-error" aria-invalid="false" readonly >
                                             </td>
                                         </tr>                                       
                                          <tr>
                                             <td>3.</td>
                                             <td>The Plinith area of each tenement in Sq.Ft And Sq.Mtrs.</td>
                                             <td class="text-center">
-                                                <input type="text" class="form-control form-control--custom" name="tenement_plinth_area" value="{{ isset($data->ConveyanceSalePriceCalculation->tenement_plinth_area) ? $data->ConveyanceSalePriceCalculation->tenement_plinth_area : '' }}" required/>
+                                                <input type="text" class="form-control form-control--custom" name="tenement_plinth_area" value="{{ isset($data->ConveyanceSalePriceCalculation->tenement_plinth_area) ? $data->ConveyanceSalePriceCalculation->tenement_plinth_area : '' }}" />
                                             </td>
                                         </tr>                                        
                                         <tr>
                                             <td>4.</td>
                                             <td>The Carpet Area of each tenement in Sq.Ft.and Sq.Mtrs.</td>
                                             <td class="text-center">
-                                                <input type="text" class="form-control form-control--custom" name="tenement_carpet_area" value="{{ isset($data->ConveyanceSalePriceCalculation->tenement_carpet_area) ? $data->ConveyanceSalePriceCalculation->tenement_carpet_area : '' }}" required />
+                                                <input type="text" class="form-control form-control--custom" name="tenement_carpet_area" value="{{ isset($data->ConveyanceSalePriceCalculation->tenement_carpet_area) ? $data->ConveyanceSalePriceCalculation->tenement_carpet_area : '' }}"  />
                                             </td>
                                         </tr>                                        
                                         <tr>
                                             <td>5.</td>
                                             <td>The Plinth area of Building Sq.Ft and Sq.Mtrs</td>
                                             <td class="text-center">
-                                                <input type="text" class="form-control form-control--custom" name="building_plinth_area" value="{{ isset($data->ConveyanceSalePriceCalculation->building_plinth_area) ? $data->ConveyanceSalePriceCalculation->building_plinth_area : '' }}" required/>
+                                                <input type="text" class="form-control form-control--custom" name="building_plinth_area" value="{{ isset($data->ConveyanceSalePriceCalculation->building_plinth_area) ? $data->ConveyanceSalePriceCalculation->building_plinth_area : '' }}"/>
                                             </td>
                                         </tr>                                        
                                         <tr>
                                             <td>6.</td>
                                             <td>The Carpet Area of Building in Sq.FT and Sq.Mtrs.</td>
                                             <td class="text-center">
-                                                <input type="text" class="form-control form-control--custom" name="building_carpet_area" value="{{ isset($data->ConveyanceSalePriceCalculation->building_carpet_area) ? $data->ConveyanceSalePriceCalculation->building_carpet_area : '' }}" required/>
+                                                <input type="text" class="form-control form-control--custom" name="building_carpet_area" value="{{ isset($data->ConveyanceSalePriceCalculation->building_carpet_area) ? $data->ConveyanceSalePriceCalculation->building_carpet_area : '' }}" />
                                             </td>
                                         </tr>                                        
                                         <tr>
@@ -144,21 +144,21 @@
                                             <td>Cost of Construction</td>
                                             <td class="text-center">
                                                 <input type="text" class="form-control form-control--custom" 
-                                                name="construction_cost" value="{{ isset($data->ConveyanceSalePriceCalculation->construction_cost) ? $data->ConveyanceSalePriceCalculation->construction_cost : '' }}" required/>
+                                                name="construction_cost" value="{{ isset($data->ConveyanceSalePriceCalculation->construction_cost) ? $data->ConveyanceSalePriceCalculation->construction_cost : '' }}" />
                                             </td>
                                         </tr>                                       
                                          <tr>
                                             <td>7.2</td>
                                             <td>Premium of Land With Infrastructure (I.e Cost of land and Fillings) Lease Rent (Per Annum)</td>
                                             <td class="text-center">
-                                                <input type="text" class="form-control form-control--custom" name="land_premiun_infrastructure" value="{{ isset($data->ConveyanceSalePriceCalculation->land_premiun_infrastructure) ? $data->ConveyanceSalePriceCalculation->land_premiun_infrastructure : '' }}" required/>
+                                                <input type="text" class="form-control form-control--custom" name="land_premiun_infrastructure" value="{{ isset($data->ConveyanceSalePriceCalculation->land_premiun_infrastructure) ? $data->ConveyanceSalePriceCalculation->land_premiun_infrastructure : '' }}" />
                                             </td>
                                         </tr>                                        
                                          <tr>
                                             <td></td>
                                             <td>The Final Sale price of the tenement</td>
                                             <td class="text-center">
-                                                <input type="text" class="form-control form-control--custom" name="final_sale_price_tenement" value="{{ isset($data->ConveyanceSalePriceCalculation->final_sale_price_tenement) ? $data->ConveyanceSalePriceCalculation->final_sale_price_tenement : '' }}" required/>
+                                                <input type="text" class="form-control form-control--custom" name="final_sale_price_tenement" value="{{ isset($data->ConveyanceSalePriceCalculation->final_sale_price_tenement) ? $data->ConveyanceSalePriceCalculation->final_sale_price_tenement : '' }}" />
                                             </td>
                                         </tr>                                        
                                          <tr>
@@ -166,7 +166,7 @@
                                             <td>The Date of Completion of the above Building/Chawl</td>
                                             <td class="text-center">
                                     
-                                                <input type="text" class="txtbox v_text form-control form-control--custom m-input m_datepicker" name="completion_date" id="registration_date" value="{{ isset($data->ConveyanceSalePriceCalculation->completion_date) ? date('d-m-Y',strtotime($data->ConveyanceSalePriceCalculation->completion_date)) : '' }}" aria-describedby="visit_date-error" aria-invalid="false" readonly required>
+                                                <input type="text" class="txtbox v_text form-control form-control--custom m-input m_datepicker" name="completion_date" id="registration_date" value="{{ isset($data->ConveyanceSalePriceCalculation->completion_date) ? date('d-m-Y',strtotime($data->ConveyanceSalePriceCalculation->completion_date)) : '' }}" aria-describedby="visit_date-error" aria-invalid="false" readonly >
                                             </td>
                                         </tr>
                                     </tbody>

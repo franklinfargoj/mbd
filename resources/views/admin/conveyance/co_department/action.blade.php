@@ -81,7 +81,7 @@ $route=\Request::route()->getName();
                 <span class="m-menu__link-text">Architect Scrutiny Remark</span>
             </a>
         </li>          
-      
+
     @if(isset($data->application_status) && ($data->application_status == config('commanConfig.conveyance_status.Draft_sale_&_lease_deed') ))
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{($route=='conveyance.draft_sign_conveyance_agreement')?'m-menu__item--active':''}}">
             <a class="m-menu__link m-menu__toggle" title="Prepar Draft Sale & Lease Deed" href="{{ route('conveyance.draft_sign_conveyance_agreement', $data->id) }}">
