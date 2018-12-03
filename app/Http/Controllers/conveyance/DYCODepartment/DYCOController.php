@@ -64,7 +64,9 @@ class DYCOController extends Controller
         $document  = config('commanConfig.documents.dycdo_note');
         $documentId = $this->common->getDocumentId($document,$data->sc_application_master_id);
         $dycdo_note = $this->common->getDocumentStatus($applicationId,$documentId);
-        
+
+        //get em no due certificate
+        $data->em_document = $this->common->getEMNoDueCertificate($data->sc_application_master_id,$applicationId);           
         return view($route,compact('data','checklist','dycdo_note'));
     }
 
@@ -153,6 +155,7 @@ class DYCOController extends Controller
 
         $data->folder = $this->common->getCurrentRoleFolderName();
         $data->conveyance_map = $this->common->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
+        $data->em_document = $this->common->getEMNoDueCertificate($data->sc_application_master_id,$applicationId);
 
         if ($is_view && $data->status->status_id == config('commanConfig.conveyance_status.Draft_sale_&_lease_deed')) {
             $route = 'admin.conveyance.dyco_department.sale_lease_agreement';
@@ -270,7 +273,7 @@ class DYCOController extends Controller
         $stamp  = config('commanConfig.scAgreements.conveyance_stamp_duty_letter'); 
         $stampId = $this->common->getScAgreementId($stamp,$data->sc_application_master_id); 
         $data->approveStampLetter = $this->common->getScAgreement($stampId,$applicationId,NULL);
-
+        $data->em_document = $this->common->getEMNoDueCertificate($data->sc_application_master_id,$applicationId);
 
         if ($data->is_view && $data->status->status_id == config('commanConfig.conveyance_status.Aproved_sale_&_lease_deed')) {
             $route = 'admin.conveyance.dyco_department.approved_sale_lease_agreement';
@@ -377,7 +380,8 @@ class DYCOController extends Controller
         $data->conveyance_map = $this->common->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
 
         $data->is_view = session()->get('role_name') == config('commanConfig.dycdo_engineer'); 
-        $data->status = $this->common->getCurrentStatus($applicationId,$data->sc_application_master_id);                     
+        $data->status = $this->common->getCurrentStatus($applicationId,$data->sc_application_master_id);
+        $data->em_document = $this->common->getEMNoDueCertificate($data->sc_application_master_id,$applicationId);                     
         return view('admin.conveyance.common.view_stamp_duty_agreement',compact('data'));      
     } 
 
@@ -400,6 +404,7 @@ class DYCOController extends Controller
 
         $data->folder = $this->common->getCurrentRoleFolderName();
         $data->conveyance_map = $this->common->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
+        $data->em_document = $this->common->getEMNoDueCertificate($data->sc_application_master_id,$applicationId);
 
         if ($is_view && $status->status_id == config('commanConfig.conveyance_status.Stamped_signed_sale_&_lease_deed')) {
             $route = 'admin.conveyance.dyco_department.stamp_sign_agreements';
@@ -498,6 +503,7 @@ class DYCOController extends Controller
         $data->is_view = session()->get('role_name') == config('commanConfig.dycdo_engineer'); 
         $data->status = $this->common->getCurrentStatus($applicationId,$data->sc_application_master_id);
         $data->conveyance_map = $this->common->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
+        $data->em_document = $this->common->getEMNoDueCertificate($data->sc_application_master_id,$applicationId);
 
         //get Registered Agreement details
         $SaleId  = $this->common->getScAgreementId($this->SaleAgreement,$Applicationtype,NULL);
@@ -541,6 +547,7 @@ class DYCOController extends Controller
         $noc  = config('commanConfig.scAgreements.conveynace_uploaded_NOC');        
         $nocId = $this->common->getScAgreementId($noc,$masterId);
         $data->NOC = $this->common->getScAgreement($nocId,$applicationId,NULL);
+        $data->em_document = $this->common->getEMNoDueCertificate($data->sc_application_master_id,$applicationId);
 
         return view('admin.conveyance.dyco_department.conveyance_noc',compact('data'));
     }

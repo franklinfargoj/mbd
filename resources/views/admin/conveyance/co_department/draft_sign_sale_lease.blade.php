@@ -1,6 +1,6 @@
 @extends('admin.layouts.sidebarAction')
 @section('actions')
-@include('admin.conveyance.dyco_department.action',compact('data'))
+@include('admin.conveyance.'.$data->folder.'.action')
 @endsection
 @section('content')
 
@@ -9,8 +9,6 @@
     {{ session()->get('success') }}
 </div>
 @endif
-<form class="nav-tabs-form" id ="agreementFRM" role="form" method="POST" action="{{ route('dyco.save_approved_agreement')}}" enctype="multipart/form-data">
-@csrf
 
 <div class="col-md-12">
     <!-- BEGIN: Subheader -->
@@ -18,7 +16,7 @@
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">
                 Sale & Lease Deed Agreement</h3>
-                 {{ Breadcrumbs::render('conveyance_approve_sale_lease',$data->id) }}
+                 {{ Breadcrumbs::render('conveyance_draft_sale_lease',$data->id) }}
                 <div class="ml-auto btn-list">
                     <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
                 </div>
@@ -40,31 +38,37 @@
         </ul>
     </div>
 
-<input type="hidden" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">
+<form class="nav-tabs-form" id ="agreementFRM" role="form" method="POST" action="{{ route('conveyance.save_draft_sign_conveyance_agreement')}}" enctype="multipart/form-data">
+@csrf
+
+<input type="hidden" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">    
     <div class="tab-content">
         <div class="tab-pane active show" id="sale-deed-agreement" role="tabpanel">
             <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
                 <div class="portlet-body">
-                    <div class="m-portlet__body m-portlet__body--table">
-                        <div class="m-subheader" style="padding: 0;">
-                            <div class="d-flex">
-                                <h5 class="section-title">
-                                    Sale Deed Agreement
-                                </h5>
-                            </div>
-                        </div>
-
+                    <div class="m-portlet__body m-portlet__body--table">                            
                         <div class="m-section__content mb-0 table-responsive">
                             <div class="container">
                                 <div class="row">
+                        @php
+                            if(isset($data->SignSaleAgreement->document_path))
+                                $document = $data->SignSaleAgreement->document_path;
+                            else if(isset($data->DraftSaleAgreement->document_path))
+                                $document = $data->DraftSaleAgreement->document_path;
+                        @endphp
+                        @php
+                            if(isset($data->SignLeaseAgreement->document_path))
+                                $document1 = $data->SignLeaseAgreement->document_path;
+                            else if(isset($data->DraftLeaseAgreement->document_path))
+                                $document1 = $data->DraftLeaseAgreement->document_path;
+                        @endphp
                                     <div class="col-sm-6">
                                         <div class="d-flex flex-column h-100 two-cols">
                                             <h5>Download</h5>
                                             <span class="hint-text">Click to download Sale Deed Agreement </span>
                                             <div class="mt-auto">
-                                                @if(isset($data->SignSaleAgreement->document_path))
-                                                <input type="hidden" name="oldSaleFile" value="{{ $data->SignSaleAgreement->document_path }}">
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->SignSaleAgreement->document_path }}">
+                                                @if(isset($document))
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$document }}">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>
@@ -75,10 +79,12 @@
                                             </div>
                                         </div>
                                     </div>
+                                    @if($data->status->status_id != config('commanConfig.conveyance_status.forwarded') && $data->status->status_id != config('commanConfig.conveyance_status.reverted') )
                                     <div class="col-sm-6 border-left">
                                         <div class="d-flex flex-column h-100 two-cols">
                                             <h5>Upload</h5>
                                             <span class="hint-text">Click to upload Sale Deed Agreement</span>
+                                            <input type="hidden" name="oldSaleFile" value="{{ isset($data->SignSaleAgreement) ? $data->SignSaleAgreement->document_path : '' }}">
                                                 <div class="custom-file">
                                                     <input class="custom-file-input" name="sale_agreement" type="file" id="test-upload1">
                                                 
@@ -86,8 +92,8 @@
                                                         file...</label>   
                                                 </div>
                                         </div>
-                                    </div> 
-
+                                    </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -97,16 +103,16 @@
 
             <!-- Add Send to JT CO here -->
         </div>
- 
+
         <div class="tab-pane" id="lease-deed-agreement" role="tabpanel">
             <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
                 <div class="portlet-body">
                     <div class="m-portlet__body m-portlet__body--table">
                         <div class="m-subheader" style="padding: 0;">
                             <div class="d-flex align-items-center">
-                                <h5 class="section-title">
+                                <h4 class="section-title">
                                     Lease Deed Agreement
-                                </h5>
+                                </h4>
                             </div>
                         </div>
                         <div class="m-section__content mb-0 table-responsive">
@@ -114,15 +120,13 @@
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="d-flex flex-column h-100 two-cols">
-                                            <h5>Download</h5>
+                                            <h5>Download </h5>
                                             <span class="hint-text">Click to download Lease Deed Agreement</span>
-                                            <div class="mt-auto"> 
-                                                @if(isset($data->SignLeaseAgreement->document_path))
-
-                                                <input type="hidden" name="oldLeaseFile" value="{{ $data->SignLeaseAgreement->document_path }}">
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->SignLeaseAgreement->document_path }}">
+                                            <div class="mt-auto">
+                                                @if(isset($document1))
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$document1 }}">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
-                                                       Download  </Button>
+                                                        Download </Button>
                                                 </a>
                                                 @else
                                                 <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
@@ -131,13 +135,13 @@
                                             </div>
                                         </div>
                                     </div>
+                                    @if($data->status->status_id != config('commanConfig.conveyance_status.forwarded') && $data->status->status_id != config('commanConfig.conveyance_status.reverted') )
                                     <div class="col-sm-6 border-left">
                                         <div class="d-flex flex-column h-100 two-cols">
                                             <h5>Upload</h5>
                                             <span class="hint-text">Click to upload Lease Deed Agreement</span>
+                                            <input type="hidden" name="oldLeaseFile" value="{{ isset($data->SignLeaseAgreement) ? $data->SignLeaseAgreement->document_path : '' }}">
                                                 <div class="custom-file">
-                                                    <!-- <input class="custom-file-input" name="lease_agreement" type="file" id="test-upload2"> -->
-                                                    
                                                     <input class="custom-file-input" name="lease_agreement" type="file" id="test-upload2">
    
                                                     <label class="custom-file-label" for="test-upload2">Choose
@@ -146,7 +150,7 @@
                                                 </div>
                                         </div>
                                     </div>
-                                    
+                                    @endif                                    
                                 </div>
                             </div>
                         </div>
@@ -155,6 +159,7 @@
             </div>
         </div>
     </div>
+<!-- </form> -->
 
     @if(count($data->AgreementComments) > 0)       
         <div class="m-portlet m-portlet--mobile m_panel">
@@ -175,7 +180,7 @@
                 </div>               
             </div>    
         </div> 
-    @endif 
+    @endif    
 
     @if($data->riders)
         <div class="m-portlet m-portlet--mobile m_panel">  
@@ -188,25 +193,25 @@
                 </div>
             </div>
         </div>
-    @endif        
-
-    @if($data->status->status_id != config('commanConfig.conveyance_status.forwarded'))
-  
-             <input type="hidden" name="application_id" value="{{ isset($data->id) ? $data->id : '' }}">
-            <div class="m-portlet m-portlet--mobile m_panel">  
-                <div class="m-portlet__body">   
-                    <div class="col-xs-12 row">
-                        <div class="col-md-12">
-                            <h3 class="section-title section-title--small">Remark</h3>
-                                <textarea rows="4" cols="63" name="remark"></textarea>
-                                <button type="submit" class="btn btn-primary mt-3" style="display:block">Save</button>
-                        </div>
-                    </div>
+    @endif 
+ 
+    @if($data->status->status_id != config('commanConfig.conveyance_status.forwarded') && $data->status->status_id != config('commanConfig.conveyance_status.reverted') )
+        
+    <div class="m-portlet m-portlet--mobile m_panel">  
+     <input type="hidden" name="application_id" value="{{ isset($data->id) ? $data->id : '' }}">
+        <div class="m-portlet__body">   
+            <div class="col-xs-12 row">
+                <div class="col-md-12">
+                    <h3 class="section-title section-title--small">Remark</h3>
+                        <textarea rows="4" cols="63" name="remark"></textarea>
+                        <button type="submit" class="btn btn-primary mt-3" style="display:block">Save</button>
                 </div>
             </div>
-        </form>
+        </div>
+    </div>            
     @endif 
 
+</form>      
 @endsection
 @section('js')
 <script>
