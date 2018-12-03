@@ -54,7 +54,7 @@ class DYCOController extends Controller
         $data->status = $this->common->getCurrentStatus($applicationId,$data->sc_application_master_id);
         $data->conveyance_map = $this->common->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
 
-        if ($is_view && $data->status->status_id == config('commanConfig.applicationStatus.Draft_sale_&_lease_deed')) {
+        if ($is_view && $data->status->status_id == config('commanConfig.conveyance_status.Draft_sale_&_lease_deed')) {
             $route = 'admin.conveyance.dyco_department.checklist_office_note';
         }else{
             $route = 'admin.conveyance.common.view_checklist_office_note';
@@ -136,6 +136,16 @@ class DYCOController extends Controller
         $data->DraftSaleAgreement  = $this->common->getScAgreement($draftSaleId,$applicationId,$Agreementstatus);
         $data->DraftLeaseAgreement = $this->common->getScAgreement($draftLeaseId,$applicationId,$Agreementstatus);
 
+        //draft and sign status
+        // $signstatus = ApplicationStatusMaster::where('status_name','=','Draft_Sign')->value('id');
+        // $signSaleId   = $this->common->getScAgreementId($this->SaleAgreement,$Applicationtype);
+        // $signLeaseId  = $this->common->getScAgreementId($this->LeaseAgreement,$Applicationtype);    
+
+        // $data->SignSaleAgreement  = $this->common->getScAgreement($signSaleId,$applicationId,$signstatus);
+        // $data->SignLeaseAgreement = $this->common->getScAgreement($signLeaseId,$applicationId,$signstatus);
+
+        // dd($data);        
+
         $is_view = session()->get('role_name') == config('commanConfig.dycdo_engineer');
         $data->status = $this->common->getCurrentStatus($applicationId,$data->sc_application_master_id);
 
@@ -144,11 +154,12 @@ class DYCOController extends Controller
         $data->folder = $this->common->getCurrentRoleFolderName();
         $data->conveyance_map = $this->common->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
 
-        if ($is_view && $data->status->status_id == config('commanConfig.applicationStatus.Draft_sale_&_lease_deed')) {
+        if ($is_view && $data->status->status_id == config('commanConfig.conveyance_status.Draft_sale_&_lease_deed')) {
             $route = 'admin.conveyance.dyco_department.sale_lease_agreement';
         }else{
             $route = 'admin.conveyance.common.view_draft_sale_lease_agreements';
         }
+        // dd($route);
         return view($route,compact('data','is_view','status'));
     }
 
@@ -223,13 +234,25 @@ class DYCOController extends Controller
 
         $data = scApplication::with('ConveyanceSalePriceCalculation')->where('id',$applicationId)->first();
         $Applicationtype= $data->sc_application_master_id;
-        $Agreementstatus = ApplicationStatusMaster::where('status_name','=','Approved')->value('id');
 
+        //Aprove status 
+        $Agreementstatus = ApplicationStatusMaster::where('status_name','=','Approved')->value('id');
+        
         $approvedSaleId   = $this->common->getScAgreementId($this->SaleAgreement,$Applicationtype);
         $approvedLeaseId  = $this->common->getScAgreementId($this->LeaseAgreement,$Applicationtype);    
 
         $data->ApprovedSaleAgreement  = $this->common->getScAgreement($approvedSaleId,$applicationId,$Agreementstatus);
-        $data->ApprovedLeaseAgreement = $this->common->getScAgreement($approvedLeaseId,$applicationId,$Agreementstatus);                    
+        $data->ApprovedLeaseAgreement = $this->common->getScAgreement($approvedLeaseId,$applicationId,$Agreementstatus);
+
+        //draft and sign status
+        $signstatus = ApplicationStatusMaster::where('status_name','=','Draft_Sign')->value('id');
+        $signSaleId   = $this->common->getScAgreementId($this->SaleAgreement,$Applicationtype);
+        $signLeaseId  = $this->common->getScAgreementId($this->LeaseAgreement,$Applicationtype);    
+
+        $data->SignSaleAgreement  = $this->common->getScAgreement($signSaleId,$applicationId,$signstatus);
+        $data->SignLeaseAgreement = $this->common->getScAgreement($signLeaseId,$applicationId,$signstatus); 
+
+
         $data->is_view = session()->get('role_name') == config('commanConfig.dycdo_engineer'); 
         $data->status = $this->common->getCurrentStatus($applicationId,$data->sc_application_master_id);   
 
@@ -248,7 +271,8 @@ class DYCOController extends Controller
         $stampId = $this->common->getScAgreementId($stamp,$data->sc_application_master_id); 
         $data->approveStampLetter = $this->common->getScAgreement($stampId,$applicationId,NULL);
 
-        if ($data->is_view && $data->status->status_id == config('commanConfig.applicationStatus.Aproved_sale_&_lease_deed')) {
+
+        if ($data->is_view && $data->status->status_id == config('commanConfig.conveyance_status.Aproved_sale_&_lease_deed')) {
             $route = 'admin.conveyance.dyco_department.approved_sale_lease_agreement';
         }else{
             $route = 'admin.conveyance.common.view_approved_sale_lease_agreement';
@@ -257,7 +281,7 @@ class DYCOController extends Controller
         return view($route,compact('data'));      
     } 
 
-    //save Approved lease and sale Agreement
+    //save Approved lease and sale Agreement by dycdo
     public function saveApprovedAgreement(Request $request){
         
         $applicationId   = $request->applicationId;
@@ -377,7 +401,7 @@ class DYCOController extends Controller
         $data->folder = $this->common->getCurrentRoleFolderName();
         $data->conveyance_map = $this->common->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
 
-        if ($is_view && $status->status_id == config('commanConfig.applicationStatus.Stamped_signed_sale_&_lease_deed')) {
+        if ($is_view && $status->status_id == config('commanConfig.conveyance_status.Stamped_signed_sale_&_lease_deed')) {
             $route = 'admin.conveyance.dyco_department.stamp_sign_agreements';
         }else{
             $route = 'admin.conveyance.common.view_stamp_sign_agreements';
@@ -484,7 +508,7 @@ class DYCOController extends Controller
         ->where('agreement_type_id',$LeaseId)->first();
         
         // dd($data);
-        if ($data->is_view && $data->status->status_id == config('commanConfig.applicationStatus.Registered_sale_&_lease_deed')) {
+        if ($data->is_view && $data->status->status_id == config('commanConfig.conveyance_status.Registered_sale_&_lease_deed')) {
             $route = 'admin.conveyance.dyco_department.register_sale_lease_agreements';
         }else{
             $route = 'admin.conveyance.common.view_register_sale_lease_agreements';
@@ -654,7 +678,7 @@ class DYCOController extends Controller
                 'application_id' => $request->applicationId,
                 'user_id'        => Auth::user()->id,
                 'role_id'        => session()->get('role_id'),
-                'status_id'      => config('commanConfig.applicationStatus.forwarded'),
+                'status_id'      => config('commanConfig.conveyance_status.forwarded'),
                 'society_flag'   => '0',
                 'application_master_id' => $data->sc_application_master_id,
                 'to_user_id'     => $to_user_id,
@@ -782,7 +806,7 @@ class DYCOController extends Controller
                 'application_id' => $request->applicationId,
                 'user_id'        => Auth::user()->id,
                 'role_id'        => session()->get('role_id'),
-                'status_id'      => config('commanConfig.applicationStatus.forwarded'),
+                'status_id'      => config('commanConfig.renewal_status.forwarded'),
                 'society_flag'   => '0',
                 'application_master_id' => $data->application_master_id,
                 'to_user_id'     => $to_user_id,

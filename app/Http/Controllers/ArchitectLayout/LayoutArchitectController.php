@@ -42,7 +42,7 @@ class LayoutArchitectController extends Controller
             ['data' => 'layout_no', 'name' => 'layout_no', 'title' => 'Layout No'],
             ['data' => 'date', 'name' => 'date', 'title' => 'Date'],
             ['data' => 'layout_name', 'name' => 'layout_name', 'title' => 'Layout Name', 'class' => 'datatable-date'],
-            ['data' => 'address', 'name' => 'address', 'title' => 'Society Name'],
+            ['data' => 'address', 'name' => 'address', 'title' => 'Layout Address'],
             ['data' => 'Status', 'name' => 'Status', 'title' => 'Status'],
             ['data' => 'view', 'name' => 'view', 'title' => 'Action']
         ];
@@ -74,7 +74,7 @@ class LayoutArchitectController extends Controller
                 ->editColumn('Status', function ($listArray) use ($request) {
                     $status = $listArray->ArchitectLayoutStatusLogInListing[0]->status_id;
                     $config_array = array_flip(config('commanConfig.architect_layout_status'));
-                    $value = ucwords(str_replace('_', ' ', $config_array[$status]));
+                    $value = ucwords(str_replace('_', ' ', $config_array[$status]=='forward'?'forwarded':$config_array[$status]));
                     return '<span class="m-badge m-badge--' . config('commanConfig.architect_layout_status_color.' . $status) . ' m-badge--wide">' . $value . '</span>';
                     // $config_array = array_flip(config('commanConfig.architect_layout_status'));
                     // return $value = ucwords(str_replace('_', ' ', $config_array[$status]));
@@ -108,7 +108,7 @@ class LayoutArchitectController extends Controller
             ['data' => 'layout_no', 'name' => 'layout_no', 'title' => 'Layout No'],
             ['data' => 'date', 'name' => 'date', 'title' => 'Date'],
             ['data' => 'layout_name', 'name' => 'layout_name', 'title' => 'Layout Name', 'class' => 'datatable-date'],
-            ['data' => 'address', 'name' => 'address', 'title' => 'Society Name'],
+            ['data' => 'address', 'name' => 'address', 'title' => 'Layout Address'],
             ['data' => 'Status', 'name' => 'Status', 'title' => 'Status'],
             ['data' => 'view', 'name' => 'view', 'title' => 'Action']
         ];
@@ -140,7 +140,7 @@ class LayoutArchitectController extends Controller
                 ->editColumn('Status', function ($listArray) use ($request) {
                     $status = $listArray->ArchitectLayoutStatusLogInListing[0]->status_id;
                     $config_array = array_flip(config('commanConfig.architect_layout_status'));
-                    $value = ucwords(str_replace('_', ' ', $config_array[$status]));
+                    $value = ucwords(str_replace('_', ' ', $config_array[$status]=='forward'?'forwarded':$config_array[$status]));
                     return '<span class="m-badge m-badge--' . config('commanConfig.architect_layout_status_color.' . $status) . ' m-badge--wide">' . $value . '</span>';
                     // $config_array = array_flip(config('commanConfig.architect_layout_status'));
                     // return $value = ucwords(str_replace('_', ' ', $config_array[$status]));
@@ -749,7 +749,7 @@ class LayoutArchitectController extends Controller
             }
             $j++;
         }
-        return back()->withSuccess('data added successfully!!!');
+        return back()->withSuccess('Check list & Remarks updated');
     }
 
     //upload em checklist and remark files
@@ -831,7 +831,7 @@ class LayoutArchitectController extends Controller
             }
             $j++;
         }
-        return back()->withSuccess('data added successfully!!!');
+        return back()->withSuccess('Check list & Remarks updated');
     }
 
     //upload ee checklist and remark files
@@ -921,7 +921,7 @@ class LayoutArchitectController extends Controller
                 }
                 $j++;
             }
-            return back()->withSuccess('data added successfully!!!');
+            return back()->withSuccess('Check list & Remarks updated');
         } else {
             return back()->withError('something went wrong');
         }
@@ -1012,7 +1012,7 @@ class LayoutArchitectController extends Controller
                 }
                 $j++;
             }
-            return back()->withSuccess('data added successfully!!!');
+            return back()->withSuccess('Check list & Remarks updated');
         } else {
             return back()->withError('something went wrong');
         }
@@ -1057,7 +1057,20 @@ class LayoutArchitectController extends Controller
 
         $response_array = array();
         $file = $request->file('file');
-        if ($file->getClientMimeType() == 'application/pdf') {
+        //dd($file->getClientMimeType());
+        if($request->field_name=='layout_in_excel')
+        {
+            if($file->getClientMimeType() != 'application/vnd.ms-excel')
+            {
+                $response_array = array(
+                    'status' => false,
+                    'message' => 'XLS file is required',
+                );
+                return response()->json($response_array);
+            }
+            
+        }
+        if ($file->getClientMimeType() == 'application/pdf' || $request->field_name=='layout_in_excel') {
             $extension = $request->file('file')->getClientOriginalExtension();
             $dir = 'architect_layout_details';
             $filename = uniqid() . '_' . time() . '_' . date('Ymd') . '.' . $extension;
@@ -1112,6 +1125,7 @@ class LayoutArchitectController extends Controller
                 }
 
                 if ($ArchitectLayout->upload_layout_in_pdf_format != "" && $ArchitectLayout->upload_layout_in_excel_format != "" && $ArchitectLayout->upload_architect_note != "") {
+                   //layout_excel_status updated to show only ree role to head architect
                     $ArchitectLayout->layout_excel_status = 1;
                 }
                 $ArchitectLayout->save();

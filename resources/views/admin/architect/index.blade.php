@@ -4,7 +4,7 @@
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
-            <h3 class="m-subheader__title m-subheader__title--separator">Architect Applications</h3>
+            <h3 class="m-subheader__title m-subheader__title--separator">Appointing Architect</h3>
             {{ Breadcrumbs::render('architect_application') }}
         </div>
         @if(session('error'))

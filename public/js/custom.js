@@ -949,8 +949,7 @@ $(document).ready(function () {
                 required:true,
                 number:true
             },
-            award_prizes_etc:"required",
-            other_information:"required"
+            award_prizes_etc:"required"
 
         }
     });

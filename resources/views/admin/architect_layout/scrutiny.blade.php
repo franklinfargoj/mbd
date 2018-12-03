@@ -77,7 +77,7 @@
                                                 <form method="post" action="{{route('delete_architect_layout_scrutiny_report')}}">
                                                     @csrf
                                                     <input type="hidden" name="report_id" value="{{encrypt($report->id)}}">
-                                                    <button type="submit" onclick="return confirm('are you sure?')" name="final" value="final" class="btn btn--unstyled p-0 btn--icon-wrap d-flex align-items-center flex-column">
+                                                    <button type="submit" onclick="return confirm('Are you sure want to Delete?')" name="final" value="final" class="btn btn--unstyled p-0 btn--icon-wrap d-flex align-items-center flex-column">
                                                         <span class="btn-icon btn-icon--delete">
                                                             <img src="{{ asset('/img/delete-icon.svg')}}">
                                                         </span>

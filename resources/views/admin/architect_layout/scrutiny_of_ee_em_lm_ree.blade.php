@@ -43,12 +43,19 @@
                 <div class="tab-pane active show" id="scrutiny-ee">
                     <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
                         <div class="portlet-body">
-                            <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
+                                <div class="d-flex justify-content-between align-items-center mb-4">
+                                    <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
+                                            src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("ee_scrutiny");'
+                                            style="max-width: 22px"></a>
+                                </div>
+                            <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf" id="ee_scrutiny">
                                 <div class="">
                                     <h3 class="section-title section-title--small">
                                         Report
+                                        
                                     </h3>
                                 </div>
+                                
                                 <div class="remarks-suggestions">
                                     <table class="table" style="width:50%">
                                         @forelse($ArchitectLayout->ee_scrutiny_reports as $ee_scrutiny_report)
@@ -116,7 +123,12 @@
                 <div class="tab-pane show" id="scrutiny-lm">
                     <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
                         <div class="portlet-body">
-                            <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
+                                <div class="d-flex justify-content-between align-items-center mb-4">
+                                        <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
+                                                src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("lm_scrutiny");'
+                                                style="max-width: 22px"></a>
+                                    </div>
+                            <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf" id="lm_scrutiny">
                                 <div class="">
                                     <h3 class="section-title section-title--small">
                                         Report
@@ -191,7 +203,12 @@
                 <div class="tab-pane show" id="scrutiny-em">
                     <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
                         <div class="portlet-body">
-                            <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
+                                <div class="d-flex justify-content-between align-items-center mb-4">
+                                        <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
+                                                src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("em_scrutiny");'
+                                                style="max-width: 22px"></a>
+                                    </div>
+                            <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf" id="em_scrutiny">
                                 <div class="">
                                     <h3 class="section-title section-title--small">
                                         Report
@@ -266,7 +283,12 @@
                 <div class="tab-pane show" id="scrutiny-ree">
                     <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
                         <div class="portlet-body">
-                            <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf">
+                                <div class="d-flex justify-content-between align-items-center mb-4">
+                                        <a target="_blank" href="javascript:void(0);" class="btn print-icon ml-auto"><img
+                                                src="{{asset('/img/print-icon.svg')}}" onclick='PrintElem("ree_scrutiny");'
+                                                style="max-width: 22px"></a>
+                                    </div>
+                            <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no m-portlet__body--serial-no-pdf" id="ree_scrutiny">
                                 <div class="">
                                     <h3 class="section-title section-title--small">
                                         Report
@@ -341,4 +363,27 @@
         </div>
     </div>
 </div>
+@endsection
+@section('js')
+<script>
+function PrintElem(elem) {
+$('.btn-link').css('display','none')
+var printable = document.getElementById(elem).innerHTML;
+
+var mywindow = window.open('', 'PRINT', 'height=1200,width=1200');
+
+mywindow.document.write('<html><head><title>Maharashtra Housing and development authority</title>');
+mywindow.document.write('</head><body >');
+mywindow.document.write(printable);
+mywindow.document.write('</body></html>');
+
+mywindow.document.close();
+mywindow.focus();
+
+mywindow.print();
+mywindow.close();
+$('.btn-link').css('display','block')
+return true;
+} 
+</script>    
 @endsection

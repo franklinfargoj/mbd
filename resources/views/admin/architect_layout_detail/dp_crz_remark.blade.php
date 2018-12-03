@@ -123,7 +123,7 @@
                             <div class="btn-list">
                                 <button type="submit" class="btn btn-primary"> Save </button>
                                 <a href="{{route('architect_layout_detail.edit',['layout_detail_id'=>encrypt($ArchitectLayoutDetail->id)])}}"
-                                    role="button" class="btn btn-secondary">Back</a>
+                                    role="button" class="btn btn-primary">Cancel</a>
                             </div>
                         </div>
                     </div>

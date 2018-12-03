@@ -223,6 +223,11 @@ Breadcrumbs::for('society_noc_application_create', function ($trail, $id) {
     $trail->push('Application form for Redevelopment (NOC)', route('show_form_self_noc', $id));
 });
 
+Breadcrumbs::for('society_noc_cc_application_create', function ($trail, $id) {
+    $trail->parent('society_dashboard');
+    $trail->push('Application form for Redevelopment (NOC for CC)', route('show_form_self_noc_cc', $id));
+});
+
 Breadcrumbs::for('society_offer_letter_edit', function ($trail) {
     $trail->parent('society_dashboard');
     $trail->push('Redevelopment Application Form', route('society_offer_letter_edit'));
@@ -347,6 +352,10 @@ Breadcrumbs::for('co_noc', function ($trail) {
     $trail->push('Home', route('co_applications.noc'));
 });
 
+Breadcrumbs::for('co_noc_cc', function ($trail) {
+    $trail->push('Home', route('co_applications.noc_cc'));
+});
+
 Breadcrumbs::for('society_EE_documents_co', function ($trail,$id) {
     $trail->parent('co');
     $trail->push('society_EE_documents', route('co.society_EE_documents',$id));
@@ -362,6 +371,11 @@ Breadcrumbs::for('society_noc_documents_co', function ($trail,$id) {
     $trail->push('Society documents', route('co.society_noc_documents',$id));
 });
 
+Breadcrumbs::for('society_noc_cc_documents_co', function ($trail,$id) {
+    $trail->parent('co_noc_cc');
+    $trail->push('Society documents', route('co.society_noc_cc_documents',$id));
+});
+
 Breadcrumbs::for('EE_scrutiny_co', function ($trail,$id) {
     $trail->parent('co');
     $trail->push('EE_scrutiny', route('co.EE_Scrutiny_Remark',$id));
@@ -370,6 +384,12 @@ Breadcrumbs::for('EE_scrutiny_co', function ($trail,$id) {
 Breadcrumbs::for('scrutiny-remark-noc_co', function ($trail,$id) {
     $trail->parent('co_noc');
     $trail->push('REE Scrutiny', route('co.noc_scrutiny_remarks',$id));
+
+});
+
+Breadcrumbs::for('scrutiny-remark-noc_cc_co', function ($trail,$id) {
+    $trail->parent('co_noc_cc');
+    $trail->push('REE Scrutiny', route('co.noc_cc_scrutiny_remarks',$id));
 
 });
 
@@ -390,6 +410,11 @@ Breadcrumbs::for('Approve_reval_offer_letter', function ($trail,$id) {
 Breadcrumbs::for('issue_noc', function ($trail,$id) {
     $trail->parent('co_noc');
     $trail->push('Approve Noc', route('co.approve_noc',$id));
+});
+
+Breadcrumbs::for('issue_noc_cc', function ($trail,$id) {
+    $trail->parent('co_noc_cc');
+    $trail->push('Approve Noc', route('co.approve_noc_cc',$id));
 });
 
 // Breadcrumbs::for('REE_calculation_cap', function ($trail,$id) {
@@ -417,6 +442,11 @@ Breadcrumbs::for('Forward_noc_Application_co', function ($trail,$id) {
     $trail->push('Forward Application', route('co.forward_noc_application',$id));
 });
 
+Breadcrumbs::for('Forward_noc_cc_Application_co', function ($trail,$id) {
+    $trail->parent('co_noc_cc');
+    $trail->push('Forward Application', route('co.forward_noc_cc_application',$id));
+});
+
 Breadcrumbs::for('download_cap_note', function ($trail,$id) {
     $trail->parent('co');
     $trail->push('cap_note', route('co.download_cap_note',$id));
@@ -436,6 +466,10 @@ Breadcrumbs::for('ree_noc', function ($trail) {
     $trail->push('Home', route('ree_applications.noc'));
 });
 
+Breadcrumbs::for('ree_noc_cc', function ($trail) {
+    $trail->push('Home', route('ree_applications.noc_cc'));
+});
+
 Breadcrumbs::for('society_EE_documents_ree', function ($trail,$id) {
     $trail->parent('ree');
     $trail->push('society EE documents', route('ree.society_EE_documents',$id));
@@ -444,6 +478,11 @@ Breadcrumbs::for('society_EE_documents_ree', function ($trail,$id) {
 Breadcrumbs::for('society_noc_documents_ree', function ($trail,$id) {
     $trail->parent('ree_noc');
     $trail->push('Society documents', route('ree.society_noc_documents',$id));
+});
+
+Breadcrumbs::for('society_noc_cc_documents_ree', function ($trail,$id) {
+    $trail->parent('ree_noc_cc');
+    $trail->push('Society documents', route('ree.society_noc_cc_documents',$id));
 });
 
 Breadcrumbs::for('society_reval_documents_ree', function ($trail,$id) {
@@ -486,6 +525,11 @@ Breadcrumbs::for('approved_noc', function ($trail,$id) {
     $trail->push('Approved Noc', route('ree.approved_noc_letter',$id));
 });
 
+Breadcrumbs::for('approved_noc_cc', function ($trail,$id) {
+    $trail->parent('ree_noc_cc');
+    $trail->push('Approved Noc', route('ree.approved_noc_cc_letter',$id));
+});
+
 Breadcrumbs::for('generate_offer_letter', function ($trail,$id) {
     $trail->parent('ree');
     $trail->push('generate offer letter', route('ree.generate_offer_letter',$id));
@@ -496,6 +540,11 @@ Breadcrumbs::for('generate_noc', function ($trail,$id) {
     $trail->push('Generate Noc', route('ree.generate_noc',$id));
 });
 
+Breadcrumbs::for('generate_noc_cc', function ($trail,$id) {
+    $trail->parent('ree_noc_cc');
+    $trail->push('Generate Noc', route('ree.generate_noc_cc',$id));
+});
+
  Breadcrumbs::for('REE_calculation', function ($trail,$id) {
      $trail->parent('ree');
      $trail->push('REE calculation', route('ree.show_calculation_sheet',$id));
@@ -504,6 +553,16 @@ Breadcrumbs::for('generate_noc', function ($trail,$id) {
 Breadcrumbs::for('Forward_Application_ree', function ($trail,$id) {
     $trail->parent('ree');
     $trail->push('Forward Application', route('ree.forward_application',$id));
+});
+
+Breadcrumbs::for('Forward_Application_ree_noc', function ($trail,$id) {
+    $trail->parent('ree_noc');
+    $trail->push('Forward Application', route('ree.forward_application_noc',$id));
+});
+
+Breadcrumbs::for('Forward_Application_ree_noc_cc', function ($trail,$id) {
+    $trail->parent('ree_noc_cc');
+    $trail->push('Forward Application', route('ree.forward_application_noc_cc',$id));
 });
 
 Breadcrumbs::for('cap_note_ree', function ($trail,$id) {
@@ -546,6 +605,11 @@ Breadcrumbs::for('view_noc_application_ree', function ($trail,$id) {
     $trail->push('View Application', route('ree.view_application_noc',$id));
 });
 
+Breadcrumbs::for('view_noc_cc_application_ree', function ($trail,$id) {
+    $trail->parent('ree_noc_cc');
+    $trail->push('View Application', route('ree.view_application_noc_cc',$id));
+});
+
 Breadcrumbs::for('view_application_co', function ($trail,$id) {
     $trail->parent('co');
     $trail->push('view-application', route('co.view_application',$id));
@@ -579,6 +643,12 @@ $trail->push('scrutiny remark', route('scrutiny-remark',['id'=>$id,'society_id'=
 Breadcrumbs::for('scrutiny-remark-noc', function ($trail,$id) {
     $trail->parent('ree_noc');
     $trail->push('REE Scrutiny', route('ree.scrutiny-remark-noc',$id));
+
+});
+
+Breadcrumbs::for('scrutiny-remark-noc-cc', function ($trail,$id) {
+    $trail->parent('ree_noc_cc');
+    $trail->push('REE Note', route('ree.scrutiny-remark-noc-cc',$id));
 
 });
 
@@ -945,7 +1015,7 @@ Breadcrumbs::for('conveyance_ee_calculation', function ($trail,$id) {
 
 Breadcrumbs::for('conveyance_draft_sale_lease', function ($trail,$id) {
     $trail->parent('society_conveyance');
-    $trail->push('Draft Sale & Lease Deed', route('conveyance.sale_lease_agreement',$id));
+    $trail->push('Sale & Lease Deed', route('conveyance.sale_lease_agreement',$id));
 });
 
 Breadcrumbs::for('conveyance_approve_sale_lease', function ($trail,$id) {
@@ -971,6 +1041,11 @@ Breadcrumbs::for('conveyance_stamp_sign_sale_lease', function ($trail,$id) {
 Breadcrumbs::for('conveyance_registered_sale_lease', function ($trail,$id) {
     $trail->parent('society_conveyance');
     $trail->push('Registered Sale & Lease Deed', route('conveyance.register_sale_lease_agreement',$id));
+});
+
+Breadcrumbs::for('conveyance_em_scrutiny', function ($trail,$id) {
+    $trail->parent('society_conveyance');
+    $trail->push('EM Scrutiny Remark', route('em.scrutiny_remark',$id));
 });
  
 //Renewal 

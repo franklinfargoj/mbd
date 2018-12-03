@@ -30,6 +30,8 @@ class conveyanceCommonController extends Controller
     {
         $this->list_num_of_records_per_page = Config::get('commanConfig.list_num_of_records_per_page');
         $this->CommonController = new CommonController();
+        $this->SaleAgreement  = config('commanConfig.scAgreements.sale_deed_agreement');
+        $this->LeaseAgreement = config('commanConfig.scAgreements.lease_deed_agreement');
     }
 
     public function index(Request $request, Datatables $datatables){
@@ -724,4 +726,113 @@ class conveyanceCommonController extends Controller
 
         return view($route,compact('data','checklist','dycdo_note'));
     }
+
+    // draft sale sign and lease deed Agreement view only for JTCO
+    public function DraftSignsaleLeaseAgreement(Request $request,$applicationId){
+
+        $data = scApplication::with(['scApplicationLog','ConveyanceSalePriceCalculation'])
+        ->where('id',$applicationId)->first();
+        
+        $Applicationtype= $data->sc_application_master_id;
+        $Agreementstatus = ApplicationStatusMaster::where('status_name','=','Draft')->value('id');
+      
+        $draftSaleId   = $this->getScAgreementId($this->SaleAgreement,$Applicationtype);
+        $draftLeaseId  = $this->getScAgreementId($this->LeaseAgreement,$Applicationtype);
+
+        $data->DraftSaleAgreement  = $this->getScAgreement($draftSaleId,$applicationId,$Agreementstatus);
+        $data->DraftLeaseAgreement = $this->getScAgreement($draftLeaseId,$applicationId,$Agreementstatus);
+
+        //draft and sign status
+        $signstatus = ApplicationStatusMaster::where('status_name','=','Draft_Sign')->value('id');
+        $signSaleId   = $this->getScAgreementId($this->SaleAgreement,$Applicationtype);
+        $signLeaseId  = $this->getScAgreementId($this->LeaseAgreement,$Applicationtype);    
+
+        $data->SignSaleAgreement  = $this->getScAgreement($signSaleId,$applicationId,$signstatus);
+        $data->SignLeaseAgreement = $this->getScAgreement($signLeaseId,$applicationId,$signstatus);        
+
+        // $is_view = session()->get('role_name') == config('commanConfig.dycdo_engineer');
+        $data->status = $this->getCurrentStatus($applicationId,$data->sc_application_master_id);
+
+        $data->AgreementComments = ScAgreementComments::with('Roles')->where('application_id',$applicationId)->where('agreement_type_id',$Applicationtype)->whereNotNull('remark')->get();
+
+        $data->folder = $this->getCurrentRoleFolderName();
+        $data->conveyance_map = $this->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
+
+        // if ($is_view && $data->status->status_id == config('commanConfig.conveyance_status.Draft_sale_&_lease_deed')) {
+        //     $route = 'admin.conveyance.dyco_department.sale_lease_agreement';
+        // }else{
+        //     $route = 'admin.conveyance.common.view_draft_sign_sale_lease';
+        // }
+        // dd($route);
+        return view('admin.conveyance.common.view_draft_sign_sale_lease',compact('data','is_view','status'));
+    }    
+
+    //save draft sign lease and sale Agreement by JTCO
+    public function SaveDraftSignAgreement(Request $request){
+     
+        $applicationId   = $request->applicationId;
+        $sale_agreement  = $request->file('sale_agreement');   
+        $lease_agreement = $request->file('lease_agreement'); 
+    
+        $data = scApplication::where('id',$applicationId)->first();           
+        $Applicationtype= $data->sc_application_master_id; 
+       
+        $sale_folder_name  = "Conveyance_Draft_Sign_Sale_Agreement";
+        $lease_folder_name = "Conveyance_Draft_Sign_Lease_Agreement";
+
+        $Agrstatus = ApplicationStatusMaster::where('status_name','=','Draft_Sign')->value('id'); 
+         
+        if ($sale_agreement) {
+            $sale_extension  = $sale_agreement->getClientOriginalExtension(); 
+            $sale_file_name  = time().'_sale_'.$applicationId.'.'.$sale_extension; 
+            $sale_file_path  = $sale_folder_name.'/'.$sale_file_name; 
+            $SaleId = $this->getScAgreementId($this->SaleAgreement,$Applicationtype);
+            
+            if ($sale_extension == "pdf"){
+                
+                Storage::disk('ftp')->delete($request->oldSaleFile);
+                $sale_upload = $this->CommonController->ftpFileUpload($sale_folder_name,$sale_agreement,$sale_file_name); 
+                $saleData = $this->getScAgreement($SaleId,$applicationId,$Agrstatus);
+
+                if ($saleData){
+                    $this->updateScAgreement($applicationId,$SaleId,$sale_file_path,$Agrstatus);
+                }else{
+                    $this->createScAgreement($applicationId,$SaleId,$sale_file_path,$Agrstatus);               
+                }
+                $status = 'success';
+            }            
+        } 
+        if ($lease_agreement) {
+
+            $lease_extension = $lease_agreement->getClientOriginalExtension(); 
+            $lease_file_name = time().'_lease_'.$applicationId.'.'.$lease_extension;
+            $lease_file_path = $lease_folder_name.'/'.$lease_file_name;
+            $LeaseId = $this->getScAgreementId($this->LeaseAgreement,$Applicationtype);
+            
+            if ($lease_extension == "pdf") {
+
+                Storage::disk('ftp')->delete($request->oldLeaseFile);
+                $lease_upload = $this->CommonController->ftpFileUpload($lease_folder_name,$lease_agreement,$lease_file_name);
+
+                $leaseData = $this->getScAgreement($LeaseId,$applicationId,$Agrstatus);
+                if ($leaseData){
+                    $this->updateScAgreement($applicationId,$LeaseId,$lease_file_path,$Agrstatus);                    
+                }else{
+                    $this->createScAgreement($applicationId,$LeaseId,$lease_file_path,$Agrstatus);
+                }
+                $status = 'success';                
+            }            
+        }
+
+        if ($request->remark){
+          $this->ScAgreementComment($applicationId,$request->remark,$Applicationtype);  
+          $status = 'success';
+        }
+        
+        if (isset($status) && $status == 'success'){
+            return back()->with('success', 'Uploaded Successfully.'); 
+        } else{
+            return back()->with('error', 'Invalid type of file uploaded (only pdf allowed).');
+        }        
+    }     
 }

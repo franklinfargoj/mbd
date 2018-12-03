@@ -286,7 +286,7 @@ $route=\Request::route()->getName();
                 @if(session()->get('permission') && (in_array('society_offer_letter.index',
                 session()->get('permission'))))
                 {{--<ul id="society_ol_sidebar">--}}
-                    <li class="m-menu__item {{ ((Request::segment(1)=='application' && Request::segment(2) == '2') || (Request::segment(1)=='application' && Request::segment(2) == '6') || (Request::segment(1)=='application' && Request::segment(2) == '13') || (Request::segment(1)=='application' && Request::segment(2) == '17'))? '':'collapsed' }}"
+                    <li class="m-menu__item {{ ((Request::segment(2)=='application' && Request::segment(3) == '1_premium') || (Request::segment(2)=='application' && Request::segment(3) == '1_sharing') || (Request::segment(2)=='application' && Request::segment(3) == '12_premium') || (Request::segment(2)=='application' && Request::segment(3) == '12_sharing'))? '':'collapsed' }}"
                         data-toggle="collapse" id="society_ol_sidebar" data-target="#redevelopment">
                         <a href="javascript:void(0);" class="m-menu__link m-menu__toggle">
                             <i class="m-menu__link-icon flaticon-line-graph"></i>
@@ -300,9 +300,9 @@ $route=\Request::route()->getName();
                             </span>
                         </a>
                     </li>
-                    <li id="redevelopment" class="collapse {{ ((Request::segment(1)=='application' && Request::segment(2) == '2') || (Request::segment(1)=='application' && Request::segment(2) == '6') || (Request::segment(1)=='application' && Request::segment(2) == '13') || (Request::segment(1)=='application' && Request::segment(2) == '17'))? 'show':'' }}">
+                    <li id="redevelopment" class="collapse {{ ((Request::segment(2)=='application' && Request::segment(3) == '1_premium') || (Request::segment(2)=='application' && Request::segment(3) == '1_sharing') || (Request::segment(2)=='application' && Request::segment(3) == '12_premium') || (Request::segment(2)=='application' && Request::segment(3) == '12_sharing'))? 'show':'' }}">
                         <ul class="list-unstyled">
-                            <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{ ((Request::segment(1)=='application' && Request::segment(2) == '2') || (Request::segment(1)=='application' && Request::segment(2) == '6'))? '':'collapsed' }}"
+                            <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{ ((Request::segment(2)=='application' && Request::segment(3) == '1_premium') || (Request::segment(2)=='application' && Request::segment(3) == '1_sharing'))? '':'collapsed' }}"
                                 data-toggle="collapse" data-target="#self-redevelopment">
                                 <a href="{{ url(session()->get('redirect_to')) }}" class="m-menu__link m-menu__toggle">
                                     <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -318,10 +318,10 @@ $route=\Request::route()->getName();
                                     </span>
                                 </a>
                             </li>
-                            <li id="self-redevelopment" class="collapse {{ ((Request::segment(1)=='application' && Request::segment(2) == '2') || (Request::segment(1)=='application' && Request::segment(2) == '6'))? 'show':'' }}">
+                            <li id="self-redevelopment" class="collapse {{ ((Request::segment(2)=='application' && Request::segment(3) == '1_premium') || (Request::segment(2)=='application' && Request::segment(3) == '1_sharing'))? 'show':'' }}">
                                 <ul class="list-unstyled">
-                                    <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{ (Request::segment(1)=='application' && Request::segment(2) == '2')?'m-menu__item--active':''}}">
-                                        <a href="{{ route('society_detail.application', Session::get('applications_tab')['self_premium']) }}"
+                                    <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{ (Request::segment(2)=='application' && Request::segment(3) == '1_premium')?'m-menu__item--active':''}}">
+                                        <a href="{{ route('society_detail.application', Session::get('applications_tab')['self_pre_parent']) }}"
                                             class="m-menu__link m-menu__toggle">
                                             <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16"
                                                 height="16" viewBox="0 0 510 510">
@@ -335,8 +335,8 @@ $route=\Request::route()->getName();
                                             </span>
                                         </a>
                                     </li>
-                                    <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{ (Request::segment(1)=='application' && Request::segment(2) == '6')? '':'collapsed' }} {{(Request::segment(1)=='application' && Request::segment(2) == '6')?'m-menu__item--active':''}}">
-                                        <a href="{{ route('society_detail.application', Session::get('applications_tab')['self_sharing']) }}"
+                                    <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{ (Request::segment(2)=='application' && Request::segment(3) == '1_sharing')?'m-menu__item--active':''}}">
+                                        <a href="{{ route('society_detail.application', Session::get('applications_tab')['self_share_parent']) }}"
                                             class="m-menu__link m-menu__toggle">
                                             <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16"
                                                 height="16" viewBox="0 0 510 510">
@@ -368,10 +368,10 @@ $route=\Request::route()->getName();
                                     </span>
                                 </a>
                             </li>
-                            <li id="dev-redevelopment" class="collapse {{ ((Request::segment(1)=='application' && Request::segment(2) == '13') || (Request::segment(1)=='application' && Request::segment(2) == '17'))? 'show':'' }}">
+                            <li id="dev-redevelopment" class="collapse {{ ((Request::segment(2)=='application' && Request::segment(3) == '12_premium') || (Request::segment(2)=='application' && Request::segment(3) == '12_sharing'))? 'show':'' }}">
                                 <ul class="list-unstyled">
-                                    <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{ (Request::segment(1)=='application' && Request::segment(2) == '13')? '':'collapsed' }} {{(Request::segment(1)=='application' && Request::segment(2) == '13')?'m-menu__item--active':''}}">
-                                        <a href="{{ route('society_detail.application', Session::get('applications_tab')['dev_premium']) }}"
+                                    <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{ (Request::segment(2)=='application' && Request::segment(3) == '12_premium')? '':'collapsed' }} {{(Request::segment(2)=='application' && Request::segment(3) == '12_premium')?'m-menu__item--active':''}}">
+                                        <a href="{{ route('society_detail.application', Session::get('applications_tab')['dev_pre_parent']) }}"
                                             class="m-menu__link m-menu__toggle">
                                             <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16"
                                                 height="16" viewBox="0 0 510 510">
@@ -385,8 +385,8 @@ $route=\Request::route()->getName();
                                             </span>
                                         </a>
                                     </li>
-                                    <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{ (Request::segment(1)=='application' && Request::segment(2) == '17')? '':'collapsed' }} {{(Request::segment(1)=='application' && Request::segment(2) == '17')?'m-menu__item--active':''}}">
-                                        <a href="{{ route('society_detail.application', Session::get('applications_tab')['dev_sharing']) }}"
+                                    <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{ (Request::segment(2)=='application' && Request::segment(3) == '12_sharing')? '':'collapsed' }} {{(Request::segment(2)=='application' && Request::segment(3) == '12_sharing')?'m-menu__item--active':''}}">
+                                        <a href="{{ route('society_detail.application', Session::get('applications_tab')['dev_share_parent']) }}"
                                             class="m-menu__link m-menu__toggle">
                                             <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16"
                                                 height="16" viewBox="0 0 510 510">
@@ -402,80 +402,80 @@ $route=\Request::route()->getName();
                                     </li>
                                 </ul>
                             </li>
-                            <li id="dev-redevelopment" class="collapse">
-                                <ul class="list-unstyled">
-                                    <li class="m-menu__item m-menu__item--submenu collapsed" data-toggle="collapse"
-                                        data-target="#dev-premium">
-                                        <a href="{{ url(session()->get('redirect_to')) }}" class="m-menu__link m-menu__toggle">
-                                            <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16"
-                                                height="16" viewBox="0 0 510 510">
-                                                <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
-                                                    fill="#FFF" />
-                                            </svg>
-                                            <span class="m-menu__link-wrap">
-                                                <span class="m-menu__link-text">
-                                                    Premium
-                                                </span>
-                                                <i class="m-menu__ver-arrow la la-angle-right"></i>
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li id="dev-premium" class="collapse">
-                                        <ul class="list-unstyled">
-                                            <li class="m-menu__item m-menu__item--submenu collapsed">
-                                                <a href="{{ route('show_form_self', Session::get('applications_tab')['dev_premium']) }}"
-                                                    class="m-menu__link m-menu__toggle">
-                                                    <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16"
-                                                        height="16" viewBox="0 0 510 510">
-                                                        <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
-                                                            fill="#FFF" />
-                                                    </svg>
-                                                    <span class="m-menu__link-wrap">
-                                                        <span class="m-menu__link-text">
-                                                            New - Offer Letter
-                                                        </span>
-                                                    </span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li class="m-menu__item m-menu__item--submenu collapsed" data-toggle="collapse"
-                                        data-target="#dev-sharing">
-                                        <a href="{{ url(session()->get('redirect_to')) }}" class="m-menu__link m-menu__toggle">
-                                            <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16"
-                                                height="16" viewBox="0 0 510 510">
-                                                <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
-                                                    fill="#FFF" />
-                                            </svg>
-                                            <span class="m-menu__link-wrap">
-                                                <span class="m-menu__link-text">
-                                                    Sharing
-                                                </span>
-                                                <i class="m-menu__ver-arrow la la-angle-right"></i>
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li id="dev-sharing" class="collapse">
-                                        <ul class="list-unstyled">
-                                            <li class="m-menu__item m-menu__item--submenu collapsed">
-                                                <a href="{{ route('show_form_self', Session::get('applications_tab')['dev_sharing']) }}"
-                                                    class="m-menu__link m-menu__toggle">
-                                                    <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16"
-                                                        height="16" viewBox="0 0 510 510">
-                                                        <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
-                                                            fill="#FFF" />
-                                                    </svg>
-                                                    <span class="m-menu__link-wrap">
-                                                        <span class="m-menu__link-text">
-                                                            New - Offer Letter
-                                                        </span>
-                                                    </span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
+                            {{--<li id="dev-redevelopment" class="collapse">--}}
+                                {{--<ul class="list-unstyled">--}}
+                                    {{--<li class="m-menu__item m-menu__item--submenu collapsed" data-toggle="collapse"--}}
+                                        {{--data-target="#dev-premium">--}}
+                                        {{--<a href="{{ url(session()->get('redirect_to')) }}" class="m-menu__link m-menu__toggle">--}}
+                                            {{--<svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16"--}}
+                                                {{--height="16" viewBox="0 0 510 510">--}}
+                                                {{--<path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"--}}
+                                                    {{--fill="#FFF" />--}}
+                                            {{--</svg>--}}
+                                            {{--<span class="m-menu__link-wrap">--}}
+                                                {{--<span class="m-menu__link-text">--}}
+                                                    {{--Premium--}}
+                                                {{--</span>--}}
+                                                {{--<i class="m-menu__ver-arrow la la-angle-right"></i>--}}
+                                            {{--</span>--}}
+                                        {{--</a>--}}
+                                    {{--</li>--}}
+                                    {{--<li id="dev-premium" class="collapse">--}}
+                                        {{--<ul class="list-unstyled">--}}
+                                            {{--<li class="m-menu__item m-menu__item--submenu collapsed">--}}
+                                                {{--<a href="{{ route('show_form_self', Session::get('applications_tab')['dev_premiummium']) }}"--}}
+                                                    {{--class="m-menu__link m-menu__toggle">--}}
+                                                    {{--<svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16"--}}
+                                                        {{--height="16" viewBox="0 0 510 510">--}}
+                                                        {{--<path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"--}}
+                                                            {{--fill="#FFF" />--}}
+                                                    {{--</svg>--}}
+                                                    {{--<span class="m-menu__link-wrap">--}}
+                                                        {{--<span class="m-menu__link-text">--}}
+                                                            {{--New - Offer Letter--}}
+                                                        {{--</span>--}}
+                                                    {{--</span>--}}
+                                                {{--</a>--}}
+                                            {{--</li>--}}
+                                        {{--</ul>--}}
+                                    {{--</li>--}}
+                                    {{--<li class="m-menu__item m-menu__item--submenu collapsed" data-toggle="collapse"--}}
+                                        {{--data-target="#dev-sharing">--}}
+                                        {{--<a href="{{ url(session()->get('redirect_to')) }}" class="m-menu__link m-menu__toggle">--}}
+                                            {{--<svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16"--}}
+                                                {{--height="16" viewBox="0 0 510 510">--}}
+                                                {{--<path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"--}}
+                                                    {{--fill="#FFF" />--}}
+                                            {{--</svg>--}}
+                                            {{--<span class="m-menu__link-wrap">--}}
+                                                {{--<span class="m-menu__link-text">--}}
+                                                    {{--Sharing--}}
+                                                {{--</span>--}}
+                                                {{--<i class="m-menu__ver-arrow la la-angle-right"></i>--}}
+                                            {{--</span>--}}
+                                        {{--</a>--}}
+                                    {{--</li>--}}
+                                    {{--<li id="dev-sharing" class="collapse">--}}
+                                        {{--<ul class="list-unstyled">--}}
+                                            {{--<li class="m-menu__item m-menu__item--submenu collapsed">--}}
+                                                {{--<a href="{{ route('show_form_self', Session::get('applications_tab')['dev_sharing']) }}"--}}
+                                                    {{--class="m-menu__link m-menu__toggle">--}}
+                                                    {{--<svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16"--}}
+                                                        {{--height="16" viewBox="0 0 510 510">--}}
+                                                        {{--<path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"--}}
+                                                            {{--fill="#FFF" />--}}
+                                                    {{--</svg>--}}
+                                                    {{--<span class="m-menu__link-wrap">--}}
+                                                        {{--<span class="m-menu__link-text">--}}
+                                                            {{--New - Offer Letter--}}
+                                                        {{--</span>--}}
+                                                    {{--</span>--}}
+                                                {{--</a>--}}
+                                            {{--</li>--}}
+                                        {{--</ul>--}}
+                                    {{--</li>--}}
+                                {{--</ul>--}}
+                            {{--</li>--}}
                         </ul>
                     </li>
                     <li class="m-menu__item" id="conveyance" data-toggle="collapse" data-target="#">
@@ -528,7 +528,7 @@ $route=\Request::route()->getName();
                                 {{--Redevelopment--}} {{--</span>--}}
                                 {{--<i class="m-menu__ver-arrow la la-angle-right"></i>--}} {{--</span>--}}
                                 {{--</a>--}} {{--</li>--}} <li id="revalidation" class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='ree_applications.reval')?'m-menu__item--active':'' }}">
-                                <a href="{{ route('ree_applications.reval') }}" class="m-menu__link m-menu__toggle">
+                              <!--  <a href="{{ route('ree_applications.reval') }}" class="m-menu__link m-menu__toggle">
                                     <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                         viewBox="0 0 510 510">
                                         <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
@@ -537,7 +537,7 @@ $route=\Request::route()->getName();
                                     <span class="m-menu__link-text">
                                         Revalidation Of Offer Letter
                                     </span>
-                                </a>
+                                </a> -->
                     </li>
                     {{--@if(isset($ol_application_count))--}}
                     {{--@if($ol_application_count == 0)--}}
