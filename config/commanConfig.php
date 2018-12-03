@@ -299,6 +299,9 @@ return [
         '3', '6'
     ],
 
+    'new_offer_letter_master_ids' => [
+        '2', '6', '13', '17'
+    ],
 
     'revalidation_master_ids' => [
         '3', '7', '14', '18'

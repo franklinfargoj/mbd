@@ -20,7 +20,7 @@
         <div class="m-portlet m-portlet--compact filter-wrap">
             <div class="row align-items-center row--filter">
                 <div class="col-md-12">
-                    <form role="form" class="row align-items-end mb-0" id="eeForm" method="get" action="{{ route('ree_applications.index') }}">
+                    <form role="form" class="row align-items-end mb-0" id="eeForm" method="get" action="{{ route('vp_applications.reval') }}">
                         <div class="col-md-2">
                             <div class="form-group m-form__group">
                                 <input type="text" id="submitted_at_from" name="submitted_at_from" class="form-control form-control--custom m-input m_datepicker"

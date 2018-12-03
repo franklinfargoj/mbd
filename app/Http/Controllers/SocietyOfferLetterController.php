@@ -270,7 +270,7 @@ class SocietyOfferLetterController extends Controller
 //        $dev_sharing = OlApplicationMaster::where('title', 'New - Offer Letter')->where('model', 'Sharing')->where('parent_id', '12')->select('id')->get();
 //        $dev_sharing = $dev_sharing[0]->id;
 //
-        $self_reval_premium = OlApplicationMaster::where('title', 'Revalidation Of Offer Letter')->where('model', 'Premium')->where('parent_id', '1')->select('id')->get();
+     /*   $self_reval_premium = OlApplicationMaster::where('title', 'Revalidation Of Offer Letter')->where('model', 'Premium')->where('parent_id', '1')->select('id')->get();
         $self_reval_premium = $self_reval_premium[0]->id;
         $self_reval_sharing = OlApplicationMaster::where('title', 'Revalidation Of Offer Letter')->where('model', 'Sharing')->where('parent_id', '1')->select('id')->get();
         $self_reval_sharing = $self_reval_sharing[0]->id;
@@ -278,7 +278,7 @@ class SocietyOfferLetterController extends Controller
         $dev_reval_premium = $dev_reval_premium[0]->id;
         $dev_reval_sharing = OlApplicationMaster::where('title', 'Revalidation Of Offer Letter')->where('model', 'Premium')->where('parent_id', '12')->select('id')->get();
         $dev_reval_sharing = $dev_reval_sharing[0]->id;
-
+*/
         $self_parent = OlApplicationMaster::where('title', 'Self Redevelopment')->value('id');
         $dev_parent = OlApplicationMaster::where('title', 'Redevelopment Through Developer')->value('id');
 
@@ -299,12 +299,6 @@ class SocietyOfferLetterController extends Controller
 //            'dev_reval_premium' => $dev_reval_premium,
 //            'dev_reval_sharing' => $dev_reval_sharing
         );
-
-
-        $reval_master_ids_arr= array($self_reval_premium,
-            $self_reval_sharing,
-             $dev_reval_premium,
-            $dev_reval_sharing);
 
 
         Session::put('applications_tab', $applications_tab);
@@ -389,6 +383,8 @@ class SocietyOfferLetterController extends Controller
             //NOC changed added by <--Sayan Pal--> << End
 
             // dd($ol_applications);exit;
+            $reval_master_ids_arr = config('commanConfig.revalidation_master_ids');
+
             return $datatables->of($ol_applications)
                 ->editColumn('radio', function ($ol_applications) use($reval_master_ids_arr) {
                     $url = route('society_offer_letter_preview');
@@ -768,6 +764,74 @@ class SocietyOfferLetterController extends Controller
                 'current_status_id' => $id->id
             ]);
         return redirect()->route('society_offer_letter_preview');
+    }
+
+    public function save_offer_letter_application_reval_dev(Request $request){
+        $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
+
+        $input = array(
+            'society_id' => $society_details->id,
+            'date_of_meeting' => date('Y-m-d', strtotime($request->input('date_of_meeting'))),
+            'resolution_no' => $request->input('resolution_no'),
+            'architect_name' => $request->input('architect_name'),
+            'developer_name' => $request->input('developer_name'),
+            'created_at' => date('Y-m-d H-i-s'),
+            'updated_at' => null,
+            'ol_issue_date' => date('Y-m-d', strtotime($request->input('ol_issue_date'))),
+            'ol_vide_no' => $request->input('ol_vide_no'),
+            'reason_for_revalidation' => $request->input('reason_for_revalidation'),
+            'updated_at' => null
+        );
+        $last_inserted_id = OlRequestForm::create($input);
+
+        $insert_application = array(
+            'user_id' => Auth::user()->id,
+            'language_id' => '1',
+            'society_id' => $society_details->id,
+            'layout_id' => $request->input('layout_id'),
+            'request_form_id' => $last_inserted_id->id,
+            'application_master_id' => $request->input('application_master_id'),
+            'application_no' => rand().time(),
+            'application_path' => 'test',
+            'submitted_at' => date('Y-m-d'),
+            'current_status_id' => '1',
+            'is_encrochment' => '0',
+            'is_approve_offer_letter' => '0',
+        );
+        $last_id = OlApplication::create($insert_application);
+        $role_id = Role::where('name', 'like','ree_junior_engineer')->first();
+
+        $user_ids = RoleUser::where('role_id', $role_id->id)->get();
+        $layout_user_ids = LayoutUser::where('layout_id', $request->input('layout_id'))->whereIn('user_id', $user_ids)->get();
+        foreach ($layout_user_ids as $key => $value) {
+            $select_user_ids[] = $value['user_id'];
+        }
+        $users = User::whereIn('id', $select_user_ids)->get();
+
+        if(count($users) > 0){
+            foreach($users as $key => $user){
+                $i = 0;
+                $insert_application_log_pending[$key]['application_id'] = $last_id->id;
+                $insert_application_log_pending[$key]['society_flag'] = 1;
+                $insert_application_log_pending[$key]['user_id'] = Auth::user()->id;
+                $insert_application_log_pending[$key]['role_id'] = Auth::user()->role_id;
+                $insert_application_log_pending[$key]['status_id'] = config('commanConfig.applicationStatus.pending');
+                $insert_application_log_pending[$key]['to_user_id'] = $user->id;
+                $insert_application_log_pending[$key]['to_role_id'] = $user->role_id;
+                $insert_application_log_pending[$key]['remark'] = '';
+                $insert_application_log_pending[$key]['created_at'] = date('Y-m-d H-i-s');
+                $insert_application_log_pending[$key]['updated_at'] = date('Y-m-d H-i-s');
+                $i++;
+            }
+        }
+
+        OlApplicationStatus::insert($insert_application_log_pending);
+        $last_society_flag_id = OlApplicationStatus::where('society_flag', '1')->orderBy('id', 'desc')->first();
+        $id = OlApplicationStatus::find($last_society_flag_id->id);
+        OlApplication::where('user_id', Auth::user()->id)->update([
+            'current_status_id' => $id->id
+        ]);
+        return redirect()->route('society_reval_offer_letter_preview');
     }
 
     /**
