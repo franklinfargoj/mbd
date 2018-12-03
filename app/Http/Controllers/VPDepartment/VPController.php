@@ -248,6 +248,7 @@ class VPController extends Controller
     } 
 
     public function sendForwardApplication(Request $request){
+
 //        $this->CommonController->forwardApplicationForm($request);
 //        dd($request->all());
         if($request->check_status == 1) {
@@ -259,6 +260,7 @@ class VPController extends Controller
                 'to_user_id' => $request->to_user_id,
                 'to_role_id' => $request->to_role_id,
                 'remark' => $request->remark,
+                'is_active' => 1,
                 'created_at' => Carbon::now()
             ],
 
@@ -270,14 +272,29 @@ class VPController extends Controller
                 'to_user_id' => NULL,
                 'to_role_id' => NULL,
                 'remark' => $request->remark,
+                'is_active' => 1,
                 'created_at' => Carbon::now()
             ]
             ];
 
-//            echo "in forward";
-//            dd($forward_application);
-            OlApplicationStatus::insert($forward_application);
-            OlApplication::where('id', $request->applicationId)->update(['status_offer_letter' => config('commanConfig.applicationStatus.offer_letter_generation')]);
+            //Code added by Prajakta >>start
+            DB::beginTransaction();
+            try {
+                OlApplicationStatus::where('application_id',$request->applicationId)
+                    ->whereIn('user_id', [Auth::user()->id,$request->to_user_id ])
+                    ->update(array('is_active' => 0));
+
+                OlApplicationStatus::insert($forward_application);
+
+                OlApplication::where('id', $request->applicationId)->update(['status_offer_letter' => config('commanConfig.applicationStatus.offer_letter_generation'),'phase' => 2]);
+
+                DB::commit();
+            } catch (\Exception $ex) {
+                DB::rollback();
+//                return response()->json(['error' => $ex->getMessage()], 500);
+            }
+            //Code added by Prajakta >>end
+
         }
         else{
             $revert_application = [
@@ -289,6 +306,7 @@ class VPController extends Controller
                     'to_user_id' => $request->user_id,
                     'to_role_id' => $request->role_id,
                     'remark' => $request->remark,
+                    'is_active' => 1,
                     'created_at' => Carbon::now()
                 ],
 
@@ -300,10 +318,28 @@ class VPController extends Controller
                     'to_user_id' => NULL,
                     'to_role_id' => NULL,
                     'remark' => $request->remark,
+                    'is_active' => 1,
                     'created_at' => Carbon::now()
                 ]
             ];
-            OlApplicationStatus::insert($revert_application);
+
+            //Code added by Prajakta >>start
+            DB::beginTransaction();
+            try {
+                OlApplicationStatus::where('application_id',$request->applicationId)
+                    ->whereIn('user_id', [Auth::user()->id,$request->user_id ])
+                    ->update(array('is_active' => 0));
+
+                OlApplicationStatus::insert($revert_application);
+
+                DB::commit();
+            } catch (\Exception $ex) {
+                DB::rollback();
+//                return response()->json(['error' => $ex->getMessage()], 500);
+            }
+            //Code added by Prajakta >>end
+
+
         }
 //            echo "in revert";
 //            dd($revert_application);

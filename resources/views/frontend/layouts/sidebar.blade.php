@@ -570,8 +570,8 @@ $route=\Request::route()->getName();
                                         </a>
                     </li>
                     @if(session()->get('role_name') == 'society')
-                    <li class="m-menu__item m-menu__item--submenu {{($route=='society_formation.index')?'m-menu__item--active':''}}">
-                        <a class="m-menu__link m-menu__toggle" title="view_Application" href="{{ route('society_formation.index') }}">
+                    <li class="m-menu__item m-menu__item--submenu {{($route=='society_formation.list' || $route=='society_formation.index')?'m-menu__item--active':''}}">
+                        <a class="m-menu__link m-menu__toggle" title="view_Application" href="{{ route('society_formation.list') }}">
                             <i class="m-menu__link-icon flaticon-line-graph"></i>
                             <span class="m-menu__link-title">
                                 <span class="m-menu__link-wrap">

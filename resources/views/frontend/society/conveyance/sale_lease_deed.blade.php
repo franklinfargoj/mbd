@@ -1,6 +1,6 @@
 @extends('frontend.layouts.sidebarAction')
 @section('actions')
-    @include('frontend.society.conveyance.actions',compact('sc_application'))
+    @include('frontend.society.conveyance.actions',compact('sc_application', 'documents', 'documents_uploaded'))
 @endsection
 @section('content')
 
@@ -77,7 +77,7 @@
                                                 file...</label>
                                             <span class="text-danger" id="file_error"></span>
                                             <input type="hidden" id="application_id" name="application_id" value="{{ $sc_application->id }}">
-                                            <input type="hidden" id="document_name" name="document_name" value="{{ $documents['pay_stamp_duty_letter'] }}">
+                                            <input type="hidden" id="document_name" name="document_name" value="{{ $document_lease['pay_stamp_duty_letter'] }}">
                                         </div>
                                         <div class="mt-auto">
                                             <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
@@ -130,7 +130,7 @@
                                                                 file...</label>
                                                             <span class="text-danger" id="file_error"></span>
                                                             <input type="hidden" id="application_id" name="application_id" value="{{ $sc_application->id }}">
-                                                            <input type="hidden" id="document_name" name="document_name" value="{{ $documents['sale_deed_agreement']}}">
+                                                            <input type="hidden" id="document_name" name="document_name" value="{{ $document_lease['sale_deed_agreement']}}">
                                                         </div>
                                                         <div class="mt-auto">
                                                             <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
@@ -169,7 +169,7 @@
                                                         @csrf
                                                         <textarea name="remark" rows="5" cols="30" id="remark" class="form-control form-control--custom"></textarea>
                                                         <input type="hidden" id="application_id" name="application_id" value="{{ $sc_application->id }}">
-                                                        <input type="hidden" id="document_name" name="document_name" value="{{ $documents['sale_deed_agreement']}}">
+                                                        <input type="hidden" id="document_name" name="document_name" value="{{ $document_lease['sale_deed_agreement']}}">
                                                         <div class="mt-auto">
                                                             <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
                                                         </div>
@@ -225,7 +225,7 @@
                                                                 file...</label>
                                                             <span class="text-danger" id="file_error"></span>
                                                             <input type="hidden" id="application_id" name="application_id" value="{{ $sc_application->id }}">
-                                                            <input type="hidden" id="document_name" name="document_name" value="{{ $documents['lease_deed_agreement']}}">
+                                                            <input type="hidden" id="document_name" name="document_name" value="{{ $document_lease['lease_deed_agreement']}}">
                                                         </div>
                                                         <div class="mt-auto">
                                                             <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
@@ -264,7 +264,7 @@
                                                         @csrf
                                                         <textarea name="remark" rows="5" cols="30" id="remark" class="form-control form-control--custom"></textarea>
                                                         <input type="hidden" id="application_id" name="application_id" value="{{ $sc_application->id }}">
-                                                        <input type="hidden" id="document_name" name="document_name" value="{{ $documents['lease_deed_agreement']}}">
+                                                        <input type="hidden" id="document_name" name="document_name" value="{{ $document_lease['lease_deed_agreement']}}">
                                                         <div class="mt-auto">
                                                             <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
                                                         </div>
@@ -320,7 +320,7 @@
                                                             file...</label>
                                                         <span class="text-danger" id="file_error"></span>
                                                         <input type="hidden" id="application_id" name="application_id" value="{{ $sc_application->id }}">
-                                                        <input type="hidden" id="document_name" name="document_name" value="{{ $documents['sc_resolution']}}">
+                                                        <input type="hidden" id="document_name" name="document_name" value="{{ $document_lease['sc_resolution']}}">
                                                     </div>
                                                     <div class="mt-auto">
                                                         <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
@@ -373,7 +373,7 @@
                                                             file...</label>
                                                         <span class="text-danger" id="file_error"></span>
                                                         <input type="hidden" id="application_id" name="application_id" value="{{ $sc_application->id }}">
-                                                        <input type="hidden" id="document_name" name="document_name" value="{{ $documents['sc_undertaking']}}">
+                                                        <input type="hidden" id="document_name" name="document_name" value="{{ $document_lease['sc_undertaking']}}">
                                                     </div>
                                                     <div class="mt-auto">
                                                         <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>

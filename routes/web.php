@@ -435,12 +435,32 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
         //Society Offer Letter END
 
+
         //tripatite start
 
         Route::get('/show_tripatite_self/{id}', 'SocietyTripatiteController@show_tripatite_self')->name('show_tripatite_self');
         Route::get('/show_tripatite_dev/{id}', 'SocietyTripatiteController@show_tripatite_dev')->name('show_tripatite_dev');
 
-        //tripatite end 
+        //tripatite end
+        //Society Conveyance
+
+        Route::get('download_template', 'SocietyConveyanceController@download_excel')->name('sc_download');
+        Route::get('sc_upload_docs', 'SocietyConveyanceController@sc_upload_docs')->name('sc_upload_docs');
+        Route::post('upload_sc_docs', 'SocietyConveyanceController@upload_sc_docs')->name('upload_sc_docs');
+        Route::get('delete_sc_upload_docs/{id}', 'SocietyConveyanceController@delete_sc_upload_docs')->name('delete_sc_upload_docs');
+        Route::post('society_bank_details', 'SocietyConveyanceController@society_bank_details')->name('society_bank_details');
+        Route::get('sc_form_download', 'SocietyConveyanceController@generate_pdf')->name('sc_form_download');
+        Route::get('sc_form_upload_show', 'SocietyConveyanceController@sc_form_upload_show')->name('sc_form_upload_show');
+        Route::post('sc_form_upload', 'SocietyConveyanceController@sc_form_upload')->name('sc_form_upload');
+
+        //sale & lease deed alongwith pay stamp duty letter & resolution & undertaking
+        Route::get('sale_lease_deed/{id}', 'SocietyConveyanceController@show_sale_lease')->name('show_sale_lease');
+        Route::get('signed_sale_lease_deed/{id}', 'SocietyConveyanceController@show_signed_sale_lease')->name('show_signed_sale_lease');
+        Route::post('save_sale_lease_deed', 'SocietyConveyanceController@upload_sale_lease')->name('upload_sale_lease');
+        Route::post('save_signed_sale_lease_deed', 'SocietyConveyanceController@upload_signed_sale_lease')->name('upload_signed_sale_lease');
+        Route::resource('/society_conveyance','SocietyConveyanceController');
+
+        //Society Conveyance END
 
     });
 
@@ -600,29 +620,10 @@ Route::delete('destroy_architect_layout_detail_court_case_or_dispute_on_land/{id
 
     });
 
-    //Society Conveyance
-
-    Route::get('download_template', 'SocietyConveyanceController@download_excel')->name('sc_download');
-    Route::get('sc_upload_docs', 'SocietyConveyanceController@sc_upload_docs')->name('sc_upload_docs');
-    Route::post('upload_sc_docs', 'SocietyConveyanceController@upload_sc_docs')->name('upload_sc_docs');
-    Route::get('delete_sc_upload_docs/{id}', 'SocietyConveyanceController@delete_sc_upload_docs')->name('delete_sc_upload_docs');
-    Route::post('society_bank_details', 'SocietyConveyanceController@society_bank_details')->name('society_bank_details');
-    Route::get('sc_form_download', 'SocietyConveyanceController@generate_pdf')->name('sc_form_download');
-    Route::get('sc_form_upload_show', 'SocietyConveyanceController@sc_form_upload_show')->name('sc_form_upload_show');
-    Route::post('sc_form_upload', 'SocietyConveyanceController@sc_form_upload')->name('sc_form_upload');
-
-    //sale & lease deed alongwith pay stamp duty letter & resolution & undertaking
-    Route::get('sale_lease_deed/{id}', 'SocietyConveyanceController@show_sale_lease')->name('show_sale_lease');
-    Route::get('signed_sale_lease_deed/{id}', 'SocietyConveyanceController@show_signed_sale_lease')->name('show_signed_sale_lease');
-    Route::post('save_sale_lease_deed', 'SocietyConveyanceController@upload_sale_lease')->name('upload_sale_lease');
-    Route::post('save_signed_sale_lease_deed', 'SocietyConveyanceController@upload_signed_sale_lease')->name('upload_signed_sale_lease');
-    Route::resource('/society_conveyance','SocietyConveyanceController');
-
-    //Society Conveyance END
-
 
     //Society Formation
     Route::get('society_formation','SocietyFormationController@index')->name('society_formation.index');
+    Route::get('society_formation_list','SocietyFormationController@list')->name('society_formation.list');
     Route::get('society_formation/create','SocietyFormationController@create')->name('society_formation.create');
     Route::post('society_formation/store','SocietyFormationController@store')->name('society_formation.store');
     Route::get('view_society_formation/{id}','SocietyFormationController@view_application')->name('society_formation.view_application');
@@ -793,7 +794,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::get('checklist/{id}', 'conveyance\DYCODepartment\DYCOController@showChecklist')->name('conveyance.checklist'); 
 
-    Route::get('checklist_note/{id}', 'conveyance\conveyanceCommonController@show_checklist')->name('conveyance.checklist_note');
+    // Route::get('checklist_note/{id}', 'conveyance\conveyanceCommonController@show_checklist')->name('conveyance.checklist_note');
 
 
     Route::get('architect_scrutiny_remark/{id}', 'conveyance\conveyanceCommonController@ArchitectScrutinyRemark')->name('conveyance.architect_scrutiny_remark');
@@ -805,6 +806,10 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::post('save_draft_sign_conveyance_agreement', 'conveyance\conveyanceCommonController@SaveDraftSignAgreement')->name('conveyance.save_draft_sign_conveyance_agreement');    
 
     Route::post('upload_la_agreement_riders', 'conveyance\conveyanceCommonController@upload_la_agreement_riders')->name('conveyance.upload_la_agreement_riders');
+
+    Route::get('view_draft_sign_conveyance_agreement/{id}', 'conveyance\conveyanceCommonController@DraftSignsaleLeaseAgreement')->name('conveyance.draft_sign_conveyance_agreement');
+
+    Route::post('save_draft_sign_conveyance_agreement', 'conveyance\conveyanceCommonController@SaveDraftSignAgreement')->name('conveyance.save_draft_sign_conveyance_agreement');
 
     
     //dyco
