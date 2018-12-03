@@ -166,6 +166,7 @@
     @endif 
 </form>    
 
+
       
 @endsection
 @section('js')
@@ -181,11 +182,25 @@
         }, messages: {
             sale_agreement: {
                 extension: "Invalid type of file uploaded (only pdf allowed)."
-            },            
+            },
             lease_agreement: {
                 extension: "Invalid type of file uploaded (only pdf allowed)."
             }
         }
-    });  
+    });
+    var id = Cookies.get('sectionId');
+    if (id != undefined) {
+        //alert(id);
+
+
+        $(".tab-pane").removeClass('active');
+        $(".nav-link").removeClass('active');
+        $(".m-tabs__item").removeClass('active');
+        $("#" + id+ " a").addClass('active');
+
+        $("." + id).addClass('active');
+    }else{
+
+    }
 </script>
 @endsection

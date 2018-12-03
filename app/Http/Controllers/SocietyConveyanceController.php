@@ -54,7 +54,7 @@ class SocietyConveyanceController extends Controller
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'application_no','name' => 'application_no','title' => 'Application No.'],
             ['data' => 'application_master_id','name' => 'application_master_id','title' => 'Application Type'],
-            ['data' => 'created_at','name' => 'created_date','title' => 'Submission Date', 'class' => 'datatable-date'],
+            ['data' => 'created_at','name' => 'created_at','title' => 'Submission Date', 'class' => 'datatable-date'],
             ['data' => 'status','name' => 'status','title' => 'Status'],
         ];
         $getRequest = $request->all();
@@ -67,7 +67,7 @@ class SocietyConveyanceController extends Controller
                 $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
             } ])->orderBy('id', 'desc');
 
-            dd($sc_applications);
+//            dd($sc_applications->get());
             if($request->application_master_id)
             {
                 $sc_applications = $sc_applications->where('application_master_id', 'like', '%'.$request->application_master_id.'%');
@@ -88,7 +88,6 @@ class SocietyConveyanceController extends Controller
                     return $sc_applications->application_no;
                 })
                 ->editColumn('application_master_id', function ($sc_applications) {
-                    dd($sc_applications->scApplicationType->application_type);
                     return $sc_applications->scApplicationType->application_type;
                 })
                 ->editColumn('created_at', function ($sc_applications) {
@@ -254,16 +253,16 @@ class SocietyConveyanceController extends Controller
                         }
                     }else{
                         dd('1');
-                        return redirect()->route('society_conveyance.create')->withErrors('error', "Excel file headers doesn't match")->withInput();
+                        return redirect()->route('society_conveyance.create')->with('error', "Excel file headers doesn't match")->withInput();
                     }
                 }else{
 //                    dd('2');
-                    return redirect()->route('society_conveyance.create')->withErrors('error', "Excel file is empty.")->withInput();
+                    return redirect()->route('society_conveyance.create')->with('error', "Excel file is empty.")->withInput();
                 }
             }
         }else{
 //            dd('3');
-            return redirect()->route('society_conveyance.create')->withErrors('error', "Excel file headers doesn't match")->withInput();
+            return redirect()->route('society_conveyance.create')->with('error', "Excel file headers doesn't match")->withInput();
         }
     }
 
@@ -280,7 +279,10 @@ class SocietyConveyanceController extends Controller
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         }])->where('id', $id)->first();
 
-        return view('frontend.society.conveyance.show_sc_application', compact('sc_application'));
+        $documents = SocietyConveyanceDocumentMaster::with(['sc_document_status' => function($q) use($sc_application) { $q->where('application_id', $sc_application->id)->get(); }])->where('application_type_id', $sc_application->sc_application_master_id)->where('society_flag', '1')->where('language_id', '2')->get();
+        $documents_uploaded = SocietyConveyanceDocumentStatus::where('application_id', $sc_application->id)->get();
+
+        return view('frontend.society.conveyance.show_sc_application', compact('sc_application', 'documents', 'documents_uploaded'));
     }
 
     /**
@@ -294,6 +296,10 @@ class SocietyConveyanceController extends Controller
         $id = base64_decode($id);
         $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $sc_application = scApplication::with(['sc_form_request', 'societyApplication', 'applicationLayout'])->where('id', $id)->first();
+
+        $documents = SocietyConveyanceDocumentMaster::with(['sc_document_status' => function($q) use($sc_application) { $q->where('application_id', $sc_application->id)->get(); }])->where('application_type_id', $sc_application->sc_application_master_id)->where('society_flag', '1')->where('language_id', '2')->get();
+        $documents_uploaded = SocietyConveyanceDocumentStatus::where('application_id', $sc_application->id)->get();
+
         $sc = new SocietyConveyance;
         $fillable_field_names = $sc->getFillable();
         if(in_array('language_id', $fillable_field_names) == true || in_array('society_id', $fillable_field_names) == true){
@@ -305,7 +311,10 @@ class SocietyConveyanceController extends Controller
         $comm_func = $this->CommonController;
         $layouts = MasterLayout::all();
 
-        return view('frontend.society.conveyance.edit', compact('layouts', 'field_names', 'society_details', 'comm_func', 'sc_application', 'id'));
+        $documents = SocietyConveyanceDocumentMaster::with(['sc_document_status' => function($q) use($sc_application) { $q->where('application_id', $sc_application->id)->get(); }])->where('application_type_id', $sc_application->sc_application_master_id)->where('society_flag', '1')->where('language_id', '2')->get();
+        $documents_uploaded = SocietyConveyanceDocumentStatus::where('application_id', $sc_application->id)->get();
+
+        return view('frontend.society.conveyance.edit', compact('layouts', 'field_names', 'society_details', 'comm_func', 'sc_application', 'id', 'documents', 'documents_uploaded'));
     }
 
     /**
@@ -449,7 +458,7 @@ class SocietyConveyanceController extends Controller
         unset($sc_bank_details_fields_name['society_id']);
         $sc_bank_details_fields = array_values(array_flip($sc_bank_details_fields_name));
         $comm_func = $this->CommonController;
-//        dd($society_bank_details);
+//        dd($documents_uploaded);
         return view('frontend.society.conveyance.show_doc_bank_details', compact('documents', 'sc_application', 'society', 'documents_uploaded', 'sc_bank_details_fields', 'comm_func', 'society_bank_details'));
     }
 
@@ -612,7 +621,10 @@ class SocietyConveyanceController extends Controller
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         } ])->orderBy('id', 'desc')->first();
 
-        return view('frontend.society.conveyance.sc_form_upload_show', compact('sc_application'));
+        $documents = SocietyConveyanceDocumentMaster::with(['sc_document_status' => function($q) use($sc_application) { $q->where('application_id', $sc_application->id)->get(); }])->where('application_type_id', $sc_application->sc_application_master_id)->where('society_flag', '1')->where('language_id', '2')->get();
+        $documents_uploaded = SocietyConveyanceDocumentStatus::where('application_id', $sc_application->id)->get();
+
+        return view('frontend.society.conveyance.sc_form_upload_show', compact('sc_application', 'documents', 'documents_uploaded'));
     }
 
     /**
@@ -702,16 +714,20 @@ class SocietyConveyanceController extends Controller
         $uploaded_document_ids = [];
         $documents_remaining_ids = [];
         foreach($document_ids as $document_id){
-            $documents[str_replace(' ', '_', strtolower($document_id->document_name))] = $document_id->document_name;
+            $document_lease[str_replace(' ', '_', strtolower($document_id->document_name))] = $document_id->document_name;
             if($document_id->sc_document_status !== null){
                 $uploaded_document_ids[str_replace(' ', '_', strtolower($document_id->document_name))] = $document_id;
             }else{
                 $documents_remaining_ids[str_replace(' ', '_', strtolower($document_id->document_name))] = $document_id;
             }
         }
+
+        $documents = SocietyConveyanceDocumentMaster::with(['sc_document_status' => function($q) use($sc_application) { $q->where('application_id', $sc_application->id)->get(); }])->where('application_type_id', $sc_application->sc_application_master_id)->where('society_flag', '1')->where('language_id', '2')->get();
+        $documents_uploaded = SocietyConveyanceDocumentStatus::where('application_id', $sc_application->id)->get();
+
         $sc_agreement_comment = ScAgreementComments::with('scAgreementId')->get();
 //        dd(count($uploaded_document_ids));
-        return view('frontend.society.conveyance.sale_lease_deed', compact('sc_application', 'documents', 'uploaded_document_ids', 'documents_remaining_ids', 'sc_agreement_comment'));
+        return view('frontend.society.conveyance.sale_lease_deed', compact('sc_application', 'document_lease', 'documents', 'uploaded_document_ids', 'documents_remaining_ids', 'sc_agreement_comment', 'documents_uploaded'));
     }
 
     /**
@@ -735,7 +751,10 @@ class SocietyConveyanceController extends Controller
         $status = config('commanConfig.conveyance_status.Stamped_signed_sale_&_lease_deed');
         $society_flag = 1;
 
-        return view('frontend.society.conveyance.signed_sale_lease_deed', compact('sc_application', 'society_flag','status', 'sale_agreement_type_id', 'lease_agreement_type_id', 'field_names', 'comm_func'));
+        $documents = SocietyConveyanceDocumentMaster::with(['sc_document_status' => function($q) use($sc_application) { $q->where('application_id', $sc_application->id)->get(); }])->where('application_type_id', $sc_application->sc_application_master_id)->where('society_flag', '1')->where('language_id', '2')->get();
+        $documents_uploaded = SocietyConveyanceDocumentStatus::where('application_id', $sc_application->id)->get();
+
+        return view('frontend.society.conveyance.signed_sale_lease_deed', compact('sc_application', 'society_flag','status', 'sale_agreement_type_id', 'lease_agreement_type_id', 'field_names', 'comm_func', 'documents', 'documents_uploaded'));
     }
 
     /**

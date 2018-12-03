@@ -641,9 +641,12 @@ class conveyanceCommonController extends Controller
     }
 
     // get document id as per document name
-    public function getDocumentIds($documentNames,$type){
+    public function getDocumentIds($documentNames, $type, $application_id=NULL){
 
-        $typeId = SocietyConveyanceDocumentMaster::with(['sc_document_status'])->whereIn('document_name',$documentNames)->where('application_type_id',$type)->get();
+        $typeId = SocietyConveyanceDocumentMaster::with(['sc_document_status' => function($q) use($application_id){
+            $q->where('application_id', $application_id)->orderBy('id', 'desc');
+        }])->whereIn('document_name',$documentNames)->where('application_type_id',$type)->get();
+
         return $typeId;
     }
 
