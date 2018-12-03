@@ -135,26 +135,15 @@ class EMController extends Controller
         ];
     }
 
-    public function getsocieties(Request $request){
+    public function getsocieties(Request $request, Datatables $datatables){
+        // dd($request->id);
+        $columns = [
+            ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
+            ['data' => 'society_name','name' => 'society_name','title' => 'Society Name'],
+            ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
+        ];
 
-        if($request->input('id')){            
-            $wards = MasterWard::where('layout_id', '=', $request->input('id'))->pluck('id');
-            $colonies = MasterColony::whereIn('ward_id', $wards)->pluck('id');
-            $societies = SocietyDetail::whereIn('colony_id', $colonies)->paginate(10);
-            
-            return view('admin.em_department.ajax_society', compact('societies'));
-            
-        } elseif(!empty($request->input('search'))) {
-                
-          $layouts = DB::table('layout_user')->where('user_id', '=', Auth::user()->id)->pluck('layout_id');
-          $layout_data = MasterLayout::whereIn('id', $layouts)->get();
-          $wards = MasterWard::whereIn('layout_id', $layouts)->pluck('id');
-          $colonies = MasterColony::whereIn('ward_id', $wards)->pluck('id');
-          $societies = SocietyDetail::whereIn('colony_id', $colonies)->where('society_name','like', '%'.$request->input('search').'%')->paginate(10);
-          return view('admin.em_department.ajax_society', compact('societies'));
-        
-        } else {
-    
+
         $layouts = DB::table('layout_user')->where('user_id', '=', Auth::user()->id)->pluck('layout_id');
         $layout_data = MasterLayout::whereIn('id', $layouts)->get();
        // dd($layout_data);
@@ -165,16 +154,80 @@ class EMController extends Controller
 
         //done by shrikant sabne
         //$societies = SocietyDetail::whereIn('colony_id', $colonies)->paginate(10);
-        
-        $societies = SocietyDetail::paginate(10);
-        //dd($societies);
-        if($request->has('search')) {
-            return view('admin.em_department.ajax_society', compact('societies'));  
-        } else {
-            return view('admin.em_department.society', compact('layout_data','societies'));
+        if ($request->has('id') && '' != $request->get('id')) {
+
+            $wards = MasterWard::where('layout_id', '=', $request->input('id'))->pluck('id');
+            $colonies = MasterColony::whereIn('ward_id', $wards)->pluck('id');
+            
         }
-      }
+
+        if ($datatables->getRequest()->ajax()) {
+           
+                DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
+                $societies = SocietyDetail::selectRaw('@rownum  := @rownum  + 1 AS rownum,lm_society_detail.*');
+                if ($request->has('id') && '' != $request->get('id')) {
+                    $societies = $societies->whereIn('colony_id', $colonies);
+                }
+                
+            return $datatables->of($societies)
+                ->editColumn('actions', function ($societies){
+	                return "<div class='d-flex btn-icon-list'>
+                    <a href='".route('get_buildings', [encrypt($societies->id)])."' class='d-flex flex-column align-items-center ' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--view'><img src='".asset('/img/view-icon.svg')."'></span>Building Details</a>
+                
+                    <a href='".route('soc_bill_level', [encrypt($societies->id)])."' class='d-flex flex-column align-items-center' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/edit-icon.svg')."'></span>Bill Level</a>
+                   
+                    <a href='".route('soc_ward_colony', [encrypt($societies->id)])."' class='d-flex flex-column align-items-center' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--delete'><img src='".asset('/img/generate-bill-icon.svg')."'></span>Ward & colony</a>
+
+                </div>";
+	                
+                })               
+	            ->rawColumns(['actions'])
+                ->make(true);
+            
+        }
+     
+        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+
+        return view('admin.em_department.society', compact('layout_data','html'));
+
+    //     if($request->input('id')){            
+    //         $wards = MasterWard::where('layout_id', '=', $request->input('id'))->pluck('id');
+    //         $colonies = MasterColony::whereIn('ward_id', $wards)->pluck('id');
+    //         $societies = SocietyDetail::whereIn('colony_id', $colonies)->paginate(10);
+            
+    //         return view('admin.em_department.ajax_society', compact('societies'));
+            
+    //     } elseif(!empty($request->input('search'))) {
+                
+    //       $layouts = DB::table('layout_user')->where('user_id', '=', Auth::user()->id)->pluck('layout_id');
+    //       $layout_data = MasterLayout::whereIn('id', $layouts)->get();
+    //       $wards = MasterWard::whereIn('layout_id', $layouts)->pluck('id');
+    //       $colonies = MasterColony::whereIn('ward_id', $wards)->pluck('id');
+    //       $societies = SocietyDetail::whereIn('colony_id', $colonies)->where('society_name','like', '%'.$request->input('search').'%')->paginate(10);
+    //       return view('admin.em_department.ajax_society', compact('societies'));
         
+    //     } else {
+    
+    //     $layouts = DB::table('layout_user')->where('user_id', '=', Auth::user()->id)->pluck('layout_id');
+    //     $layout_data = MasterLayout::whereIn('id', $layouts)->get();
+    //    // dd($layout_data);
+    //     $wards = MasterWard::whereIn('layout_id', $layouts)->pluck('id');
+    //     //dd($wards);
+    //     $colonies = MasterColony::whereIn('ward_id', $wards)->pluck('id');
+    //     //dd($colonies);
+
+    //     //done by shrikant sabne
+    //     //$societies = SocietyDetail::whereIn('colony_id', $colonies)->paginate(10);
+        
+    //     $societies = SocietyDetail::paginate(10);
+    //     //dd($societies);
+    //     if($request->has('search')) {
+    //         return view('admin.em_department.ajax_society', compact('societies'));  
+    //     } else {
+    //         return view('admin.em_department.society', compact('layout_data','societies'));
+    //     }
+    //   }
+     
     }
 
     public function getbuildings($id, Request $request){
