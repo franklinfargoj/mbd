@@ -59,7 +59,6 @@ Route::group(['middleware' => ['check_society_offer_letter_permission']], functi
        
 });
 
-Route::get('/application/{id}','SocietyOfferLetterController@ViewApplications')->name('society_detail.application');
 Route::get('refresh_captcha','SocietyOfferLetterController@RefreshCaptcha')->name('refresh_captcha');
 Route::post('UserAuthentication','SocietyOfferLetterController@UserAuthentication')->name('society_detail.UserAuthentication');
 
@@ -403,6 +402,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::group(['prefix'=>'society'], function() {
         //Society Offer Letter
+        Route::get('/application/{id}','SocietyOfferLetterController@ViewApplications')->name('society_detail.application');
         Route::post('society_offer_letter/forgot_password', 'SocietyOfferLetterController@forgot_password')->name('society_offer_letter_forgot_password');
         Route::get('/society_offer_letter_dashboard', 'SocietyOfferLetterController@dashboard')->name('society_offer_letter_dashboard');
 
