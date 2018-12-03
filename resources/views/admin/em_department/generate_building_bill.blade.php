@@ -45,6 +45,7 @@
     <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
         <form method="post" action="{{route('create_society_bill')}}">
             {{ csrf_field() }}
+            <input type="hidden" name="regenate" value="{{$regenate}}">
             <input type="text" name="building_id" value="{{$building->id}}" hidden>
             <input type="text" name="society_id" value="{{$society->id}}" hidden>
             <input type="text" name="bill_from" value="{{date('1-m-Y')}}" hidden>
@@ -205,6 +206,13 @@
                                     <button type="submit" id="" class="btn btn-primary">Generate Society Bill</button>
                                 </div>
                             </div>
+                            @endif
+                            @if(true == $regenate) 
+                                <div class="col-sm-4">
+                                    <div class="btn-list">
+                                        <button type="submit" id="" class="btn btn-primary">Regenerate Society Bill</button>
+                                    </div>
+                                </div>
                             @endif
                             <div class="col-sm-2">
                                 <div class="btn-list">

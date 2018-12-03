@@ -688,14 +688,17 @@ class EMController extends Controller
                                 ->where('bill_month', '=', $data['month'])
                                 ->where('bill_year', '=', $data['year'])
                                 ->first();
-
+            $data['regenate'] = false;                    
+            if($request->has('regenate') && true == $request->regenate) {
+                $data['regenate'] = true;
+            }
             return view('admin.em_department.generate_building_bill',$data);
 
         }
     }
 
     public function generateTenantBill(Request $request) {
-
+        print_r($request->all());exit;
         if($request->has('building_id') && '' != $request->building_id && $request->has('tenant_id') && '' != $request->tenant_id) {
             $request->building_id = decrypt($request->building_id);
             $request->tenant_id  = decrypt($request->tenant_id);
@@ -721,7 +724,10 @@ class EMController extends Controller
                                     ->where('bill_month', '=', $data['month'])
                                     ->where('bill_year', '=', $data['year'])
                                     ->first();
-
+            $data['regenate'] = false;                    
+            if($request->has('regenate') && true == $request->regenate) {
+                $data['regenate'] = true;
+            }
             return view('admin.em_department.generate_tenant_bill',$data);
         }
     }
@@ -734,11 +740,14 @@ class EMController extends Controller
             } else {
                 $arrear_id = '';
             }
+            $check = '';
+            if($request->has('regenate')&& false == $request->regenate) {
 
-            $check = TransBillGenerate::where('tenant_id', '=', $request->tenant_id)
+                $check = TransBillGenerate::where('tenant_id', '=', $request->tenant_id)
                                     ->where('bill_month', '=', $request->bill_month)
                                     ->where('bill_year', '=', $request->bill_year)
                                     ->first();
+            }
 
         if(is_null($check) || $check == ''){
             $bill = new TransBillGenerate;
@@ -766,7 +775,8 @@ class EMController extends Controller
             $bill->late_fee_charge = $request->late_fee_charge;
             $bill->status = 'Generated';
             $bill->save();
-            return redirect()->back()->with('success', 'Bill Generated Successfully.');
+
+            return redirect()->back()->with('success', 'Bill Generated Successfully.')->with('regenate',false);
         } else {
             $message = ' Bill Already Generated on '.$check->bill_date; 
             return redirect()->back()->with('warning', $message);
@@ -774,12 +784,14 @@ class EMController extends Controller
     }
 
     public function create_society_bill(Request $request){
-   
+        $check = '';
+        if($request->has('regenate')&& false == $request->regenate) {
         $check = TransBillGenerate::where('building_id', '=', $request->building_id)
-                                    ->where('society_id', '=', $request->society_id)
-                                    ->where('bill_month', '=', $request->bill_month)
-                                    ->where('bill_year', '=', $request->bill_year)
-                                    ->first();
+            ->where('society_id', '=', $request->society_id)
+            ->where('bill_month', '=', $request->bill_month)
+            ->where('bill_year', '=', $request->bill_year)
+            ->first();
+        }
 
         if(is_null($check) || $check == ''){
 
@@ -834,7 +846,7 @@ class EMController extends Controller
                                    
                 }     
                 //dd($bill);
-
+                $request->regenate = false;
                 return redirect()->back()->with('success', 'Bill Generated Successfully.');                   
             } else {
                 return redirect()->back()->with('success', 'Check bill details once.');    
