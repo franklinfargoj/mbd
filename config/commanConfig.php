@@ -66,7 +66,8 @@ return [
        'Aproved_lease_deed' => 17,
        'Draft_Renewal_of_Lease_deed' => 18,
        'Aproved_Renewal_of_Lease' => 19,
-       'NOC_Generation' => 20
+       'NOC_Generation' => 20,
+       'draft_offer_letter_generated' => 21,
    ],
 
     /*'applicationStatus' => [
