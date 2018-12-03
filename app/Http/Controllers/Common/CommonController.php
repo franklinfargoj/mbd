@@ -35,6 +35,7 @@ use App\OlDcrRateMaster;
 use App\OlDemarcationVerificationQuestionMaster;
 use App\OlRgRelocationVerificationQuestionMaster;
 use App\OlSharingCalculationSheetDetail;
+use App\OlSocietyDocumentsMaster;
 use App\OlTitBitVerificationQuestionMaster;
 use App\Permission;
 use App\REENote;
@@ -1364,8 +1365,12 @@ class CommonController extends Controller
     public function getRevalSocietyREEDocuments($applicationId)
     {
 
-        $societyId = OlApplication::where('id', $applicationId)->value('society_id');
-        $societyDocuments = SocietyOfferLetter::with(['societyRevalDocuments.documents_Name'])->where('id', $societyId)->get();
+        $application_details = OlApplication::where('id', $applicationId)->get();
+       $documnts_ids = OlSocietyDocumentsMaster::where('application_id' ,'=' ,$application_details[0]->application_master_id)->pluck('id')->toArray();
+
+        $societyDocuments = SocietyOfferLetter::with(['societyRevalDocuments' => function($q) use($documnts_ids) {
+            $q->whereIn('document_id', $documnts_ids);
+        }])->where('id', $application_details[0]->society_id)->get();
 
         return $societyDocuments;
     }
