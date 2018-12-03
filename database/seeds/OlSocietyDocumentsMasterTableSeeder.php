@@ -14,6 +14,8 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
      */
     public function run()
     {
+        OlSocietyDocumentsMaster::truncate(); // To prevent duplicate entries,truncate master table & add all entries again.
+
         $application = OlApplicationMaster::select('id')->where(['title'=>'New - Offer Letter','model'=>'Premium', 'parent_id' => '1'])->get();
         $language = LanguageMaster::select('id')->where(['language'=>'marathi'])->get();
         $data = OlSocietyDocumentsMaster::where(['application_id'=>'2'])->get();

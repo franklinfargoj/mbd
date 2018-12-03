@@ -23,6 +23,9 @@ class OlApplicationMasterTableSeeder extends Seeder
             ]
         ];
 
+        OlApplicationMaster::truncate(); // To prevent duplicate entries,truncate master table & add all entries again.
+
+
         // SELF REDEVELOPMENT ======================================
 
             $application = OlApplicationMaster::create($applicationArr[0]);
