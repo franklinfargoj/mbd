@@ -435,6 +435,13 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
         //Society Offer Letter END
 
+        //tripatite start
+
+        Route::get('/show_tripatite_self/{id}', 'SocietyTripatiteController@show_tripatite_self')->name('show_tripatite_self');
+        Route::get('/show_tripatite_dev/{id}', 'SocietyTripatiteController@show_tripatite_dev')->name('show_tripatite_dev');
+
+        //tripatite end 
+
     });
 
     Route::get('/show_reval_self/{id}', 'SocietyOfferLetterController@show_reval_self')->name('show_reval_self');

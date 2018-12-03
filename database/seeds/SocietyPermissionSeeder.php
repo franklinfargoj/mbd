@@ -427,6 +427,16 @@ class SocietyPermissionSeeder extends Seeder
                     'name'         => 'reval_documents_upload',
                     'display_name' => 'Upload revalidation documents',
                     'description'  => 'Upload revalidation documents'
+                ],
+                [
+                    'name'=>'show_tripatite_self',
+                    'display_name'=> 'show tripatite self form',
+                    'description'  => 'show tripatite self form'
+                ],
+                [
+                    'name'=>'show_tripatite_dev',
+                    'display_name'=> 'show tripatite dev form',
+                    'description'  => 'show tripatite dev form'
                 ]
         ];
         
