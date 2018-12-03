@@ -141,7 +141,7 @@
             </div>    
         </div> 
     @endif      
-    @if(session()->get('role_name') == config('commanConfig.dyco_engineer') && $status->status_id != config('commanConfig.applicationStatus.forwarded'))
+    @if(session()->get('role_name') == config('commanConfig.dyco_engineer') && $status->status_id != config('commanConfig.conveyance_status.forwarded'))
         <div class="m-portlet m-portlet--mobile m_panel">  
             <div class="m-portlet__body">   
                 <div class="col-xs-12 row">
@@ -170,7 +170,7 @@
     </div>
 @endif 
     
-@if(session()->get('role_name') == config('commanConfig.dyco_engineer') && $status->status_id != config('commanConfig.applicationStatus.forwarded'))
+@if(session()->get('role_name') == config('commanConfig.dyco_engineer') && $status->status_id != config('commanConfig.conveyance_status.forwarded'))
     <div class="m-portlet m-portlet--mobile m_panel">
         <div class="m-portlet__body">
             <h3 class="section-title section-title--small">Send To Society</h3>

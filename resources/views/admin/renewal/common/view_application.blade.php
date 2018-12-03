@@ -11,6 +11,13 @@
 
 </style>
 <div class="col-md-12">
+    <div class="m-subheader px-0 m-subheader--top">
+        <div class="d-flex align-items-center">
+            <h3 class="m-subheader__title m-subheader__title--separator">Application</h3>
+           {{ Breadcrumbs::render('renewal_view_application',$data->id) }}
+            <a href="{{ url()->previous() }}" class="btn btn-link ml-auto"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+        </div>
+    </div>
     {{--<div class="m-subheader px-0 m-subheader--top">--}}
         {{--<div class="d-flex align-items-center">--}}
             {{--<h3 class="m-subheader__title m-subheader__title--separator">Application</h3>--}}
@@ -107,7 +114,7 @@
             {{--</form>--}}
         {{--</div>--}}
     {{--</div>--}}
-  
+  <iframe src="{{ config('commanConfig.storage_server').'/'.$document->document_path}}" width="1000" height="482"></iframe>
 </div>
 @endsection
 @section('download_application_form_js')

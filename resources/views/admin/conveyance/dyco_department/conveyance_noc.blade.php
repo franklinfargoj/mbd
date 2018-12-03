@@ -38,7 +38,7 @@
                 <div class="m-section__content mb-0 table-responsive" style="margin-top: 30px;">
                     <div class="container">
                         <div class="row">
-                        @if($data->status->status_id != config('commanConfig.applicationStatus.forwarded'))
+                        @if($data->status->status_id != config('commanConfig.conveyance_status.forwarded'))
                             <div class="col-sm-6">
                                 <div class="d-flex flex-column h-100 two-cols">
                                     <h5>Generate</h5>
@@ -71,7 +71,7 @@
     @endif   
  
     <!-- Send NOC to society -->
-    @if(session()->get('role_name') == config('commanConfig.dyco_engineer') && $data->status->status_id != config('commanConfig.applicationStatus.forwarded'))
+    @if(session()->get('role_name') == config('commanConfig.dyco_engineer') && $data->status->status_id != config('commanConfig.conveyance_status.forwarded'))
         <div class="m-portlet m-portlet--mobile m_panel">
             <div class="m-portlet__body">
                 <div class="m-subheader" style="padding: 0;">

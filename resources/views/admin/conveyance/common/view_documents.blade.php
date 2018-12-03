@@ -28,28 +28,30 @@
                             </thead>
                                 <tbody>
                                 @php $i=1; @endphp
-                                @foreach($documents as $document)
-                                    <tr>
-                                        <td>{{ $i }}</td>
-                                        <td>
-                                            {{ $document->document_name }}<span class="compulsory-text">(Compulsory Document)</span>
-                                        </td>
-                                        <td class="text-center">
-                                            <h2 class="m--font-danger">
-                                                <i class="{{ isset($document->sc_document_status) ? 'fa fa-check' : 
-                                                'fa fa-remove' }} "></i>
-                                            </h2>
-                                        </td>
-                                        <td>
-                                            @if($document->sc_document_status)
-                                                <span>
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$document->sc_document_status['document_path'] }}" class="btn btn-primary btn-custom" rel="noopener" download>Download</a>
-                                                </span>
-                                            @endif
-                                        </td>
-                                    </tr>
-                                    @php $i++; @endphp
-                                @endforeach
+                                @if($documents)
+                                    @foreach($documents as $document)
+                                        <tr>
+                                            <td>{{ $i }}</td>
+                                            <td>
+                                                {{ $document->document_name }}<span class="compulsory-text">(Compulsory Document)</span>
+                                            </td>
+                                            <td class="text-center">
+                                                <h2 class="m--font-danger">
+                                                    <i class="{{ isset($document->sc_document_status) ? 'fa fa-check' : 
+                                                    'fa fa-remove' }} "></i>
+                                                </h2>
+                                            </td>
+                                            <td>
+                                                @if($document->sc_document_status)
+                                                    <span>
+                                                    <a href="{{ config('commanConfig.storage_server').'/'.$document->sc_document_status['document_path'] }}" class="btn btn-primary btn-custom" rel="noopener" download>Download</a>
+                                                    </span>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        @php $i++; @endphp
+                                    @endforeach
+                                @endif
                             </tbody>
                         </table>
                     </div>
