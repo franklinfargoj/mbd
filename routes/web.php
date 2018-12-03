@@ -623,6 +623,7 @@ Route::delete('destroy_architect_layout_detail_court_case_or_dispute_on_land/{id
 
     //Society Formation
     Route::get('society_formation','SocietyFormationController@index')->name('society_formation.index');
+    Route::get('society_formation_list','SocietyFormationController@list')->name('society_formation.list');
     Route::get('society_formation/create','SocietyFormationController@create')->name('society_formation.create');
     Route::post('society_formation/store','SocietyFormationController@store')->name('society_formation.store');
     Route::get('view_society_formation/{id}','SocietyFormationController@view_application')->name('society_formation.view_application');
