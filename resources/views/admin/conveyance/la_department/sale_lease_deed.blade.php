@@ -273,6 +273,8 @@
                 $("#" + id+ " a").addClass('active');
 
                 $("." + id).addClass('active');
+            }else{
+
             }
 
             $(".em_tabs").on('click', function () {

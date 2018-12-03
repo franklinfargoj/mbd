@@ -161,7 +161,10 @@ return [
             'covering_letter' => [
                 'em_covering_letter'
             ],
-            'stamp_conveyance_application' => 'stamp_conveyance_application'
+            'stamp_conveyance_application' => 'stamp_conveyance_application',
+            'society_list' => [
+                'अधिकृत सभासदांची यादी (पती व पत्नी संयुक्त नावे)'
+            ]
         ],
          'em_renewal' => [
              'stamp_renewal_application' => 'stamp_renewal_application',
