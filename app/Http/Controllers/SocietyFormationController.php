@@ -17,6 +17,8 @@ use App\SocietyOfferLetter;
 use App\User;
 use Auth;
 use Illuminate\Http\Request;
+
+use Yajra\DataTables\DataTables;
 use Storage;
 
 class SocietyFormationController extends Controller
@@ -57,6 +59,118 @@ class SocietyFormationController extends Controller
         {
             return redirect()->route('society_formation.create');
         }
+    }
+
+    public function list(Request $request,DataTables $datatables)
+    {
+        $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
+        $sf_application = SfApplication::where('society_id', $society->id)->with(['scApplicationType', 'sfApplicationLog' => function ($q) {
+            $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
+        }])->orderBy('id', 'desc')->first();
+        if($sf_application)
+        {
+            if($sf_application->sfApplicationLog!="")
+            {
+
+            }else
+            {
+                return redirect()->route('society_formation.view_application',['id'=>encrypt($sf_application->id)]);
+            }
+        }else
+        {
+            return redirect()->route('society_formation.create');
+        }
+
+
+
+        $columns = [
+            // ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
+            ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
+            ['data' => 'application_no','name' => 'application_no','title' => 'Application No.'],
+            ['data' => 'application_master_id','name' => 'application_master_id','title' => 'Application Type'],
+            ['data' => 'created_at','name' => 'created_date','title' => 'Submission Date', 'class' => 'datatable-date'],
+            ['data' => 'status','name' => 'status','title' => 'Status'],
+            ['data' => 'action','name' => 'action','title' => 'Action']
+        ];
+        $getRequest = $request->all();
+        $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
+        if ($datatables->getRequest()->ajax()) {
+            $sf_applications = SfApplication::where('society_id', $society_details->id)->with(['scApplicationType' => function($q){
+                $q->where('application_type', config('commanConfig.applicationType.Formation'))->first();
+            }, 'sfApplicationLog' => function($q){
+                $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
+            } ])->orderBy('id', 'desc');
+
+            if($request->application_master_id)
+            {
+                $sf_applications = $sf_applications->where('application_master_id', 'like', '%'.$request->application_master_id.'%');
+            }
+            $sf_applications = $sf_applications->get();
+
+            return $datatables->of($sf_applications)
+                // ->editColumn('radio', function ($sf_applications) {
+                //     $url = route('society_formation.index');
+                //     return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="sf_applications_id"><span></span></label>';
+                // })
+                ->editColumn('rownum', function ($sf_applications) {
+                    static $i = 0;
+                    $i++;
+                    return $i;
+                })
+                ->editColumn('application_no', function ($sf_applications) {
+                    return $sf_applications->application_no;
+                })
+                ->editColumn('application_master_id', function ($sf_applications) {
+                    return $sf_applications->scApplicationType->application_type;
+                })
+                ->editColumn('created_at', function ($sf_applications) {
+                    return date(config('commanConfig.dateFormat'), strtotime($sf_applications->created_at));
+                })
+                ->editColumn('status', function ($sf_applications) {
+                    $status=  $sf_applications->sfApplicationLog->status_id;
+                    $status_display = array_keys(config('commanConfig.applicationStatus'), $sf_applications->sfApplicationLog->status_id)[0];
+                    return '<span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$status) .' m-badge--wide">'.$status_display.'</span>';
+                })
+                ->editColumn('action', function ($sf_applications) {
+                    $action_parm="<div class='d-flex btn-icon-list'>";
+                    $action_parm.='<a class="d-flex flex-column align-items-center" href="'.route('society_formation.index').'"><span class="btn-icon btn-icon--view">
+                        <img src="'. asset('/img/view-icon.svg').'">
+                    </span>View
+                </a>';
+                if($sf_applications->no_due_certificate!="")
+                    {
+                        $action_parm=$action_parm.'<a target="_blank" class="d-flex flex-column align-items-center delete-village" href="'.config('commanConfig.storage_server')."/".$sf_applications->no_due_certificate.'">
+                    <span class="btn-icon btn-icon--delete">
+                        <img src="'.asset('/img/download-icon.svg').'">
+                     </span>no due certificate
+                    </a>';
+                    }
+                    $action_parm.="</div>";
+                    return $action_parm;
+                })
+                ->rawColumns(['application_no', 'application_master_id', 'created_at','status','action'])
+                ->make(true);
+        }
+
+        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+        return view('frontend.society.conveyance.index', compact('html'));
+    }
+
+    protected function getParameters() {
+        return [
+            'serverSide' => true,
+            'processing' => true,
+            'ordering'   =>'isSorted',
+            "order"=> [3, "desc" ],
+            "pageLength" => $this->list_num_of_records_per_page,
+            // 'fixedHeader' => [
+            //     'header' => true,
+            //     'footer' => true
+            // ]
+            "filter" => [
+                'class' => 'test_class'
+            ]
+        ];
     }
 
     public function create()
