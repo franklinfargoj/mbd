@@ -732,7 +732,6 @@ class conveyanceCommonController extends Controller
 
         $data = scApplication::with(['scApplicationLog','ConveyanceSalePriceCalculation'])
         ->where('id',$applicationId)->first();
-        
         $Applicationtype= $data->sc_application_master_id;
         $Agreementstatus = ApplicationStatusMaster::where('status_name','=','Draft')->value('id');
       
@@ -764,17 +763,18 @@ class conveyanceCommonController extends Controller
         //     $route = 'admin.conveyance.common.view_draft_sign_sale_lease';
         // }
         // dd($route);
+
         return view('admin.conveyance.common.view_draft_sign_sale_lease',compact('data','is_view','status'));
     }    
 
     //save draft sign lease and sale Agreement by JTCO
     public function SaveDraftSignAgreement(Request $request){
-     
+        
         $applicationId   = $request->applicationId;
         $sale_agreement  = $request->file('sale_agreement');   
         $lease_agreement = $request->file('lease_agreement'); 
-    
-        $data = scApplication::where('id',$applicationId)->first();           
+
+        $data = scApplication::where('id',$applicationId)->first(); 
         $Applicationtype= $data->sc_application_master_id; 
        
         $sale_folder_name  = "Conveyance_Draft_Sign_Sale_Agreement";

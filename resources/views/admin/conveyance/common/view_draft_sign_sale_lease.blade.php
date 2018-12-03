@@ -203,6 +203,7 @@
         </div>
     @endif 
 
+@if(session()->get('role_name') == config('commanConfig.la_engineer') && $data->status->status_id != config('commanConfig.conveyance_status.forwarded') && $data->status->status_id != config('commanConfig.conveyance_status.reverted'))
 <div class="m-portlet m-portlet--mobile m_panel">
     <div class="portlet-body">
         <div class="m-portlet__body" style="padding-right: 0;">
@@ -214,34 +215,44 @@
                         <input type="hidden" id="application_id" name="application_id" value="{{ $data->id }}">
                        <textarea rows="4" cols="63" name="remark">{{ isset($data->riders) ? $data->riders : '' }}</textarea>
                        
-                        <div class="mt-auto">
+<!--                         <div class="mt-auto">
                            <button type="submit" class="btn btn-primary mt-3" style="display:block">Save</button>
-                        </div>
+                        </div> -->
                     </form>
                 </div>
             </div>
         </div>
     </div>
-</div>         
+</div> 
+@endif        
  
     @if($data->status->status_id != config('commanConfig.conveyance_status.forwarded') && $data->status->status_id != config('commanConfig.conveyance_status.reverted') )
 
 <!--         <form class="nav-tabs-form" id ="CommentFRM" role="form" method="POST" action="{{ route('conveyance.save_agreement_comments')}}">
             @csrf  -->  
-             <input type="hidden" name="application_id" value="{{ isset($data->id) ? $data->id : '' }}">
-            <div class="m-portlet m-portlet--mobile m_panel">  
-                <div class="m-portlet__body">   
-                    <div class="col-xs-12 row">
-                        <div class="col-md-12">
-                            <h3 class="section-title section-title--small">Remark</h3>
-                                <textarea rows="4" cols="63" name="remark"></textarea>
-                                <button type="submit" class="btn btn-primary mt-3" style="display:block">Save</button>
+<!--         <div class="m-portlet m-portlet--mobile m_panel">  
+            <div class="m-portlet__body">   
+                <div class="col-xs-12 row">
+                    <div class="col-md-12">   -->          
+                        <div class="m-portlet m-portlet--mobile m_panel">  
+                         <input type="hidden" name="application_id" value="{{ isset($data->id) ? $data->id : '' }}">
+                            <div class="m-portlet__body">   
+                                <div class="col-xs-12 row">
+                                    <div class="col-md-12">
+                                        <h3 class="section-title section-title--small">Remark</h3>
+                                            <textarea rows="4" cols="63" name="remark"></textarea>
+                                            <button type="submit" class="btn btn-primary mt-3" style="display:block">Save</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
+<!--                     </div>
+                </div> 
             </div>
-        </form>
-    @endif   
+        </div>  -->              
+    @endif 
+
+</form>      
 @endsection
 @section('js')
 <script>
