@@ -2,7 +2,6 @@
 @section('actions')
 @include('admin.conveyance.ee_department.action'))
 @endsection
-@section('css')
 
 @section('content')
 
