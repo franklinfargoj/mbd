@@ -95,7 +95,7 @@
                     <div class="mt-3">
                         <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Save</Button>
                         <a href="{{route('architect_layout_detail.edit',['layout_detail_id'=>encrypt($ArchitectLayoutDetail->id)])}}"
-                            class="btn btn-primary btn-custom">Back</a>
+                            class="btn btn-primary btn-custom">Cancel</a>
                     </div>
                 </div>
             </div>

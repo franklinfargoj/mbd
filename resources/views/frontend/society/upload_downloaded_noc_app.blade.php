@@ -27,7 +27,7 @@
                                     <h5>Download Noc Application</h5>
                                     <span class="hint-text">Download submitted application in .pdf format</span>
                                     <div class="mt-auto">
-                                        <a title="Donwload Offer Letter Application" href="{{ route('society_noc_application_download') }}" target="_blank" class="btn btn-primary" rel="noopener"><i class="icon-pencil"></i>Donwload Noc Application</a>
+                                        <a title="Donwload Noc Application" href="{{ route('society_noc_application_download') }}" target="_blank" class="btn btn-primary" rel="noopener"><i class="icon-pencil"></i>Donwload Noc Application</a>
                                     </div>
                                 </div>
                             </div>

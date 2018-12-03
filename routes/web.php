@@ -59,11 +59,11 @@ Route::group(['middleware' => ['check_society_offer_letter_permission']], functi
        
 });
 
- Route::get('/application/{id}','SocietyOfferLetterController@ViewApplications')->name('society_detail.application');
-    Route::get('refresh_captcha','SocietyOfferLetterController@RefreshCaptcha')->name('refresh_captcha');
-    Route::post('UserAuthentication','SocietyOfferLetterController@UserAuthentication')->name('society_detail.UserAuthentication');
+Route::get('/application/{id}','SocietyOfferLetterController@ViewApplications')->name('society_detail.application');
+Route::get('refresh_captcha','SocietyOfferLetterController@RefreshCaptcha')->name('refresh_captcha');
+Route::post('UserAuthentication','SocietyOfferLetterController@UserAuthentication')->name('society_detail.UserAuthentication');
 
-   Route::resource('/society_offer_letter', 'SocietyOfferLetterController');
+Route::resource('/society_offer_letter', 'SocietyOfferLetterController');
 
 
 
@@ -1016,4 +1016,49 @@ Route::get('approve_noc_co/{id}','CODepartment\COController@issueNoc')->name('co
 Route::post('issue_noc_letter_to_ree','CODepartment\COController@approveNoctoRee')->name('co.issue_noc_letter_to_ree');
 Route::get('co_forward_noc_application/{id}','CODepartment\COController@forwardNOCApplication')->name('co.forward_noc_application');
 Route::post('save_forward_noc_Application','CODepartment\COController@sendForwardNocApplication')->name('co.forward_noc_application_data');
+
+//NOC FOR CC -- Sayan Pal
+
+Route::get('/show_form_self_noc_cc/{id}', 'SocietyNocforCCController@show_form_self_noc_cc')->name('show_form_self_noc_cc');
+Route::post('/save_noc_cc_application_self', 'SocietyNocforCCController@save_noc_cc_application_self')->name('save_noc_cc_application_self');
+Route::get('society_noc_cc_preview','SocietyNocforCCController@showNocApplication')->name('society_noc_cc_preview');
+Route::get('society_noc_cc_edit','SocietyNocforCCController@editNocApplication')->name('society_noc_cc_edit');
+Route::post('society_noc_cc_update','SocietyNocforCCController@updateNocApplication')->name('society_noc_cc_update');
+Route::get('documents_upload_noc_cc','SocietyNocforCCController@displaySocietyDocuments')->name('documents_upload_noc_cc');
+Route::post('uploaded_documents_noc_cc','SocietyNocforCCController@uploadSocietyDocuments')->name('uploaded_documents_noc_cc');
+Route::get('delete_uploaded_documents_noc_cc/{id}','SocietyNocforCCController@deleteSocietyDocuments')->name('delete_uploaded_documents_noc_cc');
+Route::post('add_uploaded_documents_comment_noc_cc','SocietyNocforCCController@addSocietyDocumentsComment')->name('add_documents_comment_noc_cc');
+Route::get('upload_noc_application_cc','SocietyNocforCCController@showuploadNoc')->name('upload_noc_application_cc');
+Route::get('society_noc_cc_application_download','SocietyNocforCCController@download_noc_application')->name('society_noc_cc_application_download');
+Route::post('upload_society_noc_cc','SocietyNocforCCController@uploadNocAfterSign')->name('upload_society_noc_cc');
+Route::get('documents_uploaded_noc_cc','SocietyNocforCCController@viewSocietyDocuments')->name('documents_uploaded_noc_cc');
+Route::post('resubmit_noc_application_cc','SocietyNocforCCController@resubmitNocApplication')->name('resubmit_noc_application_cc');
+
+// NOC for CC -- REE Department routes
+
+Route::get('ree_noc_cc_applications','REEDepartment\REEController@nocforCCApplicationList')->name('ree_applications.noc_cc');
+Route::get('view_application_noc_cc/{id}','REEDepartment\REEController@viewApplicationNocforCC')->name('ree.view_application_noc_cc');
+Route::get('society_noc_cc_documents/{id}','REEDepartment\REEController@societyNocforCCDocuments')->name('ree.society_noc_cc_documents');
+Route::get('generate_noc_cc/{id}', 'REEDepartment\REEController@GenerateNocforCC')->name('ree.generate_noc_cc');
+Route::get('create_edit_noc_cc/{id}', 'REEDepartment\REEController@createEditNocforCC')->name('ree.create_edit_noc_cc');
+Route::post('save_draft_noc_cc', 'REEDepartment\REEController@saveDraftNocforCC')->name('ree.save_draft_noc_cc');
+Route::post('upload_draft_noc_cc/{id}', 'REEDepartment\REEController@uploadDraftNocforCC')->name('ree.upload_draft_noc_cc');
+Route::get('/scrutiny-remark-noc-cc/{application_id}', 'REEDepartment\REEController@scrutinyRemarkNocforCCByREE')->name('ree.scrutiny-remark-noc-cc');
+Route::post('upload_ree_note_noc_cc','REEDepartment\REEController@uploadOfficeNoteNocforCCRee')->name('ree.upload_office-note-noc-cc');
+Route::get('ree_forward_application_noc_cc/{id}','REEDepartment\REEController@forwardApplicationNocCC')->name('ree.forward_application_noc_cc');
+Route::post('ree_forward_noc_cc_application_data','REEDepartment\REEController@sendForwardNocforCCApplication')->name('ree.forward_noc_cc_application_data');
+Route::get('approved_noc_cc_letter/{id}','REEDepartment\REEController@approvedNOCforCCletter')->name('ree.approved_noc_cc_letter');
+Route::post('send_noc_cc_issued_society','REEDepartment\REEController@sendissuedNOCforCCToSociety')->name('ree.send_noc_cc_issued_society');
+
+// NOC for CC -- CO Department Routes
+
+Route::get('co_noc_cc_applications','CODepartment\COController@nocforCCApplicationList')->name('co_applications.noc_cc');
+Route::get('view_noc_cc_application_co/{id}','CODepartment\COController@viewNocforCCApplication')->name('co.view_noc_cc_application');
+Route::get('society_noc_cc_documents_co/{id}','CODepartment\COController@societyNocforCCDocuments')->name('co.society_noc_cc_documents');
+Route::get('ree_scrutiny_remark_co_noc_cc/{id}','CODepartment\COController@nocforCCScrutinyRemarks')->name('co.noc_cc_scrutiny_remarks');
+Route::get('approve_noc_cc_co/{id}','CODepartment\COController@issueNocforCC')->name('co.approve_noc_cc');
+Route::post('issue_noc_cc_letter_to_ree','CODepartment\COController@approveNocforCCtoRee')->name('co.issue_noc_cc_letter_to_ree');
+Route::get('co_forward_noc_cc_application/{id}','CODepartment\COController@forwardNOCforCCApplication')->name('co.forward_noc_cc_application');
+Route::post('save_forward_noc_cc_Application','CODepartment\COController@sendForwardNocforCCApplication')->name('co.forward_noc_cc_application_data');
+
 

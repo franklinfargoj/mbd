@@ -10,6 +10,7 @@ use Yajra\DataTables\DataTables;
 use App\olSiteVisitDocuments;
 use App\OlApplication;
 use App\NocApplication;
+use App\NocCCApplication;
 use Carbon\Carbon;
 use App\SocietyOfferLetter;
 use App\OlSocietyDocumentsStatus;
@@ -22,6 +23,7 @@ use App\OlApplicationStatus;
 use App\NocSrutinyQuestionMaster;
 use App\NocReeScrutinyAnswer;
 use App\NocApplicationStatus;
+use App\NocCCApplicationStatus;
 use App\User;
 use Config;
 use Auth;
@@ -249,6 +251,79 @@ class COController extends Controller
                 $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
             
             return view('admin.co_department.noc_applications', compact('html','header_data','getData'));    
+    
+    }
+
+    public function nocforCCApplicationList(Request $request, Datatables $datatables){
+        
+
+        $getData = $request->all();
+        $columns = [
+            ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
+            ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
+            ['data' => 'application_no','name' => 'application_no','title' => 'Application Number'],
+            ['data' => 'date','name' => 'date','title' => 'Date', 'class' => 'datatable-date'],
+            ['data' => 'eeApplicationSociety.name','name' => 'eeApplicationSociety.name','title' => 'Society Name'],
+            ['data' => 'eeApplicationSociety.building_no','name' => 'eeApplicationSociety.building_no','title' => 'building No'],
+            ['data' => 'eeApplicationSociety.address','name' => 'eeApplicationSociety.address','title' => 'Address', 'class' => 'datatable-address'],
+             ['data' => 'Model','name' => 'Model','title' => 'Model'],
+             ['data' => 'Status','name' => 'Status','title' => 'Status'],
+            // ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
+        ];
+
+        if ($datatables->getRequest()->ajax()) {
+
+            $co_application_data = $this->CommonController->listApplicationDataNocforCC($request);
+
+            return $datatables->of($co_application_data)
+                ->editColumn('rownum', function ($listArray) {
+                    static $i = 0; $i++; return $i;
+                })
+                ->editColumn('radio', function ($co_application_data) {
+                    $url = route('co.view_noc_cc_application', $co_application_data->id);
+                    return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
+                })                
+                ->editColumn('eeApplicationSociety.name', function ($co_application_data) {
+                    return $co_application_data->eeApplicationSociety->name;
+                })
+                ->editColumn('eeApplicationSociety.building_no', function ($co_application_data) {
+                    return $co_application_data->eeApplicationSociety->building_no;
+                })
+                ->editColumn('eeApplicationSociety.address', function ($co_application_data) {
+                    return "<span>".$co_application_data->eeApplicationSociety->address."</span>";
+                })                
+                ->editColumn('date', function ($co_application_data) {
+                    return date(config('commanConfig.dateFormat'), strtotime($co_application_data->submitted_at));
+                })
+                // ->editColumn('actions', function ($co_application_data) use($request){
+                //    return view('admin.co_department.action', compact('co_application_data', 'request'))->render();
+                // })
+                ->editColumn('Status', function ($listArray) use ($request) {
+                    $status = $listArray->nocApplicationStatusForLoginListing[0]->status_id;
+
+                    if($request->update_status)
+                    {
+                        if($request->update_status == $status){
+                            $config_array = array_flip(config('commanConfig.applicationStatus'));
+                            $value = ucwords(str_replace('_', ' ', $config_array[$status]));
+                            return '<span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$status) .' m-badge--wide">'.$value.'</span>';
+                        }
+                    }else{
+                        $config_array = array_flip(config('commanConfig.applicationStatus'));
+                        $value = ucwords(str_replace('_', ' ', $config_array[$status]));
+                        return '<span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$status) .' m-badge--wide">'.$value.'</span>';
+                    }
+
+                })
+                ->editColumn('Model', function ($co_application_data) {
+                    return $co_application_data->noc_application_master->model;
+                })
+                ->rawColumns(['radio','society_name', 'Status', 'building_name', 'society_address','date','actions','eeApplicationSociety.address'])
+                ->make(true);
+        }        
+                $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+            
+            return view('admin.co_department.noc_cc_applications', compact('html','header_data','getData'));    
     
     }
 
@@ -561,6 +636,16 @@ class COController extends Controller
         return view('admin.common.noc', compact('noc_application'));
     }
 
+    public function viewNocforCCApplication(Request $request, $applicationId){
+
+        $noc_application = $this->CommonController->downloadNocforCC($applicationId);
+        $noc_application->folder = 'co_department';
+
+        $noc_application->model = NocApplication::with(['noc_application_master'])->where('id',$applicationId)->first();
+        
+        return view('admin.common.noc_cc', compact('noc_application'));
+    }
+
     public function societyNocDocuments(Request $request,$applicationId){
 
        $noc_application = $this->CommonController->getNocApplication($applicationId);
@@ -568,6 +653,15 @@ class COController extends Controller
        $societyDocuments = $this->CommonController->getSocietyNocDocuments($applicationId);
 
        return view('admin.co_department.society_noc_documents',compact('noc_application','societyDocuments'));
+    }
+
+    public function societyNocforCCDocuments(Request $request,$applicationId){
+
+       $noc_application = $this->CommonController->getNocforCCApplication($applicationId);
+       $noc_application->model = NocCCApplication::with(['noc_application_master'])->where('id',$applicationId)->first();
+       $societyDocuments = $this->CommonController->getSocietyNocCCDocuments($applicationId);
+
+       return view('admin.co_department.society_noc_cc_documents',compact('noc_application','societyDocuments'));
     }
 
     public function nocScrutinyRemarks(Request $request,$applicationId){
@@ -592,6 +686,24 @@ class COController extends Controller
         return view('admin.co_department.scrutiny-remark-noc', compact('arrData','noc_application'));
     }
 
+    public function nocforCCScrutinyRemarks(Request $request,$applicationId){
+
+        $noc_application = $this->CommonController->getNocforCCApplication($applicationId);
+        $noc_application->status = $this->CommonController->getCurrentStatusNocCC($applicationId);
+
+        $application_master_id = NocCCApplication::where('society_id', $noc_application->eeApplicationSociety->id)->value('application_master_id');
+
+        $arrData['society_detail'] = NocCCApplication::with('eeApplicationSociety')->where('id', $applicationId)->first();
+
+        $arrData['get_last_status'] = NocCCApplicationStatus::where([
+                'application_id' =>  $applicationId,
+                'user_id' => Auth::user()->id,
+                'role_id' => session()->get('role_id')
+            ])->orderBy('id', 'desc')->first();
+
+        return view('admin.co_department.scrutiny-remark-noc-cc', compact('arrData','noc_application'));
+    }
+
     public function issueNoc(Request $request, $applicationId){
 
         $noc_application = $this->CommonController->getNocApplication($applicationId);
@@ -609,6 +721,23 @@ class COController extends Controller
         return view('admin.co_department.issue_noc',compact('applicationData','noc_application'));
     }
 
+    public function issueNocforCC(Request $request, $applicationId){
+
+        $noc_application = $this->CommonController->getNocforCCApplication($applicationId);
+        $noc_application->status = $this->CommonController->getCurrentStatusNocCC($applicationId);
+        // dd($ol_application->status->status_id);
+        $ree_branch_head = Role::where('name',config('commanConfig.ree_branch_head'))->value('id');
+        $co = Role::where('name',config('commanConfig.co_engineer'))->value('id');
+
+        $applicationData = NocCCApplication::where('id',$applicationId)->first();
+
+        $applicationData->ReeLog = NocCCApplicationStatus::where('application_id',$applicationId)->where('role_id',$ree_branch_head)->where('status_id', config('commanConfig.applicationStatus.forwarded'))->orderBy('id', 'desc')->first();
+
+        $applicationData->coLog = NocCCApplicationStatus::where('application_id',$applicationId)->where('role_id',$co)->where('status_id', config('commanConfig.applicationStatus.forwarded'))->orderBy('id', 'desc')->first(); 
+
+        return view('admin.co_department.issue_noc_cc',compact('applicationData','noc_application'));
+    }
+
     public function approveNoctoRee(Request $request){
 
         $ree_id = Role::where('name', '=', config('commanConfig.ree_junior'))->first();
@@ -619,6 +748,20 @@ class COController extends Controller
 
             $this->CommonController->generateNOCforwardToREE($request,$ree);
             return redirect('/co_noc_applications')->with('success','NOC has been approved successfully.');
+
+        // $updateApplication = OlApplication::where('id',)           
+    }
+
+    public function approveNocforCCtoRee(Request $request){
+
+        $ree_id = Role::where('name', '=', config('commanConfig.ree_junior'))->first();
+
+        $ree = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
+            ->where('lu.layout_id', session()->get('layout_id'))
+            ->where('role_id', $ree_id->id)->first(); 
+
+            $this->CommonController->generateNOCforCCforwardToREE($request,$ree);
+            return redirect('/co_noc_cc_applications')->with('success','NOC has been approved successfully.');
 
         // $updateApplication = OlApplication::where('id',)           
     }
@@ -655,6 +798,38 @@ class COController extends Controller
         return view('admin.co_department.forward_application_noc',compact('applicationData', 'arrData','noc_application','reeLogs','coLogs'));
     }
 
+    public function forwardNOCforCCApplication(Request $request, $applicationId){
+        
+        $noc_application = $this->CommonController->getNocforCCApplication($applicationId);
+        $noc_application->status = $this->CommonController->getCurrentStatusNocCC($applicationId);
+        $applicationData = $this->CommonController->getForwardNocCCApplication($applicationId);
+
+        $arrData['application_status'] = $this->CommonController->getCurrentLoggedInChildNocCC($applicationId);
+
+        $arrData['get_current_status'] = $this->CommonController->getCurrentStatusNocCC($applicationId);
+
+        if($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.NOC_Generation'))
+        {
+            $ree_id = Role::where('name', '=', config('commanConfig.ree_junior'))->first();
+
+            $arrData['get_forward_ree'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
+                ->where('lu.layout_id', session()->get('layout_id'))
+                ->where('role_id', $ree_id->id)->get();
+
+            $arrData['ree_role_name']   = strtoupper(str_replace('_', ' ', $ree_id->name));
+        }
+        else{
+            $arrData['get_forward_ree'] = array();
+            $arrData['ree_role_name']   = null;
+        }
+
+        //remark and history
+        $reeLogs  = $this->CommonController->getLogsOfREEDepartmentForNOCforCC($applicationId); 
+        $coLogs   = $this->CommonController->getLogsOfCODepartmentForNOCforCC($applicationId); 
+
+        return view('admin.co_department.forward_application_noc_cc',compact('applicationData', 'arrData','noc_application','reeLogs','coLogs'));
+    }
+
     public function sendForwardNocApplication(Request $request){
 
         $ree_id = Role::where('name', '=', config('commanConfig.ree_junior'))->first();
@@ -664,6 +839,19 @@ class COController extends Controller
             ->where('role_id', $ree_id->id)->first(); 
 
         $this->CommonController->generateNOCforwardToREE($request);
+
+        return redirect('/co_noc_applications')->with('success','Application send successfully.');
+    }
+
+    public function sendForwardNocforCCApplication(Request $request){
+
+        $ree_id = Role::where('name', '=', config('commanConfig.ree_junior'))->first();
+
+        $ree = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
+            ->where('lu.layout_id', session()->get('layout_id'))
+            ->where('role_id', $ree_id->id)->first(); 
+
+        $this->CommonController->generateNOCforCCforwardToREE($request);
 
         return redirect('/co_noc_applications')->with('success','Application send successfully.');
     }

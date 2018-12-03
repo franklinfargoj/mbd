@@ -80,20 +80,7 @@ class SocietyNocController extends Controller
         );
         $last_inserted_id = NocRequestForm::create($input);
 
-        $application_master_id_spec = 4;
-
-        if($request->input('application_master_id') == 6)
-        {
-            $application_master_id_spec = 8;
-        }
-        elseif($request->input('application_master_id') == 13)
-        {
-            $application_master_id_spec = 15;
-        }
-        elseif($request->input('application_master_id') == 17)
-        {
-            $application_master_id_spec = 19;
-        }
+        $application_master_id_spec = $request->input('application_master_id');
 
         $insert_application = array(
             'user_id' => Auth::user()->id,

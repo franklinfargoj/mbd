@@ -10,7 +10,7 @@
     <div class="m_portlet">
         <form action="{{route('ree.save_draft_noc')}}" id="OfferLetterFRM" method="post" name="OfferLetterFRM">
             @csrf <input id="applicationId" name="applicationId" type="hidden" value="{{$applicatonId}}"> 
-            <textarea id="ckeditorText" name="ckeditorText" style="display:none">               @if($content == "") {{$content}} @else
+            <textarea id="ckeditorText" name="ckeditorText" style="display:none">               @if($content != "") {{$content}} @else
             <div id="" style="">
                 <!-- Header starts here -->
                 <div>
