@@ -369,6 +369,11 @@ class SocietyPermissionSeeder extends Seeder
                     'description'  => 'Save self revalidation offer letter application'
                 ],
                 [
+                    'name'         => 'save_offer_letter_application_reval_dev',
+                    'display_name' => 'Save dev revalidation offer letter application',
+                    'description'  => 'Save dev revalidation offer letter application'
+                ],
+                [
                     'name'         => 'society_reval_offer_letter_preview',
                     'display_name' => 'Society revalidation offer letter preview',
                     'description'  => 'Society revalidation offer letter preview'

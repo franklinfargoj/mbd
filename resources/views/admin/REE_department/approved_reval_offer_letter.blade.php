@@ -116,7 +116,7 @@
     <!-- end -->
 
     <!-- Site Visit -->
-    <form role="form" id="approved_letter" name="approved_letter" class="form-horizontal" method="post" action="{{route('ree.send_letter_society')}}"
+    <form role="form" id="approved_letter" name="approved_letter" class="form-horizontal" method="post" action="{{route('ree.send_reval_letter_society')}}"
         enctype="multipart/form-data">
 
         @csrf

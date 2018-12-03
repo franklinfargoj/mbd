@@ -236,6 +236,11 @@ class ReePermissionSeeder extends Seeder
                 'name'=>'ree.download_reval_cap_note',
                 'display_name'=>'Download revalidation application cap note',
                 'description'=>'Download revalidation application cap note'
+            ],
+            [
+                'name'=>'ree.send_reval_letter_society',
+                'display_name'=>'Send approved & revalidated offer letter to society',
+                'description'=>'Send approved & revalidated offer letter to society'
             ]
         ];
 

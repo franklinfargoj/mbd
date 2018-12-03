@@ -3,7 +3,6 @@
 
 @include('admin.conveyance.'.$data->folder.'.action')
 @endsection
-@section('css')
 
 @section('content')
 
