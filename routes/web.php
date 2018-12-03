@@ -791,7 +791,11 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::get('architect_scrutiny_remark/{id}', 'conveyance\conveyanceCommonController@ArchitectScrutinyRemark')->name('conveyance.architect_scrutiny_remark');
 
-    Route::get('la_agreement_riders/{id}', 'conveyance\conveyanceCommonController@la_agreement_riders')->name('conveyance.la_agreement_riders');
+    Route::get('la_agreement_riders/{id}', 'conveyance\conveyanceCommonController@la_agreement_riders')->name('conveyance.la_agreement_riders'); 
+
+    Route::get('draft_sign_conveyance_agreement/{id}', 'conveyance\conveyanceCommonController@DraftSignsaleLeaseAgreement')->name('conveyance.draft_sign_conveyance_agreement');
+
+    Route::post('save_draft_sign_conveyance_agreement', 'conveyance\conveyanceCommonController@SaveDraftSignAgreement')->name('conveyance.save_draft_sign_conveyance_agreement');    
 
     Route::post('upload_la_agreement_riders', 'conveyance\conveyanceCommonController@upload_la_agreement_riders')->name('conveyance.upload_la_agreement_riders');
 
