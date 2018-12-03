@@ -350,8 +350,12 @@ class EMController extends Controller
          $tenament = DB::table('master_tenant_type')->get();
          $building_id = $request->input('id');
          $society_id = MasterBuilding::where('id', '=', $request->input('id'))->first()->society_id;
-         $buildings = MasterTenant::where('building_id', '=', $request->input('id'))
+         $buildings = MasterTenant::with(['TransBillGenerate' => function($query) use($building_id){
+            $query->where('building_id',$building_id)->where('bill_month', '=', date('m'))->where('bill_year', '=', date('Y'));
+         }])->where('building_id', '=', $request->input('id'))
                  ->get();
+
+                 // return $buildings;
             return view('admin.em_department.ajax_tenant_bill_generation', compact('tenament','buildings', 'building_id', 'society_id'));
     }
 
@@ -803,10 +807,13 @@ class EMController extends Controller
                             </div>                          
                     </div>
                 </div>';
-                $society_id = $request->input('id');
-            $buildings = MasterBuilding::with('tenant_count')->where('society_id', '=', $request->input('id'))
+            $society_id = $request->input('id');
+            $buildings = MasterBuilding::with(['TransBillGenerate'=>function($query) use($society_id){
+                $query->where('society_id', '=', $society_id)->where('bill_month', '=', date('m'))->where('bill_year', '=', date('Y'));
+            }])->with('tenant_count')->where('society_id', '=', $request->input('id'))
                         ->get();
-            //return $buildings;
+            // return $buildings;
+
             $html .= view('admin.em_department.ajax_building_bill_generation', compact('buildings', 'society_id'))->render();
             return $html;
 

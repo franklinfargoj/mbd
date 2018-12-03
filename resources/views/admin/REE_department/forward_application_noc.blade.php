@@ -6,7 +6,7 @@
 <div class="custom-wrapper">
    <div class="col-md-12">
       <div class="d-flex">
-         {{ Breadcrumbs::render('Forward_Application_ree',$noc_application->id) }}
+         {{ Breadcrumbs::render('Forward_Application_ree_noc',$noc_application->id) }}
          <div class="ml-auto btn-list">
             <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
          </div>

@@ -22,4 +22,8 @@ class MasterBuilding extends Model
     	return $this->belongsTo('App\SocietyDetail');	
     
     }
+
+    public function TransBillGenerate() {
+        return $this->hasMany(TransBillGenerate::class,'building_id');
+    }
 }

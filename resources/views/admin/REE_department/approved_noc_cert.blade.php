@@ -134,7 +134,7 @@
                         View NOC</a>
                         @endif
                         <p></p>
-                        @if($applicationData->ree_Jr_id && !empty($applicationData->final_draft_noc_path) && $applicationData->noc_generation_status != config('commanConfig.applicationStatus.NOC_Issued'))
+                        @if($applicationData->ree_Jr_id && !empty($applicationData->final_draft_noc_path) && $applicationData->noc_generation_status == config('commanConfig.applicationStatus.NOC_Issued'))
                         <hr>
                         <a href="{{route('ree.create_edit_noc',$applicationData->id)}}" class="btn btn-primary">
                         Edit Draft NOC
@@ -193,6 +193,7 @@
         enctype="multipart/form-data">
         @csrf
     @if($ree_head && $applicationData->noc_generation_status != config('commanConfig.applicationStatus.sent_to_society'))
+    <input type="hidden" name="applicationId" value="{{$applicationData->id}}">
     <div class="m-portlet m-portlet--mobile m_panel">
         <div class="m-portlet__body table--box-input">
             <h3 class="section-title section-title--small">Send to Society:</h3>

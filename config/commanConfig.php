@@ -46,30 +46,30 @@ return [
 
     'selection_commitee' => 'selection_commitee',
 
-//    'applicationStatus' => [
-//        'in_process' => 1,
-//        'forwarded' => 2,
-//        'reverted' => 3,
-//        'pending' => 4,
-//        'offer_letter_generation' => 5,
-//        'offer_letter_approved' => 6,
-//        'sent_to_society' => 7,
-//        'Draft_sale_&_lease_deed' => 8,
-//        'Aproved_sale_&_lease_deed' => 9,
-//        'Sent_society_to_pay_stamp_duety' => 10,
-//        'Stamped_sale_&_lease_deed' => 11,
-//        'Stamped_signed_sale_&_lease_deed' => 12,
-//        'Sent_society_for_registration_of_sale_&_lease' => 13,
-//        'Registered_sale_&_lease_deed' => 14,
-//        'NOC_Issued' => 15,
-//        'Draft_lease_deed' => 16,
-//        'Aproved_lease_deed' => 17,
-//        'Draft_Renewal_of_Lease_deed' => 18,
-//        'Aproved_Renewal_of_Lease' => 19,
-//        'NOC_Generation' => 20
-//    ],
+   'applicationStatus' => [
+       'in_process' => 1,
+       'forwarded' => 2,
+       'reverted' => 3,
+       'pending' => 4,
+       'offer_letter_generation' => 5,
+       'offer_letter_approved' => 6,
+       'sent_to_society' => 7,
+       'Draft_sale_&_lease_deed' => 8,
+       'Aproved_sale_&_lease_deed' => 9,
+       'Sent_society_to_pay_stamp_duety' => 10,
+       'Stamped_sale_&_lease_deed' => 11,
+       'Stamped_signed_sale_&_lease_deed' => 12,
+       'Sent_society_for_registration_of_sale_&_lease' => 13,
+       'Registered_sale_&_lease_deed' => 14,
+       'NOC_Issued' => 15,
+       'Draft_lease_deed' => 16,
+       'Aproved_lease_deed' => 17,
+       'Draft_Renewal_of_Lease_deed' => 18,
+       'Aproved_Renewal_of_Lease' => 19,
+       'NOC_Generation' => 20
+   ],
 
-    'applicationStatus' => [
+    /*'applicationStatus' => [
         'in_process' => 1,
         'forwarded' => 2,
         'reverted' => 3,
@@ -77,7 +77,7 @@ return [
         'offer_letter_generation' => 5,
         'offer_letter_approved' => 6,
         'sent_to_society' => 7,
-    ],
+    ],*/
 
     //conveyance status
 
@@ -293,6 +293,15 @@ return [
 
     'optional_docs_society_noc' => [
         '5', '11', '17', '23'
+    ],
+
+    'optional_docs_society_noc_cc' => [
+        '3', '6'
+    ],
+
+
+    'revalidation_master_ids' => [
+        '3', '7', '14', '18'
     ],
 
     'storage_server' => 'http://storage.mhada.php-dev.in',

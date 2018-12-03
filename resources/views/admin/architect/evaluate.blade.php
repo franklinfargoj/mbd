@@ -52,7 +52,7 @@
                                 <td><a target="_blank" href="{{route('view_architect_application',['id'=>encrypt($ArchitectApplication->id)])}}">view</a></td>
                                 <td class="text-center">
                                     <div class="@if($errors->has('marks')) has-error @endif">
-                                        <input required {{ $disable }} type="number" step="0.01" name="application_marks" class="form-control form-control--custom marks"
+                                        <input required {{ $disable }} type="number" step="0.01" max="100" name="application_marks" class="form-control form-control--custom marks"
                                     value="{{$ArchitectApplication->application_marks}}">
 
                                         <span class="help-block">{{$errors->first('marks')}}</span>
@@ -73,7 +73,7 @@
                                 <td><a target="_blank" href="{{ config('commanConfig.storage_server')."/" .$row->document_path}}">download</a></td>
                                 <td class="text-center">
                                     <div class="@if($errors->has('marks')) has-error @endif">
-                                        <input required {{ $disable }} type="number" step="0.01" name="marks[]" class="form-control form-control--custom marks"
+                                        <input required {{ $disable }} type="number" step="0.01" name="marks[]" max="100" class="form-control form-control--custom marks"
                                             value="{{$row->marks?$row->marks:'0.00'}}">
                                         <input type="hidden" name="id[]" value="{{$row->id}}">
 

@@ -409,7 +409,7 @@
                                  <button type="submit" class="btn btn-primary forwrdBtn">Sign
                                  & Forward</button>
                                  <button type="submit" class="btn btn-primary forwrdBtn">Forward</button>--}}
-                                 <button type="button" onclick="window.location.href='{{ url("/ree_noc_applications") }}'"
+                                 <button type="button" onclick="window.location.href='{{ url("/co_noc_cc_applications") }}'"
                                  class="btn btn-secondary">Cancel</button>
                               </div>
                               @elseif($noc_application->noc_generation_status != 0 && isset($noc_application->final_draft_noc_path))
@@ -420,7 +420,7 @@
                                  <button type="submit" class="btn btn-primary forwrdBtn">Sign
                                  & Forward</button>
                                  <button type="submit" class="btn btn-primary forwrdBtn">Forward</button>--}}
-                                 <button type="button" onclick="window.location.href='{{ url("/ree_noc_applications") }}'"
+                                 <button type="button" onclick="window.location.href='{{ url("/co_noc_cc_applications") }}'"
                                  class="btn btn-secondary">Cancel</button>
                               </div>
                               @else                                    

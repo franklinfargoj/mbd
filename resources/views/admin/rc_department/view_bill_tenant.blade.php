@@ -29,11 +29,15 @@
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title">Generate Tenant Bill:
                 @if(!empty($society)){{$society->society_name}}@endif | {{$building->building_no}} | {{$building->name}} | {{$tenant->first_name.' '.$tenant->last_name}}</h3>
+            <div class="ml-auto btn-list">
+                <a href="{{ url()->previous() }}" class="btn btn-link pull-right"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+            </div>
+         </div>
         </div>
     </div>
     <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
 
-                <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+               {{--  <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
                     <div class="m-form__actions px-0">
                         <div class="row">
                             <div class="col-sm-12">
@@ -43,7 +47,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
         <form method="post" action="{{route('create_tenant_bill')}}">
             {{ csrf_field() }}
             <input type="text" name="tenant_id" value="{{$tenant->id}}" hidden>
