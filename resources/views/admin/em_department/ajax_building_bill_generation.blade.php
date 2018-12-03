@@ -17,14 +17,15 @@
                 <td>{{$value->name}}</td>
                 <td class="text-center"><?php echo isset($value->tenant_count[0]->count) ? $value->tenant_count[0]->count : '0'; ?></td>
                 <td class="d-flex btn-submit-icon society-bill-actions">
+                
                     <!-- <a class="btn btn-info mb-10" href="{{route('get_tenants', [$value->id])}}"> Generate Bill</a> -->
-
+                    @if(count($value->TransBillGenerate) <= 0)
                     {!! Form::open(['method' => 'get', 'route' => 'generateBuildingBill', 'class'=>'']) !!}
                     {{ Form::hidden('building_id', encrypt($value->id)) }}
                     {{ Form::hidden('society_id', encrypt($value->society_id)) }}
                     {{ Form::button('<span class="btn-icon btn-icon--view"><img src="/img/generate-bill-icon.svg"></span>Generate Bill', array('class'=>'btn btn--unstyled p-0 btn--icon-wrap d-flex flex-column align-items-center','type'=>'submit')) }}
                     {!! Form::close() !!}
-
+                    @endif
                     {!! Form::open(['method' => 'get', 'route' => 'billing_calculations']) !!}
                     {{ Form::hidden('building_id', encrypt($value->id)) }}
                     {{ Form::hidden('society_id', encrypt($value->society_id)) }}
@@ -36,7 +37,7 @@
                     {{ Form::hidden('society_id', encrypt($value->society_id)) }}                 
                     {{ Form::button('<span class="btn-icon btn-icon--delete"><img src="/img/view-arrears-calculation-icon.svg"></span>View Arrear Calculation', array('class'=>'btn btn--unstyled p-0 btn--icon-wrap d-flex flex-column align-items-center','type'=>'submit')) }}
                     {!! Form::close() !!}
-                       
+                    @if(count($value->TransBillGenerate) > 0)
                     <div class="d-flex btn-icon-list"> 
                         <button class="btn btn--unstyled p-0 btn--icon-wrap d-flex flex-column align-items-center">
                             <span class="btn-icon btn-icon--regenerate">
@@ -44,7 +45,7 @@
                             </span>Regenerate Bill
                         </button>
                     </div>
-
+                    @endif
                 </td>
             </tr>
         @endforeach

@@ -45,12 +45,14 @@
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
                                         id="update_status" name="update_status">
                                         <option value="" style="font-weight: normal;">Select Status</option>
-                                        @foreach(config('commanConfig.applicationStatus') as $key =>
-                                        $application_status)
-                                        <option value="{{ $application_status }}"
-                                            {{ ($status == $application_status) ? 'selected' : '' }}>{{
-                                            ucwords(str_replace('_', ' ', $key)) }}</option>
-                                        @endforeach
+                                        @if(config('commanConfig.conveyance_status'))
+                                            @foreach(config('commanConfig.conveyance_status') as $key =>
+                                            $application_status)
+                                                                                    <option value="{{ $application_status }}"
+                                                {{ ($status == $application_status) ? 'selected' : '' }}>{{
+                                                ucwords(str_replace('_', ' ', $key)) }}</option>
+                                            @endforeach
+                                        @endif
                                     </select>
                                 </div>
                             </div>
@@ -59,7 +61,7 @@
                                 <div class="form-group m-form__group">
                                     <div class="btn-list">
                                         <button type="submit" class="btn m-btn--pill m-btn--custom btn-primary">Search</button>
-                                        <button type="reset" onclick="window.location.href='{{ url("/dyce") }}'" class="btn m-btn--pill m-btn--custom btn-metal">Reset</button>
+                                        <button type="reset" onclick="window.location.href='{{ url("/conveyance") }}'" class="btn m-btn--pill m-btn--custom btn-metal">Reset</button>
                                     </div>
                                 </div>
                             </div>

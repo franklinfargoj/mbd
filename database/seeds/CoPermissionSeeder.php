@@ -206,61 +206,61 @@ class CoPermissionSeeder extends Seeder
                 'display_name' => 'Forward Revalidation Application Data',
                 'description' => 'Forward Revalidation Application Data',
             ],
-            [
-                'name' => 'renewal.index',
-                'display_name' => 'renewal',
-                'description' => 'renewal',
-            ],            
-            [
-                'name' => 'renewal.view_application',
-                'display_name' => 'renewal_view_application',
-                'description' => 'renewal_view_application',
-            ],            
-            [
-                'name' => 'renewal.prepare_renewal_agreement',
-                'display_name' => 'prepare renewal agreement',
-                'description' => 'prepare renewal agreement',
-            ],
-            [
-                'name' => 'renewal.approve_renewal_agreement',
-                'display_name' => 'approve renewal agreement',
-                'description' => 'approve renewal agreement',
-            ],
-            [
-                'name' => 'renewal.renewal_forward_application',
-                'display_name' => 'renewal forward application',
-                'description' => 'renewal forward application',
-            ],            
-            [
-                'name' => 'renewal.save_forward_application_renewal',
-                'display_name' => 'save forward application renewal',
-                'description' => 'save forward application renewal',
-            ],            
-            [
-                'name' => 'renewal.stamp_renewal_agreement',
-                'display_name' => 'stamp renewal agreement',
-                'description' => 'stamp renewal agreement',
-            ],             
-            [
-                'name' => 'renewal.save_stamp_renewal_agreement',
-                'display_name' => 'save stamp renewal agreement',
-                'description' => 'save stamp renewal agreement',
-            ],             
-            [
-                'name' => 'renewal.save_agreement_comments',
-                'display_name' => 'save agreement comments',
-                'description' => 'save agreement comments',
-            ],
-            [
-                'name' => 'renewal.ee_scrutiny',
-                'display_name' => 'renewal ee scrutiny',
-                'description' => 'renewal ee scrutiny',
-            ],            
-            [
-                'name' => 'renewal.architect_scrutiny',
-                'display_name' => 'renewal architect scrutiny',
-                'description' => 'renewal architect scrutiny',
-            ],            
+            // [
+            //     'name' => 'renewal.index',
+            //     'display_name' => 'renewal',
+            //     'description' => 'renewal',
+            // ],            
+            // [
+            //     'name' => 'renewal.view_application',
+            //     'display_name' => 'renewal_view_application',
+            //     'description' => 'renewal_view_application',
+            // ],            
+            // [
+            //     'name' => 'renewal.prepare_renewal_agreement',
+            //     'display_name' => 'prepare renewal agreement',
+            //     'description' => 'prepare renewal agreement',
+            // ],
+            // [
+            //     'name' => 'renewal.approve_renewal_agreement',
+            //     'display_name' => 'approve renewal agreement',
+            //     'description' => 'approve renewal agreement',
+            // ],
+            // [
+            //     'name' => 'renewal.renewal_forward_application',
+            //     'display_name' => 'renewal forward application',
+            //     'description' => 'renewal forward application',
+            // ],            
+            // [
+            //     'name' => 'renewal.save_forward_application_renewal',
+            //     'display_name' => 'save forward application renewal',
+            //     'description' => 'save forward application renewal',
+            // ],            
+            // [
+            //     'name' => 'renewal.stamp_renewal_agreement',
+            //     'display_name' => 'stamp renewal agreement',
+            //     'description' => 'stamp renewal agreement',
+            // ],             
+            // [
+            //     'name' => 'renewal.save_stamp_renewal_agreement',
+            //     'display_name' => 'save stamp renewal agreement',
+            //     'description' => 'save stamp renewal agreement',
+            // ],             
+            // [
+            //     'name' => 'renewal.save_agreement_comments',
+            //     'display_name' => 'save agreement comments',
+            //     'description' => 'save agreement comments',
+            // ],
+            // [
+            //     'name' => 'renewal.ee_scrutiny',
+            //     'display_name' => 'renewal ee scrutiny',
+            //     'description' => 'renewal ee scrutiny',
+            // ],            
+            // [
+            //     'name' => 'renewal.architect_scrutiny',
+            //     'display_name' => 'renewal architect scrutiny',
+            //     'description' => 'renewal architect scrutiny',
+            // ],            
             [
                 'name' => 'conveyance.architect_scrutiny_remark',
                 'display_name' => 'conveyance architect scrutiny remark',
@@ -270,7 +270,22 @@ class CoPermissionSeeder extends Seeder
                 'name'=>'conveyance.view_documents',
                 'display_name'=>'view conveyance documents',
                 'description'=>'view conveyance documents'
-            ],                                      
+            ],
+            [
+                'name'=>'em.scrutiny_remark',
+                'display_name'=>'EM scrutiny remark',
+                'description'=>'EM scrutiny remark'
+            ],
+            [
+                'name'=>'conveyance.save_draft_sign_conveyance_agreement',
+                'display_name'=>'save draft sign conveyance agreement',
+                'description'=>'save draft sign conveyance agreement'
+            ],             
+            [
+                'name'=>'conveyance.draft_sign_conveyance_agreement',
+                'display_name'=>'draft sign conveyance agreement',
+                'description'=>'draft sign conveyance agreement'
+            ]                                                              
 
         ];
         $ree_role_id = Role::where('name', 'ree_engineer')->value('id');

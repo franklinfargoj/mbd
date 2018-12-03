@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\RevalOlSocietyDocumentStatus;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Auth\SessionGuard;
 use App\SocietyOfferLetter;
@@ -10,6 +11,8 @@ use App\OlApplicationMaster;
 use App\OlApplication;
 use App\NocApplication;
 use App\NocolApplication;
+use App\NocCCApplication;
+use App\NocCColApplication;
 use App\OlApplicationStatus;
 use App\OlSocietyDocumentsMaster;
 use App\OlSocietyDocumentsStatus;
@@ -248,7 +251,7 @@ class SocietyOfferLetterController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function dashboard(DataTables $datatables, Request $request)
-    {   
+    {
         $columns = [
             ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
@@ -258,21 +261,51 @@ class SocietyOfferLetterController extends Controller
             ['data' => 'status','name' => 'status','title' => 'Status'],
 //            ['data' => 'model','name' => 'model','title' => 'Model','searchable' => false,'orderable'=>false],
         ];
-        $self_premium = OlApplicationMaster::where('title', 'New - Offer Letter')->where('model', 'Premium')->where('parent_id', '1')->select('id')->get();
-        $self_premium = $self_premium[0]->id;
-        $self_sharing = OlApplicationMaster::where('title', 'New - Offer Letter')->where('model', 'Sharing')->where('parent_id', '1')->select('id')->get();
-        $self_sharing = $self_sharing[0]->id;
-        $dev_premium = OlApplicationMaster::where('title', 'New - Offer Letter')->where('model', 'Premium')->where('parent_id', '12')->select('id')->get();
-        $dev_premium = $dev_premium[0]->id;
-        $dev_sharing = OlApplicationMaster::where('title', 'New - Offer Letter')->where('model', 'Sharing')->where('parent_id', '12')->select('id')->get();
-        $dev_sharing = $dev_sharing[0]->id;
+//        $self_premium = OlApplicationMaster::where('title', 'New - Offer Letter')->where('model', 'Premium')->where('parent_id', '1')->select('id')->get();
+//        $self_premium = $self_premium[0]->id;
+//        $self_sharing = OlApplicationMaster::where('title', 'New - Offer Letter')->where('model', 'Sharing')->where('parent_id', '1')->select('id')->get();
+//        $self_sharing = $self_sharing[0]->id;
+//        $dev_premium = OlApplicationMaster::where('title', 'New - Offer Letter')->where('model', 'Premium')->where('parent_id', '12')->select('id')->get();
+//        $dev_premium = $dev_premium[0]->id;
+//        $dev_sharing = OlApplicationMaster::where('title', 'New - Offer Letter')->where('model', 'Sharing')->where('parent_id', '12')->select('id')->get();
+//        $dev_sharing = $dev_sharing[0]->id;
+//
+        $self_reval_premium = OlApplicationMaster::where('title', 'Revalidation Of Offer Letter')->where('model', 'Premium')->where('parent_id', '1')->select('id')->get();
+        $self_reval_premium = $self_reval_premium[0]->id;
+        $self_reval_sharing = OlApplicationMaster::where('title', 'Revalidation Of Offer Letter')->where('model', 'Sharing')->where('parent_id', '1')->select('id')->get();
+        $self_reval_sharing = $self_reval_sharing[0]->id;
+        $dev_reval_premium = OlApplicationMaster::where('title', 'Revalidation Of Offer Letter')->where('model', 'Sharing')->where('parent_id', '12')->select('id')->get();
+        $dev_reval_premium = $dev_reval_premium[0]->id;
+        $dev_reval_sharing = OlApplicationMaster::where('title', 'Revalidation Of Offer Letter')->where('model', 'Premium')->where('parent_id', '12')->select('id')->get();
+        $dev_reval_sharing = $dev_reval_sharing[0]->id;
+
+        $self_parent = OlApplicationMaster::where('title', 'Self Redevelopment')->value('id');
+        $dev_parent = OlApplicationMaster::where('title', 'Redevelopment Through Developer')->value('id');
+
+
         $getRequest = $request->all();
         $applications_tab = array(
-            'self_premium' => $self_premium,
-            'self_sharing' => $self_sharing,
-            'dev_premium' => $dev_premium,
-            'dev_sharing' => $dev_sharing
+            'self_pre_parent' => $self_parent.'_premium',
+            'self_share_parent' => $self_parent.'_sharing',
+            'dev_pre_parent' => $dev_parent.'_premium',
+            'dev_share_parent' => $dev_parent.'_sharing',
+//            'dev_parent' => $dev_parent,
+//            'self_premium' => $self_premium,
+//            'self_sharing' => $self_sharing,
+//            'dev_premium' => $dev_premium,
+//            'dev_sharing' => $dev_sharing,
+//            'self_reval_premium' => $self_reval_premium,
+//            'self_reval_sharing' => $self_reval_sharing,
+//            'dev_reval_premium' => $dev_reval_premium,
+//            'dev_reval_sharing' => $dev_reval_sharing
         );
+
+
+        $reval_master_ids_arr= array($self_reval_premium,
+            $self_reval_sharing,
+             $dev_reval_premium,
+            $dev_reval_sharing);
+
 
         Session::put('applications_tab', $applications_tab);
         $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
@@ -286,29 +319,32 @@ class SocietyOfferLetterController extends Controller
             $noc_application_count = count(NocApplication::where('society_id', $society_details->id)->get());
             Session::put('noc_application_count', $noc_application_count);
 
-            $self_premium_noc = OlApplicationMaster::where('title', 'Application for NOC')->where('model', 'Premium')->where('parent_id', '1')->select('id')->get();
-            $self_premium_noc = $self_premium_noc[0]->id;
-            $self_sharing_noc = OlApplicationMaster::where('title', 'Application for NOC - IOD')->where('model', 'Sharing')->where('parent_id', '1')->select('id')->get();
-            $self_sharing_noc = $self_sharing_noc[0]->id;
-            $dev_premium_noc = OlApplicationMaster::where('title', 'Application for NOC')->where('model', 'Premium')->where('parent_id', '12')->select('id')->get();
-            $dev_premium_noc = $dev_premium_noc[0]->id;
-            $dev_sharing_noc = OlApplicationMaster::where('title', 'Application for NOC - IOD')->where('model', 'Sharing')->where('parent_id', '12')->select('id')->get();
-            $dev_sharing_noc = $dev_sharing_noc[0]->id;
+            $noc_cc_application_count = count(NocCCApplication::where('society_id', $society_details->id)->get());
+            Session::put('noc_cc_application_count', $noc_cc_application_count);
 
+//            $self_premium_noc = OlApplicationMaster::where('title', 'Application for NOC')->where('model', 'Premium')->where('parent_id', '1')->select('id')->get();
+//            $self_premium_noc = $self_premium_noc[0]->id;
+//            $self_sharing_noc = OlApplicationMaster::where('title', 'Application for NOC - IOD')->where('model', 'Sharing')->where('parent_id', '1')->select('id')->get();
+//            $self_sharing_noc = $self_sharing_noc[0]->id;
+//            $dev_premium_noc = OlApplicationMaster::where('title', 'Application for NOC')->where('model', 'Premium')->where('parent_id', '12')->select('id')->get();
+//            $dev_premium_noc = $dev_premium_noc[0]->id;
+//            $dev_sharing_noc = OlApplicationMaster::where('title', 'Application for NOC - IOD')->where('model', 'Sharing')->where('parent_id', '12')->select('id')->get();
+//            $dev_sharing_noc = $dev_sharing_noc[0]->id;
+//
             $getRequest = $request->all();
-            $applications_tab_noc = array(
-                'self_premium_noc' => $self_premium_noc,
-                'self_sharing_noc' => $self_sharing_noc,
-                'dev_premium_noc' => $dev_premium_noc,
-                'dev_sharing_noc' => $dev_sharing_noc
-            );
-            Session::put('applications_tab_noc', $applications_tab);
+//            $applications_tab_noc = array(
+//                'self_premium_noc' => $self_premium_noc,
+//                'self_sharing_noc' => $self_sharing_noc,
+//                'dev_premium_noc' => $dev_premium_noc,
+//                'dev_sharing_noc' => $dev_sharing_noc
+//            );
+//            Session::put('applications_tab_noc', $applications_tab);
 
         //NOC changed added by <--Sayan Pal--> << End
 
         if ($datatables->getRequest()->ajax()) {
 
-            $application_master_arr = OlApplicationMaster::Where('title', 'like', '%New - Offer Letter%')->pluck('id')->toArray();
+            $application_master_arr = OlApplicationMaster::Where('title', 'like', '%New - Offer Letter%')->orWhere('title', 'like', '%Revalidation Of Offer Letter%')->pluck('id')->toArray();
 
             $ol_applications = OlApplication::where('society_id', $society_details->id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
                 $q->where('society_flag', '1')->orderBy('id', 'desc');
@@ -336,18 +372,44 @@ class SocietyOfferLetterController extends Controller
 
             $ol_applications = $ol_applications->toBase()->merge($noc_applications);
 
+            $noc_cc_applications = NocCColApplication::select('*')->where('society_id', $society_details->id)->with(['ol_application_master', 'olApplicationStatus' => function($q){
+                $q->where('society_flag', '1')->orderBy('id', 'desc');
+            } ]);
+
+            $noc_cc_applications = $noc_cc_applications->addSelect(DB::raw("'1' as is_noc_cc_application"));
+
+            if($request->application_master_id)
+            {
+                $noc_cc_applications = $noc_cc_applications->where('application_master_id', 'like', '%'.$request->application_master_id.'%');
+            }
+            $noc_cc_applications = $noc_cc_applications->get();
+
+            $ol_applications = $ol_applications->toBase()->merge($noc_cc_applications);
+
             //NOC changed added by <--Sayan Pal--> << End
 
-//             dd($ol_applications);
+            // dd($ol_applications);exit;
             return $datatables->of($ol_applications)
-                ->editColumn('radio', function ($ol_applications) {
+                ->editColumn('radio', function ($ol_applications) use($reval_master_ids_arr) {
                     $url = route('society_offer_letter_preview');
+                    $reval_url = route('society_reval_offer_letter_preview');
                     $url_noc = route('society_noc_preview');
+                    $url_noc_cc = route('society_noc_cc_preview');
 
                     if(isset($ol_applications->is_noc_application))
                     {
                         return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url_noc.'" name="ol_applications_id"><span></span></label>';
-                    }else{
+                    }
+                    elseif($ol_applications->is_noc_cc_application)
+                    {
+                        return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url_noc_cc.'" name="ol_applications_id"><span></span></label>';
+                    }
+                    elseif(in_array($ol_applications->application_master_id,$reval_master_ids_arr))
+                    {
+                        return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$reval_url .'" name="ol_applications_id"><span></span></label>';
+
+                    }
+                    else{
 
                         return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="ol_applications_id"><span></span></label>';
                     }
@@ -357,13 +419,25 @@ class SocietyOfferLetterController extends Controller
                     $i++;
                     return $i;
                 })
-                ->editColumn('application_no', function ($ol_applications) {
+                ->editColumn('application_no', function ($ol_applications) use($reval_master_ids_arr) {
 
-                    $app_type = "<br><span class='m-badge m-badge--success'>Application for Offer letter</span>";
+
 
                     if(isset($ol_applications->is_noc_application))
                     {
                         $app_type = "<br><span class='m-badge m-badge--danger'>Application for Noc</span>";
+                    }
+                    elseif($ol_applications->is_noc_cc_application)
+                    {
+                        $app_type = "<br><span class='m-badge m-badge--warning'>Application for Noc (CC)</span>";
+                    }
+                    elseif(in_array($ol_applications->application_master_id,$reval_master_ids_arr))
+                    {
+                        $app_type = "<br><span class='m-badge m-badge--success'>Revalidation Of Offer letter</span>";
+                    }
+                    else
+                    {
+                        $app_type = "<br><span class='m-badge m-badge--success'>Application for Offer letter</span>";
                     }
 
                     return $ol_applications->application_no . $app_type;
@@ -420,27 +494,10 @@ class SocietyOfferLetterController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function ViewApplications($id){
-        $self_premium = OlApplicationMaster::where('title', 'New - Offer Letter')->where('model', 'Premium')->where('parent_id', '1')->select('id')->get();
-        $self_premium = $self_premium[0]->id;
-        $self_sharing = OlApplicationMaster::where('title', 'New - Offer Letter')->where('model', 'Sharing')->where('parent_id', '1')->select('id')->get();
-        $self_sharing = $self_sharing[0]->id;
-        $dev_premium = OlApplicationMaster::where('title', 'New - Offer Letter')->where('model', 'Sharing')->where('parent_id', '12')->select('id')->get();
-        $dev_premium = $dev_premium[0]->id;
-        $dev_sharing = OlApplicationMaster::where('title', 'New - Offer Letter')->where('model', 'Premium')->where('parent_id', '12')->select('id')->get();
-        $dev_sharing = $dev_sharing[0]->id;
-
-
-        $self_reval_premium = OlApplicationMaster::where('title', 'Revalidation Of Offer Letter')->where('model', 'Premium')->where('parent_id', '1')->select('id')->get();
-        $self_reval_premium = $self_reval_premium[0]->id;
-        $self_reval_sharing = OlApplicationMaster::where('title', 'Revalidation Of Offer Letter')->where('model', 'Sharing')->where('parent_id', '1')->select('id')->get();
-        $self_reval_sharing = $self_reval_sharing[0]->id;
-        $dev_reval_premium = OlApplicationMaster::where('title', 'Revalidation Of Offer Letter')->where('model', 'Sharing')->where('parent_id', '12')->select('id')->get();
-        $dev_reval_premium = $dev_reval_premium[0]->id;
-        $dev_reval_sharing = OlApplicationMaster::where('title', 'Revalidation Of Offer Letter')->where('model', 'Premium')->where('parent_id', '12')->select('id')->get();
-        $dev_reval_sharing = $dev_reval_sharing[0]->id;
-
-
-        return view('frontend.society.application', compact('id', 'self_premium', 'self_sharing', 'dev_premium', 'dev_sharing','self_reval_premium', 'self_reval_sharing', 'dev_reval_premium', 'dev_reval_sharing'));
+        $ids = explode('_', $id);
+        $data = OlApplicationMaster::with('ol_application_type', 'ol_application_id')->where('model', ucfirst($ids[1]))->where('parent_id', $ids[0])->get();
+//        dd($data);
+        return view('frontend.society.application', compact('ids', 'data'));
     }
 
     /**
@@ -574,7 +631,7 @@ class SocietyOfferLetterController extends Controller
             'is_approve_offer_letter' => '0',
         );
         $last_id = OlApplication::create($insert_application);
-        $role_id = Role::where('name', 'ee_junior_engineer')->first();
+        $role_id = Role::where('name','like', 'ree_junior_engineer')->first();
 
         $user_ids = RoleUser::where('role_id', $role_id->id)->get();
         $layout_user_ids = LayoutUser::where('layout_id', $request->input('layout_id'))->whereIn('user_id', $user_ids)->get();
@@ -763,15 +820,16 @@ class SocietyOfferLetterController extends Controller
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         } ])->orderBy('id', 'desc')->first();
         $ol_applications = $application;
-        $documents = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->with(['documents_uploaded' => function($q) use ($society){
+        $documents = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->with(['reval_documents_uploaded' => function($q) use ($society){
             $q->where('society_id', $society->id)->get();
         }])->get();
         foreach ($documents as $key => $value) {
             $document_ids[] = $value->id;
         }
-        $documents_uploaded = OlSocietyDocumentsStatus::where('society_id', $society->id)->whereIn('document_id', $document_ids)->with(['documents_uploaded'])->get();
+        $documents_uploaded = RevalOlSocietyDocumentStatus::where('society_id', $society->id)->whereIn('document_id', $document_ids)->with(['documents_uploaded'])->get();
 
-        $documents_comment = OlSocietyDocumentsComment::where('society_id', $society->id)->first();
+        $documents_comment = OlSocietyDocumentsComment::where('society_id', $society->id)->orderBy('id','desc')->first();
+
         if($application->application_master_id == '3' || $application->application_master_id == '14'){
             $optional_docs = config('commanConfig.optional_docs_premium_reval');
         }
@@ -963,6 +1021,44 @@ class SocietyOfferLetterController extends Controller
         return view('frontend.society.view_society_uploaded_documents', compact('documents', 'optional_docs', 'docs_uploaded_count','docs_count', 'ol_applications','documents_uploaded', 'documents_comment', 'society'));
     }
 
+
+    public function viewSocietyRevalDocuments(){
+        $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
+        $application = OlApplication::where('society_id', $society->id)->with(['olApplicationStatus' => function($q){
+            $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
+        }])->orderBy('id', 'desc')->first();
+
+        $documents = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->with(['reval_documents_uploaded' => function($q) use ($society){
+            $q->where('society_id', $society->id)->get();
+        }])->get();
+
+        foreach ($documents as $key => $value) {
+            $document_ids[] = $value->id;
+        }
+        if($application->application_master_id == '3' || $application->application_master_id == '14'){
+            $optional_docs = config('commanConfig.optional_docs_premium_reval');
+        }
+        if($application->application_master_id == '7' || $application->application_master_id == '18'){
+            $optional_docs = config('commanConfig.optional_docs_sharing_reval');
+        }
+
+        $docs_uploaded_count = 0;
+        $docs_count = 0;
+        foreach($documents as $documents_key => $documents_val) {
+            if (in_array($documents_key + 1, $optional_docs) == false) {
+                $docs_count++;
+                if (count($documents_val->documents_uploaded) > 0) {
+                    $docs_uploaded_count++;
+                }
+            }
+        }
+        $ol_applications = $application;
+        $documents_uploaded = RevalOlSocietyDocumentStatus::where('society_id', $society->id)->whereIn('document_id', $document_ids)->get();
+        $documents_comment = OlSocietyDocumentsComment::where('society_id', $society->id)->orderBy('id','desc')->first();
+
+        return view('frontend.society.view_society_uploaded_reval_documents', compact('documents', 'optional_docs', 'docs_uploaded_count','docs_count', 'ol_applications','documents_uploaded', 'documents_comment', 'society'));
+    }
+
     /**
      * Uploads society documents.
      * Author: Amar Prajapati
@@ -1067,9 +1163,9 @@ class SocietyOfferLetterController extends Controller
         $destinationPath = public_path($uploadPath);
 
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
-        $application = OlApplication::where('society_id', $society->id)->first();
+        $application = OlApplication::where('society_id', $society->id)->orderBy('id','desc')->first();
 
-        $documents = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->where('id', $request->input('document_id'))->with(['documents_uploaded' => function($q) use ($society){
+        $documents = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->where('id', $request->input('document_id'))->with(['reval_documents_uploaded' => function($q) use ($society){
             $q->where('society_id', $society->id)->get();
         }])->get();
 
@@ -1093,15 +1189,15 @@ class SocietyOfferLetterController extends Controller
             'document_id' => $request->input('document_id'),
             'society_document_path' => $path,
         );
-        OlSocietyDocumentsStatus::create($input);
-        $documents_master = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->with(['documents_uploaded' => function($q) use ($society){
+        RevalOlSocietyDocumentStatus::create($input);
+        $documents_master = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->with(['reval_documents_uploaded' => function($q) use ($society){
             $q->where('society_id', $society->id)->get();
         }])->get();
 
-        if($application->application_master_id == '2' || $application->application_master_id == '13'){
+        if($application->application_master_id == '3' || $application->application_master_id == '14'){
             $optional_docs = config('commanConfig.optional_docs_premium_reval');
         }
-        if($application->application_master_id == '6' || $application->application_master_id == '17'){
+        if($application->application_master_id == '7' || $application->application_master_id == '18 '){
             $optional_docs = config('commanConfig.optional_docs_sharing_reval');
         }
         $docs_uploaded_count = 0;
@@ -1117,7 +1213,7 @@ class SocietyOfferLetterController extends Controller
         }
 
         if($docs_count == $docs_uploaded_count){
-            $role_id = Role::where('name', 'ree_junior_engineer')->first();
+            $role_id = Role::where('name','like', 'ree_junior_engineer')->first();
 
             $user_ids = RoleUser::where('role_id', $role_id->id)->get();
 
@@ -1227,16 +1323,16 @@ class SocietyOfferLetterController extends Controller
 
     public function deleteSocietyRevalDocuments($id){
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
-        $application = OlApplication::where('society_id', $society->id)->first();
+        $application = OlApplication::where('society_id', $society->id)->orderBy('id','desc')->first();
 
-        $documents_master = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->with(['documents_uploaded' => function($q) use ($society){
+        $documents_master = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)->with(['reval_documents_uploaded' => function($q) use ($society){
             $q->where('society_id', $society->id)->get();
         }])->get();
 
-        if($application->application_master_id == '2' || $application->application_master_id == '13'){
+        if($application->application_master_id == '3' || $application->application_master_id == '14'){
             $optional_docs = config('commanConfig.optional_docs_premium_reval');
         }
-        if($application->application_master_id == '6' || $application->application_master_id == '17'){
+        if($application->application_master_id == '7' || $application->application_master_id == '18'){
             $optional_docs = config('commanConfig.optional_docs_sharing_reval');
         }
         $docs_uploaded_count = 0;
@@ -1252,7 +1348,7 @@ class SocietyOfferLetterController extends Controller
         }
 
         if($docs_count == $docs_uploaded_count){
-            $role_id = Role::where('name', 'ree_junior_engineer')->first();
+            $role_id = Role::where('name','like', 'ree_junior_engineer')->first();
             $user_ids = RoleUser::where('role_id', $role_id->id)->get();
             $layout_user_ids = LayoutUser::where('layout_id', $application->layout_id)->whereIn('user_id', $user_ids)->get();
             foreach ($layout_user_ids as $key => $value) {
@@ -1279,12 +1375,12 @@ class SocietyOfferLetterController extends Controller
             OlApplicationStatus::insert($insert_application_log_pending);
         }
 
-        $delete_document_details = OlSocietyDocumentsStatus::where('society_id', $society->id)->where('document_id', $id)->get();
+        $delete_document_details = RevalOlSocietyDocumentStatus::where('society_id', $society->id)->where('document_id', $id)->get();
         $stored_filepath = explode('/', $delete_document_details[0]->society_document_path);
         $folder_name = "society_reval_offer_letter_documents";
         $path = $folder_name.'/'.$stored_filepath[count($stored_filepath)-1];
         $delete = Storage::disk('ftp')->delete($path);
-        OlSocietyDocumentsStatus::where('society_id', $society->id)->where('document_id', $id)->delete();
+        RevalOlSocietyDocumentStatus::where('society_id', $society->id)->where('document_id', $id)->delete();
 
         return redirect()->route('reval_documents_upload');
     }
@@ -1330,11 +1426,16 @@ class SocietyOfferLetterController extends Controller
         $ol_application = OlApplication::where('user_id', Auth::user()->id)->where('society_id', $society->id)->with(['request_form', 'applicationMasterLayout', 'olApplicationStatus' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc');
         }])->orderBy('id', 'desc')->first();
+
+        $old_ol_application = OlApplication::where('user_id', Auth::user()->id)->where('society_id', $society->id)->with(['request_form', 'applicationMasterLayout', 'olApplicationStatus' => function($q){
+            $q->where('society_flag', '1')->orderBy('id', 'desc');
+        }])->first();
+
         $layouts = MasterLayout::all();
         $id = $ol_application->application_master_id;
         $ol_applications = $ol_application;
 
-        return view('frontend.society.show_reval_ol_application_form', compact('society_details', 'ol_applications', 'ol_application', 'layouts', 'id'));
+        return view('frontend.society.show_reval_ol_application_form', compact('society_details', 'ol_applications', 'ol_application', 'layouts', 'id','old_ol_application'));
     }
 
     /**
@@ -1428,10 +1529,14 @@ class SocietyOfferLetterController extends Controller
         $layouts = MasterLayout::all();
         $id = $ol_application->application_master_id;
 
+        $old_ol_application = OlApplication::where('user_id', Auth::user()->id)->where('society_id', $society->id)->with(['request_form', 'applicationMasterLayout', 'olApplicationStatus' => function($q){
+            $q->where('society_flag', '1')->orderBy('id', 'desc');
+        }])->first();
+
         $mpdf = new Mpdf();
         $mpdf->autoScriptToLang = true;
         $mpdf->autoLangToFont = true;
-        $contents = view('frontend.society.display_society_reval_offer_letter_application', compact('society_details', 'ol_application', 'layouts', 'id'));
+        $contents = view('frontend.society.display_society_reval_offer_letter_application', compact('society_details', 'ol_application', 'layouts', 'id','old_ol_application'));
         $mpdf->WriteHTML($contents);
         $mpdf->Output();
 
@@ -1511,6 +1616,7 @@ class SocietyOfferLetterController extends Controller
                         $insert_application_log_forwarded[$key]['to_user_id'] = $user->id;
                         $insert_application_log_forwarded[$key]['to_role_id'] = $user->role_id;
                         $insert_application_log_forwarded[$key]['remark'] = isset($society_remark->society_documents_comment) ? $society_remark->society_documents_comment : '' ;
+                        $insert_application_log_forwarded[$key]['is_active'] = 1;
                         $insert_application_log_forwarded[$key]['created_at'] = date('Y-m-d H-i-s');
                         $insert_application_log_forwarded[$key]['updated_at'] = date('Y-m-d H-i-s');
 
@@ -1522,11 +1628,15 @@ class SocietyOfferLetterController extends Controller
                         $insert_application_log_in_process[$key]['to_user_id'] = 0;
                         $insert_application_log_in_process[$key]['to_role_id'] = 0;
                         $insert_application_log_in_process[$key]['remark'] = isset($society_remark->society_documents_comment) ? $society_remark->society_documents_comment : '' ;
+                        $insert_application_log_in_process[$key]['is_active'] = 1;
                         $insert_application_log_in_process[$key]['created_at'] = date('Y-m-d H-i-s');
                         $insert_application_log_in_process[$key]['updated_at'] = date('Y-m-d H-i-s');
                         $i++;
                     }
                 }
+                //Code added by Prajakta
+                    OlApplicationStatus::where('application_id',$application->id)->update(array('is_active' => 0));
+                //EOC
                     OlApplicationStatus::insert(array_merge($insert_application_log_forwarded, $insert_application_log_in_process));
             }else{
                 return redirect()->back()->with('error_uploaded_file', 'Invalid type of file uploaded (only pdf allowed)');

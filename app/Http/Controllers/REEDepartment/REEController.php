@@ -11,6 +11,7 @@ use Yajra\DataTables\DataTables;
 use App\olSiteVisitDocuments;
 use App\OlApplication;
 use App\NocApplication;
+use App\NocCCApplication;
 use App\SocietyOfferLetter;
 use App\OlSocietyDocumentsStatus;
 use App\OlConsentVerificationDetails;
@@ -23,6 +24,7 @@ use App\OlCustomCalculationSheet;
 use App\OlChecklistScrutiny;
 use App\OlApplicationStatus;
 use App\NocApplicationStatus;
+use App\NocCCApplicationStatus;
 use App\NocSrutinyQuestionMaster;
 use App\NocReeScrutinyAnswer;
 use App\User;
@@ -1082,11 +1084,19 @@ class REEController extends Controller
                     if ($request->update_status == $status){
                         $config_array = array_flip(config('commanConfig.applicationStatus'));
                         $value = ucwords(str_replace('_', ' ', $config_array[$status]));
+                        if($value == 'NOC Issued')
+                        {
+                            $value = 'NOC Approved';
+                        }
                         return '<span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$status) .' m-badge--wide">'.$value.'</span>';
                     }
                 }else{
                     $config_array = array_flip(config('commanConfig.applicationStatus'));
                     $value = ucwords(str_replace('_', ' ', $config_array[$status]));
+                    if($value == 'NOC Issued')
+                    {
+                        $value = 'NOC Approved';
+                    }
                     return '<span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$status) .' m-badge--wide">'.$value.'</span>';
                 }
 
@@ -1144,7 +1154,7 @@ class REEController extends Controller
         if ($model->noc_application_master->model == 'Premium'){
             $blade =  "premum_noc_letter";
         }elseif($model->noc_application_master->model == 'Sharing'){
-            $blade =  "premum_noc_letter";
+            $blade =  "sharing_iod_noc_letter";
         }
 
         if($model->draft_noc_text_path){
@@ -1159,6 +1169,8 @@ class REEController extends Controller
     }
 
     public function saveDraftNoc(Request $request){
+
+        $noc_application = $this->CommonController->getNocApplication($request->applicationId);
 
         $id = $request->applicationId;
         $content = str_replace('_', "", $_POST['ckeditorText']);
@@ -1195,6 +1207,11 @@ class REEController extends Controller
         NocApplication::where('id',$request->applicationId)->update(["draft_noc_path" => $filePath, "draft_noc_text_path" => $filePath1]);
 
         \Session::flash('success_msg', 'Changes in Noc draft has been saved successfully..');
+
+        if((session()->get('role_name') == config('commanConfig.ree_junior')) && !empty($noc_application->final_draft_noc_path) && ($noc_application->noc_generation_status != config('commanConfig.applicationStatus.NOC_Issued')))
+        {
+            return redirect('approved_noc_letter/'.$request->applicationId)->with('success', 'Changes in NOC has been incorporated successfully.');
+        }
 
         return redirect('generate_noc/'.$request->applicationId);
     }
@@ -1344,6 +1361,8 @@ class REEController extends Controller
         if(session()->get('role_name') == config('commanConfig.ree_junior') && $noc_application->noc_generation_status == 0 && !empty($noc_application->final_draft_noc_path))
         {
             NocApplication::where('id',$request->applicationId)->update(["noc_generation_status" => config('commanConfig.applicationStatus.NOC_Generation')]);
+
+            $noc_application = $this->CommonController->getNocApplication($request->applicationId);
         }
 
         if($noc_application->noc_generation_status == '0' && (session()->get('role_name') == config('commanConfig.ree_branch_head')) && empty($noc_application->final_draft_noc_path))
@@ -1375,6 +1394,8 @@ class REEController extends Controller
         $applicationData = NocApplication::with(['eeApplicationSociety'])
                 ->where('id',$applicationId)->orderBy('id','DESC')->first();
 
+        $applicationData->ree_Jr_id = (session()->get('role_name') == config('commanConfig.ree_junior'));
+
         $this->CommonController->getREEForwardRevertLogNoc($applicationData,$applicationId); 
        
        // get Co log
@@ -1390,4 +1411,466 @@ class REEController extends Controller
         return redirect('/ree_noc_applications')->with('success','Issued Noc has been successfully sent to society.');
         
     }
+
+    public function nocforCCApplicationList(Request $request, Datatables $datatables)
+    {
+        $getData = $request->all();
+        $columns = [
+            ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
+            ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
+            ['data' => 'application_no','name' => 'application_no','title' => 'Application Number'],
+            ['data' => 'date','name' => 'date','title' => 'Date', 'class' => 'datatable-date'],
+            ['data' => 'eeApplicationSociety.name','name' => 'eeApplicationSociety.name','title' => 'Society Name'],
+            ['data' => 'eeApplicationSociety.building_no','name' => 'eeApplicationSociety.building_no','title' => 'building No'],
+            ['data' => 'eeApplicationSociety.address','name' => 'eeApplicationSociety.address','title' => 'Address','class' => 'datatable-address', 'searchable' => false],
+            ['data' => 'Model','name' => 'Model','title' => 'Model'],
+            ['data' => 'Status','name' => 'Status','title' => 'Status'],
+        ];
+        $noc_application_data = $this->CommonController->listApplicationDataNocforCC($request);
+        if ($datatables->getRequest()->ajax()) {
+            $noc_application_data = $this->CommonController->listApplicationDataNocforCC($request);
+              
+            return $datatables->of($noc_application_data)
+                ->editColumn('rownum', function ($listArray) {
+                     static $i = 0; $i++; return $i;
+                })
+            ->editColumn('radio', function ($noc_application_data) {
+                $url = route('ree.view_application_noc_cc', $noc_application_data->id);
+                return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="village_data_id"><span></span></label>';
+            })            
+            ->editColumn('eeApplicationSociety.name', function ($noc_application_data) {
+                return $noc_application_data->eeApplicationSociety->name;
+            })
+            ->editColumn('eeApplicationSociety.building_no', function ($noc_application_data) {
+                return $noc_application_data->eeApplicationSociety->building_no;
+            })
+            ->editColumn('eeApplicationSociety.address', function ($noc_application_data) {
+                return "<span>".$noc_application_data->eeApplicationSociety->address."</span>";
+            })                
+            ->editColumn('date', function ($noc_application_data) {
+                return date(config('commanConfig.dateFormat'), strtotime($noc_application_data->submitted_at));
+            })
+            // ->editColumn('actions', function ($ree_application_data) use($request){
+            //    return view('admin.REE_department.action', compact('ree_application_data', 'request'))->render();
+            // }) 
+            ->editColumn('Status', function ($listArray) use ($request) {
+                $status = $listArray->nocApplicationStatusForLoginListing[0]->status_id;
+
+                if ($request->update_status)
+                {
+                    if ($request->update_status == $status){
+                        $config_array = array_flip(config('commanConfig.applicationStatus'));
+                        $value = ucwords(str_replace('_', ' ', $config_array[$status]));
+                        if($value == 'NOC Issued')
+                        {
+                            $value = 'NOC Approved';
+                        }
+                        return '<span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$status) .' m-badge--wide">'.$value.'</span>';
+                    }
+                }else{
+                    $config_array = array_flip(config('commanConfig.applicationStatus'));
+                    $value = ucwords(str_replace('_', ' ', $config_array[$status]));
+                    if($value == 'NOC Issued')
+                    {
+                        $value = 'NOC Approved';
+                    }
+                    return '<span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$status) .' m-badge--wide">'.$value.'</span>';
+                }
+
+            })
+           ->editColumn('Model', function ($noc_application_data) {
+                    return $noc_application_data->noc_application_master->model;
+                })
+            ->rawColumns(['radio','society_name', 'building_name', 'society_address','date','Status','eeApplicationSociety.address'])
+            ->make(true);
+        }        
+            $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+            
+        return view('admin.REE_department.noc_cc_list', compact('html','header_data','getData')); 
+    }
+
+    public function viewApplicationNocforCC(Request $request, $applicationId){
+
+        $noc_application = $this->CommonController->downloadNocforCC($applicationId);
+        $noc_application->folder = 'REE_department';
+
+        $noc_application->model = NocCCApplication::with(['noc_application_master'])->where('id',$applicationId)->first();
+        
+        return view('admin.common.noc_cc', compact('noc_application'));
+    }
+
+    public function societyNocforCCDocuments(Request $request,$applicationId){
+        
+        $noc_application = $this->CommonController->getNocforCCApplication($applicationId);
+        $noc_application->model = NocCCApplication::with(['noc_application_master'])->where('id',$applicationId)->first();
+        $societyDocuments = $this->CommonController->getSocietyNocCCDocuments($applicationId);
+
+       return view('admin.REE_department.society_noc_cc_documents',compact('noc_application','societyDocuments'));
+    }
+
+    public function GenerateNocforCC(Request $request, $applicationId){
+        
+        $noc_application = $this->CommonController->getNocforCCApplication($applicationId);
+        $noc_application->model = NocCCApplication::with(['noc_application_master'])->where('id',$applicationId)->first();
+        $applicationLog = $this->CommonController->getCurrentStatusNocforCC($applicationId);
+        $societyData = NocCCApplication::with(['eeApplicationSociety'])
+                ->where('id',$applicationId)->orderBy('id','DESC')->first();
+
+        $societyData->ree_Jr_id = (session()->get('role_name') == config('commanConfig.ree_junior')); 
+        $societyData->ree_branch_head = (session()->get('role_name') == config('commanConfig.ree_branch_head')); 
+
+        //$societyData->drafted_offer_letter = OlApplication::where('id',$applicationId)->value('drafted_offer_letter');   
+      
+        return view('admin.REE_department.generate-noc-cc',compact('societyData','noc_application','applicationLog'));
+    }
+
+    public function createEditNocforCC(Request $request,$applicatonId){
+        
+        $model = NocCCApplication::with('noc_application_master','eeApplicationSociety','request_form')->where('id',$applicatonId)->first();
+
+        $blade =  "sharing_noc_cc_letter";
+
+        if($model->draft_noc_text_path){
+
+            $content = Storage::disk('ftp')->get($model->draft_noc_text_path); 
+                   
+        }else{
+           $content = ""; 
+        }
+
+        return view('admin.REE_department.'.$blade,compact('applicatonId','content','model'));
+    }
+
+    public function saveDraftNocforCC(Request $request){
+
+        $noc_application = $this->CommonController->getNocforCCApplication($request->applicationId);
+
+        $id = $request->applicationId;
+        $content = str_replace('_', "", $_POST['ckeditorText']);
+        $folder_name = 'Draft_noc_cc';
+
+        /*$header_file = view('admin.REE_department.offer_letter_header');        
+        $footer_file = view('admin.REE_department.offer_letter_footer');*/
+        $header_file = '';
+        $footer_file = '';
+
+        $pdf = \App::make('dompdf.wrapper');
+
+        $pdf->loadHTML($header_file.$content.$footer_file);
+
+        $fileName = time().'draft_noc_cc_'.$id.'.pdf';
+        $filePath = $folder_name."/".$fileName;
+
+        if (!(Storage::disk('ftp')->has($folder_name))) {            
+            Storage::disk('ftp')->makeDirectory($folder_name, $mode = 0777, true, true);
+        } 
+        Storage::disk('ftp')->put($filePath, $pdf->output());
+        $file = $pdf->output();
+
+        $folder_name1 = 'text_noc_cc';
+
+        if (!(Storage::disk('ftp')->has($folder_name1))) {            
+            Storage::disk('ftp')->makeDirectory($folder_name1, $mode = 0777, true, true);
+        }        
+        $file_nm =  time()."text_noc_cc".$id.'.txt';
+        $filePath1 = $folder_name1."/".$file_nm;
+
+        Storage::disk('ftp')->put($filePath1, $content);
+
+        NocCCApplication::where('id',$request->applicationId)->update(["draft_noc_path" => $filePath, "draft_noc_text_path" => $filePath1]);
+
+        \Session::flash('success_msg', 'Changes in Noc draft has been saved successfully..');
+
+        if((session()->get('role_name') == config('commanConfig.ree_junior')) && !empty($noc_application->final_draft_noc_path) && ($noc_application->noc_generation_status != config('commanConfig.applicationStatus.NOC_Issued')))
+        {
+            return redirect('approved_noc_letter/'.$request->applicationId)->with('success', 'Changes in NOC has been incorporated successfully.');
+        }
+
+        return redirect('generate_noc_cc/'.$request->applicationId);
+    }
+
+    public function uploadDraftNocforCC(Request $request,$applicationId){
+        
+        if ($request->file('noc_letter')) {
+            $file = $request->file('noc_letter');
+            $extension = $file->getClientOriginalExtension();
+            $file_name = time().'_uploaded_noc_cc_'.$applicationId.'.'.$extension;
+            $folder_name = "uploaded_noc_cc";
+
+            if ($extension == "pdf") {
+
+                $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$request->file('noc_letter'),$file_name);
+
+                    $draftNocPath = $folder_name."/".$file_name; 
+                    NocCCApplication::where('id',$applicationId)->update(["final_draft_noc_path" => $draftNocPath]);
+
+                    return redirect()->back()->with('success', 'Draft copy of Noc has been uploaded successfully.');
+            } else {
+                return redirect()->back()->with('error', 'Invalid format. pdf file only.');
+            }
+        }       
+    }
+
+    public function scrutinyRemarkNocforCCByREE($application_id)
+    {
+        $noc_application = $this->CommonController->getNocforCCApplication($application_id);
+        $noc_application->status = $this->CommonController->getCurrentStatusNocforCC($application_id);
+
+        $application_master_id = NocCCApplication::where('society_id', $noc_application->eeApplicationSociety->id)->value('application_master_id');
+
+        $arrData['society_detail'] = NocCCApplication::with('eeApplicationSociety')->where('id', $application_id)->first();
+
+        $arrData['get_last_status'] = NocCCApplicationStatus::where([
+                'application_id' =>  $application_id,
+                'user_id' => Auth::user()->id,
+                'role_id' => session()->get('role_id')
+            ])->orderBy('id', 'desc')->first();
+
+        return view('admin.REE_department.scrutiny-remark-noc-cc', compact('arrData','noc_application'));
+    }
+
+    public function uploadOfficeNoteNocforCCRee(Request $request){
+        $applicationId   = $request->application_id;
+        $uploadPath      = '/uploads/ree_office_note_noc_cc';
+        $destinationPath = public_path($uploadPath);
+
+        if ($request->file('ree_office_note_noc')){
+
+            $file = $request->file('ree_office_note_noc');
+            $extension = $file->getClientOriginalExtension();
+            $file_name = time().'ree_office_note_noc_cc.'.$extension;
+            $folder_name = "ree_office_note_noc_cc";
+            $path = $folder_name."/".$file_name;
+
+            if($extension == "pdf") {
+
+                $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$request->file('ree_office_note_noc'),$file_name);
+
+                NocCCApplication::where('id',$applicationId)->update(["ree_office_note_noc" => $path]);
+
+                return back()->with('success', 'Office Note has been uploaded successfully');
+            }
+            else
+            {
+                return back()->with('error', 'Invalid type of file uploaded (only pdf allowed).');
+            }
+        }
+    }
+
+    public function forwardApplicationNocCC(Request $request, $applicationId){
+
+        $noc_application = $this->CommonController->getNocforCCApplication($applicationId);
+        $noc_application->model = NocCCApplication::with(['noc_application_master'])->where('id',$applicationId)->first();
+        $applicationData = $this->CommonController->getForwardNocCCApplication($applicationId);
+
+        $parentData = $this->CommonController->getForwardApplicationParentData();
+        $arrData['parentData'] = $parentData['parentData'];
+        $arrData['role_name'] = $parentData['role_name'];
+
+        if(session()->get('role_name') != config('commanConfig.ree_junior'))
+        $arrData['application_status'] = $this->CommonController->getCurrentLoggedInChildNocCC($applicationId);
+
+        $arrData['get_current_status'] = $this->CommonController->getCurrentStatusNocCC($applicationId);
+
+        // CO Forward Application
+
+        $co_id = Role::where('name', '=', config('commanConfig.co_engineer'))->first();
+        if($arrData['get_current_status']->status_id != config('commanConfig.applicationStatus.NOC_Issued'))
+        {
+            $arrData['get_forward_co'] = User::leftJoin('layout_user as lu', 'lu.user_id', '=', 'users.id')
+                                ->where('lu.layout_id', session()->get('layout_id'))
+                                ->where('role_id', $co_id->id)->get();
+            $arrData['co_role_name'] = strtoupper(str_replace('_', ' ', $co_id->name));
+        }
+
+        //remark and history
+        $reeLogs  = $this->CommonController->getLogsOfREEDepartmentForNOCforCC($applicationId); 
+        $coLogs   = $this->CommonController->getLogsOfCODepartmentForNOCforCC($applicationId); 
+
+          // dd($ol_application->offer_letter_document_path);
+        return view('admin.REE_department.forward_application_noc_cc',compact('applicationData','arrData','noc_application','reeLogs','coLogs'));  
+    }
+
+    public function sendForwardNocforCCApplication(Request $request){
+
+        $noc_application = $this->CommonController->getNocforCCApplication($request->applicationId);
+
+        $arrData['get_current_status'] = $this->CommonController->getCurrentStatusNocCC($request->applicationId);
+
+        if(session()->get('role_name') == config('commanConfig.ree_junior') && $noc_application->noc_generation_status == 0 && !empty($noc_application->final_draft_noc_path))
+        {
+            NocCCApplication::where('id',$request->applicationId)->update(["noc_generation_status" => config('commanConfig.applicationStatus.NOC_Generation')]);
+
+            $noc_application = $this->CommonController->getNocforCCApplication($request->applicationId);
+        }
+
+        if($noc_application->noc_generation_status == '0' && (session()->get('role_name') == config('commanConfig.ree_branch_head')) && empty($noc_application->final_draft_noc_path))
+        {
+            $this->CommonController->revertNocforCCApplicationToSociety($request);
+        }
+        elseif($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.NOC_Generation') || ($noc_application->noc_generation_status == config('commanConfig.applicationStatus.NOC_Generation') && session()->get('role_name') == config('commanConfig.ree_junior')))
+        {
+            $this->CommonController->generateNOCforCCREE($request);
+        }
+        elseif($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.NOC_Issued'))
+        {
+             $this->CommonController->forwardApprovedNocfoCCApplication($request);
+        }
+        else
+        {
+            $this->CommonController->forwardNocCCApplicationForm($request);
+        }
+
+        return redirect('/ree_noc_cc_applications')->with('success','Application send successfully.');
+
+    }
+
+    public function approvedNOCforCCletter(Request $request,$applicationId){
+
+        $ree_head = session()->get('role_name') == config('commanConfig.ree_branch_head'); 
+        $noc_application = $this->CommonController->getNocforCCApplication($applicationId);
+        $noc_application->model = NocCCApplication::with(['noc_application_master'])->where('id',$applicationId)->first();
+        $applicationData = NocCCApplication::with(['eeApplicationSociety'])
+                ->where('id',$applicationId)->orderBy('id','DESC')->first();
+
+        $applicationData->ree_Jr_id = (session()->get('role_name') == config('commanConfig.ree_junior'));
+
+        $this->CommonController->getREEForwardRevertLogNocforCC($applicationData,$applicationId); 
+       
+       // get Co log
+        $co = Role::where('name',config('commanConfig.co_engineer'))->value('id');
+        $applicationData->coLog = NocCCApplicationStatus::where('application_id',$applicationId)->where('role_id',$co)->where('status_id', config('commanConfig.applicationStatus.forwarded'))->orderBy('id', 'desc')->first();   
+
+        return view('admin.REE_department.approved_noc_cc_cert',compact('applicationData','noc_application','ree_head'));
+    }
+
+    public function sendissuedNOCforCCToSociety(Request $request){
+
+        $this->CommonController->forwardNocCCApplicationToSociety($request);
+        return redirect('/ree_noc_cc_applications')->with('success','Issued Noc has been successfully sent to society.');
+        
+    }
+
+    public function dashboard(){
+        $role_id = session()->get('role_id');
+        $user_id = Auth::id();
+
+        $applicationData = $this->getApplicationData($role_id,$user_id);
+
+        $statusCount = $this->getApplicationStatusCount($applicationData);
+
+        // REE Roles
+        $ree = $this->getREERoles();
+
+        $dashboardData = $this->getREEDashboardData($role_id,$ree,$statusCount);
+
+        return view('admin.REE_department.dashboard',compact('dashboardData'));
+
+//        dd($ree);
+//
+//        die('dfsdfsdf');
+
+    }
+
+    public function getApplicationData($role_id,$user_id){
+        $applicationData = OlApplication::with([
+            'olApplicationStatus' => function ($q) use ($role_id,$user_id) {
+                $q->where('user_id', $user_id)
+                    ->where('role_id', $role_id)
+                    ->where('society_flag', 0)
+//                    ->where('is_active',1)
+                    ->orderBy('id', 'desc');
+            }])
+            ->whereHas('olApplicationStatus', function ($q) use ($role_id,$user_id) {
+                $q->where('user_id', $user_id)
+                    ->where('role_id', $role_id)
+                    ->where('society_flag', 0)
+//                    ->where('is_active',1)
+                    ->orderBy('id', 'desc');
+            })->get()->toArray();
+
+        return $applicationData;
+    }
+
+    public function getApplicationStatusCount($applicationData){
+
+        $totalForwarded = $totalReverted = $totalPending = $totalInProcess = 0 ;
+
+        foreach ($applicationData as $application){
+
+//            dd($application['ol_application_status'][0]['status_id']);
+            $status = $application['ol_application_status'][0]['status_id'];
+//            print_r($status);
+//            echo '=====';
+            switch ( $status )
+            {
+                case config('commanConfig.applicationStatus.in_process'): $totalPending += 1; break;
+                case config('commanConfig.applicationStatus.forwarded'): $totalForwarded += 1; break;
+                case config('commanConfig.applicationStatus.reverted'): $totalReverted += 1 ; break;
+                default:
+                    ; break;
+            }
+        }
+//        dd($totalForwarded);
+        $totalApplication = count($applicationData);
+
+        $count = ['totalPending' => $totalPending,
+            'totalForwarded' => $totalForwarded,
+            'totalReverted' => $totalReverted,
+            'totalApplication' => $totalApplication
+        ];
+        return $count;
+
+    }
+
+    public function getREERoles(){
+        $ree_jr_id = Role::where('name',config('commanConfig.ree_junior'))->value('id');
+        $ree_head_id = Role::where('name',config('commanConfig.ree_branch_head'))->value('id');
+        $ree_deputy_id = Role::where('name', config('commanConfig.ree_deputy_engineer'))->value('id');
+        $ree_ass_id = Role::where('name', config('commanConfig.ree_assistant_engineer'))->value('id');
+
+        $ree = ['ree_jr_id' => $ree_jr_id,
+            'ree_head_id' => $ree_head_id,
+            'ree_deputy_id' => $ree_deputy_id,
+            'ree_ass_id' => $ree_ass_id];
+
+        return $ree;
+    }
+
+    public function getREEDashboardData($role_id,$ree,$statusCount)
+    {
+//        dd($ree);
+//        dd('perparing for dashboard data');
+        switch ($role_id) {
+            case ($ree['ree_jr_id']):
+                $dashboardData['Total No of Application'] = $statusCount['totalApplication'];
+                $dashboardData['Application Pending'] = $statusCount['totalPending'];
+                $dashboardData['Application Forwarded to REE Deputy'] = $statusCount['totalForwarded'];
+                break;
+            case ($ree['ree_head_id']):
+                $dashboardData['Total No of Application'] = $statusCount['totalApplication'];
+                $dashboardData['Application Pending'] = $statusCount['totalPending'];
+                $dashboardData['Application Sent for Compliance'] = $statusCount['totalReverted'];
+                $dashboardData['Application Forwarded to CO'] = $statusCount['totalForwarded'];
+                break;
+            case ($ree['ree_deputy_id']):
+                $dashboardData['Total No of Application'] = $statusCount['totalApplication'];
+                $dashboardData['Application Pending'] = $statusCount['totalPending'];
+                $dashboardData['Application Sent for Compliance'] = $statusCount['totalReverted'];
+                $dashboardData['Application Forwarded to REE Assistant'] = $statusCount['totalForwarded'];
+                break;
+            case ($ree['ree_ass_id']):
+                $dashboardData['Total No of Application'] = $statusCount['totalApplication'];
+                $dashboardData['Application Pending'] = $statusCount['totalPending'];
+                $dashboardData['Application Sent for Compliance'] = $statusCount['totalReverted'];
+                $dashboardData['Application Forwarded to REE Head'] = $statusCount['totalForwarded'];
+                break;
+            default:
+                ;
+                break;
+        }
+        return $dashboardData;
+    }
+
+
 }

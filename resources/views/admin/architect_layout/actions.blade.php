@@ -122,7 +122,7 @@ $route=\Request::route()->getName();
         session()->get('role_name')==config('commanConfig.vp_engineer'))
         @if($visible_layout_and_excel>0)
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{($route=='architect_Layout_scrutiny_of_ee_em_lm_ree')?'m-menu__item--active':''}}">
-            <a class="m-menu__link m-menu__toggle" title="Scrutiny & Remarks" href="{{route('architect_Layout_scrutiny_of_ee_em_lm_ree',encrypt($ArchitectLayout->id))}}">
+            <a class="m-menu__link m-menu__toggle" title="Scrutiny of EE EM LM REE" href="{{route('architect_Layout_scrutiny_of_ee_em_lm_ree',encrypt($ArchitectLayout->id))}}">
                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
                     <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
                         fill="#FFF" />
@@ -134,7 +134,7 @@ $route=\Request::route()->getName();
         @if($visible_layout_and_excel>0)
         @if(($ArchitectLayout->upload_layout_in_pdf_format != "" && $ArchitectLayout->upload_layout_in_excel_format != "" && $ArchitectLayout->upload_architect_note != "") || session()->get('role_name')==config('commanConfig.junior_architect'))
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{($route=='architect_layout_prepare_layout_excel')?'m-menu__item--active':''}}">
-            <a class="m-menu__link m-menu__toggle" title="Scrutiny & Remarks" href="{{route('architect_layout_prepare_layout_excel',encrypt($ArchitectLayout->id))}}">
+            <a class="m-menu__link m-menu__toggle" title="Layout & Excel" href="{{route('architect_layout_prepare_layout_excel',encrypt($ArchitectLayout->id))}}">
                 <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
                     <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
                         fill="#FFF" />
@@ -151,7 +151,7 @@ $route=\Request::route()->getName();
         @if($status->status_id!=config('commanConfig.architect_layout_status.new_application') ||
         ($status->status_id==config('commanConfig.architect_layout_status.scrutiny_pending')))
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{($route=='forward_architect_layout')?'m-menu__item--active':''}}">
-                <a class="m-menu__link" title="Society & EE Documents" href="{{route('forward_architect_layout',encrypt($ArchitectLayout->id))}}">
+                <a class="m-menu__link" title="Forward Application" href="{{route('forward_architect_layout',encrypt($ArchitectLayout->id))}}">
                     <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
                         <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
                             fill="#FFF" />

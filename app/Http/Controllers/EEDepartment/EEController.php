@@ -193,6 +193,7 @@ class EEController extends Controller
                 'to_user_id' => $request->to_user_id,
                 'to_role_id' => $request->to_role_id,
                 'remark' => $request->remark,
+                'is_active' => 1,
                 'created_at' => Carbon::now()
             ],
 
@@ -204,13 +205,26 @@ class EEController extends Controller
                 'to_user_id' => NULL,
                 'to_role_id' => NULL,
                 'remark' => $request->remark,
+                'is_active' => 1,
                 'created_at' => Carbon::now()
             ]
             ];
 
-//            echo "in forward";
-//            dd($forward_application);
-            OlApplicationStatus::insert($forward_application);
+            //Code added by Prajakta
+            DB::beginTransaction();
+            try {
+                OlApplicationStatus::where('application_id',$request->application_id)
+                    ->whereIn('user_id', [Auth::user()->id,$request->to_user_id ])
+                    ->update(array('is_active' => 0));
+
+                OlApplicationStatus::insert($forward_application);
+
+                DB::commit();
+            } catch (\Exception $ex) {
+                DB::rollback();
+//                return response()->json(['error' => $ex->getMessage()], 500);
+            }
+           //EOC
         }
         else{
             /*if(session()->get('role_name') == config('commanConfig.ee_junior_engineer'))
@@ -261,6 +275,7 @@ class EEController extends Controller
                         'to_user_id' => $request->to_child_id,
                         'to_role_id' => $request->to_role_id,
                         'remark' => $request->remark,
+                        'is_active' => 1,
                         'created_at' => Carbon::now()
                     ],
 
@@ -273,14 +288,27 @@ class EEController extends Controller
                         'to_user_id' => NULL,
                         'to_role_id' => NULL,
                         'remark' => $request->remark,
+                        'is_active' => 1,
                         'created_at' => Carbon::now()
                     ]
                 ];
 //            }
-                // dd($revert_application);
-//            echo "in revert";
-//            dd($revert_application);
-            OlApplicationStatus::insert($revert_application);
+
+            //Code added by Prajakta
+            DB::beginTransaction();
+            try {
+                OlApplicationStatus::where('application_id',$request->application_id)
+                    ->whereIn('user_id', [Auth::user()->id,$request->to_child_id ])
+                    ->update(array('is_active' => 0));
+
+                OlApplicationStatus::insert($revert_application);
+
+                DB::commit();
+            } catch (\Exception $ex) {
+                DB::rollback();
+//                return response()->json(['error' => $ex->getMessage()], 500);
+            }
+            //EOC
         }
 
         return redirect('/ee')->with('success','Application send successfully.');

@@ -951,11 +951,11 @@ $(window).on('popstate', function () {
                         <div class="portlet-body">
                             <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
                                 <div class="m-subheader">
-                                    <div class="d-flex align-items-center">
+                                    {{-- <div class="d-flex align-items-center">
                                         <h3 class="section-title section-title--small">
                                             Executive Engineering report
                                         </h3>
-                                    </div>
+                                    </div> --}}
                                     <div class="optionBoxEE">
                                         <div class="blockEE">
                                             <div class="form-group m-form__group row mb-0">
@@ -1076,11 +1076,11 @@ $(window).on('popstate', function () {
                         <div class="portlet-body">
                             <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
                                 <div class="m-subheader">
-                                    <div class="d-flex align-items-center">
+                                    {{-- <div class="d-flex align-items-center">
                                         <h3 class="section-title section-title--small">
                                             EM report
                                         </h3>
-                                    </div>
+                                    </div> --}}
                                     <div class="optionBoxEM">
                                         <div class="blockEM">
                                             <div class="form-group m-form__group row mb-0">
@@ -1177,11 +1177,11 @@ $(window).on('popstate', function () {
                         <div class="portlet-body">
                             <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
                                 <div class="m-subheader">
-                                    <div class="d-flex align-itrees-center">
+                                    {{-- <div class="d-flex align-itrees-center">
                                         <h3 class="section-title section-title--small">
                                             REE report
                                         </h3>
-                                    </div>
+                                    </div> --}}
                                     <div class="optionBoxREE">
                                         <div class="blockREE">
                                             <div class="form-group m-form__group row mb-0">
@@ -1278,11 +1278,11 @@ $(window).on('popstate', function () {
                         <div class="portlet-body">
                             <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
                                 <div class="m-subheader">
-                                    <div class="d-flex align-itrees-center">
+                                    {{-- <div class="d-flex align-itrees-center">
                                         <h3 class="section-title section-title--small">
                                             Land report
                                         </h3>
-                                    </div>
+                                    </div> --}}
                                     <div class="optionBoxLand">
                                         <div class="blockLand">
                                             <div class="form-group m-form__group row mb-0">

@@ -147,6 +147,7 @@ class RCController extends Controller
         }
 
         $bill_ids =  explode(',',$Tenant_bill_id->bill_id);                          
+        
         $bill = TransBillGenerate::findMany($bill_ids);
         //dd($bill);
         if(!empty($bill)){
@@ -199,6 +200,7 @@ class RCController extends Controller
                                    ->with('tenant_detail')
                                    ->with('building_detail')
                                    ->with('society_detail')
+                                   ->orderBy('id','DESC')
                                    ->first();
 
          if(empty($bill) || is_null($bill)){

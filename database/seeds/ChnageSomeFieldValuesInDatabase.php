@@ -105,5 +105,35 @@ class ChnageSomeFieldValuesInDatabase extends Seeder
             $data->save();
         }
 
+        // Changing dashboard route of ree role to '/ree_dashboard'
+
+        $ree_head_role_id = Role::where('name', '=', 'ree_engineer')->value('id');
+        if($joint_co_role_id ){
+            $data = Role::findOrFail($ree_head_role_id);
+            $data->redirect_to ='/ree_dashboard';
+            $data->save();
+        }
+
+        $ree_ass_role_id = Role::where('name', '=', 'REE Assistant Engineer')->value('id');
+        if($ree_ass_role_id ){
+            $data = Role::findOrFail($ree_ass_role_id);
+            $data->redirect_to ='/ree_dashboard';
+            $data->save();
+        }
+
+        $ree_dy_role_id = Role::where('name', '=', 'REE deputy Engineer')->value('id');
+        if($ree_dy_role_id ){
+            $data = Role::findOrFail($ree_dy_role_id);
+            $data->redirect_to ='/ree_dashboard';
+            $data->save();
+        }
+
+        $ree_jr_role_id = Role::where('name', '=', 'REE Junior Engineer')->value('id');
+        if($ree_jr_role_id ){
+            $data = Role::findOrFail($ree_jr_role_id);
+            $data->redirect_to ='/ree_dashboard';
+            $data->save();
+        }
+
     }
 }

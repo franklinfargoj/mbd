@@ -37,11 +37,14 @@
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title">View Society Bill</h3>
+            <div class="ml-auto btn-list">
+                <a href="{{ url()->previous() }}" class="btn btn-link pull-right"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+            </div>
         </div>
     </div>
     <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
                
-                <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+                {{-- <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
                     <div class="m-form__actions px-0">
                         <div class="row">
                             <div class="col-sm-12">
@@ -51,7 +54,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
 
         <form method="post" action="{{route('create_society_bill')}}">
             {{ csrf_field() }}

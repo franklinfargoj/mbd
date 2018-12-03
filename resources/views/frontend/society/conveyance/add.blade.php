@@ -82,7 +82,7 @@
                     <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="no_agricultural_tax">Download Template:</label>
-                            <p><a href="{{ route('sc_download') }}" class="btn btn-primary" target="_blank" rel="noopener">Download Template</a> </p>
+                            <p><a href="{{ route('sc_download') }}" class="btn btn-primary" target="_blank" rel="noopener">Download Template</a></p>
                             <span class="help-block">{{$errors->first('no_agricultural_tax')}}</span>
                         </div>
                         <div class="col-sm-4 offset-sm-1 form-group">
@@ -113,4 +113,18 @@
             </form>
         </div>
     </div>
+@endsection
+@section('datatablejs')
+    <script>
+        $('#society_registration_date').click(function(){
+            var dates = $('#first_flat_issue_date').val();
+            var date = new Date(dates);
+            console.log(dates);
+            $('#society_registration_date').datepicker({
+                format: 'dd-mm-yyyy',
+                autoclose:true,
+                endDate: date,
+            });
+        });
+    </script>
 @endsection

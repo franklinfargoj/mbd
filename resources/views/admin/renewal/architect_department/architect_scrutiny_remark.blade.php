@@ -32,13 +32,13 @@
         {{ session()->get('error') }}
     </div>  
 @endif
-
+  
 <div class="col-md-12">
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">Scrutiny & Remark</h3>
-            
+            {{ Breadcrumbs::render('renewal_architect_scrutiny',$data->id) }}
             <div class="ml-auto btn-list">
                 <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
             </div>
@@ -250,7 +250,7 @@
                         </div>
                         <div class="mt-3">
                             <input type="submit" class="s_btn btn btn-primary" id="submitBtn" name="">
-                            <button type="button" class="s_btn btn btn-primary" id="submitBtn" name="">Cancel</button>
+                            <!-- <button type="button" class="s_btn btn btn-primary" id="submitBtn" name="">Cancel</button> -->
                         </div>              
                     </div>
                 </div>

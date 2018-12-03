@@ -177,6 +177,9 @@
                                        else{
                                        $required = '';
                                        }
+                                       @endphp
+                                       {{--
+                                       @php
 
                                         if(isset($arrData['scrutiny_answers_to_questions'][$each_question->id]))
                                         {
@@ -190,6 +193,7 @@
                                           }
                                         }
                                        @endphp
+                                       --}}
                                        <tr>
                                           <td>{{ $i }}.</td>
                                           <td>{{ $each_question->question }}</td>
@@ -288,12 +292,12 @@
                                     </div>
                                  </div>
                                  @else
-                                 <div class="col-sm-12" style="{{ $display }}">
+                                 <div class="col-sm-6" style="{{ $display }}">
                                     <div class="d-flex flex-column h-100 two-cols">
                                        <h5>Upload Note</h5>
                                        <span class="hint-text">Click on 'Upload' to upload REE - Note</span>
                                        <form action="{{ route('ree.upload_office-note-noc') }}" method="post"
-                                          enctype="multipart/form-data">
+                                          enctype="multipart/form-data" style="margin-left: -2%;">
                                           @csrf
                                           <input type="hidden" name="application_id" value="{{ $noc_application->id }}">
                                           <div class="custom-file">

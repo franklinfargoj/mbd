@@ -19,6 +19,11 @@ class SocietyPermissionSeeder extends Seeder
 
         $permissions = [
                 [
+                    'name'         => 'society_detail.application',
+                    'display_name' => 'application',
+                    'description'  => 'lists application'
+                ],
+                [
                     'name'         => 'society_offer_letter.index',
                     'display_name' => 'index',
                     'description'  => 'index'
@@ -407,6 +412,16 @@ class SocietyPermissionSeeder extends Seeder
                     'name'         => 'add_reval_documents_comment',
                     'display_name' => 'Add uploaded revalidation documents comment',
                     'description'  => 'Add uploaded revalidation documents comment'
+                ],
+                [
+                    'name'         => 'reval_documents_uploaded',
+                    'display_name' => 'View uploaded revalidation documents',
+                    'description'  => 'View uploaded revalidation documents'
+                ],
+                [
+                    'name'         => 'reval_documents_upload',
+                    'display_name' => 'Upload revalidation documents',
+                    'description'  => 'Upload revalidation documents'
                 ]
         ];
         
@@ -415,7 +430,7 @@ class SocietyPermissionSeeder extends Seeder
             //dd('if');
             $role_id = Role::insertGetId([
                 'name'         => 'society',
-                'redirect_to'  => '/society_offer_letter_dashboard',
+                'redirect_to'  => '/society/society_offer_letter_dashboard',
                 'parent_id'    => NULL,
                 'display_name' => 'Society Offer Letter',
                 'description'  => 'Login as Society'

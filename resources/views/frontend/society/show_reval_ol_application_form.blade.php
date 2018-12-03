@@ -34,22 +34,22 @@
 
                 <p><span class="font-weight-semi-bold"> Subject - </span>Proposed redevelopment to the existing Building No. <input type="hidden" name="application_master_id" value="{{ $id }}" readonly><input class="letter-form-input" type="text" id="" name="building_no" value="{{ $society_details->building_no }}" readonly>(address )<input class="letter-form-input" type="text" id="" name="address" value="{{ $society_details->address }}" readonly> (society name) <input class="letter-form-input" type="text" id="" name="name" value="{{ $society_details->name }}" readonly>
 
-                <p class="font-weight-semi-bold">Ref: Society's request letter submitted on </p>
+                <p class="font-weight-semi-bold">Ref: Society's request letter submitted on {{ date(config('commanConfig.dateFormat'), strtotime($old_ol_application->submitted_at )) }}</p>
 
                 <p class="font-weight-semi-bold">Sir,</p>
                 <p>
-                    With referance to above subject, MHADA have issued offer letter vide no {{ $ol_application->request_form->ol_vide_no }} dated {{ date(config('commanConfig.dateFormat'), strtotime($ol_application->request_form->ol_issue_date)) }}. for additional biltup area. We request you to consider our request for extension of the offer letter period for further six months as per policy of MHADA.
+                    With reference to above subject, MHADA have issued offer letter vide no {{ $ol_application->request_form->ol_vide_no }} dated {{ date(config('commanConfig.dateFormat'), strtotime($ol_application->request_form->ol_issue_date)) }}. for additional biltup area. We request you to consider our request for extension of the offer letter period for further six months as per policy of MHADA.
                 </p>
 
                 <p>
-                    <textarea name="revalidation_reason" id="revalidation_reason" placeholder="Type reason for not able to make offer letter payment within 6 months of time">{{ $ol_application->request_form->reason_for_revalidation }}</textarea>
+                    <textarea style="width: 100%" name="revalidation_reason" id="revalidation_reason" placeholder="Type reason for not able to make offer letter payment within 6 months of time">{{ $ol_application->request_form->reason_for_revalidation }}</textarea>
                 </p>
                 <p>
-                    It is also understood that, MHADA has passed a Resolution No. <input class="letter-form-input" type="text" id="" name="resolution_no" value="{{ $ol_application->request_form->resolution_no }}" readonly> dated  <input class="letter-form-input" type="text" name="date_of_meeting" value="{{ date(config('commanConfig.dateFormat'), strtotime($ol_application->request_form->date_of_meeting)) }}" readonly> for allowing Co-oprative Housing Societies to pay the amoount of premium for additional Build-up area in three equal instalments over a period of two years. We are ready to pay interrest as per policy of MHADA.
+                    It is also understood that, MHADA has passed a Resolution No. <input class="letter-form-input" type="text" id="" name="resolution_no" value="{{ $ol_application->request_form->resolution_no }}" readonly> dated  <input class="letter-form-input" type="text" name="date_of_meeting" value="{{ date(config('commanConfig.dateFormat'), strtotime($ol_application->request_form->date_of_meeting)) }}" readonly> for allowing Co-operative Housing Societies to pay the amount of premium for additional Build-up area in three equal installments over a period of two years. We are ready to pay interest as per policy of MHADA.
                 </p>
 
                 <p>
-                    Kindly, consider our sufferings & hardships and sopport our redevlopment by provoiding us received offer letter on the broad terms as requested above.
+                    Kindly, consider our sufferings & hardships and support our redevelopment by providing us received offer letter on the broad terms as requested above.
 
                     Thinking you in kind anticipation.
                 </p>
