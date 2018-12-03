@@ -196,17 +196,7 @@ class LAPermission extends Seeder
                 'name'=>'em.scrutiny_remark',
                 'display_name'=>'EM scrutiny remark',
                 'description'=>'EM scrutiny remark'
-            ],
-            [
-                'name'=>'conveyance.save_draft_sign_conveyance_agreement',
-                'display_name'=>'save draft sign conveyance agreement',
-                'description'=>'save draft sign conveyance agreement'
-            ],             
-            [
-                'name'=>'conveyance.draft_sign_conveyance_agreement',
-                'display_name'=>'draft sign conveyance agreement',
-                'description'=>'draft sign conveyance agreement'
-            ]                                                             
+            ],                                                                         
         ];
 
         $role_id = Role::where('name', '=', 'la_engineer')->first();
@@ -262,6 +252,7 @@ class LAPermission extends Seeder
             }
 
             $permission_roles = PermissionRole::where('permission_id',$permission_id)->where('role_id',$role_id)->first();
+            
             if($permission_roles) {
 
             }else{
