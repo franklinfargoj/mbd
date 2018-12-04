@@ -20,8 +20,10 @@
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center" id="search_box">
-            <h3 class="m-subheader__title">Calculation - {{$society->name}} / {{$tenant->first_name}} / {{$tenant->flat_no}}</h3>
-           
+            <h3 class="m-subheader__title">Calculation - {{$society->society_name}} - {{$tenant->first_name}} - {{$tenant->flat_no}}</h3>
+           <div class="ml-auto btn-list">
+                <a href="{{ url()->previous() }}" class="btn btn-link pull-right"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+            </div>
          </div>
 
         <div class="m-portlet m-portlet--compact filter-wrap">

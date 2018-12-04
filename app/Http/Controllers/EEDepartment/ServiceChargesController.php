@@ -86,7 +86,7 @@ class ServiceChargesController extends Controller
     }
 
     public function create($society_id,$building_id) {
-        
+
         $society_id = decrypt($society_id);
         $building_id = decrypt($building_id);
 
@@ -95,6 +95,7 @@ class ServiceChargesController extends Controller
         //dd($data['tenant_types']);
 
     	$data['society'] = SocietyDetail::find($society_id);
+        
         $data['building'] = MasterBuilding::where('society_id', $society_id)->find($building_id);
     	return view('admin.service_charges.create',$data);
     }

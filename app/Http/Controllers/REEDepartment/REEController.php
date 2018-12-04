@@ -1788,6 +1788,7 @@ class REEController extends Controller
 
     public function dashboard(){
         $role_id = session()->get('role_id');
+
         $user_id = Auth::id();
 
         $applicationData = $this->getApplicationData($role_id,$user_id);
@@ -1799,12 +1800,14 @@ class REEController extends Controller
 
         $dashboardData = $this->getREEDashboardData($role_id,$ree,$statusCount);
 
-        return view('admin.REE_department.dashboard',compact('dashboardData'));
+        $reeHeadId = Role::where('name',config('commanConfig.ree_branch_head'))->value('id');
 
-//        dd($ree);
-//
-//        die('dfsdfsdf');
+        $dashboardData1 = NULL;
+        if($role_id == $reeHeadId){
+            $dashboardData1 = $this->getTotalCountsOfApplicationsPending();
+        }
 
+        return view('admin.REE_department.dashboard',compact('dashboardData','dashboardData1'));
     }
 
     public function getApplicationData($role_id,$user_id){
@@ -1833,17 +1836,17 @@ class REEController extends Controller
 
         $totalDraftOfferLetterGenereated = $totalOfferLetterSentForApproval = 0 ;
 
-        $offerLetterApprovedNotIssuedToSociety = 0;
+        $offerLetterApprovedNotIssuedToSociety = $offerLetterIssuedToSociety = $offerLetterForwardedForIssueingToSociety = 0;
 
         foreach ($applicationData as $application){
 //            echo "<pre>";
 //            print_r($application);
 
-            $phase =  $application['phase'];
+            $phase =  $application['ol_application_status'][0]['phase'];
             $status = $application['ol_application_status'][0]['status_id'];
 //            print_r($status);
 //            echo '=====';
-            if($phase == 1){
+            if($phase == 0){
                 switch ( $status )
                 {
                     case config('commanConfig.applicationStatus.in_process'): $totalPending += 1; break;
@@ -1853,7 +1856,7 @@ class REEController extends Controller
                         ; break;
                 }
             }
-            if($phase == 2){
+            if($phase == 1){
 //                dd($application);
                 switch ( $status )
                 {
@@ -1864,12 +1867,15 @@ class REEController extends Controller
                         ; break;
                 }
             }
-            if($phase == 3){
+            if($phase == 2){
                 switch ( $status )
                 {
+
+                case config('commanConfig.applicationStatus.forwarded'): $offerLetterForwardedForIssueingToSociety += 1; break;
                 case config('commanConfig.applicationStatus.offer_letter_approved'): $offerLetterApprovedNotIssuedToSociety += 1; break;
-                    default:
-                        ; break;
+                case config('commanConfig.applicationStatus.sent_to_society'): $offerLetterIssuedToSociety += 1; break;
+                default:
+                    ; break;
                 }
             }
 
@@ -1885,7 +1891,9 @@ class REEController extends Controller
             'totalOfferLetterSentForApproval' => $totalOfferLetterSentForApproval,
 //            'offerLetterApproved' => $offerLetterApproved,
             'offerLetterApprovedNotIssuedToSociety' => $offerLetterApprovedNotIssuedToSociety,
-        ];
+            'offerLetterIssuedToSociety' => $offerLetterIssuedToSociety,
+            'offerLetterForwardedForIssueingToSociety' => $offerLetterForwardedForIssueingToSociety,
+            ];
         return $count;
 
     }
@@ -1917,6 +1925,7 @@ class REEController extends Controller
                 $dashboardData['Offer Letter Sent for Approval to REE Deputy'] = $statusCount['totalOfferLetterSentForApproval'];
 //                $dashboardData['Offer Letter Approved'] = $statusCount['offerLetterApproved'];
                 $dashboardData['Offer Letter Approved but Not Issued to Society'] = $statusCount['offerLetterApprovedNotIssuedToSociety'];
+                $dashboardData['Offer Letter Forwarded for Issuing To Society'] = $statusCount['offerLetterForwardedForIssueingToSociety'];
                 break;
             case ($ree['ree_head_id']):
                 $dashboardData['Total No of Application'] = $statusCount['totalApplication'];
@@ -1927,7 +1936,7 @@ class REEController extends Controller
                 $dashboardData['Offer Letter Sent for Approval to CO'] = $statusCount['totalOfferLetterSentForApproval'];
 //                $dashboardData['Offer Letter Approved'] = $statusCount['offerLetterApproved'];
                 $dashboardData['Offer Letter Approved but Not Issued to Society'] = $statusCount['offerLetterApprovedNotIssuedToSociety'];
-
+                $dashboardData['Offer Letter Sent To Society '] = $statusCount['offerLetterIssuedToSociety'];
                 break;
             case ($ree['ree_deputy_id']):
                 $dashboardData['Total No of Application'] = $statusCount['totalApplication'];
@@ -1938,6 +1947,7 @@ class REEController extends Controller
                 $dashboardData['Offer Letter Sent for Approval to REE Assistant'] = $statusCount['totalOfferLetterSentForApproval'];
 //                $dashboardData['Offer Letter Approved'] = $statusCount['offerLetterApproved'];
                 $dashboardData['Offer Letter Approved but Not Issued to Society'] = $statusCount['offerLetterApprovedNotIssuedToSociety'];
+                $dashboardData['Offer Letter Forwarded for Issuing To Society'] = $statusCount['offerLetterForwardedForIssueingToSociety'];
                 break;
             case ($ree['ree_ass_id']):
                 $dashboardData['Total No of Application'] = $statusCount['totalApplication'];
@@ -1948,6 +1958,7 @@ class REEController extends Controller
                 $dashboardData['Offer Letter Sent for Approval to REE Head'] = $statusCount['totalOfferLetterSentForApproval'];
 //                $dashboardData['Offer Letter Approved'] = $statusCount['offerLetterApproved'];
                 $dashboardData['Offer Letter Approved but Not Issued to Society'] = $statusCount['offerLetterApprovedNotIssuedToSociety'];
+                $dashboardData['Offer Letter Forwarded for Issuing To Society'] = $statusCount['offerLetterForwardedForIssueingToSociety'];
                 break;
             default:
                 ;
@@ -1958,5 +1969,69 @@ class REEController extends Controller
         return $dashboardData;
     }
 
+    // total count of all department dashboard for ree
+
+    public function getTotalCountsOfApplicationsPending(){
+
+        $eeRoleData = $this->CommonController->getEERoles();
+        $dyceRoleData = $this->CommonController->getDyceRoles();
+        $reeRoleData = $this->getREERoles();
+        $coRoleData = Role::where('name',config('commanConfig.co_engineer'))->value('id');
+        $vpRoleData = Role::where('name',config('commanConfig.vp_engineer'))->value('id');
+        $capRoleData = Role::where('name',config('commanConfig.cap_engineer'))->value('id');
+
+//SELECT COUNT(*) FROM `ol_application_status_log` WHERE `is_active`=1 AND `role_id` IN (21) AND `status_id`= 1
+
+//        $eeTotalPendingCount = $dyceTotalPendingCount = $reeTotalPendingCount
+//        = $coTotalPendingCount = $vpTotalPendingCount = $capTotalPendingCount = 0;
+
+        $eeTotalPendingCount = OlApplicationStatus::where('is_active',1)
+            ->where('status_id',config('commanConfig.applicationStatus.in_process'))
+            ->whereIn('role_id',[$eeRoleData['ee_jr_id'],$eeRoleData['ee_head_id'],$eeRoleData['ee_deputy_id']])
+            ->get()->count();
+
+        $dyceTotalPendingCount = OlApplicationStatus::where('is_active',1)
+            ->where('status_id',config('commanConfig.applicationStatus.in_process'))
+            ->whereIn('role_id',[$dyceRoleData['dyce_jr_id'],$dyceRoleData['dyce_head_id'],$dyceRoleData['dyce_deputy_id']])
+            ->get()->count();
+
+        $reeTotalPendingCount = OlApplicationStatus::where('is_active',1)
+            ->whereIn('status_id',[config('commanConfig.applicationStatus.offer_letter_generation'),config('commanConfig.applicationStatus.in_process'),config('commanConfig.applicationStatus.offer_letter_approved')])
+            ->whereIn('role_id',[$reeRoleData['ree_jr_id'],$reeRoleData['ree_head_id'],$reeRoleData['ree_deputy_id'],$reeRoleData['ree_ass_id']])
+            ->get()->count();
+
+        $coTotalPendingCount = OlApplicationStatus::where('is_active',1)
+            ->whereIn('status_id',[config('commanConfig.applicationStatus.in_process'),config('commanConfig.applicationStatus.offer_letter_generation')])
+            ->where('role_id',$coRoleData)
+            ->get()->count();
+
+        $vpTotalPendingCount = OlApplicationStatus::where('is_active',1)
+            ->where('status_id',config('commanConfig.applicationStatus.in_process'))
+            ->where('role_id',$vpRoleData)
+            ->get()->count();
+
+        $capTotalPendingCount = OlApplicationStatus::where('is_active',1)
+            ->where('status_id',config('commanConfig.applicationStatus.in_process'))
+            ->where('role_id',$capRoleData)
+            ->get()->count();
+
+        $totalPendingApplications = $eeTotalPendingCount + $dyceTotalPendingCount + $reeTotalPendingCount
+            + $coTotalPendingCount + $vpTotalPendingCount + $capTotalPendingCount;
+
+
+        $dashboardData1 = array();
+        $dashboardData1['Total number of Application Pending'] = $totalPendingApplications;
+        $dashboardData1['Applications pending at EE department'] = $eeTotalPendingCount;
+        $dashboardData1['Application Pending at DyCE'] = $dyceTotalPendingCount;
+        $dashboardData1['Applications pending at REE'] = $reeTotalPendingCount;
+        $dashboardData1['Applications pending at CO'] = $coTotalPendingCount;
+//                $dashboardData['Offer Letter Approved'] = $statusCount['offerLetterApproved'];
+        $dashboardData1['Applications pending at CAP'] = $capTotalPendingCount;
+        $dashboardData1['Applications pending at VP'] = $vpTotalPendingCount;
+
+        return $dashboardData1;
+
+
+    }
 
 }

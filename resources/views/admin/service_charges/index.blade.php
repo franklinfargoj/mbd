@@ -1,27 +1,34 @@
 @extends('admin.layouts.app')
 @section('content')
+@if(session()->has('success'))
+<div class="alert alert-success display_msg">
+    {{ session()->get('success') }}
+</div>
+@endif
+
+@if(session()->has('warning'))
+    <div class="alert alert-danger display_msg">
+        {{ session()->get('warning') }}
+    </div>  
+@endif
 <div class="col-md-12">
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
-            <h3 class="m-subheader__title m-subheader__title--separator">Service Charges Rate - {{$society->name}} {{$building->name}}</h3>
+            <h3 class="m-subheader__title m-subheader__title--separator">Service Charges Rate</h3>
             {{ Breadcrumbs::render('service_charges',encrypt($society->id),encrypt($building->id)) }}
+            <div class="ml-auto btn-list">
+                <a href="{{ url()->previous() }}" class="btn btn-link pull-right"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+            </div>
         </div>
         
     </div>
     <!-- END: Subheader -->
     <div class="m-portlet m-portlet--compact m-portlet--mobile">
+        <h4 class="box-subheading ml-0">{{$society->society_name}} - {{$building->name}}</h4>
         <div class="tools">
             <a href="{{url('service_charges/'.encrypt($society->id).'/'.encrypt($building->id).'/create')}}" class='btn m-btn--pill m-btn--custom btn-primary pull-right'>Add Service Charge </a>
         </div>
-        @if(Session::has('success'))
-        <div class="alert alert-success fade in alert-dismissible show" style="margin-top:18px;">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true" style="font-size:20px">×</span>
-            </button> {{ Session::get('success') }}
-        </div>
-        
-        @endif
         {!! $html->table() !!}
     </div>
 </div>
@@ -30,4 +37,9 @@
 @endsection
 @section('datatablejs')
 {!! $html->scripts() !!}
+<script>
+    $(document).ready(function () {
+        $(".display_msg").delay(5000).slideUp(300);
+    });
+</script>
 @endsection

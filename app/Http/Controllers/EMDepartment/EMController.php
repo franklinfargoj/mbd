@@ -130,31 +130,20 @@ class EMController extends Controller
             'serverSide' => true,
             'processing' => true,
             'ordering'   =>'isSorted',
-            "order"=> [1, "asc" ],
+            "order"=> [0, "asc" ],
             "pageLength" => $this->list_num_of_records_per_page
         ];
     }
 
-    public function getsocieties(Request $request){
+    public function getsocieties(Request $request, Datatables $datatables){
+        // dd($request->id);
+        $columns = [
+            ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
+            ['data' => 'society_name','name' => 'society_name','title' => 'Society Name'],
+            ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
+        ];
 
-        if($request->input('id')){            
-            $wards = MasterWard::where('layout_id', '=', $request->input('id'))->pluck('id');
-            $colonies = MasterColony::whereIn('ward_id', $wards)->pluck('id');
-            $societies = SocietyDetail::whereIn('colony_id', $colonies)->paginate(10);
-            
-            return view('admin.em_department.ajax_society', compact('societies'));
-            
-        } elseif(!empty($request->input('search'))) {
-                
-          $layouts = DB::table('layout_user')->where('user_id', '=', Auth::user()->id)->pluck('layout_id');
-          $layout_data = MasterLayout::whereIn('id', $layouts)->get();
-          $wards = MasterWard::whereIn('layout_id', $layouts)->pluck('id');
-          $colonies = MasterColony::whereIn('ward_id', $wards)->pluck('id');
-          $societies = SocietyDetail::whereIn('colony_id', $colonies)->where('society_name','like', '%'.$request->input('search').'%')->paginate(10);
-          return view('admin.em_department.ajax_society', compact('societies'));
-        
-        } else {
-    
+
         $layouts = DB::table('layout_user')->where('user_id', '=', Auth::user()->id)->pluck('layout_id');
         $layout_data = MasterLayout::whereIn('id', $layouts)->get();
        // dd($layout_data);
@@ -165,68 +154,226 @@ class EMController extends Controller
 
         //done by shrikant sabne
         //$societies = SocietyDetail::whereIn('colony_id', $colonies)->paginate(10);
-        
-        $societies = SocietyDetail::paginate(10);
-        //dd($societies);
-        if($request->has('search')) {
-            return view('admin.em_department.ajax_society', compact('societies'));  
-        } else {
-            return view('admin.em_department.society', compact('layout_data','societies'));
+        if ($request->has('id') && '' != $request->get('id')) {
+
+            $wards = MasterWard::where('layout_id', '=', $request->input('id'))->pluck('id');
+            $colonies = MasterColony::whereIn('ward_id', $wards)->pluck('id');
+            
         }
-      }
+
+        if ($datatables->getRequest()->ajax()) {
+           
+                DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
+                $societies = SocietyDetail::selectRaw('@rownum  := @rownum  + 1 AS rownum,lm_society_detail.*');
+                if ($request->has('id') && '' != $request->get('id')) {
+                    $societies = $societies->whereIn('colony_id', $colonies);
+                }
+                
+            return $datatables->of($societies)
+                ->editColumn('actions', function ($societies){
+	                return "<div class='d-flex btn-icon-list'>
+                    <a href='".route('get_buildings', [encrypt($societies->id)])."' class='d-flex flex-column align-items-center ' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--view'><img src='".asset('/img/view-icon.svg')."'></span>Building Details</a>
+                
+                    <a href='".route('soc_bill_level', [encrypt($societies->id)])."' class='d-flex flex-column align-items-center' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/edit-icon.svg')."'></span>Bill Level</a>
+                   
+                    <a href='".route('soc_ward_colony', [encrypt($societies->id)])."' class='d-flex flex-column align-items-center' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--delete'><img src='".asset('/img/generate-bill-icon.svg')."'></span>Ward & colony</a>
+
+                </div>";
+	                
+                })               
+	            ->rawColumns(['actions'])
+                ->make(true);
+            
+        }
+     
+        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+
+        return view('admin.em_department.society', compact('layout_data','html'));
+
+    //     if($request->input('id')){            
+    //         $wards = MasterWard::where('layout_id', '=', $request->input('id'))->pluck('id');
+    //         $colonies = MasterColony::whereIn('ward_id', $wards)->pluck('id');
+    //         $societies = SocietyDetail::whereIn('colony_id', $colonies)->paginate(10);
+            
+    //         return view('admin.em_department.ajax_society', compact('societies'));
+            
+    //     } elseif(!empty($request->input('search'))) {
+                
+    //       $layouts = DB::table('layout_user')->where('user_id', '=', Auth::user()->id)->pluck('layout_id');
+    //       $layout_data = MasterLayout::whereIn('id', $layouts)->get();
+    //       $wards = MasterWard::whereIn('layout_id', $layouts)->pluck('id');
+    //       $colonies = MasterColony::whereIn('ward_id', $wards)->pluck('id');
+    //       $societies = SocietyDetail::whereIn('colony_id', $colonies)->where('society_name','like', '%'.$request->input('search').'%')->paginate(10);
+    //       return view('admin.em_department.ajax_society', compact('societies'));
         
+    //     } else {
+    
+    //     $layouts = DB::table('layout_user')->where('user_id', '=', Auth::user()->id)->pluck('layout_id');
+    //     $layout_data = MasterLayout::whereIn('id', $layouts)->get();
+    //    // dd($layout_data);
+    //     $wards = MasterWard::whereIn('layout_id', $layouts)->pluck('id');
+    //     //dd($wards);
+    //     $colonies = MasterColony::whereIn('ward_id', $wards)->pluck('id');
+    //     //dd($colonies);
+
+    //     //done by shrikant sabne
+    //     //$societies = SocietyDetail::whereIn('colony_id', $colonies)->paginate(10);
+        
+    //     $societies = SocietyDetail::paginate(10);
+    //     //dd($societies);
+    //     if($request->has('search')) {
+    //         return view('admin.em_department.ajax_society', compact('societies'));  
+    //     } else {
+    //         return view('admin.em_department.society', compact('layout_data','societies'));
+    //     }
+    //   }
+     
     }
 
-    public function getbuildings($id, Request $request){
+    public function getbuildings($id, Request $request, Datatables $datatables){
         //$societies = SocietyDetail::whereIn('colony_id', $colonies)->get();
        // dd($id);
+       $columns = [
+            ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
+            ['data' => 'building_no','name' => 'building_no','title' => 'Building / Chawl Number'],
+            ['data' => 'name','name' => 'name','title' => 'Building / Chawl Name'],
+            ['data' => 'tenant_count','name' => 'tenant_count','title' => 'Tenant Count'],
+            ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
+        ];
+        $society_id =decrypt($id);
+        $building_name = '';
+        $building_no   = '';
 
-        if(!empty($request->input('search'))) {
-            $society_id = $id;
-            $buildings = MasterBuilding::with('tenant_count')->where('society_id', '=', decrypt($id))
-                ->where(function ($query) use ($request) {
-                  $query->orWhere('name', 'like', '%'.$request->input('search').'%')
-                       ->orWhere('building_no', 'like', '%'.$request->input('search').'%');
-                })
-                ->paginate(10);
-            //dd($buildings);
-            return view('admin.em_department.ajax_building', compact('buildings', 'society_id'));
-        } else {
-            $society_id = $id;
-            $buildings = MasterBuilding::with('tenant_count')->where('society_id', '=', decrypt($id))->paginate(10);
-            //dd($buildings);
-            if($request->has('search')) {
-                return view('admin.em_department.ajax_building', compact('buildings', 'society_id'));  
-            } else {
-                return view('admin.em_department.building', compact('buildings', 'society_id'));
-            }            
+        if($request->has('building_name') && !empty($request->building_name)) {
+            $building_name = $request->building_name;
         }
+        if($request->has('building_no') && !empty($request->building_no)) {
+            $building_no = $request->building_no;
+        }
+        
+        if ($datatables->getRequest()->ajax()) {
+            DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
+            $buildings =MasterBuilding::with('tenant_count')->where('society_id', '=', decrypt($id))->where(function ($query) use ($request) {
+                       $query->orWhere('name', 'like', '%'.$request->building_name.'%')
+                         ->orWhere('building_no', 'like', '%'.$request->building_no.'%');
+                        })
+                        ->selectRaw('@rownum  := @rownum  + 1 AS rownum,master_buildings.*')
+                        ->get();
+            
+            return $datatables->of($buildings)
+            ->editColumn('tenant_count', function ($buildings){  
+               $value = $buildings->tenant_count->toArray(); 
+               if($value) {
+                   foreach($value as $i) {
+                     return $i['count'];
+                   }
+                } else {
+                    return 0;
+                }
+            })
+            ->editColumn('actions', function ($buildings){
+                return "<div class='d-flex btn-icon-list'>
+                <a href='".route('get_tenants', [encrypt($buildings->id)])."' class='d-flex flex-column align-items-center ' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--view'><img src='".asset('/img/view-icon.svg')."'></span>Tenant Details</a>
+            
+                <a href='".route('edit_building', [encrypt($buildings->id)])."' class='d-flex flex-column align-items-center' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/edit-icon.svg')."'></span>Edit</a>
+
+            </div>";
+                
+            })               
+            ->rawColumns(['actions'])
+            ->make(true);
+         }
+         $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+         return view('admin.em_department.building', compact('html', 'society_id','building_name','building_no'));
+        // if(!empty($request->input('search'))) {
+        //     $society_id = $id;
+        //     $buildings = MasterBuilding::with('tenant_count')->where('society_id', '=', decrypt($id))
+        //         ->where(function ($query) use ($request) {
+        //           $query->orWhere('name', 'like', '%'.$request->input('search').'%')
+        //                ->orWhere('building_no', 'like', '%'.$request->input('search').'%');
+        //         })
+        //         ->paginate(10);
+        //     //dd($buildings);
+        //     return view('admin.em_department.ajax_building', compact('buildings', 'society_id'));
+        // } else {
+        //     $society_id =decrypt($id);
+        //     $building_name = '';
+        //     $building_no   = '';
+
+        //     if($request->has('building_name') && !empty($request->building_name)) {
+        //         $building_name = $request->building_name;
+        //     }
+        //     if($request->has('building_no') && !empty($request->building_no)) {
+        //         $building_no = $request->building_no;
+        //     }
+        //     $buildings = MasterBuilding::with('tenant_count')->where('society_id', '=', decrypt($id))->where(function ($query) use ($request) {
+        //           $query->orWhere('name', 'like', '%'.$request->building_name.'%')
+        //                ->orWhere('building_no', 'like', '%'.$request->building_no.'%');
+        //         })->paginate(10);
+        //     //dd($buildings);
+        //     if($request->has('search')) {
+        //         return view('admin.em_department.ajax_building', compact('buildings', 'society_id'));  
+        //     } else {
+        //         return view('admin.em_department.building', compact('buildings', 'society_id','building_name','building_no'));
+        //     }            
+        // }
         
     }
 
-    public function gettenants($id, Request $request){
+    public function gettenants($id, Request $request, Datatables $datatables){
          $tenament = DB::table('master_tenant_type')->get();
-        if(!empty($request->input('search'))) {
-            $building_id = $id;
-            $society_id = MasterBuilding::find(decrypt($id))->society_id;
-            $buildings = MasterTenant::where('building_id', '=', decrypt($id))
-                 ->where(function ($query) use ($request) {
-                   $query->orWhere('first_name', 'like', '%'.$request->input('search').'%')
-                        ->orWhere('middle_name', 'like', '%'.$request->input('search').'%')
-                        ->orWhere('flat_no', 'like', '%'.$request->input('search').'%')
-                        ->orWhere('last_name', 'like', '%'.$request->input('search').'%');
-                })->paginate(10);
-            return view('admin.em_department.ajax_tenant', compact('tenament','buildings', 'building_id','society_id'));
-        } else {
-            $building_id = $id;
-            $society_id = MasterBuilding::find(decrypt($id))->society_id;
-            $buildings = MasterTenant::where('building_id', '=', decrypt($id))->paginate(10);
-            if($request->has('search')) {
-                return view('admin.em_department.ajax_tenant', compact('tenament','buildings', 'building_id','society_id'));  
-            } else {
-                return view('admin.em_department.tenant', compact('tenament','buildings', 'building_id','society_id'));
-            }
+
+         $columns = [
+            ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
+            ['data' => 'flat_no','name' => 'flat_no','title' => 'Flat No.'],
+            ['data' => 'salutation','name' => 'salutation','title' => 'Salutation'],
+            ['data' => 'first_name','name' => 'first_name','title' => 'First Name'],
+            ['data' => 'last_name','name' => 'last_name','title' => 'Last Name'],
+            ['data' => 'use','name' => 'use','title' => 'Use'],
+            ['data' => 'carpet_area','name' => 'carpet_area','title' => 'Carpet Area'],
+            ['data' => 'tenant_type','name' => 'tenant_type','title' => 'Tenant Type'],
+            ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false]
+        ];
+        $building_id = $id;
+        $society_id = MasterBuilding::find(decrypt($id))->society_id;
+        if ($datatables->getRequest()->ajax()) {
+            DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
+            $buildings = MasterTenant::selectRaw('@rownum  := @rownum  + 1 AS rownum,master_tenants.*');
+            return $datatables->of($buildings)
+                ->editColumn('actions', function ($buildings){
+                    return "<div class='d-flex btn-icon-list'>
+                    <a href='".route('edit_tenant', [encrypt($buildings->id)])."' class='d-flex flex-column align-items-center ' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--view'><img src='".asset('/img/view-icon.svg')."'></span>Edit</a>
+                    <a href='".route('delete_tenant', [encrypt($buildings->id)])."' class='d-flex flex-column align-items-center' onclick='return confirm('Are you sure?')' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--delete'><img src='".asset('/img/delete-icon.svg')."'></span>Delete</a>
+
+                </div>";
+                    
+                })               
+                ->rawColumns(['actions'])
+                ->make(true);
         }
+        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+        return view('admin.em_department.tenant', compact('html', 'tenament','building_id','society_id'));
+        // if(!empty($request->input('search'))) {
+        //     $building_id = $id;
+        //     $society_id = MasterBuilding::find(decrypt($id))->society_id;
+        //     $buildings = MasterTenant::where('building_id', '=', decrypt($id))
+        //          ->where(function ($query) use ($request) {
+        //            $query->orWhere('first_name', 'like', '%'.$request->input('search').'%')
+        //                 ->orWhere('middle_name', 'like', '%'.$request->input('search').'%')
+        //                 ->orWhere('flat_no', 'like', '%'.$request->input('search').'%')
+        //                 ->orWhere('last_name', 'like', '%'.$request->input('search').'%');
+        //         })->paginate(10);
+        //     return view('admin.em_department.ajax_tenant', compact('tenament','buildings', 'building_id','society_id'));
+        // } else {
+        //     $building_id = $id;
+        //     $society_id = MasterBuilding::find(decrypt($id))->society_id;
+        //     $buildings = MasterTenant::where('building_id', '=', decrypt($id))->paginate(10);
+        //     if($request->has('search')) {
+        //         return view('admin.em_department.ajax_tenant', compact('tenament','buildings', 'building_id','society_id'));  
+        //     } else {
+        //         return view('admin.em_department.tenant', compact('tenament','buildings', 'building_id','society_id'));
+        //     }
+        // }
         
     }
 
@@ -339,8 +486,12 @@ class EMController extends Controller
          $tenament = DB::table('master_tenant_type')->get();
          $building_id = $request->input('id');
          $society_id = MasterBuilding::where('id', '=', $request->input('id'))->first()->society_id;
-         $buildings = MasterTenant::where('building_id', '=', $request->input('id'))
+         $buildings = MasterTenant::with(['TransBillGenerate' => function($query) use($building_id){
+            $query->where('building_id',$building_id)->where('bill_month', '=', date('m'))->where('bill_year', '=', date('Y'));
+         }])->where('building_id', '=', $request->input('id'))
                  ->get();
+
+                 // return $buildings;
             return view('admin.em_department.ajax_tenant_bill_generation', compact('tenament','buildings', 'building_id', 'society_id'));
     }
 
@@ -599,14 +750,14 @@ class EMController extends Controller
             $data['serviceChargesRate'] = ServiceChargesRate::selectRaw('Sum(water_charges) as water_charges,sum(electric_city_charge) as electric_city_charge,sum(pump_man_and_repair_charges) as  pump_man_and_repair_charges,sum(external_expender_charge) as external_expender_charge,sum(administrative_charge) as administrative_charge, sum(lease_rent) as lease_rent,sum(na_assessment) as na_assessment, sum(other) as other')->where('building_id',$request->building_id)->where('year',date('Y'))->first();
 
          //  dd($data['serviceChargesRate']); 
-        if(!$data['serviceChargesRate']){
-            return redirect()->back()->with('warning', 'Service charge Rates Not added into system.');
-        }
+            if(!$data['serviceChargesRate']){
+                return redirect()->back()->with('warning', 'Service charge Rates Not added into system.');
+            }
 
-         $data['arreasCalculation'] = ArrearCalculation::where('building_id',$request->building_id)->where('payment_status','0')->orderby('year','month')->get();
-            
-         $data['number_of_tenants'] = MasterBuilding::with('tenant_count')->where('id',$request->building_id)->first();
-         //dd($data['number_of_tenants']->tenant_count()->first());
+            $data['arreasCalculation'] = ArrearCalculation::where('building_id',$request->building_id)->where('payment_status','0')->orderby('year','month')->get();
+                
+            $data['number_of_tenants'] = MasterBuilding::with('tenant_count')->where('id',$request->building_id)->first();
+             //dd($data['number_of_tenants']->tenant_count()->first());
             if(!$data['number_of_tenants']->tenant_count()->first()) {
                 return redirect()->back()->with('warning', 'Number of Tenants Is zero.');
             }
@@ -615,13 +766,22 @@ class EMController extends Controller
             $data['year'] = date('Y');
             $data['consumer_number'] = substr(sprintf('%08d', $data['building']->society_id),0,8).'|'.substr(sprintf('%08d', $data['building']->id),0,8);
 
+            $data['check'] = TransBillGenerate::where('building_id', '=', $request->building_id)
+                                ->where('society_id', '=', $request->society_id)
+                                ->where('bill_month', '=', $data['month'])
+                                ->where('bill_year', '=', $data['year'])
+                                ->first();
+            $data['regenate'] = false;                    
+            if($request->has('regenate') && true == $request->regenate) {
+                $data['regenate'] = true;
+            }
             return view('admin.em_department.generate_building_bill',$data);
 
         }
     }
 
     public function generateTenantBill(Request $request) {
-
+        // print_r($request->all());exit;
         if($request->has('building_id') && '' != $request->building_id && $request->has('tenant_id') && '' != $request->tenant_id) {
             $request->building_id = decrypt($request->building_id);
             $request->tenant_id  = decrypt($request->tenant_id);
@@ -643,6 +803,14 @@ class EMController extends Controller
             $data['year'] = date('Y');
             $data['consumer_number'] = substr(sprintf('%08d', $data['building']->id),0,8).'|'.substr(sprintf('%08d', $data['tenant']->id),0,8);
 
+            $data['check'] = TransBillGenerate::where('tenant_id', '=', $request->tenant_id)
+                                    ->where('bill_month', '=', $data['month'])
+                                    ->where('bill_year', '=', $data['year'])
+                                    ->first();
+            $data['regenate'] = false;                    
+            if($request->has('regenate') && true == $request->regenate) {
+                $data['regenate'] = true;
+            }
             return view('admin.em_department.generate_tenant_bill',$data);
         }
     }
@@ -655,11 +823,14 @@ class EMController extends Controller
             } else {
                 $arrear_id = '';
             }
+            $check = '';
+            if($request->has('regenate')&& false == $request->regenate) {
 
-            $check = TransBillGenerate::where('tenant_id', '=', $request->tenant_id)
+                $check = TransBillGenerate::where('tenant_id', '=', $request->tenant_id)
                                     ->where('bill_month', '=', $request->bill_month)
                                     ->where('bill_year', '=', $request->bill_year)
                                     ->first();
+            }
 
         if(is_null($check) || $check == ''){
             $bill = new TransBillGenerate;
@@ -687,7 +858,8 @@ class EMController extends Controller
             $bill->late_fee_charge = $request->late_fee_charge;
             $bill->status = 'Generated';
             $bill->save();
-            return redirect()->back()->with('success', 'Bill Generated Successfully.');
+
+            return redirect()->back()->with('success', 'Bill Generated Successfully.')->with('regenate',false);
         } else {
             $message = ' Bill Already Generated on '.$check->bill_date; 
             return redirect()->back()->with('warning', $message);
@@ -695,12 +867,14 @@ class EMController extends Controller
     }
 
     public function create_society_bill(Request $request){
-   
+        $check = '';
+        if($request->has('regenate')&& false == $request->regenate) {
         $check = TransBillGenerate::where('building_id', '=', $request->building_id)
-                                    ->where('society_id', '=', $request->society_id)
-                                    ->where('bill_month', '=', $request->bill_month)
-                                    ->where('bill_year', '=', $request->bill_year)
-                                    ->first();
+            ->where('society_id', '=', $request->society_id)
+            ->where('bill_month', '=', $request->bill_month)
+            ->where('bill_year', '=', $request->bill_year)
+            ->first();
+        }
 
         if(is_null($check) || $check == ''){
 
@@ -755,7 +929,7 @@ class EMController extends Controller
                                    
                 }     
                 //dd($bill);
-
+                $request->regenate = false;
                 return redirect()->back()->with('success', 'Bill Generated Successfully.');                   
             } else {
                 return redirect()->back()->with('success', 'Check bill details once.');    
@@ -781,10 +955,13 @@ class EMController extends Controller
                             </div>                          
                     </div>
                 </div>';
-                $society_id = $request->input('id');
-            $buildings = MasterBuilding::with('tenant_count')->where('society_id', '=', $request->input('id'))
+            $society_id = $request->input('id');
+            $buildings = MasterBuilding::with(['TransBillGenerate'=>function($query) use($society_id){
+                $query->where('society_id', '=', $society_id)->where('bill_month', '=', date('m'))->where('bill_year', '=', date('Y'));
+            }])->with('tenant_count')->where('society_id', '=', $request->input('id'))
                         ->get();
-            //return $buildings;
+            // return $buildings;
+
             $html .= view('admin.em_department.ajax_building_bill_generation', compact('buildings', 'society_id'))->render();
             return $html;
 

@@ -115,8 +115,10 @@ class EMClerkController extends Controller
         }
 
         $getData = $request->all();  
+        $society = SocietyDetail::find(decrypt($request->society));
+        $building = MasterBuilding::find(decrypt($request->building));
 
-           $columns = [
+        $columns = [
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'flat_no','name' => 'flat_no','title' => 'Room No'],
             ['data' => 'first_name', 'name' => 'first_name','title' => 'Tenant First Name'],
@@ -124,7 +126,7 @@ class EMClerkController extends Controller
             ['data' => 'payment_status', 'name' => 'payment_status','title' => 'Payment Status','searchable' => false],
             ['data' => 'total_amount', 'name' => 'total_amount','title' => 'Final Rent Amount','searchable' => false],
             ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false, 'orderable' => false, 'exportable' => false, 'printable' => false]
-            ];
+        ];
 
         if ($datatables->getRequest()->ajax()) {            
           
@@ -167,7 +169,7 @@ class EMClerkController extends Controller
 
         $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
         //dd($html);
-        return view('admin.em_clerk_department.tenant_list', compact('html'));
+        return view('admin.em_clerk_department.tenant_list', compact('html','building','society'));
        
     }
 
@@ -338,6 +340,7 @@ class EMClerkController extends Controller
             'processing' => true,
             'ordering'   =>'isSorted',
             "order"=> [1, "asc" ],
+            "searching" => false,
             // 'dom' => 'Bfrtip',
             // 'buttons' => ['copy', 'csv', 'excel', 'pdf', 'print'],
             "pageLength" => $this->list_num_of_records_per_page

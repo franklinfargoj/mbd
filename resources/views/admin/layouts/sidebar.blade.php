@@ -291,11 +291,11 @@ $route=\Request::route()->getName();
                         <li class="m-menu__item m-menu__item--level-2 {{ ($route=='society_detail.index' || $route=='society_detail.show' || $route=='society_detail.edit' || $route=='society_detail.show_end_date_lease' || $route=='society_detail.create')? '':'collapsed' }}"
                             data-toggle="collapse" data-target="#society-actions">
                             <a href="{{url('/village_detail')}}" class="m-menu__link m-menu__toggle">
-                                <i class="m-menu__link-icon flaticon-line-graph"></i>
+                                <i class="m-menu__link-icon"></i>
                                 <span class="m-menu__link-title">
                                     <span class="m-menu__link-wrap">
                                         <span class="m-menu__link-text">
-                                            Society Details
+                                            <img class="sidebar-icon" src="{{ asset('/img/sidebar/society-details-icon.svg')}}">Society Details
                                         </span>
                                         <i class="m-menu__ver-arrow la la-angle-right"></i>
                                     </span>
@@ -452,11 +452,10 @@ $route=\Request::route()->getName();
                         <li class="m-menu__item {{($route=='architect_layout.index' || $route=='architect_layouts_layout_details.index' || $route=='architect_layout.add')?'':'collapsed'}}"
                             data-toggle="collapse" data-target="#architect-layouts">
                             <a href="{{ route('architect_layout.index') }}" class="m-menu__link m-menu__toggle">
-                                <i class="m-menu__link-icon flaticon-line-graph"></i>
                                 <span class="m-menu__link-title">
                             <span class="m-menu__link-wrap">
                                 <span class="m-menu__link-text">
-                                    Architect Layouts
+                                    <img class="sidebar-icon" src="{{ asset('/img/sidebar/architect-layouts-icon.svg')}}">Architect Layouts
                                 </span>
                                 <i class="m-menu__ver-arrow la la-angle-right"></i>
                             </span>
@@ -717,7 +716,7 @@ $route=\Request::route()->getName();
                         @endif
 
                         @if(Session::all()['role_name'] == 'ee_engineer')
-                        <li class="m-menu__item {{($route=='society_detail.billing_level')?'m-menu__item--active':''}}">
+                        {{-- <li class="m-menu__item {{($route=='society_detail.billing_level')?'m-menu__item--active':''}}">
                             <a href="#" class="m-menu__link m-menu__toggle">
                                 <i class="m-menu__link-icon flaticon-line-graph"></i>
                                 <span class="m-menu__link-title">
@@ -728,8 +727,40 @@ $route=\Request::route()->getName();
                                     </span>
                                 </span>
                             </a>
+                        </li> --}}
+                        <li class="m-menu__item {{($route=='society.billing_level' || $route=='society.society_details' || $route == 'arrears_charges' || $route == 'arrears_charges.edit' || $route == 'arrears_charges.create' || $route == 'service_charges' || $route == 'service_charges.edit' || $route == 'service_charges.create')?'':'collapsed'}}"
+                            data-toggle="collapse" data-target="#e_billing"> 
+                            <a href="#" class="m-menu__link m-menu__toggle">
+                                <i class="m-menu__link-icon flaticon-line-graph"></i> 
+                                <span class="m-menu__link-title">
+                                    <span class="m-menu__link-wrap"> 
+                                        <span class="m-menu__link-text"> E Billing </span>
+                                        <i class="m-menu__ver-arrow la la-angle-right"></i> 
+                                    </span> 
+                                </span> 
+                            </a> 
                         </li>
-                        <li class="m-menu__item">
+                        <li id="e_billing" class="collapse {{($route=='society.billing_level'|| $route == 'society.society_details' || $route == 'arrears_charges' || $route == 'arrears_charges.edit' || $route == 'arrears_charges.create' || $route == 'service_charges' || $route == 'service_charges.edit' || $route == 'service_charges.create')?'show':''}}">
+                            <ul class="list-unstyled">
+                                <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='society.billing_level' || $route == 'society.society_details' || $route == 'arrears_charges' || $route == 'arrears_charges.create' || $route == 'arrears_charges.edit' || $route == 'service_charges' || $route == 'service_charges.edit' || $route == 'service_charges.create')?'m-menu__item--active':''}}">
+                                    <a class="m-menu__link m-menu__toggle" title="view_Application" href="{{ route('society.billing_level') }}">
+                                        <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
+                                            <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
+                                                fill="#FFF" />
+                                        </svg>
+                                        {{-- <i class="m-menu__link-icon flaticon-line-graph"></i> 
+                                        <span class="m-menu__link-title">
+                                            <span class="m-menu__link-wrap"> --}}
+                                                <span class="m-menu__link-text">
+                                                    Society Master
+                                                </span>
+                                            {{-- </span>
+                                        </span> --}}
+                                    </a> 
+                                </li>
+                            </ul>
+                        </li>
+                       {{--  <li class="m-menu__item">
                             <a href="{{ route('society.billing_level') }}" class="m-menu__link m-menu__toggle">
                                 <i class="m-menu__link-icon flaticon-line-graph"></i>
                                 <span class="m-menu__link-title">
@@ -740,7 +771,7 @@ $route=\Request::route()->getName();
                                     </span>
                                 </span>
                             </a>
-                        </li>
+                        </li> --}}
                         @endif
 
                         @if(Session::all()['role_name'] == 'society')
@@ -777,7 +808,7 @@ $route=\Request::route()->getName();
 
 
                         @if(Session::all()['role_name'] == 'EM')
-                        <li class="m-menu__item {{($route=='generate_tenant_bill' || $route=='get_societies')?'':'collapsed'}}"
+                        <li class="m-menu__item {{($route=='generate_tenant_bill' || $route=='get_societies' || $route == 'get_buildings' || $route == 'get_tenants' || $route == 'edit_tenant' || $route == 'add_tenant' || $route == 'edit_building' || $route == 'add_building' || $route == 'soc_bill_level' || $route == 'soc_ward_colony')?'':'collapsed'}}"
                             data-toggle="collapse" data-target="#e_billing"> 
                             <a href="#" class="m-menu__link m-menu__toggle">
                                 <i class="m-menu__link-icon flaticon-line-graph"></i> 
@@ -789,30 +820,29 @@ $route=\Request::route()->getName();
                                 </span> 
                             </a> 
                         </li>
-                        <li id="e_billing" class="collapse {{($route=='generate_tenant_bill' || $route=='get_societies')?'show':''}}">
+                        <li id="e_billing" class="collapse {{($route=='generate_tenant_bill' || $route=='get_societies' || $route == 'get_buildings' || $route == 'get_tenants' || $route == 'edit_tenant' || $route == 'add_tenant' || $route == 'edit_building' || $route == 'add_building' || $route == 'soc_bill_level' || $route == 'soc_ward_colony' || $route == 'billing_calculations' || $route == 'generateTenantBill' || $route == 'arrears_calculations' || $route == 'generateBuildingBill')?'show':''}}">
                             <ul class="list-unstyled">
-                                <li class="m-menu__item m-menu__item--submenu {{($route=='get_societies')?'m-menu__item--active':''}}">
+                                <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='get_societies' || $route == 'get_buildings' || $route == 'get_tenants' || $route == 'edit_tenant' || $route == 'add_tenant' || $route == 'edit_building' || $route == 'add_building' || $route == 'soc_bill_level' || $route == 'soc_ward_colony')?'m-menu__item--active':''}}">
                                     <a class="m-menu__link m-menu__toggle" title="view_Application" href="{{ route('get_societies') }}">
-                                        <i class="m-menu__link-icon flaticon-line-graph"></i> 
-                                        <span class="m-menu__link-title">
-                                            <span class="m-menu__link-wrap"> 
-                                                <span class="m-menu__link-text"> Manage
-                                                    Societies </span> 
-                                            </span> 
-                                        </span> 
+                                        <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
+                                            <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
+                                                fill="#FFF" />
+                                        </svg>
+                                        <span class="m-menu__link-text"> 
+                                            Manage Societies
+                                        </span>     
                                     </a> 
                                 </li> 
 
-                                <li class="m-menu__item m-menu__item--submenu {{($route=='generate_tenant_bill')?'m-menu__item--active':''}}" id="e_billing">
+                                <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2  {{($route=='generate_tenant_bill' || $route == 'billing_calculations' || $route == 'generateTenantBill' || $route == 'arrears_calculations' || $route == 'generateBuildingBill')?'m-menu__item--active':''}}" id="e_billing">
                                     <a href="{{ route('generate_tenant_bill') }}" class="m-menu__link m-menu__toggle">
-                                        <i class="m-menu__link-icon flaticon-line-graph"></i> 
-                                        <span class="m-menu__link-title">
-                                            <span class="m-menu__link-wrap"> 
-                                                <span class="m-menu__link-text"> Generate
-                                                    Bill 
-                                                </span> 
-                                            </span> 
-                                        </span> 
+                                        <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
+                                            <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
+                                                fill="#FFF" />
+                                        </svg>
+                                        <span class="m-menu__link-text"> 
+                                            Generate Bill 
+                                        </span>
                                     </a> 
                                 </li>
                             </ul>
@@ -822,7 +852,7 @@ $route=\Request::route()->getName();
 
                         @if(Session::all()['role_name'] == 'em_clerk')
 
-                        <li class="m-menu__item m-menu__item--submenu {{($route=='em_clerk.index')?'m-menu__item--active':''}}">
+                        <li class="m-menu__item m-menu__item--submenu {{($route=='em_clerk.index' || $route == 'tenant_payment_list' || $route == 'tenant_arrear_calculation') ?'m-menu__item--active':''}}">
                             <a class="m-menu__link m-menu__toggle" title="view_Application" href="{{ route('em_clerk.index') }}">
                                 <i class="m-menu__link-icon flaticon-line-graph"></i>
                                 <span class="m-menu__link-title">
@@ -837,6 +867,22 @@ $route=\Request::route()->getName();
 
                         @endif
 
+                        @if(Session::all()['role_name'] == 'Account')
+
+                        <li class="m-menu__item m-menu__item--submenu {{($route=='search_accounts')?'m-menu__item--active':''}}">
+                            <a class="m-menu__link m-menu__toggle" title="view_Application" href="{{ route('search_accounts') }}">
+                                <i class="m-menu__link-icon flaticon-line-graph"></i>
+                                <span class="m-menu__link-title">
+                                    <span class="m-menu__link-wrap">
+                                        <span class="m-menu__link-text">
+                                            List Of Society/Search Accounts
+                                        </span>
+                                    </span>
+                                </span>
+                            </a>
+                        </li>
+
+                        @endif
 
                         @if(Session::all()['role_name'] == 'rc_collector')
                         <li class="m-menu__item m-menu__item--submenu {{($route=='bill_collection_society')?'m-menu__item--active':''}}">

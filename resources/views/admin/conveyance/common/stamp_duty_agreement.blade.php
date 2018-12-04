@@ -75,6 +75,18 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-sm-6 border-left">
+                                        <div class="d-flex flex-column h-100 two-cols">
+                                            <h5>Upload</h5>
+                                            <span class="hint-text">Click on 'Upload' to upload Sale Deed Agreement</span>
+                                                <div class="custom-file">
+                                                    <input class="custom-file-input" name="sale_agreement" type="file" id="test-upload1">
+                                                
+                                                        <label class="custom-file-label" for="test-upload1">Choose
+                                                        file...</label>   
+                                                </div>
+                                        </div>
+                                    </div>                                    
                                 </div>
                             </div>
                         </div>
@@ -114,6 +126,18 @@
                                                     *Note : Lease Deed Agreement is not available.</span>
                                                 @endif
                                             </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 border-left">
+                                        <div class="d-flex flex-column h-100 two-cols">
+                                            <h5>Upload</h5>
+                                            <span class="hint-text">Click on 'Upload' to upload Sale Deed Agreement</span>
+                                                <div class="custom-file">
+                                                    <input class="custom-file-input" name="sale_agreement" type="file" id="test-upload1">
+                                                
+                                                        <label class="custom-file-label" for="test-upload1">Choose
+                                                        file...</label>   
+                                                </div>
                                         </div>
                                     </div>
                                 </div>

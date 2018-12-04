@@ -293,7 +293,7 @@
                                                 </a>
                                                 @else
                                                 <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
-                                                    *Note : Demarcation Map is not available.</span>
+                                                    *Note : Covering letter is not available.</span>
                                                 @endif
                                             </div>
                                         </div>
