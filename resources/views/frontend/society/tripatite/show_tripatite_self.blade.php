@@ -3,7 +3,7 @@
     <div class="col-md-12">
         <div class="m-subheader px-0 m-subheader--top">
             <div class="d-flex align-items-center">
-                <h3 class="m-subheader__title m-subheader__title--separator">Redevelopment Through Developer</h3>
+                <h3 class="m-subheader__title m-subheader__title--separator">Self Redevelopment</h3>
                 {{ Breadcrumbs::render('society_offer_application_create', $id) }}
 
             </div>
@@ -11,7 +11,7 @@
         <!-- END: Subheader -->
         <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
 
-            <form id="save_offer_letter_application_dev" role="form" method="post" class="m-form m-form--rows m-form--label-align-right" action="{{ route('save_offer_letter_application_reval_dev') }}">
+            <form id="save_offer_letter_application_self" role="form" method="post" class="m-form m-form--rows m-form--label-align-right" action="{{ route('save_offer_letter_application_self') }}">
                 @csrf
                 <div class="m-portlet__body m-portlet__body--spaced">
                     <div class="form-group m-form__group row">
@@ -28,8 +28,8 @@
                     <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="preceding_officer_name">Department:</label>
-                            <input type="text" id="department_name" name="department_name" class="form-control form-control--custom m-input" value="REE" readonly>
-                            <input type="hidden" name="application_master_id" value="{{ $id }}">
+                            <input type="text" id="department_name" name="department_name" class="form-control form-control--custom m-input" value="EE" readonly>
+                            <input type="hidden" name="application_master_id" value="{{ $id }}" required>
                             <span class="help-block">{{$errors->first('department_name')}}</span>
                         </div>
                         <div class="col-sm-4 offset-sm-1 form-group">
@@ -67,38 +67,10 @@
 
                     <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="ol_vide_no">Offer Letter Vide No</label>
-                            <input type="text" id="ol_vide_no" name="ol_vide_no" class="form-control form-control--custom m-input" value="{{ old('ol_vide_no') }}" required>
-                            <span class="help-block">{{$errors->first('ol_vide_no')}}</span>
-                        </div>
-                        <div class="col-sm-4 offset-sm-1 form-group">
-                            <label class="col-form-label" for="ol_issue_date">Offer Letter Issue Date</label>
-                            <input type="text" id="ol_issue_date" name="ol_issue_date" class="form-control form-control--custom m-input m_datepicker" value="{{ old('ol_issue_date') }}" required>
-                            <span class="help-block">{{$errors->first('ol_issue_date')}}</span>
-                        </div>
-                    </div>
-
-                    <div class="form-group m-form__group row">
-                        <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="reason_for_revalidation">Reason For Revalidation</label>
-                            <textarea id="reason_for_revalidation" name="reason_for_revalidation" class="form-control form-control--custom m-input" required ></textarea>
-                            <span class="help-block">{{$errors->first('reason_for_revalidation')}}</span>
-                        </div>
-                    </div>
-
-                    <div class="form-group m-form__group row">
-                        <div class="col-sm-4 form-group">
                             <label class="col-form-label" for="architect_name">Architect Name:</label>
                             <input type="text" id="architect_name" name="architect_name" class="form-control form-control--custom m-input" value="{{ $society_details->name_of_architect }}" readonly>
                             <span class="help-block">{{$errors->first('architect_name')}}</span>
                         </div>
-                        @if($id == '14' || $id == '18')
-                            <div class="col-sm-4 offset-sm-1 form-group">
-                                <label class="col-form-label" for="developer_name">Developer Name:</label>
-                                <input type="text" id="developer_name" name="developer_name" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ $society_details->developer_name }}" required>
-                                <span class="help-block">{{$errors->first('developer_name')}}</span>
-                            </div>
-                        @endif
                     </div>
 
                     <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
@@ -106,7 +78,7 @@
                             <div class="row">
                                 <div class="col-sm-4">
                                     <div class="btn-list">
-                                        <a href="{{url('/society_offer_letter_dashboard')}}" class="btn btn-secondary">Cancel</a>
+                                        <a href="{{url('/hearing')}}" class="btn btn-secondary">Cancel</a>
                                         <button type="submit"  class="btn btn-primary">Save</button>
                                     </div>
                                 </div>

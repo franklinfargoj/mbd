@@ -249,6 +249,11 @@ class SocietyPermissionSeeder extends Seeder
                     'description' => 'Uploads Signed Sale & Lease deed Agreement'
                 ],
                 [
+                    'name'=>'society_formation.list',
+                    'display_name'=>'Display list of society formation',
+                    'description' => 'Display list of society formation'
+                ],
+                [
                     'name'=>'society_formation.index',
                     'display_name'=>'Display list of society formation',
                     'description' => 'Display list of society formation'
@@ -369,6 +374,11 @@ class SocietyPermissionSeeder extends Seeder
                     'description'  => 'Save self revalidation offer letter application'
                 ],
                 [
+                    'name'         => 'save_offer_letter_application_reval_dev',
+                    'display_name' => 'Save dev revalidation offer letter application',
+                    'description'  => 'Save dev revalidation offer letter application'
+                ],
+                [
                     'name'         => 'society_reval_offer_letter_preview',
                     'display_name' => 'Society revalidation offer letter preview',
                     'description'  => 'Society revalidation offer letter preview'
@@ -422,6 +432,16 @@ class SocietyPermissionSeeder extends Seeder
                     'name'         => 'reval_documents_upload',
                     'display_name' => 'Upload revalidation documents',
                     'description'  => 'Upload revalidation documents'
+                ],
+                [
+                    'name'=>'show_tripatite_self',
+                    'display_name'=> 'show tripatite self form',
+                    'description'  => 'show tripatite self form'
+                ],
+                [
+                    'name'=>'show_tripatite_dev',
+                    'display_name'=> 'show tripatite dev form',
+                    'description'  => 'show tripatite dev form'
                 ]
         ];
         

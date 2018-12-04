@@ -18,6 +18,7 @@ class OlApplication extends Model
         'application_path',
         'submitted_at',
         'current_status_id',
+        'phase',
         'is_encrochment',
         'is_approve_offer_letter',
         'demarkation_verification_comment',

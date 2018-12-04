@@ -42,13 +42,13 @@
             <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
                 <div class="portlet-body">
                     <div class="m-portlet__body m-portlet__body--table">
-                        <div class="m-subheader" style="padding: 0;">
+<!--                         <div class="m-subheader" style="padding: 0;">
                             <div class="d-flex align-items-center">
                                 <h4 class="section-title">
                                     Sale Deed Agreement
                                 </h4>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="m-section__content mb-0 table-responsive">
                             <div class="container">
                                 <div class="row">
@@ -83,13 +83,13 @@
             <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
                 <div class="portlet-body">
                     <div class="m-portlet__body m-portlet__body--table">
-                        <div class="m-subheader" style="padding: 0;">
+<!--                         <div class="m-subheader" style="padding: 0;">
                             <div class="d-flex align-items-center">
                                 <h4 class="section-title">
                                     Lease Deed Agreement
                                 </h4>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="m-section__content mb-0 table-responsive">
                             <div class="container">
                                 <div class="row">

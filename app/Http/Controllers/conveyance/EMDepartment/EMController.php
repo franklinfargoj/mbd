@@ -44,9 +44,10 @@ class EMController extends Controller
         $data->folder = $this->conveyance_common->getCurrentRoleFolderName();
 
         $no_dues_certificate_docs_defined = config('commanConfig.documents.em_conveyance.no_dues_certificate');
+        $society_list_defined = config('commanConfig.documents.em_conveyance.society_list');
         $bonafide_docs_defined = config('commanConfig.documents.em_conveyance.bonafide');
         $covering_letter_docs_defined = config('commanConfig.documents.em_conveyance.covering_letter');
-        $documents = $this->conveyance_common->getDocumentIds(array_merge($no_dues_certificate_docs_defined, $bonafide_docs_defined, $covering_letter_docs_defined), $data->sc_application_master_id);
+        $documents = $this->conveyance_common->getDocumentIds(array_merge($no_dues_certificate_docs_defined, $society_list_defined, $bonafide_docs_defined, $covering_letter_docs_defined), $data->sc_application_master_id, $data->id);
 
         foreach($documents as $document){
             if(in_array($document->document_name, $no_dues_certificate_docs_defined) == 1){
@@ -65,6 +66,14 @@ class EMController extends Controller
                     $bonafide_docs[$document->document_name]['sc_document_status'] = '';
                 }
             }
+            if(in_array($document->document_name, $society_list_defined) == 1){
+                $society_list_docs[$document->document_name] = $document;
+                if($document->sc_document_status != null){
+                    $society_list_docs[$document->document_name]['sc_document_status'] = $document->sc_document_status;
+                }else{
+                    $society_list_docs[$document->document_name]['sc_document_status'] = '';
+                }
+            }
             if(in_array($document->document_name, $covering_letter_docs_defined) == 1){
                 $covering_letter_docs[$document->document_name] = $document;
                 if($document->sc_document_status != null){
@@ -74,7 +83,6 @@ class EMController extends Controller
                 }
             }
         }
- 
         
 
         if(!empty($no_dues_certificate_docs['text_no_dues_certificate']['sc_document_status'])){
@@ -89,14 +97,14 @@ class EMController extends Controller
         $data->folder = $this->common->getCurrentRoleFolderName();
         $data->conveyance_map = $this->common->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
 
-        if ($is_view && $status->status_id == config('commanConfig.applicationStatus.Draft_sale_&_lease_deed')) {
+        if ($is_view && $status->status_id == config('commanConfig.conveyance_status.in_process')) {
             $route = 'admin.conveyance.em_department.scrutiny_remark';
         }else{
             $route = 'admin.conveyance.common.view_em_scrutiny_remark';
         }
 
 //        dd($bonafide_docs['bonafide_list']->sc_document_status->document_path);
-        return view($route,compact('data', 'content', 'no_dues_certificate_docs', 'bonafide_docs', 'covering_letter_docs'));
+        return view($route,compact('data', 'content', 'no_dues_certificate_docs', 'bonafide_docs', 'covering_letter_docs', 'society_list_docs'));
     }
 
     /**
@@ -125,12 +133,24 @@ class EMController extends Controller
 //            dd($request->all());
             $content = str_replace('_', "", $_POST['ckeditorText']);
 
-            $pdf = \App::make('dompdf.wrapper');
-            $pdf->loadHTML($content);
+//            $pdf = \App::make('dompdf.wrapper');
+//            $pdf->loadHTML($content);
+            $header_file = view('admin.REE_department.offer_letter_header');
+            $footer_file = view('admin.REE_department.offer_letter_footer');
+
+            $pdf = new Mpdf();
+            $pdf->autoScriptToLang = true;
+            $pdf->autoLangToFont = true;
+            $pdf->setAutoBottomMargin = 'stretch';
+            $pdf->setAutoTopMargin = 'stretch';
+            $pdf->SetHTMLHeader($header_file);
+            $pdf->SetHTMLFooter($footer_file);
+            $pdf->WriteHTML($content);
+
             $fileName = time().'no_dues_certificate_'.$id.'.pdf';
             $filePath = $folder_name."/".$fileName;
 
-            $file_uploaded_pdf = $this->CommonController->ftpGeneratedFileUpload($folder_name, $pdf->output(), $filePath);
+            $file_uploaded_pdf = $this->CommonController->ftpGeneratedFileUpload($folder_name, $pdf->Output($fileName, 'S'), $filePath);
             $pdf_input = array(
                 "application_id" => $id,
                 "user_id" => Auth::user()->id,
@@ -343,10 +363,10 @@ class EMController extends Controller
                             return redirect()->route('em.scrutiny_remark', $request->application_id);
                         }
                     }else{
-                        return redirect()->route('society_conveyance.create')->withErrors('error', "Excel file headers doesn't match")->withInput();
+                        return redirect()->route('em.scrutiny_remark')->with('error', "Excel file headers doesn't match")->withInput();
                     }
                 }else{
-                    return redirect()->route('society_conveyance.create')->withErrors('error', "Excel file is empty.")->withInput();
+                    return redirect()->route('em.scrutiny_remark')->with('error', "Excel file is empty.")->withInput();
                 }
             }
         }else{

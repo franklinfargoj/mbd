@@ -74,9 +74,12 @@ class DatabaseSeeder extends Seeder
         $this->call(ApplicationStatusMasterSeeder::class);
         $this->call(SapPermissionSeeder::class);
         $this->call(OlCustomCalculationMaster::class);
+
 //        $this->call(SfScrtinyByEmMasterSeeder::class);
 
         $this->call(AccountPermissionSeeder::class);
+        $this->call(SfScrtinyByEmMasterSeeder::class);
+
         $this->call(NocScrutinyQuestionMasterTable::class);
         $this->call(NocSocietyDocumentsMasterTableSeeder::class);
         $this->call(MasterLayoutSeeder::class);
