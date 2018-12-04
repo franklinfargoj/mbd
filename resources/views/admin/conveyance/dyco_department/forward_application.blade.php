@@ -380,26 +380,6 @@
                                                 <textarea class="form-control form-control--custom" name="remark" id="remark"
                                                     cols="30" rows="5"></textarea>
                                             </div>
-                                            @php 
-                                            $error = '';
-                                                if(isset($data->application_status)){
-                                                    if ($data->application_status == config('commanConfig.conveyance_status.Draft_sale_&_lease_deed')){ 
-
-                                                            if (!(isset($data->DraftSaleAgreement) && isset($data->DraftLeaseAgreement))){
-                                                            $error = 'error';
-                                                        }
-                                                    }elseif($data->application_status == config('commanConfig.conveyance_status.Aproved_sale_&_lease_deed')){
-                                                        
-                                                        if (!(isset($data->ApprovedSaleAgreement) && isset($data->ApprovedLeaseAgreement))){
-                                                        
-                                                        $error = 'error';
-                                                        }
-                                                    }
-                                                }
-                                            
-                                            @endphp
-                                            
-                                            @if($error == '')
                                                 <div class="mt-3 btn-list">
                                                     <button type="submit" class="btn btn-primary">Save</button>
                                                     {{--<button type="submit" id="sign" class="btn btn-primary forwrdBtn">Sign</button>
@@ -408,12 +388,6 @@
                                                     <button type="button" onclick=""
                                                         class="btn btn-secondary">Cancel</button>
                                                 </div>
-                                            @else
-                                                <div>
-                                                    <span class="error" style="display: block;color: #ce2323;margin-top: 13px;">* Note : Please Upload Sale and Lease Deed Agreements. 
-                                                    </span>
-                                                </div>      
-                                            @endif
                                         </div>
                                         <input type="hidden" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">
                                     </form>
