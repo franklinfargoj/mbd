@@ -473,7 +473,6 @@ class conveyanceCommonController extends Controller
     public function updateScAgreement($applicationId,$typeId,$filePath,$status){
 
         $data = SocietyConveyanceDocumentStatus::where('application_id',$applicationId)->where('document_id',$typeId)->where('status_id',$status)->where('user_id',Auth::Id())->update(['document_path' => $filePath]);
-
         return $data;
     } 
 

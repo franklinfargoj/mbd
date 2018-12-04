@@ -275,7 +275,7 @@ class DYCOController extends Controller
         $data->approveStampLetter = $this->common->getScAgreement($stampId,$applicationId,NULL);
         $data->em_document = $this->common->getEMNoDueCertificate($data->sc_application_master_id,$applicationId);
 
-        if ($data->is_view && $data->status->status_id == config('commanConfig.conveyance_status.Aproved_sale_&_lease_deed')) {
+        if ($data->is_view) {
             $route = 'admin.conveyance.dyco_department.approved_sale_lease_agreement';
         }else{
             $route = 'admin.conveyance.common.view_approved_sale_lease_agreement';
@@ -352,7 +352,7 @@ class DYCOController extends Controller
         }        
     }       
 
-    public function StampedSaleLeaseAgreement(Request $request,$applicationId){
+    public function StampedDutySaleLeaseAgreement(Request $request,$applicationId){
     
         $data = scApplication::with('ConveyanceSalePriceCalculation')->where('id',$applicationId)->first();
         $Applicationtype = $data->sc_application_master_id;
@@ -373,7 +373,22 @@ class DYCOController extends Controller
         $Doc1  = config('commanConfig.documents.society.sc_undertaking');
         $docId = $this->common->getScAgreementId($Doc1,$Applicationtype);
         $data->undertaking = $this->common->getScAgreement($docId,$applicationId,NULL);
- 
+
+        //get stamp duty agreement uploaded by dycdo
+        $Agreementstatus1 = ApplicationStatusMaster::where('status_name','=','Stamp_by_dycdo')->value('id');
+        $StampSaleId1  = $this->common->getScAgreementId($this->SaleAgreement,$Applicationtype,$Agreementstatus1);
+        $StampLeaseId1 = $this->common->getScAgreementId($this->LeaseAgreement,$Applicationtype,$Agreementstatus1);
+        
+        $data->StampSaleByDycdo  = $this->common->getScAgreement($StampSaleId1,$applicationId,$Agreementstatus1);
+        $data->StampLeaseByDycdo = $this->common->getScAgreement($StampLeaseId1,$applicationId,$Agreementstatus1);
+
+        //get stamp duty agreement uploaded by JTCO
+        $Agreementstatus2 = ApplicationStatusMaster::where('status_name','=','Stamp_by_jtco')->value('id');
+        $StampSaleId2  = $this->common->getScAgreementId($this->SaleAgreement,$Applicationtype,$Agreementstatus2);
+        $StampLeaseId2 = $this->common->getScAgreementId($this->LeaseAgreement,$Applicationtype,$Agreementstatus);
+        
+        $data->StampSaleByJtco  = $this->common->getScAgreement($StampSaleId2,$applicationId,$Agreementstatus2);
+        $data->StampLeaseByJtco = $this->common->getScAgreement($StampLeaseId2,$applicationId,$Agreementstatus2);        
         $data->AgreementComments = ScAgreementComments::with('Roles')->where('application_id',$applicationId)->where('agreement_type_id',$Applicationtype)->whereNotNull('remark')->get();   
 
         $data->folder = $this->common->getCurrentRoleFolderName(); 
@@ -381,12 +396,14 @@ class DYCOController extends Controller
 
         $data->is_view = session()->get('role_name') == config('commanConfig.dycdo_engineer'); 
         $data->status = $this->common->getCurrentStatus($applicationId,$data->sc_application_master_id);
+
         $data->em_document = $this->common->getEMNoDueCertificate($data->sc_application_master_id,$applicationId);
 
-        if (session()->get('role_name') == config('commanConfig.dydo_engineer')) {
-            $route = 'admin.conveyance.common.view_stamp_duty_agreement';
-        }else{
+        if ((session()->get('role_name') == config('commanConfig.dycdo_engineer') || session()->get('role_name') == config('commanConfig.joint_co')) && $data->status->status_id == config('commanConfig.conveyance_status.Stamped_sale_&_lease_deed') ) {
+
             $route = 'admin.conveyance.common.stamp_duty_agreement';
+        }else{
+            $route = 'admin.conveyance.common.view_stamp_duty_agreement';
         } 
         
         return view($route,compact('data'));      
@@ -717,6 +734,82 @@ class DYCOController extends Controller
             return back()->with('success','Application Send Successfully.');        
     }
 
+    //save stamp duty agreements by dycdo and jtco
+    public function SaveStampDutyAgreement(Request $request){
+
+        $applicationId   = $request->application_id;
+        $sale_agreement  = $request->file('sale_agreement');   
+        $lease_agreement = $request->file('lease_agreement'); 
+        
+        $data = scApplication::where('id',$applicationId)->first();           
+        $Applicationtype= $data->sc_application_master_id; 
+       
+        $sale_folder_name  = "Conveyance_stamp_duty_sale_agreement";
+        $lease_folder_name = "Conveyance_stamp_duty_lease_agreement";
+
+        $Agrstatus = "";
+        
+        if(session()->get('role_name') == config('commanConfig.dycdo_engineer')){
+            $Agrstatus = ApplicationStatusMaster::where('status_name','=','Stamp_by_dycdo')->value('id');
+        }
+        else{
+            $Agrstatus = ApplicationStatusMaster::where('status_name','=','Stamp_by_jtco')->value('id');
+        } 
+
+        if ($sale_agreement) {
+            $sale_extension  = $sale_agreement->getClientOriginalExtension(); 
+            $sale_file_name  = time().'_sale_'.$applicationId.'.'.$sale_extension; 
+            $sale_file_path  = $sale_folder_name.'/'.$sale_file_name; 
+            $SaleId = $this->common->getScAgreementId($this->SaleAgreement,$Applicationtype);
+            
+            if ($sale_extension == "pdf"){
+                
+                Storage::disk('ftp')->delete($request->oldSaleFile);
+                $sale_upload = $this->CommonController->ftpFileUpload($sale_folder_name,$sale_agreement,$sale_file_name); 
+                $saleData = $this->common->getScAgreement($SaleId,$applicationId,$Agrstatus);
+
+                if ($saleData){
+                    $this->common->updateScAgreement($applicationId,$SaleId,$sale_file_path,$Agrstatus);
+                }else{
+                    $this->common->createScAgreement($applicationId,$SaleId,$sale_file_path,$Agrstatus);               
+                }
+                $status = 'success';
+            }                      
+        }
+        if ($lease_agreement) {
+
+            $lease_extension = $lease_agreement->getClientOriginalExtension(); 
+            $lease_file_name = time().'_lease_'.$applicationId.'.'.$lease_extension;
+            $lease_file_path = $lease_folder_name.'/'.$lease_file_name;
+            $LeaseId = $this->common->getScAgreementId($this->LeaseAgreement,$Applicationtype);
+            
+            if ($lease_extension == "pdf") {
+
+                Storage::disk('ftp')->delete($request->oldLeaseFile);
+                $lease_upload = $this->CommonController->ftpFileUpload($lease_folder_name,$lease_agreement,$lease_file_name);
+
+                $leaseData = $this->common->getScAgreement($LeaseId,$applicationId,$Agrstatus);
+                if ($leaseData){
+                    $this->common->updateScAgreement($applicationId,$LeaseId,$lease_file_path,$Agrstatus);                    
+                }else{
+                    $this->common->createScAgreement($applicationId,$LeaseId,$lease_file_path,$Agrstatus);
+                }
+                $status = 'success';                
+            }            
+        }
+
+        if ($request->remark){
+          $this->common->ScAgreementComment($applicationId,$request->remark,$Applicationtype); 
+          $status = 'success'; 
+        }
+        
+        if (isset($status) && $status == 'success'){
+            return back()->with('success', 'Submitted Successfully.'); 
+        } else{
+            return back()->with('error', 'Invalid type of file uploaded (only pdf allowed).');
+        }                         
+    }     
+
     // Renewal start header_remove
 
     public function saveRenewalAgreement(Request $request){
@@ -957,8 +1050,10 @@ class DYCOController extends Controller
 
         $draftLetter = $this->common->getScAgreement($draftId,$id,NULL);
         if ($draftLetter){
+            // dd($filePath);
             $this->common->updateScAgreement($id,$draftId,$filePath,NULL);                    
         }else{
+
             $this->common->createScAgreement($id,$draftId,$filePath,NULL);
         }
 

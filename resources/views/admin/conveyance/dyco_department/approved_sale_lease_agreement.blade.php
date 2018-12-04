@@ -11,7 +11,7 @@
 @endif
 <form class="nav-tabs-form" id ="agreementFRM" role="form" method="POST" action="{{ route('dyco.save_approved_agreement')}}" enctype="multipart/form-data">
 @csrf
-
+ 
 <div class="col-md-12">
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">
@@ -46,13 +46,13 @@
             <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
                 <div class="portlet-body">
                     <div class="m-portlet__body m-portlet__body--table">
-                        <div class="m-subheader" style="padding: 0;">
+<!--                         <div class="m-subheader" style="padding: 0;">
                             <div class="d-flex">
                                 <h5 class="section-title">
                                     Sale Deed Agreement
                                 </h5>
                             </div>
-                        </div>
+                        </div>  -->
 
                         <div class="m-section__content mb-0 table-responsive">
                             <div class="container">
@@ -102,13 +102,13 @@
             <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
                 <div class="portlet-body">
                     <div class="m-portlet__body m-portlet__body--table">
-                        <div class="m-subheader" style="padding: 0;">
+<!--                         <div class="m-subheader" style="padding: 0;">
                             <div class="d-flex align-items-center">
                                 <h5 class="section-title">
                                     Lease Deed Agreement
                                 </h5>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="m-section__content mb-0 table-responsive">
                             <div class="container">
                                 <div class="row">
@@ -155,6 +155,52 @@
             </div>
         </div>
     </div>
+
+   <!-- Generate stamp duty letter      -->
+@if(session()->get('role_name') == config('commanConfig.dycdo_engineer'))
+    <div class="m-portlet m-portlet--mobile m_panel">
+        <div class="m-portlet__body">
+            <div class="m-subheader" style="padding: 0;">
+                <div class="d-flex align-items-center justify-content-center">
+                    <h4 class="section-title">
+                        Generate Letter to Pay Stamp Duty
+                    </h4>
+                </div>
+            </div>
+            <div class="m-section__content mb-0 table-responsive" style="margin-top: 30px;">
+                <div class="container">
+                    <div class="row">
+                    @if($data->status->status_id != config('commanConfig.conveyance_status.forwarded'))
+                        <div class="col-sm-6">
+                            <div class="d-flex flex-column h-100 two-cols">
+                                <h5>Generate</h5>
+                                <span class="hint-text">Click to Generate Stamp Duty Letter </span>
+                                <div class="mt-auto">                           
+                                    <a href="{{ route('dyco.generate_conveyance_stamp_duty',$data->id) }}" class="btn btn-primary">Generate </a>
+                                </div>
+                            </div>
+                        </div>
+                    @endif    
+                        <div class="col-sm-6 border-left">
+                                <div class="d-flex flex-column h-100 two-cols">
+                                    <h5>Download</h5>
+                                    <span class="hint-text">Click to Download Stamp Duty Letter </span>
+                                    <div class="mt-auto">
+                                        @if(isset($data->draftStampLetter->document_path))
+                                        <a href="{{ config('commanConfig.storage_server').'/'.$data->draftStampLetter->document_path }}" class="btn btn-primary">Download </a>                                
+                                        @else
+                                        <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
+                                            *Note : Stamp Duty Letter is not available.</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>                   
+        </div>
+    </div> 
+@endif      
 
     @if(count($data->AgreementComments) > 0)       
         <div class="m-portlet m-portlet--mobile m_panel">
