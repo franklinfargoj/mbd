@@ -57,7 +57,10 @@ class EMClerkController extends Controller
 
         $building_data = MasterBuilding::whereIn('society_id', $societies)->get();
         $html = '';
-        return view('admin.em_clerk_department.index', compact('html','layout_data', 'societies_data', 'building_data'));
+        $society = '';
+        $building = '';
+        $layoutData = '';
+        return view('admin.em_clerk_department.index', compact('html','layout_data', 'societies_data', 'building_data','society','building','layoutData'));
     }
  
     public function society_list(Request $request){
@@ -129,9 +132,9 @@ class EMClerkController extends Controller
         }
 
         $getData = $request->all();  
+        $layoutData = MasterLayout::find(decrypt($request->layout));
         $society = SocietyDetail::find(decrypt($request->society));
         $building = MasterBuilding::find(decrypt($request->building));
-
         $columns = [
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'flat_no','name' => 'flat_no','title' => 'Room No'],
@@ -183,7 +186,7 @@ class EMClerkController extends Controller
 
         $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
         //dd($html);
-        return view('admin.em_clerk_department.index', compact('html','building','society','layout_data','societies_data', 'building_data'));
+        return view('admin.em_clerk_department.index', compact('html','building','society','layout_data','societies_data', 'building_data','layoutData'));
        
     }
 

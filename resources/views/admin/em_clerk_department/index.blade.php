@@ -29,7 +29,11 @@
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="layout" name="layout" required>
                                         <option value="" style="font-weight: normal;">Select Layout</option>
                                         @foreach($layout_data as $key => $value)
-                                        <option value="{{ encrypt($value->id) }}">{{ $value->layout_name }}</option>
+                                            @if($layoutData && $layoutData->layout_name ==$value->layout_name)
+                                            <option value="{{ encrypt($value->id) }}" selected>{{ $value->layout_name }}</option>
+                                            @else
+                                            <option value="{{ encrypt($value->id) }}">{{ $value->layout_name }}</option>
+                                            @endif
                                         @endforeach
                                     </select>
                                     <span class="help-block error">{{$errors->first('layout')}}</span>
@@ -43,7 +47,11 @@
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="society" name="society" required>
                                         <option value="" style="font-weight: normal;">Select Society</option>
                                         @foreach($societies_data as $key => $value)
-                                        <option value="{{ encrypt($value->id) }}">{{ $value->society_name }}</option>
+                                            @if($society && $society->society_name == $value->society_name )
+                                            <option value="{{ encrypt($value->id) }}" selected>{{ $value->society_name }}</option>
+                                            @else
+                                            <option value="{{ encrypt($value->id) }}">{{ $value->society_name }}</option>
+                                            @endif
                                         @endforeach
                                     </select>
                                     <span class="help-block error">{{$errors->first('society')}}</span>
@@ -57,7 +65,11 @@
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="building" name="building" required>
                                         <option value="" style="font-weight: normal;">Select Building</option>
                                         @foreach($building_data as $key => $value)
-                                        <option value="{{ encrypt($value->id) }}">{{ $value->name }}</option>
+                                            @if($building && $building->name == $value->name )
+                                            <option value="{{ encrypt($value->id) }}" selected>{{ $value->name }}</option>
+                                            @else
+                                            <option value="{{ encrypt($value->id) }}">{{ $value->name }}</option>
+                                            @endif
                                         @endforeach
                                     </select>
                                     <span class="help-block error">{{$errors->first('building')}}</span>
