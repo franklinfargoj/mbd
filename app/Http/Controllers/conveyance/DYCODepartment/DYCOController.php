@@ -381,8 +381,15 @@ class DYCOController extends Controller
 
         $data->is_view = session()->get('role_name') == config('commanConfig.dycdo_engineer'); 
         $data->status = $this->common->getCurrentStatus($applicationId,$data->sc_application_master_id);
-        $data->em_document = $this->common->getEMNoDueCertificate($data->sc_application_master_id,$applicationId);                     
-        return view('admin.conveyance.common.view_stamp_duty_agreement',compact('data'));      
+        $data->em_document = $this->common->getEMNoDueCertificate($data->sc_application_master_id,$applicationId);
+
+        if (session()->get('role_name') == config('commanConfig.dydo_engineer')) {
+            $route = 'admin.conveyance.common.view_stamp_duty_agreement';
+        }else{
+            $route = 'admin.conveyance.common.stamp_duty_agreement';
+        } 
+        
+        return view($route,compact('data'));      
     } 
 
     public function SignedSaleLeaseAgreement(Request $request,$applicationId){
