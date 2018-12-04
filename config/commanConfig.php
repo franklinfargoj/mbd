@@ -143,6 +143,7 @@ return [
             'stamp_renewal_application' => 'stamp_renewal_application',
             'list_of_members_from_society' => 'list_of_members_from_society',
             'pay_stamp_duty_letter' => 'pay_stamp_duty_letter',
+            'conveyance_stamp_duty_letter' => 'conveyance_stamp_duty_letter',
             'Sale Deed Agreement' => 'Sale Deed Agreement',
             'Lease Deed Agreement' => 'Lease Deed Agreement',
             'sc_resolution' => 'sc_resolution',

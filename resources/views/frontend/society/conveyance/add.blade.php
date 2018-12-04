@@ -122,7 +122,6 @@
             console.log(society_date);
             console.log(flat_date);
             if(society_date > flat_date){
-                alert('=');
                 $('#society_registration_date-error').html('<span style="color:red">Society registration date should not be greater than '+ flat_date +'</span>');
             }else{
                 $('#society_registration_date-error').html('');
