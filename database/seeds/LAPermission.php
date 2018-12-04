@@ -168,7 +168,7 @@ class LAPermission extends Seeder
                 'description'=>'Forwards Application'
             ],
             [
-                'name'=>'conveyance.checklist_note',
+                'name'=>'conveyance.checklist',
                 'display_name'=>'Checklist & Note',
                 'description'=>'Shows Checklist & Note'
             ], 

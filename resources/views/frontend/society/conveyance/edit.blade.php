@@ -1,6 +1,6 @@
 @extends('frontend.layouts.sidebarAction')
 @section('actions')
-    @include('frontend.society.conveyance.actions',compact('sc_applications'))
+    @include('frontend.society.conveyance.actions',compact('sc_applications', 'documents', 'documents_uploaded'))
 @endsection
 @section('content')
     <div class="col-md-12">

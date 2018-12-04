@@ -35,6 +35,7 @@ use PDF;
 use File;
 use Storage;
 use Illuminate\Support\Facades\Session;
+use Carbon\Carbon;
 
 class REEController extends Controller
 {
@@ -244,7 +245,10 @@ class REEController extends Controller
 //        dd($request->all());
         $arrData['get_current_status'] = $this->CommonController->getCurrentStatus($request->applicationId);
 
-        if($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.offer_letter_generation'))
+        // Added OR Condition by Prajakta Sisale
+        if($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.offer_letter_generation')
+        || $arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.draft_offer_letter_generated')
+        )
         {
             $this->CommonController->generateOfferLetterREE($request);
         }
@@ -516,8 +520,39 @@ class REEController extends Controller
 
         Storage::disk('ftp')->put($filePath1, $content);
 
+        // OlApplication::where('id',$request->applicationId)->update(["drafted_offer_letter" => $filePath]);
         OlApplication::where('id',$request->applicationId)->update(["drafted_offer_letter" => $filePath, "text_offer_letter" => $filePath1]);
-         // OlApplication::where('id',$request->applicationId)->update(["drafted_offer_letter" => $filePath]);
+
+
+        //Code added by Prajakta >>start
+        $generated_offer_letter = [
+            'application_id' => $request->applicationId,
+            'user_id' => Auth::user()->id,
+            'role_id' => session()->get('role_id'),
+            'status_id' => config('commanConfig.applicationStatus.draft_offer_letter_generated'),
+            'to_user_id' => NULL,
+            'to_role_id' => NULL,
+            'remark' => NULL,
+            'is_active' => 1,
+            'created_at' => Carbon::now(),
+        ];
+
+        DB::beginTransaction();
+        try {
+            OlApplication::where('id',$request->applicationId)->update(["drafted_offer_letter" => $filePath, "text_offer_letter" => $filePath1]);
+
+            OlApplicationStatus::where('application_id',$request->applicationId)
+                ->whereIn('user_id', [Auth::user()->id])
+                ->where('status_id',config('commanConfig.applicationStatus.offer_letter_generation'))
+                ->update(array('is_active' => 0));
+
+            OlApplicationStatus::insert($generated_offer_letter);
+            DB::commit();
+        } catch (\Exception $ex) {
+            DB::rollback();
+//                return response()->json(['error' => $ex->getMessage()], 500);
+        }
+        //Code added by Prajakta >>end
 
         return redirect('generate_offer_letter/'.$request->applicationId);
     }
@@ -1778,14 +1813,14 @@ class REEController extends Controller
                 $q->where('user_id', $user_id)
                     ->where('role_id', $role_id)
                     ->where('society_flag', 0)
-//                    ->where('is_active',1)
+                    ->where('is_active',1)
                     ->orderBy('id', 'desc');
             }])
             ->whereHas('olApplicationStatus', function ($q) use ($role_id,$user_id) {
                 $q->where('user_id', $user_id)
                     ->where('role_id', $role_id)
                     ->where('society_flag', 0)
-//                    ->where('is_active',1)
+                    ->where('is_active',1)
                     ->orderBy('id', 'desc');
             })->get()->toArray();
 
@@ -1796,28 +1831,60 @@ class REEController extends Controller
 
         $totalForwarded = $totalReverted = $totalPending = $totalInProcess = 0 ;
 
-        foreach ($applicationData as $application){
+        $totalDraftOfferLetterGenereated = $totalOfferLetterSentForApproval = 0 ;
 
-//            dd($application['ol_application_status'][0]['status_id']);
+        $offerLetterApprovedNotIssuedToSociety = 0;
+
+        foreach ($applicationData as $application){
+//            echo "<pre>";
+//            print_r($application);
+
+            $phase =  $application['phase'];
             $status = $application['ol_application_status'][0]['status_id'];
 //            print_r($status);
 //            echo '=====';
-            switch ( $status )
-            {
-                case config('commanConfig.applicationStatus.in_process'): $totalPending += 1; break;
-                case config('commanConfig.applicationStatus.forwarded'): $totalForwarded += 1; break;
-                case config('commanConfig.applicationStatus.reverted'): $totalReverted += 1 ; break;
-                default:
-                    ; break;
+            if($phase == 1){
+                switch ( $status )
+                {
+                    case config('commanConfig.applicationStatus.in_process'): $totalPending += 1; break;
+                    case config('commanConfig.applicationStatus.forwarded'): $totalForwarded += 1; break;
+                    case config('commanConfig.applicationStatus.reverted'): $totalReverted += 1 ; break;
+                    default:
+                        ; break;
+                }
             }
+            if($phase == 2){
+//                dd($application);
+                switch ( $status )
+                {
+                    case config('commanConfig.applicationStatus.offer_letter_generation'): $totalPending += 1; break;
+                    case (config('commanConfig.applicationStatus.forwarded') /*&& $application['drafted_offer_letter']*/) : $totalOfferLetterSentForApproval += 1; break;
+                    case config('commanConfig.applicationStatus.draft_offer_letter_generated') : $totalDraftOfferLetterGenereated += 1 ; break;
+                    default:
+                        ; break;
+                }
+            }
+            if($phase == 3){
+                switch ( $status )
+                {
+                case config('commanConfig.applicationStatus.offer_letter_approved'): $offerLetterApprovedNotIssuedToSociety += 1; break;
+                    default:
+                        ; break;
+                }
+            }
+
         }
-//        dd($totalForwarded);
+//        dd('asdhash');
         $totalApplication = count($applicationData);
 
         $count = ['totalPending' => $totalPending,
             'totalForwarded' => $totalForwarded,
             'totalReverted' => $totalReverted,
-            'totalApplication' => $totalApplication
+            'totalApplication' => $totalApplication,
+            'totalDraftOfferLetterGenereated' => $totalDraftOfferLetterGenereated,
+            'totalOfferLetterSentForApproval' => $totalOfferLetterSentForApproval,
+//            'offerLetterApproved' => $offerLetterApproved,
+            'offerLetterApprovedNotIssuedToSociety' => $offerLetterApprovedNotIssuedToSociety,
         ];
         return $count;
 
@@ -1845,30 +1912,49 @@ class REEController extends Controller
             case ($ree['ree_jr_id']):
                 $dashboardData['Total No of Application'] = $statusCount['totalApplication'];
                 $dashboardData['Application Pending'] = $statusCount['totalPending'];
-                $dashboardData['Application Forwarded to REE Deputy'] = $statusCount['totalForwarded'];
+                $dashboardData['Proposal Sent For Approval to REE Deputy'] = $statusCount['totalForwarded'];
+                $dashboardData['Draft Offer Letter Generated'] = $statusCount['totalDraftOfferLetterGenereated'];
+                $dashboardData['Offer Letter Sent for Approval to REE Deputy'] = $statusCount['totalOfferLetterSentForApproval'];
+//                $dashboardData['Offer Letter Approved'] = $statusCount['offerLetterApproved'];
+                $dashboardData['Offer Letter Approved but Not Issued to Society'] = $statusCount['offerLetterApprovedNotIssuedToSociety'];
                 break;
             case ($ree['ree_head_id']):
                 $dashboardData['Total No of Application'] = $statusCount['totalApplication'];
                 $dashboardData['Application Pending'] = $statusCount['totalPending'];
                 $dashboardData['Application Sent for Compliance'] = $statusCount['totalReverted'];
-                $dashboardData['Application Forwarded to CO'] = $statusCount['totalForwarded'];
+                $dashboardData['Proposal Sent For Approval to CO'] = $statusCount['totalForwarded'];
+//                $dashboardData['Draft Offer Letter Generated'] = $statusCount['totalDraftOfferLetterGenereated'];
+                $dashboardData['Offer Letter Sent for Approval to CO'] = $statusCount['totalOfferLetterSentForApproval'];
+//                $dashboardData['Offer Letter Approved'] = $statusCount['offerLetterApproved'];
+                $dashboardData['Offer Letter Approved but Not Issued to Society'] = $statusCount['offerLetterApprovedNotIssuedToSociety'];
+
                 break;
             case ($ree['ree_deputy_id']):
                 $dashboardData['Total No of Application'] = $statusCount['totalApplication'];
                 $dashboardData['Application Pending'] = $statusCount['totalPending'];
                 $dashboardData['Application Sent for Compliance'] = $statusCount['totalReverted'];
-                $dashboardData['Application Forwarded to REE Assistant'] = $statusCount['totalForwarded'];
+                $dashboardData['Proposal Sent For Approval to REE Assistant'] = $statusCount['totalForwarded'];
+//                $dashboardData['Draft Offer Letter Generated'] = $statusCount['totalDraftOfferLetterGenereated'];
+                $dashboardData['Offer Letter Sent for Approval to REE Assistant'] = $statusCount['totalOfferLetterSentForApproval'];
+//                $dashboardData['Offer Letter Approved'] = $statusCount['offerLetterApproved'];
+                $dashboardData['Offer Letter Approved but Not Issued to Society'] = $statusCount['offerLetterApprovedNotIssuedToSociety'];
                 break;
             case ($ree['ree_ass_id']):
                 $dashboardData['Total No of Application'] = $statusCount['totalApplication'];
                 $dashboardData['Application Pending'] = $statusCount['totalPending'];
                 $dashboardData['Application Sent for Compliance'] = $statusCount['totalReverted'];
-                $dashboardData['Application Forwarded to REE Head'] = $statusCount['totalForwarded'];
+                $dashboardData['Proposal Sent For Approval to REE Head'] = $statusCount['totalForwarded'];
+//                $dashboardData['Draft Offer Letter Generated'] = $statusCount['totalDraftOfferLetterGenereated'];
+                $dashboardData['Offer Letter Sent for Approval to REE Head'] = $statusCount['totalOfferLetterSentForApproval'];
+//                $dashboardData['Offer Letter Approved'] = $statusCount['offerLetterApproved'];
+                $dashboardData['Offer Letter Approved but Not Issued to Society'] = $statusCount['offerLetterApprovedNotIssuedToSociety'];
                 break;
             default:
                 ;
                 break;
         }
+
+
         return $dashboardData;
     }
 
