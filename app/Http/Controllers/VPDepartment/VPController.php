@@ -261,6 +261,7 @@ class VPController extends Controller
                 'to_role_id' => $request->to_role_id,
                 'remark' => $request->remark,
                 'is_active' => 1,
+                'phase' => 1,
                 'created_at' => Carbon::now()
             ],
 
@@ -273,6 +274,7 @@ class VPController extends Controller
                 'to_role_id' => NULL,
                 'remark' => $request->remark,
                 'is_active' => 1,
+                'phase' => 1,
                 'created_at' => Carbon::now()
             ]
             ];
@@ -286,7 +288,7 @@ class VPController extends Controller
 
                 OlApplicationStatus::insert($forward_application);
 
-                OlApplication::where('id', $request->applicationId)->update(['status_offer_letter' => config('commanConfig.applicationStatus.offer_letter_generation'),'phase' => 2]);
+                OlApplication::where('id', $request->applicationId)->update(['status_offer_letter' => config('commanConfig.applicationStatus.offer_letter_generation')]);
 
                 DB::commit();
             } catch (\Exception $ex) {

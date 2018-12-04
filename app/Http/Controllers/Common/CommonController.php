@@ -566,6 +566,7 @@ class CommonController extends Controller
             'to_role_id' => $ree->role_id,
             'remark' => $request->remark,
             'is_active' => 1,
+            'phase' => 2,
             'created_at' => Carbon::now(),
         ],
 
@@ -578,6 +579,7 @@ class CommonController extends Controller
                 'to_role_id' => null,
                 'remark' => $request->remark,
                 'is_active' => 1,
+                'phase' => 2,
                 'created_at' => Carbon::now(),
             ],
         ];
@@ -590,7 +592,7 @@ class CommonController extends Controller
                 ->update(array('is_active' => 0));
 
             OlApplicationStatus::insert($forward_application);
-            OlApplication::where('id', $request->applicationId)->update(['status_offer_letter' => config('commanConfig.applicationStatus.offer_letter_approved'), 'is_approve_offer_letter' => $request->is_approved, 'phase' => 3]);
+            OlApplication::where('id', $request->applicationId)->update(['status_offer_letter' => config('commanConfig.applicationStatus.offer_letter_approved'), 'is_approve_offer_letter' => $request->is_approved]);
 
             DB::commit();
         } catch (\Exception $ex) {
@@ -615,6 +617,7 @@ class CommonController extends Controller
                 'to_role_id' => $request->to_role_id,
                 'remark' => $request->remark,
                 'is_active' => 1,
+                'phase' => 2,
                 'created_at' => Carbon::now(),
             ],
 
@@ -627,6 +630,7 @@ class CommonController extends Controller
                     'to_role_id' => null,
                     'remark' => $request->remark,
                     'is_active' => 1,
+                    'phase' => 2,
                     'created_at' => Carbon::now(),
                 ],
             ];
@@ -672,6 +676,7 @@ class CommonController extends Controller
                 'to_role_id' => $society_details->role_id,
                 'remark' => $request->remark,
                 'is_active' => 1,
+                'phase' => 2,
                 'created_at' => Carbon::now(),
             ],
 
@@ -685,6 +690,7 @@ class CommonController extends Controller
                 'to_role_id' => null,
                 'remark' => $request->remark,
                 'is_active' => 1,
+                'phase' => 2,
                 'created_at' => Carbon::now(),
             ],
         ];
@@ -853,6 +859,7 @@ class CommonController extends Controller
             'to_role_id' => $request->to_role_id,
             'remark' => $request->remark,
             'is_active' => 1,
+            'phase' => 1,
             'created_at' => Carbon::now(),
         ],
 
@@ -865,6 +872,7 @@ class CommonController extends Controller
                 'to_role_id' => null,
                 'remark' => $request->remark,
                 'is_active' => 1,
+                'phase'=>1,
                 'created_at' => Carbon::now(),
             ],
         ];
