@@ -16,4 +16,7 @@ class MasterTenant extends Model
     	return $this->hasMany('App\ArrearCalculation', 'tenant_id');
     }
 
+    public function TransBillGenerate() {
+        return $this->hasMany(TransBillGenerate::class,'tenant_id');
+    }
 }

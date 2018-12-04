@@ -64,7 +64,7 @@ $status = $sc_application->scApplicationLog->status_id;
                 </li>
             @endif
         @endif
-        @if($status == '2')
+        @if($status == '2' || $status == '10' || $status == '13')
             <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='society_conveyance.show')?'m-menu__item--active':''}}">
                 <a class="m-menu__link m-menu__toggle" title="View Application" href="{{ route('society_conveyance.show', base64_encode($sc_application->id)) }}">
                     <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">

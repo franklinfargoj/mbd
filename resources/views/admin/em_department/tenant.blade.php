@@ -21,6 +21,9 @@
         <div class="d-flex align-items-center" id="search_box">
             <h3 class="m-subheader__title m-subheader__title--separator">Tenant List </h3>
             {{ Breadcrumbs::render('tenant_list',encrypt($society_id),encrypt($building_id)) }}
+            <div class="ml-auto btn-list">
+                <a href="{{ url()->previous() }}" class="btn btn-link pull-right"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+            </div>
          </div>
 
     </div>

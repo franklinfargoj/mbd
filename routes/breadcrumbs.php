@@ -885,6 +885,10 @@ Breadcrumbs::for('em_clerk', function ($trail) {
     $trail->push('Home', route('em_clerk.index'));
 });
 
+Breadcrumbs::for('arrear_payment_details', function ($trail) {
+    $trail->parent('em_clerk');
+    $trail->push('Payment List', route('tenant_payment_list'));
+});
 
 //architect application
 
@@ -980,6 +984,28 @@ Breadcrumbs::for('sf_srutiny_and_remark', function ($trail,$id) {
 Breadcrumbs::for('sf_forward_application', function ($trail,$id) {
     $trail->parent('society_formation_list');
     $trail->push('Forward Application', route('formation.forward_application',['layout_id'=>$id]));
+});
+
+//Accounts
+Breadcrumbs::for('search_accounts',function($trail){
+    $trail->push('Home',route('search_accounts'));
+});
+
+Breadcrumbs::for('account_search', function ($trail) {
+    $trail->parent('search_accounts');
+    $trail->push('Tenantment Calculations');
+});
+
+Breadcrumbs::for('calculations', function ($trail,$layout_id,$society_id,$building_id) {
+    $trail->parent('search_accounts');
+    $trail->push('Tenantment Calculations', route('account_search',['layout_id'=>$layout_id,'society_id'=>$society_id,'building_id'=>$building_id]));
+    $trail->push('Calculations');
+});
+
+Breadcrumbs::for('payment_details', function ($trail,$layout_id,$society_id,$building_id) {
+    $trail->parent('search_accounts');
+    $trail->push('Tenantment Calculations', route('account_search',['layout_id'=>$layout_id,'society_id'=>$society_id,'building_id'=>$building_id]));
+    $trail->push('Payment Details');
 });
 
 //Conveyance 
@@ -1092,5 +1118,3 @@ Breadcrumbs::for('renewal_stamp_sale_lease', function ($trail,$id) {
     $trail->parent('society_renewal');
     $trail->push('Lease Agreement', route('renewal.stamp_renewal_agreement',$id));
 });
-
- 

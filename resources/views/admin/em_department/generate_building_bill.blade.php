@@ -34,6 +34,9 @@
 
 
 <div class="container-fluid">
+    <div class="ml-auto btn-list">
+        <a href="{{ url()->previous() }}" class="btn btn-link pull-right"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+    </div>
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title">Generate Society Bill</h3>
@@ -42,6 +45,7 @@
     <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
         <form method="post" action="{{route('create_society_bill')}}">
             {{ csrf_field() }}
+            <input type="hidden" name="regenate" value="{{$regenate}}">
             <input type="text" name="building_id" value="{{$building->id}}" hidden>
             <input type="text" name="society_id" value="{{$society->id}}" hidden>
             <input type="text" name="bill_from" value="{{date('1-m-Y')}}" hidden>
@@ -196,11 +200,20 @@
                 <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
                     <div class="m-form__actions px-0">
                         <div class="row">
+                            @if(is_null($check) || $check == '')
                             <div class="col-sm-4">
                                 <div class="btn-list">
-                                    <button type="submit" id="" class="btn btn-primary">Generate Society Bill</button>                                    
+                                    <button type="submit" id="" class="btn btn-primary">Generate Society Bill</button>
                                 </div>
                             </div>
+                            @endif
+                            @if(true == $regenate) 
+                                <div class="col-sm-4">
+                                    <div class="btn-list">
+                                        <button type="submit" id="" class="btn btn-primary">Regenerate Society Bill</button>
+                                    </div>
+                                </div>
+                            @endif
                             <div class="col-sm-2">
                                 <div class="btn-list">
                                     <a onclick="goBack()" class="btn btn-secondary">Cancel</a>

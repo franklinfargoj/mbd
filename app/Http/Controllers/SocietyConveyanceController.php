@@ -27,6 +27,7 @@ use Storage;
 use Mpdf\Mpdf;
 use App\conveyance\scRegistrationDetails;
 use App\Http\Controllers\conveyance\conveyanceCommonController;
+use App\ApplicationStatusMaster;
 
 use Illuminate\Http\Request;
 
@@ -703,14 +704,14 @@ class SocietyConveyanceController extends Controller
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         }])->where('id', $id)->first();
         $documents_req = array(
-            config('commanConfig.documents.society.pay_stamp_duty_letter'),
+            config('commanConfig.documents.society.conveyance_stamp_duty_letter'),
             config('commanConfig.documents.society.Sale Deed Agreement'),
             config('commanConfig.documents.society.Lease Deed Agreement'),
             config('commanConfig.documents.society.sc_resolution'),
             config('commanConfig.documents.society.sc_undertaking'),
         );
         $application_type = scApplicationType::where('application_type', config('commanConfig.applicationType.Conveyance'))->value('id');
-        $document_ids = $this->conveyance_common->getDocumentIds($documents_req, $application_type);
+        $document_ids = $this->conveyance_common->getDocumentIds($documents_req, $application_type, $sc_application->id);
         $uploaded_document_ids = [];
         $documents_remaining_ids = [];
         foreach($document_ids as $document_id){
@@ -726,7 +727,7 @@ class SocietyConveyanceController extends Controller
         $documents_uploaded = SocietyConveyanceDocumentStatus::where('application_id', $sc_application->id)->get();
 
         $sc_agreement_comment = ScAgreementComments::with('scAgreementId')->get();
-//        dd(count($uploaded_document_ids));
+//        dd($uploaded_document_ids);
         return view('frontend.society.conveyance.sale_lease_deed', compact('sc_application', 'document_lease', 'documents', 'uploaded_document_ids', 'documents_remaining_ids', 'sc_agreement_comment', 'documents_uploaded'));
     }
 
@@ -773,10 +774,45 @@ class SocietyConveyanceController extends Controller
             $name = File::name(str_replace(' ', '_', $file->getClientOriginalName())) . '_' . $time . '.' . $extension;
             $folder_name = "society_conveyance_documents";
             $path = '/' . $folder_name . '/' . $name;
-            $fileUpload = $this->CommonController->ftpFileUpload($folder_name, $file, $name);
-            $uploaded = $this->conveyance_common->uploadDocumentStatus($request->application_id, $request->document_name, $path);
+//            $fileUpload = $this->CommonController->ftpFileUpload($folder_name, $file, $name);
+            $status = ApplicationStatusMaster::where('status_name', 'Stamped')->value('id');
+            $uploaded = $this->conveyance_common->uploadDocumentStatus($request->application_id, $request->document_name, $path, $status);
+
+            $documents_req = array(
+                config('commanConfig.documents.society.conveyance_stamp_duty_letter'),
+                config('commanConfig.documents.society.Sale Deed Agreement'),
+                config('commanConfig.documents.society.Lease Deed Agreement'),
+                config('commanConfig.documents.society.sc_resolution'),
+                config('commanConfig.documents.society.sc_undertaking'),
+            );
+            $application_type = scApplicationType::where('application_type', config('commanConfig.applicationType.Conveyance'))->value('id');
+            $document_ids = $this->conveyance_common->getDocumentIds($documents_req, $application_type, $request->application_id);
+            $uploaded_document_ids = [];
+            $documents_remaining_ids = [];
+            foreach($document_ids as $document_id){
+                $document_lease[str_replace(' ', '_', strtolower($document_id->document_name))] = $document_id->document_name;
+                if($document_id->sc_document_status !== null){
+                    $uploaded_document_ids[str_replace(' ', '_', strtolower($document_id->document_name))] = $document_id;
+                }else{
+                    $documents_remaining_ids[str_replace(' ', '_', strtolower($document_id->document_name))] = $document_id;
+                }
+            }
+
+            if(count($uploaded_document_ids) == 5 && count($documents_remaining_ids) == 0){
+                $users_record = scApplicationLog::where('application_id', $request->application_id)->where('society_flag', 1)->where('status_id', config('commanConfig.conveyance_status.forwarded'))->first();
+                $users = User::where('id', $users_record->to_user_id)->where('role_id', $users_record->to_role_id)->get();
+                $insert_log_arr = array(
+                    'users' => $users
+                );
+                $sc_application = new scApplication();
+                $sc_application->id = $request->application_id;
+                $inserted_application_log = $this->CommonController->sc_application_status_society($insert_log_arr, config('commanConfig.conveyance_status.forwarded'), $sc_application);
+            }
+
             if(count($uploaded) > 0){
                 return redirect()->route('show_sale_lease', $insert_arr['application_id']);
+            }else{
+                return redirect()->route('show_sale_lease', $insert_arr['application_id'])->with('error', 'Something went wrong!');
             }
         }else{
             if(!empty($request->remark)){

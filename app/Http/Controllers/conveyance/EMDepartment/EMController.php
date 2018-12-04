@@ -363,10 +363,10 @@ class EMController extends Controller
                             return redirect()->route('em.scrutiny_remark', $request->application_id);
                         }
                     }else{
-                        return redirect()->route('society_conveyance.create')->withErrors('error', "Excel file headers doesn't match")->withInput();
+                        return redirect()->route('em.scrutiny_remark')->with('error', "Excel file headers doesn't match")->withInput();
                     }
                 }else{
-                    return redirect()->route('society_conveyance.create')->withErrors('error', "Excel file is empty.")->withInput();
+                    return redirect()->route('em.scrutiny_remark')->with('error', "Excel file is empty.")->withInput();
                 }
             }
         }else{

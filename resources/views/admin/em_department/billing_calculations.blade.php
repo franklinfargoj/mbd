@@ -28,6 +28,9 @@
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">Society Billing details - @if(!empty($society)){{$society->name}}@endif |@if(!empty($building)){{$building->building_no . '|' .$building->name}}@endif | @if(!empty($tenant)) {{$tenant->first_name.' '.$tenant->last_name}} @endif</h3>
+            <div class="ml-auto btn-list">
+                <a href="{{ url()->previous() }}" class="btn btn-link pull-right"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+            </div>
             {{-- {{ Breadcrumbs::render('society_detail') }} --}}
         </div>
     </div>
@@ -57,7 +60,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-md-3">
+                {{-- <div class="col-md-3">
                     <div class="form-group m-form__group">
                         <select id="month" name="month" class="form-control form-control--custom m-input"
                             placeholder="Select Month" >
@@ -69,7 +72,7 @@
                             @endif
                         </select>
                     </div>
-                </div>
+                </div> --}}
                 <div class="col-md-3 col-sm-3">
                     <input class="btn btn-primary Search" type="submit" value="Search" id="Search"/>
                 </div>
@@ -113,7 +116,7 @@
                             <td>{{$arreas_calculation->interest_amount}}</td>
                             <td>{{$arreas_calculation->total_amount+$arreas_calculation->balance_amount+$arreas_calculation->interest_amount}}</td>
                             <td>
-                                @if('1' == $arreas_calculation->payment_status) Paid @else Not Paid @endif
+                                {{-- @if('1' == $arreas_calculation->payment_status) Paid @else Not Paid @endif --}} - 
                             </td>
                             <td></td>
                         </tr>

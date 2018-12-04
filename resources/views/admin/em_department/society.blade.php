@@ -49,72 +49,27 @@
         <div class="m-portlet__head px-0">
             <div class="m-portlet__head-caption">
                 {{-- <h3 class="m-portlet__head-text">List of societies</h3> --}}
-                <div class="m-portlet__head-text">                   
-
-                    <div id="dataTableBuilder_filter" class="dataTables_filter col-md-4 ml-auto pull-left"><input type="search" id="searchId" class="form-control input-lg input-large input-inline form-control--custom"
-                    placeholder="Search ..."></div>  
-
-                </div>
             </div>
         </div>
 
         <div class="m-portlet__body">
             <!--begin: Datatable -->
-        <table class="display table table-responsive table-bordered" style="width:100%">
-        <thead>
-            <tr>
-                <th>Sr. No.</th>
-                <th>Society Name</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody id="myTable">
-        <?php $row_no = 1; ?>
-        @foreach($societies as $key => $value )
-            <tr>    
-                 <td>{{$row_no++}}</td>
-                <td data-search="{{$value->society_name}}">{{$value->society_name}}</td>
-               <td>
-                    <div class='d-flex btn-icon-list'>
-                        <a href="{{route('get_buildings', [encrypt($value->id)])}}" class='d-flex flex-column align-items-center ' style="padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;"><span class='btn-icon btn-icon--view'><img src="{{asset('/img/view-icon.svg')}}"></span>Building Details</a>
-                    
-                        <a href="{{route('soc_bill_level', [encrypt($value->id)])}}" class='d-flex flex-column align-items-center' style="padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;"><span class='btn-icon btn-icon--edit'><img src="{{asset('/img/edit-icon.svg')}}"></span>Bill Level</a>
-                       
-                        <a href="{{route('soc_ward_colony', [encrypt($value->id)])}}" class='d-flex flex-column align-items-center' style="padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;"><span class='btn-icon btn-icon--delete'><img src="{{asset('/img/generate-bill-icon.svg')}}"></span>Ward & colony</a>
-
-                    </div>
-                
-                    <!-- <a class="btn btn-info" href="{{route('get_buildings', [$value->id])}}">Society Detail</a>
-                    <a class="btn btn-info" href="{{route('soc_bill_level', [$value->id])}}" >Bill Level</a>
-                    <a class="btn btn-info"  href="{{route('soc_ward_colony', [$value->id])}}">Ward & colony</a> -->
-
-                </td>
-            </tr>
-        @endforeach
-        </tbody>
-        <tfoot>
-            <tr>
-                <th>Sr. No.</th>
-                <th>Society Name</th>
-                <th>Action</th>
-            </tr>
-        </tfoot>
-        </table>
+            {!! $html->table() !!}
             <!--end: Datatable -->
-            {!!$societies->render()!!}
+            
         </div>
     </div>
     <input type="hidden" id="myModalBtn" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" />
 
     <!-- Modal -->
     <div id="myModal" class="modal fade" role="dialog">
-             
+        
     </div>
     <!-- END EXAMPLE TABLE PORTLET-->
 </div>
 @endsection
 @section('datatablejs')
-
+{!! $html->scripts() !!}
 
 <script>
     /*$("#update_status").on("change", function () {
@@ -137,7 +92,7 @@
                     data: {search: value},
                         success: function(response){
                         //console.log(response);
-                        $('.m-portlet__body').html(response);
+                        // $('.m-portlet__body').html(response);
                         //$('#colony').selectpicker('refresh');
                     }
             });                
@@ -155,7 +110,7 @@
                     data: {id: id},
                         success: function(response){
                         //console.log(response);
-                        $('.m-portlet__body').html(response);
+                        // $('.m-portlet__body').html(response);
                         //$('#colony').selectpicker('refresh');
                     }
                   });    
