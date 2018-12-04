@@ -26,7 +26,7 @@ class AlterAddRouteNameOlApplicationMasterTable extends Migration
     public function down()
     {
         Schema::table('ol_application_master', function (Blueprint $table) {
-            //
+            $table->dropColumn('route_name');
         });
     }
 }

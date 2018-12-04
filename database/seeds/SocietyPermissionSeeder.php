@@ -249,6 +249,11 @@ class SocietyPermissionSeeder extends Seeder
                     'description' => 'Uploads Signed Sale & Lease deed Agreement'
                 ],
                 [
+                    'name'=>'society_formation.list',
+                    'display_name'=>'Display list of society formation',
+                    'description' => 'Display list of society formation'
+                ],
+                [
                     'name'=>'society_formation.index',
                     'display_name'=>'Display list of society formation',
                     'description' => 'Display list of society formation'

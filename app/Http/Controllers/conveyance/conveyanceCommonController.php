@@ -49,7 +49,7 @@ class conveyanceCommonController extends Controller
             ['data' => 'Status','name' => 'Status','title' => 'Status'],
         ];
 
-            // dd($data);
+
         if ($datatables->getRequest()->ajax()) {
 
             return $datatables->of($data)
@@ -600,7 +600,7 @@ class conveyanceCommonController extends Controller
     }  
 
     //add document to sc_document status
-    public function uploadDocumentStatus($applicationId,$document,$documentPath){
+    public function uploadDocumentStatus($applicationId,$document,$documentPath, $status=NULL){
         
         $masterId   = scApplication::where('id',$applicationId)->value('sc_application_master_id');
         $documentId = SocietyConveyanceDocumentMaster::where('document_name',$document)
@@ -616,8 +616,10 @@ class conveyanceCommonController extends Controller
         if (!$DocumentStatus){
             $DocumentStatus = new SocietyConveyanceDocumentStatus();
         }
+
         $DocumentStatus->application_id = $applicationId;
         $DocumentStatus->user_id        = Auth::Id();
+        $DocumentStatus->status_id        = $status;
         $DocumentStatus->society_flag    = $society_flag;
         $DocumentStatus->document_id    = $documentId;
         $DocumentStatus->document_path  = $documentPath;
@@ -641,9 +643,12 @@ class conveyanceCommonController extends Controller
     }
 
     // get document id as per document name
-    public function getDocumentIds($documentNames,$type){
+    public function getDocumentIds($documentNames, $type, $application_id=NULL){
 
-        $typeId = SocietyConveyanceDocumentMaster::with(['sc_document_status'])->whereIn('document_name',$documentNames)->where('application_type_id',$type)->get();
+        $typeId = SocietyConveyanceDocumentMaster::with(['sc_document_status' => function($q) use($application_id){
+            $q->where('application_id', $application_id)->orderBy('id', 'desc');
+        }])->whereIn('document_name',$documentNames)->where('application_type_id',$type)->get();
+
         return $typeId;
     }
 

@@ -20,6 +20,7 @@
                     </a>
                 </li>
                 @if($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.in_process') ||
+                $arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.draft_offer_letter_generated') ||
                 ($arrData['get_current_status']->status_id ==
                 config('commanConfig.applicationStatus.offer_letter_generation') && session()->get('role_name') !=
                 config('commanConfig.ree_branch_head')) || ($arrData['get_current_status']->status_id ==
