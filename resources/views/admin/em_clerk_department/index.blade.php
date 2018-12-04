@@ -76,6 +76,15 @@
             </form>
                    
                 </div>
+                <div class="col-md-12">
+                    <div class="m-portlet__body">
+                        <!--begin: Datatable -->
+                        @if($html)
+                        {!! $html->table() !!}
+                        @endif
+                        <!--end: Datatable -->
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -94,6 +103,9 @@
 @endsection
 
 @section('datatablejs')
+@if($html)
+{!! $html->scripts() !!}
+@endif
 <script>
     /*$("#update_status").on("change", function () {
         $("#eeForm").submit();
