@@ -1788,6 +1788,7 @@ class REEController extends Controller
 
     public function dashboard(){
         $role_id = session()->get('role_id');
+
         $user_id = Auth::id();
 
         $applicationData = $this->getApplicationData($role_id,$user_id);
@@ -1799,12 +1800,14 @@ class REEController extends Controller
 
         $dashboardData = $this->getREEDashboardData($role_id,$ree,$statusCount);
 
+        $reeHeadId = Role::where('name',config('commanConfig.ree_branch_head'))->value('id');
+        if($role_id == $reeHeadId){
+            $dashboardData1 = $this->getTotalCountsOfApplicationsPending();
+        }
+
+        dd($dashboardData1);
+
         return view('admin.REE_department.dashboard',compact('dashboardData'));
-
-//        dd($ree);
-//
-//        die('dfsdfsdf');
-
     }
 
     public function getApplicationData($role_id,$user_id){
@@ -1966,5 +1969,41 @@ class REEController extends Controller
         return $dashboardData;
     }
 
+    // total count of all department dashboard for ree
+
+    public function getTotalCountsOfApplicationsPending(){
+
+        $eeRoleData = $this->CommonController->getEERoles();
+        $dyceRoleData = $this->CommonController->getDyceRoles();
+        $reeRoleData = $this->getREERoles();
+        $coRoleData = Role::where('name',config('commanConfig.co_engineer'))->value('id');
+        $vpRoleData = Role::where('name',config('commanConfig.vp_engineer'))->value('id');
+        $capRoleData = Role::where('name',config('commanConfig.cap_engineer'))->value('id');
+
+//SELECT COUNT(*) FROM `ol_application_status_log` WHERE `is_active`=1 AND `role_id` IN (21) AND `status_id`= 1
+
+        $eeTotalPendingCount = OlApplicationStatus::where('is_active',1)
+            ->where('status_id',1)
+            ->whereIn('role_id',[$eeRoleData['ee_jr_id'],$eeRoleData['ee_head_id'],$eeRoleData['ee_deputy_id']])
+            ->get()->count();
+
+        $dyceTotalPendingCount = OlApplicationStatus::where('is_active',1)
+            ->where('status_id',1)
+            ->whereIn('role_id',[$dyceRoleData['dyce_jr_id'],$dyceRoleData['dyce_head_id'],$dyceRoleData['dyce_deputy_id']])
+            ->get()->count();
+
+        $reeTotalPendingCount = OlApplicationStatus::where('is_active',1)
+            ->whereIn('status_id',[config('commanConfig.applicationStatus.offer_letter_generation'),config('commanConfig.applicationStatus.in_process')])
+            ->whereIn('role_id',[$reeRoleData['ree_jr_id'],$reeRoleData['ree_head_id'],$reeRoleData['ree_deputy_id'],$reeRoleData['ree_ass_id']])
+            ->get()->count();
+
+        dd($reeTotalPendingCount);
+
+
+
+        dd('sdfaghfjsdg');
+//dd('asdsd');
+
+    }
 
 }
