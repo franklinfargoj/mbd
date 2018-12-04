@@ -204,7 +204,7 @@
                                 </div>
                             </div>
                             @endif
-                            @if(true == $regenate) 
+                            @if(!is_null($check) || $check != '')
                                 <div class="col-sm-4">
                                     <div class="btn-list">
                                         <button type="submit" id="" class="btn btn-primary">Regenerate Society Bill</button>
