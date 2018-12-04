@@ -600,7 +600,7 @@ class conveyanceCommonController extends Controller
     }  
 
     //add document to sc_document status
-    public function uploadDocumentStatus($applicationId,$document,$documentPath){
+    public function uploadDocumentStatus($applicationId,$document,$documentPath, $status=NULL){
         
         $masterId   = scApplication::where('id',$applicationId)->value('sc_application_master_id');
         $documentId = SocietyConveyanceDocumentMaster::where('document_name',$document)
@@ -616,8 +616,10 @@ class conveyanceCommonController extends Controller
         if (!$DocumentStatus){
             $DocumentStatus = new SocietyConveyanceDocumentStatus();
         }
+
         $DocumentStatus->application_id = $applicationId;
         $DocumentStatus->user_id        = Auth::Id();
+        $DocumentStatus->status_id        = $status;
         $DocumentStatus->society_flag    = $society_flag;
         $DocumentStatus->document_id    = $documentId;
         $DocumentStatus->document_path  = $documentPath;
