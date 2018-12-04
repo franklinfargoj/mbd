@@ -2569,6 +2569,10 @@ label.site-visit-label {
     left: 35px;
 }
 
+.m-menu__item.m-menu__item--level-2 .sidebar-icon {
+    left: 50px;
+}
+
 .m-aside-menu .mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar {
     margin: 0 0 0 -1px;
     opacity: 0.3;
