@@ -224,5 +224,17 @@ class CapPermissionSeeder extends Seeder
 
         }
 
+
+        $senior_architect_planner_role=Role::where(['name'=>config('commanConfig.senior_architect_planner')])->where('child_id', '=', NULL)->first();
+        if($senior_architect_planner_role)
+        {
+            $co_engineer=Role::where(['name'=>config('commanConfig.co_engineer')])->first();
+            if($co_engineer)
+            {
+                $senior_architect_planner_role->child_id=json_encode(array($co_engineer->id));
+                $senior_architect_planner_role->save();
+            }
+        }
+
     }
 }

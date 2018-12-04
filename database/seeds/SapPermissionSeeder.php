@@ -143,6 +143,16 @@ class SapPermissionSeeder extends Seeder
         //     }
 
         // }
+        $cap_engineer_role=Role::where(['name'=>config('commanConfig.cap_engineer')])->where('child_id', '=', NULL)->first();
+        if($cap_engineer_role)
+        {
+            $senior_architect_planner=Role::where(['name'=>config('commanConfig.senior_architect_planner')])->first();
+            if($senior_architect_planner)
+            {
+                $cap_engineer_role->child_id=json_encode(array($senior_architect_planner->id));
+                $cap_engineer_role->save();
+            }
+        }
 
     }
 }
