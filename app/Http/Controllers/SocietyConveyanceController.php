@@ -774,7 +774,7 @@ class SocietyConveyanceController extends Controller
             $name = File::name(str_replace(' ', '_', $file->getClientOriginalName())) . '_' . $time . '.' . $extension;
             $folder_name = "society_conveyance_documents";
             $path = '/' . $folder_name . '/' . $name;
-//            $fileUpload = $this->CommonController->ftpFileUpload($folder_name, $file, $name);
+            $fileUpload = $this->CommonController->ftpFileUpload($folder_name, $file, $name);
             $status = ApplicationStatusMaster::where('status_name', 'Stamped')->value('id');
             $uploaded = $this->conveyance_common->uploadDocumentStatus($request->application_id, $request->document_name, $path, $status);
 
