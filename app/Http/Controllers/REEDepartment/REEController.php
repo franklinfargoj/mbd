@@ -1801,13 +1801,13 @@ class REEController extends Controller
         $dashboardData = $this->getREEDashboardData($role_id,$ree,$statusCount);
 
         $reeHeadId = Role::where('name',config('commanConfig.ree_branch_head'))->value('id');
+
+        $dashboardData1 = NULL;
         if($role_id == $reeHeadId){
             $dashboardData1 = $this->getTotalCountsOfApplicationsPending();
         }
 
-        dd($dashboardData1);
-
-        return view('admin.REE_department.dashboard',compact('dashboardData'));
+        return view('admin.REE_department.dashboard',compact('dashboardData','dashboardData1'));
     }
 
     public function getApplicationData($role_id,$user_id){
@@ -1982,27 +1982,55 @@ class REEController extends Controller
 
 //SELECT COUNT(*) FROM `ol_application_status_log` WHERE `is_active`=1 AND `role_id` IN (21) AND `status_id`= 1
 
+//        $eeTotalPendingCount = $dyceTotalPendingCount = $reeTotalPendingCount
+//        = $coTotalPendingCount = $vpTotalPendingCount = $capTotalPendingCount = 0;
+
         $eeTotalPendingCount = OlApplicationStatus::where('is_active',1)
-            ->where('status_id',1)
+            ->where('status_id',config('commanConfig.applicationStatus.in_process'))
             ->whereIn('role_id',[$eeRoleData['ee_jr_id'],$eeRoleData['ee_head_id'],$eeRoleData['ee_deputy_id']])
             ->get()->count();
 
         $dyceTotalPendingCount = OlApplicationStatus::where('is_active',1)
-            ->where('status_id',1)
+            ->where('status_id',config('commanConfig.applicationStatus.in_process'))
             ->whereIn('role_id',[$dyceRoleData['dyce_jr_id'],$dyceRoleData['dyce_head_id'],$dyceRoleData['dyce_deputy_id']])
             ->get()->count();
 
         $reeTotalPendingCount = OlApplicationStatus::where('is_active',1)
-            ->whereIn('status_id',[config('commanConfig.applicationStatus.offer_letter_generation'),config('commanConfig.applicationStatus.in_process')])
+            ->whereIn('status_id',[config('commanConfig.applicationStatus.offer_letter_generation'),config('commanConfig.applicationStatus.in_process'),config('commanConfig.applicationStatus.offer_letter_approved')])
             ->whereIn('role_id',[$reeRoleData['ree_jr_id'],$reeRoleData['ree_head_id'],$reeRoleData['ree_deputy_id'],$reeRoleData['ree_ass_id']])
             ->get()->count();
 
-        dd($reeTotalPendingCount);
+        $coTotalPendingCount = OlApplicationStatus::where('is_active',1)
+            ->whereIn('status_id',[config('commanConfig.applicationStatus.in_process'),config('commanConfig.applicationStatus.offer_letter_generation')])
+            ->where('role_id',$coRoleData)
+            ->get()->count();
+
+        $vpTotalPendingCount = OlApplicationStatus::where('is_active',1)
+            ->where('status_id',config('commanConfig.applicationStatus.in_process'))
+            ->where('role_id',$vpRoleData)
+            ->get()->count();
+
+        $capTotalPendingCount = OlApplicationStatus::where('is_active',1)
+            ->where('status_id',config('commanConfig.applicationStatus.in_process'))
+            ->where('role_id',$capRoleData)
+            ->get()->count();
+
+        $totalPendingApplications = $eeTotalPendingCount + $dyceTotalPendingCount + $reeTotalPendingCount
+            + $coTotalPendingCount + $vpTotalPendingCount + $capTotalPendingCount;
 
 
+        $dashboardData1 = array();
+        $dashboardData1['Total number of Application Pending'] = $totalPendingApplications;
+        $dashboardData1['Applications pending at EE department'] = $eeTotalPendingCount;
+        $dashboardData1['Application Pending at DyCE'] = $dyceTotalPendingCount;
+        $dashboardData1['Applications pending at REE'] = $reeTotalPendingCount;
+        $dashboardData1['Applications pending at CO'] = $coTotalPendingCount;
+//                $dashboardData['Offer Letter Approved'] = $statusCount['offerLetterApproved'];
+        $dashboardData1['Applications pending at CAP'] = $capTotalPendingCount;
+        $dashboardData1['Applications pending at VP'] = $vpTotalPendingCount;
 
-        dd('sdfaghfjsdg');
-//dd('asdsd');
+        return $dashboardData1;
+
 
     }
 
