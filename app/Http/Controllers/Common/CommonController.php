@@ -934,7 +934,7 @@ class CommonController extends Controller
 
     public function getLogOfArchitectLayoutApplication($layout_id)
     {
-        $roles = array(config('commanConfig.junior_architect'), config('commanConfig.senior_architect'), config('commanConfig.achitect'));
+        $roles = array(config('commanConfig.junior_architect'), config('commanConfig.senior_architect'), config('commanConfig.architect'));
 
         $status = array(config('commanConfig.architect_layout_status.forward'),config('commanConfig.architect_layout_status.reverted'));
 

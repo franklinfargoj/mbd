@@ -228,8 +228,40 @@ class LayoutArchitectController extends Controller
         return view('admin.architect_layout_detail.view', compact('ArchitectLayout', 'ArchitectLayoutDetail', 'check_layout_details_complete_status'));
     }
 
+
+    public function get_master_log_of_architect_layout($data_logs)
+    {
+        $master_log=array();
+        foreach($data_logs as $data_log)
+        {
+            foreach($data_log as $log)
+            {
+                if($log->status_id == config('commanConfig.architect_layout_status.forward'))
+                {
+                $status = 'Forwarded';
+                }
+                elseif($log->status_id ==config('commanConfig.architect_layout_status.reverted'))
+                {
+                $status = 'Reverted';
+                }else
+                {
+                    $status='';
+                }
+                $master_log[$log->id]['role_id']=(isset($log) && $log->created_at != '' ? $log->getCurrentRole->name : '');
+                $master_log[$log->id]['date']=(isset($log) && $log->created_at != '' ? date("d-m-Y",strtotime($log->created_at)) : '');
+                $master_log[$log->id]['time']=(isset($log) && $log->created_at != '' ? date("H:i",strtotime($log->created_at)) : '');
+                $master_log[$log->id]['action']=$status.' to '.(isset($log->getRoleName->display_name)?$log->getRoleName->display_name : '');
+                $master_log[$log->id]['description']=(isset($log)? $log->remark : '');
+            }
+        }
+        ksort($master_log);
+        return $master_log;
+        
+    }
+
     public function forwardLayout(Request $request, $layout_id)
     {
+        
         $architectlogs = array();
         $layout_id = decrypt($layout_id);
         $ArchitectLayout = ArchitectLayout::with(['layout_details'])->find($layout_id);
@@ -246,7 +278,8 @@ class LayoutArchitectController extends Controller
         $Caplogs = $this->architect_layouts->getLogOfCapLayoutApplication($layout_id);
         $LAlogs = $this->architect_layouts->getLogOfLALayoutApplication($layout_id);
         $VPlogs = $this->architect_layouts->getLogOfVPLayoutApplication($layout_id);
-        // dd($ArchitectLayout->land_scrutiny_checklist_and_remarks);
+        $master_log=$this->get_master_log_of_architect_layout(array($architectlogs,$Emlogs,$Emlogs,$Lmlogs,$EElogs,$Reelogs,$Cologs,$Saplogs,$Caplogs,$LAlogs,$VPlogs));
+         //dd($architectlogs);
         if (session()->get('role_name') == config('commanConfig.architect')) {
             //if (!$ArchitectLayout->land_scrutiny_checklist_and_remarks) {
             if ($ArchitectLayout->upload_layout_in_pdf_format == "" && $ArchitectLayout->upload_layout_in_excel_format == "" && $ArchitectLayout->upload_architect_note == "") {
@@ -379,7 +412,7 @@ class LayoutArchitectController extends Controller
             }
         }
         
-        return view('admin.architect_layout.forward_architect_layout', compact('reverted_tab_visiblility','arrData', 'ArchitectLayout', 'architectlogs', 'Emlogs', 'Lmlogs', 'EElogs', 'Reelogs', 'Cologs', 'Saplogs', 'Caplogs', 'LAlogs', 'VPlogs'));
+        return view('admin.architect_layout.forward_architect_layout', compact('reverted_tab_visiblility','arrData', 'ArchitectLayout','master_log'));
     }
 
     public function post_forward_layout(Request $request)
