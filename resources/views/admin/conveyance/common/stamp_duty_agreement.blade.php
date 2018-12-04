@@ -42,19 +42,33 @@
                 </a>
             </li>
         </ul>
-    </div>
+    </div> 
+
+   
+<!-- <form class="nav-tabs-form" id ="agreementFRM" role="form" method="POST" action="{{ route('conveyance.save_stamp_duty_agreement')}}" enctype="multipart/form-data"> -->
+
+<form class="nav-tabs-form" id ="agreementFRM" role="form" method="POST" action="{{ route('conveyance.save_stamp_duty_agreement')}}" enctype="multipart/form-data">
+
+@csrf 
+ <input type="hidden" name="application_id" value="{{ isset($data->id) ? $data->id : '' }}">
+    @php
+        if(isset($data->StampSaleByDycdo->document_path) && session()->get('role_name') == config('commanConfig.dycdo_engineer'))
+            $document = $data->StampSaleByDycdo->document_path;
+        else if(isset($data->StampSaleAgreement->document_path))
+            $document = $data->StampSaleAgreement->document_path;
+    @endphp
+    @php
+        if(isset($data->StampLeaseByDycdo->document_path) && session()->get('role_name') == config('commanConfig.dycdo_engineer'))
+            $document1 = $data->StampLeaseByDycdo->document_path;
+        else if(isset($data->StampLeaseAgreement->document_path))
+            $document1 = $data->StampLeaseAgreement->document_path;
+    @endphp
+
     <div class="tab-content">
         <div class="tab-pane active show" id="sale-deed-agreement" role="tabpanel">
             <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
                 <div class="portlet-body">
                     <div class="m-portlet__body m-portlet__body--table">
-<!--                         <div class="m-subheader" style="padding: 0;">
-                            <div class="d-flex align-items-center">
-                                <h4 class="section-title">
-                                    Stamped Sale Deed Agreement
-                                </h4>
-                            </div>
-                        </div> -->
                         <div class="m-section__content mb-0 table-responsive">
                             <div class="container">
                                 <div class="row">
@@ -86,28 +100,21 @@
                                                         file...</label>   
                                                 </div>
                                         </div>
-                                    </div>                                    
+                                    </div>                                   
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
             <!-- Add Send to JT CO here -->
         </div>
+       
 
         <div class="tab-pane" id="lease-deed-agreement" role="tabpanel">
             <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
                 <div class="portlet-body">
                     <div class="m-portlet__body m-portlet__body--table">
-<!--                         <div class="m-subheader" style="padding: 0;">
-                            <div class="d-flex align-items-center">
-                                <h4 class="section-title">
-                                    Stamped Lease Deed Agreement
-                                </h4>
-                            </div>
-                        </div> -->
                         <div class="m-section__content mb-0 table-responsive">
                             <div class="container">
                                 <div class="row">
@@ -131,12 +138,13 @@
                                     <div class="col-sm-6 border-left">
                                         <div class="d-flex flex-column h-100 two-cols">
                                             <h5>Upload</h5>
-                                            <span class="hint-text">Click on 'Upload' to upload Sale Deed Agreement</span>
+                                            <span class="hint-text">Click to upload Lease Deed Agreement</span>
                                                 <div class="custom-file">
-                                                    <input class="custom-file-input" name="sale_agreement" type="file" id="test-upload1">
-                                                
-                                                        <label class="custom-file-label" for="test-upload1">Choose
-                                                        file...</label>   
+                                                    <input class="custom-file-input" name="lease_agreement" type="file" id="test-upload2">
+   
+                                                    <label class="custom-file-label" for="test-upload2">Choose
+                                                        file...</label>
+                                                      
                                                 </div>
                                         </div>
                                     </div>
@@ -153,19 +161,12 @@
             <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
                 <div class="portlet-body">
                     <div class="m-portlet__body m-portlet__body--table">
-                        <div class="m-subheader" style="padding: 0;">
-                            <div class="d-flex align-items-center">
-                                <h4 class="section-title">
-                                    Society Resolution
-                                </h4>
-                            </div>
-                        </div>
                         <div class="m-section__content mb-0 table-responsive">
                             <div class="container">
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="d-flex flex-column h-100 two-cols">
-                                            <h5>Download Note</h5>
+                                            <h5>Download</h5>
                                             <span class="hint-text">Download Society resolution format</span>
                                             <div class="mt-auto">
                                                 @if(isset($data->resolution->document_path))
@@ -189,19 +190,12 @@
             <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
                 <div class="portlet-body">
                     <div class="m-portlet__body m-portlet__body--table">
-                        <div class="m-subheader" style="padding: 0;">
-                            <div class="d-flex align-items-center">
-                                <h4 class="section-title">
-                                    Society undertaking
-                                </h4>
-                            </div>
-                        </div>
                         <div class="m-section__content mb-0 table-responsive">
                             <div class="container">
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="d-flex flex-column h-100 two-cols">
-                                            <h5>Download Note</h5>
+                                            <h5>Download</h5>
                                             <span class="hint-text">Download Society undertaking format</span>
                                             <div class="mt-auto">
                                                 @if(isset($data->undertaking->document_path))
@@ -224,7 +218,7 @@
             </div>
         </div>
     </div>
-
+ 
     <div id="sale-lease-aggrement" style="margin-top: 30px;">
     
     @if(count($data->AgreementComments) > 0)       
@@ -259,28 +253,21 @@
                 </div>
             </div>
         </div>
-    @endif     
+    @endif   
 
-    @if($data->status->status_id != config('commanConfig.conveyance_status.forwarded') && $data->status->status_id != config('commanConfig.conveyance_status.reverted') )
-
-        <form class="nav-tabs-form" id ="CommentFRM" role="form" method="POST" action="{{ route('conveyance.save_agreement_comments')}}">
-            @csrf   
-             <input type="hidden" name="application_id" value="{{ isset($data->id) ? $data->id : '' }}">
-            <div class="m-portlet m-portlet--mobile m_panel">  
-                <div class="m-portlet__body">   
-                    <div class="col-xs-12 row">
-                        <div class="col-md-12">
-                            <h3 class="section-title section-title--small">Remark</h3>
-                                <textarea rows="4" cols="63" name="remark"></textarea>
-                                <button type="submit" class="btn btn-primary mt-3" style="display:block">Save</button>
-                        </div>
+        <div class="m-portlet m-portlet--mobile m_panel">  
+            <div class="m-portlet__body">   
+                <div class="col-xs-12 row">
+                    <div class="col-md-12">
+                        <h3 class="section-title section-title--small">Remark</h3>
+                            <textarea rows="4" cols="63" name="remark"></textarea>  
+                            <button type="submit" class="btn btn-primary mt-3" style="display:block">Save</button>
                     </div>
                 </div>
             </div>
-        </form>
-    @endif   
-
+        </div>     
     </div>
+</form>    
 @endsection
 
 @section('js')
