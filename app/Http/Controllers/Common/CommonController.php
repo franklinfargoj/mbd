@@ -35,6 +35,7 @@ use App\OlDcrRateMaster;
 use App\OlDemarcationVerificationQuestionMaster;
 use App\OlRgRelocationVerificationQuestionMaster;
 use App\OlSharingCalculationSheetDetail;
+use App\OlSocietyDocumentsMaster;
 use App\OlTitBitVerificationQuestionMaster;
 use App\Permission;
 use App\REENote;
@@ -517,6 +518,7 @@ class CommonController extends Controller
             'to_user_id' => $getCo->user_id,
             'to_role_id' => $getCo->role_id,
             'remark' => $request->remark,
+            'is_active' => 1,
             'created_at' => Carbon::now(),
         ],
 
@@ -528,12 +530,27 @@ class CommonController extends Controller
                 'to_user_id' => null,
                 'to_role_id' => null,
                 'remark' => $request->remark,
+                'is_active' => 1,
                 'created_at' => Carbon::now(),
             ],
         ];
 
-        OlApplicationStatus::insert($forward_application);
-        OlApplication::where('id', $request->applicationId)->update(['status_offer_letter' => config('commanConfig.applicationStatus.offer_letter_generation')]);
+        //Code added by Prajakta >>start
+        DB::beginTransaction();
+        try {
+            OlApplicationStatus::where('application_id',$request->applicationId)
+                ->whereIn('user_id', [Auth::user()->id,$getCo->user_id ])
+                ->update(array('is_active' => 0));
+
+            OlApplicationStatus::insert($forward_application);
+            OlApplication::where('id', $request->applicationId)->update(['status_offer_letter' => config('commanConfig.applicationStatus.offer_letter_generation')]);
+
+            DB::commit();
+        } catch (\Exception $ex) {
+            DB::rollback();
+//                return response()->json(['error' => $ex->getMessage()], 500);
+        }
+        //Code added by Prajakta >>end
 
         return true;
     }
@@ -548,6 +565,7 @@ class CommonController extends Controller
             'to_user_id' => $ree->user_id,
             'to_role_id' => $ree->role_id,
             'remark' => $request->remark,
+            'is_active' => 1,
             'created_at' => Carbon::now(),
         ],
 
@@ -559,12 +577,28 @@ class CommonController extends Controller
                 'to_user_id' => null,
                 'to_role_id' => null,
                 'remark' => $request->remark,
+                'is_active' => 1,
                 'created_at' => Carbon::now(),
             ],
         ];
 
-        OlApplicationStatus::insert($forward_application);
-        OlApplication::where('id', $request->applicationId)->update(['status_offer_letter' => config('commanConfig.applicationStatus.offer_letter_approved'), 'is_approve_offer_letter' => $request->is_approved]);
+        //Code added by Prajakta >>start
+        DB::beginTransaction();
+        try {
+            OlApplicationStatus::where('application_id',$request->applicationId)
+                ->whereIn('user_id', [Auth::user()->id,$ree->user_id])
+                ->update(array('is_active' => 0));
+
+            OlApplicationStatus::insert($forward_application);
+            OlApplication::where('id', $request->applicationId)->update(['status_offer_letter' => config('commanConfig.applicationStatus.offer_letter_approved'), 'is_approve_offer_letter' => $request->is_approved, 'phase' => 3]);
+
+            DB::commit();
+        } catch (\Exception $ex) {
+            DB::rollback();
+//                return response()->json(['error' => $ex->getMessage()], 500);
+        }
+        //Code added by Prajakta >>end
+
 
         return true;
     }
@@ -580,6 +614,7 @@ class CommonController extends Controller
                 'to_user_id' => $request->to_user_id,
                 'to_role_id' => $request->to_role_id,
                 'remark' => $request->remark,
+                'is_active' => 1,
                 'created_at' => Carbon::now(),
             ],
 
@@ -591,15 +626,33 @@ class CommonController extends Controller
                     'to_user_id' => null,
                     'to_role_id' => null,
                     'remark' => $request->remark,
+                    'is_active' => 1,
                     'created_at' => Carbon::now(),
                 ],
             ];
 
+            //Code added by Prajakta >>start
+            DB::beginTransaction();
+            try {
+                OlApplicationStatus::where('application_id',$request->applicationId)
+                    ->whereIn('user_id', [Auth::user()->id,$request->to_user_id])
+                    ->update(array('is_active' => 0));
+
+                OlApplicationStatus::insert($forward_application);
+                OlApplication::where('id', $request->applicationId)->update(['status_offer_letter' => config('commanConfig.applicationStatus.offer_letter_approved')]);
+
+                DB::commit();
+            } catch (\Exception $ex) {
+                DB::rollback();
+//                return response()->json(['error' => $ex->getMessage()], 500);
+            }
+            //Code added by Prajakta >>end
+
+
+
 //            echo "in forward";
             //            dd($forward_application);
-            OlApplicationStatus::insert($forward_application);
-            OlApplication::where('id', $request->applicationId)->update(['status_offer_letter' => config('commanConfig.applicationStatus.offer_letter_approved')]);
-        }
+             }
 
         return true;
     }
@@ -618,6 +671,7 @@ class CommonController extends Controller
                 'society_flag' => 0,
                 'to_role_id' => $society_details->role_id,
                 'remark' => $request->remark,
+                'is_active' => 1,
                 'created_at' => Carbon::now(),
             ],
 
@@ -630,12 +684,28 @@ class CommonController extends Controller
                 'society_flag' => 1,
                 'to_role_id' => null,
                 'remark' => $request->remark,
+                'is_active' => 1,
                 'created_at' => Carbon::now(),
             ],
         ];
 
-        OlApplicationStatus::insert($forward_application);
-        OlApplication::where('id', $request->applicationId)->update(['status_offer_letter' => config('commanConfig.applicationStatus.sent_to_society')]);
+        //Code added by Prajakta >>start
+        DB::beginTransaction();
+        try {
+            OlApplicationStatus::where('application_id',$request->applicationId)
+                ->whereIn('user_id', [Auth::user()->id,$society_details->user_id])
+                ->update(array('is_active' => 0));
+
+            OlApplicationStatus::insert($forward_application);
+            OlApplication::where('id', $request->applicationId)->update(['status_offer_letter' => config('commanConfig.applicationStatus.sent_to_society')]);
+
+            DB::commit();
+        } catch (\Exception $ex) {
+            DB::rollback();
+//                return response()->json(['error' => $ex->getMessage()], 500);
+        }
+        //Code added by Prajakta >>end
+
 
         return true;
     }
@@ -782,6 +852,7 @@ class CommonController extends Controller
             'to_user_id' => $request->to_user_id,
             'to_role_id' => $request->to_role_id,
             'remark' => $request->remark,
+            'is_active' => 1,
             'created_at' => Carbon::now(),
         ],
 
@@ -793,12 +864,27 @@ class CommonController extends Controller
                 'to_user_id' => null,
                 'to_role_id' => null,
                 'remark' => $request->remark,
+                'is_active' => 1,
                 'created_at' => Carbon::now(),
             ],
         ];
 
-        OlApplicationStatus::insert($forward_application);
-        OlApplication::where('id', $request->applicationId)->update(['status_offer_letter' => config('commanConfig.applicationStatus.offer_letter_generation')]);
+        //Code added by Prajakta >>start
+        DB::beginTransaction();
+        try {
+            OlApplicationStatus::where('application_id',$request->applicationId)
+                ->whereIn('user_id', [Auth::user()->id,$request->to_user_id ])
+                ->update(array('is_active' => 0));
+
+            OlApplicationStatus::insert($forward_application);
+            OlApplication::where('id', $request->applicationId)->update(['status_offer_letter' => config('commanConfig.applicationStatus.offer_letter_generation')]);
+
+            DB::commit();
+        } catch (\Exception $ex) {
+            DB::rollback();
+//                return response()->json(['error' => $ex->getMessage()], 500);
+        }
+        //Code added by Prajakta >>end
 
         return true;
     }
@@ -1364,8 +1450,12 @@ class CommonController extends Controller
     public function getRevalSocietyREEDocuments($applicationId)
     {
 
-        $societyId = OlApplication::where('id', $applicationId)->value('society_id');
-        $societyDocuments = SocietyOfferLetter::with(['societyRevalDocuments.documents_Name'])->where('id', $societyId)->get();
+        $application_details = OlApplication::where('id', $applicationId)->get();
+       $documnts_ids = OlSocietyDocumentsMaster::where('application_id' ,'=' ,$application_details[0]->application_master_id)->pluck('id')->toArray();
+
+        $societyDocuments = SocietyOfferLetter::with(['societyRevalDocuments' => function($q) use($documnts_ids) {
+            $q->whereIn('document_id', $documnts_ids);
+        }])->where('id', $application_details[0]->society_id)->get();
 
         return $societyDocuments;
     }

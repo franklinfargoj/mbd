@@ -38,13 +38,13 @@
                     {{ Form::button('<span class="btn-icon btn-icon--delete"><img src="/img/view-arrears-calculation-icon.svg"></span>View Arrear Calculation', array('class'=>'btn btn--unstyled p-0 btn--icon-wrap d-flex flex-column align-items-center','type'=>'submit')) }}
                     {!! Form::close() !!}
                     @if(count($value->TransBillGenerate) > 0)
-                    <div class="d-flex btn-icon-list"> 
-                        <button class="btn btn--unstyled p-0 btn--icon-wrap d-flex flex-column align-items-center">
-                            <span class="btn-icon btn-icon--regenerate">
-                                <img src="{{ asset('/img/regenerate-bill-icon.svg')}}">
-                            </span>Regenerate Bill
-                        </button>
-                    </div>
+
+                    {!! Form::open(['method' => 'get', 'route' => 'generateBuildingBill', 'class'=>'']) !!}
+                    {{ Form::hidden('building_id', encrypt($value->id)) }}
+                    {{ Form::hidden('society_id', encrypt($value->society_id)) }}
+                    {{ Form::hidden('regenate', true) }}  
+                    {{ Form::button('<span class="btn-icon btn-icon--regenerate"><img src="/img/regenerate-bill-icon.svg"></span>Regenerate Bill', array('class'=>'btn btn--unstyled p-0 btn--icon-wrap d-flex flex-column align-items-center','type'=>'submit')) }}
+                    {!! Form::close() !!}
                     @endif
                 </td>
             </tr>

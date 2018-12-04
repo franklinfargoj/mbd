@@ -2561,6 +2561,14 @@ label.site-visit-label {
 
 /* Sidebar starts here */
 
+.sidebar-icon {
+    width: 18px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 35px;
+}
+
 .m-aside-menu .mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar {
     margin: 0 0 0 -1px;
     opacity: 0.3;

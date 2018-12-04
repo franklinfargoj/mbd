@@ -201,14 +201,14 @@ $route=\Request::route()->getName();
 
                 {{-- @if(!empty(array_intersect($land_permission, session()->get('permission'))))--}}
                 @if(session()->get('permission') && in_array('village_detail.index', session()->get('permission')))
-                <li class="m-menu__item {{($route!='architect_layout.index' && $route!='architect_layouts_layout_details.index')?'':'collapsed'}}"
+                <li class="m-menu__item m-menu__item--icon {{($route!='architect_layout.index' && $route!='architect_layouts_layout_details.index')?'':'collapsed'}}"
                     data-toggle="collapse" data-target="#land-module-actions">
                     <a href="{{url('/village_detail')}}" class="m-menu__link m-menu__toggle">
-                        <i class="m-menu__link-icon flaticon-line-graph"></i>
+                        <i class="m-menu__link-icon"></i>
                         <span class="m-menu__link-title">
                             <span class="m-menu__link-wrap">
                                 <span class="m-menu__link-text">
-                                    Land
+                                    <img class="sidebar-icon" src="{{ asset('/img/sidebar/land-icon.svg')}}">Land
                                 </span>
                                 <i class="m-menu__ver-arrow la la-angle-right"></i>
                             </span>
@@ -221,7 +221,7 @@ $route=\Request::route()->getName();
                                 <a href="{{url('/village_detail')}}" class="m-menu__link m-menu__toggle"><img class="radio-icon"
                                         src="{{ asset('/img/radio-icon.svg')}}"><span class="m-menu__link-text">Land
                                         Detail
-                                        {{$route}}</span></i></a>
+                                        {{$route}}</span></img></a>
                             </li>
                             <li class="m-menu__item m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover">
                                 <a href="{{route('society_detail.index')}}" class="m-menu__link m-menu__toggle"><img

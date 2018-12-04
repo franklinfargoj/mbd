@@ -70,7 +70,12 @@
             <span class="App_head"> List of Applications for Redevelopment - {{ $data[0]->ol_application_type[0]->title }}</span>
             <div class="options">
                 @foreach($data as $application)
-                  <p><a @if(count($application->ol_application_id) == 0) href="{{ route($application->route_name, $application->id) }}" @endif>{{ $application->title }}</a></p>
+                    @if(in_array($application->id,config('commanConfig.new_offer_letter_master_ids')))
+                        <p><a @if(count($application->ol_application_id) == 0) href="{{ route($application->route_name, $application->id) }}" @endif>{{ $application->title }}</a></p>
+                    @else
+                        <p><a href="{{ route($application->route_name, $application->id) }}">{{ $application->title }}</a></p>
+                    @endif
+
                 @endforeach
             </div>
         </div>

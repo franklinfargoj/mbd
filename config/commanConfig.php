@@ -66,7 +66,8 @@ return [
        'Aproved_lease_deed' => 17,
        'Draft_Renewal_of_Lease_deed' => 18,
        'Aproved_Renewal_of_Lease' => 19,
-       'NOC_Generation' => 20
+       'NOC_Generation' => 20,
+       'draft_offer_letter_generated' => 21,
    ],
 
     /*'applicationStatus' => [
@@ -142,6 +143,7 @@ return [
             'stamp_renewal_application' => 'stamp_renewal_application',
             'list_of_members_from_society' => 'list_of_members_from_society',
             'pay_stamp_duty_letter' => 'pay_stamp_duty_letter',
+            'conveyance_stamp_duty_letter' => 'conveyance_stamp_duty_letter',
             'Sale Deed Agreement' => 'Sale Deed Agreement',
             'Lease Deed Agreement' => 'Lease Deed Agreement',
             'sc_resolution' => 'sc_resolution',
@@ -161,7 +163,10 @@ return [
             'covering_letter' => [
                 'em_covering_letter'
             ],
-            'stamp_conveyance_application' => 'stamp_conveyance_application'
+            'stamp_conveyance_application' => 'stamp_conveyance_application',
+            'society_list' => [
+                'अधिकृत सभासदांची यादी (पती व पत्नी संयुक्त नावे)'
+            ]
         ],
          'em_renewal' => [
              'stamp_renewal_application' => 'stamp_renewal_application',
@@ -299,6 +304,9 @@ return [
         '3', '6'
     ],
 
+    'new_offer_letter_master_ids' => [
+        '2', '6', '13', '17'
+    ],
 
     'revalidation_master_ids' => [
         '3', '7', '14', '18'
