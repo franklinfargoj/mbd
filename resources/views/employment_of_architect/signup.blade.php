@@ -27,6 +27,7 @@
                                         <div class="row">
                                             <div class="col-sm-6">
                                                 <div class="form-group m-form__group">
+                                                    <label class="col-form-label" for="">Name:<span class="star">*</span></label>
                                                     <input class="form-control form-control--custom m-input" type="text"
                                                         name="name" value="{{old('name')}}" placeholder="Name">
                                                     @if ($errors->has('name'))
@@ -36,6 +37,7 @@
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="form-group m-form__group">
+                                                    <label class="col-form-label" for="">Email:<span class="star">*</span></label>
                                                     <input class="form-control form-control--custom m-input" type="text"
                                                     onblur="duplicateEmail(this)" name="email" value="{{old('email')}}" placeholder="Email">
                                                     @if ($errors->has('email'))
@@ -45,6 +47,7 @@
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="form-group m-form__group">
+                                                    <label class="col-form-label" for="">Mobile No:<span class="star">*</span></label>
                                                     <input class="form-control form-control--custom m-input" type="text"
                                                         name="mobile_no" value="{{old('mobile_no')}}" placeholder="Mobile No.">
                                                     @if ($errors->has('mobile_no'))
@@ -54,6 +57,7 @@
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="form-group m-form__group">
+                                                    <label class="col-form-label" for="">Address:<span class="star">*</span></label>
                                                     <textarea class="form-control form-control--custom form-control--fixed-height m-input"
                                                         name="address" placeholder="Address">{{old('address')}}</textarea>
                                                     @if ($errors->has('address'))
@@ -63,6 +67,7 @@
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="form-group m-form__group">
+                                                    <label class="col-form-label" for="">Password:<span class="star">*</span></label>
                                                     <input class="form-control form-control--custom m-input" type="password" name="password" value="{{old('password')}}" placeholder="Password">
                                                     <a class="input-hint" href="#" data-toggle="tooltip" data-placement="top" title="Password should be minimum 6 & maximum 10 characters."><i class="fa fa-info-circle" style="color: orange;float: right;"></i></a>
                                                     @if ($errors->has('password'))
@@ -72,6 +77,7 @@
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="form-group m-form__group">
+                                                    <label class="col-form-label" for="">Confirm Password:<span class="star">*</span></label>
                                                     <input class="form-control form-control--custom m-input" type="password" name="confirm_password" value="{{old('confirm_password')}}" placeholder="Confirm Password">
                                                     @if ($errors->has('confirm_password'))
                                                     <span class="text-danger">{{ $errors->first('confirm_password') }}</span>
