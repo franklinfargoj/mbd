@@ -1511,8 +1511,19 @@ class CommonController extends Controller
         if($vp == $role_id)
             $dashboardData = $this->getVpDashboardData($statusCount);
 
-//        dd($dashboardData);
-        return view('admin.common.ol_dashboard',compact('dashboardData'));
+        $dashboardData1 = NULL;
+        $eeHeadId = Role::where('name',config('commanConfig.ee_branch_head'))->value('id');
+
+        $dyceHeadId = Role::where('name',config('commanConfig.dyce_branch_head'))->value('id');
+
+        if($role_id == $eeHeadId){
+            $dashboardData1 = $this->getToatalPendingApplicationsAtUser($ee,$role = 'ee' );
+        }
+        if($role_id == $dyceHeadId){
+            $dashboardData1 = $this->getToatalPendingApplicationsAtUser($dyce , $role = 'dyce');
+        }
+
+        return view('admin.common.ol_dashboard',compact('dashboardData','dashboardData1'));
 
     }
 
@@ -2493,7 +2504,7 @@ class CommonController extends Controller
 
         return $ree;
     }
-    
+
     // total count of all department dashboard for ree
 
     public function getTotalCountsOfApplicationsPending(){
@@ -2557,6 +2568,26 @@ class CommonController extends Controller
         return $dashboardData1;
 
 
+    }
+
+    public function getToatalPendingApplicationsAtUser($roleIds,$role){
+//        dd($roleIds);
+
+        $users =User::whereIn('role_id',[$roleIds[$role.'_jr_id'],$roleIds[$role.'_head_id'],$roleIds[$role.'_deputy_id']])
+            ->get()->toArray();
+
+//        dd($users);
+
+        $count = array();
+        foreach ($users as $user){
+//            dd($user['id']);
+            $dashboardData1['Application Pending At '.$user['name']] = OlApplicationStatus::where('user_id',$user['id'])
+            ->where('status_id',config('commanConfig.applicationStatus.in_process'))
+            ->where('is_active',1)->get()->count();
+
+
+        }
+        return $dashboardData1;
     }
 
 }
