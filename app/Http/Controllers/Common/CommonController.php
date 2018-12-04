@@ -936,7 +936,7 @@ class CommonController extends Controller
     {
         $roles = array(config('commanConfig.junior_architect'), config('commanConfig.senior_architect'), config('commanConfig.achitect'));
 
-        $status = array(config('commanConfig.architect_layout_status.forward'));
+        $status = array(config('commanConfig.architect_layout_status.forward'),config('commanConfig.architect_layout_status.reverted'));
 
         $architectRoles = Role::whereIn('name', $roles)->pluck('id');
         $Architectlogs = ArchitectLayoutStatusLog::with('getRoleName')->where('architect_layout_id', $layout_id)->whereIn('role_id', $architectRoles)->whereIn('status_id', $status)->get();
@@ -972,7 +972,7 @@ class CommonController extends Controller
     {
         $roles = array(config('commanConfig.ee_junior_engineer'),config('commanConfig.ee_deputy_engineer'),config('commanConfig.ee_branch_head'));
 
-        $status = array(config('commanConfig.architect_layout_status.forward'));
+        $status = array(config('commanConfig.architect_layout_status.forward'),config('commanConfig.architect_layout_status.reverted'));
 
         $architectRoles = Role::whereIn('name', $roles)->pluck('id');
         $Architectlogs = ArchitectLayoutStatusLog::with('getRoleName')->where('architect_layout_id', $layout_id)->whereIn('role_id', $architectRoles)->whereIn('status_id', $status)->get();
@@ -984,7 +984,7 @@ class CommonController extends Controller
     {
         $roles = array(config('commanConfig.ree_junior'),config('commanConfig.ree_deputy_engineer'),config('commanConfig.ree_assistant_engineer'),config('commanConfig.ree_branch_head'));
 
-        $status = array(config('commanConfig.architect_layout_status.forward'));
+        $status = array(config('commanConfig.architect_layout_status.forward'),config('commanConfig.architect_layout_status.reverted'));
 
         $architectRoles = Role::whereIn('name', $roles)->pluck('id');
         $Architectlogs = ArchitectLayoutStatusLog::with('getRoleName')->where('architect_layout_id', $layout_id)->whereIn('role_id', $architectRoles)->whereIn('status_id', $status)->get();
@@ -996,7 +996,7 @@ class CommonController extends Controller
     {
         $roles = array(config('commanConfig.co_engineer'));
 
-        $status = array(config('commanConfig.architect_layout_status.forward'));
+        $status = array(config('commanConfig.architect_layout_status.forward'),config('commanConfig.architect_layout_status.reverted'));
 
         $architectRoles = Role::whereIn('name', $roles)->pluck('id');
         $Architectlogs = ArchitectLayoutStatusLog::with('getRoleName')->where('architect_layout_id', $layout_id)->whereIn('role_id', $architectRoles)->whereIn('status_id', $status)->get();
@@ -1008,7 +1008,7 @@ class CommonController extends Controller
     {
         $roles = array(config('commanConfig.senior_architect_planner'));
 
-        $status = array(config('commanConfig.architect_layout_status.forward'));
+        $status = array(config('commanConfig.architect_layout_status.forward'),config('commanConfig.architect_layout_status.reverted'));
 
         $architectRoles = Role::whereIn('name', $roles)->pluck('id');
         $Architectlogs = ArchitectLayoutStatusLog::with('getRoleName')->where('architect_layout_id', $layout_id)->whereIn('role_id', $architectRoles)->whereIn('status_id', $status)->get();
@@ -1019,7 +1019,7 @@ class CommonController extends Controller
     {
         $roles = array(config('commanConfig.cap_engineer'));
 
-        $status = array(config('commanConfig.architect_layout_status.forward'));
+        $status = array(config('commanConfig.architect_layout_status.forward'),config('commanConfig.architect_layout_status.reverted'));
 
         $architectRoles = Role::whereIn('name', $roles)->pluck('id');
         $Architectlogs = ArchitectLayoutStatusLog::with('getRoleName')->where('architect_layout_id', $layout_id)->whereIn('role_id', $architectRoles)->whereIn('status_id', $status)->get();
