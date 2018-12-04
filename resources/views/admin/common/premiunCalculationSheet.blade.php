@@ -193,10 +193,9 @@
                                                     परिगणनाकरिता ग्राह्य भूखंडाचे क्षेत्रफळ (Min of 1 & 2)
                                                 </td>
                                                 <td class="text-center">
-                                                    <input type="text" class="permissible_area total_permissible form-control form-control--custom"
-                                                        name="area_of_​​subsistence_to_calculate" id="area_of_​​subsistence_to_calculate"
-                                                        value="{{ isset($calculationSheetDetails[0]->area_of_​​subsistence_to_calculate) ? $calculationSheetDetails[0]->area_of_​​subsistence_to_calculate : 0 }}"
-                                                        readonly />
+                                                    <input type="text" readonly placeholder="0" class="permissible_area total_permissible form-control form-control--custom"
+                                                           name="area_of_subsistence_to_calculate" id="area_of_subsistence_to_calculate"
+                                                           value="<?php if(isset($calculationSheetDetails[0]->area_of_subsistence_to_calculate)) { echo $calculationSheetDetails[0]->area_of_subsistence_to_calculate; }?>" />
                                                 </td>
                                             </tr>
                                             <tr>
@@ -482,8 +481,10 @@
                                                     छाननी शुल्क
                                                 </td>
                                                 <td class="text-center">
-                                                    <input type="text" readonly class="total_amount form-control form-control--custom"
-                                                        name="scrutiny_fee" id="scrutiny_fee" value="6000" />
+                                                    <input type="text" readonly placeholder="0" class="total_amount form-control form-control--custom"
+                                                           name="scrutiny_fee" id="scrutiny_fee" value="<?php if(isset($calculationSheetDetails[0]->scrutiny_fee)) { echo $calculationSheetDetails[0]->scrutiny_fee; } ?>" />
+
+
 
                                                 </td>
                                             </tr>
@@ -523,6 +524,71 @@
                                             <tr>
                                                 <td>23.</td>
                                                 <td>
+                                                    प्रा. ठराव क्र ६२६० दि. ०४.०६.२००७ व ठराव क्र. ६३४९ दि. २५.११.२००८ अन्वये आर. जी. स्थलांतरणाकरिता दर रु. ५,५३०/- (१० टक्के रे. रे. सन २०१७-१८ रु. ५५३००/- प्रति चौ. मी. ) (१५८४. ४१ चौ. मी. X ५५३०)
+                                                </td>
+                                                <td class="text-center">
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td>
+                                                    1. आर. जी. स्थलांतरणाचे क्षेत्रफळ
+                                                </td>
+                                                <td class="text-center">
+                                                    <input type="text" readonly placeholder="0" class="form-control form-control--custom"
+                                                           name="area_of_rg_to_be_relocated" id="area_of_rg_to_be_relocated" value="<?php if(isset($calculationSheetDetails[0]->area_of_rg_to_be_relocated)) { echo $calculationSheetDetails[0]->area_of_rg_to_be_relocated; } ?>" />
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td>
+                                                    Total
+                                                </td>
+                                                <td class="text-center">
+                                                    <input type="text" readonly placeholder="0" class="total_amount form-control form-control--custom"
+                                                           name="total_area_of_rg_to_be_relocated" id="total_area_of_rg_to_be_relocated"
+                                                           value="<?php if(isset($calculationSheetDetails[0]->total_area_of_rg_to_be_relocated)) { echo $calculationSheetDetails[0]->total_area_of_rg_to_be_relocated; } ?>" />
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>24.</td>
+                                                <td>
+                                                    भुईभाड्याचे भांडवलीकरणे वार्षिक २.५ टक्के
+                                                </td>
+                                                <td class="text-center">
+                                                    <input type="text" readonly placeholder="0" class="total_amount form-control form-control--custom"
+                                                           name="groundrent_capitalization_yearly" id="groundrent_capitalization_yearly" value="<?php if(isset($calculationSheetDetails[0]->groundrent_capitalization_yearly)) { echo $calculationSheetDetails[0]->groundrent_capitalization_yearly; } ?>" />
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>25.</td>
+                                                <td>
+                                                    आगाऊ भुईभाडे (प्रति वर्ष ८ टक्के दराने)
+                                                </td>
+                                                <td class="text-center">
+                                                    <input type="text" readonly placeholder="0" class="total_amount form-control form-control--custom"
+                                                           name="advance_groundrent_per_year" id="advance_groundrent_per_year" value="<?php if(isset($calculationSheetDetails[0]->advance_groundrent_per_year)) { echo $calculationSheetDetails[0]->advance_groundrent_per_year; } ?>" />
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>26.</td>
+                                                <td>
+                                                    नाममात्र भुईभाडे (Rs. 1 per year)
+                                                </td>
+                                                <td class="text-center">
+                                                    <input type="text" readonly placeholder="0" class="total_amount form-control form-control--custom"
+                                                           name="nominal_groundrent" id="nominal_groundrent" value="<?php if(isset($calculationSheetDetails[0]->nominal_groundrent)) { echo $calculationSheetDetails[0]->nominal_groundrent; } ?>" />
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>27.</td>
+                                                <td>
                                                     एकूण रक्कम रुपये (अ .क्र.१५+१८+१९+२०+२१+२२)
                                                 </td>
                                                 <td class="text-center">
@@ -532,7 +598,7 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>24.</td>
+                                                <td>28.</td>
                                                 <td>
                                                     बृहनमुंबई महानगर पालिकेकडे ऑफ साईट इन्फ्रास्ट्रक्चर शुल्क
                                                     रक्कमपैकी भरणा करावयाची ५/७ रक्कम
@@ -767,9 +833,8 @@
                                                     उर्वरितच क्षे निरहिवासी वापर क्षेत्र
                                                 </td>
                                                 <td class="text-center">
-                                                    <input type="text" class="form-control form-control--custom" name="remaining_area_of_resident_area"
-                                                        id="remaining_area_of_resident_area" value="{{ isset($calculationSheetDetails[0]->remaining_area_of_resident_area) ? $calculationSheetDetails[0]->remaining_area_of_resident_area : 0 }}"
-                                                        readonly />
+                                                    <input type="text" placeholder="0" readonly class="form-control form-control--custom" name="remaining_residential_area"
+                                                           id="remaining_residential_area" value="<?php if(isset($calculationSheetDetails[0]->remaining_residential_area)) { echo $calculationSheetDetails[0]->remaining_residential_area;} ?>" />
 
                                                 </td>
                                             </tr>
@@ -779,9 +844,8 @@
                                                     दर रु
                                                 </td>
                                                 <td class="text-center">
-                                                    <input type="text" class="form-control form-control--custom" name="remaining_area_of_resident_area_rate"
-                                                        id="remaining_area_of_resident_area_rate" value="{{ isset($calculationSheetDetails[0]->remaining_area_of_resident_area_rate) ? $calculationSheetDetails[0]->remaining_area_of_resident_area_rate : 0 }}"
-                                                        readonly />
+                                                    <input type="text" readonly placeholder="0" class="form-control form-control--custom" name="calculated_dcr_rate_val"
+                                                           id="calculated_dcr_rate_val" value="<?php if(isset($calculationSheetDetails[0]->calculated_dcr_rate_val)) { echo  $calculationSheetDetails[0]->calculated_dcr_rate_val; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -928,8 +992,8 @@
                                                     छाननी शुल्क
                                                 </td>
                                                 <td class="text-center">
-                                                    <input type="text" readonly class="first_installment  form-control form-control--custom"
-                                                        name="scrutiny_fee" id="scrutiny_fee" value="6000" />
+                                                    <input type="text" readonly class="first_installment  form-control form-control--custom" placeholder="0"
+                                                           name="scrutiny_fee" id="scrutiny_fee" value="<?php if(isset($calculationSheetDetails[0]->scrutiny_fee)) { echo $calculationSheetDetails[0]->scrutiny_fee; } ?>"
 
                                                 </td>
                                             </tr>
@@ -968,14 +1032,79 @@
                                             </tr>
                                             <tr>
                                                 <td>7.</td>
+                                                <td>
+                                                    प्रा. ठराव क्र ६२६० दि. ०४.०६.२००७ व ठराव क्र. ६३४९ दि. २५.११.२००८ अन्वये आर. जी. स्थलांतरणाकरिता दर रु. ५,५३०/- (१० टक्के रे. रे. सन २०१७-१८ रु. ५५३००/- प्रति चौ. मी. ) (१५८४. ४१ चौ. मी. X ५५३०)
+                                                </td>
+                                                <td class="text-center">
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td>
+                                                    1. आर. जी. स्थलांतरणाचे क्षेत्रफळ
+                                                </td>
+                                                <td class="text-center">
+                                                    <input type="text" readonly placeholder="0" class="form-control form-control--custom"
+                                                           name="area_of_rg_to_be_relocated" id="area_of_rg_to_be_relocated" value="<?php if(isset($calculationSheetDetails[0]->area_of_rg_to_be_relocated)) { echo $calculationSheetDetails[0]->area_of_rg_to_be_relocated; } ?>" />
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td>
+                                                    Total
+                                                </td>
+                                                <td class="text-center">
+                                                    <input type="text" readonly placeholder="0" class="first_installment form-control form-control--custom"
+                                                           name="total_area_of_rg_to_be_relocated" id="total_area_of_rg_to_be_relocated"
+                                                           value="<?php if(isset($calculationSheetDetails[0]->total_area_of_rg_to_be_relocated)) { echo $calculationSheetDetails[0]->total_area_of_rg_to_be_relocated; } ?>" />
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>8.</td>
+                                                <td>
+                                                    भुईभाड्याचे भांडवलीकरणे वार्षिक २.५ टक्के
+                                                </td>
+                                                <td class="text-center">
+                                                    <input type="text" readonly placeholder="0" class="first_installment form-control form-control--custom"
+                                                           name="groundrent_capitalization_yearly" id="groundrent_capitalization_yearly" value="<?php if(isset($calculationSheetDetails[0]->groundrent_capitalization_yearly)) { echo $calculationSheetDetails[0]->groundrent_capitalization_yearly; } ?>" />
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>9.</td>
+                                                <td>
+                                                    आगाऊ भुईभाडे (प्रति वर्ष ८ टक्के दराने)
+                                                </td>
+                                                <td class="text-center">
+                                                    <input type="text" readonly placeholder="0" class="first_installment form-control form-control--custom"
+                                                           name="advance_groundrent_per_year" id="advance_groundrent_per_year" value="<?php if(isset($calculationSheetDetails[0]->advance_groundrent_per_year)) { echo $calculationSheetDetails[0]->advance_groundrent_per_year; } ?>" />
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>10.</td>
+                                                <td>
+                                                    नाममात्र भुईभाडे (Rs. 1 per year)
+                                                </td>
+                                                <td class="text-center">
+                                                    <input type="text" readonly placeholder="0" class="first_installment form-control form-control--custom"
+                                                           name="nominal_groundrent" id="nominal_groundrent" value="<?php if(isset($calculationSheetDetails[0]->nominal_groundrent)) { echo $calculationSheetDetails[0]->nominal_groundrent; } ?>" />
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>11.</td>
                                                 <td class="font-weight-bold">
                                                     एकूण मंडळाकडे भरणा करावयाची पहिल्या हप्त्याची रक्कम
                                                     पूर्णांकामधे
                                                 </td>
                                                 <td class="text-center">
-                                                    <input type="text" readonly class="form-control form-control--custom"
-                                                        name="payment_of_first_installment" id="payment_of_first_installment"
-                                                        value="{{ isset($calculationSheetDetails[0]->payment_of_first_installment) ? $calculationSheetDetails[0]->payment_of_first_installment : 0 }}" />
+                                                    <input type="text" readonly class="form-control form-control--custom" placeholder="0"
+                                                           name="payment_of_first_installment" id="payment_of_first_installment"
+                                                           value="<?php  if(isset($calculationSheetDetails[0]->payment_of_first_installment)) { echo $calculationSheetDetails[0]->payment_of_first_installment; } ?>" />
 
                                                 </td>
                                             </tr>
@@ -1219,280 +1348,453 @@
 @endsection
 
 @section('calculation_sheet_js')
-<script>
-    $(document).ready(function () {
+    <script>
+        $(document).ready(function () {
 
-        // **Start** Save tabs location on window refresh or submit
+            // **Start** Save tabs location on window refresh or submit
 
-        // Set first tab to active if user visits page for the first time
+            // Set first tab to active if user visits page for the first time
 
-        if (localStorage.getItem("activeTab") === null) {
-            document.querySelector(".nav-link.m-tabs__link").classList.add("active", "show");
-        } else {
-            document.querySelector(".nav-link.m-tabs__link").classList.remove("active", "show");
-        }
-
-        if (location.hash) {
-            $('a[href=\'' + location.hash + '\']').tab('show');
-        }
-        var activeTab = localStorage.getItem('activeTab');
-        if (activeTab) {
-            $('a[href="' + activeTab + '"]').tab('show');
-        }
-
-        $('body').on('click', 'a[data-toggle=\'tab\']', function (e) {
-            e.preventDefault()
-            var tab_name = this.getAttribute('href')
-            if (history.pushState) {
-                history.pushState(null, null, tab_name)
+            if (localStorage.getItem("activeTab") === null) {
+                document.querySelector(".nav-link.m-tabs__link").classList.add("active", "show");
             } else {
-                location.hash = tab_name
-            }
-            localStorage.setItem('activeTab', tab_name)
-
-            $(this).tab('show');
-            return false;
-        });
-
-        $(window).on('popstate', function () {
-            var anchor = location.hash ||
-                $('a[data-toggle=\'tab\']').first().attr('href');
-            $('a[href=\'' + anchor + '\']').tab('show');
-        });
-
-        // **End** Save tabs location on window refresh or submit
-
-        $('input').on('keypress', function (event) {
-            /* var regex = new RegExp("^[0-9]\d+$");
-             var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
-             if (!regex.test(key)) {
-                 event.preventDefault();
-                 return false;
-             }*/
-
-            /*  if ($(this).val().indexOf('.') > 0) {
-                  var CharAfterdot = ($(this).val().length + 1) - $(this).val().indexOf('.');
-                  if ( (($(this).val().length + 1) - $(this).val().indexOf('.')) > 3) {
-                      event.preventDefault();
-                      return false;
-                  }
-
-              }*/
-
-            var $this = $(this);
-            if ((event.which != 46 || $this.val().indexOf('.') != -1) &&
-                ((event.which < 48 || event.which > 57) &&
-                    (event.which != 0 && event.which != 8))) {
-                event.preventDefault();
+                document.querySelector(".nav-link.m-tabs__link").classList.remove("active", "show");
             }
 
-            var text = $(this).val();
-            if ((event.which == 46) && (text.indexOf('.') == -1)) {
-                setTimeout(function() {
-                    if ($this.val().substring($this.val().indexOf('.')).length > 3) {
-                        $this.val($this.val().substring(0, $this.val().indexOf('.') + 3));
-                    }
-                }, 1);
+            if (location.hash) {
+                $('a[href=\'' + location.hash + '\']').tab('show');
+            }
+            var activeTab = localStorage.getItem('activeTab');
+            if (activeTab) {
+                $('a[href="' + activeTab + '"]').tab('show');
             }
 
-            if ((text.indexOf('.') != -1) &&
-                (text.substring(text.indexOf('.')).length > 2) &&
-                (event.which != 0 && event.which != 8) &&
-                ($(this)[0].selectionStart >= text.length - 2)) {
-                event.preventDefault();
-            }
+            $('body').on('click', 'a[data-toggle=\'tab\']', function (e) {
+                e.preventDefault()
+                var tab_name = this.getAttribute('href')
+                if (history.pushState) {
+                    history.pushState(null, null, tab_name)
+                } else {
+                    location.hash = tab_name
+                }
+                localStorage.setItem('activeTab', tab_name)
+
+                $(this).tab('show');
+
+                localStorage.clear();
+                return false;
+            });
+
+            $(window).on('popstate', function () {
+                var anchor = location.hash ||
+                    $('a[data-toggle=\'tab\']').first().attr('href');
+                $('a[href=\'' + anchor + '\']').tab('show');
+                window.scrollTo(0, 0);
+            });
+
+            // // **End** Save tabs location on window refresh or submit
+
+            $('input').on('keypress', function (event) {
+                /* var regex = new RegExp("^[0-9]\d+$");
+                 var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+                 if (!regex.test(key)) {
+                     event.preventDefault();
+                     return false;
+                 }*/
+
+                /*  if ($(this).val().indexOf('.') > 0) {
+                      var CharAfterdot = ($(this).val().length + 1) - $(this).val().indexOf('.');
+                      if ( (($(this).val().length + 1) - $(this).val().indexOf('.')) > 3) {
+                          event.preventDefault();
+                          return false;
+                      }
+
+                  }*/
+
+                var $this = $(this);
+                if ((event.which != 46 || $this.val().indexOf('.') != -1) &&
+                    ((event.which < 48 || event.which > 57) &&
+                        (event.which != 0 && event.which != 8))) {
+                    event.preventDefault();
+                }
+
+                var text = $(this).val();
+                if ((event.which == 46) && (text.indexOf('.') == -1)) {
+                    setTimeout(function() {
+                        if ($this.val().substring($this.val().indexOf('.')).length > 3) {
+                            $this.val($this.val().substring(0, $this.val().indexOf('.') + 3));
+                        }
+                    }, 1);
+                }
+
+                if ((text.indexOf('.') != -1) &&
+                    (text.substring(text.indexOf('.')).length > 2) &&
+                    (event.which != 0 && event.which != 8) &&
+                    ($(this)[0].selectionStart >= text.length - 2)) {
+                    event.preventDefault();
+                }
+
+                // ============================== format no with comma
+
+                // skip for arrow keys
+                if(event.which >= 37 && event.which <= 40) return;
+
+                // format number
+                $(this).val(function(index, value) {
+
+                    return numberWithCommas(value);
+
+                });
 
 
-        });
-
-        $("#amount_to_be_paid_to_municipal1").attr('value',(5 / 7 * $("#off_site_infrastructure_fee").val()).toFixed(2));
-        $("#offsite_infrastructure_charge_to_mhada1").attr('value',(2 / 7 * $("#off_site_infrastructure_fee").val()).toFixed(
-            2));
-        $("#offsite_infrastructure_charge_to_mhada1_installment").attr('value',(2 / 7 * $("#off_site_infrastructure_fee")
-            .val()).toFixed(2));
-
-        $("#non_profit_duty").attr('value', 1 / 4 * $("#remaining_area_of_resident_area_balance").val());
-        $("#non_profit_duty_installment").attr('value', 1 / 4 * $("#remaining_area_of_resident_area_balance").val());
-        $("#non_profit_duty_val").attr('value', 1 / 4 * $("#remaining_area_of_resident_area_balance").val());
+            });
 
 
-        var first_installment = 0;
-        $(".first_installment").each(function () {
-            first_installment += +$(this).val();
-        });
-        $("#payment_of_first_installment").attr('value',first_installment);
+        })
 
-        $("#payment_of_remaining_installment").attr('value',$("#non_profit_duty").val());
+    </script>
+    <script>
+        //==========================================   CALCULATION START ==========================
 
+        function numberWithCommas(x) {
 
+            var parts = x.toString().split(".");
+            parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            return parts.join(".");
+        }
 
-    })
+        function cleanNumber(value)
+        {
+            return value.toString().replace(/\,/g,'');
+        }
 
-</script>
-<script>
-    $(document).on("keyup", "#total_no_of_buildings", function () {
-        $("#debraj_removal_fee").attr('value', 6600 * $("#total_no_of_buildings").val());
-        $("#water_usage_charges").attr('value', 100000 * $("#total_no_of_buildings").val());
+        function totalAmountInRs()
+        {
+            var total_amount = 0;
+            $(".total_amount").each(function () {
 
-        var total_amount = 0;
-        $(".total_amount").each(function () {
-            total_amount += +$(this).val();
-        });
-        $("#total_amount_in_rs").attr('value', total_amount);
-    });
+                var total_amount_val = cleanNumber($(this).val());
+                var amountVal = (!total_amount_val || isNaN(total_amount_val)) ? 0 : total_amount_val;
 
-    $(document).on("keyup", ".total_area", function () {
-        var sum = 0;
-        $(".total_area").each(function () {
-            sum += +$(this).val();
-        });
-        $("#area_of_total_plot").attr('value', sum);
-    });
+                total_amount += +parseFloat(amountVal);
+            });
+            $("#total_amount_in_rs").attr('value',numberWithCommas(Math.ceil(total_amount)));
+        }
 
-    $(document).on("keyup", ".permissible_area", function () {
+        function areaOfTotalPlot()
+        {
+            var sum = 0;
+            $(".total_area").each(function () {
+                var sumVal = (!cleanNumber($(this).val()) || isNaN(cleanNumber($(this).val()))) ? 0 : cleanNumber($(this).val());
+                sum += +parseFloat(sumVal);
+            });
+            $("#area_of_total_plot").attr('value',numberWithCommas(sum.toFixed(2)));
+        }
 
-        $("#permissible_construction_area").attr('value', $("#area_of_​​subsistence_to_calculate").val() * $(
-            "#permissible_carpet_area_coordinates").val());
-    });
+        function areaOfSubsistenceToCalculate()
+        { console.log('enter');
+            var sorted = $(".min_val_for_calculation").sort(
 
+                function (a, b) {
+                    return cleanNumber(a.value) - cleanNumber(b.value)
+                });
+            var lowest = sorted[0].value;
 
-    $(document).on("keyup", ".proratata_area", function () {
+            $("#area_of_subsistence_to_calculate").attr('value', numberWithCommas(lowest));
+        }
 
-        $("#permissible_proratata_area").attr('value', $("#sqm_area_per_slot").val() * $("#total_house").val());
-    });
+        function permissibleConstructionArea()
+        {
+            var area_of_subsistence_to_calculate = (!cleanNumber($("#area_of_subsistence_to_calculate").val()) || isNaN(cleanNumber($("#area_of_subsistence_to_calculate").val()))) ? 0 : cleanNumber($("#area_of_subsistence_to_calculate").val());
+            var permissible_carpet_area_coordinates = (!cleanNumber($("#permissible_carpet_area_coordinates").val()) || isNaN(cleanNumber($("#permissible_carpet_area_coordinates").val()))) ? 0 : cleanNumber($("#permissible_carpet_area_coordinates").val());
 
-    $(document).on("keyup", "#per_sq_km_proyerta_construction_area", function () {
+            $("#permissible_construction_area").attr('value',numberWithCommas((area_of_subsistence_to_calculate * permissible_carpet_area_coordinates).toFixed(2)));
+        }
 
-        $("#proratata_construction_area").attr('value', $(this).val() * $("#total_house").val());
-    });
+        function proratataConstructionArea()
+        {
+            var per_sq_km_proyerta_construction_area = (!cleanNumber($("#per_sq_km_proyerta_construction_area").val()) || isNaN(cleanNumber($("#per_sq_km_proyerta_construction_area").val()))) ? 0 : cleanNumber($("#per_sq_km_proyerta_construction_area").val());
+            var total_house = (!cleanNumber($("#total_house").val()) || isNaN(cleanNumber($("#total_house").val()))) ? 0 : cleanNumber($("#total_house").val());
 
-    $(document).on("keyup", "#total_house", function () {
+            $("#proratata_construction_area").attr('value',numberWithCommas((per_sq_km_proyerta_construction_area * total_house).toFixed(2)));
+        }
 
-        $("#proratata_construction_area").attr('value', $("#per_sq_km_proyerta_construction_area").val() * $(
-            this).val());
-        $("#layout_approval_fee").val(1000 * $(this).val());
+        function calculatedDcrBalanceOfRemainingArea()
+        {
+            var redirekner_value = (!cleanNumber($("#redirekner_value").val()) || isNaN(cleanNumber($("#redirekner_value").val()))) ? 0 : cleanNumber($("#redirekner_value").val());
+            var dcr_rate_in_percentage = (!$("input[type=radio][name=dcr_rate_in_percentage]:checked").val() || isNaN($("input[type=radio][name=dcr_rate_in_percentage]:checked").val())) ? 0 : $("input[type=radio][name=dcr_rate_in_percentage]:checked").val();
 
-        var total_amount = 0;
-        $(".total_amount").each(function () {
-            total_amount += +$(this).val();
-        });
-        $("#total_amount_in_rs").attr('value', total_amount);
-    });
+            var calculated_dcr = redirekner_value * (dcr_rate_in_percentage / 100);
 
+            $("#calculated_dcr_rate_val").attr('value',numberWithCommas(calculated_dcr.toFixed(2)));
 
-    $(document).on("keyup", ".total_permissible", function () {
+            var remaining_residential_area = (!cleanNumber($("#remaining_residential_area").val()) || isNaN(cleanNumber($("#remaining_residential_area").val()))) ? 0 : cleanNumber($("#remaining_residential_area").val());
 
-        var total = parseFloat($("#permissible_construction_area").val()) + parseFloat($(
-            "#proratata_construction_area").val()) + parseFloat($('#area_in_reserved_seats_for_vp_pio').val());
-        $("#total_permissible_construction_area").attr('value', total);
-    });
+            var balance = remaining_residential_area * calculated_dcr.toFixed(2);
 
-    $(document).on("keyup", ".remaining_area", function () {
+            $("#balance_of_remaining_area").attr('value',numberWithCommas(balance.toFixed(2)));
+        }
 
-        if (parseFloat($("#total_permissible_construction_area").val()) < parseFloat($(
-                "#existing_construction_area").val())) {
-            alert('अस्तित्वातील बांधकाम क्षेत्रफळ should be less than एकूण अनुज्ञेय बांधकाम क्षेत्रफळ');
-            return false;
+        function nonProfitDuty()
+        {
+            var remaining_area_of_resident_area_balance = (!cleanNumber($("#remaining_area_of_resident_area_balance").val()) || isNaN(cleanNumber($("#remaining_area_of_resident_area_balance").val()))) ? 0 : cleanNumber($("#remaining_area_of_resident_area_balance").val());
+
+            $("#non_profit_duty").attr('value', numberWithCommas(Math.ceil(1 / 4 * remaining_area_of_resident_area_balance)));
+            $("#non_profit_duty_installment").attr('value',  numberWithCommas(Math.ceil(1 / 4 * remaining_area_of_resident_area_balance)));
+            $("#non_profit_duty_val").attr('value', numberWithCommas(Math.ceil(1 / 4 * remaining_area_of_resident_area_balance)));
+
+            $("#payment_of_remaining_installment").attr('value',numberWithCommas((Math.ceil(1 / 4 * remaining_area_of_resident_area_balance)).toFixed(2)));
+        }
+
+        function calculateAmountForMhadaMuncipal()
+        {
+            var off_site_infrastructure_fee = (!cleanNumber($("#off_site_infrastructure_fee").val()) || isNaN(cleanNumber($("#off_site_infrastructure_fee").val()))) ? 0 : cleanNumber($("#off_site_infrastructure_fee").val());
+
+            $("#amount_to_be_paid_to_municipal1").attr('value',numberWithCommas((5 / 7 * off_site_infrastructure_fee).toFixed(2)));
+            $("#offsite_infrastructure_charge_to_mhada1").attr('value',numberWithCommas((2 / 7 * off_site_infrastructure_fee).toFixed(2)));
+            $("#offsite_infrastructure_charge_to_mhada1_installment").attr('value',numberWithCommas((2 / 7 * off_site_infrastructure_fee).toFixed(2)));
+        }
+
+        function totalAreaOfRgToBeRelocated()
+        {
+            var area_of_rg_to_be_relocated = (!cleanNumber($("#area_of_rg_to_be_relocated").val()) || isNaN(cleanNumber($("#area_of_rg_to_be_relocated").val()))) ? 0 : cleanNumber($("#area_of_rg_to_be_relocated").val());
+            var lr_val = (!cleanNumber($("#redirekner_value").val()) || isNaN(cleanNumber($("#redirekner_value").val()))) ? 0 : cleanNumber($("#redirekner_value").val());
+
+            var total_area = area_of_rg_to_be_relocated * lr_val * 0.10;
+
+            $("#total_area_of_rg_to_be_relocated").attr('value',numberWithCommas((total_area).toFixed(2)));
+
+            $("#groundrent_capitalization_yearly").attr('value',numberWithCommas((total_area* 0.025 *12.5).toFixed(2)));
+
+            $("#advance_groundrent_per_year").attr('value',numberWithCommas((area_of_rg_to_be_relocated * lr_val  * 0.08 * 1.5).toFixed(2)));
 
         }
 
-        var sub = parseFloat($("#total_permissible_construction_area").val()) - parseFloat($(
-            "#existing_construction_area").val());
-        $("#remaining_area").attr('value', sub);
-        $("#remaining_residential_area").attr('value', sub);
+        $(document).on("keyup", "#area_of_rg_to_be_relocated", function () {
 
-        if ($('input[type=radio][name=dcr_rate_in_percentage]').is(':checked')) {
-            var balance = $("#remaining_residential_area").val() * ($(
-                "input[type=radio][name=dcr_rate_in_percentage]").val() / 100);
-            $("#balance_of_remaining_area").attr('value', balance.toFixed(2));
+            totalAreaOfRgToBeRelocated();
+        });
+
+        $(document).on("keyup", "#total_no_of_buildings", function () {
+
+            var total_no_of_buildings = (!cleanNumber($("#total_no_of_buildings").val()) || isNaN(cleanNumber($("#total_no_of_buildings").val()))) ? 0 : cleanNumber($("#total_no_of_buildings").val());
+
+            $("#debraj_removal_fee").attr('value',numberWithCommas(6600 * total_no_of_buildings));
+            $("#water_usage_charges").attr('value',numberWithCommas(100000 * total_no_of_buildings));
+            $("#scrutiny_fee").attr('value',numberWithCommas(6000 * total_no_of_buildings));
+
+            totalAmountInRs();
+        });
+
+        $(document).on("keyup", ".total_area", function () {
+
+            areaOfTotalPlot();
+
+            areaOfSubsistenceToCalculate();
+
+        });
+
+        $(document).on("keyup", "#area_as_per_introduction", function () {
+
+            areaOfSubsistenceToCalculate();
+        });
+
+
+        $(document).on("keyup", ".permissible_area", function () {
+
+            permissibleConstructionArea();
+        });
+
+
+        $(document).on("keyup", ".proratata_area", function () {
+
+            var sqm_area_per_slot = (!cleanNumber($("#sqm_area_per_slot").val()) || isNaN(cleanNumber($("#sqm_area_per_slot").val()))) ? 0 : cleanNumber($("#sqm_area_per_slot").val());
+            var total_house = (!cleanNumber($("#total_house").val()) || isNaN(cleanNumber($("#total_house").val()))) ? 0 : cleanNumber($("#total_house").val());
+
+            $("#permissible_proratata_area").attr('value',numberWithCommas((sqm_area_per_slot * total_house).toFixed(2)));
+        });
+
+        $(document).on("keyup", "#per_sq_km_proyerta_construction_area", function () {
+
+            proratataConstructionArea();
+        });
+
+        $(document).on("keyup", "#total_house", function () {
+
+            proratataConstructionArea();
+
+            var total_house = (!cleanNumber($("#total_house").val()) || isNaN(cleanNumber($("#total_house").val()))) ? 0 : cleanNumber($("#total_house").val());
+
+            $("#layout_approval_fee").attr('value',numberWithCommas(1000 * total_house));
+
+            totalAmountInRs();
+        });
+
+
+        $(document).on("keyup", ".total_permissible", function () {
+
+            var permissible_construction_area = (!cleanNumber($("#permissible_construction_area").val()) || isNaN(cleanNumber($("#permissible_construction_area").val()))) ? 0 : cleanNumber($("#permissible_construction_area").val());
+            var proratata_construction_area = (!cleanNumber($("#proratata_construction_area").val()) || isNaN(cleanNumber($("#proratata_construction_area").val()))) ? 0 : cleanNumber($("#proratata_construction_area").val());
+            var area_in_reserved_seats_for_vp_pio = (!cleanNumber($("#area_in_reserved_seats_for_vp_pio").val()) || isNaN(cleanNumber($("#area_in_reserved_seats_for_vp_pio").val()))) ? 0 : cleanNumber($("#area_in_reserved_seats_for_vp_pio").val());
+
+
+            var total = (parseFloat(permissible_construction_area) + parseFloat(proratata_construction_area) + parseFloat(area_in_reserved_seats_for_vp_pio)).toFixed(2);
+
+            $("#total_permissible_construction_area").attr('value',numberWithCommas(total));
+        });
+
+        $(document).on("keyup", ".remaining_area", function () {
+
+            if(parseFloat(cleanNumber($("#total_permissible_construction_area").val())) < parseFloat(cleanNumber($("#existing_construction_area").val()))) {
+                alert('अस्तित्वातील बांधकाम क्षेत्रफळ should be less than एकूण अनुज्ञेय बांधकाम क्षेत्रफळ');
+                return false;
+
+            }
+
+            var total_permissible_construction_area = (!cleanNumber($("#total_permissible_construction_area").val()) || isNaN(cleanNumber($("#total_permissible_construction_area").val()))) ? 0 : cleanNumber($("#total_permissible_construction_area").val());
+            var existing_construction_area = (!cleanNumber($("#existing_construction_area").val()) || isNaN(cleanNumber($("#existing_construction_area").val()))) ? 0 : cleanNumber($("#existing_construction_area").val());
+
+            var sub = (parseFloat(total_permissible_construction_area) - parseFloat(existing_construction_area)).toFixed(2);
+
+            $("#remaining_area").attr('value',numberWithCommas(sub));
+
+            $("#remaining_residential_area").attr('value',numberWithCommas(sub));
+
+            if ($('input[type=radio][name=dcr_rate_in_percentage]').is(':checked')) {
+
+                calculatedDcrBalanceOfRemainingArea();
+            }
+
+        });
+
+
+        $(document).on("keyup", ".redirekner_val", function () {
+
+            if (parseFloat(cleanNumber($("#redirekner_construction_rate").val())) === 0 || isNaN(parseFloat(cleanNumber($("#redirekner_construction_rate").val())))) {
+                $("#redirekner_val").attr('value',null);
+            } else {
+                var div = parseFloat(cleanNumber($("#redirekner_value").val())) / parseFloat(cleanNumber($("#redirekner_construction_rate").val()));
+                $("#redirekner_val").attr('value',numberWithCommas(div.toFixed(2)));
+            }
+
+            calculatedDcrBalanceOfRemainingArea();
+
+            totalAreaOfRgToBeRelocated();
+        });
+
+
+        $(document).on("change", "input[type=radio][name=dcr_rate_in_percentage]", function () {
+
+
+            calculatedDcrBalanceOfRemainingArea();
+
+
+            totalAmountInRs();
+
+        });
+
+
+        $(document).on("keyup", "#redirekner_value", function () {
+
+            var remaining_area = (!cleanNumber($("#remaining_area").val()) || isNaN(cleanNumber($("#remaining_area").val()))) ? 0 : cleanNumber($("#remaining_area").val());
+            var redirekner_value = (!cleanNumber($("#redirekner_value").val()) || isNaN(cleanNumber($("#redirekner_value").val()))) ? 0 : cleanNumber($("#redirekner_value").val());
+
+            var fee_amount = (parseFloat(remaining_area) * parseFloat(redirekner_value) * (7 / 100)).toFixed(2);
+            $("#infrastructure_fee_amount").attr('value',numberWithCommas(fee_amount));
+            $("#amount_to_be_paid_to_municipal").attr('value',numberWithCommas((5 / 7 * fee_amount).toFixed(2)));
+            $("#offsite_infrastructure_charges_to_municipal_corporation").attr('value',numberWithCommas(Math.ceil(5 / 7 * fee_amount)));
+            $("#offsite_infrastructure_charge_to_mhada").attr('value',numberWithCommas((2 / 7 * fee_amount).toFixed(2)));
+
+            totalAmountInRs();
+
+            calculatedDcrBalanceOfRemainingArea();
+
+            totalAreaOfRgToBeRelocated();
+
+        });
+
+        $(document).on("change paste keyup", ".total_amount", function () {
+            totalAmountInRs();
+        });
+
+        $(document).on("keyup", "#remaining_area_of_resident_area_balance", function () {
+            nonProfitDuty();
+        });
+
+
+        $(document).on("keyup", "#off_site_infrastructure_fee", function () {
+
+            calculateAmountForMhadaMuncipal();
+        });
+
+
+        $(document).on("keyup", ".first_installment", function () {
+
+            var first_installment = 0;
+            $(".first_installment").each(function () {
+                var installmentVal = (!cleanNumber($(this).val()) || isNaN(cleanNumber($(this).val()))) ? 0 : cleanNumber($(this).val());
+                first_installment += +parseFloat(installmentVal);
+            });
+            $("#payment_of_first_installment").attr('value',numberWithCommas(Math.ceil(first_installment)));
+        });
+
+        function PrintElem(elem) {
+
+            var printable = document.getElementById(elem).innerHTML;
+
+            var mywindow = window.open('', 'PRINT', 'height=400,width=600');
+
+            mywindow.document.write('<html><head><title>Maharashtra Housing and development authority</title>');
+            mywindow.document.write('</head><body >');
+            mywindow.document.write(printable);
+            mywindow.document.write('</body></html>');
+
+            mywindow.document.close();
+            mywindow.focus();
+
+            mywindow.print();
+            mywindow.close();
+
+            return true;
         }
 
-    });
+        $("#uploadBtn").click(function () {
+            myfile = $("#test-upload").val();
+            var ext = myfile.split('.').pop();
+            if (myfile != '') {
 
-
-    $(document).on("keyup", ".redirekner_val", function () {
-
-        if (parseFloat($("#redirekner_construction_rate").val()) === 0 || isNaN(parseFloat($(
-                "#redirekner_construction_rate").val()))) {
-            $("#redirekner_val").attr('value', null);
-        } else {
-            var div = parseFloat($("#redirekner_value").val()) / parseFloat($("#redirekner_construction_rate").val());
-            $("#redirekner_val").attr('value', div.toFixed(2));
-        }
-
-
-    });
-
-
-    $(document).on("change", "input[type=radio][name=dcr_rate_in_percentage]", function () {
-
-        var balance = $("#remaining_residential_area").val() * ($(this).val() / 100);
-        $("#balance_of_remaining_area").attr('value', balance.toFixed(2));
-
-        var total_amount = 0;
-        $(".total_amount").each(function () {
-            total_amount += +$(this).val();
+                if (ext != "pdf") {
+                    $("#file_error").text("Invalid type of file uploaded (only pdf allowed).");
+                    return false;
+                } else {
+                    $("#file_error").text("");
+                    return true;
+                }
+            } else {
+                $("#file_error").text("This field required");
+                return false;
+            }
         });
-        $("#total_amount_in_rs").attr('value', total_amount);
 
-    });
+        $(document).ready(function () {
+            $(".display_msg").delay(5000).slideUp(300);
 
 
-    $(document).on("keyup", "#redirekner_value", function () {
-        var fee_amount = (parseFloat($("#remaining_area").val()) * parseFloat($("#redirekner_value").val()) * (
-            7 / 100)).toFixed(2);
-        $("#infrastructure_fee_amount").attr('value', fee_amount);
-        $("#amount_to_be_paid_to_municipal").attr('value', 5 / 7 * fee_amount);
-        $("#offsite_infrastructure_charges_to_municipal_corporation").attr('value', 5 / 7 * fee_amount);
-        $("#offsite_infrastructure_charge_to_mhada").attr('value', 2 / 7 * fee_amount);
+            calculateAmountForMhadaMuncipal();
 
-        var total_amount = 0;
-        $(".total_amount").each(function () {
-            total_amount += +$(this).val();
+            nonProfitDuty();
+
+            var first_installment = 0;
+            $(".first_installment").each(function () {
+                var installmentVal = (!cleanNumber($(this).val()) || isNaN(cleanNumber($(this).val()))) ? 0 : cleanNumber($(this).val());
+                first_installment += +parseFloat(installmentVal);
+            });
+            $("#payment_of_first_installment").attr('value',numberWithCommas(Math.ceil(first_installment)));
+
+            // $("#payment_of_remaining_installment").attr('value',numberWithCommas(Math.ceil($("#non_profit_duty").val())));
+
+
         });
-        $("#total_amount_in_rs").attr('value', total_amount);
 
-    });
-
-    $(document).on("change paste keyup", ".total_amount", function () {
-        var total_amount = 0;
-        $(".total_amount").each(function () {
-            total_amount += +$(this).val();
-        });
-        $("#total_amount_in_rs").attr('value', total_amount);
-    });
-
-    $(document).on("keyup", "#remaining_area_of_resident_area_balance", function () {
-        $("#non_profit_duty").attr('value', 1 / 4 * $(this).val());
-        $("#non_profit_duty_installment").attr('value', 1 / 4 * $(this).val());
-    });
-
-
-    $(document).on("keyup", "#off_site_infrastructure_fee", function () {
-
-        $("#amount_to_be_paid_to_municipal1").attr('value', (5 / 7 * $(this).val()).toFixed(2));
-        $("#offsite_infrastructure_charge_to_mhada1").attr('value', (2 / 7 * $(this).val()).toFixed(2));
-        $("#offsite_infrastructure_charge_to_mhada1_installment").attr('value', (2 / 7 * $(this).val()).toFixed(
-            2));
-    });
-
-
-    function PrintElem(elem) {
-        var mywindow = window.open('', 'PRINT', 'height=400,width=600');
-
-        mywindow.document.write('<html><head><title>Maharashtra Housing and development authority</title>');
-        mywindow.document.write('</head><body >');
-        mywindow.document.write(document.getElementById(elem).innerHTML);
-        mywindow.document.write('</body></html>');
-
-        mywindow.document.close(); // necessary for IE >= 10
-        mywindow.focus(); // necessary for IE >= 10*/
-
-        mywindow.print();
-        mywindow.close();
-
-        return true;
-    }
-
-</script>
+    </script>
 @endsection
