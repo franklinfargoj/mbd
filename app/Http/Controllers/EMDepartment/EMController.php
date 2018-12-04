@@ -781,7 +781,7 @@ class EMController extends Controller
     }
 
     public function generateTenantBill(Request $request) {
-        print_r($request->all());exit;
+        // print_r($request->all());exit;
         if($request->has('building_id') && '' != $request->building_id && $request->has('tenant_id') && '' != $request->tenant_id) {
             $request->building_id = decrypt($request->building_id);
             $request->tenant_id  = decrypt($request->tenant_id);
