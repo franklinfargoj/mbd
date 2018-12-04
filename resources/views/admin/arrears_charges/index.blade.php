@@ -25,9 +25,11 @@
     </div>
     <!-- END: Subheader -->
     <div class="m-portlet m-portlet--compact m-portlet--mobile">
-        <h4 class="box-subheading ml-0">{{$society->society_name}} - {{$building->name}}</h4>
-        <div class="tools">
-            <a href="{{url('arrears_charges/'.encrypt($society->id).'/'.encrypt($building->id).'/create')}}" class='btn m-btn--pill m-btn--custom btn-primary pull-right' id="arrears_charges">Add Arrears Charge </a>
+        <div class="d-flex align-items-center justify-content-between">
+            <h4 class="box-subheading ml-0 mb-0">{{$society->society_name}} - {{$building->name}}</h4>
+            <div class="tools">
+                <a href="{{url('arrears_charges/'.encrypt($society->id).'/'.encrypt($building->id).'/create')}}" class='btn m-btn--pill m-btn--custom btn-primary pull-right' id="arrears_charges">Add Arrears Charge </a>
+            </div>
         </div>
         {!! $html->table() !!}
     </div>
