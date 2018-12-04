@@ -727,7 +727,7 @@ class SocietyConveyanceController extends Controller
         $documents_uploaded = SocietyConveyanceDocumentStatus::where('application_id', $sc_application->id)->get();
 
         $sc_agreement_comment = ScAgreementComments::with('scAgreementId')->get();
-//        dd($uploaded_document_ids);
+
         return view('frontend.society.conveyance.sale_lease_deed', compact('sc_application', 'document_lease', 'documents', 'uploaded_document_ids', 'documents_remaining_ids', 'sc_agreement_comment', 'documents_uploaded'));
     }
 
@@ -779,7 +779,6 @@ class SocietyConveyanceController extends Controller
             $uploaded = $this->conveyance_common->uploadDocumentStatus($request->application_id, $request->document_name, $path, $status);
 
             $documents_req = array(
-                config('commanConfig.documents.society.conveyance_stamp_duty_letter'),
                 config('commanConfig.documents.society.Sale Deed Agreement'),
                 config('commanConfig.documents.society.Lease Deed Agreement'),
                 config('commanConfig.documents.society.sc_resolution'),
@@ -798,7 +797,7 @@ class SocietyConveyanceController extends Controller
                 }
             }
 
-            if(count($uploaded_document_ids) == 5 && count($documents_remaining_ids) == 0){
+            if(count($uploaded_document_ids) == 4 && count($documents_remaining_ids) == 0){
                 $users_record = scApplicationLog::where('application_id', $request->application_id)->where('society_flag', 1)->where('status_id', config('commanConfig.conveyance_status.forwarded'))->first();
                 $users = User::where('id', $users_record->to_user_id)->where('role_id', $users_record->to_role_id)->get();
                 $insert_log_arr = array(
