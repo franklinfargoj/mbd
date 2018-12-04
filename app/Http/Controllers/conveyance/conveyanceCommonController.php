@@ -49,7 +49,7 @@ class conveyanceCommonController extends Controller
             ['data' => 'Status','name' => 'Status','title' => 'Status'],
         ];
 
-            // dd($data);
+
         if ($datatables->getRequest()->ajax()) {
 
             return $datatables->of($data)

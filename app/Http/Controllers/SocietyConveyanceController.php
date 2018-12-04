@@ -703,14 +703,14 @@ class SocietyConveyanceController extends Controller
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         }])->where('id', $id)->first();
         $documents_req = array(
-            config('commanConfig.documents.society.pay_stamp_duty_letter'),
+            config('commanConfig.documents.society.conveyance_stamp_duty_letter'),
             config('commanConfig.documents.society.Sale Deed Agreement'),
             config('commanConfig.documents.society.Lease Deed Agreement'),
             config('commanConfig.documents.society.sc_resolution'),
             config('commanConfig.documents.society.sc_undertaking'),
         );
         $application_type = scApplicationType::where('application_type', config('commanConfig.applicationType.Conveyance'))->value('id');
-        $document_ids = $this->conveyance_common->getDocumentIds($documents_req, $application_type);
+        $document_ids = $this->conveyance_common->getDocumentIds($documents_req, $application_type, $sc_application->id);
         $uploaded_document_ids = [];
         $documents_remaining_ids = [];
         foreach($document_ids as $document_id){
@@ -726,7 +726,7 @@ class SocietyConveyanceController extends Controller
         $documents_uploaded = SocietyConveyanceDocumentStatus::where('application_id', $sc_application->id)->get();
 
         $sc_agreement_comment = ScAgreementComments::with('scAgreementId')->get();
-//        dd(count($uploaded_document_ids));
+//        dd($uploaded_document_ids);
         return view('frontend.society.conveyance.sale_lease_deed', compact('sc_application', 'document_lease', 'documents', 'uploaded_document_ids', 'documents_remaining_ids', 'sc_agreement_comment', 'documents_uploaded'));
     }
 

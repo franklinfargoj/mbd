@@ -44,16 +44,16 @@
                     <div class="m-portlet__body" style="padding-right: 0;">
                         <div class=" row-list">
                             <div class="row">
-                                @if(count($uploaded_document_ids) > 0 && isset($uploaded_document_ids['pay_stamp_duty_letter']))
+                                @if(count($uploaded_document_ids) > 0 && isset($uploaded_document_ids['conveyance_stamp_duty_letter']))
                                     <div class="col-sm-6">
-                                        <div class="d-flex flex-column h-100">
+                                        <div>
                                             <span class="hint-text">Click on 'Download' to download Pay Stamp Duty Letter</span>
                                             <p></p>
-                                                <a href="{{ config('commanConfig.storage_server') .'/'. $uploaded_document_ids['pay_stamp_duty_letter']->sc_document_status->document_path }}" target="_blank" class="btn btn-primary btn-custom" rel="noopener">Download Pay Stamp Duty Letter</a>
+                                                <a href="{{ config('commanConfig.storage_server') .'/'. $uploaded_document_ids['conveyance_stamp_duty_letter']->sc_document_status->document_path }}" target="_blank" class="btn btn-primary btn-custom" rel="noopener">Download Pay Stamp Duty Letter</a>
                                         </div>
                                     </div>
                                 @endif
-                                <div class="col-md-6 @if(count($uploaded_document_ids) > 0 && isset($uploaded_document_ids['pay_stamp_duty_letter'])) border-left @endif">
+                                <div class="col-md-6 @if(count($uploaded_document_ids) > 0 && isset($uploaded_document_ids['conveyance_stamp_duty_letter'])) border-left @endif">
                                     {{--<h5>Letter to Pay Stamp Duty</h5>--}}
                                     <span class="hint-text">Click on 'Upload' to Letter to Pay Stamp Duty</span>
                                     <p>
@@ -77,7 +77,7 @@
                                                 file...</label>
                                             <span class="text-danger" id="file_error"></span>
                                             <input type="hidden" id="application_id" name="application_id" value="{{ $sc_application->id }}">
-                                            <input type="hidden" id="document_name" name="document_name" value="{{ $document_lease['pay_stamp_duty_letter'] }}">
+                                            <input type="hidden" id="document_name" name="document_name" value="{{ $document_lease['conveyance_stamp_duty_letter'] }}">
                                         </div>
                                         <div class="mt-auto">
                                             <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
@@ -98,7 +98,7 @@
                                     <div class="row">
                                         @if(count($uploaded_document_ids) > 0 && isset($uploaded_document_ids['sale_deed_agreement']))
                                             <div class="col-sm-6">
-                                                <div class="d-flex flex-column h-100">
+                                                <div>
                                                     <span class="hint-text">Click on 'Download' to download Sale Deed Agreement</span>
                                                     <p></p>
                                                     <a href="{{ config('commanConfig.storage_server') .'/'. $uploaded_document_ids['sale_deed_agreement']->sc_document_status->document_path }}" target="_blank" class="btn btn-primary btn-custom" rel="noopener">Download Sale Deed Agreement</a>
@@ -193,7 +193,7 @@
                                     <div class="row">
                                         @if(count($uploaded_document_ids) > 0 && isset($uploaded_document_ids['lease_deed_agreement']))
                                             <div class="col-sm-6">
-                                                <div class="d-flex flex-column h-100">
+                                                <div>
                                                     <span class="hint-text">Click on 'Download' to download Lease Deed Agreement</span>
                                                     <p></p>
                                                     <a href="{{ config('commanConfig.storage_server') .'/'. $uploaded_document_ids['lease_deed_agreement']->sc_document_status->document_path }}" target="_blank" class="btn btn-primary btn-custom" rel="noopener">Download Lease Deed Agreement</a>
@@ -288,7 +288,7 @@
                                 <div class="row">
                                     @if(count($uploaded_document_ids) > 0 && isset($uploaded_document_ids['sc_resolution']))
                                         <div class="col-sm-6">
-                                            <div class="d-flex flex-column h-100">
+                                            <div>
                                                 <span class="hint-text">Click on 'Download' to downaload Society Resolution</span>
                                                 <p></p>
                                                 <a href="{{ config('commanConfig.storage_server') .'/'. $uploaded_document_ids['sc_resolution']->sc_document_status->document_path }}" target="_blank" class="btn btn-primary btn-custom" rel="noopener">Download Society Resolution</a>
@@ -341,7 +341,7 @@
                                 <div class="row">
                                     @if(count($uploaded_document_ids) > 0 && isset($uploaded_document_ids['sc_undertaking']))
                                         <div class="col-sm-6">
-                                            <div class="d-flex flex-column h-100">
+                                            <div>
                                                 <span class="hint-text">Click on 'download' to download Society Undertaking</span>
                                                 <p></p>
                                                 <a href="{{ config('commanConfig.storage_server') .'/'. $uploaded_document_ids['sc_undertaking']->sc_document_status->document_path }}" target="_blank" class="btn btn-primary btn-custom" rel="noopener">Download Society Undertaking</a>
