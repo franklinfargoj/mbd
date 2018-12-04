@@ -20,7 +20,7 @@
                 </li>
                 @php $status=getLastStatusIdArchitectLayout($ArchitectLayout->id); @endphp
                 @if($status!="")
-                @if($status->status_id!=config('commanConfig.architect_layout_status.forward') &&
+                @if($status->status_id!=config('commanConfig.architect_layout_status.forward') && $status->status_id!=config('commanConfig.architect_layout_status.reverted') &&
                 ($status->status_id!=config('commanConfig.architect_layout_status.approved')))
                 <li class="nav-item m-tabs__item">
                     <a class="nav-link m-tabs__link show" data-toggle="tab" href="#forward-application-tab">
@@ -151,8 +151,7 @@
                                         @foreach($EElogs as $log)
                                         @if($log->status_id == config('commanConfig.architect_layout_status.forward'))
                                         @php $status = 'Forwarded'; @endphp
-                                        @elseif($log->status_id ==
-                                        config('commanConfig.architect_layout_status.reverted'))
+                                        @elseif($log->status_id == config('commanConfig.architect_layout_status.reverted'))
                                         @php $status = 'Reverted'; @endphp
                                         @endif
 
@@ -393,7 +392,7 @@
                                 </div>
                                 <div class="remarks-suggestions">
                                     <form action="{{route('post_forward_architect_layout')}}" id="forwardApplication"
-                                        method="post">
+                                        method="post" novalidate>
                                         @csrf
                                         <input type="hidden" name="to_role_id" id="to_role_id">
                                         <input type="hidden" name="check_status" class="check_status" value="1">
@@ -407,12 +406,12 @@
                                                         value="1" checked> Forward Application
                                                     <span></span>
                                                 </label>
-                                                @if(session()->get('role_name') != config('commanConfig.dyce_jr_user'))
+                                                @if($reverted_tab_visiblility==1)
                                                 <label class="m-radio m-radio--primary">
-                                                    {{-- <input type="radio" name="remarks_suggestion" id="remark"
+                                                    <input type="radio" name="remarks_suggestion" id="remark"
                                                         class="forward-application" value="0"> Revert Application
                                                     <span></span>
-                                                </label> --}}
+                                                </label>
                                                 @endif
                                             </div>
                                             <div class="form-group m-form__group row mt-3 parent-data" id="select_dropdown">
@@ -506,6 +505,26 @@
                                                     </select>
                                                 </div>
                                             </div>
+                                            <div class="form-group m-form__group row mt-3 child-data" style="display: none">
+                                                <label class="col-form-label col-lg-2 col-sm-12">
+                                                    Revert To:
+                                                </label>
+                                                <div class="col-lg-4 col-md-9 col-sm-12">
+                                                    <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
+                                                        name="to_child_id[]" id="to_child_id">
+                                                        @if(isset($arrData['application_status']))
+                                                        @forelse($arrData['application_status'] as $child)
+                                                        <option value="{{ $child->id }}" 
+                                                            data-role="{{ $child->role_id }}">{{ $child->name }} ({{
+                                                            strtoupper(str_replace('_', ' ',$child->roles[0]->name))
+                                                            }})</option>
+                                                        @empty
+
+                                                        @endforelse
+                                                        @endif
+                                                    </select>
+                                                </div>
+                                            </div>
 
 
                                             <div class="mt-3 table--box-input">
@@ -541,6 +560,17 @@
 @section('js')
 <script>
     $(document).ready(function () {
+        var forwarded_options=$("#to_user_id").children('option').length;
+        if(forwarded_options>1)
+        {
+            $("#to_user_id").attr("multiple", "multiple");
+        }else
+        {
+            $("#to_user_id").prop("selectedIndex", 0).change();
+            $("#to_user_id").removeAttr('multiple')
+            
+        }
+
         $(".forward-application").change(function () {
             var data = $(this).val();
 
