@@ -32,7 +32,7 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group m-form__group">
-                                    <input type="text" id="submitted_at_to" name="office_date_to" class="form-control form-control--custom m-input m_datepicker"
+                                    <input type="text" id="submitted_at_to" name="submitted_at_to" class="form-control form-control--custom m-input m_datepicker"
                                         placeholder="To Date" value="{{ isset($getData['submitted_at_to'])? $getData['submitted_at_to'] : '' }}">
                                 </div>
                             </div>
