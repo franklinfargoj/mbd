@@ -20,6 +20,7 @@ use App\MasterBuilding;
 use App\MasterTenant;
 use App\ArrearCalculation;
 use App\ServiceChargesRate;
+use App\TransBillGenerate;
 
 class BillingDetailController extends Controller
 {
@@ -105,26 +106,31 @@ class BillingDetailController extends Controller
             // } else {
             //     $data['arrear_year'] = explode("-", $data['select_year'])[0];
             // }
-
-	        $data['arreas_calculations'] = ArrearCalculation::selectRaw("
-	        	sum(total_amount) as total_amount,
-	        	sum(old_intrest_amount+difference_amount) as balance_amount,
-	        	sum(old_intrest_amount+difference_intrest_amount)as interest_amount,
-	        	year")
-	        	->where('society_id',$request->society_id)
+            $bills = [];
+            if($request->has('tenant_id') && !empty($request->tenant_id)) {
+                
+                $bills = TransBillGenerate::selectRaw('Distinct(bill_month) as bill_month')->where('building_id',$request->building_id)->where('tenant_id', '=', decrypt($request->tenant_id))
+                                ->where('bill_year', '=', $data['arrear_year'])
+                                ->pluck('bill_month')->toArray();
+            } else {
+                $bills = TransBillGenerate::selectRaw('Distinct(bill_month) as bill_month')->where('building_id',$request->building_id)
+                                ->where('bill_year', '=', $data['arrear_year'])
+                                ->pluck('bill_month')->toArray();
+            }
+	        $data['arreas_calculations'] = ArrearCalculation::where('society_id',$request->society_id)
 	        	->where('building_id',$request->building_id)
-	        	->where('year',  $data['arrear_year']);
+	        	->where('year',  $data['arrear_year'])
+                ->whereIn('month',$bills);
 
         	if($request->has('tenant_id') && !empty($request->tenant_id)) {
                 $request->tenant_id = decrypt($request->tenant_id);
         		$data['tenant'] = MasterTenant::find($request->tenant_id);
-            	$data['arreas_calculations'] =  $data['arreas_calculations']->where('tenant_id', $request->tenant_id)->groupBy('tenant_id','year');
-            }  else {
-            	$data['arreas_calculations'] = $data['arreas_calculations']->groupBy('year');
+            	$data['arreas_calculations'] =  $data['arreas_calculations']->where('tenant_id', $request->tenant_id);
             }
-                $data['arreas_calculations'] = $data['arreas_calculations']->get();
-    	}
+            $data['arreas_calculations'] = $data['arreas_calculations']->orderBy('id','DESC')->get();
 
+
+    	}
         return view('admin.em_department.billing_calculations', $data);
     }
 

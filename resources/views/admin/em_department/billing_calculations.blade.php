@@ -112,11 +112,20 @@
                             <td>{{$service_charges->na_assessment}}</td>
                             <td>{{$service_charges->other}}</td>
                             <td>{{$arreas_calculation->total_amount}}</td>
-                            <td>{{$arreas_calculation->balance_amount}}</td>
-                            <td>{{$arreas_calculation->interest_amount}}</td>
-                            <td>{{$arreas_calculation->total_amount+$arreas_calculation->balance_amount+$arreas_calculation->interest_amount}}</td>
+                            <td>{{$arreas_calculation->old_intrest_amount + $arreas_calculation->difference_amount}}</td>
+                            <td>{{$arreas_calculation->old_intrest_amount + $arreas_calculation->difference_intrest_amount}}</td>
+                            <td>{{$arreas_calculation->total_amount+$arreas_calculation->old_intrest_amount + $arreas_calculation->difference_amount+$arreas_calculation->old_intrest_amount + $arreas_calculation->difference_intrest_amount}}</td>
                             <td>
-                                {{-- @if('1' == $arreas_calculation->payment_status) Paid @else Not Paid @endif --}} - 
+                                {{-- {!! Form::open(['method' => 'get', 'route' => 'downloadBill']) !!}
+                                {{ Form::hidden('tenant_id', encrypt($tenant->id)) }}
+                                {{ Form::hidden('building_id',encrypt($building->id)) }}
+                                {{ Form::hidden('society_id', encrypt($society->id)) }}
+                                {{ Form::hidden('month', $arreas_calculation->month) }}
+                                {{ Form::hidden('year', $arreas_calculation->year) }}
+                                {{ Form::button('<span class="btn-icon btn-icon--edit"><img src="/img/view-arrears-calculation-icon.svg"></span> Donwload Bill', array('class'=>'btn btn--unstyled p-0 btn--icon-wrap d-flex flex-column align-items-center','type'=>'submit')) }}
+                                {!! Form::close() !!} --}}
+
+                                @if('1' == $arreas_calculation->payment_status) Paid @else Not Paid @endif - 
                             </td>
                             <td></td>
                         </tr>

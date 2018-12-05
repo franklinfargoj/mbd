@@ -114,7 +114,11 @@ class RCUserSeeder extends Seeder
                 'display_name' => 'View Bill Building',
                 'description' => 'View Bill Building',
             ],
-            
+            [
+                'name' => 'downloadBill',
+                'display_name' => 'Download Bill Building',
+                'description' => 'Download Bill Building',
+            ],
         ];
         //RC
         $rc_collector = Role::where('name', '=', 'rc_collector')->first();
