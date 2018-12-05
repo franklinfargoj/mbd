@@ -961,7 +961,7 @@ class EMController extends Controller
                                 <input type="submit" class="btn m-btn--pill m-btn--custom btn-primary" name="search" value="Search">
                             </div>
                         </div>
-                    </div>
+                </div>
                 </div>';
             $society_id = $request->input('id');
             $buildings = MasterBuilding::with(['TransBillGenerate'=>function($query) use($society_id){
