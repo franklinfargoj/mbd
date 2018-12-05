@@ -36,13 +36,19 @@ class SocietyFormationController extends Controller
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         //dd($society);
         $sf_application = SfApplication::where('society_id', $society->id)->with(['scApplicationType', 'sfApplicationLog' => function ($q) {
-            $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
+            $q->where('user_id', Auth::user()->id)
+            ->where('role_id', session()->get('role_id'))->orderBy('id', 'desc')->first();
+            //$q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         }])->orderBy('id', 'desc')->first();
         //dd($sf_application);
         if($sf_application)
         {
             if($sf_application->sfApplicationLog!="")
             {
+                if($sf_application->sfApplicationLog->status_id==config('commanConfig.applicationStatus.in_process'))
+                {
+                    $disabled=0;
+                }
                 $id = $sf_application->id;
                 $sf_documents = SocietyConveyanceDocumentMaster::with(['sf_document_status' => function ($q) use ($id) {
                     return $q->where(['application_id' => $id]);
@@ -98,7 +104,9 @@ class SocietyFormationController extends Controller
             $sf_applications = SfApplication::where('society_id', $society_details->id)->with(['scApplicationType' => function($q){
                 $q->where('application_type', config('commanConfig.applicationType.Formation'))->first();
             }, 'sfApplicationLog' => function($q){
-                $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
+                $q->where('user_id', Auth::user()->id)
+                ->where('role_id', session()->get('role_id'))->orderBy('id', 'desc')->first();
+                //$q->where('society_flag', '1')->orderBy('id', 'desc')->first();
             } ])->orderBy('id', 'desc');
 
             if($request->application_master_id)
