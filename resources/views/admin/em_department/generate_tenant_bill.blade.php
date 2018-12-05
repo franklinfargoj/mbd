@@ -25,14 +25,14 @@
 @endif
 
 <div class="container-fluid">
-    <div class="ml-auto btn-list">
-        <a href="{{ url()->previous() }}" class="btn btn-link pull-right"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
-    </div>
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title">Generate Society
                 Bill:@if(!empty($society)){{$society->society_name}}@endif|{{$building->building_no}}|{{$building->name}}|{{$tenant->first_name.'
                 '.$tenant->last_name}}</h3>
+            <div class="ml-auto btn-list">
+                <a href="{{ url()->previous() }}" class="btn btn-link pull-right"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
+            </div>
         </div>
     </div>
     <div class="m-portlet m-portlet--mobile">
@@ -167,29 +167,28 @@
                 @if(!$arreasCalculation->isEmpty())
                 <p class="text-center">Balance amount to be paid - Arrears</p>
                 <table class="display table table-responsive table-bordered" style="width:100%">
-                    <tr>
-                        <th class="text-center">Year</th>
-                        <th class="text-center">Month</th>
-                        <th class="text-center">Amount In Rs.</th>
-                        <th class="text-center">Penalty in Rs</th>
-                    </tr>
+                    <thead class="thead-default">
+                        <tr>
+                            <th>Year</th>
+                            <th>Month</th>
+                            <th>Amount In Rs.</th>
+                            <th>Penalty in Rs</th>
+                        </tr>
+                    </thead>
                     @foreach($arreasCalculation as $calculation)
                     <tr>
-                        <td class="text-center">{{$calculation->year}} <input name='arrear_id[]' type='text' value='{{$calculation->id}}'
+                        <td>{{$calculation->year}} <input name='arrear_id[]' type='text' value='{{$calculation->id}}'
                                 hidden> </td>
-                        <td class="text-center">{{date("M", strtotime("2001-" . $calculation->month . "-01"))}}</td>
-                        <td class="text-center">{{$calculation->total_amount - $calculation->old_intrest_amount -
+                        <td>{{date("M", strtotime("2001-" . $calculation->month . "-01"))}}</td>
+                        <td>{{$calculation->total_amount - $calculation->old_intrest_amount -
                             $calculation->difference_intrest_amount }}</td>
-                        <td class="text-center">{{$calculation->old_intrest_amount +
+                        <td>{{$calculation->old_intrest_amount +
                             $calculation->difference_intrest_amount}}</td>
                     </tr>
                     @endforeach
                     <tr>
-                        <td colspan="3">
-                            Total
-                        </td>
+                        <td colspan="3" class="font-weight-bold">Total</td>
                         <td>{{$total}}</td>
-                        <td></td>
                     </tr>
                 </table>
                 @endif
@@ -228,7 +227,7 @@
                             </div>
                             @endif
                             @if(!is_null($check) || $check != '')
-                            <div class="col-sm-4">
+                            <div class="col-sm-6">
                                 <div class="btn-list">
                                     <button type="submit" id="" class="btn btn-primary">Regenerate Society Bill</button>
                                     <a onclick="goBack()" class="btn btn-secondary">Cancel</a>
