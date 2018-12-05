@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\CRUDAdmin;
 use App\DeletedLayouts;
+use App\DeletedUserLayouts;
 use App\LayoutUser;
 use App\MasterLayout;
 use App\User;
@@ -8,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Config;
 use App\Board;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Yajra\DataTables\DataTables;
@@ -184,23 +186,27 @@ class UserLayoutController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        $layoutDetails = MasterLayout::findOrfail($id);
+        $layoutDetails = LayoutUser::findOrfail($id);
         $layoutDetails->delete();
+        //dd($layoutDetails->toArray());
 
-        DeletedLayouts::create([
-            'layout_details_id' => $id,
-            'layout_name'          => $layoutDetails->layout_name,
+
+        DeletedUserLayouts::create([
+            'user_layouts_details_id' => $id,
+            'user_id'            => Auth::user()->id,
+            'user_name'          => User::where('id',$layoutDetails->user_id)->value('name'),
+            'layout_name'        => MasterLayout::where('id',$layoutDetails->layout_id)->value('layout_name'),
             'day'                => date('l'),
             'date'               => date('Y-m-d'),
             'time'               => date("h:i:s"),
             'reason'             => $request->input('delete_message'),
         ]);
 
-        return redirect()->back()->with(['success'=> 'Layout deleted succesfully']);
+        return redirect()->back()->with(['success'=> 'User Layout deleted succesfully']);
     }
 
-    public function loadDeleteLayoutUsingAjax(Request $request){
+    public function loadDeleteUserLayoutUsingAjax(Request $request){
         $id = $request->id;
-        return view('admin.crud_admin.layout.layoutDeleteReason', compact('id'))->render();
+        return view('admin.crud_admin.user_layout.userLayoutDeleteReason', compact('id'))->render();
     }
 }

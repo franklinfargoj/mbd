@@ -2451,7 +2451,7 @@ label.site-visit-label {
 
 .input-hint {
     position: absolute;
-    top: 21px;
+    bottom: 20px;
     right: 25px;
 }
 
@@ -2567,6 +2567,10 @@ label.site-visit-label {
     top: 50%;
     transform: translateY(-50%);
     left: 35px;
+}
+
+.m-menu__item.m-menu__item--level-2 .sidebar-icon {
+    left: 50px;
 }
 
 .m-aside-menu .mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar {

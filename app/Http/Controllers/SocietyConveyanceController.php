@@ -727,7 +727,7 @@ class SocietyConveyanceController extends Controller
         $documents_uploaded = SocietyConveyanceDocumentStatus::where('application_id', $sc_application->id)->get();
 
         $sc_agreement_comment = ScAgreementComments::with('scAgreementId')->get();
-//        dd($uploaded_document_ids);
+
         return view('frontend.society.conveyance.sale_lease_deed', compact('sc_application', 'document_lease', 'documents', 'uploaded_document_ids', 'documents_remaining_ids', 'sc_agreement_comment', 'documents_uploaded'));
     }
 
@@ -749,7 +749,8 @@ class SocietyConveyanceController extends Controller
         $comm_func = $this->CommonController;
         $sale_agreement_type_id = $this->conveyance_common->getDocumentId('Sale Deed Agreement', '1');
         $lease_agreement_type_id = $this->conveyance_common->getDocumentId('Lease Deed Agreement', '1');
-        $status = config('commanConfig.conveyance_status.Stamped_signed_sale_&_lease_deed');
+        $status_name = config('commanConfig.documents.society.Stamped_Signed');
+        $status = ApplicationStatusMaster::where('status_name', $status_name)->value('id');
         $society_flag = 1;
 
         $documents = SocietyConveyanceDocumentMaster::with(['sc_document_status' => function($q) use($sc_application) { $q->where('application_id', $sc_application->id)->get(); }])->where('application_type_id', $sc_application->sc_application_master_id)->where('society_flag', '1')->where('language_id', '2')->get();
@@ -774,12 +775,11 @@ class SocietyConveyanceController extends Controller
             $name = File::name(str_replace(' ', '_', $file->getClientOriginalName())) . '_' . $time . '.' . $extension;
             $folder_name = "society_conveyance_documents";
             $path = '/' . $folder_name . '/' . $name;
-//            $fileUpload = $this->CommonController->ftpFileUpload($folder_name, $file, $name);
+            $fileUpload = $this->CommonController->ftpFileUpload($folder_name, $file, $name);
             $status = ApplicationStatusMaster::where('status_name', 'Stamped')->value('id');
             $uploaded = $this->conveyance_common->uploadDocumentStatus($request->application_id, $request->document_name, $path, $status);
 
             $documents_req = array(
-                config('commanConfig.documents.society.conveyance_stamp_duty_letter'),
                 config('commanConfig.documents.society.Sale Deed Agreement'),
                 config('commanConfig.documents.society.Lease Deed Agreement'),
                 config('commanConfig.documents.society.sc_resolution'),
@@ -798,7 +798,7 @@ class SocietyConveyanceController extends Controller
                 }
             }
 
-            if(count($uploaded_document_ids) == 5 && count($documents_remaining_ids) == 0){
+            if(count($uploaded_document_ids) == 4 && count($documents_remaining_ids) == 0){
                 $users_record = scApplicationLog::where('application_id', $request->application_id)->where('society_flag', 1)->where('status_id', config('commanConfig.conveyance_status.forwarded'))->first();
                 $users = User::where('id', $users_record->to_user_id)->where('role_id', $users_record->to_role_id)->get();
                 $insert_log_arr = array(
@@ -806,7 +806,7 @@ class SocietyConveyanceController extends Controller
                 );
                 $sc_application = new scApplication();
                 $sc_application->id = $request->application_id;
-                $inserted_application_log = $this->CommonController->sc_application_status_society($insert_log_arr, config('commanConfig.conveyance_status.forwarded'), $sc_application);
+                $inserted_application_log = $this->CommonController->sc_application_status_society($insert_log_arr, config('commanConfig.conveyance_status.forwarded'), $sc_application, config('commanConfig.conveyance_status.Stamped_sale_&_lease_deed'));
             }
 
             if(count($uploaded) > 0){
@@ -841,7 +841,7 @@ class SocietyConveyanceController extends Controller
      */
     public function upload_signed_sale_lease(Request $request){
         $insert_arr = $request->all();
-        dd($insert_arr);
+//        dd($insert_arr);
         if($request->hasFile('document_path')) {
 
             $file = $request->file('document_path');

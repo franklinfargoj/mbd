@@ -5,7 +5,7 @@
             <h4 class="modal-title">Delete</h4>
             <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
-        <form id="DeleteUserLayoutReason" role="form" method="post" class="form-horizontal" action="{{route('layouts.destroy', $id)}}">
+        <form id="DeleteUserLayoutReason" role="form" method="post" class="form-horizontal" action="{{route('user_layouts.destroy', $id)}}">
             {{ method_field('DELETE') }}
             @csrf
             <div class="modal-body">

@@ -794,7 +794,9 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     
     Route::get('approved_sale_lease_agreement/{id}', 'conveyance\DYCODepartment\DYCOController@ApprovedSaleLeaseAgreement')->name('conveyance.approved_sale_lease_agreement');
     
-    Route::get('stamp_duty_agreement/{id}', 'conveyance\DYCODepartment\DYCOController@StampedSaleLeaseAgreement')->name('conveyance.stamp_duty_agreement');
+    Route::get('stamp_duty_agreement/{id}', 'conveyance\DYCODepartment\DYCOController@StampedDutySaleLeaseAgreement')->name('conveyance.stamp_duty_agreement'); 
+
+    Route::post('save_stamp_duty_agreement', 'conveyance\DYCODepartment\DYCOController@SaveStampDutyAgreement')->name('conveyance.save_stamp_duty_agreement');
     
     Route::get('stamp_signed_duty_agreement/{id}', 'conveyance\DYCODepartment\DYCOController@SignedSaleLeaseAgreement')->name('conveyance.stamp_signed_duty_agreement');
     
