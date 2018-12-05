@@ -38,6 +38,7 @@ use Hash;
 use Session;
 use App\Mail\SocietyOfferLetterForgotPassword;
 use Storage;
+use App\SocietyConveyance;
 
 class SocietyOfferLetterController extends Controller
 {
@@ -306,6 +307,8 @@ class SocietyOfferLetterController extends Controller
         $ol_application_count = count(OlApplication::where('society_id', $society_details->id)->get());
         Session::put('ol_application_count', $ol_application_count);
 
+        $sc_application_count = count(SocietyConveyance::where('society_id', $society_details->id)->get());
+        Session::put('sc_application_count', $sc_application_count);
 //        dd(Session::get('applications_tab')['self_premium']);
 
         //NOC changed added by <--Sayan Pal--> Start >>

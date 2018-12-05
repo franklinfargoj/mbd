@@ -156,25 +156,27 @@
                                                     @if(isset($sc_bank_details_fields[$i]))
                                                         <div class="col-sm-4 form-group">
                                                             <label class="col-form-label" for="{{ $sc_bank_details_fields[$i] }}">@php $labels = implode(' ', explode('_', $sc_bank_details_fields[$i])); echo ucwords($labels); @endphp:</label>
-                                                            @php if(count($society_bank_details) > 0 && $sc_application->scApplicationLog->status_id == 2){ $readonly = 'readonly'; }else{ $readonly = ''; $value = ''; } if(count($society_bank_details) > 0 && $sc_application->scApplicationLog->status_id == 4){ $value = $society_bank_details[$sc_bank_details_fields[$i]]; }else{ $readonly = ''; $value = ''; } echo $comm_func->form_fields($sc_bank_details_fields[$i], 'text','' , '', $value, $readonly); @endphp
+                                                            @php if(count($society_bank_details) > 0 && $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.forwarded')){ $readonly = 'readonly'; $value = $society_bank_details[$sc_bank_details_fields[$i]]; }else{ if(count($society_bank_details) > 0 && $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.pending')){ $value = $society_bank_details[$sc_bank_details_fields[$i]]; }else{ $readonly = ''; $value = ''; } }  echo $comm_func->form_fields($sc_bank_details_fields[$i], 'text','' , '', $value, $readonly); @endphp
                                                             <span id="error_{{ $sc_bank_details_fields[$i] }}" class="help-block">{{$errors->first($sc_bank_details_fields[$i])}}</span>
                                                         </div>
                                                     @endif
                                                     @if(isset($sc_bank_details_fields[$i+1]))
                                                         <div class="col-sm-4 offset-sm-1 form-group">
                                                             <label class="col-form-label" for="{{ $sc_bank_details_fields[$i+1] }}">@php $labels = implode(' ', explode('_', $sc_bank_details_fields[$i+1])); echo ucwords($labels); @endphp:</label>
-                                                            @php if(count($society_bank_details) > 0 && $sc_application->scApplicationLog->status_id == 2){ $readonly = 'readonly'; }else{ $readonly = ''; $value = ''; } if(count($society_bank_details) > 0 && $sc_application->scApplicationLog->status_id == 4){ $value = $society_bank_details[$sc_bank_details_fields[$i+1]]; }else{ $readonly = ''; $value = ''; } echo $comm_func->form_fields($sc_bank_details_fields[$i+1], 'text','' , '', $value, $readonly); @endphp
+                                                            @php if(count($society_bank_details) > 0 && $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.forwarded')){ $readonly = 'readonly'; $value = $society_bank_details[$sc_bank_details_fields[$i+1]]; }else{ if(count($society_bank_details) > 0 && $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.pending')){ $value = $society_bank_details[$sc_bank_details_fields[$i+1]]; }else{ $readonly = ''; $value = ''; } }  echo $comm_func->form_fields($sc_bank_details_fields[$i+1], 'text','' , '', $value, $readonly); @endphp
                                                             <span id="error_{{ $sc_bank_details_fields[$i+1] }}" class="help-block">{{$errors->first($sc_bank_details_fields[$i+1])}}</span>
                                                         </div>
                                                     @endif
                                                 </div>
                                         @endfor
                                         <div class="mt-3 btn-list">
-                                            <button class="btn btn-primary" type="submit" id="uploadBtn">Submit</button>
-                                            <a href="{{route('society_offer_letter_dashboard')}}" class="btn btn-secondary">Cancel</a>
+                                            @if($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.pending'))
+                                                <button class="btn btn-primary" type="submit" id="uploadBtn">Submit</button>
+                                            @endif
+                                            <a href="{{route('society_conveyance.index')}}" class="btn btn-primary">Cancel</a>
                                         </div>
                                     </div>
-                                    <!-- <a href="{{ route('society_offer_letter_dashboard') }}" class="btn btn-primary btn-custom" id="">Cancel</a> -->
+                                    <!-- <a href="{{ route('society_conveyance.index') }}" class="btn btn-primary btn-custom" id="">Cancel</a> -->
                                 </form>
                             </div>
                         </div>
