@@ -31,7 +31,11 @@
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="layout" name="layout" required>
                                         <option value="" style="font-weight: normal;">Select Layout</option>
                                          @foreach($layout_data as $key => $value)
-                                        <option value="{{ $value->id }}">{{ $value->layout_name }}</option>
+                                            @if($layoutId == $value->id) 
+                                                <option value="{{ $value->id }}" selected>{{ $value->layout_name }}</option>
+                                            @else
+                                                <option value="{{ $value->id }}">{{ $value->layout_name }}</option>
+                                            @endif
                                         @endforeach
                                     </select>
                                 </div>
@@ -46,7 +50,11 @@
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="wards" name="wards" required>
                                         <option value="" style="font-weight: normal;">Select Ward</option>
                                         @foreach($wards_data as $key => $value)
-                                        <option value="{{ $value->id }}">{{ $value->name }}</option>
+                                            @if($wardId == $value->id) 
+                                                <option value="{{ $value->id }}" selected>{{ $value->name }}</option>
+                                            @else 
+                                                <option value="{{ $value->id }}">{{ $value->name }}</option>
+                                            @endif
                                         @endforeach
                                     </select>
                                 </div>
@@ -61,7 +69,11 @@
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="colony" name="colony" required>
                                         <option value="" style="font-weight: normal;">Select Colony</option>
                                         @foreach($colonies_data as $key => $value)
-                                        <option value="{{ $value->id }}" >{{ $value->name }}</option>
+                                            @if($colonyId == $value->id) 
+                                            <option value="{{ $value->id }}" selected>{{ $value->name }}</option>
+                                            @else
+                                            <option value="{{ $value->id }}" >{{ $value->name }}</option>
+                                            @endif
                                         @endforeach
                                     </select>
                                 </div>
@@ -76,7 +88,11 @@
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="society" name="society" required>
                                         <option value="" style="font-weight: normal;">Select Societies</option>
                                         @foreach($societies_data as $key => $value)
-                                        <option value="{{ $value->id }}" >{{ $value->society_name }}</option>
+                                            @if($society_id == $value->id) 
+                                            <option value="{{ $value->id }}" selected>{{ $value->society_name }}</option>
+                                            @else
+                                            <option value="{{ $value->id }}" >{{ $value->society_name }}</option>
+                                            @endif
                                         @endforeach
                                     </select>
                                 </div>
@@ -144,6 +160,7 @@
                         success: function(response){
                         //console.log(response);
                         $('.ward-div').html(response);
+                        
                         $('#wards').selectpicker('refresh');
                     }
                 });             
@@ -193,7 +210,10 @@
                         //console.log(response);
                         $('.building_select').html(response);
                         $('.tenant-list').html('');
-                        $('#building_id').val(id);
+                        $('#layoutId').val($('#layout').val());
+                        $('#wardId').val($('#wards').val());
+                        $('#colonyId').val($('#colony').val());
+                        $('#societyId').val(id);
                         $('#building').selectpicker('refresh');
                         $('.hide_search_button').hide();
                     }
@@ -210,7 +230,8 @@
                     data: {id: id},
                         success: function(response){
                         console.log(response);
-                        $('.tenant-list').html(response);
+                        $('#building').val(id);
+                        //$('.tenant-list').html(response);
                         //$('#building').selectpicker('refresh');
                     }
                 });             

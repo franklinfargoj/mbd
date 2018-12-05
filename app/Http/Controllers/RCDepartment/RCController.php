@@ -112,8 +112,12 @@ class RCController extends Controller
 
         $building_data = MasterBuilding::whereIn('society_id', $societies)->get();
         $html ='';
+        $society_id = 0;
+        $layoutId = 0;
+        $wardId= 0;
+        $colonyId=0;
         //return $rate_card;
-        return view('admin.rc_department.collect_bill_tenant', compact('html','layout_data', 'wards_data', 'colonies_data','societies_data', 'building_data'));
+        return view('admin.rc_department.collect_bill_tenant', compact('society_id','wardId','colonyId','layoutId','html','layout_data', 'wards_data', 'colonies_data','societies_data', 'building_data'));
 
     }
 
@@ -144,6 +148,9 @@ class RCController extends Controller
                 ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
             ];
             $society_id = $request->input('id');
+            $layoutId = $request->input('layout');
+            $wardId=$request->input('ward');
+            $colonyId=$request->input('colony');
             if ($datatables->getRequest()->ajax()) {
                 DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
                 $buildings = MasterBuilding::with('tenant_count')->where('society_id', '=', $request->input('id'))
@@ -176,7 +183,7 @@ class RCController extends Controller
             //return $buildings;
             $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
 
-            return view('admin.rc_department.collect_bill_tenant', compact('layout_data','societies_data','wards_data','colonies_data','html', 'society_id'));
+            return view('admin.rc_department.collect_bill_tenant', compact('colonyId','wardId','layoutId','layout_data','societies_data','wards_data','colonies_data','html', 'society_id'));
     }
 
     public function get_tenant_bill_collection(Request $request, Datatables $datatables){
@@ -188,7 +195,6 @@ class RCController extends Controller
 
         //dd($wards);
         $colonies = MasterColony::whereIn('ward_id', $wards)->pluck('id');
-
         $colonies_data = MasterColony::whereIn('ward_id', $wards)->get();
 
         //dd($colonies);
@@ -196,6 +202,7 @@ class RCController extends Controller
         $societies_data = SocietyDetail::where('society_bill_level', '=', '2')->whereIn('colony_id', $colonies)->get();
 
         $building_data = MasterBuilding::whereIn('society_id', $societies)->get();
+
         $columns = [
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'flat_no','name' => 'flat_no','title' => 'Flat No.'],
@@ -208,23 +215,26 @@ class RCController extends Controller
             ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false]
         ];
         $tenament = DB::table('master_tenant_type')->get();
-        $building_id = $request->input('building');
-       
-       
+        $society_id = $request->input('society');
+        $layoutId = $request->input('layout');
+        $wardId=$request->input('ward');
+        $colonyId=$request->input('colony');
+        $buildingId=$request->input('building');
+        $society_Id = MasterBuilding::where('id', '=', $request->input('building'))->first()->society_id;
+       // echo $society_Id;
         if ($datatables->getRequest()->ajax()) {
             
-            $society_id = MasterBuilding::where('id', '=', $request->input('building'))->first()->society_id;
             DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
             $buildings = MasterTenant::where('building_id', '=', $request->input('building'))
             ->selectRaw('@rownum  := @rownum  + 1 AS rownum,master_tenants.*');
             return $datatables->of($buildings)
-                ->editColumn('actions', function ($buildings){
+                ->editColumn('actions', function ($buildings) use($society_Id){
                     return "<div class='d-flex btn-icon-list'>
-                    <a href='".route('billing_calculations', ['tenant_id'=>encrypt($buildings->id),'building_id'=>encrypt($buildings->building_id),'society_id'=>encrypt($society_id)])."' class='d-flex flex-column align-items-center ' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--view'><img src='".asset('/img/view-billing-details-icon.svg')."'></span>View Billing Details</a>
+                    <a href='".route('billing_calculations', ['tenant_id'=>encrypt($buildings->id),'building_id'=>encrypt($buildings->building_id),'society_id'=>encrypt($society_Id)])."' class='d-flex flex-column align-items-center ' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--view'><img src='".asset('/img/view-billing-details-icon.svg')."'></span>View Billing Details</a>
                 
-                    <a href='".route('generate_receipt_tenant', ['tenant_id'=>encrypt($buildings->id),'building_id'=>encrypt($buildings->building_id),'society_id'=>encrypt($society_id)])."' class='d-flex flex-column align-items-center' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/generate-bill-icon.svg')."'></span>Generate Reciept</a>
+                    <a href='".route('generate_receipt_tenant', ['tenant_id'=>encrypt($buildings->id),'building_id'=>encrypt($buildings->building_id),'society_id'=>encrypt($society_Id)])."' class='d-flex flex-column align-items-center' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/generate-bill-icon.svg')."'></span>Generate Reciept</a>
 
-                    <a href='".route('view_bill_tenant', ['tenant_id'=>encrypt($buildings->id),'building_id'=>encrypt($buildings->building_id),'society_id'=>encrypt($society_id)])."' class='d-flex flex-column align-items-center' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/view-arrears-calculation-icon.svg')."'></span>View Bill</a>
+                    <a href='".route('view_bill_tenant', ['tenant_id'=>encrypt($buildings->id),'building_id'=>encrypt($buildings->building_id),'society_id'=>encrypt($society_Id)])."' class='d-flex flex-column align-items-center' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/view-arrears-calculation-icon.svg')."'></span>View Bill</a>
     
                 </div>";
                     
@@ -237,7 +247,7 @@ class RCController extends Controller
         $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
  
         // return $buildings;
-        return view('admin.rc_department.collect_bill_tenant', compact('layout_data','societies_data','wards_data','colonies_data','tenament','html', 'building_id', 'society_id'));
+        return view('admin.rc_department.collect_bill_tenant', compact('layout_data','societies_data','wards_data','colonies_data','tenament','html', 'society_id','layoutId','wardId','colonyId','society_Id'));
     }
 
     public function generate_receipt_society(Request $request){
@@ -713,7 +723,10 @@ class RCController extends Controller
                     <div class="row align-items-center mb-0">           
                         <div class="col-md-9">
                         <form action="get_building_bill_collection" method="get">
-                            <input type="hidden" name="id" id="building_id"/>
+                            <input type="hidden" name="id" id="societyId"/>
+                            <input type="hidden" name="layout" id="layoutId">
+                            <input type="hidden" name="colony" id="colonyId">
+                            <input type="hidden" name="ward" id="wardId">  
                             <div class="form-group m-form__group">
                                 <input type="submit" class="btn m-btn--pill m-btn--custom btn-primary" name="search" value="Search">
                             </div>
@@ -745,7 +758,11 @@ class RCController extends Controller
                 </div>
                
                 <div class="col-md-12" style="margin-top:10px;margin-bottom: 10px;">
-                 <form action="get_tenant_bill_collection" method="get">       
+                 <form action="get_tenant_bill_collection" method="get"> 
+                    <input type="hidden" name="layout" id="layoutId">
+                    <input type="hidden" name="colony" id="colonyId">
+                    <input type="hidden" name="ward" id="wardId"> 
+                    <input type="hidden" name="society" id="societyId">    
                     <div class="row align-items-center mb-0">                            
                             <div class="col-md-4">
                                 <div class="form-group m-form__group">
@@ -774,9 +791,5 @@ class RCController extends Controller
                 return $html;
             }
         }
-    }
-    public function get_building_bill_collection_RC(Request $request, Datatables $datatables) {
-        $id = $request->input('id');
-        echo "hit";
     }
 }
