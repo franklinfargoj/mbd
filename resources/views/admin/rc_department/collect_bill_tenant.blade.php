@@ -183,13 +183,14 @@
                 //console.log(id);
                 //return false;
                 $.ajax({
-                    url:"{{URL::route('get_building_select_updated')}}",
+                    url:"{{URL::route('get_building_select_updated_RC')}}",
                     type: 'get',
                     data: {id: id},
                         success: function(response){
                         //console.log(response);
                         $('.building_select').html(response);
                         $('.tenant-list').html('');
+                        $('#building_id').val(id);
                         $('#building').selectpicker('refresh');
                         $('.hide_search_button').hide();
                     }
