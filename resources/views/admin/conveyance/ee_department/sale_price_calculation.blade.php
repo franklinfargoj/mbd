@@ -47,15 +47,12 @@
         <div class="tab-pane active show sale-1" id="calculation-sale-price" role="tabpanel">
         <form class="nav-tabs-form" role="form" class="form-horizontal" method="POST" action="{{ route('ee.save_calculation_data') }}" enctype="multipart/form-data">
         @csrf
+        <input type="hidden" name="redirect_tab" value="demarcation-plan">
             <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
                 <div class="portlet-body">
                     <div class="m-portlet__body m-portlet__body--table" id="calculation">
                         <div class="m-subheader">
-                            <div class="d-flex align-items-center justify-content-center">
-                                <h3 class="section-title text-uppercase">
-                                    Statement
-                                </h3>
-                            </div>
+
                             Building/Chawl No. 
                             <input class="letter-form-input letter-form-input--md" type="text" name="chawl_no" value="{{ isset($data->ConveyanceSalePriceCalculation->chawl_no) ? $data->ConveyanceSalePriceCalculation->chawl_no : '' }}" > 
                             Consisting 
@@ -182,7 +179,7 @@
                                             value="{{ isset($data->ConveyanceSalePriceCalculation->s_no) ? $data->ConveyanceSalePriceCalculation->s_no : '' }}"> 
 
                                     and C.T.S No 
-
+ 
                                     <input class="letter-form-input letter-form-input--md" type="text" name="CTS_no" value="{{ isset($data->ConveyanceSalePriceCalculation->CTS_no) ? $data->ConveyanceSalePriceCalculation->CTS_no : '' }}">
                                     Situated at 
 
@@ -224,23 +221,18 @@
         <form class="nav-tabs-form" role="form" id="demarcationFRM" name="demarcationFRM" method="POST" class="form-horizontal" action="{{ route('ee.save_demarcation_plan') }}" enctype="multipart/form-data">
         
         @csrf
+        <input type="hidden" name="redirect_tab" value="demarcation-plan">
             <input type="hidden" name="application_id" value="{{ isset($data->id) ? $data->id : '' }}">
             <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
                 <div class="portlet-body">
                     <div class="m-portlet__body m-portlet__body--table">
-                        <div class="m-subheader" style="padding: 0;">
-                            <div class="d-flex align-items-center justify-content-center">
-                                <h3 class="section-title">
-                                    Demarcation Plan
-                                </h3>
-                            </div>
-                        </div>
+
                         <div class="m-section__content mb-0 table-responsive">
                             <div class="container">
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="d-flex flex-column h-100 two-cols">
-                                            <h5>Upload Demarcation Map</h5>
+                                            <h5>Upload</h5>
                                             <span class="hint-text">Click to upload Demarcation Map</span>
                                             <form action="" method="post">
                                                 <div class="custom-file">
@@ -258,7 +250,7 @@
                                     
                                     <div class="col-sm-6 border-left">
                                         <div class="d-flex flex-column h-100 two-cols">
-                                            <h5>Download Demarcation Map</h5>
+                                            <h5>Download</h5>
                                             <span class="hint-text">Download demarcation Map</span>
                                             <div class="mt-auto">
                                                 @if(isset($data->ConveyanceSalePriceCalculation->demarcation_map))
@@ -287,17 +279,11 @@
         <div class="tab-pane sale-3" id="covering-letter" role="tabpanel">
         <form class="nav-tabs-form" role="form" name="CoveringFRM" id="CoveringFRM" method="POST" class="form-horizontal" action="{{ route('ee.save_covering_letter') }}" enctype="multipart/form-data">
         @csrf
+        <input type="hidden" name="redirect_tab" value="covering-letter">
             <input type="hidden" name="application_id" value="{{ isset($data->id) ? $data->id : '' }}">
             <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
                 <div class="portlet-body">
                     <div class="m-portlet__body m-portlet__body--table">
-                        <div class="m-subheader" style="padding: 0;">
-                            <div class="d-flex align-items-center justify-content-center">
-                                <h3 class="section-title">
-                                    Covering Letter
-                                </h3>
-                            </div>
-                        </div>
                         <div class="m-section__content mb-0 table-responsive">
                             <div class="container">
                                 <div class="row">
@@ -398,7 +384,51 @@
                 extension: "Invalid type of file uploaded (only pdf allowed)."
             }
         }
-    });      
+    }); 
+
+        $(document).ready(function () {
+
+        // **Start** Save tabs location on window refresh or submit
+
+        // Set first tab to active if user visits page for the first time
+
+        if (localStorage.getItem("activeTab") === null) {
+            document.querySelector(".nav-link.m-tabs__link").classList.add("active", "show");
+        } else {
+            document.querySelector(".nav-link.m-tabs__link").classList.remove("active", "show");
+        }
+
+        if (location.hash) {
+            $('a[href=\'' + location.hash + '\']').tab('show');
+        }
+        var activeTab = localStorage.getItem('activeTab');
+        if (activeTab) {
+            $('a[href="' + activeTab + '"]').tab('show');
+        }
+
+        $('body').on('click', 'a[data-toggle=\'tab\']', function (e) {
+            e.preventDefault()
+            var tab_name = this.getAttribute('href')
+            if (history.pushState) {
+                history.pushState(null, null, tab_name)
+            } else {
+                location.hash = tab_name
+            }
+            localStorage.setItem('activeTab', tab_name)
+
+            $(this).tab('show');
+
+            localStorage.clear();
+            return false;
+        });
+
+        $(window).on('popstate', function () {
+            var anchor = location.hash ||
+                $('a[data-toggle=\'tab\']').first().attr('href');
+            $('a[href=\'' + anchor + '\']').tab('show');
+            window.scrollTo(0, 0);
+        });
+     });          
 
     </script>
 

@@ -524,7 +524,7 @@ $route=\Request::route()->getName();
                                                 </svg>
                                                 <span class="m-menu__link-wrap">
                                                 <span class="m-menu__link-text">
-                                                        List of Applications for Society Conveyance
+                                                        List of Applications
                                                 </span>
                                             </span>
                                             </a>
@@ -567,7 +567,7 @@ $route=\Request::route()->getName();
                                 <li id="renewal" class="collapse {{ ($route == 'society_renewal.index' || $route == 'society_renewal.create')? 'show':'' }}">
                                     <ul class="list-unstyled">
                                         @if(Session::has('sr_application_count'))
-                                            <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{ ($route == 'society_renewal.index')?'m-menu__item--active':''}}">
+                                            <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{ ($route == 'society_renewal.index') ? 'm-menu__item--active':''}}">
                                                 <a href="{{ route('society_renewal.index') }}"
                                                    class="m-menu__link m-menu__toggle">
                                                     <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16"
@@ -577,13 +577,13 @@ $route=\Request::route()->getName();
                                                     </svg>
                                                     <span class="m-menu__link-wrap">
                                                 <span class="m-menu__link-text">
-                                                        List of Applications for Renewal of Lease
+                                                        List of Applications
                                                 </span>
                                             </span>
                                                 </a>
                                             </li>
                                         @else
-                                            <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{ ($route == 'society_renewal.create')?'m-menu__item--active':''}}">
+                                            <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{ ($route == 'society_renewal.create') ? 'm-menu__item--active':''}}">
                                                 <a href="{{ route('society_renewal.create') }}"
                                                    class="m-menu__link m-menu__toggle">
                                                     <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16"
@@ -603,19 +603,6 @@ $route=\Request::route()->getName();
                                 </li>
                             </ul>
                         </li>
-                    <li class="m-menu__item" id="renewal" data-toggle="collapse" data-target="#">
-                        <a href="javascript:void(0);" class="m-menu__link m-menu__toggle">
-                            <i class="m-menu__link-icon flaticon-line-graph"></i>
-                            <span class="m-menu__link-title">
-                                <span class="m-menu__link-wrap">
-                                    <span class="m-menu__link-text">
-                                        Renewal
-                                    </span>
-                                    <i class="m-menu__ver-arrow la la-angle-right"></i>
-                                </span>
-                            </span>
-                        </a>
-                    </li>
                     <li class="m-menu__item" id="architect" data-toggle="collapse" data-target="#">
                         <a href="javascript:void(0);" class="m-menu__link m-menu__toggle">
                             <i class="m-menu__link-icon flaticon-line-graph"></i>
@@ -668,21 +655,9 @@ $route=\Request::route()->getName();
                                         {{--height="16" viewBox="0 0 510 510">--}}
                                         {{--<path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"--}}
                                         {{--fill="#FFF" />--}} {{--</svg>--}} {{--<span class="m-menu__link-text">--}}
-                                        {{--Society Conveyance--}} {{--</span>--}} {{--</a>--}} {{--</li>--}} <li id="apply_sc"
-                                        class="m-menu__item {{($route=='society_conveyance.create' )?'m-menu__item--active':''}}">
-                                        <a href="{{ route('society_conveyance.create') }}" class="m-menu__link m-menu__toggle">
-                                            <i class="m-menu__link-icon flaticon-line-graph"></i>
-                                            <span class="m-menu__link-title">
-                                                <span class="m-menu__link-wrap">
-                                                    <span class="m-menu__link-text">
-                                                        Apply for Society Conveyance
-                                                    </span>
-                                                </span>
-                                            </span>
-                                        </a>
-                    </li>
+                                        {{--Society Conveyance--}} {{--</span>--}} {{--</a>--}} {{--</li>--}} 
                     @if(session()->get('role_name') == 'society')
-                    <li class="m-menu__item m-menu__item--submenu {{($route=='society_formation.list' || $route=='society_formation.index')?'m-menu__item--active':''}}">
+                    <li class="m-menu__item m-menu__item--submenu {{($route=='society_formation.list' || $route=='society_formation.index')?'m-menu__item--active':''}}" id="society_formation">
                         <a class="m-menu__link m-menu__toggle" title="view_Application" href="{{ route('society_formation.list') }}">
                             <i class="m-menu__link-icon flaticon-line-graph"></i>
                             <span class="m-menu__link-title">

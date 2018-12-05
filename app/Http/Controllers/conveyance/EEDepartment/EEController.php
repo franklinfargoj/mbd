@@ -57,9 +57,8 @@ class EEController extends Controller
 				  'land_premiun_infrastructure' => $request->land_premiun_infrastructure
 				]);
 
-
-		return back()->with('success','Data submitted successfully.');
-	}
+        return redirect("sale_price_calculation/" . $applicationId."#".$request->get('redirect_tab'));
+	} 
 
 	public function SaveDemarcationPlan(Request $request){
 		
@@ -78,10 +77,10 @@ class EEController extends Controller
                 $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$file,$file_name);
                 ConveyanceSalePriceCalculation::where('application_id',$applicationId)
                 ->update(['demarcation_map' => $path]);
-                   
-                return back()->with('success','Demarcation Map uploaded successfully.');                         
+                         
+                return redirect("sale_price_calculation/" . $applicationId."#".$request->get('redirect_tab'))->with('success','Demarcation Map uploaded successfully.');                   
             } else {
-                return back()->with('pdf_error', 'Invalid type of file uploaded (only pdf allowed).');
+                return redirect("sale_price_calculation/" . $applicationId."#".$request->get('redirect_tab'))->with('pdf_error', 'Invalid type of file uploaded (only pdf allowed).'); 
             }
 
         } 				
@@ -104,10 +103,10 @@ class EEController extends Controller
                 $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$file,$file_name);
                 ConveyanceSalePriceCalculation::where('application_id',$applicationId)
                 ->update(['ee_covering_letter' => $path]);
-                   
-                return back()->with('success','Covering Letter uploaded successfully.');                         
+                    
+                return redirect("sale_price_calculation/" . $applicationId."#".$request->get('redirect_tab'))->with('success','Covering Letter uploaded successfully.');                        
             } else {
-                return back()->with('pdf_error', 'Invalid type of file uploaded (only pdf allowed).');
+                return redirect("sale_price_calculation/" . $applicationId."#".$request->get('redirect_tab'))->with('pdf_error', 'Invalid type of file uploaded (only pdf allowed).'); 
             }
 
         } 				
