@@ -194,7 +194,7 @@ return [
     // ],      
 
     'applicationStatusColor' => [
-        '1' => 'metal',
+        '1' => 'danger',
         '2' => 'info',
         '3' => 'danger',
         '4' => 'metal',

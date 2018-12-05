@@ -24,7 +24,7 @@
                     </a>
                 </li>
                 
-                @if($data->status->status_id == config('commanConfig.conveyance_status.in_process'))
+                @if($data->status->status_id != config('commanConfig.conveyance_status.forwarded') && $data->status->status_id != config('commanConfig.conveyance_status.reverted'))
                 <li class="nav-item m-tabs__item">
                     <a class="nav-link m-tabs__link show" data-toggle="tab" href="#forward-application-tab">
                         <i class="la la-cog"></i> Forward Application
