@@ -116,14 +116,14 @@
                             <td>{{$arreas_calculation->old_intrest_amount + $arreas_calculation->difference_intrest_amount}}</td>
                             <td>{{$arreas_calculation->total_amount+$arreas_calculation->old_intrest_amount + $arreas_calculation->difference_amount+$arreas_calculation->old_intrest_amount + $arreas_calculation->difference_intrest_amount}}</td>
                             <td>
-                                {{-- {!! Form::open(['method' => 'get', 'route' => 'downloadBill']) !!}
-                                {{ Form::hidden('tenant_id', encrypt($tenant->id)) }}
+                                {!! Form::open(['method' => 'get', 'route' => 'downloadBill']) !!}
+                                @if(!empty($tenant)){{ Form::hidden('tenant_id', encrypt($tenant->id)) }}@endif
                                 {{ Form::hidden('building_id',encrypt($building->id)) }}
                                 {{ Form::hidden('society_id', encrypt($society->id)) }}
                                 {{ Form::hidden('month', $arreas_calculation->month) }}
                                 {{ Form::hidden('year', $arreas_calculation->year) }}
                                 {{ Form::button('<span class="btn-icon btn-icon--edit"><img src="/img/view-arrears-calculation-icon.svg"></span> Donwload Bill', array('class'=>'btn btn--unstyled p-0 btn--icon-wrap d-flex flex-column align-items-center','type'=>'submit')) }}
-                                {!! Form::close() !!} --}}
+                                {!! Form::close() !!}
 
                                 {{-- @if('1' == $arreas_calculation->payment_status) Paid @else Not Paid @endif  --}}
                                 - 
