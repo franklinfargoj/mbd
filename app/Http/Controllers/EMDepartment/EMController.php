@@ -257,7 +257,7 @@ class EMController extends Controller
                        $query->orWhere('name', 'like', '%'.$request->building_name.'%')
                          ->orWhere('building_no', 'like', '%'.$request->building_no.'%');
                         })
-                        ->selectRaw('@rownum  := @rownum  + 1 AS rownum,master_buildings.*')
+                        ->selectRaw('@rownum  := @rownum  + 1 AS rownum,master_buildings.*')->orderBy('id','DESC')
                         ->get();
             
             return $datatables->of($buildings)
@@ -338,7 +338,7 @@ class EMController extends Controller
         $society_id = MasterBuilding::find(decrypt($id))->society_id;
         if ($datatables->getRequest()->ajax()) {
             DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
-            $buildings = MasterTenant::selectRaw('@rownum  := @rownum  + 1 AS rownum,master_tenants.*');
+            $buildings = MasterTenant::selectRaw('@rownum  := @rownum  + 1 AS rownum,master_tenants.*')->where('building_id',decrypt($id));
             return $datatables->of($buildings)
                 ->editColumn('actions', function ($buildings){
                     return "<div class='d-flex btn-icon-list'>
