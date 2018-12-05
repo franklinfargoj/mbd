@@ -4,7 +4,7 @@
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
-            <h3 class="m-subheader__title m-subheader__title--separator">Add Service Charge Rate</h3>
+            <h3 class="m-subheader__title m-subheader__title--separator">Edit Service Charge Rate</h3>
             {{-- {{ Breadcrumbs::render('society_detail') }} --}}
             <div class="ml-auto btn-list">
             <a href="{{ url()->previous() }}" class="btn btn-link pull-right"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>

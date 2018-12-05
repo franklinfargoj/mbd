@@ -335,7 +335,11 @@
                 
                 var iod_per = iod / 100;
                 var ior_per = ior / 100;
-
+                
+                if(months1 > 0 ) {
+                    var old_rate = old_rate *months1;
+                    var rate_diff = rate_diff *months1;
+                }
                 var old_intrest_amount = (old_rate * ior_per * months1).toFixed(2);
 
                 var intrest_on_difference = (rate_diff * iod_per * months2).toFixed(2);

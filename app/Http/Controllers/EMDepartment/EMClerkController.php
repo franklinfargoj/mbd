@@ -56,8 +56,11 @@ class EMClerkController extends Controller
         $societies_data = SocietyDetail::whereIn('colony_id', $colonies)->get();
 
         $building_data = MasterBuilding::whereIn('society_id', $societies)->get();
-
-        return view('admin.em_clerk_department.index', compact('layout_data', 'societies_data', 'building_data'));
+        $html = '';
+        $society = '';
+        $building = '';
+        $layoutData = '';
+        return view('admin.em_clerk_department.index', compact('html','layout_data', 'societies_data', 'building_data','society','building','layoutData'));
     }
  
     public function society_list(Request $request){
@@ -97,7 +100,21 @@ class EMClerkController extends Controller
     }
 
     public function tenant_payment_list(Request $request, Datatables $datatables){
-        //dd($request->all());     
+        //dd($request->all());
+        $layouts = DB::table('layout_user')->where('user_id', '=', Auth::user()->id)->pluck('layout_id');
+        $layout_data = MasterLayout::whereIn('id', $layouts)->get();
+
+        $wards = MasterWard::whereIn('layout_id', $layouts)->pluck('id');
+        //dd($wards);
+        $colonies = MasterColony::whereIn('ward_id', $wards)->pluck('id');
+        //dd($colonies);
+        
+        $societies = SocietyDetail::whereIn('colony_id', $colonies)->pluck('id');
+
+        $societies_data = SocietyDetail::whereIn('colony_id', $colonies)->get();
+
+        $building_data = MasterBuilding::whereIn('society_id', $societies)->get();
+
         $rules = [
             'layout' => 'required',
             'society' => 'required',            
@@ -115,9 +132,9 @@ class EMClerkController extends Controller
         }
 
         $getData = $request->all();  
+        $layoutData = MasterLayout::find(decrypt($request->layout));
         $society = SocietyDetail::find(decrypt($request->society));
         $building = MasterBuilding::find(decrypt($request->building));
-
         $columns = [
             ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
             ['data' => 'flat_no','name' => 'flat_no','title' => 'Room No'],
@@ -169,7 +186,7 @@ class EMClerkController extends Controller
 
         $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
         //dd($html);
-        return view('admin.em_clerk_department.tenant_list', compact('html','building','society'));
+        return view('admin.em_clerk_department.index', compact('html','building','society','layout_data','societies_data', 'building_data','layoutData'));
        
     }
 

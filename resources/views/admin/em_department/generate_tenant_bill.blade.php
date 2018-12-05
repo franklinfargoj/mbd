@@ -1,19 +1,16 @@
 @extends('admin.layouts.app')
 @section('content')
-@php
-$total_service = $serviceChargesRate->water_charges + $serviceChargesRate->electric_city_charge +
-$serviceChargesRate->pump_man_and_repair_charges + $serviceChargesRate->external_expender_charge +
-$serviceChargesRate->administrative_charge + $serviceChargesRate->lease_rent + $serviceChargesRate->na_assessment +
-$serviceChargesRate->other;
-$total_after_due = $total_service * 0.02;
-$total_service_after_due = $total_service + $total_after_due;
-$total ='0';
-@endphp
-@if(!$arreasCalculation->isEmpty())
-@foreach($arreasCalculation as $calculation)
-@php $total = $total + $calculation->total_amount; @endphp
-@endforeach
-@endif
+    @php 
+        $total_service = $serviceChargesRate->water_charges + $serviceChargesRate->electric_city_charge + $serviceChargesRate->pump_man_and_repair_charges + $serviceChargesRate->external_expender_charge + $serviceChargesRate->administrative_charge + $serviceChargesRate->lease_rent + $serviceChargesRate->na_assessment + $serviceChargesRate->other; 
+        $total_after_due = $total_service * 0.02; 
+        $total_service_after_due = $total_service + $total_after_due;     
+        $total ='0';           
+    @endphp
+    @if(!$arreasCalculation->isEmpty())  
+      @foreach($arreasCalculation as $calculation)
+            @php $total = $total + $calculation->total_amount; @endphp
+      @endforeach
+    @endif 
 
 @if(session()->has('success'))
 <div class="alert alert-success display_msg">

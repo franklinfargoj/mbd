@@ -1,5 +1,7 @@
+@if(false == $is_download)
 @extends('admin.layouts.app')
 @section('content')
+@endif
     @php 
         $total_service = $serviceChargesRate->water_charges + $serviceChargesRate->electric_city_charge + $serviceChargesRate->pump_man_and_repair_charges + $serviceChargesRate->external_expender_charge + $serviceChargesRate->administrative_charge + $serviceChargesRate->lease_rent + $serviceChargesRate->na_assessment + $serviceChargesRate->other; 
         $total_after_due = $total_service * 0.02; 
@@ -11,7 +13,7 @@
             @php $total = $total + $calculation->total_amount; @endphp
       @endforeach
     @endif  
-
+@if(false == $is_download)
 @if(session()->has('success'))
     <div class="alert alert-success display_msg">
         {{ session()->get('success') }}
@@ -23,15 +25,18 @@
         {{ session()->get('warning') }}
     </div>  
 @endif
+@endif
 
 <div class="container-fluid">
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title">Generate Tenant Bill:
                 @if(!empty($society)){{$society->society_name}}@endif | {{$building->building_no}} | {{$building->name}} | {{$tenant->first_name.' '.$tenant->last_name}}</h3>
+            @if(false == $is_download)
             <div class="ml-auto btn-list">
                 <a href="{{ url()->previous() }}" class="btn btn-link pull-right"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
             </div>
+            @endif
          </div>
         </div>
     </div>
@@ -212,6 +217,7 @@
         </form>
     </div>
 </div>
+@if(false == $is_download)
 @endsection
 @section('datatablejs')
 <script>
@@ -223,3 +229,4 @@ function goBack() {
 }
 </script>
 @endsection
+@endif

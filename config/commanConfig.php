@@ -148,6 +148,7 @@ return [
             'Lease Deed Agreement' => 'Lease Deed Agreement',
             'sc_resolution' => 'sc_resolution',
             'sc_undertaking' => 'sc_undertaking',
+            'Stamped_Signed' => 'Stamped_Signed'
         ],
         'dycdo_note'  => 'dycdo_note',
         'architect_conveyance_map' => 'architect_conveyance_map',
@@ -193,7 +194,7 @@ return [
     // ],      
 
     'applicationStatusColor' => [
-        '1' => 'metal',
+        '1' => 'danger',
         '2' => 'info',
         '3' => 'danger',
         '4' => 'metal',

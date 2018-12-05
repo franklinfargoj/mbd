@@ -934,7 +934,7 @@ class CommonController extends Controller
 
     public function getLogOfArchitectLayoutApplication($layout_id)
     {
-        $roles = array(config('commanConfig.junior_architect'), config('commanConfig.senior_architect'), config('commanConfig.achitect'));
+        $roles = array(config('commanConfig.junior_architect'), config('commanConfig.senior_architect'), config('commanConfig.architect'));
 
         $status = array(config('commanConfig.architect_layout_status.forward'),config('commanConfig.architect_layout_status.reverted'));
 
@@ -1331,7 +1331,7 @@ class CommonController extends Controller
      * @param $insert_arr, $status, $sc_application
      * @return \Illuminate\Http\Response
      */
-    public function sc_application_status_society($insert_arr, $status, $sc_application){
+    public function sc_application_status_society($insert_arr, $status, $sc_application, $status_new = NULL){
         $status_in_words = array_flip(config('commanConfig.conveyance_status'))[$status];
         $sc_application_last_id = $sc_application->id;
         $sc_application_master_id = $sc_application->sc_application_master_id;
@@ -1355,7 +1355,7 @@ class CommonController extends Controller
                 $insert_application_log[$status_in_words_1][$key]['society_flag'] = 0;
                 $insert_application_log[$status_in_words_1][$key]['user_id'] = $user->id;
                 $insert_application_log[$status_in_words_1][$key]['role_id'] = $user->role_id;
-                $insert_application_log[$status_in_words_1][$key]['status_id'] = config('commanConfig.conveyance_status.in_process');
+                $insert_application_log[$status_in_words_1][$key]['status_id'] = ($status_new != null) ? $status_new : config('commanConfig.conveyance_status.in_process');
                 $insert_application_log[$status_in_words_1][$key]['to_user_id'] = 0;
                 $insert_application_log[$status_in_words_1][$key]['to_role_id'] = 0;
                 $insert_application_log[$status_in_words_1][$key]['remark'] = '';

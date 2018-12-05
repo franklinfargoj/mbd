@@ -98,13 +98,12 @@ class EMController extends Controller
         $data->conveyance_map = $this->common->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
         $data->em_document = $this->common->getEMNoDueCertificate($data->sc_application_master_id,$applicationId);
 
-        if ($is_view && $status->status_id == config('commanConfig.conveyance_status.in_process')) {
+        if ($is_view && ($status->status_id != config('commanConfig.conveyance_status.forwarded') && $status->status_id != config('commanConfig.conveyance_status.reverted') )) {
             $route = 'admin.conveyance.em_department.scrutiny_remark';
         }else{
             $route = 'admin.conveyance.common.view_em_scrutiny_remark';
         }
 
-//        dd($bonafide_docs['bonafide_list']->sc_document_status->document_path);
         return view($route,compact('data', 'content', 'no_dues_certificate_docs', 'bonafide_docs', 'covering_letter_docs', 'society_list_docs'));
     }
 
@@ -319,12 +318,12 @@ class EMController extends Controller
                 $sc_excel_headers = [];
                 $broken_word_count = 0;
 
-//                dd($request->file('document_path'));
                 Excel::load($request->file('document_path')->getRealPath(), function ($reader)use(&$count, &$sc_excel_headers, &$broken_word_count) {
                     if(count($reader->toArray()) > 0){
+
                         $excel_headers = $reader->first()->keys()->toArray();
                         $sc_excel_headers = config('commanConfig.sc_excel_headers_em');
-//                        dd(($sc_excel_headers));
+
                         foreach($excel_headers as $excel_headers_key => $excel_headers_val){
                             $excel_headers_value = strtolower(str_replace(str_split('\\/- '), '_', $sc_excel_headers[$excel_headers_key]));
                             $excel_headers_value = str_replace(str_split('\\() '), '', $excel_headers_value);
@@ -343,6 +342,7 @@ class EMController extends Controller
                         }
                     }
                 });
+
                 if($count != 0){
                     if($count == count($sc_excel_headers)){
                         $application_type = scApplicationType::where('application_type', config('commanConfig.applicationType.Conveyance'))->value('id');

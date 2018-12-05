@@ -11,7 +11,7 @@
 @endif
 <form class="nav-tabs-form" id ="agreementFRM" role="form" method="POST" action="{{ route('dyco.save_approved_agreement')}}" enctype="multipart/form-data">
 @csrf
- 
+
 <div class="col-md-12">
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">
@@ -73,8 +73,9 @@
                                                     *Note : Sale Deed Agreement is not available.</span>
                                                 @endif
                                             </div>
-                                        </div>
+                                        </div> 
                                     </div>
+                                    @if($data->status->status_id != config('commanConfig.conveyance_status.forwarded') && $data->status->status_id != config('commanConfig.conveyance_status.reverted') )
                                     <div class="col-sm-6 border-left">
                                         <div class="d-flex flex-column h-100 two-cols">
                                             <h5>Upload</h5>
@@ -87,7 +88,7 @@
                                                 </div>
                                         </div>
                                     </div> 
-
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -131,6 +132,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                    @if($data->status->status_id != config('commanConfig.conveyance_status.forwarded') && $data->status->status_id != config('commanConfig.conveyance_status.reverted') )
                                     <div class="col-sm-6 border-left">
                                         <div class="d-flex flex-column h-100 two-cols">
                                             <h5>Upload</h5>
@@ -146,7 +148,7 @@
                                                 </div>
                                         </div>
                                     </div>
-                                    
+                                    @endif
                                 </div>
                             </div>
                         </div>

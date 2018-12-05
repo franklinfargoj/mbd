@@ -406,7 +406,7 @@
                                         </div>
                                         @endif
                                         </p>
-                                        <form action="{{ route('em.save_covering_letter') }}" id="no_dues_certi_upload" method="post" enctype="multipart/form-data">
+                                        <form action="{{ route('em.save_covering_letter') }}" id="em_covering_letter" method="post" enctype="multipart/form-data">
                                             @csrf
                                             <div class="custom-file">
                                                 <input class="custom-file-input pdfcheck" name="covering_letter" type="file"
@@ -610,6 +610,21 @@
                 },
                 messages:{
                     document_path: {
+                        required: 'File is required to upload.',
+                        extension: 'File only in xls format is required.'
+                    }
+                }
+            });
+
+            $('#em_covering_letter').validate({
+                rules:{
+                    covering_letter: {
+                        required:true,
+                        extension:'xls'
+                    }
+                },
+                messages:{
+                    covering_letter: {
                         required: 'File is required to upload.',
                         extension: 'File only in xls format is required.'
                     }

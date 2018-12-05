@@ -28,7 +28,8 @@ class EEController extends Controller
         $is_view = session()->get('role_name') == config('commanConfig.ee_junior_engineer');
         $data->conveyance_map = $this->conveyance->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
         
-        if ($is_view && $data->status->status_id == config('commanConfig.applicationStatus.in_process')){
+        if ($is_view && ($data->status->status_id != config('commanConfig.conveyance_status.forwarded') && $data->status->status_id != config('commanConfig.conveyance_status.reverted') ))
+        {
 
             $route = 'admin.conveyance.ee_department.sale_price_calculation';
         }else{
@@ -56,9 +57,8 @@ class EEController extends Controller
 				  'land_premiun_infrastructure' => $request->land_premiun_infrastructure
 				]);
 
-
-		return back()->with('success','Data submitted successfully.');
-	}
+        return redirect("sale_price_calculation/" . $applicationId."#".$request->get('redirect_tab'));
+	} 
 
 	public function SaveDemarcationPlan(Request $request){
 		
@@ -77,10 +77,10 @@ class EEController extends Controller
                 $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$file,$file_name);
                 ConveyanceSalePriceCalculation::where('application_id',$applicationId)
                 ->update(['demarcation_map' => $path]);
-                   
-                return back()->with('success','Demarcation Map uploaded successfully.');                         
+                         
+                return redirect("sale_price_calculation/" . $applicationId."#".$request->get('redirect_tab'))->with('success','Demarcation Map uploaded successfully.');                   
             } else {
-                return back()->with('pdf_error', 'Invalid type of file uploaded (only pdf allowed).');
+                return redirect("sale_price_calculation/" . $applicationId."#".$request->get('redirect_tab'))->with('pdf_error', 'Invalid type of file uploaded (only pdf allowed).'); 
             }
 
         } 				
@@ -103,10 +103,10 @@ class EEController extends Controller
                 $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$file,$file_name);
                 ConveyanceSalePriceCalculation::where('application_id',$applicationId)
                 ->update(['ee_covering_letter' => $path]);
-                   
-                return back()->with('success','Covering Letter uploaded successfully.');                         
+                    
+                return redirect("sale_price_calculation/" . $applicationId."#".$request->get('redirect_tab'))->with('success','Covering Letter uploaded successfully.');                        
             } else {
-                return back()->with('pdf_error', 'Invalid type of file uploaded (only pdf allowed).');
+                return redirect("sale_price_calculation/" . $applicationId."#".$request->get('redirect_tab'))->with('pdf_error', 'Invalid type of file uploaded (only pdf allowed).'); 
             }
 
         } 				
