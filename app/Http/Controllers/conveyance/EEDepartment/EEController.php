@@ -28,7 +28,8 @@ class EEController extends Controller
         $is_view = session()->get('role_name') == config('commanConfig.ee_junior_engineer');
         $data->conveyance_map = $this->conveyance->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
         
-        if ($is_view && $data->status->status_id == config('commanConfig.applicationStatus.in_process')){
+        if ($is_view && ($data->status->status_id != config('commanConfig.conveyance_status.forwarded') && $data->status->status_id != config('commanConfig.conveyance_status.reverted') ))
+        {
 
             $route = 'admin.conveyance.ee_department.sale_price_calculation';
         }else{

@@ -755,7 +755,31 @@ class ArchitectUserSeeder extends Seeder
 
             if(!$layout_user){
                 \App\LayoutUser::insert(['user_id' => $junior_architect_user_id, 'layout_id' => $layout_id->id]);          
-            }            
+            } 
+            
+            //set reverted roles
+            $architect_head_role=Role::where(['name'=>config('commanConfig.architect')])->where('child_id', '=', NULL)->first();
+            if($architect_head_role)
+            {
+                $sr_architect=Role::where(['name'=>config('commanConfig.senior_architect')])->first();
+                if($sr_architect)
+                {
+                    $architect_head_role->child_id=json_encode(array($sr_architect->id));
+                    $architect_head_role->save();
+                }
+            }
+
+            $architect_sr_role=Role::where(['name'=>config('commanConfig.senior_architect')])->where('child_id', '=', NULL)->first();
+            if($architect_sr_role)
+            {
+                $jr_architect=Role::where(['name'=>config('commanConfig.junior_architect')])->first();
+                if($jr_architect)
+                {
+                    $architect_sr_role->child_id=json_encode(array($jr_architect->id));
+                    $architect_sr_role->save();
+                }
+            }
+            
 
             //dd('ok');
         //}

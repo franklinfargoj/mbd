@@ -231,5 +231,16 @@ class VpPermission extends Seeder
                 }
                 
             }
+
+        $vp_engineer_role=Role::where(['name'=>config('commanConfig.vp_engineer')])->where('child_id', '=', NULL)->first();
+        if($vp_engineer_role)
+        {
+            $cap_engineer=Role::where(['name'=>config('commanConfig.cap_engineer')])->first();
+            if($cap_engineer)
+            {
+                $vp_engineer_role->child_id=json_encode(array($cap_engineer->id));
+                $vp_engineer_role->save();
+            }
+        }
     }
 }

@@ -109,7 +109,7 @@ class DYCOController extends Controller
 
             if ($extension == "pdf"){
                 $path = $folder_name.'/'.$file_name;
-                $delete = Storage::disk('local')->delete($request->old_file_name);
+                $delete = Storage::disk('ftp')->delete($request->old_file_name);
                 $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$file,$file_name);
 
                 // save document to sc document status table
@@ -189,7 +189,7 @@ class DYCOController extends Controller
            
 
             if ($sale_extension == "pdf"){
-                Storage::disk('local')->delete($request->oldSaleFile);
+                Storage::disk('ftp')->delete($request->oldSaleFile);
                 $sale_upload = $this->CommonController->ftpFileUpload($sale_folder_name,$sale_agreement,$sale_file_name); 
                 $saleData = $this->common->getScAgreement($draftSaleId,$applicationId,$Agrstatus);
 
@@ -209,7 +209,7 @@ class DYCOController extends Controller
             $draftLeaseId = $this->common->getScAgreementId($this->LeaseAgreement,$Applicationtype);
             if ($lease_extension == "pdf") {
                 
-                Storage::disk('local')->delete($request->oldLeaseFile);
+                Storage::disk('ftp')->delete($request->oldLeaseFile);
                 $lease_upload = $this->CommonController->ftpFileUpload($lease_folder_name,$lease_agreement,$lease_file_name);
                 $leaseData = $this->common->getScAgreement($draftLeaseId,$applicationId,$Agrstatus);
                
@@ -275,12 +275,12 @@ class DYCOController extends Controller
         $data->approveStampLetter = $this->common->getScAgreement($stampId,$applicationId,NULL);
         $data->em_document = $this->common->getEMNoDueCertificate($data->sc_application_master_id,$applicationId);
 
-        if ($data->is_view && $data->status->status_id == config('commanConfig.conveyance_status.Aproved_sale_&_lease_deed')) {
+        if ($data->is_view) {
             $route = 'admin.conveyance.dyco_department.approved_sale_lease_agreement';
         }else{
             $route = 'admin.conveyance.common.view_approved_sale_lease_agreement';
         }   
-
+       
         return view($route,compact('data'));      
     } 
 
@@ -307,7 +307,7 @@ class DYCOController extends Controller
             
             if ($sale_extension == "pdf"){
                 
-                Storage::disk('local')->delete($request->oldSaleFile);
+                Storage::disk('ftp')->delete($request->oldSaleFile);
                 $sale_upload = $this->CommonController->ftpFileUpload($sale_folder_name,$sale_agreement,$sale_file_name); 
                 $saleData = $this->common->getScAgreement($SaleId,$applicationId,$Agrstatus);
 
@@ -328,7 +328,7 @@ class DYCOController extends Controller
             
             if ($lease_extension == "pdf") {
 
-                Storage::disk('local')->delete($request->oldLeaseFile);
+                Storage::disk('ftp')->delete($request->oldLeaseFile);
                 $lease_upload = $this->CommonController->ftpFileUpload($lease_folder_name,$lease_agreement,$lease_file_name);
 
                 $leaseData = $this->common->getScAgreement($LeaseId,$applicationId,$Agrstatus);
@@ -352,7 +352,7 @@ class DYCOController extends Controller
         }        
     }       
 
-    public function StampedSaleLeaseAgreement(Request $request,$applicationId){
+    public function StampedDutySaleLeaseAgreement(Request $request,$applicationId){
     
         $data = scApplication::with('ConveyanceSalePriceCalculation')->where('id',$applicationId)->first();
         $Applicationtype = $data->sc_application_master_id;
@@ -373,7 +373,22 @@ class DYCOController extends Controller
         $Doc1  = config('commanConfig.documents.society.sc_undertaking');
         $docId = $this->common->getScAgreementId($Doc1,$Applicationtype);
         $data->undertaking = $this->common->getScAgreement($docId,$applicationId,NULL);
- 
+
+        //get stamp duty agreement uploaded by dycdo
+        $Agreementstatus1 = ApplicationStatusMaster::where('status_name','=','Stamp_by_dycdo')->value('id');
+        $StampSaleId1  = $this->common->getScAgreementId($this->SaleAgreement,$Applicationtype,$Agreementstatus1);
+        $StampLeaseId1 = $this->common->getScAgreementId($this->LeaseAgreement,$Applicationtype,$Agreementstatus1);
+        
+        $data->StampSaleByDycdo  = $this->common->getScAgreement($StampSaleId1,$applicationId,$Agreementstatus1);
+        $data->StampLeaseByDycdo = $this->common->getScAgreement($StampLeaseId1,$applicationId,$Agreementstatus1);
+
+        //get stamp duty agreement uploaded by JTCO
+        $Agreementstatus2 = ApplicationStatusMaster::where('status_name','=','Stamp_by_jtco')->value('id');
+        $StampSaleId2  = $this->common->getScAgreementId($this->SaleAgreement,$Applicationtype,$Agreementstatus2);
+        $StampLeaseId2 = $this->common->getScAgreementId($this->LeaseAgreement,$Applicationtype,$Agreementstatus);
+        
+        $data->StampSaleByJtco  = $this->common->getScAgreement($StampSaleId2,$applicationId,$Agreementstatus2);
+        $data->StampLeaseByJtco = $this->common->getScAgreement($StampLeaseId2,$applicationId,$Agreementstatus2);        
         $data->AgreementComments = ScAgreementComments::with('Roles')->where('application_id',$applicationId)->where('agreement_type_id',$Applicationtype)->whereNotNull('remark')->get();   
 
         $data->folder = $this->common->getCurrentRoleFolderName(); 
@@ -381,12 +396,14 @@ class DYCOController extends Controller
 
         $data->is_view = session()->get('role_name') == config('commanConfig.dycdo_engineer'); 
         $data->status = $this->common->getCurrentStatus($applicationId,$data->sc_application_master_id);
+
         $data->em_document = $this->common->getEMNoDueCertificate($data->sc_application_master_id,$applicationId);
 
-        if (session()->get('role_name') == config('commanConfig.dydo_engineer')) {
-            $route = 'admin.conveyance.common.view_stamp_duty_agreement';
-        }else{
+        if ((session()->get('role_name') == config('commanConfig.dycdo_engineer') || session()->get('role_name') == config('commanConfig.joint_co')) && $data->status->status_id == config('commanConfig.conveyance_status.Stamped_sale_&_lease_deed') ) {
+
             $route = 'admin.conveyance.common.stamp_duty_agreement';
+        }else{
+            $route = 'admin.conveyance.common.view_stamp_duty_agreement';
         } 
         
         return view($route,compact('data'));      
@@ -444,7 +461,7 @@ class DYCOController extends Controller
             $stampSignLeaseId = $this->common->getScAgreementId($this->LeaseAgreement,$Applicationtype);
 
             if ($sale_extension == "pdf"){
-                Storage::disk('local')->delete($request->oldSaleFile);
+                Storage::disk('ftp')->delete($request->oldSaleFile);
                 $sale_upload = $this->CommonController->ftpFileUpload($sale_folder_name,$sale_agreement,$sale_file_name); 
                 $saleData = $this->common->getScAgreement($stampSignSaleId,$applicationId,$Agrstatus);
 
@@ -464,7 +481,7 @@ class DYCOController extends Controller
            
             
             if ($lease_extension == "pdf") {
-                Storage::disk('local')->delete($request->oldLeaseFile);
+                Storage::disk('ftp')->delete($request->oldLeaseFile);
                 $lease_upload = $this->CommonController->ftpFileUpload($lease_folder_name,$lease_agreement,$lease_file_name);
                 $leaseData = $this->common->getScAgreement($stampSignLeaseId,$applicationId,$Agrstatus);
                 if ($leaseData){
@@ -600,10 +617,10 @@ class DYCOController extends Controller
         $fileName = time().'_draft_noc_'.$id.'.pdf';
         $filePath = $folder_name."/".$fileName;
 
-        if (!(Storage::disk('local')->has($folder_name))) {            
-            Storage::disk('local')->makeDirectory($folder_name, $mode = 0777, true, true);
+        if (!(Storage::disk('ftp')->has($folder_name))) {            
+            Storage::disk('ftp')->makeDirectory($folder_name, $mode = 0777, true, true);
         } 
-        Storage::disk('local')->put($filePath, $pdf->Output($fileName, 'S'));
+        Storage::disk('ftp')->put($filePath, $pdf->Output($fileName, 'S'));
         $draftLetter = $this->common->getScAgreement($draftId,$id,NULL);
        
         if ($draftLetter){
@@ -619,13 +636,13 @@ class DYCOController extends Controller
 
         $folder_name1 = 'Conveynace_Text_NOC';
 
-        if (!(Storage::disk('local')->has($folder_name1))) {            
-            Storage::disk('local')->makeDirectory($folder_name1, $mode = 0777, true, true);
+        if (!(Storage::disk('ftp')->has($folder_name1))) {            
+            Storage::disk('ftp')->makeDirectory($folder_name1, $mode = 0777, true, true);
         }        
         $file_nm =  time()."_text_noc_".$id.'.txt';
         $filePath1 = $folder_name1."/".$file_nm;
 
-        Storage::disk('local')->put($filePath1, $content);
+        Storage::disk('ftp')->put($filePath1, $content);
 
         $textLetter = $this->common->getScAgreement($textId,$id,NULL);
        
@@ -655,7 +672,7 @@ class DYCOController extends Controller
 
             if ($extension == "pdf"){
                 
-                Storage::disk('local')->delete($request->oldNOC);
+                Storage::disk('ftp')->delete($request->oldNOC);
                 $upload = $this->CommonController->ftpFileUpload($folder_name,$file,$file_name); 
                 $Data = $this->common->getScAgreement($nocId,$applicationId,NULL);
 
@@ -717,6 +734,82 @@ class DYCOController extends Controller
             return back()->with('success','Application Send Successfully.');        
     }
 
+    //save stamp duty agreements by dycdo and jtco
+    public function SaveStampDutyAgreement(Request $request){
+
+        $applicationId   = $request->application_id;
+        $sale_agreement  = $request->file('sale_agreement');   
+        $lease_agreement = $request->file('lease_agreement'); 
+        
+        $data = scApplication::where('id',$applicationId)->first();           
+        $Applicationtype= $data->sc_application_master_id; 
+       
+        $sale_folder_name  = "Conveyance_stamp_duty_sale_agreement";
+        $lease_folder_name = "Conveyance_stamp_duty_lease_agreement";
+
+        $Agrstatus = "";
+        
+        if(session()->get('role_name') == config('commanConfig.dycdo_engineer')){
+            $Agrstatus = ApplicationStatusMaster::where('status_name','=','Stamp_by_dycdo')->value('id');
+        }
+        else{
+            $Agrstatus = ApplicationStatusMaster::where('status_name','=','Stamp_by_jtco')->value('id');
+        } 
+
+        if ($sale_agreement) {
+            $sale_extension  = $sale_agreement->getClientOriginalExtension(); 
+            $sale_file_name  = time().'_sale_'.$applicationId.'.'.$sale_extension; 
+            $sale_file_path  = $sale_folder_name.'/'.$sale_file_name; 
+            $SaleId = $this->common->getScAgreementId($this->SaleAgreement,$Applicationtype);
+            
+            if ($sale_extension == "pdf"){
+                
+                Storage::disk('ftp')->delete($request->oldSaleFile);
+                $sale_upload = $this->CommonController->ftpFileUpload($sale_folder_name,$sale_agreement,$sale_file_name); 
+                $saleData = $this->common->getScAgreement($SaleId,$applicationId,$Agrstatus);
+
+                if ($saleData){
+                    $this->common->updateScAgreement($applicationId,$SaleId,$sale_file_path,$Agrstatus);
+                }else{
+                    $this->common->createScAgreement($applicationId,$SaleId,$sale_file_path,$Agrstatus);               
+                }
+                $status = 'success';
+            }                      
+        }
+        if ($lease_agreement) {
+
+            $lease_extension = $lease_agreement->getClientOriginalExtension(); 
+            $lease_file_name = time().'_lease_'.$applicationId.'.'.$lease_extension;
+            $lease_file_path = $lease_folder_name.'/'.$lease_file_name;
+            $LeaseId = $this->common->getScAgreementId($this->LeaseAgreement,$Applicationtype);
+            
+            if ($lease_extension == "pdf") {
+
+                Storage::disk('ftp')->delete($request->oldLeaseFile);
+                $lease_upload = $this->CommonController->ftpFileUpload($lease_folder_name,$lease_agreement,$lease_file_name);
+
+                $leaseData = $this->common->getScAgreement($LeaseId,$applicationId,$Agrstatus);
+                if ($leaseData){
+                    $this->common->updateScAgreement($applicationId,$LeaseId,$lease_file_path,$Agrstatus);                    
+                }else{
+                    $this->common->createScAgreement($applicationId,$LeaseId,$lease_file_path,$Agrstatus);
+                }
+                $status = 'success';                
+            }            
+        }
+
+        if ($request->remark){
+          $this->common->ScAgreementComment($applicationId,$request->remark,$Applicationtype); 
+          $status = 'success'; 
+        }
+        
+        if (isset($status) && $status == 'success'){
+            return back()->with('success', 'Submitted Successfully.'); 
+        } else{
+            return back()->with('error', 'Invalid type of file uploaded (only pdf allowed).');
+        }                         
+    }     
+
     // Renewal start header_remove
 
     public function saveRenewalAgreement(Request $request){
@@ -741,7 +834,7 @@ class DYCOController extends Controller
             
             if ($extension == "pdf") {
                 
-                Storage::disk('local')->delete($request->oldLeaseFile);
+                Storage::disk('ftp')->delete($request->oldLeaseFile);
                 $this->CommonController->ftpFileUpload($folderName,$file,$fileName);
                 $leaseData = $this->renewal->getRenewalAgreement($draftLeaseId,$applicationId,$Agrstatus);
                
@@ -785,7 +878,7 @@ class DYCOController extends Controller
             
             if ($extension == "pdf") {
                 
-                Storage::disk('local')->delete($request->oldLeaseFile);
+                Storage::disk('ftp')->delete($request->oldLeaseFile);
                 $this->CommonController->ftpFileUpload($folderName,$file,$fileName);
                 $leaseData = $this->renewal->getRenewalAgreement($LeaseId,$applicationId,$Agrstatus);
                
@@ -879,10 +972,10 @@ class DYCOController extends Controller
         $fileName = time().'_draft_stamp_duty_letter_'.$id.'.pdf';
         $filePath = $folder_name."/".$fileName;
 
-        if (!(Storage::disk('local')->has($folder_name))) {            
-            Storage::disk('local')->makeDirectory($folder_name, $mode = 0777, true, true);
+        if (!(Storage::disk('ftp')->has($folder_name))) {            
+            Storage::disk('ftp')->makeDirectory($folder_name, $mode = 0777, true, true);
         } 
-        Storage::disk('local')->put($filePath, $pdf->Output($fileName, 'S'));
+        Storage::disk('ftp')->put($filePath, $pdf->Output($fileName, 'S'));
         $draftLetter = $this->renewal->getRenewalAgreement($draftId,$id,NULL);
        
         if ($draftLetter){
@@ -898,13 +991,13 @@ class DYCOController extends Controller
 
         $folder_name1 = 'Renewal_Text_Stamp_duty_Letter';
 
-        if (!(Storage::disk('local')->has($folder_name1))) {            
-            Storage::disk('local')->makeDirectory($folder_name1, $mode = 0777, true, true);
+        if (!(Storage::disk('ftp')->has($folder_name1))) {            
+            Storage::disk('ftp')->makeDirectory($folder_name1, $mode = 0777, true, true);
         }        
         $file_nm =  time()."_text_stamp_duty_letter_".$id.'.txt';
         $filePath1 = $folder_name1."/".$file_nm;
 
-        Storage::disk('local')->put($filePath1, $content);
+        Storage::disk('ftp')->put($filePath1, $content);
 
         $textLetter = $this->renewal->getRenewalAgreement($textId,$id,NULL);
        
@@ -950,15 +1043,17 @@ class DYCOController extends Controller
         $fileName = time().'_draft_stamp_duty_letter_'.$id.'.pdf';
         $filePath = $folder_name."/".$fileName;
 
-        if (!(Storage::disk('local')->has($folder_name))) {            
-            Storage::disk('local')->makeDirectory($folder_name, $mode = 0777, true, true);
+        if (!(Storage::disk('ftp')->has($folder_name))) {            
+            Storage::disk('ftp')->makeDirectory($folder_name, $mode = 0777, true, true);
         } 
-        Storage::disk('local')->put($filePath, $pdf->Output($fileName, 'S'));
+        Storage::disk('ftp')->put($filePath, $pdf->Output($fileName, 'S'));
 
         $draftLetter = $this->common->getScAgreement($draftId,$id,NULL);
         if ($draftLetter){
+            // dd($filePath);
             $this->common->updateScAgreement($id,$draftId,$filePath,NULL);                    
         }else{
+
             $this->common->createScAgreement($id,$draftId,$filePath,NULL);
         }
 
@@ -969,13 +1064,13 @@ class DYCOController extends Controller
 
         $folder_name1 = 'Conveyance_Text_Stamp_duty_Letter';
 
-        if (!(Storage::disk('local')->has($folder_name1))) {            
-            Storage::disk('local')->makeDirectory($folder_name1, $mode = 0777, true, true);
+        if (!(Storage::disk('ftp')->has($folder_name1))) {            
+            Storage::disk('ftp')->makeDirectory($folder_name1, $mode = 0777, true, true);
         }        
         $file_nm =  time()."_text_stamp_duty_letter_".$id.'.txt';
         $filePath1 = $folder_name1."/".$file_nm;
 
-        Storage::disk('local')->put($filePath1, $content);
+        Storage::disk('ftp')->put($filePath1, $content);
 
         $textLetter = $this->common->getScAgreement($textId,$id,NULL);
        
@@ -1003,7 +1098,7 @@ class DYCOController extends Controller
                 $letter  = config('commanConfig.scAgreements.renewal_stamp_duty_letter');
                 $letterId = $this->common->getScAgreementId($letter,$masterId);            
                 
-                $delete = Storage::disk('local')->delete($request->oldStamp);
+                $delete = Storage::disk('ftp')->delete($request->oldStamp);
                 $this->CommonController->ftpFileUpload($folderName,$file,$fileName);
 
                 $textLetter = $this->renewal->getRenewalAgreement($letterId,$applicationId,NULL);
@@ -1044,7 +1139,7 @@ class DYCOController extends Controller
    
             if ($extension == "pdf"){
                 
-                Storage::disk('local')->delete($request->oldStamp);
+                Storage::disk('ftp')->delete($request->oldStamp);
                 $upload = $this->CommonController->ftpFileUpload($folder_name,$file,$file_name); 
                 $Data = $this->common->getScAgreement($letterId,$applicationId,NULL);
 

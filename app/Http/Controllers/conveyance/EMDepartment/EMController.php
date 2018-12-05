@@ -96,8 +96,9 @@ class EMController extends Controller
         $status = $this->common->getCurrentStatus($applicationId,$data->sc_application_master_id);
         $data->folder = $this->common->getCurrentRoleFolderName();
         $data->conveyance_map = $this->common->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
+        $data->em_document = $this->common->getEMNoDueCertificate($data->sc_application_master_id,$applicationId);
 
-        if ($is_view && $status->status_id == config('commanConfig.conveyance_status.in_process')) {
+        if ($is_view && ($status->status_id != config('commanConfig.conveyance_status.forwarded') && $status->status_id != config('commanConfig.conveyance_status.reverted') )) {
             $route = 'admin.conveyance.em_department.scrutiny_remark';
         }else{
             $route = 'admin.conveyance.common.view_em_scrutiny_remark';

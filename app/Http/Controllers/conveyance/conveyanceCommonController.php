@@ -473,7 +473,6 @@ class conveyanceCommonController extends Controller
     public function updateScAgreement($applicationId,$typeId,$filePath,$status){
 
         $data = SocietyConveyanceDocumentStatus::where('application_id',$applicationId)->where('document_id',$typeId)->where('status_id',$status)->where('user_id',Auth::Id())->update(['document_path' => $filePath]);
-
         return $data;
     } 
 
@@ -510,7 +509,8 @@ class conveyanceCommonController extends Controller
         $document  = config('commanConfig.documents.architect_conveyance_map');
         $documentId = $this->getDocumentId($document,$data->sc_application_master_id);
         $data->conveyance_map = $this->getDocumentStatus($applicationId,$documentId); 
-        $data->em_document = $this->getEMNoDueCertificate($data->sc_application_master_id,$applicationId);       
+        $data->em_document = $this->getEMNoDueCertificate($data->sc_application_master_id,$applicationId);
+        $data->status = $this->getCurrentStatus($applicationId,$data->sc_application_master_id);       
 
         return view('admin.conveyance.architect_department.scrutiny_remark',compact('data'));
     }  
@@ -571,7 +571,7 @@ class conveyanceCommonController extends Controller
         else{
         $route = 'admin.conveyance.common.forward_application';
       }
-
+      
       return view($route,compact('data','societyLogs','dycoLogs','eelogs','Architectlogs','cologs'));         
     }
 
