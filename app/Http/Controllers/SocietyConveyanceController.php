@@ -71,7 +71,7 @@ class SocietyConveyanceController extends Controller
                 $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
             } ])->orderBy('id', 'desc');
 
-//            dd($sc_applications->get());
+           // dd($sc_applications->get());
             if($request->application_master_id)
             {
                 $sc_applications = $sc_applications->where('application_master_id', 'like', '%'.$request->application_master_id.'%');
@@ -97,6 +97,7 @@ class SocietyConveyanceController extends Controller
                 ->editColumn('created_at', function ($sc_applications) {
                     return date(config('commanConfig.dateFormat'), strtotime($sc_applications->created_at));
                 })
+
                 ->editColumn('status', function ($sc_applications) {
                     $status = explode('_', array_keys(config('commanConfig.conveyance_status'), $sc_applications->scApplicationLog->status_id)[0]);
                     $status_display = '';
@@ -105,11 +106,13 @@ class SocietyConveyanceController extends Controller
                     if($status_display == 'Sent To Society '){
                         $status_display = 'Approved';
                     }
+                     
 
                     return '<span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$sc_applications->scApplicationLog->status_id) .' m-badge--wide">'.$status_display.'</span>';
                 })
                 ->rawColumns(['radio', 'application_no', 'application_master_id', 'created_at','status'])
                 ->make(true);
+
         }
 
         $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());

@@ -167,12 +167,12 @@ class conveyanceCommonController extends Controller
     } 
 
     //revert application child id
-    public function getRevertApplicationChildData(){
+    public function getRevertApplicationChildData($societyId){
         
         $role_id = Role::where('id',Auth::user()->role_id)->first();
         $result  = json_decode($role_id->conveyance_child_id);
         $child   = "";
-        
+        dd($societyId);
         if ($result){
             $child = User::with(['roles','LayoutUser' => function($q){
                 $q->where('layout_id', session('layout_id'));
@@ -310,7 +310,9 @@ class conveyanceCommonController extends Controller
         $data->society_role_id = Role::where('name', config('commanConfig.society_offer_letter'))->value('id');
         $data->status = $this->getCurrentStatus($applicationId,$data->sc_application_master_id);
         $data->parent = $this->getForwardApplicationParentData();
-        $data->child  = $this->getRevertApplicationChildData();
+
+        $data->child  = $this->getRevertApplicationChildData($data->society_id);
+        // dd($data->child);
         return $data;        
     }
 

@@ -347,7 +347,7 @@
                                                     Forward To:
                                                 </label>
                                                 <div class="col-lg-4 col-md-9 col-sm-12">
-                                                    <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="to_user" name="to_user_id[]"   
+                                                    <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="to_user" required name="to_user_id[]"   
                                                         {{(session()->get('role_name') == config('commanConfig.dyco_engineer')) ? 'multiple' : '' }}>
                                                         
                                                         @if($data->parent)
