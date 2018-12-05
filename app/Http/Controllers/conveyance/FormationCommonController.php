@@ -18,6 +18,8 @@ use Illuminate\Http\Request;
 use Storage;
 use Yajra\DataTables\DataTables;
 use Mpdf\Mpdf;
+use App\OlApplication;
+use App\SocietyOfferLetter;
 
 class FormationCommonController extends Controller
 {
@@ -29,7 +31,7 @@ class FormationCommonController extends Controller
 
     public function index(Request $request, Datatables $datatables)
     {
-
+        $getData = $request->all();
         $data = $this->listApplicationData($request);
         $typeId = scApplicationType::where('application_type', '=', 'Formation')->value('id');
         $columns = [
@@ -119,7 +121,7 @@ class FormationCommonController extends Controller
     // list all data
     public function listApplicationData($request)
     {
-
+        // dd($request->all());
         $conveyanceId = scApplicationType::where('application_type', '=', config('commanConfig.applicationType.Formation'))->value('id');
 
         $applicationData = SfApplication::with(['applicationLayoutUser', 'societyApplication', 'sfApplicationLog' => function ($q) use ($conveyanceId) {
@@ -135,6 +137,17 @@ class FormationCommonController extends Controller
                     ->where('application_master_id', $conveyanceId)
                     ->orderBy('id', 'desc');
             });
+
+            if($request->submitted_at_from)
+            {
+                $applicationData=$applicationData->where(\DB::raw("(DATE_FORMAT(created_at,'%Y-%m-%d'))"),'>=',date('Y-m-d',strtotime($request->submitted_at_from)));
+           // dd($applicationData->toSql());
+            }
+
+            if($request->submitted_at_to)
+            {
+                $applicationData=$applicationData->where(\DB::raw("(DATE_FORMAT(created_at,'%Y-%m-%d'))"),'<=',date('Y-m-d',strtotime($request->submitted_at_to)));
+            }
 
         $applicationData = $applicationData->orderBy('sf_applications.id', 'desc')->get();
         $listArray = [];
@@ -167,13 +180,16 @@ class FormationCommonController extends Controller
     }
 
     //revert application child id
-    public function getRevertApplicationChildData()
+    public function getRevertApplicationChildData($society_id)
     {
-
+       $SocietyOfferLetter= SocietyOfferLetter::find($society_id);
+       $society_user_id=$SocietyOfferLetter->user_id;
+       $society_user=User::where('id',$society_user_id)->get();
+      // dd($society_user);
         $role_id = Role::where('id', Auth::user()->role_id)->first();
         $result = json_decode($role_id->conveyance_child_id);
         $child = "";
-
+        //dd($result);
         if ($result) {
             $child = User::with(['roles', 'LayoutUser' => function ($q) {
                 $q->where('layout_id', session('layout_id'));
@@ -183,7 +199,12 @@ class FormationCommonController extends Controller
                 })
                 ->whereIn('role_id', $result)->get();
         }
-        //dd($result);
+
+        if($child)
+        {
+            $child = $child->merge($society_user);
+        }
+        //dd($child);
         return $child;
     }
 
@@ -234,10 +255,11 @@ class FormationCommonController extends Controller
         // dd($applicationId);
         $data = SfApplication::with('societyApplication')
             ->where('id', $applicationId)->first();
+        $society_id=$data->society_id;
         $data->society_role_id = Role::where('name', config('commanConfig.society_offer_letter'))->value('id');
         $data->status = $this->getCurrentStatus($applicationId, $data->sc_application_master_id);
         $data->parent = $this->getForwardApplicationParentData();
-        $data->child = $this->getRevertApplicationChildData();
+        $data->child = $this->getRevertApplicationChildData($society_id);
         return $data;
     }
 

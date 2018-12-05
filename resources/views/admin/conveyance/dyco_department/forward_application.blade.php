@@ -347,9 +347,8 @@
                                                     Forward To:
                                                 </label>
                                                 <div class="col-lg-4 col-md-9 col-sm-12">
-                                                    <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="to_user" name="to_user_id[]"   
-                                                        {{(session()->get('role_name') == config('commanConfig.dyco_engineer')) ? 'multiple' : '' }}>
-                                                        
+                                                    <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="to_user" required name="to_user_id[]" {{(session()->get('role_name') == config('commanConfig.dyco_engineer')) ? 'multiple' : '' }}>
+                                                         
                                                         @if($data->parent)
                                                             @foreach($data->parent as $parent)
                                                                 <option value="{{ $parent->id}}" data-role="{{ $parent->role_id }}">{{ $parent->name }} ({{ $parent->roles[0]->display_name }})</option>
@@ -358,6 +357,8 @@
                                                     </select>
                                                 </div>                                                 
                                             </div>
+
+
                                              @if($data->child != "")
                                             <div class="form-group m-form__group row mt-3 child-data" style="display: none">
                                                 <label class="col-form-label col-lg-2 col-sm-12">
@@ -425,6 +426,7 @@
                 var id = $("#to_user").find('option:selected').attr("data-role");
                 var user_id = $("#to_user").find('option:selected').attr("value");
             } else {
+
                 var id = $("#to_child_id").find('option:selected').attr("data-role");
                 var user_id = $("#to_child_id").find('option:selected').attr("value");
             }

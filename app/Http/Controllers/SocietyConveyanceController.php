@@ -60,7 +60,10 @@ class SocietyConveyanceController extends Controller
         ];
         $getRequest = $request->all();
         $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
-        $ol_application_count = count(SocietyConveyance::where('society_id', $society_details->id)->get());
+
+        $sc_application_count = count(SocietyConveyance::where('society_id', $society_details->id)->get());
+        Session::put('sc_application_count', $sc_application_count);
+
         if ($datatables->getRequest()->ajax()) {
             $sc_applications = scApplication::where('society_id', $society_details->id)->with(['scApplicationType' => function($q){
                $q->where('application_type', config('commanConfig.applicationType.Conveyance'))->first();
@@ -68,7 +71,7 @@ class SocietyConveyanceController extends Controller
                 $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
             } ])->orderBy('id', 'desc');
 
-//            dd($sc_applications->get());
+           // dd($sc_applications->get());
             if($request->application_master_id)
             {
                 $sc_applications = $sc_applications->where('application_master_id', 'like', '%'.$request->application_master_id.'%');
@@ -94,6 +97,7 @@ class SocietyConveyanceController extends Controller
                 ->editColumn('created_at', function ($sc_applications) {
                     return date(config('commanConfig.dateFormat'), strtotime($sc_applications->created_at));
                 })
+
                 ->editColumn('status', function ($sc_applications) {
                     $status = explode('_', array_keys(config('commanConfig.conveyance_status'), $sc_applications->scApplicationLog->status_id)[0]);
                     $status_display = '';
@@ -102,11 +106,13 @@ class SocietyConveyanceController extends Controller
                     if($status_display == 'Sent To Society '){
                         $status_display = 'Approved';
                     }
+                     
 
                     return '<span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$sc_applications->scApplicationLog->status_id) .' m-badge--wide">'.$status_display.'</span>';
                 })
                 ->rawColumns(['radio', 'application_no', 'application_master_id', 'created_at','status'])
                 ->make(true);
+
         }
 
         $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
@@ -776,7 +782,11 @@ class SocietyConveyanceController extends Controller
             $folder_name = "society_conveyance_documents";
             $path = '/' . $folder_name . '/' . $name;
             $fileUpload = $this->CommonController->ftpFileUpload($folder_name, $file, $name);
-            $status = ApplicationStatusMaster::where('status_name', 'Stamped')->value('id');
+            if($request->document_name == 'sc_resolution' || $request->document_name == 'sc_undertaking'){
+                $status = NULL;
+            }else{
+                $status = ApplicationStatusMaster::where('status_name', 'Stamped')->value('id');
+            }
             $uploaded = $this->conveyance_common->uploadDocumentStatus($request->application_id, $request->document_name, $path, $status);
 
             $documents_req = array(
@@ -806,7 +816,12 @@ class SocietyConveyanceController extends Controller
                 );
                 $sc_application = new scApplication();
                 $sc_application->id = $request->application_id;
+                $sc_application->sc_application_master_id = $application_type;
                 $inserted_application_log = $this->CommonController->sc_application_status_society($insert_log_arr, config('commanConfig.conveyance_status.forwarded'), $sc_application, config('commanConfig.conveyance_status.Stamped_sale_&_lease_deed'));
+                $update_arr = array(
+                    'application_status' => config('commanConfig.conveyance_status.Stamped_sale_&_lease_deed')
+                );
+                $update_sc_application = scApplication::where('id', $request->application_id)->update($update_arr);
             }
 
             if(count($uploaded) > 0){
