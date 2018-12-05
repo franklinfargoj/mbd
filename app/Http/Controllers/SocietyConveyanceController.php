@@ -60,7 +60,10 @@ class SocietyConveyanceController extends Controller
         ];
         $getRequest = $request->all();
         $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
-        $ol_application_count = count(SocietyConveyance::where('society_id', $society_details->id)->get());
+
+        $sc_application_count = count(SocietyConveyance::where('society_id', $society_details->id)->get());
+        Session::put('sc_application_count', $sc_application_count);
+
         if ($datatables->getRequest()->ajax()) {
             $sc_applications = scApplication::where('society_id', $society_details->id)->with(['scApplicationType' => function($q){
                $q->where('application_type', config('commanConfig.applicationType.Conveyance'))->first();
