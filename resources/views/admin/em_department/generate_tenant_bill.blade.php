@@ -10,7 +10,7 @@
       @foreach($arreasCalculation as $calculation)
             @php $total = $total + $calculation->total_amount; @endphp
       @endforeach
-    @endif  
+    @endif 
 
 @if(session()->has('success'))
 <div class="alert alert-success display_msg">
