@@ -84,46 +84,49 @@
                     </div>
                 </div>
 
-                <div class="col-md-12" style="margin-top:10px;margin-bottom: 10px;">
-                    <div class="row align-items-center mb-0">                            
-                            <div class="col-md-12">
-                                <div class="form-group m-form__group ">
-                                    Billing Level : Tenant level Billing.
-                                </div>
-                            </div>                          
-                    </div>
+                <div class=" col-md-12 building_select">
+                    
                 </div>
-
-                <div class="col-md-12" style="margin-top:10px;margin-bottom: 10px;">
-                    <div class="row align-items-center mb-0">                            
-                            <div class="col-md-4">
-                                <div class="form-group m-form__group building_select">
-                                    <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="building" name="building" required>
-                                        <option value="" style="font-weight: normal;">Select Buildings</option>
-                                        @foreach($building_data as $key => $value)
-                                        <option value="{{ $value->id }}" >{{ $value->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>                          
+            {{-- <div class="col-md-12" style="margin-top:10px;margin-bottom: 10px;">
+                        <div class="row align-items-center mb-0">                            
+                                <div class="col-md-12">
+                                    <div class="form-group m-form__group ">
+                                        Billing Level : Tenant level Billing.
+                                    </div>
+                                </div>                          
+                        </div>
                     </div>
-                </div>
-
-                
-                <div class="col-md-12" style="margin-top:10px;margin-bottom: 10px;">
-                    <div class="row align-items-center mb-0">                            
-                            <div class="col-md-12">
-                                <div class="form-group m-form__group tenant-list">
-                                   
-                                </div>
-                            </div>                          
-                    </div>
-                </div>
-
-
     
+                    <div class="col-md-12" style="margin-top:10px;margin-bottom: 10px;">
+                        <div class="row align-items-center mb-0">                            
+                                <div class="col-md-4">
+                                    <div class="form-group m-form__group building_select">
+                                        <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="building" name="building" required>
+                                            <option value="" style="font-weight: normal;">Select Buildings</option>
+                                            @foreach($building_data as $key => $value)
+                                            <option value="{{ $value->id }}" >{{ $value->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>                          
+                        </div>
+                    </div> --}}
+    
+                    
+                    <div class="col-md-12" style="margin-top:10px;margin-bottom: 10px;">
+                        <div class="row align-items-center mb-0">                            
+                                <div class="col-md-12">
+                                    <div class="form-group m-form__group tenant-list">
+                                       
+                                    </div>
+                                </div>                          
+                        </div>
+                    </div>
+    
+    
+        
+                </div>
             </div>
-        </div>
     </div>
     <!-- END: Subheader -->
 
@@ -201,12 +204,13 @@
                 //console.log(id);
                 //return false;
                 $.ajax({
-                    url:"{{URL::route('get_building_select')}}",
+                    url:"{{URL::route('get_building_select_updated')}}",
                     type: 'get',
                     data: {id: id},
                         success: function(response){
                         //console.log(response);
                         $('.building_select').html(response);
+                        $('.tenant-list').html('');
                         $('#building').selectpicker('refresh');
                     }
                 });             
