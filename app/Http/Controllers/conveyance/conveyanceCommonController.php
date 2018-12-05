@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Session;
 use Yajra\DataTables\DataTables;
 use App\LanguageMaster;
 use App\Role;
+use App\SocietyOfferLetter;
 use Carbon\Carbon;
 use Config;
 use App\User;
@@ -169,10 +170,13 @@ class conveyanceCommonController extends Controller
     //revert application child id
     public function getRevertApplicationChildData($societyId){
         
+        $SocietyOfferLetter = SocietyOfferLetter::find($societyId);
+        $society_user_id = $SocietyOfferLetter->user_id;
+        $society_user = User::where('id',$society_user_id)->get();        
+        
         $role_id = Role::where('id',Auth::user()->role_id)->first();
         $result  = json_decode($role_id->conveyance_child_id);
         $child   = "";
-        dd($societyId);
         if ($result){
             $child = User::with(['roles','LayoutUser' => function($q){
                 $q->where('layout_id', session('layout_id'));
@@ -182,6 +186,11 @@ class conveyanceCommonController extends Controller
             })
             ->whereIn('role_id',$result)->get();            
         }
+        if(session()->get('role_name') == config('commanConfig.dyco_engineer') && $child != "")
+        {
+            $child = $child->merge($society_user);
+        }
+  
         return $child;        
     }   
     
@@ -310,9 +319,7 @@ class conveyanceCommonController extends Controller
         $data->society_role_id = Role::where('name', config('commanConfig.society_offer_letter'))->value('id');
         $data->status = $this->getCurrentStatus($applicationId,$data->sc_application_master_id);
         $data->parent = $this->getForwardApplicationParentData();
-
         $data->child  = $this->getRevertApplicationChildData($data->society_id);
-        // dd($data->child);
         return $data;        
     }
 
