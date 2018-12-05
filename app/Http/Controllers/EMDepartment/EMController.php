@@ -257,7 +257,7 @@ class EMController extends Controller
                        $query->orWhere('name', 'like', '%'.$request->building_name.'%')
                          ->orWhere('building_no', 'like', '%'.$request->building_no.'%');
                         })
-                        ->selectRaw('@rownum  := @rownum  + 1 AS rownum,master_buildings.*')
+                        ->selectRaw('@rownum  := @rownum  + 1 AS rownum,master_buildings.*')->orderBy('id','DESC')
                         ->get();
             
             return $datatables->of($buildings)
