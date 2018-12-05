@@ -946,6 +946,7 @@ class EMController extends Controller
         if($request->input('id')){
             $society = SocietyDetail::find($request->input('id'));
             if(Config::get('commanConfig.SOCIETY_LEVEL_BILLING') == $society->society_bill_level) {
+                
                 $html ='<div class="col-md-12" style="margin-top:10px;margin-bottom: 10px;">
                     <div class="row align-items-center mb-0">                            
                             <div class="col-md-12">
@@ -953,6 +954,13 @@ class EMController extends Controller
                                     Billing Level : Society Level Biiling
                                 </div>
                             </div>                          
+                    </div>
+                    <div class="row align-items-center mb-0">           
+                        <div class="col-md-9">
+                            <div class="form-group m-form__group">
+                                <input type="submit" class="btn m-btn--pill m-btn--custom btn-primary" name="search" value="Search">
+                            </div>
+                        </div>
                     </div>
                 </div>';
             $society_id = $request->input('id');
@@ -977,6 +985,7 @@ class EMController extends Controller
                             </div>                          
                     </div>
                 </div>
+               
                 <div class="col-md-12" style="margin-top:10px;margin-bottom: 10px;">
                     <div class="row align-items-center mb-0">                            
                             <div class="col-md-4">
@@ -990,7 +999,17 @@ class EMController extends Controller
                 $html .= '</select></div>
                             </div>                          
                     </div>
-                </div>';         
+                </div>
+                <div class="row align-items-center mb-0">           
+                    <div class="col-md-9">
+                        <div class="form-group m-form__group">
+                            <input type="submit" class="btn m-btn--pill m-btn--custom btn-primary" name="search" value="Search">
+                        </div>
+                    </div>
+                </div>
+                
+                
+                ';         
 
                 return $html;
             }

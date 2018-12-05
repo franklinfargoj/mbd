@@ -83,10 +83,14 @@
                             </div>                          
                     </div>
                 </div>
-
-                <div class=" col-md-12 building_select">
-                    
+                <div class="row align-items-center mb-0 hide_search_button">           
+                        <div class="col-md-9">
+                            <div class="form-group m-form__group">
+                                <input type="submit" class="btn m-btn--pill m-btn--custom btn-primary" name="search" value="Search">
+                            </div>
+                        </div>
                 </div>
+       
             {{-- <div class="col-md-12" style="margin-top:10px;margin-bottom: 10px;">
                         <div class="row align-items-center mb-0">                            
                                 <div class="col-md-12">
@@ -110,8 +114,9 @@
                                     </div>
                                 </div>                          
                         </div>
-                    </div> --}}
-    
+                    </div> 
+                    --}}
+                  
                     
                     <div class="col-md-12" style="margin-top:10px;margin-bottom: 10px;">
                         <div class="row align-items-center mb-0">                            
@@ -121,9 +126,11 @@
                                     </div>
                                 </div>                          
                         </div>
+                    
+                        <div class=" col-md-12 building_select">
+                        
+                        </div>
                     </div>
-    
-    
         
                 </div>
             </div>
@@ -212,6 +219,7 @@
                         $('.building_select').html(response);
                         $('.tenant-list').html('');
                         $('#building').selectpicker('refresh');
+                        $('.hide_search_button').hide();
                     }
                 });             
     });
