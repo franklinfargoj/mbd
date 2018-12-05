@@ -526,7 +526,7 @@ class RCController extends Controller
             $data['consumer_number'] = substr(sprintf('%08d', $data['building']->society_id),0,8).'|'.substr(sprintf('%08d', $data['building']->id),0,8);
             if(true == $is_download) {
               $pdf = PDF::loadView('admin.rc_department.view_bill_building', $data);
-              print_r($pdf);exit;
+              // print_r($pdf);exit;
               return $pdf->download('bill_'.$data['building']->name.'_'.$data['building']->building_no.'.pdf');
             } else {
               return view('admin.rc_department.view_bill_building',$data);
