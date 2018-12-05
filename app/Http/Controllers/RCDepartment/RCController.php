@@ -525,7 +525,7 @@ class RCController extends Controller
             
             $data['consumer_number'] = substr(sprintf('%08d', $data['building']->society_id),0,8).'|'.substr(sprintf('%08d', $data['building']->id),0,8);
             if(true == $is_download) {
-              $pdf = PDF::loadView('admin.rc_department.view_bill_building', $data);
+              $pdf = PDF::loadView('admin.rc_department.download_building_bill', $data);
               // print_r($pdf);exit;
               return $pdf->download('bill_'.$data['building']->name.'_'.$data['building']->building_no.'.pdf');
             } else {
@@ -567,7 +567,7 @@ class RCController extends Controller
             $data['consumer_number'] = substr(sprintf('%08d', $data['building']->id),0,8).'|'.substr(sprintf('%08d', $data['tenant']->id),0,8);
             $data['is_download'] = $is_download;
             if(true == $is_download) {
-              $pdf = PDF::loadView('admin.rc_department.view_bill_tenant', $data);
+              $pdf = PDF::loadView('admin.rc_department.download_tenant_bill.blade', $data);
               return $pdf->download('bill_'.$data['building']->name.'_'.$data['building']->building_no.'.pdf');
             } else {
                 return view('admin.rc_department.view_bill_tenant',$data);
