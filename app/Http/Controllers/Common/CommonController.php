@@ -1328,7 +1328,7 @@ class CommonController extends Controller
     /**
      * Updates status of society conveyance application.
      * Author: Amar Prajapati
-     * @param $insert_arr, $status, $sc_application
+     * @param $insert_arr, $status, $sc_application, $status_new
      * @return \Illuminate\Http\Response
      */
     public function sc_application_status_society($insert_arr, $status, $sc_application, $status_new = NULL){
