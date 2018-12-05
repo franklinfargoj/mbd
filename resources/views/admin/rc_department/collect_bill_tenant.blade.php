@@ -100,7 +100,9 @@
                             
                                     </div>
                                     <div class="form-group m-form__group tenant-list">
-                                       
+                                    @if($html)
+                                    {!! $html->table() !!}
+                                    @endif
                                     </div>
                                 </div>                          
                         </div>
@@ -119,8 +121,9 @@
 </div>
 @endsection
 @section('datatablejs')
-
-
+@if($html)
+{!! $html->scripts() !!}
+@endif
 <script>
     /*$("#update_status").on("change", function () {
         $("#eeForm").submit();
