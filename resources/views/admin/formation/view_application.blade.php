@@ -13,8 +13,8 @@
                 {{ Breadcrumbs::render('sf_view_application',$sf_application->id) }}
                 <div class="ml-auto btn-list">
                     <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
-                    <a href="#" target="_blank" id="download_application_form" class="btn print-icon" rel="noopener"
-                       onclick="printContent('printdiv')"><img src="{{asset('/img/print-icon.svg')}}" title="print"></a>
+                    <a href="?print=1" target="_blank" class="btn print-icon" rel="noopener"
+                       ><img src="{{asset('/img/print-icon.svg')}}" title="print"></a>
                 </div>
             </div>
         </div>
