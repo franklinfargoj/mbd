@@ -125,7 +125,8 @@
                                 {{ Form::button('<span class="btn-icon btn-icon--edit"><img src="/img/view-arrears-calculation-icon.svg"></span> Donwload Bill', array('class'=>'btn btn--unstyled p-0 btn--icon-wrap d-flex flex-column align-items-center','type'=>'submit')) }}
                                 {!! Form::close() !!} --}}
 
-                                @if('1' == $arreas_calculation->payment_status) Paid @else Not Paid @endif - 
+                                {{-- @if('1' == $arreas_calculation->payment_status) Paid @else Not Paid @endif  --}}
+                                - 
                             </td>
                             <td></td>
                         </tr>
