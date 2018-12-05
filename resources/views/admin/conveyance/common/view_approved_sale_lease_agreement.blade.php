@@ -50,8 +50,8 @@
                                             <h5>Download</h5>
                                             <span class="hint-text">Click to download Sale Deed Agreement </span>
                                             <div class="mt-auto">
-                                                @if(isset($data->ApprovedSaleAgreement->document_path))
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->ApprovedSaleAgreement->document_path }}">
+                                                @if(isset($data->SignSaleAgreement->document_path))
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->SignSaleAgreement->document_path }}">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>
@@ -84,8 +84,8 @@
                                             <h5>Download</h5>
                                             <span class="hint-text">Click to download Lease Deed Agreement</span>
                                             <div class="mt-auto">
-                                                @if(isset($data->ApprovedLeaseAgreement->document_path))
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->ApprovedLeaseAgreement->document_path }}">
+                                                @if(isset($data->SignLeaseAgreement->document_path))
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->SignLeaseAgreement->document_path }}">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>

@@ -81,24 +81,16 @@
 
      <!-- covering letter    -->
         <div class="tab-pane section-3" id="society-resolution" role="tabpanel">
-            <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
+            <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
                 <div class="portlet-body">
-                    <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
-                        <div class="m-subheader">
-                            <div class="col-sm-6">
-                                <div class="d-flex flex-column h-100">
-                                    <p>
-                                    </p>
-                                    <p>Click to download Covering Letter in pdf format</p>
-
-                                    @if(!empty($covering_letter_docs['em_covering_letter']->sc_document_status))
-                                        <a href="{{ $covering_letter_docs['em_covering_letter']->sc_document_status->document_path }}" class="btn btn-primary" target="_blank" rel="noopener">
-                                            Download</a>
-                                    @else
-                                         <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;"> * Note : Covering Letter is not available. </span>       
-                                    @endif
-                                </div>
-                            </div>
+                    <div class="m-portlet__body" style="padding-right: 0;">
+                        <p>Click to download Covering Letter in pdf format</p>
+                        @if(!empty($covering_letter_docs['em_covering_letter']->sc_document_status))
+                            <a href="{{ $covering_letter_docs['em_covering_letter']->sc_document_status->document_path }}" class="btn btn-primary" target="_blank" rel="noopener">
+                                Download</a>
+                        @else
+                             <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;"> * Note : Covering Letter is not available. </span>       
+                        @endif
                         </div>
                     </div>
                 </div>
@@ -106,6 +98,7 @@
         </div>
     </div>
 </div>
+
 
 @endsection
 

@@ -280,7 +280,7 @@ class DYCOController extends Controller
         }else{
             $route = 'admin.conveyance.common.view_approved_sale_lease_agreement';
         }   
-
+       
         return view($route,compact('data'));      
     } 
 
