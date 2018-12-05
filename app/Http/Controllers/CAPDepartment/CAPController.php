@@ -348,8 +348,12 @@ class CAPController extends Controller
 
         $ol_application = $this->CommonController->getOlApplication($applicationId);
         $applicationData = $this->CommonController->getForwardApplication($applicationId);
-        $arrData['application_status'] = $this->CommonController->getCurrentApplicationStatus($applicationId);
+        $arrData['application_status'] = $this->CommonController->getCurrentLoggedInChild($applicationId);
         $arrData['get_current_status'] = $this->CommonController->getCurrentStatus($applicationId);
+
+        $parentData = $this->CommonController->getForwardApplicationParentData();
+        $arrData['parentData'] = $parentData['parentData'];
+        $arrData['role_name'] = $parentData['role_name'];
 
         // VP Forward Application
 
@@ -373,18 +377,19 @@ class CAPController extends Controller
         $capLogs = $this->CommonController->getLogsOfCAPDepartment($applicationId);
         $vpLogs = $this->CommonController->getLogsOfVPDepartment($applicationId);
 
-        return view('admin.cap_department.forward_reval_application', compact('applicationData', 'arrData', 'ol_application', 'eelogs', 'dyceLogs', 'reeLogs', 'coLogs', 'capLogs', 'vpLogs'));
+        return view('admin.cap_department.forward_reval_application', compact('applicationData', 'arrData', 'ol_application', 'eelogs', 'dyceLogs', 'reeLogs', 'coLogs', 'capLogs', 'vpLogs','parentData'));
     }
 
         public function sendForwardRevalApplication(Request $request){
         $arrData['get_current_status'] = $this->CommonController->getCurrentStatus($request->applicationId);
+
 
         if($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.offer_letter_generation'))
         {
             $this->CommonController->generateOfferLetterForwardToREE($request);
         }
         else
-        {
+        { ///dd($request);
             $this->CommonController->forwardApplicationForm($request);
         }
         return redirect('/cap_reval_applications')->with('success','Application send successfully.');

@@ -435,8 +435,8 @@ class CommonController extends Controller
                         'user_id' => Auth::user()->id,
                         'role_id' => session()->get('role_id'),
                         'status_id' => config('commanConfig.applicationStatus.reverted'),
-                        'to_user_id' => $to_user_id,
-                        'to_role_id' => $request->role_id,
+                        'to_user_id' => $request->to_child_id,      // replaced user id to child id in case of revert - Neelam
+                        'to_role_id' => $request->to_role_id,
                         'remark' => $request->remark,
                         'is_active' => 1,
                         'created_at' => Carbon::now(),
@@ -444,8 +444,8 @@ class CommonController extends Controller
 
                     [
                         'application_id' => $request->applicationId,
-                        'user_id' => $request->user_id,
-                        'role_id' => $request->role_id,
+                        'user_id' => $request->to_child_id, // replaced user id to child id in case of revert - Neelam
+                        'role_id' => $request->to_role_id,
                         'status_id' => config('commanConfig.applicationStatus.in_process'),
                         'to_user_id' => null,
                         'to_role_id' => null,
