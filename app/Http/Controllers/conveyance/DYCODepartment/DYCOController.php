@@ -275,7 +275,8 @@ class DYCOController extends Controller
         $data->approveStampLetter = $this->common->getScAgreement($stampId,$applicationId,NULL);
         $data->em_document = $this->common->getEMNoDueCertificate($data->sc_application_master_id,$applicationId);
 
-        if ($data->is_view) {
+        if ($data->is_view && $data->status->status_id != config('commanConfig.conveyance_status.forwarded') && $data->status->status_id != config('commanConfig.conveyance_status.reverted') ) {
+            
             $route = 'admin.conveyance.dyco_department.approved_sale_lease_agreement';
         }else{
             $route = 'admin.conveyance.common.view_approved_sale_lease_agreement';
@@ -307,7 +308,7 @@ class DYCOController extends Controller
             
             if ($sale_extension == "pdf"){
                 
-                Storage::disk('ftp')->delete($request->oldSaleFile);
+                // Storage::disk('ftp')->delete($request->oldSaleFile);
                 $sale_upload = $this->CommonController->ftpFileUpload($sale_folder_name,$sale_agreement,$sale_file_name); 
                 $saleData = $this->common->getScAgreement($SaleId,$applicationId,$Agrstatus);
 
@@ -328,7 +329,7 @@ class DYCOController extends Controller
             
             if ($lease_extension == "pdf") {
 
-                Storage::disk('ftp')->delete($request->oldLeaseFile);
+                // Storage::disk('ftp')->delete($request->oldLeaseFile);
                 $lease_upload = $this->CommonController->ftpFileUpload($lease_folder_name,$lease_agreement,$lease_file_name);
 
                 $leaseData = $this->common->getScAgreement($LeaseId,$applicationId,$Agrstatus);
