@@ -66,7 +66,7 @@
     <div class="m-portlet m-portlet--compact m-portlet--mobile">
         <div class="m-portlet__head">
             <div class='btn-icon-list'>
-                <a href="{{route('add_building', [$society_id])}}" class='btn m-btn--pill m-btn--custom btn-primary pull-right' style="">Add Building</a>
+                <a href="{{route('add_building', [encrypt($society_id)])}}" class='btn m-btn--pill m-btn--custom btn-primary pull-right' style="">Add Building</a>
             </div>
  
            </div>
