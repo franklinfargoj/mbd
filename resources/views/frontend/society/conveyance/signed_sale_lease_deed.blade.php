@@ -32,7 +32,6 @@
             <div class="tab-pane section-1 active show" id="sale-deed-agreement" role="tabpanel">
                 <div class="m-portlet m-portlet--mobile m_panel">
                     <div class="m-portlet__body" style="padding-right: 0;">
-                        <h3 class="section-title section-title--small mb-0">Sale Deed Agreement</h3>
                         <div class=" row-list">
                             <div class="row">
                                 <div class="col-md-12">
@@ -49,7 +48,7 @@
                                         </div>
                                         @endif
                                         </p>
-                                        <p>Click Download to download <Sale></Sale> deed agreement in .pdf format.</p>
+                                        <p>Click Download to download Sale deed agreement in .pdf format.</p>
                                         {{--<button class="btn btn-primary btn-custom" id="uploadBtn" data-toggle="modal" data-target="#myModal">Edit</button>--}}
                                         {{--@if($data->sc_form_request->template_file)--}}
                                         <a href="" class="btn btn-primary">Download</a>
@@ -99,7 +98,7 @@
                                                                         @php if($field_names[$i] == 'document_path'){ $type = 'file'; } @endphp
                                                                         @if($type != 'hidden')
                                                                             <div class="col-sm-4 form-group">
-                                                                                <label class="col-form-label" for="{{ $field_names[$i] }}">@php $labels = implode(' ', explode('_', $field_names[$i])); echo ucwords($labels); @endphp:</label>
+                                                                                <label class="col-form-label" for="{{ $field_names[$i] }}">@php if($field_names[$i] == 'document_path'){ echo 'Upload Sale Deed Agreement'; }else{ $labels = implode(' ', explode('_', $field_names[$i])); echo ucwords($labels); } @endphp:</label>
                                                                                 @php  echo $comm_func->form_fields($field_names[$i], $type,'' , ''); @endphp
                                                                                 <span id="error_{{ $field_names[$i] }}" class="help-block">{{$errors->first($field_names[$i])}}</span>
                                                                             </div>
@@ -109,7 +108,7 @@
                                                                         @php if($field_names[$i+1] == 'document_path'){ $type = 'file'; } @endphp
                                                                         @if($type_1 != 'hidden')
                                                                             <div class="col-sm-4 offset-sm-1 form-group">
-                                                                                <label class="col-form-label" for="{{ $field_names[$i+1] }}">@php $labels = implode(' ', explode('_', $field_names[$i+1])); echo ucwords($labels); @endphp:</label>
+                                                                                <label class="col-form-label" for="{{ $field_names[$i+1] }}">@php if($field_names[$i+1 ] == 'document_path'){ echo 'Upload Sale Deed Agreement'; }else{ $labels = implode(' ', explode('_', $field_names[$i+1])); echo ucwords($labels); } @endphp:</label>
                                                                                 @php echo $comm_func->form_fields($field_names[$i+1], $type_1,'' , ''); @endphp
                                                                                 <span id="error_{{ $field_names[$i+1] }}" class="help-block">{{$errors->first($field_names[$i+1])}}</span>
                                                                             </div>
@@ -149,7 +148,6 @@
                 <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
                     <div class="portlet-body">
                         <div class="m-portlet__body" style="padding-right: 0;">
-                            <h3 class="section-title section-title--small mb-0">Lease Deed Agreement</h3>
                             <div class=" row-list">
                                 <div class="row">
                                     <div class="col-md-12">
@@ -215,7 +213,7 @@
                                                                             @php if($field_names[$i] == 'document_path'){ $type = 'file'; } @endphp
                                                                             @if($type != 'hidden')
                                                                                 <div class="col-sm-4 form-group">
-                                                                                    <label class="col-form-label" for="{{ $field_names[$i] }}">@php $labels = implode(' ', explode('_', $field_names[$i])); echo ucwords($labels); @endphp:</label>
+                                                                                    <label class="col-form-label" for="{{ $field_names[$i] }}">@php if($field_names[$i] == 'document_path'){ echo 'Upload Lease Deed Agreement'; }else{ $labels = implode(' ', explode('_', $field_names[$i])); echo ucwords($labels); } @endphp:</label>
                                                                                     @php  echo $comm_func->form_fields($field_names[$i], $type,'' , ''); @endphp
                                                                                     <span id="error_{{ $field_names[$i] }}" class="help-block">{{$errors->first($field_names[$i])}}</span>
                                                                                 </div>
@@ -225,7 +223,7 @@
                                                                                 @php if($field_names[$i+1] == 'document_path'){ $type = 'file'; } @endphp
                                                                             @if($type_1 != 'hidden')
                                                                                 <div class="col-sm-4 offset-sm-1 form-group">
-                                                                                    <label class="col-form-label" for="{{ $field_names[$i+1] }}">@php $labels = implode(' ', explode('_', $field_names[$i+1])); echo ucwords($labels); @endphp:</label>
+                                                                                    <label class="col-form-label" for="{{ $field_names[$i+1] }}">@php if($field_names[$i+1] == 'document_path'){ echo 'Upload Lease Deed Agreement'; }else{ $labels = implode(' ', explode('_', $field_names[$i+1])); echo ucwords($labels); } @endphp:</label>
                                                                                     @php echo $comm_func->form_fields($field_names[$i+1], $type_1,'' , ''); @endphp
                                                                                     <span id="error_{{ $field_names[$i+1] }}" class="help-block">{{$errors->first($field_names[$i+1])}}</span>
                                                                                 </div>

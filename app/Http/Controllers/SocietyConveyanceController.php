@@ -749,7 +749,8 @@ class SocietyConveyanceController extends Controller
         $comm_func = $this->CommonController;
         $sale_agreement_type_id = $this->conveyance_common->getDocumentId('Sale Deed Agreement', '1');
         $lease_agreement_type_id = $this->conveyance_common->getDocumentId('Lease Deed Agreement', '1');
-        $status = config('commanConfig.conveyance_status.Stamped_signed_sale_&_lease_deed');
+        $status_name = config('commanConfig.documents.society.Stamped_Signed');
+        $status = ApplicationStatusMaster::where('status_name', $status_name)->value('id');
         $society_flag = 1;
 
         $documents = SocietyConveyanceDocumentMaster::with(['sc_document_status' => function($q) use($sc_application) { $q->where('application_id', $sc_application->id)->get(); }])->where('application_type_id', $sc_application->sc_application_master_id)->where('society_flag', '1')->where('language_id', '2')->get();
@@ -805,7 +806,7 @@ class SocietyConveyanceController extends Controller
                 );
                 $sc_application = new scApplication();
                 $sc_application->id = $request->application_id;
-                $inserted_application_log = $this->CommonController->sc_application_status_society($insert_log_arr, config('commanConfig.conveyance_status.forwarded'), $sc_application);
+                $inserted_application_log = $this->CommonController->sc_application_status_society($insert_log_arr, config('commanConfig.conveyance_status.forwarded'), $sc_application, config('commanConfig.conveyance_status.Stamped_sale_&_lease_deed'));
             }
 
             if(count($uploaded) > 0){
@@ -840,7 +841,7 @@ class SocietyConveyanceController extends Controller
      */
     public function upload_signed_sale_lease(Request $request){
         $insert_arr = $request->all();
-        dd($insert_arr);
+//        dd($insert_arr);
         if($request->hasFile('document_path')) {
 
             $file = $request->file('document_path');
