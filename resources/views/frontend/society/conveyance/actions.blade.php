@@ -142,6 +142,8 @@ $status = $sc_application->scApplicationLog->status_id;
             $('#architect').hide();
             $('#revalidation').hide();
             $('#apply_sc').hide();
+            $('#estate_conveyances').hide();
+            $('#society_formation').hide();
         });
     </script>
 @endsection
