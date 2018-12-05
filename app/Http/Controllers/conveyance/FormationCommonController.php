@@ -199,7 +199,11 @@ class FormationCommonController extends Controller
                 })
                 ->whereIn('role_id', $result)->get();
         }
-        $child = $child->merge($society_user);
+
+        if($child)
+        {
+            $child = $child->merge($society_user);
+        }
         //dd($child);
         return $child;
     }
