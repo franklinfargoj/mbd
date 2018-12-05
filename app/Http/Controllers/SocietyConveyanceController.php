@@ -779,7 +779,11 @@ class SocietyConveyanceController extends Controller
             $folder_name = "society_conveyance_documents";
             $path = '/' . $folder_name . '/' . $name;
             $fileUpload = $this->CommonController->ftpFileUpload($folder_name, $file, $name);
-            $status = ApplicationStatusMaster::where('status_name', 'Stamped')->value('id');
+            if($request->document_name == 'sc_resolution' || $request->document_name == 'sc_undertaking'){
+                $status = NULL;
+            }else{
+                $status = ApplicationStatusMaster::where('status_name', 'Stamped')->value('id');
+            }
             $uploaded = $this->conveyance_common->uploadDocumentStatus($request->application_id, $request->document_name, $path, $status);
 
             $documents_req = array(
@@ -809,7 +813,12 @@ class SocietyConveyanceController extends Controller
                 );
                 $sc_application = new scApplication();
                 $sc_application->id = $request->application_id;
+                $sc_application->sc_application_master_id = $application_type;
                 $inserted_application_log = $this->CommonController->sc_application_status_society($insert_log_arr, config('commanConfig.conveyance_status.forwarded'), $sc_application, config('commanConfig.conveyance_status.Stamped_sale_&_lease_deed'));
+                $update_arr = array(
+                    'application_status' => config('commanConfig.conveyance_status.Stamped_sale_&_lease_deed')
+                );
+                $update_sc_application = scApplication::where('id', $request->application_id)->update($update_arr);
             }
 
             if(count($uploaded) > 0){
