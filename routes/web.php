@@ -269,8 +269,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::post('payment_receipt_tenant', 'RCDepartment\RCController@payment_receipt_tenant')->name('payment_receipt_tenant');
     Route::get('view_bill_tenant', 'RCDepartment\RCController@view_bill_tenant')->name('view_bill_tenant');
     Route::get('view_bill_building', 'RCDepartment\RCController@view_bill_building')->name('view_bill_building');
-    Route::get('downloadBill','RCDepartment\RCController@downloadBill')->name('downloadBill');
-    
+
     //Account Department routes 
     Route::get('search_accounts','AccountDepartment\AccountController@index')->name('search_accounts');
     Route::get('get_building_select_society','AccountDepartment\AccountController@getBuildingSelectSociety')->name('get_building_select_society');
@@ -329,7 +328,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::post('ol_reval_sharing_calculation_sheet/save_details','REEDepartment\OlSharingCalculationSheetDetailsController@saveRevalCalculationDetails')->name('save_reval_sharing_calculation_details');
 
-    Route::get('ol_reval_sharing_calculation_sheet/{id}','REEDepartment\OlSharingCalculationSheetDetailsController@showRevalSharingCalculationDetails')->name('ol_reval_sharing_calculation_sheet.show');
+    Route::get('ol_reval_sharing_calculation_sheet/{id}','REEDepartment\OlApplicationCalculationSheetDetailsController@showRevalSharingCalculationDetails')->name('ol_reval_sharing_calculation_sheet.show');
 
     Route::post('upload_ree_note','REEDepartment\REEController@uploadREENote')->name('ree.upload_ree_note');
 
@@ -469,26 +468,6 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
         Route::resource('/society_conveyance','SocietyConveyanceController');
 
         //Society Conveyance END
-
-        //Society Renewal
-
-        Route::get('sr_download_template', 'SocietyRenewalController@download_excel')->name('sr_download');
-        Route::get('sr_upload_docs', 'SocietyRenewalController@sr_upload_docs')->name('sr_upload_docs');
-        Route::post('upload_sr_docs', 'SocietyRenewalController@upload_sr_docs')->name('upload_sr_docs');
-        Route::get('delete_sr_upload_docs/{id}', 'SocietyRenewalController@delete_sr_upload_docs')->name('delete_sr_upload_docs');
-        Route::post('add_society_documents_comment', 'SocietyRenewalController@add_society_documents_comment')->name('society_doc_comment');
-        Route::get('sr_form_download', 'SocietyRenewalController@generate_pdf')->name('sr_form_download');
-        Route::get('sr_form_upload_show', 'SocietyRenewalController@sr_form_upload_show')->name('sr_form_upload_show');
-        Route::post('sr_form_upload', 'SocietyRenewalController@sr_form_upload')->name('sr_form_upload');
-
-        //sale & lease deed alongwith pay stamp duty letter & resolution & undertaking
-//    Route::get('sale_lease_deed/{id}', 'SocietyRenewalController@show_sale_lease')->name('show_sale_lease');
-//    Route::get('signed_sale_lease_deed/{id}', 'SocietyRenewalController@show_signed_sale_lease')->name('show_signed_sale_lease');
-//    Route::post('save_sale_lease_deed', 'SocietyRenewalController@upload_sale_lease')->name('upload_sale_lease');
-//    Route::post('save_signed_sale_lease_deed', 'SocietyRenewalController@upload_signed_sale_lease')->name('upload_signed_sale_lease');
-        Route::resource('/society_renewal','SocietyRenewalController');
-
-        //Society Renewal END
 
     });
 
@@ -673,7 +652,25 @@ Route::delete('destroy_architect_layout_detail_court_case_or_dispute_on_land/{id
     //Society Formation End
 
 
+    //Society Renewal
 
+    Route::get('sr_download_template', 'SocietyRenewalController@download_excel')->name('sr_download');
+    Route::get('sr_upload_docs', 'SocietyRenewalController@sr_upload_docs')->name('sr_upload_docs');
+    Route::post('upload_sr_docs', 'SocietyRenewalController@upload_sr_docs')->name('upload_sr_docs');
+    Route::get('delete_sr_upload_docs/{id}', 'SocietyRenewalController@delete_sr_upload_docs')->name('delete_sr_upload_docs');
+    Route::post('add_society_documents_comment', 'SocietyRenewalController@add_society_documents_comment')->name('society_doc_comment');
+    Route::get('sr_form_download', 'SocietyRenewalController@generate_pdf')->name('sr_form_download');
+    Route::get('sr_form_upload_show', 'SocietyRenewalController@sr_form_upload_show')->name('sr_form_upload_show');
+    Route::post('sr_form_upload', 'SocietyRenewalController@sr_form_upload')->name('sr_form_upload');
+
+    //sale & lease deed alongwith pay stamp duty letter & resolution & undertaking
+//    Route::get('sale_lease_deed/{id}', 'SocietyRenewalController@show_sale_lease')->name('show_sale_lease');
+//    Route::get('signed_sale_lease_deed/{id}', 'SocietyRenewalController@show_signed_sale_lease')->name('show_signed_sale_lease');
+//    Route::post('save_sale_lease_deed', 'SocietyRenewalController@upload_sale_lease')->name('upload_sale_lease');
+//    Route::post('save_signed_sale_lease_deed', 'SocietyRenewalController@upload_signed_sale_lease')->name('upload_signed_sale_lease');
+    Route::resource('/society_renewal','SocietyRenewalController');
+
+    //Society Renewal END
 
     
 });
@@ -944,10 +941,8 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     // Ree Dashboard
     Route::get('/ree_dashboard','REEDepartment\REEController@dashboard')->name('ree.dashboard');
 
-    // Co Dashboard
-    Route::get('/co_dashboard','CODepartment\COController@dashboard')->name('co.dashboard');
-
-
+    //Dashboard routes
+    Route::get('architect_layout_dashboard','Dashboard\ArchitectLayoutDashboardController@dashboard')->name('architect_layout_dashboard');
 
 });
 

@@ -139,7 +139,7 @@
                             <td>{{$serviceChargesRate->na_assessment}} </td>
                         </tr>
                         <tr>
-                            <td>Insurance</td>
+                            <td>Other</td>
                             <td>{{$serviceChargesRate->other}}</td>
                         </tr>
                         <tr>
