@@ -148,7 +148,8 @@ return [
             'Lease Deed Agreement' => 'Lease Deed Agreement',
             'sc_resolution' => 'sc_resolution',
             'sc_undertaking' => 'sc_undertaking',
-            'Stamped_Signed' => 'Stamped_Signed'
+            'Stamped_Signed' => 'Stamped_Signed',
+            'Register' => 'Register'
         ],
         'dycdo_note'  => 'dycdo_note',
         'architect_conveyance_map' => 'architect_conveyance_map',

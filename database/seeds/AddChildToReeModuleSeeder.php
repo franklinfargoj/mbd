@@ -48,6 +48,12 @@ class AddChildToReeModuleSeeder extends Seeder
         // CO Head Role ID
         $co_head_id = Role::where('name', '=', 'co_engineer')->first();
 
+        // Cap Head Role ID
+        $cap_head_id = Role::where('name', '=', 'cap_engineer')->first();
+
+        // VP Head Role ID
+        $vp_head_id = Role::where('name', '=', 'vp_engineer')->first();
+
 
         // Update Child ID
 
@@ -74,5 +80,11 @@ class AddChildToReeModuleSeeder extends Seeder
 
         $co_head_child = json_encode([$ee_head_id->id, $dyce_head_id->id, $ree_head_id->id]);
         Role::where('id', $co_head_id->id)->update(['child_id' => $co_head_child]);
+
+        $cap_head_child = json_encode([$co_head_id->id]);
+        Role::where('id', $cap_head_id->id)->update(['child_id' => $cap_head_child]);
+
+        $vp_head_child = json_encode([$cap_head_id->id]);
+        Role::where('id', $vp_head_id->id)->update(['child_id' => $vp_head_child]);
     }
 }
