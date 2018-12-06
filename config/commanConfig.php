@@ -70,6 +70,8 @@ return [
        'draft_offer_letter_generated' => 21,
    ],
 
+
+
     /*'applicationStatus' => [
         'in_process' => 1,
         'forwarded' => 2,
@@ -108,6 +110,20 @@ return [
         'Draft_Renewal_of_Lease_deed' => 18,
         'Aproved_Renewal_of_Lease' => 19,
         'NOC_Generation' => 20
+    ],
+
+    'formation_status'=>[
+        'in_process' => 1,
+        'forwarded' => 2,
+        'reverted' => 3,
+        'processed_to_DDR'=>4
+    ],
+
+    'formation_status_color'=>[
+        '1' => 'danger',
+        '2' => 'info',
+        '3' => 'danger',
+        '4' => 'success'
     ],
 
     // sc application agreements

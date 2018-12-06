@@ -12,6 +12,8 @@ class MasterLayoutSeeder extends Seeder
      */
     public function run()
     {
+        MasterLayout::truncate();
+        
         $layouts = [
            [
                'layout_name' => 'Sardar Nagar 1,2,3 Sion Koliwada',
