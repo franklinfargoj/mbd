@@ -203,11 +203,11 @@
                         <div class="portlet-body">
                             <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
                                 <div class="m-subheader">
-                                    <div class="d-flex align-items-center">
+                                    {{-- <div class="d-flex align-items-center">
                                         <h3 class="section-title section-title--small">
                                             No dues certificate
                                         </h3>
-                                    </div>
+                                    </div> --}}
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <div class="d-flex flex-column h-100">
