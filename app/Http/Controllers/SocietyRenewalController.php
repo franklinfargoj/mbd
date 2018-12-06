@@ -76,7 +76,7 @@ class SocietyRenewalController extends Controller
 
             return $datatables->of($sr_applications)
                 ->editColumn('radio', function ($sr_applications) {
-                    $url = route('society_renewal.show', base64_encode($sr_applications->id));
+                    $url = route('society_renewal.show', encrypt($sr_applications->id));
                     return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="sr_applications_id"><span></span></label>';
                 })
                 ->editColumn('rownum', function ($sr_applications) {
@@ -232,7 +232,7 @@ class SocietyRenewalController extends Controller
                             $input_id = SocietyConveyance::create($input);
                             $input_sc_application['application_no'] = config('commanConfig.mhada_code').str_pad($input_id->id, 5, '0', STR_PAD_LEFT);
                             $input_sc_application['form_request_id'] = $input_id->id;
-//                            dd($input_sc_application);
+
                             $sc_application = RenewalApplication::create($input_sc_application);
                             $inserted_application_log = $this->CommonController->sr_application_status_society($insert_arr, config('commanConfig.applicationStatus.pending'), $sc_application);
 
@@ -249,7 +249,7 @@ class SocietyRenewalController extends Controller
                             $renewal_document_status = RenewalDocumentStatus::create($sc_document_status_arr);
 
                             if(!empty($renewal_document_status->id)){
-                                return redirect()->route('society_renewal.show', base64_encode($sc_application->id));
+                                return redirect()->route('society_renewal.show', encrypt($sc_application->id));
                             }
                         }
                     }else{
@@ -272,7 +272,7 @@ class SocietyRenewalController extends Controller
      */
     public function show($id)
     {
-        $id = base64_decode($id);
+        $id = decrypt($id);
 
         $sc_application = RenewalApplication::with(['sr_form_request', 'societyApplication', 'applicationLayout', 'srApplicationLog' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();

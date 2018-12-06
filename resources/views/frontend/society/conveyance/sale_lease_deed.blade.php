@@ -70,21 +70,6 @@
                                         {{--</div>--}}
                                         {{--@endif--}}
                                     </p>
-                                    <form action="{{ route('upload_sale_lease') }}" id="stamp_duty_letter" method="post" enctype="multipart/form-data">
-                                        @csrf
-                                        <div class="custom-file">
-                                            <input class="custom-file-input pdfcheck" name="document_path" type="file"
-                                                   id="test-upload_stamp_duty" required="required">
-                                            <label class="custom-file-label" for="test-upload_stamp_duty">Choose
-                                                file...</label>
-                                            <span class="text-danger" id="file_error"></span>
-                                            <input type="hidden" id="application_id" name="application_id" value="{{ $sc_application->id }}">
-                                            <input type="hidden" id="document_name" name="document_name" value="{{ $document_lease['conveyance_stamp_duty_letter'] }}">
-                                        </div>
-                                        <div class="mt-auto">
-                                            <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
-                                        </div>
-                                    </form>
                                 </div>
                                 @endif
                             </div>
@@ -172,11 +157,11 @@
                                                     </p>
                                                     <form action="{{ route('upload_sale_lease') }}" id="sale_deed_agreement_comment" method="post" enctype="multipart/form-data">
                                                         @csrf
-                                                        <textarea name="remark" rows="5" cols="30" id="remark" class="form-control form-control--custom" @if(isset($sc_agreement_comment) && $sc_agreement_comment[config('commanConfig.scAgreements.sale_deed_agreement')]) readonly @endif>@if(isset($sc_agreement_comment) && $sc_agreement_comment[config('commanConfig.scAgreements.sale_deed_agreement')]) {{ $sc_agreement_comment[config('commanConfig.scAgreements.lease_deed_agreement')]->remark }} @endif</textarea>
+                                                        <textarea name="remark" rows="5" cols="30" id="remark" class="form-control form-control--custom" @if(isset($sc_agreement_comment) && array_key_exists(config('commanConfig.scAgreements.sale_deed_agreement'), $sc_agreement_comment) == true) readonly @endif>@if(isset($sc_agreement_comment) && array_key_exists(config('commanConfig.scAgreements.sale_deed_agreement'), $sc_agreement_comment) == true) {{ $sc_agreement_comment[config('commanConfig.scAgreements.sale_deed_agreement')]->remark }} @endif</textarea>
                                                         <input type="hidden" id="application_id" name="application_id" value="{{ $sc_application->id }}">
                                                         <input type="hidden" id="document_name" name="document_name" value="{{ $document_lease['sale_deed_agreement']}}">
-                                                        <div class="mt-auto">
-                                                            @if(isset($sc_agreement_comment) && (!($sc_agreement_comment[config('commanConfig.scAgreements.sale_deed_agreement')])))
+                                                        <div class="mt-auto"><br/>
+                                                            @if(isset($sc_agreement_comment) && array_key_exists(config('commanConfig.scAgreements.sale_deed_agreement'), $sc_agreement_comment) == false)
                                                                 <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
                                                             @endif
                                                         </div>
@@ -267,15 +252,15 @@
                                                     <div class="alert alert-danger society_registered">
                                                         <div class="text-center">{{ session('error') }}</div>
                                                     </div>
-                                                    @endif
+                                                @endif
                                                     </p>
                                                     <form action="{{ route('upload_sale_lease') }}" id="lease_deed_agreement_comment" method="post" enctype="multipart/form-data">
                                                         @csrf
-                                                        <textarea name="remark" rows="5" cols="30" id="remark" class="form-control form-control--custom" @if(isset($sc_agreement_comment) && $sc_agreement_comment[config('commanConfig.scAgreements.lease_deed_agreement')]) readonly @endif>@if(isset($sc_agreement_comment) && $sc_agreement_comment[config('commanConfig.scAgreements.lease_deed_agreement')]) {{ $sc_agreement_comment[config('commanConfig.scAgreements.lease_deed_agreement')]->remark }} @endif</textarea>
+                                                        <textarea name="remark" rows="5" cols="30" id="remark" class="form-control form-control--custom" @if(isset($sc_agreement_comment) && array_key_exists(config('commanConfig.scAgreements.lease_deed_agreement'), $sc_agreement_comment) == true) readonly @endif>@if(isset($sc_agreement_comment) && array_key_exists(config('commanConfig.scAgreements.lease_deed_agreement'), $sc_agreement_comment) == true) {{ $sc_agreement_comment[config('commanConfig.scAgreements.lease_deed_agreement')]->remark }} @endif</textarea>
                                                         <input type="hidden" id="application_id" name="application_id" value="{{ $sc_application->id }}">
                                                         <input type="hidden" id="document_name" name="document_name" value="{{ $document_lease['lease_deed_agreement']}}">
-                                                        <div class="mt-auto">
-                                                            @if(isset($sc_agreement_comment) && (!($sc_agreement_comment[config('commanConfig.scAgreements.lease_deed_agreement')])))
+                                                        <div class="mt-auto"><br/>
+                                                            @if(isset($sc_agreement_comment) && array_key_exists(config('commanConfig.scAgreements.lease_deed_agreement'), $sc_agreement_comment) == false)
                                                                 <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
                                                             @endif
                                                         </div>
