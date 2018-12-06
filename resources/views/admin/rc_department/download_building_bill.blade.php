@@ -18,7 +18,7 @@
                 <div style="width: 30%; float: left;">Name:</div>
                 <div style="width: 70%; float: left;"></div>
             </div>
-            <div style="clear:both;"></div>
+            <div style="clear:both;"></div> 
         </div>
     </div>
     <table style="width: 100%; border-collapse: collapse; margin-top: 30px;">
@@ -126,49 +126,49 @@
         <tbody>
             <tr>
                 <td valign="top" style="border: 1px solid #000; padding: 5px;">Water Charges:</td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px;"></td>
+                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align:center;">500</td>
             </tr>
             <tr>
                 <td valign="top" style="border: 1px solid #000; padding: 5px;">Electric City Charge:</td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px;"></td>
+                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align:center;"></td>
             </tr>
             <tr>
                 <td valign="top" style="border: 1px solid #000; padding: 5px;">Pump Man & Repair Charges:</td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px;"></td>
+                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align:center;"></td>
             </tr>
             <tr>
                 <td valign="top" style="border: 1px solid #000; padding: 5px;">External Expenture Charge:</td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px;"></td>
+                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align:center;"></td>
             </tr>
             <tr>
                 <td valign="top" style="border: 1px solid #000; padding: 5px;">Administrative Charge:</td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px;"></td>
+                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align:center;"></td>
             </tr>
             <tr>
                 <td valign="top" style="border: 1px solid #000; padding: 5px;">Lease Rent:</td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px;"></td>
+                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align:center;"></td>
             </tr>
             <tr>
                 <td valign="top" style="border: 1px solid #000; padding: 5px;">N.A.Assessment:</td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px;"></td>
+                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align:center;"></td>
             </tr>
             <tr>
                 <td valign="top" style="border: 1px solid #000; padding: 5px;">Insurance:</td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px;"></td>
+                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align:center;"></td>
             </tr>
             <tr>
                 <td valign="top" style="border: 1px solid #000; padding: 5px; font-weight: bold; text-align: right;">Total:</td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; font-weight: bold;"></td>
+                <td valign="top" style="border: 1px solid #000; padding: 5px; font-weight: bold; text-align:center;"></td>
             </tr>
             <tr>
                 <td valign="top" style="border: 1px solid #000; padding: 5px; font-weight: bold; text-align: right;">After
                     Due date x% interest:</td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; font-weight: bold;"></td>
+                <td valign="top" style="border: 1px solid #000; padding: 5px; font-weight: bold; text-align:center;"></td>
             </tr>
             <tr>
                 <td valign="top" style="border: 1px solid #000; padding: 5px; font-weight: bold; text-align: right;">After
                     Due date Amount payable:</td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; font-weight: bold;"></td>
+                <td valign="top" style="border: 1px solid #000; padding: 5px; font-weight: bold; text-align:center;"></td>
             </tr>
         </tbody>
     </table>
