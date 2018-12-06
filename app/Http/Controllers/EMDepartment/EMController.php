@@ -522,6 +522,7 @@ class EMController extends Controller
                 ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false]
             ];
             if ($datatables->getRequest()->ajax()) {
+                DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
                 $buildings = MasterTenant::with(['TransBillGenerate' => function($query) use($buildingId){
                     $query->where('building_id',$buildingId)->where('bill_month', '=', date('m'))->where('bill_year', '=', date('Y'));
                 }])
@@ -555,6 +556,7 @@ class EMController extends Controller
                 ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
             ];
             if ($datatables->getRequest()->ajax()) {
+                DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
                 $buildings = MasterBuilding::with(['TransBillGenerate'=>function($query) use($society_id){
                     $query->where('society_id', '=', $society_id)->where('bill_month', '=', date('m'))->where('bill_year', '=', date('Y'));
                 }])->with('tenant_count')->where('society_id', '=', decrypt($request->input('society')))
