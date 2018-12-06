@@ -15,4 +15,9 @@ class scRegistrationDetails extends Model
         'registration_year',
         'registration_no'
     ];
+
+    public function scAgreementId()
+    {
+        return $this->hasOne('App\conveyance\SocietyConveyanceDocumentMaster', 'id', 'agreement_type_id');
+    }
 }

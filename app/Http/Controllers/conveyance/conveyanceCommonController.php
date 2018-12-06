@@ -138,6 +138,16 @@ class conveyanceCommonController extends Controller
                 ->orderBy('id', 'desc');
         });
 
+        if($request->submitted_at_from)
+        {
+            $applicationData=$applicationData->where(\DB::raw("(DATE_FORMAT(created_at,'%Y-%m-%d'))"),'>=',date('Y-m-d',strtotime($request->submitted_at_from)));
+        }
+
+        if($request->submitted_at_to)
+        {
+            $applicationData=$applicationData->where(\DB::raw("(DATE_FORMAT(created_at,'%Y-%m-%d'))"),'<=',date('Y-m-d',strtotime($request->submitted_at_to)));
+        }        
+
         $applicationData = $applicationData->orderBy('sc_application.id', 'desc')->get();
         $listArray = [];
         if ($request->update_status) {
@@ -216,7 +226,7 @@ class conveyanceCommonController extends Controller
 
     // forward and revert application
     public function forwardApplication($request){
-        
+       
         $Scstatus = "";
         $toUsers = "";
         $data = scApplication::where('id',$request->applicationId)->first();
@@ -276,7 +286,7 @@ class conveyanceCommonController extends Controller
         else {
                 $Tostatus = $applicationStatus;               
             }
-
+             
         foreach($toUsers as $to_user_id){
             $user_data = User::find($to_user_id);
 
@@ -289,6 +299,7 @@ class conveyanceCommonController extends Controller
                 'to_role_id'     => $user_data->role_id,
                 'remark'         => $request->remark,
                 'application_master_id' => $masterId,
+                'society_flag'   => '0',
                 'created_at'     => Carbon::now(),
             ],
             [
@@ -300,6 +311,7 @@ class conveyanceCommonController extends Controller
                 'to_role_id'    => null,
                 'remark'        => $request->remark,
                 'application_master_id' => $masterId,
+                'society_flag'   => $request->society_flag,
                 'created_at'    => Carbon::now(),
             ],
             ];

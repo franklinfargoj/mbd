@@ -417,8 +417,17 @@ class VPController extends Controller
     {
         $ol_application = $this->CommonController->getOlApplication($applicationId);
         $applicationData = $this->CommonController->getForwardApplication($applicationId);
-        $arrData['application_status'] = $this->CommonController->getCurrentApplicationStatus($applicationId);
+        //$arrData['application_status'] = $this->CommonController->getCurrentApplicationStatus($applicationId);
+        //$arrData['get_current_status'] = $this->CommonController->getCurrentStatus($applicationId);
+
+        $arrData['application_status'] = $this->CommonController->getCurrentLoggedInChild($applicationId);
         $arrData['get_current_status'] = $this->CommonController->getCurrentStatus($applicationId);
+
+        $parentData = $this->CommonController->getForwardApplicationParentData();
+        $arrData['parentData'] = $parentData['parentData'];
+        $arrData['role_name'] = $parentData['role_name'];
+
+
         // REE Forward Application
 
         $ree_role_id = Role::where('name', '=', config('commanConfig.ree_junior'))->first();
@@ -442,7 +451,7 @@ class VPController extends Controller
         $capLogs  = $this->CommonController->getLogsOfCAPDepartment($applicationId);
         $vpLogs   = $this->CommonController->getLogsOfVPDepartment($applicationId);
 
-        return view('admin.vp_department.forward_reval_application',compact('applicationData', 'arrData','ol_application','eelogs','dyceLogs','reeLogs','coLogs','capLogs','vpLogs'));
+        return view('admin.vp_department.forward_reval_application',compact('applicationData', 'arrData','ol_application','eelogs','dyceLogs','reeLogs','coLogs','capLogs','vpLogs','parentData'));
     }
 
     public function sendForwardRevalApplication(Request $request){
@@ -484,16 +493,16 @@ class VPController extends Controller
                     'user_id' => Auth::user()->id,
                     'role_id' => session()->get('role_id'),
                     'status_id' => config('commanConfig.applicationStatus.reverted'),
-                    'to_user_id' => $request->user_id,
-                    'to_role_id' => $request->role_id,
+                    'to_user_id' => $request->to_child_id,
+                    'to_role_id' => $request->to_role_id,
                     'remark' => $request->remark,
                     'created_at' => Carbon::now()
                 ],
 
                 [
                     'application_id' => $request->applicationId,
-                    'user_id' => $request->user_id,
-                    'role_id' => $request->role_id,
+                    'user_id' => $request->to_child_id,
+                    'role_id' => $request->to_role_id,
                     'status_id' => config('commanConfig.applicationStatus.in_process'),
                     'to_user_id' => NULL,
                     'to_role_id' => NULL,

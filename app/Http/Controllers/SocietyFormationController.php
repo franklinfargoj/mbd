@@ -20,6 +20,7 @@ use Illuminate\Http\Request;
 
 use Yajra\DataTables\DataTables;
 use Storage;
+use Mpdf\Mpdf;
 
 class SocietyFormationController extends Controller
 {
@@ -30,8 +31,9 @@ class SocietyFormationController extends Controller
         $this->list_num_of_records_per_page = config('commanConfig.list_num_of_records_per_page');
     }
 
-    public function index()
+    public function index(Request $request)
     {
+        
         $disabled=1;
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         //dd($society);
@@ -43,6 +45,29 @@ class SocietyFormationController extends Controller
         //dd($sf_application);
         if($sf_application)
         {
+            if($request->print)
+            {
+                //return view('frontend.society.society_formation.print_application',compact('sf_application'));
+                $content = view('frontend.society.society_formation.print_application',compact('sf_application'));
+                $folder_name = 'society_formation_certificate';
+
+                $header_file = view('admin.REE_department.offer_letter_header');
+                $footer_file = view('admin.REE_department.offer_letter_footer');
+                //$pdf = \App::make('dompdf.wrapper');
+                $fileName=time() . 'society_formation_certificate.pdf';
+                $pdf=new Mpdf([
+                    'default_font_size' => 9,
+                    'default_font' => 'Times New Roman'
+                ]);
+                $pdf->autoScriptToLang = true;
+                $pdf->autoLangToFont = true;
+                $pdf->setAutoBottomMargin = 'stretch';
+                $pdf->setAutoTopMargin = 'stretch';
+                $pdf->SetHTMLHeader($header_file);
+                $pdf->SetHTMLFooter($footer_file);
+                $pdf->WriteHTML($content);
+                $pdf->Output($fileName, 'D');
+            }
             if($sf_application->sfApplicationLog!="")
             {
                 if($sf_application->sfApplicationLog->status_id==config('commanConfig.applicationStatus.in_process'))
@@ -229,13 +254,14 @@ class SocietyFormationController extends Controller
         }
     }
 
-    public function view_application($id)
+    public function view_application(Request $request,$id)
     {
+        //dd($request->all());
         $id = decrypt($id);
         $sf_documents = SocietyConveyanceDocumentMaster::with(['sf_document_status' => function ($q) use ($id) {
             return $q->where(['application_id' => $id]);
         }])->where(['application_type_id' => 3])->get();
-        //dd($sf_documents);
+        
         $sf_application = SfApplication::find($id);
         return view('frontend.society.society_formation.sf_application', compact('sf_application', 'sf_documents'));
     }

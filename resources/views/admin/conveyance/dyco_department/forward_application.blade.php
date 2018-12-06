@@ -347,18 +347,18 @@
                                                     Forward To:
                                                 </label>
                                                 <div class="col-lg-4 col-md-9 col-sm-12">
-                                                    <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="to_user" required name="to_user_id[]" {{(session()->get('role_name') == config('commanConfig.dyco_engineer')) ? 'multiple' : '' }}>
+                                                    <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="to_user" name="to_user_id[]" {{(session()->get('role_name') == config('commanConfig.dyco_engineer')) ? 'multiple' : '' }}>
                                                          
                                                         @if($data->parent)
                                                             @foreach($data->parent as $parent)
                                                                 <option value="{{ $parent->id}}" data-role="{{ $parent->role_id }}">{{ $parent->name }} ({{ $parent->roles[0]->display_name }})</option>
                                                             @endforeach
                                                         @endif
-                                                    </select>
+                                                    </select> 
+                                                    <span class="error" style="display: none;color: #ce2323;margin-bottom: 17px;"> * Required</span>
                                                 </div>                                                 
                                             </div>
-
-
+                                            <input type="hidden" id="society_flag" name="society_flag" value="0">
                                              @if($data->child != "")
                                             <div class="form-group m-form__group row mt-3 child-data" style="display: none">
                                                 <label class="col-form-label col-lg-2 col-sm-12">
@@ -424,12 +424,22 @@
             var data = $(".check_status").val();
             if (data == 1) {
                 var id = $("#to_user").find('option:selected').attr("data-role");
-                var user_id = $("#to_user").find('option:selected').attr("value");
+                if (id != undefined){
+                    $(".error").css("display","none");
+                    var user_id = $("#to_user").find('option:selected').attr("value");
+                }else{
+                    $(".error").css("display","block");
+                    return false;
+                }
+                
             } else {
-
+                
                 var id = $("#to_child_id").find('option:selected').attr("data-role");
+                var society_flag = $("#to_child_id").find('option:selected').attr("data-society");
+                $("#society_flag").val(society_flag);
                 var user_id = $("#to_child_id").find('option:selected').attr("value");
             }
+            // 
 
             $("#to_role_id").val(id);
             // $("#to_user_id").val(user_id);
