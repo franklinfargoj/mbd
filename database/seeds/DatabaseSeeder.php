@@ -18,7 +18,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ApplicationTypeSeeder::class);
         $this->call(HearingStatusSeeder::class);
 
-
         $this->call(LandSourceSeeder::class);
         $this->call(OtherLandSeeder::class);
 
@@ -77,13 +76,14 @@ class DatabaseSeeder extends Seeder
         $this->call(SapPermissionSeeder::class);
         $this->call(OlCustomCalculationMaster::class);
 
-        $this->call(SfScrtinyByEmMasterSeeder::class);
+//        $this->call(SfScrtinyByEmMasterSeeder::class);
 
         $this->call(AccountPermissionSeeder::class);
         $this->call(SfScrtinyByEmMasterSeeder::class);
 
         $this->call(NocScrutinyQuestionMasterTable::class);
         $this->call(NocSocietyDocumentsMasterTableSeeder::class);
+
         $this->call(NocCCSocietyDocumentsMasterTableSeeder::class);
     }
 }
