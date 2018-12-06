@@ -27,7 +27,7 @@
                         @php $earliest_year = '2000'; @endphp
 
                         @foreach(range(date('Y'), $earliest_year) as $x)
-                            <option value="{{date('Y')}}" {{ old('year') == date('Y') || $x == date('Y')? 'selected' : '' }} >{{$x}}</option>
+                            <option value="{{$x }}" {{ old('year') == date('Y') || $x == date('Y')? 'selected' : '' }} >{{$x}}</option>
                         @endforeach
                     </select>
                     <span class="help-block error">{{$errors->first('year')}}</span>
