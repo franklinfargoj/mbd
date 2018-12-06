@@ -620,7 +620,7 @@
                 rules:{
                     covering_letter: {
                         required:true,
-                        extension:'xls'
+                        extension:'pdf'
                     }
                 },
                 messages:{

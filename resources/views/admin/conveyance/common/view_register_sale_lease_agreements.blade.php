@@ -62,7 +62,7 @@
                                             <span class="hint-text">Click Download to download Sale Deed Agreement </span>
                                             <div class="mt-auto">
                                                 @if(isset($data->RegisterSaleAgreement->document_path))
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->RegisterSaleAgreement->document_path }}">
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->RegisterSaleAgreement->document_path }}" target="_blank">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>
@@ -126,7 +126,7 @@
                                             <span class="hint-text">Click Download to download Lease Deed Agreement</span>
                                             <div class="mt-auto">
                                                 @if(isset($data->RegisterLeaseAgreement->document_path))
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->RegisterLeaseAgreement->document_path }}">
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->RegisterLeaseAgreement->document_path }}" target="_blank">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                        Download  </Button>
                                                 </a>

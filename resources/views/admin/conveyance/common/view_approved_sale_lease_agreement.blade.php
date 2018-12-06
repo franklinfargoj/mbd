@@ -51,8 +51,8 @@
                                             <span class="hint-text">Click to download Sale Deed Agreement </span>
                                             <div class="mt-auto">
                                                 @if(isset($data->ApprovedSaleAgreement->document_path))
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->ApprovedSaleAgreement->document_path }}">
-                                                <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->ApprovedSaleAgreement->document_path }}" target="_blank">
+                                                <Button type="button" class="s_btn btn btn-primary" id="submit">
                                                         Download </Button>
                                                 </a>
                                                 @else
@@ -85,7 +85,7 @@
                                             <span class="hint-text">Click to download Lease Deed Agreement</span>
                                             <div class="mt-auto">
                                                 @if(isset($data->ApprovedLeaseAgreement->document_path))
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->ApprovedLeaseAgreement->document_path }}">
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->ApprovedLeaseAgreement->document_path }}" target="_blank">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>
@@ -125,7 +125,7 @@
                                 <span class="hint-text">Click to Download Stamp Duty Letter </span>
                                 <div class="mt-auto">
                                     @if(isset($data->draftStampLetter->document_path))
-                                    <a href="{{ config('commanConfig.storage_server').'/'.$data->draftStampLetter->document_path }}" class="btn btn-primary">Download </a>                                
+                                    <a href="{{ config('commanConfig.storage_server').'/'.$data->draftStampLetter->document_path }}" class="btn btn-primary" target="_blank">Download </a>                                
                                     @else
                                     <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
                                         *Note : Stamp Duty Letter is not available.</span>
@@ -141,7 +141,7 @@
                                 <div class="d-flex flex-column h-100 two-cols">
                                     <h5>Upload</h5>
                                     <span class="hint-text">Click to upload Stamp Duty Letter</span>
-                                        <input type="hidden" name="oldStamp" value="{{ isset($data->approveStampLetter->document_path) ? $data->approveStampLetter->document_path : '' }}">
+                                        <input type="hidden" id="oldStamp" name="oldStamp" value="{{ isset($data->approveStampLetter->document_path) ? $data->approveStampLetter->document_path : '' }}">
                                             <div class="custom-file">
                                                 <input class="custom-file-input stamp_letter" name="stamp_letter" type="file" id="test-upload1">
                                                 <label class="custom-file-label" for="test-upload1">Choose
@@ -182,9 +182,11 @@
                                         <form class="nav-tabs-form" id ="agreementFRM" role="form" method="POST" action="{{ route('dyco.send_to_society')}}" enctype="multipart/form-data">
                                         @csrf
                                         <input type="hidden" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">
-                                                <input type="submit" class="s_btn btn btn-primary" id="submitBtn" value="Send to Society">
-                                        </form>
+                                                <input type="submit" class="s_btn btn btn-primary" id="submitStampBtn" value="Send to Society">
+                                        </form> 
                                     </div>    
+                                    <span class="error" id="stampError" style="display: none;color: #ce2323;margin-bottom: 17px;">
+                                        *Note : Please Upload Stamp Duty Letter.</span>
                                 </div>
                             </div>
                         </div>
@@ -262,5 +264,17 @@
             },            
         }
     });  
+
+    $("#submitStampBtn").click(function(){
+        
+        var stampLetter = $("#oldStamp").val();
+        if(stampLetter != ""){
+            $("#stampError").css("display","none"); 
+            return true;           
+        }else{
+            $("#stampError").css("display","block");
+            return false;
+        }
+    });
 </script>
 @endsection

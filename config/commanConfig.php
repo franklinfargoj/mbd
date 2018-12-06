@@ -70,7 +70,7 @@ return [
        'draft_offer_letter_generated' => 21,
    ],
 
-    /*'applicationStatus' => [
+    'applicationStatus' => [
         'in_process' => 1,
         'forwarded' => 2,
         'reverted' => 3,
@@ -78,7 +78,7 @@ return [
         'offer_letter_generation' => 5,
         'offer_letter_approved' => 6,
         'sent_to_society' => 7,
-    ],*/
+    ],
 
     //conveyance status
 
