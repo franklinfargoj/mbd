@@ -86,8 +86,9 @@
                             <div class="col-md-4">
                                 <div class="form-group m-form__group society_select">
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="society" name="society" required>
-                                        @if($society_name) 
-                                        <option value="{{encrypt($society_id)}}" >{{$society_name}}</option>
+                                        <option value="" style="font-weight: normal;" selected>Select Societies</option>
+                                        @if(isset($society_name)) 
+                                        <option value="{{encrypt($society_id)}}" selected>{{$society_name}}</option>
                                         @endif
                                         @foreach($societies_data as $key => $value) 
                                             <option value="{{ encrypt($value->id) }}" >{{ $value->society_name }}</option>
@@ -115,17 +116,17 @@
                 <div class="row align-items-center mb-0">           
                         <div class="col-md-9">
                             <div class="form-group m-form__group">
-                                <input type="submit" class="btn m-btn--pill m-btn--custom btn-primary" name="search" value="Search">
+                                <input type="submit" class="submit-button btn m-btn--pill m-btn--custom btn-primary" name="search" value="Search">
                             </div>
                         </div>
-                    </div>
+                </div>
                 
                 
             </div>
             </form>
             @if($html)
-                    {!! $html->table() !!}
-                @endif
+                {!! $html->table() !!}
+            @endif
     </div>
     <!-- END: Subheader -->
 
@@ -204,6 +205,9 @@
                 var id = $(this).val();
                 //console.log(id);
                 //return false;
+                if($(this).text() != 'Select Societies') {
+                    $('.submit-button').prop('disabled', false);
+                }
                 $.ajax({
                     url:"{{URL::route('get_building_select_updated_RC')}}",
                     type: 'get',
@@ -216,7 +220,7 @@
                         // $('#wardId').val($('#wards').val());
                         // $('#colonyId').val($('#colony').val());
                         // $('#societyId').val(id);
-                        $('.building_selected').hide();
+                        $('.building_selected').remove();
                         $('#building').selectpicker('refresh');
                         // $('.hide_search_button').hide();
                     }

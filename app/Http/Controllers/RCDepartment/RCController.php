@@ -117,9 +117,8 @@ class RCController extends Controller
         $wardId= 0;
         $colonyId=0;
         $buildingId=0;
-        $society_name='';
         //return $rate_card;
-        return view('admin.rc_department.collect_bill_tenant', compact('society_id','wardId','colonyId','layoutId','html','layout_data', 'wards_data', 'colonies_data','societies_data', 'building_data','society_name','buildingId'));
+        return view('admin.rc_department.collect_bill_tenant', compact('society_id','wardId','colonyId','layoutId','html','layout_data', 'wards_data', 'colonies_data','societies_data', 'building_data','buildingId'));
 
     }
 
@@ -141,6 +140,10 @@ class RCController extends Controller
         $societies_data = SocietyDetail::where('society_bill_level', '=', '2')->whereIn('colony_id', $colonies)->get();
 
         $building_data = MasterBuilding::whereIn('society_id', $societies)->get();
+        $society_id = decrypt($request->input('society'));
+        $layoutId = decrypt($request->input('layout'));
+        $wardId=decrypt($request->input('wards'));
+        $colonyId=decrypt($request->input('colony'));
         if(!$request->input('building')) {
         $columns = [
                 ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
@@ -149,10 +152,7 @@ class RCController extends Controller
                 ['data' => 'tenant_count','name' => 'tenant_count','title' => 'Tenant Count'],
                 ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
             ];
-            $society_id = decrypt($request->input('society'));
-            $layoutId = decrypt($request->input('layout'));
-            $wardId=decrypt($request->input('wards'));
-            $colonyId=decrypt($request->input('colony'));
+            
             $society_name = SocietyDetail::where('id', $society_id)->first()->society_name;
             if ($datatables->getRequest()->ajax()) {
                 DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
@@ -205,10 +205,7 @@ class RCController extends Controller
             ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false]
         ];
         $tenament = DB::table('master_tenant_type')->get();
-        $society_id = decrypt($request->input('society'));
-        $layoutId = decrypt($request->input('layout'));
-        $wardId=decrypt($request->input('wards'));
-        $colonyId=decrypt($request->input('colony'));
+       
         $buildingId=decrypt($request->input('building'));
         $society_name = SocietyDetail::where('id', $society_id)->first()->society_name;
         $building_name = MasterBuilding::where('id',$buildingId)->first()->name;
