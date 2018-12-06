@@ -92,7 +92,7 @@ $status = $sc_application->scApplicationLog->status_id;
                     <span class="m-menu__link-text">Signed Application for Conveyance</span>
                 </a>
             </li>
-            @if($status == '10')
+            @if($sc_application->application_status != config('commanConfig.conveyance_status.in_process'))
                 <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='show_sale_lease')?'m-menu__item--active':''}}">
                     <a class="m-menu__link m-menu__toggle" title="Sale & Lease deed Agreement" href="{{ route('show_sale_lease', $sc_application->id) }}">
                         <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
@@ -103,7 +103,7 @@ $status = $sc_application->scApplicationLog->status_id;
                     </a>
                 </li>
             @endif
-            @if($status == '13')
+            @if($status == config('commanConfig.conveyance_status.Sent_society_for_registration_of_sale_&_lease'))
                 <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='show_signed_sale_lease')?'m-menu__item--active':''}}">
                     <a class="m-menu__link m-menu__toggle" title="Signed Sale & Lease deed Agreement" href="{{ route('show_signed_sale_lease', $sc_application->id) }}">
                         <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">

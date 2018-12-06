@@ -61,10 +61,10 @@
                                             <h5>Download</h5>
                                             <span class="hint-text">Click to download Sale Deed Agreement </span>
                                             <div class="mt-auto">
-                                                @if(isset($data->StampSignSaleAgreement->document_path))
+                                                @if(isset($data->StampSaleByJtco->document_path))
 
-                                                <input type="hidden" name="oldSaleFile" value="{{ $data->StampSignSaleAgreement->document_path }}">
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->StampSignSaleAgreement->document_path }}">
+                                                <input type="hidden" name="oldSaleFile" value="{{ isset($data->StampSignSaleAgreement->document_path) ? $data->StampSignSaleAgreement->document_path : '' }}">
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->StampSaleByJtco->document_path }}">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>
@@ -116,10 +116,10 @@
                                             <h5>Download </h5>
                                             <span class="hint-text">Click to download Lease Deed Agreement</span>
                                             <div class="mt-auto">
-                                                @if(isset($data->StampSignLeaseAgreement->document_path))
+                                                @if(isset($data->StampLeaseByJtco->document_path))
 
-                                                <input type="hidden" name="oldLeaseFile" value="{{ $data->StampSignLeaseAgreement->document_path }}">
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->StampSignLeaseAgreement->document_path }}">
+                                                <input type="hidden" name="oldLeaseFile" value="{{ isset($data->StampSignLeaseAgreement->document_path) ? $data->StampSignLeaseAgreement->document_path : '' }}">
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->StampLeaseByJtco->document_path }}">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>

@@ -54,7 +54,7 @@ class DYCOController extends Controller
         $data->status = $this->common->getCurrentStatus($applicationId,$data->sc_application_master_id);
         $data->conveyance_map = $this->common->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
 
-        if ($is_view && $data->status->status_id == config('commanConfig.conveyance_status.Draft_sale_&_lease_deed')) {
+        if ($is_view && $data->status->status_id != config('commanConfig.conveyance_status.forwarded') && $data->status->status_id != config('commanConfig.conveyance_status.reverted')) {
             $route = 'admin.conveyance.dyco_department.checklist_office_note';
         }else{
             $route = 'admin.conveyance.common.view_checklist_office_note';
@@ -275,7 +275,8 @@ class DYCOController extends Controller
         $data->approveStampLetter = $this->common->getScAgreement($stampId,$applicationId,NULL);
         $data->em_document = $this->common->getEMNoDueCertificate($data->sc_application_master_id,$applicationId);
 
-        if ($data->is_view) {
+        if ($data->is_view && $data->status->status_id != config('commanConfig.conveyance_status.forwarded') && $data->status->status_id != config('commanConfig.conveyance_status.reverted') ) {
+            
             $route = 'admin.conveyance.dyco_department.approved_sale_lease_agreement';
         }else{
             $route = 'admin.conveyance.common.view_approved_sale_lease_agreement';
@@ -307,7 +308,7 @@ class DYCOController extends Controller
             
             if ($sale_extension == "pdf"){
                 
-                Storage::disk('ftp')->delete($request->oldSaleFile);
+                // Storage::disk('ftp')->delete($request->oldSaleFile);
                 $sale_upload = $this->CommonController->ftpFileUpload($sale_folder_name,$sale_agreement,$sale_file_name); 
                 $saleData = $this->common->getScAgreement($SaleId,$applicationId,$Agrstatus);
 
@@ -328,7 +329,7 @@ class DYCOController extends Controller
             
             if ($lease_extension == "pdf") {
 
-                Storage::disk('ftp')->delete($request->oldLeaseFile);
+                // Storage::disk('ftp')->delete($request->oldLeaseFile);
                 $lease_upload = $this->CommonController->ftpFileUpload($lease_folder_name,$lease_agreement,$lease_file_name);
 
                 $leaseData = $this->common->getScAgreement($LeaseId,$applicationId,$Agrstatus);
@@ -353,7 +354,7 @@ class DYCOController extends Controller
     }       
 
     public function StampedDutySaleLeaseAgreement(Request $request,$applicationId){
-    
+        
         $data = scApplication::with('ConveyanceSalePriceCalculation')->where('id',$applicationId)->first();
         $Applicationtype = $data->sc_application_master_id;
         $Agreementstatus = ApplicationStatusMaster::where('status_name','=','Stamped')->value('id');
@@ -393,11 +394,11 @@ class DYCOController extends Controller
 
         $data->folder = $this->common->getCurrentRoleFolderName(); 
         $data->conveyance_map = $this->common->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
-
+        $data->em_document = $this->common->getEMNoDueCertificate($data->sc_application_master_id,$applicationId);
+          
         $data->is_view = session()->get('role_name') == config('commanConfig.dycdo_engineer'); 
         $data->status = $this->common->getCurrentStatus($applicationId,$data->sc_application_master_id);
 
-        $data->em_document = $this->common->getEMNoDueCertificate($data->sc_application_master_id,$applicationId);
 
         if ((session()->get('role_name') == config('commanConfig.dycdo_engineer') || session()->get('role_name') == config('commanConfig.joint_co')) && $data->status->status_id == config('commanConfig.conveyance_status.Stamped_sale_&_lease_deed') ) {
 
@@ -410,7 +411,7 @@ class DYCOController extends Controller
     } 
 
     public function SignedSaleLeaseAgreement(Request $request,$applicationId){
-    
+        
         $data = scApplication::with('ConveyanceSalePriceCalculation')->where('id',$applicationId)->first();
         $Applicationtype= $data->sc_application_master_id;
         $Agreementstatus = ApplicationStatusMaster::where('status_name','=','Stamped_Signed')->value('id');
@@ -422,8 +423,16 @@ class DYCOController extends Controller
         $data->StampSignLeaseAgreement = $this->common->getScAgreement($SignLeaseId,$applicationId,$Agreementstatus);
 
         $is_view = session()->get('role_name') == config('commanConfig.dycdo_engineer');
-        $status = $this->common->getCurrentStatus($applicationId,$data->sc_application_master_id);  
-   
+        $status = $this->common->getCurrentStatus($applicationId,$data->sc_application_master_id);
+
+        //get stamp duty agreement uploaded by JTCO
+        $Agreementstatus2 = ApplicationStatusMaster::where('status_name','=','Stamp_by_jtco')->value('id');
+        $StampSaleId2  = $this->common->getScAgreementId($this->SaleAgreement,$Applicationtype,$Agreementstatus2);
+        $StampLeaseId2 = $this->common->getScAgreementId($this->LeaseAgreement,$Applicationtype,$Agreementstatus);
+        
+        $data->StampSaleByJtco  = $this->common->getScAgreement($StampSaleId2,$applicationId,$Agreementstatus2);
+        $data->StampLeaseByJtco = $this->common->getScAgreement($StampLeaseId2,$applicationId,$Agreementstatus2);
+
         $data->AgreementComments = ScAgreementComments::with('Roles')->where('application_id',$applicationId)->where('agreement_type_id',$Applicationtype)->whereNotNull('remark')->get(); 
 
         $data->folder = $this->common->getCurrentRoleFolderName();
@@ -435,7 +444,7 @@ class DYCOController extends Controller
         }else{
             $route = 'admin.conveyance.common.view_stamp_sign_agreements';
         }                          
-
+        
         return view($route,compact('data','is_view','status'));      
     }
 

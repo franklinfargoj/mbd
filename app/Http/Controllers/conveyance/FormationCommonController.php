@@ -174,6 +174,29 @@ class FormationCommonController extends Controller
             return $q->where(['application_id' => $id]);
         }])->where(['application_type_id' => 3])->get();
         $sf_application = SfApplication::find($id);
+        if($request->print)
+            {
+                //return view('frontend.society.society_formation.print_application',compact('sf_application'));
+                $content = view('frontend.society.society_formation.print_application',compact('sf_application'));
+                $folder_name = 'society_formation_certificate';
+
+                $header_file = view('admin.REE_department.offer_letter_header');
+                $footer_file = view('admin.REE_department.offer_letter_footer');
+                //$pdf = \App::make('dompdf.wrapper');
+                $fileName=time() . 'society_formation_certificate.pdf';
+                $pdf=new Mpdf([
+                    'default_font_size' => 9,
+                    'default_font' => 'Times New Roman'
+                ]);
+                $pdf->autoScriptToLang = true;
+                $pdf->autoLangToFont = true;
+                $pdf->setAutoBottomMargin = 'stretch';
+                $pdf->setAutoTopMargin = 'stretch';
+                $pdf->SetHTMLHeader($header_file);
+                $pdf->SetHTMLFooter($footer_file);
+                $pdf->WriteHTML($content);
+                $pdf->Output($fileName, 'D');
+            }
         return view('admin.formation.view_application', compact('sf_application', 'sf_documents', 'disabled'));
 
         //return view('admin.conveyance.common.view_application',compact('data'));
@@ -199,7 +222,11 @@ class FormationCommonController extends Controller
                 })
                 ->whereIn('role_id', $result)->get();
         }
-        $child = $child->merge($society_user);
+
+        if($child)
+        {
+            $child = $child->merge($society_user);
+        }
         //dd($child);
         return $child;
     }
