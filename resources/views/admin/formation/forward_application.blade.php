@@ -20,7 +20,7 @@
                     </a>
                 </li>
 
-                @if($data->status->status_id == config('commanConfig.applicationStatus.in_process') )
+                @if($data->status->status_id == config('commanConfig.formation_status.in_process') )
                 <li class="nav-item m-tabs__item">
                     <a class="nav-link m-tabs__link show" data-toggle="tab" href="#forward-application-tab">
                         <i class="la la-cog"></i> Forward Application
@@ -136,9 +136,9 @@
 
                                         @foreach($dycoLogs as $log)
 
-                                            @if($log->status_id == config('commanConfig.applicationStatus.forwarded'))
+                                            @if($log->status_id == config('commanConfig.formation_status.forwarded'))
                                                 @php $status = 'Forwarded'; @endphp
-                                            @elseif($log->status_id == config('commanConfig.applicationStatus.reverted'))
+                                            @elseif($log->status_id == config('commanConfig.formation_status.reverted'))
                                                 @php $status = 'Reverted'; @endphp
                                             @endif
 
@@ -236,20 +236,20 @@
                                             </div>
                                             @php 
                                             $error = '';
-                                                if(isset($data->application_status)){
-                                                    if ($data->application_status == config('commanConfig.applicationStatus.Draft_sale_&_lease_deed')){ 
+                                                // if(isset($data->application_status)){
+                                                //     if ($data->application_status == config('commanConfig.applicationStatus.Draft_sale_&_lease_deed')){ 
 
-                                                            if (!(isset($data->DraftSaleAgreement) && isset($data->DraftLeaseAgreement))){
-                                                            $error = 'error';
-                                                        }
-                                                    }elseif($data->application_status == config('commanConfig.applicationStatus.Aproved_sale_&_lease_deed')){
+                                                //             if (!(isset($data->DraftSaleAgreement) && isset($data->DraftLeaseAgreement))){
+                                                //             $error = 'error';
+                                                //         }
+                                                //     }elseif($data->application_status == config('commanConfig.applicationStatus.Aproved_sale_&_lease_deed')){
                                                         
-                                                        if (!(isset($data->ApprovedSaleAgreement) && isset($data->ApprovedLeaseAgreement))){
+                                                //         if (!(isset($data->ApprovedSaleAgreement) && isset($data->ApprovedLeaseAgreement))){
                                                         
-                                                        $error = 'error';
-                                                        }
-                                                    }
-                                                }
+                                                //         $error = 'error';
+                                                //         }
+                                                //     }
+                                                // }
                                             
                                             @endphp
                                             
