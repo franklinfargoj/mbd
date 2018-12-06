@@ -408,13 +408,13 @@ class EMController extends Controller
     public function get_wards(Request $request){
     
         if($request->input('id')){
-        $wards = MasterWard::where('layout_id', '=', $request->input('id'))->get();
+        $wards = MasterWard::where('layout_id', '=', decrypt($request->input('id')))->get();
 
         $html = '<select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="wards" name="wards">';
         $html .= '<option value="" style="font-weight: normal;">Select ward</option>';
 
             foreach($wards as $key => $value){
-                $html .= '<option value="'.$value->id.'">'.$value->name.'</option>';
+                $html .= '<option value="'.encrypt($value->id).'">'.$value->name.'</option>';
             }   
         $html .= '</select>';         
 
@@ -425,13 +425,13 @@ class EMController extends Controller
     public function get_colonies(Request $request){
     
         if($request->input('id')){
-        $colonies = MasterColony::where('ward_id', '=', $request->input('id'))->get();
+        $colonies = MasterColony::where('ward_id', '=', decrypt($request->input('id')))->get();
 
         $html = '<select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="colony" name="colony">';
         $html .= '<option value="" style="font-weight: normal;">Select Colony</option>';
 
             foreach($colonies as $key => $value){
-                $html .= '<option value="'.$value->id.'">'.$value->name.'</option>';
+                $html .= '<option value="'.encrypt($value->id).'">'.$value->name.'</option>';
             }   
         $html .= '</select>';         
 
@@ -442,13 +442,13 @@ class EMController extends Controller
     public function get_society_select(Request $request){
     
         if($request->input('id')){
-        $society = SocietyDetail::where('colony_id', '=', $request->input('id'))->get();
+        $society = SocietyDetail::where('colony_id', '=', decrypt($request->input('id')))->get();
 
         $html = '<select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="society" name="society">';
         $html .= '<option value="" style="font-weight: normal;">Select Society</option>';
 
             foreach($society as $key => $value){
-                $html .= '<option value="'.$value->id.'">'.$value->society_name.'</option>';
+                $html .= '<option value="'.encrypt($value->id).'">'.$value->society_name.'</option>';
             }   
         $html .= '</select>';         
 
@@ -468,13 +468,13 @@ class EMController extends Controller
     public function get_building_select(Request $request){
     
         if($request->input('id')){
-        $building = MasterBuilding::where('society_id', '=', $request->input('id'))->get();
+        $building = MasterBuilding::where('society_id', '=', decrypt($request->input('id')))->get();
 
         $html = '<select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="building" name="building">';
         $html .= '<option value="" style="font-weight: normal;">Select Building</option>';
 
             foreach($building as $key => $value){
-                $html .= '<option value="'.$value->id.'">'.$value->name.'</option>';
+                $html .= '<option value="'.encrypt($value->id).'">'.$value->name.'</option>';
             }   
         $html .= '</select>';         
 

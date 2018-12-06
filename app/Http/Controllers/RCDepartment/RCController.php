@@ -149,14 +149,14 @@ class RCController extends Controller
                 ['data' => 'tenant_count','name' => 'tenant_count','title' => 'Tenant Count'],
                 ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
             ];
-            $society_id = $request->input('society');
-            $layoutId = $request->input('layout');
-            $wardId=$request->input('wards');
-            $colonyId=$request->input('colony');
+            $society_id = decrypt($request->input('society'));
+            $layoutId = decrypt($request->input('layout'));
+            $wardId=decrypt($request->input('wards'));
+            $colonyId=decrypt($request->input('colony'));
             $society_name = SocietyDetail::where('id', $society_id)->first()->society_name;
             if ($datatables->getRequest()->ajax()) {
                 DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
-                $buildings = MasterBuilding::with('tenant_count')->where('society_id', '=', $request->input('society'))
+                $buildings = MasterBuilding::with('tenant_count')->where('society_id', '=', decrypt($request->input('society')))
                 ->selectRaw('@rownum  := @rownum  + 1 AS rownum,master_buildings.*');  
                 
                     return $datatables->of($buildings)
@@ -205,19 +205,19 @@ class RCController extends Controller
             ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false]
         ];
         $tenament = DB::table('master_tenant_type')->get();
-        $society_id = $request->input('society');
-        $layoutId = $request->input('layout');
-        $wardId=$request->input('wards');
-        $colonyId=$request->input('colony');
-        $buildingId=$request->input('building');
+        $society_id = decrypt($request->input('society'));
+        $layoutId = decrypt($request->input('layout'));
+        $wardId=decrypt($request->input('wards'));
+        $colonyId=decrypt($request->input('colony'));
+        $buildingId=decrypt($request->input('building'));
         $society_name = SocietyDetail::where('id', $society_id)->first()->society_name;
         $building_name = MasterBuilding::where('id',$buildingId)->first()->name;
-        $society_Id = MasterBuilding::where('id', '=', $request->input('building'))->first()->society_id;
+        $society_Id = MasterBuilding::where('id', '=', $buildingId)->first()->society_id;
        // echo $society_Id;
         if ($datatables->getRequest()->ajax()) {
             
             DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
-            $buildings = MasterTenant::where('building_id', '=', $request->input('building'))
+            $buildings = MasterTenant::where('building_id', '=', decrypt($request->input('building')))
             ->selectRaw('@rownum  := @rownum  + 1 AS rownum,master_tenants.*');
             return $datatables->of($buildings)
                 ->editColumn('actions', function ($buildings) use($society_Id){
@@ -702,7 +702,7 @@ class RCController extends Controller
      public function get_building_select_updated_RC(Request $request){
     
         if($request->input('id')){
-            $society = SocietyDetail::find($request->input('id'));
+            $society = SocietyDetail::find(decrypt($request->input('id')));
             if(Config::get('commanConfig.SOCIETY_LEVEL_BILLING') == $society->society_bill_level) {
                 
                 $html ='<div class="col-md-12" style="margin-top:10px;margin-bottom: 10px;">
@@ -714,7 +714,7 @@ class RCController extends Controller
                             </div>                          
                     </div>
                 </div>';
-            $society_id = $request->input('id');
+            $society_id = decrypt($request->input('id'));
             $buildings = MasterBuilding::with(['TransBillGenerate'=>function($query) use($society_id){
                 $query->where('society_id', '=', $society_id)->where('bill_month', '=', date('m'))->where('bill_year', '=', date('Y'));
             }])->with('tenant_count')->where('society_id', '=', $request->input('id'))
@@ -726,7 +726,7 @@ class RCController extends Controller
 
             } else {
                 
-                $building = MasterBuilding::where('society_id', '=', $request->input('id'))->get();
+                $building = MasterBuilding::where('society_id', '=', decrypt($request->input('id')))->get();
                 $html = '<div class="col-md-12" style="margin-top:10px;margin-bottom: 10px;">
                     <div class="row align-items-center mb-0">                            
                             <div class="col-md-12">
@@ -743,7 +743,7 @@ class RCController extends Controller
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" style="opacity:1" id="building" name="building">';
                                     $html .= '<option value="" style="font-weight: normal;">Select Building</option>';
                                         foreach($building as $key => $value){
-                                            $html .= '<option value="'.$value->id.'">'.$value->name.'</option>';
+                                            $html .= '<option value="'.encrypt($value->id).'">'.$value->name.'</option>';
                                         }   
                                     $html .= '</select>
                                 </div>

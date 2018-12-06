@@ -32,9 +32,9 @@
                                         <option value="" style="font-weight: normal;">Select Layout</option>
                                          @foreach($layout_data as $key => $value)
                                             @if($layoutId == $value->id) 
-                                                <option value="{{ $value->id }}" selected>{{ $value->layout_name }}</option>
+                                                <option value="{{ encrypt($value->id) }}" selected>{{ $value->layout_name }}</option>
                                             @else
-                                                <option value="{{ $value->id }}">{{ $value->layout_name }}</option>
+                                                <option value="{{ encrypt($value->id) }}">{{ $value->layout_name }}</option>
                                             @endif
                                         @endforeach
                                     </select>
@@ -51,9 +51,9 @@
                                         <option value="" style="font-weight: normal;">Select Ward</option>
                                         @foreach($wards_data as $key => $value)
                                             @if($wardId == $value->id) 
-                                                <option value="{{ $value->id }}" selected>{{ $value->name }}</option>
+                                                <option value="{{ encrypt($value->id) }}" selected>{{ $value->name }}</option>
                                             @else 
-                                                <option value="{{ $value->id }}">{{ $value->name }}</option>
+                                                <option value="{{ encrypt($value->id) }}">{{ $value->name }}</option>
                                             @endif
                                         @endforeach
                                     </select>
@@ -70,9 +70,9 @@
                                         <option value="" style="font-weight: normal;">Select Colony</option>
                                         @foreach($colonies_data as $key => $value)
                                             @if($colonyId == $value->id) 
-                                            <option value="{{ $value->id }}" selected>{{ $value->name }}</option>
+                                            <option value="{{ encrypt($value->id) }}" selected>{{ $value->name }}</option>
                                             @else
-                                            <option value="{{ $value->id }}" >{{ $value->name }}</option>
+                                            <option value="{{ encrypt($value->id) }}" >{{ $value->name }}</option>
                                             @endif
                                         @endforeach
                                     </select>
@@ -87,23 +87,23 @@
                                 <div class="form-group m-form__group society_select">
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="society" name="society" required>
                                         @if($society_name) 
-                                        <option value="{{$society_id}}" >{{$society_name}}</option>
+                                        <option value="{{encrypt($society_id)}}" >{{$society_name}}</option>
                                         @endif
                                         @foreach($societies_data as $key => $value) 
-                                            <option value="{{ $value->id }}" >{{ $value->society_name }}</option>
+                                            <option value="{{ encrypt($value->id) }}" >{{ $value->society_name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>                          
                     </div>
                 </div>
-                @if(isset($buildingId))
+                @if(isset($buildingId) && isset($building_name))
                     <div class="col-md-12" style="margin-top:10px;margin-bottom: 10px;">
                         <div class="row align-items-center mb-0">                            
                                 <div class="col-md-4">
                                     <div class="form-group m-form__group  building_selected">
                                         <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="building" name="building" required>
-                                            <option value="{{$buildingId}}" selected>{{$building_name}}</option>
+                                            <option value="{{encrypt($buildingId)}}" selected>{{$building_name}}</option>
                                         </select>
                                     </div>
                                 </div>                          
