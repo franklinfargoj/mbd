@@ -138,7 +138,7 @@
                             <td>{{$serviceChargesRate->na_assessment}} </td>
                         </tr>
                         <tr>
-                            <td>Insurance</td>
+                            <td>Other</td>
                             <td>{{$serviceChargesRate->other}}</td>
                         </tr>
                         <tr>
@@ -167,30 +167,31 @@
                 @if(!$arreasCalculation->isEmpty())
                 <p class="text-center">Balance amount to be paid - Arrears</p>
                 <table class="display table table-responsive table-bordered" style="width:100%">
-                    <tr>
-                        <th class="text-center">Year</th>
-                        <th class="text-center">Month</th>
-                        <th class="text-center">Amount In Rs.</th>
-                        <th class="text-center">Penalty in Rs</th>
-                    </tr>
-                    @foreach($arreasCalculation as $calculation)
-                    <tr>
-                        <td class="text-center">{{$calculation->year}} <input name='arrear_id[]' type='text' value='{{$calculation->id}}'
-                                hidden> </td>
-                        <td class="text-center">{{date("M", strtotime("2001-" . $calculation->month . "-01"))}}</td>
-                        <td class="text-center">{{$calculation->total_amount - $calculation->old_intrest_amount -
-                            $calculation->difference_intrest_amount }}</td>
-                        <td class="text-center">{{$calculation->old_intrest_amount +
-                            $calculation->difference_intrest_amount}}</td>
-                    </tr>
-                    @endforeach
-                    <tr>
-                        <td colspan="3">
-                            Total
-                        </td>
-                        <td>{{$total}}</td>
-                        <td></td>
-                    </tr>
+                    <thead class="thead-default">
+                        <tr>
+                            <th>Year</th>
+                            <th>Month</th>
+                            <th>Amount In Rs.</th>
+                            <th>Penalty in Rs</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($arreasCalculation as $calculation)
+                        <tr>
+                            <td>{{$calculation->year}} <input name='arrear_id[]' type='text' value='{{$calculation->id}}'
+                                    hidden> </td>
+                            <td>{{date("M", strtotime("2001-" . $calculation->month . "-01"))}}</td>
+                            <td>{{$calculation->total_amount - $calculation->old_intrest_amount -
+                                $calculation->difference_intrest_amount }}</td>
+                            <td>{{$calculation->old_intrest_amount +
+                                $calculation->difference_intrest_amount}}</td>
+                        </tr>
+                        @endforeach
+                        <tr>
+                            <td colspan="3" class="font-weight-bold">Total</td>
+                            <td>{{$total}}</td>
+                        </tr>
+                    </tbody>
                 </table>
                 @endif
                 <p class="text-center">Total Amount to be paid</p>

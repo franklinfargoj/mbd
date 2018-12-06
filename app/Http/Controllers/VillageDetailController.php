@@ -74,6 +74,7 @@ lm_village_detail.total_area,
 lm_village_detail.possession_date,
 lm_village_detail.remark,
 lm_village_detail.other_remark,
+lm_village_detail.other_land_source,
 lm_village_detail.7_12_extract,
 lm_village_detail.7_12_mhada_name,
 lm_village_detail.property_card,
@@ -91,6 +92,7 @@ lm_village_detail.updated_at'))->get();
                 $dataList['Land Survey No'] = '';
                 $dataList['Village Name'] = '';
                 $dataList['Land Source'] = '';
+                $dataList['Other Land Source'] = '';
                 $dataList['Land Address'] = '';
                 $dataList['District'] = '';
                 $dataList['Taluka'] = '';
@@ -116,13 +118,14 @@ lm_village_detail.updated_at'))->get();
                     $dataList['Land Survey No'] = $dataList_value['sr_no'];
                     $dataList['Village Name'] = $dataList_value['village_name'];
                     $dataList['Land Source'] = $dataList_value['source'];
+                    $dataList['Other Land Source'] = $dataList_value['other_land_source'] ?? NULL;
                     $dataList['Land Address'] = $dataList_value['land_address'];
                     $dataList['District'] = $dataList_value['district'];
                     $dataList['Taluka'] = $dataList_value['taluka'];
                     $dataList['Total Area'] = $dataList_value['total_area'];
                     $dataList['Possession Date'] = $dataList_value['possession_date'];
                     $dataList['Remark'] = $dataList_value['remark'];
-                    $dataList['Other Remark'] = $dataList_value['othedr_remark'] ?? NULL;
+                    $dataList['Other Remark'] = $dataList_value['other_remark'] ?? NULL;
                     $dataList['Land Cost'] = $dataList_value['land_cost'];
                     $dataList["Is 7/12 on MHADA's Name"] = ($dataList_value['7_12_mhada_name'] == 1) ? 'yes' : 'no';
                     $dataList['Property Card'] = $dataList_value['property_card'];
@@ -210,6 +213,7 @@ lm_village_detail.updated_at'))->get();
             lm_village_detail.possession_date
             ,lm_village_detail.remark,
             lm_village_detail.other_remark,
+            lm_village_detail.other_land_source,
             lm_village_detail.7_12_extract
             ,lm_village_detail.7_12_mhada_name,
             lm_village_detail.property_card
@@ -228,6 +232,7 @@ lm_village_detail.updated_at'))->get();
                 $dataList['Land Survey No'] = '';
                 $dataList['Village Name'] = '';
                 $dataList['Land Source'] = '';
+                $dataList['Other Land Source'] = '';
                 $dataList['Land Address'] = '';
                 $dataList['District'] = '';
                 $dataList['Taluka'] = '';
@@ -252,13 +257,14 @@ lm_village_detail.updated_at'))->get();
                     $dataList['Land Survey No'] = $dataList_value['sr_no'];
                     $dataList['Village Name'] = $dataList_value['village_name'];
                     $dataList['Land Source'] = $dataList_value['source'];
+                    $dataList['Other Land Source'] = $dataList_value['other_land_source'] ?? NULL;
                     $dataList['Land Address'] = $dataList_value['land_address'];
                     $dataList['District'] = $dataList_value['district'];
                     $dataList['Taluka'] = $dataList_value['taluka'];
                     $dataList['Total Area'] = $dataList_value['total_area'];
                     $dataList['Possession Date'] = $dataList_value['possession_date'];
                     $dataList['Remark'] = $dataList_value['remark'];
-                    $dataList['Other Remark'] = $dataList_value['othedr_remark'] ?? NULL;
+                    $dataList['Other Remark'] = $dataList_value['other_remark'] ?? NULL;
                     $dataList['Land Cost'] = $dataList_value['land_cost'];
                     $dataList["Is 7/12 on MHADA's Name"] = ($dataList_value['7_12_mhada_name'] == 1) ? 'yes' : 'no';
                     $dataList['Property Card'] = $dataList_value['property_card'];
@@ -411,6 +417,12 @@ lm_village_detail.updated_at'))->get();
             $village_data += [
                 'other_remark' =>$request->other_remark
             ];
+
+        if($request->land_source_id == 4)
+            $village_data += [
+                'other_land_source' =>$request->other_land_source
+            ];
+
         $time = time();
 
         if($request->file_upload == 1) {
@@ -512,6 +524,9 @@ lm_village_detail.updated_at'))->get();
 
         if($request->remark == 'other') $village_data += [ 'other_remark' =>$request->other_remark ];
         else $village_data += [ 'other_remark' => '' ];
+
+        if($request->land_source_id == 4) $village_data += [ 'other_land_source' =>$request->other_land_source ];
+        else $village_data += [ 'other_land_source' => '' ];
 
 //        dd($request->all());
 

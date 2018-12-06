@@ -203,11 +203,11 @@
                         <div class="portlet-body">
                             <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
                                 <div class="m-subheader">
-                                    <div class="d-flex align-items-center">
+                                    {{-- <div class="d-flex align-items-center">
                                         <h3 class="section-title section-title--small">
                                             No dues certificate
                                         </h3>
-                                    </div>
+                                    </div> --}}
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <div class="d-flex flex-column h-100">
@@ -233,7 +233,9 @@
                                         @if($sf_application->no_due_certificate!= "")
                                         <div class="col-sm-6 border-left">
                                             <div class="d-flex flex-column h-100">
+                                                @if($sf_application->no_dues_certificate_sent_to_society==0)
                                                 <h5>Send to Society</h5>
+                                                @endif
                                                 <div class="mt-auto">
                                                 @if($sf_application->no_dues_certificate_sent_to_society==0)
                                                     <form action="{{route('formation.send_no_due_to_society')}}" method="post">

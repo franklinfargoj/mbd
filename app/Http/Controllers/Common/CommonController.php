@@ -423,11 +423,8 @@ class CommonController extends Controller
             //Code added by Prajakta >>end
 
         } else {
-            if (session()->get('role_name') == config('commanConfig.cap_engineer') || session()->get('role_name') == config('commanConfig.vp_engineer')) {
 
-                //Code added by Prajakta >>start
-                $to_user_id = $request->user_id;
-                //Code added by Prajakta >>end
+            if (session()->get('role_name') == config('commanConfig.cap_engineer') || session()->get('role_name') == config('commanConfig.vp_engineer')) {
 
                 $revert_application = [
                     [
@@ -466,7 +463,7 @@ class CommonController extends Controller
                         'user_id' => Auth::user()->id,
                         'role_id' => session()->get('role_id'),
                         'status_id' => config('commanConfig.applicationStatus.reverted'),
-                        'to_user_id' => $to_user_id,
+                        'to_user_id' => $request->to_child_id,
                         'to_role_id' => $request->to_role_id,
                         'remark' => $request->remark,
                         'is_active' => 1,
@@ -491,7 +488,7 @@ class CommonController extends Controller
             DB::beginTransaction();
             try {
                 OlApplicationStatus::where('application_id',$request->applicationId)
-                    ->whereIn('user_id', [Auth::user()->id,$to_user_id ])
+                    ->whereIn('user_id', [Auth::user()->id,$request->to_child_id ])
                     ->update(array('is_active' => 0));
 
                 OlApplicationStatus::insert($revert_application);
@@ -519,6 +516,7 @@ class CommonController extends Controller
             'to_role_id' => $getCo->role_id,
             'remark' => $request->remark,
             'is_active' => 1,
+            'phase' => 1,
             'created_at' => Carbon::now(),
         ],
 
@@ -531,6 +529,7 @@ class CommonController extends Controller
                 'to_role_id' => null,
                 'remark' => $request->remark,
                 'is_active' => 1,
+                'phase' => 1,
                 'created_at' => Carbon::now(),
             ],
         ];

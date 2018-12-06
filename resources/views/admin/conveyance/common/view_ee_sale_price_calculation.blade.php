@@ -52,11 +52,6 @@
                 <div class="portlet-body">
                     <div class="m-portlet__body m-portlet__body--table" id="calculation">
                         <div class="m-subheader">
-                            <div class="d-flex align-items-center justify-content-center">
-                                <h3 class="section-title text-uppercase">
-                                    Statement
-                                </h3>
-                            </div>
                             Building/Chawl No. 
                             <input class="letter-form-input letter-form-input--md" type="text" name="chawl_no" value="{{ isset($data->ConveyanceSalePriceCalculation->chawl_no) ? $data->ConveyanceSalePriceCalculation->chawl_no : '' }}" readonly> 
                             Consisting 
@@ -234,7 +229,7 @@
                                                 @if(isset($data->ConveyanceSalePriceCalculation->demarcation_map))
 
                                                 <input type="hidden" name="oldFileName" value="{{ $data->ConveyanceSalePriceCalculation->demarcation_map }}">
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->ConveyanceSalePriceCalculation->demarcation_map }}">
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->ConveyanceSalePriceCalculation->demarcation_map }}" target="_blank">
 
                                                     <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
@@ -272,7 +267,7 @@
                                                 @if(isset($data->ConveyanceSalePriceCalculation->ee_covering_letter))
 
                                                 <input type="hidden" name="oldFileName" value="{{ $data->ConveyanceSalePriceCalculation->ee_covering_letter }}">
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->ConveyanceSalePriceCalculation->ee_covering_letter }}">
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->ConveyanceSalePriceCalculation->ee_covering_letter }}" target="_blank">
 
                                                     <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
