@@ -459,80 +459,80 @@
                 Cookies.set('sectionId', this.id);
             });
 
-            // $('#stamp_duty_letter').validate({
-            //     rules:{
-            //         document_path: {
-            //             required:true,
-            //             extension:'pdf'
-            //         }
-            //     },
-            //     messages:{
-            //         document_path: {
-            //             required: 'File is required to upload.',
-            //             extension: 'File only in pdf format is required.'
-            //         }
-            //     }
-            // });
-            //
-            // $('#sale_deed_agreement').validate({
-            //     rules:{
-            //         document_path: {
-            //             required:true,
-            //             extension:'pdf'
-            //         }
-            //     },
-            //     messages:{
-            //         document_path: {
-            //             required: 'File is required to upload.',
-            //             extension: 'File only in pdf format is required.'
-            //         }
-            //     }
-            // });
-            //
-            // $('#lease_deed_agreement').validate({
-            //     rules:{
-            //         document_path: {
-            //             required:true,
-            //             extension:'pdf'
-            //         }
-            //     },
-            //     messages:{
-            //         document_path: {
-            //             required: 'File is required to upload.',
-            //             extension: 'File only in pdf format is required.'
-            //         }
-            //     }
-            // });
-            //
-            // $('#society_resolution').validate({
-            //     rules:{
-            //         document_path: {
-            //             required:true,
-            //             extension:'pdf'
-            //         }
-            //     },
-            //     messages:{
-            //         document_path: {
-            //             required: 'File is required to upload.',
-            //             extension: 'File only in pdf format is required.'
-            //         }
-            //     }
-            // });
-            //
-            // $('#society_undertaking').validate({
-            //     rules:{
-            //         document_path: {
-            //             required:true,
-            //             extension:'pdf'
-            //         }
-            //     },
-            //     messages:{
-            //         document_path: {
-            //             required: 'File is required to upload.',
-            //             extension: 'File only in pdf format is required.'
-            //         }
-            //     }
-            // });
+            $('#stamp_duty_letter').validate({
+                rules:{
+                    document_path: {
+                        required:true,
+                        extension:'pdf'
+                    }
+                },
+                messages:{
+                    document_path: {
+                        required: 'File is required to upload.',
+                        extension: 'File only in pdf format is required.'
+                    }
+                }
+            });
+
+            $('#sale_deed_agreement').validate({
+                rules:{
+                    document_path: {
+                        required:true,
+                        extension:'pdf'
+                    }
+                },
+                messages:{
+                    document_path: {
+                        required: 'File is required to upload.',
+                        extension: 'File only in pdf format is required.'
+                    }
+                }
+            });
+
+            $('#lease_deed_agreement').validate({
+                rules:{
+                    document_path: {
+                        required:true,
+                        extension:'pdf'
+                    }
+                },
+                messages:{
+                    document_path: {
+                        required: 'File is required to upload.',
+                        extension: 'File only in pdf format is required.'
+                    }
+                }
+            });
+
+            $('#society_resolution').validate({
+                rules:{
+                    document_path: {
+                        required:true,
+                        extension:'pdf'
+                    }
+                },
+                messages:{
+                    document_path: {
+                        required: 'File is required to upload.',
+                        extension: 'File only in pdf format is required.'
+                    }
+                }
+            });
+
+            $('#society_undertaking').validate({
+                rules:{
+                    document_path: {
+                        required:true,
+                        extension:'pdf'
+                    }
+                },
+                messages:{
+                    document_path: {
+                        required: 'File is required to upload.',
+                        extension: 'File only in pdf format is required.'
+                    }
+                }
+            });
 
             $('.society_registered').delay("slow").slideUp("slow");
 

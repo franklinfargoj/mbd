@@ -304,6 +304,7 @@ class SocietyOfferLetterController extends Controller
 
         Session::put('applications_tab', $applications_tab);
         $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
+
         $ol_application_count = count(OlApplication::where('society_id', $society_details->id)->get());
         Session::put('ol_application_count', $ol_application_count);
 
@@ -455,7 +456,7 @@ class SocietyOfferLetterController extends Controller
                     if($status_display == 'Sent To Society '){
                         $status_display = 'Approved';
                     }
-                    
+
                     return '<span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$ol_applications->olApplicationStatus[0]->status_id) .' m-badge--wide">'.$status_display.'</span>';
                 })
                 ->editColumn('model', function ($ol_applications) {
@@ -1642,6 +1643,7 @@ class SocietyOfferLetterController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function uploadOfferLetterAfterSign(Request $request){
+
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $application_name = OlApplication::where('society_id', $society->id)->with('ol_application_master')->get();
         $society_remark = OlSocietyDocumentsComment::where('society_id', $society->id)->orderBy('id', 'desc')->first();
@@ -1701,12 +1703,12 @@ class SocietyOfferLetterController extends Controller
                         $i++;
                     }
                 }
+
                 //Code added by Prajakta >>start
                 DB::beginTransaction();
                 try {
-                    OlApplication::where('id',$application->id)->update(array('phase' => 1));
 
-                    OlApplicationStatus::where('application_id',$application->id)->update(array('is_active' => 0));
+                    OlApplicationStatus::where('application_id',$application->id)->update(array('is_active' => 0, 'phase' => 0));
                     //Code added by Prajakta >>end
                     OlApplicationStatus::insert(array_merge($insert_application_log_forwarded, $insert_application_log_in_process));
 
