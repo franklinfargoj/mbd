@@ -405,21 +405,26 @@ $route=\Request::route()->getName();
                             </li>
                             {{--<li id="dev-redevelopment" class="collapse">--}}
                                 {{--<ul class="list-unstyled">--}}
-                                    {{--<li class="m-menu__item m-menu__item--submenu collapsed" data-toggle="collapse"
-                                        --}} {{--data-target="#dev-premium">--}}
-                                        {{--<a href="{{ url(session()->get('redirect_to')) }}" class=" m-menu__link
-                                        m-menu__toggle">--}}
-                                        {{--<svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" --}}
-                                            {{--height="16" viewBox="0 0 510 510">--}}
-                                            {{--<path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"--}}
-                                            {{--fill="#FFF" />--}} {{--</svg>--}}
+                                    {{--<li class="m-menu__item m-menu__item--submenu collapsed" data-toggle="collapse"--}}
+                                        {{--data-target="#dev-premium">--}}
+                                        {{--<a href="{{ url(session()->get('redirect_to')) }}" class="m-menu__link m-menu__toggle">--}}
+                                            {{--<svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16"--}}
+                                                {{--height="16" viewBox="0 0 510 510">--}}
+                                                {{--<path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"--}}
+                                                    {{--fill="#FFF" />--}}
+                                            {{--</svg>--}}
                                             {{--<span class="m-menu__link-wrap">--}}
-                                            {{--<span class="m-menu__link-text">--}} {{--Premium--}} {{--</span>--}}
-                                            {{--<i class="m-menu__ver-arrow la la-angle-right"></i>--}} {{--</span>--}}
-                                            {{--</a>--}} {{--</li>--}} {{--<li id="dev-premium" class="collapse">--}}
-                                            {{--<ul class="list-unstyled">--}}
+                                                {{--<span class="m-menu__link-text">--}}
+                                                    {{--Premium--}}
+                                                {{--</span>--}}
+                                                {{--<i class="m-menu__ver-arrow la la-angle-right"></i>--}}
+                                            {{--</span>--}}
+                                        {{--</a>--}}
+                                    {{--</li>--}}
+                                    {{--<li id="dev-premium" class="collapse">--}}
+                                        {{--<ul class="list-unstyled">--}}
                                             {{--<li class="m-menu__item m-menu__item--submenu collapsed">--}}
-                                            {{--<a href="{{ route('show_form_self', Session::get('applications_tab')['dev_premiummium']) }}"--}}
+                                                {{--<a href="{{ route('show_form_self', Session::get('applications_tab')['dev_premiummium']) }}"--}}
                                                     {{--class="m-menu__link m-menu__toggle">--}}
                                                     {{--<svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16"--}}
                                                         {{--height="16" viewBox="0 0 510 510">--}}
@@ -437,20 +442,23 @@ $route=\Request::route()->getName();
                                     {{--</li>--}}
                                     {{--<li class="m-menu__item m-menu__item--submenu collapsed" data-toggle="collapse"--}}
                                         {{--data-target="#dev-sharing">--}}
-                                        {{--<a href="{{ url(session()->get('redirect_to')) }}"
-                                            class="m-menu__link m-menu__toggle">--}}
-                                            {{--<svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16"
-                                                --}} {{--height="16" viewBox="0 0 510 510">--}}
+                                        {{--<a href="{{ url(session()->get('redirect_to')) }}" class="m-menu__link m-menu__toggle">--}}
+                                            {{--<svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16"--}}
+                                                {{--height="16" viewBox="0 0 510 510">--}}
                                                 {{--<path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"--}}
-                                                {{--fill="#FFF" />--}} {{--</svg>--}}
-                                                {{--<span class="m-menu__link-wrap">--}}
-                                                {{--<span class="m-menu__link-text">--}} {{--Sharing--}}
+                                                    {{--fill="#FFF" />--}}
+                                            {{--</svg>--}}
+                                            {{--<span class="m-menu__link-wrap">--}}
+                                                {{--<span class="m-menu__link-text">--}}
+                                                    {{--Sharing--}}
                                                 {{--</span>--}}
                                                 {{--<i class="m-menu__ver-arrow la la-angle-right"></i>--}}
-                                                {{--</span>--}} {{--</a>--}} {{--</li>--}}
-                                                {{--<li id="dev-sharing" class="collapse">--}}
-                                                {{--<ul class="list-unstyled">--}}
-                                                {{--<li class="m-menu__item m-menu__item--submenu collapsed">--}}
+                                            {{--</span>--}}
+                                        {{--</a>--}}
+                                    {{--</li>--}}
+                                    {{--<li id="dev-sharing" class="collapse">--}}
+                                        {{--<ul class="list-unstyled">--}}
+                                            {{--<li class="m-menu__item m-menu__item--submenu collapsed">--}}
                                                 {{--<a href="{{ route('show_form_self', Session::get('applications_tab')['dev_sharing']) }}"--}}
                                                     {{--class="m-menu__link m-menu__toggle">--}}
                                                     {{--<svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16"--}}
@@ -472,218 +480,154 @@ $route=\Request::route()->getName();
                         </ul>
                     </li>
 
-                    <li class="
-                                                m-menu__item
-                                                {{ ($route == 'society_conveyance.index' || $route == 'society_conveyance.create')? '':'collapsed' }}"  id="
-                                                estate_conveyances" data-toggle="collapse" data-target="#estate_conveyance">
-                                                <a href="javascript:void(0);" class="m-menu__link m-menu__toggle">
-                                                    <i class="m-menu__link-icon flaticon-line-graph"></i>
-                                                    <span class="m-menu__link-title">
-                                                        <span class="m-menu__link-wrap">
-                                                            <span class="m-menu__link-text">
-                                                                Estate & Conveyance
-                                                            </span>
-                                                            <i class="m-menu__ver-arrow la la-angle-right"></i>
-                                                        </span>
-                                                    </span>
-                                                </a>
-                                    </li>
-                                    <li id="estate_conveyance" class="collapse {{ ($route == 'society_conveyance.index' || $route == 'society_conveyance.create' || $route=='society_formation.index' || $route=='society_formation.list' || $route=='society_renewal.create' || $route=='society_renewal.index')? 'show':'' }}">
-                                        <ul class="list-unstyled">
-                                            <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{ ($route == 'society_conveyance.index' || $route == 'society_conveyance.create')? '':'collapsed' }}"
-                                                data-toggle="collapse" data-target="#conveyance">
-                                                <a href="{{ url(session()->get('redirect_to')) }}" class="m-menu__link m-menu__toggle">
-                                                    <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16"
-                                                        height="16" viewBox="0 0 510 510">
-                                                        <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
-                                                            fill="#FFF" />
-                                                    </svg>
-                                                    <span class="m-menu__link-wrap">
-                                                        <span class="m-menu__link-text">
-                                                            Conveyance
-                                                        </span>
-                                                        <i class="m-menu__ver-arrow la la-angle-right"></i>
-                                                    </span>
-                                                </a>
-                                            </li>
-                                            <li id="conveyance" class="collapse {{ ($route == 'society_conveyance.index' || $route == 'society_conveyance.create')? 'show':'' }}">
-                                                <ul class="list-unstyled">
-                                                    @if(Session::has('sc_application_count'))
-                                                    <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{ ($route == 'society_conveyance.index')?'m-menu__item--active':''}}">
-                                                        <a href="{{ route('society_conveyance.index') }}" class="m-menu__link m-menu__toggle">
-                                                            <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg"
-                                                                width="16" height="16" viewBox="0 0 510 510">
-                                                                <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
-                                                                    fill="#FFF" />
-                                                            </svg>
-                                                            <span class="m-menu__link-wrap">
-                                                                <span class="m-menu__link-text">
-                                                                    List of Applications
-                                                                </span>
-                                                            </span>
-                                                        </a>
-                                                    </li>
-                                                    @else
-                                                    <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{ ($route == 'society_conveyance.create')?'m-menu__item--active':''}}">
-                                                        <a href="{{ route('society_conveyance.create') }}" class="m-menu__link m-menu__toggle">
-                                                            <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg"
-                                                                width="16" height="16" viewBox="0 0 510 510">
-                                                                <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
-                                                                    fill="#FFF" />
-                                                            </svg>
-                                                            <span class="m-menu__link-wrap">
-                                                                <span class="m-menu__link-text">
-                                                                    Apply for Society Conveyance
-                                                                </span>
-                                                            </span>
-                                                        </a>
-                                                    </li>
-                                                    @endif
-                                                </ul>
-                                            </li>
-                                            @if(session()->get('role_name') == 'society')
-                                            {{-- <li class="m-menu__item m-menu__item--submenu {{($route=='society_formation.list' || $route=='society_formation.index')?'m-menu__item--active':''}}"
-                                                id="society_formation">
-                                                <a class="m-menu__link m-menu__toggle" title="view_Application" href="{{ route('society_formation.list') }}">
-                                                    <i class="m-menu__link-icon flaticon-line-graph"></i>
-                                                    <span class="m-menu__link-title">
-                                                        <span class="m-menu__link-wrap">
-                                                            <span class="m-menu__link-text">
-                                                                Society Formation
-                                                            </span>
-                                                        </span>
-                                                    </span>
-                                                </a>
-                                            </li> --}}
-
-                                            <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{ ($route == 'society_formation.list')? '':'collapsed' }}"
-                                                data-toggle="collapse" data-target="#formation">
-                                                <a href="{{ route('society_formation.list') }}" class="m-menu__link m-menu__toggle">
-                                                    <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16"
-                                                        height="16" viewBox="0 0 510 510">
-                                                        <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
-                                                            fill="#FFF" />
-                                                    </svg>
-                                                    <span class="m-menu__link-wrap">
-                                                        <span class="m-menu__link-text">
-                                                            Society Formation
-                                                        </span>
-                                                        <i class="m-menu__ver-arrow la la-angle-right"></i>
-                                                    </span>
-                                                </a>
-                                            </li>
-                                            <li id="formation" class="collapse {{ ($route == 'society_formation.list' || $route == 'society_formation.index')? 'show':'' }}">
-                                                <ul class="list-unstyled">
-                                                    <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{ ($route == 'society_formation.list') ? 'm-menu__item--active':''}}">
-                                                        <a href="{{ route('society_formation.list') }}" class="m-menu__link m-menu__toggle">
-                                                            <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg"
-                                                                width="16" height="16" viewBox="0 0 510 510">
-                                                                <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
-                                                                    fill="#FFF" />
-                                                            </svg>
-                                                            <span class="m-menu__link-wrap">
-                                                                <span class="m-menu__link-text">
-                                                                    List of Applications
-                                                                </span>
-                                                            </span>
-                                                        </a>
-                                                    </li>
-                                                    <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{ ($route == 'society_formation.index') ? 'm-menu__item--active':''}}">
-                                                        <a href="{{ route('society_formation.index') }}" class="m-menu__link m-menu__toggle">
-                                                            <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg"
-                                                                width="16" height="16" viewBox="0 0 510 510">
-                                                                <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
-                                                                    fill="#FFF" />
-                                                            </svg>
-                                                            <span class="m-menu__link-wrap">
-                                                                <span class="m-menu__link-text">
-                                                                    Apply for Formation of Society
-                                                                </span>
-                                                            </span>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                            @endif
-                                            <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{ ($route == 'society_renewal.index' || $route == 'society_renewal.create')? '':'collapsed' }}"
-                                                data-toggle="collapse" data-target="#renewal">
-                                                <a href="{{ url(session()->get('redirect_to')) }}" class="m-menu__link m-menu__toggle">
-                                                    <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16"
-                                                        height="16" viewBox="0 0 510 510">
-                                                        <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
-                                                            fill="#FFF" />
-                                                    </svg>
-                                                    <span class="m-menu__link-wrap">
-                                                        <span class="m-menu__link-text">
-                                                            Renewal of Lease
-                                                        </span>
-                                                        <i class="m-menu__ver-arrow la la-angle-right"></i>
-                                                    </span>
-                                                </a>
-                                            </li>
-                                            <li id="renewal" class="collapse {{ ($route == 'society_renewal.index' || $route == 'society_renewal.create')? 'show':'' }}">
-                                                <ul class="list-unstyled">
-                                                    @if(Session::has('sr_application_count'))
-                                                    <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{ ($route == 'society_renewal.index') ? 'm-menu__item--active':''}}">
-                                                        <a href="{{ route('society_renewal.index') }}" class="m-menu__link m-menu__toggle">
-                                                            <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg"
-                                                                width="16" height="16" viewBox="0 0 510 510">
-                                                                <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
-                                                                    fill="#FFF" />
-                                                            </svg>
-                                                            <span class="m-menu__link-wrap">
-                                                                <span class="m-menu__link-text">
-                                                                    List of Applications
-                                                                </span>
-                                                            </span>
-                                                        </a>
-                                                    </li>
-                                                    @else
-                                                    <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{ ($route == 'society_renewal.create') ? 'm-menu__item--active':''}}">
-                                                        <a href="{{ route('society_renewal.create') }}" class="m-menu__link m-menu__toggle">
-                                                            <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg"
-                                                                width="16" height="16" viewBox="0 0 510 510">
-                                                                <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
-                                                                    fill="#FFF" />
-                                                            </svg>
-                                                            <span class="m-menu__link-wrap">
-                                                                <span class="m-menu__link-text">
-                                                                    Apply for Renewal of Lease
-                                                                </span>
-                                                            </span>
-                                                        </a>
-                                                    </li>
-                                                    @endif
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li class="m-menu__item" id="architect" data-toggle="collapse" data-target="#">
-                                        <a href="javascript:void(0);" class="m-menu__link m-menu__toggle">
-                                            <i class="m-menu__link-icon flaticon-line-graph"></i>
-                                            <span class="m-menu__link-title">
+                    <li class="m-menu__item {{ ($route == 'society_conveyance.index' || $route == 'society_conveyance.create')? '':'collapsed' }}"  id="estate_conveyances" data-toggle="collapse" data-target="#estate_conveyance">
+                        <a href="javascript:void(0);" class="m-menu__link m-menu__toggle">
+                            <i class="m-menu__link-icon flaticon-line-graph"></i>
+                            <span class="m-menu__link-title">
+                                <span class="m-menu__link-wrap">
+                                    <span class="m-menu__link-text">
+                                        Estate & Conveyance
+                                    </span>
+                                    <i class="m-menu__ver-arrow la la-angle-right"></i>
+                                </span>
+                            </span>
+                        </a>
+                    </li>
+                        <li id="estate_conveyance" class="collapse {{ ($route == 'society_conveyance.index' || $route == 'society_conveyance.create')? 'show':'' }}">
+                            <ul class="list-unstyled">
+                                <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{ ($route == 'society_conveyance.index' || $route == 'society_conveyance.create')? '':'collapsed' }}"
+                                    data-toggle="collapse" data-target="#conveyance">
+                                    <a href="{{ url(session()->get('redirect_to')) }}" class="m-menu__link m-menu__toggle">
+                                        <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                             viewBox="0 0 510 510">
+                                            <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
+                                                  fill="#FFF" />
+                                        </svg>
+                                        <span class="m-menu__link-wrap">
+                                        <span class="m-menu__link-text">
+                                            Conveyance
+                                        </span>
+                                        <i class="m-menu__ver-arrow la la-angle-right"></i>
+                                    </span>
+                                    </a>
+                                </li>
+                                <li id="conveyance" class="collapse {{ ($route == 'society_conveyance.index' || $route == 'society_conveyance.create')? 'show':'' }}">
+                                    <ul class="list-unstyled">
+                                        @if(Session::get('sc_application_count') != 0)
+                                        <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{ ($route == 'society_conveyance.index')?'m-menu__item--active':''}}">
+                                            <a href="{{ route('society_conveyance.index') }}"
+                                               class="m-menu__link m-menu__toggle">
+                                                <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16"
+                                                     height="16" viewBox="0 0 510 510">
+                                                    <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
+                                                          fill="#FFF" />
+                                                </svg>
                                                 <span class="m-menu__link-wrap">
-                                                    <span class="m-menu__link-text">
-                                                        Architect
-                                                    </span>
-                                                    <i class="m-menu__ver-arrow la la-angle-right"></i>
+                                                <span class="m-menu__link-text">
+                                                        List of Applications
                                                 </span>
                                             </span>
-                                        </a>
-                                    </li>
-                                    {{--<li class="m-menu__item" data-toggle="collapse" data-target="#redevelopment">--}}
-                                        {{--<a href="{{ url(session()->get('redirect_to')) }}" class="m-menu__link m-menu__toggle">--}}
-                                            {{--<svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16"
-                                                height="16" --}} {{--viewBox="0 0 510 510">--}}
-                                                {{--<path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"--}}
-                                                {{--fill="#FFF" />--}} {{--</svg>--}}
-                                                {{--<i class="m-menu__link-icon flaticon-line-graph"></i>--}}
-                                                {{--<span class="m-menu__link-wrap">--}}
-                                                {{--<span class="m-menu__link-text">--}} {{--Redevelopment--}}
-                                                {{--</span>--}}
-                                                {{--<i class="m-menu__ver-arrow la la-angle-right"></i>--}}
-                                                {{--</span>--}} {{--</a>--}} {{--</li>--}} <li id="revalidation" class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='ree_applications.reval')?'m-menu__item--active':'' }}">
-                                                <!--  <a href="{{ route('ree_applications.reval') }}" class="m-menu__link m-menu__toggle">
+                                            </a>
+                                        </li>
+                                        @else
+                                            <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{ ($route == 'society_conveyance.create')?'m-menu__item--active':''}}">
+                                                <a href="{{ route('society_conveyance.create') }}"
+                                                   class="m-menu__link m-menu__toggle">
+                                                    <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16"
+                                                         height="16" viewBox="0 0 510 510">
+                                                        <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
+                                                              fill="#FFF" />
+                                                    </svg>
+                                                    <span class="m-menu__link-wrap">
+                                                        <span class="m-menu__link-text">
+                                                                Apply for Society Conveyance
+                                                        </span>
+                                                    </span>
+                                                </a>
+                                            </li>
+                                        @endif
+                                    </ul>
+                                </li>
+                                <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{ ($route == 'society_renewal.index' || $route == 'society_renewal.create')? '':'collapsed' }}"
+                                    data-toggle="collapse" data-target="#renewal">
+                                    <a href="{{ url(session()->get('redirect_to')) }}" class="m-menu__link m-menu__toggle">
+                                        <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                             viewBox="0 0 510 510">
+                                            <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
+                                                  fill="#FFF" />
+                                        </svg>
+                                        <span class="m-menu__link-wrap">
+                                        <span class="m-menu__link-text">
+                                            Renewal of Lease
+                                        </span>
+                                        <i class="m-menu__ver-arrow la la-angle-right"></i>
+                                    </span>
+                                    </a>
+                                </li>
+                                <li id="renewal" class="collapse {{ ($route == 'society_renewal.index' || $route == 'society_renewal.create')? 'show':'' }}">
+                                    <ul class="list-unstyled">
+                                        @if(Session::get('sr_application_count') != 0)
+                                            <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{ ($route == 'society_renewal.index') ? 'm-menu__item--active':''}}">
+                                                <a href="{{ route('society_renewal.index') }}"
+                                                   class="m-menu__link m-menu__toggle">
+                                                    <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16"
+                                                         height="16" viewBox="0 0 510 510">
+                                                        <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
+                                                              fill="#FFF" />
+                                                    </svg>
+                                                    <span class="m-menu__link-wrap">
+                                                <span class="m-menu__link-text">
+                                                        List of Applications
+                                                </span>
+                                            </span>
+                                                </a>
+                                            </li>
+                                        @else
+                                            <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{ ($route == 'society_renewal.create') ? 'm-menu__item--active':''}}">
+                                                <a href="{{ route('society_renewal.create') }}"
+                                                   class="m-menu__link m-menu__toggle">
+                                                    <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16"
+                                                         height="16" viewBox="0 0 510 510">
+                                                        <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
+                                                              fill="#FFF" />
+                                                    </svg>
+                                                    <span class="m-menu__link-wrap">
+                                                        <span class="m-menu__link-text">
+                                                                Apply for Renewal of Lease
+                                                        </span>
+                                                    </span>
+                                                </a>
+                                            </li>
+                                        @endif
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    <li class="m-menu__item" id="architect" data-toggle="collapse" data-target="#">
+                        <a href="javascript:void(0);" class="m-menu__link m-menu__toggle">
+                            <i class="m-menu__link-icon flaticon-line-graph"></i>
+                            <span class="m-menu__link-title">
+                                <span class="m-menu__link-wrap">
+                                    <span class="m-menu__link-text">
+                                        Architect
+                                    </span>
+                                    <i class="m-menu__ver-arrow la la-angle-right"></i>
+                                </span>
+                            </span>
+                        </a>
+                    </li>
+                    {{--<li class="m-menu__item" data-toggle="collapse" data-target="#redevelopment">--}}
+                        {{--<a href="{{ url(session()->get('redirect_to')) }}" class="m-menu__link m-menu__toggle">--}}
+                            {{--<svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" --}}
+                                {{--viewBox="0 0 510 510">--}}
+                                {{--<path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"--}}
+                                {{--fill="#FFF" />--}} {{--</svg>--}}
+                                {{--<i class="m-menu__link-icon flaticon-line-graph"></i>--}}
+                                {{--<span class="m-menu__link-wrap">--}} {{--<span class="m-menu__link-text">--}}
+                                {{--Redevelopment--}} {{--</span>--}}
+                                {{--<i class="m-menu__ver-arrow la la-angle-right"></i>--}} {{--</span>--}}
+                                {{--</a>--}} {{--</li>--}} <li id="revalidation" class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='ree_applications.reval')?'m-menu__item--active':'' }}">
+                              <!--  <a href="{{ route('ree_applications.reval') }}" class="m-menu__link m-menu__toggle">
                                     <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                         viewBox="0 0 510 510">
                                         <path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
@@ -693,49 +637,61 @@ $route=\Request::route()->getName();
                                         Revalidation Of Offer Letter
                                     </span>
                                 </a> -->
-                                    </li>
-                                    {{--@if(isset($ol_application_count))--}}
-                                    {{--@if($ol_application_count == 0)--}}
-                                    {{--<li class="m-menu__item m-menu__item--submenu">--}}
-                                        {{--<a href="{{route('society_detail.application')}}" class="m-menu__link m-menu__toggle">--}}
-                                            {{--<svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16"
-                                                height="16" viewBox="0 0 510 510">--}}
-                                                {{--<path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
-                                                    --}} {{--fill="#FFF" />--}} {{--</svg>--}}
-                                                    {{--<span class="m-menu__link-text">--}}
-                                                    {{--Apply for Offer Letter--}} {{--</span>--}} {{--</a>--}}
-                                                    {{--</li>--}} {{--@endif--}} {{--@endif--}}
-                                                    {{--<li class="m-menu__item m-menu__item--submenu {{($route=='society_conveyance.index' )?'m-menu__item--active':''}}">--}}
+                    </li>
+                    {{--@if(isset($ol_application_count))--}}
+                    {{--@if($ol_application_count == 0)--}}
+                    {{--<li class="m-menu__item m-menu__item--submenu">--}}
+                        {{--<a href="{{route('society_detail.application')}}" class="m-menu__link m-menu__toggle">--}}
+                            {{--<svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                viewBox="0 0 510 510">--}}
+                                {{--<path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"
+                                    --}} {{--fill="#FFF" />--}} {{--</svg>--}} {{--<span class="m-menu__link-text">--}}
+                                    {{--Apply for Offer Letter--}} {{--</span>--}} {{--</a>--}} {{--</li>--}}
+                                    {{--@endif--}} {{--@endif--}}
+                                    {{--<li class="m-menu__item m-menu__item--submenu {{($route=='society_conveyance.index' )?'m-menu__item--active':''}}">--}}
                         {{--<a href="{{ route('society_conveyance.index') }}"
-                                                    class="m-menu__link m-menu__toggle">--}}
-                                                    {{--<svg class="radio-icon" xmlns="http://www.w3.org/2000/svg"
-                                                        width="16" --}} {{--height="16" viewBox="0 0 510 510">--}}
-                                                        {{--<path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"--}}
-                                                        {{--fill="#FFF" />--}} {{--</svg>--}}
-                                                        {{--<span class="m-menu__link-text">--}}
-                                                        {{--Society Conveyance--}} {{--</span>--}} {{--</a>--}}
-                                                        {{--</li>--}} {{--
+                                    class="m-menu__link m-menu__toggle">--}}
+                                    {{--<svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" --}}
+                                        {{--height="16" viewBox="0 0 510 510">--}}
+                                        {{--<path d="M255 127.5c-71.4 0-127.5 56.1-127.5 127.5S183.6 382.5 255 382.5 382.5 326.4 382.5 255 326.4 127.5 255 127.5zM255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm0 459c-112.2 0-204-91.8-204-204S142.8 51 255 51s204 91.8 204 204-91.8 204-204 204z"--}}
+                                        {{--fill="#FFF" />--}} {{--</svg>--}} {{--<span class="m-menu__link-text">--}}
+                                        {{--Society Conveyance--}} {{--</span>--}} {{--</a>--}} {{--</li>--}} 
+                    @if(session()->get('role_name') == 'society')
+                    <li class="m-menu__item m-menu__item--submenu {{($route=='society_formation.list' || $route=='society_formation.index')?'m-menu__item--active':''}}" id="society_formation">
+                        <a class="m-menu__link m-menu__toggle" title="view_Application" href="{{ route('society_formation.list') }}">
+                            <i class="m-menu__link-icon flaticon-line-graph"></i>
+                            <span class="m-menu__link-title">
+                                <span class="m-menu__link-wrap">
+                                    <span class="m-menu__link-text">
+                                        Society Formation
+                                    </span>
+                                </span>
+                            </span>
+                        </a>
+                    </li>
+                    @endif
+                    {{--
                 </ul>--}}
-                                                        @if(Session::has('application_count'))
-                                                        @if(Session::get('application_count')==0)
-                                                        {{--<li class="m-menu__item {{($route=='society_detail.application' )?'m-menu__item--active':''}}">--}}
-                    {{--<a href="{{route('society_detail.application')}}"
-                                                        class="m-menu__link m-menu__toggle">--}}
-                                                        {{--<i class="m-menu__link-icon flaticon-line-graph"></i>--}}
-                                                        {{--<span class="m-menu__link-title">--}}
-                                                            {{--<span class="m-menu__link-wrap">--}}
-                                                                {{--<span class="m-menu__link-text">--}}
-                                                                    {{--Apply for Offer Letter--}}
-                                                                    {{--</span>--}}
-                                                                {{--</span>--}}
-                                                            {{--</span>--}}
-                                                        {{--</a>--}}
-                                        {{--</li>--}}
-                                    @endif
-                                    @endif
-                                    @endif
 
-                                    <!-- <li class="m-menu__item m-menu__item--active m-menu__item--submenu" id="sub-menu" aria-haspopup="true"
+                @if(Session::has('application_count'))
+                @if(Session::get('application_count') == 0)
+                {{--<li class="m-menu__item {{($route=='society_detail.application' )?'m-menu__item--active':''}}">--}}
+                    {{--<a href="{{route('society_detail.application')}}" class="m-menu__link m-menu__toggle">--}}
+                        {{--<i class="m-menu__link-icon flaticon-line-graph"></i>--}}
+                        {{--<span class="m-menu__link-title">--}}
+                            {{--<span class="m-menu__link-wrap">--}}
+                                {{--<span class="m-menu__link-text">--}}
+                                    {{--Apply for Offer Letter--}}
+                                    {{--</span>--}}
+                                {{--</span>--}}
+                            {{--</span>--}}
+                        {{--</a>--}}
+                    {{--</li>--}}
+                @endif
+                @endif
+                @endif
+
+                <!-- <li class="m-menu__item m-menu__item--active m-menu__item--submenu" id="sub-menu" aria-haspopup="true"
                 m-menu-submenu-toggle="hover">
                 <a href="javascript:void(0);" class="m-menu__link m-menu__toggle">
                     <i class="m-menu__link-icon flaticon-line-graph"></i>
@@ -755,9 +711,9 @@ $route=\Request::route()->getName();
             </div>
         </li> -->
 
-                                    @yield('actions')
+                @yield('actions')
 
-                                    <!-- <li class="m-menu__item m-menu__item--active" aria-haspopup="true">
+                <!-- <li class="m-menu__item m-menu__item--active" aria-haspopup="true">
                     <a href="{{ route('society_offer_letter_dashboard') }}" class="m-menu__link ">
                         <i class="m-menu__link-icon flaticon-line-graph"></i>
                         <span class="m-menu__link-title">
@@ -769,7 +725,7 @@ $route=\Request::route()->getName();
                         </span>
                     </a>
                 </li> -->
-                                </ul>
+            </ul>
         </div>
     </div>
     <!-- END: Aside Menu -->
