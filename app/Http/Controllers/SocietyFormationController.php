@@ -70,7 +70,7 @@ class SocietyFormationController extends Controller
             }
             if($sf_application->sfApplicationLog!="")
             {
-                if($sf_application->sfApplicationLog->status_id==config('commanConfig.applicationStatus.in_process'))
+                if($sf_application->sfApplicationLog->status_id==config('commanConfig.formation_status.in_process'))
                 {
                     $disabled=0;
                 }
@@ -161,8 +161,8 @@ class SocietyFormationController extends Controller
                 })
                 ->editColumn('status', function ($sf_applications) {
                     $status=  $sf_applications->sfApplicationLog->status_id;
-                    $status_display = array_keys(config('commanConfig.applicationStatus'), $sf_applications->sfApplicationLog->status_id)[0];
-                    return '<span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$status) .' m-badge--wide">'.$status_display.'</span>';
+                    $status_display = array_keys(config('commanConfig.formation_status'), $sf_applications->sfApplicationLog->status_id)[0];
+                    return '<span class="m-badge m-badge--'. config('commanConfig.formation_status_color.'.$status) .' m-badge--wide">'.$status_display.'</span>';
                 })
                 ->editColumn('action', function ($sf_applications) {
                     $action_parm="<div class='d-flex btn-icon-list'>";
@@ -339,7 +339,7 @@ class SocietyFormationController extends Controller
             $insert_arr = array(
                 'users' => $users,
             );
-            $inserted_application_log = $this->CommonController->sf_application_status_society($insert_arr, config('commanConfig.applicationStatus.forwarded'), $sf_application);
+            $inserted_application_log = $this->CommonController->sf_application_status_society($insert_arr, config('commanConfig.formation_status.forwarded'), $sf_application);
         }
         return redirect()->route('society_formation.index');
     }
