@@ -423,11 +423,8 @@ class CommonController extends Controller
             //Code added by Prajakta >>end
 
         } else {
-            if (session()->get('role_name') == config('commanConfig.cap_engineer') || session()->get('role_name') == config('commanConfig.vp_engineer')) {
 
-                //Code added by Prajakta >>start
-                $to_user_id = $request->user_id;
-                //Code added by Prajakta >>end
+            if (session()->get('role_name') == config('commanConfig.cap_engineer') || session()->get('role_name') == config('commanConfig.vp_engineer')) {
 
                 $revert_application = [
                     [
@@ -466,7 +463,7 @@ class CommonController extends Controller
                         'user_id' => Auth::user()->id,
                         'role_id' => session()->get('role_id'),
                         'status_id' => config('commanConfig.applicationStatus.reverted'),
-                        'to_user_id' => $to_user_id,
+                        'to_user_id' => $request->to_child_id,
                         'to_role_id' => $request->to_role_id,
                         'remark' => $request->remark,
                         'is_active' => 1,
@@ -491,7 +488,7 @@ class CommonController extends Controller
             DB::beginTransaction();
             try {
                 OlApplicationStatus::where('application_id',$request->applicationId)
-                    ->whereIn('user_id', [Auth::user()->id,$to_user_id ])
+                    ->whereIn('user_id', [Auth::user()->id,$request->to_child_id ])
                     ->update(array('is_active' => 0));
 
                 OlApplicationStatus::insert($revert_application);
@@ -1375,7 +1372,7 @@ class CommonController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function sf_application_status_society($insert_arr, $status, $sc_application){
-        $status_in_words = array_flip(config('commanConfig.applicationStatus'))[$status];
+        $status_in_words = array_flip(config('commanConfig.formation_status'))[$status];
         $sc_application_last_id = $sc_application->id;
         $sc_application_master_id = $sc_application->sc_application_master_id;
         foreach($insert_arr['users'] as $key => $user){
@@ -1391,14 +1388,14 @@ class CommonController extends Controller
             $insert_application_log[$status_in_words][$key]['remark'] = '';
             $application_log_status = $insert_application_log[$status_in_words];
 
-            if($status == config('commanConfig.applicationStatus.forwarded')){
-                $status_in_words_1 = array_flip(config('commanConfig.applicationStatus'))[1];
+            if($status == config('commanConfig.formation_status.forwarded')){
+                $status_in_words_1 = array_flip(config('commanConfig.formation_status'))[1];
                 $insert_application_log[$status_in_words_1][$key]['application_id'] = $sc_application_last_id;
                 $insert_application_log[$status_in_words_1][$key]['application_master_id'] = $sc_application_master_id;
                 $insert_application_log[$status_in_words_1][$key]['society_flag'] = 0;
                 $insert_application_log[$status_in_words_1][$key]['user_id'] = $user->id;
                 $insert_application_log[$status_in_words_1][$key]['role_id'] = $user->role_id;
-                $insert_application_log[$status_in_words_1][$key]['status_id'] = config('commanConfig.applicationStatus.in_process');
+                $insert_application_log[$status_in_words_1][$key]['status_id'] = config('commanConfig.formation_status.in_process');
                 $insert_application_log[$status_in_words_1][$key]['to_user_id'] = 0;
                 $insert_application_log[$status_in_words_1][$key]['to_role_id'] = 0;
                 $insert_application_log[$status_in_words_1][$key]['remark'] = '';

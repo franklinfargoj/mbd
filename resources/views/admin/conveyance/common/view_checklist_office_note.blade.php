@@ -119,7 +119,7 @@
                                                 <h5>Download DyCDO Note</h5>
                                                 <div class="mt-auto">
                                                 @if(isset($dycdo_note->document_path))
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$dycdo_note->document_path}}">
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$dycdo_note->document_path}}" target="_blank">
                                                     <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>

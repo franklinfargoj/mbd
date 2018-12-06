@@ -217,7 +217,6 @@ class RCController extends Controller
       if($request->bill_no){  
             
            $Tenant_bill_id = DB::table('building_tenant_bill_association')->where('id', '=', $request->bill_no)->first();
-
            $bill_ids =  explode(',',$Tenant_bill_id->bill_id); 
            
            $receipt = TransPayment::with('dd_details')->with('bill_details')->whereIn('bill_no', $bill_ids)->where('building_id', '=', $request->building_id)->where('society_id', '=', $request->society_id)->get();
@@ -597,9 +596,9 @@ class RCController extends Controller
      public function downloadReceipt(Request $request) {
         if($request->has('building_id') && '' != $request->building_id) {
           $request->building_id = decrypt($request->building_id);
+            $request->bill_no = decrypt($request->bill_no);
           if($request->has('tenant_id') && !empty($request->tenant_id)) {
             $request->tenant_id = decrypt($request->tenant_id);
-            $request->bill_no = decrypt($request->bill_no);
             $this->payment_receipt_tenant($request);
           } else {
             $this->payment_receipt_society($request);

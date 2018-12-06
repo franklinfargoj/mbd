@@ -338,8 +338,9 @@
                 $('#dia').html(intrest_on_difference);
                 $('#difference_intrest_amount').val(intrest_on_difference);
 
-                var total = (parseFloat(old_rate)+parseFloat(old_intrest_amount)+parseFloat(rate_diff)+parseFloat(intrest_on_difference)).toFixed(2);
-
+                // var total = (parseFloat(old_rate)+parseFloat(old_intrest_amount)+parseFloat(rate_diff)+parseFloat(intrest_on_difference)).toFixed(2);
+                var total = (parseFloat(old_rate *months1)+parseFloat(old_intrest_amount)+parseFloat(rate_diff*months1)+parseFloat(intrest_on_difference)).toFixed(2);
+                
                  $('#total_amount').html(total);
                  $('#total_amount_val').val(total);
 
@@ -358,7 +359,7 @@ function monthDiff(d1, d2) {
     var months;
     months = (d2.getFullYear() - d1.getFullYear()) * 12;
     months -= d1.getMonth() + 1;
-    months += d2.getMonth();
+    months += d2.getMonth() -1;
     return months <= 0 ? 0 : months;
 }
 

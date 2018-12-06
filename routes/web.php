@@ -330,7 +330,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::post('ol_reval_sharing_calculation_sheet/save_details','REEDepartment\OlSharingCalculationSheetDetailsController@saveRevalCalculationDetails')->name('save_reval_sharing_calculation_details');
 
-    Route::get('ol_reval_sharing_calculation_sheet/{id}','REEDepartment\OlApplicationCalculationSheetDetailsController@showRevalSharingCalculationDetails')->name('ol_reval_sharing_calculation_sheet.show');
+    Route::get('ol_reval_sharing_calculation_sheet/{id}','REEDepartment\OlSharingCalculationSheetDetailsController@showRevalSharingCalculationDetails')->name('ol_reval_sharing_calculation_sheet.show');
 
     Route::post('upload_ree_note','REEDepartment\REEController@uploadREENote')->name('ree.upload_ree_note');
 
@@ -944,6 +944,11 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('/dashboard','Common\CommonController@dashboard')->name('dashboard');
     // Ree Dashboard
     Route::get('/ree_dashboard','REEDepartment\REEController@dashboard')->name('ree.dashboard');
+
+    // Co Dashboard
+    Route::get('/co_dashboard','CODepartment\COController@dashboard')->name('co.dashboard');
+
+
 
 });
 
