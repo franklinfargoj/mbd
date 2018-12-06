@@ -44,6 +44,7 @@ use PDF;
 use App\TransBillGenerate;
 use App\TransPayment;
 use App\DdDetails;
+use Illuminate\Support\Facades\Redirect;
 
 class RCController extends Controller
 {
@@ -60,7 +61,7 @@ class RCController extends Controller
      */
     public function index(Request $request, Datatables $datatables)
     {
-        return $this->bill_collection_society($request);
+        return $this->bill_collection_tenant($request);
     }
 
     protected function getParameters() {
@@ -94,7 +95,6 @@ class RCController extends Controller
     }
 
     public function bill_collection_tenant(Request $request){
-        
         $layouts = DB::table('layout_user')->where('user_id', '=', Auth::user()->id)->pluck('layout_id');
         $layout_data = MasterLayout::whereIn('id', $layouts)->get();
        // dd($layout_data);
@@ -116,22 +116,24 @@ class RCController extends Controller
         $layoutId = 0;
         $wardId= 0;
         $colonyId=0;
+        $buildingId=0;
+        $society_name='';
         //return $rate_card;
-        return view('admin.rc_department.collect_bill_tenant', compact('society_id','wardId','colonyId','layoutId','html','layout_data', 'wards_data', 'colonies_data','societies_data', 'building_data'));
+        return view('admin.rc_department.collect_bill_tenant', compact('society_id','wardId','colonyId','layoutId','html','layout_data', 'wards_data', 'colonies_data','societies_data', 'building_data','society_name','buildingId'));
 
     }
 
      public function get_building_bill_collection(Request $request, Datatables $datatables){
-            
+        //print_r($request->all());exit;
         $layouts = DB::table('layout_user')->where('user_id', '=', Auth::user()->id)->pluck('layout_id');
         $layout_data = MasterLayout::whereIn('id', $layouts)->get();
+        
        // dd($layout_data);
         $wards = MasterWard::whereIn('layout_id', $layouts)->pluck('id');
         $wards_data = MasterWard::whereIn('layout_id', $layouts)->get();
 
         //dd($wards);
         $colonies = MasterColony::whereIn('ward_id', $wards)->pluck('id');
-
         $colonies_data = MasterColony::whereIn('ward_id', $wards)->get();
 
         //dd($colonies);
@@ -139,7 +141,7 @@ class RCController extends Controller
         $societies_data = SocietyDetail::where('society_bill_level', '=', '2')->whereIn('colony_id', $colonies)->get();
 
         $building_data = MasterBuilding::whereIn('society_id', $societies)->get();
-
+        if(!$request->input('building')) {
         $columns = [
                 ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
                 ['data' => 'building_no','name' => 'building_no','title' => 'Building / Chawl Number'],
@@ -147,14 +149,16 @@ class RCController extends Controller
                 ['data' => 'tenant_count','name' => 'tenant_count','title' => 'Tenant Count'],
                 ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
             ];
-            $society_id = $request->input('id');
+            $society_id = $request->input('society');
             $layoutId = $request->input('layout');
-            $wardId=$request->input('ward');
+            $wardId=$request->input('wards');
             $colonyId=$request->input('colony');
+            $society_name = SocietyDetail::where('id', $society_id)->first()->society_name;
             if ($datatables->getRequest()->ajax()) {
                 DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
-                $buildings = MasterBuilding::with('tenant_count')->where('society_id', '=', $request->input('id'))
+                $buildings = MasterBuilding::with('tenant_count')->where('society_id', '=', $request->input('society'))
                 ->selectRaw('@rownum  := @rownum  + 1 AS rownum,master_buildings.*');  
+                
                     return $datatables->of($buildings)
                         ->editColumn('tenant_count', function ($buildings){  
                            $value = $buildings->tenant_count->toArray(); 
@@ -182,24 +186,10 @@ class RCController extends Controller
             }
             //return $buildings;
             $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
-
-            return view('admin.rc_department.collect_bill_tenant', compact('colonyId','wardId','layoutId','layout_data','societies_data','wards_data','colonies_data','html', 'society_id'));
-    }
-
-    public function get_tenant_bill_collection(Request $request, Datatables $datatables){
-        $layouts = DB::table('layout_user')->where('user_id', '=', Auth::user()->id)->pluck('layout_id');
-        $layout_data = MasterLayout::whereIn('id', $layouts)->get();
-       // dd($layout_data);
-        $wards = MasterWard::whereIn('layout_id', $layouts)->pluck('id');
-        $wards_data = MasterWard::whereIn('layout_id', $layouts)->get();
-
-        //dd($wards);
-        $colonies = MasterColony::whereIn('ward_id', $wards)->pluck('id');
-        $colonies_data = MasterColony::whereIn('ward_id', $wards)->get();
-
-        //dd($colonies);
-        $societies = SocietyDetail::whereIn('colony_id', $colonies)->pluck('id');
-        $societies_data = SocietyDetail::where('society_bill_level', '=', '2')->whereIn('colony_id', $colonies)->get();
+            // return  Redirect::route('get_building_bill_collection')->with(array('html'=>$html));
+            return view('admin.rc_department.collect_bill_tenant')->with(['html'=>$html,'layout_data'=>$layout_data,'layoutId'=>$layoutId,'wards_data'=>$wards_data,'wardId'=>$wardId,'colonies_data'=>$colonies_data,'societies_data'=>$societies_data,'colonyId'=>$colonyId,'society_id'=>$society_id,'society_name'=>$society_name]);
+    
+        } else {
 
         $building_data = MasterBuilding::whereIn('society_id', $societies)->get();
 
@@ -217,9 +207,11 @@ class RCController extends Controller
         $tenament = DB::table('master_tenant_type')->get();
         $society_id = $request->input('society');
         $layoutId = $request->input('layout');
-        $wardId=$request->input('ward');
+        $wardId=$request->input('wards');
         $colonyId=$request->input('colony');
         $buildingId=$request->input('building');
+        $society_name = SocietyDetail::where('id', $society_id)->first()->society_name;
+        $building_name = MasterBuilding::where('id',$buildingId)->first()->name;
         $society_Id = MasterBuilding::where('id', '=', $request->input('building'))->first()->society_id;
        // echo $society_Id;
         if ($datatables->getRequest()->ajax()) {
@@ -245,9 +237,10 @@ class RCController extends Controller
         }
       
         $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
- 
         // return $buildings;
-        return view('admin.rc_department.collect_bill_tenant', compact('layout_data','societies_data','wards_data','colonies_data','tenament','html', 'society_id','layoutId','wardId','colonyId','society_Id'));
+        return view('admin.rc_department.collect_bill_tenant', compact('layout_data','societies_data','wards_data','colonies_data','tenament','html', 'society_id','layoutId','wardId','colonyId','society_Id','society_name','buildingId','building_name','society_name'));
+    }
+
     }
 
     public function generate_receipt_society(Request $request){
@@ -720,19 +713,6 @@ class RCController extends Controller
                                 </div>
                             </div>                          
                     </div>
-                    <div class="row align-items-center mb-0">           
-                        <div class="col-md-9">
-                        <form action="get_building_bill_collection" method="get">
-                            <input type="hidden" name="id" id="societyId"/>
-                            <input type="hidden" name="layout" id="layoutId">
-                            <input type="hidden" name="colony" id="colonyId">
-                            <input type="hidden" name="ward" id="wardId">  
-                            <div class="form-group m-form__group">
-                                <input type="submit" class="btn m-btn--pill m-btn--custom btn-primary" name="search" value="Search">
-                            </div>
-                        </form>
-                        </div>
-                </div>
                 </div>';
             $society_id = $request->input('id');
             $buildings = MasterBuilding::with(['TransBillGenerate'=>function($query) use($society_id){
@@ -756,19 +736,12 @@ class RCController extends Controller
                             </div>                          
                     </div>
                 </div>
-               
-                <div class="col-md-12" style="margin-top:10px;margin-bottom: 10px;">
-                 <form action="get_tenant_bill_collection" method="get"> 
-                    <input type="hidden" name="layout" id="layoutId">
-                    <input type="hidden" name="colony" id="colonyId">
-                    <input type="hidden" name="ward" id="wardId"> 
-                    <input type="hidden" name="society" id="societyId">    
+                <div class="col-md-12" style="margin-top:10px;margin-bottom: 10px;"> 
                     <div class="row align-items-center mb-0">                            
                             <div class="col-md-4">
                                 <div class="form-group m-form__group">
-                                    <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="building" name="building">';
+                                    <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" style="opacity:1" id="building" name="building">';
                                     $html .= '<option value="" style="font-weight: normal;">Select Building</option>';
-
                                         foreach($building as $key => $value){
                                             $html .= '<option value="'.$value->id.'">'.$value->name.'</option>';
                                         }   
@@ -776,14 +749,6 @@ class RCController extends Controller
                                 </div>
                             </div>                          
                     </div>
-                    <div class="row align-items-center mb-0">           
-                        <div class="col-md-9">
-                            <div class="form-group m-form__group">
-                                <input type="submit" class="btn m-btn--pill m-btn--custom btn-primary" name="search" value="Search">
-                            </div>
-                        </div>
-                    </div>
-                </form>
                </div>
                 
                 ';         

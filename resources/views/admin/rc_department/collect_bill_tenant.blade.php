@@ -17,13 +17,13 @@
             <h3 class="m-subheader__title m-subheader__title--separator">Bill Collection Tenant Level</h3>
             {{ Breadcrumbs::render('em') }}
          </div>
-   
+        <form action="{{route('get_building_bill_collection')}}" method="get">
         <div class="m-portlet m-portlet--compact filter-wrap">
             <div class="row align-items-center row--filter">
                 <div class="col-md-12">
-                    <h4 class="m-subheader__title"> Bill Collection Tenant </h4>
+                    <h4 class="m-subheader__title"></h4>
                 </div>
-
+                
                 <div class="col-md-12" style="margin-top:10px;margin-bottom: 10px;">
                     <div class="row align-items-center mb-0">                            
                             <div class="col-md-4">
@@ -86,44 +86,46 @@
                             <div class="col-md-4">
                                 <div class="form-group m-form__group society_select">
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="society" name="society" required>
-                                        <option value="" style="font-weight: normal;">Select Societies</option>
-                                        @foreach($societies_data as $key => $value)
-                                            @if($society_id == $value->id) 
-                                            <option value="{{ $value->id }}" selected>{{ $value->society_name }}</option>
-                                            @else
+                                        @if($society_name) 
+                                        <option value="{{$society_id}}" >{{$society_name}}</option>
+                                        @endif
+                                        @foreach($societies_data as $key => $value) 
                                             <option value="{{ $value->id }}" >{{ $value->society_name }}</option>
-                                            @endif
                                         @endforeach
                                     </select>
                                 </div>
                             </div>                          
                     </div>
                 </div>
-                <div class="col-md-12" style="margin-top:10px;margin-bottom: 10px;">
-                    <div class="row align-items-center mb-0 hide_search_button">           
-                            <div class="col-md-9">
-                                <div class="form-group m-form__group">
-                                    <input type="submit" class="btn m-btn--pill m-btn--custom btn-primary" name="search" value="Search">
-                                </div>
-                            </div>
-                    </div>
-                </div>
-        
-                <div class="col-md-12" style="margin-top:10px;margin-bottom: 10px;">
+                @if(isset($buildingId))
+                    <div class="col-md-12" style="margin-top:10px;margin-bottom: 10px;">
                         <div class="row align-items-center mb-0">                            
-                                <div class="col-md-12">
-                                    <div class=" col-md-12 building_select">
-                            
-                                    </div>
-                                    <div class="form-group m-form__group tenant-list">
-                                    @if($html)
-                                    {!! $html->table() !!}
-                                    @endif
+                                <div class="col-md-4">
+                                    <div class="form-group m-form__group  building_selected">
+                                        <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="building" name="building" required>
+                                            <option value="{{$buildingId}}" selected>{{$building_name}}</option>
+                                        </select>
                                     </div>
                                 </div>                          
                         </div>
+                    </div>
+                @endif
+                <div class=" col-md-12 building_select">
                 </div>
+                <div class="row align-items-center mb-0">           
+                        <div class="col-md-9">
+                            <div class="form-group m-form__group">
+                                <input type="submit" class="btn m-btn--pill m-btn--custom btn-primary" name="search" value="Search">
+                            </div>
+                        </div>
+                    </div>
+                
+                
             </div>
+            </form>
+            @if($html)
+                    {!! $html->table() !!}
+                @endif
     </div>
     <!-- END: Subheader -->
 
@@ -210,12 +212,13 @@
                         //console.log(response);
                         $('.building_select').html(response);
                         $('.tenant-list').html('');
-                        $('#layoutId').val($('#layout').val());
-                        $('#wardId').val($('#wards').val());
-                        $('#colonyId').val($('#colony').val());
-                        $('#societyId').val(id);
+                        // $('#layoutId').val($('#layout').val());
+                        // $('#wardId').val($('#wards').val());
+                        // $('#colonyId').val($('#colony').val());
+                        // $('#societyId').val(id);
+                        $('.building_selected').hide();
                         $('#building').selectpicker('refresh');
-                        $('.hide_search_button').hide();
+                        // $('.hide_search_button').hide();
                     }
                 });             
     });
@@ -224,17 +227,12 @@
                 var id = $(this).val();
                 console.log(id);
                 //return false;
-                $.ajax({
-                    url:"{{URL::route('get_tenant_bill_collection')}}",
-                    type: 'get',
-                    data: {id: id},
-                        success: function(response){
+                
                         console.log(response);
                         $('#building').val(id);
                         //$('.tenant-list').html(response);
                         //$('#building').selectpicker('refresh');
-                    }
-                });             
+                          
     });
 
 
