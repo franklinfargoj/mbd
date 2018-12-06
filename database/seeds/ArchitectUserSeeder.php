@@ -253,7 +253,12 @@ class ArchitectUserSeeder extends Seeder
                     'name'=>'renewal.view_documents',
                     'display_name'=>'view renewal society documents',
                     'description'=>'view renewal society documents'
-                ]                                 
+                ],
+                [
+                    'name'=>'architect_layout_dashboard',
+                    'display_name'=>'view architect layout dashboard',
+                    'description'=>'view architect layout dashboard'
+                ]
                 
             ];
  
