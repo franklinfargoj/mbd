@@ -301,6 +301,21 @@ class FormationCommonController extends Controller
         return $dycologs;
     }
 
+    // get logs of EM dept
+    public function getLogsOfEmDepartment($applicationId, $masterId)
+    {
+
+        $roles = array(config('commanConfig.estate_manager'));
+
+        $status = array(config('commanConfig.formation_status.forwarded'), config('commanConfig.formation_status.reverted'));
+
+        $dycoRoles = Role::whereIn('name', $roles)->pluck('id');
+        $dycologs = SfApplicationStatusLog::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)
+            ->where('application_master_id', $masterId)->whereIn('role_id', $dycoRoles)->whereIn('status_id', $status)->get();
+
+        return $dycologs;
+    }
+
     // get logs of Society
     public function getLogsOfSociety($applicationId, $masterId)
     {
@@ -320,28 +335,11 @@ class FormationCommonController extends Controller
         $applicationId = decrypt($applicationId);
         $sf_application = SfApplication::with('societyApplication')->where('id', $applicationId)->first();
         $data = $this->getForwardApplicationData($applicationId);
-        //dd($data);
-        //$data->folder  = $this->getCurrentRoleFolderName();
         $societyLogs = $this->getLogsOfSociety($applicationId, $data->sc_application_master_id);
         $dycoLogs = $this->getLogsOfDYCODepartment($applicationId, $data->sc_application_master_id);
-        //$eelogs        = $this->getLogsOfEEDepartment($applicationId,$data->sc_application_master_id);
-        //$Architectlogs = $this->getLogsOfArchitectDepartment($applicationId,$data->sc_application_master_id);
-        //$cologs        = $this->getLogsOfCODepartment($applicationId,$data->sc_application_master_id);
+        $EmLogs = $this->getLogsOfEmDepartment($applicationId, $data->sc_application_master_id);
 
-        //$this->getAllSaleLeaseAgreement($data,$applicationId,$data->sc_application_master_id);
-
-        // if (session()->get('role_name') == config('commanConfig.co_engineer') || session()->get('role_name') == config('commanConfig.joint_co')){
-        //   $route = 'admin.conveyance.co_department.forward_application';
-
-        // } elseif (session()->get('role_name') == config('commanConfig.dyco_engineer') || session()->get('role_name') == config('commanConfig.dycdo_engineer')){
-
-        //        $route = 'admin.conveyance.dyco_department.forward_application';
-        //   }
-        //   else{
-        //   $route = 'admin.conveyance.common.forward_application';
-        // }
-
-        return view('admin.formation.forward_application', compact('data', 'societyLogs', 'dycoLogs', 'sf_application'));
+        return view('admin.formation.forward_application', compact('data', 'societyLogs', 'dycoLogs','EmLogs', 'sf_application'));
     }
 
     public function saveForwardApplication(Request $request)
