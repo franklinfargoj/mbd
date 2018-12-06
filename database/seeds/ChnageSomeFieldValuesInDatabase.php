@@ -135,5 +135,13 @@ class ChnageSomeFieldValuesInDatabase extends Seeder
             $data->save();
         }
 
+        // Changing dashboard route of CO role to '/co_dashboard'
+        $co_role_id = Role::where('name', '=', 'co_engineer')->value('id');
+        if($co_role_id ){
+            $data = Role::findOrFail($co_role_id);
+            $data->redirect_to ='/co_dashboard';
+            $data->save();
+        }
+
     }
 }
