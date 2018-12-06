@@ -108,15 +108,15 @@
                     @foreach($arreas_calculations as $key => $arreas_calculation )
                         <tr>
                             <td>{{date("M", mktime(0, 0, 0, $arreas_calculation->month, 10)).','.$arreas_calculation->year}}</td>
-                            <td>{{$service_charges->water_charges}}</td>
-                            <td>{{$service_charges->electric_city_charge}}</td>
-                            <td>{{$service_charges->pump_man_and_repair_charges}}</td>
-                            <td>{{$service_charges->external_expender_charge}}</td>
-                            <td>{{$service_charges->administrative_charge}}</td>
-                            <td>{{$service_charges->lease_rent}}</td>
-                            <td>{{$service_charges->na_assessment}}</td>
-                            <td>{{$service_charges->other}}</td>
-                            <td>{{$total_service_charges}}</td>
+                            <td>@if(!empty($tenant)){{$service_charges->water_charges}}@else{{$service_charges->water_charges*$building->tenant_count()->first()->count}}@endif</td>
+                            <td>@if(!empty($tenant)){{$service_charges->electric_city_charge}}@else{{$service_charges->electric_city_charge*$building->tenant_count()->first()->count}}@endif</td>
+                            <td>@if(!empty($tenant)){{$service_charges->pump_man_and_repair_charges}}@else{{$service_charges->pump_man_and_repair_charges*$building->tenant_count()->first()->count}}@endif</td>
+                            <td>@if(!empty($tenant)){{$service_charges->external_expender_charge}}@else{{$service_charges->external_expender_charge*$building->tenant_count()->first()->count}}@endif</td>
+                            <td>@if(!empty($tenant)){{$service_charges->administrative_charge}}@else{{$service_charges->administrative_charge*$building->tenant_count()->first()->count}}@endif</td>
+                            <td>@if(!empty($tenant)){{$service_charges->lease_rent}}@else{{$service_charges->lease_rent*$building->tenant_count()->first()->count}}@endif</td>
+                            <td>@if(!empty($tenant)){{$service_charges->na_assessment}}@else{{$service_charges->na_assessment*$building->tenant_count()->first()->count}}@endif</td>
+                            <td>@if(!empty($tenant)){{$service_charges->other}}@else{{$service_charges->other*$building->tenant_count()->first()->count}}@endif</td>
+                            <td>@if(!empty($tenant)){{$total_service_charges}}@else{{$service_charges->total_service_charges*$building->tenant_count()->first()->count}}@endif</td>
                             <td>{{$arreas_calculation->old_intrest_amount + $arreas_calculation->difference_amount}}</td>
                             <td>{{$arreas_calculation->old_intrest_amount + $arreas_calculation->difference_intrest_amount}}</td>
                             <td>{{$total_service_charges+$arreas_calculation->old_intrest_amount + $arreas_calculation->difference_amount+$arreas_calculation->old_intrest_amount + $arreas_calculation->difference_intrest_amount}}</td>
@@ -136,11 +136,12 @@
                                 {{ Form::button('<span class="btn-icon btn-icon--edit"><img src="/img/view-arrears-calculation-icon.svg"></span> Donwload Bill', array('class'=>'btn btn--unstyled p-0 btn--icon-wrap d-flex flex-column align-items-center','type'=>'submit')) }}
                                 {!! Form::close() !!}
 
-                                @if(!empty($reciepts) && array_key_exists($arreas_calculation->tenant_id, $reciepts))
+                                @if(!empty($reciepts) && array_key_exists($arreas_calculation->tenant_id, $reciepts) && !empty($tenant))
                                     {!! Form::open(['method' => 'get', 'route' => 'downloadReceipt']) !!}
                                     @if(!empty($tenant)){{ Form::hidden('tenant_id', encrypt($tenant->id)) }}@endif
                                     {{ Form::hidden('building_id',encrypt($building->id)) }}
                                     {{ Form::hidden('bill_no', encrypt($reciepts[$arreas_calculation->tenant_id])) }}
+                                    {{ Form::hidden('except_tenaments[]', '') }}
                                     {{ Form::button('<span class="btn-icon btn-icon--edit"><img src="/img/view-arrears-calculation-icon.svg"></span> Donwload Receipt', array('class'=>'btn btn--unstyled p-0 btn--icon-wrap d-flex flex-column align-items-center','type'=>'submit')) }}
                                     {!! Form::close() !!}
                                 @endif

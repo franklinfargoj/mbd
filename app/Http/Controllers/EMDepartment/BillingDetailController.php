@@ -134,7 +134,7 @@ class BillingDetailController extends Controller
                 $data['reciepts'] = TransPayment::whereIn('bill_no',$data['billIds'])->where('building_id',$request->building_id)->where('tenant_id', '=', decrypt($request->tenant_id))->pluck('bill_no','tenant_id')->toArray();
 
             } else {
-                $data['reciepts'] = TransPayment::whereIn('bill_no',$data['billIds'])->where('building_id',$request->building_id)->pluck('bill_no','tenant_id')->toArray();
+                $data['reciepts'] = TransPayment::whereIn('bill_no',$data['billIds'])->where('building_id',$request->building_id)->pluck('id','tenant_id')->toArray();
 
             }
 
@@ -142,10 +142,7 @@ class BillingDetailController extends Controller
             if(!empty($data['billIds'])) {
                 $data['amount_paid'] = TransBillGenerate::selectRaw('total_bill,tenant_id')->whereIn('id',$data['billIds'])->where('status','paid')->pluck('total_bill','tenant_id')->toArray();
             }
-            // echo'<pre>';
-            // print_r($data['bills']);
-            // print_r($data['reciepts']);
-            // exit;
+            
 	        $data['arreas_calculations'] = ArrearCalculation::where('society_id',$request->society_id)
 	        	->where('building_id',$request->building_id)
 	        	->where('year',  $data['arrear_year'])
@@ -156,8 +153,11 @@ class BillingDetailController extends Controller
         		$data['tenant'] = MasterTenant::find($request->tenant_id);
             	$data['arreas_calculations'] =  $data['arreas_calculations']->where('tenant_id', $request->tenant_id);
             }
-            $data['arreas_calculations'] = $data['arreas_calculations']->orderBy('id','DESC')->get();
-
+            $data['arreas_calculations'] = $data['arreas_calculations']->selectRaw('Sum(old_intrest_amount) as old_intrest_amount,Sum(difference_amount) as difference_amount, Sum(difference_intrest_amount) as difference_intrest_amount,tenant_id')->orderBy('id','DESC')->get();
+            // echo'<pre>';
+            // // print_r($data['bills']);
+            // print_r($data['arreas_calculations']);
+            // exit;
 
     	}
         return view('admin.em_department.billing_calculations', $data);
