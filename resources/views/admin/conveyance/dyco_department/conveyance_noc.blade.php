@@ -23,7 +23,7 @@
             </div>
         </div>
     </div>
- 
+
   <!-- Generate NOC-->    
     @if(session()->get('role_name') == config('commanConfig.dyco_engineer'))
         <div class="m-portlet m-portlet--mobile m_panel">
@@ -44,7 +44,7 @@
                                     <h5>Generate</h5>
                                     <span class="hint-text">Click to Generate NOC </span>
                                     <div class="mt-auto">                           
-                                        <a href="{{ route('dyco.generate_canveyance_noc',$data->id) }}" class="btn btn-primary">Generate </a>
+                                        <a href="{{ route('dyco.generate_canveyance_noc',encrypt($data->id)) }}" class="btn btn-primary">Generate </a>
                                     </div>
                                 </div>
                             </div>
@@ -55,7 +55,7 @@
                                     <span class="hint-text">Click to Download NOC </span>
                                     <div class="mt-auto">
                                         @if(isset($data->draftNOC->document_path))
-                                        <a href="{{ config('commanConfig.storage_server').'/'.$data->draftNOC->document_path }}" class="btn btn-primary">Download </a>                                
+                                        <a href="{{ config('commanConfig.storage_server').'/'.$data->draftNOC->document_path }}" class="btn btn-primary" target="_blank">Download </a>                                
                                         @else
                                         <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
                                             *Note : NOC is not available.</span>
@@ -91,7 +91,7 @@
                                     <div class="d-flex flex-column h-100 two-cols">
                                         <h5>Upload</h5>
                                         <span class="hint-text">Click to upload NOC</span>
-                                            <input type="hidden" name="oldNOC" value="{{ isset($data->NOC->document_path) ? $data->NOC->document_path : '' }}">
+                                            <input type="hidden"  id="oldNOC" name="oldNOC" value="{{ isset($data->NOC->document_path) ? $data->NOC->document_path : '' }}">
                                                 <div class="custom-file">
                                                     <input class="custom-file-input stamp_letter" name="NOC" type="file" id="test-upload1">
                                                     <label class="custom-file-label" for="test-upload1">Choose
@@ -113,6 +113,8 @@
                                         <input type="hidden" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">
                                                 <input type="submit" class="s_btn btn btn-primary" id="submitBtn" value="Send to Society">
                                         </form>
+                                        <span class="error" id="NOCError" style="display: none;color: #ce2323;margin-bottom: 17px;">
+                                        *Note : Please Upload NOC.</span>
                                     </div>    
                                 </div>
                             </div>
@@ -139,5 +141,17 @@
             },            
         }
     });  
+
+    $("#submitBtn").click(function(){
+        
+        var oldNOC = $("#oldNOC").val();
+        if(oldNOC != ""){
+            $("#NOCError").css("display","none"); 
+            return true;           
+        }else{
+            $("#NOCError").css("display","block");
+            return false;
+        }
+    });    
 </script>
 @endsection

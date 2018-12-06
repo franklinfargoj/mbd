@@ -64,7 +64,7 @@
                                                 @if(isset($data->StampSaleByJtco->document_path))
 
                                                 <input type="hidden" name="oldSaleFile" value="{{ isset($data->StampSignSaleAgreement->document_path) ? $data->StampSignSaleAgreement->document_path : '' }}">
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->StampSaleByJtco->document_path }}">
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->StampSaleByJtco->document_path }}" target="_blank">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>
@@ -119,7 +119,7 @@
                                                 @if(isset($data->StampLeaseByJtco->document_path))
 
                                                 <input type="hidden" name="oldLeaseFile" value="{{ isset($data->StampSignLeaseAgreement->document_path) ? $data->StampSignLeaseAgreement->document_path : '' }}">
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->StampLeaseByJtco->document_path }}">
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->StampLeaseByJtco->document_path }}" target="_blank">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>

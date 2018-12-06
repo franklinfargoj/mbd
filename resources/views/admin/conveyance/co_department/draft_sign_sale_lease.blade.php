@@ -69,7 +69,7 @@
                                             <span class="hint-text">Click to download Sale Deed Agreement </span>
                                             <div class="mt-auto">
                                                 @if(isset($document))
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$document }}">
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$document }}" target="_blank">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>
@@ -118,7 +118,7 @@
                                             <span class="hint-text">Click to download Lease Deed Agreement</span>
                                             <div class="mt-auto">
                                                 @if(isset($document1))
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$document1 }}">
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$document1 }}" target="_blank">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>

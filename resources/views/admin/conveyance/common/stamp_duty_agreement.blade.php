@@ -44,9 +44,19 @@
         </ul>
     </div> 
 
-   
-<!-- <form class="nav-tabs-form" id ="agreementFRM" role="form" method="POST" action="{{ route('conveyance.save_stamp_duty_agreement')}}" enctype="multipart/form-data"> -->
-
+@php
+     if(isset($data->StampSaleByDycdo->document_path) && session()->get('role_name') == config('commanConfig.joint_co'))
+        $document = $data->StampSaleByDycdo->document_path;
+    else if(isset($data->StampSaleAgreement->document_path))
+        $document = $data->StampSaleAgreement->document_path;
+@endphp
+@php 
+     if(isset($data->StampLeaseByDycdo->document_path) && session()->get('role_name') == config('commanConfig.joint_co'))
+        $document1 = $data->StampLeaseByDycdo->document_path;
+    else if(isset($data->StampLeaseAgreement->document_path) )
+        $document1 = $data->StampLeaseAgreement->document_path;
+@endphp    
+ 
 <form class="nav-tabs-form" id ="agreementFRM" role="form" method="POST" action="{{ route('conveyance.save_stamp_duty_agreement')}}" enctype="multipart/form-data">
 
 @csrf 
@@ -64,8 +74,8 @@
                                             <h5>Download</h5>
                                             <span class="hint-text">Click to download Sale Deed Agreement </span>
                                             <div class="mt-auto">
-                                                @if(isset($data->StampSaleByDycdo->document_path))
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->StampSaleByDycdo->document_path }}">
+                                                @if(isset($document))
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$document }}" target="_blank">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>
@@ -107,11 +117,11 @@
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="d-flex flex-column h-100 two-cols">
-                                            <h5>Download Note</h5>
+                                            <h5>Download</h5>
                                             <span class="hint-text">Click to download Lease Deed Agreement</span>
                                             <div class="mt-auto">
-                                                @if(isset($data->StampLeaseByDycdo->document_path))
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->StampLeaseByDycdo->document_path }}">
+                                                @if(isset($document1))
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$document1 }}" target="_blank">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>
@@ -157,7 +167,7 @@
                                             <span class="hint-text">Download Society resolution format</span>
                                             <div class="mt-auto">
                                                 @if(isset($data->resolution->document_path))
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->resolution->document_path }}">
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->resolution->document_path }}" target="_blank">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>
@@ -186,7 +196,7 @@
                                             <span class="hint-text">Download Society undertaking format</span>
                                             <div class="mt-auto">
                                                 @if(isset($data->undertaking->document_path))
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->undertaking->document_path }}">
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->undertaking->document_path }}" target="_blank">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>
