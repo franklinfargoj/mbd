@@ -941,6 +941,9 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     // Ree Dashboard
     Route::get('/ree_dashboard','REEDepartment\REEController@dashboard')->name('ree.dashboard');
 
+    //Dashboard routes
+    Route::get('architect_layout_dashboard','Dashboard\ArchitectLayoutDashboardController@dashboard')->name('architect_layout_dashboard');
+
 });
 
 Route::get('/calculation', function () {
