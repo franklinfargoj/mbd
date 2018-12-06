@@ -55,6 +55,18 @@
                     </div>
                 </div>
 
+                <div class="form-group m-form__group row" id="other_land_source" style="display: none">
+                    <div class="col-sm-4 form-group">
+                    </div>
+                    <div class="col-sm-4 offset-sm-1 form-group">
+                        <div class="m-input-icon m-input-icon--right">
+                            <label class="col-form-label" for="other_land_source">Enter Other Land Source:<span class="star">*</span></label>
+                            <textarea id="other_land_source" name="other_land_source" class="form-control form-control--custom form-control--fixed-height m-input">{{ old('other_land_source') }}</textarea>
+                            <span class="help-block">{{$errors->first('other_land_source')}}</span>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="land_address">Land Address:<span class="star">*</span></label>
@@ -287,5 +299,12 @@
             if($(this).val() == 'other') $("#other").show();
             else $("#other").hide();
         });
+
+        $("#land_source_id").on("change", function () {
+            if($(this).val() == 4) $("#other_land_source").show();
+            else $("#other_land_source").hide();
+        });
+
+
     </script>
 @endsection
