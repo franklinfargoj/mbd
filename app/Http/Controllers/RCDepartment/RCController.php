@@ -140,7 +140,7 @@ class RCController extends Controller
         $request->building_id = decrypt($request->building_id);
         $request->society_id = decrypt($request->society_id);
         
-        $Tenant_bill_id = DB::table('building_tenant_bill_association')->where('building_id', '=', $request->building_id)->where('bill_month', '=',  date('n'))->where('bill_year', '=', date('Y'))->first();
+        $Tenant_bill_id = DB::table('building_tenant_bill_association')->where('building_id', '=', $request->building_id)->where('bill_month', '=',  date('n'))->where('bill_year', '=', date('Y'))->orderBy('id','DESC')->first();
 
         if(empty($Tenant_bill_id) || is_null($Tenant_bill_id)){
            return redirect()->back()->with('success', 'Bill Generation is not done for Society. Contact Estate Manager for bill generation.');
@@ -213,7 +213,7 @@ class RCController extends Controller
 
 
     public function payment_receipt_society(Request $request){
-
+      
       if($request->bill_no){  
             
            $Tenant_bill_id = DB::table('building_tenant_bill_association')->where('id', '=', $request->bill_no)->first();
@@ -592,5 +592,18 @@ class RCController extends Controller
             $this->view_bill_building($request,true);
           }
         }
+     }
+
+     public function downloadReceipt(Request $request) {
+        if($request->has('building_id') && '' != $request->building_id) {
+          $request->building_id = decrypt($request->building_id);
+          if($request->has('tenant_id') && !empty($request->tenant_id)) {
+            $request->tenant_id = decrypt($request->tenant_id);
+            $request->bill_no = decrypt($request->bill_no);
+            $this->payment_receipt_tenant($request);
+          } else {
+            $this->payment_receipt_society($request);
+          }
+        } 
      }
 }
