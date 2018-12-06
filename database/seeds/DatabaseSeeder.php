@@ -12,10 +12,12 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // $this->call(UsersTableSeeder::class);
+        $this->call(MasterLayoutSeeder::class);
         $this->call(ResolutionTypesTableSeeder::class);
         $this->call(BoardsAndDepartmentsTableSeeder::class);
         $this->call(ApplicationTypeSeeder::class);
         $this->call(HearingStatusSeeder::class);
+
 
         $this->call(LandSourceSeeder::class);
         $this->call(OtherLandSeeder::class);
@@ -82,7 +84,6 @@ class DatabaseSeeder extends Seeder
 
         $this->call(NocScrutinyQuestionMasterTable::class);
         $this->call(NocSocietyDocumentsMasterTableSeeder::class);
-        $this->call(MasterLayoutSeeder::class);
         $this->call(NocCCSocietyDocumentsMasterTableSeeder::class);
     }
 }

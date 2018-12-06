@@ -1704,9 +1704,7 @@ class SocietyOfferLetterController extends Controller
                 //Code added by Prajakta >>start
                 DB::beginTransaction();
                 try {
-                    OlApplication::where('id',$application->id)->update(array('phase' => 1));
-
-                    OlApplicationStatus::where('application_id',$application->id)->update(array('is_active' => 0));
+                    OlApplicationStatus::where('application_id',$application->id)->update(array('is_active' => 0,'phase' => 0));
                     //Code added by Prajakta >>end
                     OlApplicationStatus::insert(array_merge($insert_application_log_forwarded, $insert_application_log_in_process));
 
