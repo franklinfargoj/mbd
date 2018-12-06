@@ -233,7 +233,9 @@
                                         @if($sf_application->no_due_certificate!= "")
                                         <div class="col-sm-6 border-left">
                                             <div class="d-flex flex-column h-100">
+                                                @if($sf_application->no_dues_certificate_sent_to_society==0)
                                                 <h5>Send to Society</h5>
+                                                @endif
                                                 <div class="mt-auto">
                                                 @if($sf_application->no_dues_certificate_sent_to_society==0)
                                                     <form action="{{route('formation.send_no_due_to_society')}}" method="post">
