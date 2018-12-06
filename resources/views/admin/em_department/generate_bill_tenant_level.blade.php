@@ -267,7 +267,7 @@
                 // });             
     });
 
-
+    $('.m_selectpicker').selectpicker();
 
 </script>
 @endsection

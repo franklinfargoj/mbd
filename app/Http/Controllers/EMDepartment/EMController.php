@@ -531,6 +531,7 @@ class EMController extends Controller
 
                 return $datatables->of($buildings)
                         ->editColumn('actions', function ($buildings) use($society_Id){
+                            if(count($building->TransBillGenerate)<=0) {
                             return "<div class='d-flex btn-icon-list'>
                             <a href='".route('billing_calculations', ['tenant_id'=>encrypt($buildings->id),'building_id'=>encrypt($buildings->building_id),'society_id'=>encrypt($society_Id)])."' class='d-flex flex-column align-items-center ' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/view-billing-details-icon.svg')."'></span>View Billing Details</a>
                         
@@ -538,7 +539,17 @@ class EMController extends Controller
         
                             <a href='".route('arrears_calculations', ['tenant_id'=>encrypt($buildings->id),'building_id'=>encrypt($buildings->building_id),'society_id'=>encrypt($society_Id)])."' class='d-flex flex-column align-items-center' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/view-arrears-calculation-icon.svg')."'></span>Arrear Calculation</a>
             
-                        </div>";
+                            </div>";
+                            } else {
+                                return "<div class='d-flex btn-icon-list'>
+                                <a href='".route('billing_calculations', ['tenant_id'=>encrypt($buildings->id),'building_id'=>encrypt($buildings->building_id),'society_id'=>encrypt($society_Id)])."' class='d-flex flex-column align-items-center ' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/view-billing-details-icon.svg')."'></span>View Billing Details</a>
+                            
+                                <a href='".route('generateTenantBill', ['tenant_id'=>encrypt($buildings->id),'building_id'=>encrypt($buildings->building_id),'society_id'=>encrypt($society_Id),'regenate'=>true])."' class='d-flex flex-column align-items-center' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--regenerate'><img src='".asset('/img/regenerate-bill-icon.svg')."'></span>Regenerate Bill</a>
+            
+                                <a href='".route('arrears_calculations', ['tenant_id'=>encrypt($buildings->id),'building_id'=>encrypt($buildings->building_id),'society_id'=>encrypt($society_Id)])."' class='d-flex flex-column align-items-center' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/view-arrears-calculation-icon.svg')."'></span>Arrear Calculation</a>
+                
+                                </div>"; 
+                            }
                             
                         })               
                         ->rawColumns(['actions'])
@@ -574,15 +585,25 @@ class EMController extends Controller
                     }
                 })
                 ->editColumn('actions', function ($buildings){
-                    return "<div class='d-flex btn-icon-list'>
-                    <a href='".route('generateBuildingBill', ['building_id'=>encrypt($buildings->id),'society_id'=>encrypt($buildings->society_id)])."' class='d-flex flex-column align-items-center ' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/view-billing-details-icon.svg')."'></span>View Billing Details</a>
-                
-                    <a href='".route('billing_calculations', ['building_id'=>encrypt($buildings->id),'society_id'=>encrypt($buildings->society_id)])."' class='d-flex flex-column align-items-center' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/generate-bill-icon.svg')."'></span>Generate Reciept</a>
-
-                    <a href='".route('arrears_calculations', ['building_id'=>encrypt($buildings->id),'society_id'=>encrypt($buildings->society_id)])."' class='d-flex flex-column align-items-center' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/view-arrears-calculation-icon.svg')."'></span>Arrear Calculation</a>
-    
-                </div>";
+                    if(count($building->TransBillGenerate)<=0) {
+                        return "<div class='d-flex btn-icon-list'>
+                        <a href='".route('generateBuildingBill', ['building_id'=>encrypt($buildings->id),'society_id'=>encrypt($buildings->society_id)])."' class='d-flex flex-column align-items-center ' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/view-billing-details-icon.svg')."'></span>Generate Bill</a>
                     
+                        <a href='".route('billing_calculations', ['building_id'=>encrypt($buildings->id),'society_id'=>encrypt($buildings->society_id)])."' class='d-flex flex-column align-items-center' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/generate-bill-icon.svg')."'></span>View Billing Details</a>
+    
+                        <a href='".route('arrears_calculations', ['building_id'=>encrypt($buildings->id),'society_id'=>encrypt($buildings->society_id)])."' class='d-flex flex-column align-items-center' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--delete'><img src='".asset('/img/view-arrears-calculation-icon.svg')."'></span>View Arrear Calculation</a>
+        
+                    </div>";  
+                    } else {
+                            return "<div class='d-flex btn-icon-list'>
+                            <a href='".route('generateBuildingBill', ['building_id'=>encrypt($buildings->id),'society_id'=>encrypt($buildings->society_id),'regenate'=> true])."' class='d-flex flex-column align-items-center ' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/view-billing-details-icon.svg')."'></span>Regenerate Bill</a>
+                        
+                            <a href='".route('billing_calculations', ['building_id'=>encrypt($buildings->id),'society_id'=>encrypt($buildings->society_id)])."' class='d-flex flex-column align-items-center' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/generate-bill-icon.svg')."'></span>View Billing Details</a>
+
+                            <a href='".route('arrears_calculations', ['building_id'=>encrypt($buildings->id),'society_id'=>encrypt($buildings->society_id)])."' class='d-flex flex-column align-items-center' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--delete'><img src='".asset('/img/view-arrears-calculation-icon.svg')."'></span>View Arrear Calculation</a>
+            
+                        </div>";
+                    }
                 })               
                 ->rawColumns(['actions'])
                 ->make(true);           
