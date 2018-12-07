@@ -704,15 +704,9 @@ class RCController extends Controller
             $society = SocietyDetail::find(decrypt($request->input('id')));
             if(Config::get('commanConfig.SOCIETY_LEVEL_BILLING') == $society->society_bill_level) {
                 
-                $html ='<div class="col-md-12" style="margin-top:10px;margin-bottom: 10px;">
-                    <div class="row align-items-center mb-0">                            
-                            <div class="col-md-12">
-                                <div class="form-group m-form__group ">
-                                    Billing Level : Society Level Biiling
-                                </div>
-                            </div>                          
-                    </div>
-                </div>';
+                $html ='<div class="form-group m-form__group ">
+                            Billing Level : Society Level Biiling
+                        </div>';
             $society_id = decrypt($request->input('id'));
             $buildings = MasterBuilding::with(['TransBillGenerate'=>function($query) use($society_id){
                 $query->where('society_id', '=', $society_id)->where('bill_month', '=', date('m'))->where('bill_year', '=', date('Y'));
@@ -726,32 +720,15 @@ class RCController extends Controller
             } else {
                 
                 $building = MasterBuilding::where('society_id', '=', decrypt($request->input('id')))->get();
-                $html = '<div class="col-md-12" style="margin-top:10px;margin-bottom: 10px;">
-                    <div class="row align-items-center mb-0">                            
-                            <div class="col-md-12">
-                                <div class="form-group m-form__group ">
-                                    Billing Level : Tenant Level Biiling
-                                </div>
-                            </div>                          
-                    </div>
-                </div>
-                <div class="col-md-12" style="margin-top:10px;margin-bottom: 10px;"> 
-                    <div class="row align-items-center mb-0">                            
-                            <div class="col-md-4">
-                                <div class="form-group m-form__group">
-                                    <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" style="opacity:1" id="building" name="building">';
-                                    $html .= '<option value="" style="font-weight: normal;">Select Building</option>';
-                                        foreach($building as $key => $value){
-                                            $html .= '<option value="'.encrypt($value->id).'">'.$value->name.'</option>';
-                                        }   
-                                    $html .= '</select>
-                                </div>
-                            </div>                          
-                    </div>
-               </div>
-                
-                ';         
-
+                $html = '<div class="form-group m-form__group ">Billing Level : Tenant Level Biiling</div>
+                        <div class="row align-items-center"><div class="col-md-4"><div class="form-group m-form__group">
+                            <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" style="opacity:1" id="building" name="building">';
+                            $html .= '<option value="" style="font-weight: normal;">Select Building</option>';
+                                foreach($building as $key => $value){
+                                    $html .= '<option value="'.encrypt($value->id).'">'.$value->name.'</option>';
+                                }   
+                            $html .= '</select>
+                        </div></div></div>';
                 return $html;
             }
         }
