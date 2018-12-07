@@ -506,7 +506,7 @@ $route=\Request::route()->getName();
                                             </li>
                                             <li id="conveyance" class="collapse {{ ($route == 'society_conveyance.index' || $route == 'society_conveyance.create')? 'show':'' }}">
                                                 <ul class="list-unstyled">
-                                                    @if(Session::has('sc_application_count'))
+                                                    @if(Session::get('sc_application_count') != 0)
                                                     <li class="m-menu__item m-menu__item--submenu m-menu__item--level-3 {{ ($route == 'society_conveyance.index')?'m-menu__item--active':''}}">
                                                         <a href="{{ route('society_conveyance.index') }}" class="m-menu__link m-menu__toggle">
                                                             <svg class="radio-icon" xmlns="http://www.w3.org/2000/svg"
