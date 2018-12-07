@@ -169,6 +169,7 @@ class AppointingArchitectPermissionSeeder extends Seeder
             $role_id = Role::insertGetId([
                 'name' => 'appointing_architect',
                 'redirect_to' => '/appointing_architect/index',
+                'dashboard' => '/appointing_architect/index',
                 'parent_id' => null,
                 'display_name' => 'appointing_architect',
                 'description' => 'appointing_architect',

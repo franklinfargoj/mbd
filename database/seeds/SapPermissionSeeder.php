@@ -81,6 +81,7 @@ class SapPermissionSeeder extends Seeder
             $role_id = Role::insertGetId([
                 'name' => 'senior_architect_planner',
                 'redirect_to' => '/architect_layouts',
+                'dashboard' => '/architect_layouts',
                 'parent_id' => null,
                 'display_name' => 'SAP',
                 'description' => 'Login as SAP',

@@ -23,6 +23,7 @@ class EmPermissionSeeder extends Seeder
             $em_manager_id = Role::insertGetId([
                 'name' => 'EM',
                 'redirect_to' => '/conveyance',
+                'dashboard' => '/conveyance',
                 'display_name' => 'estate_manager',
                 'description' => 'Login as Estae Manger',
             ]);
@@ -472,6 +473,7 @@ class EmPermissionSeeder extends Seeder
             $em_cl_role_id = Role::insertGetId([
                 'name' => 'em_clerk',
                 'redirect_to' => '/em_clerk',
+                'dashboard' => '/em_clerk',
                 'parent_id' => $em_manager_id,
                 'display_name' => 'EM Clerk',
                 'description' => 'EM Clerk'

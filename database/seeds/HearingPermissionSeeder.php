@@ -24,7 +24,8 @@ class HearingPermissionSeeder extends Seeder
             $joint_co_role_id = Role::insertGetId([
                 'name' => 'Joint CO',
                 'parent_id' => NULL,
-                'redirect_to' => '/hearing-dashboard',
+                'redirect_to' => '/hearing',
+                'dashboard' => '/hearing-dashboard',
                 'display_name' => 'joint_co',
                 'description' => 'Login as Joint CO'
             ]);
@@ -36,7 +37,8 @@ class HearingPermissionSeeder extends Seeder
             $joint_co_pa_role_id = Role::insertGetId([
                 'name' => 'Joint Co PA',
                 'parent_id' => $joint_co_role_id,
-                'redirect_to' => '/hearing-dashboard',
+                'redirect_to' => '/hearing',
+                'dashboard' => '/hearing-dashboard',
                 'display_name' => 'joint_co_pa',
                 'description' => 'Login as Joint CO PA'
             ]);
@@ -48,7 +50,8 @@ class HearingPermissionSeeder extends Seeder
             $co_role_id = Role::insertGetId([
                 'name' => 'Co',
                 'parent_id' => NULL,
-                'redirect_to' => '/hearing-dashboard',
+                'redirect_to' => '/hearing',
+                'dashboard' => '/hearing-dashboard',
                 'display_name' => 'co',
                 'description' => 'Login as CO'
             ]);
@@ -60,7 +63,8 @@ class HearingPermissionSeeder extends Seeder
             $co_pa_role_id = Role::insertGetId([
                 'name' => 'Co PA',
                 'parent_id' => $co_role_id,
-                'redirect_to' => '/hearing-dashboard',
+                'redirect_to' => '/hearing',
+                'dashboard' => '/hearing-dashboard',
                 'display_name' => 'joint_co_pa',
                 'description' => 'Login as Joint CO PA'
             ]);

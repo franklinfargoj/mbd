@@ -220,6 +220,7 @@ class LmPermissionSeeder extends Seeder
             $role_id = Role::insertGetId([
                 'name' => 'LM',
                 'redirect_to' => '/village_detail',
+                'dashboard' => '/village_detail',
                 'display_name' => 'land_manager',
                 'description' => 'Login as Land Manger'
             ]);

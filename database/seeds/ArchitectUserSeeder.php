@@ -276,6 +276,7 @@ class ArchitectUserSeeder extends Seeder
                 $architect_id=Role::insertGetId([
                     'name' => 'architect',
                     'redirect_to' => '/architect_application',
+                    'dashboard' => '/architect_application',
                     'parent_id' => NULL,
                     'display_name' => 'Head Architect',
                     'description' => 'Main Architect'
@@ -361,6 +362,7 @@ class ArchitectUserSeeder extends Seeder
                 $senior_architect_id=Role::insertGetId([
                     'name' => 'senior_architect',
                     'redirect_to' => '/architect_application',
+                    'dashboard' => '/architect_application',
                     'parent_id' => $architect_id,
                     'display_name' => 'Senior Architect',
                     'description' => 'Senior Architect'
@@ -444,6 +446,7 @@ class ArchitectUserSeeder extends Seeder
                 $junior_architect_id=Role::insertGetId([
                     'name' => 'junior_architect',
                     'redirect_to' => '/architect_application',
+                    'dashboard' => '/architect_application',
                     'parent_id' => $senior_architect_id,
                     'display_name' => 'Junior Architect',
                     'description' => 'Junior Architect'
@@ -784,7 +787,7 @@ class ArchitectUserSeeder extends Seeder
                     $architect_sr_role->save();
                 }
             }
-            
+
 
             //dd('ok');
         //}

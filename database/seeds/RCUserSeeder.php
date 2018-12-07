@@ -133,6 +133,7 @@ class RCUserSeeder extends Seeder
             $rc_role_id = Role::insertGetId([
                 'name' => 'rc_collector',
                 'redirect_to' => '/rc',
+                'dashboard' => '/rc',
                 'parent_id' => null,
                 'display_name' => 'RC Collector',
                 'description' => 'RC Collector',
