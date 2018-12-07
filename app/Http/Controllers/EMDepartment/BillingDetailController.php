@@ -20,6 +20,7 @@ use App\MasterBuilding;
 use App\MasterTenant;
 use App\ArrearCalculation;
 use App\ServiceChargesRate;
+use App\ArrearsChargesRate;
 use App\TransBillGenerate;
 use App\BuildingTenantBillAssociation;
 use App\TransPayment;
@@ -102,6 +103,9 @@ class BillingDetailController extends Controller
 	        }
 
 	        $data['service_charges'] = ServiceChargesRate::where('society_id',$request->society_id)->where('building_id',$request->building_id)->where('year',$data['select_year'])->first();
+            $data['arrear_charges'] =ArrearsChargesRate::where('society_id',$request->society_id)->where('building_id', '=', $request->building_id)
+                        ->where('year', '=', $data['arrear_year'])
+                        ->first();
 
             // if($data['select_month'] <= 3){
             //     $data['arrear_year'] = '20'.explode("-", $data['select_year'])[1];
@@ -163,7 +167,9 @@ class BillingDetailController extends Controller
         		$data['tenant'] = MasterTenant::find($request->tenant_id);
             	$data['arreas_calculations'] =  $data['arreas_calculations']->where('tenant_id', $request->tenant_id);
             }
-            $data['arreas_calculations'] = $data['arreas_calculations']->selectRaw('Sum(old_intrest_amount) as old_intrest_amount,Sum(difference_amount) as difference_amount, Sum(difference_intrest_amount) as difference_intrest_amount,tenant_id,building_id')->orderBy('id','DESC')->get();
+            $data['arreas_calculations'] = $data['arreas_calculations']->selectRaw('Sum(old_intrest_amount) as old_intrest_amount,Sum(difference_amount) as difference_amount, Sum(difference_intrest_amount) as difference_intrest_amount,tenant_id,building_id,oir_year,oir_month,ida_year,ida_month,month,year')->orderBy('id','DESC')->get();
+            // echo '<pre>';
+            // print_r($data['arreas_calculations']);exit;
             
     	}
         return view('admin.em_department.billing_calculations', $data);
