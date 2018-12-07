@@ -299,7 +299,7 @@ class CoPermissionSeeder extends Seeder
             $ree_role_id = Role::insertGetId([
                 'name' => 'ree_engineer',
                 'redirect_to' => '/ree_applications',
-                'dashboard' => '/ree_dashboard',
+                'dashboard' => 'ree.dashboard',
                 'parent_id' => null,
                 'display_name' => 'Residential Executive Engineer',
                 'description' => 'Login as Residential Executive Engineer',
@@ -313,7 +313,7 @@ class CoPermissionSeeder extends Seeder
             $role_id = Role::insertGetId([
                 'name' => 'co_engineer',
                 'redirect_to' => '/co',
-                'dashboard' => '/co_dashboard',
+                'dashboard' => 'co.dashboard',
                 'parent_id' => null,
                 'display_name' => 'Co_Engineer',
                 'description' => 'Login as CO Engineer',

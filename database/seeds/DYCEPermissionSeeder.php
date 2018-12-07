@@ -78,7 +78,7 @@ class DYCEPermissionSeeder extends Seeder
             $role_id = Role::insertGetId([
                 'name'         => 'dyce_engineer',
                 'redirect_to'  => '/dyce',
-                'dashboard' => '/dashboard',
+                'dashboard' => 'dashboard',
                 'parent_id'    => NULL,
                 'display_name' => 'DYCE_Engineer',
                 'description'  => 'Login as DYCE Engineer'
@@ -92,7 +92,7 @@ class DYCEPermissionSeeder extends Seeder
             $dyce_deputy_role_id = Role::insertGetId([
                 'name'         => 'dyce_deputy_engineer',
                 'redirect_to'  => '/dyce',
-                'dashboard' => '/dashboard',
+                'dashboard' => 'dashboard',
                 'parent_id'    => $role_id,
                 'display_name' => 'DYCE_deputy_Engineer',
                 'description'  => 'Login as DYCE deputy Engineer'
@@ -105,7 +105,7 @@ class DYCEPermissionSeeder extends Seeder
             $dyce_Jr_role_id = Role::insertGetId([
                 'name'         => 'dyce_junior_engineer',
                 'redirect_to'  => '/dyce',
-                'dashboard' => '/dashboard',
+                'dashboard' => 'dashboard',
                 'parent_id'    => $dyce_deputy_role_id,
                 'display_name' => 'DYCE_junior_Engineer',
                 'description'  => 'Login as DYCE junior Engineer'

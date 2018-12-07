@@ -159,7 +159,7 @@ class CapPermissionSeeder extends Seeder
             $role_id = Role::insertGetId([
                 'name' => 'cap_engineer',
                 'redirect_to' => '/cap',
-                'dashboard' => '/dashboard',
+                'dashboard' => 'dashboard',
                 'parent_id' => null,
                 'display_name' => 'CAP_Engineer',
                 'description' => 'Login as CAP Engineer',

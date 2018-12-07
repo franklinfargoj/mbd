@@ -26,7 +26,7 @@ class ChangeSomeFieldValuesInDatabase extends Seeder
         $ee_role_id = Role::where('name', '=', 'ee_engineer')->value('id');
         if($ee_role_id){
             $data = Role::findOrFail($ee_role_id);
-            $data->dashboard ='/dashboard';
+            $data->dashboard ='dashboard';
             $data->save();
         }
 
@@ -34,7 +34,7 @@ class ChangeSomeFieldValuesInDatabase extends Seeder
         $ee_dy_role_id = Role::where('name','ee_dy_engineer')->value('id');
         if($ee_dy_role_id){
             $data = Role::findOrFail($ee_dy_role_id);
-            $data->dashboard ='/dashboard';
+            $data->dashboard ='dashboard';
             $data->save();
         }
 
@@ -42,14 +42,14 @@ class ChangeSomeFieldValuesInDatabase extends Seeder
         $ee_jr_role_id = Role::where('name','ee_junior_engineer')->value('id');
         if($ee_jr_role_id){
             $data = Role::findOrFail($ee_jr_role_id);
-            $data->dashboard ='/dashboard';
+            $data->dashboard ='dashboard';
             $data->save();
         }
 
         $role_id = Role::where('name', '=', 'dyce_engineer')->value('id');
         if($role_id){
             $data = Role::findOrFail($role_id);
-            $data->dashboard ='/dashboard';
+            $data->dashboard ='dashboard';
             $data->save();
         }
 
@@ -57,14 +57,14 @@ class ChangeSomeFieldValuesInDatabase extends Seeder
         $dyce_deputy_role_id = Role::where('name', '=', 'dyce_deputy_engineer')->value('id');
         if($dyce_deputy_role_id){
             $data = Role::findOrFail($dyce_deputy_role_id);
-            $data->dashboard ='/dashboard';
+            $data->dashboard ='dashboard';
             $data->save();
         }
 
         $dyce_Jr_role_id = Role::where('name', '=', 'dyce_junior_engineer')->value('id');
         if($dyce_Jr_role_id){
             $data = Role::findOrFail($dyce_Jr_role_id);
-            $data->dashboard ='/dashboard';
+            $data->dashboard ='dashboard';
             $data->save();
         }
 
@@ -111,28 +111,28 @@ class ChangeSomeFieldValuesInDatabase extends Seeder
         $ree_head_role_id = Role::where('name', '=', 'ree_engineer')->value('id');
         if($joint_co_role_id ){
             $data = Role::findOrFail($ree_head_role_id);
-            $data->dashboard ='/ree_dashboard';
+            $data->dashboard ='ree.dashboard';
             $data->save();
         }
 
         $ree_ass_role_id = Role::where('name', '=', 'REE Assistant Engineer')->value('id');
         if($ree_ass_role_id ){
             $data = Role::findOrFail($ree_ass_role_id);
-            $data->dashboard ='/ree_dashboard';
+            $data->dashboard ='ree.dashboard';
             $data->save();
         }
 
         $ree_dy_role_id = Role::where('name', '=', 'REE deputy Engineer')->value('id');
         if($ree_dy_role_id ){
             $data = Role::findOrFail($ree_dy_role_id);
-            $data->dashboard ='/ree_dashboard';
+            $data->dashboard ='ree.dashboard';
             $data->save();
         }
 
         $ree_jr_role_id = Role::where('name', '=', 'REE Junior Engineer')->value('id');
         if($ree_jr_role_id ){
             $data = Role::findOrFail($ree_jr_role_id);
-            $data->dashboard ='/ree_dashboard';
+            $data->dashboard ='ree.dashboard';
             $data->save();
         }
 
@@ -140,7 +140,7 @@ class ChangeSomeFieldValuesInDatabase extends Seeder
         $co_role_id = Role::where('name', '=', 'co_engineer')->value('id');
         if($co_role_id ){
             $data = Role::findOrFail($co_role_id);
-            $data->dashboard ='/co_dashboard';
+            $data->dashboard ='co.dashboard';
             $data->save();
         }
 
@@ -148,7 +148,7 @@ class ChangeSomeFieldValuesInDatabase extends Seeder
         $cap_role_id = Role::where('name', '=', 'cap_engineer')->value('id');
         if($cap_role_id ){
             $data = Role::findOrFail($cap_role_id);
-            $data->dashboard ='/dashboard';
+            $data->dashboard ='dashboard';
             $data->save();
         }
 
@@ -156,7 +156,7 @@ class ChangeSomeFieldValuesInDatabase extends Seeder
         $vp_role_id = Role::where('name', '=', 'vp_engineer')->value('id');
         if($vp_role_id ){
             $data = Role::findOrFail($vp_role_id);
-            $data->dashboard ='/dashboard';
+            $data->dashboard ='dashboard';
             $data->save();
         }
 
