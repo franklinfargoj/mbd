@@ -118,7 +118,7 @@ class AccountController extends Controller
             
             return $datatables->of($tenants)
 	            ->editColumn('payment_status', function ($tenants){               
-	               	if(count($tenants->arrear) && $this->PAYMENT_STATUS_PAID == $tenants->arrear->payment_status) {
+	               	if(count($tenants->arrear) && $this->PAYMENT_STATUS_PAID == $tenants->arrear->first()->payment_status) {
 	               		return 'Paid';
 	               	} else {
 	               		return 'Not Paid';
@@ -126,7 +126,7 @@ class AccountController extends Controller
 	            })
 	            ->editColumn('final_rent_amount', function ($tenants){               
 	               	if(count($tenants->arrear)) {
-	               		return $tenants->arrear->total_amount;
+	               		return $tenants->arrear->first()->total_amount;
 	               	} else {
 	               		return '-';
 	               	}
@@ -198,18 +198,25 @@ class AccountController extends Controller
 				->get();
 				
 				return $datatables->of($arrears_calculations)
-					->editColumn('old_rate', function ($tenants)  use($arrears_charges){               
+					->editColumn('old_rate', function ($arrears_calculations)  use($arrears_charges){               
 						return $arrears_charges->old_rate;	
 					})
-					->editColumn('interest_on_old_rate', function ($tenants)  use($arrears_charges){               
+					->editColumn('interest_on_old_rate', function ($arrears_calculations)  use($arrears_charges){               
 						return $arrears_charges->interest_on_old_rate;	
 					})
-					->editColumn('revise_rate', function ($tenants)  use($arrears_charges){               
+					->editColumn('revise_rate', function ($arrears_calculations)  use($arrears_charges){               
 						return $arrears_charges->revise_rate;	
 					})
-					->editColumn('interest_on_diffrence', function ($tenants)  use($arrears_charges){               
-						return $arrears_charges->interest_on_diffrence;	
+					->editColumn('interest_on_diffrence', function ($arrears_calculations)  use($arrears_charges){               
+						return $arrears_charges->interest_on_differance;	
 					})
+                    ->editColumn('payment_status', function ($arrears_calculations)  use($arrears_charges){               
+                        if( $this->PAYMENT_STATUS_PAID == $arrears_calculations->payment_status) {
+                            return 'Paid';
+                        } else {
+                            return 'Not Paid';
+                        }  
+                    })
 					->rawColumns(['old_rate','interest_on_old_rate','revise_rate','interest_on_diffrence'])
 					->make(true);
 			}
