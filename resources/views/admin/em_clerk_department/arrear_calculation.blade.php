@@ -351,11 +351,11 @@
 
                 $('#dia').html(intrest_on_difference);
                 $('#difference_intrest_amount').val(intrest_on_difference);
-                console.log(parseFloat(old_rate));
-                console.log(parseFloat(old_rate *months1));
-                console.log(parseFloat(old_intrest_amount));
-                console.log(parseFloat(rate_diff*months1));
-                console.log(parseFloat(old_rate));
+                // console.log(parseFloat(old_rate));
+                // console.log(parseFloat(old_rate *months1));
+                // console.log(parseFloat(old_intrest_amount));
+                // console.log(parseFloat(rate_diff*months1));
+                // console.log(parseFloat(old_rate));
 
                 var total = (parseFloat(old_rate *months1)+parseFloat(old_intrest_amount)+parseFloat(rate_diff*months1)+parseFloat(intrest_on_difference)).toFixed(2);
 
