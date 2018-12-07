@@ -236,8 +236,22 @@ class CommonController extends Controller
     //     return $architect_application;
     // }
 
+    public function roles_will_see_all_architect_layouts()
+    {
+        return array(
+            config('commanConfig.architect'),
+            config('commanConfig.co_engineer'),
+            config('commanConfig.cap_engineer'),
+            config('commanConfig.vp_engineer'),
+            config('commanConfig.la_engineer'),
+            config('commanConfig.land_manager'),
+            config('commanConfig.senior_architect_planner')
+        );
+    }
+
     public function architect_layout_details($request)
     {
+        
         $ArchitectLayoutLayoutdetailsQuery = ArchitectLayout::with(['ArchitectLayoutStatusLogInListing' => function ($q) {
             $q->where('user_id', Auth::user()->id)
                 ->where('role_id', session()->get('role_id'))
@@ -265,7 +279,15 @@ class CommonController extends Controller
         if ($request->submitted_at_from && $request->submitted_at_to) {
             $ArchitectLayoutLayoutdetailsQuery->whereBetween('added_date', [date('Y-m-d', strtotime($request->submitted_at_from)), date('Y-m-d', strtotime($request->submitted_at_to))]);
         }
-
+        $LayoutUser=\App\LayoutUser::where(['user_id'=>auth()->user()->id])->first();
+        if($LayoutUser)
+        {
+            if(!in_array(session()->get('role_name'),$this->roles_will_see_all_architect_layouts()))
+            {
+            $ArchitectLayoutLayoutdetails = $ArchitectLayoutLayoutdetailsQuery->where('layout_name',$LayoutUser->layout_id);
+            }
+        }
+        
         $ArchitectLayoutLayoutdetails = $ArchitectLayoutLayoutdetailsQuery->orderBy('id','desc')->get();
 
         return $ArchitectLayoutLayoutdetails;
@@ -303,6 +325,14 @@ class CommonController extends Controller
             $ArchitectLayoutRevisionRequestsQuery->where('layout_no', $request->title);
         }
 
+        $LayoutUser=\App\LayoutUser::where(['user_id'=>auth()->user()->id])->first();
+        if($LayoutUser)
+        {
+            if(!in_array(session()->get('role_name'),$this->roles_will_see_all_architect_layouts()))
+            {
+                $ArchitectLayoutRevisionRequestsQuery = $ArchitectLayoutRevisionRequestsQuery->where('layout_name',$LayoutUser->layout_id);
+            }   
+        }
         // query replaced for optimization
         $ArchitectLayoutRevisionRequests = $ArchitectLayoutRevisionRequestsQuery->where(DB::raw(config('commanConfig.architect_layout_status.new_application')), '!=', function ($q) {
             $q->from('architect_layout_status_logs')->select('status_id')->where('architect_layout_id', '=', DB::raw('architect_layouts.id'))->limit(1)->orderBy('id', 'desc');
@@ -322,8 +352,13 @@ class CommonController extends Controller
     public function forward_architect_layout($architect_layout_id,$forward_application)
     {
       DB::transaction(function () use($architect_layout_id,$forward_application){
-        ArchitectLayoutStatusLog::where(['architect_layout_id'=>$architect_layout_id,'open'=>1])->update(['open'=>0]);
-        ArchitectLayoutStatusLog::insert($forward_application);
+        foreach($forward_application as $forward_app)
+        {
+            ArchitectLayoutStatusLog::where(['architect_layout_id'=>$architect_layout_id,'open'=>1])->update(['open'=>0]);
+            ArchitectLayoutStatusLog::where(['architect_layout_id'=>$architect_layout_id,'current_status'=>1,'user_id'=>$forward_app['user_id']])->update(['current_status'=>0]);
+            ArchitectLayoutStatusLog::insert([$forward_app]);
+        }
+        
       });
     }
 

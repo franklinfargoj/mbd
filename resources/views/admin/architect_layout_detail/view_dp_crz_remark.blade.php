@@ -4,7 +4,7 @@
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">View DP Remark & CRZ Remark Details -
-                {{$ArchitectLayoutDetail->architect_layout->layout_name}}</h3>
+                {{$ArchitectLayoutDetail->architect_layout->master_layout!=""?$ArchitectLayoutDetail->architect_layout->master_layout->layout_name:''}}</h3>
         </div>
     </div>
     <div class="m-portlet m-portlet--mobile m_panel">
