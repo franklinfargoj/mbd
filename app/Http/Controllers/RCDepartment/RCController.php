@@ -44,6 +44,7 @@ use PDF;
 use App\TransBillGenerate;
 use App\TransPayment;
 use App\DdDetails;
+use Illuminate\Support\Facades\Redirect;
 
 class RCController extends Controller
 {
@@ -60,7 +61,7 @@ class RCController extends Controller
      */
     public function index(Request $request, Datatables $datatables)
     {
-        return $this->bill_collection_society($request);
+        return $this->bill_collection_tenant($request);
     }
 
     protected function getParameters() {
@@ -94,7 +95,6 @@ class RCController extends Controller
     }
 
     public function bill_collection_tenant(Request $request){
-        
         $layouts = DB::table('layout_user')->where('user_id', '=', Auth::user()->id)->pluck('layout_id');
         $layout_data = MasterLayout::whereIn('id', $layouts)->get();
        // dd($layout_data);
@@ -111,29 +111,133 @@ class RCController extends Controller
         $societies_data = SocietyDetail::where('society_bill_level', '=', '2')->whereIn('colony_id', $colonies)->get();
 
         $building_data = MasterBuilding::whereIn('society_id', $societies)->get();
-
+        $html ='';
+        $society_id = 0;
+        $layoutId = 0;
+        $wardId= 0;
+        $colonyId=0;
+        $buildingId=0;
         //return $rate_card;
-        return view('admin.rc_department.collect_bill_tenant', compact('layout_data', 'wards_data', 'colonies_data','societies_data', 'building_data'));
+        return view('admin.rc_department.collect_bill_tenant', compact('society_id','wardId','colonyId','layoutId','html','layout_data', 'wards_data', 'colonies_data','societies_data', 'building_data','buildingId'));
 
     }
 
-     public function get_building_bill_collection(Request $request){
+     public function get_building_bill_collection(Request $request, Datatables $datatables){
+        //print_r($request->all());exit;
+        $layouts = DB::table('layout_user')->where('user_id', '=', Auth::user()->id)->pluck('layout_id');
+        $layout_data = MasterLayout::whereIn('id', $layouts)->get();
+        
+       // dd($layout_data);
+        $wards = MasterWard::whereIn('layout_id', $layouts)->pluck('id');
+        $wards_data = MasterWard::whereIn('layout_id', $layouts)->get();
 
-            $society_id = $request->input('id');
-            $buildings = MasterBuilding::with('tenant_count')->where('society_id', '=', $request->input('id'))
-                        ->get(); 
+        //dd($wards);
+        $colonies = MasterColony::whereIn('ward_id', $wards)->pluck('id');
+        $colonies_data = MasterColony::whereIn('ward_id', $wards)->get();
+
+        //dd($colonies);
+        $societies = SocietyDetail::whereIn('colony_id', $colonies)->pluck('id');
+        $societies_data = SocietyDetail::where('society_bill_level', '=', '2')->whereIn('colony_id', $colonies)->get();
+
+        $building_data = MasterBuilding::whereIn('society_id', $societies)->get();
+        $society_id = decrypt($request->input('society'));
+        $layoutId = decrypt($request->input('layout'));
+        $wardId=decrypt($request->input('wards'));
+        $colonyId=decrypt($request->input('colony'));
+        if(!$request->input('building')) {
+        $columns = [
+                ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
+                ['data' => 'building_no','name' => 'building_no','title' => 'Building / Chawl Number'],
+                ['data' => 'name','name' => 'name','title' => 'Building / Chawl Name'],
+                ['data' => 'tenant_count','name' => 'tenant_count','title' => 'Tenant Count'],
+                ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false],
+            ];
+            
+            $society_name = SocietyDetail::where('id', $society_id)->first()->society_name;
+            if ($datatables->getRequest()->ajax()) {
+                DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
+                $buildings = MasterBuilding::with('tenant_count')->where('society_id', '=', decrypt($request->input('society')))
+                ->selectRaw('@rownum  := @rownum  + 1 AS rownum,master_buildings.*');  
+                
+                    return $datatables->of($buildings)
+                        ->editColumn('tenant_count', function ($buildings){  
+                           $value = $buildings->tenant_count->toArray(); 
+                           if($value) {
+                               foreach($value as $i) {
+                                 return $i['count'];
+                               }
+                            } else {
+                                return 0;
+                            }
+                        })
+                        ->editColumn('actions', function ($buildings){
+                            return "<div class='d-flex btn-icon-list'>
+                            <a href='".route('billing_calculations', ['building_id'=>encrypt($buildings->id),'society_id'=>encrypt($buildings->society_id)])."' class='d-flex flex-column align-items-center ' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--view'><img src='".asset('/img/view-billing-details-icon.svg')."'></span>View Billing Details</a>
+                        
+                            <a href='".route('generate_receipt_society', ['building_id'=>encrypt($buildings->id),'society_id'=>encrypt($buildings->society_id)])."' class='d-flex flex-column align-items-center' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/generate-bill-icon.svg')."'></span>Generate Reciept</a>
+
+                            <a href='".route('view_bill_building', ['building_id'=>encrypt($buildings->id),'society_id'=>encrypt($buildings->society_id)])."' class='d-flex flex-column align-items-center' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/view-arrears-calculation-icon.svg')."'></span>View Bill</a>
+            
+                        </div>";
+                            
+                        })               
+                        ->rawColumns(['actions'])
+                        ->make(true);
+            }
             //return $buildings;
-            return view('admin.rc_department.ajax_building_bill_collection', compact('buildings', 'society_id'));
+            $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+            // return  Redirect::route('get_building_bill_collection')->with(array('html'=>$html));
+            return view('admin.rc_department.collect_bill_tenant')->with(['html'=>$html,'layout_data'=>$layout_data,'layoutId'=>$layoutId,'wards_data'=>$wards_data,'wardId'=>$wardId,'colonies_data'=>$colonies_data,'societies_data'=>$societies_data,'colonyId'=>$colonyId,'society_id'=>$society_id,'society_name'=>$society_name]);
+    
+        } else {
+
+        $building_data = MasterBuilding::whereIn('society_id', $societies)->get();
+
+        $columns = [
+            ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
+            ['data' => 'flat_no','name' => 'flat_no','title' => 'Flat No.'],
+            ['data' => 'salutation','name' => 'salutation','title' => 'Salutation'],
+            ['data' => 'first_name','name' => 'first_name','title' => 'First Name'],
+            ['data' => 'last_name','name' => 'last_name','title' => 'Last Name'],
+            ['data' => 'use','name' => 'use','title' => 'Use'],
+            ['data' => 'carpet_area','name' => 'carpet_area','title' => 'Carpet Area'],
+            ['data' => 'tenant_type','name' => 'tenant_type','title' => 'Tenant Type'],
+            ['data' => 'actions','name' => 'actions','title' => 'Actions','searchable' => false,'orderable'=>false]
+        ];
+        $tenament = DB::table('master_tenant_type')->get();
+       
+        $buildingId=decrypt($request->input('building'));
+        $society_name = SocietyDetail::where('id', $society_id)->first()->society_name;
+        $building_name = MasterBuilding::where('id',$buildingId)->first()->name;
+        $society_Id = MasterBuilding::where('id', '=', $buildingId)->first()->society_id;
+       // echo $society_Id;
+        if ($datatables->getRequest()->ajax()) {
+            
+            DB::statement(DB::raw('set @rownum='. (isset($request->start) ? $request->start : 0) ));
+            $buildings = MasterTenant::where('building_id', '=', decrypt($request->input('building')))
+            ->selectRaw('@rownum  := @rownum  + 1 AS rownum,master_tenants.*');
+            return $datatables->of($buildings)
+                ->editColumn('actions', function ($buildings) use($society_Id){
+                    return "<div class='d-flex btn-icon-list'>
+                    <a href='".route('billing_calculations', ['tenant_id'=>encrypt($buildings->id),'building_id'=>encrypt($buildings->building_id),'society_id'=>encrypt($society_Id)])."' class='d-flex flex-column align-items-center ' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--view'><img src='".asset('/img/view-billing-details-icon.svg')."'></span>View Billing Details</a>
+                
+                    <a href='".route('generate_receipt_tenant', ['tenant_id'=>encrypt($buildings->id),'building_id'=>encrypt($buildings->building_id),'society_id'=>encrypt($society_Id)])."' class='d-flex flex-column align-items-center' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/generate-bill-icon.svg')."'></span>Generate Reciept</a>
+
+                    <a href='".route('view_bill_tenant', ['tenant_id'=>encrypt($buildings->id),'building_id'=>encrypt($buildings->building_id),'society_id'=>encrypt($society_Id)])."' class='d-flex flex-column align-items-center' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/view-arrears-calculation-icon.svg')."'></span>View Bill</a>
+    
+                </div>";
+                    
+                })               
+                ->rawColumns(['actions'])
+                ->make(true);
+            
+        }
+      
+        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+        // return $buildings;
+        return view('admin.rc_department.collect_bill_tenant', compact('layout_data','societies_data','wards_data','colonies_data','tenament','html', 'society_id','layoutId','wardId','colonyId','society_Id','society_name','buildingId','building_name','society_name'));
     }
 
-    public function get_tenant_bill_collection(Request $request){
-         $tenament = DB::table('master_tenant_type')->get();
-         $building_id = $request->input('id');
-         $buildings = MasterTenant::where('building_id', '=', $request->input('id'))
-                 ->get();
-         $society_id = MasterBuilding::where('id', '=', $request->input('id'))->first()->society_id;
-        // return $buildings;
-        return view('admin.rc_department.ajax_tenant_bill_collection', compact('tenament','buildings', 'building_id', 'society_id'));
     }
 
     public function generate_receipt_society(Request $request){
@@ -213,7 +317,8 @@ class RCController extends Controller
 
 
     public function payment_receipt_society(Request $request){
-      
+      // echo '<pre>';
+      // print_r($request->all());exit;
       if($request->bill_no){  
             
            $Tenant_bill_id = DB::table('building_tenant_bill_association')->where('id', '=', $request->bill_no)->first();
@@ -253,7 +358,7 @@ class RCController extends Controller
                   $Akey = array_search($value->tenant_id, $request->except_tenaments);
                     $paid_amt = $request->tenant_credit_amt[$Akey];
                     //dd($value->total_bill);
-                    //dd($paid_amt);
+                    // dd($paid_amt);
                       //dd($value->arrear_id);
                       if($value->arrear_id != ''){
                       $ids = explode(',', $value->arrear_id);
@@ -593,16 +698,133 @@ class RCController extends Controller
         }
      }
 
+     public function get_building_select_updated_RC(Request $request){
+    
+        if($request->input('id')){
+            $society = SocietyDetail::find(decrypt($request->input('id')));
+            if(Config::get('commanConfig.SOCIETY_LEVEL_BILLING') == $society->society_bill_level) {
+                
+                $html ='<div class="col-md-12" style="margin-top:10px;margin-bottom: 10px;">
+                    <div class="row align-items-center mb-0">                            
+                            <div class="col-md-12">
+                                <div class="form-group m-form__group ">
+                                    Billing Level : Society Level Biiling
+                                </div>
+                            </div>                          
+                    </div>
+                </div>';
+            $society_id = decrypt($request->input('id'));
+            $buildings = MasterBuilding::with(['TransBillGenerate'=>function($query) use($society_id){
+                $query->where('society_id', '=', $society_id)->where('bill_month', '=', date('m'))->where('bill_year', '=', date('Y'));
+            }])->with('tenant_count')->where('society_id', '=', $request->input('id'))
+                        ->get();
+            // return $buildings;
+
+            //  $html .= view('admin.em_department.ajax_building_bill_generation', compact('buildings', 'society_id'))->render();
+             return $html;
+
+            } else {
+                
+                $building = MasterBuilding::where('society_id', '=', decrypt($request->input('id')))->get();
+                $html = '<div class="col-md-12" style="margin-top:10px;margin-bottom: 10px;">
+                    <div class="row align-items-center mb-0">                            
+                            <div class="col-md-12">
+                                <div class="form-group m-form__group ">
+                                    Billing Level : Tenant Level Biiling
+                                </div>
+                            </div>                          
+                    </div>
+                </div>
+                <div class="col-md-12" style="margin-top:10px;margin-bottom: 10px;"> 
+                    <div class="row align-items-center mb-0">                            
+                            <div class="col-md-4">
+                                <div class="form-group m-form__group">
+                                    <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" style="opacity:1" id="building" name="building">';
+                                    $html .= '<option value="" style="font-weight: normal;">Select Building</option>';
+                                        foreach($building as $key => $value){
+                                            $html .= '<option value="'.encrypt($value->id).'">'.$value->name.'</option>';
+                                        }   
+                                    $html .= '</select>
+                                </div>
+                            </div>                          
+                    </div>
+               </div>
+                
+                ';         
+
+                return $html;
+            }
+        }
+    }
+
      public function downloadReceipt(Request $request) {
         if($request->has('building_id') && '' != $request->building_id) {
           $request->building_id = decrypt($request->building_id);
             $request->bill_no = decrypt($request->bill_no);
           if($request->has('tenant_id') && !empty($request->tenant_id)) {
             $request->tenant_id = decrypt($request->tenant_id);
-            $this->payment_receipt_tenant($request);
+            $this->downloadReceiptTenant($request);
           } else {
-            $this->payment_receipt_society($request);
+            $this->downloadReceiptSociety($request);
           }
         } 
+     }
+
+
+     public function downloadReceiptSociety(Request $request) {
+      // print_r($request->bill_no);exit;
+
+        // $Tenant_bill_id = DB::table('building_tenant_bill_association')->where('id', '=', $request->bill_no)->first();
+        $bill_ids =  explode(',',$request->bill_no); 
+
+        $data['building'] = MasterBuilding::find($request->building_id);
+        $data['society']  = SocietyDetail::find($data['building']->society_id);
+
+        $receipt = TransPayment::with('dd_details')->with('bill_details')->whereIn('bill_no', $bill_ids)->where('building_id', '=', $request->building_id)->where('society_id', '=', $data['building']->society_id)->get();
+
+                // dd($receipt);
+        $data['bill_amount'] = 0;
+        $data['amount_paid'] = 0;
+        foreach ($receipt as $key => $value) {
+          $value->id = $request->bill_no;   
+          $data['bill_amount'] += $value->bill_amount;
+          $data['amount_paid'] += $value->amount_paid;    
+        }
+        $except_tenaments = TransBillGenerate::whereIn('id',$bill_ids)->where('status','!=','paid')->pluck('tenant_id')->toArray();
+
+        
+
+        $data['tenants'] = MasterTenant::where('building_id',$request->building_id)->whereNotIn('id', $except_tenaments)->get();
+
+        $data['bill'] = $receipt;
+        // echo '<pre>';
+        // print_r($data['bill']);exit;
+        $data['consumer_number'] = substr(sprintf('%08d', $data['building']->society_id),0,8).'|'.substr(sprintf('%08d', $data['building']->id),0,8);
+        $data['number_of_tenants'] = MasterBuilding::with('tenant_count')->where('id',$request->building_id)->first();
+        //dd($data['number_of_tenants']->tenant_count()->first());
+        if(!$data['number_of_tenants']->tenant_count()->first()) {
+            return redirect()->back()->with('warning', 'Number of Tenants Is zero.');
+        }
+
+        $pdf = PDF::loadView('admin.rc_department.payment_receipt_society', $data);
+        return $pdf->download('payment_receipt_society'.date('YmdHis').'.pdf');
+     }
+
+
+     public function downloadReceiptTenant(Request $request) { 
+        if($request->bill_no){
+            
+            $receipt = TransPayment::with('dd_details')->with('bill_details')->where('bill_no', '=', $request->bill_no)->first();
+        // print_r($receipt);exit;
+
+            $data['building'] = MasterBuilding::find($request->building_id);
+            $data['society'] = SocietyDetail::find($data['building']->society_id);
+            $data['tenant'] = MasterTenant::where('building_id',$data['building']->id)->where('id',$request->tenant_id)->first();
+            $data['bill'] = $receipt;
+            $data['consumer_number'] = substr(sprintf('%08d', $data['building']->id),0,8).'|'.substr(sprintf('%08d', $data['tenant']->id),0,8);
+
+            $pdf = PDF::loadView('admin.rc_department.payment_receipt_tenant', $data);
+                   return $pdf->download('payment_receipt_tenant'.date('YmdHis').'.pdf');
+        }
      }
 }
