@@ -14,7 +14,7 @@
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center" id="search_box">
-            <h3 class="m-subheader__title m-subheader__title--separator">Bill Collection Tenant Level</h3>
+            <h3 class="m-subheader__title m-subheader__title--separator">Bill Collection Level</h3>
             {{ Breadcrumbs::render('em') }}
          </div>
         <form action="{{route('get_building_bill_collection')}}" method="get">
