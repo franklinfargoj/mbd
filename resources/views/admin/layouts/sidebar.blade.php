@@ -885,7 +885,7 @@ $route=\Request::route()->getName();
                         @endif
 
                         @if(Session::all()['role_name'] == 'rc_collector')
-                        <li class="m-menu__item m-menu__item--submenu {{($route=='bill_collection_society')?'m-menu__item--active':''}}">
+                        <!--<li class="m-menu__item m-menu__item--submenu {{($route=='bill_collection_society')?'m-menu__item--active':''}}">
                             <a class="m-menu__link m-menu__toggle" title="view_Application" href="{{ route('bill_collection_society') }}">
                                 <i class="m-menu__link-icon flaticon-line-graph"></i>
                                 <span class="m-menu__link-title">
@@ -896,7 +896,7 @@ $route=\Request::route()->getName();
                                     </span>
                                 </span>
                             </a>
-                        </li>
+                        </li>-->
 
                         <li class="m-menu__item m-menu__item--submenu {{($route=='bill_collection_tenant')?'m-menu__item--active':''}}">
                             <a class="m-menu__link m-menu__toggle" title="view_Application" href="{{ route('bill_collection_tenant') }}">
@@ -905,7 +905,7 @@ $route=\Request::route()->getName();
                                 <span class="m-menu__link-title">
                                     <span class="m-menu__link-wrap">
                                         <span class="m-menu__link-text">
-                                            Collect Bill (Tenant)
+                                            Collect Bill
                                         </span>
                                     </span>
                                 </span>

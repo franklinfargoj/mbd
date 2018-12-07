@@ -50,7 +50,7 @@
                 <div class="col-md-3">
                     <div class="form-group m-form__group">
                         <select id="year" name="year" class="form-control form-control--custom m-input"
-                            placeholder="Select Year" >
+                            placeholder="Select Year">
                             <option value="">Select Year</option>
                             @if(!empty($years)) 
                                 @foreach($years as $year)

@@ -222,6 +222,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('get_building_ajax', 'EMDepartment\EMController@get_building_ajax')->name('get_building_ajax');
     Route::get('get_building_select', 'EMDepartment\EMController@get_building_select')->name('get_building_select');
     Route::get('get_building_select_updated', 'EMDepartment\EMController@get_building_select_updated')->name('get_building_select_updated');
+    Route::get('get_building_select_updated_RC', 'RCDepartment\RCController@get_building_select_updated_RC')->name('get_building_select_updated_RC');
     Route::get('get_tenant_ajax', 'EMDepartment\EMController@get_tenant_ajax')->name('get_tenant_ajax');
 
 
@@ -258,18 +259,20 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
 
     // RC Department Routes
+    Route::get('get_building_bill_collection', 'RCDepartment\RCController@get_building_bill_collection')->name('get_building_bill_collection');
+    Route::get('get_tenant_bill_collection', 'RCDepartment\RCController@get_tenant_bill_collection')->name('get_tenant_bill_collection');
     Route::resource('rc', 'RCDepartment\RCController');
     Route::get('bill_collection_society', 'RCDepartment\RCController@bill_collection_society')->name('bill_collection_society');
     Route::get('bill_collection_tenant', 'RCDepartment\RCController@bill_collection_tenant')->name('bill_collection_tenant');
-    Route::get('get_building_bill_collection', 'RCDepartment\RCController@get_building_bill_collection')->name('get_building_bill_collection');
-    Route::get('get_tenant_bill_collection', 'RCDepartment\RCController@get_tenant_bill_collection')->name('get_tenant_bill_collection');
     Route::get('generate_receipt_society', 'RCDepartment\RCController@generate_receipt_society')->name('generate_receipt_society');
     Route::get('generate_receipt_tenant', 'RCDepartment\RCController@generate_receipt_tenant')->name('generate_receipt_tenant');
     Route::post('payment_receipt_society', 'RCDepartment\RCController@payment_receipt_society')->name('payment_receipt_society');
     Route::post('payment_receipt_tenant', 'RCDepartment\RCController@payment_receipt_tenant')->name('payment_receipt_tenant');
     Route::get('view_bill_tenant', 'RCDepartment\RCController@view_bill_tenant')->name('view_bill_tenant');
     Route::get('view_bill_building', 'RCDepartment\RCController@view_bill_building')->name('view_bill_building');
-
+    Route::get('downloadBill','RCDepartment\RCController@downloadBill')->name('downloadBill');
+    Route::get('downloadReceipt','RCDepartment\RCController@downloadReceipt')->name('downloadReceipt');
+    
     //Account Department routes 
     Route::get('search_accounts','AccountDepartment\AccountController@index')->name('search_accounts');
     Route::get('get_building_select_society','AccountDepartment\AccountController@getBuildingSelectSociety')->name('get_building_select_society');
