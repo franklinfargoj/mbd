@@ -292,7 +292,12 @@ class DYCOPermissions extends Seeder
                 'name'=>'conveyance.save_stamp_duty_agreement',
                 'display_name'=>'save conveyance stamp duty agreement',
                 'description'=>'save conveyance stamp duty agreement'
-            ]                  
+            ],
+            [
+                'name'=>'dashboard',
+                'display_name'=>'dashboard',
+                'description'=>'Dashboard'
+            ],                              
         ];
 
         //dycdo
@@ -465,5 +470,8 @@ class DYCOPermissions extends Seeder
         {
             \App\LayoutUser::insert(['user_id' => $user_id1, 'layout_id' => $layout_id->id]);
         }
+
+        // change redirect to for dyco and dycdo role
+        Role::whereIn('id',[$role_id,$role_id1])->update(['redirect_to' => '/dashboard']);
     }
 }
