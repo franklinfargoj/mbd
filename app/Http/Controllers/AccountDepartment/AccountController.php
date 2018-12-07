@@ -192,10 +192,10 @@ class AccountController extends Controller
 		$data['years'] = ArrearCalculation::selectRaw('Distinct(year)')->where('tenant_id',decrypt($data['tenant_id']))->pluck('year');
 		
     	if(!empty($data['tenant_id']) && !empty($data['year'])) {
+			$arrears_calculations = ArrearCalculation::
+			where('tenant_id',decrypt($data['tenant_id']))->where('year',$data['year'])
+			->get();
 			if ($datatables->getRequest()->ajax()) {
-				$arrears_calculations = ArrearCalculation::
-				where('tenant_id',decrypt($data['tenant_id']))->where('year',$data['year'])
-				->get();
 				
 				return $datatables->of($arrears_calculations)
 					->editColumn('old_rate', function ($arrears_calculations)  use($arrears_charges){               
@@ -220,24 +220,24 @@ class AccountController extends Controller
 					->rawColumns(['old_rate','interest_on_old_rate','revise_rate','interest_on_diffrence'])
 					->make(true);
 			}
+	
+			if($request->has('is_download') && true == $request->is_download) {
+		
+				$filename = time();
+				ob_end_clean();
+				ob_start();
+				return Excel::create($filename, function($excel) use ($data,$arrears_calculations,$arrears_charges) {
+					$excel->setTitle('Initiative');
+					$excel->sheet('sheet1', function($sheet) use ($data,$arrears_calculations,$arrears_charges) {
+						$sheet->loadView('admin.account_department.excel',compact('data','arrears_calculations','arrears_charges'));
+					});
+				})->export('xls');
+			} else {
+				$html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+				return view('admin.account_department.view_calculations',compact('data','html'));
+				//return view('admin.account_department.view_calculations',$data);
+			}
 		}
-    	if($request->has('is_download') && true == $request->is_download) {
-			
-			$filename = time();
-
-			ob_end_clean();
-			ob_start();
-			return Excel::create($filename, function($excel) use ($data) {
-				$excel->setTitle('Initiative');
-				$excel->sheet('sheet1', function($sheet) use ($data) {
-					$sheet->loadView('admin.account_department.view_calculations',$data);
-				});
-			})->export('xls');
-		} else {
-			$html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
-			return view('admin.account_department.view_calculations',compact('data','html'));
-    		//return view('admin.account_department.view_calculations',$data);
-    	}
     }
 
     public function paymentDetails(Request $request,$tenant_id, Datatables $datatables) {
