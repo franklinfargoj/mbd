@@ -33,7 +33,9 @@ class ApplicationStatusMasterSeeder extends Seeder
         ['status_name' => 'Stamped'],
         ['status_name' => 'Stamped_Signed'],
         ['status_name' => 'Register'],
-        ['status_name' => 'Draft_Sign']
+        ['status_name' => 'Draft_Sign'],
+        ['status_name' => 'Stamp_by_dycdo'],
+        ['status_name' => 'Stamp_by_jtco']
     	];
      	$applicationStatus = ApplicationStatusMaster::pluck('status_name');
  		 if (count($applicationStatus) > '0') {

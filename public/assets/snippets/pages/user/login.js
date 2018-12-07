@@ -377,6 +377,11 @@ var SnippetLogin = function() {
                             required:function(element) {
                                 return ($('#remark').val() == 'other');
                             }
+                        },
+                        other_land_source: {
+                            required:function(element) {
+                                return ($('#land_source_id').val() == 4);
+                            }
                         }
                     },
                     messages: {
@@ -463,6 +468,11 @@ var SnippetLogin = function() {
                         other_remark: {
                             required:function(element) {
                                 return ($('#remark').val() == 'other');
+                            }
+                        },
+                        other_land_source: {
+                            required:function(element) {
+                                return ($('#land_source_id').val() == 4);
                             }
                         }
                     },

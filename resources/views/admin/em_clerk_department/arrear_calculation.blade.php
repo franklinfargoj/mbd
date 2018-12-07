@@ -324,20 +324,24 @@
                 
                 var months1 = monthDiff(
                                 new Date(ior_year, ior_month, 01),
-                                new Date(bill_year, bill_month, 30)  
+                                new Date(bill_year, bill_month, 01)  
                              );
-                             console.log(bill_year+' '+bill_month)
+                             // console.log(bill_year+' '+bill_month)
                 
                 var months2 = monthDiff(
                                 new Date(ida_year, ida_month, 01),
-                                new Date(bill_year, bill_month, 30)  
+                                new Date(bill_year, bill_month, 01)  
                              );
                 
                 var iod_per = iod / 100;
                 var ior_per = ior / 100;
-
-                var old_rate = old_rate *months1;
-                var rate_diff = rate_diff *months1;
+                // console.log(months1);
+                // console.log(months2);
+                
+                // if(months1 > 0 ) {
+                    // var old_rate = old_rate *months1;
+                    // var rate_diff = rate_diff *months1;
+                // }
                 var old_intrest_amount = (old_rate * ior_per * months1).toFixed(2);
 
                 var intrest_on_difference = (rate_diff * iod_per * months2).toFixed(2);
@@ -347,8 +351,13 @@
 
                 $('#dia').html(intrest_on_difference);
                 $('#difference_intrest_amount').val(intrest_on_difference);
+                console.log(parseFloat(old_rate));
+                console.log(parseFloat(old_rate *months1));
+                console.log(parseFloat(old_intrest_amount));
+                console.log(parseFloat(rate_diff*months1));
+                console.log(parseFloat(old_rate));
 
-                var total = (parseFloat(old_rate)+parseFloat(old_intrest_amount)+parseFloat(rate_diff)+parseFloat(intrest_on_difference)).toFixed(2);
+                var total = (parseFloat(old_rate *months1)+parseFloat(old_intrest_amount)+parseFloat(rate_diff*months1)+parseFloat(intrest_on_difference)).toFixed(2);
 
                  $('#total_amount').html(total);
                  $('#total_amount_val').val(total);
@@ -359,7 +368,7 @@ function monthDiff(d1, d2) {
     var months;
     months = (d2.getFullYear() - d1.getFullYear()) * 12;
     months = months - d1.getMonth() + 1;
-    months = months + d2.getMonth();
+    months = months + d2.getMonth() - 1;
     return months <= 0 ? 0 : months;
 }
 

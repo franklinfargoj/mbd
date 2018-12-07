@@ -32,7 +32,7 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group m-form__group">
-                                    <input type="text" id="submitted_at_to" name="office_date_to" class="form-control form-control--custom m-input m_datepicker"
+                                    <input type="text" id="submitted_at_to" name="submitted_at_to" class="form-control form-control--custom m-input m_datepicker"
                                         placeholder="To Date" value="{{ isset($getData['submitted_at_to'])? $getData['submitted_at_to'] : '' }}">
                                 </div>
                             </div>
@@ -46,7 +46,7 @@
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input"
                                         id="update_status" name="update_status">
                                         <option value="" style="font-weight: normal;">Select Status</option>
-                                        @foreach(config('commanConfig.applicationStatus') as $key =>
+                                        @foreach(config('commanConfig.formation_status') as $key =>
                                         $application_status)
                                         <option value="{{ $application_status }}"
                                             {{ ($status == $application_status) ? 'selected' : '' }}>{{

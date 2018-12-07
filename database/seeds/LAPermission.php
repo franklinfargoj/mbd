@@ -166,11 +166,11 @@ class LAPermission extends Seeder
                 'name'=>'renewal.save_forward_application_renewal',
                 'display_name'=>'Forward Application',
                 'description'=>'Forwards Application'
-            ],
+            ], 
             [
                 'name'=>'conveyance.checklist',
-                'display_name'=>'Checklist & Note',
-                'description'=>'Shows Checklist & Note'
+                'display_name'=>'checklist',
+                'description'=>'checklist'
             ], 
             [
                 'name'=>'conveyance.save_draft_sign_conveyance_agreement',
@@ -271,6 +271,12 @@ class LAPermission extends Seeder
         if($layout_user){}
         else {
             \App\LayoutUser::insert(['user_id' => $user_id, 'layout_id' => $layout_id->id]);
+        }
+
+        //change LA redirection
+        if ($role_id){
+
+            Role::where('id',$role_id)->update(['redirect_to' => '/conveyance']);
         }
     }
 }

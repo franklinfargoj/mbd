@@ -23,6 +23,7 @@ class VillageDetail extends Model
         'sr_no',
         'village_name',
         'land_source_id',
+        'other_land_source',
         'land_address',
         'district',
         'taluka',

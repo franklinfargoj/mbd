@@ -22,13 +22,15 @@ class EEController extends Controller
     }
 
 	public function SalePriceCalculation(Request $request,$applicationId){
-	
+	   
+        $applicationId = decrypt($applicationId);
 		$data = scApplication::with('ConveyanceSalePriceCalculation')->where('id',$applicationId)->first();
         $data->status = $this->conveyance->getCurrentStatus($applicationId,$data->sc_application_master_id);
         $is_view = session()->get('role_name') == config('commanConfig.ee_junior_engineer');
         $data->conveyance_map = $this->conveyance->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
         
-        if ($is_view && $data->status->status_id == config('commanConfig.applicationStatus.in_process')){
+        if ($is_view && ($data->status->status_id != config('commanConfig.conveyance_status.forwarded') && $data->status->status_id != config('commanConfig.conveyance_status.reverted') ))
+        {
 
             $route = 'admin.conveyance.ee_department.sale_price_calculation';
         }else{
@@ -39,26 +41,26 @@ class EEController extends Controller
 	}
 
 	public function SaveCalculationData(Request $request){
+        
+        $applicationId = $request->application_id;
+        $arrData = $request->all();
+        unset($arrData['_token'],$arrData['pump_house'],$arrData['completion_date']);
+        ConveyanceSalePriceCalculation::updateOrCreate([ 'application_id' => $applicationId],$arrData);
+        ConveyanceSalePriceCalculation::where('application_id',$applicationId)
+        ->update(['completion_date'             => date('Y-m-d',strtotime($request->completion_date)), 
+                  'pump_house'                  => $request->pump_house,
+                  'chawl_no'                    => $request->chawl_no,
+                  'consisting'                  => $request->consisting,
+                  'project_of'                  => $request->project_of,
+                  'ts_under'                    => $request->ts_under,
+                  'situated_at'                 => $request->situated_at,
+                  'construction_cost'           => $request->construction_cost,
+                  'land_premiun_infrastructure' => $request->land_premiun_infrastructure
+                ]);
 
-		$applicationId = $request->application_id;
-		$arrData = $request->all();
-		unset($arrData['_token'],$arrData['pump_house'],$arrData['completion_date']);
-		ConveyanceSalePriceCalculation::updateOrCreate([ 'application_id' => $applicationId],$arrData);
-		ConveyanceSalePriceCalculation::where('application_id',$applicationId)
-		->update(['completion_date' 			=> date('Y-m-d',strtotime($request->completion_date)), 
-				  'pump_house'      			=> $request->pump_house,
-				  'chawl_no' 					=> $request->chawl_no,
-				  'consisting' 					=> $request->consisting,
-				  'project_of' 					=> $request->project_of,
-				  'ts_under' 					=> $request->ts_under,
-				  'situated_at' 				=> $request->situated_at,
-				  'construction_cost' 			=> $request->construction_cost,
-				  'land_premiun_infrastructure' => $request->land_premiun_infrastructure
-				]);
-
-
-		return back()->with('success','Data submitted successfully.');
-	}
+        $applicationId = encrypt($applicationId);    
+        return redirect("sale_price_calculation/" . $applicationId."#".$request->get('redirect_tab'));
+	} 
 
 	public function SaveDemarcationPlan(Request $request){
 		
@@ -77,10 +79,12 @@ class EEController extends Controller
                 $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$file,$file_name);
                 ConveyanceSalePriceCalculation::where('application_id',$applicationId)
                 ->update(['demarcation_map' => $path]);
-                   
-                return back()->with('success','Demarcation Map uploaded successfully.');                         
+                
+                $applicationId = encrypt($applicationId);
+
+                return redirect("sale_price_calculation/" . $applicationId."#".$request->get('redirect_tab'))->with('success','Demarcation Map uploaded successfully.');                   
             } else {
-                return back()->with('pdf_error', 'Invalid type of file uploaded (only pdf allowed).');
+                return redirect("sale_price_calculation/" . $applicationId."#".$request->get('redirect_tab'))->with('pdf_error', 'Invalid type of file uploaded (only pdf allowed).'); 
             }
 
         } 				
@@ -103,10 +107,11 @@ class EEController extends Controller
                 $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$file,$file_name);
                 ConveyanceSalePriceCalculation::where('application_id',$applicationId)
                 ->update(['ee_covering_letter' => $path]);
-                   
-                return back()->with('success','Covering Letter uploaded successfully.');                         
+                
+                $applicationId = encrypt($applicationId);    
+                return redirect("sale_price_calculation/" . $applicationId."#".$request->get('redirect_tab'))->with('success','Covering Letter uploaded successfully.');                        
             } else {
-                return back()->with('pdf_error', 'Invalid type of file uploaded (only pdf allowed).');
+                return redirect("sale_price_calculation/" . $applicationId."#".$request->get('redirect_tab'))->with('pdf_error', 'Invalid type of file uploaded (only pdf allowed).'); 
             }
 
         } 				

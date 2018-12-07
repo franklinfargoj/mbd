@@ -101,7 +101,7 @@ class ServiceChargesController extends Controller
     }
 
     public function store($society_id,$building_id,Request $request) {
-
+        
         $society_id = decrypt($society_id);
         $building_id = decrypt($building_id);
 

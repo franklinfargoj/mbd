@@ -617,7 +617,12 @@ class HearingPermissionSeeder extends Seeder
                 'name'=>'conveyance.draft_sign_conveyance_agreement',
                 'display_name'=>'draft sign conveyance agreement',
                 'description'=>'draft sign conveyance agreement'
-            ]                                                                                            
+            ],
+            [
+                'name'=>'conveyance.save_stamp_duty_agreement',
+                'display_name'=>'save conveyance stamp duty agreement',
+                'description'=>'save conveyance stamp duty agreement'
+            ]                                                                                                         
         ];
   
         foreach ($Jtco_permission as $permission) {

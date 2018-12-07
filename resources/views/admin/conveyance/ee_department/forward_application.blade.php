@@ -24,7 +24,7 @@
                     </a>
                 </li>
                 
-                @if($data->status->status_id == config('commanConfig.conveyance_status.in_process'))
+                @if($data->status->status_id != config('commanConfig.conveyance_status.forwarded') && $data->status->status_id != config('commanConfig.conveyance_status.reverted'))
                 <li class="nav-item m-tabs__item">
                     <a class="nav-link m-tabs__link show" data-toggle="tab" href="#forward-application-tab">
                         <i class="la la-cog"></i> Forward Application
@@ -322,6 +322,7 @@
                                                     </select>
                                                 </div>                                                 
                                             </div>
+                                            <input type="hidden" id="society_flag" name="society_flag" value="0">
                                              @if($data->child)
                                             <div class="form-group m-form__group row mt-3 child-data" style="display: none">
                                                 <label class="col-form-label col-lg-2 col-sm-12">

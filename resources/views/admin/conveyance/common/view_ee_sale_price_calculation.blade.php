@@ -52,11 +52,6 @@
                 <div class="portlet-body">
                     <div class="m-portlet__body m-portlet__body--table" id="calculation">
                         <div class="m-subheader">
-                            <div class="d-flex align-items-center justify-content-center">
-                                <h3 class="section-title text-uppercase">
-                                    Statement
-                                </h3>
-                            </div>
                             Building/Chawl No. 
                             <input class="letter-form-input letter-form-input--md" type="text" name="chawl_no" value="{{ isset($data->ConveyanceSalePriceCalculation->chawl_no) ? $data->ConveyanceSalePriceCalculation->chawl_no : '' }}" readonly> 
                             Consisting 
@@ -223,25 +218,18 @@
             <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
                 <div class="portlet-body">
                     <div class="m-portlet__body m-portlet__body--table">
-                        <div class="m-subheader" style="padding: 0;">
-                            <div class="d-flex align-items-center">
-                                <h4 class="section-title">
-                                    Demarcation Plan
-                                </h4>
-                            </div>
-                        </div>
                         <div class="m-section__content mb-0 table-responsive">
                             <div class="container">
                                 <div class="row">                                    
                                     <div class="col-sm-6 border-left">
                                         <div class="d-flex flex-column h-100 two-cols">
-                                            <h5>Download Demarcation Map</h5>
+                                            <h5>Download</h5>
                                             <span class="hint-text">Download demarcation Map</span>
                                             <div class="mt-auto">
                                                 @if(isset($data->ConveyanceSalePriceCalculation->demarcation_map))
 
                                                 <input type="hidden" name="oldFileName" value="{{ $data->ConveyanceSalePriceCalculation->demarcation_map }}">
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->ConveyanceSalePriceCalculation->demarcation_map }}">
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->ConveyanceSalePriceCalculation->demarcation_map }}" target="_blank">
 
                                                     <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
@@ -268,13 +256,6 @@
             <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
                 <div class="portlet-body">
                     <div class="m-portlet__body m-portlet__body--table">
-                        <div class="m-subheader" style="padding: 0;">
-                            <div class="d-flex align-items-center">
-                                <h4 class="section-title">
-                                    Covering Letter
-                                </h4>
-                            </div>
-                        </div>
                         <div class="m-section__content mb-0 table-responsive">
                             <div class="container">
                                 <div class="row">
@@ -286,14 +267,14 @@
                                                 @if(isset($data->ConveyanceSalePriceCalculation->ee_covering_letter))
 
                                                 <input type="hidden" name="oldFileName" value="{{ $data->ConveyanceSalePriceCalculation->ee_covering_letter }}">
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->ConveyanceSalePriceCalculation->ee_covering_letter }}">
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->ConveyanceSalePriceCalculation->ee_covering_letter }}" target="_blank">
 
                                                     <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>
                                                 @else
                                                 <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
-                                                    *Note : Demarcation Map is not available.</span>
+                                                    *Note : Covering letter is not available.</span>
                                                 @endif
                                             </div>
                                         </div>

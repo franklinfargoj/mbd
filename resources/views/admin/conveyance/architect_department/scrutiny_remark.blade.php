@@ -122,10 +122,30 @@
                         <div class="m-section__content mb-0 table-responsive">
                             <div class="container">
                                 <div class="row">
-                                @if(session()->get('role_name') == config('commanConfig.junior_architect') && $data->status->status_id == config('commanConfig.conveyance_status.in_process'))
-                                    <div class="col-sm-6">
+                                
+                                <div class="col-sm-6">
+                                    <div class="d-flex flex-column h-100 two-cols">
+                                        <h5>Download</h5>
+                                        <span class="hint-text">Click to download Conveyance map </span>
+                                        <div class="mt-auto">
+                                            @if(isset($data->conveyance_map->document_path))
+                                             <input type="hidden" name="oldFileName" value="{{ $data->conveyance_map->document_path }}">
+                                            <a href="{{ config('commanConfig.storage_server').'/'.$data->conveyance_map->document_path }}" target="_blank">
+                                            <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
+                                                    Download </Button>
+                                            </a>
+                                            @else
+                                            <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
+                                                *Note : Conveyance map is not available.</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>                                    
+                                @if(session()->get('role_name') == config('commanConfig.junior_architect') && 
+                                ($data->status->status_id != config('commanConfig.conveyance_status.forwarded') && $data->status->status_id != config('commanConfig.conveyance_status.reverted') ))
+                                    <div class="col-sm-6 border-left">
                                         <div class="d-flex flex-column h-100 two-cols">
-                                            <h5>Upload Map</h5>
+                                            <h5>Upload</h5>
                                             <span class="hint-text">Click on 'Upload' to upload Conveyance map</span>
                                                 <div class="custom-file">
                                                     <input class="custom-file-input" name="conveyance_map" type="file" id="test-upload1">
@@ -134,30 +154,12 @@
                                                         file...</label>   
                                                 </div>
                                             <div class="d-flex">
-                                                <button type="submit" class="btn btn-primary mt-3" style="display:block">Save</button>
+                                                <button type="submit" class="btn btn-primary mt-3" style="display:block">Upload</button>
                                             </div>
                                         </div>
                                     </div>
                                     @endif
 
-                                    <div class="col-sm-6 border-left">
-                                        <div class="d-flex flex-column h-100 two-cols">
-                                            <h5>Download</h5>
-                                            <span class="hint-text">Click to download Conveyance map </span>
-                                            <div class="mt-auto">
-                                                @if(isset($data->conveyance_map->document_path))
-                                                 <input type="hidden" name="oldFileName" value="{{ $data->conveyance_map->document_path }}">
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->conveyance_map->document_path }}">
-                                                <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
-                                                        Download </Button>
-                                                </a>
-                                                @else
-                                                <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
-                                                    *Note : Conveyance map is not available.</span>
-                                                @endif
-                                            </div>
-                                        </div>
-                                    </div>                                    
                                 </div>
                             </div>
                         </div>

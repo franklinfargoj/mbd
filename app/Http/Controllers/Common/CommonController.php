@@ -423,11 +423,8 @@ class CommonController extends Controller
             //Code added by Prajakta >>end
 
         } else {
-            if (session()->get('role_name') == config('commanConfig.cap_engineer') || session()->get('role_name') == config('commanConfig.vp_engineer')) {
 
-                //Code added by Prajakta >>start
-                $to_user_id = $request->user_id;
-                //Code added by Prajakta >>end
+            if (session()->get('role_name') == config('commanConfig.cap_engineer') || session()->get('role_name') == config('commanConfig.vp_engineer')) {
 
                 $revert_application = [
                     [
@@ -435,8 +432,8 @@ class CommonController extends Controller
                         'user_id' => Auth::user()->id,
                         'role_id' => session()->get('role_id'),
                         'status_id' => config('commanConfig.applicationStatus.reverted'),
-                        'to_user_id' => $to_user_id,
-                        'to_role_id' => $request->role_id,
+                        'to_user_id' => $request->to_child_id,      // replaced user id to child id in case of revert - Neelam
+                        'to_role_id' => $request->to_role_id,
                         'remark' => $request->remark,
                         'is_active' => 1,
                         'created_at' => Carbon::now(),
@@ -444,8 +441,8 @@ class CommonController extends Controller
 
                     [
                         'application_id' => $request->applicationId,
-                        'user_id' => $request->user_id,
-                        'role_id' => $request->role_id,
+                        'user_id' => $request->to_child_id, // replaced user id to child id in case of revert - Neelam
+                        'role_id' => $request->to_role_id,
                         'status_id' => config('commanConfig.applicationStatus.in_process'),
                         'to_user_id' => null,
                         'to_role_id' => null,
@@ -466,7 +463,7 @@ class CommonController extends Controller
                         'user_id' => Auth::user()->id,
                         'role_id' => session()->get('role_id'),
                         'status_id' => config('commanConfig.applicationStatus.reverted'),
-                        'to_user_id' => $to_user_id,
+                        'to_user_id' => $request->to_child_id,
                         'to_role_id' => $request->to_role_id,
                         'remark' => $request->remark,
                         'is_active' => 1,
@@ -491,7 +488,7 @@ class CommonController extends Controller
             DB::beginTransaction();
             try {
                 OlApplicationStatus::where('application_id',$request->applicationId)
-                    ->whereIn('user_id', [Auth::user()->id,$to_user_id ])
+                    ->whereIn('user_id', [Auth::user()->id,$request->to_child_id ])
                     ->update(array('is_active' => 0));
 
                 OlApplicationStatus::insert($revert_application);
@@ -566,6 +563,7 @@ class CommonController extends Controller
             'to_role_id' => $ree->role_id,
             'remark' => $request->remark,
             'is_active' => 1,
+            'phase' => 2,
             'created_at' => Carbon::now(),
         ],
 
@@ -578,6 +576,7 @@ class CommonController extends Controller
                 'to_role_id' => null,
                 'remark' => $request->remark,
                 'is_active' => 1,
+                'phase' => 2,
                 'created_at' => Carbon::now(),
             ],
         ];
@@ -590,7 +589,7 @@ class CommonController extends Controller
                 ->update(array('is_active' => 0));
 
             OlApplicationStatus::insert($forward_application);
-            OlApplication::where('id', $request->applicationId)->update(['status_offer_letter' => config('commanConfig.applicationStatus.offer_letter_approved'), 'is_approve_offer_letter' => $request->is_approved, 'phase' => 3]);
+            OlApplication::where('id', $request->applicationId)->update(['status_offer_letter' => config('commanConfig.applicationStatus.offer_letter_approved'), 'is_approve_offer_letter' => $request->is_approved]);
 
             DB::commit();
         } catch (\Exception $ex) {
@@ -615,6 +614,7 @@ class CommonController extends Controller
                 'to_role_id' => $request->to_role_id,
                 'remark' => $request->remark,
                 'is_active' => 1,
+                'phase' => 2,
                 'created_at' => Carbon::now(),
             ],
 
@@ -627,6 +627,7 @@ class CommonController extends Controller
                     'to_role_id' => null,
                     'remark' => $request->remark,
                     'is_active' => 1,
+                    'phase' => 2,
                     'created_at' => Carbon::now(),
                 ],
             ];
@@ -672,6 +673,7 @@ class CommonController extends Controller
                 'to_role_id' => $society_details->role_id,
                 'remark' => $request->remark,
                 'is_active' => 1,
+                'phase' => 2,
                 'created_at' => Carbon::now(),
             ],
 
@@ -685,6 +687,7 @@ class CommonController extends Controller
                 'to_role_id' => null,
                 'remark' => $request->remark,
                 'is_active' => 1,
+                'phase' => 2,
                 'created_at' => Carbon::now(),
             ],
         ];
@@ -853,6 +856,7 @@ class CommonController extends Controller
             'to_role_id' => $request->to_role_id,
             'remark' => $request->remark,
             'is_active' => 1,
+            'phase' => 1,
             'created_at' => Carbon::now(),
         ],
 
@@ -865,6 +869,7 @@ class CommonController extends Controller
                 'to_role_id' => null,
                 'remark' => $request->remark,
                 'is_active' => 1,
+                'phase'=>1,
                 'created_at' => Carbon::now(),
             ],
         ];
@@ -926,9 +931,9 @@ class CommonController extends Controller
 
     public function getLogOfArchitectLayoutApplication($layout_id)
     {
-        $roles = array(config('commanConfig.junior_architect'), config('commanConfig.senior_architect'), config('commanConfig.achitect'));
+        $roles = array(config('commanConfig.junior_architect'), config('commanConfig.senior_architect'), config('commanConfig.architect'));
 
-        $status = array(config('commanConfig.architect_layout_status.forward'));
+        $status = array(config('commanConfig.architect_layout_status.forward'),config('commanConfig.architect_layout_status.reverted'));
 
         $architectRoles = Role::whereIn('name', $roles)->pluck('id');
         $Architectlogs = ArchitectLayoutStatusLog::with('getRoleName')->where('architect_layout_id', $layout_id)->whereIn('role_id', $architectRoles)->whereIn('status_id', $status)->get();
@@ -964,7 +969,7 @@ class CommonController extends Controller
     {
         $roles = array(config('commanConfig.ee_junior_engineer'),config('commanConfig.ee_deputy_engineer'),config('commanConfig.ee_branch_head'));
 
-        $status = array(config('commanConfig.architect_layout_status.forward'));
+        $status = array(config('commanConfig.architect_layout_status.forward'),config('commanConfig.architect_layout_status.reverted'));
 
         $architectRoles = Role::whereIn('name', $roles)->pluck('id');
         $Architectlogs = ArchitectLayoutStatusLog::with('getRoleName')->where('architect_layout_id', $layout_id)->whereIn('role_id', $architectRoles)->whereIn('status_id', $status)->get();
@@ -976,7 +981,7 @@ class CommonController extends Controller
     {
         $roles = array(config('commanConfig.ree_junior'),config('commanConfig.ree_deputy_engineer'),config('commanConfig.ree_assistant_engineer'),config('commanConfig.ree_branch_head'));
 
-        $status = array(config('commanConfig.architect_layout_status.forward'));
+        $status = array(config('commanConfig.architect_layout_status.forward'),config('commanConfig.architect_layout_status.reverted'));
 
         $architectRoles = Role::whereIn('name', $roles)->pluck('id');
         $Architectlogs = ArchitectLayoutStatusLog::with('getRoleName')->where('architect_layout_id', $layout_id)->whereIn('role_id', $architectRoles)->whereIn('status_id', $status)->get();
@@ -988,7 +993,7 @@ class CommonController extends Controller
     {
         $roles = array(config('commanConfig.co_engineer'));
 
-        $status = array(config('commanConfig.architect_layout_status.forward'));
+        $status = array(config('commanConfig.architect_layout_status.forward'),config('commanConfig.architect_layout_status.reverted'));
 
         $architectRoles = Role::whereIn('name', $roles)->pluck('id');
         $Architectlogs = ArchitectLayoutStatusLog::with('getRoleName')->where('architect_layout_id', $layout_id)->whereIn('role_id', $architectRoles)->whereIn('status_id', $status)->get();
@@ -1000,7 +1005,7 @@ class CommonController extends Controller
     {
         $roles = array(config('commanConfig.senior_architect_planner'));
 
-        $status = array(config('commanConfig.architect_layout_status.forward'));
+        $status = array(config('commanConfig.architect_layout_status.forward'),config('commanConfig.architect_layout_status.reverted'));
 
         $architectRoles = Role::whereIn('name', $roles)->pluck('id');
         $Architectlogs = ArchitectLayoutStatusLog::with('getRoleName')->where('architect_layout_id', $layout_id)->whereIn('role_id', $architectRoles)->whereIn('status_id', $status)->get();
@@ -1011,7 +1016,7 @@ class CommonController extends Controller
     {
         $roles = array(config('commanConfig.cap_engineer'));
 
-        $status = array(config('commanConfig.architect_layout_status.forward'));
+        $status = array(config('commanConfig.architect_layout_status.forward'),config('commanConfig.architect_layout_status.reverted'));
 
         $architectRoles = Role::whereIn('name', $roles)->pluck('id');
         $Architectlogs = ArchitectLayoutStatusLog::with('getRoleName')->where('architect_layout_id', $layout_id)->whereIn('role_id', $architectRoles)->whereIn('status_id', $status)->get();
@@ -1320,10 +1325,10 @@ class CommonController extends Controller
     /**
      * Updates status of society conveyance application.
      * Author: Amar Prajapati
-     * @param $insert_arr, $status, $sc_application
+     * @param $insert_arr, $status, $sc_application, $status_new
      * @return \Illuminate\Http\Response
      */
-    public function sc_application_status_society($insert_arr, $status, $sc_application){
+    public function sc_application_status_society($insert_arr, $status, $sc_application, $status_new = NULL){
         $status_in_words = array_flip(config('commanConfig.conveyance_status'))[$status];
         $sc_application_last_id = $sc_application->id;
         $sc_application_master_id = $sc_application->sc_application_master_id;
@@ -1347,7 +1352,7 @@ class CommonController extends Controller
                 $insert_application_log[$status_in_words_1][$key]['society_flag'] = 0;
                 $insert_application_log[$status_in_words_1][$key]['user_id'] = $user->id;
                 $insert_application_log[$status_in_words_1][$key]['role_id'] = $user->role_id;
-                $insert_application_log[$status_in_words_1][$key]['status_id'] = config('commanConfig.conveyance_status.in_process');
+                $insert_application_log[$status_in_words_1][$key]['status_id'] = ($status_new != null) ? $status_new : config('commanConfig.conveyance_status.in_process');
                 $insert_application_log[$status_in_words_1][$key]['to_user_id'] = 0;
                 $insert_application_log[$status_in_words_1][$key]['to_role_id'] = 0;
                 $insert_application_log[$status_in_words_1][$key]['remark'] = '';
@@ -1367,7 +1372,7 @@ class CommonController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function sf_application_status_society($insert_arr, $status, $sc_application){
-        $status_in_words = array_flip(config('commanConfig.applicationStatus'))[$status];
+        $status_in_words = array_flip(config('commanConfig.formation_status'))[$status];
         $sc_application_last_id = $sc_application->id;
         $sc_application_master_id = $sc_application->sc_application_master_id;
         foreach($insert_arr['users'] as $key => $user){
@@ -1383,14 +1388,14 @@ class CommonController extends Controller
             $insert_application_log[$status_in_words][$key]['remark'] = '';
             $application_log_status = $insert_application_log[$status_in_words];
 
-            if($status == config('commanConfig.applicationStatus.forwarded')){
-                $status_in_words_1 = array_flip(config('commanConfig.applicationStatus'))[1];
+            if($status == config('commanConfig.formation_status.forwarded')){
+                $status_in_words_1 = array_flip(config('commanConfig.formation_status'))[1];
                 $insert_application_log[$status_in_words_1][$key]['application_id'] = $sc_application_last_id;
                 $insert_application_log[$status_in_words_1][$key]['application_master_id'] = $sc_application_master_id;
                 $insert_application_log[$status_in_words_1][$key]['society_flag'] = 0;
                 $insert_application_log[$status_in_words_1][$key]['user_id'] = $user->id;
                 $insert_application_log[$status_in_words_1][$key]['role_id'] = $user->role_id;
-                $insert_application_log[$status_in_words_1][$key]['status_id'] = config('commanConfig.applicationStatus.in_process');
+                $insert_application_log[$status_in_words_1][$key]['status_id'] = config('commanConfig.formation_status.in_process');
                 $insert_application_log[$status_in_words_1][$key]['to_user_id'] = 0;
                 $insert_application_log[$status_in_words_1][$key]['to_role_id'] = 0;
                 $insert_application_log[$status_in_words_1][$key]['remark'] = '';
@@ -1503,8 +1508,19 @@ class CommonController extends Controller
         if($vp == $role_id)
             $dashboardData = $this->getVpDashboardData($statusCount);
 
-//        dd($dashboardData);
-        return view('admin.common.ol_dashboard',compact('dashboardData'));
+        $dashboardData1 = NULL;
+        $eeHeadId = Role::where('name',config('commanConfig.ee_branch_head'))->value('id');
+
+        $dyceHeadId = Role::where('name',config('commanConfig.dyce_branch_head'))->value('id');
+
+        if($role_id == $eeHeadId){
+            $dashboardData1 = $this->getToatalPendingApplicationsAtUser($ee,$role = 'ee' );
+        }
+        if($role_id == $dyceHeadId){
+            $dashboardData1 = $this->getToatalPendingApplicationsAtUser($dyce , $role = 'dyce');
+        }
+
+        return view('admin.common.ol_dashboard',compact('dashboardData','dashboardData1'));
 
     }
 
@@ -2470,6 +2486,105 @@ class CommonController extends Controller
         NocCCApplication::where('id', $request->applicationId)->update(['noc_generation_status' => config('commanConfig.applicationStatus.reverted')]);
 
         return true;
+    }
+
+    public function getREERoles(){
+        $ree_jr_id = Role::where('name',config('commanConfig.ree_junior'))->value('id');
+        $ree_head_id = Role::where('name',config('commanConfig.ree_branch_head'))->value('id');
+        $ree_deputy_id = Role::where('name', config('commanConfig.ree_deputy_engineer'))->value('id');
+        $ree_ass_id = Role::where('name', config('commanConfig.ree_assistant_engineer'))->value('id');
+
+        $ree = ['ree_jr_id' => $ree_jr_id,
+            'ree_head_id' => $ree_head_id,
+            'ree_deputy_id' => $ree_deputy_id,
+            'ree_ass_id' => $ree_ass_id];
+
+        return $ree;
+    }
+
+    // total count of all department dashboard for ree
+
+    public function getTotalCountsOfApplicationsPending(){
+
+        $eeRoleData = $this->getEERoles();
+        $dyceRoleData = $this->getDyceRoles();
+        $reeRoleData = $this->getREERoles();
+        $coRoleData = Role::where('name',config('commanConfig.co_engineer'))->value('id');
+        $vpRoleData = Role::where('name',config('commanConfig.vp_engineer'))->value('id');
+        $capRoleData = Role::where('name',config('commanConfig.cap_engineer'))->value('id');
+
+//SELECT COUNT(*) FROM `ol_application_status_log` WHERE `is_active`=1 AND `role_id` IN (21) AND `status_id`= 1
+
+//        $eeTotalPendingCount = $dyceTotalPendingCount = $reeTotalPendingCount
+//        = $coTotalPendingCount = $vpTotalPendingCount = $capTotalPendingCount = 0;
+
+        $eeTotalPendingCount = OlApplicationStatus::where('is_active',1)
+            ->where('status_id',config('commanConfig.applicationStatus.in_process'))
+            ->whereIn('role_id',[$eeRoleData['ee_jr_id'],$eeRoleData['ee_head_id'],$eeRoleData['ee_deputy_id']])
+            ->get()->count();
+
+        $dyceTotalPendingCount = OlApplicationStatus::where('is_active',1)
+            ->where('status_id',config('commanConfig.applicationStatus.in_process'))
+            ->whereIn('role_id',[$dyceRoleData['dyce_jr_id'],$dyceRoleData['dyce_head_id'],$dyceRoleData['dyce_deputy_id']])
+            ->get()->count();
+
+        $reeTotalPendingCount = OlApplicationStatus::where('is_active',1)
+            ->whereIn('status_id',[config('commanConfig.applicationStatus.offer_letter_generation'),config('commanConfig.applicationStatus.in_process'),config('commanConfig.applicationStatus.offer_letter_approved')])
+            ->whereIn('role_id',[$reeRoleData['ree_jr_id'],$reeRoleData['ree_head_id'],$reeRoleData['ree_deputy_id'],$reeRoleData['ree_ass_id']])
+            ->get()->count();
+
+        $coTotalPendingCount = OlApplicationStatus::where('is_active',1)
+            ->whereIn('status_id',[config('commanConfig.applicationStatus.in_process'),config('commanConfig.applicationStatus.offer_letter_generation')])
+            ->where('role_id',$coRoleData)
+            ->get()->count();
+
+        $vpTotalPendingCount = OlApplicationStatus::where('is_active',1)
+            ->where('status_id',config('commanConfig.applicationStatus.in_process'))
+            ->where('role_id',$vpRoleData)
+            ->get()->count();
+
+        $capTotalPendingCount = OlApplicationStatus::where('is_active',1)
+            ->where('status_id',config('commanConfig.applicationStatus.in_process'))
+            ->where('role_id',$capRoleData)
+            ->get()->count();
+
+        $totalPendingApplications = $eeTotalPendingCount + $dyceTotalPendingCount + $reeTotalPendingCount
+            + $coTotalPendingCount + $vpTotalPendingCount + $capTotalPendingCount;
+
+
+        $dashboardData1 = array();
+        $dashboardData1['Total number of Application Pending'] = $totalPendingApplications;
+        $dashboardData1['Applications pending at EE department'] = $eeTotalPendingCount;
+        $dashboardData1['Application Pending at DyCE'] = $dyceTotalPendingCount;
+        $dashboardData1['Applications pending at REE'] = $reeTotalPendingCount;
+        $dashboardData1['Applications pending at CO'] = $coTotalPendingCount;
+//                $dashboardData['Offer Letter Approved'] = $statusCount['offerLetterApproved'];
+        $dashboardData1['Applications pending at CAP'] = $capTotalPendingCount;
+        $dashboardData1['Applications pending at VP'] = $vpTotalPendingCount;
+
+        return $dashboardData1;
+
+
+    }
+
+    public function getToatalPendingApplicationsAtUser($roleIds,$role){
+//        dd($roleIds);
+
+        $users =User::whereIn('role_id',[$roleIds[$role.'_jr_id'],$roleIds[$role.'_head_id'],$roleIds[$role.'_deputy_id']])
+            ->get()->toArray();
+
+//        dd($users);
+
+        $count = array();
+        foreach ($users as $user){
+//            dd($user['id']);
+            $dashboardData1['Application Pending At '.$user['name']] = OlApplicationStatus::where('user_id',$user['id'])
+            ->where('status_id',config('commanConfig.applicationStatus.in_process'))
+            ->where('is_active',1)->get()->count();
+
+
+        }
+        return $dashboardData1;
     }
 
 }

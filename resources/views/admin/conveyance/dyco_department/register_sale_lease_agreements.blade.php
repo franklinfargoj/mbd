@@ -8,7 +8,7 @@
 <div class="alert alert-success display_msg">
     {{ session()->get('success') }}
 </div>
-@endif
+@endif 
 
 <div class="col-md-12">
     <!-- BEGIN: Subheader -->
@@ -46,13 +46,6 @@
             <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
                 <div class="portlet-body">
                     <div class="m-portlet__body m-portlet__body--table">
-                        <div class="m-subheader" style="padding: 0;">
-                            <div class="d-flex">
-                                <h5 class="section-title">
-                                    Sale Deed Agreement
-                                </h5>
-                            </div> 
-                        </div>
                         <div class="m-section__content mb-0 table-responsive">
                             <div class="container">
                                 <div class="row">
@@ -62,7 +55,7 @@
                                             <span class="hint-text">Click Download to download Sale Deed Agreement </span>
                                             <div class="mt-auto">
                                                 @if(isset($data->RegisterSaleAgreement->document_path))
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->RegisterSaleAgreement->document_path }}">
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->RegisterSaleAgreement->document_path }}" target="_blank">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>
@@ -107,14 +100,6 @@
         <div class="tab-pane" id="lease-deed-agreement" role="tabpanel">
             <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
                 <div class="portlet-body">
-                    <div class="m-portlet__body m-portlet__body--table">
-                        <div class="m-subheader" style="padding: 0;">
-                            <div class="d-flex align-items-center">
-                                <h5 class="section-title">
-                                    Lease Deed Agreement
-                                </h5>
-                            </div>
-                        </div>
                         <div class="m-section__content mb-0 table-responsive">
                             <div class="container">
                                 <div class="row">
@@ -126,7 +111,7 @@
                                             <span class="hint-text">Click Download to download Lease Deed Agreement</span>
                                             <div class="mt-auto">
                                                 @if(isset($data->RegisterLeaseAgreement->document_path))
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->RegisterLeaseAgreement->document_path }}">
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->RegisterLeaseAgreement->document_path }}" target="_blank">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                        Download  </Button>
                                                 </a>
@@ -142,32 +127,31 @@
                         </div>
                     </div>
                 </div>
+                <div class="m-portlet m-portlet--mobile m_panel">
+                    <div class="m-portlet__body">
+                        <h3 class="section-title section-title--small">Sub registrar Details</h3>
+                          <div class="form-group row">
+                                <label for="inputPassword" class="col-sm-3 col-form-label">Sub Registrar Name - </label>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control" id="inputPassword" value="{{ isset($data->sale_registration->sub_registrar_name) ? $data->lease_registration->sub_registrar_name : '' }}" readonly>
+                                </div>
+                          </div> 
+                          <div class="form-group row">
+                                <label for="inputPassword" class="col-sm-3 col-form-label">Year -</label>
+                                <div class="col-sm-5">
+                                   <input type="text" class="form-control" id="inputPassword" value="{{ isset($data->sale_registration->registration_year) ? $data->lease_registration->registration_year : '' }}" readonly>
+                                </div>
+                          </div>
+                            <div class="form-group row">
+                                <label for="inputPassword" class="col-sm-3 col-form-label">Registration No -</label>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control" id="inputPassword" value="{{ isset($data->sale_registration->registration_no) ? $data->lease_registration->registration_no : '' }}" readonly>
+                                </div>
+                          </div>              
+                    </div>
+                </div>        
             </div>
-            <div class="m-portlet m-portlet--mobile m_panel">
-                <div class="m-portlet__body">
-                    <h3 class="section-title section-title--small">Sub registrar Details</h3>
-                      <div class="form-group row">
-                            <label for="inputPassword" class="col-sm-3 col-form-label">Sub Registrar Name - </label>
-                            <div class="col-sm-5">
-                                <input type="text" class="form-control" id="inputPassword" value="{{ isset($data->sale_registration->sub_registrar_name) ? $data->lease_registration->sub_registrar_name : '' }}" readonly>
-                            </div>
-                      </div> 
-                      <div class="form-group row">
-                            <label for="inputPassword" class="col-sm-3 col-form-label">Year -</label>
-                            <div class="col-sm-5">
-                               <input type="text" class="form-control" id="inputPassword" value="{{ isset($data->sale_registration->registration_year) ? $data->lease_registration->registration_year : '' }}" readonly>
-                            </div>
-                      </div>
-                        <div class="form-group row">
-                            <label for="inputPassword" class="col-sm-3 col-form-label">Registration No -</label>
-                            <div class="col-sm-5">
-                                <input type="text" class="form-control" id="inputPassword" value="{{ isset($data->sale_registration->registration_no) ? $data->lease_registration->registration_no : '' }}" readonly>
-                            </div>
-                      </div>              
-                </div>
-            </div>        
         </div>
-    </div>
 
     @if(count($data->AgreementComments) > 0)       
         <div class="m-portlet m-portlet--mobile m_panel">

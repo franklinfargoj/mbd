@@ -50,7 +50,7 @@
                 <div class="col-md-3">
                     <div class="form-group m-form__group">
                         <select id="year" name="year" class="form-control form-control--custom m-input"
-                            placeholder="Select Year" >
+                            placeholder="Select Year">
                             <option value="">Select Year</option>
                             @if(!empty($years)) 
                                 @foreach($years as $year)
@@ -88,9 +88,10 @@
                             <th>Electricity charges</th>
                             <th>Pumpman & Repair charges</th>
                             <th>External expender</th>
+                            <th>Administrative Charge</th>
                             <th>Lease rent</th>
                             <th>N. A. Assessment</th>
-                            <th>Insurance Charges</th>
+                            <th>Other Charges</th>
                             <th>Total</th>
                             <th>Balance amount</th>
                             <th>Interest amount</th>
@@ -100,24 +101,34 @@
                         </tr>
                     </thead>
                     <tbody>
+                    @php 
+                        $total_service_charges = $service_charges->water_charges + $service_charges->electric_city_charge+$service_charges->pump_man_and_repair_charges+$service_charges->external_expender_charge+$service_charges->administrative_charge+$service_charges->lease_rent+$service_charges->na_assessment+$service_charges->other;
+                    @endphp
+
                     @foreach($arreas_calculations as $key => $arreas_calculation )
                         <tr>
                             <td>{{date("M", mktime(0, 0, 0, $arreas_calculation->month, 10)).','.$arreas_calculation->year}}</td>
-                            <td>{{$service_charges->water_charges}}</td>
-                            <td>{{$service_charges->electric_city_charge}}</td>
-                            <td>{{$service_charges->pump_man_and_repair_charges}}</td>
-                            <td>{{$service_charges->external_expender_charge}}</td>
-                            <td>{{$service_charges->administrative_charge}}</td>
-                            <td>{{$service_charges->lease_rent}}</td>
-                            <td>{{$service_charges->na_assessment}}</td>
-                            <td>{{$service_charges->other}}</td>
-                            <td>{{$arreas_calculation->total_amount}}</td>
+                            <td>@if(!empty($tenant)){{$service_charges->water_charges}}@else{{$service_charges->water_charges*$building->tenant_count()->first()->count}}@endif</td>
+                            <td>@if(!empty($tenant)){{$service_charges->electric_city_charge}}@else{{$service_charges->electric_city_charge*$building->tenant_count()->first()->count}}@endif</td>
+                            <td>@if(!empty($tenant)){{$service_charges->pump_man_and_repair_charges}}@else{{$service_charges->pump_man_and_repair_charges*$building->tenant_count()->first()->count}}@endif</td>
+                            <td>@if(!empty($tenant)){{$service_charges->external_expender_charge}}@else{{$service_charges->external_expender_charge*$building->tenant_count()->first()->count}}@endif</td>
+                            <td>@if(!empty($tenant)){{$service_charges->administrative_charge}}@else{{$service_charges->administrative_charge*$building->tenant_count()->first()->count}}@endif</td>
+                            <td>@if(!empty($tenant)){{$service_charges->lease_rent}}@else{{$service_charges->lease_rent*$building->tenant_count()->first()->count}}@endif</td>
+                            <td>@if(!empty($tenant)){{$service_charges->na_assessment}}@else{{$service_charges->na_assessment*$building->tenant_count()->first()->count}}@endif</td>
+                            <td>@if(!empty($tenant)){{$service_charges->other}}@else{{$service_charges->other*$building->tenant_count()->first()->count}}@endif</td>
+                            <td>@if(!empty($tenant)){{$total_service_charges}}@else{{$service_charges->total_service_charges*$building->tenant_count()->first()->count}}@endif</td>
                             <td>{{$arreas_calculation->old_intrest_amount + $arreas_calculation->difference_amount}}</td>
                             <td>{{$arreas_calculation->old_intrest_amount + $arreas_calculation->difference_intrest_amount}}</td>
-                            <td>{{$arreas_calculation->total_amount+$arreas_calculation->old_intrest_amount + $arreas_calculation->difference_amount+$arreas_calculation->old_intrest_amount + $arreas_calculation->difference_intrest_amount}}</td>
+                            <td>{{$total_service_charges+$arreas_calculation->old_intrest_amount + $arreas_calculation->difference_amount+$arreas_calculation->old_intrest_amount + $arreas_calculation->difference_intrest_amount}}</td>
+                            @if(!empty($amount_paid) && array_key_exists($arreas_calculation->tenant_id, $amount_paid))
+                                <td>{{$amount_paid[$arreas_calculation->tenant_id]}}</td>
+                            @else
+                                <td>0</td>
+                            @endif
                             <td>
+
                                 {!! Form::open(['method' => 'get', 'route' => 'downloadBill']) !!}
-                                {{-- {{ Form::hidden('tenant_id', encrypt($tenant->id)) }} --}}
+                                @if(!empty($tenant)){{ Form::hidden('tenant_id', encrypt($tenant->id)) }}@endif
                                 {{ Form::hidden('building_id',encrypt($building->id)) }}
                                 {{ Form::hidden('society_id', encrypt($society->id)) }}
                                 {{ Form::hidden('month', $arreas_calculation->month) }}
@@ -125,7 +136,17 @@
                                 {{ Form::button('<span class="btn-icon btn-icon--edit"><img src="/img/view-arrears-calculation-icon.svg"></span> Donwload Bill', array('class'=>'btn btn--unstyled p-0 btn--icon-wrap d-flex flex-column align-items-center','type'=>'submit')) }}
                                 {!! Form::close() !!}
 
-                                {{-- @if('1' == $arreas_calculation->payment_status) Paid @else Not Paid @endif --}} - 
+                                @if(!empty($reciepts) && array_key_exists($arreas_calculation->tenant_id, $reciepts) && !empty($tenant))
+                                    {!! Form::open(['method' => 'get', 'route' => 'downloadReceipt']) !!}
+                                    @if(!empty($tenant)){{ Form::hidden('tenant_id', encrypt($tenant->id)) }}@endif
+                                    {{ Form::hidden('building_id',encrypt($building->id)) }}
+                                    {{ Form::hidden('bill_no', encrypt($reciepts[$arreas_calculation->tenant_id])) }}
+                                    {{ Form::hidden('except_tenaments[]', '') }}
+                                    {{ Form::button('<span class="btn-icon btn-icon--edit"><img src="/img/view-arrears-calculation-icon.svg"></span> Donwload Receipt', array('class'=>'btn btn--unstyled p-0 btn--icon-wrap d-flex flex-column align-items-center','type'=>'submit')) }}
+                                    {!! Form::close() !!}
+                                @endif
+                                {{-- @if('1' == $arreas_calculation->payment_status) Paid @else Not Paid @endif  --}}
+                                {{-- -  --}}
                             </td>
                             <td></td>
                         </tr>

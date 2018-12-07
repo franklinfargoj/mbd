@@ -291,11 +291,11 @@ $route=\Request::route()->getName();
                         <li class="m-menu__item m-menu__item--level-2 {{ ($route=='society_detail.index' || $route=='society_detail.show' || $route=='society_detail.edit' || $route=='society_detail.show_end_date_lease' || $route=='society_detail.create')? '':'collapsed' }}"
                             data-toggle="collapse" data-target="#society-actions">
                             <a href="{{url('/village_detail')}}" class="m-menu__link m-menu__toggle">
-                                <i class="m-menu__link-icon flaticon-line-graph"></i>
+                                <i class="m-menu__link-icon"></i>
                                 <span class="m-menu__link-title">
                                     <span class="m-menu__link-wrap">
                                         <span class="m-menu__link-text">
-                                            Society Details
+                                            <img class="sidebar-icon" src="{{ asset('/img/sidebar/society-details-icon.svg')}}">Society Details
                                         </span>
                                         <i class="m-menu__ver-arrow la la-angle-right"></i>
                                     </span>
@@ -452,11 +452,10 @@ $route=\Request::route()->getName();
                         <li class="m-menu__item {{($route=='architect_layout.index' || $route=='architect_layouts_layout_details.index' || $route=='architect_layout.add')?'':'collapsed'}}"
                             data-toggle="collapse" data-target="#architect-layouts">
                             <a href="{{ route('architect_layout.index') }}" class="m-menu__link m-menu__toggle">
-                                <i class="m-menu__link-icon flaticon-line-graph"></i>
                                 <span class="m-menu__link-title">
                             <span class="m-menu__link-wrap">
                                 <span class="m-menu__link-text">
-                                    Architect Layouts
+                                    <img class="sidebar-icon" src="{{ asset('/img/sidebar/architect-layouts-icon.svg')}}">Architect Layouts
                                 </span>
                                 <i class="m-menu__ver-arrow la la-angle-right"></i>
                             </span>

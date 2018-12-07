@@ -244,7 +244,7 @@ class RCController extends Controller
         $request->building_id = decrypt($request->building_id);
         $request->society_id = decrypt($request->society_id);
         
-        $Tenant_bill_id = DB::table('building_tenant_bill_association')->where('building_id', '=', $request->building_id)->where('bill_month', '=',  date('n'))->where('bill_year', '=', date('Y'))->first();
+        $Tenant_bill_id = DB::table('building_tenant_bill_association')->where('building_id', '=', $request->building_id)->where('bill_month', '=',  date('n'))->where('bill_year', '=', date('Y'))->orderBy('id','DESC')->first();
 
         if(empty($Tenant_bill_id) || is_null($Tenant_bill_id)){
            return redirect()->back()->with('success', 'Bill Generation is not done for Society. Contact Estate Manager for bill generation.');
@@ -317,11 +317,10 @@ class RCController extends Controller
 
 
     public function payment_receipt_society(Request $request){
-
+      
       if($request->bill_no){  
             
            $Tenant_bill_id = DB::table('building_tenant_bill_association')->where('id', '=', $request->bill_no)->first();
-
            $bill_ids =  explode(',',$Tenant_bill_id->bill_id); 
            
            $receipt = TransPayment::with('dd_details')->with('bill_details')->whereIn('bill_no', $bill_ids)->where('building_id', '=', $request->building_id)->where('society_id', '=', $request->society_id)->get();
@@ -629,8 +628,9 @@ class RCController extends Controller
             
             $data['consumer_number'] = substr(sprintf('%08d', $data['building']->society_id),0,8).'|'.substr(sprintf('%08d', $data['building']->id),0,8);
             if(true == $is_download) {
-              $pdf = PDF::loadView('admin.rc_department.view_bill_building', $data);
-              print_r($pdf);exit;
+              // return view('admin.rc_department.download_building_bill', $data);
+              $pdf = PDF::loadView('admin.rc_department.download_building_bill', $data);
+              // print_r($pdf);exit;
               return $pdf->download('bill_'.$data['building']->name.'_'.$data['building']->building_no.'.pdf');
             } else {
               return view('admin.rc_department.view_bill_building',$data);
@@ -671,7 +671,8 @@ class RCController extends Controller
             $data['consumer_number'] = substr(sprintf('%08d', $data['building']->id),0,8).'|'.substr(sprintf('%08d', $data['tenant']->id),0,8);
             $data['is_download'] = $is_download;
             if(true == $is_download) {
-              $pdf = PDF::loadView('admin.rc_department.view_bill_tenant', $data);
+                // return view('admin.rc_department.download_tenant_bill', $data);
+              $pdf = PDF::loadView('admin.rc_department.download_tenant_bill', $data);
               return $pdf->download('bill_'.$data['building']->name.'_'.$data['building']->building_no.'.pdf');
             } else {
                 return view('admin.rc_department.view_bill_tenant',$data);
@@ -754,4 +755,17 @@ class RCController extends Controller
             }
         }
     }
+
+     public function downloadReceipt(Request $request) {
+        if($request->has('building_id') && '' != $request->building_id) {
+          $request->building_id = decrypt($request->building_id);
+            $request->bill_no = decrypt($request->bill_no);
+          if($request->has('tenant_id') && !empty($request->tenant_id)) {
+            $request->tenant_id = decrypt($request->tenant_id);
+            $this->payment_receipt_tenant($request);
+          } else {
+            $this->payment_receipt_society($request);
+          }
+        } 
+     }
 }

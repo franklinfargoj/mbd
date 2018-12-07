@@ -50,6 +50,7 @@
                         <div class="m-section__content mb-0 table-responsive">
                             <div class="container">
                                 <div class="row">
+                                
                         @php
                             if(isset($data->SignSaleAgreement->document_path))
                                 $document = $data->SignSaleAgreement->document_path;
@@ -57,7 +58,7 @@
                                 $document = $data->DraftSaleAgreement->document_path;
                         @endphp
                         @php
-                            if(isset($data->SignLeaseAgreement->document_path))
+                            if(isset($data->SignLeaseAgreement->document_path) )
                                 $document1 = $data->SignLeaseAgreement->document_path;
                             else if(isset($data->DraftLeaseAgreement->document_path))
                                 $document1 = $data->DraftLeaseAgreement->document_path;
@@ -68,7 +69,7 @@
                                             <span class="hint-text">Click to download Sale Deed Agreement </span>
                                             <div class="mt-auto">
                                                 @if(isset($document))
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$document }}">
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$document }}" target="_blank">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>
@@ -108,13 +109,6 @@
             <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
                 <div class="portlet-body">
                     <div class="m-portlet__body m-portlet__body--table">
-                        <div class="m-subheader" style="padding: 0;">
-                            <div class="d-flex align-items-center">
-                                <h4 class="section-title">
-                                    Lease Deed Agreement
-                                </h4>
-                            </div>
-                        </div>
                         <div class="m-section__content mb-0 table-responsive">
                             <div class="container">
                                 <div class="row">
@@ -124,7 +118,7 @@
                                             <span class="hint-text">Click to download Lease Deed Agreement</span>
                                             <div class="mt-auto">
                                                 @if(isset($document1))
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$document1 }}">
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$document1 }}" target="_blank">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>

@@ -18,6 +18,8 @@ use Illuminate\Http\Request;
 use Storage;
 use Yajra\DataTables\DataTables;
 use Mpdf\Mpdf;
+use App\OlApplication;
+use App\SocietyOfferLetter;
 
 class FormationCommonController extends Controller
 {
@@ -29,7 +31,7 @@ class FormationCommonController extends Controller
 
     public function index(Request $request, Datatables $datatables)
     {
-
+        $getData = $request->all();
         $data = $this->listApplicationData($request);
         $typeId = scApplicationType::where('application_type', '=', 'Formation')->value('id');
         $columns = [
@@ -82,15 +84,15 @@ class FormationCommonController extends Controller
 
                     if ($request->update_status) {
                         if ($request->update_status == $status) {
-                            $config_array = array_flip(config('commanConfig.applicationStatus'));
+                            $config_array = array_flip(config('commanConfig.formation_status'));
                             $value = ucwords(str_replace('_', ' ', $config_array[$status]));
-                            return '<span class="m-badge m-badge--' . config('commanConfig.applicationStatusColor.' . $status) . ' m-badge--wide">' . $value . '</span>';
+                            return '<span class="m-badge m-badge--' . config('commanConfig.formation_status_color.' . $status) . ' m-badge--wide">' . $value . '</span>';
                         }
                     } else {
-                        $config_array = array_flip(config('commanConfig.applicationStatus'));
+                        $config_array = array_flip(config('commanConfig.formation_status'));
 
                         $value = ucwords(str_replace('_', ' ', $config_array[$status]));
-                        return '<span class="m-badge m-badge--' . config('commanConfig.applicationStatusColor.' . $status) . ' m-badge--wide">' . $value . '</span>';
+                        return '<span class="m-badge m-badge--' . config('commanConfig.formation_status_color.' . $status) . ' m-badge--wide">' . $value . '</span>';
                     }
 
                 })
@@ -119,7 +121,7 @@ class FormationCommonController extends Controller
     // list all data
     public function listApplicationData($request)
     {
-
+        // dd($request->all());
         $conveyanceId = scApplicationType::where('application_type', '=', config('commanConfig.applicationType.Formation'))->value('id');
 
         $applicationData = SfApplication::with(['applicationLayoutUser', 'societyApplication', 'sfApplicationLog' => function ($q) use ($conveyanceId) {
@@ -135,6 +137,17 @@ class FormationCommonController extends Controller
                     ->where('application_master_id', $conveyanceId)
                     ->orderBy('id', 'desc');
             });
+
+            if($request->submitted_at_from)
+            {
+                $applicationData=$applicationData->where(\DB::raw("(DATE_FORMAT(created_at,'%Y-%m-%d'))"),'>=',date('Y-m-d',strtotime($request->submitted_at_from)));
+           // dd($applicationData->toSql());
+            }
+
+            if($request->submitted_at_to)
+            {
+                $applicationData=$applicationData->where(\DB::raw("(DATE_FORMAT(created_at,'%Y-%m-%d'))"),'<=',date('Y-m-d',strtotime($request->submitted_at_to)));
+            }
 
         $applicationData = $applicationData->orderBy('sf_applications.id', 'desc')->get();
         $listArray = [];
@@ -161,19 +174,45 @@ class FormationCommonController extends Controller
             return $q->where(['application_id' => $id]);
         }])->where(['application_type_id' => 3])->get();
         $sf_application = SfApplication::find($id);
+        if($request->print)
+            {
+                //return view('frontend.society.society_formation.print_application',compact('sf_application'));
+                $content = view('frontend.society.society_formation.print_application',compact('sf_application'));
+                $folder_name = 'society_formation_certificate';
+
+                $header_file = view('admin.REE_department.offer_letter_header');
+                $footer_file = view('admin.REE_department.offer_letter_footer');
+                //$pdf = \App::make('dompdf.wrapper');
+                $fileName=time() . 'society_formation_certificate.pdf';
+                $pdf=new Mpdf([
+                    'default_font_size' => 9,
+                    'default_font' => 'Times New Roman'
+                ]);
+                $pdf->autoScriptToLang = true;
+                $pdf->autoLangToFont = true;
+                $pdf->setAutoBottomMargin = 'stretch';
+                $pdf->setAutoTopMargin = 'stretch';
+                $pdf->SetHTMLHeader($header_file);
+                $pdf->SetHTMLFooter($footer_file);
+                $pdf->WriteHTML($content);
+                $pdf->Output($fileName, 'D');
+            }
         return view('admin.formation.view_application', compact('sf_application', 'sf_documents', 'disabled'));
 
         //return view('admin.conveyance.common.view_application',compact('data'));
     }
 
     //revert application child id
-    public function getRevertApplicationChildData()
+    public function getRevertApplicationChildData($society_id)
     {
-
+       $SocietyOfferLetter= SocietyOfferLetter::find($society_id);
+       $society_user_id=$SocietyOfferLetter->user_id;
+       $society_user=User::where('id',$society_user_id)->get();
+      // dd($society_user);
         $role_id = Role::where('id', Auth::user()->role_id)->first();
         $result = json_decode($role_id->conveyance_child_id);
         $child = "";
-
+        //dd($result);
         if ($result) {
             $child = User::with(['roles', 'LayoutUser' => function ($q) {
                 $q->where('layout_id', session('layout_id'));
@@ -183,7 +222,12 @@ class FormationCommonController extends Controller
                 })
                 ->whereIn('role_id', $result)->get();
         }
-        //dd($result);
+
+        if($child)
+        {
+            $child = $child->merge($society_user);
+        }
+        //dd($child);
         return $child;
     }
 
@@ -234,10 +278,11 @@ class FormationCommonController extends Controller
         // dd($applicationId);
         $data = SfApplication::with('societyApplication')
             ->where('id', $applicationId)->first();
+        $society_id=$data->society_id;
         $data->society_role_id = Role::where('name', config('commanConfig.society_offer_letter'))->value('id');
         $data->status = $this->getCurrentStatus($applicationId, $data->sc_application_master_id);
         $data->parent = $this->getForwardApplicationParentData();
-        $data->child = $this->getRevertApplicationChildData();
+        $data->child = $this->getRevertApplicationChildData($society_id);
         return $data;
     }
 
@@ -247,7 +292,22 @@ class FormationCommonController extends Controller
 
         $roles = array(config('commanConfig.dycdo_engineer'), config('commanConfig.dyco_engineer'));
 
-        $status = array(config('commanConfig.applicationStatus.forwarded'), config('commanConfig.applicationStatus.reverted'));
+        $status = array(config('commanConfig.formation_status.forwarded'), config('commanConfig.formation_status.reverted'));
+
+        $dycoRoles = Role::whereIn('name', $roles)->pluck('id');
+        $dycologs = SfApplicationStatusLog::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)
+            ->where('application_master_id', $masterId)->whereIn('role_id', $dycoRoles)->whereIn('status_id', $status)->get();
+
+        return $dycologs;
+    }
+
+    // get logs of EM dept
+    public function getLogsOfEmDepartment($applicationId, $masterId)
+    {
+
+        $roles = array(config('commanConfig.estate_manager'));
+
+        $status = array(config('commanConfig.formation_status.forwarded'), config('commanConfig.formation_status.reverted'));
 
         $dycoRoles = Role::whereIn('name', $roles)->pluck('id');
         $dycologs = SfApplicationStatusLog::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)
@@ -261,7 +321,7 @@ class FormationCommonController extends Controller
     {
         $roles = array(config('commanConfig.society_offer_letter'));
 
-        $status = array(config('commanConfig.applicationStatus.forwarded'), config('commanConfig.applicationStatus.reverted'));
+        $status = array(config('commanConfig.formation_status.forwarded'), config('commanConfig.formation_status.reverted'));
 
         $societyRoles = Role::whereIn('name', $roles)->pluck('id');
         $ocietylogs = SfApplicationStatusLog::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->where('society_flag', '=', '1')->where('application_master_id', $masterId)->whereIn('role_id', $societyRoles)->whereIn('status_id', $status)->get();
@@ -275,28 +335,11 @@ class FormationCommonController extends Controller
         $applicationId = decrypt($applicationId);
         $sf_application = SfApplication::with('societyApplication')->where('id', $applicationId)->first();
         $data = $this->getForwardApplicationData($applicationId);
-        //dd($data);
-        //$data->folder  = $this->getCurrentRoleFolderName();
         $societyLogs = $this->getLogsOfSociety($applicationId, $data->sc_application_master_id);
         $dycoLogs = $this->getLogsOfDYCODepartment($applicationId, $data->sc_application_master_id);
-        //$eelogs        = $this->getLogsOfEEDepartment($applicationId,$data->sc_application_master_id);
-        //$Architectlogs = $this->getLogsOfArchitectDepartment($applicationId,$data->sc_application_master_id);
-        //$cologs        = $this->getLogsOfCODepartment($applicationId,$data->sc_application_master_id);
+        $EmLogs = $this->getLogsOfEmDepartment($applicationId, $data->sc_application_master_id);
 
-        //$this->getAllSaleLeaseAgreement($data,$applicationId,$data->sc_application_master_id);
-
-        // if (session()->get('role_name') == config('commanConfig.co_engineer') || session()->get('role_name') == config('commanConfig.joint_co')){
-        //   $route = 'admin.conveyance.co_department.forward_application';
-
-        // } elseif (session()->get('role_name') == config('commanConfig.dyco_engineer') || session()->get('role_name') == config('commanConfig.dycdo_engineer')){
-
-        //        $route = 'admin.conveyance.dyco_department.forward_application';
-        //   }
-        //   else{
-        //   $route = 'admin.conveyance.common.forward_application';
-        // }
-
-        return view('admin.formation.forward_application', compact('data', 'societyLogs', 'dycoLogs', 'sf_application'));
+        return view('admin.formation.forward_application', compact('data', 'societyLogs', 'dycoLogs','EmLogs', 'sf_application'));
     }
 
     public function saveForwardApplication(Request $request)
@@ -319,11 +362,20 @@ class FormationCommonController extends Controller
         $dycoId = Role::where('name', config('commanConfig.dyco_engineer'))->value('id');
 
         if ($request->check_status == 1) {
-            $status = config('commanConfig.applicationStatus.forwarded');
+            
+            $status = config('commanConfig.formation_status.forwarded');
         } else {
-            $status = config('commanConfig.applicationStatus.reverted');
+            $status = config('commanConfig.formation_status.reverted');
         }
-        $Tostatus = config('commanConfig.applicationStatus.in_process');
+        if($data->no_dues_certificate_sent_to_society==1 && session()->get('role_name')==config('commanConfig.dycdo_engineer'))
+        {
+            $Tostatus = config('commanConfig.formation_status.processed_to_DDR');
+            
+        }else
+        {
+            $Tostatus = config('commanConfig.formation_status.in_process');
+        }
+        
 
         $application = [[
             'application_id' => $request->applicationId,

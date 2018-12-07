@@ -60,7 +60,10 @@ class SocietyConveyanceController extends Controller
         ];
         $getRequest = $request->all();
         $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
-        $ol_application_count = count(SocietyConveyance::where('society_id', $society_details->id)->get());
+
+        $sc_application_count = count(SocietyConveyance::where('society_id', $society_details->id)->get());
+        Session::put('sc_application_count', $sc_application_count);
+
         if ($datatables->getRequest()->ajax()) {
             $sc_applications = scApplication::where('society_id', $society_details->id)->with(['scApplicationType' => function($q){
                $q->where('application_type', config('commanConfig.applicationType.Conveyance'))->first();
@@ -68,7 +71,7 @@ class SocietyConveyanceController extends Controller
                 $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
             } ])->orderBy('id', 'desc');
 
-//            dd($sc_applications->get());
+           // dd($sc_applications->get());
             if($request->application_master_id)
             {
                 $sc_applications = $sc_applications->where('application_master_id', 'like', '%'.$request->application_master_id.'%');
@@ -77,7 +80,7 @@ class SocietyConveyanceController extends Controller
 
             return $datatables->of($sc_applications)
                 ->editColumn('radio', function ($sc_applications) {
-                    $url = route('society_conveyance.show', base64_encode($sc_applications->id));
+                    $url = route('society_conveyance.show', encrypt($sc_applications->id));
                     return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="sc_applications_id"><span></span></label>';
                 })
                 ->editColumn('rownum', function ($sc_applications) {
@@ -94,6 +97,7 @@ class SocietyConveyanceController extends Controller
                 ->editColumn('created_at', function ($sc_applications) {
                     return date(config('commanConfig.dateFormat'), strtotime($sc_applications->created_at));
                 })
+
                 ->editColumn('status', function ($sc_applications) {
                     $status = explode('_', array_keys(config('commanConfig.conveyance_status'), $sc_applications->scApplicationLog->status_id)[0]);
                     $status_display = '';
@@ -102,11 +106,13 @@ class SocietyConveyanceController extends Controller
                     if($status_display == 'Sent To Society '){
                         $status_display = 'Approved';
                     }
+                     
 
                     return '<span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$sc_applications->scApplicationLog->status_id) .' m-badge--wide">'.$status_display.'</span>';
                 })
                 ->rawColumns(['radio', 'application_no', 'application_master_id', 'created_at','status'])
                 ->make(true);
+
         }
 
         $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
@@ -249,20 +255,17 @@ class SocietyConveyanceController extends Controller
                             SocietyConveyanceDocumentStatus::create($sc_document_status_arr);
 
                             if($inserted_application_log == true){
-                                return redirect()->route('society_conveyance.show', base64_encode($sc_application->id));
+                                return redirect()->route('society_conveyance.show', encrypt($sc_application->id));
                             }
                         }
                     }else{
-                        dd('1');
                         return redirect()->route('society_conveyance.create')->with('error', "Excel file headers doesn't match")->withInput();
                     }
                 }else{
-//                    dd('2');
                     return redirect()->route('society_conveyance.create')->with('error', "Excel file is empty.")->withInput();
                 }
             }
         }else{
-//            dd('3');
             return redirect()->route('society_conveyance.create')->with('error', "Excel file headers doesn't match")->withInput();
         }
     }
@@ -275,7 +278,7 @@ class SocietyConveyanceController extends Controller
      */
     public function show($id)
     {
-        $id = base64_decode($id);
+        $id = decrypt($id);
         $sc_application = scApplication::with(['sc_form_request', 'societyApplication', 'applicationLayout', 'scApplicationLog' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         }])->where('id', $id)->first();
@@ -294,7 +297,7 @@ class SocietyConveyanceController extends Controller
      */
     public function edit($id)
     {
-        $id = base64_decode($id);
+        $id = decrypt($id);
         $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $sc_application = scApplication::with(['sc_form_request', 'societyApplication', 'applicationLayout'])->where('id', $id)->first();
 
@@ -700,6 +703,7 @@ class SocietyConveyanceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show_sale_lease($id){
+        $id = decrypt($id);
         $sc_application = scApplication::with(['sc_form_request', 'societyApplication', 'applicationLayout', 'scApplicationLog' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         }])->where('id', $id)->first();
@@ -726,8 +730,16 @@ class SocietyConveyanceController extends Controller
         $documents = SocietyConveyanceDocumentMaster::with(['sc_document_status' => function($q) use($sc_application) { $q->where('application_id', $sc_application->id)->get(); }])->where('application_type_id', $sc_application->sc_application_master_id)->where('society_flag', '1')->where('language_id', '2')->get();
         $documents_uploaded = SocietyConveyanceDocumentStatus::where('application_id', $sc_application->id)->get();
 
-        $sc_agreement_comment = ScAgreementComments::with('scAgreementId')->get();
-//        dd($uploaded_document_ids);
+        $sc_agreement_comments = ScAgreementComments::with('scAgreementId')->where('user_id', Auth::user()->id)->where('role_id', Session::get('role_id'))->orderBy('id', 'desc')->get();
+
+        foreach($sc_agreement_comments as $sc_agreement_comment_val){
+            foreach($document_ids as $document_id){
+                if($document_id->id == $sc_agreement_comment_val->agreement_type_id){
+                    $sc_agreement_comment[$sc_agreement_comment_val->scAgreementId->document_name] = $sc_agreement_comment_val;
+                }
+            }
+        }
+
         return view('frontend.society.conveyance.sale_lease_deed', compact('sc_application', 'document_lease', 'documents', 'uploaded_document_ids', 'documents_remaining_ids', 'sc_agreement_comment', 'documents_uploaded'));
     }
 
@@ -738,9 +750,11 @@ class SocietyConveyanceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show_signed_sale_lease($id){
+        $id = decrypt($id);
         $sc_application = scApplication::with(['sc_form_request', 'societyApplication', 'applicationLayout', 'scApplicationLog' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         }])->where('id', $id)->first();
+
         $sc_registration_details = new scRegistrationDetails;
         $sc_document_status = new SocietyConveyanceDocumentStatus;
         $field_names_registrar_details = $sc_registration_details->getFillable();
@@ -749,13 +763,25 @@ class SocietyConveyanceController extends Controller
         $comm_func = $this->CommonController;
         $sale_agreement_type_id = $this->conveyance_common->getDocumentId('Sale Deed Agreement', '1');
         $lease_agreement_type_id = $this->conveyance_common->getDocumentId('Lease Deed Agreement', '1');
-        $status = config('commanConfig.conveyance_status.Stamped_signed_sale_&_lease_deed');
+        $status_name = config('commanConfig.documents.society.Register');
+        $status = ApplicationStatusMaster::where('status_name', $status_name)->value('id');
         $society_flag = 1;
 
         $documents = SocietyConveyanceDocumentMaster::with(['sc_document_status' => function($q) use($sc_application) { $q->where('application_id', $sc_application->id)->get(); }])->where('application_type_id', $sc_application->sc_application_master_id)->where('society_flag', '1')->where('language_id', '2')->get();
         $documents_uploaded = SocietyConveyanceDocumentStatus::where('application_id', $sc_application->id)->get();
 
-        return view('frontend.society.conveyance.signed_sale_lease_deed', compact('sc_application', 'society_flag','status', 'sale_agreement_type_id', 'lease_agreement_type_id', 'field_names', 'comm_func', 'documents', 'documents_uploaded'));
+        $sc_registration_details = scRegistrationDetails::with('scAgreementId')->where('application_id', $sc_application->id)->get();
+
+        foreach($sc_registration_details as $sc_registration_details_val){
+            if($sale_agreement_type_id == $sc_registration_details_val->agreement_type_id){
+                $sc_registrar_details[$sc_registration_details_val->scAgreementId->document_name] = $sc_registration_details_val;
+            }
+            if($lease_agreement_type_id == $sc_registration_details_val->agreement_type_id){
+                $sc_registrar_details[$sc_registration_details_val->scAgreementId->document_name] = $sc_registration_details_val;
+            }
+        }
+
+        return view('frontend.society.conveyance.signed_sale_lease_deed', compact('sc_application', 'society_flag','status', 'sale_agreement_type_id', 'lease_agreement_type_id', 'field_names', 'comm_func', 'documents', 'documents_uploaded', 'sc_registrar_details'));
     }
 
     /**
@@ -774,12 +800,15 @@ class SocietyConveyanceController extends Controller
             $name = File::name(str_replace(' ', '_', $file->getClientOriginalName())) . '_' . $time . '.' . $extension;
             $folder_name = "society_conveyance_documents";
             $path = '/' . $folder_name . '/' . $name;
-//            $fileUpload = $this->CommonController->ftpFileUpload($folder_name, $file, $name);
-            $status = ApplicationStatusMaster::where('status_name', 'Stamped')->value('id');
+            $fileUpload = $this->CommonController->ftpFileUpload($folder_name, $file, $name);
+            if($request->document_name == 'sc_resolution' || $request->document_name == 'sc_undertaking'){
+                $status = NULL;
+            }else{
+                $status = ApplicationStatusMaster::where('status_name', 'Stamped')->value('id');
+            }
             $uploaded = $this->conveyance_common->uploadDocumentStatus($request->application_id, $request->document_name, $path, $status);
 
             $documents_req = array(
-                config('commanConfig.documents.society.conveyance_stamp_duty_letter'),
                 config('commanConfig.documents.society.Sale Deed Agreement'),
                 config('commanConfig.documents.society.Lease Deed Agreement'),
                 config('commanConfig.documents.society.sc_resolution'),
@@ -798,7 +827,7 @@ class SocietyConveyanceController extends Controller
                 }
             }
 
-            if(count($uploaded_document_ids) == 5 && count($documents_remaining_ids) == 0){
+            if(count($uploaded_document_ids) == 4 && count($documents_remaining_ids) == 0){
                 $users_record = scApplicationLog::where('application_id', $request->application_id)->where('society_flag', 1)->where('status_id', config('commanConfig.conveyance_status.forwarded'))->first();
                 $users = User::where('id', $users_record->to_user_id)->where('role_id', $users_record->to_role_id)->get();
                 $insert_log_arr = array(
@@ -806,13 +835,18 @@ class SocietyConveyanceController extends Controller
                 );
                 $sc_application = new scApplication();
                 $sc_application->id = $request->application_id;
-                $inserted_application_log = $this->CommonController->sc_application_status_society($insert_log_arr, config('commanConfig.conveyance_status.forwarded'), $sc_application);
+                $sc_application->sc_application_master_id = $application_type;
+                $inserted_application_log = $this->CommonController->sc_application_status_society($insert_log_arr, config('commanConfig.conveyance_status.forwarded'), $sc_application, config('commanConfig.conveyance_status.Stamped_sale_&_lease_deed'));
+                $update_arr = array(
+                    'application_status' => config('commanConfig.conveyance_status.Stamped_sale_&_lease_deed')
+                );
+                $update_sc_application = scApplication::where('id', $request->application_id)->update($update_arr);
             }
 
             if(count($uploaded) > 0){
-                return redirect()->route('show_sale_lease', $insert_arr['application_id']);
+                return redirect()->back();
             }else{
-                return redirect()->route('show_sale_lease', $insert_arr['application_id'])->with('error', 'Something went wrong!');
+                return redirect()->back()->with('error', 'Something went wrong!');
             }
         }else{
             if(!empty($request->remark)){
@@ -841,16 +875,23 @@ class SocietyConveyanceController extends Controller
      */
     public function upload_signed_sale_lease(Request $request){
         $insert_arr = $request->all();
-        dd($insert_arr);
-        if($request->hasFile('document_path')) {
 
-            $file = $request->file('document_path');
+        if($request->hasFile('document_path') || $request->hasFile('document_path_lease')) {
+
+            if($request->hasFile('document_path_lease')){
+                $file = $request->file('document_path_lease');
+            }else{
+                $file = $request->file('document_path');
+            }
             $extension = $file->getClientOriginalExtension();
             $time = time();
             $name = File::name(str_replace(' ', '_', $file->getClientOriginalName())) . '_' . $time . '.' . $extension;
             $folder_name = "society_conveyance_documents";
             $path = '/' . $folder_name . '/' . $name;
             $fileUpload = $this->CommonController->ftpFileUpload($folder_name, $file, $name);
+            if($request->hasFile('document_path_lease')){
+                unset($insert_arr['document_path_lease']);
+            }
             $insert_arr['document_path'] = $path;
             unset($insert_arr['_token']);
             $sc_registration_details = new scRegistrationDetails;
@@ -867,9 +908,11 @@ class SocietyConveyanceController extends Controller
                     $insert_sc_document_details[$value] = $insert_arr[$value];
                 }
             }
+
             scRegistrationDetails::create($insert_registrar_details);
             SocietyConveyanceDocumentStatus::create($insert_sc_document_details);
-            return redirect()->route('show_signed_sale_lease', $insert_arr['application_id']);
+            return redirect()->back();
+//            return redirect()->route('show_signed_sale_lease', $insert_arr['application_id']);
         }
     }
 }

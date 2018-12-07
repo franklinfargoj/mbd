@@ -116,7 +116,7 @@
                 <div class="row align-items-center mb-0">           
                         <div class="col-md-9">
                             <div class="form-group m-form__group">
-                                <input type="submit" class="submit-button btn m-btn--pill m-btn--custom btn-primary" name="search" value="Search">
+                                <input type="submit" class="submit-button btn m-btn--pill m-btn--custom btn-primary" name="search" value="Search" disabled>
                             </div>
                         </div>
                 </div>

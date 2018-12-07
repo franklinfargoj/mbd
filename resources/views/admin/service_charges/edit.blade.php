@@ -4,7 +4,7 @@
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
-            <h3 class="m-subheader__title m-subheader__title--separator">Add Service Charge Rate</h3>
+            <h3 class="m-subheader__title m-subheader__title--separator">Edit Service Charge Rate</h3>
             {{-- {{ Breadcrumbs::render('society_detail') }} --}}
             <div class="ml-auto btn-list">
             <a href="{{ url()->previous() }}" class="btn btn-link pull-right"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
@@ -23,7 +23,12 @@
                     <label class="col-form-label" for="year">Year:</label>
                     <select  id="year" name="year" class="form-control form-control--custom m-input" required>
                         <option value="">Select Year</option>
-                        <option value="{{$service_charge->year}}" {{ old('year', $service_charge->year) == $service_charge->year ? 'selected' : '' }} >{{$service_charge->year}}</option>
+
+                        @php $earliest_year = '2000'; @endphp
+
+                        @foreach(range(date('Y'), $earliest_year) as $x)
+                            <option value="{{$x}}" {{ $x == $service_charge->year? 'selected' : '' }}>{{$x}}</option>
+                        @endforeach
                     </select>
                     <span class="help-block error">{{$errors->first('year')}}</span>
                 </div>

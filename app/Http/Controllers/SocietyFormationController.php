@@ -17,9 +17,9 @@ use App\SocietyOfferLetter;
 use App\User;
 use Auth;
 use Illuminate\Http\Request;
-
-use Yajra\DataTables\DataTables;
+use Mpdf\Mpdf;
 use Storage;
+use Yajra\DataTables\DataTables;
 
 class SocietyFormationController extends Controller
 {
@@ -30,88 +30,106 @@ class SocietyFormationController extends Controller
         $this->list_num_of_records_per_page = config('commanConfig.list_num_of_records_per_page');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $disabled=1;
+
+        $disabled = 1;
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         //dd($society);
         $sf_application = SfApplication::where('society_id', $society->id)->with(['scApplicationType', 'sfApplicationLog' => function ($q) {
-            $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
+            $q->where('user_id', Auth::user()->id)
+                ->where('role_id', session()->get('role_id'))->orderBy('id', 'desc')->first();
+            //$q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         }])->orderBy('id', 'desc')->first();
         //dd($sf_application);
-        if($sf_application)
-        {
-            if($sf_application->sfApplicationLog!="")
-            {
+        if ($sf_application) {
+            if ($request->print == 1) {
+                //return view('frontend.society.society_formation.print_application',compact('sf_application'));
+                $content = view('frontend.society.society_formation.print_application', compact('sf_application'));
+                $folder_name = 'society_formation_certificate';
+
+                $header_file = view('admin.REE_department.offer_letter_header');
+                $footer_file = view('admin.REE_department.offer_letter_footer');
+                //$pdf = \App::make('dompdf.wrapper');
+                $fileName = time() . 'society_formation_certificate.pdf';
+                $pdf = new Mpdf([
+                    'default_font_size' => 9,
+                    'default_font' => 'Times New Roman',
+                ]);
+                $pdf->autoScriptToLang = true;
+                $pdf->autoLangToFont = true;
+                $pdf->setAutoBottomMargin = 'stretch';
+                $pdf->setAutoTopMargin = 'stretch';
+                $pdf->SetHTMLHeader($header_file);
+                $pdf->SetHTMLFooter($footer_file);
+                $pdf->WriteHTML($content);
+                $pdf->Output($fileName, 'D');
+            }
+            if ($sf_application->sfApplicationLog != "") {
+                if ($sf_application->sfApplicationLog->status_id == config('commanConfig.formation_status.in_process')) {
+                    $disabled = 0;
+                }
                 $id = $sf_application->id;
                 $sf_documents = SocietyConveyanceDocumentMaster::with(['sf_document_status' => function ($q) use ($id) {
                     return $q->where(['application_id' => $id]);
                 }])->where(['application_type_id' => 3])->get();
                 //dd($sf_documents);
                 $sf_application = SfApplication::find($id);
-                return view('frontend.society.society_formation.sf_application', compact('sf_application', 'sf_documents','disabled'));    
-    
-            }else
-            {
-                return redirect()->route('society_formation.view_application',['id'=>encrypt($sf_application->id)]);
+                return view('frontend.society.society_formation.sf_application', compact('sf_application', 'sf_documents', 'disabled'));
+
+            } else {
+                return redirect()->route('society_formation.view_application', ['id' => encrypt($sf_application->id)]);
             }
-        }else
-        {
+        } else {
             return redirect()->route('society_formation.create');
         }
     }
 
-    public function list(Request $request,DataTables $datatables)
-    {
+    function list(Request $request, DataTables $datatables) {
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $sf_application = SfApplication::where('society_id', $society->id)->with(['scApplicationType', 'sfApplicationLog' => function ($q) {
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         }])->orderBy('id', 'desc')->first();
-        if($sf_application)
-        {
-            if($sf_application->sfApplicationLog!="")
-            {
+        if ($sf_application) {
+            if ($sf_application->sfApplicationLog != "") {
 
-            }else
-            {
-                return redirect()->route('society_formation.view_application',['id'=>encrypt($sf_application->id)]);
+            } else {
+                return redirect()->route('society_formation.view_application', ['id' => encrypt($sf_application->id)]);
             }
-        }else
-        {
+        } else {
             return redirect()->route('society_formation.create');
         }
 
-
-
         $columns = [
             // ['data' => 'radio','name' => 'radio','title' => '','searchable' => false],
-            ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
-            ['data' => 'application_no','name' => 'application_no','title' => 'Application No.'],
-            ['data' => 'application_master_id','name' => 'application_master_id','title' => 'Application Type'],
-            ['data' => 'created_at','name' => 'created_date','title' => 'Submission Date', 'class' => 'datatable-date'],
-            ['data' => 'status','name' => 'status','title' => 'Status'],
-            ['data' => 'action','name' => 'action','title' => 'Action']
+            ['data' => 'rownum', 'name' => 'rownum', 'title' => 'Sr No.', 'searchable' => false],
+            ['data' => 'application_no', 'name' => 'application_no', 'title' => 'Application No.'],
+            ['data' => 'application_master_id', 'name' => 'application_master_id', 'title' => 'Application Type'],
+            ['data' => 'created_at', 'name' => 'created_date', 'title' => 'Submission Date', 'class' => 'datatable-date'],
+            ['data' => 'status', 'name' => 'status', 'title' => 'Status'],
+            ['data' => 'action', 'name' => 'action', 'title' => 'Action'],
         ];
         $getRequest = $request->all();
         $society_details = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         if ($datatables->getRequest()->ajax()) {
-            $sf_applications = SfApplication::where('society_id', $society_details->id)->with(['scApplicationType' => function($q){
+            $sf_applications = SfApplication::where('society_id', $society_details->id)->with(['scApplicationType' => function ($q) {
                 $q->where('application_type', config('commanConfig.applicationType.Formation'))->first();
-            }, 'sfApplicationLog' => function($q){
-                $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
-            } ])->orderBy('id', 'desc');
+            }, 'sfApplicationLog' => function ($q) {
+                $q->where('user_id', Auth::user()->id)
+                    ->where('role_id', session()->get('role_id'))->orderBy('id', 'desc')->first();
+                //$q->where('society_flag', '1')->orderBy('id', 'desc')->first();
+            }])->orderBy('id', 'desc');
 
-            if($request->application_master_id)
-            {
-                $sf_applications = $sf_applications->where('application_master_id', 'like', '%'.$request->application_master_id.'%');
+            if ($request->application_master_id) {
+                $sf_applications = $sf_applications->where('application_master_id', 'like', '%' . $request->application_master_id . '%');
             }
             $sf_applications = $sf_applications->get();
 
             return $datatables->of($sf_applications)
-                // ->editColumn('radio', function ($sf_applications) {
-                //     $url = route('society_formation.index');
-                //     return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="sf_applications_id"><span></span></label>';
-                // })
+            // ->editColumn('radio', function ($sf_applications) {
+            //     $url = route('society_formation.index');
+            //     return '<label class="m-radio m-radio--primary m-radio--link"><input type="radio" onclick="geturl(this.value);" value="'.$url.'" name="sf_applications_id"><span></span></label>';
+            // })
                 ->editColumn('rownum', function ($sf_applications) {
                     static $i = 0;
                     $i++;
@@ -127,28 +145,27 @@ class SocietyFormationController extends Controller
                     return date(config('commanConfig.dateFormat'), strtotime($sf_applications->created_at));
                 })
                 ->editColumn('status', function ($sf_applications) {
-                    $status=  $sf_applications->sfApplicationLog->status_id;
-                    $status_display = array_keys(config('commanConfig.applicationStatus'), $sf_applications->sfApplicationLog->status_id)[0];
-                    return '<span class="m-badge m-badge--'. config('commanConfig.applicationStatusColor.'.$status) .' m-badge--wide">'.$status_display.'</span>';
+                    $status = $sf_applications->sfApplicationLog->status_id;
+                    $status_display = array_keys(config('commanConfig.formation_status'), $sf_applications->sfApplicationLog->status_id)[0];
+                    return '<span class="m-badge m-badge--' . config('commanConfig.formation_status_color.' . $status) . ' m-badge--wide">' . $status_display . '</span>';
                 })
                 ->editColumn('action', function ($sf_applications) {
-                    $action_parm="<div class='d-flex btn-icon-list'>";
-                    $action_parm.='<a class="d-flex flex-column align-items-center" href="'.route('society_formation.index').'"><span class="btn-icon btn-icon--view">
-                        <img src="'. asset('/img/view-icon.svg').'">
+                    $action_parm = "<div class='d-flex btn-icon-list'>";
+                    $action_parm .= '<a class="d-flex flex-column align-items-center" href="' . route('society_formation.index') . '"><span class="btn-icon btn-icon--view">
+                        <img src="' . asset('/img/view-icon.svg') . '">
                     </span>View
                 </a>';
-                if($sf_applications->no_due_certificate!="")
-                    {
-                        $action_parm=$action_parm.'<a target="_blank" class="d-flex flex-column align-items-center delete-village" href="'.config('commanConfig.storage_server')."/".$sf_applications->no_due_certificate.'">
+                    if ($sf_applications->no_due_certificate != "") {
+                        $action_parm = $action_parm . '<a target="_blank" class="d-flex flex-column align-items-center delete-village" href="' . config('commanConfig.storage_server') . "/" . $sf_applications->no_due_certificate . '">
                     <span class="btn-icon btn-icon--delete">
-                        <img src="'.asset('/img/download-icon.svg').'">
+                        <img src="' . asset('/img/download-icon.svg') . '">
                      </span>no due certificate
                     </a>';
                     }
-                    $action_parm.="</div>";
+                    $action_parm .= "</div>";
                     return $action_parm;
                 })
-                ->rawColumns(['application_no', 'application_master_id', 'created_at','status','action'])
+                ->rawColumns(['application_no', 'application_master_id', 'created_at', 'status', 'action'])
                 ->make(true);
         }
 
@@ -156,20 +173,21 @@ class SocietyFormationController extends Controller
         return view('frontend.society.conveyance.index', compact('html'));
     }
 
-    protected function getParameters() {
+    protected function getParameters()
+    {
         return [
             'serverSide' => true,
             'processing' => true,
-            'ordering'   =>'isSorted',
-            "order"=> [3, "desc" ],
+            'ordering' => 'isSorted',
+            "order" => [3, "desc"],
             "pageLength" => $this->list_num_of_records_per_page,
             // 'fixedHeader' => [
             //     'header' => true,
             //     'footer' => true
             // ]
             "filter" => [
-                'class' => 'test_class'
-            ]
+                'class' => 'test_class',
+            ],
         ];
     }
 
@@ -179,7 +197,7 @@ class SocietyFormationController extends Controller
         $sc_application_master_id = scApplicationType::where(['application_type' => config('commanConfig.applicationType.Formation')])->value('id');
         //dd($society_details);
         $layouts = MasterLayout::all();
-        $getPreviousScApplicationData = SfApplication::where(['society_id'=>$society_details->id])->first();
+        $getPreviousScApplicationData = SfApplication::where(['society_id' => $society_details->id])->first();
         //dd($getPreviousScApplicationData);
         $sc = new SfApplication;
         $fillable_field_names = $sc->getFillable();
@@ -209,8 +227,8 @@ class SocietyFormationController extends Controller
             $SfApplication->proposed_society_name = $request->proposed_society_name;
             $SfApplication->building_no = $request->building_no;
             $SfApplication->save();
-            $SfApplication=SfApplication::find($SfApplication->id);
-            $SfApplication->application_no=config('commanConfig.mhada_code').str_pad($SfApplication->id, 5, '0', STR_PAD_LEFT);
+            $SfApplication = SfApplication::find($SfApplication->id);
+            $SfApplication->application_no = config('commanConfig.mhada_code') . str_pad($SfApplication->id, 5, '0', STR_PAD_LEFT);
             $SfApplication->save();
         }
 
@@ -221,14 +239,37 @@ class SocietyFormationController extends Controller
         }
     }
 
-    public function view_application($id)
+    public function view_application(Request $request, $id)
     {
+
         $id = decrypt($id);
         $sf_documents = SocietyConveyanceDocumentMaster::with(['sf_document_status' => function ($q) use ($id) {
             return $q->where(['application_id' => $id]);
         }])->where(['application_type_id' => 3])->get();
-        //dd($sf_documents);
+
         $sf_application = SfApplication::find($id);
+        if ($request->print == 1) {
+            //return view('frontend.society.society_formation.print_application',compact('sf_application'));
+            $content = view('frontend.society.society_formation.print_application', compact('sf_application'));
+            $folder_name = 'society_formation_certificate';
+
+            $header_file = view('admin.REE_department.offer_letter_header');
+            $footer_file = view('admin.REE_department.offer_letter_footer');
+            //$pdf = \App::make('dompdf.wrapper');
+            $fileName = time() . 'society_formation_certificate.pdf';
+            $pdf = new Mpdf([
+                'default_font_size' => 9,
+                'default_font' => 'Times New Roman',
+            ]);
+            $pdf->autoScriptToLang = true;
+            $pdf->autoLangToFont = true;
+            $pdf->setAutoBottomMargin = 'stretch';
+            $pdf->setAutoTopMargin = 'stretch';
+            $pdf->SetHTMLHeader($header_file);
+            $pdf->SetHTMLFooter($footer_file);
+            $pdf->WriteHTML($content);
+            $pdf->Output($fileName, 'D');
+        }
         return view('frontend.society.society_formation.sf_application', compact('sf_application', 'sf_documents'));
     }
 
@@ -286,12 +327,41 @@ class SocietyFormationController extends Controller
         return response()->json($response_array);
     }
 
+    //check document required validation
+    public function check_documents_validation($sf_application_id)
+    {
+        $sf_documents_error=array();
+
+        $sf_documents = SocietyConveyanceDocumentMaster::with(['sf_document_status' => function ($q) use ($sf_application_id) {
+            return $q->where(['application_id' => $sf_application_id]);
+        }])->where(['application_type_id' => 3])->get();
+        
+        foreach($sf_documents as $sf_document)
+        {
+            if($sf_document->sf_document_status==null)
+            {
+                $sf_documents_error[$sf_document->id]=$sf_document->sf_document_status==null?'this document is required':'';
+            }
+        }
+        return $sf_documents_error;
+    }
+
     public function sf_submit_application(Request $request)
     {
+        
+
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $sf_application = SfApplication::where('society_id', $society->id)->with(['scApplicationType', 'sfApplicationLog' => function ($q) {
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         }])->orderBy('id', 'desc')->first();
+
+        $doc_validation=$this->check_documents_validation($sf_application->id);
+        if(count($doc_validation)>0)
+        {
+            //dd($doc_validation);
+            return back()->with(['doc_errors'=>$doc_validation]);
+        }
+        
         $role_id = Role::where('name', config('commanConfig.dycdo_engineer'))->first();
         $user_ids = RoleUser::where('role_id', $role_id->id)->get();
         $layout_user_ids = LayoutUser::where('layout_id', $sf_application->layout_id)->whereIn('user_id', $user_ids)->get();
@@ -305,7 +375,7 @@ class SocietyFormationController extends Controller
             $insert_arr = array(
                 'users' => $users,
             );
-            $inserted_application_log = $this->CommonController->sf_application_status_society($insert_arr, config('commanConfig.applicationStatus.forwarded'), $sf_application);
+            $inserted_application_log = $this->CommonController->sf_application_status_society($insert_arr, config('commanConfig.formation_status.forwarded'), $sf_application);
         }
         return redirect()->route('society_formation.index');
     }

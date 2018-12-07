@@ -123,6 +123,11 @@ class RCUserSeeder extends Seeder
                 'name' => 'get_building_select_updated_RC',
                 'display_name' => 'Get Building Select Updated',
                 'description' => 'Get Building Select Updated'
+            ],
+            [
+                'name' => 'downloadReceipt',
+                'display_name' => 'Download Receipt',
+                'description' => 'Download Receipt',
             ]
         ];
         //RC
