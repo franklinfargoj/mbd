@@ -44,6 +44,21 @@ $route=\Request::route()->getName();
                 </li>
                 @endif
 
+                @if(session()->get('permission') && in_array('architect_layout_dashboard', session()->get('permission')))
+                <li class="m-menu__item {{($route=='architect_layout_dashboard')?'m-menu__item--active':''}}" aria-haspopup="true">
+                    <a href="{{ url('architect_layout_dashboard') }}" class="m-menu__link ">
+                        <i class="m-menu__link-icon flaticon-line-graph"></i>
+                        <span class="m-menu__link-title">
+                        <span class="m-menu__link-wrap">
+                            <span class="m-menu__link-text">
+                                Dashboard
+                            </span>
+                        </span>
+                    </span>
+                    </a>
+                </li>
+                @endif
+
 
                 @if(session()->get('permission') && (in_array('architect_application', session()->get('permission')) ||
                 in_array('view_architect_application',
@@ -61,6 +76,8 @@ $route=\Request::route()->getName();
                 in_array('architect.edit_certificate', session()->get('permission')) ||
                 in_array('architect.update_certificate', session()->get('permission'))||
                 in_array('architect.post_final_signed_certificate', session()->get('permission'))))
+
+
                 <li class="m-menu__item {{($route=='architect_application')?'m-menu__item--active':''}}" aria-haspopup="true">
                     <a href="{{ url(session()->get('redirect_to')) }}" class="m-menu__link ">
                         <i class="m-menu__link-icon flaticon-line-graph"></i>

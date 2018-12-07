@@ -5,11 +5,18 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Layout\ArchitectLayoutStatusLog;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Common\CommonController;
 
 class ArchitectLayoutDashboardController extends Controller
 {
-    public function dashboard(){
+    protected $common;
+    public function __construct(CommonController $common){
+        $this->common = $common;
+    }
 
+    public function dashboard(){
+        //dd(Auth::id());
+        //dd($this->common->getEERoles());
         $user_id = Auth::id();
         $architect_status_count = ArchitectLayoutStatusLog::whereIn('id',function($query) use ($user_id){
             $query->select(DB::raw('max(id)'))
