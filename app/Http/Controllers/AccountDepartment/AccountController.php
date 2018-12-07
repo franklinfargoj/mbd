@@ -161,7 +161,7 @@ class AccountController extends Controller
         ];
     }
 
-    public function viewCalculations(Request $request,$tenant_id,$year) {
+    public function viewCalculations(Request $request,$tenant_id,$year, Datatables $datatables) {
     	$data['tenant_id'] = $tenant_id;
     	$data['year']      = $year;
     	$data['tenant']    = MasterTenant::find(decrypt($tenant_id));
@@ -178,11 +178,42 @@ class AccountController extends Controller
     		$data['year'] = $request->selectYear;
     	}
 
+        $columns = [
+            ['data' => 'month','name' => 'month','title' => 'Month'],
+            ['data' => 'year','name' => 'year','title' => 'Year'],
+            ['data' => 'old_rate', 'name' => 'old_rate', 'title' => 'Old Rate'],
+            ['data' => 'interest_on_old_rate','name' => 'interest_on_old_rate','title' => 'Interest % on Old Rate'],
+			['data' => 'revise_rate','name' => 'revise_rate','title' => 'Revised Rate'],
+			['data' => 'interest_on_diffrence','name' => 'interest_on_diffrence','title' => 'Interest % on Difference'],
+			['data' => 'payment_status','name' => 'payment_status','title' => 'Payment Status'],
+            ['data' => 'total_amount','name' => 'total_amount','title' => 'Final Rent Amount'],
+		];
+		$arrears_charges = ArrearsChargesRate::where('year',$data['year'])->where('society_id',$data['building']->society_id)->where('building_id',$data['tenant']->building_id)->first();
+		$data['years'] = ArrearCalculation::selectRaw('Distinct(year)')->where('tenant_id',decrypt($data['tenant_id']))->pluck('year');
+		
     	if(!empty($data['tenant_id']) && !empty($data['year'])) {
-    		$data['arrears_calculations'] = ArrearCalculation::where('tenant_id',decrypt($data['tenant_id']))->where('year',$data['year'])->get();
-	    	$data['years'] = ArrearCalculation::selectRaw('Distinct(year)')->where('tenant_id',decrypt($data['tenant_id']))->pluck('year');
-	    	$data['arrears_charges'] = ArrearsChargesRate::where('year',$data['year'])->where('society_id',$data['building']->society_id)->where('building_id',$data['tenant']->building_id)->first();
-    	}
+			if ($datatables->getRequest()->ajax()) {
+				$arrears_calculations = ArrearCalculation::
+				where('tenant_id',decrypt($data['tenant_id']))->where('year',$data['year'])
+				->get();
+				
+				return $datatables->of($arrears_calculations)
+					->editColumn('old_rate', function ($tenants)  use($arrears_charges){               
+						return $arrears_charges->old_rate;	
+					})
+					->editColumn('interest_on_old_rate', function ($tenants)  use($arrears_charges){               
+						return $arrears_charges->interest_on_old_rate;	
+					})
+					->editColumn('revise_rate', function ($tenants)  use($arrears_charges){               
+						return $arrears_charges->revise_rate;	
+					})
+					->editColumn('interest_on_diffrence', function ($tenants)  use($arrears_charges){               
+						return $arrears_charges->interest_on_diffrence;	
+					})
+					->rawColumns(['old_rate','interest_on_old_rate','revise_rate','interest_on_diffrence'])
+					->make(true);
+			}
+		}
     	if($request->has('is_download') && true == $request->is_download) {
 			
 			$filename = time();
@@ -196,7 +227,9 @@ class AccountController extends Controller
 				});
 			})->export('xls');
 		} else {
-    		return view('admin.account_department.view_calculations',$data);
+			$html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+			return view('admin.account_department.view_calculations',compact('data','html'));
+    		//return view('admin.account_department.view_calculations',$data);
     	}
     }
 
