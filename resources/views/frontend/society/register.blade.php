@@ -184,6 +184,34 @@
                 });
             }
         });
+
+        $('input[name=society_registration_no]').keyup(function(){
+            var society_registration_no = $('input[name=society_registration_no]').val();
+            var url = "{{ route('society_offer_letter.store') }}";
+            console.log(society_registration_no);
+            if(society_registration_no != null && society_registration_no.length > 1){
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    url: '{{ route('society_offer_letter.store') }}',
+                    method: 'post',
+                    data: {
+                        society_registration_no:society_registration_no,
+                        is_society_registration_no_check: '1'
+                    },
+                    success: function(res){
+                        if(res.society_registration_no != undefined){
+                            $('#society_registration_no').text(res.society_registration_no[0]);
+                        }else{
+                            $('#society_registration_no').text('');
+                        }
+                    }
+                });
+            }
+        });
         {{--$('input[name=optional_society_email]').keyup(function(){--}}
             {{--var optional_society_email = $('input[name=optional_society_email]').val();--}}
             {{--var url = "{{ route('society_offer_letter.store') }}";--}}

@@ -84,7 +84,7 @@ class SocietyOfferLetterController extends Controller
         if($validated_fields->fails()){
             $errors = $validated_fields->errors();
             $request->flash();
-            if($request->is_email_check!=null){
+            if($request->is_email_check != null || $request->is_society_registration_no_check != null){
                 return $errors;
             }
             else{

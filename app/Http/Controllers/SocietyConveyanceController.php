@@ -676,7 +676,13 @@ class SocietyConveyanceController extends Controller
             $this->conveyance_common->uploadDocumentStatus($request->id, config('commanConfig.documents.society.stamp_conveyance_application'), $path);
 
             $role_id = Role::where('name', config('commanConfig.dycdo_engineer'))->first();
-            $user_ids = RoleUser::where('role_id', $role_id->id)->get();
+//            if($sc_application->application_status == config('commanConfig.conveyance_status.reverted')){
+//                scApplicationLog::where('society_flag', 1)->where('status_id')->orderBy('id')->first();
+//                $user_ids = RoleUser::where('role_id', $role_id->id)->get();
+//            }else{
+                $user_ids = RoleUser::where('role_id', $role_id->id)->get();
+//            }
+
             $layout_user_ids = LayoutUser::where('layout_id', $sc_application->layout_id)->whereIn('user_id', $user_ids)->get();
 
             foreach ($layout_user_ids as $key => $value) {
