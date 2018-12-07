@@ -49,6 +49,7 @@ use DB;
 use Storage;
 use App\EmploymentOfArchitect\EoaApplication;
 use App\conveyance\SfApplicationStatusLog;
+use App\Http\Controllers\conveyance\conveyanceCommonController;
 
 class CommonController extends Controller
 {
@@ -1391,6 +1392,7 @@ class CommonController extends Controller
             $insert_application_log[$status_in_words][$key]['to_user_id'] = $user->id;
             $insert_application_log[$status_in_words][$key]['to_role_id'] = $user->role_id;
             $insert_application_log[$status_in_words][$key]['remark'] = '';
+            $insert_application_log[$status_in_words][$key]['is_active'] = 1;
             $application_log_status = $insert_application_log[$status_in_words];
 
             if($status == 2){
@@ -1404,6 +1406,7 @@ class CommonController extends Controller
                 $insert_application_log[$status_in_words_1][$key]['to_user_id'] = 0;
                 $insert_application_log[$status_in_words_1][$key]['to_role_id'] = 0;
                 $insert_application_log[$status_in_words_1][$key]['remark'] = '';
+                $insert_application_log[$status_in_words_1][$key]['is_active'] = 1;
                 $application_log_status = array_merge($insert_application_log[$status_in_words], $insert_application_log[$status_in_words_1]);
             }
             $i++;
@@ -1524,6 +1527,11 @@ class CommonController extends Controller
         $role_id = session()->get('role_id');
         $user_id = Auth::id();
 
+        $conveyanceCommonController = new conveyanceCommonController();
+
+        $conveyanceDashboard = $conveyanceCommonController->ConveyanceDashboard();
+        // dd($conveyanceDashboard);
+
         $applicationData = $this->getApplicationData($role_id,$user_id);
 //        dd($applicationData);
 
@@ -1568,7 +1576,7 @@ class CommonController extends Controller
             $dashboardData1 = $this->getToatalPendingApplicationsAtUser($dyce , $role = 'dyce');
         }
 
-        return view('admin.common.ol_dashboard',compact('dashboardData','dashboardData1'));
+        return view('admin.common.ol_dashboard',compact('dashboardData','dashboardData1','conveyanceDashboard'));
 
     }
 
