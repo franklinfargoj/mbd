@@ -85,7 +85,7 @@ class SocietyFormationController extends Controller
         }
     }
 
-    function list(Request $request, DataTables $datatables) {
+    public function list(Request $request, DataTables $datatables) {
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $sf_application = SfApplication::where('society_id', $society->id)->with(['scApplicationType', 'sfApplicationLog' => function ($q) {
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();

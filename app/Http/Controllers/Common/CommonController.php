@@ -516,6 +516,7 @@ class CommonController extends Controller
             'to_role_id' => $getCo->role_id,
             'remark' => $request->remark,
             'is_active' => 1,
+            'phase' => 1,
             'created_at' => Carbon::now(),
         ],
 
@@ -528,6 +529,7 @@ class CommonController extends Controller
                 'to_role_id' => null,
                 'remark' => $request->remark,
                 'is_active' => 1,
+                'phase' => 1,
                 'created_at' => Carbon::now(),
             ],
         ];

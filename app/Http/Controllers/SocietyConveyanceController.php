@@ -739,7 +739,7 @@ class SocietyConveyanceController extends Controller
                 }
             }
         }
-
+//        dd(array_key_exists(config('commanConfig.scAgreements.lease_deed_agreement'), $sc_agreement_comment));
         return view('frontend.society.conveyance.sale_lease_deed', compact('sc_application', 'document_lease', 'documents', 'uploaded_document_ids', 'documents_remaining_ids', 'sc_agreement_comment', 'documents_uploaded'));
     }
 
@@ -861,7 +861,7 @@ class SocietyConveyanceController extends Controller
                 );
                 $inserted_data = ScAgreementComments::create($input);
                 if(count($inserted_data) > 0){
-                    return redirect()->route('show_sale_lease', $input['application_id']);
+                    return redirect()->back();
                 }
             }
         }
