@@ -109,7 +109,7 @@
                     // print_r($building);exit;
                     @endphp
 
-
+                    @if(!count($arreas_calculations))
                     @foreach($arreas_calculations as $key => $arreas_calculation )
                         @php 
 
@@ -244,6 +244,9 @@
                             <td></td>
                         </tr>
                     @endforeach
+                    @else
+                        <td colspan="12" class="text-center">No record found.</td>
+                    @endif
                     </tbody>
                 </table>
             </div>
