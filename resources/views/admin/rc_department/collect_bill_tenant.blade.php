@@ -14,16 +14,16 @@
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center" id="search_box">
-            <h3 class="m-subheader__title m-subheader__title--separator">Bill Collection Tenant Level</h3>
+            <h3 class="m-subheader__title m-subheader__title--separator">Bill Collection Level</h3>
             {{ Breadcrumbs::render('em') }}
          </div>
-   
+        <form action="{{route('get_building_bill_collection')}}" method="get">
         <div class="m-portlet m-portlet--compact filter-wrap">
             <div class="row align-items-center row--filter">
                 <div class="col-md-12">
-                    <h4 class="m-subheader__title"> Bill Collection Tenant </h4>
+                    <h4 class="m-subheader__title"></h4>
                 </div>
-
+                
                 <div class="col-md-12" style="margin-top:10px;margin-bottom: 10px;">
                     <div class="row align-items-center mb-0">                            
                             <div class="col-md-4">
@@ -31,7 +31,11 @@
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="layout" name="layout" required>
                                         <option value="" style="font-weight: normal;">Select Layout</option>
                                          @foreach($layout_data as $key => $value)
-                                        <option value="{{ $value->id }}">{{ $value->layout_name }}</option>
+                                            @if($layoutId == $value->id) 
+                                                <option value="{{ encrypt($value->id) }}" selected>{{ $value->layout_name }}</option>
+                                            @else
+                                                <option value="{{ encrypt($value->id) }}">{{ $value->layout_name }}</option>
+                                            @endif
                                         @endforeach
                                     </select>
                                 </div>
@@ -46,7 +50,11 @@
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="wards" name="wards" required>
                                         <option value="" style="font-weight: normal;">Select Ward</option>
                                         @foreach($wards_data as $key => $value)
-                                        <option value="{{ $value->id }}">{{ $value->name }}</option>
+                                            @if($wardId == $value->id) 
+                                                <option value="{{ encrypt($value->id) }}" selected>{{ $value->name }}</option>
+                                            @else 
+                                                <option value="{{ encrypt($value->id) }}">{{ $value->name }}</option>
+                                            @endif
                                         @endforeach
                                     </select>
                                 </div>
@@ -61,7 +69,11 @@
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="colony" name="colony" required>
                                         <option value="" style="font-weight: normal;">Select Colony</option>
                                         @foreach($colonies_data as $key => $value)
-                                        <option value="{{ $value->id }}" >{{ $value->name }}</option>
+                                            @if($colonyId == $value->id) 
+                                            <option value="{{ encrypt($value->id) }}" selected>{{ $value->name }}</option>
+                                            @else
+                                            <option value="{{ encrypt($value->id) }}" >{{ $value->name }}</option>
+                                            @endif
                                         @endforeach
                                     </select>
                                 </div>
@@ -74,56 +86,47 @@
                             <div class="col-md-4">
                                 <div class="form-group m-form__group society_select">
                                     <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="society" name="society" required>
-                                        <option value="" style="font-weight: normal;">Select Societies</option>
-                                        @foreach($societies_data as $key => $value)
-                                        <option value="{{ $value->id }}" >{{ $value->society_name }}</option>
+                                        <option value="" style="font-weight: normal;" selected>Select Societies</option>
+                                        @if(isset($society_name)) 
+                                        <option value="{{encrypt($society_id)}}" selected>{{$society_name}}</option>
+                                        @endif
+                                        @foreach($societies_data as $key => $value) 
+                                            <option value="{{ encrypt($value->id) }}" >{{ $value->society_name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>                          
                     </div>
                 </div>
-
-                <div class="col-md-12" style="margin-top:10px;margin-bottom: 10px;">
-                    <div class="row align-items-center mb-0">                            
-                            <div class="col-md-12">
-                                <div class="form-group m-form__group ">
-                                    Billing Level : Tenant level Billing.
-                                </div>
-                            </div>                          
+                @if(isset($buildingId) && isset($building_name))
+                    <div class="col-md-12" style="margin-top:10px;margin-bottom: 10px;">
+                        <div class="row align-items-center mb-0">                            
+                                <div class="col-md-4">
+                                    <div class="form-group m-form__group  building_selected">
+                                        <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="building" name="building" required>
+                                            <option value="{{encrypt($buildingId)}}" selected>{{$building_name}}</option>
+                                        </select>
+                                    </div>
+                                </div>                          
+                        </div>
                     </div>
+                @endif
+                <div class=" col-md-12 building_select">
                 </div>
-
-                <div class="col-md-12" style="margin-top:10px;margin-bottom: 10px;">
-                    <div class="row align-items-center mb-0">                            
-                            <div class="col-md-4">
-                                <div class="form-group m-form__group building_select">
-                                    <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="building" name="building" required>
-                                        <option value="" style="font-weight: normal;">Select Buildings</option>
-                                        @foreach($building_data as $key => $value)
-                                        <option value="{{ $value->id }}" >{{ $value->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>                          
-                    </div>
+                <div class="row align-items-center mb-0">           
+                        <div class="col-md-9">
+                            <div class="form-group m-form__group">
+                                <input type="submit" class="submit-button btn m-btn--pill m-btn--custom btn-primary" name="search" value="Search" disabled>
+                            </div>
+                        </div>
                 </div>
-
                 
-                <div class="col-md-12" style="margin-top:10px;margin-bottom: 10px;">
-                    <div class="row align-items-center mb-0">                            
-                            <div class="col-md-12">
-                                <div class="form-group m-form__group tenant-list">
-                                   
-                                </div>
-                            </div>                          
-                    </div>
-                </div>
-
-
-    
+                
             </div>
-        </div>
+            </form>
+            @if($html)
+                {!! $html->table() !!}
+            @endif
     </div>
     <!-- END: Subheader -->
 
@@ -137,8 +140,9 @@
 </div>
 @endsection
 @section('datatablejs')
-
-
+@if($html)
+{!! $html->scripts() !!}
+@endif
 <script>
     /*$("#update_status").on("change", function () {
         $("#eeForm").submit();
@@ -159,6 +163,7 @@
                         success: function(response){
                         //console.log(response);
                         $('.ward-div').html(response);
+                        
                         $('#wards').selectpicker('refresh');
                     }
                 });             
@@ -200,14 +205,24 @@
                 var id = $(this).val();
                 //console.log(id);
                 //return false;
+                if($(this).text() != 'Select Societies') {
+                    $('.submit-button').prop('disabled', false);
+                }
                 $.ajax({
-                    url:"{{URL::route('get_building_select')}}",
+                    url:"{{URL::route('get_building_select_updated_RC')}}",
                     type: 'get',
                     data: {id: id},
                         success: function(response){
                         //console.log(response);
                         $('.building_select').html(response);
+                        $('.tenant-list').html('');
+                        // $('#layoutId').val($('#layout').val());
+                        // $('#wardId').val($('#wards').val());
+                        // $('#colonyId').val($('#colony').val());
+                        // $('#societyId').val(id);
+                        $('.building_selected').remove();
                         $('#building').selectpicker('refresh');
+                        // $('.hide_search_button').hide();
                     }
                 });             
     });
@@ -216,16 +231,12 @@
                 var id = $(this).val();
                 console.log(id);
                 //return false;
-                $.ajax({
-                    url:"{{URL::route('get_tenant_bill_collection')}}",
-                    type: 'get',
-                    data: {id: id},
-                        success: function(response){
+                
                         console.log(response);
-                        $('.tenant-list').html(response);
+                        $('#building').val(id);
+                        //$('.tenant-list').html(response);
                         //$('#building').selectpicker('refresh');
-                    }
-                });             
+                          
     });
 
 
