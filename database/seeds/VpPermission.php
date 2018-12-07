@@ -156,7 +156,7 @@ class VpPermission extends Seeder
             $role_id = Role::insertGetId([
                 'name'         => 'vp_engineer',
                 'redirect_to'  => '/vp',
-                'dashboard' => 'dashboard',
+                'dashboard' => '/dashboard',
                 'parent_id'    => NULL,
                 'display_name' => 'VP_Engineer',
                 'description'  => 'Login as VP Engineer'
