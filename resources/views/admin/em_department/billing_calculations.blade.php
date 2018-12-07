@@ -111,20 +111,91 @@
 
 
                     @foreach($arreas_calculations as $key => $arreas_calculation )
+                        @php 
+
+                            $date1 = new \DateTime($arreas_calculation->year.'-'.$arreas_calculation->month.'-1');
+                            $date2 = new \DateTime($arreas_calculation->oir_year.'-'.$arreas_calculation->oir_month.'-1');
+
+                            $monthDiff = $date1->diff($date2);
+                            $monthDiff = ($monthDiff->format('%y') * 12) + $monthDiff->format('%m');
+                            // print_r($monthDiff);exit;
+                        @endphp
                         <tr>
                             <td>{{date("M", mktime(0, 0, 0, $arreas_calculation->month, 10)).','.$arreas_calculation->year}}</td>
-                            <td>@if(!empty($tenant)&& !empty($service_charges)){{$service_charges->water_charges}}@else{{$service_charges->water_charges*$building->tenant_count()->first()->count}}@endif</td>
-                            <td>@if(!empty($tenant)&& !empty($service_charges)){{$service_charges->electric_city_charge}}@else{{$service_charges->electric_city_charge*$building->tenant_count()->first()->count}}@endif</td>
-                            <td>@if(!empty($tenant)&& !empty($service_charges)){{$service_charges->pump_man_and_repair_charges}}@else{{$service_charges->pump_man_and_repair_charges*$building->tenant_count()->first()->count}}@endif</td>
-                            <td>@if(!empty($tenant)&& !empty($service_charges)){{$service_charges->external_expender_charge}}@else{{$service_charges->external_expender_charge*$building->tenant_count()->first()->count}}@endif</td>
-                            <td>@if(!empty($tenant)&& !empty($service_charges)){{$service_charges->administrative_charge}}@else{{$service_charges->administrative_charge*$building->tenant_count()->first()->count}}@endif</td>
-                            <td>@if(!empty($tenant)&& !empty($service_charges)){{$service_charges->lease_rent}}@else{{$service_charges->lease_rent*$building->tenant_count()->first()->count}}@endif</td>
-                            <td>@if(!empty($tenant)&& !empty($service_charges)){{$service_charges->na_assessment}}@else{{$service_charges->na_assessment*$building->tenant_count()->first()->count}}@endif</td>
-                            <td>@if(!empty($tenant)&& !empty($service_charges)){{$service_charges->other}}@else{{$service_charges->other*$building->tenant_count()->first()->count}}@endif</td>
-                            <td>@if(!empty($tenant)&& !empty($service_charges)){{$total_service_charges}}@else{{$total_service_charges*$building->tenant_count()->first()->count}}@endif</td>
-                            <td>{{$arreas_calculation->old_intrest_amount + $arreas_calculation->difference_amount}}</td>
+                            <td>
+                                @if(!empty($tenant)&& !empty($service_charges))
+                                    {{$service_charges->water_charges}}
+                                @else
+                                    {{$service_charges->water_charges*$building->tenant_count()->first()->count}}
+                                @endif
+                            </td>
+                            <td>
+                                @if(!empty($tenant)&& !empty($service_charges))
+                                    {{$service_charges->electric_city_charge}}
+                                @else
+                                    {{$service_charges->electric_city_charge*$building->tenant_count()->first()->count}}
+                                @endif
+                            </td>
+                            <td>
+                                @if(!empty($tenant)&& !empty($service_charges))
+                                    {{$service_charges->pump_man_and_repair_charges}}
+                                @else
+                                    {{$service_charges->pump_man_and_repair_charges*$building->tenant_count()->first()->count}}
+                                @endif
+                            </td>
+                            <td>
+                                @if(!empty($tenant)&& !empty($service_charges))
+                                    {{$service_charges->external_expender_charge}}
+                                @else
+                                    {{$service_charges->external_expender_charge*$building->tenant_count()->first()->count}}
+                                @endif
+                            </td>
+                            <td>
+                                @if(!empty($tenant)&& !empty($service_charges))
+                                    {{$service_charges->administrative_charge}}
+                                @else
+                                    {{$service_charges->administrative_charge*$building->tenant_count()->first()->count}}
+                                @endif
+                            </td>
+                            <td>
+                                @if(!empty($tenant)&& !empty($service_charges))
+                                    {{$service_charges->lease_rent}}
+                                @else
+                                    {{$service_charges->lease_rent*$building->tenant_count()->first()->count}}
+                                @endif
+                            </td>
+                            <td>
+                                @if(!empty($tenant)&& !empty($service_charges))
+                                    {{$service_charges->na_assessment}}
+                                @else
+                                    {{$service_charges->na_assessment*$building->tenant_count()->first()->count}}
+                                @endif
+                            </td>
+                            <td>
+                                @if(!empty($tenant)&& !empty($service_charges))
+                                    {{$service_charges->other}}
+                                @else
+                                    {{$service_charges->other*$building->tenant_count()->first()->count}}
+                                @endif
+                            </td>
+                            <td>
+                                @if(!empty($tenant)&& !empty($service_charges))
+                                    {{$total_service_charges}}
+                                @else
+                                    {{$total_service_charges*$building->tenant_count()->first()->count}}
+                                @endif
+                            </td>
+                            <td>
+                                @if($monthDiff>0)
+                                    {{$arrear_charges->old_rate * $monthDiff + $arreas_calculation->difference_amount* $monthDiff}}
+                                @else
+                                    {{$arrear_charges->old_rate + $arreas_calculation->difference_amount}}
+                                @endif
+                            </td>
                             <td>{{$arreas_calculation->old_intrest_amount + $arreas_calculation->difference_intrest_amount}}</td>
+                            
                             <td>{{$total_service_charges+$arreas_calculation->old_intrest_amount + $arreas_calculation->difference_amount+$arreas_calculation->old_intrest_amount + $arreas_calculation->difference_intrest_amount}}</td>
+
                             @if(!empty($amount_paid) && array_key_exists($arreas_calculation->tenant_id, $amount_paid) && !empty($tenant))
                                 <td>{{$amount_paid[$arreas_calculation->tenant_id]}}</td>
                             @elseif(!empty($amount_paid) && array_key_exists($arreas_calculation->building_id, $amount_paid))
