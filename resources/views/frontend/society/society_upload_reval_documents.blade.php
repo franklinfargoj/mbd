@@ -36,7 +36,7 @@
                         <thead class="thead-default">
                             <tr>
                                 <th>
-                                    #
+                                    Sr. No
                                 </th>
                                 <th>
                                     Document Name

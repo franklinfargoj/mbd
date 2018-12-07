@@ -235,7 +235,7 @@ class REEController extends Controller
         $capLogs  = $this->CommonController->getLogsOfCAPDepartment($applicationId);
         $vpLogs   = $this->CommonController->getLogsOfVPDepartment($applicationId);
 
-        // dd($ol_application->offer_letter_document_path);
+
         return view('admin.REE_department.forward_reval_application',compact('applicationData','arrData','ol_application','eelogs','dyceLogs','reeLogs','coLogs','capLogs','vpLogs'));
     }
 
@@ -271,7 +271,7 @@ class REEController extends Controller
 
     public function sendForwardRevalApplication(Request $request){
 
-//        dd($request->all());
+        //dd($request->all());
         $arrData['get_current_status'] = $this->CommonController->getCurrentStatus($request->applicationId);
 
         if($arrData['get_current_status']->status_id == config('commanConfig.applicationStatus.offer_letter_generation'))
