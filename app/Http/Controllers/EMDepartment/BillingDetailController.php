@@ -21,6 +21,8 @@ use App\MasterTenant;
 use App\ArrearCalculation;
 use App\ServiceChargesRate;
 use App\TransBillGenerate;
+use App\BuildingTenantBillAssociation;
+use App\TransPayment;
 
 class BillingDetailController extends Controller
 {
@@ -91,7 +93,7 @@ class BillingDetailController extends Controller
             $request->building_id = decrypt($request->building_id);
 
             $data['society'] = SocietyDetail::find($request->society_id);
-    		$data['building'] = MasterBuilding::find($request->building_id);
+    		$data['building'] = MasterBuilding::with('tenant_count')->find($request->building_id);
 
 	    	$data['years'] = ServiceChargesRate::selectRaw('Distinct(year) as years')->where('society_id',$request->society_id)->where('building_id',$request->building_id)->pluck('years','years')->toArray();
 
@@ -106,30 +108,63 @@ class BillingDetailController extends Controller
             // } else {
             //     $data['arrear_year'] = explode("-", $data['select_year'])[0];
             // }
-            $bills = [];
+            $data['bills'] = [];
             if($request->has('tenant_id') && !empty($request->tenant_id)) {
                 
-                $bills = TransBillGenerate::selectRaw('Distinct(bill_month) as bill_month')->where('building_id',$request->building_id)->where('tenant_id', '=', decrypt($request->tenant_id))
+                $data['bills'] = TransBillGenerate::selectRaw('Distinct(bill_month) as bill_month,id')->where('building_id',$request->building_id)->where('tenant_id', '=', decrypt($request->tenant_id))
                                 ->where('bill_year', '=', $data['arrear_year'])
-                                ->pluck('bill_month')->toArray();
+                                ->pluck('bill_month','id')->toArray();
             } else {
-                $bills = TransBillGenerate::selectRaw('Distinct(bill_month) as bill_month')->where('building_id',$request->building_id)
-                                ->where('bill_year', '=', $data['arrear_year'])
-                                ->pluck('bill_month')->toArray();
+                $data['bills'] = BuildingTenantBillAssociation::selectRaw('Distinct(bill_month) as bill_month,bill_id')->where('building_id',$request->building_id)
+                                ->where('bill_year', '=', $data['arrear_year'])->orderBy('id','DESC')->limit('1')->pluck('bill_month','bill_id')->toArray();
             }
+            
+            $data['billIds'] = [];
+            if(!empty( $data['bills'])) {
+                if($request->has('tenant_id') && !empty($request->tenant_id)) {
+                    $data['billIds'] = array_keys( $data['bills']);
+                } else {
+
+                    $data['billIds'] = explode(',',array_keys($data['bills'])['0']);
+                }
+            }
+
+            $data['reciepts'] = [];
+            $data['bill_no'] = [];
+            if($request->has('tenant_id') && !empty($request->tenant_id) && !empty($data['billIds'])) {
+                $data['reciepts'] = TransPayment::whereIn('bill_no',$data['billIds'])->where('building_id',$request->building_id)->where('tenant_id', '=', decrypt($request->tenant_id))->pluck('bill_no','tenant_id')->toArray();
+
+
+            } else {
+                $data['reciepts'] = TransPayment::whereIn('bill_no',$data['billIds'])->where('building_id',$request->building_id)->pluck('id','building_id')->toArray();
+                $data['bill_no'] = BuildingTenantBillAssociation::where('building_id',$request->building_id)->pluck('bill_id','building_id')->toArray();
+
+            }
+// echo'<pre>';
+//             print_r($data['billIds']);
+//             print_r($data['bill_no']);
+//             exit;
+            $data['amount_paid'] = [];
+            if(!empty($data['billIds'])) {
+                if($request->has('tenant_id') && !empty($request->tenant_id)) {
+                    $data['amount_paid'] = TransBillGenerate::selectRaw('sum(total_bill) as total_bill,tenant_id')->whereIn('id',$data['billIds'])->where('status','paid')->groupBy('building_id')->pluck('total_bill','tenant_id')->toArray();
+                } else {
+                    $data['amount_paid'] = TransBillGenerate::selectRaw('sum(total_bill) as total_bill,building_id')->whereIn('id',$data['billIds'])->where('status','paid')->groupBy('building_id')->pluck('total_bill','building_id')->toArray();
+                }
+            }
+            
 	        $data['arreas_calculations'] = ArrearCalculation::where('society_id',$request->society_id)
 	        	->where('building_id',$request->building_id)
 	        	->where('year',  $data['arrear_year'])
-                ->whereIn('month',$bills);
+                ->whereIn('month',$data['bills']);
 
         	if($request->has('tenant_id') && !empty($request->tenant_id)) {
                 $request->tenant_id = decrypt($request->tenant_id);
         		$data['tenant'] = MasterTenant::find($request->tenant_id);
             	$data['arreas_calculations'] =  $data['arreas_calculations']->where('tenant_id', $request->tenant_id);
             }
-            $data['arreas_calculations'] = $data['arreas_calculations']->orderBy('id','DESC')->get();
-
-
+            $data['arreas_calculations'] = $data['arreas_calculations']->selectRaw('Sum(old_intrest_amount) as old_intrest_amount,Sum(difference_amount) as difference_amount, Sum(difference_intrest_amount) as difference_intrest_amount,tenant_id,building_id')->orderBy('id','DESC')->get();
+            
     	}
         return view('admin.em_department.billing_calculations', $data);
     }

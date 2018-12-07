@@ -3157,3 +3157,7 @@ label.site-visit-label {
         margin: 30px auto;
     }
 }
+
+.m-portlet .dt-buttons {
+    display: none;
+}

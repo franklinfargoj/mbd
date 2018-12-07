@@ -114,3 +114,73 @@
         </div>
     </div>
 @endsection
+@section('datatablejs')
+    <script>
+        $('#society_registration_date').on( 'change',function(){
+            var flat_date = $('#first_flat_issue_date').val();
+            var society_date = $('#society_registration_date').val();
+            console.log(society_date);
+            console.log(flat_date);
+            if(society_date > flat_date){
+                $('#society_registration_date-error').html('<span style="color:red">Society registration date should not be greater than '+ flat_date +'</span>');
+            }else{
+                $('#society_registration_date-error').html('');
+            }
+            // $('#society_registration_date').datepicker({
+            //     format: 'dd-mm-yyyy',
+            //     autoclose:true,
+            //     endDate: date,
+            // });
+        });
+
+        $('#save_sc_application').validate({
+            rules:{
+                scheme_name:{
+                    required:true,
+                },
+                first_flat_issue_date:{
+                    required:true,
+                },
+                residential_flat:{
+                    required:true,
+                    number:true
+                },
+                non_residential_flat:{
+                    required:true,
+                    number:true
+                },
+                total_flat:{
+                    required:true,
+                    number:true
+                },
+                society_registration_date:{
+                    required:true,
+                },
+                property_tax:{
+                    required:true,
+                    number:true
+                },
+                water_bill:{
+                    required:true,
+                    number:true
+                },
+                non_agricultural_tax:{
+                    required:true,
+                    number:true
+                },
+                template:{
+                    required:true,
+                    extension:'xls'
+                }
+            },
+            messages:{
+                template:{
+                    required:'File is required!',
+                    extension:'Only files with .xls type is required.'
+                }
+            }
+        });
+
+
+    </script>
+@endsection

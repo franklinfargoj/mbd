@@ -431,6 +431,16 @@ class EmPermissionSeeder extends Seeder
                 'name'=>'em.save_covering_letter',
                 'display_name'=>'Uploads covering letter',
                 'description'=>'Uploads covering letter'
+            ],
+            [
+                'name' => 'downloadBill',
+                'display_name' => 'Download Bill Building',
+                'description' => 'Download Bill Building',
+            ],
+            [
+                'name' => 'downloadReceipt',
+                'display_name' => 'Download Receipt',
+                'description' => 'Download Receipt',
             ]
         ];
 

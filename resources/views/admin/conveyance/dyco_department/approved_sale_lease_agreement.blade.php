@@ -64,7 +64,7 @@
                                             <div class="mt-auto">
                                                 @if(isset($data->SignSaleAgreement->document_path))
                                                 <input type="hidden" name="oldSaleFile" value="{{ $data->SignSaleAgreement->document_path }}">
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->SignSaleAgreement->document_path }}">
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->SignSaleAgreement->document_path }}" target="_blank">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                         Download </Button>
                                                 </a>
@@ -121,7 +121,7 @@
                                                 @if(isset($data->SignLeaseAgreement->document_path))
 
                                                 <input type="hidden" name="oldLeaseFile" value="{{ $data->SignLeaseAgreement->document_path }}">
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->SignLeaseAgreement->document_path }}">
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->SignLeaseAgreement->document_path }}" target="_blank">
                                                 <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
                                                        Download  </Button>
                                                 </a>
@@ -157,8 +157,8 @@
             </div>
         </div>
     </div>
-
    <!-- Generate stamp duty letter      -->
+
 @if(session()->get('role_name') == config('commanConfig.dycdo_engineer'))
     <div class="m-portlet m-portlet--mobile m_panel">
         <div class="m-portlet__body">
@@ -178,7 +178,7 @@
                                 <h5>Generate</h5>
                                 <span class="hint-text">Click to Generate Stamp Duty Letter </span>
                                 <div class="mt-auto">                           
-                                    <a href="{{ route('dyco.generate_conveyance_stamp_duty',$data->id) }}" class="btn btn-primary">Generate </a>
+                                    <a href="{{ route('dyco.generate_conveyance_stamp_duty',encrypt($data->id)) }}" class="btn btn-primary">Generate </a>
                                 </div>
                             </div>
                         </div>
@@ -189,7 +189,7 @@
                                     <span class="hint-text">Click to Download Stamp Duty Letter </span>
                                     <div class="mt-auto">
                                         @if(isset($data->draftStampLetter->document_path))
-                                        <a href="{{ config('commanConfig.storage_server').'/'.$data->draftStampLetter->document_path }}" class="btn btn-primary">Download </a>                                
+                                        <a href="{{ config('commanConfig.storage_server').'/'.$data->draftStampLetter->document_path }}" class="btn btn-primary" target="_blank">Download </a>                                
                                         @else
                                         <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
                                             *Note : Stamp Duty Letter is not available.</span>

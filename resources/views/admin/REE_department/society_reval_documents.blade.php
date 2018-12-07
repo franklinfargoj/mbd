@@ -43,7 +43,7 @@
                                         </td>
                                         <td class="text-center">
                                             @if(isset($data->society_document_path))
-                                                <a href="{{ asset($data->society_document_path) }}">
+                                                <a href="{{ asset($data->society_document_path) }}" target="_blank">
                                                     <img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
                                             @endif
                                         </td>

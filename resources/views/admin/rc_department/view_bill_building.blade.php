@@ -42,7 +42,7 @@
             </div>
         </div>
     </div>
-    <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
+    <div class="m-portlet m-portlet--mobile">
                
                 {{-- <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
                     <div class="m-form__actions px-0">
@@ -70,10 +70,10 @@
             <input type="text" name="late_fee_charge" value="{{$total_after_due}}" hidden>
             <input type="text" name="no_of_tenant" value="{{$number_of_tenants->tenant_count()->first()->count}}" hidden>
 
-            <div class="m-portlet__body m-portlet__body--spaced">
+            <div class="m-portlet__body m-portlet__body--table m-portlet__body--spaced">
                 <div class="form-group m-form__group row">
                     <div class="col-sm-6 form-group">
-                        <span>Bill For:{{date("M", strtotime("2001-" . $month . "-01"))}}, {{$year}}</span>
+                        <span>Bill For: {{date("M", strtotime("2001-" . $month . "-01"))}}, {{$year}}</span>
                         <input type="text" name="bill_date" value="{{date('d-m-Y')}}" hidden>
                     </div>
                 </div>
@@ -93,7 +93,7 @@
                         <span>Bill Number: </span>
                     </div>
                 </div>
-                <div class="form-group m-form__group row">
+                <div>
                     <table class="display table table-responsive table-bordered" style="width:100%">
                         <tr><td>Buidling Name : {{$building->name}} </td><td>Bill Period : {{date('1-M-Y', strtotime('-1 month'))}} to {{date('1-M-Y')}} </td></tr>
                         <tr><td>Address : @if(!empty($society)){{$society->society_address}}@endif </td><td>Bill Date : {{date('d-M-Y')}}  <input type="text" name="bill_date" value="{{date('d-m-Y')}}" hidden></td></tr>
@@ -101,112 +101,115 @@
                         <tr><td>Amount : {{$total + $total_service}} <input type="text" name="total_bill" value="{{$total + $total_service}}" hidden> </td><td>Late fee charge : {{ $total_after_due}} </td></tr>
                     </table>
                 </div>
-                <div class="form-group m-form__group row">
-                    <div class="col-sm-12 form-group">
-                        <p class="text-center">Bill Summary - {{date("M", strtotime("2001-" . $month . "-01"))}}, {{$year}}</p>
-                    </div>
-                </div>
-                <div class="form-group m-form__group row">
+                <p class="text-center">Bill Summary - {{date("M", strtotime("2001-" . $month . "-01"))}}, {{$year}}</p>
+                <div>
                     <table class="display table table-responsive table-bordered" style="width:100%">
-                        <tr><th class="text-center">Bill Title - {{date("M", strtotime("2001-" . $month . "-01"))}} </th><th>Amount in Rs.</th></tr>
-                        <tr>
-                            <td>Water Charges  </td>
-                            <td>{{$serviceChargesRate->water_charges}}</td>
-                        </tr>
-                        <tr>
-                            <td>Electric City Charge </td>
-                            <td>{{$serviceChargesRate->electric_city_charge}} </td>
-                        </tr>
-                        <tr>
-                            <td>Pump Man & Repair Charges</td>
-                            <td>{{$serviceChargesRate->pump_man_and_repair_charges}}</td>
-                        </tr>
-                        <tr>
-                            <td>External  Expenture  Charge  </td>
-                            <td>{{$serviceChargesRate->external_expender_charge}} </td>
-                        </tr>
-                        <tr>
-                            <td>Administrative  Charge</td>
-                            <td>{{$serviceChargesRate->administrative_charge}} </td>
-                        </tr>
-                        <tr>
-                            <td>Lease Rent.   </td>
-                            <td>{{$serviceChargesRate->lease_rent}}</td>
-                        </tr>
-                        <tr>
-                            <td>N.A.Assessment</td>
-                            <td>{{$serviceChargesRate->na_assessment}} </td>
-                        </tr>
-                        <tr>
-                            <td>Insurance</td>
-                            <td>{{$serviceChargesRate->other}}</td>
-                        </tr>
-                        <tr>
-                            <td><p class="pull-right">Total</p></td>
-                            <td>{{$total_service}}</td>
-                        </tr>
-                        <tr>
-                            <td><p class="pull-right">After Due date 2% interest</p></td>
-                            <td> {{$total_after_due}} </td>
-                        </tr>
-                        <tr>
-                            <td><p class="pull-right">After Due date Amount payable</p></td>
-                            <td> {{$total_service_after_due}} </td>
-                        </tr>
+                        <thead class="thead-default">
+                            <tr>
+                                <th class="text-center">Bill Title - {{date("M", strtotime("2001-" . $month . "-01"))}} </th>
+                                <th class="text-center">Amount in Rs.</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Water Charges </td>
+                                <td class="text-center">{{$serviceChargesRate->water_charges}}</td>
+                            </tr>
+                            <tr>
+                                <td>Electric City Charge </td>
+                                <td class="text-center">{{$serviceChargesRate->electric_city_charge}} </td>
+                            </tr>
+                            <tr>
+                                <td>Pump Man & Repair Charges</td>
+                                <td class="text-center">{{$serviceChargesRate->pump_man_and_repair_charges}}</td>
+                            </tr>
+                            <tr>
+                                <td>External  Expenture  Charge  </td>
+                                <td class="text-center">{{$serviceChargesRate->external_expender_charge}} </td>
+                            </tr>
+                            <tr>
+                                <td>Administrative  Charge</td>
+                                <td class="text-center">{{$serviceChargesRate->administrative_charge}} </td>
+                            </tr>
+                            <tr>
+                                <td>Lease Rent.   </td>
+                                <td class="text-center">{{$serviceChargesRate->lease_rent}}</td>
+                            </tr>
+                            <tr>
+                                <td>N.A.Assessment</td>
+                                <td class="text-center">{{$serviceChargesRate->na_assessment}} </td>
+                            </tr>
+                            <tr>
+                                <td>Other</td>
+                                <td class="text-center">{{$serviceChargesRate->other}}</td>
+                            </tr>
+                            <tr>
+                                <td class="font-weight-bold">Total</td>
+                                <td class="font-weight-bold text-center">{{$total_service}}</td>
+                            </tr>
+                            <tr>
+                                <td class="font-weight-bold">After Due date 2% interest</td>
+                                <td class="font-weight-bold text-center">{{$total_after_due}} </td>
+                            </tr>
+                            <tr>
+                                <td class="font-weight-bold">After Due date Amount payable</td>
+                                <td class="font-weight-bold text-center">{{$total_service_after_due}} </td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
                 @if(!$arreasCalculation->isEmpty())
                 @php $total ='0'; @endphp
-                <div class="form-group m-form__group row">
-                    <div class="col-sm-12 form-group">
-                        <p class="text-center">Balance amount to be paid - Arrears</p>
-                    </div>
-                </div>
-                <div class="form-group m-form__group row">
+                <p class="text-center">Balance amount to be paid - Arrears</p>
+                <div>
                     <table class="display table table-responsive table-bordered" style="width:100%">
-                        <tr>
-                            <th class="text-center">Year</th>
-                            <th class="text-center">Month</th>
-                            <th class="text-center">Amount In Rs.</th>
-                            <th class="text-center">Penalty in Rs</th>
-                        </tr>
-                        @foreach($arreasCalculation as $calculation)
-                            @php $total = $total + $calculation->total_amount; @endphp
+                        <thead class="thead-default">
                             <tr>
-                                <td class="text-center">{{$calculation->year}}</td>
-                                <td class="text-center">{{date("M", strtotime("2001-" . $calculation->month . "-01"))}}</td>
-                                <td class="text-center">{{$calculation->total_amount}}</td>
-                                <td class="text-center">{{$calculation->old_intrest_amount + $calculation->difference_intrest_amount}}</td>
+                                <th class="text-center">Year</th>
+                                <th class="text-center">Month</th>
+                                <th class="text-center">Amount In Rs.</th>
+                                <th class="text-center">Penalty in Rs</th>
                             </tr>
-                        @endforeach
-                        <tr>
-                            <td colspan="3"><p class="pull-right">Total</p></td><td>{{$total}}</td><td></td>
-                        </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($arreasCalculation as $calculation)
+                                @php $total = $total + $calculation->total_amount; @endphp
+                                <tr>
+                                    <td class="text-center">{{$calculation->year}}</td>
+                                    <td class="text-center">{{date("M", strtotime("2001-" . $calculation->month . "-01"))}}</td>
+                                    <td class="text-center">{{$calculation->total_amount}}</td>
+                                    <td class="text-center">{{$calculation->old_intrest_amount + $calculation->difference_intrest_amount}}</td>
+                                </tr>
+                            @endforeach
+                            <tr>
+                                <td class="font-weight-bold text-center" colspan="3">Total</td><td class="font-weight-bold text-center">{{$total}}</td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
                 @endif
-                <div class="form-group m-form__group row">
-                    <div class="col-sm-12 form-group">
-                        <p class="text-center">Total Amount to be paid</p>
-                    </div>
-                </div>
-                <div class="form-group m-form__group row">
+                <p class="text-center">Total Amount to be paid</p>
+                <div>
                     <table class="display table table-responsive table-bordered" style="width:100%">
-                        <tr>
-                            <th class="text-center">Perticulars</th>
-                            <th class="text-center">Amount In Rs.</th>
-                        </tr>
-                        <tr>
-                            <td>Balance Amount</td>
-                            <td class="text-center">{{$total}}</td>
-                        </tr>
-                        <tr>
-                            <td>Current month Bill amount before due date</td>
-                            <td class="text-center">{{$total_service}}</td>
-                        </tr>
-                        <tr>
-                            <td><p class="pull-right">Total</p></td><td>{{$total + $total_service}}</td>
-                        </tr>
+                        <thead class="thead-default">
+                            <tr>
+                                <th class="text-center">Particulars</th>
+                                <th class="text-center">Amount In Rs.</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Balance Amount</td>
+                                <td class="text-center">{{$total}}</td>
+                            </tr>
+                            <tr>
+                                <td>Current month Bill amount before due date</td>
+                                <td class="text-center">{{$total_service}}</td>
+                            </tr>
+                            <tr>
+                                <td class="font-weight-bold">Total</td><td class="text-center font-weight-bold">{{$total + $total_service}}</td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
                 

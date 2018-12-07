@@ -12,7 +12,12 @@ class MasterLayoutSeeder extends Seeder
      */
     public function run()
     {
+      if(Schema::hasTable('master_layout')) {
+        
+        DB::statement("SET foreign_key_checks=0");
         MasterLayout::truncate();
+        DB::statement("SET foreign_key_checks=1");
+      }
         
         $layouts = [
            [
